@@ -10,10 +10,7 @@ import siteConfig from "../../../config/config";
 import { useContext } from 'react';
 import { GlobalContext } from "../../../context/Context";
 
-
-
 function Cover() {
-  // alert("home opened")
   var { tenantName, setTenantName } = useContext(GlobalContext);
 
   var location = useLocation();
@@ -28,15 +25,10 @@ function Cover() {
 
   const [tenantDetails, setTenantDetails] = useState([]); // Our data set in this variable which comes from backend
 
-
   useEffect(() => {
     getMenu(tenant);
     localStorage.setItem("tenantName", tenant)
-
-    // setTenantName(tenant)
-
   }, []);
-  // alert(JSON.stringify(tenantName))
 
   const getMenu = async () => {
     const response = await gettenantList(tenant);
@@ -44,7 +36,6 @@ function Cover() {
       setTenantDetails(response.tenantDetails);
     }
   };
-  console.log(tenantDetails, 'check data')
 
   const navigate = useNavigate();
   const goToNext = () => {
@@ -74,12 +65,6 @@ function Cover() {
         ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }} className='coverButton' >Explore menu</button >
         </div>
       </div>
-
-      {/* <br />
-      <br />
-      <br /> */}
-
-      {/* <button onClick={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }} className='coverButton' >Explore Menu</button > */}
     </div>
   );
 }
