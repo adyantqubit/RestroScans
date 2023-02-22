@@ -126,12 +126,11 @@ function MenuItem() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '1% 0% 0% 0%',
-                //  width:'95%'
               }}
               >
-                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white' }}>{person.name}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white' }}>{person.price_full}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white' }}>{person.price_half}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white',width:'95%',marginLeft:'2%' }}>{person.name}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white',width:'33%' }}>{person.price_full}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white',width:'33%' }}>{person.price_half}</div>
               </div>
               </div>
 
@@ -164,14 +163,15 @@ function MenuItem() {
             {itemList.filter(i => i.category === data.id).map(m =>
               <div style={{
                 display: 'flex',
-                justifyContent: 'space-between',
+                // justifyContent: 'space-between',
                 padding: '5% 0% 0% 0%',
                 //  width:'95%'
               }}
               >
-                <div style={{ color: 'white', fontFamily: 'Palatino' }}>{m.name}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino' }}>{m.price_full}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino' }}>{m.price_half}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino',width:'95%',marginLeft:'5%' }}>{m.name}</div>
+
+                <div style={{ color: 'white', fontFamily: 'Palatino',width:'33%' }}>{m.price_full}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino',width:'33%' }}>{m.price_half}</div>
                 
 
               </div>
