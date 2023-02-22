@@ -5,7 +5,7 @@ import Cover from "./component/pages/cover/Cover";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./component/pages/Home";
 import MenuItem from "./component/MenuItem/MenuItem";
-// import Footer from "./component/layout/footer/Footer";
+import Footer from "./component/layout/footer/Footer";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           {/* <Route exact path="/<str:tenant>/tenant-details/" element={<Cover />} /> */}
 
         </Routes>
-        {/* <Footer/> */}
+        <Footer/>
       </BrowserRouter>
     </div>
   );

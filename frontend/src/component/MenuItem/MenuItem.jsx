@@ -103,7 +103,7 @@ function MenuItem() {
   return (
     <div className='menu_maindiv'>
       <br />
-          <h2 style={{textAlign:'center',padding:'0%',margin:'0',fontFamily:'Noe-Display'}}>{tenantt}</h2>
+          <h2 style={{textAlign:'center',padding:'0%',margin:'0',fontFamily:'Noe-Display',color:'white'}}>{tenantt}</h2>
 {/* <br></br> */}
       <div className='searchpage_main'>
         {/* <Card className='searchpage_card' hoverable> */}
@@ -116,7 +116,7 @@ function MenuItem() {
             
             {search ?
               <>
-                {filtered.length > 0 ? <h4 style={{color:'green',padding:'0'}}>Your search result</h4> : <h2 style={{ color: 'red' }}>Result not found</h2>}
+                {filtered.length > 0 ? <h4 style={{color:'#ffff9f',padding:'0'}}>Your search result</h4> : <h2 style={{ color: '#ffff9f' }}>Result not found</h2>}
                 {filtered.map((person) => {
                   return (
                     
@@ -129,9 +129,9 @@ function MenuItem() {
                 //  width:'95%'
               }}
               >
-                <div style={{ color: 'white', fontFamily: 'Palatino', color:'black' }}>{person.name}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino', color:'black' }}>{person.price_full}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino', color:'black' }}>{person.price_half}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white' }}>{person.name}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white' }}>{person.price_full}</div>
+                <div style={{ color: 'white', fontFamily: 'Palatino', color:'white' }}>{person.price_half}</div>
               </div>
               </div>
 
@@ -180,7 +180,7 @@ function MenuItem() {
         ))}
       </div>
       {/* </HTMLFlipBook> */}
-
+<div>
       {/* <br /> */}
       <Carousel
         swipeable={false}
@@ -216,9 +216,9 @@ function MenuItem() {
 
         ))}
       </Carousel>
-
-      <Footer/>
-<br></br>
+</div>
+      {/* <Footer/> */}
+{/* <br></br> */}
 
 
 
