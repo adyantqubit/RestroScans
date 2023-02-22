@@ -12,6 +12,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Input, Card, Modal } from 'antd';
 import { EnvironmentOutlined } from '@ant-design/icons';
+import Footer from "../layout/footer/Footer";
 
 function MenuItem() {
 
@@ -216,8 +217,14 @@ function MenuItem() {
         ))}
       </Carousel>
 
+      <Footer/>
+<br></br>
+
+
 
     </div>
+    
+
   );
 }
 export default MenuItem;
