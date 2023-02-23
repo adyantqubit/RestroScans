@@ -110,9 +110,7 @@ function MenuItem() {
               {filtered.length > 0 ?
                 <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
                   <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>Your search result</span>
-                  {/* <Button id="toggle" onClick={checkBtn}> */}
-                    <CloseOutlined id="toggle" style={{color:'black',backgroundColor:'white',padding:'1%',}} onClick={checkBtn}/>
-                  {/* </Button> */}
+                  <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }} onClick={checkBtn} />
                 </span>
                 :
                 <h2 style={{ color: '#ffff9f' }}>Result not found</h2>
@@ -121,7 +119,7 @@ function MenuItem() {
               {filtered.map((person) => {
                 return (
 
-                  <div className='demoPage2'
+                  <div className='after_search_div'
                   >
                     <div style={{
                       display: 'flex',
@@ -129,9 +127,12 @@ function MenuItem() {
                       padding: '3% 0% 0% 0%',
                     }}
                     >
-                      <div style={{ color: 'white', fontFamily: 'Palatino', color: 'white', width: '95%', marginLeft: '5%' }}>{person.name}</div>
-                      <div style={{ color: 'white', fontFamily: 'Palatino', color: 'white', width: '33%' }}>₹{person.price_full}</div>
-                      <div style={{ color: 'white', fontFamily: 'Palatino', color: 'white', width: '33%' }}>₹{person.price_half}</div>
+                      <div className="after_search_content"
+                      >{person.name}</div>
+                      <div className="after_search_price"
+                      >₹{person.price_full}</div>
+                      <div className="after_search_price"
+                      >₹{person.price_half}</div>
                     </div>
                   </div>
                 );
@@ -145,8 +146,9 @@ function MenuItem() {
       <div className="menu_childdiv">
 
         {filterCategory.map((data) => (
-          <div className="demoPage">
-            <span style={{ display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'center', marginTop: '2%' }}>
+          <div className="allcategory_menu_div">
+            <span className="allcategory_container"
+             >
               <img style={{ border: '1px solid black' }}
                 src={siteConfig.siteURL + data.icon}
                 className="category_img"
@@ -166,9 +168,9 @@ function MenuItem() {
                 padding: '5% 0% 0% 0%',
               }}
               >
-                <div style={{ color: 'white', fontFamily: 'Palatino', width: '95%', marginLeft: '5%' }}>{m.name}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino', width: '33%' }}>₹{m.price_full}</div>
-                <div style={{ color: 'white', fontFamily: 'Palatino', width: '33%' }}>₹{m.price_half}</div>
+                <div className="allitems_name">{m.name}</div>
+                <div className="allitems_price" >₹{m.price_full}</div>
+                <div className="allitems_price" >₹{m.price_half}</div>
               </div>
             )}
           </div>
@@ -192,29 +194,28 @@ function MenuItem() {
         >
           {menuList.map((data, id) => (
             <div>
-            <div
-              style={{ fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-              //  position: 'relative' 
-              }}
-              className='all-menu'
-              onClick={
-                e => onMenuChange(data.id)
-              }
-            >
-              <img
-                src={siteConfig.siteURL + data.icon}
-                className='menu_image'
-              />
-              <br />
+              <div
+                style={{
+                  fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                  //  position: 'relative' 
+                }}
+                className='all-menu'
+                onClick={
+                  e => onMenuChange(data.id)
+                }
+              >
+                <img
+                  src={siteConfig.siteURL + data.icon}
+                  className='menu_image'
+                />
+                <br />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
+                <span style={{ color: 'gold', fontSize: '14px' }}> {data.name}</span>
+              </div>
             </div>
-            <div style={{display:'flex',justifyContent:'center',marginRight:'2%'}}>
-            <span style={{color:'gold',fontSize:'14px'}}> {data.name}</span>
-            </div>
-            </div>
-           
-            
           ))}
-        
+
         </Carousel>
       </div>
       <Footer />

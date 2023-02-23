@@ -15,11 +15,18 @@
     border-radius: 100%;
     width: 9%;
 }
-.demoPage {
+.allcategory_menu_div {
     background-color: #222221;
     width: 98%;
     color: rgb(5, 5, 5);
     padding: 1%;
+}
+.allcategory_container{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 2%;
 }
 
 .htmlFlipbook {
@@ -30,11 +37,35 @@
     height: 65%;
     overflow: auto;
 }
-.demoPage2 {
+.after_search_div {
     color: white;
 }
 .searchpage_main {
     padding: 4%;
+}
+.after_search_content{
+    color: white;
+    font-family: Palatino;
+    width: 95%;
+    margin-left: 5%;
+}
+.after_search_price{
+    color: white;
+    font-family: Palatino;
+    width: 33%;
+    margin-left: 5%;
+}
+.allitems_name{
+    color: white;
+    font-family: Palatino;
+    width: 95%;
+    margin-left: 5%;
+}
+.allitems_price{
+    color: white;
+    font-family: Palatino;
+    width: 33%;
+    margin-left: 5%; 
 }
 .category_name{
     padding: 1;
