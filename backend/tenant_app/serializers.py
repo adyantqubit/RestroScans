@@ -12,6 +12,11 @@ class CategoryListSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class ItemListSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name')
+    category_img = serializers.ImageField(source='category.icon')
+    menu_name = serializers.CharField(source='category.menu.name')
+    menu_img = serializers.ImageField(source='category.menu.icon')
+
     class Meta:
         model=Item
-        fields='__all__'        
+        fields='__all__'      

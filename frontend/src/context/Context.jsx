@@ -13,11 +13,18 @@ export default function Context(props) {
     
     var [tenantName, setTenantName]=useState([])
 
+    // Added by yuvraj on 22-1-2023
+    // Reason - to set searched value
+    var [searchedValue, setSearchedValue] = useState("")
+    // End of searched value
+
     return (
         <>
             <GlobalContext.Provider value={{
                 tenantName,
-                setTenantName
+                setTenantName,
+                searchedValue,
+                setSearchedValue
             }}>
                 {props.children}
             </GlobalContext.Provider>
