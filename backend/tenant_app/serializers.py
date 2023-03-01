@@ -19,4 +19,18 @@ class ItemListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Item
-        fields='__all__'      
+        fields='__all__'   
+
+# Added by Om on 01-03-23
+# Reason : Show the Offer details
+class OfferBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = '__all__' 
+  
+class OfferItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfferItem
+        fields = '__all__' 
+
+# End of addition

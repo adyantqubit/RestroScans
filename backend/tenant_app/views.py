@@ -63,4 +63,20 @@ End of code addition
 #         itemList=Item.objects.all()
 #         itemListSerializer=ItemListSerializer(itemList,many=True)
 #         return Response({"msg":"success","menuList":itemListSerializer.data})    
-    
+
+# Added by Om on 01-03-23
+# Reason : Show the Offer details
+class OfferAPIView(APIView):
+    def get(self,request,tenant):
+        print('gfagfgf', tenant)
+        offerBanner=Offer.objects.all()
+        offerbannerSerializer=OfferBannerSerializer(offerBanner,many=True)
+        offerItemList=OfferItem.objects.all()
+        offeritemsSerializer=OfferItemsSerializer(offerItemList,many=True)
+
+        return Response({
+            "msg":"success",
+            "offerBanner":offerbannerSerializer.data,
+            "offerItemList":offeritemsSerializer.data,
+            })
+# End of addition

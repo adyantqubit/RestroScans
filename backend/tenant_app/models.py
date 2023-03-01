@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
@@ -45,4 +46,31 @@ class Item(models.Model):
 """
 End of code addition
 """
-     
+
+"""-------------------------------------------------------
+Added by - Om Shrivastava on 01-03-2023
+Reason - To store offer for every Items
+"""
+class Offer(models.Model):
+    id = models.AutoField(primary_key=True)
+    offer_name=models.CharField(max_length=255)
+    discount = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],verbose_name='Discount(%)')
+    offer_image = models.ImageField(upload_to='images/offer/')
+    description=models.TextField(null=True,blank=True)
+    
+    def __str__(self):
+        return self.offer_name 
+
+class OfferItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    offer_name=models.ForeignKey(Offer,related_name='offer_id',on_delete=models.CASCADE)
+    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return "Offer for Items"  
+
+ 
+"""
+End of code addition
+"""

@@ -16,4 +16,9 @@ urlpatterns = [
     path('<str:tenant>/tenant-details/',TenantAPIView.as_view()),
     # End of addition
 
+    # Added by Om on 01-03-23
+    # Reason : Show the Offer details
+    path('<str:tenant>/offer-details/',OfferAPIView.as_view()),
+    # End of addition
+
 ]   
