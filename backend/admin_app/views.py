@@ -38,10 +38,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 class RestaurantRegistartionView(APIView):
     # @csrf_exempt
     def post(self, request, format=None):
-        print("-----------------------------")
-        encreaptedPassword = make_password(request.data.get('password'))
-        print('llllll')
-        request.data['password'] = encreaptedPassword
+        encryptedPassword = make_password(request.data.get('password'))
+        request.data['password'] = encryptedPassword
         serializer = RestaurantRequestSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -59,9 +57,7 @@ Reason - To authenticate restaurant for login using jwt
 """
 class RestaurantLoginView(APIView):
     def post(self, request):
-        print(request.data)
         restaurant = RestaurantRequest.objects.filter(email = request.data.get('email')).first()
-        # print('restaurant', check_password(request.data.get('password')))
         if not restaurant:
             raise APIException('Invalid Credentials')
         # if not restaurant.check_password(request.data['password']):

@@ -13,22 +13,22 @@ urlpatterns = [
     path('tenant-details/<str:tenantId>',TenantAPIView.as_view()),
     # Added by Yuvraj Sahu on 15-2-2023
     # Reason - to save user data
-    path('adyant/registration-request/',RestaurantRegistartionView.as_view()),
+    path('moreshop/registration-request/',RestaurantRegistartionView.as_view()),
     # End of user data save
 
     # Added by Yuvraj Sahu on 17-2-2023
     # Reason - to restaurant login
-    path('adyant/login/', RestaurantLoginView.as_view()),
+    path('moreshop/login/', RestaurantLoginView.as_view()),
     # End of user data save
 
     # Added by Yuvraj Sahu on 18-2-2023
     # Reason - to send otp in mail for change passowrd
-    path('adyant/save-otp/', OtpAPI.as_view()),
+    path('moreshop/save-otp/', OtpAPI.as_view()),
     # End of sending otp
 
     # Added by Yuvraj Sahu on 18-2-2023
     # Reason - to send update passowrd
-    path('adyant/update-password/', UpdatePassword.as_view()),
+    path('moreshop/update-password/', UpdatePassword.as_view()),
     # End of sending otp
 
 ]  
