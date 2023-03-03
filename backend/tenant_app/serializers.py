@@ -29,6 +29,12 @@ class OfferBannerSerializer(serializers.ModelSerializer):
         fields = '__all__' 
   
 class OfferItemsSerializer(serializers.ModelSerializer):
+    item_name = serializers.CharField(source='item_name.name')
+    offer_name = serializers.CharField(source = 'offer_name.offer_name')
+    item_discount = serializers.IntegerField(source='offer_name.discount')
+    item_fullprice = serializers.CharField(source='item_name.price_full')
+    item_halfprice = serializers.CharField(source='item_name.price_half')
+
     class Meta:
         model = OfferItem
         fields = '__all__' 

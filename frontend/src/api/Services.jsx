@@ -21,3 +21,15 @@ export const getmenuList = async (tenantId) => {
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
+
+// -------------------------- FOR SHOW THE OFFER LIST -------------------------
+
+export const getofferDetails = async (tenantId) => {
+  const response = await API.get(`/${tenantId}/offer-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response)
+  return response ? response.data : {};
+};
