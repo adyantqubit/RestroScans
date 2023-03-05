@@ -168,10 +168,12 @@
 .searchpage_content {
     height: 49%;
     overflow: auto;
+
+    display: block !important;
 }
 
 .again {
-    display: block;
+    display: none;
 }
 
 .offer_notshow {

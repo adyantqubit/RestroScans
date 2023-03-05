@@ -34,6 +34,8 @@ function MenuItem() {
   var [filterCategory, setfilterCategory] = useState([])
   var [offerShow, setOfferShow] = useState([])
 
+  var [filter, setFiltered] = useState([])
+
   const [offerBanner, setOfferBanner] = useState([]); // Our Item set in this variable
   const [offerList, setOfferList] = useState([]); // Our Item set in this variable
 
@@ -75,101 +77,118 @@ function MenuItem() {
     }
   };
 
-  // For searching alll menuItemCategory
-
-  // const getallItems = async () => {
-  //   const response = await getallMenuCategoryItem(tenantt);
-  //   if (response) {
-  //     setallMenuItems(response);
-  //   }
-  // };
-
   const [search, setNewSearch] = useState("");
 
-  const no_data = [{ default_image: '/media/images/listing/noresult.jpg' }];
+  const no_data = [];
 
   const Search = Input.Search;
 
   const onSearch = (value) => setNewSearch(value)
 
-  // const [searching, setSearching] = useState([])
-
-  // const [tenttt, setTennant] = useState({tenannt:localStorage.getItem('tenantName'), query:searchedValue })
-
-
-  // const [newSearch, setNewSearch] = useState();
-  // const onSearch = async (itemsToSearch) => {
-  //   console.log(itemsToSearch)
-  //   const itemToSearch = itemsToSearch.replace(/^\s+|\s+$/gm, '') 
-  //   setSearchedValue(itemToSearch)
-  //   if (itemToSearch.length == 0) {
-  //     notification.info({
-  //       description:
-  //         'Please, enter product or category name to search !',
-  //       duration: 1,
-  //       key: 1,
-  //     });
-  //   }
-  //   else {
-  //     setNewSearch(itemsToSearch);
-  //     console.log(tenttt)
-  //     await PostSearchData(tenttt).then(r => {
-  //     console.log('yuvi', r.search)
-  //     setSearching(r.search)
-  //     })
-  //   }
-  // }
-
-
-
-  // Reason - To allow search by items
-  const filtered = !search
-    ? no_data
-    : itemList.filter((person) =>
-      person.name.toLowerCase().includes(search.toLowerCase()) ||
-      person.category_name.toLowerCase().includes(search.toLowerCase()) ||
-      person.menu_name.toLowerCase().includes(search.toLowerCase())
-
-    );
-
-  var myy = []
-  let categories = new Set()
-  filtered.forEach(entry => { categories.add(entry.menu_name) })
-  categories.forEach(cat => myy.push(cat))
-  console.log(myy)
-
   var offer_name = []
   let offernme = new Set()
   offerShow.forEach(entry => { offernme.add(entry.offer_name) })
   offernme.forEach(cat => offer_name.push(cat))
-  console.log(offer_name, 'ofeerename')
 
   var offer_discount = []
   let offers = new Set()
   offerShow.forEach(entry => { offers.add(entry.item_discount) })
   offers.forEach(cat => offer_discount.push(cat))
-  console.log(offer_discount, 'ofeerename')
-
-  const targetDiv = document.getElementById("third");
-  const btn = document.getElementById("toggle");
-
-  const checkBtn = () => {
-    if (targetDiv.style.display !== "none") {
-      targetDiv.style.display = "none";
-      // setNewSearch("")
-      window.location.reload()
-    } else {
-      targetDiv.style.display = "block";
-      // setNewSearch("")
-
-      window.location.reload()
-
-    }
-  };
 
   const divOfferRemove = () => {
     setOfferShow([])
   };
+
+  const removeSerchResult = () => {
+    // filtered
+    setNewSearch("")
+    setFiltered(itemList)
+
+  }
+
+  useEffect(() => {
+    var filtered = !search
+      ? no_data
+      : itemList.filter((person) =>
+        person.name.toLowerCase().includes(search.toLowerCase()) ||
+        person.category_name.toLowerCase().includes(search.toLowerCase()) ||
+        person.menu_name.toLowerCase().includes(search.toLowerCase())
+
+      );
+
+    var myy = []
+    let categories = new Set()
+    filtered.forEach(entry => { categories.add(entry.menu_name) })
+    categories.forEach(cat => myy.push(cat))
+
+    var temp = [];
+
+    filtered.filter(r => {
+      if (temp.includes(r.menu_name.toLowerCase())) {
+
+      }
+      else {
+        temp.push(r.menu_name.toLowerCase())
+      }
+    })
+
+    var temp2 = []
+
+    temp.filter((s, i) => {
+      var data = {}
+      data[s] = []
+      temp2.push(data)
+
+      filtered.filter(n => {
+        if (n.menu_name.toLowerCase() == s) {
+          temp2[i][`${s}`].push(n)
+        }
+      })
+    })
+
+    var temp3 = []
+
+    temp2.filter((s, i) => {
+
+      //got key of each element
+      var obj = Object.keys(s)
+
+      // filter list of each element and save unique category name
+      var categoryName = []
+      temp2[i][obj].filter(s => {
+
+        if (categoryName.includes(s.category_name.toLowerCase())) {
+
+        }
+        else {
+          categoryName.push(s.category_name.toLowerCase())
+        }
+
+      })
+
+
+      //filter with unique category name and save inside menu item with unique category name item list
+      var data = {}
+
+      var gh = data[obj] = {}
+      categoryName.filter(m => {
+
+        gh[m] = []
+        // console.log(m)
+        filtered.map(h => {
+          if (h.category_name.toLowerCase() == m) {
+            data[obj][m].push(h)
+          }
+        })
+      })
+
+      temp3.push(data)
+    })
+
+    // console.log(temp3)
+
+    setFiltered(temp3)
+  }, [search])
 
   const responsive = {
     desktop: {
@@ -199,16 +218,16 @@ function MenuItem() {
     setSelected(selected => Math.min(selected + 1, filterCategory.length - 1));
   };
 
-  console.log(menuList, 'All Menu')
-  console.log(categoryList, 'All categories')
+  // console.log(menuList, 'All Menu')
+  // console.log(categoryList, 'All categories')
 
-  console.log(filterCategory)
-  console.log(offerBanner, 'all offer images')
-  console.log(offerList, 'all offer details')
-  console.log(offerShow, 'set offer data')
-  console.log(itemList, 'All items')
-  console.log(filtered, 'searching data')
-  console.log(search, 'searching data')
+  // console.log(filterCategory)
+  // console.log(offerBanner, 'all offer images')
+  // console.log(offerList, 'all offer details')
+  // console.log(offerShow, 'set offer data')
+  // console.log(itemList, 'All items')
+  // console.log(filter, 'searching data')
+  // console.log(search, 'searching data')
 
   // useEffect(()=>{
   //   const menu_list=[]
@@ -274,54 +293,89 @@ function MenuItem() {
         </div>
       </div>
 
-      <div className={search ? 'searchpage_content' : 'again'} id="third" >
+      <div className={filter.length > 0 ? 'searchpage_content' : 'again'} id="third" >
         {search ?
           <>
-            {filtered.length > 0 ?
+            {filter.length > 0 ?
               <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
                 <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>Your search result</span>
-                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }} onClick={checkBtn} />
+                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}
+                  onClick=
+                  {removeSerchResult}
+                // {checkBtn}
+                />
               </span>
               :
               <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
                 <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>Result not found</span>
-                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }} onClick={checkBtn} />
+                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}
+                  onClick=
+                  {removeSerchResult}
+                // {checkBtn} 
+                />
               </span>
             }
-            {filtered.map((person) => {
-              return (
+            {filter.map((data, i) => {
+              var obj = Object.keys(data)
+              var categoriesObj = Object.keys(filter[i][obj])
+              return (<>
                 <div className='after_search_div'
                 >
                   <h4 style={{ textAlign: 'center', padding: '1', margin: '0', color: 'gold', fontFamily: 'Lucida Handwriting' }}>
-                    {person.menu_name}
+                    {obj}
                   </h4>
-                  <span className="allcategory_searched"
-                  >
-                    <img style={{ border: '1px solid black' }}
-                      src={siteConfig.siteURL + person.category_img}
-                      className="category_serached_img" width='2%'
-                    />&nbsp;
-                    <h3 className="category_name" style={{ fontSize: '15px' }}
-                    >
-                      {person.category_name}
-                    </h3>
-                  </span>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    padding: '3% 0% 0% 0%',
-                  }}
-                  >
-                    <div className="after_search_content"
-                    >{person.name}</div>
-                    <div className="after_search_price"
-                    >{person.price_full ? '₹' + person.price_full : '---'}</div>
-                    <div className="after_search_price"
-                    >{person.price_half ? '₹' + person.price_half : '---'}</div>
-                  </div>
+
                 </div>
-              );
-            })}
+
+                {
+                  <>{categoriesObj.map((c, j) =>
+                    <div className='after_search_div'
+                    >
+                      <span className="allcategory_searched"
+                      >
+                        <img style={{ border: '1px solid black' }}
+                          src={siteConfig.siteURL + filter[i][obj][c][0].category_img}
+                          className="category_serached_img" width='2%'
+                        />&nbsp;
+                        <h3 className="category_name" style={{ fontSize: '15px' }}
+                        >
+                          {c}
+                        </h3>
+                      </span>
+                      {filter[i][`${obj}`][c].map(person =>
+                      <div className='after_search_div'
+                      >
+
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          padding: '3% 0% 0% 0%',
+                        }}
+                        >
+                          <div className="after_search_content"
+                          >{person.name}</div>
+                          <div className="after_search_price"
+                          >{person.price_full ? '₹' + person.price_full : '---'}</div>
+                          <div className="after_search_price"
+                          >{person.price_half ? '₹' + person.price_half : '---'}</div>
+                        </div>
+                      </div>
+                    )}
+                    </div>
+                  )
+                  }
+
+
+
+
+                    
+                  </>
+                }
+              </>
+              )
+            })
+
+            }
           </> :
           null}
       </div>
@@ -362,7 +416,7 @@ function MenuItem() {
           </div>}
       </div>
 
-      <div className={search || offerShow.length > 0 ? "menu_childdiv" : 'check'}>
+      <div className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}>
         <FlippingPages
           direction="right-to-left"
           onSwipeEnd={setSelected}
