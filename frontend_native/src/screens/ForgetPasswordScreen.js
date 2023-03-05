@@ -23,10 +23,16 @@ import {
   sendOtpApi,
   updatePasswordApi,
 } from "../api/Services";
-import { emailSchema, forgetPasswordSchema, loginSchema } from "../validation/ValidationSchema";
+import {
+  emailSchema,
+  forgetPasswordSchema,
+  loginSchema,
+} from "../validation/ValidationSchema";
 import { useDispatch } from "react-redux";
 import { authLogin } from "../redux/slice/AuthSlice";
 import { useNavigation } from "@react-navigation/native";
+
+var email = null;
 
 function ResetPassword() {
   const navigation = useNavigation();
@@ -37,14 +43,13 @@ function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
   const alertHandler = (msg) => {
     Alert.alert("Login", `${msg}`, [{ text: "OK", onPress: () => null }]);
   };
 
   //when user click send otp for forget password
   const submitLog = (values, { resetForm }) => {
-    alert("change password"+JSON.stringify(values));
+    alert("change password" + JSON.stringify(values));
     setISBtnDisable(true);
     updatePasswordApi(values)
       .then(async (res) => {
@@ -72,7 +77,12 @@ function ResetPassword() {
   return (
     <>
       <Formik
-        initialValues={{ email: "", otp: "", password: "", confirm_password: "" }}
+        initialValues={{
+          email: `${email}`,
+          otp: "",
+          password: "",
+          confirm_password: "",
+        }}
         validateOnMount={true}
         validationSchema={forgetPasswordSchema}
         onSubmit={submitLog}
@@ -88,7 +98,7 @@ function ResetPassword() {
         }) => (
           <ScrollView style={styles.container}>
             <View style={styles.container}>
-              <View style={{ marginTop: 30 }}>
+              <View>
                 <View>
                   <Text style={styles.labels}>
                     <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -99,12 +109,15 @@ function ResetPassword() {
                     style={styles.input}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
-                    value={values.email}
+                    // value={values.email}
+                    value={email}
+                    defaultValue={email}
                     placeholderTextColor="#A4A4A4"
                     placeholder="Enter your email"
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    // disabled = {true}
                   />
                   {errors.email && touched.email && (
                     <Text style={styles.textdanger}>{errors.email}</Text>
@@ -190,7 +203,9 @@ function ResetPassword() {
                     />
 
                     <TouchableOpacity
-                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     >
                       <Ionicons
                         name={showConfirmPassword ? "eye" : "eye-off"}
@@ -202,7 +217,9 @@ function ResetPassword() {
                   </View>
 
                   {errors.confirm_password && touched.confirm_password && (
-                    <Text style={styles.textdanger}>{errors.confirm_password}</Text>
+                    <Text style={styles.textdanger}>
+                      {errors.confirm_password}
+                    </Text>
                   )}
                 </View>
 
@@ -215,7 +232,7 @@ function ResetPassword() {
                 >
                   <Pressable
                     onPress={handleSubmit}
-                    disabled={isBtnDisable}
+                    // disabled={isBtnDisable}
                     style={{
                       backgroundColor: !isBtnDisable ? "#6823cf" : "#E0E0E0",
                       height: 40,
@@ -263,6 +280,8 @@ export default function ForgetPasswordScreen() {
     sendOtpApi(values)
       .then(async (res) => {
         if (res.mail) {
+          email = res.mail;
+          // alert(email)
           alert("OTP is sent succssfully. Please check your email");
           setISBtnDisable(false);
           // navigate("home");
@@ -303,9 +322,7 @@ export default function ForgetPasswordScreen() {
         }) => (
           <ScrollView style={styles.container}>
             <View style={styles.container}>
-              <View
-              style={{ marginTop: 30 }}
-              >
+              <View style={{ marginTop: 30 }}>
                 <View>
                   <Text style={styles.labels}>
                     <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -405,7 +422,7 @@ export default function ForgetPasswordScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",

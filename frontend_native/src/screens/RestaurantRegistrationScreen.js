@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 import { useForm, Controller } from "react-hook-form";
+import * as ImagePicker from "expo-image-picker";
 
 // import { Picker } from "@react-native-picker/picker";
 
@@ -18,9 +19,42 @@ import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail } from "../api/Services";
 // import { Country, State, City } from "country-state-city";
 
-export default function RegistrationRegistrationScreen() {
+export default function RegistrationRegistrationScreen({ navigation: { navigate } }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // Added byYuvraj Sahu on 2-3-2023
+  // Reason - to disable button untill response is come
+  var [isDisable, setIsDisable] = useState(false)
+  // End of button disable
+
+// Added by yuvraj sahu on 21-2-2023
+// Reason - for upload img
+// const [image, setImage] = useState(null);
+// const [tempPhoto, setTempPhoto] = useState(null);
+
+
+// this method is called when user click upload / edit profile image button  # yuvraj sahu
+// const pickImage = async () => {
+//   try {
+//     // No permissions request is necessary for launching the image library
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1,
+//     });
+
+//     if (!result.canceled) {
+//       setImage(result.assets[0].uri);
+//       setTempPhoto(result.assets[0]);
+//     }
+//   } catch {
+//     (pick_err) => {
+//       // console.log(pick_err);
+//     };
+//   }
+// };
+// End of img upload
 
   // const alertHandler = (msg) => {
   //   Alert.alert("Registration", `${msg}`, [
@@ -29,8 +63,35 @@ export default function RegistrationRegistrationScreen() {
   // };
 
   const handleRegister = (formValues) => {
-    alert(JSON.stringify(formValues));
-    postRestaurantDetail(formValues);
+    setIsDisable(true)
+    // alert('img',image)
+    // alert('tem',tempPhoto)
+    
+    // Added by Yuvraj Sahu on 21-2-2023
+    // Reason - to add img
+    // const formData = new FormData();
+
+    // if (tempPhoto !== null) {
+    //   const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+    //   const fileName = tempPhoto.uri.replace(/^.*[\\\/]/, "");
+
+    //   formData.append("restaurant_logo", {
+    //     uri: tempPhoto.uri,
+    //     name: fileName,
+    //     type: `image/${ext}`,
+    //   });
+    // }
+    // formData.append("restaurant_name", formValues.restaurant_name);
+    // formData.append("owner_name", formValues.owner_name);
+    // formData.append("mobile_number", formValues.mobile_number);
+    // formData.append("telephone_number", formValues.telephone_number);
+    // formData.append("email", formValues.email);
+    // formData.append("password", formValues.password);
+    // formData.append("confirm_password", formValues.confirm_password);
+    // formData.append("address", formValues.address);
+    // alert('llllllllll',JSON.stringify(formData));
+    // End of img
+    postRestaurantDetail(formValues).then((response)=>{alert(response.msg); setIsDisable(false); navigate('login')});
   };
 
   const {
@@ -53,6 +114,7 @@ export default function RegistrationRegistrationScreen() {
       confirm_password: "",
     },
   });
+
 
   return (
     <ScrollView>
@@ -442,12 +504,30 @@ export default function RegistrationRegistrationScreen() {
           />
         </View>
 
+        {/* Added by Yuvraj Sahu on 21-2-2023
+        Reason - to upload logo */}
+        {/* <View style={styles.imagePickerContainer}>
+          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+            <Ionicons name="image" size={24} color="#5260ff" />
+            <Text
+              style={{
+                fontSize: 16,
+                marginLeft: 10,
+                fontWeight: "500",
+                color: "#5260ff",
+              }}
+            >
+              {image ? "Edit Profile Picture" : "Upload Profile Picture"}
+            </Text>
+          </TouchableOpacity>
+        </View> */}
+
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
-            // disabled={!isValid}
+            disabled={isDisable}
             style={{
-              backgroundColor: "#841584",
+              backgroundColor: isDisable ? 'grey' : '#841584',
               height: 40,
               alignItems: "center",
               justifyContent: "center",
@@ -553,5 +633,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  imagePickerContainer: {
+    margin: 15,
+    marginTop: 20,
   },
 });

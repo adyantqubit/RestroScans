@@ -58,17 +58,30 @@ Reason - To authenticate restaurant for login using jwt
 class RestaurantLoginView(APIView):
     def post(self, request):
         restaurant = RestaurantRequest.objects.filter(email = request.data.get('email')).first()
+        # Modified by Yuvraj Sahu on 2-3-2023
+        # Reason - to send email and password validation msg
+        response = Response()
         if not restaurant:
-            raise APIException('Invalid Credentials')
+            # raise APIException('Invalid Credentials')
+            response.data = {
+                'invalid': 'Invailid email'
+            }
+            return response
         # if not restaurant.check_password(request.data['password']):
         if not check_password(request.data.get('password'), restaurant.password):
-            raise APIException('Invalid Credentials')
+            # raise APIException('Invalid Credentials')
+            response.data = {
+                'invalid': 'Invailid password'
+            }
+            return response
+    
         if restaurant.is_active==False:
-            response = Response()
+            # response = Response()
             response.data = {
                 'error': 'Please wait for approval'
             }
             return response
+        # End of Modification
         access_token = create_access_token(restaurant.id)
         refresh_token = create_refresh_token(restaurant.id)
 
@@ -100,7 +113,7 @@ class OtpAPI(APIView):
                 data["msg"]="OTP is sent succssfully. Please check your email"
                 data["mail"]=email
                 response=Response(data, status=200)
-                return response      
+                return response
         else:
             data=dict()
             data["error"]="Entered email is not registered"

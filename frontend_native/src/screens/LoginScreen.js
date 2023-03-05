@@ -19,17 +19,22 @@ import { Formik } from "formik";
 import * as SecureStore from "expo-secure-store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { restaurentAuthentication } from "../api/Services";
-import { loginSchema, passwordSchema, emailSchema } from "../validation/ValidationSchema";
+import {
+  loginSchema,
+  passwordSchema,
+  emailSchema,
+} from "../validation/ValidationSchema";
 import { useDispatch } from "react-redux";
 import { authLogin } from "../redux/slice/AuthSlice";
 import { useNavigation } from "@react-navigation/native";
+import AuthNavigation from "../navigation/AuthNavigation";
 
 export default function LoginScreen({ navigation: { navigate } }) {
   const navigation = useNavigation();
 
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  var [isBtnDisable, setISBtnDisable] = useState(false);
+  var [isBtnDisable, setIsBtnDisable] = useState(false);
 
   const alertHandler = (msg) => {
     Alert.alert("Login", `${msg}`, [{ text: "OK", onPress: () => null }]);
@@ -38,7 +43,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
   //when user click login button this method is called
   const submitLog = (values, { resetForm }) => {
     // console.log("values: " + JSON.stringify(values));
-    setISBtnDisable(true);
+    setIsBtnDisable(true);
     restaurentAuthentication(values)
       .then(async (res) => {
         // alert("tok" + JSON.stringify(res.userData[0]));
@@ -46,32 +51,53 @@ export default function LoginScreen({ navigation: { navigate } }) {
           // res.data.success &&
           res.token
         ) {
-          alert("success");
-          setISBtnDisable(false);
-          navigate("home");
-          await SecureStore.setItemAsync("token", JSON.stringify(res.token));
           // alert("success");
+          setIsBtnDisable(false);
+          // navigate("main");
+          await SecureStore.setItemAsync("token", JSON.stringify(res.token));
           await SecureStore.setItemAsync(
             "userData",
             JSON.stringify(res.userData[0])
           );
-          dispatch(
-            authLogin({
-              token: res.token,
-              userData: res.userData[0],
-            })
-          );
+          // await SecureStore.deleteItemAsync("userData");
+          // navigate("main");
+          // await SecureStore.setItemAsync(
+          //   "userData",
+          // JSON.stringify(res.userData[0])
+          // );
+          if (await SecureStore.getItemAsync("userData") != null) {
+            // alert(await SecureStore.getItemAsync("userData"))
+            navigate("home");
+            // return <AuthNavigation />
+          }
+          // alert("success");
+          // await SecureStore.setItemAsync(
+          //   "userData",
+          //   JSON.stringify(res.userData[0])
+          // );
+          // dispatch(
+          //   authLogin({
+          //     token: res.token,
+          //     userData: res.userData[0],
+          //   })
+          // );
           resetForm({ values: "" });
-          alertHandler("login successful");
-        } else {
-          alertHandler("Something went wrong! Please try again later.");
-          alert("Login error");
-          setISBtnDisable(false);
+          // alertHandler("login successful");
+        }
+        if (res.error) {
+          alert("Please wait for admin approval");
+          setIsBtnDisable(false);
+        }
+        if (res.invalid) {
+          // alertHandler("Something went wrong! Please try again later.");
+          alert("Invaild email and password");
+          setIsBtnDisable(false);
         }
       })
       .catch((err) => {
         alertHandler("Something went wrong! Please try again later.");
       });
+      
   };
 
   const forgotPasswordHandler = () => {
