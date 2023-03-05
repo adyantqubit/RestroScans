@@ -7,15 +7,23 @@ import RegistrationRegistrationScreen from "../screens/RestaurantRegistrationScr
 import React, { createContext, useState, useEffect } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import MainScreen from "../screens/MainScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { useSelector, useDispatch } from "react-redux";
 import DrawerNavigation from "../navigation/DrawerNavigation";
 import Home from "../screens/Home";
 import ForgetPasswordScreen from "../screens/ForgetPasswordScreen";
+import StackNavigation from "./StackNavigation";
+import * as SecureStore from "expo-secure-store";
 
+import Category from "../screens/Category";
+import List from "../screens/List";
+import QrCode from "../screens/QrCode";
+import Offer from "../screens/Offer";
+import PreviewMenu from "../screens/PreviewMenu";
 const Stack = createNativeStackNavigator();
-
+const Drawer = createDrawerNavigator();
 const AuthNavigation = () => {
   const { userToken, isLoading } = useSelector((state) => state.authUser);
 
@@ -23,68 +31,55 @@ const AuthNavigation = () => {
   //Reason - to send actions into our redux store
   const dispatch = useDispatch();
 
+  var [isTokenExist, setIsTokenExist] = useState(false);
+
+  useEffect(() => {
+    checkUserauth();
+  }, []);
+
+  const checkUserauth = async () => {
+    if (await SecureStore.getItemAsync("userData")) {
+      setIsTokenExist(true);
+    }
+    if ((await SecureStore.getItemAsync("userData")) == null) {
+      setIsTokenExist(false);
+    }
+    // alert("ss" + isTokenExist);
+  };
+
+  
+
   return (
-    <NavigationContainer>
-      {userToken == null ? (
-        <Stack.Navigator
-          initialRouteName="main"
-          screenOptions={() => ({
-            headerShown: true,
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            headerTitleAlign: "center",
-            headerMode: "screen",
-            // headerTintColor: "white",
-            headerStyle: { backgroundColor: "#fff" },
-          })}
-        >
-          <Stack.Screen
-            name="main"
-            component={MainScreen}
-            options={{
-              title: "Welcome To My App",
-              headerShown: false,
-            }}
-          ></Stack.Screen>
-
-          <Stack.Screen
-            name="login"
-            options={{ title: "Login" }}
-            component={LoginScreen}
-            style={{ backgroundColor: "#841584" }}
-          ></Stack.Screen>
-
-          <Stack.Screen
-            name="registration"
-            options={{ title: "Registration" }}
-            component={RegistrationRegistrationScreen}
-          ></Stack.Screen>
-
-          {/* Added by Yuvraj Sahu on 19-2-2023
-            Reason - to navigate drawer after login
-                     it will be changed after upload server
-             */}
-          <Stack.Screen
-            name="home"
-            options={{ title: "Welcome" }}
+    <>
+      {/* <NavigationContainer>
+        <Drawer.Navigator>
+          <Drawer.Screen
+            name="Home"
             component={Home}
-          ></Stack.Screen>
-          {/* End of navigating drawer  */}
+            options={{ drawerLabel: "Home" }}
+          />
+          {SecureStore.getItemAsync("userData") && (
+            <Drawer.Screen
+              name="main"
+              component={MainScreen}
+              options={{ drawerLabel: "Main" }}
+            />
+          )}
+          <Drawer.Screen
+            name="Add"
+            component={Category}
+            options={{ drawerLabel: "Add" }}
+          />
+          <Drawer.Screen
+            name="Menu List"
+            component={List}
+            options={{ drawerLabel: "Menu List" }}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer> */}
 
-          <Stack.Screen
-            name="forgotPassword"
-            options={{ title: "Forgot Password" }}
-            component={ForgetPasswordScreen}
-          ></Stack.Screen>
-
-        </Stack.Navigator>
-      ) : (
-        <DrawerNavigation />
-      )}
-
-      {/* <D /> */}
-    </NavigationContainer>
+      {isTokenExist ? <DrawerNavigation /> : <StackNavigation />}
+    </>
   );
 };
 
