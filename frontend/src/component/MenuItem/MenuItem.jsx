@@ -125,11 +125,11 @@ function MenuItem() {
     var temp = [];
 
     filtered.filter(r => {
-      if (temp.includes(r.menu_name.toLowerCase())) {
+      if (temp.includes(r.menu_name)) {
 
       }
       else {
-        temp.push(r.menu_name.toLowerCase())
+        temp.push(r.menu_name)
       }
     })
 
@@ -141,7 +141,7 @@ function MenuItem() {
       temp2.push(data)
 
       filtered.filter(n => {
-        if (n.menu_name.toLowerCase() == s) {
+        if (n.menu_name == s) {
           temp2[i][`${s}`].push(n)
         }
       })
@@ -221,7 +221,6 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-
   // console.log(filterCategory)
   // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
@@ -229,16 +228,6 @@ function MenuItem() {
   // console.log(itemList, 'All items')
   // console.log(filter, 'searching data')
   // console.log(search, 'searching data')
-
-  // useEffect(()=>{
-  //   const menu_list=[]
-  // if  (filtered.length>0){
-  //   filtered.map(f=>
-  //     {
-  //       if(menu_list.includes(f.menu_item))
-  //     })
-  // } 
-  // },[filtered])
 
 
   const navigate = useNavigate();
@@ -249,7 +238,8 @@ function MenuItem() {
 
   return (
     <div className='menu_maindiv'>
-      <h2 style={{ textAlign: 'center', padding: '1%', margin: '0', fontFamily: 'Noe-Display', color: 'gold', fontSize: '34px' }}>{tenantt}</h2>
+      <h2 className="restaurant_name"
+      >{tenantt}</h2>
       <div>
         <Swiper
           cssMode={true}
@@ -259,7 +249,9 @@ function MenuItem() {
           }}
           mousewheel={true}
           keyboard={true}
-          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+          modules={[Navigation, Pagination
+            , Mousewheel, Keyboard]}
+          className="mySwiper"
         >
           {offerBanner.map((item, id) => (
             <SwiperSlide>
@@ -272,6 +264,7 @@ function MenuItem() {
               >
                 <img
                   src={siteConfig.siteURL + item.offer_image}
+                  style={{border:'2px solid white'}}
                   className='offer_banner'
                 />
                 <h2
@@ -322,7 +315,7 @@ function MenuItem() {
               return (<>
                 <div className='after_search_div'
                 >
-                  <h4 style={{ textAlign: 'center', padding: '1', margin: '0', color: 'gold', fontFamily: 'Lucida Handwriting' }}>
+                  <h4 style={{ textAlign: 'center', padding: '1', margin: '0',  fontFamily: 'Lucida Handwriting' }}>
                     {obj}
                   </h4>
 
@@ -494,7 +487,7 @@ function MenuItem() {
                 <br />
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
-                <span style={{ color: 'gold', fontSize: '14px' }}> {data.name}</span>
+                <span style={{  fontSize: '14px' }}> {data.name}</span>
               </div>
             </div>
           ))}

@@ -1,14 +1,16 @@
+@import '../../root.css';
+
 .menu_maindiv {
-    background-color: #222221;
+    background-color: var(--primary-color);
     height: 100%;
 }
 
 .restaurant_name {
     text-align: center;
-    padding: 0%;
+    padding: 1%;
     margin: 0;
     font-family: Noe-Display;
-    color: gold;
+    color: var(--heading-and-subheading) ;
     font-size: 34px;
 }
 
@@ -37,7 +39,6 @@
     align-items: center;
     text-align: center;
     justify-content: center;
-    /* margin-top: 2%; */
 }
 
 .allcategory_searched {
@@ -72,6 +73,10 @@
 
 .searchpage_main {
     padding: 1%;
+}
+.searchpage_input{
+    border: 2px solid black;
+    border-radius: 2%;
 }
 
 .searchpage_notshow {
@@ -109,7 +114,7 @@
 .category_name {
     padding: 1;
     margin: 0;
-    color: gold;
+    color: var(--heading-and-subheading);
     font-size: 19px;
     font-family: Lucida Handwriting;
 }
@@ -117,7 +122,6 @@
 .div_caraousel {
     height: 14vh;
     padding: 0% 5% 0% 5%;
-    /* border: 2px solid red; */
 }
 
 .all-menu {
@@ -144,7 +148,7 @@
     top: 41%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: gold;
+    color: var(--heading-and-subheading);
     font-weight: bolder;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -274,7 +278,7 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
 
 /* Button CSS */
 .button-85 {
-    padding: 0.6em 2em;
+    padding: 0.4em 0.9em;
     border: none;
     outline: none;
     color: rgb(255, 255, 255);
@@ -340,12 +344,6 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     border-radius: 10px;
 }
 
-/* @media (max-width: 395px) {
-    .check {
-        height: 56%;
-    }
-
-} */
 @media (max-width: 376px) {
     .menu_childdiv {
         height: 30%;
