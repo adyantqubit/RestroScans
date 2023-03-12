@@ -3,8 +3,24 @@ Reason: Apply Global CSS
 Date : 05-03-23 */
 
 :root{
-    --primary-color:#222221;
-    --heading-and-subheading:gold
+    /* --primary-color:#b5a684; */
+    /* --primary-color:#fed4db; */
+    /* --primary-color:#b5a684; */
+    /* --primary-color:#b5a684; */
+    /* --primary-color:#b5a684; */
+    /* --primary-color:#b5a684; */
+    /* --primary-color:#f6e9cd; */
+    --primary-color:WHITE;
+
+    /* --primary-color:#222221; */
+
+
+    /* --heading-and-subheading : #48280b; */
+    /* --heading-and-subheading:#452922 */
+    /* --heading-and-subheading:#1d0d0e; */
+    --heading-and-subheading:brown;
+
+    --allitems-name:'black';
 }
 
 /* End of the code */

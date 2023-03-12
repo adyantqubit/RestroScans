@@ -40,3 +40,17 @@ class OfferItemsSerializer(serializers.ModelSerializer):
         fields = '__all__' 
 
 # End of addition
+
+# Added by Om on 11-03-23
+# Reason : Show footer and description details
+class FooterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Footer
+        fields = '__all__'
+
+class DescriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Description
+        fields = '__all__'
+        
+# End of addition

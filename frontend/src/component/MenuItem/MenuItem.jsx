@@ -20,6 +20,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard } from "swiper";
 
@@ -46,6 +47,16 @@ function MenuItem() {
 
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
+
+    if (offerList.filter((show) => show.offer_name == item).length < 1) {
+      notification.info({
+        description:
+          'No longer available items for this offer..',
+        // placement: 'topLeft',
+        duration: 2,
+        key: 1,
+      });
+    }
   }
 
   useEffect(() => {
@@ -84,7 +95,18 @@ function MenuItem() {
 
   const Search = Input.Search;
 
-  const onSearch = (value) => setNewSearch(value)
+  const onSearch = (value) => {
+    setNewSearch(value)
+    console.log(value)
+    if (search.length < 1) {
+      notification.info({
+        description:
+          'No Result Found..',
+        duration: 2,
+        key: 1,
+      });
+    }
+  }
 
   var offer_name = []
   let offernme = new Set()
@@ -158,26 +180,22 @@ function MenuItem() {
       var categoryName = []
       temp2[i][obj].filter(s => {
 
-        if (categoryName.includes(s.category_name.toLowerCase())) {
+        if (categoryName.includes(s.category_name)) {
 
         }
         else {
-          categoryName.push(s.category_name.toLowerCase())
+          categoryName.push(s.category_name)
         }
 
       })
 
-
       //filter with unique category name and save inside menu item with unique category name item list
       var data = {}
-
       var gh = data[obj] = {}
       categoryName.filter(m => {
-
         gh[m] = []
-        // console.log(m)
         filtered.map(h => {
-          if (h.category_name.toLowerCase() == m) {
+          if (h.category_name == m) {
             data[obj][m].push(h)
           }
         })
@@ -186,9 +204,17 @@ function MenuItem() {
       temp3.push(data)
     })
 
-    // console.log(temp3)
-
     setFiltered(temp3)
+    
+    if (filtered.length ==0 && search.length>0){
+      notification.info({
+        description:
+          'Search result is not found',
+        duration: 2,
+        key: 1,
+      });
+    }
+    
   }, [search])
 
   const responsive = {
@@ -221,13 +247,13 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  // console.log(filterCategory)
+  console.log(filterCategory)
   // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
   // console.log(offerShow, 'set offer data')
   // console.log(itemList, 'All items')
-  // console.log(filter, 'searching data')
-  // console.log(search, 'searching data')
+  console.log(filter, 'searching data')
+  console.log(search, 'set in input field')
 
 
   const navigate = useNavigate();
@@ -242,15 +268,15 @@ function MenuItem() {
       >{tenantt}</h2>
       <div>
         <Swiper
-          cssMode={true}
+          // cssMode={true}
           navigation={true}
           pagination={{
             clickable: true,
           }}
-          mousewheel={true}
+          // mousewheel={true}
           keyboard={true}
-          modules={[Navigation, Pagination
-            , Mousewheel, Keyboard]}
+          modules={[Navigation, Pagination]}
+            // , Mousewheel, Keyboard]}
           className="mySwiper"
         >
           {offerBanner.map((item, id) => (
@@ -264,7 +290,7 @@ function MenuItem() {
               >
                 <img
                   src={siteConfig.siteURL + item.offer_image}
-                  style={{border:'2px solid white'}}
+                  style={{ border: '2px solid white' }}
                   className='offer_banner'
                 />
                 <h2
@@ -282,12 +308,18 @@ function MenuItem() {
       <div className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
         <div className='searchpage_input'>
           <Input.Group>
-            <Search size='large' onSearch={onSearch} placeholder='Search by Menu items' />
+            <Search size='large'
+             value={search} onChange={e=>{ setNewSearch(e.target.value); }}
+            //  onSearch={onSearch}
+              placeholder='Search by Menu, Categories & Items name' />
           </Input.Group>
         </div>
       </div>
 
-      <div className={filter.length > 0 ? 'searchpage_content' : 'again'} id="third" >
+      <div
+        //  className='searchpage_content' 
+        className={filter.length > 0 ? 'searchpage_content' : 'again'}
+        id="third" >
         {search ?
           <>
             {filter.length > 0 ?
@@ -315,7 +347,7 @@ function MenuItem() {
               return (<>
                 <div className='after_search_div'
                 >
-                  <h4 style={{ textAlign: 'center', padding: '1', margin: '0',  fontFamily: 'Lucida Handwriting' }}>
+                  <h4 style={{ textAlign: 'center', color: 'gold', padding: '1', margin: '0', fontFamily: 'Lucida Handwriting' }}>
                     {obj}
                   </h4>
 
@@ -337,44 +369,42 @@ function MenuItem() {
                         </h3>
                       </span>
                       {filter[i][`${obj}`][c].map(person =>
-                      <div className='after_search_div'
-                      >
-
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          padding: '3% 0% 0% 0%',
-                        }}
+                        <div className='after_search_div'
                         >
-                          <div className="after_search_content"
-                          >{person.name}</div>
-                          <div className="after_search_price"
-                          >{person.price_full ? '₹' + person.price_full : '---'}</div>
-                          <div className="after_search_price"
-                          >{person.price_half ? '₹' + person.price_half : '---'}</div>
+
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            padding: '3% 0% 0% 0%',
+                          }}
+                          >
+                            <div className="after_search_content"
+                            >{person.name}</div>
+                            <div className="after_search_price"
+                            >{person.price_full ? '₹' + person.price_full :
+                              '---'}</div>
+                            <div className="after_search_price"
+                            >{person.price_half ? '₹' + person.price_half : '---'}</div>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     </div>
                   )
                   }
-
-
-
-
-                    
                   </>
                 }
               </>
               )
             })
-
             }
           </> :
           null}
       </div>
 
-      <div className={offerShow.length < 1 ? 'offer_notshow' : 'offer_maindiv'}  >
+      <div
+        // className='offer_maindiv'
+        className={offerShow.length < 1 ? 'offer_notshow' : 'offer_maindiv'}
+      >
         <div style={{ display: 'flex', justifyContent: 'right', padding: '1% 2% 0% 0%' }}>
           <CloseOutlined
             onClick={divOfferRemove}
@@ -405,9 +435,7 @@ function MenuItem() {
               </div>
             ))}
           </>
-          : <div style={{ backgroundColor: 'aqua', color: 'white' }}>
-            <h4>No longer available items for this offer</h4>
-          </div>}
+          : null}
       </div>
 
       <div className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}>
@@ -487,7 +515,7 @@ function MenuItem() {
                 <br />
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
-                <span style={{  fontSize: '14px' }}> {data.name}</span>
+                <span style={{ fontSize: '14px', color: 'brown' }}> {data.name}</span>
               </div>
             </div>
           ))}

@@ -80,3 +80,21 @@ class OfferAPIView(APIView):
             "offerItemList":offeritemsSerializer.data,
             })
 # End of addition
+
+# Added by Om on 11-03-23
+# Reason : Show the footer and description details
+class FooterandDescriptionAPIView(APIView):
+    def get(self,request,tenant):
+        print('gfagfgf', tenant)
+        footer=Footer.objects.all()
+        footerSerializer=FooterSerializer(footer,many=True)
+        descriptionList=Description.objects.all()
+        descriptionSerializer=DescriptionSerializer(descriptionList,many=True)
+
+        return Response({
+            "msg":"success",
+            "footer":footerSerializer.data,
+            "descriptionList":descriptionSerializer.data,
+            })
+    
+# End of addition

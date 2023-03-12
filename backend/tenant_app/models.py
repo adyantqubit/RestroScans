@@ -69,8 +69,28 @@ class OfferItem(models.Model):
     
     def __str__(self):
         return "Offer for Items"  
-
  
+"""
+End of code addition
+"""
+
+"""-------------------------------------------------------
+Added by - Om Shrivastava on 11-03-2023
+Reason - To create footer and description table to show data in footer section
+"""
+class Footer(models.Model):
+    id = models.AutoField(primary_key=True)
+    content =models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.content 
+
+class Description(models.Model):
+    id = models.AutoField(primary_key=True)
+    content =models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.content 
 """
 End of code addition
 """

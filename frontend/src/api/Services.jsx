@@ -32,3 +32,14 @@ export const getofferDetails = async (tenantId) => {
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
+
+// -------------------------- FOR SHOW THE FOOTER AND DESCRIPTION -------------------------
+
+export const getfooterDetails = async (tenantId) => {
+  const response = await API.get(`/${tenantId}/footer-description/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};

@@ -25,7 +25,8 @@
 }
 
 .allcategory_menu_div {
-    background-color: #222221;
+    /* background-color: #222221; */
+    /* background-color: #fffb00; */
     width: 98%;
     color: rgb(5, 5, 5);
     padding: 1%;
@@ -62,7 +63,7 @@
 
 .check {
     display: block;
-    height: 45%;
+    height: 43%;
     overflow: auto;
 
 }
@@ -84,28 +85,28 @@
 }
 
 .after_search_content {
-    color: white;
+    color: black;
     font-family: Palatino;
     width: 95%;
     margin-left: 5%;
 }
 
 .after_search_price {
-    color: white;
+    color:black;
     font-family: Palatino;
     width: 33%;
     margin-left: 5%;
 }
 
 .allitems_name {
-    color: white;
+    color: var(--allitems-name);
     font-family: Palatino;
     width: 95%;
     margin-left: 5%;
 }
 
 .allitems_price {
-    color: white;
+    color: var(--allitems-name);
     font-family: Palatino;
     width: 33%;
     margin-left: 5%;
@@ -218,7 +219,7 @@
 
 .offer_content {
     position: absolute;
-    top: 33%;
+    top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -244,12 +245,12 @@
 }
 
 span.swiper-pagination-bullet swiper-pagination-bullet-active {
-    color: gold !important;
+    /* color: gold !important; */
 }
 
 .offer_div {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    height: 25vh;
+    height: 100%;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -275,7 +276,10 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     justify-content: space-between;
     padding: 0% 2% 0% 2%;
 }
-
+a.ant-notification-notice-close{
+    inset-inline-end: 8px !important;
+    top: 6px !important;
+}
 /* Button CSS */
 .button-85 {
     padding: 0.4em 0.9em;
