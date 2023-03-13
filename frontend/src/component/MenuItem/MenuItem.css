@@ -10,8 +10,12 @@
     padding: 1%;
     margin: 0;
     font-family: Noe-Display;
-    color: var(--heading-and-subheading) ;
+    color: var(--heading-and-subheading);
     font-size: 34px;
+}
+.menu_name{
+    font-size: 14px;
+    color: var(--heading-and-subheading);
 }
 
 .category_img {
@@ -30,9 +34,15 @@
     width: 98%;
     color: rgb(5, 5, 5);
     padding: 1%;
-    user-select: none;
-    touch-action: none;
+    /* user-select: none; 
+    touch-action: none; */
     height: 97%;
+}
+
+.check {
+    display: block !important;
+    height: 41%;
+    overflow: auto;
 }
 
 .allcategory_container {
@@ -61,12 +71,7 @@
     display: none;
 }
 
-.check {
-    display: block;
-    height: 43%;
-    overflow: auto;
 
-}
 
 .after_search_div {
     color: white;
@@ -75,7 +80,8 @@
 .searchpage_main {
     padding: 1%;
 }
-.searchpage_input{
+
+.searchpage_input {
     border: 2px solid black;
     border-radius: 2%;
 }
@@ -83,16 +89,23 @@
 .searchpage_notshow {
     display: none;
 }
+.after_search_categoryname{
+    text-align: center;
+    color: var(--heading-and-subheading);
+    margin: 0;
+    font-family: Lucida Handwriting;
+    padding: 1;
+}
 
 .after_search_content {
-    color: black;
+    color: var(--allitems-name);
     font-family: Palatino;
     width: 95%;
     margin-left: 5%;
 }
 
 .after_search_price {
-    color:black;
+    color: var(--allitems-name);
     font-family: Palatino;
     width: 33%;
     margin-left: 5%;
@@ -123,6 +136,8 @@
 .div_caraousel {
     height: 14vh;
     padding: 0% 5% 0% 5%;
+    /* background-color: aqua; */
+    margin-top: 4px;
 }
 
 .all-menu {
@@ -171,7 +186,7 @@
 }
 
 .searchpage_content {
-    height: 49%;
+    height: 46%;
     overflow: auto;
 
     display: block !important;
@@ -185,34 +200,9 @@
     display: none;
 }
 
-.pages {
-    height: 256px;
-    width: 256px;
-}
-
-.page {
-    height: 100%;
-    width: 100%;
-    user-select: none;
-    touch-action: none;
-}
-
-.page1 {
-    background-color: pink;
-}
-
-.page2 {
-    background-color: yellow;
-}
-
-.page3 {
-    background-color: aqua;
-}
-
 .offer_banner {
     width: 100%;
     height: 100% !important;
-
     opacity: 0.7;
     border-radius: 10px;
 }
@@ -222,7 +212,7 @@
     top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: black;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -230,6 +220,9 @@
     white-space: normal;
     width: 90%;
     text-align: center;
+    font-family: cursive;
+    font-size: 25px;
+    font-weight: 900;
 }
 
 .swiper-wrapper {
@@ -262,7 +255,7 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
 .offer_maindiv {
     color: white;
     display: block;
-    height: 54%;
+    height: 52%;
     overflow: auto;
 }
 
@@ -276,12 +269,14 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     justify-content: space-between;
     padding: 0% 2% 0% 2%;
 }
-a.ant-notification-notice-close{
+
+a.ant-notification-notice-close {
     inset-inline-end: 8px !important;
     top: 6px !important;
 }
+
 /* Button CSS */
-.button-85 {
+/* .button-85 {
     padding: 0.4em 0.9em;
     border: none;
     outline: none;
@@ -346,6 +341,40 @@ a.ant-notification-notice-close{
     left: 0;
     top: 0;
     border-radius: 10px;
+} */
+/* <!-- HTML !-->
+<button class="button-32" role="button">Button 32</button> */
+
+/* CSS */
+.button-32 {
+    background-color: #fff000;
+    border-radius: 12px;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 7px 9px;
+    text-align: center;
+    transition: 200ms;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    font-size: 12px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-32:not(:disabled):hover,
+.button-32:not(:disabled):focus {
+    outline: 0;
+    background: #f4e603;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .2), 0 3px 8px 0 rgba(0, 0, 0, .15);
+}
+
+.button-32:disabled {
+    filter: saturate(0.2) opacity(0.5);
+    -webkit-filter: saturate(0.2) opacity(0.5);
+    cursor: not-allowed;
 }
 
 @media (max-width: 376px) {
@@ -354,7 +383,7 @@ a.ant-notification-notice-close{
     }
 
     .searchpage_content {
-        height: 41%;
+        height: 37%;
     }
 
     .check {
@@ -373,7 +402,7 @@ a.ant-notification-notice-close{
     }
 
     .searchpage_content {
-        height: 45%;
+        height: 42%;
     }
 
     .check {

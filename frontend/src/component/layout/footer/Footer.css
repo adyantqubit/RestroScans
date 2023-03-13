@@ -13,15 +13,9 @@
     font-size: 15px;
 }
 
-/* .alert_inside {
-    background-color: #b3b192 !important;
-    font-size: 18px !important;
-    font-weight: bold;
-    width: 84vw;
-    border-radius: 4%;
-} */
 .main_description{
     background-color: #fff;
+    width: 100%;
 }
 
 /* Reason- to make footer responsive */

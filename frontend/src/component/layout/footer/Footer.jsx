@@ -1,16 +1,15 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Footer.css';
-import { Alert } from "antd";
 import { getfooterDetails } from '../../../api/Services';
 
- function Footer() {
+function Footer() {
 
   const [footerDetails, setFooterDetails] = useState([]); // Our Item set in this variable
   const [restaurantDescription, setRestaurantDescription] = useState([]); // Our Item set in this variable
 
-  useEffect (()=>{
+  useEffect(() => {
     getDetails(tenantt)
-  },[])
+  }, [])
 
   var tenantt = localStorage.getItem("tenantName")
 
@@ -22,30 +21,26 @@ import { getfooterDetails } from '../../../api/Services';
 
     }
   };
-  console.log(footerDetails,restaurantDescription)
 
   return (
     <div>
-    <div className='main_footer' 
-    >
-      <div className='main_description'>
-              <marquee
-                scrollDelay='200'
-                style={{ color: "black", borderRadius: "15px" }}
-              >
-                {restaurantDescription.map((item) => item.content)}
-                {/* Na tikka na Makhani, Dil bole biryani! */}
-              </marquee>
-            {/* }
-          /> */}
-      </div>
+      <div className='main_footer'
+      >
+        <div className='main_description'>
+          <marquee
+            // scrollDelay='200'
+            style={{ color: "black", borderRadius: "15px" }}
+          >
+            {restaurantDescription.map((item) => item.content)}
+          </marquee>
+
+        </div>
 
         <span className='footer_content' >
-        {footerDetails.map((item) => item.content)}
-          {/* Copyright © 2022 Restro scan */}
-          </span>
+          {footerDetails.map((item) => item.content)}
+        </span>
         <br />
-        <span >Powered By Adyant</span>
+        <span >Powered by Adyant</span>
       </div>
     </div>
   )

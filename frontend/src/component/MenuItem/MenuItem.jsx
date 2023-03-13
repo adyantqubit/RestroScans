@@ -48,14 +48,21 @@ function MenuItem() {
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
 
+    setNewSearch("")
+
     if (offerList.filter((show) => show.offer_name == item).length < 1) {
+      // document.getElementById('offer_divv')
+      // {
+      // display:'block'}
       notification.info({
         description:
           'No longer available items for this offer..',
-        // placement: 'topLeft',
         duration: 2,
         key: 1,
       });
+    }
+    else{
+      document.getElementsByClassName('prev_next_hide_button')
     }
   }
 
@@ -97,7 +104,6 @@ function MenuItem() {
 
   const onSearch = (value) => {
     setNewSearch(value)
-    console.log(value)
     if (search.length < 1) {
       notification.info({
         description:
@@ -236,7 +242,7 @@ function MenuItem() {
   };
 
   const [selected, setSelected] = useState(0);
-
+  
   const back = () => {
     setSelected(selected => Math.max(selected - 1, 0));
   };
@@ -247,13 +253,13 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  console.log(filterCategory)
+  // console.log(filterCategory)
   // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
-  // console.log(offerShow, 'set offer data')
+  console.log(offerShow, 'set offer data')
   // console.log(itemList, 'All items')
   console.log(filter, 'searching data')
-  console.log(search, 'set in input field')
+  // console.log(search, 'set in input field')
 
 
   const navigate = useNavigate();
@@ -265,7 +271,7 @@ function MenuItem() {
   return (
     <div className='menu_maindiv'>
       <h2 className="restaurant_name"
-      >{tenantt}</h2>
+      >{tenantt.toUpperCase()}</h2>
       <div>
         <Swiper
           // cssMode={true}
@@ -316,6 +322,18 @@ function MenuItem() {
         </div>
       </div>
 
+{/* {filter.length ==0 && search.length>0?
+<div style={{backgroundColor:'#222221',height:'41%'}}>
+ <h5 style={{color:'white'}}>No search result found</h5>
+</div>:null} */}
+
+{/* <div id="offer_divv" style={{backgroundColor:'red',display:'none'}}>
+<h5 color="white">Not available offer here</h5>
+</div> */}
+{/* {(offerList.offer_name == offerBanner.offer_name).length < 1 ? <div style={{backgroundColor:'aqua',height:'45vh'}}>
+ { alert("hghg")}
+</div>:null} */}
+
       <div
         //  className='searchpage_content' 
         className={filter.length > 0 ? 'searchpage_content' : 'again'}
@@ -347,7 +365,9 @@ function MenuItem() {
               return (<>
                 <div className='after_search_div'
                 >
-                  <h4 style={{ textAlign: 'center', color: 'gold', padding: '1', margin: '0', fontFamily: 'Lucida Handwriting' }}>
+                  <h4 className="after_search_categoryname"
+                  //  style={{ textAlign: 'center', color: '', padding: '1', margin: '0', fontFamily: 'Lucida Handwriting' }}
+                   >
                     {obj}
                   </h4>
 
@@ -430,7 +450,7 @@ function MenuItem() {
                 >
                   <div className="allitems_name">{showdata.item_name}</div>
                   <div className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
-                  <div className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
+                  <div className="allitems_price" >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</div>
                 </div>
               </div>
             ))}
@@ -444,6 +464,11 @@ function MenuItem() {
           onSwipeEnd={setSelected}
           selected={selected}
           shadowBackground='	#909090'
+          disableSwipe
+          children={2}
+          
+          
+          
         >
           {filterCategory.map((data) => (
             <div className="allcategory_menu_div">
@@ -473,16 +498,16 @@ function MenuItem() {
           ))}
         </FlippingPages>
       </div>
+      <br />
       <div className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
       // style={{ display: 'flex', justifyContent: 'space-between', padding: '0% 2% 0% 2%' }}
       >
         <div >
-          <button className="button-85" onClick={back}><LeftOutlined /><span> Previous </span></button>
+          <button className="button-32" onClick={back}><LeftOutlined /><span> Previous </span></button>
         </div>
         <div >
-          <button className="button-85" onClick={next}><span>Next </span> <RightOutlined /></button></div>
+          <button className="button-32" onClick={next}><span>Next </span> <RightOutlined /></button></div>
       </div>
-      <br />
       <div className="div_caraousel">
         <Carousel
           swipeable={false}
@@ -505,7 +530,7 @@ function MenuItem() {
                 }}
                 className='all-menu'
                 onClick={
-                  e => { onMenuChange(data.id); setSelected(0) }
+                  e => { onMenuChange(data.id);setSelected(0) ;}
                 }
               >
                 <img
@@ -515,7 +540,8 @@ function MenuItem() {
                 <br />
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
-                <span style={{ fontSize: '14px', color: 'brown' }}> {data.name}</span>
+                <span className="menu_name"
+                 > {data.name}</span>
               </div>
             </div>
           ))}
