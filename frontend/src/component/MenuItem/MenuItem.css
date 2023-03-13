@@ -1,7 +1,7 @@
 @import '../../root.css';
 
 .menu_maindiv {
-    background-color: var(--primary-color);
+    background-color: var(--primary-backeground-color);
     height: 100%;
 }
 
@@ -137,7 +137,7 @@
     height: 14vh;
     padding: 0% 5% 0% 5%;
     /* background-color: aqua; */
-    margin-top: 4px;
+    margin-top: 10px;
 }
 
 .all-menu {
@@ -209,7 +209,7 @@
 
 .offer_content {
     position: absolute;
-    top: 43%;
+    top: 39%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: black;
@@ -255,9 +255,16 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
 .offer_maindiv {
     color: white;
     display: block;
-    height: 52%;
+    height: 51%;
     overflow: auto;
 }
+/* ::-webkit-scrollbar {
+    background-color: white;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: black;
+  } */
 
 .prev_next_hide_button {
     display: none;

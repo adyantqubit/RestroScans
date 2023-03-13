@@ -21,26 +21,30 @@ function Footer() {
 
     }
   };
+  console.log(restaurantDescription)
+  console.log(footerDetails)
+
 
   return (
     <div>
       <div className='main_footer'
       >
-        <div className='main_description'>
-          <marquee
-            // scrollDelay='200'
-            style={{ color: "black", borderRadius: "15px" }}
-          >
-            {restaurantDescription.map((item) => item.content)}
-          </marquee>
+        {restaurantDescription.map((showdata) => (
+          <div className='main_description'>
+            <marquee
+              scrollDelay='200'
+              style={{ color: "black", borderRadius: "15px" }}
+            >
+              {showdata.content}
+            </marquee>
 
-        </div>
-
+          </div>
+        ))}
         <span className='footer_content' >
           {footerDetails.map((item) => item.content)}
         </span>
         <br />
-        <span >Powered by Adyant</span>
+        <span style={{fontSize:'13px'}}>Powered by Adyant</span>
       </div>
     </div>
   )

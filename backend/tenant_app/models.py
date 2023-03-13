@@ -9,7 +9,7 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of menu
 """
 class Menu(models.Model):
-    name=models.CharField(max_length=255,default='')
+    name=models.CharField(max_length=13,default='')
     icon=models.ImageField(upload_to='images/menu/')
     def __str__(self):
         return self.name  
@@ -22,8 +22,8 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of category
 """
 class Category(models.Model):
-    menu=models.ForeignKey(Menu,related_name="menu",null=True,blank=True,on_delete=models.CASCADE)
-    name=models.CharField(max_length=255,default='')
+    menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='')
+    name=models.CharField(max_length=30,default='')
     icon=models.ImageField(upload_to='images/category/')
     def __str__(self):
         return self.name
@@ -36,8 +36,8 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of category Items
 """
 class Item(models.Model):
-    category=models.ForeignKey(Category,related_name='category',null=True,blank=True,on_delete=models.CASCADE)
-    name=models.CharField(max_length=255,default='')
+    category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='')
+    name=models.CharField(max_length=30,default='')
     price_full=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
     price_half=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
     description=models.TextField()
@@ -53,7 +53,7 @@ Reason - To store offer for every Items
 """
 class Offer(models.Model):
     id = models.AutoField(primary_key=True)
-    offer_name=models.CharField(max_length=255)
+    offer_name=models.CharField(max_length=30)
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)')
     offer_image = models.ImageField(upload_to='images/offer/')
@@ -87,7 +87,7 @@ class Footer(models.Model):
 
 class Description(models.Model):
     id = models.AutoField(primary_key=True)
-    content =models.CharField(max_length=255)
+    content =models.TextField()
     
     def __str__(self):
         return self.content 

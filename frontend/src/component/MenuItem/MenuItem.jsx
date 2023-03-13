@@ -341,9 +341,9 @@ function MenuItem() {
         {search ?
           <>
             {filter.length > 0 ?
-              <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
-                <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>Your search result</span>
-                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}
+              <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
+                <span style={{ color: '#ffff9f', padding: '0', width: '89%',fontSize:'15px' }}>Your search results : </span>
+                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%',borderRadius:'100%' }}
                   onClick=
                   {removeSerchResult}
                 // {checkBtn}
@@ -365,11 +365,11 @@ function MenuItem() {
               return (<>
                 <div className='after_search_div'
                 >
-                  <h4 className="after_search_categoryname"
+                  <h3 className="after_search_categoryname"
                   //  style={{ textAlign: 'center', color: '', padding: '1', margin: '0', fontFamily: 'Lucida Handwriting' }}
                    >
                     {obj}
-                  </h4>
+                  </h3>
 
                 </div>
 
@@ -383,7 +383,8 @@ function MenuItem() {
                           src={siteConfig.siteURL + filter[i][obj][c][0].category_img}
                           className="category_serached_img" width='2%'
                         />&nbsp;
-                        <h3 className="category_name" style={{ fontSize: '15px' }}
+                        <h3 className="category_name"
+                         style={{ fontSize: '17px' }}
                         >
                           {c}
                         </h3>
@@ -396,6 +397,7 @@ function MenuItem() {
                             display: 'flex',
                             justifyContent: 'space-between',
                             padding: '3% 0% 0% 0%',
+                            fontSize:'16px'
                           }}
                           >
                             <div className="after_search_content"
@@ -425,10 +427,10 @@ function MenuItem() {
         // className='offer_maindiv'
         className={offerShow.length < 1 ? 'offer_notshow' : 'offer_maindiv'}
       >
-        <div style={{ display: 'flex', justifyContent: 'right', padding: '1% 2% 0% 0%' }}>
+        <div style={{ display: 'flex', justifyContent: 'right', padding: '2% 3% 0% 0%' }}>
           <CloseOutlined
             onClick={divOfferRemove}
-            style={{ color: 'black', backgroundColor: 'white', padding: '1%', justifyContent: 'right' }}
+            style={{ color: 'black', backgroundColor: 'white', padding: '2%', justifyContent: 'right',borderRadius:'100%' }}
           />
         </div>
 
