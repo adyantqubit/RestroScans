@@ -61,7 +61,7 @@ function MenuItem() {
         key: 1,
       });
     }
-    else{
+    else {
       document.getElementsByClassName('prev_next_hide_button')
     }
   }
@@ -211,8 +211,8 @@ function MenuItem() {
     })
 
     setFiltered(temp3)
-    
-    if (filtered.length ==0 && search.length>0){
+
+    if (filtered.length == 0 && search.length > 0) {
       notification.info({
         description:
           'Search result is not found',
@@ -220,7 +220,7 @@ function MenuItem() {
         key: 1,
       });
     }
-    
+
   }, [search])
 
   const responsive = {
@@ -242,7 +242,7 @@ function MenuItem() {
   };
 
   const [selected, setSelected] = useState(0);
-  
+
   const back = () => {
     setSelected(selected => Math.max(selected - 1, 0));
   };
@@ -253,12 +253,12 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  // console.log(filterCategory)
+  console.log(filterCategory)
   // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
-  console.log(offerShow, 'set offer data')
-  // console.log(itemList, 'All items')
-  console.log(filter, 'searching data')
+  // console.log(offerShow, 'set offer data')
+  console.log(itemList, 'All items')
+  // console.log(filter, 'searching data')
   // console.log(search, 'set in input field')
 
 
@@ -282,7 +282,7 @@ function MenuItem() {
           // mousewheel={true}
           keyboard={true}
           modules={[Navigation, Pagination]}
-            // , Mousewheel, Keyboard]}
+          // , Mousewheel, Keyboard]}
           className="mySwiper"
         >
           {offerBanner.map((item, id) => (
@@ -315,22 +315,22 @@ function MenuItem() {
         <div className='searchpage_input'>
           <Input.Group>
             <Search size='large'
-             value={search} onChange={e=>{ setNewSearch(e.target.value); }}
-            //  onSearch={onSearch}
+              value={search} onChange={e => { setNewSearch(e.target.value); }}
+              //  onSearch={onSearch}
               placeholder='Search by Menu, Categories & Items name' />
           </Input.Group>
         </div>
       </div>
 
-{/* {filter.length ==0 && search.length>0?
+      {/* {filter.length ==0 && search.length>0?
 <div style={{backgroundColor:'#222221',height:'41%'}}>
  <h5 style={{color:'white'}}>No search result found</h5>
 </div>:null} */}
 
-{/* <div id="offer_divv" style={{backgroundColor:'red',display:'none'}}>
+      {/* <div id="offer_divv" style={{backgroundColor:'red',display:'none'}}>
 <h5 color="white">Not available offer here</h5>
 </div> */}
-{/* {(offerList.offer_name == offerBanner.offer_name).length < 1 ? <div style={{backgroundColor:'aqua',height:'45vh'}}>
+      {/* {(offerList.offer_name == offerBanner.offer_name).length < 1 ? <div style={{backgroundColor:'aqua',height:'45vh'}}>
  { alert("hghg")}
 </div>:null} */}
 
@@ -342,8 +342,8 @@ function MenuItem() {
           <>
             {filter.length > 0 ?
               <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
-                <span style={{ color: '#ffff9f', padding: '0', width: '89%',fontSize:'15px' }}>Your search results : </span>
-                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%',borderRadius:'100%' }}
+                <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>Your search results : </span>
+                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
                   onClick=
                   {removeSerchResult}
                 // {checkBtn}
@@ -367,7 +367,7 @@ function MenuItem() {
                 >
                   <h3 className="after_search_categoryname"
                   //  style={{ textAlign: 'center', color: '', padding: '1', margin: '0', fontFamily: 'Lucida Handwriting' }}
-                   >
+                  >
                     {obj}
                   </h3>
 
@@ -384,7 +384,7 @@ function MenuItem() {
                           className="category_serached_img" width='2%'
                         />&nbsp;
                         <h3 className="category_name"
-                         style={{ fontSize: '17px' }}
+                          style={{ fontSize: '17px' }}
                         >
                           {c}
                         </h3>
@@ -397,7 +397,7 @@ function MenuItem() {
                             display: 'flex',
                             justifyContent: 'space-between',
                             padding: '3% 0% 0% 0%',
-                            fontSize:'16px'
+                            fontSize: '16px'
                           }}
                           >
                             <div className="after_search_content"
@@ -430,7 +430,7 @@ function MenuItem() {
         <div style={{ display: 'flex', justifyContent: 'right', padding: '2% 3% 0% 0%' }}>
           <CloseOutlined
             onClick={divOfferRemove}
-            style={{ color: 'black', backgroundColor: 'white', padding: '2%', justifyContent: 'right',borderRadius:'100%' }}
+            style={{ color: 'black', backgroundColor: 'white', padding: '2%', justifyContent: 'right', borderRadius: '100%' }}
           />
         </div>
 
@@ -441,6 +441,16 @@ function MenuItem() {
           >{offer_discount}%
           </h3>
         </span>
+        <div style={{
+                display: 'flex',
+                padding: '5% 0% 0% 0%',
+                color:'lightblue'
+              }}
+              >
+                <div className="allitems_name">Item name</div>
+                <div className="allitems_price" >Full price</div>
+                <div className="allitems_price" >Half price</div>
+              </div>
         {offerShow.length > 0 ?
           <>
             {offerShow.map((showdata, id) => (
@@ -457,7 +467,9 @@ function MenuItem() {
               </div>
             ))}
           </>
-          : null}
+          : null
+          // <h3 style={{height:'40vh',backgroundColor:'aqua',color:'black'}}> stBNope</h3>
+          }
       </div>
 
       <div className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}>
@@ -465,12 +477,9 @@ function MenuItem() {
           direction="right-to-left"
           onSwipeEnd={setSelected}
           selected={selected}
-          shadowBackground='	#909090'
           disableSwipe
           children={2}
-          
-          
-          
+shadowBackground='transparent'
         >
           {filterCategory.map((data) => (
             <div className="allcategory_menu_div">
@@ -484,19 +493,32 @@ function MenuItem() {
                 >{data.name}
                 </h3>
               </span>
-
+              <div style={{
+                display: 'flex',
+                padding: '5% 0% 0% 0%',
+                color:'lightblue'
+              }}
+              >
+                <div className="allitems_name">Item name</div>
+                <div className="allitems_price" >Full price</div>
+                <div className="allitems_price" >Half price</div>
+              </div>
+  
               {itemList.filter(i => i.category === data.id).map(m =>
                 <div style={{
                   display: 'flex',
                   padding: '5% 0% 0% 0%',
                 }}
                 >
-                  <div className="allitems_name">{m.name}</div>
+                  
+                  <div className="allitems_name">{m.name }</div>
                   <div className="allitems_price" >{m.price_full ? '₹' + m.price_full : '---'}</div>
                   <div className="allitems_price" >{m.price_half ? '₹' + m.price_half : '---'}</div>
                 </div>
               )}
+             
             </div>
+            
           ))}
         </FlippingPages>
       </div>
@@ -532,7 +554,7 @@ function MenuItem() {
                 }}
                 className='all-menu'
                 onClick={
-                  e => { onMenuChange(data.id);setSelected(0) ;}
+                  e => { onMenuChange(data.id); setSelected(0); }
                 }
               >
                 <img
@@ -543,7 +565,7 @@ function MenuItem() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
                 <span className="menu_name"
-                 > {data.name}</span>
+                > {data.name}</span>
               </div>
             </div>
           ))}

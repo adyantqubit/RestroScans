@@ -17,12 +17,3 @@
     background-color: #fff;
     width: 100%;
 }
-
-/* Reason- to make footer responsive */
-@media (max-width: 376px) {
-    .main_footer{
-        /* padding-top: 5%; */
-    }
-   
-}
-/* End of code addition */
