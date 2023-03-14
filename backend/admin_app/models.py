@@ -26,6 +26,7 @@ Reason - To store tenant requests
 class RestaurantRequest(models.Model):
     id = models.AutoField(primary_key=True)
     restaurant_name =models.CharField(max_length=255, default='')
+    tag_line = models.CharField(max_length=255, default='')
     restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True)
     owner_name = models.CharField(max_length=255, default='')
     email =models.EmailField()

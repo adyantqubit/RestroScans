@@ -38,10 +38,15 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 class RestaurantRegistartionView(APIView):
     # @csrf_exempt
     def post(self, request, format=None):
+        # import pdb
+        # pdb.set_trace()
+        print('input data---------', request.data)
         encryptedPassword = make_password(request.data.get('password'))
         request.data['password'] = encryptedPassword
+        # print('111111111111111111111111111')
         serializer = RestaurantRequestSerializer(data=request.data)
-        if serializer.is_valid():
+        print('8888888888888888c')
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({'msg':'Successfully Saved'})
         else :

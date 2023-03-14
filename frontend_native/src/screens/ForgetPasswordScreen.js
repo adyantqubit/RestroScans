@@ -34,7 +34,7 @@ import { useNavigation } from "@react-navigation/native";
 
 var email = null;
 
-function ResetPassword() {
+function ResetPassword({navigation : navigate}) {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
@@ -49,36 +49,38 @@ function ResetPassword() {
 
   //when user click send otp for forget password
   const submitLog = (values, { resetForm }) => {
-    alert("change password" + JSON.stringify(values));
+    values["email"] = email;
+    // alert("change password" + JSON.stringify(values));
     setISBtnDisable(true);
     updatePasswordApi(values)
       .then(async (res) => {
         if (res.msg) {
-          alert("Password Changed successfully");
+          Alert.alert("Success", "Password Changed successfully. You can login");
           setISBtnDisable(false);
-          // navigate("home");
+          navigate("login");
           resetForm({ values: "" });
           // alertHandler("OTP is sent succssfully. Please check your email");
         } else {
           // alertHandler("Something went wrong! Please try again later.");
-          alert("Error");
+          Alert.alert("Error", "Something went wrong");
           setISBtnDisable(false);
         }
-        // if (res.error){
-        //   alert(res.error)
-        //   setISBtnDisable(false);
-        // }
+        if (res.error){
+          Alert.alert("Error", res.error)
+          setISBtnDisable(false);
+        }
       })
-      .catch((err) => {
-        alertHandler("Something went wrong! Please try again later.");
-      });
+      // .catch((err) => {
+      //   alertHandler("Something went wrong! Please try again later.");
+      // });
   };
 
   return (
     <>
       <Formik
         initialValues={{
-          email: `${email}`,
+          // email: `${email}`,
+          // email : "",
           otp: "",
           password: "",
           confirm_password: "",
@@ -99,7 +101,7 @@ function ResetPassword() {
           <ScrollView style={styles.container}>
             <View style={styles.container}>
               <View>
-                <View>
+                {/* <View>
                   <Text style={styles.labels}>
                     <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
                     Email
@@ -122,7 +124,7 @@ function ResetPassword() {
                   {errors.email && touched.email && (
                     <Text style={styles.textdanger}>{errors.email}</Text>
                   )}
-                </View>
+                </View> */}
 
                 <View>
                   <Text style={styles.labels}>

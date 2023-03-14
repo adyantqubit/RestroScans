@@ -44,10 +44,7 @@ const AuthNavigation = () => {
     if ((await SecureStore.getItemAsync("userData")) == null) {
       setIsTokenExist(false);
     }
-    // alert("ss" + isTokenExist);
   };
-
-  
 
   return (
     <>
@@ -77,8 +74,10 @@ const AuthNavigation = () => {
           />
         </Drawer.Navigator>
       </NavigationContainer> */}
-
+      <NavigationContainer>
       {isTokenExist ? <DrawerNavigation /> : <StackNavigation />}
+      </NavigationContainer>
+
     </>
   );
 };

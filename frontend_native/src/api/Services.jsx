@@ -21,7 +21,7 @@ export const postRestaurantDetail = async (value) => {
     value,
     {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     }
   ).catch((err) => console.log(err));

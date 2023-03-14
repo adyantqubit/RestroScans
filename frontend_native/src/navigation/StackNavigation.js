@@ -14,6 +14,7 @@ import DrawerNavigation from "../navigation/DrawerNavigation";
 import Home from "../screens/Home";
 import ForgetPasswordScreen from "../screens/ForgetPasswordScreen";
 import AuthNavigation from "./AuthNavigation";
+import { Button, Text } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,75 +26,79 @@ const StackNavigation = () => {
   const dispatch = useDispatch();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="main"
-        screenOptions={() => ({
-          headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          headerTitleAlign: "center",
-          headerMode: "screen",
-          // headerTintColor: "white",
-          headerStyle: { backgroundColor: "#fff" },
-        })}
-      >
-        <Stack.Screen
+    <Stack.Navigator
+      initialRouteName="login"
+      screenOptions={() => ({
+        headerShown: true,
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerTitleAlign: "center",
+        headerMode: "screen",
+        // headerTintColor: "white",
+        headerStyle: { backgroundColor: "#fff" },
+      })}
+    >
+      {/* <Stack.Screen
           name="main"
           component={MainScreen}
           options={{
             title: "Welcome To My App",
             headerShown: false,
           }}
-        ></Stack.Screen>
+        ></Stack.Screen> */}
 
-        <Stack.Screen
+      {/* <Stack.Screen
           name="authNavigation"
           component={AuthNavigation}
           options={{
             title: "My app",
             headerShown: false,
           }}
-        ></Stack.Screen>
+        ></Stack.Screen> */}
 
-        <Stack.Screen
-          name="login"
-          options={{ title: "Login" }}
-          component={LoginScreen}
-          style={{ backgroundColor: "#841584" }}
-        ></Stack.Screen>
+      <Stack.Screen
+        name="login"
+        options={{ title: "Login", headerBackVisible: false }}
+        component={LoginScreen}
+        style={{ backgroundColor: "#841584" }}
+      ></Stack.Screen>
 
-        <Stack.Screen
-          name="registration"
-          options={{ title: "Registration" }}
-          component={RegistrationRegistrationScreen}
-        ></Stack.Screen>
+      <Stack.Screen
+        name="registration"
+        options={{ title: "Registration" }}
+        component={RegistrationRegistrationScreen}
+      ></Stack.Screen>
 
-        {/* Added by Yuvraj Sahu on 19-2-2023
+      {/* Added by Yuvraj Sahu on 19-2-2023
             Reason - to navigate drawer after login
                      it will be changed after upload server
              */}
-        <Stack.Screen
-          name="home"
-          options={{ title: "Welcome" }}
-          component={Home}
-        ></Stack.Screen>
+      <Stack.Screen
+        name="home"
+        options={{ title: "Welcome" }}
+        component={Home}
+      ></Stack.Screen>
 
-        {/* <Stack.Screen
-          name="drawer"
-          options={{ title: "Welcome" }}
-          component={DrawerNavigation}
-        ></Stack.Screen> */}
-        {/* End of navigating drawer  */}
+      {/* Modified by Yuvraj Sahu on 06-03-2023
+      Reason - to remove stack header */}
+      <Stack.Screen
+        name="drawer"
+        options={{ headerShown: false }}
+        // screenOptions={{
+        //   headerShown: false
+        // }}
+        component={DrawerNavigation}
+      ></Stack.Screen>
+      {/* End of stack header removal  */}
+      {/* End of navigating drawer  */}
 
-        <Stack.Screen
-          name="forgotPassword"
-          options={{ title: "Forgot Password" }}
-          component={ForgetPasswordScreen}
-        ></Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+      <Stack.Screen
+        name="forgotPassword"
+        options={{ title: "Forgot Password" }}
+        component={ForgetPasswordScreen}
+      ></Stack.Screen>
+    </Stack.Navigator>
   );
 };
 

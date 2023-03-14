@@ -8,6 +8,8 @@ import {
   Alert,
   TouchableOpacity,
   Pressable,
+  Button,
+  Image,
 } from "react-native";
 
 import { useForm, Controller } from "react-hook-form";
@@ -19,42 +21,43 @@ import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail } from "../api/Services";
 // import { Country, State, City } from "country-state-city";
 
-export default function RegistrationRegistrationScreen({ navigation: { navigate } }) {
+export default function RegistrationRegistrationScreen({
+  navigation: { navigate },
+}) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // Added byYuvraj Sahu on 2-3-2023
   // Reason - to disable button untill response is come
-  var [isDisable, setIsDisable] = useState(false)
+  var [isDisable, setIsDisable] = useState(false);
   // End of button disable
 
-// Added by yuvraj sahu on 21-2-2023
-// Reason - for upload img
-// const [image, setImage] = useState(null);
-// const [tempPhoto, setTempPhoto] = useState(null);
+  // Added by yuvraj sahu on 21-2-2023
+  // Reason - for upload img
+  // const [image, setImage] = useState(null);
+  const [tempPhoto, setTempPhoto] = useState(null);
 
+  // this method is called when user click upload / edit profile image button  # yuvraj sahu
+  // const pickImage = async () => {
+  //   try {
+  //     // No permissions request is necessary for launching the image library
+  //     let result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //       quality: 1,
+  //     });
 
-// this method is called when user click upload / edit profile image button  # yuvraj sahu
-// const pickImage = async () => {
-//   try {
-//     // No permissions request is necessary for launching the image library
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-//       allowsEditing: true,
-//       aspect: [4, 3],
-//       quality: 1,
-//     });
-
-//     if (!result.canceled) {
-//       setImage(result.assets[0].uri);
-//       setTempPhoto(result.assets[0]);
-//     }
-//   } catch {
-//     (pick_err) => {
-//       // console.log(pick_err);
-//     };
-//   }
-// };
-// End of img upload
+  //     if (!result.canceled) {
+  //       setImage(result.assets[0].uri);
+  //       setTempPhoto(result.assets[0]);
+  //     }
+  //   } catch {
+  //     (pick_err) => {
+  //       // console.log(pick_err);
+  //     };
+  //   }
+  // };
+  // End of img upload
 
   // const alertHandler = (msg) => {
   //   Alert.alert("Registration", `${msg}`, [
@@ -62,11 +65,55 @@ export default function RegistrationRegistrationScreen({ navigation: { navigate 
   //   ]);
   // };
 
+  // Added for testing image picker
+  const [restaurant_logo, setImage] = useState(null);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+
+    // const formData = new FormData();
+    // formData.append('image', {
+    //   uri: uri,
+    //   type: 'image/jpeg',
+    //   name: 'image.jpg'
+    // });
+    //   setImage(formData);
+    //   alert('fdffd'+formData)
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log("sas" + JSON.stringify(result));
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setTempPhoto(result.assets[0]);
+      // setTempPhoto(result.assets[0]);
+    }
+  };
+
   const handleRegister = (formValues) => {
-    setIsDisable(true)
+    // setIsDisable(true)
+    // formValues.append(restaurant_logo)
     // alert('img',image)
-    // alert('tem',tempPhoto)
-    
+    if (tempPhoto !== null) {
+      const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+      const fileName = tempPhoto.uri.replace(/^.*[\\\/]/, "");
+      var img = {
+        uri: tempPhoto.uri,
+        name: fileName,
+        type: `image/${ext}`,
+      };
+      // formData.append("image_url", {
+      //   uri: tempPhoto.uri,
+      //   name: fileName,
+      //   type: `image/${ext}`,
+      // });
+    }
+    formValues["restaurant_logo"] = img;
+    alert("data" + JSON.stringify(formValues));
+
     // Added by Yuvraj Sahu on 21-2-2023
     // Reason - to add img
     // const formData = new FormData();
@@ -91,7 +138,9 @@ export default function RegistrationRegistrationScreen({ navigation: { navigate 
     // formData.append("address", formValues.address);
     // alert('llllllllll',JSON.stringify(formData));
     // End of img
-    postRestaurantDetail(formValues).then((response)=>{alert(response.msg); setIsDisable(false); navigate('login')});
+    postRestaurantDetail(formValues).then((response) => {
+      alert(response.msg);
+    });
   };
 
   const {
@@ -112,9 +161,9 @@ export default function RegistrationRegistrationScreen({ navigation: { navigate 
       address: "",
       password: "",
       confirm_password: "",
+      // restaurant_logo: ""
     },
   });
-
 
   return (
     <ScrollView>
@@ -522,12 +571,26 @@ export default function RegistrationRegistrationScreen({ navigation: { navigate 
           </TouchableOpacity>
         </View> */}
 
+        {/* Added for testing image */}
+
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Button title="Upload restaurant logo" onPress={pickImage} />
+          {restaurant_logo && (
+            <Image
+              source={{ uri: restaurant_logo }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+        </View>
+
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
             disabled={isDisable}
             style={{
-              backgroundColor: isDisable ? 'grey' : '#841584',
+              backgroundColor: isDisable ? "grey" : "#841584",
               height: 40,
               alignItems: "center",
               justifyContent: "center",

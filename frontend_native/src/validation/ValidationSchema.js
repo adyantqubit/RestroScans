@@ -35,10 +35,10 @@ export const passwordSchema = yup.object().shape({
 });
 
 export const forgetPasswordSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Please enter valid email!")
-    .required("Email address is required!"),
+  // email: yup
+  //   .string()
+  //   .email("Please enter valid email!")
+  //   .required("Email address is required!"),
   password: yup
     .string()
     .min(8, ({ min }) => `Password must be at least ${min} characters!`)

@@ -6,12 +6,12 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
   Alert,
   Pressable,
+  Button,
 } from "react-native";
 
 // import { userLogin } from "../api/ServiceApi";
@@ -28,9 +28,10 @@ import { useDispatch } from "react-redux";
 import { authLogin } from "../redux/slice/AuthSlice";
 import { useNavigation } from "@react-navigation/native";
 import AuthNavigation from "../navigation/AuthNavigation";
+import { colors } from "../Colours/globalColor";
 
-export default function LoginScreen({ navigation: { navigate } }) {
-  const navigation = useNavigation();
+export default function LoginScreen({ navigation }) {
+  const navigate = useNavigation();
 
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
@@ -65,9 +66,13 @@ export default function LoginScreen({ navigation: { navigate } }) {
           //   "userData",
           // JSON.stringify(res.userData[0])
           // );
-          if (await SecureStore.getItemAsync("userData") != null) {
-            // alert(await SecureStore.getItemAsync("userData"))
-            navigate("home");
+          if ((await SecureStore.getItemAsync("userData")) != null) {
+            alert(await SecureStore.getItemAsync("userData"));
+            navigation.navigate("drawer");
+            // authLogin()
+            // function authLogin () {
+            //     return <AuthNavigation />
+            // }
             // return <AuthNavigation />
           }
           // alert("success");
@@ -97,11 +102,15 @@ export default function LoginScreen({ navigation: { navigate } }) {
       .catch((err) => {
         alertHandler("Something went wrong! Please try again later.");
       });
-      
   };
 
   const forgotPasswordHandler = () => {
-    navigate("forgotPassword");
+    navigation.navigate("forgotPassword");
+  };
+
+  const navRegister = () => {
+    navigation.navigate("registration");
+    // Alert.alert('pressed')
   };
 
   return (
@@ -222,7 +231,7 @@ export default function LoginScreen({ navigation: { navigate } }) {
                   onPress={handleSubmit}
                   disabled={isBtnDisable}
                   style={{
-                    backgroundColor: !isBtnDisable ? "#6823cf" : "#E0E0E0",
+                    backgroundColor: !isBtnDisable ? colors.btnColor : "#E0E0E0",
                     height: 40,
                     alignItems: "center",
                     justifyContent: "center",
@@ -240,6 +249,13 @@ export default function LoginScreen({ navigation: { navigate } }) {
                   </Text>
                 </Pressable>
               </View>
+              {/* Added for registration  */}
+              {/* <View> */}
+                <Pressable onPress={navRegister} style={styles.registerBtn}>
+                  {/* <Button title="registration" onPress={navRegister} /> */}
+                  <Text style={styles.registerText}>Register</Text>
+                </Pressable>
+              {/* </View> */}
             </View>
           </View>
         </ScrollView>
@@ -298,4 +314,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
   },
+  registerBtn: {
+    width: '95%',
+    alignSelf: 'center',
+    backgroundColor: colors.btnColor,
+    padding: '3%',
+    borderRadius: 3
+  },
+  registerText: {
+    alignSelf: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16
+  }
 });
