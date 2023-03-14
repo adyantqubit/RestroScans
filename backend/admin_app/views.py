@@ -40,16 +40,21 @@ class RestaurantRegistartionView(APIView):
     def post(self, request, format=None):
         # import pdb
         # pdb.set_trace()
-        print('input data---------', request.data)
+        # print('input data---------', request.data)
+        # print('input data rest=================',request.data["restaurant_logo"])
         encryptedPassword = make_password(request.data.get('password'))
         request.data['password'] = encryptedPassword
         # print('111111111111111111111111111')
         serializer = RestaurantRequestSerializer(data=request.data)
-        print('8888888888888888c')
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({'msg':'Successfully Saved'})
-        else :
+        # print('8888888888888888c')
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({'msg':'Successfully Saved'})
+            else :
+                return Response({'err':'Data not save'})
+        except Exception as e:
+            print(e)    
             return Response({'msg':'Error'})
 """
 End of code addition

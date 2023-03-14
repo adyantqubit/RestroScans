@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 
 import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail } from "../api/Services";
+import { colors } from "../Colours/globalColor";
 // import { Country, State, City } from "country-state-city";
 
 export default function RegistrationRegistrationScreen({
@@ -67,6 +68,7 @@ export default function RegistrationRegistrationScreen({
 
   // Added for testing image picker
   const [restaurant_logo, setImage] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState("");
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
 
@@ -86,33 +88,43 @@ export default function RegistrationRegistrationScreen({
       quality: 1,
     });
     console.log("sas" + JSON.stringify(result));
+    console.log("-------------" + result);
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      alert(result.assets[0].fileName);
+      setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
       // setTempPhoto(result.assets[0]);
     }
   };
 
   const handleRegister = (formValues) => {
+    var formData = new FormData();
     // setIsDisable(true)
     // formValues.append(restaurant_logo)
     // alert('img',image)
-    if (tempPhoto !== null) {
-      const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-      const fileName = tempPhoto.uri.replace(/^.*[\\\/]/, "");
-      var img = {
-        uri: tempPhoto.uri,
-        name: fileName,
-        type: `image/${ext}`,
-      };
-      // formData.append("image_url", {
-      //   uri: tempPhoto.uri,
-      //   name: fileName,
-      //   type: `image/${ext}`,
-      // });
-    }
-    formValues["restaurant_logo"] = img;
-    alert("data" + JSON.stringify(formValues));
+    // if (tempPhoto !== null) {
+    const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+    //   const fileName = tempPhoto.uri.replace(/^.*[\\\/]/, "");
+    // var img = {
+    //   uri: restaurant_logo,
+    //   name: "imageofrest",
+    //   type: `image/${ext}`,
+    // };
+
+    // formData.append("image_url", {
+    //   uri: tempPhoto.uri,
+    //   name: fileName,
+    //   type: `image/${ext}`,
+    // });
+    // }
+
+    formData.append("restaurant_logo", {
+      uri: restaurant_logo,
+      name: restaurant_logo,
+      type: `image/${ext}`,
+    });
+    // alert("data" + JSON.stringify(formValues));
 
     // Added by Yuvraj Sahu on 21-2-2023
     // Reason - to add img
@@ -128,18 +140,27 @@ export default function RegistrationRegistrationScreen({
     //     type: `image/${ext}`,
     //   });
     // }
-    // formData.append("restaurant_name", formValues.restaurant_name);
-    // formData.append("owner_name", formValues.owner_name);
-    // formData.append("mobile_number", formValues.mobile_number);
-    // formData.append("telephone_number", formValues.telephone_number);
-    // formData.append("email", formValues.email);
-    // formData.append("password", formValues.password);
-    // formData.append("confirm_password", formValues.confirm_password);
-    // formData.append("address", formValues.address);
+    formData.append("restaurant_name", formValues.restaurant_name);
+    formData.append("owner_name", formValues.owner_name);
+    formData.append("mobile_number", formValues.mobile_number);
+    formData.append("telephone_number", formValues.telephone_number);
+    formData.append("email", formValues.email);
+    formData.append("password", formValues.password);
+    formData.append("confirm_password", formValues.confirm_password);
+    formData.append("address", formValues.address);
     // alert('llllllllll',JSON.stringify(formData));
     // End of img
-    postRestaurantDetail(formValues).then((response) => {
-      alert(response.msg);
+
+    alert("asas" + JSON.stringify(formData));
+
+    postRestaurantDetail(formData).then((response) => {
+      if (response.msg) {
+        Alert.alert("Succesfull", response.msg);
+        navigate('login')
+      }
+      if (response.err) {
+        Alert.alert("Error", response.msg);
+      }
     });
   };
 
@@ -590,7 +611,7 @@ export default function RegistrationRegistrationScreen({
             onPress={handleSubmit(handleRegister)}
             disabled={isDisable}
             style={{
-              backgroundColor: isDisable ? "grey" : "#841584",
+              backgroundColor: isDisable ? "grey" : colors.btnColor,
               height: 40,
               alignItems: "center",
               justifyContent: "center",
