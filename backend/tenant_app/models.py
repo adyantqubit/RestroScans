@@ -80,7 +80,7 @@ Reason - To create footer and description table to show data in footer section
 """
 class Footer(models.Model):
     id = models.AutoField(primary_key=True)
-    content =models.CharField(max_length=255)
+    content =models.CharField(max_length=40)
     
     def __str__(self):
         return self.content 

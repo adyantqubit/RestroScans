@@ -20,7 +20,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-
+import { colors } from './../Colors/globalColor'
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard } from "swiper";
 
@@ -51,18 +51,23 @@ function MenuItem() {
     setNewSearch("")
 
     if (offerList.filter((show) => show.offer_name == item).length < 1) {
+      (document.getElementById('offer_divv').style.display = 'block')
+        (document.getElementById('flip_div_idd').style.height = '0% ')
+
       // document.getElementById('offer_divv')
       // {
       // display:'block'}
-      notification.info({
-        description:
-          'No longer available items for this offer..',
-        duration: 2,
-        key: 1,
-      });
+      // notification.info({
+      //   description:
+      //     'No longer available items for this offer..',
+      //   duration: 2,
+      //   key: 1,
+      // });
     }
     else {
-      document.getElementsByClassName('prev_next_hide_button')
+      (document.getElementById('offer_divv').style.display = 'none')
+        (document.getElementById('flip_div_idd').style.height = '41% ')
+
     }
   }
 
@@ -132,6 +137,11 @@ function MenuItem() {
     // filtered
     setNewSearch("")
     setFiltered(itemList)
+
+  }
+  const removeOffersectionDiv = () => {
+    (document.getElementById('offer_divv').style.display = 'none')
+      (document.getElementById('flip_div_idd').style.height = '41% ')
 
   }
 
@@ -253,12 +263,12 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  console.log(filterCategory)
+  // console.log(filterCategory)
   // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
   // console.log(offerShow, 'set offer data')
-  console.log(itemList, 'All items')
-  // console.log(filter, 'searching data')
+  // console.log(itemList, 'All items')
+  console.log(filter, 'searching data')
   // console.log(search, 'set in input field')
 
 
@@ -269,7 +279,7 @@ function MenuItem() {
   }
 
   return (
-    <div className='menu_maindiv'>
+    <div className='menu_maindiv' style={{ backgroundColor: colors.backgroundTheme }}>
       <h2 className="restaurant_name"
       >{tenantt.toUpperCase()}</h2>
       <div>
@@ -311,11 +321,12 @@ function MenuItem() {
         </Swiper>
       </div>
 
-      <div className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
+      <div id="hide_search" style={{backgroundColor:'black'}} className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
         <div className='searchpage_input'>
           <Input.Group>
             <Search size='large'
-              value={search} onChange={e => { setNewSearch(e.target.value); }}
+              value={search} 
+              onChange={e => { setNewSearch(e.target.value); }}
               //  onSearch={onSearch}
               placeholder='Search by Menu, Categories & Items name' />
           </Input.Group>
@@ -327,12 +338,17 @@ function MenuItem() {
  <h5 style={{color:'white'}}>No search result found</h5>
 </div>:null} */}
 
-      {/* <div id="offer_divv" style={{backgroundColor:'red',display:'none'}}>
-<h5 color="white">Not available offer here</h5>
-</div> */}
-      {/* {(offerList.offer_name == offerBanner.offer_name).length < 1 ? <div style={{backgroundColor:'aqua',height:'45vh'}}>
- { alert("hghg")}
-</div>:null} */}
+      <div id="offer_divv" className="when_offer_is_null" style={{  display: 'none', height: '41%' }}>
+        <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
+          <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
+          </span>
+          <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
+            onClick=
+            {removeOffersectionDiv}
+          />
+        </span>
+        <h5 style={{ color: "white", textAlign: 'center', fontSize: '18px',marginTop:'27%' }}>Currently not items available for this offer..</h5>
+      </div>
 
       <div
         //  className='searchpage_content' 
@@ -442,15 +458,16 @@ function MenuItem() {
           </h3>
         </span>
         <div style={{
-                display: 'flex',
-                padding: '5% 0% 0% 0%',
-                color:'lightblue'
-              }}
-              >
-                <div className="allitems_name">Item name</div>
-                <div className="allitems_price" >Full price</div>
-                <div className="allitems_price" >Half price</div>
-              </div>
+          display: 'flex',
+          padding: '5% 0% 0% 0%',
+          color: 'lightblue'
+
+        }}
+        >
+          <div className="allitems_name" style={{ fontSize: '13.5px', color: 'aqua' }}>Item name</div>
+          <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }}>Full price</div>
+          <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }}>Half price</div>
+        </div>
         {offerShow.length > 0 ?
           <>
             {offerShow.map((showdata, id) => (
@@ -460,26 +477,26 @@ function MenuItem() {
                   padding: '5% 0% 0% 0%',
                 }}
                 >
-                  <div className="allitems_name">{showdata.item_name}</div>
-                  <div className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
-                  <div className="allitems_price" >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</div>
+                  <div style={{fontSize: '12.5px'}} className="allitems_name"> {showdata.item_name}</div>
+                  <div style={{fontSize: '12.5px'}} className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
+                  <div style={{fontSize: '12.5px'}} className="allitems_price" >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</div>
                 </div>
               </div>
             ))}
           </>
           : null
           // <h3 style={{height:'40vh',backgroundColor:'aqua',color:'black'}}> stBNope</h3>
-          }
+        }
       </div>
 
-      <div className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}>
+      <div id="flip_div_idd" className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}>
         <FlippingPages
           direction="right-to-left"
           onSwipeEnd={setSelected}
           selected={selected}
           disableSwipe
           children={2}
-shadowBackground='transparent'
+          // shadowBackground='transparent'
         >
           {filterCategory.map((data) => (
             <div className="allcategory_menu_div">
@@ -496,29 +513,29 @@ shadowBackground='transparent'
               <div style={{
                 display: 'flex',
                 padding: '5% 0% 0% 0%',
-                color:'lightblue'
+                color: 'lightblue'
               }}
               >
-                <div className="allitems_name">Item name</div>
-                <div className="allitems_price" >Full price</div>
-                <div className="allitems_price" >Half price</div>
+                <div className="allitems_name" style={{ fontSize: '13.5px', color: 'aqua' }}>Item name</div>
+                <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }} >Full price</div>
+                <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }}>Half price</div>
               </div>
-  
+
               {itemList.filter(i => i.category === data.id).map(m =>
                 <div style={{
                   display: 'flex',
                   padding: '5% 0% 0% 0%',
                 }}
                 >
-                  
-                  <div className="allitems_name">{m.name }</div>
+
+                  <div className="allitems_name">{m.name}</div>
                   <div className="allitems_price" >{m.price_full ? '₹' + m.price_full : '---'}</div>
                   <div className="allitems_price" >{m.price_half ? '₹' + m.price_half : '---'}</div>
                 </div>
               )}
-             
+
             </div>
-            
+
           ))}
         </FlippingPages>
       </div>
