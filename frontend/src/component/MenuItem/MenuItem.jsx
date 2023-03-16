@@ -20,14 +20,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { colors } from './../Colors/globalColor'
+import GlobalColor from './../Colors/GlobalColor'
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard } from "swiper";
 
 function MenuItem() {
 
   var { searchedValue,
-    setSearchedValue } = useContext(GlobalContext);
+    setSearchedValue,colors } = useContext(GlobalContext);
 
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
@@ -144,6 +144,10 @@ function MenuItem() {
       (document.getElementById('flip_div_idd').style.height = '41% ')
 
   }
+  const removeNoSerachResult = () => {
+    (document.getElementById('search_divv').style.display = 'none')
+
+  }
 
   useEffect(() => {
     var filtered = !search
@@ -223,13 +227,14 @@ function MenuItem() {
     setFiltered(temp3)
 
     if (filtered.length == 0 && search.length > 0) {
-      notification.info({
-        description:
-          'Search result is not found',
-        duration: 2,
-        key: 1,
-      });
+      // notification.info({
+      //   description:
+      //     'Search result is not found',
+      //   duration: 2,
+      //   key: 1,
+      // });
     }
+   
 
   }, [search])
 
@@ -279,9 +284,15 @@ function MenuItem() {
   }
 
   return (
-    <div className='menu_maindiv' style={{ backgroundColor: colors.backgroundTheme }}>
-      <h2 className="restaurant_name"
+    <div className='menu_maindiv'
+     style={{ backgroundColor: colors.backgroundTheme }}
+     >
+      <h2 style={{ color: colors.headingColor }}
+      className="restaurant_name"
       >{tenantt.toUpperCase()}</h2>
+
+<div><GlobalColor/></div>
+
       <div>
         <Swiper
           // cssMode={true}
@@ -333,10 +344,18 @@ function MenuItem() {
         </div>
       </div>
 
-      {/* {filter.length ==0 && search.length>0?
-<div style={{backgroundColor:'#222221',height:'41%'}}>
- <h5 style={{color:'white'}}>No search result found</h5>
-</div>:null} */}
+      {filter.length ==0 && search.length>0?
+<div id="search_divv" style={{backgroundColor:'#222221',height:'41%'}}>
+<span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
+          <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
+          </span>
+          {/* <CloseOutlined  style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
+            onClick=
+            {removeNoSerachResult}
+          /> */}
+        </span>
+ <h5 style={{color: "white", textAlign: 'center', fontSize: '18px',marginTop:'27%'}}>No search result found</h5>
+</div>:null}
 
       <div id="offer_divv" className="when_offer_is_null" style={{  display: 'none', height: '41%' }}>
         <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
@@ -382,7 +401,7 @@ function MenuItem() {
                 <div className='after_search_div'
                 >
                   <h3 className="after_search_categoryname"
-                  //  style={{ textAlign: 'center', color: '', padding: '1', margin: '0', fontFamily: 'Lucida Handwriting' }}
+                   style={{ color: colors.headingColor }}
                   >
                     {obj}
                   </h3>
@@ -399,8 +418,8 @@ function MenuItem() {
                           src={siteConfig.siteURL + filter[i][obj][c][0].category_img}
                           className="category_serached_img" width='2%'
                         />&nbsp;
-                        <h3 className="category_name"
-                          style={{ fontSize: '17px' }}
+                        <h3  className="category_name"
+                          style={{ fontSize: '17px',color:colors.headingColor }}
                         >
                           {c}
                         </h3>
@@ -416,12 +435,12 @@ function MenuItem() {
                             fontSize: '16px'
                           }}
                           >
-                            <div className="after_search_content"
+                            <div className="after_search_content" style={{color:colors.subHeadingColor}}
                             >{person.name}</div>
-                            <div className="after_search_price"
+                            <div className="after_search_price" style={{color:colors.subHeadingColor}}
                             >{person.price_full ? '₹' + person.price_full :
                               '---'}</div>
-                            <div className="after_search_price"
+                            <div className="after_search_price" style={{color:colors.subHeadingColor}}
                             >{person.price_half ? '₹' + person.price_half : '---'}</div>
                           </div>
                         </div>
@@ -452,8 +471,8 @@ function MenuItem() {
 
         <span className="allcategory_container"
         >
-          <span className="category_name"> {offer_name}</span> &nbsp;
-          <h3 className="category_name"
+          <span style={{color:colors.headingColor}} className="category_name"> {offer_name}</span> &nbsp;
+          <h3 style={{color:colors.headingColor}} className="category_name"
           >{offer_discount}%
           </h3>
         </span>
@@ -477,9 +496,9 @@ function MenuItem() {
                   padding: '5% 0% 0% 0%',
                 }}
                 >
-                  <div style={{fontSize: '12.5px'}} className="allitems_name"> {showdata.item_name}</div>
-                  <div style={{fontSize: '12.5px'}} className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
-                  <div style={{fontSize: '12.5px'}} className="allitems_price" >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</div>
+                  <div style={{fontSize: '12.5px',color:colors.subHeadingColor}} className="allitems_name"> {showdata.item_name}</div>
+                  <div style={{fontSize: '12.5px',color:colors.subHeadingColor}} className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
+                  <div style={{fontSize: '12.5px',color:colors.subHeadingColor}} className="allitems_price" >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</div>
                 </div>
               </div>
             ))}
@@ -506,7 +525,8 @@ function MenuItem() {
                   src={siteConfig.siteURL + data.icon}
                   className="category_img"
                 />&nbsp;
-                <h3 className="category_name"
+                <h3 style={{color:colors.headingColor}}
+                 className="category_name"
                 >{data.name}
                 </h3>
               </span>
@@ -528,9 +548,9 @@ function MenuItem() {
                 }}
                 >
 
-                  <div className="allitems_name">{m.name}</div>
-                  <div className="allitems_price" >{m.price_full ? '₹' + m.price_full : '---'}</div>
-                  <div className="allitems_price" >{m.price_half ? '₹' + m.price_half : '---'}</div>
+                  <div style={{color:colors.subHeadingColor}} className="allitems_name">{m.name}</div>
+                  <div style={{color:colors.subHeadingColor}} className="allitems_price" >{m.price_full ? '₹' + m.price_full : '---'}</div>
+                  <div style={{color:colors.subHeadingColor}} className="allitems_price" >{m.price_half ? '₹' + m.price_half : '---'}</div>
                 </div>
               )}
 
@@ -581,7 +601,8 @@ function MenuItem() {
                 <br />
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
-                <span className="menu_name"
+                <span style={{color:colors.headingColor}} 
+                className="menu_name"
                 > {data.name}</span>
               </div>
             </div>

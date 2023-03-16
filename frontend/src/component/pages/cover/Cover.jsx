@@ -58,7 +58,7 @@ function Cover() {
         <h2
           className='front_page_lable'
         >
-          {tenantDetails.tenant_name}
+          {tenantDetails.tenant_name.toUpperCase()}
         </h2>
         <div style={{marginLeft:'auto',marginRight:'auto',display:'flex'}}>
         <button onClick

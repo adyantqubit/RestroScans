@@ -14,6 +14,7 @@ import QrCode from "../screens/QrCode";
 import Offer from "../screens/Offer";
 import PreviewMenu from "../screens/PreviewMenu";
 import { colors } from "../Colours/globalColor";
+import Theme from "../screens/Theme";
 
 // create custom drawer for logout ----------------------------
 function CustomDrawerContent(props) {
@@ -74,6 +75,11 @@ export default function DrawerNavigation() {
         name="Offers"
         component={Offer}
         options={{ drawerLabel: "All offers" }}
+      />
+      <Drawer.Screen
+        name="Theme"
+        component={Theme}
+        options={{ drawerLabel: "Theme" }}
       />
     </Drawer.Navigator>
     // </SafeAreaView>

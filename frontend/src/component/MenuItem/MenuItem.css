@@ -1,7 +1,7 @@
 @import '../../root.css';
 
 .menu_maindiv {
-    background-color: var(--primary-backeground-color);
+    /* background-color: var(--primary-backeground-color); */
     height: 100%;
 }
 
@@ -12,12 +12,12 @@
     font-family: Noe-Display;
     /* font-family: "Playfair+Display&display=swap"; */
 
-    color: var(--heading-and-subheading);
+    /* color: var(--heading-and-subheading); */
     font-size: 34px;
 }
 .menu_name{
     font-size: 14px;
-    color: var(--heading-and-subheading);
+    /* color: var(--heading-and-subheading); */
 }
 
 .category_img {
@@ -43,7 +43,7 @@
 
 .check {
     display: block !important;
-    height: 41%;
+    height: 39%;
     overflow: auto;
 }
 
@@ -93,35 +93,35 @@
 }
 .after_search_categoryname{
     text-align: center;
-    color: var(--heading-and-subheading);
+    /* color: var(--heading-and-subheading); */
     margin: 0;
     font-family: Lucida Handwriting;
     padding: 1;
 }
 
 .after_search_content {
-    color: var(--allitems-name);
+    /* color: var(--allitems-name); */
     font-family: Palatino;
     width: 95%;
     margin-left: 5%;
 }
 
 .after_search_price {
-    color: var(--allitems-name);
+    /* color: var(--allitems-name); */
     font-family: Palatino;
     width: 33%;
     margin-left: 5%;
 }
 
 .allitems_name {
-    color: var(--allitems-name);
+    /* color: var(--allitems-name); */
     font-family: Palatino;
     width: 95%;
     margin-left: 5%;
 }
 
 .allitems_price {
-    color: var(--allitems-name);
+    /* color: var(--allitems-name); */
     font-family: Palatino;
     width: 33%;
     margin-left: 5%;
@@ -130,7 +130,7 @@
 .category_name {
     padding: 1;
     margin: 0;
-    color: var(--heading-and-subheading);
+    /* color: var(--heading-and-subheading); */
     font-size: 19px;
     font-family: Lucida Handwriting;
 }
@@ -141,6 +141,7 @@
     /* background-color: aqua; */
     margin-top: 10px;
     z-index: 9999 ;
+    /* position: fixed; */
     /* border: 2px solid aqua;
     background-color: rgb(140, 191, 236); */
 
@@ -170,7 +171,7 @@
     top: 41%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--heading-and-subheading);
+    /* color: var(--heading-and-subheading); */
     font-weight: bolder;
     display: -webkit-box;
     -webkit-line-clamp: 4;

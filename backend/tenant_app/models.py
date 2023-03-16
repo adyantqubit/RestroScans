@@ -94,3 +94,20 @@ class Description(models.Model):
 """
 End of code addition
 """
+
+"""-------------------------------------------------------
+Added by - Om Shrivastava on 15-03-2023
+Reason - To create Theme 
+"""
+class Setting(models.Model):
+    id = models.AutoField(primary_key=True)
+    background_color =models.CharField(max_length=8,null=True,blank=True)
+    heading_color =models.CharField(max_length=8,null=True,blank=True)
+    subheading_color =models.CharField(max_length=8,null=True,blank=True)
+    
+    def __str__(self):
+        return "color changed"
+
+"""
+End of code addition
+"""

@@ -25,4 +25,10 @@ urlpatterns = [
     # Reason : Show the Footer & Description details
     path('<str:tenant>/footer-description/',FooterandDescriptionAPIView.as_view()),
     # End of addition
+
+    # Added by Om on 15-03-23
+    # Reason : Show the Footer & Description details
+    # path('setting-changes/color/',SettingAPIView.as_view()),
+    path('<str:tenant>/setting-changes/color/',SettingAPIView.as_view()),
+    # End of addition
 ]   

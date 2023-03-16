@@ -12,6 +12,10 @@ export const color3 = "#b3ff66";
 export default function Context(props) {
     
     var [tenantName, setTenantName]=useState([])
+    var [colors,setColors] = useState({
+        btnColor: 'aqua',
+        backgroundTheme: 'gray'
+    })
 
     // Added by yuvraj on 22-1-2023
     // Reason - to set searched value
@@ -24,7 +28,8 @@ export default function Context(props) {
                 tenantName,
                 setTenantName,
                 searchedValue,
-                setSearchedValue
+                setSearchedValue,
+                colors,setColors
             }}>
                 {props.children}
             </GlobalContext.Provider>

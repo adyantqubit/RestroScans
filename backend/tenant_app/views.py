@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+
 from .models import *
 from .serializers import *
 
@@ -97,4 +99,30 @@ class FooterandDescriptionAPIView(APIView):
             "descriptionList":descriptionSerializer.data,
             })
     
+# End of addition
+
+# Added by Om on 11-03-23
+# Reason : Show the footer and description details
+class SettingAPIView(APIView):
+    def get(self,request,tenant):
+        print('gfagfgf', tenant)
+        setting=Setting.objects.last()
+        settingSerializer=SettingSerializer(setting)
+
+        return Response({
+            "msg":"success",
+            "setting":settingSerializer.data,
+            })
+    
+    def post(self,request,tenant):
+        serial = SettingSerializer(data=request.data)
+        if serial.is_valid():
+            serial.save()
+            return Response({
+            "msg":"success",
+            "settingsetdata":serial.data,
+            },status=status.HTTP_201_CREATED)
+        return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
+        
+
 # End of addition

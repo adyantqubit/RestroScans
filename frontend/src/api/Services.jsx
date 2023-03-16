@@ -43,3 +43,15 @@ export const getfooterDetails = async (tenantId) => {
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
+
+// -------------------------- FOR SHOW THE FOOTER AND DESCRIPTION -------------------------
+
+export const getThemeChanges = async (tenantId) => {
+  const response = await API.get(`/${tenantId}/setting-changes/color/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response)
+  return response ? response.data : {};
+};

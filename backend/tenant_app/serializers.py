@@ -54,3 +54,12 @@ class DescriptionSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 # End of addition
+
+# Added by Om on 15-03-23
+# Reason : Show the theme 
+class SettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Setting
+        fields = '__all__'
+
+# End of addition
