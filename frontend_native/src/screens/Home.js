@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import RNExitApp from "react-native-exit-app";
-import config from "../config/config";
+import config, { setTenant, tenantName } from "../config/config";
 import { colors, fonts } from "../Colours/globalColor";
 // import '../Colours/GlobalColor.css';
 
@@ -30,9 +30,12 @@ export default function Home({ navigation }) {
     }
     if ((await SecureStore.getItemAsync("userData")) != null) {
       setUserData(JSON.parse(await SecureStore.getItemAsync("userData")));
-      alert("sas" + (await SecureStore.getItemAsync("userData")));
+      // alert(tenantName)
     }
   };
+  // alert('aaaaaaaaaa'+userData.restaurant_name)
+  // tenantName = userData.restaurant_name
+
 
   // Added by Yuvraj Sahu on 11-3-2023
   // Reason - to get user detail from securestore
@@ -48,6 +51,7 @@ export default function Home({ navigation }) {
       navigation.push("login");
     }
   };
+
 
   return (
     <SafeAreaView>

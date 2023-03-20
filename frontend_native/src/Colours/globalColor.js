@@ -4,7 +4,8 @@
 
 export const colors ={
     btnColor: '#ff6600',
-    backgroundTheme: '#8be98c'
+    backgroundTheme: '#8be98c',
+    white: '#fff'
 }
 
 export const fonts ={
@@ -12,3 +13,7 @@ export const fonts ={
     title2: 18,
     text: 12
 }
+
+// export const radius ={
+//     btnRadius: 10
+// }

@@ -29,6 +29,7 @@ import { authLogin } from "../redux/slice/AuthSlice";
 import { useNavigation } from "@react-navigation/native";
 import AuthNavigation from "../navigation/AuthNavigation";
 import { colors } from "../Colours/globalColor";
+import { tenantName } from "../config/config";
 
 export default function LoginScreen({ navigation }) {
   const navigate = useNavigation();
@@ -60,6 +61,8 @@ export default function LoginScreen({ navigation }) {
             "userData",
             JSON.stringify(res.userData[0])
           );
+          tenantName = res.userData[0].restaurant_name
+          alert('qqqqqqqqqq'+JSON.stringify(res))
           // await SecureStore.deleteItemAsync("userData");
           // navigate("main");
           // await SecureStore.setItemAsync(
@@ -99,9 +102,9 @@ export default function LoginScreen({ navigation }) {
           setIsBtnDisable(false);
         }
       })
-      .catch((err) => {
-        alertHandler("Something went wrong! Please try again later.");
-      });
+      // .catch((err) => {
+      //   alertHandler("Something went wrong! Please try again later.");
+      // });
   };
 
   const forgotPasswordHandler = () => {
@@ -231,7 +234,9 @@ export default function LoginScreen({ navigation }) {
                   onPress={handleSubmit}
                   disabled={isBtnDisable}
                   style={{
-                    backgroundColor: !isBtnDisable ? colors.btnColor : "#E0E0E0",
+                    backgroundColor: !isBtnDisable
+                      ? colors.btnColor
+                      : "#E0E0E0",
                     height: 40,
                     alignItems: "center",
                     justifyContent: "center",
@@ -251,10 +256,10 @@ export default function LoginScreen({ navigation }) {
               </View>
               {/* Added for registration  */}
               {/* <View> */}
-                <Pressable onPress={navRegister} style={styles.registerBtn}>
-                  {/* <Button title="registration" onPress={navRegister} /> */}
-                  <Text style={styles.registerText}>Register</Text>
-                </Pressable>
+              <Pressable onPress={navRegister} style={styles.registerBtn}>
+                {/* <Button title="registration" onPress={navRegister} /> */}
+                <Text style={styles.registerText}>Register</Text>
+              </Pressable>
               {/* </View> */}
             </View>
           </View>
@@ -315,16 +320,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   registerBtn: {
-    width: '95%',
-    alignSelf: 'center',
+    width: "95%",
+    alignSelf: "center",
     backgroundColor: colors.btnColor,
-    padding: '3%',
-    borderRadius: 3
+    padding: "3%",
+    borderRadius: 3,
   },
   registerText: {
-    alignSelf: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16
-  }
+    alignSelf: "center",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
 });

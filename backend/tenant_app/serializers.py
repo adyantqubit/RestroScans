@@ -7,6 +7,7 @@ class MenuListSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class CategoryListSerializer(serializers.ModelSerializer):
+    menu_name = serializers.CharField(source='menu.name')
     class Meta:
         model=Category
         fields='__all__'

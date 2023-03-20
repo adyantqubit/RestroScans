@@ -54,7 +54,12 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="Menu List"
         component={List}
-        options={{ drawerLabel: "Menu List" }}
+        options={{
+          drawerLabel: "Menu List",
+          headerStyle: {
+            backgroundColor: colors.backgroundTheme,
+          },
+        }}
       />
       <Drawer.Screen
         name="Preview Preview"

@@ -3,11 +3,12 @@ import API from "./API";
 // Added by Yuvraj Sahu on 15-2-2023
 // Reason - to get restaurant menu list
 export const getMenuList = async (tenantId) => {
-  const response = await API.get(`/${tenantId}/menu-list/`, {
+  const response = await API.get(`/api/v1/${tenantId}/menu-list/`, {
     headers: {
       "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
+  // alert('menu list'+JSON.stringify(response.data))
   return response ? response.data : {};
 };
 // End getting menu list
