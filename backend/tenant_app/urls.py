@@ -31,4 +31,15 @@ urlpatterns = [
     # path('setting-changes/color/',SettingAPIView.as_view()),
     path('<str:tenant>/setting-changes/color/',SettingAPIView.as_view()),
     # End of addition
+
+    # Added by Yuvraj on 23-3-23
+    # Reason : crud operation perform for category
+    path('<str:tenant>/category-list/',CategoryAPIView.as_view()),
+    # End of addition
+
+    # Added by Yuvraj on 23-3-23
+    # Reason : crud operation perform for item
+    path('<str:tenant>/item-list/',ItemAPIView.as_view()),
+    # End of addition
+
 ]   

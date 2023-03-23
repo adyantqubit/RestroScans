@@ -12,6 +12,14 @@ class CategoryListSerializer(serializers.ModelSerializer):
         model=Category
         fields='__all__'
 
+# Added by Yuvraj Sahu on 23-3-2023
+# Reason : serialize items for save
+class CategorySaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Category
+        fields='__all__'
+# End of addition
+
 class ItemListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name')
     category_img = serializers.ImageField(source='category.icon')
@@ -21,6 +29,14 @@ class ItemListSerializer(serializers.ModelSerializer):
     class Meta:
         model=Item
         fields='__all__'   
+
+# Added by Yuvraj Sahu on 23-3-2023
+# Reason : serialize items for save
+class ItemSaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Item
+        fields='__all__'
+# End of addition
 
 # Added by Om on 01-03-23
 # Reason : Show the Offer details
@@ -38,7 +54,7 @@ class OfferItemsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OfferItem
-        fields = '__all__' 
+        fields = '__all__'
 
 # End of addition
 

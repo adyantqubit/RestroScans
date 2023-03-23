@@ -92,7 +92,7 @@ export default function Home({ navigation }) {
               // }}
               style={styles.btnText}
             >
-              P Logout
+              Logout
             </Text>
           </Pressable>
         </View>

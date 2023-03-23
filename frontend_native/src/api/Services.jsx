@@ -60,11 +60,27 @@ export const sendOtpApi = async (value) => {
 // Reason - to update password for reset password
 export const updatePasswordApi = async (value) => {
   // alert("ppppppppp" + JSON.stringify(value));
-  const response = await API.put(`/admin_app/moreshop/update-password/`, value, {
+  const response = await API.put(
+    `/admin_app/moreshop/update-password/`,
+    value,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of update password
+
+// Added by Yuvraj Sahu on 23-3-2023
+// Reason - to save menu
+export const saveMenuApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/item-list/`, value, {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     },
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
-// End of update password
+// End of send otp

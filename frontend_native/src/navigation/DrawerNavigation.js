@@ -15,6 +15,7 @@ import Offer from "../screens/Offer";
 import PreviewMenu from "../screens/PreviewMenu";
 import { colors } from "../Colours/globalColor";
 import Theme from "../screens/Theme";
+import AddMenu from "../screens/AddMenu";
 
 // create custom drawer for logout ----------------------------
 function CustomDrawerContent(props) {
@@ -48,7 +49,7 @@ export default function DrawerNavigation() {
       />
       <Drawer.Screen
         name="Add"
-        component={Category}
+        component={AddMenu}
         options={{ drawerLabel: "Add" }}
       />
       <Drawer.Screen

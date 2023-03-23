@@ -33,7 +33,7 @@ export default function QrCode() {
     // alert(tenant)
   };
 
-  var restaurant = `${frontendUrl}/api/v1/${tenant}/home`;
+  var restaurant = `${frontendUrl}/menu-item`;
 
   // var erase = async() =>{
   //   await SecureStore.deleteItemAsync("token")

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import *
+from admin_app.models import *
 from .serializers import *
 
 """
@@ -50,21 +51,57 @@ class MenuAPIView(APIView):
             "categoryList":categoryListSerializer.data,
             "itemList":itemListSerializer.data
             })
+    
+    # Added by Yuvraj Sahu on 23-3-2023
+    # Reason - to save menu
+    def post(self,request,tenant):
+        print(request.data)
+        serializedData = MenuListSerializer(data=request.data)
+     
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg":"success"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
+
+
 """
 End of code addition
 """
 
-# class CategoryAPIView(APIView):
-#     def get(self,request,tenant):
-#         categoryList=Category.objects.all()
-#         categoryListSerializer=CategoryListSerializer(categoryList,many=True)
-#         return Response({"msg":"success","categoryList":categoryListSerializer.data})
+class CategoryAPIView(APIView):
+    # def get(self,request,tenant):
+    #     categoryList=Category.objects.all()
+    #     categoryListSerializer=CategoryListSerializer(categoryList,many=True)
+    #     return Response({"msg":"success","categoryList":categoryListSerializer.data})
+
+    # Added by Yuvraj Sahu on 23-3-2023
+    # Reason - to save category
+    def post(self,request,tenant):
+        print(request.data)
+        serializedData = CategorySaveSerializer(data=request.data)
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg":"success"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
     
-# class ItemAPIView(APIView):
+class ItemAPIView(APIView):
 #     def get(self,request,tenant):
 #         itemList=Item.objects.all()
 #         itemListSerializer=ItemListSerializer(itemList,many=True)
-#         return Response({"msg":"success","menuList":itemListSerializer.data})    
+#         return Response({"msg":"success","menuList":itemListSerializer.data})
+
+    # Added by Yuvraj Sahu on 23-3-2023
+    # Reason - to save item
+    def post(self,request,tenant):
+        print(request.data)
+        serializedData = ItemSaveSerializer(data=request.data)
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg":"success"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
 
 # Added by Om on 01-03-23
 # Reason : Show the Offer details
