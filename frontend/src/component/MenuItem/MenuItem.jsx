@@ -322,6 +322,7 @@ function MenuItem() {
                 />
                 <h2
                   className='offer_content'
+                  style={{color:colors.bannerColor}}
                 >
                   {item.offer_name}
                 </h2>
@@ -332,7 +333,7 @@ function MenuItem() {
         </Swiper>
       </div>
 
-      <div id="hide_search" style={{backgroundColor:'black'}} className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
+      <div id="hide_search" style={{backgroundColor:colors.headingColor}} className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
         <div className='searchpage_input'>
           <Input.Group>
             <Search size='large'
@@ -354,7 +355,7 @@ function MenuItem() {
             {removeNoSerachResult}
           /> */}
         </span>
- <h5 style={{color: "white", textAlign: 'center', fontSize: '18px',marginTop:'27%'}}>No search result found</h5>
+ <h5 style={{color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px',marginTop:'27%'}}>No search result found</h5>
 </div>:null}
 
       <div id="offer_divv" className="when_offer_is_null" style={{  display: 'none', height: '41%' }}>
@@ -366,7 +367,8 @@ function MenuItem() {
             {removeOffersectionDiv}
           />
         </span>
-        <h5 style={{ color: "white", textAlign: 'center', fontSize: '18px',marginTop:'27%' }}>Currently not items available for this offer..</h5>
+        <h5 style={{ color:colors.subHeadingColor, textAlign: 'center', fontSize: '18px',marginTop:'27%' }}>
+          Currently not items available for this offer..</h5>
       </div>
 
       <div
@@ -377,7 +379,9 @@ function MenuItem() {
           <>
             {filter.length > 0 ?
               <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
-                <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>Your search results : </span>
+                <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
+                  {/* Your search results :  */}
+                  </span>
                 <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
                   onClick=
                   {removeSerchResult}
@@ -483,9 +487,9 @@ function MenuItem() {
 
         }}
         >
-          <div className="allitems_name" style={{ fontSize: '13.5px', color: 'aqua' }}>Item name</div>
-          <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }}>Full price</div>
-          <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }}>Half price</div>
+          <div className="allitems_name" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Item name</div>
+          <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Full price</div>
+          <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Half price</div>
         </div>
         {offerShow.length > 0 ?
           <>
@@ -536,9 +540,9 @@ function MenuItem() {
                 color: 'lightblue'
               }}
               >
-                <div className="allitems_name" style={{ fontSize: '13.5px', color: 'aqua' }}>Item name</div>
-                <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }} >Full price</div>
-                <div className="allitems_price" style={{ fontSize: '13.5px', color: 'aqua' }}>Half price</div>
+                <div className="allitems_name" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Item name</div>
+                <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }} >Full price</div>
+                <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Half price</div>
               </div>
 
               {itemList.filter(i => i.category === data.id).map(m =>
@@ -564,10 +568,10 @@ function MenuItem() {
       // style={{ display: 'flex', justifyContent: 'space-between', padding: '0% 2% 0% 2%' }}
       >
         <div >
-          <button className="button-32" onClick={back}><LeftOutlined /><span> Previous </span></button>
+          <button style={{backgroundColor:colors.headingColor}} className="button-32" onClick={back}><LeftOutlined /><span> Previous </span></button>
         </div>
         <div >
-          <button className="button-32" onClick={next}><span>Next </span> <RightOutlined /></button></div>
+          <button style={{backgroundColor:colors.headingColor}} className="button-32" onClick={next}><span>Next </span> <RightOutlined /></button></div>
       </div>
       <div className="div_caraousel">
         <Carousel

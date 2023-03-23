@@ -9,9 +9,13 @@ import { gettenantList } from "../../../api/Services";
 import siteConfig from "../../../config/config";
 import { useContext } from 'react';
 import { GlobalContext } from "../../../context/Context";
+// import GlobalColor from './../Colors/GlobalColor'
+
 
 function Cover() {
   var { tenantName, setTenantName } = useContext(GlobalContext);
+  var { colors } = useContext(GlobalContext);
+
 
   var location = useLocation();
   var path = location.pathname; // This Variable help to find the path of our URL where the data comes
@@ -57,12 +61,15 @@ function Cover() {
         />
         <h2
           className='front_page_lable'
+          style={{color: colors.backgroundTheme}}
+          // style={{color: 'red'}}
+
         >
-          {tenantDetails.tenant_name.toUpperCase()}
+          {tenantDetails.tenant_name}
         </h2>
         <div style={{marginLeft:'auto',marginRight:'auto',display:'flex'}}>
         <button onClick
-        ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }} className='coverButton' >Explore menu</button >
+        ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex',backgroundColor:colors.headingColor }} className='coverButton' >Explore menu</button >
         </div>
       </div>
     </div>

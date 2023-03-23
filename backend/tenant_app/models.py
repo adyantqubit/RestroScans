@@ -104,6 +104,7 @@ class Setting(models.Model):
     background_color =models.CharField(max_length=8,null=True,blank=True)
     heading_color =models.CharField(max_length=8,null=True,blank=True)
     subheading_color =models.CharField(max_length=8,null=True,blank=True)
+    banner_heading_color =models.CharField(max_length=8,null=True,blank=True)
     
     def __str__(self):
         return "color changed"

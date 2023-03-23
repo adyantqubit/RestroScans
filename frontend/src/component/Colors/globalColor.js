@@ -36,7 +36,9 @@ export default function GlobalColor() {
         setColors({
             headingColor: color.heading_color,
             backgroundTheme: color.background_color,
-            subHeadingColor: color.subheading_color
+            subHeadingColor: color.subheading_color,
+            bannerColor: color.banner_heading_color
+            // backgroundTheme:color.length==0 ? color.background_color :'red'
 
         })}
     },[color])
