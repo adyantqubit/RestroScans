@@ -29,6 +29,9 @@
     border-radius: 100%;
     width: 5%;
 }
+.nodata_image{
+    width: 100%;
+}
 
 .allcategory_menu_div {
     /* background-color: #222221; */
@@ -42,7 +45,9 @@
 }
 
 .check {
-    display: block !important;
+    /* display: block !important; */
+    display: block ;
+
     height: 39%;
     overflow: auto;
 }
@@ -51,7 +56,7 @@
     display: flex;
     align-items: center;
     text-align: center;
-    justify-content: center;
+    justify-content: left;
 }
 
 .allcategory_searched {

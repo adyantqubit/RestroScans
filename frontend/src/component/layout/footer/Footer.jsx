@@ -41,7 +41,9 @@ function Footer() {
           {footerDetails.map((item) => item.content)}
         </span>
         <br />
-        <span style={{ fontSize: '13px' }}>Powered by Adyant</span>
+        {/* <span style={{ fontSize: '13px' }}>Powered by Adyant</span> */}
+       <span> <a style={{color:'black',fontSize:'13px',textDecoration:'none'}}  href="https://adyant.co.in/" >Powered by - Adyant</a>
+       </span>
       </div>
     </div>
   )

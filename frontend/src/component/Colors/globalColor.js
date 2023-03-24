@@ -43,8 +43,6 @@ export default function GlobalColor() {
         })}
     },[color])
 
-    console.log(color)
-
     return (
         <>
             {/* <div style={{ backgroundColor: 'yellow', color: 'black' }}>Yupp</div> */}

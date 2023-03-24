@@ -38,6 +38,10 @@ Reason - To store details of category Items
 class Item(models.Model):
     category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='')
     name=models.CharField(max_length=30,default='')
+    # Added by Om on 23-03-23
+    # Reason : To show items image
+    icon=models.ImageField(upload_to='images/item/',default='')
+    # End of addition
     price_full=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
     price_half=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
     description=models.TextField()
