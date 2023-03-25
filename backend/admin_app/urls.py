@@ -31,4 +31,6 @@ urlpatterns = [
     path('moreshop/update-password/', UpdatePassword.as_view()),
     # End of sending otp
 
+    path('moreshop/app-settings/', AppSettingAPI.as_view()),
+
 ]  

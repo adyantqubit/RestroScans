@@ -1,0 +1,180 @@
+import React, { useEffect, useState } from "react";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { getMenuList } from "../api/Services";
+import { colors } from "../Colours/globalColor";
+import config, { tenantName } from "../config/config";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+// Added by Yuvraj Sahu on 15-3-2023
+// Reason - to tenant from localstorage and get menu lost
+export default function MenuListScreen({ navigation }) {
+  useEffect(() => {
+    getAllMenuList();
+  }, []);
+
+  var [menuList, setMenuList] = useState([]);
+  var [categoryList, setCategoryList] = useState([]);
+  var [itemList, setItemList] = useState([]);
+  var [filterCategory, setFilterCategory] = useState([]);
+  var [filterItem, setFilterItem] = useState([]);
+
+  const getAllMenuList = async () => {
+    const response = await getMenuList(tenantName);
+    if (response) {
+      setMenuList(response.menuList);
+      setCategoryList(response.categoryList);
+      setItemList(response.itemList);
+    }
+  };
+
+  function categoryFilter(val) {
+    setFilterCategory(categoryList.filter((e) => e.menu_name == val));
+    setFilterItem([]);
+  }
+
+  function itemFilter(val) {
+    setFilterItem(itemList.filter((e) => e.category_name == val));
+  }
+
+  return (
+    <View style={{ backgroundColor: colors.backgroundTheme, height: "100%" }}>
+      {/* Menu Items ----------------------------------------------- */}
+      <View style={styles.menuContainer}>
+        {menuList.map((menuData, id) => (
+          <Pressable
+            style={styles.menuPress}
+            onPress={(e) => categoryFilter(menuData.name)}
+            key={id}
+          >
+            <Image
+              source={{
+                uri: config.staticBaseURL + menuData.icon,
+              }}
+              style={styles.menuIcon}
+            />
+            <Text style={styles.btnText} value={menuData.id}>
+              {menuData.name}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+      {/* Menu Item Close ------------------------------------------ */}
+      {/* Category List ----------------------------------------------- */}
+      <View style={styles.categoryContainer}>
+        {filterCategory.map((categoryData, id) => (
+          <>
+            <View style={styles.categoryView} key={id}>
+              <Pressable
+                style={styles.categoryPress}
+                onPress={(e) => itemFilter(categoryData.name)}
+              >
+                <Image
+                  source={{
+                    uri: config.staticBaseURL + categoryData.icon,
+                  }}
+                  style={styles.categoryIcon}
+                />
+                <Text style={styles.categoryLable}>{categoryData.name}</Text>
+                <Icon name="edit" size={20} color="black" />
+              </Pressable>
+            </View>
+            {filterItem[0] && (
+              <>
+                {categoryData.name == filterItem[0].category_name ? (
+                  <>
+                    {filterItem.map((itemData, id) => (
+                      <View style={styles.btnContainer} key={id}>
+                        <Pressable style={styles.itemList}>
+                          <Text style={styles.btnText}>{itemData.name}</Text>
+                        </Pressable>
+                      </View>
+                    ))}
+                  </>
+                ) : null}
+              </>
+            )}
+          </>
+        ))}
+      </View>
+      {/* Category List Close ------------------------------------------ */}
+      {/* Items List ----------------------------------------------- */}
+      {/* <View style={styles.itemContainer}>
+        {filterItem.map((itemData, id) => (
+          <View style={styles.btnContainer} key={id}>
+            <Pressable style={styles.menuPress}>
+              <Text style={styles.btnText}>{itemData.name}</Text>
+            </Pressable>
+          </View>
+        ))}
+      </View> */}
+      {/* Items List Close ------------------------------------------ */}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  btnContainer: {
+    backgroundColor: "#e6e6e6",
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 5,
+    borderColor: "grey",
+    borderWidth: 2,
+  },
+  menuPress: {
+    backgroundColor: "white",
+    margin: 8,
+    padding: 10,
+    borderRadius: 5,
+    height: 130,
+    width: "45%",
+    alignItems: "center",
+  },
+  btnText: {
+    color: "black",
+    fontWeight: "bold",
+  },
+  categoryView: {
+    marginTop: 5,
+    marginRight: 20,
+    marginBottom: 5,
+    marginLeft: 20,
+    borderRadius: 10,
+    height: 50,
+    backgroundColor: "white",
+  },
+  categoryPress: {
+    display: "flex",
+    flexDirection: "row",
+    height: "100%",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  menuContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "stretch",
+    flexWrap: "wrap",
+    alignContent: "stretch",
+  },
+  categoryContainer: {},
+  itemContainer: {},
+  categoryIcon: {
+    width: "20%",
+    height: "80%",
+    borderRadius: 10,
+  },
+  categoryLable: {
+    color: "black",
+    fontWeight: "bold",
+  },
+  menuIcon: {
+    height: "80%",
+    width: "100%",
+    borderRadius: 5,
+  },
+  itemList: {
+    backgroundColor: "white",
+    height: 30,
+  },
+});

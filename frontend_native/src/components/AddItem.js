@@ -20,7 +20,7 @@ import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
 // import { Country, State, City } from "country-state-city";
 
-export default function AddItems() {
+export default function AddItem() {
   // Added by Yuvraj Sahu on 24-3-2023
   // Reason - to show category list in dropdown
   const [categorySelected, setCategorySelected] = React.useState("");

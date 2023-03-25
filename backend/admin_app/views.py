@@ -100,7 +100,11 @@ class RestaurantLoginView(APIView):
 
         response.data = {
             'token': access_token,
-            'userData': [RestaurantRequest.objects.filter(email=request.data.get('email')).values()[0]]
+            'userData': [RestaurantRequest.objects.filter(email=request.data.get('email')).values()[0]],
+            # Added by Yuvraj Sahu on 25-3-2023
+            # Reason - to get tenant data
+            'tenantInfo': Tenant.objects.filter(restaurant_name = restaurant.id).values().first()
+            # End of Addition
         }
         return response
 
@@ -172,3 +176,14 @@ class UpdatePassword(APIView):
 """
 End of code addition
 """
+
+class AppSettingAPI(APIView):
+    def get(self,request):
+        settings = AppSetting.objects.all().values().first()
+        print(settings)
+        return Response({
+            "app_logo":settings["app_logo"],
+            "adyant_logo":settings["adyant_logo"],
+            "title":settings["title"],
+            "bottom_text":settings["bottom_text"],
+            "adyant_webite_link":settings["adyant_webite_link"]},200)

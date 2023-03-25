@@ -3,17 +3,17 @@
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 // import { NavigationContainer } from '@react-navigation/native';
-import AddItems from './AddItems';
-import AddMenu from './AddMenu';
-import Category from './Category';
+import AddItem from '../components/AddItem';
+import AddMenu from '../components/AddMenu';
+import AddCategory from '../components/AddCategory';
 const Tab = createMaterialTopTabNavigator();
 
 export function MenuAddScreen() {
     return (
       <Tab.Navigator>
         <Tab.Screen name="Menu" component={AddMenu} />
-        <Tab.Screen name="Category" component={Category} />
-        <Tab.Screen name="Item" component={AddItems} />
+        <Tab.Screen name="Category" component={AddCategory} />
+        <Tab.Screen name="Item" component={AddItem} />
       </Tab.Navigator>
     );
   }

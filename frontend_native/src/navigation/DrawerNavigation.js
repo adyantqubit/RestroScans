@@ -1,49 +1,49 @@
 import React from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
-import Home from "../screens/Home";
-import Category from "../screens/Category";
-import List from "../screens/List";
-import QrCode from "../screens/QrCode";
-import Offer from "../screens/Offer";
-import PreviewMenu from "../screens/PreviewMenu";
+import { StyleSheet } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import HomeScreen from "../screens/HomeScreen";
+import MenuListScreen from "../screens/MenuListScreen";
+import QRCodeScreen from "../screens/QRCodeScreen";
+import OfferScreen from "../screens/OfferScreen";
+import PreviewMenuScreen from "../screens/PreviewMenuScreen";
 import { colors } from "../Colours/globalColor";
-import Theme from "../screens/Theme";
-import AddMenu from "../screens/AddMenu";
-import AddItems from "../screens/AddItems";
+import MenuThemeScreen from "../screens/MenuThemeScreen";
 import { MenuAddScreen } from "../screens/MenuAddScreen";
-
-// create custom drawer for logout ----------------------------
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="Logout" onPress={() => alert("going to log out")} />
-    </DrawerContentScrollView>
-  );
-}
-// End of custom drawer ---------------------------------------
+import { getTenantApi } from "../api/Services";
+import * as SecureStore from "expo-secure-store";
 
 export default function DrawerNavigation() {
   const Drawer = createDrawerNavigator();
 
+  React.useEffect(()=> {
+    getTenant();
+  },[])
+
+  var getTenant = async() => {
+    var userData = await SecureStore.getItemAsync("userData")
+    // JSON.parse(userData).id
+    var response = await getTenantApi(JSON.parse(userData).id)
+    console.log('tenant drawer'+JSON.stringify(response))
+  }
+
   return (
-    // <SafeAreaView style={{ flex: 1 }}>
-    <Drawer.Navigator
-      useLegacyImplementation
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
+    <Drawer.Navigator>
       <Drawer.Screen
-        name="Home"
-        component={Home}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{
           drawerLabel: "Home",
+          title: "Home",
+          headerStyle: {},
+        }}
+      />
+  
+      <Drawer.Screen
+        name="MenuListScreen"
+        component={MenuListScreen}
+        options={{
+          drawerLabel: "Menu List",
+          title: "Menu List",
           headerStyle: {
             backgroundColor: colors.backgroundTheme,
           },
@@ -52,45 +52,30 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="Add"
         component={MenuAddScreen}
-        options={{ drawerLabel: "Add" }}
+        options={{ drawerLabel: "Add Menu Item" , title: "Add Menu Item",}}
       />
       <Drawer.Screen
-        name="Menu List"
-        component={List}
-        options={{
-          drawerLabel: "Menu List",
-          headerStyle: {
-            backgroundColor: colors.backgroundTheme,
-          },
-        }}
+        name="PreviewMenuScreen"
+        component={PreviewMenuScreen}
+        options={{ drawerLabel: "Preview Menu", title: "Preview Menu" }}
       />
       <Drawer.Screen
-        name="Preview Preview"
-        component={PreviewMenu}
-        options={{ drawerLabel: "Preview Menu" }}
+        name="QRCodeScreen"
+        component={QRCodeScreen}
+        options={{ drawerLabel: "Generate QR Code", title: "Generate QR Code" }}
+      />
+
+      <Drawer.Screen
+        name="OfferScreen"
+        component={OfferScreen}
+        options={{ drawerLabel: "Offers", title: "Offers" }}
       />
       <Drawer.Screen
-        name="Generate QR Code"
-        component={QrCode}
-        options={{ drawerLabel: "Generate QR Code" }}
-      />
-      {/* <Drawer.Screen
-          name="Add Items"
-          component={AddItems}
-          options={{ drawerLabel: "Add New Item" }}
-        /> */}
-      <Drawer.Screen
-        name="Offers"
-        component={Offer}
-        options={{ drawerLabel: "All offers" }}
-      />
-      <Drawer.Screen
-        name="Theme"
-        component={Theme}
-        options={{ drawerLabel: "Theme" }}
+        name="MenuThemeScreen"
+        component={MenuThemeScreen}
+        options={{ drawerLabel: "Theme", title: "Theme" }}
       />
     </Drawer.Navigator>
-    // </SafeAreaView>
   );
 }
 

@@ -12,7 +12,7 @@ export default function Buttons(props) {
       <Button
         onPress={handleOpen}
         // style={styles.btn}
-        title="GENERATE BARCODE"
+        title="GENERATE QR CODE"
         // title={`jhjhjr`}
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

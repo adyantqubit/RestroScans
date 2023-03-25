@@ -10,21 +10,20 @@ import {
   Pressable,
   Button,
   Image,
+  BackHandler,
 } from "react-native";
 
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
-
-// import { Picker } from "@react-native-picker/picker";
-
 import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail } from "../api/Services";
 import { colors } from "../Colours/globalColor";
-// import { Country, State, City } from "country-state-city";
+import { useNavigation } from "@react-navigation/native";
 
-export default function RegistrationRegistrationScreen({
+export default function RestaurantRegistrationScreen({
   navigation: { navigate },
 }) {
+  const navigator = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // Added byYuvraj Sahu on 2-3-2023
@@ -34,112 +33,37 @@ export default function RegistrationRegistrationScreen({
 
   // Added by yuvraj sahu on 21-2-2023
   // Reason - for upload img
-  // const [image, setImage] = useState(null);
   const [tempPhoto, setTempPhoto] = useState(null);
-
-  // this method is called when user click upload / edit profile image button  # yuvraj sahu
-  // const pickImage = async () => {
-  //   try {
-  //     // No permissions request is necessary for launching the image library
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //     });
-
-  //     if (!result.canceled) {
-  //       setImage(result.assets[0].uri);
-  //       setTempPhoto(result.assets[0]);
-  //     }
-  //   } catch {
-  //     (pick_err) => {
-  //       // console.log(pick_err);
-  //     };
-  //   }
-  // };
-  // End of img upload
-
-  // const alertHandler = (msg) => {
-  //   Alert.alert("Registration", `${msg}`, [
-  //     { text: "OK", onPress: () => null },
-  //   ]);
-  // };
 
   // Added for testing image picker
   const [restaurant_logo, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-
-    // const formData = new FormData();
-    // formData.append('image', {
-    //   uri: uri,
-    //   type: 'image/jpeg',
-    //   name: 'image.jpg'
-    // });
-    //   setImage(formData);
-    //   alert('fdffd'+formData)
-
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    console.log("sas" + JSON.stringify(result));
-    console.log("-------------" + result);
+
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       alert(result.assets[0].fileName);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
-      // setTempPhoto(result.assets[0]);
     }
   };
 
   const handleRegister = (formValues) => {
     var formData = new FormData();
-    // setIsDisable(true)
-    // formValues.append(restaurant_logo)
-    // alert('img',image)
-    // if (tempPhoto !== null) {
     const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-    //   const fileName = tempPhoto.uri.replace(/^.*[\\\/]/, "");
-    // var img = {
-    //   uri: restaurant_logo,
-    //   name: "imageofrest",
-    //   type: `image/${ext}`,
-    // };
-
-    // formData.append("image_url", {
-    //   uri: tempPhoto.uri,
-    //   name: fileName,
-    //   type: `image/${ext}`,
-    // });
-    // }
 
     formData.append("restaurant_logo", {
       uri: restaurant_logo,
       name: restaurant_logo,
       type: `image/${ext}`,
     });
-    // alert("data" + JSON.stringify(formValues));
 
-    // Added by Yuvraj Sahu on 21-2-2023
-    // Reason - to add img
-    // const formData = new FormData();
-
-    // if (tempPhoto !== null) {
-    //   const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-    //   const fileName = tempPhoto.uri.replace(/^.*[\\\/]/, "");
-
-    //   formData.append("restaurant_logo", {
-    //     uri: tempPhoto.uri,
-    //     name: fileName,
-    //     type: `image/${ext}`,
-    //   });
-    // }
     formData.append("restaurant_name", formValues.restaurant_name);
     formData.append("owner_name", formValues.owner_name);
     formData.append("mobile_number", formValues.mobile_number);
@@ -148,15 +72,11 @@ export default function RegistrationRegistrationScreen({
     formData.append("password", formValues.password);
     formData.append("confirm_password", formValues.confirm_password);
     formData.append("address", formValues.address);
-    // alert('llllllllll',JSON.stringify(formData));
-    // End of img
-
-    alert("asas" + JSON.stringify(formData));
 
     postRestaurantDetail(formData).then((response) => {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
-        navigate('login')
+        navigate("LoginScreen");
       }
       if (response.err) {
         Alert.alert("Error", response.msg);
@@ -167,10 +87,7 @@ export default function RegistrationRegistrationScreen({
   const {
     control,
     handleSubmit,
-    reset,
-    setValue,
     getValues,
-    getFieldState,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -182,9 +99,39 @@ export default function RegistrationRegistrationScreen({
       address: "",
       password: "",
       confirm_password: "",
-      // restaurant_logo: ""
     },
   });
+
+  useEffect(() => {
+    const backAction = () => {
+      if (
+        navigator.getState().routes[navigator.getState().index].name ==
+        "LoginScreen"
+      ) {
+        Alert.alert("Hold on!", "Are you sure you want to Exit?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          {
+            text: "YES",
+            onPress: () => {
+              BackHandler.exitApp();
+            },
+          },
+        ]);
+        return true;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <ScrollView>
@@ -446,10 +393,7 @@ export default function RegistrationRegistrationScreen({
                 value === getValues("password") ||
                 "Password & Confirm Password does not match!",
             }}
-            render={({
-              field: { onChange, onBlur, value },
-              // fieldState: { error },
-            }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View style={styles.passContainer}>
                   <TextInput
@@ -464,7 +408,6 @@ export default function RegistrationRegistrationScreen({
                     placeholderTextColor="#A4A4A4"
                     editable={true}
                     keyboardType="default"
-                    // defaultValues={defaultValues}
                   />
 
                   <TouchableOpacity
@@ -517,7 +460,6 @@ export default function RegistrationRegistrationScreen({
                     placeholderTextColor="#A4A4A4"
                     editable={true}
                     keyboardType="default"
-                    // defaultValues={defaultValues}
                   />
                 </View>
 
@@ -560,7 +502,6 @@ export default function RegistrationRegistrationScreen({
                     placeholderTextColor="#A4A4A4"
                     editable={true}
                     keyboardType="default"
-                    // defaultValues={defaultValues}
                   />
                 </View>
 
@@ -573,26 +514,6 @@ export default function RegistrationRegistrationScreen({
             )}
           />
         </View>
-
-        {/* Added by Yuvraj Sahu on 21-2-2023
-        Reason - to upload logo */}
-        {/* <View style={styles.imagePickerContainer}>
-          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-            <Ionicons name="image" size={24} color="#5260ff" />
-            <Text
-              style={{
-                fontSize: 16,
-                marginLeft: 10,
-                fontWeight: "500",
-                color: "#5260ff",
-              }}
-            >
-              {image ? "Edit Profile Picture" : "Upload Profile Picture"}
-            </Text>
-          </TouchableOpacity>
-        </View> */}
-
-        {/* Added for testing image */}
 
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}

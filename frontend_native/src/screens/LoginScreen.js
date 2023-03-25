@@ -11,110 +11,86 @@ import {
   TouchableOpacity,
   Alert,
   Pressable,
-  Button,
+  BackHandler,
 } from "react-native";
 
-// import { userLogin } from "../api/ServiceApi";
 import { Formik } from "formik";
 import * as SecureStore from "expo-secure-store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { restaurentAuthentication } from "../api/Services";
-import {
-  loginSchema,
-  passwordSchema,
-  emailSchema,
-} from "../validation/ValidationSchema";
-import { useDispatch } from "react-redux";
-import { authLogin } from "../redux/slice/AuthSlice";
+import { loginSchema } from "../validation/ValidationSchema";
 import { useNavigation } from "@react-navigation/native";
-import AuthNavigation from "../navigation/AuthNavigation";
 import { colors } from "../Colours/globalColor";
-import { tenantName } from "../config/config";
 
 export default function LoginScreen({ navigation }) {
-  const navigate = useNavigation();
-
+  const navigator = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
   var [isBtnDisable, setIsBtnDisable] = useState(false);
-
-  const alertHandler = (msg) => {
-    Alert.alert("Login", `${msg}`, [{ text: "OK", onPress: () => null }]);
-  };
 
   //when user click login button this method is called
   const submitLog = (values, { resetForm }) => {
-    // console.log("values: " + JSON.stringify(values));
     setIsBtnDisable(true);
-    restaurentAuthentication(values)
-      .then(async (res) => {
-        // alert("tok" + JSON.stringify(res.userData[0]));
-        if (
-          // res.data.success &&
-          res.token
-        ) {
-          // alert("success");
-          setIsBtnDisable(false);
-          // navigate("main");
-          await SecureStore.setItemAsync("token", JSON.stringify(res.token));
-          await SecureStore.setItemAsync(
-            "userData",
-            JSON.stringify(res.userData[0])
-          );
-          tenantName = res.userData[0].restaurant_name
-          alert('qqqqqqqqqq'+JSON.stringify(res))
-          // await SecureStore.deleteItemAsync("userData");
-          // navigate("main");
-          // await SecureStore.setItemAsync(
-          //   "userData",
-          // JSON.stringify(res.userData[0])
-          // );
-          if ((await SecureStore.getItemAsync("userData")) != null) {
-            alert(await SecureStore.getItemAsync("userData"));
-            navigation.navigate("drawer");
-            // authLogin()
-            // function authLogin () {
-            //     return <AuthNavigation />
-            // }
-            // return <AuthNavigation />
-          }
-          // alert("success");
-          // await SecureStore.setItemAsync(
-          //   "userData",
-          //   JSON.stringify(res.userData[0])
-          // );
-          // dispatch(
-          //   authLogin({
-          //     token: res.token,
-          //     userData: res.userData[0],
-          //   })
-          // );
-          resetForm({ values: "" });
-          // alertHandler("login successful");
-        }
-        if (res.error) {
-          alert("Please wait for admin approval");
-          setIsBtnDisable(false);
-        }
-        if (res.invalid) {
-          // alertHandler("Something went wrong! Please try again later.");
-          alert("Invaild email and password");
-          setIsBtnDisable(false);
-        }
-      })
-      // .catch((err) => {
-      //   alertHandler("Something went wrong! Please try again later.");
-      // });
+    restaurentAuthentication(values).then(async (res) => {
+      if (res.token) {
+        setIsBtnDisable(false);
+        await SecureStore.setItemAsync("token", JSON.stringify(res.token));
+        await SecureStore.setItemAsync(
+          "userData",
+          JSON.stringify(res.userData[0])
+        );
+        await SecureStore.setItemAsync("tenantInfo", JSON.stringify(res.tenantInfo));
+        navigation.navigate("DrawerScreens");
+        resetForm({ values: "" });
+      }
+      if (res.error) {
+        alert("Please wait for admin approval");
+        setIsBtnDisable(false);
+      }
+      if (res.invalid) {
+        alert("Invaild email and password");
+        setIsBtnDisable(false);
+      }
+    });
   };
 
   const forgotPasswordHandler = () => {
-    navigation.navigate("forgotPassword");
+    navigation.navigate("ForgotPasswordScreen");
   };
 
   const navRegister = () => {
-    navigation.navigate("registration");
-    // Alert.alert('pressed')
+    navigation.navigate("RegistrationScreen");
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      if (
+        navigator.getState().routes[navigator.getState().index].name ==
+        "LoginScreen"
+      ) {
+        Alert.alert("Hold on!", "Are you sure you want to Exit?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          {
+            text: "YES",
+            onPress: () => {
+              BackHandler.exitApp();
+            },
+          },
+        ]);
+        return true;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <Formik
@@ -193,33 +169,9 @@ export default function LoginScreen({ navigation }) {
                 )}
               </View>
 
-              <View
-              // style={{
-              //   marginBottom: 30,
-              //   marginHorizontal: 10,
-              //   marginTop: 10,
-              // }}
-              >
-                <Pressable
-                  onPress={forgotPasswordHandler}
-                  // disabled={isBtnDisable}
-                  // style={{
-                  //   backgroundColor: !isBtnDisable ? "#6823cf" : "#E0E0E0",
-                  //   height: 40,
-                  //   alignItems: "center",
-                  //   justifyContent: "center",
-                  //   borderRadius: 3,
-                  // }}
-                >
-                  <Text
-                  // style={{
-                  //   color: !isBtnDisable ? "white" : "#989898",
-                  //   fontSize: 16,
-                  //   fontWeight: "bold",
-                  // }}
-                  >
-                    Forgot Password
-                  </Text>
+              <View>
+                <Pressable onPress={forgotPasswordHandler}>
+                  <Text>Forgot Password</Text>
                 </Pressable>
               </View>
 
@@ -254,13 +206,10 @@ export default function LoginScreen({ navigation }) {
                   </Text>
                 </Pressable>
               </View>
-              {/* Added for registration  */}
-              {/* <View> */}
+
               <Pressable onPress={navRegister} style={styles.registerBtn}>
-                {/* <Button title="registration" onPress={navRegister} /> */}
                 <Text style={styles.registerText}>Register</Text>
               </Pressable>
-              {/* </View> */}
             </View>
           </View>
         </ScrollView>

@@ -108,3 +108,14 @@ export const saveItemApi = async (value, tenant) => {
   return response ? response.data : {};
 };
 // End saving item
+
+
+export const getAppSetting = async (tenantId) => {
+  const response = await API.get(`/admin_app/moreshop/app-settings/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  // alert('menu list'+JSON.stringify(response.data))
+  return response ? response.data : {};
+};

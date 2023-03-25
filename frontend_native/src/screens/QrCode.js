@@ -11,13 +11,13 @@ import {
 import QRCode from "react-native-qrcode-svg";
 import Buttons from "../buttons/Buttons";
 import * as SecureStore from "expo-secure-store";
-import { frontendUrl, tenantName } from "../config/config";
-import ViewShot from "react-native-view-shot";
+import { frontendUrl } from "../config/config";
+import {ViewShot, captureScreen} from "react-native-view-shot";
 
 export default function QrCode() {
   var [codeGenerate, setCodeGenerate] = useState(false);
 
-  var restaurantId = 2;
+  // var tenantName  = "";
   // var restaurant = `restaurant/${restaurantId}`;
   // var restaurant = `192.168.1.35:3000/api/v1/ashoka/home`;
 
@@ -34,7 +34,7 @@ export default function QrCode() {
     // alert(tenant)
   };
 
-  var restaurant = `${frontendUrl}/menu-item`;
+  var restaurant = `${frontendUrl}/api/v1/${tenant}/menu-item`;
 
   // var erase = async() =>{
   //   await SecureStore.deleteItemAsync("token")
@@ -42,15 +42,32 @@ export default function QrCode() {
   // }
 
   // const refs = useRef(null);
-  // const viewShot = useRef(null);
-  // var onSave = () => {
-  //   viewShot.viewShot.capture().then((uri) => {
-  //     Share.open({
-  //       title: "QR Code",
-  //       message: "message",
-  //       url: uri,
-  //     });
-  //   });
+  const viewShot = useRef(null);
+  var onSave = () => {
+    viewShot.viewShot.capture().then((uri) => {
+      Share.open({
+        title: "QR Code",
+        message: "message",
+        url: uri,
+      });
+    });
+  };
+
+  // const onSave = () => {
+  //   // To capture Screenshot
+  //   captureScreen({
+  //     // Either png or jpg (or webm Android Only), Defaults: png
+  //     format: 'jpg',
+  //     // Quality 0.0 - 1.0 (only available for jpg)
+  //     quality: 0.8, 
+  //   }).then(
+  //     //callback function to get the result URL of the screnshot
+  //     (uri) => {
+  //       setSavedImagePath(uri);
+  //       setImageURI(uri);
+  //     },
+  //     (error) => console.error('Oops, Something Went Wrong', error),
+  //   );
   // };
 
   return (
@@ -81,7 +98,7 @@ export default function QrCode() {
         )}
 
         {/* <Button title='delete' onPress={erase}/> */}
-        {/* <Button title="Download" style={styles.Tbutton} onPress={() => onSave()} /> */}
+        <Button title="Download" onPress={() => onSave()} />
 
         {/* <ViewShot ref={viewShot} options={{ width: 100, height: 100, format: "jpg", quality: 1.0 }}> */}
         <View style={styles.barCode}>

@@ -160,6 +160,4 @@ class SettingAPIView(APIView):
             "settingsetdata":serial.data,
             },status=status.HTTP_201_CREATED)
         return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
-        
-
 # End of addition
