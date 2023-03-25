@@ -9,7 +9,7 @@ import PreviewMenuScreen from "../screens/PreviewMenuScreen";
 import { colors } from "../Colours/globalColor";
 import MenuThemeScreen from "../screens/MenuThemeScreen";
 import { MenuAddScreen } from "../screens/MenuAddScreen";
-import { getTenantApi } from "../api/Services";
+// import { getTenantApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 
 export default function DrawerNavigation() {
@@ -22,8 +22,8 @@ export default function DrawerNavigation() {
   var getTenant = async() => {
     var userData = await SecureStore.getItemAsync("userData")
     // JSON.parse(userData).id
-    var response = await getTenantApi(JSON.parse(userData).id)
-    console.log('tenant drawer'+JSON.stringify(response))
+    // var response = await getTenantApi(JSON.parse(userData).id)
+    // console.log('tenant drawer'+JSON.stringify(response))
   }
 
   return (

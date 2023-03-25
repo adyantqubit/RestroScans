@@ -61,6 +61,7 @@ export default function HomeScreen({ navigation }) {
     if ((await SecureStore.getItemAsync("userData")) != null) {
       setUserData(JSON.parse(await SecureStore.getItemAsync("userData")));
     }
+    // alert(JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name)
   };
 
   // Added by Yuvraj Sahu on 11-3-2023
@@ -71,6 +72,7 @@ export default function HomeScreen({ navigation }) {
   var logOut = async () => {
     await SecureStore.deleteItemAsync("userData");
     await SecureStore.deleteItemAsync("token");
+    await SecureStore.deleteItemAsync("tenantInfo");
     if ((await SecureStore.getItemAsync("userData")) == null) {
       navigation.navigate("LoginScreen");
     }

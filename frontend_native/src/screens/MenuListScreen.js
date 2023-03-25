@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 import { getMenuList } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import config, { tenantName } from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
+import * as SecureStore from "expo-secure-store";
 
 // Added by Yuvraj Sahu on 15-3-2023
 // Reason - to tenant from localstorage and get menu lost
 export default function MenuListScreen({ navigation }) {
   useEffect(() => {
     getAllMenuList();
+    // getTenant();
   }, []);
 
   var [menuList, setMenuList] = useState([]);
@@ -19,7 +28,10 @@ export default function MenuListScreen({ navigation }) {
   var [filterItem, setFilterItem] = useState([]);
 
   const getAllMenuList = async () => {
-    const response = await getMenuList(tenantName);
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+    const response = await getMenuList(tenant);
     if (response) {
       setMenuList(response.menuList);
       setCategoryList(response.categoryList);
@@ -38,67 +50,74 @@ export default function MenuListScreen({ navigation }) {
 
   return (
     <View style={{ backgroundColor: colors.backgroundTheme, height: "100%" }}>
-      {/* Menu Items ----------------------------------------------- */}
-      <View style={styles.menuContainer}>
-        {menuList.map((menuData, id) => (
-          <Pressable
-            style={styles.menuPress}
-            onPress={(e) => categoryFilter(menuData.name)}
-            key={id}
-          >
-            <Image
-              source={{
-                uri: config.staticBaseURL + menuData.icon,
-              }}
-              style={styles.menuIcon}
-            />
-            <Text style={styles.btnText} value={menuData.id}>
-              {menuData.name}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-      {/* Menu Item Close ------------------------------------------ */}
-      {/* Category List ----------------------------------------------- */}
-      <View style={styles.categoryContainer}>
-        {filterCategory.map((categoryData, id) => (
-          <>
-            <View style={styles.categoryView} key={id}>
-              <Pressable
-                style={styles.categoryPress}
-                onPress={(e) => itemFilter(categoryData.name)}
-              >
-                <Image
-                  source={{
-                    uri: config.staticBaseURL + categoryData.icon,
-                  }}
-                  style={styles.categoryIcon}
-                />
-                <Text style={styles.categoryLable}>{categoryData.name}</Text>
-                <Icon name="edit" size={20} color="black" />
-              </Pressable>
+      <ScrollView>
+        {/* Menu Items ----------------------------------------------- */}
+        <View style={styles.menuContainer}>
+          {menuList.length > 0 ? (
+            <>
+              {menuList.map((menuData, id) => (
+                <Pressable
+                  style={styles.menuPress}
+                  onPress={(e) => categoryFilter(menuData.name)}
+                  key={id}
+                >
+                  <Image
+                    source={{
+                      uri: config.staticBaseURL + menuData.icon,
+                    }}
+                    style={styles.menuIcon}
+                  />
+                  <Text style={styles.btnText} value={menuData.id}>
+                    {menuData.name}
+                  </Text>
+                </Pressable>
+              ))}
+            </>
+          ) : (
+            <Text>No menus are listed here</Text>
+          )}
+        </View>
+        {/* Menu Item Close ------------------------------------------ */}
+        {/* Category List ----------------------------------------------- */}
+        <View style={styles.categoryContainer}>
+          {filterCategory.map((categoryData, id) => (
+            <View key={id}>
+              <View style={styles.categoryView} key={id}>
+                <Pressable
+                  style={styles.categoryPress}
+                  onPress={(e) => itemFilter(categoryData.name)}
+                >
+                  <Image
+                    source={{
+                      uri: config.staticBaseURL + categoryData.icon,
+                    }}
+                    style={styles.categoryIcon}
+                  />
+                  <Text style={styles.categoryLable}>{categoryData.name}</Text>
+                  <Icon name="edit" size={20} color="black" />
+                </Pressable>
+              </View>
+              {filterItem[0] && (
+                <>
+                  {categoryData.name == filterItem[0].category_name ? (
+                    <>
+                      {filterItem.map((itemData, id) => (
+                        <View style={styles.btnContainer} key={id}>
+                          <Pressable style={styles.itemList}>
+                            <Text style={styles.btnText}>{itemData.name}</Text>
+                          </Pressable>
+                        </View>
+                      ))}
+                    </>
+                  ) : null}
+                </>
+              )}
             </View>
-            {filterItem[0] && (
-              <>
-                {categoryData.name == filterItem[0].category_name ? (
-                  <>
-                    {filterItem.map((itemData, id) => (
-                      <View style={styles.btnContainer} key={id}>
-                        <Pressable style={styles.itemList}>
-                          <Text style={styles.btnText}>{itemData.name}</Text>
-                        </Pressable>
-                      </View>
-                    ))}
-                  </>
-                ) : null}
-              </>
-            )}
-          </>
-        ))}
-      </View>
-      {/* Category List Close ------------------------------------------ */}
-      {/* Items List ----------------------------------------------- */}
-      {/* <View style={styles.itemContainer}>
+          ))}
+        </View>
+        {/* Category List Close ------------------------------------------ */}
+        {/* Items List ----------------------------------------------- */}
+        {/* <View style={styles.itemContainer}>
         {filterItem.map((itemData, id) => (
           <View style={styles.btnContainer} key={id}>
             <Pressable style={styles.menuPress}>
@@ -107,7 +126,8 @@ export default function MenuListScreen({ navigation }) {
           </View>
         ))}
       </View> */}
-      {/* Items List Close ------------------------------------------ */}
+        {/* Items List Close ------------------------------------------ */}
+      </ScrollView>
     </View>
   );
 }

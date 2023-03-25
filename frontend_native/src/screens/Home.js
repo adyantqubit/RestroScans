@@ -13,9 +13,9 @@ import {
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import RNExitApp from "react-native-exit-app";
-import config, { getTenant, setTenant, tenantName } from "../config/config";
+import config, { getTenant, setTenant } from "../config/config";
 import { colors, fonts } from "../Colours/globalColor";
-import { getTenantApi } from "../api/Services";
+// import { getTenantApi } from "../api/Services";
 // import '../Colours/GlobalColor.css';
 
 export default function Home({ navigation }) {

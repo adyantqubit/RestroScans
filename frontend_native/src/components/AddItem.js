@@ -16,7 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { getMenuList, saveCategoryApi, saveItemApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
-import { tenantName } from "../config/config";
+// import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
 // import { Country, State, City } from "country-state-city";
 
@@ -44,8 +44,19 @@ export default function AddItem() {
       }
     };
     getMenus();
+    getTenant();
   }, []);
   // End of show menu list
+
+  // Added by Yuvraj Sahu on 25-3-2023
+  // Reason - to get tenant from localStorage
+  var [tenant, setTenant] = useState("");
+
+  const getTenant = async () => {
+    var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    setTenant(JSON.parse(tenantInfo).tenant_name);
+  };
+  // End of getting tenant detail
 
   var [isDisable, setIsDisable] = useState(false);
 
@@ -84,7 +95,7 @@ export default function AddItem() {
     formData.append("description", formValues.description);
 
     console.log('formData------'+JSON.stringify(formData))
-    saveItemApi(formData, tenantName).then((response) => {
+    saveItemApi(formData, tenant).then((response) => {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);

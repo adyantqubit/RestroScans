@@ -18,7 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
-import { tenantName } from "../config/config";
+// import { tenantName } from "../config/config";
 // import { Country, State, City } from "country-state-city";
 
 export default function AddMenu() {
@@ -36,8 +36,6 @@ export default function AddMenu() {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log("sas" + JSON.stringify(result));
-    console.log("-------------" + result);
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       alert(result.assets[0].fileName);
@@ -46,6 +44,18 @@ export default function AddMenu() {
       // setTempPhoto(result.assets[0]);
     }
   };
+
+  useEffect(()=>{
+    getTenant();
+  },[])
+  // Added by Yuvraj Sahu on 25-3-2023
+  // Reason - to get tenant from localStorage
+  var [tenant, setTenant] = useState("");
+  const getTenant = async () => {
+    var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    setTenant(JSON.parse(tenantInfo).tenant_name);
+  };
+  // End of getting tenant detail
 
   const handleRegister = (formValues) => {
     var formData = new FormData();
@@ -60,9 +70,7 @@ export default function AddMenu() {
 
     formData.append("name", formValues.name);
 
-    alert("formData" + JSON.stringify(formData));
-
-    saveMenuApi(formData, tenantName).then((response) => {
+    saveMenuApi(formData, tenant).then((response) => {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
         // navigate('login')
@@ -72,6 +80,7 @@ export default function AddMenu() {
       }
     });
   };
+
 
   const {
     control,
