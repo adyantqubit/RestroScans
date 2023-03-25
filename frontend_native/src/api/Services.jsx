@@ -76,11 +76,35 @@ export const updatePasswordApi = async (value) => {
 // Added by Yuvraj Sahu on 23-3-2023
 // Reason - to save menu
 export const saveMenuApi = async (value, tenant) => {
-  const response = await API.post(`/api/v1/${tenant}/item-list/`, value, {
+  const response = await API.post(`/api/v1/${tenant}/menu-list/`, value, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
-// End of send otp
+// End of saving menu
+
+// Added by Yuvraj Sahu on 23-3-2023
+// Reason - to save category
+export const saveCategoryApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/category/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving category
+
+// Added by Yuvraj Sahu on 23-3-2023
+// Reason - to save item
+export const saveItemApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/item/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving item

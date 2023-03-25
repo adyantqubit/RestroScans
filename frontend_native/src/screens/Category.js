@@ -6,7 +6,6 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  TouchableOpacity,
   Pressable,
   Button,
   Image,
@@ -16,68 +15,78 @@ import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 
 import { Ionicons } from "@expo/vector-icons";
-import { postRestaurantDetail } from "../api/Services";
+import { getMenuList, saveCategoryApi, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
+import { tenantName } from "../config/config";
+import { SelectList } from "react-native-dropdown-select-list";
 // import { Country, State, City } from "country-state-city";
 
 export default function Category() {
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // Added by Yuvraj Sahu on 24-3-2023
+  // Reason - to show menu list in dropdown
+  const [menuSelected, setMenuSelected] = React.useState("");
+  var [data, setData] = useState([]);
+  React.useEffect(()=> {
+    const getMenus = async() => {
+      const response = await getMenuList ("ashoka")
+      if (response.menuList){
+        capitals = setData(response.menuList.map(function(obj) {
+          obj['key'] = obj['id']; // Assign new key
+          obj['value'] = obj['name']; // Rename key
+          delete obj['id']; // Delete old key
+          delete obj['name']; // Delete name
+          delete obj['icon']; // Delete icon
+          return obj;
+      }));
+      }
+    }
+    getMenus()
+  },[])
+  // End of show menu list
 
   var [isDisable, setIsDisable] = useState(false);
 
   const [tempPhoto, setTempPhoto] = useState(null);
 
-
-  const [restaurant_logo, setImage] = useState(null);
+  const [icon, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const pickImage = async () => {
-
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    console.log("sas" + JSON.stringify(result));
-    console.log("-------------" + result);
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      alert(result.assets[0].fileName);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
-      // setTempPhoto(result.assets[0]);
     }
   };
 
   const handleRegister = (formValues) => {
+    setIsDisable(true)
     var formData = new FormData();
- 
+
     const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-   
-    formData.append("restaurant_logo", {
-      uri: restaurant_logo,
-      name: restaurant_logo,
+
+    formData.append("icon", {
+      uri: icon,
+      name: icon,
       type: `image/${ext}`,
     });
-    
-    formData.append("restaurant_name", formValues.restaurant_name);
-    formData.append("owner_name", formValues.owner_name);
-    formData.append("mobile_number", formValues.mobile_number);
-    formData.append("telephone_number", formValues.telephone_number);
-    formData.append("email", formValues.email);
-    formData.append("password", formValues.password);
-    formData.append("confirm_password", formValues.confirm_password);
-    formData.append("address", formValues.address);
+    formData.append("name", formValues.name);
+    formData.append("menu",menuSelected)
 
-    postRestaurantDetail(formData).then((response) => {
+    saveCategoryApi(formData, tenantName).then((response) => {
       if (response.msg) {
-        Alert.alert("Succesfull", response.msg);
-        navigate('login')
+        Alert.alert("Successful", response.msg);
+        setIsDisable(false)
+        // navigate('login')
       }
       if (response.err) {
         Alert.alert("Error", response.msg);
+        setIsDisable(false)
       }
     });
   };
@@ -92,38 +101,40 @@ export default function Category() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      owner_name: "",
-      email: "",
-      mobile_number: "",
-      telephone_number: "",
-      restaurant_name: "",
-      address: "",
-      password: "",
-      confirm_password: "",
-      // restaurant_logo: ""
+      name: "",
+      menu: "",
     },
   });
 
   return (
     <ScrollView>
       <View style={styles.container}>
+        <Text>Add category</Text>
+        <SelectList
+          onSelect={() => alert(menuSelected)}
+          setSelected={setMenuSelected}
+          data={data}
+          search={false}
+          boxStyles={{ borderRadius: 0 }} //override default styles
+          // defaultOption={data[0]}
+        />
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Name
+            Category name
           </Text>
           <Controller
             control={control}
-            name="owner_name"
+            name="name"
             rules={{
               required: {
                 value: true,
-                message: "Owner name is required!",
+                message: "Category name is required",
               },
-              pattern: {
-                value: /^(?!\s+$).*/,
-                message: "Owner name cannot contain only blankspaces!",
-              },
+              //   pattern: {
+              //     value: /^(?!\s+$).*/,
+              //     message: "Menu name cannot contain only blankspaces!",
+              //   },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
@@ -133,7 +144,7 @@ export default function Category() {
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter your name"
+                    placeholder="Enter category name"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -143,382 +154,21 @@ export default function Category() {
                   />
                 </View>
 
-                {errors?.owner_name && (
-                  <Text style={styles.textdanger}>
-                    {errors?.owner_name?.message}
-                  </Text>
+                {errors?.name && (
+                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
                 )}
               </>
             )}
           />
         </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Email
-          </Text>
-          <Controller
-            control={control}
-            name="email"
-            rules={{
-              required: {
-                value: true,
-                message: "Email is required!",
-              },
-              pattern: {
-                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                message: "Email is invalid!",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Enter your email"
-                    autoCapitalize="none"
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    autoCorrect={false}
-                    placeholderTextColor="#A4A4A4"
-                    keyboardType="email-address"
-                  />
-                </View>
-                {errors?.email && (
-                  <Text style={styles.textdanger}>
-                    {errors?.email?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Mobile Number
-          </Text>
-          <Controller
-            control={control}
-            name="mobile_number"
-            rules={{
-              required: {
-                value: true,
-                message: "Mobile number is required!",
-              },
-              pattern: {
-                value: /^[6789]\d{9}$/,
-                message: "Mobile Number is invalid!",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter your mobile number"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {errors?.mobile_number && (
-                  <Text style={styles.textdanger}>
-                    {errors?.mobile_number?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Telephone Number
-          </Text>
-          <Controller
-            control={control}
-            name="telephone_number"
-            rules={{
-              required: {
-                value: true,
-                message: "Telephone number is required!",
-              },
-              pattern: {
-                value: /^[6789]\d{9}$/,
-                message: "Telephone number is invalid!",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter your Telephone number"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {errors?.telephone_number && (
-                  <Text style={styles.textdanger}>
-                    {errors?.telephone_number?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Password
-          </Text>
-          <Controller
-            control={control}
-            name="password"
-            rules={{
-              required: {
-                value: true,
-                message: "Password is required!",
-              },
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters!",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View style={styles.passContainer}>
-                  <TextInput
-                    style={styles.inputPassword}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter your password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={!showPassword}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye" : "eye-off"}
-                      size={24}
-                      color="black"
-                      style={styles.passIcon}
-                    />
-                  </TouchableOpacity>
-                </View>
-                {errors?.password && (
-                  <Text style={styles.textdanger}>
-                    {errors?.password?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Confirm Password
-          </Text>
-
-          <Controller
-            control={control}
-            name="confirm_password"
-            rules={{
-              required: {
-                value: true,
-                message: "Confirm password is required!",
-              },
-              minLength: {
-                value: 8,
-                message: "Confirm password must be at least 8 characters!",
-              },
-              validate: (value) =>
-                value === getValues("password") ||
-                "Password & Confirm Password does not match!",
-            }}
-            render={({
-              field: { onChange, onBlur, value },
-              // fieldState: { error },
-            }) => (
-              <>
-                <View style={styles.passContainer}>
-                  <TextInput
-                    style={styles.inputPassword}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter your password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={!showConfirmPassword}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                    // defaultValues={defaultValues}
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    <Ionicons
-                      name={showConfirmPassword ? "eye" : "eye-off"}
-                      size={24}
-                      color="black"
-                      style={styles.passIcon}
-                    />
-                  </TouchableOpacity>
-                </View>
-                {errors?.confirm_password && (
-                  <Text style={styles.textdanger}>
-                    {errors?.confirm_password?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Restaurant name
-          </Text>
-          <Controller
-            control={control}
-            name="restaurant_name"
-            rules={{
-              required: {
-                value: true,
-                message: "Restaurant name is required!",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter Restaurant name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                    // defaultValues={defaultValues}
-                  />
-                </View>
-
-                {errors?.restaurant_name && (
-                  <Text style={styles.textdanger}>
-                    {errors?.restaurant_name?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Address
-          </Text>
-          <Controller
-            control={control}
-            name="address"
-            rules={{
-              required: {
-                value: true,
-                message: "Address is required!",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                    // defaultValues={defaultValues}
-                  />
-                </View>
-
-                {errors?.address && (
-                  <Text style={styles.textdanger}>
-                    {errors?.address?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        {/* Added by Yuvraj Sahu on 21-2-2023
-        Reason - to upload logo */}
-        {/* <View style={styles.imagePickerContainer}>
-          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-            <Ionicons name="image" size={24} color="#5260ff" />
-            <Text
-              style={{
-                fontSize: 16,
-                marginLeft: 10,
-                fontWeight: "500",
-                color: "#5260ff",
-              }}
-            >
-              {image ? "Edit Profile Picture" : "Upload Profile Picture"}
-            </Text>
-          </TouchableOpacity>
-        </View> */}
-
-        {/* Added for testing image */}
 
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <Button title="Upload restaurant logo" onPress={pickImage} />
-          {restaurant_logo && (
+          <Button title="Add category icon" onPress={pickImage} />
+          {icon && (
             <Image
-              source={{ uri: restaurant_logo }}
+              source={{ uri: icon }}
               style={{ width: 200, height: 200 }}
             />
           )}
@@ -543,7 +193,7 @@ export default function Category() {
                 fontWeight: "bold",
               }}
             >
-              Register
+              Save
             </Text>
           </Pressable>
         </View>
@@ -551,7 +201,6 @@ export default function Category() {
     </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

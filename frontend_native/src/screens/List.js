@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image, ScrollView } from "react-native";
 import { getMenuList } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import config, { tenantName } from "../config/config";
@@ -41,6 +41,7 @@ export default function List({ navigation }) {
 
   return (
     <View style={{ backgroundColor: colors.backgroundTheme, height: "100%" }}>
+      <ScrollView>
       {/* <Text>List your item here</Text> */}
       {/* Menu Items ----------------------------------------------- */}
       <View style={styles.menuContainer}>
@@ -92,6 +93,12 @@ export default function List({ navigation }) {
                     {filterItem.map((itemData, id) => (
                       <View style={styles.btnContainer} key={id}>
                         <Pressable style={styles.itemList}>
+                          {/* <Image
+                            source={{
+                              uri: config.staticBaseURL + itemData.icon,
+                            }}
+                            style={{ width: 20, height: 20 }}
+                          /> */}
                           <Text style={styles.btnText}>{itemData.name}</Text>
                         </Pressable>
                       </View>
@@ -115,6 +122,7 @@ export default function List({ navigation }) {
         ))}
       </View> */}
       {/* Items List Close ------------------------------------------ */}
+      </ScrollView>
     </View>
   );
 }
@@ -123,14 +131,14 @@ const styles = StyleSheet.create({
   btnContainer: {
     // alignSelf: "flex-start",
     backgroundColor: "#e6e6e6",
-    width: '90%',
+    width: "90%",
     alignSelf: "center",
     borderRadius: 5,
-    borderColor: 'grey',
-    borderWidth: 2
+    borderColor: "grey",
+    borderWidth: 2,
   },
   menuPress: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     margin: 8,
     padding: 10,
     borderRadius: 5,
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
     // marginRight: 'auto'
   },
   btnText: {
-    color: 'black',
+    color: "black",
     fontWeight: "bold",
   },
   categoryView: {
@@ -153,14 +161,14 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     borderRadius: 10,
     height: 50,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   categoryPress: {
     display: "flex",
     flexDirection: "row",
     height: "100%",
     justifyContent: "space-around",
-    alignItems: 'center'
+    alignItems: "center",
   },
   menuContainer: {
     display: "flex",
@@ -185,10 +193,10 @@ const styles = StyleSheet.create({
   menuIcon: {
     height: "80%",
     width: "100%",
-    borderRadius: 5
+    borderRadius: 5,
   },
   itemList: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: 30
-  }
+  },
 });

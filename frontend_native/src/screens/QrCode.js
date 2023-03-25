@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import {
   Text,
   View,
@@ -11,7 +11,8 @@ import {
 import QRCode from "react-native-qrcode-svg";
 import Buttons from "../buttons/Buttons";
 import * as SecureStore from "expo-secure-store";
-import { frontendUrl } from "../config/config";
+import { frontendUrl, tenantName } from "../config/config";
+import ViewShot from "react-native-view-shot";
 
 export default function QrCode() {
   var [codeGenerate, setCodeGenerate] = useState(false);
@@ -39,6 +40,18 @@ export default function QrCode() {
   //   await SecureStore.deleteItemAsync("token")
   //   await SecureStore.deleteItemAsync("userData")
   // }
+
+  // const refs = useRef(null);
+  // const viewShot = useRef(null);
+  // var onSave = () => {
+  //   viewShot.viewShot.capture().then((uri) => {
+  //     Share.open({
+  //       title: "QR Code",
+  //       message: "message",
+  //       url: uri,
+  //     });
+  //   });
+  // };
 
   return (
     <>
@@ -68,10 +81,13 @@ export default function QrCode() {
         )}
 
         {/* <Button title='delete' onPress={erase}/> */}
+        {/* <Button title="Download" style={styles.Tbutton} onPress={() => onSave()} /> */}
 
+        {/* <ViewShot ref={viewShot} options={{ width: 100, height: 100, format: "jpg", quality: 1.0 }}> */}
         <View style={styles.barCode}>
           {codeGenerate > 0 && <QRCode value={restaurant} size={200} />}
         </View>
+        {/* </ViewShot> */}
       </View>
     </>
   );

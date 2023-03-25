@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import RNExitApp from "react-native-exit-app";
-import config, { setTenant, tenantName } from "../config/config";
+import config, { getTenant, setTenant, tenantName } from "../config/config";
 import { colors, fonts } from "../Colours/globalColor";
 // import '../Colours/GlobalColor.css';
 
@@ -22,6 +22,7 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     authNavigate();
+    getTenant()
   }, []);
 
   const authNavigate = async () => {

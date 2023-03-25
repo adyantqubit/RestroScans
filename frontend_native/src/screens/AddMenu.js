@@ -23,18 +23,13 @@ import { tenantName } from "../config/config";
 
 export default function AddMenu() {
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   var [isDisable, setIsDisable] = useState(false);
 
   const [tempPhoto, setTempPhoto] = useState(null);
 
-
-  const [restaurant_logo, setImage] = useState(null);
+  const [icon, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const pickImage = async () => {
-
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -54,18 +49,18 @@ export default function AddMenu() {
 
   const handleRegister = (formValues) => {
     var formData = new FormData();
- 
+
     const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-   
+
     formData.append("icon", {
-      uri: restaurant_logo,
-      name: restaurant_logo,
+      uri: icon,
+      name: icon,
       type: `image/${ext}`,
     });
-    
+
     formData.append("name", formValues.name);
 
-    alert('formData'+JSON.stringify(formData))
+    alert("formData" + JSON.stringify(formData));
 
     saveMenuApi(formData, tenantName).then((response) => {
       if (response.msg) {
@@ -88,13 +83,15 @@ export default function AddMenu() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: ""
+      name: "",
     },
   });
 
   return (
     <ScrollView>
       <View style={styles.container}>
+        <View>
+        </View>
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -108,10 +105,10 @@ export default function AddMenu() {
                 value: true,
                 message: "Menu name is required",
               },
-            //   pattern: {
-            //     value: /^(?!\s+$).*/,
-            //     message: "Menu name cannot contain only blankspaces!",
-            //   },
+              //   pattern: {
+              //     value: /^(?!\s+$).*/,
+              //     message: "Menu name cannot contain only blankspaces!",
+              //   },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
@@ -132,23 +129,36 @@ export default function AddMenu() {
                 </View>
 
                 {errors?.name && (
-                  <Text style={styles.textdanger}>
-                    {errors?.name?.message}
-                  </Text>
+                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
                 )}
               </>
             )}
           />
         </View>
 
+        <View style={{display: 'flex', flexDirection: 'row', width: '93%', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>
+        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+        <Text>Upload icon</Text>
+        </View>
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            display: 'flex',
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: 'black',
+            borderRadius: 3 ,
+            // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-around'
+          }}
         >
-          <Button title="Upload restaurant logo" onPress={pickImage} />
-          {restaurant_logo && (
+          <Button title="Add menu icon" onPress={pickImage} />
+          {icon && (
             <Image
-              source={{ uri: restaurant_logo }}
-              style={{ width: 200, height: 200 }}
+              source={{ uri: icon }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
             />
           )}
         </View>
@@ -180,7 +190,6 @@ export default function AddMenu() {
     </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

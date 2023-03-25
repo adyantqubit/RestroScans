@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-navigation/drawer": "^6.5.8",
+    "@react-navigation/material-top-tabs": "^6.6.2",
     "@react-navigation/native": "^6.1.3",
     "@react-navigation/native-stack": "^6.9.10",
     "@reduxjs/toolkit": "^1.9.2",
@@ -27,6 +28,7 @@
     "react-hook-form": "^7.43.1",
     "react-native": "0.70.5",
     "react-native-color-picker": "^0.6.0",
+    "react-native-dropdown-select-list": "^2.0.4",
     "react-native-exit-app": "^1.1.0",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-pager-view": "^6.1.4",
@@ -37,6 +39,7 @@
     "react-native-svg": "13.4.0",
     "react-native-tab-view": "^3.5.1",
     "react-native-vector-icons": "^9.2.0",
+    "react-native-view-shot": "^3.5.0",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.5",
     "yup": "^1.0.0"

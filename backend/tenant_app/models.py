@@ -45,6 +45,10 @@ class Item(models.Model):
     price_full=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
     price_half=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
     description=models.TextField()
+    # Added by Yuvraj Sahu on 24-3-2023
+    # Reason - add icon field
+    icon=models.ImageField(upload_to='images/item/', null=True)
+    # End of addition
     def __str__(self):
         return self.name 
 """
