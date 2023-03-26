@@ -11,6 +11,12 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To serialize Tenant model's data
 """
 class TenantListSerializer(serializers.ModelSerializer):
+    # added by Om on 25-03-23
+    # Reason : show the restaurant logo in UI site
+    restaurant = serializers.CharField(source='restaurant_name.restaurant_name')
+    restaurant_logo = serializers.ImageField(source = 'restaurant_name.restaurant_logo')
+    restaurant_background_image = serializers.ImageField(source = 'restaurant_name.restaurant_background_img')
+    # End of additionn
     class Meta:
         model=Tenant
         fields='__all__'

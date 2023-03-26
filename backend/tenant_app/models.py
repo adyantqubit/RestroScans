@@ -42,10 +42,10 @@ class Item(models.Model):
     # Reason : To show items image
     icon=models.ImageField(upload_to='images/item/',default='')
     # End of addition
-    price_full=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
-    price_half=models.DecimalField(null=True,blank=True,max_digits=9,decimal_places=2)
-    description=models.TextField()
-    # Added by Yuvraj Sahu on 24-3-2023
+    price_full=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
+    price_half=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
+    description=models.CharField(max_length=80)
+	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
     icon=models.ImageField(upload_to='images/item/', null=True)
     # End of addition
@@ -109,10 +109,13 @@ Reason - To create Theme
 """
 class Setting(models.Model):
     id = models.AutoField(primary_key=True)
-    background_color =models.CharField(max_length=8,null=True,blank=True)
-    heading_color =models.CharField(max_length=8,null=True,blank=True)
-    subheading_color =models.CharField(max_length=8,null=True,blank=True)
-    banner_heading_color =models.CharField(max_length=8,null=True,blank=True)
+    background_color =models.CharField(max_length=20,null=True,blank=True)
+    heading_color =models.CharField(max_length=20,null=True,blank=True)
+    subheading_color =models.CharField(max_length=20,null=True,blank=True)
+    banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
+    heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+
     
     def __str__(self):
         return "color changed"

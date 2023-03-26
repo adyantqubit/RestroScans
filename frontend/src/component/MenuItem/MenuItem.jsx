@@ -1,7 +1,7 @@
 // import "./MenuItem.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getmenuList, getofferDetails } from "../../api/Services";
+import { getmenuList, getofferDetails, gettenantList } from "../../api/Services";
 import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
@@ -24,8 +24,10 @@ import "swiper/css/navigation";
 import GlobalColor from './../Colors/GlobalColor'
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
+import Loader from "../Loader/Loader";
 
 function MenuItem() {
+
 
   var { searchedValue,
     setSearchedValue, colors } = useContext(GlobalContext);
@@ -38,9 +40,14 @@ function MenuItem() {
   var [offerShow, setOfferShow] = useState([])
 
   var [filter, setFiltered] = useState([])
+  // Added by Om on 25-03-23
+  // Reason : Add Loader whenever the data enter from backend site
+  const [isLoader, setIsLoader] = useState(true)
+  // End of addition
 
   const [offerBanner, setOfferBanner] = useState([]); // Our Item set in this variable
   const [offerList, setOfferList] = useState([]); // Our Item set in this variable
+  var [restaurantName, setRestaurantName] = useState([]);
 
   const onMenuChange = (data) => {
     setfilterCategory(menuList.filter((dt) => dt.id == data))
@@ -68,7 +75,7 @@ function MenuItem() {
     }
     else {
       (document.getElementById('offer_divv').style.display = 'none')
-        (document.getElementById('flip_div_idd').style.height = '41% ')
+        (document.getElementById('flip_div_idd').style.height = '45% ')
 
     }
   }
@@ -76,13 +83,17 @@ function MenuItem() {
   useEffect(() => {
     getMenu(tenantt);
     getOffer(tenantt);
+    // getRestroName(tenantt)
   }, []);
 
   var tenantt = localStorage.getItem("tenantName")
+  var restaurant_name = localStorage.getItem("restroName")
+
 
   const getMenu = async () => {
     const response = await getmenuList(tenantt);
     if (response) {
+      setIsLoader(false)
       setmenuList(response.menuList);
       setCategoryList(response.categoryList)
       setItemList(response.itemList)
@@ -91,11 +102,18 @@ function MenuItem() {
     }
   };
 
+  // const getRestroName = async () => {
+  //   const response = await gettenantList(tenantt);
+  //   if (response) {
+  //     setRestaurantName(response.restaurantName);
+  //   }
+  // };
   // For Show the all offers in banner
 
   const getOffer = async () => {
     const response = await getofferDetails(tenantt);
     if (response) {
+      setIsLoader(false)
       setOfferBanner(response.offerBanner);
       setOfferList(response.offerItemList)
       // setOfferShow(response.offerItemList)
@@ -268,14 +286,16 @@ function MenuItem() {
     setSelected(selected => Math.min(selected + 1, menuList.length - 1));
   };
 
-  console.log(menuList, 'All Menu')
-  console.log(categoryList, 'All categories')
-  console.log(itemList, 'All items')
-  console.log(filterCategory, 'filtercategory')
-  // console.log(offerBanner, 'all offer images')
-  // console.log(offerList, 'all offer details')
-  // console.log(offerShow, 'set offer data')
+  // console.log(menuList, 'All Menu')
+  // console.log(categoryList, 'All categories')
+  // console.log(itemList, 'All items')
+  // console.log(filterCategory, 'filtercategory')
+  console.log(offerBanner, 'all offer images')
+  console.log(offerList, 'all offer details')
+  console.log(offerShow, 'set offer data')
   // console.log(filter, 'searching data')
+  // console.log(res)
+
   // console.log(search, 'set in input field')
 
 
@@ -284,62 +304,71 @@ function MenuItem() {
   const navigatee = () => {
     navigate('/')
   }
+  
 
   return (
+    <>
+      {isLoader == true ? <Loader /> :
+
     <div className='menu_maindiv'
       style={{ backgroundColor: colors.backgroundTheme }}
     >
+      
       <h2 style={{ color: colors.headingColor }}
         className="restaurant_name"
-      >{tenantt.toUpperCase()}</h2>
+      >{restaurant_name.toUpperCase()}</h2>
 
       <div><GlobalColor /></div>
+      {/* {isLoader == true ? <Loader /> : */}
 
-      <div>
-        <Swiper
-          // cssMode={true}
-          navigation={true}
-          pagination={{
-            clickable: true,
-          }}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          // mousewheel={true}
-          keyboard={true}
-          modules={[Navigation, Pagination, Autoplay]}
-          // , Mousewheel, Keyboard]}
-          className="mySwiper"
-        >
-          {offerBanner.map((item, id) => (
-            <SwiperSlide>
-              <div
-                style={{ color: 'blue', fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', position: 'relative' }}
-                className='offer_div'
-                onClick={
-                  e => onOfferShow(item.offer_name)
-                }
-              >
-                <img
-                  src={siteConfig.siteURL + item.offer_image}
-                  style={{ border: '2px solid white' }}
-                  className='offer_banner'
-                />
-                <h2
-                  className='offer_content'
-                  style={{ color: colors.bannerColor }}
+        <div>
+
+          <Swiper
+            // cssMode={true}
+            navigation={true}
+            pagination={{
+              clickable: true,
+            }}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            // mousewheel={true}
+            keyboard={true}
+            modules={[Navigation, Pagination, Autoplay]}
+            // , Mousewheel, Keyboard]}
+            className="mySwiper"
+          >
+
+            {offerBanner.map((item, id) => (
+              <SwiperSlide>
+                <div
+                  style={{ color: 'blue', fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', position: 'relative', padding: "1% " }}
+                  className='offer_div'
+                  onClick={
+                    e => onOfferShow(item.offer_name)
+                  }
                 >
-                  {item.offer_name}
-                </h2>
-              </div>
-            </SwiperSlide>
-          ))}
+                  <img
+                    src={siteConfig.siteURL + item.offer_image}
+                    style={{ border: '2px solid white' }}
+                    className='offer_banner'
+                  />
+                  <h2
+                    className='offer_content'
+                    style={{ color: colors.bannerColor }}
+                  >
+                    {item.offer_name}
+                  </h2>
+                </div>
+              </SwiperSlide>
+            ))}
 
-        </Swiper>
-      </div>
-
-      <div id="hide_search" style={{ backgroundColor: colors.headingColor }} className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
+          </Swiper>
+        </div>
+      {/* } */}
+{/* <br /> */}
+      <div id="hide_search"  className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
         <div className='searchpage_input'>
           <Input.Group>
             <Search size='large'
@@ -352,10 +381,10 @@ function MenuItem() {
       </div>
 
       {filter.length == 0 && search.length > 0 ?
-        <div id="search_divv" style={{ height: '41%',marginTop:'2%' }}>
-          <img 
-          src={nodataImg} 
-          className='nodata_image' />
+        <div id="search_divv" style={{ height: '41%', marginTop: '2%' }}>
+          <img
+            src={nodataImg}
+            className='nodata_image' />
           {/* <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
             <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
             </span>
@@ -364,7 +393,7 @@ function MenuItem() {
             {removeNoSerachResult}
           />
           </span> */}
-          
+
           <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '24px' }}>
             No search result found</h5>
         </div> : null}
@@ -415,8 +444,10 @@ function MenuItem() {
               return (<>
                 <div className='after_search_div'
                 >
-                  <h3 className="after_search_categoryname"
-                    style={{ color: colors.headingColor }}
+                  <h3 className="main_menu_name"
+                    style={{ color: colors.headingColor, textAlign: 'center' ,
+                    backgroundColor:colors.headingBackgroundColor
+                  }}
                   >
                     {obj}
                   </h3>
@@ -429,36 +460,59 @@ function MenuItem() {
                     >
                       <span className="allcategory_searched"
                       >
-                        <img style={{ border: '1px solid black' }}
+                        {/* <img style={{ border: '1px solid black' }}
                           src={siteConfig.siteURL + filter[i][obj][c][0].category_img}
                           className="category_serached_img" width='2%'
-                        />&nbsp;
+                        />&nbsp; */}
                         <h3 className="category_name"
-                          style={{ fontSize: '17px', color: colors.headingColor }}
+                          style={{ color: colors.headingColor ,
+                            backgroundColor:colors.subheadingBackgroundColor
+                          }}
                         >
                           {c}
                         </h3>
                       </span>
+                      <div style={{
+                        display: 'flex',
+                        padding: '5% 0% 0% 0%',
+                        color: 'lightblue'
+                      }}
+                      >
+                        <div className="allitems_heading_name" style={{ color: colors.bannerColor,textAlign:'center',marginLeft:'8%' }}>
+                          Item name
+                        </div>
+                        <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
+                        <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+                      </div>
                       {filter[i][`${obj}`][c].map(person =>
-                        <div className='after_search_div'
-                        >
+                        <div style={{ display: 'flex' }}>
+                          <div className="showimg_div" >
 
-                          <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            padding: '3% 0% 0% 0%',
-                            fontSize: '16px'
-                          }}
-                          >
-                            <div className="after_search_content" style={{ color: colors.subHeadingColor }}
-                            >{person.name}</div>
-                            <div className="after_search_price" style={{ color: colors.subHeadingColor }}
-                            >{person.price_full ? '₹' + person.price_full :
-                              '---'}</div>
-                            <div className="after_search_price" style={{ color: colors.subHeadingColor }}
-                            >{person.price_half ? '₹' + person.price_half : '---'}</div>
+                            <img src={siteConfig.siteURL + person.icon}
+                              className="menu_img"
+                            />
+                          </div>
+                          <div className="price_item_description_div">
+                            <div className="price_description_container" >
+                              <h4 style={{ color: colors.subHeadingColor }}
+                                className="allitems_name"
+                              >{person.name}</h4>
+                              <h4 style={{ color: colors.subHeadingColor }}
+                                className="allitems_price"
+                              >{person.price_full ? '₹' + person.price_full : '---'}</h4>
+                              <h4 style={{ color: colors.subHeadingColor }}
+                                className="allitems_price"
+                              >{person.price_half ? '₹' + person.price_half : '---'}</h4>
+                            </div>
+
+                            <div className="description_div" >
+                              <h3 className="description_content" style={{ color: colors.bannerColor }}>{person.description}</h3>
+                            </div>
+                            <br />
+                            <br />
                           </div>
                         </div>
+
                       )}
                     </div>
                   )
@@ -498,22 +552,42 @@ function MenuItem() {
 
         }}
         >
-          <div className="allitems_name" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Item name</div>
-          <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Full price</div>
-          <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Half price</div>
+          <div className="allitems_heading_name" style={{ color: colors.bannerColor,textAlign:'center',marginLeft:'8%' }}>
+            Item name
+          </div>
+          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Full price</div>
+          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
         </div>
         {offerShow.length > 0 ?
           <>
             {offerShow.map((showdata, id) => (
-              <div>
-                <div style={{
-                  display: 'flex',
-                  padding: '5% 0% 0% 0%',
-                }}
-                >
-                  <div style={{ fontSize: '12.5px', color: colors.subHeadingColor }} className="allitems_name"> {showdata.item_name}</div>
-                  <div style={{ fontSize: '12.5px', color: colors.subHeadingColor }} className="allitems_price" >{showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</div>
-                  <div style={{ fontSize: '12.5px', color: colors.subHeadingColor }} className="allitems_price" >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</div>
+              <div style={{ display: 'flex' }}>
+                <div className="showimg_div" >
+
+                  <img src={siteConfig.siteURL + showdata.item_image}
+                    className="menu_img"
+                  />
+                </div>
+                <div className="price_item_description_div">
+                  <div className="price_description_container" >
+                    <h4 style={{ color: colors.subHeadingColor }}
+                      className="allitems_name"
+                    >{showdata.item_name}</h4>
+                    <h4 style={{ color: colors.subHeadingColor }}
+                      className="allitems_price"
+                    >{showdata.item_fullprice
+                      ? '₹' + showdata.item_fullprice
+                      : '---'}</h4>
+                    <h4 style={{ color: colors.subHeadingColor }}
+                      className="allitems_price"
+                    >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</h4>
+                  </div>
+
+                  <div className="description_div" >
+                    <h3 className="description_content" style={{ color: colors.bannerColor }}>{showdata.item_description}</h3>
+                  </div>
+                  <br />
+                  <br />
                 </div>
               </div>
             ))}
@@ -523,7 +597,7 @@ function MenuItem() {
         }
       </div>
 
-      <div id="flip_div_idd" style={{  }}
+      <div id="flip_div_idd" style={{}}
         className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
       >
         <FlippingPages
@@ -534,73 +608,101 @@ function MenuItem() {
           children={2}
           shadowBackground='transparent'
         >
-          {filterCategory.map((showMenu) => (
+          {menuList.map((showMenu) => (
             <div>
-              <span style={{textAlign:'center'}}
+              <span style={{ textAlign: 'center' }}
               >
 
-                <h5 style={{ color: colors.headingColor,paddingTop:'2%' }}
-                  className="category_name"
+                <h5 style={{ color: colors.headingColor, paddingTop: '2%',
+         backgroundColor:colors.headingBackgroundColor
+              }}
+                  className="main_menu_name"
                 >{showMenu.name}
                 </h5>
               </span>
-              {categoryList.filter(set => set.menu === showMenu.id).map(data =>
-                // {categoryList.map((data) => (
-                <div className="allcategory_menu_div">
-                  <span className="allcategory_container"
-                  >
-                    <img style={{ border: '1px solid black' }}
+              {categoryList.length > 0 ? <>
+                {categoryList.filter(set => set.menu === showMenu.id).map(data =>
+                  // {categoryList.map((data) => (
+                  <div className="allcategory_menu_div">
+                    <span className="allcategory_container"
+                      style={{}}
+                    >
+                      {/* <img style={{ border: '1px solid black' }}
                       src={siteConfig.siteURL + data.icon}
                       className="category_img"
-                    />&nbsp;
-                    <h3 style={{ color: colors.headingColor }}
-                      className="category_name"
-                    >{data.name}
-                    </h3>
-                  </span>
-                  <div style={{
-                    display: 'flex',
-                    padding: '5% 0% 0% 0%',
-                    color: 'lightblue'
-                  }}
-                  >
-                    <div className="allitems_name" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Item name</div>
-                    <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }} >Full price</div>
-                    <div className="allitems_price" style={{ fontSize: '13.5px', color: colors.bannerColor }}>Half price</div>
-                  </div>
-
-                  {itemList.filter(i => i.category === data.id).map(m =>
+                    />&nbsp; */}
+                      <h3 style={{ color: colors.headingColor,backgroundColor:colors.subheadingBackgroundColor }}
+                        className="category_name"
+                      >{data.name}
+                      </h3>
+                    </span>
                     <div style={{
                       display: 'flex',
                       padding: '5% 0% 0% 0%',
+                      color: 'lightblue'
                     }}
                     >
-
-                      <div style={{ color: colors.subHeadingColor }} className="allitems_name">{m.name}</div>
-                      <div style={{ color: colors.subHeadingColor }} className="allitems_price" >{m.price_full ? '₹' + m.price_full : '---'}</div>
-                      <div style={{ color: colors.subHeadingColor }} className="allitems_price" >{m.price_half ? '₹' + m.price_half : '---'}</div>
+                      <div className="allitems_heading_name" style={{ color: colors.bannerColor ,textAlign:'center',marginLeft:'8%'}}>
+                        Item name
+                      </div>
+                      <div className="allitems_heading_price" style={{ color: colors.bannerColor ,}} >Full price</div>
+                      <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
                     </div>
-                  )}
+                    {itemList.length > 0 ? <>
+                      {itemList.filter(i => i.category === data.id).map(m =>
+                        // <div style={{ border: '2px solid green', height: '100%', display: 'flex' }}>
 
-                </div>
+                        <div style={{ display: 'flex' }}>
+                          <div className="showimg_div" >
 
-              )}
+                            <img src={siteConfig.siteURL + m.icon}
+                              className="menu_img"
+                            />
+                          </div>
+                          <div className="price_item_description_div">
+                            <div className="price_description_container" >
+                              <h4 style={{ color: colors.subHeadingColor }}
+                                className="allitems_name"
+                              >{m.name}</h4>
+                              <h4 style={{ color: colors.subHeadingColor }}
+                                className="allitems_price"
+                              >{m.price_full ? '₹' + m.price_full : '---'}</h4>
+                              <h4 style={{ color: colors.subHeadingColor }}
+                                className="allitems_price"
+                              >{m.price_half ? '₹' + m.price_half : '---'}</h4>
+                            </div>
+
+                            <div className="description_div" >
+                              <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3>
+                            </div>
+                            <br />
+                            <br />
+                          </div>
+                        </div>
+
+                      )}
+                    </> : <h5 style={{ backgroundColor: 'red' }}>Nopeeee
+                    </h5>}
+                  </div>
+
+                )}
+              </> :
+                <h5 style={{ backgroundColor: 'red' }}>Nopeeee
+                </h5>}
             </div>
           ))}
         </FlippingPages>
       </div>
 
       <br />
-      <div id="parent_div_button" className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
-      // style={{ display: 'flex', justifyContent: 'space-between', padding: '0% 2% 0% 2%' }}
+      {/* <div id="parent_div_button" className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
       >
         <div >
           <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={back}><LeftOutlined /><span> Previous </span></button>
         </div>
         <div >
           <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={next}><span>Next </span> <RightOutlined /></button></div>
-      </div>
-      <br />
+      </div> */}
       <div className="div_caraousel">
         <Carousel
           swipeable={false}
@@ -614,9 +716,10 @@ function MenuItem() {
           containerClass="carousel-container"
           itemClass="carousel-item-padding-40-px"
           arrows={true}
+
         >
           {menuList.map((data, id) => (
-            <div>
+            <div id={id}>
               <div
                 style={{
                   fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
@@ -625,9 +728,7 @@ function MenuItem() {
                 onClick={
                   e => {
                     onMenuChange(data.id);
-                    setSelected(0);
-                    // setMenuSelected(0);
-                    // hideMainCategoryDiv()
+                    setSelected(id);
                   }
                 }
               >
@@ -645,11 +746,14 @@ function MenuItem() {
             </div>
           ))}
         </Carousel>
+       
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
-
+    }
+</>
   );
+  
 }
 export default MenuItem;
 

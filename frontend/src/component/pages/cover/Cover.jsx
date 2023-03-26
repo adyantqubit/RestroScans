@@ -27,12 +27,19 @@ function Cover() {
 
   // Above method use for split the restaurent name
 
-  const [tenantDetails, setTenantDetails] = useState([]); // Our data set in this variable which comes from backend
+  const [tenantDetails, setTenantDetails] = useState(null); // Our data set in this variable which comes from backend
 
   useEffect(() => {
     getMenu(tenant);
     localStorage.setItem("tenantName", tenant)
+
   }, []);
+
+  useEffect(()=>{
+    if(tenantDetails!=null)
+    localStorage.setItem("restroName", tenantDetails["restaurant"])
+
+  },[tenantDetails])
 
   const getMenu = async () => {
     const response = await gettenantList(tenant);
@@ -45,33 +52,48 @@ function Cover() {
   const goToNext = () => {
     navigate("/menu-item");
   };
-
+  console.log(tenantDetails)
 
   return (
     <div >
-      <div
+      {tenantDetails?<div
         style={{ color: 'blue', fontSize: '14px' }}
         className='front_page'
 
       >
         <img
           style={{ border: '1px solid black' }}
-          src={siteConfig.siteURL + tenantDetails.tenant_logo}
+          src={siteConfig.siteURL + tenantDetails.restaurant_background_image}
           className='front_page_image'
         />
-        <h2
+        {/* <h2
           className='front_page_lable'
-          style={{color: colors.backgroundTheme}}
-          // style={{color: 'red'}}
-
+          style={{ color: colors.backgroundTheme }}
         >
-          {tenantDetails.tenant_name}
-        </h2>
-        <div style={{marginLeft:'auto',marginRight:'auto',display:'flex'}}>
-        <button onClick
-        ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex',backgroundColor:colors.headingColor }} className='coverButton' >Explore menu</button >
+          {tenantDetails.restaurant}
+        </h2> */}
+        <div className="front_page_lable">
+
+          {/* <h5 className="restaurant_img_div"
+          > */}
+          <h3 className="restro_name"
+              style={{  color: colors.headingColor }}
+            >
+              {tenantDetails.restaurant}
+            </h3>
+            <img style={{ border: '1px solid black' }}
+              src={siteConfig.siteURL + tenantDetails.restaurant_logo}
+              className="restaurant_logo" width='2%'
+            />&nbsp;
+            
+          {/* </h5> */}
         </div>
-      </div>
+
+        <div style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }}>
+          <button onClick
+            ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', backgroundColor: colors.headingColor }} className='coverButton' >Explore menu</button >
+        </div>
+      </div>:null}
     </div>
   );
 }

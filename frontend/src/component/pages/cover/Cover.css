@@ -19,8 +19,8 @@
 
 .front_page_lable {
     position: absolute;
-    top: 2%;
-    left: 50%;
+    top: 35%;
+    left: 51%;
     transform: translate(-50%, -50%);
     /* color: black; */
     display: -webkit-box;
@@ -53,4 +53,21 @@
     align-items: center;
     padding: 3%;
     border-radius: 6%;
+}
+.restaurant_logo{
+    border-radius: 100%;
+    width:80%;
+    margin-top: 20%
+}
+.restaurant_img_div {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.restro_name {
+    margin: 0;
+    padding: 0%;
+    font-size: 40px;
+    font-family: Lucida Handwriting;
 }

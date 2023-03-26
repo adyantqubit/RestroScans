@@ -37,13 +37,17 @@ function Footer() {
 
           </div>
         ))}
-        <span className='footer_content' >
+        {/* <span className='footer_content' >
           {footerDetails.map((item) => item.content)}
-        </span>
-        <br />
+        </span> */}
+        {/* <br /> */}
         {/* <span style={{ fontSize: '13px' }}>Powered by Adyant</span> */}
-       <span> <a style={{color:'black',fontSize:'13px',textDecoration:'none'}}  href="https://adyant.co.in/" >Powered by - Adyant</a>
+        <div className='footer_content'>
+          <span > Copyright © 2023</span>
+          <span> <a style={{color:'black',fontSize:'13px',textDecoration:'none'}}  href="https://adyant.co.in/" >Powered by - Adyant</a>
        </span>
+        </div>
+       
       </div>
     </div>
   )

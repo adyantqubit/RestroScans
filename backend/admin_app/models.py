@@ -11,6 +11,10 @@ class RestaurantRequest(models.Model):
     restaurant_name =models.CharField(max_length=255, default='')
     tag_line = models.CharField(max_length=255, default='')
     restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True)
+     # Added by Om on 24-03-23
+    # Reason: Show a restaurant background image
+    restaurant_background_img = models.ImageField(upload_to='images/tenantBackgroundImage/',blank=True,null=True)
+    # End of addition
     owner_name = models.CharField(max_length=255, default='')
     email =models.EmailField()
     mobile_number =models.CharField(max_length=15, default='')
@@ -26,7 +30,7 @@ class RestaurantRequest(models.Model):
             return self.restaurant_name
 """
 End of code addition
-"""
+""" 
 
 """-------------------------------------------------------------------
 Added by - Ashish Dewangan on 08-02-2023
@@ -34,18 +38,21 @@ Reason - To have tenant table where tenant's information will be stored
 """
 class Tenant(TenantMixin):
     tenant_name=models.CharField(max_length=255,default='')
-    restaurant_name = models.ForeignKey(RestaurantRequest,related_name='restaurant_id',null=True,on_delete=models.DO_NOTHING)
     tenant_logo=models.ImageField(upload_to='images/tenant/',blank=True,null=True)
+     # Added by Om on 24-03-23
+    # Reason: Show a restaurant name in tenant models
+    restaurant_name = models.ForeignKey(RestaurantRequest,related_name='restaurant_id',null=True,on_delete=models.DO_NOTHING)
+    # End of addition
     active=models.BooleanField(default=False)
     created_at=models.DateField(auto_now=True)
     updated_at=models.DateField(auto_now=True)
+   
     
     def __str__(self):
             return self.tenant_name
 """
 End of code addition
 """
-
 
 """-------------------------------------------------------------------
 Added by - Yuvraj Sahu on 18-02-2023
