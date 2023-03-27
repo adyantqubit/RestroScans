@@ -55,7 +55,8 @@
     width: 5%;
 }
 .nodata_image{
-    width: 100%;
+    width: auto;
+    height: 30vh;
 }
 
 .allcategory_menu_div {
