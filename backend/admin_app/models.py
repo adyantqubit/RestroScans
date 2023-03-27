@@ -30,7 +30,7 @@ class RestaurantRequest(models.Model):
             return self.restaurant_name
 """
 End of code addition
-""" 
+"""
 
 """-------------------------------------------------------------------
 Added by - Ashish Dewangan on 08-02-2023
@@ -50,9 +50,20 @@ class Tenant(TenantMixin):
     
     def __str__(self):
             return self.tenant_name
+    # Added by Yuvraj Sahu on 28-3-2023
+    # reason - to save tenant barcode svg
+    def save(self, *args, **kwargs ):
+        import os
+        import pyqrcode
+        from django.conf import settings
+        url = pyqrcode.create('http://192.168.1.30:3000/api/v1/'+self.tenant_name+'/home')
+        url.svg(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/menu/qr.svg', scale=10)
+        super().save( *args, **kwargs)
+        # End of code addition
 """
 End of code addition
 """
+
 
 """-------------------------------------------------------------------
 Added by - Yuvraj Sahu on 18-02-2023

@@ -6,7 +6,6 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  TouchableOpacity,
   Pressable,
   Button,
   Image,
@@ -14,9 +13,8 @@ import {
 
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
-
-import { Ionicons } from "@expo/vector-icons";
-import { postRestaurantDetail, saveMenuApi } from "../api/Services";
+import * as SecureStore from "expo-secure-store";
+import { getMenuList, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 // import { tenantName } from "../config/config";
 // import { Country, State, City } from "country-state-city";
@@ -38,26 +36,47 @@ export default function AddMenu() {
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      alert(result.assets[0].fileName);
+      // alert(result.assets[0].fileName);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
       // setTempPhoto(result.assets[0]);
     }
   };
 
+  // Added by Yuvraj Sahu on 26-3-2023
+  // Reason - to re render app
+  // let [state, setState] = useState("")
+  // useEffect(()=>{
+  //   getAllMenuList();
+  // },[state])
+  // End of re render
+
   useEffect(()=>{
     getTenant();
+    // getAllMenuList()
   },[])
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get tenant from localStorage
   var [tenant, setTenant] = useState("");
+  var [menuList, setMenuList] = useState([]);
   const getTenant = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     setTenant(JSON.parse(tenantInfo).tenant_name);
   };
+  // const getAllMenuList = async () => {
+  //   // const response = await getMenuList("ashoka");
+  //   const response = await getMenuList("nityafood");
+  //   if (response) {
+  //     // setState("state")
+  //     setMenuList(response.menuList);
+  //     // setCategoryList(response.categoryList);
+  //     // setItemList(response.itemList);
+  //     // setFilterCategory(response.categoryList);
+  //   }
+  // };
   // End of getting tenant detail
 
-  const handleRegister = (formValues) => {
+  const handleRegister = async (formValues) => {
     var formData = new FormData();
 
     const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
@@ -74,9 +93,10 @@ export default function AddMenu() {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
         // navigate('login')
+        setState("stateChanged")
       }
       if (response.err) {
-        Alert.alert("Error", response.msg);
+        Alert.alert("Error", response.err);
       }
     });
   };
@@ -195,6 +215,9 @@ export default function AddMenu() {
             </Text>
           </Pressable>
         </View>
+        {menuList.map((dt,id)=>(
+          <View key={id}><Text>{dt.name}</Text></View>
+        ))}
       </View>
     </ScrollView>
   );

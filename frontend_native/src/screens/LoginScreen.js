@@ -12,20 +12,34 @@ import {
   Alert,
   Pressable,
   BackHandler,
+  ImageBackground,
+  Image,
 } from "react-native";
 
 import { Formik } from "formik";
 import * as SecureStore from "expo-secure-store";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { restaurentAuthentication } from "../api/Services";
+import { getAppSetting, restaurentAuthentication } from "../api/Services";
 import { loginSchema } from "../validation/ValidationSchema";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../Colours/globalColor";
+import config from "../config/config";
 
 export default function LoginScreen({ navigation }) {
   const navigator = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   var [isBtnDisable, setIsBtnDisable] = useState(false);
+
+  // Added by Yuvraj Sahu on 25-3-2023
+  // Reason - to get adyant logo and show it background
+  const [appSettings, setAppSettings] = useState("");
+  useEffect(() => {
+    getAppDetails();
+  }, []);
+  const getAppDetails = async () => {
+    const response = await getAppSetting();
+    setAppSettings(response);
+  };
 
   //when user click login button this method is called
   const submitLog = (values, { resetForm }) => {
@@ -38,7 +52,10 @@ export default function LoginScreen({ navigation }) {
           "userData",
           JSON.stringify(res.userData[0])
         );
-        await SecureStore.setItemAsync("tenantInfo", JSON.stringify(res.tenantInfo));
+        await SecureStore.setItemAsync(
+          "tenantInfo",
+          JSON.stringify(res.tenantInfo)
+        );
         navigation.navigate("DrawerScreens");
         resetForm({ values: "" });
       }
@@ -98,6 +115,7 @@ export default function LoginScreen({ navigation }) {
       validateOnMount={true}
       validationSchema={loginSchema}
       onSubmit={submitLog}
+      style={{ width: "100%", height: "100%" }}
     >
       {({
         handleChange,
@@ -108,111 +126,131 @@ export default function LoginScreen({ navigation }) {
         isValid,
         errors,
       }) => (
-        <ScrollView style={styles.container}>
-          <View style={styles.container}>
-            <View style={{ marginTop: 30 }}>
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Email
-                </Text>
+        // <ScrollView style={{height: "100%"}}>
+          <ImageBackground
+            source={{ uri: config.imageUrl + appSettings.app_logo }}
+            resizeMode="cover"
+            blurRadius={2}
+            style={{ flex: 1, height: "100%" }}
+          >
+            <View style={styles.container}>
+              <View style={{ marginTop: 30 }}>
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    Email
+                  </Text>
 
-                <TextInput
-                  style={styles.input}
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                  placeholderTextColor="#A4A4A4"
-                  placeholder="Enter your email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-                {errors.email && touched.email && (
-                  <Text style={styles.textdanger}>{errors.email}</Text>
-                )}
-              </View>
-
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Password
-                </Text>
-
-                <View style={styles.passContainer}>
                   <TextInput
-                    style={styles.inputPassword}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
+                    style={styles.input}
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    value={values.email}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter your password"
+                    placeholder="Enter your email"
+                    keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    secureTextEntry={!showPassword}
                   />
-
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye" : "eye-off"}
-                      size={24}
-                      color="black"
-                      style={styles.passIcon}
-                    />
-                  </TouchableOpacity>
+                  {errors.email && touched.email && (
+                    <Text style={styles.textdanger}>{errors.email}</Text>
+                  )}
                 </View>
 
-                {errors.password && touched.password && (
-                  <Text style={styles.textdanger}>{errors.password}</Text>
-                )}
-              </View>
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    Password
+                  </Text>
 
-              <View>
-                <Pressable onPress={forgotPasswordHandler}>
-                  <Text>Forgot Password</Text>
-                </Pressable>
-              </View>
+                  <View style={styles.passContainer}>
+                    <TextInput
+                      style={styles.inputPassword}
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter your password"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={!showPassword}
+                    />
 
-              <View
-                style={{
-                  marginBottom: 30,
-                  marginHorizontal: 10,
-                  marginTop: 10,
-                }}
-              >
-                <Pressable
-                  onPress={handleSubmit}
-                  disabled={isBtnDisable}
+                    <TouchableOpacity
+                      onPress={() => setShowPassword(!showPassword)}
+                    >
+                      <Ionicons
+                        name={showPassword ? "eye" : "eye-off"}
+                        size={24}
+                        color="black"
+                        style={styles.passIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {errors.password && touched.password && (
+                    <Text style={styles.textdanger}>{errors.password}</Text>
+                  )}
+                </View>
+
+                <View style={{ width: "93%" }}>
+                  <Pressable
+                    onPress={forgotPasswordHandler}
+                    style={{ alignSelf: "flex-end" }}
+                  >
+                    <Text style={{ color: "blue" }}>Forgot Password</Text>
+                  </Pressable>
+                </View>
+
+                <View
                   style={{
-                    backgroundColor: !isBtnDisable
-                      ? colors.btnColor
-                      : "#E0E0E0",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 3,
+                    marginBottom: 20,
+                    marginHorizontal: 10,
+                    marginTop: 10,
                   }}
                 >
-                  <Text
+                  <Pressable
+                    onPress={handleSubmit}
+                    disabled={isBtnDisable}
                     style={{
-                      color: !isBtnDisable ? "white" : "#989898",
-                      fontSize: 16,
-                      fontWeight: "bold",
+                      backgroundColor: !isBtnDisable
+                        ? colors.btnColor
+                        : "#E0E0E0",
+                      // height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 3,
+                      padding: "3%",
                     }}
                   >
-                    Login
-                  </Text>
+                    <Text
+                      style={{
+                        color: !isBtnDisable ? "white" : "#989898",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Login
+                    </Text>
+                  </Pressable>
+                </View>
+
+                <View
+                  style={{
+                    borderBottomColor: "black",
+                    borderBottomWidth: 1,
+                    width: "93%",
+                    alignSelf: "center",
+                  }}
+                />
+
+                <Pressable onPress={navRegister} style={styles.registerBtn}>
+                  <Text style={styles.registerText}>Register</Text>
                 </Pressable>
               </View>
-
-              <Pressable onPress={navRegister} style={styles.registerBtn}>
-                <Text style={styles.registerText}>Register</Text>
-              </Pressable>
             </View>
-          </View>
-        </ScrollView>
+          </ImageBackground>
+        // </ScrollView>
       )}
     </Formik>
   );
@@ -223,7 +261,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     paddingHorizontal: 10,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
   },
   mainHeader: {
     marginTop: "10%",
@@ -235,10 +273,13 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    padding: 10,
-    marginTop: 10,
+    // padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    // marginTop: 10,
     fontSize: 16,
     borderRadius: 3,
+    backgroundColor: "white",
   },
   passContainer: {
     flexDirection: "row",
@@ -247,11 +288,12 @@ const styles = StyleSheet.create({
     margin: 12,
     marginTop: 10,
     borderRadius: 3,
+    backgroundColor: "white",
   },
   inputPassword: {
-    paddingTop: 10,
+    // paddingTop: 10,
     paddingLeft: 8,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     paddingRight: 10,
     fontSize: 15,
     borderRadius: 3,
@@ -274,6 +316,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.btnColor,
     padding: "3%",
     borderRadius: 3,
+    marginTop: 20,
   },
   registerText: {
     alignSelf: "center",

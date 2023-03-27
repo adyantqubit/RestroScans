@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, StyleSheet } from "react-native";
+import { colors } from "../Colours/globalColor";
 
 export default function Buttons(props) {
 
@@ -14,7 +15,7 @@ export default function Buttons(props) {
         // style={styles.btn}
         title="GENERATE QR CODE"
         // title={`jhjhjr`}
-        color="#841584"
+        color= {colors.btnColor}
         accessibilityLabel="Learn more about this purple button"
       />
     </>

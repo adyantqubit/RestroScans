@@ -4,6 +4,7 @@
 
 export const colors ={
     btnColor: '#ff6600',
+    // btnColor: '#003366',
     backgroundTheme: '#b59368',
     white: '#fff'
 }

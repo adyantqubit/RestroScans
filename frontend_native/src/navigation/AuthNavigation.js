@@ -10,6 +10,7 @@ import LoginScreen from "../screens/LoginScreen";
 import DrawerNavigation from "../navigation/DrawerNavigation";
 import SplashScreen from "../screens/SplashScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import { colors } from "../Colours/globalColor";
 
 const AuthNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -58,7 +59,7 @@ const AuthNavigation = () => {
             name="LoginScreen"
             options={{ title: "Login", headerBackVisible: false }}
             component={LoginScreen}
-            style={{ backgroundColor: "#841584" }}
+            style={{ backgroundColor: colors.btnColor }}
           ></Stack.Screen>
 
           <Stack.Screen

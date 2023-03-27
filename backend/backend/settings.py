@@ -45,6 +45,7 @@ TENANT_APPS = [
 ]
 
 INSTALLED_APPS = [
+    
     'tenant_schemas',
     'admin_app',
     'tenant_app',
@@ -55,7 +56,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    "corsheaders"
+    "corsheaders",
+    # Added by Yuvraj Sahu on 27-3-2023
+    # Reason - to setup admin template 
+    'admin_volt.apps.AdminVoltConfig',
+    # End of addition
 ]
 
 """
@@ -124,7 +129,12 @@ End of code modification
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Commented & Modified by Yuvraj Sahu 
+        # Date : 27-3-23
+        # Reason : To Create a custom templates
+        # 'DIRS': [],
+        'DIRS': ['backend/templates',],
+        # End of the modification
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -217,7 +227,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'backend/static')
+# Modified by Yuvraj Sahu on 27-3-2023
+# Reason - to set static files path
+STATIC_ROOT = os.path.join(BASE_DIR, 'admin_app/static')
+# End of addition
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL='media/'

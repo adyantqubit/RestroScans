@@ -48,7 +48,7 @@ export default function RestaurantRegistrationScreen({
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      alert(result.assets[0].fileName);
+      // alert(result.assets[0].fileName);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
     }
@@ -65,6 +65,7 @@ export default function RestaurantRegistrationScreen({
     });
 
     formData.append("restaurant_name", formValues.restaurant_name);
+    formData.append("tag_line", formValues.tag_line);
     formData.append("owner_name", formValues.owner_name);
     formData.append("mobile_number", formValues.mobile_number);
     formData.append("telephone_number", formValues.telephone_number);
@@ -96,6 +97,7 @@ export default function RestaurantRegistrationScreen({
       mobile_number: "",
       telephone_number: "",
       restaurant_name: "",
+      tag_line: "",
       address: "",
       password: "",
       confirm_password: "",
@@ -466,6 +468,48 @@ export default function RestaurantRegistrationScreen({
                 {errors?.restaurant_name && (
                   <Text style={styles.textdanger}>
                     {errors?.restaurant_name?.message}
+                  </Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.labels}>
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            Tag line
+          </Text>
+          <Controller
+            control={control}
+            name="tag_line"
+            rules={{
+              required: {
+                value: true,
+                message: "Tag is required!",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter tag line"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="default"
+                  />
+                </View>
+
+                {errors?.tag_line && (
+                  <Text style={styles.textdanger}>
+                    {errors?.tag_line?.message}
                   </Text>
                 )}
               </>

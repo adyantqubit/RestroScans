@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { getMenuList, saveCategoryApi, saveItemApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
+import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
 // import { Country, State, City } from "country-state-city";
@@ -27,7 +28,8 @@ export default function AddItem() {
   var [categories, setCategories] = useState([]);
   React.useEffect(() => {
     const getMenus = async () => {
-      const response = await getMenuList("ashoka");
+      var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+      const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
       if (response.categoryList) {
         capitals = setCategories(
           response.categoryList.map(function (obj) {
@@ -94,7 +96,7 @@ export default function AddItem() {
     formData.append("category", categorySelected);
     formData.append("description", formValues.description);
 
-    console.log('formData------'+JSON.stringify(formData))
+    // console.log('formData------'+JSON.stringify(formData))
     saveItemApi(formData, tenant).then((response) => {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
@@ -131,7 +133,7 @@ export default function AddItem() {
       <View style={styles.container}>
         <Text>Add item</Text>
         <SelectList
-          onSelect={() => alert(setCategorySelected)}
+          // onSelect={setCategorySelected}
           setSelected={setCategorySelected}
           data={categories}
           search={false}

@@ -21,6 +21,7 @@ import {
   forgetPasswordSchema,
 } from "../validation/ValidationSchema";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../Colours/globalColor";
 
 var email = null;
 
@@ -189,7 +190,7 @@ function ResetPassword({ navigation: navigate }) {
                     onPress={handleSubmit}
                     // disabled={isBtnDisable}
                     style={{
-                      backgroundColor: !isBtnDisable ? "#6823cf" : "#E0E0E0",
+                      backgroundColor: !isBtnDisable ? colors.btnColor : "#E0E0E0",
                       height: 40,
                       alignItems: "center",
                       justifyContent: "center",
@@ -299,7 +300,7 @@ export default function ForgotPasswordScreen() {
                     onPress={handleSubmit}
                     disabled={isBtnDisable}
                     style={{
-                      backgroundColor: !isBtnDisable ? "#6823cf" : "#E0E0E0",
+                      backgroundColor: !isBtnDisable ? colors.btnColor : "#E0E0E0",
                       height: 40,
                       alignItems: "center",
                       justifyContent: "center",

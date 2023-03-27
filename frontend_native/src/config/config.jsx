@@ -1,11 +1,11 @@
 import React from "react";
 
-const baseURL = "http://192.168.1.35:8000";
+const baseURL = "http://192.168.1.8:8000";
 
-export const frontendUrl = "http://192.168.1.35:3000";
+export const frontendUrl = "http://192.168.1.8:3000";
 
 const config = {
-  siteURL: "192.168.1.35:8000",
+  siteURL: "192.168.1.8:8000",
   apiBaseURL: `${baseURL}/api/v1`,
   staticBaseURL: `${baseURL}`,
   imageUrl: `${baseURL}/media/`,
@@ -13,8 +13,11 @@ const config = {
 };
 export default config;
 
-export var tenantName = "ashoka";
+// export var tenantName = "ashoka";
 
-// export const setTenant = (tenant) => {
-//   tenantName = tenant;
+// export const getTenant = async () => {
+//   var user = await SecureStore.getItemAsync("userData");
+//   tenantName = JSON.parse(user).restaurant_name
+//   // alert("data"+JSON.parse(user).restaurant_name);
+//   // alert(tenant)
 // };

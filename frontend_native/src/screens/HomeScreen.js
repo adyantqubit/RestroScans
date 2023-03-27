@@ -21,7 +21,8 @@ import { useNavigation } from "@react-navigation/native";
 export default function HomeScreen({ navigation }) {
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
-  useEffect(() => {
+
+   React.useEffect(() => {
     authNavigate();
   }, []);
 
@@ -54,7 +55,7 @@ export default function HomeScreen({ navigation }) {
     return () => backHandler.remove();
   }, []);
 
-  const authNavigate = async () => {
+  var authNavigate = async () => {
     if ((await SecureStore.getItemAsync("userData")) == null) {
       navigation.navigate("LoginScreen");
     }
@@ -73,7 +74,11 @@ export default function HomeScreen({ navigation }) {
     await SecureStore.deleteItemAsync("userData");
     await SecureStore.deleteItemAsync("token");
     await SecureStore.deleteItemAsync("tenantInfo");
-    if ((await SecureStore.getItemAsync("userData")) == null) {
+    if (
+      ((await SecureStore.getItemAsync("userData")) == null) &&
+      ((await SecureStore.getItemAsync("token")) == null) &&
+      ((await SecureStore.getItemAsync("tenantInfo")) == null)
+      ) {
       navigation.navigate("LoginScreen");
     }
   };
@@ -93,7 +98,8 @@ export default function HomeScreen({ navigation }) {
         </View>
         <View style={styles.restaurantDetail}>
           <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
-          <Text style={styles.restaurantHeadline}>Ashoka Biryani</Text>
+          {/* <Text style={styles.restaurantHeadline}>Ashoka Biryani</Text> */}
+          <Text style={styles.restaurantHeadline}>{userData.tag_line}</Text>
         </View>
         <View style={styles.previewBtn}>
           <Pressable onPress={logOut} style={styles.pressableBtn}>

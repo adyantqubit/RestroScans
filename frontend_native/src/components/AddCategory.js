@@ -13,6 +13,7 @@ import {
 
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
+import * as SecureStore from "expo-secure-store";
 
 import { Ionicons } from "@expo/vector-icons";
 import { getMenuList, saveCategoryApi, saveMenuApi } from "../api/Services";
@@ -28,7 +29,8 @@ export default function AddCategory() {
   var [data, setData] = useState([]);
   React.useEffect(()=> {
     const getMenus = async() => {
-      const response = await getMenuList ("ashoka")
+      var tenantInfo = await SecureStore.getItemAsync("tenantInfo")
+      const response = await getMenuList (JSON.parse(tenantInfo).tenant_name)
       if (response.menuList){
         capitals = setData(response.menuList.map(function(obj) {
           obj['key'] = obj['id']; // Assign new key
@@ -76,7 +78,7 @@ export default function AddCategory() {
     }
   };
 
-  const handleRegister = (formValues) => {
+  const handleRegister = async (formValues) => {
     setIsDisable(true)
     var formData = new FormData();
 
@@ -88,9 +90,10 @@ export default function AddCategory() {
       type: `image/${ext}`,
     });
     formData.append("name", formValues.name);
-    formData.append("menu",menuSelected)
+    formData.append("menu",menuSelected);
 
-    saveCategoryApi(formData, tenant).then((response) => {
+    var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    saveCategoryApi(formData, JSON.parse(tenantInfo).tenant_name).then((response) => {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false)
@@ -115,6 +118,7 @@ export default function AddCategory() {
     defaultValues: {
       name: "",
       menu: "",
+      // icon: ""
     },
   });
 
@@ -123,7 +127,7 @@ export default function AddCategory() {
       <View style={styles.container}>
         <Text>Add category</Text>
         <SelectList
-          onSelect={() => alert(menuSelected)}
+          // onSelect={() => }
           setSelected={setMenuSelected}
           data={data}
           search={false}

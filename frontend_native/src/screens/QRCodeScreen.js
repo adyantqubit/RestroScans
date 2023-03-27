@@ -1,14 +1,19 @@
-import { React, useEffect, useState } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { React, useEffect, useState, useRef } from "react";
+import { Text, View, Image, StyleSheet, Button } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import Buttons from "../buttons/Buttons";
 import * as SecureStore from "expo-secure-store";
 import config, { frontendUrl } from "../config/config";
 import { getAppSetting } from "../api/Services";
+// Added by Yuvraj Sahu on 26-3-2023
+// Reason - to download the QR code
+import ViewShot, { Share } from "react-native-view-shot";
+// End of addition
+// import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 
 export default function QRCodeScreen() {
   var [codeGenerate, setCodeGenerate] = useState(false);
-  const [appSettings,setAppSettings]=useState("")
+  const [appSettings, setAppSettings] = useState("");
 
   var [tenant, setTenant] = useState("");
   var [userData, setUserData] = useState([]);
@@ -18,29 +23,45 @@ export default function QRCodeScreen() {
     getAppDetails();
   }, []);
 
-  const getAppDetails =async ()=>{
+  const getAppDetails = async () => {
     const response = await getAppSetting();
-    setAppSettings(response)
-  }
+    setAppSettings(response);
+  };
 
   const getTenant = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     var userData = await SecureStore.getItemAsync("userData");
     setTenant(JSON.parse(tenantInfo).tenant_name);
-    setUserData(JSON.parse(userData))
+    setUserData(JSON.parse(userData));
   };
 
   var restaurant = `${frontendUrl}/api/v1/${tenant}/home`;
 
+  // Added by Yuvraj Sahu on 26-3-2023
+  // Reason - to download the QR code
+  const view = useRef();
+  var onSave = () => {
+    // viewShot.current.capture().then((uri) => {
+    // //   console.log("do something with ", uri);
+    // //   Sharing.shareAsync("file://" + uri);
+    // // })
+    // Share.open({
+    //   title: "QR Code",
+    //   message: "message",
+    //   url: uri,
+    // });
+
+    view.current.capture().then((uri) => {
+      //
+
+      console.log(uri);
+    });
+  };
+  // End of addition
+
   return (
     <>
       <View style={styles.qrContainer}>
-        {/* <Image
-          source={{
-            uri: "https://media-cdn.tripadvisor.com/media/photo-s/19/77/44/d8/beautiful-interiors.jpg",
-          }}
-          style={styles.restaurantImg}
-        /> */}
         <Text style={styles.tenantLable}>{userData.restaurant_name}</Text>
 
         {codeGenerate == false && (
@@ -52,13 +73,25 @@ export default function QRCodeScreen() {
           </View>
         )}
 
-        <View style={styles.barCode}>
-          {codeGenerate > 0 && <QRCode value={restaurant} 
-          logo={{uri: config.imageUrl+appSettings.adyant_logo}} 
-          // logoSize={320}
-          logoBackgroundColor={"white"}
-          size={320} />}
-        </View>
+        <ViewShot
+          // ref={viewShot}
+          // options={{ width: 100, height: 100, format: "jpg", quality: 1.0 }}
+          ref={view}
+          options={{ format: "jpg", quality: 0.9, fileName: "dewangan" }}
+        >
+          <View style={styles.barCode}>
+            {codeGenerate > 0 && (
+              <QRCode
+                value={restaurant}
+                logo={{ uri: config.imageUrl + appSettings.adyant_logo }}
+                // logoSize={320}
+                logoBackgroundColor={"white"}
+                size={320}
+              />
+            )}
+          </View>
+        </ViewShot>
+        {/* <Button title="Download" onPress={() => onSave()} /> */}
       </View>
     </>
   );
@@ -66,16 +99,9 @@ export default function QRCodeScreen() {
 
 const styles = StyleSheet.create({
   qrContainer: {
-    flex:1,
+    flex: 1,
     backgroundColor: "white",
     height: "100%",
-  },
-  restaurantImg: {
-    alignSelf: "center",
-    width: "70%",
-    height: "20%",
-    borderRadius: 10,
-    top: 20,
   },
   tenantLable: {
     alignSelf: "center",

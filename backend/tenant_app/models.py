@@ -11,6 +11,10 @@ Reason - To store details of menu
 class Menu(models.Model):
     name=models.CharField(max_length=13,default='')
     icon=models.ImageField(upload_to='images/menu/',null=True,blank=True)
+    # Added by Yuvraj Sahu on 27-3-2-23
+    # Reason - to give active and inactive
+    is_active=models.BooleanField(default=False)
+    # End of code addition
     def __str__(self):
         return self.name  
 """
@@ -25,6 +29,10 @@ class Category(models.Model):
     menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
     name=models.CharField(max_length=30,default='',verbose_name='Category name')
     icon=models.ImageField(upload_to='images/category/',null=True,blank=True)
+    # Added by Yuvraj Sahu on 27-3-2-23
+    # Reason - to give active and inactive
+    is_active=models.BooleanField(default=False)
+    # End of code addition
     def __str__(self):
         return self.name
 """
@@ -49,6 +57,10 @@ class Item(models.Model):
     # Reason - add icon field
     icon=models.ImageField(upload_to='images/item/', null=True)
     # End of addition
+    # Added by Yuvraj Sahu on 27-3-2-23
+    # Reason - to give active and inactive
+    is_active=models.BooleanField(default=False)
+    # End of code addition
     def __str__(self):
         return self.name 
 """
