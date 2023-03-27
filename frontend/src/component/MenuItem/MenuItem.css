@@ -352,6 +352,13 @@ a.ant-notification-notice-close {
     inset-inline-end: 8px !important;
     top: 6px !important;
 }
+.restaurant_fontsize{
+    text-align: center;
+    padding: 1%;
+    margin: 0;
+    font-family: Noe-Display;
+    font-size: 12px;
+}
 /* .menu_image{
 animation: bounce 0.5s;
 animation-direction: alternate;

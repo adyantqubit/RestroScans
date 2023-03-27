@@ -159,6 +159,20 @@ function MenuItem() {
     setFiltered(itemList)
 
   }
+  // var grandTotal = 0;
+  // function totalprice(data) {
+  //   if (offerList) {
+  //     var finalPrice=0;
+  //     offerList.map((item) => {
+  //       if (item.item_name == data.item_name) {
+  //         finalPrice= (item.item_fullprice/100)*item.item_discount
+  //       }
+  //     });
+  //     return finalPrice
+  //   }
+  // }
+
+
   const removeOffersectionDiv = () => {
     (document.getElementById('offer_divv').style.display = 'none')
       (document.getElementById('flip_div_idd').style.height = '41% ')
@@ -288,9 +302,9 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  // console.log(itemList, 'All items')
+  console.log(itemList, 'All items')
   // console.log(filterCategory, 'filtercategory')
-  console.log(offerBanner, 'all offer images')
+  // console.log(offerBanner, 'all offer images')
   console.log(offerList, 'all offer details')
   console.log(offerShow, 'set offer data')
   // console.log(filter, 'searching data')
@@ -304,88 +318,98 @@ function MenuItem() {
   const navigatee = () => {
     navigate('/')
   }
-  
+
+
 
   return (
     <>
       {isLoader == true ? <Loader /> :
 
-    <div className='menu_maindiv'
-      style={{ backgroundColor: colors.backgroundTheme }}
-    >
-      
-      <h2 style={{ color: colors.headingColor }}
-        className="restaurant_name"
-      >{restaurant_name.toUpperCase()}</h2>
+        <div className='menu_maindiv'
+          style={{ backgroundColor: colors.backgroundTheme }}
+        >
 
-      <div><GlobalColor /></div>
-      {/* {isLoader == true ? <Loader /> : */}
+          <h2 style={{ color: colors.headingColor }}
+            // className="restaurant_name"
 
-        <div>
+            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
 
-          <Swiper
-            // cssMode={true}
-            navigation={true}
-            pagination={{
-              clickable: true,
-            }}
-            autoplay={{
-              delay: 2500,
-              disableOnInteraction: false,
-            }}
-            // mousewheel={true}
-            keyboard={true}
-            modules={[Navigation, Pagination, Autoplay]}
-            // , Mousewheel, Keyboard]}
-            className="mySwiper"
-          >
+            {restaurant_name.toUpperCase()}
 
-            {offerBanner.map((item, id) => (
-              <SwiperSlide>
-                <div
-                  style={{ color: 'blue', fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', position: 'relative', padding: "1% " }}
-                  className='offer_div'
-                  onClick={
-                    e => onOfferShow(item.offer_name)
-                  }
-                >
-                  <img
-                    src={siteConfig.siteURL + item.offer_image}
-                    style={{ border: '2px solid white' }}
-                    className='offer_banner'
-                  />
-                  <h2
-                    className='offer_content'
-                    style={{ color: colors.bannerColor }}
+          </h2>
+
+          <div><GlobalColor /></div>
+          {/* {isLoader == true ? <Loader /> : */}
+
+{offerBanner.length > 0 ?
+          <div style={{border:'2px solid white'}}>
+
+            <Swiper
+              // cssMode={true}
+              navigation={true}
+              pagination={{
+                clickable: true,
+              }}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              // mousewheel={true}
+              keyboard={true}
+              modules={[Navigation, Pagination, Autoplay]}
+              // , Mousewheel, Keyboard]}
+              className="mySwiper"
+            >
+
+              {offerBanner.map((item, id) => (
+                <SwiperSlide>
+                  <div
+                    style={{ color: 'blue', fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', position: 'relative', padding: "1% " }}
+                    className='offer_div'
+                    onClick={
+                      e => onOfferShow(item.offer_name)
+                    }
                   >
-                    {item.offer_name}
-                  </h2>
-                </div>
-              </SwiperSlide>
-            ))}
+                    <img
+                      src={siteConfig.siteURL + item.offer_image}
+                      // style={{ border: '2px solid white' }}
+                      className='offer_banner'
+                    />
+                    <h2
+                      className='offer_content'
+                      style={{ color: colors.bannerColor }}
+                    >
+                      {item.offer_name}
+                    </h2>
+                  </div>
+                </SwiperSlide>
+              ))}
 
-          </Swiper>
-        </div>
-      {/* } */}
-{/* <br /> */}
-      <div id="hide_search"  className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
-        <div className='searchpage_input'>
-          <Input.Group>
-            <Search size='large'
-              value={search}
-              onChange={e => { setNewSearch(e.target.value); }}
-              //  onSearch={onSearch}
-              placeholder='Search by Menu, Categories & Items name' />
-          </Input.Group>
-        </div>
-      </div>
+            </Swiper>
+          </div>
+          :
+          <h5 style={{color:'white'}}>nopee</h5>
+          }
+          {/* } */}
+          {/* <br /> */}
+          <div id="hide_search" className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
+            <div className='searchpage_input'>
+              <Input.Group>
+                <Search size='large'
+                  value={search}
+                  onChange={e => { setNewSearch(e.target.value); }}
+                  //  onSearch={onSearch}
+                  placeholder='Search by Menu, Categories & Items name' />
+              </Input.Group>
+            </div>
+          </div>
 
-      {filter.length == 0 && search.length > 0 ?
-        <div id="search_divv" style={{ height: '41%', marginTop: '2%' }}>
-          <img
-            src={nodataImg}
-            className='nodata_image' />
-          {/* <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
+          {filter.length == 0 && search.length > 0 ?
+            <div id="search_divv" style={{ height: '41%', marginTop: '2%' }}>
+              <img
+                src={nodataImg}
+                className='nodata_image' />
+              {/* <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
             <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
             </span>
             <CloseOutlined  style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
@@ -394,308 +418,317 @@ function MenuItem() {
           />
           </span> */}
 
-          <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '24px' }}>
-            No search result found</h5>
-        </div> : null}
+              <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '24px' }}>
+                No search result found</h5>
+            </div> : null}
 
-      <div id="offer_divv" className="when_offer_is_null" style={{ display: 'none', height: '41%' }}>
-        <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
-          <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
-          </span>
-          <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
-            onClick=
-            {removeOffersectionDiv}
-          />
-        </span>
-        <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px', marginTop: '27%' }}>
-          Currently not items available for this offer</h5>
-      </div>
-
-      <div
-        //  className='searchpage_content' 
-        className={filter.length > 0 ? 'searchpage_content' : 'again'}
-        id="third" >
-        {search ?
-          <>
-            {filter.length > 0 ?
-              <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
-                <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
-                  {/* Your search results :  */}
-                </span>
-                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
-                  onClick=
-                  {removeSerchResult}
-                // {checkBtn}
-                />
+          <div id="offer_divv" className="when_offer_is_null" style={{ display: 'none', height: '41%' }}>
+            <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
+              <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
               </span>
-              :
-              <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
-                <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>Result not found</span>
-                <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}
-                  onClick=
-                  {removeSerchResult}
-                // {checkBtn} 
-                />
-              </span>
-            }
-            {filter.map((data, i) => {
-              var obj = Object.keys(data)
-              var categoriesObj = Object.keys(filter[i][obj])
-              return (<>
-                <div className='after_search_div'
-                >
-                  <h3 className="main_menu_name"
-                    style={{ color: colors.headingColor, textAlign: 'center' ,
-                    backgroundColor:colors.headingBackgroundColor
-                  }}
-                  >
-                    {obj}
-                  </h3>
+              <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
+                onClick=
+                {removeOffersectionDiv}
+              />
+            </span>
+            <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px', marginTop: '27%' }}>
+              Currently not items available for this offer</h5>
+          </div>
 
-                </div>
-
-                {
-                  <>{categoriesObj.map((c, j) =>
+          <div
+            //  className='searchpage_content' 
+            className={filter.length > 0 ? 'searchpage_content' : 'again'}
+            id="third" >
+            {search ?
+              <>
+                {filter.length > 0 ?
+                  <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
+                    <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
+                      {/* Your search results :  */}
+                    </span>
+                    <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
+                      onClick=
+                      {removeSerchResult}
+                    // {checkBtn}
+                    />
+                  </span>
+                  :
+                  <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
+                    <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>Result not found</span>
+                    <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}
+                      onClick=
+                      {removeSerchResult}
+                    // {checkBtn} 
+                    />
+                  </span>
+                }
+                {filter.map((data, i) => {
+                  var obj = Object.keys(data)
+                  var categoriesObj = Object.keys(filter[i][obj])
+                  return (<>
                     <div className='after_search_div'
                     >
-                      <span className="allcategory_searched"
+                      <h3 className="main_menu_name"
+                        style={{
+                          color: colors.headingColor, textAlign: 'center',
+                          backgroundColor: colors.headingBackgroundColor
+                        }}
                       >
-                        {/* <img style={{ border: '1px solid black' }}
+                        {obj}
+                      </h3>
+
+                    </div>
+
+                    {
+                      <>{categoriesObj.map((c, j) =>
+                        <div className='after_search_div'
+                        >
+                          <span className="allcategory_searched"
+                          >
+                            {/* <img style={{ border: '1px solid black' }}
                           src={siteConfig.siteURL + filter[i][obj][c][0].category_img}
                           className="category_serached_img" width='2%'
                         />&nbsp; */}
-                        <h3 className="category_name"
-                          style={{ color: colors.headingColor ,
-                            backgroundColor:colors.subheadingBackgroundColor
+                            <h3 className="category_name"
+                              style={{
+                                color: colors.headingColor,
+                                backgroundColor: colors.subheadingBackgroundColor
+                              }}
+                            >
+                              {c}
+                            </h3>
+                          </span>
+                          <div style={{
+                            display: 'flex',
+                            padding: '5% 0% 0% 0%',
+                            color: 'lightblue'
                           }}
-                        >
-                          {c}
-                        </h3>
-                      </span>
-                      <div style={{
-                        display: 'flex',
-                        padding: '5% 0% 0% 0%',
-                        color: 'lightblue'
-                      }}
-                      >
-                        <div className="allitems_heading_name" style={{ color: colors.bannerColor,textAlign:'center',marginLeft:'8%' }}>
-                          Item name
-                        </div>
-                        <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
-                        <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
-                      </div>
-                      {filter[i][`${obj}`][c].map(person =>
-                        <div style={{ display: 'flex' }}>
-                          <div className="showimg_div" >
-
-                            <img src={siteConfig.siteURL + person.icon}
-                              className="menu_img"
-                            />
+                          >
+                            <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', marginLeft: '8%' }}>
+                              Item name
+                            </div>
+                            <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
+                            <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
                           </div>
-                          <div className="price_item_description_div">
-                            <div className="price_description_container" >
-                              <h4 style={{ color: colors.subHeadingColor }}
-                                className="allitems_name"
-                              >{person.name}</h4>
-                              <h4 style={{ color: colors.subHeadingColor }}
-                                className="allitems_price"
-                              >{person.price_full ? '₹' + person.price_full : '---'}</h4>
-                              <h4 style={{ color: colors.subHeadingColor }}
-                                className="allitems_price"
-                              >{person.price_half ? '₹' + person.price_half : '---'}</h4>
+                          {filter[i][`${obj}`][c].map(person =>
+                            <div style={{ display: 'flex' }}>
+                              <div className="showimg_div" >
+
+                                <img src={siteConfig.siteURL + person.icon}
+                                  className="menu_img"
+                                />
+                              </div>
+                              <div className="price_item_description_div">
+                                <div className="price_description_container" >
+                                  <h4 style={{ color: colors.subHeadingColor }}
+                                    className="allitems_name"
+                                  >{person.name}</h4>
+                                  <h4 style={{ color: colors.subHeadingColor }}
+                                    className="allitems_price"
+                                  >{person.price_full ? '₹' + person.price_full : '---'}</h4>
+                                  <h4 style={{ color: colors.subHeadingColor }}
+                                    className="allitems_price"
+                                  >{person.price_half ? '₹' + person.price_half : '---'}</h4>
+                                </div>
+
+                                <div className="description_div" >
+                                  <h3 className="description_content" style={{ color: colors.bannerColor }}>{person.description}</h3>
+                                </div>
+                                <br />
+                                <br />
+                              </div>
                             </div>
 
-                            <div className="description_div" >
-                              <h3 className="description_content" style={{ color: colors.bannerColor }}>{person.description}</h3>
-                            </div>
-                            <br />
-                            <br />
-                          </div>
+                          )}
                         </div>
-
-                      )}
-                    </div>
-                  )
-                  }
+                      )
+                      }
+                      </>
+                    }
                   </>
+                  )
+                })
                 }
-              </>
-              )
-            })
-            }
-          </> :
-          null}
-      </div>
-
-      <div
-        // className='offer_maindiv'
-        className={offerShow.length < 1 ? 'offer_notshow' : 'offer_maindiv'}
-      >
-        <div style={{ display: 'flex', justifyContent: 'right', padding: '2% 3% 0% 0%' }}>
-          <CloseOutlined
-            onClick={divOfferRemove}
-            style={{ color: 'black', backgroundColor: 'white', padding: '2%', justifyContent: 'right', borderRadius: '100%' }}
-          />
-        </div>
-
-        <span className="allcategory_container"
-        >
-          <span style={{ color: colors.headingColor }} className="category_name"> {offer_name}</span> &nbsp;
-          <h3 style={{ color: colors.headingColor }} className="category_name"
-          >{offer_discount}%
-          </h3>
-        </span>
-        <div style={{
-          display: 'flex',
-          padding: '5% 0% 0% 0%',
-          color: 'lightblue'
-
-        }}
-        >
-          <div className="allitems_heading_name" style={{ color: colors.bannerColor,textAlign:'center',marginLeft:'8%' }}>
-            Item name
+              </> :
+              null}
           </div>
-          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Full price</div>
-          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
-        </div>
-        {offerShow.length > 0 ?
-          <>
-            {offerShow.map((showdata, id) => (
-              <div style={{ display: 'flex' }}>
-                <div className="showimg_div" >
 
-                  <img src={siteConfig.siteURL + showdata.item_image}
-                    className="menu_img"
-                  />
-                </div>
-                <div className="price_item_description_div">
-                  <div className="price_description_container" >
-                    <h4 style={{ color: colors.subHeadingColor }}
-                      className="allitems_name"
-                    >{showdata.item_name}</h4>
-                    <h4 style={{ color: colors.subHeadingColor }}
-                      className="allitems_price"
-                    >{showdata.item_fullprice
-                      ? '₹' + showdata.item_fullprice
-                      : '---'}</h4>
-                    <h4 style={{ color: colors.subHeadingColor }}
-                      className="allitems_price"
-                    >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</h4>
-                  </div>
+          <div
+            // className='offer_maindiv'
+            className={offerShow.length < 1 ? 'offer_notshow' : 'offer_maindiv'}
+          >
+            <div style={{ display: 'flex', justifyContent: 'right', padding: '2% 3% 0% 0%' }}>
+              <CloseOutlined
+                onClick={divOfferRemove}
+                style={{ color: 'black', backgroundColor: 'white', padding: '2%', justifyContent: 'right', borderRadius: '100%' }}
+              />
+            </div>
 
-                  <div className="description_div" >
-                    <h3 className="description_content" style={{ color: colors.bannerColor }}>{showdata.item_description}</h3>
-                  </div>
-                  <br />
-                  <br />
-                </div>
+            <span className="allcategory_container"
+            >
+              <span style={{ color: colors.headingColor }} className="category_name"> {offer_name}</span> &nbsp;
+              <h3 style={{ color: colors.headingColor }} className="category_name"
+              >{offer_discount}%
+              </h3>
+            </span>
+            <div style={{
+              display: 'flex',
+              padding: '5% 0% 0% 0%',
+              color: 'lightblue'
+
+            }}
+            >
+              <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', marginLeft: '8%' }}>
+                Item name
               </div>
-            ))}
-          </>
-          : null
-          // <h3 style={{height:'40vh',backgroundColor:'aqua',color:'black'}}> stBNope</h3>
-        }
-      </div>
+              <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Full price</div>
+              <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+            </div>
+            {offerShow.length > 0 ?
+              <>
+                {offerShow.map((showdata, id) => (
+                  <div style={{ display: 'flex' }}>
+                    <div className="showimg_div" >
 
-      <div id="flip_div_idd" style={{}}
-        className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
-      >
-        <FlippingPages
-          direction="right-to-left"
-          onSwipeEnd={setSelected}
-          selected={selected}
-          disableSwipe
-          children={2}
-          shadowBackground='transparent'
-        >
-          {menuList.map((showMenu) => (
-            <div>
-              <span style={{ textAlign: 'center' }}
-              >
+                      <img src={siteConfig.siteURL + showdata.item_image}
+                        className="menu_img"
+                      />
+                    </div>
+                    <div className="price_item_description_div">
+                      <div className="price_description_container" >
+                        <h4 style={{ color: colors.subHeadingColor }}
+                          className="allitems_name"
+                        >{showdata.item_name}</h4>
+                        <h4 style={{ color: colors.subHeadingColor }}
+                          className="allitems_price"
+                        >{showdata.item_fullprice
+                          ? '₹' + showdata.item_fullprice
+                          : '---'}</h4>
 
-                <h5 style={{ color: colors.headingColor, paddingTop: '2%',
-         backgroundColor:colors.headingBackgroundColor
-              }}
-                  className="main_menu_name"
-                >{showMenu.name}
-                </h5>
-              </span>
-              {categoryList.length > 0 ? <>
-                {categoryList.filter(set => set.menu === showMenu.id).map(data =>
-                  // {categoryList.map((data) => (
-                  <div className="allcategory_menu_div">
-                    <span className="allcategory_container"
-                      style={{}}
-                    >
-                      {/* <img style={{ border: '1px solid black' }}
+                        {/* <span>
+                          {totalprice(showdata)}
+                        </span> */}
+
+                        <h4 style={{ color: colors.subHeadingColor }}
+                          className="allitems_price"
+                        >{showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</h4>
+                      </div>
+
+                      <div className="description_div" >
+                        <h3 className="description_content" style={{ color: colors.bannerColor }}>{showdata.item_description}</h3>
+                      </div>
+                      <br />
+                      <br />
+                    </div>
+                  </div>
+                ))}
+              </>
+              : null
+              // <h3 style={{height:'40vh',backgroundColor:'aqua',color:'black'}}> stBNope</h3>
+            }
+          </div>
+
+
+          <div id="flip_div_idd" style={{}}
+            className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
+          >
+            <FlippingPages
+              direction="right-to-left"
+              onSwipeEnd={setSelected}
+              selected={selected}
+              // disableSwipe
+              children={2}
+              shadowBackground='transparent'
+            >
+              {menuList.map((showMenu) => (
+                <div>
+                  <span style={{ textAlign: 'center' }}
+                  >
+
+                    <h5 style={{
+                      color: colors.headingColor, paddingTop: '2%',
+                      backgroundColor: colors.headingBackgroundColor
+                    }}
+                      className="main_menu_name"
+                    >{showMenu.name}
+                    </h5>
+                  </span>
+                  {categoryList.length > 0 ? <>
+                    {categoryList.filter(set => set.menu === showMenu.id).map(data =>
+                      // {categoryList.map((data) => (
+                      <div className="allcategory_menu_div">
+                        <span className="allcategory_container"
+                          style={{}}
+                        >
+                          {/* <img style={{ border: '1px solid black' }}
                       src={siteConfig.siteURL + data.icon}
                       className="category_img"
                     />&nbsp; */}
-                      <h3 style={{ color: colors.headingColor,backgroundColor:colors.subheadingBackgroundColor }}
-                        className="category_name"
-                      >{data.name}
-                      </h3>
-                    </span>
-                    <div style={{
-                      display: 'flex',
-                      padding: '5% 0% 0% 0%',
-                      color: 'lightblue'
-                    }}
-                    >
-                      <div className="allitems_heading_name" style={{ color: colors.bannerColor ,textAlign:'center',marginLeft:'8%'}}>
-                        Item name
-                      </div>
-                      <div className="allitems_heading_price" style={{ color: colors.bannerColor ,}} >Full price</div>
-                      <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
-                    </div>
-                    {itemList.length > 0 ? <>
-                      {itemList.filter(i => i.category === data.id).map(m =>
-                        // <div style={{ border: '2px solid green', height: '100%', display: 'flex' }}>
-
-                        <div style={{ display: 'flex' }}>
-                          <div className="showimg_div" >
-
-                            <img src={siteConfig.siteURL + m.icon}
-                              className="menu_img"
-                            />
+                          <h3 style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor }}
+                            className="category_name"
+                          >{data.name}
+                          </h3>
+                        </span>
+                        <div style={{
+                          display: 'flex',
+                          padding: '5% 0% 0% 0%',
+                          color: 'lightblue'
+                        }}
+                        >
+                          <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', marginLeft: '8%' }}>
+                            Item name
                           </div>
-                          <div className="price_item_description_div">
-                            <div className="price_description_container" >
-                              <h4 style={{ color: colors.subHeadingColor }}
-                                className="allitems_name"
-                              >{m.name}</h4>
-                              <h4 style={{ color: colors.subHeadingColor }}
-                                className="allitems_price"
-                              >{m.price_full ? '₹' + m.price_full : '---'}</h4>
-                              <h4 style={{ color: colors.subHeadingColor }}
-                                className="allitems_price"
-                              >{m.price_half ? '₹' + m.price_half : '---'}</h4>
-                            </div>
-
-                            <div className="description_div" >
-                              <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3>
-                            </div>
-                            <br />
-                            <br />
-                          </div>
+                          <div className="allitems_heading_price" style={{ color: colors.bannerColor, }} >Full price</div>
+                          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
                         </div>
+                        {itemList.length > 0 ? <>
+                          {itemList.filter(i => i.category === data.id).map(m =>
+                            // <div style={{ border: '2px solid green', height: '100%', display: 'flex' }}>
 
-                      )}
-                    </> : <h5 style={{ backgroundColor: 'red' }}>Nopeeee
+                            <div style={{ display: 'flex' }}>
+                              <div className="showimg_div" >
+
+                                <img src={siteConfig.siteURL + m.icon}
+                                  className="menu_img"
+                                />
+                              </div>
+                              <div className="price_item_description_div">
+                                <div className="price_description_container" >
+                                  <h4 style={{ color: colors.subHeadingColor }}
+                                    className="allitems_name"
+                                  >{m.name}</h4>
+                                  <h4 style={{ color: colors.subHeadingColor }}
+                                    className="allitems_price"
+                                  >{m.price_full ? '₹' + m.price_full : '---'}</h4>
+                                  <h4 style={{ color: colors.subHeadingColor }}
+                                    className="allitems_price"
+                                  >{m.price_half ? '₹' + m.price_half : '---'}</h4>
+                                </div>
+
+                                <div className="description_div" >
+                                  <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3>
+                                </div>
+                                <br />
+                                <br />
+                              </div>
+                            </div>
+
+                          )}
+                        </> : <h5 style={{ backgroundColor: 'red' }}>Nopeeee
+                        </h5>}
+                      </div>
+
+                    )}
+                  </> :
+                    <h5 style={{ backgroundColor: 'red' }}>Nopeeee
                     </h5>}
-                  </div>
+                </div>
+              ))}
+            </FlippingPages>
+          </div>
 
-                )}
-              </> :
-                <h5 style={{ backgroundColor: 'red' }}>Nopeeee
-                </h5>}
-            </div>
-          ))}
-        </FlippingPages>
-      </div>
-
-      <br />
-      {/* <div id="parent_div_button" className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
+          <br />
+          {/* <div id="parent_div_button" className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
       >
         <div >
           <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={back}><LeftOutlined /><span> Previous </span></button>
@@ -703,57 +736,57 @@ function MenuItem() {
         <div >
           <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={next}><span>Next </span> <RightOutlined /></button></div>
       </div> */}
-      <div className="div_caraousel">
-        <Carousel
-          swipeable={false}
-          draggable={false}
-          responsive={responsive}
-          infinite={true}
-          autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="all .5"
-          transitionDuration={500}
-          containerClass="carousel-container"
-          itemClass="carousel-item-padding-40-px"
-          arrows={true}
+          <div className="div_caraousel">
+            <Carousel
+              swipeable={false}
+              draggable={false}
+              responsive={responsive}
+              infinite={true}
+              autoPlaySpeed={1000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container"
+              itemClass="carousel-item-padding-40-px"
+              arrows={true}
 
-        >
-          {menuList.map((data, id) => (
-            <div id={id}>
-              <div
-                style={{
-                  fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                }}
-                className='all-menu'
-                onClick={
-                  e => {
-                    onMenuChange(data.id);
-                    setSelected(id);
-                  }
-                }
-              >
-                <img
-                  src={siteConfig.siteURL + data.icon}
-                  className='menu_image'
-                />
-                <br />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
-                <span style={{ color: colors.headingColor }}
-                  className="menu_name"
-                > {data.name}</span>
-              </div>
-            </div>
-          ))}
-        </Carousel>
-       
-      </div>
-      {/* <Footer /> */}
-    </div>
-    }
-</>
+            >
+              {menuList.map((data, id) => (
+                <div id={id}>
+                  <div
+                    style={{
+                      fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}
+                    className='all-menu'
+                    onClick={
+                      e => {
+                        onMenuChange(data.id);
+                        setSelected(id);
+                      }
+                    }
+                  >
+                    <img
+                      src={siteConfig.siteURL + data.icon}
+                      className='menu_image'
+                    />
+                    <br />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginRight: '2%' }}>
+                    <span style={{ color: colors.headingColor }}
+                      className="menu_name"
+                    > {data.name}</span>
+                  </div>
+                </div>
+              ))}
+            </Carousel>
+
+          </div>
+          {/* <Footer /> */}
+        </div>
+      }
+    </>
   );
-  
+
 }
 export default MenuItem;
 
