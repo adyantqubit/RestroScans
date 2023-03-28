@@ -13,7 +13,7 @@ class Menu(models.Model):
     icon=models.ImageField(upload_to='images/menu/',null=True,blank=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=False,null=True,blank=True)
     # End of code addition
     def __str__(self):
         return self.name  
@@ -31,7 +31,7 @@ class Category(models.Model):
     icon=models.ImageField(upload_to='images/category/',null=True,blank=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=False,null=True,blank=True)
     # End of code addition
     def __str__(self):
         return self.name
@@ -43,9 +43,20 @@ End of code addition
 Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of category Items
 """
+# Added by Om on 28-03-2023
+# Reason - add item type veg or nonveg
+IMAGE_CHOICE = (
+    ("Veg", "Veg"),
+    ("Nonveg", "Nonveg")
+)
+# End of addition
 class Item(models.Model):
     category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='',verbose_name="Category name")
     name=models.CharField(max_length=30,default='',verbose_name="Item name")
+     # Added by Om on 28-03-2023
+    # Reason - add item type veg or nonveg
+    item_type=models.CharField(choices=IMAGE_CHOICE, max_length=50,null=True,blank=True)
+    # End of addition
     # Added by Om on 23-03-23
     # Reason : To show items image
     icon=models.ImageField(upload_to='images/item/',default='')
@@ -59,7 +70,7 @@ class Item(models.Model):
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=False,null=True,blank=True)
     # End of code addition
     def __str__(self):
         return self.name 

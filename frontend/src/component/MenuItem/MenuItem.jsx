@@ -17,6 +17,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import nodataImg from '../../images/not_offer.png'
 import nodataOffer from '../../images/nodata.png'
 import crossKnifeImg from '../../images/cross_sign.jpg'
+import vegIcon from '../../images/veg_icon.png'
+import nonVegIcon from '../../images/nonveg_icon.png'
 
 // Import Swiper styles
 import "swiper/css";
@@ -378,7 +380,7 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  // console.log(itemList, 'All items')
+  console.log(itemList, 'All items')
   // console.log(filterCategory, 'filtercategory')
   // console.log(offerBanner, 'all offer images')
   console.log(offerList, 'all offer details')
@@ -646,8 +648,14 @@ function MenuItem() {
                                       </h4>
                                     </div>
 
-                                    <div className="description_div" >
-                                      <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{person.description}</h3>
+                                    <div className="description_div" style={{margin:'3% 0 0 3%'}}>
+                                    {person.item_type=='Veg' ? <>
+                                      <img src={vegIcon} style={{width:'5%',}} alt="kk"></img>
+
+                                      </>:
+                                      <img src={nonVegIcon} style={{width:'5%',}} alt="kk"></img>
+                                      }
+                                     &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{person.description}</span>
                                     </div>
                                     <br />
                                     <br />
@@ -680,7 +688,13 @@ function MenuItem() {
                                       >{person.price_half ? '₹' + person.price_half : '---'}</h4>
                                     </div>
                                     <div className="description_div" >
-                                      <h3 className="description_content" style={{ color: colors.bannerColor }}>{person.description}</h3>
+                                      {person.item_type=='Veg' ? <>
+                                      <img src={vegIcon} style={{width:'5%',}} alt="kk"></img>
+
+                                      </>:
+                                      <img src={nonVegIcon} style={{width:'5%',}} alt="kk"></img>
+                                      }
+                                     &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{person.description}</span>
                                     </div>
                                     <br />
                                     <br />
@@ -792,8 +806,16 @@ function MenuItem() {
                                       </h4>
                                     </div>
 
-                                    <div className="description_div" >
-                                      <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3>
+                                    <div className="description_div" style={{margin:'3% 0 0 3%'}}>
+                                      {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3> */}
+                                      {showdata.item_type=='Veg' ? <>
+                                      <img src={vegIcon} style={{width:'5%',}} alt="kk"></img>
+
+                                      </>:
+                                      <img src={nonVegIcon} style={{width:'5%',}} alt="kk"></img>
+                                      }
+                                     &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{showdata.item_description}</span>
+
                                     </div>
                                     <br />
                                     <br />
@@ -983,27 +1005,6 @@ function MenuItem() {
 
                                 </>
                               }
-
-                              
-                              {/* <div className="price_item_description_div">
-                                <div className="price_description_container" >
-                                  <h4 style={{ color: colors.subHeadingColor }}
-                                    className="allitems_name"
-                                  >{m.name}</h4>
-                                  <h4 style={{ color: colors.subHeadingColor }}
-                                    className="allitems_price"
-                                  >{m.price_full ? '₹' + m.price_full : '---'}</h4>
-                                  <h4 style={{ color: colors.subHeadingColor }}
-                                    className="allitems_price"
-                                  >{m.price_half ? '₹' + m.price_half : '---'}</h4>
-                                </div>
-
-                                <div className="description_div" >
-                                  <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3>
-                                </div>
-                                <br />
-                                <br />
-                              </div> */}
                             </div>
 
                           )}

@@ -53,7 +53,7 @@ class OfferItemsSerializer(serializers.ModelSerializer):
     item_halfprice = serializers.CharField(source='item_name.price_half')
     item_image = serializers.ImageField(source='item_name.icon')
     item_description = serializers.CharField(source='item_name.description')
-
+    item_type = serializers.CharField(source='item_name.item_type')
 
     class Meta:
         model = OfferItem
