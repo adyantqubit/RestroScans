@@ -122,21 +122,6 @@ class SettingAdmin(admin.ModelAdmin):
         else:
             return True 
         
-# @admin.register(Footer)
-# class FooterAdmin(admin.ModelAdmin):
-#     list_display=("id","content")
-#     search_fields=("content", "id")
-#     list_per_page=10
-#     def has_change_permission(self, request, obj=None) :
-#         return True    
-#     def has_delete_permission(self, request, obj=None) :
-#         return True   
-#     def has_module_permission(self, request,view=None):
-#         if request.tenant.schema_name == get_public_schema_name():
-#             return False
-#         else:
-#             return True 
-        
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
     list_display=("id","content")

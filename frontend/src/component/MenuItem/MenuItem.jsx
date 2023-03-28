@@ -466,7 +466,8 @@ function MenuItem() {
               </Swiper>
             </div>
             :
-            <h5 style={{ color: 'white' }}>nopee</h5>
+            // <h5 style={{ color: 'white' }}>nopee</h5>
+            null
           }
           {/* } */}
           {/* <br /> */}
@@ -1017,8 +1018,9 @@ function MenuItem() {
 
                     )}
                   </> :
-                    <h5 style={{ backgroundColor: 'red' }}>Nopeeee
-                    </h5>}
+                    // <h5 style={{ backgroundColor: 'red' }}>Nopeeee
+                    // </h5>
+                   null }
                 </div>
               ))}
             </FlippingPages>
