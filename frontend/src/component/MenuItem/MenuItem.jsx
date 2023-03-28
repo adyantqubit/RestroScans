@@ -974,8 +974,16 @@ function MenuItem() {
                                       </h4>
                                     </div>
 
-                                    <div className="description_div" >
-                                      <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3>
+                                    <div className="description_div" style={{margin:'3% 0 0 3%'}}>
+                                      {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3> */}
+                                      {m.item_type=='Veg' ? <>
+                                      <img src={vegIcon} style={{width:'5%',}} alt="kk"></img>
+
+                                      </>:
+                                      <img src={nonVegIcon} style={{width:'5%',}} alt="kk"></img>
+                                      }
+                                     &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{m.description}</span>
+
                                     </div>
                                     <br />
                                     <br />
@@ -998,7 +1006,15 @@ function MenuItem() {
                                       >{m.price_half ? '₹' + m.price_half : '---'}</h4>
                                     </div>
                                     <div className="description_div" >
-                                      <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3>
+                                      {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
+                                      {m.item_type=='Veg' ? <>
+                                      <img src={vegIcon} style={{width:'5%',}} alt="kk"></img>
+
+                                      </>:
+                                      <img src={nonVegIcon} style={{width:'5%',}} alt="kk"></img>
+                                      }
+                                     &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{m.description}</span>
+
                                     </div>
                                     <br />
                                     <br />
