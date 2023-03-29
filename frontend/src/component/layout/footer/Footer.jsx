@@ -31,7 +31,8 @@ function Footer() {
           <div className='main_description'>
             <marquee
               scrollDelay='200'
-              style={{ color: "black", borderRadius: "15px" }}
+              className='marquee_container'
+              // style={{ color: "black", borderRadius: "15px" }}
             >
               {showdata.content}
             </marquee>
@@ -39,17 +40,11 @@ function Footer() {
           </div>
         ))}
         </>:null}
-        {/* <span className='footer_content' >
-          {footerDetails.map((item) => item.content)}
-        </span> */}
-        {/* <br /> */}
-        {/* <span style={{ fontSize: '13px' }}>Powered by Adyant</span> */}
+       
         <div className='footer_content'>
-          {/* <span > Copyright © 2023 Adyant</span> */}
-          <span> <a style={{color:'black',fontSize:'13px',textDecoration:'none'}}  href="https://adyant.co.in/" target='_blank'>Adyant Powered © 2023</a>
+          <span> <a className='anchor_container'  href="https://adyant.co.in/" target='_blank'>Adyant Powered © 2023</a>
        </span>
         </div>
-       
       </div>
     </div>
   )

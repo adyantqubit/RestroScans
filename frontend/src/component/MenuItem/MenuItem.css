@@ -9,7 +9,7 @@
     text-align: center;
     padding: 1%;
     margin: 0;
-    font-family: Noe-Display;
+    font-family: Calibri;
     /* font-family: "Playfair+Display&display=swap"; */
 
     /* color: var(--heading-and-subheading); */
@@ -134,33 +134,33 @@
     text-align: center;
     /* color: var(--heading-and-subheading); */
     margin: 0;
-    font-family: Lucida Handwriting;
+    font-family: Calibri;
     padding: 1;
 }
 
 .after_search_content {
     /* color: var(--allitems-name); */
-    font-family: Palatino;
+    font-family: Calibri;
     width: 95%;
     margin-left: 5%;
 }
 
 .after_search_price {
     /* color: var(--allitems-name); */
-    font-family: Palatino;
+    font-family: Calibri;
     width: 33%;
     margin-left: 5%;
 }
 
 .allitems_heading_name {
-    font-family: Palatino;
+    font-family: Calibri;
     width: 98%;
     padding-left: 1%;
     font-size: 16px;
 }
 
 .allitems_name {
-    font-family: Palatino;
+    font-family: Calibri;
     width: 95%;
     padding-left: 1%;
     font-size: 16px;
@@ -169,14 +169,14 @@
 }
 
 .allitems_heading_price {
-    font-family: Palatino;
+    font-family: Calibri;
     width: 45%;
     font-size: 16px;
     /* padding-left: 3%; */
 }
 
 .allitems_price {
-    font-family: Palatino;
+    font-family: Calibri;
     width: 58%;
     /* margin-left: 5%; */
     padding-left: 5%;
@@ -187,14 +187,14 @@
     padding-left: 1%;
     margin: 0;
     font-size: 20px;
-    font-family: Lucida Handwriting;
+    font-family: Calibri;
 }
 
 .main_menu_name {
     padding: 1;
     margin: 0;
     font-size: 25px;
-    font-family: Lucida Handwriting;
+    font-family: Calibri;
 }
 
 .div_caraousel {
@@ -245,7 +245,7 @@
     white-space: normal;
     width: 90%;
     text-align: center;
-    font-family: Lucida Handwriting;
+    font-family: Calibri;
     font-size: 20px;
 }
 
@@ -305,7 +305,7 @@
     white-space: normal;
     width: 90%;
     text-align: center;
-    font-family: cursive;
+    font-family: Calibri;
     font-size: 25px;
     font-weight: 900;
 }
@@ -335,6 +335,11 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     align-items: center;
     background-color: black;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    padding: 1%;
 }
 
 .offer_maindiv {
@@ -342,7 +347,17 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     display: block;
     height: 50%;
     overflow: auto;
-    /* border: 2px solid yellow; */
+}
+.nosearchData_div{
+    height: 35%;
+    display: flex;
+    justify-content: center;
+}
+.nosearch_content{
+    text-align: center;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
 }
 
 /* ::-webkit-scrollbar {
@@ -373,9 +388,30 @@ a.ant-notification-notice-close {
     text-align: center;
     padding: 1%;
     margin: 0;
-    font-family: Noe-Display;
+    font-family: Calibri;
     font-size: 12px;
 }
+/* span.swiper-pagination-bullet.swiper-pagination-bullet-active{
+    background: red;
+}
+span.swiper-pagination-bullet{
+    background-color: yellow !important;
+    opacity: 0.6;
+} */
+
+/* .swiper-pagination-bullet-active{
+    background: yellow !important;
+
+}
+.swiper-pagination-bullet-inactive-color{
+    background: red !important;
+
+}
+.swiper-pagination-bullet{
+    background: yellow !important;
+    opacity: 0.7 !important;
+    background: var(--swiper-pagination-bullet-inactive-color ,red);
+} */
 
 /* .menu_image{
 animation: bounce 0.5s;

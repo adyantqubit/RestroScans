@@ -17,3 +17,8 @@
     background-color: #fff9ae;
     width: 100%;
 }
+.anchor_container{
+text-decoration: none;
+font-size: 13px;
+color: black;
+}

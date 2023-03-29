@@ -380,14 +380,13 @@ function MenuItem() {
 
   // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
-  console.log(itemList, 'All items')
+  // console.log(itemList, 'All items')
   // console.log(filterCategory, 'filtercategory')
   // console.log(offerBanner, 'all offer images')
-  console.log(offerList, 'all offer details')
-  console.log(offerShow, 'set offer data')
+  // console.log(offerList, 'all offer details')
+  // console.log(offerShow, 'set offer data')
   // console.log(filter, 'searching data')
   // console.log(res)
-
   // console.log(search, 'set in input field')
 
 
@@ -396,8 +395,6 @@ function MenuItem() {
   const navigatee = () => {
     navigate('/')
   }
-
-
 
   return (
     <>
@@ -420,9 +417,16 @@ function MenuItem() {
         {/* {isLoader == true ? <Loader /> : */}
 
         {offerBanner.length > 0 ?
-          <div style={{}}>
+          <div >
 
             <Swiper
+              style={{
+                "--swiper-pagination-color": colors.subHeadingColor,
+                "--swiper-pagination-bullet-inactive-color": colors.subHeadingColor,
+                "--swiper-pagination-bullet-inactive-opacity": "0.6 ",
+                "--swiper-pagination-bullet-size": "8px",
+                "--swiper-pagination-bullet-horizontal-gap": "5px"
+              }}
               // cssMode={true}
               navigation={true}
               pagination={{
@@ -442,7 +446,6 @@ function MenuItem() {
               {offerBanner.map((item, id) => (
                 <SwiperSlide>
                   <div
-                    style={{ color: 'blue', fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', position: 'relative', padding: "1% " }}
                     className='offer_div'
                     onClick={
                       e => onOfferShow(item.offer_name)
@@ -450,7 +453,6 @@ function MenuItem() {
                   >
                     <img
                       src={siteConfig.siteURL + item.offer_image}
-                      // style={{ border: '2px solid white' }}
                       className='offer_banner'
                     />
                     <h2
@@ -462,45 +464,30 @@ function MenuItem() {
                   </div>
                 </SwiperSlide>
               ))}
-
             </Swiper>
           </div>
           :
-          // <h5 style={{ color: 'white' }}>nopee</h5>
           null
         }
-        {/* } */}
-        {/* <br /> */}
         <div id="hide_search" className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
           <div className='searchpage_input'>
             <Input.Group>
               <Search size='large'
                 value={search}
                 onChange={e => { setNewSearch(e.target.value); }}
-                //  onSearch={onSearch}
                 placeholder='Search by Menu, Categories & Items name' />
             </Input.Group>
           </div>
         </div>
 
-        {filter.length == 0 && search.length > 0 ?
+        {filter.length == 0 && search.length > 2 ?
           <>
-            <div id="search_divv" style={{ height: '35%', display: 'flex', justifyContent: 'center' }}>
+            <div id="search_divv" className="nosearchData_div">
               <img
                 src={nodataImg}
                 className='nodata_image' />
-              {/* <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
-            <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
-            </span>
-            <CloseOutlined  style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
-            onClick=
-            {removeNoSerachResult}
-          />
-          </span> */}
-
-
             </div>
-            <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '20px', margin: '0', padding: '0' }}>
+            <h5 className="nosearch_content" style={{ color: colors.subHeadingColor,}}>
               No search result found</h5>
           </>
           : null}
@@ -540,7 +527,7 @@ function MenuItem() {
                       onClick=
                       {removeSerchResult}
                     /> */}
-                  <img onClick={removeSerchResult} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" />
+                  {/* <img onClick={removeSerchResult} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" /> */}
 
                 </span>
                 :
@@ -584,7 +571,9 @@ function MenuItem() {
                           <h3 className="category_name"
                             style={{
                               color: colors.headingColor,
-                              backgroundColor: colors.subheadingBackgroundColor
+                              backgroundColor: colors.subheadingBackgroundColor,
+                              borderRadius: '8px',
+                              padding: '2px 10px'
                             }}
                           >
                             {c}
@@ -635,7 +624,7 @@ function MenuItem() {
                                   </div>
 
                                   <div className="price_description_container" >
-                                    <h4 style={{ color: 'green', padding: '0', margin: '0 0 0 8px' }}
+                                    <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
                                       className="allitems_name">Offered price</h4>
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
@@ -793,7 +782,7 @@ function MenuItem() {
                     </div>
 
                     <div className="price_description_container" >
-                      <h4 style={{ color: 'green', padding: '0', margin: '0 0 0 8px' }}
+                      <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
                         className="allitems_name">Offered price</h4>
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
@@ -842,7 +831,7 @@ function MenuItem() {
                       </div>
 
                       <div className="price_description_container" >
-                        <h4 style={{ color: "green",  }}
+                        <h4 style={{ color: "red",  }}
                           className="allitems_name"
                         >
                           Offered price
@@ -912,7 +901,10 @@ function MenuItem() {
                       src={siteConfig.siteURL + data.icon}
                       className="category_img"
                     />&nbsp; */}
-                        <h3 style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor }}
+                        <h3 style={{
+                          color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor, borderRadius: '8px',
+                          padding: '2px 10px'
+                        }}
                           className="category_name"
                         >{data.name}
                         </h3>
@@ -931,7 +923,7 @@ function MenuItem() {
                       </div>
                       {itemList.length > 0 ? <>
                         {itemList.filter(i => i.category === data.id).map(m =>
-                          // <div style={{ border: '2px solid green', height: '100%', display: 'flex' }}>
+                          // <div style={{ border: '2px solid red', height: '100%', display: 'flex' }}>
 
                           <div style={{ display: 'flex' }}>
                             <div className="showimg_div" >
@@ -960,7 +952,7 @@ function MenuItem() {
                                   </div>
 
                                   <div className="price_description_container" >
-                                    <h4 style={{ color: 'green', padding: '0', margin: '0 0 0 8px' }}
+                                    <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
                                       className="allitems_name">Offered price</h4>
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
@@ -1116,11 +1108,11 @@ function MenuItem() {
           position: 'fixed', bottom: '60px', width: '100%', flexDirection: 'row', display: 'flex', height: '13%', textAlign: 'center', alignItems: 'center'
         }}>
           <div style={{ color: 'white', width: '8%', }}>
-            <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
+            <button style={{ backgroundColor: colors.subHeadingColor }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
           </div>
           <div className="myy" style={{
             color: 'white', width: '84%',
-            overflow: 'auto', display: 'flex'
+            overflowX: 'auto', display: 'flex'
           }}>
             {menuList.map((data, id) => (
               <div id={id} className='all-menu'
@@ -1149,7 +1141,9 @@ function MenuItem() {
             color: 'white', width: '8%',
             //  border: '2px solid green'
           }}>
-            <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={next}><span> </span> <RightOutlined /></button>
+            <button style={{
+              backgroundColor: colors.subHeadingColor
+            }} className="button-32" onClick={next}><span> </span> <RightOutlined /></button>
 
           </div>
 

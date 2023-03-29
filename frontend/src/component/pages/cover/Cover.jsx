@@ -36,11 +36,11 @@ function Cover() {
 
   }, []);
 
-  useEffect(()=>{
-    if(tenantDetails!=null)
-    localStorage.setItem("restroName", tenantDetails["restaurant"])
+  useEffect(() => {
+    if (tenantDetails != null)
+      localStorage.setItem("restroName", tenantDetails["restaurant"])
 
-  },[tenantDetails])
+  }, [tenantDetails])
 
   const getMenu = async () => {
     const response = await gettenantList(tenant);
@@ -54,65 +54,44 @@ function Cover() {
   const goToNext = () => {
     navigate("/menu-item");
   };
-  console.log(tenantDetails)
 
   return (
     <>
       {isLoader == true ? <Loader /> :
-
-    <div >
-
-      <div><GlobalColor/></div>
-      {tenantDetails?<div
-        style={{  fontSize: '14px' }}
-        className='front_page'
-
-      >
-        <img
-          style={{ border: '1px solid black' }}
-          src={siteConfig.siteURL + tenantDetails.restaurant_background_image}
-          className='front_page_image'
-        />
-        {/* <h2
-          className='front_page_lable'
-          style={{ color: colors.backgroundTheme }}
-        >
-          {tenantDetails.restaurant}
-        </h2> */}
-        <div className="front_page_lable">
-
-          {/* <h5 className="restaurant_img_div"
-          > */}
-          <h3 className="restro_name"
-              style={{  color: colors.headingColor }}
-            >
-              {tenantDetails.restaurant}
-            </h3>
-            <img style={{ border: '1px solid black' }}
-              src={siteConfig.siteURL + tenantDetails.restaurant_logo}
-              className="restaurant_logo" width='2%'
-            />&nbsp;
-            
-          {/* </h5> */}
+        <div >
+          <div><GlobalColor /></div>
+          {tenantDetails ? <div
+            className='front_page'
+          >
+            <img
+              src={siteConfig.siteURL + tenantDetails.restaurant_background_image}
+              className='front_page_image'
+            />
+            <div className="front_page_lable">
+              <h3 className="restro_name"
+                style={{ color: colors.headingColor }}
+              >
+                {tenantDetails.restaurant}
+              </h3>
+              <img 
+                src={siteConfig.siteURL + tenantDetails.restaurant_logo}
+                className="restaurant_logo" width='2%'
+              />&nbsp;
+            </div>
+            <div className="front_child_div">
+              <button onClick
+                ={goToNext} style={{ backgroundColor: colors.headingColor }} className='coverButton' >Explore menu</button >
+              <span
+                className='address_content'
+                style={{ color: colors.headingColor }}
+              > <b>
+                  {tenantDetails.restaurant_address
+                  }</b>
+              </span>
+            </div>
+          </div> : null}
         </div>
-
-        <div style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }}>
-        {/* <span  className='coverButton'>hgh</span>  */}
-         <button onClick
-            ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', backgroundColor: colors.headingColor }} className='coverButton' >Explore menu</button >
-
-      <span  
-      className='address_content' 
-      // style={{color:'black',left:'50%',marginLeft:'auto',marginRight:'auto',display:'flex'}}
-      >
-{tenantDetails.restaurant_address
-}
-      </span>
-
-        </div>
-      </div>:null}
-    </div>
-    }
+      }
     </>
   );
 }
