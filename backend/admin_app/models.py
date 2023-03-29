@@ -9,16 +9,22 @@ Reason - To store tenant requests
 class RestaurantRequest(models.Model):
     id = models.AutoField(primary_key=True)
     restaurant_name =models.CharField(max_length=255, default='')
-    tag_line = models.CharField(max_length=255, default='')
+    # Modified by Yuvraj sahu on 29-3-2023
+    # Reason - remove mandatory field from tag line
+    tag_line = models.CharField(max_length=255, null=True, blank=True)
+    # End of code modification
     restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True)
      # Added by Om on 24-03-23
     # Reason: Show a restaurant background image
     restaurant_background_img = models.ImageField(upload_to='images/tenantBackgroundImage/',blank=True,null=True)
     # End of addition
     owner_name = models.CharField(max_length=255, default='')
-    email =models.EmailField()
-    mobile_number =models.CharField(max_length=15, default='')
-    telephone_number =models.CharField(max_length=15, default='')
+    email =models.EmailField(unique=True)
+    mobile_number =models.CharField(max_length=15, default='',unique=True)
+    # Modified by Yuvraj Sahu on 29-3-2023
+    # Reason - to remove mandatory field
+    telephone_number =models.CharField(max_length=15, null=True, blank=True)
+    # End of modification
     password = models.CharField(max_length=500, null=True)
     confirm_password = models.CharField(max_length=500, null=True)
     address =models.TextField()
@@ -28,6 +34,25 @@ class RestaurantRequest(models.Model):
     
     def __str__(self):
             return self.restaurant_name
+    
+    # Added by Yuvraj Sahu on 29-3-2023
+    # reason - to save password hash formate
+    def save(self, *args, **kwargs ):
+        try:
+            rr=RestaurantRequest.objects.get(password=self.password)
+            if(self.password!=rr.password):
+                from django.contrib.auth.hashers import make_password, check_password
+                self.password = make_password(self.password)
+                self.confirm_password = make_password(self.confirm_password)
+                super().save( *args, **kwargs)
+            else:
+                super().save( *args, **kwargs)     
+        except Exception as e:
+            from django.contrib.auth.hashers import make_password, check_password
+            self.password = make_password(self.password)
+            self.confirm_password = make_password(self.confirm_password)
+            super().save( *args, **kwargs)
+    # End of code addition
 """
 End of code addition
 """
@@ -43,11 +68,13 @@ class Tenant(TenantMixin):
     # Reason: Show a restaurant name in tenant models
     restaurant_name = models.ForeignKey(RestaurantRequest,related_name='restaurant_id',null=True,on_delete=models.DO_NOTHING)
     # End of addition
-    active=models.BooleanField(default=False)
+    # Commented by Yuvraj Sahu on 29-3-2023
+    # Reason - to remove active from tenant
+    # active=models.BooleanField(default=False)
+    # End of removal
     created_at=models.DateField(auto_now=True)
     updated_at=models.DateField(auto_now=True)
-   
-    
+    restaurant_phone_number=models.CharField(max_length=15,null=True,blank=True)
     def __str__(self):
             return self.tenant_name
     # Added by Yuvraj Sahu on 28-3-2023
@@ -56,8 +83,18 @@ class Tenant(TenantMixin):
         import os
         import pyqrcode
         from django.conf import settings
-        url = pyqrcode.create('http://192.168.1.30:3000/api/v1/'+self.tenant_name+'/home')
-        url.svg(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/menu/qr.svg', scale=10)
+        self.restaurant_phone_number=self.restaurant_name.mobile_number
+        # Added by Yuvraj Sahu on 29-3-2023
+        # Reason - to make active when tenant create
+        restroObj = RestaurantRequest.objects.get(id=self.restaurant_name.id)
+        restroObj.is_active = True
+        restroObj.save()
+        # End of addition
+        url = pyqrcode.create(settings.HTTP_METHOD+settings.FRONTEND_URL+'api/'+settings.API_VERSION+self.tenant_name+'/home')
+        isExist = os.path.exists(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
+        if not isExist:
+             os.makedirs(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
+        url.svg(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode/qr.svg', scale=10)
         super().save( *args, **kwargs)
         # End of code addition
 """

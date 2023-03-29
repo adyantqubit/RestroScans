@@ -11,47 +11,48 @@ from django.db.models import Sum
 
 register = template.Library()
 
-@register.simple_tag
-def getRevenue():
-   
-    today=datetime.date.today()
+@register.simple_tag(takes_context=True)
+def getQRCodePath(context):
+    import os
+    from django.template import RequestContext 
+    from django.conf import settings
+    from admin_app.models import Tenant,RestaurantRequest
+    request=context['request']
+    # print("===========================",request.headers)
+    # host=request.headers['Host'].split(":")
+    # path= settings.HTTP_METHOD+request.headers['Host']+'/media/'+host[0] +'/images/qrcode/qr.svg'
+    # # print("=====================",path)
+    # return path
+    data = dict()
+    host=request.headers['Host'].split(":")
+    path= settings.HTTP_METHOD+request.headers['Host']+'/media/'+host[0] +'/images/qrcode/qr.svg'
+    # print("=====================",path)
+    data["path"] = path
+    # data["tenant"] = host[0].split(".")[0]
+    if settings.DOMAIN_NAME != host[0].split(".")[0] :
+        tenant=Tenant.objects.get(tenant_name = host[0].split(".")[0])
+        restaurantName =  RestaurantRequest.objects.get(mobile_number=tenant.restaurant_phone_number)
+        print('qqqqqqqqqqqq', data)
+        data["tenant"] = restaurantName.restaurant_name
+    else :
+        # data["tenant"] = settings.DOMAIN_NAME
+        data["tenant"] = "Adyant"
+    return data
 
-    # data=[]
+
+
+def getActiveMenuList():
+    data=[]
     setdata = dict()
 
-    # print("Menu !!!!!!!!!!!!!!!!!!!!!!!!", Menu.objects.filter(is_active=False))
-    # print("category !!!!!!!!!!!!!!!!!!!!!!!!", Category.objects.filter(is_active=False))
-    # print("item !!!!!!!!!!!!!!!!!!!!!!!!", Item.objects.filter(is_active=False))
-
-    # tt=Property.objects.all()
-    # print("--------------tt",tt)
-    # totalListing = Property.objects.filter( date_modified_at__gte= today).count()
-    # print('check total listing',totalListing)
-    # setdata['totalListing']= totalListing
-    # data.append(setdata)
-    # return data        
-
-#     setdata = dict()
-#     totalListing = Property.objects.filter( date_modified_at__gte= today).count()
-#     totalresgisteredUser = CustomUser.objects.filter( date_created_at__gte= today).count()
-#     totalNakshaenquiry = NakshaPassRequest.objects.filter( date_created_at__gte= today).count()
-#     totalNiyamitikaranenquiry = NiyamitikaranRequest.objects.filter( date_created_at__gte= today).count()
-#     totalbuildingValuation = BuildingValuationRequest.objects.filter( date_created_at__gte= today).count()
-#     totalconstructionSolution = ConstructionSolutionRequest.objects.filter( date_created_at__gte= today).count()
-#     totalexpertOpinion = ExpertOpenionRequest.objects.filter( date_created_at__gte= today).count()
-#     totalfreeEvaluation = FreeEvaluationRequest.objects.filter( date_created_at__gte= today).count()
+    totalMenus = Menu.objects.all().count()
+    totalCategories = Category.objects.all().count()
+    totalItems = Item.objects.all().count()
+    setdata['totalMenus']= totalMenus
+    setdata['totalCategories']= totalCategories
+    setdata['totalItems']= totalItems
 
 
-#     setdata["title"]="Today's Entry"
-#     setdata['totalListing']= totalListing
-#     setdata['totalfreeEvaluation']= totalfreeEvaluation
-#     setdata['totalNakshaenquiry']= totalNakshaenquiry
-#     setdata['totalNiyamitikaranenquiry']= totalNiyamitikaranenquiry
-#     setdata['totalbuildingValuation']= totalbuildingValuation
-#     setdata['totalconstructionSolution']= totalconstructionSolution
-#     setdata['totalexpertOpinion']= totalexpertOpinion
-#     setdata['totalresgisteredUser']= totalresgisteredUser
+    data.append(setdata)
 
-#     data.append(setdata)
-
-#     return data 
+    return data 

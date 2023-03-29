@@ -102,7 +102,9 @@ class OfferItem(models.Model):
     item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True)
     
     def __str__(self):
-        return "Offer for Items"  
+        return "Offer for Items"
+    class Meta:
+        verbose_name_plural = 'Banner Images' 
  
 """
 End of code addition

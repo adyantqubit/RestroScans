@@ -38,15 +38,12 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 class RestaurantRegistartionView(APIView):
     # @csrf_exempt
     def post(self, request, format=None):
-        # import pdb
-        # pdb.set_trace()
-        # print('input data---------', request.data)
-        # print('input data rest=================',request.data["restaurant_logo"])
-        encryptedPassword = make_password(request.data.get('password'))
-        request.data['password'] = encryptedPassword
-        # print('111111111111111111111111111')
+        # Commented by Yuvraj Sahu on 29-3-2023
+        # Reason - to remove hash password because it is hashed in models
+        # encryptedPassword = make_password(request.data.get('password'))
+        # request.data['password'] = encryptedPassword
+        # End of comment
         serializer = RestaurantRequestSerializer(data=request.data)
-        # print('8888888888888888c')
         try:
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
@@ -68,6 +65,9 @@ Reason - To authenticate restaurant for login using jwt
 class RestaurantLoginView(APIView):
     def post(self, request):
         restaurant = RestaurantRequest.objects.filter(email = request.data.get('email')).first()
+        print(request.data.get('password'))
+        print(request.data["password"])
+        print(restaurant.email)
         # Modified by Yuvraj Sahu on 2-3-2023
         # Reason - to send email and password validation msg
         response = Response()
@@ -78,6 +78,7 @@ class RestaurantLoginView(APIView):
             }
             return response
         # if not restaurant.check_password(request.data['password']):
+        print(check_password(request.data.get('password'), restaurant.password))
         if not check_password(request.data.get('password'), restaurant.password):
             # raise APIException('Invalid Credentials')
             response.data = {

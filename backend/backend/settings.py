@@ -258,3 +258,23 @@ EMAIL_HOST_PASSWORD = 'srhfjpvlcqylvssj'
 """
 End of code addition
 """
+
+"""
+Added by Yuvraj Sahu on 28-3-2023
+Reason - to set http method
+"""
+HTTP_METHOD = "http://"
+"""
+End of code addition
+"""
+
+"""
+Added by Yuvraj Sahu on 28-3-2023
+Reason - to set domain
+"""
+DOMAIN_NAME = "moreshop"
+FRONTEND_URL = "192.168.1.8:3000/"
+API_VERSION = "v1/"
+"""
+End of code addition
+"""

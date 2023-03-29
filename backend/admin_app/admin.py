@@ -85,10 +85,10 @@ class OtpAdmin(admin.ModelAdmin):
         
 @admin.register(RestaurantRequest)
 class RestaurantRequestAdmin(admin.ModelAdmin):
-    list_display=("id","restaurant_name", "owner_name", "mobile_number", "created_at", "address")
+    list_display=("id","restaurant_name", "owner_name", "mobile_number", "address", "created_at", "is_active")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("restaurant_name","id","owner_name")
+    search_fields=("restaurant_name","id","owner_name", "created_at")
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
