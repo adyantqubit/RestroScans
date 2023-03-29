@@ -144,8 +144,10 @@ class SettingAPIView(APIView):
     def get(self,request,tenant):
         print('gfagfgf', tenant)
         setting=Setting.objects.last()
-        settingSerializer=SettingSerializer(setting)
-
+        if setting is not None:
+           settingSerializer=SettingSerializer(setting)
+        else:
+            settingSerializer={"data":0}
         return Response({
             "msg":"success",
             "setting":settingSerializer.data,

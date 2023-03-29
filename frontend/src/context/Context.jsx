@@ -13,12 +13,12 @@ export default function Context(props) {
     
     var [tenantName, setTenantName]=useState([])
     var [colors,setColors] = useState({
-        // headingColor: 'aqua',
-        // backgroundTheme: 'aqua',
-        // subHeadingColor: 'aqua',
-        // bannerColor: 'aqua',
-        // headingBackgroundColor: 'aqua',
-        // subheadingBackgroundColor: 'aqua',
+        headingColor: 'gold',
+        backgroundTheme: 'black',
+        subHeadingColor: '#72aa83',
+        bannerColor: '#e5dca5',
+        // headingBackgroundColor: '',
+        subheadingBackgroundColor: '#72aa83',
 
     })
 

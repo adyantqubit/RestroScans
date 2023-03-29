@@ -80,7 +80,7 @@ function Cover() {
             </div>
             <div className="front_child_div">
               <button onClick
-                ={goToNext} style={{ backgroundColor: colors.headingColor }} className='coverButton' >Explore menu</button >
+                ={goToNext} style={{ backgroundColor: colors.subHeadingColor }} className='coverButton' >Explore menu</button >
               <span
                 className='address_content'
                 style={{ color: colors.headingColor }}

@@ -65,7 +65,21 @@
     width: auto;
     height: 30vh;
 }
-
+.when_offer_is_null{
+    display: none;
+    height: 41%;
+}
+.when_offer_is_null_spanmain{
+    display: flex;
+    padding: 1%;
+    font-size: 16px;
+}
+.when_offer_is_null_span1{
+    color: #ffff9f;
+    padding: 0;
+    width: 98%;
+    font-size: 15px;
+}
 .allcategory_menu_div {
     /* background-color: #222221; */
     /* background-color: #fffb00; */
