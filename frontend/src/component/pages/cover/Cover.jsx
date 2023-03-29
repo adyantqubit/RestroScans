@@ -9,8 +9,8 @@ import { gettenantList } from "../../../api/Services";
 import siteConfig from "../../../config/config";
 import { useContext } from 'react';
 import { GlobalContext } from "../../../context/Context";
-// import GlobalColor from './../Colors/GlobalColor'
-
+import GlobalColor from './../../Colors/GlobalColor'
+import Loader from "../../Loader/Loader";
 
 function Cover() {
   var { tenantName, setTenantName } = useContext(GlobalContext);
@@ -28,6 +28,7 @@ function Cover() {
   // Above method use for split the restaurent name
 
   const [tenantDetails, setTenantDetails] = useState(null); // Our data set in this variable which comes from backend
+  const [isLoader, setIsLoader] = useState(true)
 
   useEffect(() => {
     getMenu(tenant);
@@ -44,6 +45,7 @@ function Cover() {
   const getMenu = async () => {
     const response = await gettenantList(tenant);
     if (response) {
+      setIsLoader(false)
       setTenantDetails(response.tenantDetails);
     }
   };
@@ -55,9 +57,14 @@ function Cover() {
   console.log(tenantDetails)
 
   return (
+    <>
+      {isLoader == true ? <Loader /> :
+
     <div >
+
+      <div><GlobalColor/></div>
       {tenantDetails?<div
-        style={{ color: 'blue', fontSize: '14px' }}
+        style={{  fontSize: '14px' }}
         className='front_page'
 
       >
@@ -90,11 +97,23 @@ function Cover() {
         </div>
 
         <div style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex' }}>
-          <button onClick
+        {/* <span  className='coverButton'>hgh</span>  */}
+         <button onClick
             ={goToNext} style={{ marginLeft: 'auto', marginRight: 'auto', display: 'flex', backgroundColor: colors.headingColor }} className='coverButton' >Explore menu</button >
+
+      <span  
+      className='address_content' 
+      // style={{color:'black',left:'50%',marginLeft:'auto',marginRight:'auto',display:'flex'}}
+      >
+{tenantDetails.restaurant_address
+}
+      </span>
+
         </div>
       </div>:null}
     </div>
+    }
+    </>
   );
 }
 export default Cover;

@@ -13,7 +13,7 @@ class Menu(models.Model):
     icon=models.ImageField(upload_to='images/menu/',null=True,blank=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False,null=True,blank=True)
+    is_active=models.BooleanField(default=False)
     # End of code addition
     def __str__(self):
         return self.name  
@@ -31,7 +31,7 @@ class Category(models.Model):
     icon=models.ImageField(upload_to='images/category/',null=True,blank=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False,null=True,blank=True)
+    is_active=models.BooleanField(default=False)
     # End of code addition
     def __str__(self):
         return self.name
@@ -70,7 +70,7 @@ class Item(models.Model):
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False,null=True,blank=True)
+    is_active=models.BooleanField(default=False)
     # End of code addition
     def __str__(self):
         return self.name 
@@ -99,7 +99,7 @@ class Offer(models.Model):
 class OfferItem(models.Model):
     id = models.AutoField(primary_key=True)
     offer_name=models.ForeignKey(Offer,related_name='offer_id',on_delete=models.CASCADE)
-    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE)
+    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True)
     
     def __str__(self):
         return "Offer for Items"  

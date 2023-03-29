@@ -16,6 +16,8 @@ class TenantListSerializer(serializers.ModelSerializer):
     restaurant = serializers.CharField(source='restaurant_name.restaurant_name')
     restaurant_logo = serializers.ImageField(source = 'restaurant_name.restaurant_logo')
     restaurant_background_image = serializers.ImageField(source = 'restaurant_name.restaurant_background_img')
+    restaurant_address = serializers.CharField(source = 'restaurant_name.address')
+
     # End of additionn
     class Meta:
         model=Tenant

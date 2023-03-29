@@ -46,7 +46,7 @@ function Footer() {
         {/* <span style={{ fontSize: '13px' }}>Powered by Adyant</span> */}
         <div className='footer_content'>
           {/* <span > Copyright © 2023 Adyant</span> */}
-          <span> <a style={{color:'black',fontSize:'13px',textDecoration:'none'}}  href="https://adyant.co.in/" >Copyright © 2023 Adyant</a>
+          <span> <a style={{color:'black',fontSize:'13px',textDecoration:'none'}}  href="https://adyant.co.in/" target='_blank'>Adyant Powered © 2023</a>
        </span>
         </div>
        

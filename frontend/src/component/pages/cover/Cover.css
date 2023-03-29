@@ -5,7 +5,7 @@
 .front_page {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     position: relative;
     font-size: 35px;
     height: 100vh;
@@ -53,6 +53,15 @@
     align-items: center;
     padding: 3%;
     border-radius: 6%;
+}
+.address_content{
+   text-shadow: 0px 0px 1px black;
+   text-align: center !important;
+   font-size: 1.1rem;
+   position: absolute;
+   top: 80%;
+   align-items: center;
+   padding: 3%;
 }
 .restaurant_logo{
     border-radius: 100%;
