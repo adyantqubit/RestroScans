@@ -32,7 +32,6 @@ def getQRCodePath(context):
     if settings.DOMAIN_NAME != host[0].split(".")[0] :
         tenant=Tenant.objects.get(tenant_name = host[0].split(".")[0])
         restaurantName =  RestaurantRequest.objects.get(mobile_number=tenant.restaurant_phone_number)
-        print('qqqqqqqqqqqq', data)
         data["tenant"] = restaurantName.restaurant_name
     else :
         # data["tenant"] = settings.DOMAIN_NAME
@@ -52,7 +51,6 @@ def getActiveMenuList():
     setdata['totalCategories']= totalCategories
     setdata['totalItems']= totalItems
 
-
-    data.append(setdata)
+    print('setdata', data)
 
     return data 

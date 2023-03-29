@@ -10,13 +10,18 @@ Reason - To store details of menu
 """
 class Menu(models.Model):
     name=models.CharField(max_length=13,default='')
-    icon=models.ImageField(upload_to='images/menu/',null=True,blank=True)
+    icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
     # End of code addition
     def __str__(self):
-        return self.name  
+        return self.name 
+    # Added by Yuvraj Sahu on 29-3-2023
+    # Reason - to arrange the table
+    class Meta:
+        verbose_name_plural = 'c) Category'
+    # End of addition
 """
 End of code addition
 """
@@ -35,6 +40,11 @@ class Category(models.Model):
     # End of code addition
     def __str__(self):
         return self.name
+    # Added by Yuvraj Sahu on 29-3-2023
+    # Reason - to arrange the table
+    class Meta:
+        verbose_name_plural = 'd) Sub category'
+    # End of addition
 """
 End of code addition
 """
@@ -74,6 +84,11 @@ class Item(models.Model):
     # End of code addition
     def __str__(self):
         return self.name 
+    # Added by Yuvraj Sahu on 29-3-2023
+    # Reason - to arrange the table
+    class Meta:
+        verbose_name_plural = 'e) Item'
+    # End of addition
 """
 End of code addition
 """
@@ -94,7 +109,7 @@ class Offer(models.Model):
         return self.offer_name 
     
     class Meta:
-        verbose_name_plural = 'Banner'
+        verbose_name_plural = 'a) Banner/Offer'
 
 class OfferItem(models.Model):
     id = models.AutoField(primary_key=True)
@@ -104,7 +119,7 @@ class OfferItem(models.Model):
     def __str__(self):
         return "Offer for Items"
     class Meta:
-        verbose_name_plural = 'Banner Images' 
+        verbose_name_plural = 'b) Banner items' 
  
 """
 End of code addition
@@ -134,7 +149,7 @@ class Description(models.Model):
         return self.content 
     
     class Meta:
-        verbose_name_plural = 'Footer Description'
+        verbose_name_plural = 'g) Footer Description'
 """
 End of code addition
 """
@@ -155,6 +170,11 @@ class Setting(models.Model):
     
     def __str__(self):
         return "color changed"
+    # Added by Yuvraj Sahu on 29-3-2023
+    # Reason - to arrange the table
+    class Meta:
+        verbose_name_plural = 'f) Setting'
+    # End of addition
 
 """
 End of code addition

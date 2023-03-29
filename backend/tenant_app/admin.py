@@ -120,7 +120,12 @@ class SettingAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return False
         else:
-            return True 
+            return True
+    # Added by Yuvraj Sahu on 29-3-2023
+    # Reason - to add only one time
+    def has_add_permission(self, request):
+        return not Setting.objects.exists()
+    # End of eddition
         
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
@@ -135,4 +140,9 @@ class DescriptionAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return False
         else:
-            return True 
+            return True
+    # Added by Yuvraj Sahu on 29-3-2023
+    # Reason - to add only one time
+    def has_add_permission(self, request):
+        return not Description.objects.exists()
+    # End of eddition
