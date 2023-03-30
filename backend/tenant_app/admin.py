@@ -146,3 +146,27 @@ class DescriptionAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return not Description.objects.exists()
     # End of eddition
+
+# Added by Yuvraj sahu on 30-2-2023
+# Reason - to remove add user button for tenant
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User, Group
+class MyUserAdmin(admin.ModelAdmin):
+    list_display=("id","username", "email")
+    def has_add_permission(self, request):
+        if request.tenant.schema_name != get_public_schema_name():
+            return not User.objects.exists()
+        else:
+            return True
+class MyGroupAdmin(admin.ModelAdmin):
+    # list_display=["name"]
+    def has_add_permission(self, request):
+        if request.tenant.schema_name != get_public_schema_name():
+            return False
+        else:
+            return True
+admin.site.unregister(User)
+admin.site.unregister(Group)
+admin.site.register(User, MyUserAdmin)
+admin.site.register(Group, MyGroupAdmin)
+# End of addition
