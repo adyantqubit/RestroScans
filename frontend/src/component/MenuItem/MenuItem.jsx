@@ -535,8 +535,8 @@ function MenuItem() {
               ))}
             </Swiper>
           </div>
-          :
-          <h3 color="red">yupp</h3>
+          :null
+          // <h3 color="red">yupp</h3>
         }
         <div id="hide_search" 
         className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}

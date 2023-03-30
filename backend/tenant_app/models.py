@@ -20,7 +20,7 @@ class Menu(models.Model):
     # Added by Yuvraj Sahu on 29-3-2023
     # Reason - to arrange the table
     class Meta:
-        verbose_name_plural = 'c) Category'
+        verbose_name_plural = 'c) Menu'
     # End of addition
 """
 End of code addition
@@ -43,7 +43,7 @@ class Category(models.Model):
     # Added by Yuvraj Sahu on 29-3-2023
     # Reason - to arrange the table
     class Meta:
-        verbose_name_plural = 'd) Sub category'
+        verbose_name_plural = 'd) Category'
     # End of addition
 """
 End of code addition
@@ -69,7 +69,7 @@ class Item(models.Model):
     # End of addition
     # Added by Om on 23-03-23
     # Reason : To show items image
-    icon=models.ImageField(upload_to='images/item/',default='')
+    # icon=models.ImageField(upload_to='images/item/',default='')
     # End of addition
     price_full=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
     price_half=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)

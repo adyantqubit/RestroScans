@@ -59,3 +59,46 @@ def getProfileLink(context):
     data["setting"] = path
     return data
 # End of addition
+
+
+# Added by Yuvraj Sahu on 30-3-2023
+# Reason - to send link in profile dropdown
+@register.simple_tag(takes_context=True)
+def getInActiveCategories(context):
+    from django.conf import settings
+    request=context['request']
+    host=request.headers['Host'].split(":")
+    if settings.DOMAIN_NAME != host[0].split(".")[0] :
+        categoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/menu/'
+        subCategoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/category/'
+        itemUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/item/'
+    else :
+        categoryUrl= "#"
+        subCategoryUrl="#"
+        itemUrl= "#"
+    # data["setting"] = path
+    inActiveMenu = dict()
+
+    categoryMenu = dict()
+    subCategoryMenu = dict()
+    itemMenu = dict()
+
+    inActiveCategories = Menu.objects.filter(is_active=False)
+    inActiveSubCategories = Category.objects.filter(is_active=False)
+    inActiveItems = Item.objects.filter(is_active=False)
+
+    categoryMenu["categoryUrl"] = categoryUrl
+    categoryMenu["inActiveCategories"] = inActiveCategories
+
+    subCategoryMenu["subCategoryUrl"] = subCategoryUrl
+    subCategoryMenu["inActiveSubCategories"] = inActiveSubCategories
+   
+    itemMenu["itemUrl"] = itemUrl
+    itemMenu["inActiveItems"] = inActiveItems
+
+    inActiveMenu["categoryMenu"] = categoryMenu
+    inActiveMenu["subCategoryMenu"] = subCategoryMenu
+    inActiveMenu["itemMenu"] = itemMenu
+
+    return inActiveMenu
+# End of addition

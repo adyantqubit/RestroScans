@@ -62,7 +62,7 @@ class CategoryAdmin(admin.ModelAdmin):
         
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display=("id","name", "category", "price_full", "price_half", "is_active")
+    list_display=("id","name", "category", "price_full", "price_half")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     search_fields=("name","menu")
