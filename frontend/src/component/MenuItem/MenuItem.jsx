@@ -1102,7 +1102,7 @@ function MenuItem() {
 
         <div className="main_footer_container">
           <div className="footer_btn_container" >
-            <button style={{ backgroundColor: 'aqua' }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
+            <button style={{ backgroundColor: '#9b6043' }} className="button-32" onClick={back}><LeftOutlined style={{color:'white'}} /><span> </span></button>
           </div>
           <div className="category_container" >
             {menuList.map((data, id) => (
@@ -1130,8 +1130,8 @@ function MenuItem() {
             //  border: '2px solid green'
           }}>
             <button style={{
-              backgroundColor: "aqua"
-            }} className="button-32" onClick={next}><span> </span> <RightOutlined /></button>
+              backgroundColor: "#9b6043"
+            }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{color:'white'}} /></button>
 
           </div>
 

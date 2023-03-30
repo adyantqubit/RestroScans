@@ -69,7 +69,7 @@ function Cover() {
             />
             <div className="front_page_lable">
               <h3 className="restro_name"
-                style={{ color: colors.headingColor }}
+                style={{ color: 'white',textShadow: "2px 8px 8px black" }}
               >
                 {tenantDetails.restaurant}
               </h3>
@@ -80,10 +80,10 @@ function Cover() {
             </div>
             <div className="front_child_div">
               <button onClick
-                ={goToNext} style={{ backgroundColor: 'aqua' }} className='coverButton' >Explore menu</button >
+                ={goToNext} style={{ backgroundColor: 'white' }} className='coverButton' >Explore menu</button >
               <span
                 className='address_content'
-                style={{ color: colors.headingColor }}
+                style={{ color: 'white',textShadow: "2px 8px 8px black" }}
               > <b>
                   {tenantDetails.restaurant_address
                   }</b>
