@@ -80,6 +80,10 @@ class Tenant(TenantMixin):
     # Added by Yuvraj Sahu on 28-3-2023
     # reason - to save tenant barcode svg
     def save(self, *args, **kwargs ):
+        if self.schema_name == 'public':
+            super().save( *args, **kwargs)
+            return
+        
         import os
         import pyqrcode
         from django.conf import settings
