@@ -25,7 +25,7 @@
     white-space: normal;
     width: 90%;
     text-align: center;
-    font-family: Calibri;
+    font-family: "Times New Roman";
     font-size: 50px;
     word-spacing: 0;
     text-transform: uppercase   ;
@@ -34,17 +34,17 @@
 .coverButton {
     padding: 10px;
     color: black;
-    text-shadow: 0px 0px 1px black;
+    /* text-shadow: 0px 0px 1px black; */
     text-align: center !important;
     font-size: 1.3rem;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
     position: absolute;
     top: 75%;
     left: 50%;
     transform: translate(-50%, -50%);
     align-items: center;
     padding: 3%;
-    border-radius: 6%;
+    border-radius: 25px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -74,8 +74,8 @@
 .restro_name {
     margin: 0;
     padding: 0%;
-    font-size: 40px;
-    font-family: Calibri;
+    font-size: 38px;
+    font-family: "Times New Roman";
 }
 .front_child_div{
     display: flex;

@@ -98,7 +98,7 @@ class Tenant(TenantMixin):
         isExist = os.path.exists(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
         if not isExist:
              os.makedirs(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
-        url.svg(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode/qr.svg', scale=10)
+        url.svg(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode/qr.svg', scale=10 )
         super().save( *args, **kwargs)
         # End of code addition
 """

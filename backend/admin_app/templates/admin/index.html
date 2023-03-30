@@ -33,6 +33,11 @@
     }
     
     </script>
+    <!-- Added by Yuvraj Sahu on 30-3-2023
+    Reason - to remove recent actions from admin pannel -->
+    {% block sidebar  %}
+    {% endblock %}
+    <!-- End of addition -->
     {%  getQRCodePath as data %}
     <div class="py-4 text-center">
             <div id="qrSection"  >
@@ -66,31 +71,21 @@
                 <div class="card border-0 shadow">
                     <div class="card-body">
                         <div class="row d-block d-xl-flex align-items-center">
+                            {%  getActiveMenuList as count %}
                             <div class=" d-sm-block">
-                                <!-- <h5 class="fw-extrabold mb-2" style="text-align: center;">
-                                    {{ revenue.title }}
-                                </h5> -->
-                                {%  getQRCodePath as data %}
-                                {% for totalEntries in getQRCodePath %}
-                                <!-- <div class="shadow " style="background-color: rgba(227, 121, 121, 0.7);padding:8px;">
+                                <div class="shadow " style="background-color: rgba(227, 121, 121, 0.7);padding:8px;">
                                     <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 60%;">Total Listed Menus</h6>
-                                    <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 30%;text-align: right;">{{totalEntries.totalMenus}}</h6>
+                                    <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 30%;text-align: right;">{{count.totalCategories}}</h6>
                                 </div>
                                 <div class="shadow"
                                     style="background-color: rgba(92, 228, 228, 0.688);padding:8px;">
                                     <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 60%;">Total Listed Categories</h6>
-                                    <h6 class="fw-extrabold mb-2"  style="display: inline-block;width: 30%;text-align: right;">{{totalEntries.totalCategories}}</h6>
+                                    <h6 class="fw-extrabold mb-2"  style="display: inline-block;width: 30%;text-align: right;">{{count.totalSubCategories}}</h6>
                                 </div>
                                 <div class="shadow " style="background-color: rgba(73, 211, 73, 0.8);padding:8px;">
                                     <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 60%;">Total Listed Items</h6>
-                                    <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 30%;text-align: right;">{{totalEntries.totalItems}}</h6>
-                                </div> -->
-                                <!-- <div class="shadow x" style="background-color: rgba(235, 235, 121, 0.8);padding:8px;">
-                                    <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 60%;">Dinner</h6>
-                                    <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 30%;text-align: right;">50</h6>
+                                    <h6 class="fw-extrabold mb-2" style="display: inline-block;width: 30%;text-align: right;">{{count.totalItems}}</h6>
                                 </div>
-                                 -->
-                                 {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -132,6 +127,180 @@
                 </div>
             </div> -->
         </div>
+
+
+
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h2 class="fs-4 fw-bold mb-0"> Inactive List </h2>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <div class="col">
+                            <h2 class="fs-5 fw-bold mb-0" style="padding: 7px; text-align: center;margin-top: 1%;"> Menu </h2>
+                        </div>
+                        <table class="table align-items-center table-flush"  style="border: 0.5px solid black;">
+                            <tbody>
+                                <tr style="background-color:rgba(220, 231, 231, 0.912) ;">
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                      Name
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Image url
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Active Status
+                                    </th>
+                                </tr>
+                                {%  getInActiveCategories as menus %}
+                                {% if menus.categoryMenu.inActiveCategories %}
+                                {% for menu in menus.categoryMenu.inActiveCategories %}
+                                <tr>
+                                    <td class="fw-bolder text-gray-500">
+                                        <a href="{{menus.categoryMenu.categoryUrl}}{{ menu.id}}/change/">
+                                            {{ menu.name }}
+                                        </a>
+                                        
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.icon }}
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.is_active }}
+                                    </td>
+                                 
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                <td>None available</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive">
+                        <div class="col">
+                            <h2 class="fs-5 fw-bold mb-0" style="padding: 7px; text-align: center;margin-top: 1%;"> Categories </h2>
+                        </div>
+                        <table class="table align-items-center table-flush"  style="border: 0.5px solid black;">
+                            <tbody>
+                                <tr style="background-color:rgba(220, 231, 231, 0.912) ;">
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                      Name
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Image url
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Active Status
+                                    </th>
+                                </tr>
+                                {%  getInActiveCategories as menus %}
+                                {% if menus.subCategoryMenu.inActiveSubCategories %}
+                                {% for menu in menus.subCategoryMenu.inActiveSubCategories %}
+                                <tr>
+                                    <td class="fw-bolder text-gray-500">
+                                        <a href="{{menus.subCategoryMenu.subCategoryUrl}}{{ menu.id}}/change/">
+                                            {{ menu.name }}
+                                        </a>
+                                        
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.icon }}
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.is_active }}
+                                    </td>
+                                 
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                <td>None available</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive">
+                        <div class="col">
+                            <h2 class="fs-5 fw-bold mb-0" style="padding: 7px; text-align: center;margin-top: 1%;"> Items </h2>
+                        </div>
+                        <table class="table align-items-center table-flush"  style="border: 0.5px solid black;">
+                            <tbody>
+                                <tr style="background-color:rgba(220, 231, 231, 0.912) ;">
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                      Name
+                                    </th>
+                                    <!-- <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Image url
+                                    </th> -->
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Item Type
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Full Price
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Half Price
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Active Status
+                                    </th>
+                                </tr>
+                                {%  getInActiveCategories as menus %}
+                                {% if menus.itemMenu.inActiveItems %}
+                                {% for menu in menus.itemMenu.inActiveItems %}
+                                <tr>
+                                    <td class="fw-bolder text-gray-500">
+                                        <a href="{{menus.itemMenu.itemUrl}}{{ menu.id}}/change/">
+                                            {{ menu.name }}
+                                        </a>
+                                        
+                                    </td>
+                                    <!-- <td class="fw-bolder text-gray-500">
+                                        {{menu.icon }}
+                                    </td> -->
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.item_type }}
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.price_full }}
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.price_half }}
+                                    </td>
+                                    <td class="fw-bolder text-gray-500">
+                                        {{menu.is_active }}
+                                    </td>
+                                 
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                <td>None available</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+        
+        
+                </div>
+            </div>
+        </div>
+
+
+
         {% else %}
             <!-- <h2>no</h2> -->
             {% endif %}

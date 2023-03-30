@@ -1,10 +1,13 @@
 {% load i18n static admin_volt %}
 
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
-    <a class="navbar-brand me-lg-5" href="/">
+    <!-- Removed by Yuvraj Sahu on 30-3-2023
+    Reason - as per requirement removed this icon -->
+    <!-- <a class="navbar-brand me-lg-5" href="/">
         <img class="navbar-brand-dark" src="{% static 'admin_volt/assets/img/brand/light.svg' %}" alt="Volt logo"/>
         <img class="navbar-brand-light" src="{% static 'admin_volt/assets/img/brand/dark.svg' %}" alt="Volt logo"/>
-    </a>
+    </a> -->
+    <!-- End of removal  -->
     <div class="d-flex align-items-center">
         <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
@@ -20,9 +23,12 @@
             <div class="d-flex align-items-center">
                 <div class="d-block">
                     <h2 class="h5 mb-3">Hi, {{ request.user.first_name|default:request.user.username }}</h2>
-                    <a href="#" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+                    <!-- Removed by Yuvraj Sahu on 30-3-2023
+                    Reason - sign out not work proper -->
+                    <!-- <a href="#" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
                         <span class="fa fa-sign-out"></span> Sign Out
-                    </a>
+                    </a> -->
+                    <!-- End of removal  -->
                 </div>
             </div>
             <div class="collapse-close d-md-none">
@@ -39,15 +45,17 @@
             </div>
         </div>
         <ul class="nav flex-column pt-3 pt-md-0">
-            <li class="nav-item">
+            <!-- Removed by Yuvraj Sahu on 30-3-2023
+                Reason - as per requirement remove administrator -->
+            <!-- <li class="nav-item">
                 <a href="{% url 'admin:index' %}" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
                        <img src="{% static 'admin_volt/assets/img/brand/light.svg' %}" height="20" width="20" alt="Volt Logo">
                     </span>
                     <span class="mt-1 ms-1 sidebar-text">{% trans 'Administrator' %}</span>
                 </a>
-            </li>
-
+            </li> -->
+            <!-- End of removal -->
             <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
                 <a href="{% url 'admin:index' %}" class="nav-link">
                     <span class="sidebar-icon fa fa-home"></span>

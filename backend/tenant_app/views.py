@@ -29,11 +29,11 @@ class TenantAPIView(APIView):
 class MenuAPIView(APIView):
     def get(self,request,tenant):
         print('gfagfgf', tenant)
-        menuList=Menu.objects.all()
+        menuList=Menu.objects.all().order_by('name')
         menuListSerializer=MenuListSerializer(menuList,many=True)
-        categoryList=Category.objects.all()
+        categoryList=Category.objects.all().order_by('name')
         categoryListSerializer=CategoryListSerializer(categoryList,many=True)
-        itemList=Item.objects.all()
+        itemList=Item.objects.all().order_by('name')
         itemListSerializer=ItemListSerializer(itemList,many=True)
 
         # Commented by Om on 16-02-23

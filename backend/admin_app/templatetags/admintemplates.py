@@ -13,46 +13,92 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def getQRCodePath(context):
-    import os
-    from django.template import RequestContext 
     from django.conf import settings
     from admin_app.models import Tenant,RestaurantRequest
     request=context['request']
-    # print("===========================",request.headers)
-    # host=request.headers['Host'].split(":")
-    # path= settings.HTTP_METHOD+request.headers['Host']+'/media/'+host[0] +'/images/qrcode/qr.svg'
-    # # print("=====================",path)
-    # return path
     data = dict()
     host=request.headers['Host'].split(":")
     path= settings.HTTP_METHOD+request.headers['Host']+'/media/'+host[0] +'/images/qrcode/qr.svg'
-    # print("=====================",path)
     data["path"] = path
-    # data["tenant"] = host[0].split(".")[0]
     if settings.DOMAIN_NAME != host[0].split(".")[0] :
         tenant=Tenant.objects.get(tenant_name = host[0].split(".")[0])
         restaurantName =  RestaurantRequest.objects.get(mobile_number=tenant.restaurant_phone_number)
-        print('qqqqqqqqqqqq', data)
         data["tenant"] = restaurantName.restaurant_name
     else :
-        # data["tenant"] = settings.DOMAIN_NAME
         data["tenant"] = "Adyant"
     return data
 
 
-
-def getActiveMenuList():
-    data=[]
+# Added by Yuvraj Sahu on 30-3-2023
+# Reason - to send link in profile dropdown
+@register.simple_tag(takes_context=True)
+def getActiveMenuList(context):
     setdata = dict()
-
-    totalMenus = Menu.objects.all().count()
-    totalCategories = Category.objects.all().count()
+    totalCategories = Menu.objects.all().count()
+    totalSubCategories = Category.objects.all().count()
     totalItems = Item.objects.all().count()
-    setdata['totalMenus']= totalMenus
     setdata['totalCategories']= totalCategories
+    setdata['totalSubCategories']= totalSubCategories
     setdata['totalItems']= totalItems
+    return setdata
+# End of addition
 
 
-    data.append(setdata)
+# Added by Yuvraj Sahu on 30-3-2023
+# Reason - to send link in profile dropdown
+@register.simple_tag(takes_context=True)
+def getProfileLink(context):
+    from django.conf import settings
+    request=context['request']
+    data = dict()
+    host=request.headers['Host'].split(":")
+    if settings.DOMAIN_NAME != host[0].split(".")[0] :
+        path= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/setting/'
+    else :
+        path= settings.HTTP_METHOD+request.headers['Host']+'/admin/admin_app/appsetting/'
+    data["setting"] = path
+    return data
+# End of addition
 
-    return data 
+
+# Added by Yuvraj Sahu on 30-3-2023
+# Reason - to send link in profile dropdown
+@register.simple_tag(takes_context=True)
+def getInActiveCategories(context):
+    from django.conf import settings
+    request=context['request']
+    host=request.headers['Host'].split(":")
+    if settings.DOMAIN_NAME != host[0].split(".")[0] :
+        categoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/menu/'
+        subCategoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/category/'
+        itemUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/item/'
+    else :
+        categoryUrl= "#"
+        subCategoryUrl="#"
+        itemUrl= "#"
+    # data["setting"] = path
+    inActiveMenu = dict()
+
+    categoryMenu = dict()
+    subCategoryMenu = dict()
+    itemMenu = dict()
+
+    inActiveCategories = Menu.objects.filter(is_active=False)
+    inActiveSubCategories = Category.objects.filter(is_active=False)
+    inActiveItems = Item.objects.filter(is_active=False)
+
+    categoryMenu["categoryUrl"] = categoryUrl
+    categoryMenu["inActiveCategories"] = inActiveCategories
+
+    subCategoryMenu["subCategoryUrl"] = subCategoryUrl
+    subCategoryMenu["inActiveSubCategories"] = inActiveSubCategories
+   
+    itemMenu["itemUrl"] = itemUrl
+    itemMenu["inActiveItems"] = inActiveItems
+
+    inActiveMenu["categoryMenu"] = categoryMenu
+    inActiveMenu["subCategoryMenu"] = subCategoryMenu
+    inActiveMenu["itemMenu"] = itemMenu
+
+    return inActiveMenu
+# End of addition
