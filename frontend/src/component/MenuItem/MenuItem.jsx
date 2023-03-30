@@ -6,7 +6,7 @@ import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Input, notification } from 'antd';
+import { Input, message, notification } from 'antd';
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import Footer from "../layout/footer/Footer";
 import { FlippingPages } from 'flipping-pages';
@@ -53,23 +53,36 @@ function MenuItem() {
   const [offerList, setOfferList] = useState([]); // Our Item set in this variable
   var [restaurantName, setRestaurantName] = useState([]);
 
-  const onMenuChange = (data) => {
+  const onMenuChange = (id,data) => {
+    // document.getElementById(id).style.backgroundColor='aqua';
     setfilterCategory(menuList.filter((dt) => dt.id == data))
+
+    setOfferShow([])
+    document.getElementById('hide_search').style.display='block'
+    document.getElementById(id).classList.add("category_animated_div");
+    
+    for(var i=0; i<menuList.length;i++){
+      if(i!=id)
+        document.getElementById(i).classList.remove("category_animated_div");
+    }
+
+    setNewSearch('')
 
   }
 
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
 
+    document.getElementById('hide_search').style.display='none';
+
     setNewSearch("")
 
     if (offerList.filter((show) => show.offer_name == item).length < 1) {
-      (document.getElementById('offer_divv').style.display = 'block')
-        (document.getElementById('flip_div_idd').style.height = '0% ')
+      // (document.getElementById('offer_divv').style.display = 'block')
+      //   (document.getElementById('flip_div_idd').style.height = '0% ')
 
-      // document.getElementById('offer_divv')
-      // {
-      // display:'block'}
+      document.getElementById('hide_search').style.display = 'block'
+    
       // notification.info({
       //   description:
       //     'No longer available items for this offer..',
@@ -155,6 +168,7 @@ function MenuItem() {
 
   const divOfferRemove = () => {
     setOfferShow([])
+    document.getElementById('hide_search').style.display='block'
   };
 
   const removeSerchResult = () => {
@@ -254,6 +268,7 @@ function MenuItem() {
   const removeOffersectionDiv = () => {
     (document.getElementById('offer_divv').style.display = 'none')
       (document.getElementById('flip_div_idd').style.height = '41% ')
+    document.getElementById('hide_search').style.display='block'
 
   }
   const removeNoSerachResult = () => {
@@ -368,21 +383,75 @@ function MenuItem() {
     }
   };
 
-  const [selected, setSelected] = useState(0);
+  var [selected, setSelected] = useState(0);
 
   const back = () => {
-    setSelected(selected => Math.max(selected - 1, 0));
+    
+    selected=selected-1;
+    // console.log(selected)
+    if(selected<0){
+    setSelected(menuList.length-1)
+    document.getElementById(menuList.length-1).classList.add("category_animated_div");
+    
+    for(var i=0; i<menuList.length;i++){
+      if(i!=menuList.length-1)
+        document.getElementById(i).classList.remove("category_animated_div");
+    }
+  }
+    else{
+    setSelected(selected)
+
+    document.getElementById(selected).classList.add("category_animated_div");
+    
+    for(var i=0; i<menuList.length;i++){
+      if(i!=selected)
+        document.getElementById(i).classList.remove("category_animated_div");
+    }
+  }
+    setOfferShow([])
+    document.getElementById('hide_search').style.display='block'
+
+    setNewSearch('')
   };
 
   const next = () => {
-    setSelected(selected => Math.min(selected + 1, menuList.length - 1));
+    
+    selected=selected+1;
+    // console.log(selected)
+
+    if(menuList.length-1<selected){
+    setSelected(0)
+    document.getElementById(0).classList.add("category_animated_div");
+    
+    for(var i=0; i<menuList.length;i++){
+      if(i!=0)
+        document.getElementById(i).classList.remove("category_animated_div");
+    }
+    }
+    else{
+    setSelected(selected)
+    document.getElementById(selected).classList.add("category_animated_div");
+    
+    for(var i=0; i<menuList.length;i++){
+      if(i!=selected)
+        document.getElementById(i).classList.remove("category_animated_div");
+    }
+    }
+    // setSelected(selected => Math.min(selected + 1, menuList.length - 1));
+
+    
+
+    setOfferShow([])
+    document.getElementById('hide_search').style.display='block'
+
+    setNewSearch('')
   };
 
-  // console.log(menuList, 'All Menu')
+  console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
   // console.log(itemList, 'All items')
   // console.log(filterCategory, 'filtercategory')
-  // console.log(offerBanner, 'all offer images')
+  console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
   // console.log(offerShow, 'set offer data')
   // console.log(filter, 'searching data')
@@ -467,21 +536,23 @@ function MenuItem() {
             </Swiper>
           </div>
           :
-          null
+          <h3 color="red">yupp</h3>
         }
-        <div id="hide_search" className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'} >
+        <div id="hide_search" 
+        className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
+         >
           <div className='searchpage_input'>
             <Input.Group>
               <Search size='large'
-                value={search}
-                onChange={e => { setNewSearch(e.target.value); }}
+                // value={search}
+                onChange={e => { setNewSearch(e.target.value.trimStart()); }}
                 placeholder='Search by Menu, Categories & Items name' />
             </Input.Group>
           </div>
         </div>
 
         {filter.length == 0 && search.length > 2 ?
-          <>
+          <div >
             <div id="search_divv" className="nosearchData_div">
               <img
                 src={nodataImg}
@@ -489,17 +560,13 @@ function MenuItem() {
             </div>
             <h5 className="nosearch_content" style={{ color: colors.subHeadingColor,}}>
               No search result found</h5>
-          </>
+          </div>
           : null}
 
         <div id="offer_divv" className="when_offer_is_null" style={{ display: 'none', height: '41%' }}>
           <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
             <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
             </span>
-            {/* <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '2%', borderRadius: '100%' }}
-                onClick=
-                {removeOffersectionDiv}
-              /> */}
             <img onClick={removeOffersectionDiv} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" />
           </span>
 
@@ -572,8 +639,9 @@ function MenuItem() {
                             style={{
                               color: colors.headingColor,
                               backgroundColor: colors.subheadingBackgroundColor,
-                              borderRadius: '8px',
-                              padding: '2px 10px'
+                              borderRadius: '6px',
+                              padding: '1px 8px',
+                          fontSize:'19px'
                             }}
                           >
                             {c}
@@ -640,12 +708,12 @@ function MenuItem() {
 
                                   <div className="description_div" style={{ margin: '3% 0 0 3%' }}>
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%', }} alt="kk" className=""></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', }} alt="kk" ></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -684,7 +752,7 @@ function MenuItem() {
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -804,7 +872,7 @@ function MenuItem() {
                       </> :
                         <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
                       }
-                      &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{showdata.item_description}</span>
+                      &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{showdata.item_description}</span>
 
                     </div>
                     <br />
@@ -866,7 +934,7 @@ function MenuItem() {
         </div>
 
 
-        <div id="flip_div_idd" style={{}}
+        <div id="flip_div_idd"
           className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
         >
           <FlippingPages
@@ -902,8 +970,9 @@ function MenuItem() {
                       className="category_img"
                     />&nbsp; */}
                         <h3 style={{
-                          color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor, borderRadius: '8px',
-                          padding: '2px 10px'
+                          color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor, borderRadius: '6px',
+                          padding: '1px 8px',
+                          fontSize:'19px'
                         }}
                           className="category_name"
                         >{data.name}
@@ -974,7 +1043,7 @@ function MenuItem() {
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{m.description}</span>
+                                    &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{m.description}</span>
 
                                   </div>
                                   <br />
@@ -997,15 +1066,15 @@ function MenuItem() {
                                       className="allitems_price"
                                     >{m.price_half ? '₹' + m.price_half : '---'}</h4>
                                   </div>
-                                  <div className="description_div" >
+                                  <div className="description_div" style={{display:'flex',}}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
                                     {m.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.bannerColor }}>{m.description}</span>
+                                    &nbsp; <div className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{m.description}</div>
 
                                   </div>
                                   <br />
@@ -1018,16 +1087,11 @@ function MenuItem() {
 
                         )}
                       </> : null
-                        // <h5 style={{ backgroundColor: 'red' }}>Nopeeee
-                        // nope
-                        // </h5>
                       }
                     </div>
 
                   )}
                 </> :
-                  // <h5 style={{ backgroundColor: 'red' }}>Nopeeee
-                  // </h5>
                   null}
               </div>
             ))}
@@ -1036,113 +1100,37 @@ function MenuItem() {
 
         <br />
 
-        {/* <div id="parent_div_button" style={{border:'2px solid red'}} className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
-      >
-        <div style={{zIndex:'9999'}}>
-          <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
-        </div>
-        <div style={{zIndex:'9999'}}>
-          <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={next}><span> </span> <RightOutlined /></button></div>
-      </div> */}
-
-        {/* <div style={{  position: 'fixed', bottom: '50px' }}>
-          <div className="div_caraousel" style={{ width: "100vw", display: "flex", justifyContent: "space-between", overflowX: "auto",  }}>
-
-            <Carousel
-              swipeable={false}
-              draggable={false}
-              responsive={responsive}
-              infinite={true}
-              autoPlaySpeed={1000}
-              keyBoardControl={true}
-              customTransition="all .5"
-              transitionDuration={500}
-              containerClass="carousel-container"
-              itemClass="carousel-item-padding-40-px"
-              arrows={true}
-            >
-            {menuList.map((data, id) => (
-              <div id={id} style={{ paddingRight: '5%' }}>
-                <div
-                  id={id}
-                  style={{
-                    height: '60%', width: "20vw",
-                  }}
-                  className='all-menu'
-                  onClick={
-                    e => {
-                      onMenuChange(data.id);
-                      setSelected(id);
-                    }
-                  }
-                >
-                  <img style={{ border: '2px solid yellow', height: '100%', width: '100%', borderRadius: '100%' }}
-                    src={siteConfig.siteURL + data.icon}
-                  className='menu_image'
-                  />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "28%", marginRight: '5%' }}>
-                  <span style={{ color: colors.headingColor }}
-                    className="menu_name"
-                  > {data.name}</span>
-                </div>
-
-
-              </div>
-            ))}
-            </Carousel>
-
+        <div className="main_footer_container">
+          <div className="footer_btn_container" >
+            <button style={{ backgroundColor: 'aqua' }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
           </div>
-          <div id="parent_div_button" style={{  }} className={search || offerShow.length > 0 ? 'prev_next_hide_button' : 'prev_next_button'}
-          >
-            <div style={{ zIndex: '9999' }}>
-              <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
-            </div>
-            <div style={{ zIndex: '9999' }}>
-              <button style={{ backgroundColor: colors.headingColor }} className="button-32" onClick={next}><span> </span> <RightOutlined /></button></div>
-          </div>
-        </div> */}
-
-        <div style={{
-          // border: '2px solid white',
-          position: 'fixed', bottom: '60px', width: '100%', flexDirection: 'row', display: 'flex', height: '13%', textAlign: 'center', alignItems: 'center'
-        }}>
-          <div style={{ color: 'white', width: '8%', }}>
-            <button style={{ backgroundColor: colors.subHeadingColor }} className="button-32" onClick={back}><LeftOutlined /><span> </span></button>
-          </div>
-          <div className="myy" style={{
-            color: 'white', width: '84%',
-            overflowX: 'auto', display: 'flex'
-          }}>
+          <div className="category_container" >
             {menuList.map((data, id) => (
               <div id={id} className='all-menu'
                 onClick={
                   e => {
-                    onMenuChange(data.id);
+                    onMenuChange(id,data.id);
                     setSelected(id);
                   }
                 }
-                style={{ width: '100%', flexDirection: 'column', padding: '2%' }}>
-                <img
+               >
+                <img className="category_img"
                   style={{
                     // border: '2px solid yellow',
-                    height: '70%', width: '22vw', borderRadius: '100%',
                   }}
-                  // className="menu_img"
                   src={siteConfig.siteURL + data.icon}
                 />
 
-                <div style={{ fontSize: '12px', textAlign: 'center', color: colors.headingColor }}>{data.name}</div>
+                <div className="footer_category_name" style={{ color: colors.headingColor }}>{data.name}</div>
 
               </div>
             ))}
           </div>
-          <div style={{
-            color: 'white', width: '8%',
+          <div lassName="footer_btn_container" style={{
             //  border: '2px solid green'
           }}>
             <button style={{
-              backgroundColor: colors.subHeadingColor
+              backgroundColor: "aqua"
             }} className="button-32" onClick={next}><span> </span> <RightOutlined /></button>
 
           </div>
