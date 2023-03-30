@@ -29,21 +29,20 @@ def getQRCodePath(context):
     return data
 
 
-
-def getActiveMenuList():
-    data=[]
+# Added by Yuvraj Sahu on 30-3-2023
+# Reason - to send link in profile dropdown
+@register.simple_tag(takes_context=True)
+def getActiveMenuList(context):
     setdata = dict()
-
-    totalMenus = Menu.objects.all().count()
-    totalCategories = Category.objects.all().count()
+    totalCategories = Menu.objects.all().count()
+    totalSubCategories = Category.objects.all().count()
     totalItems = Item.objects.all().count()
-    setdata['totalMenus']= totalMenus
     setdata['totalCategories']= totalCategories
+    setdata['totalSubCategories']= totalSubCategories
     setdata['totalItems']= totalItems
+    return setdata
+# End of addition
 
-    print('setdata', data)
-
-    return data
 
 # Added by Yuvraj Sahu on 30-3-2023
 # Reason - to send link in profile dropdown
