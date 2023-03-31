@@ -41,7 +41,14 @@ class MenuAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return False
         else:
-            return True 
+            return True
+    # Added by Yuvraj sahu on 31-3-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(MenuAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['name'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -59,6 +66,15 @@ class CategoryAdmin(admin.ModelAdmin):
             return False
         else:
             return True
+    # Added by Yuvraj sahu on 31-3-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(CategoryAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['menu'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['name'].widget.attrs['style'] = 'width: 20em;'
+        # form.base_fields['icon'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
         
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
@@ -75,7 +91,18 @@ class ItemAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return False
         else:
-            return True 
+            return True
+    # Added by Yuvraj sahu on 31-3-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(ItemAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['item_type'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['category'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['price_full'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['price_half'].widget.attrs['style'] = 'width: 20em;'
+        # form.base_fields['icon'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
 
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
@@ -90,7 +117,16 @@ class OfferAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return False
         else:
-            return True 
+            return True
+    # Added by Yuvraj sahu on 31-3-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(OfferAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['offer_name'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['discount'].widget.attrs['style'] = 'width: 20em;'
+        # form.base_fields['description'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
 
 @admin.register(OfferItem)
 class OfferItemAdmin(admin.ModelAdmin):
@@ -105,7 +141,15 @@ class OfferItemAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return False
         else:
-            return True 
+            return True
+    # Added by Yuvraj sahu on 31-3-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(OfferItemAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['offer_name'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['item_name'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
         
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
@@ -126,6 +170,7 @@ class SettingAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return not Setting.objects.exists()
     # End of eddition
+    
         
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
