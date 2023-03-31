@@ -33,7 +33,7 @@
 
 .coverButton {
     padding: 10px;
-    color: black;
+    /* color: black; */
     /* text-shadow: 0px 0px 1px black; */
     text-align: center !important;
     font-size: 1.3rem;
@@ -51,7 +51,7 @@
 
 }
 .address_content{
-   text-shadow: 0px 0px 1px black;
+   /* text-shadow: 0px 0px 1px black; */
    text-align: center !important;
    font-size: 1.1rem;
    position: absolute;

@@ -46,7 +46,8 @@ class AppSettingAdmin(admin.ModelAdmin):
         if request.tenant.schema_name == get_public_schema_name():
             return True
         else:
-            return False 
+            return False
+        
         
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
@@ -58,12 +59,19 @@ class TenantAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None) :
         return True    
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False  
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return True
         else:
-            return False 
+            return False
+    # Added by Yuvraj sahu on 31-3-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(TenantAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['restaurant_name'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
 
         
 @admin.register(Otp)
@@ -93,7 +101,7 @@ class RestaurantRequestAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None) :
         return True    
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return True

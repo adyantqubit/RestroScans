@@ -1,4 +1,5 @@
 {% load i18n static admin_volt %}
+{% load admintemplates %}
 
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
     <!-- Removed by Yuvraj Sahu on 30-3-2023
@@ -67,7 +68,12 @@
             {% if app_list %}
                 {% for app in app_list %}
                     {% if app.has_perms and not app.pinned %}
+                    <!-- Modified by Yuvraj Sahu on 31-3-2023
+                            Reason - do not show authorization for
+                                    tenant it will be show only for super admin -->
+                    {%  getQRCodePath as data %}
                         <li class="nav-item">
+                            
                           <span class="nav-link{% if app_label != app.label and app.url not in request.path|urlencode  %} collapsed{% endif %} d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#submenu-{{ app.app_label }}">
                                 <span>
                                     <span class="sidebar-icon {{ app.icon }}"></span>
@@ -83,6 +89,8 @@
                                     </span>
                                 {% endif %}
                             </span>
+                        
+                            <!-- End of comment -->
 
                             {% if app.models %}
                               <div class="multi-level collapse {% if 'tables-bootstrap-' in segment or app_label == app.label or app.url in request.path|urlencode %} show {% endif %}" role="list" id="submenu-{{ app.app_label }}"  
