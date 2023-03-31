@@ -196,7 +196,9 @@ class DescriptionAdmin(admin.ModelAdmin):
 # Reason - to remove add user button for tenant
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User, Group
+
 class MyUserAdmin(admin.ModelAdmin):
+    from django.conf import settings
     list_display=("id","username", "email")
     def has_add_permission(self, request):
         if request.tenant.schema_name != get_public_schema_name():
