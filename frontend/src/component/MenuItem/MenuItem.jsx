@@ -1172,10 +1172,12 @@ showModal()
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <img
               src={nodataOffer}
-              className='nodata_image' />
+              style={{height:"30vh",width:'85vw'}}
+              // className='nodata_image'
+               />
 
           </div>
-          <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px' }}>
+          <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px',padding:'0',margin:'0' }}>
             Currently no items are available</h5>
         </div>
         </Modal>

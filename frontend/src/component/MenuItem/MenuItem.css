@@ -141,7 +141,11 @@
     overflow: auto;
     display: none;
 }
-
+  .ant-modal-close-x {
+    display: flow-root !important;
+    color: black;
+    font-size: 18px;
+  }
 
 
 .after_search_div {
