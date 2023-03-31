@@ -16,7 +16,7 @@ export default function Context(props) {
         headingColor: 'black',
         backgroundTheme: 'white',
         subHeadingColor: 'black',
-        bannerColor: 'brown',
+        bannerColor: '#9b6043',
         // headingBackgroundColor: '',
         subheadingBackgroundColor: '#fcf4e7',
 

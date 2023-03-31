@@ -6,7 +6,7 @@ import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Input, message, notification } from 'antd';
+import { Input, Button, Modal, notification } from 'antd';
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import Footer from "../layout/footer/Footer";
 import { FlippingPages } from 'flipping-pages';
@@ -15,7 +15,7 @@ import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import nodataImg from '../../images/not_offer.png'
-import nodataOffer from '../../images/nodata.png'
+import nodataOffer from '../../images/not_offer.jpeg'
 import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
@@ -53,16 +53,16 @@ function MenuItem() {
   const [offerList, setOfferList] = useState([]); // Our Item set in this variable
   var [restaurantName, setRestaurantName] = useState([]);
 
-  const onMenuChange = (id,data) => {
+  const onMenuChange = (id, data) => {
     // document.getElementById(id).style.backgroundColor='aqua';
     setfilterCategory(menuList.filter((dt) => dt.id == data))
 
     setOfferShow([])
-    document.getElementById('hide_search').style.display='block'
+    document.getElementById('hide_search').style.display = 'block'
     document.getElementById(id).classList.add("category_animated_div");
-    
-    for(var i=0; i<menuList.length;i++){
-      if(i!=id)
+
+    for (var i = 0; i < menuList.length; i++) {
+      if (i != id)
         document.getElementById(i).classList.remove("category_animated_div");
     }
 
@@ -73,7 +73,7 @@ function MenuItem() {
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
 
-    document.getElementById('hide_search').style.display='none';
+    document.getElementById('hide_search').style.display = 'none';
 
     setNewSearch("")
 
@@ -82,7 +82,11 @@ function MenuItem() {
       //   (document.getElementById('flip_div_idd').style.height = '0% ')
 
       document.getElementById('hide_search').style.display = 'block'
-    
+
+      // function openModal() {
+      //   showModal()
+      // }
+showModal()
       // notification.info({
       //   description:
       //     'No longer available items for this offer..',
@@ -168,7 +172,7 @@ function MenuItem() {
 
   const divOfferRemove = () => {
     setOfferShow([])
-    document.getElementById('hide_search').style.display='block'
+    document.getElementById('hide_search').style.display = 'block'
   };
 
   const removeSerchResult = () => {
@@ -268,13 +272,23 @@ function MenuItem() {
   const removeOffersectionDiv = () => {
     (document.getElementById('offer_divv').style.display = 'none')
       (document.getElementById('flip_div_idd').style.height = '41% ')
-    document.getElementById('hide_search').style.display='block'
+    document.getElementById('hide_search').style.display = 'block'
 
   }
   const removeNoSerachResult = () => {
     (document.getElementById('search_divv').style.display = 'none')
 
   }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     var filtered = !search
@@ -386,63 +400,63 @@ function MenuItem() {
   var [selected, setSelected] = useState(0);
 
   const back = () => {
-    
-    selected=selected-1;
-    // console.log(selected)
-    if(selected<0){
-    setSelected(menuList.length-1)
-    document.getElementById(menuList.length-1).classList.add("category_animated_div");
-    
-    for(var i=0; i<menuList.length;i++){
-      if(i!=menuList.length-1)
-        document.getElementById(i).classList.remove("category_animated_div");
-    }
-  }
-    else{
-    setSelected(selected)
 
-    document.getElementById(selected).classList.add("category_animated_div");
-    
-    for(var i=0; i<menuList.length;i++){
-      if(i!=selected)
-        document.getElementById(i).classList.remove("category_animated_div");
+    selected = selected - 1;
+    // console.log(selected)
+    if (selected < 0) {
+      setSelected(menuList.length - 1)
+      document.getElementById(menuList.length - 1).classList.add("category_animated_div");
+
+      for (var i = 0; i < menuList.length; i++) {
+        if (i != menuList.length - 1)
+          document.getElementById(i).classList.remove("category_animated_div");
+      }
     }
-  }
+    else {
+      setSelected(selected)
+
+      document.getElementById(selected).classList.add("category_animated_div");
+
+      for (var i = 0; i < menuList.length; i++) {
+        if (i != selected)
+          document.getElementById(i).classList.remove("category_animated_div");
+      }
+    }
     setOfferShow([])
-    document.getElementById('hide_search').style.display='block'
+    document.getElementById('hide_search').style.display = 'block'
 
     setNewSearch('')
   };
 
   const next = () => {
-    
-    selected=selected+1;
+
+    selected = selected + 1;
     // console.log(selected)
 
-    if(menuList.length-1<selected){
-    setSelected(0)
-    document.getElementById(0).classList.add("category_animated_div");
-    
-    for(var i=0; i<menuList.length;i++){
-      if(i!=0)
-        document.getElementById(i).classList.remove("category_animated_div");
+    if (menuList.length - 1 < selected) {
+      setSelected(0)
+      document.getElementById(0).classList.add("category_animated_div");
+
+      for (var i = 0; i < menuList.length; i++) {
+        if (i != 0)
+          document.getElementById(i).classList.remove("category_animated_div");
+      }
     }
-    }
-    else{
-    setSelected(selected)
-    document.getElementById(selected).classList.add("category_animated_div");
-    
-    for(var i=0; i<menuList.length;i++){
-      if(i!=selected)
-        document.getElementById(i).classList.remove("category_animated_div");
-    }
+    else {
+      setSelected(selected)
+      document.getElementById(selected).classList.add("category_animated_div");
+
+      for (var i = 0; i < menuList.length; i++) {
+        if (i != selected)
+          document.getElementById(i).classList.remove("category_animated_div");
+      }
     }
     // setSelected(selected => Math.min(selected + 1, menuList.length - 1));
 
-    
+
 
     setOfferShow([])
-    document.getElementById('hide_search').style.display='block'
+    document.getElementById('hide_search').style.display = 'block'
 
     setNewSearch('')
   };
@@ -494,17 +508,18 @@ function MenuItem() {
                 "--swiper-pagination-bullet-inactive-color": colors.subHeadingColor,
                 "--swiper-pagination-bullet-inactive-opacity": "0.6 ",
                 "--swiper-pagination-bullet-size": "8px",
-                "--swiper-pagination-bullet-horizontal-gap": "5px"
+                "--swiper-pagination-bullet-horizontal-gap": "5px",
+                "--swiper-button-prev-color": "aqua !important"
               }}
               // cssMode={true}
               navigation={true}
               pagination={{
                 clickable: true,
               }}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
+              // autoplay={{
+              //   delay: 2500,
+              //   disableOnInteraction: false,
+              // }}
               // mousewheel={true}
               keyboard={true}
               modules={[Navigation, Pagination, Autoplay]}
@@ -535,12 +550,17 @@ function MenuItem() {
               ))}
             </Swiper>
           </div>
-          :null
-          // <h3 color="red">yupp</h3>
+          :
+          <div style={{ height: '15vh',  }}>
+            {/* <h3 color="red">yupp</h3> */}
+            <img style={{ width: '100%', height: '15vh' }}
+              src={nodataOffer} 
+              alt="bydefault_img" />
+          </div>
         }
-        <div id="hide_search" 
-        className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
-         >
+        <div id="hide_search"
+          className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
+        >
           <div className='searchpage_input'>
             <Input.Group>
               <Search size='large'
@@ -558,7 +578,7 @@ function MenuItem() {
                 src={nodataImg}
                 className='nodata_image' />
             </div>
-            <h5 className="nosearch_content" style={{ color: colors.subHeadingColor,}}>
+            <h5 className="nosearch_content" style={{ color: colors.subHeadingColor, }}>
               No search result found</h5>
           </div>
           : null}
@@ -641,7 +661,7 @@ function MenuItem() {
                               backgroundColor: colors.subheadingBackgroundColor,
                               borderRadius: '6px',
                               padding: '1px 8px',
-                          fontSize:'19px'
+                              fontSize: '19px'
                             }}
                           >
                             {c}
@@ -804,10 +824,14 @@ function MenuItem() {
 
           <span className="allcategory_container"
           >
-            <span style={{ color: colors.headingColor }} className="category_name"> {offer_name}</span> &nbsp;
-            <h3 style={{ color: colors.headingColor }} className="category_name"
+            <span style={{ color: colors.headingColor,backgroundColor: colors.subheadingBackgroundColor,
+                              borderRadius: '6px',
+                              padding: '1px 8px', }} className="category_name"> {offer_name} {offer_discount}%</span> 
+            {/* <span style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
+                              borderRadius: '6px',
+                              padding: '1px 8px', }} className="category_name"
             >{offer_discount}%
-            </h3>
+            </span> */}
           </span>
           <div style={{
             display: 'flex',
@@ -972,7 +996,7 @@ function MenuItem() {
                         <h3 style={{
                           color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor, borderRadius: '6px',
                           padding: '1px 8px',
-                          fontSize:'19px'
+                          fontSize: '19px'
                         }}
                           className="category_name"
                         >{data.name}
@@ -990,6 +1014,7 @@ function MenuItem() {
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor, }} >Full price</div>
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
                       </div>
+
                       {itemList.length > 0 ? <>
                         {itemList.filter(i => i.category === data.id).map(m =>
                           // <div style={{ border: '2px solid red', height: '100%', display: 'flex' }}>
@@ -1066,15 +1091,15 @@ function MenuItem() {
                                       className="allitems_price"
                                     >{m.price_half ? '₹' + m.price_half : '---'}</h4>
                                   </div>
-                                  <div className="description_div" style={{display:'flex',}}>
+                                  <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
                                     {m.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <div className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{m.description}</div>
+                                    &nbsp; <div className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</div>
 
                                   </div>
                                   <br />
@@ -1100,29 +1125,27 @@ function MenuItem() {
 
         <br />
 
-        <div className="main_footer_container">
+        <div className="main_footer_container" >
           <div className="footer_btn_container" >
-            <button style={{ backgroundColor: '#9b6043' }} className="button-32" onClick={back}><LeftOutlined style={{color:'white'}} /><span> </span></button>
+            <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
           </div>
           <div className="category_container" >
             {menuList.map((data, id) => (
               <div id={id} className='all-menu'
                 onClick={
                   e => {
-                    onMenuChange(id,data.id);
+                    onMenuChange(id, data.id);
                     setSelected(id);
                   }
                 }
-               >
+              >
                 <img className="category_img"
                   style={{
                     // border: '2px solid yellow',
                   }}
                   src={siteConfig.siteURL + data.icon}
                 />
-
                 <div className="footer_category_name" style={{ color: colors.headingColor }}>{data.name}</div>
-
               </div>
             ))}
           </div>
@@ -1131,13 +1154,38 @@ function MenuItem() {
           }}>
             <button style={{
               backgroundColor: "#9b6043"
-            }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{color:'white'}} /></button>
+            }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{ color: 'white' }} /></button>
 
           </div>
 
         </div>
+
         {/* <Footer /> */}
       </div>
+
+      {/* Added by Om on 31-03-23
+      Reason : When offer is empty then show this modal */}
+      <>
+        <Modal style={{padding:'0% !important'}} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
+          <div
+            >
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img
+              src={nodataOffer}
+              className='nodata_image' />
+
+          </div>
+          <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px' }}>
+            Currently no items are available</h5>
+        </div>
+        </Modal>
+      </>
+      {/* End of addition */}
+
+      <div className="inLandscapeMode" style={{color:colors.subHeadingColor}}>
+       <p> Currently available only portrait mode... </p>
+      </div>
+
       {/* } */}
     </>
   );
