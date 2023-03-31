@@ -99,7 +99,7 @@ Reason - To store offer for every Items
 """
 class Offer(models.Model):
     id = models.AutoField(primary_key=True)
-    offer_name=models.CharField(max_length=30)
+    offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)')
     offer_image = models.ImageField(upload_to='images/offer/')
@@ -109,17 +109,19 @@ class Offer(models.Model):
         return self.offer_name 
     
     class Meta:
+        verbose_name = "Banner/Offer"
         verbose_name_plural = 'a) Banner/Offer'
 
 class OfferItem(models.Model):
     id = models.AutoField(primary_key=True)
-    offer_name=models.ForeignKey(Offer,related_name='offer_id',on_delete=models.CASCADE)
+    offer_name=models.ForeignKey(Offer,verbose_name="Banner/Offer Name",related_name='offer_id',on_delete=models.CASCADE)
     item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True)
     
     def __str__(self):
         return "Offer for Items"
     class Meta:
-        verbose_name_plural = 'b) Banner items' 
+        verbose_name = "Banner/Offer Items"
+        verbose_name_plural = 'b) Banner/Offer Items' 
  
 """
 End of code addition
