@@ -516,10 +516,10 @@ showModal()
               pagination={{
                 clickable: true,
               }}
-              // autoplay={{
-              //   delay: 2500,
-              //   disableOnInteraction: false,
-              // }}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
               // mousewheel={true}
               keyboard={true}
               modules={[Navigation, Pagination, Autoplay]}
@@ -726,14 +726,16 @@ showModal()
                                     </h4>
                                   </div>
 
-                                  <div className="description_div" style={{ margin: '3% 0 0 3%' }}>
+                                  <div className="description_div" style={{display:'flex'}}
+                                  //  style={{ margin: '3% 0 0 3%' }}
+                                   >
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%', }} alt="kk" className=""></img>
+                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk" className=""></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%', }} alt="kk" ></img>
+                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk" ></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -765,14 +767,14 @@ showModal()
                                       className="allitems_price"
                                     >{person.price_half ? '₹' + person.price_half : '---'}</h4>
                                   </div>
-                                  <div className="description_div" >
+                                  <div className="description_div" style={{display:'flex'}}>
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -888,15 +890,17 @@ showModal()
                       </h4>
                     </div>
 
-                    <div className="description_div" style={{ margin: '3% 0 0 3%' }}>
+                    <div className="description_div" style={{display:'flex'}}
+                    //  style={{ margin: '3% 0 0 3%' }}
+                     >
                       {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3> */}
                       {showdata.item_type == 'Veg' ? <>
-                        <img src={vegIcon} style={{ width: '5%', }} alt="kk"></img>
+                        <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
 
                       </> :
-                        <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
+                        <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
                       }
-                      &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{showdata.item_description}</span>
+                      &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
 
                     </div>
                     <br />
@@ -1060,15 +1064,17 @@ showModal()
                                     </h4>
                                   </div>
 
-                                  <div className="description_div" style={{ margin: '3% 0 0 3%' }}>
+                                  <div className="description_div" style={{ display: 'flex' }} 
+                                  // style={{ margin: '3% 0 0 3%' }}
+                                  >
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3> */}
                                     {m.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%', }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{ color: colors.subHeadingColor }}>{m.description}</span>
+                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{m.description}</span>
 
                                   </div>
                                   <br />
