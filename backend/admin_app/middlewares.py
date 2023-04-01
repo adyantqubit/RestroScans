@@ -25,7 +25,7 @@ class MutitenantMiddleware(BaseTenantMiddleware):
         if "admin" in path:
             seperated=hostname.split('.')
             schemaName="public"
-            if seperated[0] !="moreshop":
+            if seperated[0] !="restroscans":
                 schemaName=seperated[0]
             print("admin side schema name-----",schemaName)    
             return Tenant.objects.get(schema_name=schemaName)
@@ -38,7 +38,7 @@ class MutitenantMiddleware(BaseTenantMiddleware):
             print("splited words-----",splitedWords)
             print("extracted schema name-----",splitedWords[0])
             schemaName="public"
-            if splitedWords[0] !="moreshop":
+            if splitedWords[0] !="restroscans":
                 schemaName=splitedWords[0]
             return Tenant.objects.get(schema_name=schemaName)
         

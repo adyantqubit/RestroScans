@@ -90,7 +90,7 @@ class Tenant(TenantMixin):
         restroObj.is_active = True
         restroObj.save()
         # End of addition
-        url = pyqrcode.create(settings.HTTP_METHOD+settings.FRONTEND_URL+'api/'+settings.API_VERSION+self.tenant_name+'/home')
+        url = pyqrcode.create(settings.HTTP_METHOD+self.domain_url+'/'+self.tenant_name+'/home')
         isExist = os.path.exists(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
         if not isExist:
              os.makedirs(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
