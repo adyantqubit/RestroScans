@@ -20,9 +20,15 @@ function Cover() {
   var location = useLocation();
   var path = location.pathname; // This Variable help to find the path of our URL where the data comes
 
-  var newStr = path.substring(path.indexOf('api/v1/') + 'api/v1/'.length, path.length)
-  var seperatedWords = newStr.split('/')
-  var tenant = seperatedWords[0]
+  // alert(path)
+
+  // var newStr = path.substring(path.indexOf('api/v1/') + 'api/v1/'.length, path.length)
+  // alert(path)
+  var seperatedWords = path.split('/')
+  // alert(seperatedWords)
+  var tenant = seperatedWords[1]
+  localStorage.setItem("tenantName", tenant)
+  // alert(tenant)
   setTenantName(tenant)
 
   // Above method use for split the restaurent name
@@ -31,8 +37,8 @@ function Cover() {
   const [isLoader, setIsLoader] = useState(true)
 
   useEffect(() => {
-    getMenu(tenant);
-    localStorage.setItem("tenantName", tenant)
+    getMenu(localStorage.getItem("tenantName"));
+    
 
   }, []);
 
@@ -69,7 +75,7 @@ function Cover() {
             />
             <div className="front_page_lable">
               <h3 className="restro_name"
-                style={{ color: 'white',textShadow: "2px 8px 8px black" }}
+                style={{ color: 'white',textShadow: "0px 0px 7px black" }}
               >
                 {tenantDetails.restaurant}
               </h3>
@@ -83,7 +89,7 @@ function Cover() {
                 ={goToNext} style={{ backgroundColor: 'white' }} className='coverButton' >Explore menu</button >
               <span
                 className='address_content'
-                style={{ color: 'white',textShadow: "2px 8px 8px black" }}
+                style={{ color: 'white',textShadow: "0px 0px 7px black" }}
               > <b>
                   {tenantDetails.restaurant_address
                   }</b>

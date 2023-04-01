@@ -15,10 +15,12 @@ import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import nodataImg from '../../images/not_offer.png'
-import nodataOffer from '../../images/not_offer.jpeg'
+import nodataOffer from '../../images/offer 41.jpg'
 import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
+import landscapeMode from '../../images/landscape.png'
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -60,6 +62,7 @@ function MenuItem() {
     setOfferShow([])
     document.getElementById('hide_search').style.display = 'block'
     document.getElementById(id).classList.add("category_animated_div");
+
 
     for (var i = 0; i < menuList.length; i++) {
       if (i != id)
@@ -553,7 +556,7 @@ showModal()
           :
           <div style={{ height: '15vh',  }}>
             {/* <h3 color="red">yupp</h3> */}
-            <img style={{ width: '100%', height: '15vh' }}
+            <img style={{ width: '100%', height: '15vh',border:'1px solid black' }}
               src={nodataOffer} 
               alt="bydefault_img" />
           </div>
@@ -562,8 +565,8 @@ showModal()
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
         >
           <div className='searchpage_input'>
-            <Input.Group>
-              <Search size='large'
+            <Input.Group >
+              <Search size='large' 
                 // value={search}
                 onChange={e => { setNewSearch(e.target.value.trimStart()); }}
                 placeholder='Search by Menu, Categories & Items name' />
@@ -661,7 +664,7 @@ showModal()
                               backgroundColor: colors.subheadingBackgroundColor,
                               borderRadius: '6px',
                               padding: '1px 8px',
-                              fontSize: '19px'
+                              fontSize: '16px'
                             }}
                           >
                             {c}
@@ -726,7 +729,7 @@ showModal()
                                     </h4>
                                   </div>
 
-                                  <div className="description_div" style={{display:'flex'}}
+                                  <div className="description_div" style={{display:'flex',paddingTop:'2%'}}
                                   //  style={{ margin: '3% 0 0 3%' }}
                                    >
                                     {person.item_type == 'Veg' ? <>
@@ -890,7 +893,7 @@ showModal()
                       </h4>
                     </div>
 
-                    <div className="description_div" style={{display:'flex'}}
+                    <div className="description_div" style={{display:'flex',paddingTop:'2%'}}
                     //  style={{ margin: '3% 0 0 3%' }}
                      >
                       {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3> */}
@@ -1000,7 +1003,7 @@ showModal()
                         <h3 style={{
                           color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor, borderRadius: '6px',
                           padding: '1px 8px',
-                          fontSize: '19px'
+                          fontSize: '16px'
                         }}
                           className="category_name"
                         >{data.name}
@@ -1064,7 +1067,7 @@ showModal()
                                     </h4>
                                   </div>
 
-                                  <div className="description_div" style={{ display: 'flex' }} 
+                                  <div className="description_div" style={{ display: 'flex',paddingTop:'2%' }} 
                                   // style={{ margin: '3% 0 0 3%' }}
                                   >
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3> */}
@@ -1140,6 +1143,7 @@ showModal()
               <div id={id} className='all-menu'
                 onClick={
                   e => {
+                    // document.getElementById('search_box').value="";
                     onMenuChange(id, data.id);
                     setSelected(id);
                   }
@@ -1190,8 +1194,8 @@ showModal()
       </>
       {/* End of addition */}
 
-      <div className="inLandscapeMode" style={{color:colors.subHeadingColor}}>
-       <p> Currently available only portrait mode... </p>
+      <div className="inlandscapemode" style={{color:colors.subHeadingColor}}>
+       <img src={landscapeMode} style={{height:'80vh'}} alt="" className="landscapimg"/>
       </div>
 
       {/* } */}

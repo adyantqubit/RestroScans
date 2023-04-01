@@ -52,7 +52,7 @@
 
 .menu_img {
     border-radius: 8px;
-    width: 100%;
+    width: 90%;
     height: 2%;
 }
 
@@ -195,28 +195,29 @@
     ;
     width: 98%;
     padding-left: 1%;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bolder;
 }
+.allitems_heading_price {
+    font-family: "Times New Roman"
+    ;
+    width: 45%;
+    font-size: 14px;
+    font-weight: bolder;
+    /* padding-left: 3%; */
+}   
 
 .allitems_name {
     font-family: "Times New Roman"
     ;
     width: 95%;
     padding-left: 1%;
-    font-size: 16px;
+    font-size: 13px;
     padding: 0;
     margin: 10px;
 }
 
-.allitems_heading_price {
-    font-family: "Times New Roman"
-    ;
-    width: 45%;
-    font-size: 16px;
-    font-weight: bolder;
-    /* padding-left: 3%; */
-}
+
 
 .allitems_price {
     font-family: "Times New Roman"
@@ -225,6 +226,8 @@
     /* margin-left: 5%; */
     padding-left: 5%;
     margin: 10px;
+    font-size: 13px;
+
 }
 
 .category_name {
@@ -238,7 +241,7 @@
 .main_menu_name {
     padding: 1;
     margin: 0;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Times New Roman"
     ;
 }
@@ -674,11 +677,18 @@ a.ant-notification-notice-close {
     .inLandscapeMode {
         display: block;
     }
+    .inlandscapemode{
+        display: flex;
+        justify-content: center;
+        height: 85%;
+        align-items: center;
+    }
 }
 
 @media (orientation: portrait) {
 
-    .inLandscapeMode {
+    .inlandscapemode {
         display: none;
     }
+   
 }
