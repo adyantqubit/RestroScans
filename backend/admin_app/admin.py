@@ -107,6 +107,27 @@ class RestaurantRequestAdmin(admin.ModelAdmin):
             return True
         else:
             return False 
+        
+# Added by Om on 03-04-23
+# Reason: 03-04-23
+
+@admin.register(VisitCount)
+class VisitCountAdmin(admin.ModelAdmin):
+    list_display=("id","tenant_name","count")
+    # readonly_fields=("item","user_no")
+    # ordering=("title",)
+    search_fields=("tenant_name","id")
+    list_per_page=10
+    def has_change_permission(self, request, obj=None) :
+        return False    
+    def has_delete_permission(self, request, obj=None) :
+        return False  
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
+# End of addition
 
 """
 End of code addition

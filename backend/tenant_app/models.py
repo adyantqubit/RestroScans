@@ -65,7 +65,7 @@ class Item(models.Model):
     name=models.CharField(max_length=30,default='',verbose_name="Item name")
      # Added by Om on 28-03-2023
     # Reason - add item type veg or nonveg
-    item_type=models.CharField(choices=IMAGE_CHOICE, max_length=50,null=True,blank=True)
+    item_type=models.CharField(choices=IMAGE_CHOICE, max_length=50,default='')
     # End of addition
     # Added by Om on 23-03-23
     # Reason : To show items image

@@ -83,6 +83,17 @@ class Tenant(TenantMixin):
         import os
         import pyqrcode
         from django.conf import settings
+
+        # Added by Om on 03-04-23
+        # Reason: Add visit count functionality
+        try:
+            visitCount=VisitCount.objects.get(tenant_name=self.tenant_name)
+        except Exception as e:
+             visitCount=VisitCount(count=0,tenant_name=self.tenant_name)
+             visitCount.save()
+
+        # End of addition 
+
         self.restaurant_phone_number=self.restaurant_name.mobile_number
         # Added by Yuvraj Sahu on 29-3-2023
         # Reason - to make active when tenant create
@@ -136,3 +147,14 @@ class AppSetting(models.Model):
 """
 End of code addition
 """      
+"""-------------------------------------------------------------------
+Added by - Om on 24-03-2023
+Reason - To store settings of react native app
+"""
+class VisitCount(models.Model):
+    id = models.AutoField(primary_key=True)
+    tenant_name=models.CharField(max_length=255,default='')
+    count =models.BigIntegerField(default=0)
+"""
+End of code addition
+""" 

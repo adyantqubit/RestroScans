@@ -19,10 +19,13 @@ class TenantAPIView(APIView):
         from admin_app.models import Tenant
         from admin_app.serializers import TenantListSerializer
         tenant=Tenant.objects.get(tenant_name=tenant)
+        visitCount=VisitCount.objects.get(tenant_name=tenant)
+        visitCount.count=visitCount.count+1
+        visitCount.save()
         tenantListSerializer=TenantListSerializer(tenant)
         return Response({
             "msg":"success",
-            "tenantDetails":tenantListSerializer.data,
+            "tenantDetails":tenantListSerializer.data
             })
 # End of addition
 
@@ -30,10 +33,14 @@ class MenuAPIView(APIView):
     def get(self,request,tenant):
         print('gfagfgf', tenant)
         menuList=Menu.objects.all().order_by('name')
-        menuListSerializer=MenuListSerializer(menuList,many=True)
-        categoryList=Category.objects.all().order_by('name')
+        var = menuList.filter(is_active = True) 
+        menuData = MenuListSerializer(var, many =True)
+
+        categoryList=Category.objects.filter(is_active=True, menu__is_active=True).order_by('name')
         categoryListSerializer=CategoryListSerializer(categoryList,many=True)
-        itemList=Item.objects.all().order_by('name')
+
+        # itemList=Item.objects.all().order_by('name')
+        itemList=Item.objects.filter(is_active=True, category__menu__is_active=True,category__is_active=True).order_by('name')
         itemListSerializer=ItemListSerializer(itemList,many=True)
 
         # Commented by Om on 16-02-23
@@ -47,7 +54,8 @@ class MenuAPIView(APIView):
             # Commented by Om
             # "tenantDetails":tenantListSerializer.data,
             # End of commented code
-            "menuList":menuListSerializer.data,
+            "menuList":menuData.data,
+            # "menuList":menuListSerializer.data,
             "categoryList":categoryListSerializer.data,
             "itemList":itemListSerializer.data
             })
@@ -110,7 +118,8 @@ class OfferAPIView(APIView):
         print('gfagfgf', tenant)
         offerBanner=Offer.objects.all()
         offerbannerSerializer=OfferBannerSerializer(offerBanner,many=True)
-        offerItemList=OfferItem.objects.all()
+        # offerItemList=OfferItem.objects.all()
+        offerItemList=OfferItem.objects.filter(item_name__is_active=True, item_name__category__is_active=True,item_name__category__menu__is_active=True)
         offeritemsSerializer=OfferItemsSerializer(offerItemList,many=True)
 
         return Response({

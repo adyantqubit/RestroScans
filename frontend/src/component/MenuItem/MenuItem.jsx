@@ -464,11 +464,11 @@ showModal()
     setNewSearch('')
   };
 
-  console.log(menuList, 'All Menu')
+  // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
   // console.log(itemList, 'All items')
   // console.log(filterCategory, 'filtercategory')
-  console.log(offerBanner, 'all offer images')
+  // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
   // console.log(offerShow, 'set offer data')
   // console.log(filter, 'searching data')
@@ -565,12 +565,14 @@ showModal()
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
         >
           <div className='searchpage_input'>
-            <Input.Group >
+            {/* <Input.Group >
               <Search size='large' 
                 // value={search}
-                onChange={e => { setNewSearch(e.target.value.trimStart()); }}
+                onChange={e => { setNewSearch(e.target.value.trimStart());} }
                 placeholder='Search by Menu, Categories & Items name' />
-            </Input.Group>
+            </Input.Group> */}
+
+            <input style={{height:'4vh',width:'100%'}} id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' type="search" />
           </div>
         </div>
 
@@ -738,6 +740,7 @@ showModal()
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk" ></img>
                                     }
+
                                     &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
@@ -1143,7 +1146,7 @@ showModal()
               <div id={id} className='all-menu'
                 onClick={
                   e => {
-                    // document.getElementById('search_box').value="";
+                    document.getElementById('search_box').value="";
                     onMenuChange(id, data.id);
                     setSelected(id);
                   }
@@ -1193,7 +1196,7 @@ showModal()
         </Modal>
       </>
       {/* End of addition */}
-
+      
       <div className="inlandscapemode" style={{color:colors.subHeadingColor}}>
        <img src={landscapeMode} style={{height:'80vh'}} alt="" className="landscapimg"/>
       </div>
