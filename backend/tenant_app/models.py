@@ -9,7 +9,7 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of menu
 """
 class Menu(models.Model):
-    name=models.CharField(max_length=13,default='')
+    name=models.CharField(max_length=30,default='')
     icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive

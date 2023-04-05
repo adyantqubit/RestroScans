@@ -110,7 +110,7 @@
     /* display: block !important; */
     display: block;
     /* border: 1px solid red; */
-    height: 46%;
+    height: 44%;
     overflow: auto;
 
     /* Omm */
@@ -504,7 +504,9 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
 .main_footer_container {
     position: fixed;
     /* bottom: 60px; */
-    bottom: 45px;
+    /* bottom: 45px; */
+    bottom: 50px;
+
     min-height: 13%;
     max-height: 13%;
     width: 100%;
@@ -700,6 +702,9 @@ a.ant-notification-notice-close {
 
     .offer_maindiv {
         height: 43%;
+    }
+    .main_footer_container{
+        bottom: 63px;
     }
 
 }
