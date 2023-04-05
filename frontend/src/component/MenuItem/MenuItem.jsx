@@ -1246,7 +1246,7 @@ function MenuItem() {
             //  border: '2px solid green'
           }}>
             <button style={{
-              backgroundColor: "#9b6043"
+              backgroundColor: colors.bannerColor
             }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{ color: 'white' }} /></button>
 
           </div>
