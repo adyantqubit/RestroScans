@@ -6,8 +6,8 @@ import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Input, Button, Modal, notification } from 'antd';
-import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { Input, Button, Modal, notification, Drawer } from 'antd';
+import { CloseOutlined, LeftOutlined, RightOutlined, } from '@ant-design/icons'
 import Footer from "../layout/footer/Footer";
 import { FlippingPages } from 'flipping-pages';
 import 'flipping-pages/dist/style.css';
@@ -60,7 +60,11 @@ function MenuItem() {
     setfilterCategory(menuList.filter((dt) => dt.id == data))
 
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
     document.getElementById(id).classList.add("category_animated_div");
 
 
@@ -84,12 +88,15 @@ function MenuItem() {
       // (document.getElementById('offer_divv').style.display = 'block')
       //   (document.getElementById('flip_div_idd').style.height = '0% ')
 
-      document.getElementById('hide_search').style.display = 'block'
+      // Modified by :- Parineeta Gedam Date :- 05-04-2023
+      // document.getElementById('hide_search').style.display = 'block'
+      document.getElementById('hide_search').style.display = 'flex'
+      // End of added code 05-04-2023
 
       // function openModal() {
       //   showModal()
       // }
-showModal()
+      showModal()
       // notification.info({
       //   description:
       //     'No longer available items for this offer..',
@@ -175,7 +182,10 @@ showModal()
 
   const divOfferRemove = () => {
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
   };
 
   const removeSerchResult = () => {
@@ -275,7 +285,10 @@ showModal()
   const removeOffersectionDiv = () => {
     (document.getElementById('offer_divv').style.display = 'none')
       (document.getElementById('flip_div_idd').style.height = '41% ')
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023 
 
   }
   const removeNoSerachResult = () => {
@@ -426,7 +439,10 @@ showModal()
       }
     }
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
 
     setNewSearch('')
   };
@@ -459,7 +475,11 @@ showModal()
 
 
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
+
 
     setNewSearch('')
   };
@@ -481,6 +501,21 @@ showModal()
   const navigatee = () => {
     navigate('/')
   }
+
+
+  // Added by :- Parineeta Gedam
+  // Date :- 03-04-2023
+  // Reason :- for drawer
+
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  // End of added code 03-04-2023
 
   return (
     <>
@@ -564,6 +599,51 @@ showModal()
         <div id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
         >
+
+          {/* Added by :- Parineeta Gedam
+              Date :- 03-04-2023
+              Reason :- for drawer
+          */}
+          <div className='menu_container'>
+            <Button onClick={showDrawer} style={{ backgroundColor: colors.bannerColor, width: "99%", color: colors.subheadingBackgroundColor }}>
+              Menu
+            </Button>
+            <Drawer title="Menu" placement="bottom" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
+              {menuList.map((showMenu, id) => (
+                <div className="drawer_menu_parent_container"
+                  onClick={e => {
+                    onMenuChange(id, showMenu.id);
+                    setSelected(id);
+                    onClose();
+                  }
+                  }
+                >
+                  <div className="menu_img_container" >
+                    <img src={siteConfig.siteURL + showMenu.icon}
+                      className="menu_img"
+                    />
+                  </div>
+
+                  <span>
+                    <h6 style={{
+                      color: colors.bannerColor, paddingTop: '2%',
+                      backgroundColor: colors.headingBackgroundColor,
+                    }}
+                      className="drawer_menu_name"
+                    >{showMenu.name}
+                    </h6>
+                  </span>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+
+                </div>
+              ))}
+            </Drawer>
+          </div>
+
+          {/* End of added code 03-0-2023 */}
+
           <div className='searchpage_input'>
             {/* <Input.Group >
               <Search size='large' 

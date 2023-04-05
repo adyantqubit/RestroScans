@@ -154,15 +154,29 @@
 
 .searchpage_main {
     padding: 1%;
+    display: flex;
 }
 
+/* Added by :- Parineeta Gedam Date :- 05-04-2023 */
+.menu_container{
+    width: 15%;
+}
+/* End of added code 05-04-2023 */
+
+
 .searchpage_input {
-    /* border: 2px solid black; */
     border-radius: 2%;
+    /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
+    width: 90%;
+     /* End of added code 05-04-2023 */
 }
 
 .searchpage_notshow {
     display: none;
+
+    /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
+    display: flex;
+    /* End of added code 05-04-2023 */
 }
 
 .after_search_categoryname {
@@ -242,9 +256,70 @@
     padding: 1;
     margin: 0;
     font-size: 20px;
-    font-family: "Times New Roman"
-    ;
+    font-family: "Times New Roman";
 }
+
+/* Added by :- Parineeta Gedam
+    Date :- 03-04-2023
+    Reason :- drawer menu design
+*/
+
+.drawer_menu_name {
+    padding: 1;
+    margin: 0;
+    font-size: 15px;
+    font-family: "Times New Roman";
+    margin-left: 15px;
+}
+
+.drawer_menu_parent_container{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.menu_img_container {
+    flex-direction: row;
+    width: 14%;
+    height: 10%;
+}
+
+.ant-btn {
+    height: 4vh;
+    padding: 1px;
+    border: none;
+}
+
+.drawer_menu_parent_container :hover{
+    background-color: #f5f2e7;
+}
+
+.ant-drawer-content-wrapper{
+    height: 95% !important;
+    width: 240px !important;
+}
+
+.ant-drawer-body{
+    padding: 10px !important;
+}
+
+.ant-drawer-title{
+    font-size: 22px;
+    font-family: "Times New Roman";
+}
+
+.ant-drawer-header{
+   padding: 2% !important;
+}
+.ant-drawer-title{
+    color: white !important;
+}
+.ant-drawer-close{
+    color: white !important;
+}
+
+/* End of added code 03-04-2023 */
+
 
 .div_caraousel {
     /* height: 14vh; */
@@ -692,3 +767,4 @@ a.ant-notification-notice-close {
     }
    
 }
+
