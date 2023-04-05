@@ -62,7 +62,7 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To have tenant table where tenant's information will be stored
 """
 class Tenant(TenantMixin):
-    tenant_name=models.CharField(max_length=255,default='')
+    tenant_name=models.CharField(max_length=255,default='',unique=True)
     tenant_logo=models.ImageField(upload_to='images/tenant/',blank=True,null=True)
      # Added by Om on 24-03-23
     # Reason: Show a restaurant name in tenant models
@@ -94,12 +94,16 @@ class Tenant(TenantMixin):
 
         # End of addition 
 
-        self.restaurant_phone_number=self.restaurant_name.mobile_number
+        if self.restaurant_name:
+            self.restaurant_phone_number=self.restaurant_name.mobile_number
+        else:
+            self.restaurant_phone_number=""    
         # Added by Yuvraj Sahu on 29-3-2023
         # Reason - to make active when tenant create
-        restroObj = RestaurantRequest.objects.get(id=self.restaurant_name.id)
-        restroObj.is_active = True
-        restroObj.save()
+        if self.restaurant_name:
+            restroObj = RestaurantRequest.objects.get(id=self.restaurant_name.id)
+            restroObj.is_active = True
+            restroObj.save()
         # End of addition
         url = pyqrcode.create(settings.HTTP_METHOD+self.domain_url+'/'+self.tenant_name+'/home')
         isExist = os.path.exists(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')

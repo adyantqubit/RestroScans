@@ -102,11 +102,11 @@ class Offer(models.Model):
     offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)')
-    offer_image = models.ImageField(upload_to='images/offer/')
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image")
     description=models.TextField(null=True,blank=True)
     
     def __str__(self):
-        return self.offer_name 
+        return self.offer_name
     
     class Meta:
         verbose_name = "Banner/Offer"
@@ -177,6 +177,7 @@ class Setting(models.Model):
     class Meta:
         verbose_name_plural = 'f) Setting'
     # End of addition
+
 
 """
 End of code addition

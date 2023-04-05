@@ -1,3 +1,4 @@
+import { domainURL } from "../config/config";
 import API from "./API";
 
 // Added by Yuvraj Sahu on 15-2-2023
@@ -18,7 +19,8 @@ export const getMenuList = async (tenantId) => {
 export const postRestaurantDetail = async (value) => {
   // alert("ppppppppp" + JSON.stringify(value));
   const response = await API.post(
-    `/admin_app/moreshop/registration-request/`,
+    // `/admin_app/moreshop/registration-request/`,
+    `/admin_app/${domainURL}/registration-request/`,
     value,
     {
       headers: {
@@ -34,7 +36,8 @@ export const postRestaurantDetail = async (value) => {
 // Reason - to login restaurant
 export const restaurentAuthentication = async (value) => {
   // alert("ppppppppp" + JSON.stringify(value));
-  const response = await API.post(`/admin_app/moreshop/login/`, value, {
+  // const response = await API.post(`/admin_app/moreshop/login/`, value, {
+  const response = await API.post(`/admin_app/${domainURL}/login/`, value, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -47,7 +50,8 @@ export const restaurentAuthentication = async (value) => {
 // Reason - to send otp for forget password
 export const sendOtpApi = async (value) => {
   // alert("ppppppppp" + JSON.stringify(value));
-  const response = await API.post(`/admin_app/moreshop/save-otp/`, value, {
+  // const response = await API.post(`/admin_app/moreshop/save-otp/`, value, {
+  const response = await API.post(`/admin_app/${domainURL}/save-otp/`, value, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -61,7 +65,8 @@ export const sendOtpApi = async (value) => {
 export const updatePasswordApi = async (value) => {
   // alert("ppppppppp" + JSON.stringify(value));
   const response = await API.put(
-    `/admin_app/moreshop/update-password/`,
+    // `/admin_app/moreshop/update-password/`,
+    `/admin_app/${domainURL}/update-password/`,
     value,
     {
       headers: {
@@ -111,7 +116,8 @@ export const saveItemApi = async (value, tenant) => {
 
 
 export const getAppSetting = async (tenantId) => {
-  const response = await API.get(`/admin_app/moreshop/app-settings/`, {
+  // const response = await API.get(`/admin_app/moreshop/app-settings/`, {
+  const response = await API.get(`/admin_app/${domainURL}/app-settings/`, {
     headers: {
       "Content-Type": "application/json",
     },
