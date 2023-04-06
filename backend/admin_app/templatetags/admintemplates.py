@@ -25,7 +25,7 @@ def getQRCodePath(context):
         restaurantName =  RestaurantRequest.objects.get(mobile_number=tenant.restaurant_phone_number)
         data["tenant"] = restaurantName.restaurant_name
     else :
-        data["tenant"] = "Adyant"
+        data["tenant"] = "restroscans"
     return data
 
 

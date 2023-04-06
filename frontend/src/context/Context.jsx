@@ -17,7 +17,7 @@ export default function Context(props) {
         backgroundTheme: 'white',
         subHeadingColor: 'black',
         bannerColor: '#9b6043',
-        // headingBackgroundColor: '',
+        headingBackgroundColor: 'red',
         subheadingBackgroundColor: '#fcf4e7',
 
     })
@@ -27,6 +27,11 @@ export default function Context(props) {
     var [searchedValue, setSearchedValue] = useState("")
     // End of searched value
 
+    // Added by rohan - on 6/4/2023
+    // Reason - This cart variable save list of item
+    var [cart,setCart]=useState([])
+    // end of cart variable
+
     return (
         <>
             <GlobalContext.Provider value={{
@@ -34,7 +39,8 @@ export default function Context(props) {
                 setTenantName,
                 searchedValue,
                 setSearchedValue,
-                colors,setColors
+                colors,setColors,
+                cart,setCart
             }}>
                 {props.children}
             </GlobalContext.Provider>

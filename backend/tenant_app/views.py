@@ -159,7 +159,7 @@ class SettingAPIView(APIView):
             settingSerializer={"data":0}
         return Response({
             "msg":"success",
-            "setting":settingSerializer.data,
+            "setting":settingSerializer['data'],
             })
     
     def post(self,request,tenant):

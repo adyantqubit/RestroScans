@@ -20,7 +20,7 @@ import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
-
+import { FaClipboardList } from "react-icons/fa"
 
 // Import Swiper styles
 import "swiper/css";
@@ -31,12 +31,13 @@ import GlobalColor from './../Colors/GlobalColor'
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
 import Loader from "../Loader/Loader";
+import PopupDetail from "./PopupDetail";
 
 function MenuItem() {
 
 
   var { searchedValue,
-    setSearchedValue, colors } = useContext(GlobalContext);
+    setSearchedValue, colors ,cart} = useContext(GlobalContext);
 
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
@@ -502,7 +503,20 @@ function MenuItem() {
     navigate('/')
   }
 
-
+  // Added by Rohan on - 5/4/23 
+  // Reason - This will push selected item detail into popup model
+  var nav= useNavigate()
+  var [clickedDetail, setClickedDetail] = useState(null)
+  function callPopupModel(detail, fullPrice, halfPrice) {
+    detail["discounted_half_price"] = halfPrice;
+    detail["discounted_full_price"] = fullPrice;
+    clickedDetail = detail;
+    document.getElementById("detailModel").style.display = "block";
+    setClickedDetail(clickedDetail);
+  }
+  // end of code of 5/4/23 Rohan
+  
+  
   // Added by :- Parineeta Gedam
   // Date :- 03-04-2023
   // Reason :- for drawer
@@ -525,14 +539,22 @@ function MenuItem() {
         style={{ backgroundColor: colors.backgroundTheme }}
       >
 
-        <h2 style={{ color: colors.headingColor }}
-          // className="restaurant_name"
+       {/*added by rohan- on 6/4/23
+          reason- here i am adding cart and back button   */}
+        <div className="heading_container">
+          <h2 style={{ color: colors.headingColor }}
+            // className="restaurant_name"
+            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
 
-          className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
+            {restaurant_name.toUpperCase()}
 
-          {restaurant_name.toUpperCase()}
-
-        </h2>
+          </h2>
+          <div className="icon_container" onClick={e=>nav("/cart")}>
+            <span className="selected_amount">{cart.length}</span>
+            <FaClipboardList style={{ fontSize: "24px", color: colors.bannerColor }} />
+          </div>
+        </div>
+       {/* end of heading */}
 
         <div><GlobalColor /></div>
         {/* {isLoader == true ? <Loader /> : */}
@@ -589,10 +611,10 @@ function MenuItem() {
             </Swiper>
           </div>
           :
-          <div style={{ height: '15vh',  }}>
+          <div style={{ height: '15vh', }}>
             {/* <h3 color="red">yupp</h3> */}
-            <img style={{ width: '100%', height: '15vh',border:'1px solid black' }}
-              src={nodataOffer} 
+            <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
+              src={nodataOffer}
               alt="bydefault_img" />
           </div>
         }
@@ -764,14 +786,25 @@ function MenuItem() {
                           <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
                           <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
                         </div>
-                        {filter[i][`${obj}`][c].map(person =>
-                          <div style={{ display: 'flex' }}>
-                            <div className="showimg_div" >
+                        {filter[i][`${obj}`][c].map(person => {
 
+                          // Added by rohan- on 5/4/23
+                          // Reason - To get dicounted amount to push in detail popup model
+                          var fullprice = person.price_full;
+                          var halfprice = person.price_half;
+                          if (offerList.filter((data) => data.item_name === person.name).length > 0) {
+                            fullprice = searchSectionFullPrice(person);
+                            halfprice = searchSectionHalfPrice(person);
+                          }
+                          // end of code - Rohan 
+
+                          return <div style={{ display: 'flex' }} onClick={e => { callPopupModel(person, fullprice, halfprice) }} >
+                            <div className="showimg_div" >
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
                             </div>
+
                             {/* <div className="price_item_description_div"> */}
                             {/* <div className="price_description_container" > */}
                             {/* <h4 style={{ color: colors.subHeadingColor }}
@@ -779,6 +812,7 @@ function MenuItem() {
                                   >{person.name}</h4> */}
                             {(offerList.filter((data) => data.item_name === person.name)).length > 0 ?
                               <>
+
                                 <div className="price_item_description_div">
                                   <div className="price_description_container" >
                                     <h4 style={{ color: colors.subHeadingColor }}
@@ -811,7 +845,7 @@ function MenuItem() {
                                     </h4>
                                   </div>
 
-                                  <div className="description_div" style={{display:'flex',paddingTop:'2%'}}
+                                  <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                                   //  style={{ margin: '3% 0 0 3%' }}
                                    >
                                     {person.item_type == 'Veg' ? <>
@@ -880,7 +914,7 @@ function MenuItem() {
                             {/* </div> */}
                           </div>
 
-                        )}
+                              })}
                       </div>
                     )
                     }
@@ -912,9 +946,11 @@ function MenuItem() {
 
           <span className="allcategory_container"
           >
-            <span style={{ color: colors.headingColor,backgroundColor: colors.subheadingBackgroundColor,
-                              borderRadius: '6px',
-                              padding: '1px 8px', }} className="category_name"> {offer_name} {offer_discount}%</span> 
+            <span style={{
+              color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
+              borderRadius: '6px',
+              padding: '1px 8px',
+            }} className="category_name"> {offer_name} {offer_discount}%</span>
             {/* <span style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
                               borderRadius: '6px',
                               padding: '1px 8px', }} className="category_name"
@@ -937,9 +973,9 @@ function MenuItem() {
           {offerShow.length > 0 ?
             <>
               {offerShow.map((showdata, id) => (
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex' }} onClick={e => callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata))}>
                   <div className="showimg_div" >
-
+                    {console.log(totalFullPrice(showdata))}
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
@@ -1047,7 +1083,10 @@ function MenuItem() {
           }
         </div>
 
-
+        {/* Added by rohan on - 5/4/2023
+            Reason- This will show one popup model to select option like full price and half price product. */}
+        <PopupDetail detail={clickedDetail} />
+        {/* end of code- Rohan */}
         <div id="flip_div_idd"
           className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
         >
@@ -1105,11 +1144,21 @@ function MenuItem() {
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
                       </div>
 
-                      {itemList.length > 0 ? <>
-                        {itemList.filter(i => i.category === data.id).map(m =>
-                          // <div style={{ border: '2px solid red', height: '100%', display: 'flex' }}>
 
-                          <div style={{ display: 'flex' }}>
+
+                      {itemList.length > 0 ? <>
+                        {itemList.filter(i => i.category === data.id).map(m => {
+                          // <div style={{ border: '2px solid red', height: '100%', display: 'flex' }}>
+                          // Added by rohan- on 5/4/23
+                          // Reason - To get dicounted amount to push in detail popup model
+                          var fullprice = m.price_full;
+                          var halfprice = m.price_half;
+                          if ((offerList.filter((data) => data.item_name === m.name)).length > 0) {
+                            fullprice = mainSectionFullPrice(m);
+                            halfprice = mainSectionHalfPrice(m);
+                          }
+                          // end of code
+                          return <div style={{ display: 'flex' }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}>
                             <div className="showimg_div" >
 
                               <img src={siteConfig.siteURL + m.icon}
@@ -1202,7 +1251,7 @@ function MenuItem() {
                             }
                           </div>
 
-                        )}
+                        })}
                       </> : null
                       }
                     </div>

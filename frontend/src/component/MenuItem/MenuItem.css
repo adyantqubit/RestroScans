@@ -6,6 +6,7 @@
 }
 
 .restaurant_name {
+    width: 90%;
     text-align: center;
     padding: 1%;
     margin: 0;
@@ -16,6 +17,37 @@
     /* color: var(--heading-and-subheading); */
     font-size: 28px;
 }
+
+/* added by rohan -6/4/23 */
+
+.heading_container{
+    display: flex;
+
+}
+
+.icon_container{
+   width: 10%; 
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.selected_amount{
+    width: 15px;
+    height: 12px;
+    background-color: #212121;
+    position: absolute;
+    top: 5px;
+    color:white;
+    border-radius: 5px;
+    right:5px;
+    padding: 2px;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* end of code - 6/4/23 */
 
 .menu_name {
     font-size: 14px;
@@ -53,7 +85,8 @@
 .menu_img {
     border-radius: 8px;
     width: 90%;
-    height: 2%;
+    /* height: 2%; */
+    margin: 0 auto;
 }
 
 .category_side_img {
@@ -64,7 +97,7 @@
 .showimg_div {
     flex-direction: row;
     width: 20%;
-    margin: auto auto;
+    margin: 0 auto;
 }
 
 .category_serached_img {
@@ -559,6 +592,7 @@ a.ant-notification-notice-close {
 
 
 .restaurant_fontsize {
+    width: 90%;
     text-align: center;
     padding: 1%;
     margin: 0;
@@ -772,4 +806,3 @@ a.ant-notification-notice-close {
     }
    
 }
-
