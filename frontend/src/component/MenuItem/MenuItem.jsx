@@ -37,7 +37,7 @@ function MenuItem() {
 
 
   var { searchedValue,
-    setSearchedValue, colors ,cart} = useContext(GlobalContext);
+    setSearchedValue, colors, cart } = useContext(GlobalContext);
 
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
@@ -507,16 +507,18 @@ function MenuItem() {
   // Reason - This will push selected item detail into popup model
   var nav= useNavigate()
   var [clickedDetail, setClickedDetail] = useState(null)
+  var [isDetailPopupOpen, setDetailPopupVisiblity] = useState(false)
   function callPopupModel(detail, fullPrice, halfPrice) {
     detail["discounted_half_price"] = halfPrice;
     detail["discounted_full_price"] = fullPrice;
     clickedDetail = detail;
-    document.getElementById("detailModel").style.display = "block";
+
     setClickedDetail(clickedDetail);
+    setDetailPopupVisiblity(!isDetailPopupOpen)
   }
   // end of code of 5/4/23 Rohan
-  
-  
+
+
   // Added by :- Parineeta Gedam
   // Date :- 03-04-2023
   // Reason :- for drawer
@@ -539,22 +541,7 @@ function MenuItem() {
         style={{ backgroundColor: colors.backgroundTheme }}
       >
 
-       {/*added by rohan- on 6/4/23
-          reason- here i am adding cart and back button   */}
-        <div className="heading_container">
-          <h2 style={{ color: colors.headingColor }}
-            // className="restaurant_name"
-            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
-
-            {restaurant_name.toUpperCase()}
-
-          </h2>
-          <div className="icon_container" onClick={e=>nav("/cart")}>
-            <span className="selected_amount">{cart.length}</span>
-            <FaClipboardList style={{ fontSize: "24px", color: colors.bannerColor }} />
-          </div>
-        </div>
-       {/* end of heading */}
+        {/* Removing header from here and adding it to app.js file for globallization */}
 
         <div><GlobalColor /></div>
         {/* {isLoader == true ? <Loader /> : */}
@@ -784,7 +771,8 @@ function MenuItem() {
                             Item name
                           </div>
                           <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
-                          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+                          {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+                          {colors.allow_half_price ? <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div> : null}
                         </div>
                         {filter[i][`${obj}`][c].map(person => {
 
@@ -823,11 +811,13 @@ function MenuItem() {
                                     >
                                       <strike>  {person.price_full ? '₹' + person.price_full : '---'}</strike>
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor }}
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
                                       <strike>  {person.price_half ? '₹' + person.price_half : '---'}</strike>
-                                    </h4>
+                                    </h4> : null}
                                   </div>
 
                                   <div className="price_description_container" >
@@ -838,24 +828,27 @@ function MenuItem() {
                                     >
                                       ₹{searchSectionFullPrice(person)}
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
-                                      className="allitems_price"
-                                    >
-                                      &nbsp;&nbsp;&nbsp; ₹{searchSectionHalfPrice(person)}
-                                    </h4>
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                                    {colors.allow_half_price ?
+                                      <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
+                                        className="allitems_price"
+                                      >
+                                        &nbsp;&nbsp;&nbsp; ₹{searchSectionHalfPrice(person)}
+                                      </h4> : null}
                                   </div>
 
                                   <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                                   //  style={{ margin: '3% 0 0 3%' }}
-                                   >
+                                  >
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk" className=""></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk" ></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" ></img>
                                     }
 
-                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -882,19 +875,21 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >{person.price_full ? '₹' + person.price_full : '---'}</h4>
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
-                                    <h4 style={{ color: colors.subHeadingColor }}
-                                      className="allitems_price"
-                                    >{person.price_half ? '₹' + person.price_half : '---'}</h4>
+                                    {colors.allow_half_price ?
+                                      <h4 style={{ color: colors.subHeadingColor }}
+                                        className="allitems_price"
+                                      >{person.price_half ? '₹' + person.price_half : '---'}</h4> : null}
                                   </div>
-                                  <div className="description_div" style={{display:'flex'}}>
+                                  <div className="description_div" style={{ display: 'flex' }}>
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -914,7 +909,7 @@ function MenuItem() {
                             {/* </div> */}
                           </div>
 
-                              })}
+                        })}
                       </div>
                     )
                     }
@@ -968,7 +963,8 @@ function MenuItem() {
               Item name
             </div>
             <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Full price</div>
-            <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+            {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+            {colors.allow_half_price ? <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div> : null}
           </div>
           {offerShow.length > 0 ?
             <>
@@ -990,11 +986,13 @@ function MenuItem() {
                       >
                         <strike>  {showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</strike>
                       </h4>
-                      <h4 style={{ color: colors.subHeadingColor }}
+                      {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                      {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
                         <strike>  {showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</strike>
-                      </h4>
+                      </h4> : null}
                     </div>
 
                     <div className="price_description_container" >
@@ -1005,24 +1003,26 @@ function MenuItem() {
                       >
                         ₹{totalFullPrice(showdata)}
                       </h4>
-                      <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
+                      {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                      {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
                         &nbsp;&nbsp;&nbsp;  ₹{totalHalfPrice(showdata)}
-                      </h4>
+                      </h4> : null}
                     </div>
 
-                    <div className="description_div" style={{display:'flex',paddingTop:'2%'}}
+                    <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                     //  style={{ margin: '3% 0 0 3%' }}
-                     >
+                    >
                       {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3> */}
                       {showdata.item_type == 'Veg' ? <>
-                        <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                       </> :
-                        <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                       }
-                      &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
+                      &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
 
                     </div>
                     <br />
@@ -1085,7 +1085,7 @@ function MenuItem() {
 
         {/* Added by rohan on - 5/4/2023
             Reason- This will show one popup model to select option like full price and half price product. */}
-        <PopupDetail detail={clickedDetail} />
+        <PopupDetail detail={clickedDetail} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
         {/* end of code- Rohan */}
         <div id="flip_div_idd"
           className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
@@ -1141,7 +1141,9 @@ function MenuItem() {
                           Item name
                         </div>
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor, }} >Full price</div>
-                        <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+                        {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                        {colors.allow_half_price ? <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div> : null}
                       </div>
 
 
@@ -1177,11 +1179,13 @@ function MenuItem() {
                                     >
                                       <strike>  {m.price_full ? '₹' + m.price_full : '---'}</strike>
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor }}
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
                                       <strike>  {m.price_half ? '₹' + m.price_half : '---'}</strike>
-                                    </h4>
+                                    </h4> : null}
                                   </div>
 
                                   <div className="price_description_container" >
@@ -1192,24 +1196,24 @@ function MenuItem() {
                                     >
                                       ₹{mainSectionFullPrice(m)}
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
                                       &nbsp;&nbsp;&nbsp; ₹{mainSectionHalfPrice(m)}
-                                    </h4>
+                                    </h4> : null}
                                   </div>
 
-                                  <div className="description_div" style={{ display: 'flex',paddingTop:'2%' }} 
+                                  <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                                   // style={{ margin: '3% 0 0 3%' }}
                                   >
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3> */}
                                     {m.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{m.description}</span>
+                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</span>
 
                                   </div>
                                   <br />
@@ -1227,10 +1231,11 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >{m.price_full ? '₹' + m.price_full : '---'}</h4>
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
-                                    <h4 style={{ color: colors.subHeadingColor }}
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_half ? '₹' + m.price_half : '---'}</h4>
+                                    >{m.price_half ? '₹' + m.price_half : '---'}</h4> : null}
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
@@ -1275,7 +1280,7 @@ function MenuItem() {
               <div id={id} className='all-menu'
                 onClick={
                   e => {
-                    document.getElementById('search_box').value="";
+                    document.getElementById('search_box').value = "";
                     onMenuChange(id, data.id);
                     setSelected(id);
                   }
@@ -1308,26 +1313,26 @@ function MenuItem() {
       {/* Added by Om on 31-03-23
       Reason : When offer is empty then show this modal */}
       <>
-        <Modal style={{padding:'0% !important'}} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
+        <Modal style={{ padding: '0% !important' }} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
           <div
-            >
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img
-              src={nodataOffer}
-              style={{height:"30vh",width:'85vw'}}
+          >
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <img
+                src={nodataOffer}
+                style={{ height: "30vh", width: '85vw' }}
               // className='nodata_image'
-               />
+              />
 
+            </div>
+            <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px', padding: '0', margin: '0' }}>
+              Currently no items are available</h5>
           </div>
-          <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px',padding:'0',margin:'0' }}>
-            Currently no items are available</h5>
-        </div>
         </Modal>
       </>
       {/* End of addition */}
-      
-      <div className="inlandscapemode" style={{color:colors.subHeadingColor}}>
-       <img src={landscapeMode} style={{height:'80vh'}} alt="" className="landscapimg"/>
+
+      <div className="inlandscapemode" style={{ color: colors.subHeadingColor }}>
+        <img src={landscapeMode} style={{ height: '80vh' }} alt="" className="landscapimg" />
       </div>
 
       {/* } */}

@@ -7,29 +7,31 @@ import config from '../../../config/config'
 
 const Cart = () => {
   const nav=useNavigate()
-  const { cart, setCart } = useContext(GlobalContext)
+  const { cart, setCart ,colors} = useContext(GlobalContext)
 
   return (
     <>
-      <div className={style.cartContainer}>
+      <div className={style.cartContainer} style={{color:colors.backgroundTheme}}>
 
         {cart.map(item =>
           <div className={style.card}>
             <img alt="" src={config.siteURL+ item.img} className={style.img} />
-            <div className={style.information}>
-              <div className={style.title}>{item.name}</div>
-              <div className={style.price}>price- {item.price}</div>
-              <div>quantity- {item.quantity}</div>
-              <div>serve size- {item.serve_size}</div>
+            <div className={style.infomation}>
+              <div className={style.title} style={{color:colors.subHeadingColor}}>{item.name}</div>
+              <div className={style.price} style={{color:colors.subHeadingColor}}><span className={style.label} style={{color:colors.subHeadingColor}}>Price-</span> {item.price}</div>
+              <div className={style.quantity} style={{color:colors.subHeadingColor}}><span className={style.label} style={{color:colors.subHeadingColor}}>Quantity- </span> {item.quantity}</div>
+              <div className={style.serve_size} style={{color:colors.subHeadingColor}}><span className={style.label} style={{color:colors.subHeadingColor}}>Serve size- </span> {item.serve_size}</div>
+              <button>Remove</button>
             </div>
+
           </div>
         )}
 
 
       </div>
-      <div className={style.btnContainer}>
-        <button className={style.cancleBtn} onClick={e=>nav(-1)}>Cancel</button>
-        <button className={style.ProceedBtn}>Proceed</button>
+      <div className={style.btnContainer} style={{background:colors.headingBackgroundColor}}>
+        <button className={style.cancleBtn} style={{background:colors.bannerColor}} onClick={e=>nav(-1)}>Cancel</button>
+        <button className={style.ProceedBtn} style={{backgroundColor:colors.bannerColor}}>Proceed</button>
       </div>
     </>
   )
