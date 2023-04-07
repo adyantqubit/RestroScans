@@ -272,9 +272,9 @@ End of code addition
 Added by Yuvraj Sahu on 28-3-2023
 Reason - to set domain
 """
-DOMAIN_NAME = "moreshop"
-FRONTEND_URL = "192.168.1.15:3000/"
-BACKEND_URL = "192.168.1.15:8000/"
+DOMAIN_NAME = "restroscans"
+FRONTEND_URL = "192.168.1.4:3000/"
+BACKEND_URL = "192.168.1.4:8000/"
 API_VERSION = "v1/"
 """
 End of code addition

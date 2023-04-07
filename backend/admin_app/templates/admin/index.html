@@ -42,7 +42,7 @@
     <div class="py-4 text-center">
             <div id="qrSection"  >
                 <h1 style="margin-bottom: -1rem;">{{data.tenant}}</h1>
-                {% if data.tenant != "Adyant"  %}
+                {% if data.tenant != "restroscans"  %}
                 <!-- <h1>Restaurant name</h1> -->
                 <img id="qr_image" src='{{data.path}}' width="300px" height="300px" />
                 <h4 style="margin-top: -1.5rem;">Powered by Adyant</h4>
@@ -56,7 +56,7 @@
             {% endif %}
     </div>
 
-    {% if data.tenant != "Adyant"  %}
+    {% if data.tenant != "restroscans"  %}
     <div class="row" style="display: flex;justify-content: center;align-items: center;">
         <h4 style="text-align: center;margin-bottom: 1%;font-family: Noe Display;
         font-size: 29px;

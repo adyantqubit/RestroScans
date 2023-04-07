@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./component/pages/Home";
 import MenuItem from "./component/MenuItem/MenuItem";
 import Footer from "./component/layout/footer/Footer";
+import Cart from "./component/pages/cart/Cart";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Routes>
           <Route  exact path="/*" element={<Cover />} />
           <Route  exact path="/menu-item" element={<MenuItem />} />
-
+          <Route exact path="/cart" element={<Cart/>}/>
           {/* <Route exact path="/<str:tenant>/tenant-details/" element={<Cover />} /> */}
 
         </Routes>

@@ -1,0 +1,41 @@
+
+
+.cartContainer{
+    /* background-color: aqua; */
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* row-gap: 15px; */
+    overflow-x: auto;
+}
+
+.card{
+    width:100%;
+    height: 150px;
+    overflow: auto;
+    display: flex;
+    gap:10px;
+    margin: 10px auto;
+    padding: 0 5px;
+    /* background-color: black; */
+}
+
+.img{
+    width: 40%;
+    /* height: 100%; */
+    padding: 8px 0;
+    border-radius: 8px;
+}
+
+.infomation{
+    width: 50%;
+}
+
+.btnContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-self: flex-end;
+    justify-self: flex-end;
+}
