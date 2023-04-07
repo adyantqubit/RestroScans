@@ -1,3 +1,6 @@
+// Created by Yuvraj Sahu on 6-4-2023
+// Reason - to edit item
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -10,41 +13,47 @@ import {
   Button,
   Image,
 } from "react-native";
-
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { getMenuList, saveCategoryApi, saveItemApi } from "../api/Services";
+import { getMenuList, saveCategoryApi, saveItemApi, updateItemApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
-// import { Country, State, City } from "country-state-city";
+import Checkbox from "expo-checkbox";
+import config from "../config/config";
+
 export default function EditItemScreen({ route, navigation }) {
   /* Get the param */
-  const { itemID } = route.params;
-  alert(itemID);
+  const { itemID, categoryList, itemObj, categoryID, categoryName } =
+    route.params;
+
+  // added by Yuvraj Sahu on 6-4-2023
+  // Reason - to check checkbox
+  const [isItemChecked, setItemChecked] = useState(itemObj[0].is_active);
+  // End of addition
 
   const [categorySelected, setCategorySelected] = React.useState("");
   var [categories, setCategories] = useState([]);
   React.useEffect(() => {
     const getMenus = async () => {
-      var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-      const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-      if (response.categoryList) {
-        capitals = setCategories(
-          response.categoryList.map(function (obj) {
-            obj["key"] = obj["id"]; // Assign new key
-            obj["value"] = obj["name"]; // Rename key
-            delete obj["id"]; // Delete old key
-            delete obj["name"]; // Delete name
-            delete obj["icon"]; // Delete icon
-            delete obj["menu_name"]; // Delete menu name
-            delete obj["menu"]; // Delete menu
-            return obj;
-          })
-        );
-      }
+      // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+      // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+      // if (response.categoryList) {
+      setCategories(
+        categoryList.map(function (obj) {
+          obj["key"] = obj["id"]; // Assign new key
+          obj["value"] = obj["name"]; // Rename key
+          delete obj["id"]; // Delete old key
+          delete obj["name"]; // Delete name
+          delete obj["icon"]; // Delete icon
+          delete obj["menu_name"]; // Delete menu name
+          delete obj["menu"]; // Delete menu
+          return obj;
+        })
+      );
+      // }
     };
     getMenus();
     getTenant();
@@ -84,13 +93,15 @@ export default function EditItemScreen({ route, navigation }) {
   const handleRegister = (formValues) => {
     // setIsDisable(true);
     var formData = new FormData();
-    const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
 
-    formData.append("icon", {
-      uri: icon,
-      name: icon,
-      type: `image/${ext}`,
-    });
+    if (icon != null) {
+      const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+      formData.append("icon", {
+        uri: icon,
+        name: icon,
+        type: `image/${ext}`,
+      });
+    }
     formData.append("name", formValues.name);
     formData.append("price_half", formValues.price_half);
     formData.append("price_full", formValues.price_full);
@@ -98,14 +109,14 @@ export default function EditItemScreen({ route, navigation }) {
     formData.append("description", formValues.description);
 
     // console.log('formData------'+JSON.stringify(formData))
-    saveItemApi(formData, tenant).then((response) => {
+    updateItemApi(formData, tenant, itemID).then((response) => {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
         // navigate('login')
       }
-      if (response.err) {
-        Alert.alert("Error", response.msg);
+      if (response.error) {
+        Alert.alert("Error", response.error);
         setIsDisable(false);
       }
     });
@@ -121,25 +132,25 @@ export default function EditItemScreen({ route, navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      category: "",
-      description: "",
-      price_full: "",
-      price_half: "",
+      name: itemObj[0].name,
+      // category: "",
+      description: itemObj[0].description,
+      price_full: itemObj[0].price_full,
+      price_half: itemObj[0].price_half,
     },
   });
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text>Add item</Text>
+        <Text>Edit item</Text>
         <SelectList
           // onSelect={setCategorySelected}
           setSelected={setCategorySelected}
           data={categories}
           search={false}
           boxStyles={{ borderRadius: 0 }} //override default styles
-          // defaultOption={data[0]}
+          defaultOption={{ key: categoryID, value: categoryName }}
         />
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
@@ -319,14 +330,37 @@ export default function EditItemScreen({ route, navigation }) {
         </View>
 
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: 'black',
+            borderRadius: 3,
+            // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
         >
           <Button title="Add item icon" onPress={pickImage} />
           {icon && (
             <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
           )}
+          {!icon && itemObj[0].icon && (
+            <Image
+              source={{ uri: config.staticBaseURL + itemObj[0].icon }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
+            />
+          )}
         </View>
-
+        <Checkbox
+          // style={styles.checkbox}
+          value={isItemChecked}
+          onValueChange={setItemChecked}
+          color={isItemChecked ? "#4630EB" : undefined}
+        />
+        <Text>Active</Text>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}

@@ -72,6 +72,18 @@ class MenuAPIView(APIView):
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
+    # Added by Yuvraj Sahu on 6-4-2023
+    # Reason - to update menu
+    def put(self, request,tenant, pk):
+        id = pk
+        print("update method",request.data)
+        menuObj = Menu.objects.get(id = id)
+        serializedData = MenuListSerializer(menuObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({"msg":"Updated"}, status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
 
 """
 End of code addition
@@ -93,6 +105,20 @@ class CategoryAPIView(APIView):
             return Response({"msg":"success"},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
+
+    # Added by Yuvraj Sahu on 6-4-2023
+    # Reason - to update category
+    def put(self, request,tenant, pk):
+        id = pk
+        print("update method",request.data)
+        categoryObj = Category.objects.get(id = id)
+        serializedData = CategorySaveSerializer(categoryObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
+
     
 class ItemAPIView(APIView):
 #     def get(self,request,tenant):
@@ -110,6 +136,20 @@ class ItemAPIView(APIView):
             return Response({"msg":"success"},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
+
+    # Added by Yuvraj Sahu on 6-4-2023
+    # Reason - to update item
+    def put(self, request,tenant, pk):
+        id = pk
+        print("update method",request.data)
+        itemObj = Item.objects.get(id = id)
+        serializedData = ItemSaveSerializer(itemObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
+
 
 # Added by Om on 01-03-23
 # Reason : Show the Offer details
@@ -172,3 +212,24 @@ class SettingAPIView(APIView):
             },status=status.HTTP_201_CREATED)
         return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition
+
+
+# Added by Yuvraj Sahu on 6-4-2023
+# Reason - to get active and inactive menu,
+# category and item for restaurant (tenant)
+class getAllMenusAPI(APIView):
+    def get(self,request,tenant):
+        menuList=Menu.objects.all().order_by('name')
+        menuData = MenuListSerializer(menuList, many =True)
+        categoryList=Category.objects.all().order_by('name')
+        categoryListSerializer=CategoryListSerializer(categoryList,many=True)
+        itemList=Item.objects.all().order_by('name')
+        itemListSerializer=ItemListSerializer(itemList,many=True)
+
+        return Response({
+            "msg":"success",
+            "menuList":menuData.data,
+            "categoryList":categoryListSerializer.data,
+            "itemList":itemListSerializer.data
+            })
+# End of getting active and inactive

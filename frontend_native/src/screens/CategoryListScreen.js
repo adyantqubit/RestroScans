@@ -13,18 +13,23 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import { saveMenuApi } from "../api/Services";
+import { saveMenuApi, updateMenuApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import { useForm, Controller } from "react-hook-form";
 import { colors } from "../Colours/globalColor";
 import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Checkbox from "expo-checkbox";
 
 export default function CategoryListScreen({ route, navigation }) {
+  /* Get the param */
+  const { menuName, categoryList, itemList, menuList, menuID, menuObj, filteredCategories } = route.params;
+
   const [tempPhoto, setTempPhoto] = useState(null);
   const [icon, setImage] = useState(null);
   var [isDisable, setIsDisable] = useState(false);
+  const [isMenuChecked, setMenuChecked] = useState(menuObj[0].is_active);
 
   // To upload image
   const pickImage = async () => {
@@ -49,27 +54,28 @@ export default function CategoryListScreen({ route, navigation }) {
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
     var formData = new FormData();
-    const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-    formData.append("icon", {
-      uri: icon,
-      name: icon,
-      type: `image/${ext}`,
-    });
+
+    if (icon != null) {
+      const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+      formData.append("icon", {
+        uri: icon,
+        name: icon,
+        type: `image/${ext}`,
+      });
+    }
     formData.append("name", formValues.name);
-    saveMenuApi(formData, tenant).then((response) => {
+    formData.append("is_active", isMenuChecked)
+    updateMenuApi(formData, tenant, menuID).then((response) => {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
         // navigate('login')
         // setState("stateChanged")
       }
-      if (response.err) {
-        Alert.alert("Error", response.err);
+      if (response.error) {
+        Alert.alert("Error", response.error);
       }
     });
   };
-
-  /* Get the param */
-  const { menuName, categoryList, itemList, menuList } = route.params;
 
   const {
     control,
@@ -81,18 +87,24 @@ export default function CategoryListScreen({ route, navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: menuList[0].name,
+      name: menuObj[0].name,
     },
   });
 
   // Added by Yuvraj Sahu on 4-4-2023
   // Reason - to navigate item screan and send filtered item list
   function itemFilter(categoryID, categoryName) {
+    var categoryObj = filteredCategories.filter((dt) => dt.id == categoryID);
     var filteredItems = itemList.filter((e) => e.category == categoryID);
     navigation.navigate("ItemListScreen", {
       categoryID: categoryID,
       categoryName: categoryName,
       itemList: filteredItems,
+      menuID: menuID,
+      menuName: menuName,
+      categoryObj: categoryObj,
+      menuList: menuList,
+      categoryList: categoryList
     });
   }
   // End of addition
@@ -103,7 +115,7 @@ export default function CategoryListScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Menu name
+            Edit menu name
           </Text>
           <Controller
             control={control}
@@ -135,7 +147,6 @@ export default function CategoryListScreen({ route, navigation }) {
                     keyboardType="default"
                   />
                 </View>
-
                 {errors?.name && (
                   <Text style={styles.textdanger}>{errors?.name?.message}</Text>
                 )}
@@ -155,7 +166,7 @@ export default function CategoryListScreen({ route, navigation }) {
           }}
         >
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload icon</Text>
+          <Text>Edit icon</Text>
         </View>
         <View
           style={{
@@ -171,21 +182,29 @@ export default function CategoryListScreen({ route, navigation }) {
             justifyContent: "space-around",
           }}
         >
-          <Button title="Add menu icon" onPress={pickImage} />
+          <Button title="Edit menu icon" onPress={pickImage} />
           {icon && (
             <Image
               source={{ uri: icon }}
               style={{ width: 50, height: 40, borderRadius: 5 }}
             />
           )}
-          {(!icon && menuList[0].icon) && (
+          {!icon && menuObj[0].icon && (
             <Image
-              source={{ uri: config.staticBaseURL + menuList[0].icon }}
+              source={{ uri: config.staticBaseURL + menuObj[0].icon }}
               style={{ width: 50, height: 40, borderRadius: 5 }}
             />
           )}
         </View>
-
+        <View style={styles.activeStatus}>
+        <Checkbox
+          // style={styles.checkbox}
+          value={isMenuChecked}
+          onValueChange={setMenuChecked}
+          color={isMenuChecked ? "#4630EB" : undefined}
+        />
+          <Text style={styles.activeLable}>Active status</Text>
+          </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
@@ -205,13 +224,13 @@ export default function CategoryListScreen({ route, navigation }) {
                 fontWeight: "bold",
               }}
             >
-              Save
+              Save changes
             </Text>
           </Pressable>
         </View>
         <View style={styles.categoryContainer}>
           <Text style={styles.categoryLable}>{menuName}</Text>
-          {categoryList.map((categoryData, id) => (
+          {filteredCategories.map((categoryData, id) => (
             <Pressable
               key={id}
               style={styles.categoryListContainer}
@@ -352,4 +371,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  activeStatus: {
+    display: "flex",
+    flexDirection: "row",
+    width: "93%",
+    alignSelf: "center"
+  },
+  activeLable: {
+    marginLeft: 10
+  }
 });

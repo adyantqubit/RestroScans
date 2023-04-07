@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { getMenuList } from "../api/Services";
+import { getAllMenuList, getMenuList } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import config, { tenantName } from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -17,7 +17,7 @@ import * as SecureStore from "expo-secure-store";
 // Reason - to tenant from localstorage and get menu lost
 export default function MenuListScreen({ navigation }) {
   useEffect(() => {
-    getAllMenuList();
+    getAllMenus();
     // getTenant();
   }, []);
 
@@ -27,11 +27,11 @@ export default function MenuListScreen({ navigation }) {
   var [filterCategory, setFilterCategory] = useState([]);
   var [filterItem, setFilterItem] = useState([]);
 
-  const getAllMenuList = async () => {
+  const getAllMenus = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    const response = await getMenuList(tenant);
+    const response = await getAllMenuList(tenant);
     if (response) {
       setMenuList(response.menuList);
       setCategoryList(response.categoryList);
@@ -45,10 +45,12 @@ export default function MenuListScreen({ navigation }) {
     var filteredItem = itemList.filter((dt) => dt.menu_id == menuID);
     navigation.navigate("CategoryListScreen", {
       menuID: menuID,
-      menuList: filteredMenu,
+      menuObj: filteredMenu,
       menuName: menuName,
-      categoryList: filteredCategories,
+      filteredCategories: filteredCategories,
+      categoryList: categoryList,
       itemList: filteredItem,
+      menuList: menuList
     });
     // setFilterCategory(categoryList.filter((e) => e.menu_name == val));
     // setFilterItem([]);

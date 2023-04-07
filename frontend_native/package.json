@@ -42,7 +42,8 @@
     "react-native-view-shot": "^3.5.0",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.5",
-    "yup": "^1.0.0"
+    "yup": "^1.0.0",
+    "expo-checkbox": "~2.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

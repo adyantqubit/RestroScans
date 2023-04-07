@@ -11,6 +11,11 @@ from .views import *
 urlpatterns = [
     path('<str:tenant>/menu-list/',MenuAPIView.as_view()),
 
+    # Added by Yuvraj on 6-4-2023
+    # Reason : to update menu
+    path('<str:tenant>/menu-list/<int:pk>/',MenuAPIView.as_view()),
+    # End of addition
+
     # Added by Om on 16-02-23
     # Reason : Show the Tenant details
     path('<str:tenant>/tenant-details/',TenantAPIView.as_view()),
@@ -33,6 +38,11 @@ urlpatterns = [
     # End of addition
 
     # Added by Yuvraj on 23-3-23
+    # Reason : update category
+    path('<str:tenant>/category/<int:pk>/',CategoryAPIView.as_view()),
+    # End of addition
+
+    # Added by Yuvraj on 6-4-23
     # Reason : crud operation perform for category
     path('<str:tenant>/category/',CategoryAPIView.as_view()),
     # End of addition
@@ -40,6 +50,16 @@ urlpatterns = [
     # Added by Yuvraj on 23-3-23
     # Reason : crud operation perform for item
     path('<str:tenant>/item/',ItemAPIView.as_view()),
+    # End of addition
+
+    # Added by Yuvraj on 6-4-23
+    # Reason : update item
+    path('<str:tenant>/item/<int:pk>/',ItemAPIView.as_view()),
+    # End of addition
+
+    # Added by Yuvraj on 6-4-23
+    # Reason : get all menu, category and items
+    path('<str:tenant>/all-menus/',getAllMenusAPI.as_view()),
     # End of addition
 
 ]   
