@@ -1,6 +1,6 @@
 //
 
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import style from "./popupDetail.module.css"
 import { AiOutlineClose } from "react-icons/ai"
 import { GlobalContext } from '../../context/Context'
@@ -11,6 +11,7 @@ import { message } from 'antd';
 const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     const { colors, cart, setCart } = useContext(GlobalContext)
     const [messageApi, contextHolder] = message.useMessage();
+    const [quantity,setQuantity]=useState(1)
 
     useEffect(() => {
         console.log(detail)
@@ -31,63 +32,58 @@ const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => 
             id: detail.id,
             name: detail.name,
             price: selected_price,
-            quantity: 1,
+            quantity: quantity,
             serve_size: size,
             img: detail.icon
         }
 
         if (cart.filter(c => c.id == item.id && c.serve_size == item.serve_size).length > 0) {
-           var cartId=cart.findIndex(c=>c.id==item.id)
-           cart[cartId].quantity=++cart[cartId].quantity
-           setCart(cart)
-           localStorage.setItem("cart", JSON.stringify(cart))
+            var cartId = cart.findIndex(c => c.id == item.id)
+            cart[cartId].quantity = cart[cartId].quantity +quantity
+            setCart(cart)
+            localStorage.setItem("cart", JSON.stringify(cart))
 
-           messageApi.open({
-            type: 'success',
-            content: `Successfully ${cart[cartId].quantity} ${detail.name} is added.`,
-            className: 'custom-class',
-            style: {
-              marginTop: '5vh',
-              fontSize:"16px",
-              letterSpacing:"1.3px",
-              fontFamily:"Times News Roman",
-              color:colors.headingColor,
-            },
-            key:1
-          });
-          console.log("cart added ---------------------if")
+            messageApi.open({
+                type: 'success',
+                content: `Successfully ${cart[cartId].quantity} ${detail.name} is added.`,
+                className: 'custom-class',
+                style: {
+                    marginTop: '5vh',
+                    fontSize: "16px",
+                    letterSpacing: "1.3px",
+                    fontFamily: "Times News Roman",
+                    color: colors.headingColor,
+                },
+                key: 1
+            });
+            console.log("cart added ---------------------if")
         }
         else {
             setCart([...cart, item])
             localStorage.setItem("cart", JSON.stringify([...cart, item]))
-            
+
             messageApi.open({
                 type: 'success',
                 content: `${detail.name} is added successfully.`,
                 className: 'custom-class',
                 style: {
-                  marginTop: '5vh',
-                  fontSize:"16px",
-                  letterSpacing:"1.3px",
-                  fontFamily:"Times News Roman",
-                  color:colors.headingColor,
+                    marginTop: '5vh',
+                    fontSize: "16px",
+                    letterSpacing: "1.3px",
+                    fontFamily: "Times News Roman",
+                    color: colors.headingColor,
                 },
-                duration:10000,
-                
-              });
+            });
 
         }
-
-
-        console.log("cart addes------------------")
         setDetailPopupVisiblity(!isDetailPopupOpen)
     }
 
-    
-        return (
-            <>
+
+    return (
+        <>
             {contextHolder}
-            {isDetailPopupOpen?<div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
+            {isDetailPopupOpen ? <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
                 <div className={style.closeContainer}>
                     <AiOutlineClose size={30} style={{ color: "#fff", margin: "auto 0" }} onClick={closePopup} />
                 </div>
@@ -98,11 +94,22 @@ const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => 
                     </div>
                     <div className={style.detailContainer}>
                         <img className={style.productImg} src={siteConfig.siteURL + detail.icon} />
-                        <div className={style.title} style={{ color: colors.headingColor }}>{detail.name}</div>
+                        <div className={style.titleContainer} >
+                            <div className={style.title} style={{ color: colors.headingColor }}>{detail.name}</div>
+                            <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
+                                <span className={style.sign} onClick={e=>{if(quantity!=1)setQuantity(quantity-1)}}>
+                                    -
+                                </span>
+                                {quantity}
+                                <span className={style.sign} onClick={e=>setQuantity(quantity+1)}>
+                                    +
+                                </span>
+                            </span>
+                        </div>
                     </div>
 
                     <div className={style.buttonContainer}>
-                        {colors.is_half_allow ?
+                        {colors.allow_half_price ?
                             <button className={style.halfSelectionBtn}
                                 style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}
                                 onClick={e => AddToCart("Half Plate")}>
@@ -115,9 +122,9 @@ const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => 
                             {detail.discounted_full_price}</button>
                     </div>
                 </div> : null}
-            </div>:null}
-            </>
-        )
+            </div> : null}
+        </>
+    )
 }
 
 export default PopupDetail

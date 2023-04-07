@@ -15,6 +15,7 @@ import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import nodataImg from '../../images/not_offer.png'
+import noOfferImg from "../../images/offer_default.jpg"
 import nodataOffer from '../../images/offer 41.jpg'
 import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
@@ -32,6 +33,7 @@ import GlobalColor from './../Colors/GlobalColor'
 import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
 import Loader from "../Loader/Loader";
 import PopupDetail from "./PopupDetail";
+import { GrFormAdd } from "react-icons/gr";
 
 function MenuItem() {
 
@@ -505,7 +507,7 @@ function MenuItem() {
 
   // Added by Rohan on - 5/4/23 
   // Reason - This will push selected item detail into popup model
-  var nav= useNavigate()
+  var nav = useNavigate()
   var [clickedDetail, setClickedDetail] = useState(null)
   var [isDetailPopupOpen, setDetailPopupVisiblity] = useState(false)
   function callPopupModel(detail, fullPrice, halfPrice) {
@@ -514,7 +516,7 @@ function MenuItem() {
     clickedDetail = detail;
 
     setClickedDetail(clickedDetail);
-    setDetailPopupVisiblity(!isDetailPopupOpen)
+    setDetailPopupVisiblity(false)
   }
   // end of code of 5/4/23 Rohan
 
@@ -542,6 +544,24 @@ function MenuItem() {
       >
 
         {/* Removing header from here and adding it to app.js file for globallization */}
+        {/*added by rohan- on 6/4/23
+          reason- here i am adding cart and back button   */}
+        <div className="heading_container" >
+          <h2 style={{ color: colors.headingColor }}
+            // className="restaurant_name"
+            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
+            {restaurant_name.toUpperCase()}
+          </h2>
+
+          <div className="icon_container">
+            {/* <Link to="/c"> */}
+              <span className="selected_amount">0</span>
+              <FaClipboardList style={{ fontSize: "24px", color: colors.bannerColor }} />
+            {/* </Link> */}
+          </div>
+
+        </div>
+        {/* end of heading */}
 
         <div><GlobalColor /></div>
         {/* {isLoader == true ? <Loader /> : */}
@@ -661,7 +681,7 @@ function MenuItem() {
                 placeholder='Search by Menu, Categories & Items name' />
             </Input.Group> */}
 
-            <input style={{height:'4vh',width:'100%'}} id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' type="search" />
+            <input style={{ height: '4vh', width: '100%' }} id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' type="search" />
           </div>
         </div>
 
@@ -786,11 +806,17 @@ function MenuItem() {
                           }
                           // end of code - Rohan 
 
-                          return <div style={{ display: 'flex' }} onClick={e => { callPopupModel(person, fullprice, halfprice) }} >
+                          return <div style={{ display: 'flex' }}  >
                             <div className="showimg_div" >
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
+                              {/* <button className="add_product" style={{
+                                color: colors.headingColor,
+                                backgroundColor: colors.headingBackgroundColor,
+                                borderRadius: '6px',
+                              }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
+                                />Add</button> */}
                             </div>
 
                             {/* <div className="price_item_description_div"> */}
@@ -975,6 +1001,12 @@ function MenuItem() {
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
+                    {/* <button className="add_product" style={{
+                      color: colors.headingColor,
+                      backgroundColor: colors.headingBackgroundColor,
+                      borderRadius: '6px',
+                    }} onClick={e => callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata))}> <GrFormAdd
+                      />Add</button> */}
                   </div>
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
@@ -1166,6 +1198,12 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
+                              {/* <button className="add_product" style={{
+                                color: colors.headingColor,
+                                backgroundColor: colors.headingBackgroundColor,
+                                borderRadius: '6px',
+                              }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> <GrFormAdd
+                                />Add</button> */}
                             </div>
                             {(offerList.filter((data) => data.item_name === m.name)).length > 0 ?
                               <>
@@ -1318,7 +1356,7 @@ function MenuItem() {
           >
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <img
-                src={nodataOffer}
+                src={noOfferImg}
                 style={{ height: "30vh", width: '85vw' }}
               // className='nodata_image'
               />

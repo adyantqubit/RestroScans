@@ -17,7 +17,7 @@ export default function Context(props) {
         backgroundTheme: 'white',
         subHeadingColor: 'black',
         bannerColor: '#9b6043',
-        headingBackgroundColor: '#f2f2f2',
+        headingBackgroundColor: '',
         subheadingBackgroundColor: '#fcf4e7',
         // added by rohan- 6/4/23 - To add half price shown functionality
         allow_half_price:true
