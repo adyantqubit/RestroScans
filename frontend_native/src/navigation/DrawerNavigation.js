@@ -15,16 +15,16 @@ import * as SecureStore from "expo-secure-store";
 export default function DrawerNavigation() {
   const Drawer = createDrawerNavigator();
 
-  React.useEffect(()=> {
+  React.useEffect(() => {
     getTenant();
-  },[])
+  }, []);
 
-  var getTenant = async() => {
-    var userData = await SecureStore.getItemAsync("userData")
+  var getTenant = async () => {
+    var userData = await SecureStore.getItemAsync("userData");
     // JSON.parse(userData).id
     // var response = await getTenantApi(JSON.parse(userData).id)
     // console.log('tenant drawer'+JSON.stringify(response))
-  }
+  };
 
   return (
     <Drawer.Navigator>
@@ -37,7 +37,7 @@ export default function DrawerNavigation() {
           headerStyle: {},
         }}
       />
-  
+
       <Drawer.Screen
         name="MenuListScreen"
         component={MenuListScreen}
@@ -52,7 +52,7 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="Add"
         component={MenuAddScreen}
-        options={{ drawerLabel: "Add Menu Item" , title: "Add Menu Item",}}
+        options={{ drawerLabel: "Add Menu Item", title: "Add Menu Item" }}
       />
       <Drawer.Screen
         name="PreviewMenuScreen"

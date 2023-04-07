@@ -62,7 +62,7 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To have tenant table where tenant's information will be stored
 """
 class Tenant(TenantMixin):
-    tenant_name=models.CharField(max_length=255,default='')
+    tenant_name=models.CharField(max_length=255,default='',unique=True)
     tenant_logo=models.ImageField(upload_to='images/tenant/',blank=True,null=True)
      # Added by Om on 24-03-23
     # Reason: Show a restaurant name in tenant models
@@ -87,12 +87,27 @@ class Tenant(TenantMixin):
         import os
         import pyqrcode
         from django.conf import settings
-        self.restaurant_phone_number=self.restaurant_name.mobile_number
+
+        # Added by Om on 03-04-23
+        # Reason: Add visit count functionality
+        try:
+            visitCount=VisitCount.objects.get(tenant_name=self.tenant_name)
+        except Exception as e:
+             visitCount=VisitCount(count=0,tenant_name=self.tenant_name)
+             visitCount.save()
+
+        # End of addition 
+
+        if self.restaurant_name:
+            self.restaurant_phone_number=self.restaurant_name.mobile_number
+        else:
+            self.restaurant_phone_number=""    
         # Added by Yuvraj Sahu on 29-3-2023
         # Reason - to make active when tenant create
-        restroObj = RestaurantRequest.objects.get(id=self.restaurant_name.id)
-        restroObj.is_active = True
-        restroObj.save()
+        if self.restaurant_name:
+            restroObj = RestaurantRequest.objects.get(id=self.restaurant_name.id)
+            restroObj.is_active = True
+            restroObj.save()
         # End of addition
         url = pyqrcode.create(settings.HTTP_METHOD+self.domain_url+'/'+self.tenant_name+'/home')
         isExist = os.path.exists(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
@@ -140,3 +155,14 @@ class AppSetting(models.Model):
 """
 End of code addition
 """      
+"""-------------------------------------------------------------------
+Added by - Om on 24-03-2023
+Reason - To store settings of react native app
+"""
+class VisitCount(models.Model):
+    id = models.AutoField(primary_key=True)
+    tenant_name=models.CharField(max_length=255,default='')
+    count =models.BigIntegerField(default=0)
+"""
+End of code addition
+""" 

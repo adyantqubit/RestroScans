@@ -9,7 +9,7 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of menu
 """
 class Menu(models.Model):
-    name=models.CharField(max_length=13,default='')
+    name=models.CharField(max_length=30,default='')
     icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
@@ -65,7 +65,7 @@ class Item(models.Model):
     name=models.CharField(max_length=30,default='',verbose_name="Item name")
      # Added by Om on 28-03-2023
     # Reason - add item type veg or nonveg
-    item_type=models.CharField(choices=IMAGE_CHOICE, max_length=50,null=True,blank=True)
+    item_type=models.CharField(choices=IMAGE_CHOICE, max_length=50,default='')
     # End of addition
     # Added by Om on 23-03-23
     # Reason : To show items image
@@ -102,11 +102,11 @@ class Offer(models.Model):
     offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)')
-    offer_image = models.ImageField(upload_to='images/offer/')
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image")
     description=models.TextField(null=True,blank=True)
     
     def __str__(self):
-        return self.offer_name 
+        return self.offer_name
     
     class Meta:
         verbose_name = "Banner/Offer"
@@ -177,6 +177,7 @@ class Setting(models.Model):
     class Meta:
         verbose_name_plural = 'f) Setting'
     # End of addition
+
 
 """
 End of code addition

@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { getMenuList } from "../api/Services";
+import { getAllMenuList, getMenuList } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import config, { tenantName } from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -17,7 +17,7 @@ import * as SecureStore from "expo-secure-store";
 // Reason - to tenant from localstorage and get menu lost
 export default function MenuListScreen({ navigation }) {
   useEffect(() => {
-    getAllMenuList();
+    getAllMenus();
     // getTenant();
   }, []);
 
@@ -27,11 +27,11 @@ export default function MenuListScreen({ navigation }) {
   var [filterCategory, setFilterCategory] = useState([]);
   var [filterItem, setFilterItem] = useState([]);
 
-  const getAllMenuList = async () => {
+  const getAllMenus = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    const response = await getMenuList(tenant);
+    const response = await getAllMenuList(tenant);
     if (response) {
       setMenuList(response.menuList);
       setCategoryList(response.categoryList);
@@ -39,9 +39,21 @@ export default function MenuListScreen({ navigation }) {
     }
   };
 
-  function categoryFilter(val) {
-    setFilterCategory(categoryList.filter((e) => e.menu_name == val));
-    setFilterItem([]);
+  function categoryFilter(menuID, menuName) {
+    var filteredMenu = menuList.filter((dt) => dt.id == menuID);
+    var filteredCategories = categoryList.filter((e) => e.menu == menuID);
+    var filteredItem = itemList.filter((dt) => dt.menu_id == menuID);
+    navigation.navigate("CategoryListScreen", {
+      menuID: menuID,
+      menuObj: filteredMenu,
+      menuName: menuName,
+      filteredCategories: filteredCategories,
+      categoryList: categoryList,
+      itemList: filteredItem,
+      menuList: menuList
+    });
+    // setFilterCategory(categoryList.filter((e) => e.menu_name == val));
+    // setFilterItem([]);
   }
 
   function itemFilter(val) {
@@ -58,7 +70,7 @@ export default function MenuListScreen({ navigation }) {
               {menuList.map((menuData, id) => (
                 <Pressable
                   style={styles.menuPress}
-                  onPress={(e) => categoryFilter(menuData.name)}
+                  onPress={(e) => categoryFilter(menuData.id, menuData.name)}
                   key={id}
                 >
                   <Image
@@ -79,7 +91,7 @@ export default function MenuListScreen({ navigation }) {
         </View>
         {/* Menu Item Close ------------------------------------------ */}
         {/* Category List ----------------------------------------------- */}
-        <View style={styles.categoryContainer}>
+        {/* <View style={styles.categoryContainer}>
           {filterCategory.map((categoryData, id) => (
             <View key={id}>
               <View style={styles.categoryView} key={id}>
@@ -114,7 +126,7 @@ export default function MenuListScreen({ navigation }) {
               )}
             </View>
           ))}
-        </View>
+        </View> */}
         {/* Category List Close ------------------------------------------ */}
         {/* Items List ----------------------------------------------- */}
         {/* <View style={styles.itemContainer}>

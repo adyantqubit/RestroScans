@@ -66,7 +66,6 @@ class RestaurantLoginView(APIView):
     def post(self, request):
         restaurant = RestaurantRequest.objects.filter(email = request.data.get('email')).first()
         print(request.data.get('password'))
-        print(request.data["password"])
         print(restaurant.email)
         # Modified by Yuvraj Sahu on 2-3-2023
         # Reason - to send email and password validation msg
@@ -162,8 +161,14 @@ class UpdatePassword(APIView):
                 return response
             else:
                 restaurantObj = RestaurantRequest.objects.get(email=email)
-                restaurantObj.password = make_password(request.data['password'])
-                restaurantObj.confirm_password = make_password(request.data['password'])
+                # Modified by Yuvraj sahu on 1-4-2023
+                # Reason - to remove password hashing because
+                #         it will be hashed from models
+                # restaurantObj.password = make_password(request.data['password'])
+                # restaurantObj.confirm_password = make_password(request.data['password'])
+                restaurantObj.password = request.data["password"]
+                restaurantObj.confirm_password = request.data["password"]
+                # End of modification
                 restaurantObj.save()
                 data=dict()
                 data["msg"]="Password successfully changed"

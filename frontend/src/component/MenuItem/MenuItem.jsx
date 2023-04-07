@@ -6,8 +6,8 @@ import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Input, Button, Modal, notification } from 'antd';
-import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { Input, Button, Modal, notification, Drawer } from 'antd';
+import { CloseOutlined, LeftOutlined, RightOutlined, } from '@ant-design/icons'
 import Footer from "../layout/footer/Footer";
 import { FlippingPages } from 'flipping-pages';
 import 'flipping-pages/dist/style.css';
@@ -15,12 +15,13 @@ import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import nodataImg from '../../images/not_offer.png'
+import noOfferImg from "../../images/offer_default.jpg"
 import nodataOffer from '../../images/offer 41.jpg'
 import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
-
+import { FaClipboardList } from "react-icons/fa"
 
 // Import Swiper styles
 import "swiper/css";
@@ -31,12 +32,14 @@ import GlobalColor from './../Colors/GlobalColor'
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
 import Loader from "../Loader/Loader";
+import PopupDetail from "./PopupDetail";
+import { GrFormAdd } from "react-icons/gr";
 
 function MenuItem() {
 
 
   var { searchedValue,
-    setSearchedValue, colors } = useContext(GlobalContext);
+    setSearchedValue, colors, cart } = useContext(GlobalContext);
 
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
@@ -60,7 +63,11 @@ function MenuItem() {
     setfilterCategory(menuList.filter((dt) => dt.id == data))
 
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
     document.getElementById(id).classList.add("category_animated_div");
 
 
@@ -84,12 +91,15 @@ function MenuItem() {
       // (document.getElementById('offer_divv').style.display = 'block')
       //   (document.getElementById('flip_div_idd').style.height = '0% ')
 
-      document.getElementById('hide_search').style.display = 'block'
+      // Modified by :- Parineeta Gedam Date :- 05-04-2023
+      // document.getElementById('hide_search').style.display = 'block'
+      document.getElementById('hide_search').style.display = 'flex'
+      // End of added code 05-04-2023
 
       // function openModal() {
       //   showModal()
       // }
-showModal()
+      showModal()
       // notification.info({
       //   description:
       //     'No longer available items for this offer..',
@@ -175,7 +185,10 @@ showModal()
 
   const divOfferRemove = () => {
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
   };
 
   const removeSerchResult = () => {
@@ -275,7 +288,10 @@ showModal()
   const removeOffersectionDiv = () => {
     (document.getElementById('offer_divv').style.display = 'none')
       (document.getElementById('flip_div_idd').style.height = '41% ')
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023 
 
   }
   const removeNoSerachResult = () => {
@@ -426,7 +442,10 @@ showModal()
       }
     }
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
 
     setNewSearch('')
   };
@@ -459,16 +478,20 @@ showModal()
 
 
     setOfferShow([])
-    document.getElementById('hide_search').style.display = 'block'
+    // Modified by :- Parineeta Gedam Date :- 05-04-2023
+    // document.getElementById('hide_search').style.display = 'block'
+    document.getElementById('hide_search').style.display = 'flex'
+    // End of added code 05-04-2023
+
 
     setNewSearch('')
   };
 
-  console.log(menuList, 'All Menu')
+  // console.log(menuList, 'All Menu')
   // console.log(categoryList, 'All categories')
   // console.log(itemList, 'All items')
   // console.log(filterCategory, 'filtercategory')
-  console.log(offerBanner, 'all offer images')
+  // console.log(offerBanner, 'all offer images')
   // console.log(offerList, 'all offer details')
   // console.log(offerShow, 'set offer data')
   // console.log(filter, 'searching data')
@@ -482,6 +505,36 @@ showModal()
     navigate('/')
   }
 
+  // Added by Rohan on - 5/4/23 
+  // Reason - This will push selected item detail into popup model
+  var nav = useNavigate()
+  var [clickedDetail, setClickedDetail] = useState(null)
+  var [isDetailPopupOpen, setDetailPopupVisiblity] = useState(false)
+  function callPopupModel(detail, fullPrice, halfPrice) {
+    detail["discounted_half_price"] = halfPrice;
+    detail["discounted_full_price"] = fullPrice;
+    clickedDetail = detail;
+
+    setClickedDetail(clickedDetail);
+    setDetailPopupVisiblity(false)
+  }
+  // end of code of 5/4/23 Rohan
+
+
+  // Added by :- Parineeta Gedam
+  // Date :- 03-04-2023
+  // Reason :- for drawer
+
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  // End of added code 03-04-2023
+
   return (
     <>
       {/* {isLoader == true ? <Loader /> : */}
@@ -490,14 +543,25 @@ showModal()
         style={{ backgroundColor: colors.backgroundTheme }}
       >
 
-        <h2 style={{ color: colors.headingColor }}
-          // className="restaurant_name"
+        {/* Removing header from here and adding it to app.js file for globallization */}
+        {/*added by rohan- on 6/4/23
+          reason- here i am adding cart and back button   */}
+        <div className="heading_container" >
+          <h2 style={{ color: colors.headingColor }}
+            // className="restaurant_name"
+            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
+            {restaurant_name.toUpperCase()}
+          </h2>
 
-          className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
+          <div className="icon_container">
+            {/* <Link to="/c"> */}
+              <span className="selected_amount">0</span>
+              <FaClipboardList style={{ fontSize: "24px", color: colors.bannerColor }} />
+            {/* </Link> */}
+          </div>
 
-          {restaurant_name.toUpperCase()}
-
-        </h2>
+        </div>
+        {/* end of heading */}
 
         <div><GlobalColor /></div>
         {/* {isLoader == true ? <Loader /> : */}
@@ -554,23 +618,70 @@ showModal()
             </Swiper>
           </div>
           :
-          <div style={{ height: '15vh',  }}>
+          <div style={{ height: '15vh', }}>
             {/* <h3 color="red">yupp</h3> */}
-            <img style={{ width: '100%', height: '15vh',border:'1px solid black' }}
-              src={nodataOffer} 
+            <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
+              src={nodataOffer}
               alt="bydefault_img" />
           </div>
         }
         <div id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
         >
+
+          {/* Added by :- Parineeta Gedam
+              Date :- 03-04-2023
+              Reason :- for drawer
+          */}
+          <div className='menu_container'>
+            <Button onClick={showDrawer} style={{ backgroundColor: colors.bannerColor, width: "99%", color: colors.subheadingBackgroundColor }}>
+              Menu
+            </Button>
+            <Drawer title="Menu" placement="bottom" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
+              {menuList.map((showMenu, id) => (
+                <div className="drawer_menu_parent_container"
+                  onClick={e => {
+                    onMenuChange(id, showMenu.id);
+                    setSelected(id);
+                    onClose();
+                  }
+                  }
+                >
+                  <div className="menu_img_container" >
+                    <img src={siteConfig.siteURL + showMenu.icon}
+                      className="menu_img"
+                    />
+                  </div>
+
+                  <span>
+                    <h6 style={{
+                      color: colors.bannerColor, paddingTop: '2%',
+                      backgroundColor: colors.headingBackgroundColor,
+                    }}
+                      className="drawer_menu_name"
+                    >{showMenu.name}
+                    </h6>
+                  </span>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+
+                </div>
+              ))}
+            </Drawer>
+          </div>
+
+          {/* End of added code 03-0-2023 */}
+
           <div className='searchpage_input'>
-            <Input.Group >
+            {/* <Input.Group >
               <Search size='large' 
                 // value={search}
-                onChange={e => { setNewSearch(e.target.value.trimStart()); }}
+                onChange={e => { setNewSearch(e.target.value.trimStart());} }
                 placeholder='Search by Menu, Categories & Items name' />
-            </Input.Group>
+            </Input.Group> */}
+
+            <input style={{ height: '4vh', width: '100%' }} id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' type="search" />
           </div>
         </div>
 
@@ -680,16 +791,34 @@ showModal()
                             Item name
                           </div>
                           <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
-                          <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+                          {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+                          {colors.allow_half_price ? <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div> : null}
                         </div>
-                        {filter[i][`${obj}`][c].map(person =>
-                          <div style={{ display: 'flex' }}>
-                            <div className="showimg_div" >
+                        {filter[i][`${obj}`][c].map(person => {
 
+                          // Added by rohan- on 5/4/23
+                          // Reason - To get dicounted amount to push in detail popup model
+                          var fullprice = person.price_full;
+                          var halfprice = person.price_half;
+                          if (offerList.filter((data) => data.item_name === person.name).length > 0) {
+                            fullprice = searchSectionFullPrice(person);
+                            halfprice = searchSectionHalfPrice(person);
+                          }
+                          // end of code - Rohan 
+
+                          return <div style={{ display: 'flex' }}  >
+                            <div className="showimg_div" >
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
+                              {/* <button className="add_product" style={{
+                                color: colors.headingColor,
+                                backgroundColor: colors.headingBackgroundColor,
+                                borderRadius: '6px',
+                              }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
+                                />Add</button> */}
                             </div>
+
                             {/* <div className="price_item_description_div"> */}
                             {/* <div className="price_description_container" > */}
                             {/* <h4 style={{ color: colors.subHeadingColor }}
@@ -697,6 +826,7 @@ showModal()
                                   >{person.name}</h4> */}
                             {(offerList.filter((data) => data.item_name === person.name)).length > 0 ?
                               <>
+
                                 <div className="price_item_description_div">
                                   <div className="price_description_container" >
                                     <h4 style={{ color: colors.subHeadingColor }}
@@ -707,11 +837,13 @@ showModal()
                                     >
                                       <strike>  {person.price_full ? '₹' + person.price_full : '---'}</strike>
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor }}
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
                                       <strike>  {person.price_half ? '₹' + person.price_half : '---'}</strike>
-                                    </h4>
+                                    </h4> : null}
                                   </div>
 
                                   <div className="price_description_container" >
@@ -722,23 +854,27 @@ showModal()
                                     >
                                       ₹{searchSectionFullPrice(person)}
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
-                                      className="allitems_price"
-                                    >
-                                      &nbsp;&nbsp;&nbsp; ₹{searchSectionHalfPrice(person)}
-                                    </h4>
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                                    {colors.allow_half_price ?
+                                      <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
+                                        className="allitems_price"
+                                      >
+                                        &nbsp;&nbsp;&nbsp; ₹{searchSectionHalfPrice(person)}
+                                      </h4> : null}
                                   </div>
 
-                                  <div className="description_div" style={{display:'flex',paddingTop:'2%'}}
+                                  <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                                   //  style={{ margin: '3% 0 0 3%' }}
-                                   >
+                                  >
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk" className=""></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk" ></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" ></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
+
+                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -765,19 +901,21 @@ showModal()
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >{person.price_full ? '₹' + person.price_full : '---'}</h4>
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
-                                    <h4 style={{ color: colors.subHeadingColor }}
-                                      className="allitems_price"
-                                    >{person.price_half ? '₹' + person.price_half : '---'}</h4>
+                                    {colors.allow_half_price ?
+                                      <h4 style={{ color: colors.subHeadingColor }}
+                                        className="allitems_price"
+                                      >{person.price_half ? '₹' + person.price_half : '---'}</h4> : null}
                                   </div>
-                                  <div className="description_div" style={{display:'flex'}}>
+                                  <div className="description_div" style={{ display: 'flex' }}>
                                     {person.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{person.description}</span>
+                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
                                   <br />
                                   <br />
@@ -797,7 +935,7 @@ showModal()
                             {/* </div> */}
                           </div>
 
-                        )}
+                        })}
                       </div>
                     )
                     }
@@ -829,9 +967,11 @@ showModal()
 
           <span className="allcategory_container"
           >
-            <span style={{ color: colors.headingColor,backgroundColor: colors.subheadingBackgroundColor,
-                              borderRadius: '6px',
-                              padding: '1px 8px', }} className="category_name"> {offer_name} {offer_discount}%</span> 
+            <span style={{
+              color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
+              borderRadius: '6px',
+              padding: '1px 8px',
+            }} className="category_name"> {offer_name} {offer_discount}%</span>
             {/* <span style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
                               borderRadius: '6px',
                               padding: '1px 8px', }} className="category_name"
@@ -849,17 +989,24 @@ showModal()
               Item name
             </div>
             <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Full price</div>
-            <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+            {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+            {colors.allow_half_price ? <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div> : null}
           </div>
           {offerShow.length > 0 ?
             <>
               {offerShow.map((showdata, id) => (
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex' }} onClick={e => callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata))}>
                   <div className="showimg_div" >
-
+                    {console.log(totalFullPrice(showdata))}
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
+                    {/* <button className="add_product" style={{
+                      color: colors.headingColor,
+                      backgroundColor: colors.headingBackgroundColor,
+                      borderRadius: '6px',
+                    }} onClick={e => callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata))}> <GrFormAdd
+                      />Add</button> */}
                   </div>
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
@@ -871,11 +1018,13 @@ showModal()
                       >
                         <strike>  {showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</strike>
                       </h4>
-                      <h4 style={{ color: colors.subHeadingColor }}
+                      {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                      {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
                         <strike>  {showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</strike>
-                      </h4>
+                      </h4> : null}
                     </div>
 
                     <div className="price_description_container" >
@@ -886,24 +1035,26 @@ showModal()
                       >
                         ₹{totalFullPrice(showdata)}
                       </h4>
-                      <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
+                      {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                      {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
                         &nbsp;&nbsp;&nbsp;  ₹{totalHalfPrice(showdata)}
-                      </h4>
+                      </h4> : null}
                     </div>
 
-                    <div className="description_div" style={{display:'flex',paddingTop:'2%'}}
+                    <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                     //  style={{ margin: '3% 0 0 3%' }}
-                     >
+                    >
                       {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3> */}
                       {showdata.item_type == 'Veg' ? <>
-                        <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                       </> :
-                        <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                       }
-                      &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
+                      &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
 
                     </div>
                     <br />
@@ -964,7 +1115,10 @@ showModal()
           }
         </div>
 
-
+        {/* Added by rohan on - 5/4/2023
+            Reason- This will show one popup model to select option like full price and half price product. */}
+        <PopupDetail detail={clickedDetail} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
+        {/* end of code- Rohan */}
         <div id="flip_div_idd"
           className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
         >
@@ -1019,19 +1173,37 @@ showModal()
                           Item name
                         </div>
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor, }} >Full price</div>
-                        <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div>
+                        {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                        {colors.allow_half_price ? <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Half price</div> : null}
                       </div>
 
-                      {itemList.length > 0 ? <>
-                        {itemList.filter(i => i.category === data.id).map(m =>
-                          // <div style={{ border: '2px solid red', height: '100%', display: 'flex' }}>
 
-                          <div style={{ display: 'flex' }}>
+
+                      {itemList.length > 0 ? <>
+                        {itemList.filter(i => i.category === data.id).map(m => {
+                          // <div style={{ border: '2px solid red', height: '100%', display: 'flex' }}>
+                          // Added by rohan- on 5/4/23
+                          // Reason - To get dicounted amount to push in detail popup model
+                          var fullprice = m.price_full;
+                          var halfprice = m.price_half;
+                          if ((offerList.filter((data) => data.item_name === m.name)).length > 0) {
+                            fullprice = mainSectionFullPrice(m);
+                            halfprice = mainSectionHalfPrice(m);
+                          }
+                          // end of code
+                          return <div style={{ display: 'flex' }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}>
                             <div className="showimg_div" >
 
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
+                              {/* <button className="add_product" style={{
+                                color: colors.headingColor,
+                                backgroundColor: colors.headingBackgroundColor,
+                                borderRadius: '6px',
+                              }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> <GrFormAdd
+                                />Add</button> */}
                             </div>
                             {(offerList.filter((data) => data.item_name === m.name)).length > 0 ?
                               <>
@@ -1045,11 +1217,13 @@ showModal()
                                     >
                                       <strike>  {m.price_full ? '₹' + m.price_full : '---'}</strike>
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor }}
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
+
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
                                       <strike>  {m.price_half ? '₹' + m.price_half : '---'}</strike>
-                                    </h4>
+                                    </h4> : null}
                                   </div>
 
                                   <div className="price_description_container" >
@@ -1060,24 +1234,24 @@ showModal()
                                     >
                                       ₹{mainSectionFullPrice(m)}
                                     </h4>
-                                    <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
                                       &nbsp;&nbsp;&nbsp; ₹{mainSectionHalfPrice(m)}
-                                    </h4>
+                                    </h4> : null}
                                   </div>
 
-                                  <div className="description_div" style={{ display: 'flex',paddingTop:'2%' }} 
+                                  <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                                   // style={{ margin: '3% 0 0 3%' }}
                                   >
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3> */}
                                     {m.item_type == 'Veg' ? <>
-                                      <img src={vegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
-                                      <img src={nonVegIcon} style={{ width: '5%',height:'2%' }} alt="kk"></img>
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
                                     }
-                                    &nbsp; <span className="description_content" style={{alignItems:'center', color: colors.subHeadingColor }}>{m.description}</span>
+                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</span>
 
                                   </div>
                                   <br />
@@ -1095,10 +1269,11 @@ showModal()
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >{m.price_full ? '₹' + m.price_full : '---'}</h4>
+                                    {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
-                                    <h4 style={{ color: colors.subHeadingColor }}
+                                    {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_half ? '₹' + m.price_half : '---'}</h4>
+                                    >{m.price_half ? '₹' + m.price_half : '---'}</h4> : null}
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
@@ -1119,7 +1294,7 @@ showModal()
                             }
                           </div>
 
-                        )}
+                        })}
                       </> : null
                       }
                     </div>
@@ -1143,7 +1318,7 @@ showModal()
               <div id={id} className='all-menu'
                 onClick={
                   e => {
-                    // document.getElementById('search_box').value="";
+                    document.getElementById('search_box').value = "";
                     onMenuChange(id, data.id);
                     setSelected(id);
                   }
@@ -1163,7 +1338,7 @@ showModal()
             //  border: '2px solid green'
           }}>
             <button style={{
-              backgroundColor: "#9b6043"
+              backgroundColor: colors.bannerColor
             }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{ color: 'white' }} /></button>
 
           </div>
@@ -1176,26 +1351,26 @@ showModal()
       {/* Added by Om on 31-03-23
       Reason : When offer is empty then show this modal */}
       <>
-        <Modal style={{padding:'0% !important'}} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
+        <Modal style={{ padding: '0% !important' }} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
           <div
-            >
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img
-              src={nodataOffer}
-              style={{height:"30vh",width:'85vw'}}
+          >
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <img
+                src={noOfferImg}
+                style={{ height: "30vh", width: '85vw' }}
               // className='nodata_image'
-               />
+              />
 
+            </div>
+            <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px', padding: '0', margin: '0' }}>
+              Currently no items are available</h5>
           </div>
-          <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px',padding:'0',margin:'0' }}>
-            Currently no items are available</h5>
-        </div>
         </Modal>
       </>
       {/* End of addition */}
 
-      <div className="inlandscapemode" style={{color:colors.subHeadingColor}}>
-       <img src={landscapeMode} style={{height:'80vh'}} alt="" className="landscapimg"/>
+      <div className="inlandscapemode" style={{ color: colors.subHeadingColor }}>
+        <img src={landscapeMode} style={{ height: '80vh' }} alt="" className="landscapimg" />
       </div>
 
       {/* } */}

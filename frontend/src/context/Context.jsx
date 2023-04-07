@@ -17,15 +17,30 @@ export default function Context(props) {
         backgroundTheme: 'white',
         subHeadingColor: 'black',
         bannerColor: '#9b6043',
-        // headingBackgroundColor: '',
+        headingBackgroundColor: '',
         subheadingBackgroundColor: '#fcf4e7',
-
+        // added by rohan- 6/4/23 - To add half price shown functionality
+        allow_half_price:true
     })
 
     // Added by yuvraj on 22-1-2023
     // Reason - to set searched value
     var [searchedValue, setSearchedValue] = useState("")
     // End of searched value
+
+    // Added by rohan - on 6/4/2023
+    // Reason - This cart variable save list of item
+    var [cart,setCart]=useState([])
+
+    useEffect(()=>{
+    if(JSON.parse(localStorage.getItem("cart"))){
+        setCart(JSON.parse(localStorage.getItem("cart")))
+    }
+    else{
+        setCart([])
+    }
+    },[])
+    // end of cart variable
 
     return (
         <>
@@ -34,7 +49,8 @@ export default function Context(props) {
                 setTenantName,
                 searchedValue,
                 setSearchedValue,
-                colors,setColors
+                colors,setColors,
+                cart,setCart
             }}>
                 {props.children}
             </GlobalContext.Provider>

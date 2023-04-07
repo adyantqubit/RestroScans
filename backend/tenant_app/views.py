@@ -19,10 +19,13 @@ class TenantAPIView(APIView):
         from admin_app.models import Tenant
         from admin_app.serializers import TenantListSerializer
         tenant=Tenant.objects.get(tenant_name=tenant)
+        visitCount=VisitCount.objects.get(tenant_name=tenant)
+        visitCount.count=visitCount.count+1
+        visitCount.save()
         tenantListSerializer=TenantListSerializer(tenant)
         return Response({
             "msg":"success",
-            "tenantDetails":tenantListSerializer.data,
+            "tenantDetails":tenantListSerializer.data
             })
 # End of addition
 
@@ -30,10 +33,14 @@ class MenuAPIView(APIView):
     def get(self,request,tenant):
         print('gfagfgf', tenant)
         menuList=Menu.objects.all().order_by('name')
-        menuListSerializer=MenuListSerializer(menuList,many=True)
-        categoryList=Category.objects.all().order_by('name')
+        var = menuList.filter(is_active = True) 
+        menuData = MenuListSerializer(var, many =True)
+
+        categoryList=Category.objects.filter(is_active=True, menu__is_active=True).order_by('name')
         categoryListSerializer=CategoryListSerializer(categoryList,many=True)
-        itemList=Item.objects.all().order_by('name')
+
+        # itemList=Item.objects.all().order_by('name')
+        itemList=Item.objects.filter(is_active=True, category__menu__is_active=True,category__is_active=True).order_by('name')
         itemListSerializer=ItemListSerializer(itemList,many=True)
 
         # Commented by Om on 16-02-23
@@ -47,7 +54,8 @@ class MenuAPIView(APIView):
             # Commented by Om
             # "tenantDetails":tenantListSerializer.data,
             # End of commented code
-            "menuList":menuListSerializer.data,
+            "menuList":menuData.data,
+            # "menuList":menuListSerializer.data,
             "categoryList":categoryListSerializer.data,
             "itemList":itemListSerializer.data
             })
@@ -64,6 +72,18 @@ class MenuAPIView(APIView):
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
+    # Added by Yuvraj Sahu on 6-4-2023
+    # Reason - to update menu
+    def put(self, request,tenant, pk):
+        id = pk
+        print("update method",request.data)
+        menuObj = Menu.objects.get(id = id)
+        serializedData = MenuListSerializer(menuObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({"msg":"Updated"}, status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
 
 """
 End of code addition
@@ -85,6 +105,20 @@ class CategoryAPIView(APIView):
             return Response({"msg":"success"},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
+
+    # Added by Yuvraj Sahu on 6-4-2023
+    # Reason - to update category
+    def put(self, request,tenant, pk):
+        id = pk
+        print("update method",request.data)
+        categoryObj = Category.objects.get(id = id)
+        serializedData = CategorySaveSerializer(categoryObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
+
     
 class ItemAPIView(APIView):
 #     def get(self,request,tenant):
@@ -103,6 +137,20 @@ class ItemAPIView(APIView):
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
+    # Added by Yuvraj Sahu on 6-4-2023
+    # Reason - to update item
+    def put(self, request,tenant, pk):
+        id = pk
+        print("update method",request.data)
+        itemObj = Item.objects.get(id = id)
+        serializedData = ItemSaveSerializer(itemObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
+
+
 # Added by Om on 01-03-23
 # Reason : Show the Offer details
 class OfferAPIView(APIView):
@@ -110,7 +158,8 @@ class OfferAPIView(APIView):
         print('gfagfgf', tenant)
         offerBanner=Offer.objects.all()
         offerbannerSerializer=OfferBannerSerializer(offerBanner,many=True)
-        offerItemList=OfferItem.objects.all()
+        # offerItemList=OfferItem.objects.all()
+        offerItemList=OfferItem.objects.filter(item_name__is_active=True, item_name__category__is_active=True,item_name__category__menu__is_active=True)
         offeritemsSerializer=OfferItemsSerializer(offerItemList,many=True)
 
         return Response({
@@ -150,7 +199,7 @@ class SettingAPIView(APIView):
             settingSerializer={"data":0}
         return Response({
             "msg":"success",
-            "setting":settingSerializer.data,
+            "setting":settingSerializer['data'],
             })
     
     def post(self,request,tenant):
@@ -163,3 +212,24 @@ class SettingAPIView(APIView):
             },status=status.HTTP_201_CREATED)
         return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition
+
+
+# Added by Yuvraj Sahu on 6-4-2023
+# Reason - to get active and inactive menu,
+# category and item for restaurant (tenant)
+class getAllMenusAPI(APIView):
+    def get(self,request,tenant):
+        menuList=Menu.objects.all().order_by('name')
+        menuData = MenuListSerializer(menuList, many =True)
+        categoryList=Category.objects.all().order_by('name')
+        categoryListSerializer=CategoryListSerializer(categoryList,many=True)
+        itemList=Item.objects.all().order_by('name')
+        itemListSerializer=ItemListSerializer(itemList,many=True)
+
+        return Response({
+            "msg":"success",
+            "menuList":menuData.data,
+            "categoryList":categoryListSerializer.data,
+            "itemList":itemListSerializer.data
+            })
+# End of getting active and inactive

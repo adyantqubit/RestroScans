@@ -27,24 +27,26 @@ export default function AddCategory() {
   // Reason - to show menu list in dropdown
   const [menuSelected, setMenuSelected] = React.useState("");
   var [data, setData] = useState([]);
-  React.useEffect(()=> {
-    const getMenus = async() => {
-      var tenantInfo = await SecureStore.getItemAsync("tenantInfo")
-      const response = await getMenuList (JSON.parse(tenantInfo).tenant_name)
-      if (response.menuList){
-        capitals = setData(response.menuList.map(function(obj) {
-          obj['key'] = obj['id']; // Assign new key
-          obj['value'] = obj['name']; // Rename key
-          delete obj['id']; // Delete old key
-          delete obj['name']; // Delete name
-          delete obj['icon']; // Delete icon
-          return obj;
-      }));
+  React.useEffect(() => {
+    const getMenus = async () => {
+      var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+      const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+      if (response.menuList) {
+        capitals = setData(
+          response.menuList.map(function (obj) {
+            obj["key"] = obj["id"]; // Assign new key
+            obj["value"] = obj["name"]; // Rename key
+            delete obj["id"]; // Delete old key
+            delete obj["name"]; // Delete name
+            delete obj["icon"]; // Delete icon
+            return obj;
+          })
+        );
       }
-    }
+    };
     getMenus();
-    getTenant()
-  },[])
+    getTenant();
+  }, []);
   // End of show menu list
 
   var [isDisable, setIsDisable] = useState(false);
@@ -79,7 +81,7 @@ export default function AddCategory() {
   };
 
   const handleRegister = async (formValues) => {
-    setIsDisable(true)
+    setIsDisable(true);
     var formData = new FormData();
 
     const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
@@ -90,20 +92,22 @@ export default function AddCategory() {
       type: `image/${ext}`,
     });
     formData.append("name", formValues.name);
-    formData.append("menu",menuSelected);
+    formData.append("menu", menuSelected);
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    saveCategoryApi(formData, JSON.parse(tenantInfo).tenant_name).then((response) => {
-      if (response.msg) {
-        Alert.alert("Successful", response.msg);
-        setIsDisable(false)
-        // navigate('login')
+    saveCategoryApi(formData, JSON.parse(tenantInfo).tenant_name).then(
+      (response) => {
+        if (response.msg) {
+          Alert.alert("Successful", response.msg);
+          setIsDisable(false);
+          // navigate('login')
+        }
+        if (response.err) {
+          Alert.alert("Error", response.msg);
+          setIsDisable(false);
+        }
       }
-      if (response.err) {
-        Alert.alert("Error", response.msg);
-        setIsDisable(false)
-      }
-    });
+    );
   };
 
   const {
@@ -183,10 +187,7 @@ export default function AddCategory() {
         >
           <Button title="Add category icon" onPress={pickImage} />
           {icon && (
-            <Image
-              source={{ uri: icon }}
-              style={{ width: 200, height: 200 }}
-            />
+            <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
           )}
         </View>
 

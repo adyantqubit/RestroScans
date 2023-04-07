@@ -28,7 +28,7 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display=("id","name")
+    list_display=("id","name",'is_active')
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     search_fields=("name","id")
@@ -52,7 +52,7 @@ class MenuAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display=("id","name", "menu")
+    list_display=("id","name", "menu",'is_active')
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     search_fields=("name","menu")
@@ -78,7 +78,7 @@ class CategoryAdmin(admin.ModelAdmin):
         
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display=("id","name", "category", "price_full", "price_half")
+    list_display=("id","name", "category", "price_full", "price_half",'is_active')
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     search_fields=("name","menu")
@@ -197,14 +197,25 @@ class DescriptionAdmin(admin.ModelAdmin):
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User, Group
 
+admin.site.unregister(User)
+admin.site.unregister(Group)
 class MyUserAdmin(admin.ModelAdmin):
     from django.conf import settings
     list_display=("id","username", "email")
     def has_add_permission(self, request):
-        if request.tenant.schema_name != get_public_schema_name():
+        if request.tenant.schema_name != get_public_schema_name() :
             return not User.objects.exists()
         else:
             return True
+    # Added by Yuvraj Sahu on 1-4-2023
+    # Reason - to change fields for tenant not change for public 
+    def has_change_permission(self, request, obj=None):
+        if request.tenant.schema_name != get_public_schema_name() :
+            return False
+        else:
+            return True
+    # End of addition
+
 class MyGroupAdmin(admin.ModelAdmin):
     # list_display=["name"]
     def has_add_permission(self, request):
@@ -212,8 +223,15 @@ class MyGroupAdmin(admin.ModelAdmin):
             return False
         else:
             return True
-admin.site.unregister(User)
-admin.site.unregister(Group)
+    # Added by Yuvraj Sahu on 1-4-2023
+    # Reason - to change fields for tenant not change for public
+    def has_change_permission(self, request, obj=None):
+        if request.tenant.schema_name != get_public_schema_name() :
+            return False
+        else:
+            return True
+    # End of addition
+        
 admin.site.register(User, MyUserAdmin)
 admin.site.register(Group, MyGroupAdmin)
 # End of addition

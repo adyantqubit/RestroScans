@@ -20,7 +20,6 @@ import { colors } from "../Colours/globalColor";
 // import { Country, State, City } from "country-state-city";
 
 export default function AddMenu() {
-
   var [isDisable, setIsDisable] = useState(false);
 
   const [tempPhoto, setTempPhoto] = useState(null);
@@ -51,10 +50,10 @@ export default function AddMenu() {
   // },[state])
   // End of re render
 
-  useEffect(()=>{
+  useEffect(() => {
     getTenant();
     // getAllMenuList()
-  },[])
+  }, []);
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get tenant from localStorage
   var [tenant, setTenant] = useState("");
@@ -93,14 +92,13 @@ export default function AddMenu() {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
         // navigate('login')
-        setState("stateChanged")
+        // setState("stateChanged")
       }
       if (response.err) {
         Alert.alert("Error", response.err);
       }
     });
   };
-
 
   const {
     control,
@@ -119,8 +117,6 @@ export default function AddMenu() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View>
-        </View>
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -165,22 +161,31 @@ export default function AddMenu() {
           />
         </View>
 
-        <View style={{display: 'flex', flexDirection: 'row', width: '93%', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>
-        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-        <Text>Upload icon</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        >
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          <Text>Upload icon</Text>
         </View>
         <View
           style={{
-            display: 'flex',
+            display: "flex",
             alignItems: "center",
             justifyContent: "center",
             // borderColor: 'black',
-            borderRadius: 3 ,
+            borderRadius: 3,
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: 'row',
-            justifyContent: 'space-around'
+            flexDirection: "row",
+            justifyContent: "space-around",
           }}
         >
           <Button title="Add menu icon" onPress={pickImage} />
@@ -215,8 +220,10 @@ export default function AddMenu() {
             </Text>
           </Pressable>
         </View>
-        {menuList.map((dt,id)=>(
-          <View key={id}><Text>{dt.name}</Text></View>
+        {menuList.map((dt, id) => (
+          <View key={id}>
+            <Text>{dt.name}</Text>
+          </View>
         ))}
       </View>
     </ScrollView>

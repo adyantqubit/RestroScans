@@ -39,9 +39,9 @@ export default function GlobalColor() {
             subHeadingColor: color.subheading_color,
             bannerColor: color.banner_heading_color,
             headingBackgroundColor:color.heading_bgcolor,
-            subheadingBackgroundColor:color.subheading_bgcolor
+            subheadingBackgroundColor:color.subheading_bgcolor,
             // backgroundTheme:color.length==0 ? color.background_color :'red'
-
+            allow_half_price:true
         })}
     },[color])
 

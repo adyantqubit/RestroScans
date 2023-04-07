@@ -11,6 +11,9 @@ import DrawerNavigation from "../navigation/DrawerNavigation";
 import SplashScreen from "../screens/SplashScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { colors } from "../Colours/globalColor";
+import CategoryListScreen from "../screens/CategoryListScreen";
+import ItemListScreen from "../screens/ItemListScreen";
+import EditItemScreen from "../screens/EditItemScreen";
 
 const AuthNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -50,7 +53,11 @@ const AuthNavigation = () => {
         >
           <Stack.Screen
             name="SplashScreen"
-            options={{ title: "Welcome", headerBackVisible: false,headerShown:false}}
+            options={{
+              title: "Welcome",
+              headerBackVisible: false,
+              headerShown: false,
+            }}
             component={SplashScreen}
             style={{ backgroundColor: "#841584" }}
           ></Stack.Screen>
@@ -78,8 +85,34 @@ const AuthNavigation = () => {
             name="DrawerScreens"
             options={{ title: "Welcome", headerShown: false }}
             component={DrawerNavigation}
-            
           ></Stack.Screen>
+
+          {/* Added by Yuvraj Sahu on 3-4-2023
+          Reason - to navigate category list screen */}
+          <Stack.Screen
+            name="CategoryListScreen"
+            options={{ title: "Menu Detail" }}
+            component={CategoryListScreen}
+          ></Stack.Screen>
+          {/* End of addition */}
+
+          {/* Added by Yuvraj Sahu on 3-4-2023
+          Reason - to navigate item list screen */}
+          <Stack.Screen
+            name="ItemListScreen"
+            options={{ title: "Category Detail" }}
+            component={ItemListScreen}
+          ></Stack.Screen>
+          {/* End of addition */}
+
+          {/* Added by Yuvraj Sahu on 5-4-2023
+          Reason - to navigate edit item screen */}
+          <Stack.Screen
+            name="ItemEditScreen"
+            options={{ title: "Item Detail" }}
+            component={EditItemScreen}
+          ></Stack.Screen>
+          {/* End of addition */}
         </Stack.Navigator>
       </NavigationContainer>
     </>

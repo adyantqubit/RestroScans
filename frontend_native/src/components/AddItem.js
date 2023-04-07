@@ -124,7 +124,7 @@ export default function AddItem() {
       category: "",
       description: "",
       price_full: "",
-      price_half:"",
+      price_half: "",
     },
   });
 

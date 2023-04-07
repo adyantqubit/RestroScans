@@ -24,6 +24,10 @@ class ItemListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name')
     category_img = serializers.ImageField(source='category.icon')
     menu_name = serializers.CharField(source='category.menu.name')
+    # Added by Yuvraj Sahu on 4-4-2023
+    # Reason - to get menu id in item list
+    menu_id = serializers.CharField(source='category.menu.id')
+    # End of addition
     menu_img = serializers.ImageField(source='category.menu.icon')
 
     class Meta:
