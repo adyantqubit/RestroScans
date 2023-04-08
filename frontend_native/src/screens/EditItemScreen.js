@@ -1,7 +1,7 @@
 // Created by Yuvraj Sahu on 6-4-2023
 // Reason - to edit item
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -23,11 +23,14 @@ import * as SecureStore from "expo-secure-store";
 import { SelectList } from "react-native-dropdown-select-list";
 import Checkbox from "expo-checkbox";
 import config from "../config/config";
+import { AppStateContext } from "../context/AppStateProvider";
 
 export default function EditItemScreen({ route, navigation }) {
   /* Get the param */
   const { itemID, categoryList, itemObj, categoryID, categoryName } =
     route.params;
+
+  var {render, setRender} = useContext(AppStateContext)
 
   // added by Yuvraj Sahu on 6-4-2023
   // Reason - to check checkbox
@@ -107,12 +110,14 @@ export default function EditItemScreen({ route, navigation }) {
     formData.append("price_full", formValues.price_full);
     formData.append("category", categorySelected);
     formData.append("description", formValues.description);
+    formData.append("is_active", isItemChecked);
 
     // console.log('formData------'+JSON.stringify(formData))
     updateItemApi(formData, tenant, itemID).then((response) => {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
+        setRender(!render)
         // navigate('login')
       }
       if (response.error) {
@@ -143,19 +148,22 @@ export default function EditItemScreen({ route, navigation }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text>Edit item</Text>
+      <Text style={styles.labels}>
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          Edit category name
+        </Text>
         <SelectList
           // onSelect={setCategorySelected}
           setSelected={setCategorySelected}
           data={categories}
           search={false}
-          boxStyles={{ borderRadius: 0 }} //override default styles
+          boxStyles={{ borderRadius: 5, alignSelf: "center", width: "93%", borderColor: "black", marginTop: 10 }} //override default styles
           defaultOption={{ key: categoryID, value: categoryName }}
         />
-        <View style={{ marginTop: 5 }}>
+        <View style={{ marginTop: 15 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Item name
+            Edit item name
           </Text>
           <Controller
             control={control}
@@ -199,7 +207,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Half price
+            Edit half price
           </Text>
           <Controller
             control={control}
@@ -244,7 +252,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Full price
+            Edit full price
           </Text>
           <Controller
             control={control}
@@ -289,7 +297,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Description
+            Edit description
           </Text>
           <Controller
             control={control}
@@ -343,7 +351,7 @@ export default function EditItemScreen({ route, navigation }) {
             justifyContent: "space-around",
           }}
         >
-          <Button title="Add item icon" onPress={pickImage} />
+          <Button title="Edit item icon" onPress={pickImage} />
           {icon && (
             <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
           )}
@@ -354,13 +362,15 @@ export default function EditItemScreen({ route, navigation }) {
             />
           )}
         </View>
+        <View style={styles.activeStatus}>
         <Checkbox
           // style={styles.checkbox}
           value={isItemChecked}
           onValueChange={setItemChecked}
           color={isItemChecked ? "#4630EB" : undefined}
         />
-        <Text>Active</Text>
+        <Text style={styles.activeLable}>Active status</Text>
+        </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
@@ -380,7 +390,7 @@ export default function EditItemScreen({ route, navigation }) {
                 fontWeight: "bold",
               }}
             >
-              Save
+              Save changes
             </Text>
           </Pressable>
         </View>
@@ -395,6 +405,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",
+    paddingTop: 10
   },
   mainHeader: {
     marginTop: 10,
@@ -477,4 +488,14 @@ const styles = StyleSheet.create({
     margin: 15,
     marginTop: 20,
   },
+  activeStatus: {
+    display: "flex",
+    flexDirection: "row",
+    width: "93%",
+    alignSelf: "center",
+    marginTop: 10
+  },
+  activeLable: {
+    marginLeft: 10
+  }
 });

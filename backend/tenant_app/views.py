@@ -77,11 +77,27 @@ class MenuAPIView(APIView):
     def put(self, request,tenant, pk):
         id = pk
         print("update method",request.data)
+        # Added by Yuvraj Sahu on 7-4-2023
+        # reason - to get updated menu category and item
+        menuList=Menu.objects.all().order_by('name')
+        menuData = MenuListSerializer(menuList, many =True)
+        categoryList=Category.objects.all().order_by('name')
+        categoryListSerializer=CategoryListSerializer(categoryList,many=True)
+        itemList=Item.objects.all().order_by('name')
+        itemListSerializer=ItemListSerializer(itemList,many=True)
+        
         menuObj = Menu.objects.get(id = id)
         serializedData = MenuListSerializer(menuObj, data=request.data)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
-            return Response({"msg":"Updated"}, status=status.HTTP_201_CREATED)
+            # return Response({"msg":"Updated"}, status=status.HTTP_201_CREATED)
+            return Response({
+            "msg":"success",
+            "menuList":menuData.data,
+            "categoryList":categoryListSerializer.data,
+            "itemList":itemListSerializer.data
+            })
+            # End of addition
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
@@ -111,11 +127,26 @@ class CategoryAPIView(APIView):
     def put(self, request,tenant, pk):
         id = pk
         print("update method",request.data)
+        # Added by Yuvraj Sahu on 7-4-2023
+        # reason - to get updated menu category and item
+        menuList=Menu.objects.all().order_by('name')
+        menuData = MenuListSerializer(menuList, many =True)
+        categoryList=Category.objects.all().order_by('name')
+        categoryListSerializer=CategoryListSerializer(categoryList,many=True)
+        itemList=Item.objects.all().order_by('name')
+        itemListSerializer=ItemListSerializer(itemList,many=True)
+        # End of addition
         categoryObj = Category.objects.get(id = id)
         serializedData = CategorySaveSerializer(categoryObj, data=request.data)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
-            return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
+            return Response({
+            "msg":"Updated",
+            "menuList":menuData.data,
+            "categoryList":categoryListSerializer.data,
+            "itemList":itemListSerializer.data
+            })
+            # End of addition
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 

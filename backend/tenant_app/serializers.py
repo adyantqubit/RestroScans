@@ -8,6 +8,10 @@ class MenuListSerializer(serializers.ModelSerializer):
 
 class CategoryListSerializer(serializers.ModelSerializer):
     menu_name = serializers.CharField(source='menu.name')
+    # Added by Yuvraj Sahu on 8-4-2023
+    # Reason - to get menu id
+    menu_id = serializers.CharField(source='menu.id')
+    # End of addition
     class Meta:
         model=Category
         fields='__all__'
@@ -22,6 +26,10 @@ class CategorySaveSerializer(serializers.ModelSerializer):
 
 class ItemListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name')
+    # Added by Yuvraj Sahu on 7-4-2023
+    # Reason - to get category id
+    category_id = serializers.CharField(source='category.id')
+    # End of addition
     category_img = serializers.ImageField(source='category.icon')
     menu_name = serializers.CharField(source='category.menu.name')
     # Added by Yuvraj Sahu on 4-4-2023

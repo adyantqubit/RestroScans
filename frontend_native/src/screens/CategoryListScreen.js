@@ -13,7 +13,7 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import { saveMenuApi, updateMenuApi } from "../api/Services";
+import { saveMenuApi, updateMenuApi, getAllMenuList } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import { useForm, Controller } from "react-hook-form";
@@ -21,6 +21,9 @@ import { colors } from "../Colours/globalColor";
 import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Checkbox from "expo-checkbox";
+import { useEffect } from "react";
+import { useContext } from "react";
+import {AppStateContext} from "../context/AppStateProvider";
 
 export default function CategoryListScreen({ route, navigation }) {
   /* Get the param */
@@ -30,6 +33,37 @@ export default function CategoryListScreen({ route, navigation }) {
   const [icon, setImage] = useState(null);
   var [isDisable, setIsDisable] = useState(false);
   const [isMenuChecked, setMenuChecked] = useState(menuObj[0].is_active);
+
+
+// Added by Yuvraj Sahu on 7-4-2023
+  // Reason - to get all menu, category and item and rerender page
+  var {render, setRender} = useContext(AppStateContext)
+
+  useEffect(()=>{
+    getAllmenus()
+  },[render])
+
+  var [menuObject, setMenuObject] = useState(menuObj);
+  //  var menuObject = menuObj
+  var [categoryObject, setCategoryObject] = useState([]);
+  var [itemObject, setItemObject] = useState([""]);
+  const getAllmenus = async () => {
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+    var response = await getAllMenuList (tenant)
+    if (response) {
+      // setMenuObject((response.menuList).filter((dt) => dt.id == menuID )[0])
+      setCategoryObject((response.categoryList).filter((dt) => dt.menu_id == menuID ))
+    }
+  }
+
+  useEffect(()=>{
+    // setMenuObject()
+    // getAllmenus()
+  },[])
+// End of addition
+
 
   // To upload image
   const pickImage = async () => {
@@ -64,13 +98,19 @@ export default function CategoryListScreen({ route, navigation }) {
       });
     }
     formData.append("name", formValues.name);
-    formData.append("is_active", isMenuChecked)
+    // Added by Yuvraj Sahu on 7-4-2023
+    // Reason - to add active status and reRender page
+    formData.append("is_active", isMenuChecked);
     updateMenuApi(formData, tenant, menuID).then((response) => {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
+        var a = response.menuList.filter((dt)=>dt.id == menuID)
+        setMenuObject(a)
+        setRender(!render)
         // navigate('login')
         // setState("stateChanged")
       }
+      // end of addition
       if (response.error) {
         Alert.alert("Error", response.error);
       }
@@ -87,14 +127,18 @@ export default function CategoryListScreen({ route, navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: menuObj[0].name,
+      // name: menuObj[0].name,
+      name: menuObject[0].name
     },
   });
 
   // Added by Yuvraj Sahu on 4-4-2023
   // Reason - to navigate item screan and send filtered item list
   function itemFilter(categoryID, categoryName) {
-    var categoryObj = filteredCategories.filter((dt) => dt.id == categoryID);
+  	// Modified by Yuvraj Sahu on 7-4-2023
+  	// Reason - to filter new data
+    var categoryObj = categoryObject.filter((dt) => dt.id == categoryID);
+    // End of modification
     var filteredItems = itemList.filter((e) => e.category == categoryID);
     navigation.navigate("ItemListScreen", {
       categoryID: categoryID,
@@ -229,8 +273,8 @@ export default function CategoryListScreen({ route, navigation }) {
           </Pressable>
         </View>
         <View style={styles.categoryContainer}>
-          <Text style={styles.categoryLable}>{menuName}</Text>
-          {filteredCategories.map((categoryData, id) => (
+          <Text style={styles.categoryLable}>Categories inside {menuObject[0].name}</Text>
+          {categoryObject.map((categoryData, id) => (
             <Pressable
               key={id}
               style={styles.categoryListContainer}
@@ -256,6 +300,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
+    backgroundColor: "white",
+    paddingTop: 10
   },
   mainHeader: {
     marginTop: 10,
@@ -375,7 +421,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "93%",
-    alignSelf: "center"
+    alignSelf: "center",
+    marginTop: 5
   },
   activeLable: {
     marginLeft: 10

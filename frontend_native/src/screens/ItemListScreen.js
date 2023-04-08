@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
+  getAllMenuList,
   getMenuList,
   saveCategoryApi,
   updateCategoryApi,
@@ -24,6 +25,8 @@ import { useForm, Controller } from "react-hook-form";
 import { SelectList } from "react-native-dropdown-select-list";
 import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
+import { useContext } from "react";
+import { AppStateContext } from "../context/AppStateProvider";
 
 export default function ItemListScreen({ route, navigation }) {
   /* Get the param */
@@ -46,6 +49,11 @@ export default function ItemListScreen({ route, navigation }) {
   const [tempPhoto, setTempPhoto] = useState(null);
   // End of addition
 
+  // added by Yuvraj Sahu on 7-4-2023
+  // Reason - to set category object
+  var [categoryObject, setCategoryObject] = useState(categoryObj);
+  // End of addition
+
   // added by Yuvraj Sahu on 6-4-2023
   // Reason - to check checkbox
   const [isCategoryChecked, setCategoryChecked] = useState(
@@ -53,12 +61,14 @@ export default function ItemListScreen({ route, navigation }) {
   );
   // End of addition
 
+  var {render, setRender} = useContext(AppStateContext)
   // Added by Yuvraj Sahu on 5-4-2023
   // Reason - to show category list in dropdown
   const [menuSelected, setMenuSelected] = React.useState("");
   var [data, setData] = useState([]);
   React.useEffect(() => {
     const getMenus = async () => {
+      
       // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
       // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
       // if (response.menuList) {
@@ -76,7 +86,24 @@ export default function ItemListScreen({ route, navigation }) {
     };
     getMenus();
     // getTenant()
-  }, []);
+    getAllmenus()
+  }, [render]);
+
+  // Added by Yuvraj Sahu on 7-4-2023
+  // Reason - to get all menuus for filteration
+  var [itemObjects, setItemObjects] =useState([]);
+  const getAllmenus = async () => {
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+    var response = await getAllMenuList (tenant)
+    if (response) {
+      // setMenuObject((response.menuList).filter((dt) => dt.id == menuID )[0])
+      setItemObjects((response.itemList).filter((dt) => dt.category_id == categoryID ))
+      // setRender(!render)
+    }
+  }
+    // end of getting menus
 
   //   For upload image
   const pickImage = async () => {
@@ -109,6 +136,8 @@ export default function ItemListScreen({ route, navigation }) {
     }
     formData.append("name", formValues.name);
     formData.append("menu", menuSelected);
+    formData.append("is_active", isCategoryChecked);
+    // setRender(!render)
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     updateCategoryApi(
@@ -119,6 +148,11 @@ export default function ItemListScreen({ route, navigation }) {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
+        setRender(!render)
+        // alert(JSON.stringify(response.categoryList))
+        var categories = (response.categoryList).filter((dt)=>dt.id == categoryID)
+        setCategoryObject(categories)
+        
         // navigate('login')
       }
       if (response.error) {
@@ -131,7 +165,7 @@ export default function ItemListScreen({ route, navigation }) {
 
   // Sending item id for edit item data
   function handleEditItem(itemID) {
-    itemObj = itemList.filter((dt) => dt.id == itemID);
+    var itemObj = itemObjects.filter((dt) => dt.id == itemID);
     navigation.navigate("ItemEditScreen", {
       itemID: itemID,
       categoryList: categoryList,
@@ -179,13 +213,14 @@ export default function ItemListScreen({ route, navigation }) {
             alignSelf: "center",
             borderRadius: 5,
             borderColor: "black",
+            marginTop: 10,
           }} //override default styles
           // Added by Yuvraj Sahu on 6-4-2023
           // Reason - to select default value in dropdown
           defaultOption={{ key: menuID, value: menuName }}
           // End of default value selection
         />
-        <View style={{ marginTop: 5 }}>
+        <View style={{ marginTop: 15 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Edit category name
@@ -243,7 +278,7 @@ export default function ItemListScreen({ route, navigation }) {
             justifyContent: "space-around",
           }}
         >
-          <Button title="Add category icon" onPress={pickImage} />
+          <Button title="Edit category icon" onPress={pickImage} />
           {icon && (
             <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
           )}
@@ -254,14 +289,15 @@ export default function ItemListScreen({ route, navigation }) {
             />
           )}
         </View>
+        <View style={styles.activeStatus}>
         <Checkbox
           // style={styles.checkbox}
           value={isCategoryChecked}
           onValueChange={setCategoryChecked}
           color={isCategoryChecked ? "#4630EB" : undefined}
         />
-        <Text>Active</Text>
-
+        <Text style={styles.activeLable}>Active status</Text>
+        </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
@@ -281,14 +317,14 @@ export default function ItemListScreen({ route, navigation }) {
                 fontWeight: "bold",
               }}
             >
-              Save
+              Save changes
             </Text>
           </Pressable>
         </View>
       </View>
       <View style={styles.categoryContainer}>
-        <Text style={styles.categoryLable}>{categoryName}</Text>
-        {itemList.map((dt, id) => (
+        <Text style={styles.categoryLable}>Items inside {categoryObject[0].name}</Text>
+        {itemObjects.map((dt, id) => (
           <Pressable
             key={id}
             style={styles.categoryListContainer}
@@ -316,6 +352,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",
+    paddingTop: 15
   },
   labels: {
     paddingHorizontal: 10,
@@ -368,4 +405,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  activeStatus: {
+    display: "flex",
+    flexDirection: "row",
+    width: "93%",
+    alignSelf: "center",
+    marginTop: 10
+  },
+  activeLable: {
+    marginLeft: 10
+  }
 });

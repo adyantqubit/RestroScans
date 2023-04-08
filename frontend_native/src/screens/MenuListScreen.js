@@ -12,14 +12,18 @@ import { colors } from "../Colours/globalColor";
 import config, { tenantName } from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
+import { useContext } from "react";
+import { AppStateContext } from "../context/AppStateProvider";
 
 // Added by Yuvraj Sahu on 15-3-2023
 // Reason - to tenant from localstorage and get menu lost
+
 export default function MenuListScreen({ navigation }) {
+  var {render, setRender} = useContext(AppStateContext)
   useEffect(() => {
     getAllMenus();
     // getTenant();
-  }, []);
+  }, [render]);
 
   var [menuList, setMenuList] = useState([]);
   var [categoryList, setCategoryList] = useState([]);
