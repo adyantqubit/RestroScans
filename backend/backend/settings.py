@@ -176,7 +176,7 @@ DATABASES = {
         'ENGINE': 'tenant_schemas.postgresql_backend',
         'NAME': 'restroscanner',
         'USER':'postgres',
-        'PASSWORD':'admin',
+        'PASSWORD':'postgres123',
         'HOST':'localhost',
         'PORT':'5432',
     }
@@ -273,8 +273,8 @@ Added by Yuvraj Sahu on 28-3-2023
 Reason - to set domain
 """
 DOMAIN_NAME = "restroscans"
-FRONTEND_URL = "192.168.1.4:3000/"
-BACKEND_URL = "192.168.1.4:8000/"
+FRONTEND_URL = "restroscans.com/"
+BACKEND_URL = "restroscans.com/"
 API_VERSION = "v1/"
 """
 End of code addition

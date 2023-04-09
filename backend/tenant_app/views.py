@@ -18,11 +18,15 @@ class TenantAPIView(APIView):
     def get(self,request,tenant):
         from admin_app.models import Tenant
         from admin_app.serializers import TenantListSerializer
-        tenant=Tenant.objects.get(tenant_name=tenant)
-        visitCount=VisitCount.objects.get(tenant_name=tenant)
+        tenant_obj=Tenant.objects.get(tenant_name=tenant)
+        try:
+            visitCount=VisitCount.objects.get(tenant_name=tenant)
+        except VisitCount.DoesNotExist:
+            visitCount = VisitCount()
+            visitCount.tenant_name = tenant
         visitCount.count=visitCount.count+1
         visitCount.save()
-        tenantListSerializer=TenantListSerializer(tenant)
+        tenantListSerializer=TenantListSerializer(tenant_obj)
         return Response({
             "msg":"success",
             "tenantDetails":tenantListSerializer.data
