@@ -1,84 +1,214 @@
-//
+//created on 8/4/23 - Rohan
+// reason this is a popup container where you will get option to select half and full plate
 
 import React, { useContext, useEffect, useState } from 'react'
 import style from "./popupDetail.module.css"
 import { AiOutlineClose } from "react-icons/ai"
 import { GlobalContext } from '../../context/Context'
-import img from "../../images/desert.jpg"
-import siteConfig from "../../config/config";
 import { message } from 'antd';
+import config from '../../config/config'
 
-const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => {
+// created by rohan - 9/4/23
+// reason - to remove one specific index element from list
+function elementRemover(specificIndex, list) {
+    var temp = [];
+    for (var i = 0; i < list.length; i++) {
+        // this will ignore specific index and push other elements
+        if (i != specificIndex)
+            temp.push(list[i])
+    }
+
+    return temp
+}
+
+
+const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     const { colors, cart, setCart } = useContext(GlobalContext)
     const [messageApi, contextHolder] = message.useMessage();
-    const [quantity,setQuantity]=useState(1)
+    var [quantityhalf, setQuantityHalf] = useState(0)
+    var [quantityFull, setQuantityFull] = useState(0)
+    var [sizeSelected, setSizeSlelected] = useState(null)
 
     useEffect(() => {
-        console.log(detail)
-    }, [detail])
+        // whenever diffrent item is selected it reset the current quantity of item from cart 
+        if (item) {
+            setQuantityFull(CurrentAddedQuantity("Full Plate"))
+            setQuantityHalf(CurrentAddedQuantity("Half Plate"))
+        }
+    }, [item])
+
 
     function closePopup() {
         setDetailPopupVisiblity(!isDetailPopupOpen)
     }
 
-    function AddToCart(size) {
 
-        if (size == "Half Plate")
-            var selected_price = detail.discounted_half_price;
-        else
-            var selected_price = detail.discounted_full_price;
+    // created by -Rohan - 9/4/23
+    // reason - this will add ,delete and increase quantity of an item this item will hit on submit button 
+    function AddItemToCart() {
+        var cartTemp = cart
 
-        const item = {
-            id: detail.id,
-            name: detail.name,
-            price: selected_price,
-            quantity: quantity,
-            serve_size: size,
-            img: detail.icon
-        }
+        if (quantityFull > 0) {
+            // For full price is increase by one or already present in item with any quantity
+            // then it find the index of selected item in cart
+            var cartIndex = cart.findIndex(c => c.id == item.id && c.serve_size == "Full Plate")
+            if (cartIndex != -1) {
+                // if found then set current increases or deacrease amount to cart item and pass a message
+                cartTemp[cartIndex].quantity = quantityFull
+                setCart([...cartTemp])
+                notification("Successfully quantity updated.")
+            } else {
+                // if selected item is not found then it means it is new item with quantity so we have to push 
+                // item with entered quantity
+                cartTemp = [...cartTemp, cartDataCreate(quantityFull, "Full Plate", item.discounted_full_price)]
+                setCart([...cartTemp])
+                notification("Successfully added to your list.")
 
-        if (cart.filter(c => c.id == item.id && c.serve_size == item.serve_size).length > 0) {
-            var cartId = cart.findIndex(c => c.id == item.id)
-            cart[cartId].quantity = cart[cartId].quantity +quantity
-            setCart(cart)
-            localStorage.setItem("cart", JSON.stringify(cart))
-
-            messageApi.open({
-                type: 'success',
-                content: `Successfully ${cart[cartId].quantity} ${detail.name} is added.`,
-                className: 'custom-class',
-                style: {
-                    marginTop: '5vh',
-                    fontSize: "16px",
-                    letterSpacing: "1.3px",
-                    fontFamily: "Times News Roman",
-                    color: colors.headingColor,
-                },
-                key: 1
-            });
-            console.log("cart added ---------------------if")
+            }
         }
         else {
-            setCart([...cart, item])
-            localStorage.setItem("cart", JSON.stringify([...cart, item]))
-
-            messageApi.open({
-                type: 'success',
-                content: `${detail.name} is added successfully.`,
-                className: 'custom-class',
-                style: {
-                    marginTop: '5vh',
-                    fontSize: "16px",
-                    letterSpacing: "1.3px",
-                    fontFamily: "Times News Roman",
-                    color: colors.headingColor,
-                },
-            });
-
+            // if quantity of full plate is set to zero means they want to remove this item 
+            if (cart.findIndex(c => c.id == item.id && c.serve_size == "Full Plate") != -1) {
+                // first find the index of selected item
+                var cartId = cart.findIndex(c => c.id == item.id && c.serve_size == "Full Plate")
+                if (cartId != -1) {
+                    // if found index then remove item 
+                    setCart(elementRemover(cartId, cartTemp))
+                    cartTemp = elementRemover(cartId, cartTemp)
+                    notification("Item is succesfully removed from list.")
+                }
+            }
         }
+
+        if (quantityhalf > 0) {
+            // For half price is increase by one or already present in item with any quantity
+            // then it find the index of selected item in cart
+            var cartId = cartTemp.findIndex(c => c.id == item.id && c.serve_size == "Half Plate")
+            if (cartId != -1) {
+                // if found then set current increases or deacrease amount to cart item and pass a message
+                cartTemp[cartId].quantity = quantityhalf
+                setCart(cartTemp)
+                notification("Successfully quantity updated.")
+            } else {
+                // if selected item is not found then it means it is new item with quantity so we have to push 
+                // item with entered quantity
+                cartTemp = [...cartTemp, cartDataCreate(quantityhalf, "Half Plate", item.discounted_full_price)]
+                setCart(cartTemp)
+                notification("Successfully added to your list.")
+            }
+        }
+        else {
+            // if quantity of half plate is set to zero means they want to remove this item 
+            if (cartTemp.findIndex(c => c.id == item.id && c.serve_size == "Half Plate") != -1) {
+                // first find the index of selected item
+                var cartId = cartTemp.findIndex(c => c.id == item.id && c.serve_size == "Half Plate")
+                if (cartId != -1) {
+                    // if found index then remove item 
+                    setCart(elementRemover(cartId, cartTemp))
+                    cartTemp = elementRemover(cartId, cartTemp)
+                    notification("Item is succesfully removed from list.")
+                }
+            }
+        }
+
+        // after all updation updated cart value is set to localstorage and close the popup container
+        localStorage.setItem("cart", JSON.stringify(cartTemp))
         setDetailPopupVisiblity(!isDetailPopupOpen)
     }
 
+    // created by rohan - 9/4/23
+    // reason - function to create new data for cart
+    function cartDataCreate(quantity, size, price) {
+
+        return {
+            id: item.id,
+            name: item.name,
+            price: price,
+            quantity: quantity,
+            serve_size: size,
+            icon: item.icon,
+            discounted_full_price: item.discounted_full_price,
+            discounted_half_price: item.discounted_half_price
+        }
+    }
+
+    // created by rohan - 9/4/23
+    // reason - this will return current quantity of opened item only we have to pass the size the it fetch 
+    function CurrentAddedQuantity(size) {
+        var cartId = cart.findIndex(c => c.id == item.id && c.serve_size == size)
+        if (cartId != -1) {
+            return cart[cartId].quantity;
+        }
+        else {
+            if (size == "Full Plate") {
+                setQuantityFull(0)
+                return 0;
+            }
+            else {
+                setQuantityHalf(0)
+                return 0;
+            }
+        }
+    }
+
+
+
+
+    //created by rohan- 9/4/23
+    // reason- quantity will decrease of specific size and ask confirmation befored decreasing to zero 
+    function decreamentQuantiy(size) {
+
+        if (size == "Full Plate") {
+            // for full plate first check if quantity is not 0 and 1 then deacrese contantly
+            if (quantityFull != 1 && quantityFull != 0) {
+                setQuantityFull(--quantityFull)
+            } else {
+                // if equal to 1 then find index of selected item
+                if (cart.findIndex(c => c.id == item.id && c.serve_size == "Full Plate") != -1)
+                    // if it is already in cart and want to turn into zero then one 
+                    // popup confirmation will show for selected size
+                    setSizeSlelected("Full Plate")
+                else
+                    // else is it is not in cart then simply turn it to zeeero without asking confirmation 
+                    if (quantityFull != 0) {
+                        setQuantityFull(--quantityFull)
+                    }
+            }
+        }
+        else {
+            // for half plate first check if quantity is not 0 and 1 then deacrese contantly
+            if (quantityhalf != 1 && quantityhalf != 0) {
+                // if equal to 1 then find index of selected item
+                setQuantityHalf(--quantityhalf)
+            } else {
+                if (cart.findIndex(c => c.id == item.id && c.serve_size == "Half Plate") != -1)
+                    // if it is already in cart and want to turn into zero then one 
+                    // popup confirmation will show for selected size
+                    setSizeSlelected("Half Plate")
+                else
+                    // else is it is not in cart then simply turn it to zeeero without asking confirmation 
+                    if (quantityhalf != 0)
+                        setQuantityHalf(--quantityhalf)
+            }
+        }
+
+    }
+
+    function notification(msg) {
+        messageApi.open({
+            type: 'success',
+            content: `${msg}`,
+            className: 'custom-class',
+            style: {
+                marginTop: '5vh',
+                fontSize: "16px",
+                letterSpacing: "1.3px",
+                fontFamily: "Times News Roman",
+                color: colors.headingColor,
+            },
+            key: 1
+        });
+    }
 
     return (
         <>
@@ -88,38 +218,78 @@ const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => 
                     <AiOutlineClose size={30} style={{ color: "#fff", margin: "auto 0" }} onClick={closePopup} />
                 </div>
 
-                {detail ? <div className={style.InformationBox} style={{ backgroundColor: colors.backgroundTheme }}>
+                {item ? <div className={style.InformationBox} style={{ backgroundColor: colors.backgroundTheme }}>
                     <div className={style.heading} style={{ color: colors.bannerColor }}>
                         Please select half or full plate
                     </div>
                     <div className={style.detailContainer}>
-                        <img className={style.productImg} src={siteConfig.siteURL + detail.icon} />
-                        <div className={style.titleContainer} >
-                            <div className={style.title} style={{ color: colors.headingColor }}>{detail.name}</div>
-                            <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
-                                <span className={style.sign} onClick={e=>{if(quantity!=1)setQuantity(quantity-1)}}>
-                                    -
-                                </span>
-                                {quantity}
-                                <span className={style.sign} onClick={e=>setQuantity(quantity+1)}>
-                                    +
-                                </span>
-                            </span>
+                        <div className={style.card} >
+                            <RemoveItem item={item} size={sizeSelected} currentSize="Full Plate" setSizeSlelected={setSizeSlelected} setQuantityFull={setQuantityFull} />
+                            <img alt="" src={config.siteURL + item.icon} className={style.img} />
+
+                            <div className={style.infomation}>
+
+                                <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
+                                <div>
+                                    <div className={style.row1}>
+                                        <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Full Plate</div>
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>? {item.discounted_full_price}</div>
+                                    </div>
+
+                                    <div className={style.row2} style={{ color: colors.subHeadingColor }}>
+                                        <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
+                                            <span className={style.sign} onClick={e => { decreamentQuantiy("Full Plate") }}>
+                                                -
+                                            </span>
+                                            {quantityFull}
+                                            <span className={style.sign} onClick={e => { setQuantityFull(++quantityFull) }}>
+                                                +
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        {item.discounted_half_price ? <div className={style.card} >
+                            <RemoveItem item={item} size={sizeSelected} currentSize="Half Plate" setSizeSlelected={setSizeSlelected} setQuantityHalf={setQuantityHalf} />
+                            <img alt="" src={config.siteURL + item.icon} className={style.img} />
+
+                            <div className={style.infomation}>
+
+                                <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
+                                <div>
+                                    <div className={style.row1}>
+                                        <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Half Plate</div>
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>? {item.discounted_half_price}</div>
+                                    </div>
+
+                                    <div className={style.row2} style={{ color: colors.subHeadingColor }}>
+                                        <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
+                                            <span className={style.sign} onClick={e => { decreamentQuantiy("Half Plate") }}>
+                                                -
+                                            </span>
+                                            {quantityhalf}
+                                            <span className={style.sign} onClick={e => { setQuantityHalf(++quantityhalf) }}>
+                                                +
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> :
+                            <div className={style.halfWarning} onClick={e => {
+
+                            }}>For this half plate is not available!</div>
+                        }
                     </div>
 
                     <div className={style.buttonContainer}>
-                        {colors.allow_half_price ?
-                            <button className={style.halfSelectionBtn}
-                                style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}
-                                onClick={e => AddToCart("Half Plate")}>
-                                Half Price<br />
-                                {detail.discounted_half_price}</button> : null}
                         <button className={style.fullSelectionBtn}
                             style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}
-                            onClick={e => AddToCart("Full Plate")}>
-                            Full Price <br />
-                            {detail.discounted_full_price}</button>
+                            onClick={AddItemToCart}
+                        >
+                            Submit
+                        </button>
                     </div>
                 </div> : null}
             </div> : null}
@@ -128,3 +298,41 @@ const PopupDetail = ({ detail, isDetailPopupOpen, setDetailPopupVisiblity }) => 
 }
 
 export default PopupDetail
+
+
+function RemoveItem({ item, size, currentSize, setSizeSlelected, setQuantityFull, setQuantityHalf }) {
+
+    const { cart, setCart } = useContext(GlobalContext)
+
+    // created by rohan - 9/4/23
+    // reason- to remove item from cart and turn quantity to zero in popup container
+    function removeFromCart() {
+        // if requested the find index of item
+        var itemIndex = cart.findIndex(c => c.id == item.id && c.serve_size == size)
+        setCart(elementRemover(itemIndex, cart))
+        // set updated value to localstorage
+        localStorage.setItem("cart", JSON.stringify(elementRemover(itemIndex, cart)))
+        setSizeSlelected(null)
+
+        // set quantity of selected size
+        if (size == "Full Plate") {
+            setQuantityFull(0)
+        }
+        else {
+            console.log("run half remove")
+            setQuantityHalf(0)
+        }
+
+    }
+
+    if (currentSize == size)
+        return (
+            <div className={style.removeContainer}>
+                <div className={style.warningText} >Are you sure want to remove this item?</div>
+                <div className={style.deleteBtnContainer}>
+                    <button className={style.btn} onClick={removeFromCart}>sure!</button>
+                    <button className={style.btn} onClick={e => { setSizeSlelected(null) }}>Cancel</button>
+                </div>
+            </div>
+        )
+}

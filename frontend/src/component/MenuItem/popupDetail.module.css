@@ -137,3 +137,213 @@
     font-size: 20px;
     font-weight: 600;
 }
+
+
+/* cart page css */
+
+.cartContainer{
+    /* background-color: aqua; */
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* row-gap: 15px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.card{
+    position: relative;
+    width:auto;
+    height: auto;
+    overflow: auto;
+    display: flex;
+    gap:10px;
+    margin: 5px 10px;
+    padding: 5px 5px;
+    box-shadow: 0px 0px 5px #212121;
+    border-radius: 10px;
+    /* background-color: black; */
+}
+
+.cartTitle{
+    font-size: 18px;
+    font-family: "Times New Roman";
+    letter-spacing: 1.7px;
+    font-weight: 600;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.img{
+    width: 22%;
+    height: fit-content;
+    /* height: 100%; */
+    padding-top: 8px;
+    border-radius: 25px;
+}
+
+.infomation{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+
+.title{
+    width: 90%;
+    font-size: 13px;
+    /* margin-top: 5px; */
+    letter-spacing: 1.7px;
+    font-family: "Times New Roman";
+    padding: 2px 5px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete{
+    width: 30px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    color: red;
+}
+
+.label{
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 400;
+}
+
+.price{
+    /* margin-top: 5px; */
+    padding: 3.5px 5px;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+}
+
+.quantityContainer{
+    background-color: #f2f2f2;
+    overflow: hidden;
+}
+
+.sign{
+    min-width: 20px;
+    min-height: 15px;
+    background-color: transparent;
+    margin: 0 3px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0px 5px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+
+.row1{
+    /* margin-top: 5px; */
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+
+}
+
+.row2{
+    /* margin-top: 5px; */
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+
+}
+
+.serve_size{
+    padding: 5px 5px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+}
+
+
+.removeContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #f2f2f2;
+    opacity: 0.9;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 10;
+    top:0;
+    left:0;
+}
+
+.warningText{
+    font-size: 16px;
+    letter-spacing: 1.4px;
+    text-align: center;
+    color: #000;
+    opacity: 1;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    /* margin: auto; */
+}
+
+.deleteBtnContainer{
+    margin-top: 10px;
+    width: 95%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    opacity: 1;
+}
+
+.btn{
+    opacity: 1;
+    width: 65px;
+    padding: 0 4px;
+    height: 30px;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    background-color: #212121;
+    margin-right:3px;
+    border: none;
+    border-radius: 5px;
+}
+
+.halfWarning{
+    font-size: 16px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1.7px;
+    margin-top: 10px;
+}

@@ -18,18 +18,26 @@
     font-size: 28px;
 }
 
+/* added by rohan - 9/4/23 */
+.add_buttonContainer{
+    display: flex;
+    justify-content: flex-end;
+
+}
+/*adde by rohan -9/4/23 */
 .add_product{
-    width: 100%;
-    height: 20px;
+    width: 30%;
+    min-height: 20px;
     border: none;
     font-family: "Times New Roman";
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1.5px;
+    margin:0 15px;
     padding: 4px 0;
 }
-/* added by rohan -6/4/23 */
 
+/* added by rohan -6/4/23 */
 .heading_container{
     display: flex;
 
@@ -48,10 +56,10 @@
     height: 12px;
     background-color: #212121;
     position: absolute;
-    top: 5px;
+    top: -5px;
     color:white;
     border-radius: 5px;
-    right:5px;
+    right:0px;
     padding: 2px;
     font-size: 10px;
     text-align: center;
@@ -210,7 +218,10 @@
 .searchpage_input {
     border-radius: 2%;
     /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
-    width: 90%;
+    /* added by Rohan -9/4/23*/
+    width: 70%;
+    margin: 0 2.5%;
+    /* end of code -9/4/23 */
      /* End of added code 05-04-2023 */
 }
 
@@ -570,6 +581,7 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
 .category_container {
     color: white;
     width: 84%;
+
     overflow: auto;
     display: flex;
     min-width: 84%;

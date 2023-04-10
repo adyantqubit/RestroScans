@@ -12,6 +12,8 @@ export const color3 = "#b3ff66";
 export default function Context(props) {
     
     var [tenantName, setTenantName]=useState([])
+    var [ restaurant_name,setRestaurant_name ]=useState("")
+
     var [colors,setColors] = useState({
         headingColor: 'black',
         backgroundTheme: 'white',
@@ -30,18 +32,28 @@ export default function Context(props) {
 
     // Added by rohan - on 6/4/2023
     // Reason - This cart variable save list of item
-    var [cart,setCart]=useState([])
+    var [cart, setCart] = useState([])
 
-    useEffect(()=>{
-    if(JSON.parse(localStorage.getItem("cart"))){
-        setCart(JSON.parse(localStorage.getItem("cart")))
-    }
-    else{
-        setCart([])
-    }
-    },[])
+
+    useEffect(() => {
+        if (JSON.parse(localStorage.getItem("cart"))) {
+            setCart(JSON.parse(localStorage.getItem("cart")))
+        }
+        else {
+            setCart([])
+        }
+    }, [])
+
+
     // end of cart variable
 
+    //Added by rohan - on 9/4/23
+    //reason - to save restroname globally
+    useEffect(() => {
+        if (localStorage.getItem("restroName"))
+        setRestaurant_name(localStorage.getItem("restroName"))
+    }, [localStorage.getItem("restroName")])
+    // end of code - 9/4/23
     return (
         <>
             <GlobalContext.Provider value={{
@@ -50,7 +62,8 @@ export default function Context(props) {
                 searchedValue,
                 setSearchedValue,
                 colors,setColors,
-                cart,setCart
+                cart,setCart,
+                restaurant_name,setRestaurant_name
             }}>
                 {props.children}
             </GlobalContext.Provider>

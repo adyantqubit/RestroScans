@@ -168,7 +168,9 @@ class Setting(models.Model):
     banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
     heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
     subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
-
+    # added by rohan- 6/4/23 Reason- to allow show half price
+    # cancel_btn=models.CharField(max_length=20,null=True,blank=True)
+    allow_half_price=models.BooleanField(default=True,null=True,blank=True)
     
     def __str__(self):
         return "color changed"

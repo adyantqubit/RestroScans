@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Footer.css';
-import { getfooterDetails } from '../../../api/Services';
+import { getfooterDetails } from '../../api/Services';
 
 function Footer() {
 

@@ -1,5 +1,5 @@
 // import "./MenuItem.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getmenuList, getofferDetails, gettenantList } from "../../api/Services";
 import siteConfig from "../../config/config";
@@ -8,12 +8,13 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Input, Button, Modal, notification, Drawer } from 'antd';
 import { CloseOutlined, LeftOutlined, RightOutlined, } from '@ant-design/icons'
-import Footer from "../layout/footer/Footer";
+import Footer from "../footer/Footer";
 import { FlippingPages } from 'flipping-pages';
 import 'flipping-pages/dist/style.css';
 import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
+import noOfferItem from "../../images/offer_default.jpg"
 import nodataImg from '../../images/not_offer.png'
 import noOfferImg from "../../images/offer_default.jpg"
 import nodataOffer from '../../images/offer 41.jpg'
@@ -21,7 +22,7 @@ import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
-import { FaClipboardList } from "react-icons/fa"
+import { MdRoomService } from "react-icons/md"
 
 // Import Swiper styles
 import "swiper/css";
@@ -79,6 +80,11 @@ function MenuItem() {
     setNewSearch('')
 
   }
+
+  // added by Rohan - 9/4/23
+  // Reason - To show again header in all pages
+  // document.getElementsByClassName("heading_container")[0].style.display="flex"
+  // end of code
 
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
@@ -516,7 +522,7 @@ function MenuItem() {
     clickedDetail = detail;
 
     setClickedDetail(clickedDetail);
-    setDetailPopupVisiblity(false)
+    setDetailPopupVisiblity(!isDetailPopupOpen)
   }
   // end of code of 5/4/23 Rohan
 
@@ -541,27 +547,15 @@ function MenuItem() {
 
       <div className='menu_maindiv'
         style={{ backgroundColor: colors.backgroundTheme }}
+        onLoad={e => {
+          //added by rohan -9/4/23 to show header unhide header
+          if (document.getElementsByClassName("front_page").length == 0)
+            document.getElementsByClassName("heading_container")[0].style.display = "flex"
+            // end of code
+        }}
       >
 
         {/* Removing header from here and adding it to app.js file for globallization */}
-        {/*added by rohan- on 6/4/23
-          reason- here i am adding cart and back button   */}
-        <div className="heading_container" >
-          <h2 style={{ color: colors.headingColor }}
-            // className="restaurant_name"
-            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
-            {restaurant_name.toUpperCase()}
-          </h2>
-
-          <div className="icon_container">
-            {/* <Link to="/c"> */}
-              <span className="selected_amount">0</span>
-              <FaClipboardList style={{ fontSize: "24px", color: colors.bannerColor }} />
-            {/* </Link> */}
-          </div>
-
-        </div>
-        {/* end of heading */}
 
         <div><GlobalColor /></div>
         {/* {isLoader == true ? <Loader /> : */}
@@ -683,6 +677,14 @@ function MenuItem() {
 
             <input style={{ height: '4vh', width: '100%' }} id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' type="search" />
           </div>
+          {/* Added by Rohan- 9/4/23  Reason- cart page */}
+          <div className="icon_container">
+            <Link to="/cart">
+              <span className="selected_amount">{cart.length}</span>
+              <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
+            </Link>
+          </div>
+          {/* end of code  */}
         </div>
 
         {filter.length == 0 && search.length > 2 ?
@@ -811,12 +813,6 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
-                              {/* <button className="add_product" style={{
-                                color: colors.headingColor,
-                                backgroundColor: colors.headingBackgroundColor,
-                                borderRadius: '6px',
-                              }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
-                                />Add</button> */}
                             </div>
 
                             {/* <div className="price_item_description_div"> */}
@@ -876,8 +872,17 @@ function MenuItem() {
 
                                     &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
-                                  <br />
-                                  <br />
+                                  {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                                  <div>
+                                    <button className="add_product" style={{
+                                      color: colors.headingColor,
+                                      backgroundColor: colors.headingBackgroundColor,
+                                      borderRadius: '6px',
+                                    }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
+                                      />Add</button>
+                                  </div>
+                                  {/* end of 9/4/23 */}
                                 </div>
 
                                 {/* <span>
@@ -917,8 +922,18 @@ function MenuItem() {
                                     }
                                     &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
-                                  <br />
-                                  <br />
+                                  {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                                  <div className="add_buttonContainer">
+                                    <button className="add_product" style={{
+                                      color: colors.headingColor,
+                                      backgroundColor: colors.headingBackgroundColor,
+                                      borderRadius: '6px',
+                                    }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
+                                      />Add</button>
+                                  </div>
+                                  {/* end of 9/4/23 */}
+
                                 </div>
 
                               </>
@@ -1001,12 +1016,7 @@ function MenuItem() {
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
-                    {/* <button className="add_product" style={{
-                      color: colors.headingColor,
-                      backgroundColor: colors.headingBackgroundColor,
-                      borderRadius: '6px',
-                    }} onClick={e => callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata))}> <GrFormAdd
-                      />Add</button> */}
+
                   </div>
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
@@ -1057,8 +1067,17 @@ function MenuItem() {
                       &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
 
                     </div>
-                    <br />
-                    <br />
+                    {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                    <div className="add_buttonContainer">
+                      <button className="add_product" style={{
+                        color: colors.headingColor,
+                        backgroundColor: colors.headingBackgroundColor,
+                        borderRadius: '6px',
+                      }} onClick={e => { callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata)) }}> <GrFormAdd
+                        />Add</button>
+                    </div>
+                    {/* end of 9/4/23 */}
                   </div>
 
                   {/* <div className="price_item_description_div">
@@ -1117,7 +1136,7 @@ function MenuItem() {
 
         {/* Added by rohan on - 5/4/2023
             Reason- This will show one popup model to select option like full price and half price product. */}
-        <PopupDetail detail={clickedDetail} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
+        <PopupDetail item={clickedDetail} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
         {/* end of code- Rohan */}
         <div id="flip_div_idd"
           className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
@@ -1198,12 +1217,7 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
-                              {/* <button className="add_product" style={{
-                                color: colors.headingColor,
-                                backgroundColor: colors.headingBackgroundColor,
-                                borderRadius: '6px',
-                              }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> <GrFormAdd
-                                />Add</button> */}
+
                             </div>
                             {(offerList.filter((data) => data.item_name === m.name)).length > 0 ?
                               <>
@@ -1254,8 +1268,17 @@ function MenuItem() {
                                     &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</span>
 
                                   </div>
-                                  <br />
-                                  <br />
+                                  {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                                  <div className="add_buttonContainer">
+                                    <button className="add_product" style={{
+                                      color: colors.headingColor,
+                                      backgroundColor: colors.headingBackgroundColor,
+                                      borderRadius: '6px',
+                                    }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> <GrFormAdd
+                                      />Add</button>
+                                  </div>
+                                  {/* end of 9/4/23 */}
                                 </div>
 
                               </>
@@ -1286,8 +1309,17 @@ function MenuItem() {
                                     &nbsp; <div className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</div>
 
                                   </div>
-                                  <br />
-                                  <br />
+                                  {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                                  <div className="add_buttonContainer">
+                                    <button className="add_product" style={{
+                                      color: colors.headingColor,
+                                      backgroundColor: colors.headingBackgroundColor,
+                                      borderRadius: '6px',
+                                    }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> <GrFormAdd
+                                      />Add</button>
+                                  </div>
+                                  {/* end of 9/4/23 */}
                                 </div>
 
                               </>

@@ -6,7 +6,7 @@
 
 .cartContainer{
     /* background-color: aqua; */
-    height: max-content;
+    max-height: 80%;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -18,15 +18,14 @@
 .card{
     position: relative;
     width:auto;
-    height: auto;
-    overflow: auto;
+    min-height: auto;
+    height: max-content;
     display: flex;
     gap:10px;
     margin: 5px 10px;
     padding: 5px 5px;
     box-shadow: 0px 0px 5px #212121;
     border-radius: 10px;
-    /* background-color: black; */
 }
 
 .cartTitle{
@@ -94,6 +93,11 @@
     font-weight: 600;
 }
 
+.quantityContainer{
+    background-color: #f2f2f2;
+    overflow: hidden;
+}
+
 .sign{
     min-width: 20px;
     min-height: 15px;
@@ -106,10 +110,7 @@
     font-weight: 600;
 }
 
-.quantityContainer{
-    background-color: #f2f2f2;
-    overflow: hidden;
-}
+
 
 .row1{
     /* margin-top: 5px; */
@@ -154,7 +155,8 @@
     align-self: flex-end;
     justify-self: flex-end;
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
+    /* z-index: 9; */
 }
 
 .cancleBtn{
@@ -187,11 +189,13 @@
     height: 100%;
     background-color: #f2f2f2;
     opacity: 0.9;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     z-index: 10;
+    top:0;
+    left:0;
 }
 
 .warningText{
@@ -205,7 +209,7 @@
     font-family: "Times New Roman";
     font-weight: 600;
     /* margin: auto; */
-    display: flex;
+    /* display: flex; */
 }
 
 .deleteBtnContainer{
@@ -232,3 +236,44 @@
     border: none;
     border-radius: 5px;
 }
+
+.blankImg{
+    margin-top:40px;
+    width: 70%;
+    height: 50%;
+}
+
+.blankImgContainer{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.blankText{
+    margin-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+}
+
+.blankBtnContainer{
+    width: 100%;
+    display:flex;
+    justify-content: center;
+}
+
+.blankBtn{
+    margin-top: 10px;
+    min-width: 80px;
+    min-height: 30px;
+    font-size: 13px;
+    letter-spacing: 1.7px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
