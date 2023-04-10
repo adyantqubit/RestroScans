@@ -30,7 +30,7 @@ export default function OfferItemsScreen({ route, navigation }) {
     var [isDisable, setIsDisable] = useState(false);
 
     var { render, setRender } = useContext(AppStateContext)
-alert(JSON.stringify(bannerItemList[0].id))
+// alert(JSON.stringify(bannerItemList[0].id))
     useEffect(() => {
         getAllOffers()
     }, [render])
@@ -164,7 +164,7 @@ alert(JSON.stringify(bannerItemList[0].id))
         //   alert(JSON.stringify(offerList))
         //   alert(JSON.stringify(allItems))
         //   alert(JSON.stringify(bannerName))
-        alert(offerItemList)
+        // alert(offerItemList)
         // alert(JSON.stringify(bannerList))
 
     }

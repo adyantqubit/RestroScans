@@ -29,7 +29,7 @@ export default function MenuListScreen({ navigation }) {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    console.log(tenant)
+    // console.log(tenant)
     const response = await getAllOfferList(tenant);
     if (response) {
       setBannerList(response.offerBanner);
@@ -38,8 +38,8 @@ export default function MenuListScreen({ navigation }) {
     }
 
   };
-  console.log(bannerList)
-  console.log(bannerItemList)
+  // console.log(bannerList)
+  // console.log(bannerItemList)
 
 // After click the banner items than all details set in this function then navigate the next screen
   function onOfferClick(offerName) {
