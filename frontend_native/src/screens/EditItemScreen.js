@@ -16,7 +16,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { getMenuList, saveCategoryApi, saveItemApi, updateItemApi } from "../api/Services";
+import { deleteItemApi, getMenuList, saveCategoryApi, saveItemApi, updateItemApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
@@ -144,6 +144,43 @@ export default function EditItemScreen({ route, navigation }) {
       price_half: itemObj[0].price_half,
     },
   });
+  // Added by Om on 07-04-23
+  // Reason : To delete the item section
+
+  // const handleDelete = async () => {
+  //   var tenant = JSON.parse(
+  //     await SecureStore.getItemAsync("tenantInfo")
+  //   ).tenant_name;
+
+  //   deleteItemApi(tenant, itemID).then((response) => {
+  //     if (response.msg) {
+  //       Alert.alert("Succesfull", response.msg);
+  //       navigation.pop()
+  //     }
+  //     if (response.error) {
+  //       Alert.alert("Error", response.error);
+  //     }
+  //   });
+  // };
+
+  // function showAlert1() {
+  //   Alert.alert(
+  //     'Alert Title',
+  //     'My Alert Msg',
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'OK',
+  //         onPress: () => { handleDelete() }
+  //       },
+  //     ]
+  //   );
+  // }
+  // End of addition
+
 
   return (
     <ScrollView>
@@ -393,6 +430,33 @@ export default function EditItemScreen({ route, navigation }) {
               Save changes
             </Text>
           </Pressable>
+
+          {/* Added by Om on 07-04-23
+          Reason : Add delete functionality */}
+          {/* <Pressable
+            onPress={showAlert1}
+            disabled={isDisable}
+            style={{
+              backgroundColor: isDisable ? "grey" : colors.anotherButton,
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 3,
+              marginTop: 10
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 16,
+                fontWeight: "bold",
+              }}
+            >
+              Delete item
+            </Text>
+          </Pressable> */}
+          {/* End of addition */}
+
         </View>
       </View>
     </ScrollView>

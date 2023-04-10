@@ -182,3 +182,115 @@ export const getAllMenuList = async (tenantId) => {
   return response ? response.data : {};
 };
 // End getting menu list
+
+// Added by Om on 6-4-2023
+// Reason - to delete menu
+export const deleteMenuApi = async ( tenant, id) => {
+  const response = await API.delete(`/api/v1/${tenant}/menu-list/${id}/`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of deletion menu
+// -------------------------- End Menu API ----------------------- //
+
+// Added by Om on 6-4-2023
+// Reason - to delete category
+export const deleteCategoryApi = async ( tenant, id) => {
+  const response = await API.delete(`/api/v1/${tenant}/category/${id}/`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of deletion category
+// -------------------------- End Category API ----------------------- //
+
+// Added by Om on 6-4-2023
+// Reason - to delete items
+export const deleteItemApi = async ( tenant, id) => {
+  const response = await API.delete(`/api/v1/${tenant}/item/${id}/`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of deletion items
+// -------------------------- End Items API ----------------------- //
+
+// Added by Om on 8-4-2023
+// Reason - to get all offers
+export const getAllOfferList = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/offer-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers
+
+// Added by Om on 8-4-2023
+// Reason - to get all offers
+export const getAllOfferItemList = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/offer-items-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers
+
+// Added by Om on 8-4-2023
+// Reason - to post all offers
+
+export const saveAllOffer = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/offer-details/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers
+
+// Added by Om on 8-4-2023
+// Reason - to edit all offers
+export const updateAllOffer = async (value, tenant,id) => {
+  const response = await API.put(`/api/v1/${tenant}/offer-details/${id}/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers
+
+// Added by Om on 8-4-2023
+// Reason - to post all offers items
+export const saveAllOfferItems = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/offer-items-details/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers
+
+// Added by Om on 8-4-2023
+// Reason - to edit all offers
+export const updateAllOfferItems = async (value, tenant,id) => {
+  const response = await API.put(`/api/v1/${tenant}/offer-items-details/${id}/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers

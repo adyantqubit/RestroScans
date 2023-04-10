@@ -95,3 +95,12 @@ class SettingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # End of addition
+
+# Added by Om on 09-04-23
+# Reason : serialize offer items for save
+class OfferallItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfferItem
+        fields = '__all__'
+
+# End of addition

@@ -9,6 +9,8 @@ import PreviewMenuScreen from "../screens/PreviewMenuScreen";
 import { colors } from "../Colours/globalColor";
 import MenuThemeScreen from "../screens/MenuThemeScreen";
 import { MenuAddScreen } from "../screens/MenuAddScreen";
+import { AddBannerItemScreen } from "../screens/AddBannerItemScreen";
+
 // import { getTenantApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 
@@ -68,8 +70,16 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="OfferScreen"
         component={OfferScreen}
-        options={{ drawerLabel: "Offers", title: "Offers" }}
+        options={{ drawerLabel: "Banner/Items", title: "Banner/Items" }}
       />
+      {/* Added by Om on 08-04-23
+      Reason : Show added banner list */}
+      <Drawer.Screen
+        name="Addbanners"
+        component={AddBannerItemScreen}
+        options={{ drawerLabel: "Add Banner/Items", title: "Add Banner/Items" }}
+      />
+      {/* End of addition */}
       <Drawer.Screen
         name="MenuThemeScreen"
         component={MenuThemeScreen}

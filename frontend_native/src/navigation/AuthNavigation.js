@@ -14,6 +14,8 @@ import { colors } from "../Colours/globalColor";
 import CategoryListScreen from "../screens/CategoryListScreen";
 import ItemListScreen from "../screens/ItemListScreen";
 import EditItemScreen from "../screens/EditItemScreen";
+import OfferItemsScreen from "../screens/OfferItemsScreen";
+import OfferItemsDetailScreen from "../screens/OfferItemsDetailScreen";
 
 const AuthNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -111,6 +113,24 @@ const AuthNavigation = () => {
             name="ItemEditScreen"
             options={{ title: "Item Detail" }}
             component={EditItemScreen}
+          ></Stack.Screen>
+          {/* End of addition */}
+
+          {/* Added by Om on 8-4-2023
+          Reason - to navigate banner items section */}
+          <Stack.Screen
+            name="OfferItemsScreen"
+            options={{ title: "Banner Detail" }}
+            component={OfferItemsScreen}
+          ></Stack.Screen>
+          {/* End of addition */}
+
+          {/* Added by Om on 8-4-2023
+          Reason - to navigate banner items details section */}
+          <Stack.Screen
+            name="OfferItemsDetailScreen"
+            options={{ title: "Banner-items Detail" }}
+            component={OfferItemsDetailScreen}
           ></Stack.Screen>
           {/* End of addition */}
         </Stack.Navigator>

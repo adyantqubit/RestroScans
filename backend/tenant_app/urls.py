@@ -26,6 +26,18 @@ urlpatterns = [
     path('<str:tenant>/offer-details/',OfferAPIView.as_view()),
     # End of addition
 
+    # Added by Om on 9-4-2023
+    # Reason : to update offer name
+    path('<str:tenant>/offer-details/<int:pk>/',OfferAPIView.as_view()),
+    # End of addition
+
+    # Added by Om on 08-04-23
+    # Reason : Show the Offer details
+    path('<str:tenant>/offer-items-details/',OfferItemsAPIView.as_view()),
+    path('<str:tenant>/offer-items-details/<int:pk>/',OfferItemsAPIView.as_view()),
+
+    # End of addition
+
     # Added by Om on 11-03-23
     # Reason : Show the Footer & Description details
     path('<str:tenant>/footer-description/',FooterandDescriptionAPIView.as_view()),

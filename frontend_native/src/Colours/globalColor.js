@@ -4,6 +4,9 @@
 
 export const colors ={
     btnColor: '#ff6600',
+	// Added by Om 
+    anotherButton : '#00275e',
+    // End of addition
     // btnColor: '#003366',
     backgroundTheme: '#b59368',
     white: '#fff'

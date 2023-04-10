@@ -13,7 +13,8 @@ import React, { useState } from "react";
 import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
-  getAllMenuList,
+	getAllMenuList,
+  deleteCategoryApi,
   getMenuList,
   saveCategoryApi,
   updateCategoryApi,
@@ -194,6 +195,43 @@ export default function ItemListScreen({ route, navigation }) {
   });
   //   End of set values
 
+  // Added by Om on 07-04-23
+  // Reason : To delete the category section
+
+  // const handleDelete = async () => {
+  //   var tenant = JSON.parse(
+  //     await SecureStore.getItemAsync("tenantInfo")
+  //   ).tenant_name;
+
+  //   deleteCategoryApi(tenant, categoryID).then((response) => {
+  //     if (response.msg) {
+  //       Alert.alert("Succesfull", response.msg);
+  //       navigation.pop()
+  //     }
+  //     if (response.error) {
+  //       Alert.alert("Error", response.error);
+  //     }
+  //   });
+  // };
+
+  // function showAlert1() {
+  //   Alert.alert(
+  //     'Alert Title',
+  //     'My Alert Msg',
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'OK',
+  //         onPress: () => { handleDelete() }
+  //       },
+  //     ]
+  //   );
+  // }
+  // End of addition
+
   return (
     <ScrollView>
       {/* Edit Category Form  */}
@@ -320,6 +358,32 @@ export default function ItemListScreen({ route, navigation }) {
               Save changes
             </Text>
           </Pressable>
+          {/* Added by Om on 07-04-23
+          Reason : Add delete functionality */}
+          {/* <Pressable
+            onPress={showAlert1}
+            disabled={isDisable}
+            style={{
+              backgroundColor: isDisable ? "grey" : colors.anotherButton,
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 3,
+              marginTop: 10
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 16,
+                fontWeight: "bold",
+              }}
+            >
+              Delete category
+            </Text>
+          </Pressable> */}
+          {/* End of addition */}
+
         </View>
       </View>
       <View style={styles.categoryContainer}>
