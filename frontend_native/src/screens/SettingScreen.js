@@ -17,10 +17,47 @@ import { colors } from "../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
+import { SelectList } from "react-native-dropdown-select-list";
 
-export default function SettingScreen() {
+export default function SettingScreen({navigation}) {
   var { render, setRender, settings } = useContext(AppStateContext);
 
+  // Added by Yuvraj Sahu on 11-4-2023
+  // Reason - to reRender page
+  {/* This function is used to re-render the page  */}
+  React.useEffect(()=>{
+  },[render])
+  // End of addition
+
+  // Added by Yuvraj Sahu on 11-4-2023
+  // Reason - to set themes in dropdown
+  const [theme, setTheme] = React.useState("");
+  var [themeOption, setThemeOption] = useState([]);
+  React.useEffect(() => {
+    const getMenus = async () => {
+      // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+      // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+      // if (response.categoryList) {
+        setThemeOption(
+          settings.themeOptions.map(function (obj) {
+          obj["key"] = obj["id"]; // Assign new key
+          obj["value"] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
+          delete obj["id"];
+          delete obj["background_color"];
+          delete obj["heading_color"];
+          delete obj["subheading_color"];
+          delete obj["banner_heading_color"];
+          delete obj["heading_bgcolor"];
+          delete obj["subheading_bgcolor"];
+          return obj;
+        })
+      );
+      // }
+    };
+    getMenus();
+  }, []);
+
+  
   const [allowHalfPrice, setAllowHalfPrice] = useState(
     settings.setting.allow_half_price
   );
@@ -28,19 +65,23 @@ export default function SettingScreen() {
   var [isDisable, setIsDisable] = useState(false);
 
   const handleRegister = async (formValues) => {
-    setIsDisable(true);
+    // setIsDisable(true);
     var formData = new FormData();
     settings.setting.id != undefined
       ? formData.append("id", settings.setting.id)
       : null;
-    formData.append("background_color", formValues.background_color);
-    formData.append("heading_color", formValues.heading_color);
-    formData.append("subheading_color", formValues.subheading_color);
-    formData.append("banner_heading_color", formValues.banner_heading_color);
-    formData.append("heading_bgcolor", formValues.heading_bgcolor);
-    formData.append("subheading_bgcolor", formValues.subheading_bgcolor);
+      // Commented by Yuvraj Sahu on 12-4-2023
+      // Reason - to remove fields
+    // formData.append("background_color", formValues.background_color);
+    // formData.append("heading_color", formValues.heading_color);
+    // formData.append("subheading_color", formValues.subheading_color);
+    // formData.append("banner_heading_color", formValues.banner_heading_color);
+    // formData.append("heading_bgcolor", formValues.heading_bgcolor);
+    // formData.append("subheading_bgcolor", formValues.subheading_bgcolor);
+    // End of comment 
     formData.append("tax", formValues.tax);
     formData.append("allow_half_price", allowHalfPrice);
+    formData.append("app_theme", theme);
 
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -49,6 +90,8 @@ export default function SettingScreen() {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
+        setRender(!render)
+        navigation.navigate("HomeScreen")
       }
       if (response.error) {
         Alert.alert("Error", response.error);
@@ -67,30 +110,33 @@ export default function SettingScreen() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      background_color:
-        settings.setting.background_color != undefined
-          ? settings.setting.background_color
-          : "",
-      heading_color:
-        settings.setting.heading_color != undefined
-          ? settings.setting.heading_color
-          : "",
-      subheading_color:
-        settings.setting.subheading_color != undefined
-          ? settings.setting.subheading_color
-          : "",
-      banner_heading_color:
-        settings.setting.banner_heading_color != undefined
-          ? settings.setting.banner_heading_color
-          : "",
-      heading_bgcolor:
-        settings.setting.heading_bgcolor != undefined
-          ? settings.setting.heading_bgcolor
-          : "",
-      subheading_bgcolor:
-        settings.setting.subheading_bgcolor != undefined
-          ? settings.setting.subheading_bgcolor
-          : "",
+    	// Added by ?Yuvraj Sahu on 12-4-2023
+    	// Reason - to remove feilds
+      // background_color:
+      //   settings.setting.background_color != undefined
+      //     ? settings.setting.background_color
+      //     : "",
+      // heading_color:
+      //   settings.setting.heading_color != undefined
+      //     ? settings.setting.heading_color
+      //     : "",
+      // subheading_color:
+      //   settings.setting.subheading_color != undefined
+      //     ? settings.setting.subheading_color
+      //     : "",
+      // banner_heading_color:
+      //   settings.setting.banner_heading_color != undefined
+      //     ? settings.setting.banner_heading_color
+      //     : "",
+      // heading_bgcolor:
+      //   settings.setting.heading_bgcolor != undefined
+      //     ? settings.setting.heading_bgcolor
+      //     : "",
+      // subheading_bgcolor:
+      //   settings.setting.subheading_bgcolor != undefined
+      //     ? settings.setting.subheading_bgcolor
+      //     : "",
+      // End of comment 
       tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
       allow_half_price:
         settings.setting.allow_half_price != undefined
@@ -102,20 +148,15 @@ export default function SettingScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={{ marginTop: 5 }}>
+      {/* Commented by Yuvraj Sahu on 12-4-2023
+      Reason - to remove feilds */}
+        {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Background Color
           </Text>
           <Controller
             control={control}
             name="background_color"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Background Color name is required",
-            //   },
-            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -146,18 +187,11 @@ export default function SettingScreen() {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Heading Color
           </Text>
           <Controller
             control={control}
             name="heading_color"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Heading color is required",
-            //   },
-            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -186,18 +220,11 @@ export default function SettingScreen() {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Subheading color
           </Text>
           <Controller
             control={control}
             name="subheading_color"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Subheading Color name is required",
-            //   },
-            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -228,18 +255,11 @@ export default function SettingScreen() {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Banner heading color
           </Text>
           <Controller
             control={control}
             name="banner_heading_color"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Banner heading color is required",
-            //   },
-            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -270,18 +290,11 @@ export default function SettingScreen() {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Heading background color
           </Text>
           <Controller
             control={control}
             name="heading_bgcolor"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Heading background color is required",
-            //   },
-            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -312,18 +325,11 @@ export default function SettingScreen() {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Sub heading background color
           </Text>
           <Controller
             control={control}
             name="subheading_bgcolor"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Sub heading background color is required",
-            //   },
-            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -350,9 +356,22 @@ export default function SettingScreen() {
               </>
             )}
           />
-        </View>
+        </View> */}
+        {/*End of Comment */}
+      <View style={{ marginTop: 5 }}>
+        <Text style={styles.labels}>Select theme option</Text>
+      </View>
+      <SelectList
+          setSelected={setTheme}
+          data={themeOption}
+          search={false}
+          boxStyles={{ borderRadius: 5, alignSelf: "center", width: "93%", borderColor: "black", marginTop: 10 }} //override default styles
+          defaultOption={{
+            key: settings.setting.id,
+            value: `${settings.setting.background_color}, ${settings.setting.heading_color}, ${settings.setting.subheading_color}`}}
+        />
 
-        <View style={{ marginTop: 5 }}>
+        <View style={{ marginTop: 10 }}>
           <Text style={styles.labels}>
             {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Tax
@@ -360,12 +379,16 @@ export default function SettingScreen() {
           <Controller
             control={control}
             name="tax"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Tax is required",
-            //   },
-            // }}
+            rules={{
+              // required: {
+              //   value: true,
+              //   message: "Tax is required",
+              // },
+              pattern: {
+                value: /^(0?[1-9]|[1-9][0-9])$/,
+                message: "Enter valid number !",
+              },
+            }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>

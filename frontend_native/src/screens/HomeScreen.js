@@ -27,8 +27,13 @@ export default function HomeScreen({ navigation }) {
 
    React.useEffect(() => {
     authNavigate();
-    getSettingData();
   }, []);
+
+// Added by Yuvraj Sahu on 12-4-2023
+// Reason - to re render page
+  React.useEffect(()=>{
+    getSettingData();
+  },[render])
 
   useEffect(() => {
     const backAction = () => {

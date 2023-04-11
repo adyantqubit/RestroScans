@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
+from admin_app.models import *
 
 
 # Create your models here.
@@ -165,12 +166,20 @@ Reason - To create Theme
 """
 class Setting(models.Model):
     id = models.AutoField(primary_key=True)
-    background_color =models.CharField(max_length=20,null=True,blank=True)
-    heading_color =models.CharField(max_length=20,null=True,blank=True)
-    subheading_color =models.CharField(max_length=20,null=True,blank=True)
-    banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
-    heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
-    subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    # Commented by Om on 10-04-23
+    # Reason : Not need to use these fields
+    # background_color =models.CharField(max_length=20,null=True,blank=True)
+    # heading_color =models.CharField(max_length=20,null=True,blank=True)
+    # subheading_color =models.CharField(max_length=20,null=True,blank=True)
+    # banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
+    # heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    # subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    # End of commented code
+
+    # Added by Om on 10-04-23
+    # Reason : Need to implement admin color, whatever the admin add.
+    app_theme = models.ForeignKey(AppTheme,related_name='app_theme',on_delete=models.CASCADE,null=True,blank=True)
+    # End of addition
     # added by rohan- 6/4/23 Reason- to allow show half price
     # cancel_btn=models.CharField(max_length=20,null=True,blank=True)
     allow_half_price=models.BooleanField(default=True,null=True,blank=True)

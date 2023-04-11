@@ -350,7 +350,7 @@ class SettingAPIView(APIView):
         else:
             settingSerializer={"data":0}
             return Response({
-                "msg":"success",
+                "msg":"no data",
                 "setting":"",
                 })
     
@@ -602,7 +602,7 @@ class getOrderItemsAPI(APIView):
         itemObjs = OrderItem.objects.filter(order_id=pk)
         orderItemsSerializer=OrderItemSerializer(itemObjs, many=True)
         customerSerializer=CustomerDetailSerializer(customerDetail)
-        OrderSerializers = OrderSerializer(order)
+        OrderSerializers = AllOrderSerializer(order)
         return Response ({
             "msg":"success",
             "orderItems": orderItemsSerializer.data,
@@ -613,3 +613,53 @@ class getOrderItemsAPI(APIView):
 """
 End of getting all orders
 """
+
+
+# Added by Om shrivastava on 6-4-2023
+# Reason - to get and post the app theme,
+class AppThemeAPI(APIView):
+    def get(self,request,tenant):
+        # Modified by Yuvraj Sahu on 11-4-2023
+        # Reason - to get and post valid data
+        # theme=AppTheme.objects.all()
+        # settingObj=Setting.objects.get(id=7)
+        # themeSerializer=AppThemeSerializer(theme,many=True)
+        # return Response({"msg":"success","themeData":themeSerializer.data})
+        setting=Setting.objects.last()
+        theme=AppTheme.objects.all()
+        themeSerializer=AppThemeSerializer(theme,many=True)
+        if setting or theme is not None:
+           settingSerializer=SettingSerializer(setting)
+           return Response({
+            "msg":"success",
+            "themeOptions": themeSerializer.data,
+            "setting":settingSerializer.data,
+            })
+        else:
+            settingSerializer={"data":0}
+            return Response({
+                "msg":"no data",
+                "setting":"",
+                })
+    
+    # def post(self,request,tenant):
+    #     theme=AppTheme.objects.get(id=request.data["app_theme_id"])
+    #     setting=Setting.objects.get(id=7)
+    #     setting.app_theme=theme
+    #     setting.save()
+    #     return Response({"msg":"success"},200)
+    def post(self,request,tenant):
+        if "id" in request.data :
+            obj = Setting.objects.get(id=request.data["id"])
+            serial = SettingSaveSerializer(obj, data=request.data)
+        else :
+            serial = SettingSaveSerializer(data=request.data)
+        if serial.is_valid():
+            serial.save()
+            return Response({
+            "msg":"success",
+            "settingsetdata":serial.data,
+            },status=status.HTTP_201_CREATED)
+        return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of modification
+# End of addition

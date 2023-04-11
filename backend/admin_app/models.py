@@ -161,4 +161,24 @@ class VisitCount(models.Model):
     count =models.BigIntegerField(default=0)
 """
 End of code addition
-""" 
+"""
+
+"""-------------------------------------------------------------------
+Added by - Om shrivastava on 10-04-2023
+Reason - To store App theme on react native app
+"""
+class AppTheme(models.Model):
+    id = models.AutoField(primary_key=True)
+    background_color =models.CharField(max_length=20,null=True,blank=True)
+    heading_color =models.CharField(max_length=20,null=True,blank=True)
+    subheading_color =models.CharField(max_length=20,null=True,blank=True)
+    banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
+    heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    
+    def _str_(self):
+        return "background: "+self.background_color+" heading: "+self.heading_color
+
+"""
+End of code addition
+"""

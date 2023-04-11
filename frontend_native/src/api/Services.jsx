@@ -301,7 +301,7 @@ export const updateAllOfferItems = async (value, tenant,id) => {
 // Added by Yuvraj Sahu on 8-4-2023
 // Reason - to save app setting
 export const saveSettingApi = async (value, tenant) => {
-  const response = await API.post(`/api/v1/${tenant}/setting-changes/color/`, value, {
+  const response = await API.post(`/api/v1/${tenant}/app-theme/`, value, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -314,7 +314,7 @@ export const saveSettingApi = async (value, tenant) => {
 // Added by Yuvraj Sahu on 8-4-2023
 // Reason - to save app setting
 export const getSettingApi = async (tenant) => {
-  const response = await API.get(`api/v1/${tenant}/setting-changes/color/`, {
+  const response = await API.get(`api/v1/${tenant}/app-theme/`, {
     headers: {
       "Content-Type": "application/json",
     },

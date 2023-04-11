@@ -94,5 +94,9 @@ urlpatterns = [
     path('<str:tenant>/order-items/<int:pk>/',getOrderItemsAPI.as_view()),
     # End of addition
 
+    # Added by Om on 11-4-23
+    # Reason : get all theme colors from admin_app
+    path('<str:tenant>/app-theme/',AppThemeAPI.as_view()),
+    # End of addition
 
 ]

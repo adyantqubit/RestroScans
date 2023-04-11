@@ -16,6 +16,7 @@ import ItemListScreen from "../screens/ItemListScreen";
 import EditItemScreen from "../screens/EditItemScreen";
 import OfferItemsScreen from "../screens/OfferItemsScreen";
 import OfferItemsDetailScreen from "../screens/OfferItemsDetailScreen";
+import OrderItemsScreen from "../screens/OrderItemsScreen";
 
 const AuthNavigation = () => {
   const Stack = createNativeStackNavigator();

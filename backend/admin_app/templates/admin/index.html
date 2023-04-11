@@ -10,7 +10,7 @@
         var a = window.open('', '', 'height=800, width=1200');
         a.document.write('<html>');
             
-            a.document.write('<body style="display:flex;flex-direction:column;justify-content:space-around;align-items:space-around;width:100vw;border:1px solid black" >');
+            a.document.write('<body style="display:flex;flex-direction:column;justify-content:space-around;align-items:space-around;width:100vw;" >');
             a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:50vh;">');
                 a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
                 a.document.write(divContents);
@@ -45,7 +45,8 @@
                 {% if data.tenant != "restroscans"  %}
                 <!-- <h1>Restaurant name</h1> -->
                 <img id="qr_image" src='{{data.path}}' width="300px" height="300px" />
-                <h4 style="margin-top: -1.5rem;">Powered by Adyant</h4>
+                <h6 style="margin-top: -1.2rem;">Adyant Softtech pvt limited, Raipur. </h6>
+                <h5 style="margin-top: -1.2rem;">restroscans.com , scan to see the menu.</h5>
             </div>
             <button class="btn btn-gray-800 d-inline-flex align-items-center me-2 "
                     onclick="fun()">

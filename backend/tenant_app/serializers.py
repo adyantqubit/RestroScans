@@ -88,12 +88,24 @@ class DescriptionSerializer(serializers.ModelSerializer):
 # End of addition
 
 # Added by Om on 15-03-23
-# Reason : Show the theme 
+# Reason : Show the theme
 class SettingSerializer(serializers.ModelSerializer):
+	# Added by Yuvraj Sahu on 12-4-2023
+	# Reason - to serialize foreignkey field fields
+    background_color = serializers.CharField(source="app_theme.background_color")
+    heading_color = serializers.CharField(source="app_theme.heading_color")
+    subheading_color = serializers.CharField(source="app_theme.subheading_color")
     class Meta:
         model = Setting
         fields = '__all__'
+# End of addition
 
+# Added by Yuvraj Sahu on 11-4-23
+# Reason : To serialize the setting table data
+class SettingSaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Setting
+        fields = '__all__'
 # End of addition
 
 # Added by Om on 09-04-23
@@ -127,6 +139,15 @@ class OrderSerializer(serializers.ModelSerializer):
 
 # End of added code 06-04-2023
 
+# Added by Yuvraj Sahu on 11-04-2023
+# Reason : to serializer orders
+class AllOrderSerializer(serializers.ModelSerializer):
+    customer_name = serializers.CharField(source="customer_id.name")
+    class Meta:
+        model = Order
+        fields = '__all__'
+# End of added code 06-04-2023
+
 # Added by Parineeta Gedam on 06-04-2023
 # Reason : show the Order Item
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -136,3 +157,13 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # End of added code 06-04-2023
+
+
+# Added by Om on 10-04-23
+# Reason : serialize App theme for save
+class AppThemeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppTheme
+        fields = '__all__'
+
+# End of addition

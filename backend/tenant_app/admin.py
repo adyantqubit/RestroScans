@@ -153,8 +153,16 @@ class OfferItemAdmin(admin.ModelAdmin):
         
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
-    list_display=("id","background_color", "heading_color", "subheading_color", "banner_heading_color","tax")
-    search_fields=("name","offer_name", "item_name")
+    # Commented by Om on 11-04-23 on 10-04-23
+    # Reason : Not need to use these fields
+    # list_display=("id","background_color", "heading_color", "subheading_color", "banner_heading_color")
+    # search_fields=("name","offer_name", "item_name")
+    # End of commmented code
+
+    # Added by Om on 11-04-23
+    # Reason : Show the list display fields
+    list_display=("id","app_theme", "tax")
+    # End of addition
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -165,13 +173,6 @@ class SettingAdmin(admin.ModelAdmin):
             return False
         else:
             return True
-    # Added by Yuvraj sahu on 84-2023
-    # Reason - to design form
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(SettingAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['tax'].widget.attrs['style'] = 'width: 20em;'
-        return form
-    # End of addition
     # Added by Yuvraj Sahu on 29-3-2023
     # Reason - to add only one time
     def has_add_permission(self, request):
@@ -293,3 +294,4 @@ admin.site.register(OrderItem, OrderItemAdmin)
 """
 End of added code 06-04-2023
 """
+
