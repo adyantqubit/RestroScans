@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.translation import ugettext_lazy as _
+
 
 # Create your models here.
 
@@ -57,7 +59,8 @@ Reason - To store details of category Items
 # Reason - add item type veg or nonveg
 IMAGE_CHOICE = (
     ("Veg", "Veg"),
-    ("Nonveg", "Nonveg")
+    ("Nonveg", "Nonveg"),
+    ("Other", "Other"),
 )
 # End of addition
 class Item(models.Model):
@@ -171,6 +174,15 @@ class Setting(models.Model):
     # added by rohan- 6/4/23 Reason- to allow show half price
     # cancel_btn=models.CharField(max_length=20,null=True,blank=True)
     allow_half_price=models.BooleanField(default=True,null=True,blank=True)
+    # Added by :- Parineeta Gedam
+    # Date :- 08-04-2023
+    # Reason :- for tax
+
+    tax = models.FloatField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],default=1.0,verbose_name='Tax(%)', null=True, blank=True)
+
+    # End of added code 08-04-2023
+
     
     def __str__(self):
         return "color changed"
@@ -183,4 +195,101 @@ class Setting(models.Model):
 
 """
 End of code addition
+"""
+
+"""
+Added by - Parineeta Gedam on 06-04-2023
+Reason - To store customer detail
+"""
+
+# def validate_contact_number(value):
+#     if value:
+#         if(contact_number<10):
+#             raise ValidationError("Expiry date can't be current or previous date") 
+#         else:
+#             return value
+
+class CustomerDetail(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    email = models.EmailField(_('email address'), null=True, blank=True) 
+    contact_number = models.BigIntegerField(unique=True, 
+                # validators=[validate_contact_number]
+                                            )
+
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = "Customer Detail"
+        verbose_name_plural = 'h) Customer Detail'
+
+"""
+End of added code 06-04-2023
+"""
+
+"""
+Added by - Parineeta Gedam on 06-04-2023
+Reason - To store Order
+"""
+
+ORDER_STATUS = (
+    ("In Process", "In Process"),
+    ("Cooking", "Cooking"),
+    ("Served", "Served"),
+)
+
+PAYMENT_STATUS = (
+    ("Pending", "Pending"),
+    ("Completed", "Completed"),
+)
+
+class Order(models.Model):
+    id = models.AutoField(primary_key=True)
+    order_id = models.CharField(max_length=255)
+    customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE)
+    table_number = models.CharField(max_length=255)
+    sub_total = models.FloatField(default=0.0)
+    total = models.FloatField(default=0.0)
+    tax = models.FloatField(default=0)
+    order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="In Process")
+    payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
+    date = models.DateTimeField(auto_now_add=True)
+    payment_mode = models.CharField(max_length=100,null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.order_id}"
+
+    class Meta:
+        verbose_name = "Order"
+        verbose_name_plural = 'i) Order'
+
+"""
+End of added code 06-04-2023
+"""
+
+"""
+Added by - Parineeta Gedam on 06-04-2023
+Reason - To store Order Item
+"""
+
+class OrderItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
+    item = models.CharField(max_length=255)
+    serving_size = models.CharField(max_length=255)
+    quantity = models.IntegerField(default=0)
+    price = models.FloatField(default=0)
+    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    review = models.TextField(null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
+
+    class Meta:
+        verbose_name = "Order Item"
+        verbose_name_plural = 'j) Order Item'
+
+"""
+End of added code 06-04-2023
 """

@@ -55,3 +55,37 @@ export const getThemeChanges = async (tenantId) => {
   console.log(response)
   return response ? response.data : {};
 };
+
+// Added by :- Parineeta Gedam
+// Date :- 06-04-2023
+// Reason :- Post API for customer details.
+export const postCustomerDetails = async(formdata,tenantId) => {
+  const response = await API.post(`/${tenantId}/customer-details/`,formdata,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 006-04-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 09-04-2023
+// Reason :- update the order items like rating and review
+export const updateOrderItemsApi = async(tenantId,orderId) => {
+  const response = await API.put(`/${tenantId}/get-order-items/`,{"id":orderId},
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 09-04-2023
+
+
+// Added by :- Parineeta Gedam
+// Date :- 09-04-2023
+// Reason :- update the payment mode
+export const updatePaymentModeApi = async(tenantId,order) => {
+  const response = await API.put(`/${tenantId}/update-payment-mode/`,order,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 09-04-2023

@@ -104,3 +104,31 @@ class OfferallItemsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # End of addition
+
+# Added by Parineeta Gedam on 06-04-2023
+# Reason : show the Customer Detail
+class CustomerDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerDetail
+        fields = '__all__'
+
+# End of added code 06-04-2023
+
+# Added by Parineeta Gedam on 06-04-2023
+# Reason : show the Order
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+# End of added code 06-04-2023
+
+# Added by Parineeta Gedam on 06-04-2023
+# Reason : show the Order Item
+class OrderItemSerializer(serializers.ModelSerializer):
+    # rating = serializers.DecimalField(allow_null=True, allow_blank=True)
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+# End of added code 06-04-2023

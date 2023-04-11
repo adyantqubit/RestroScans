@@ -324,6 +324,7 @@
     font-size: 15px;
     font-family: "Times New Roman";
     margin-left: 15px;
+    word-break: break-all;
 }
 
 .drawer_menu_parent_container{

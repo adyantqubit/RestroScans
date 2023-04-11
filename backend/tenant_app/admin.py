@@ -153,7 +153,7 @@ class OfferItemAdmin(admin.ModelAdmin):
         
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
-    list_display=("id","background_color", "heading_color", "subheading_color", "banner_heading_color")
+    list_display=("id","background_color", "heading_color", "subheading_color", "banner_heading_color","tax")
     search_fields=("name","offer_name", "item_name")
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -235,3 +235,54 @@ class MyGroupAdmin(admin.ModelAdmin):
 admin.site.register(User, MyUserAdmin)
 admin.site.register(Group, MyGroupAdmin)
 # End of addition
+
+"""
+Added by :-  Parineeta Gedam Date - 06-04-2023
+Reason- Register Customer Detail table.
+"""
+class CustomerDetailAdmin(admin.ModelAdmin):
+    list_display = ['id','name','email','contact_number']
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+admin.site.register(CustomerDetail, CustomerDetailAdmin)
+
+"""
+End of added code 06-04-2023
+"""
+
+"""
+Added by :- Parineeta Gedam Date - 06-04-2023
+Reason- Register Order table.
+"""
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id','order_id','customer_id', 'table_number', 'sub_total','tax','total','order_status','payment_status','payment_mode','date']
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+admin.site.register(Order, OrderAdmin)
+
+"""
+End of added code 06-04-2023
+"""
+
+"""
+Added by :- Parineeta Gedam Date - 06-04-2023
+Reason- Register Order Item.
+"""
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ['id','order_id','item', 'serving_size', 'quantity','price','rating','review','date']
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+admin.site.register(OrderItem, OrderItemAdmin)
+
+"""
+End of added code 06-04-2023
+"""

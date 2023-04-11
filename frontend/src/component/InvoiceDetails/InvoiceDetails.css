@@ -1,0 +1,152 @@
+.invoice_heading_container{
+    width: 100%;
+}
+
+.invoice_heading {
+    text-align: center;
+    margin-bottom: 0px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* ----------- For Details ------------------- */
+.invoice_Details_container {
+    width: 100%;
+    padding: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.invoice_details_1 {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.invoice_details_heading {
+    width: 40%;
+    word-wrap: break-word;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+}
+
+.invoice_details_colon {
+    width: 2%;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.invoice_details_value {
+    margin-left: 5px;
+    width: 58%;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+}
+/* End of edded code */
+
+/* ----------- Horizoantal line css ---------------- */
+.invoice_horizontal_line{
+    width: 100%;
+    border-top: 1px solid black;
+}
+/* End of edded code */
+
+
+/* ----------- table heading css ---------------- */
+.invoice_table_heading_container {
+    width: 100%;
+    margin-top: 15px;
+    /* padding-left: 5px; */
+}
+.invoice_table_sub_heading{
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+}
+.invoice_total_price_container{
+    float: right;
+}
+.invoice_total_price_container .invoice_table_price_sub_heading{
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+    float: right;
+}
+/* End of edded code */
+
+/* ------------ Table container css ------------------- */
+.invoice_cart_container {
+    width: 100%;
+    padding: 5px;
+}
+
+.invoice_data_container {
+    display: flex;
+    /* padding: 2px; */
+    width: 100%;
+    /* margin-top: 5px; */
+}
+
+.invoice_item_container {
+    width: 50%;
+    word-wrap: break-word;
+}
+
+.invoice_price_container {
+    width: 20%;
+    word-wrap: break-word;
+}
+
+.invoice_total_price_container {
+    width: 30%;
+    float: left;
+    word-wrap: break-word;
+}
+
+/*  total container css  */
+.invoice_sub_heading {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.invoice_second_sub_heading {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.invoice_second_container {
+    width: 100%;
+    padding: 5px;
+}
+
+.invoice_second_data_container {
+    width: 100%;
+    padding: 1px;
+}
+/* End of added css */
+
+
+/* ---------- Button css --------------- */
+.invoice_btn_container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 5px;
+}
+/* End of added button css --------------------- */
+
+.invoice_total_price_container .invoice_total_rating_sub_heading {
+    float: right;
+    word-wrap: break-all;
+}
+
+.invoice_second_data_container .invoice_second_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    margin-right: 5px;
+}

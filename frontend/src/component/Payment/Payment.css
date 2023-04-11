@@ -1,0 +1,39 @@
+.payment_heading_container{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    background-color: aquamarine;
+    border-radius: 10px;
+}
+.payment_heading{
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+/* ------------ Radio Group css */
+.radio_container{
+    width: 100%;
+    padding: 5px;
+}
+.payment_radio_icon{
+    width: 50%;
+    float: inline-end;
+}
+.payment_mode_haeding{
+
+}
+
+/* End of added code  */
+
+/* ---------- Button css --------------- */
+.payment_btn_container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 5px;
+}
+/* End of added button css --------------------- */

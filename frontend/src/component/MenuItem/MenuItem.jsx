@@ -138,7 +138,6 @@ function MenuItem() {
       setCategoryList(response.categoryList)
       setItemList(response.itemList)
       setfilterCategory(response.menuList)
-
     }
   };
 
@@ -863,26 +862,43 @@ function MenuItem() {
                                   <div className="description_div" style={{ display: 'flex', paddingTop: '2%' }}
                                   //  style={{ margin: '3% 0 0 3%' }}
                                   >
-                                    {person.item_type == 'Veg' ? <>
+                                    {/* Commented by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others icons.
+                                    */}
+                                    {/* {person.item_type == 'Veg' ? <>
                                       <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
 
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" ></img>
-                                    }
+                                    } */}
+                                    {/* End of commented code 10-04-2023 */}
 
-                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
+                                    {/* Added by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others.
+                                    */}
+                                    {person.item_type == 'Veg' ? (
+                                      <>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {person.item_type == 'Nonveg' ? (
+                                      <>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {person.item_type == 'Other' ? (
+                                      <>
+                                        {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
+                                      </>
+                                    ) : null}
+                                    {/* End of added code 10-04-2023 */}
+
+                                    & nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
-                                  {/* added by rohan -9/4/23
-                                      reason- add button to add item to list */}
-                                  <div>
-                                    <button className="add_product" style={{
-                                      color: colors.headingColor,
-                                      backgroundColor: colors.headingBackgroundColor,
-                                      borderRadius: '6px',
-                                    }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
-                                      />Add</button>
-                                  </div>
-                                  {/* end of 9/4/23 */}
+                                  <br />
+                                  <br />
                                 </div>
 
                                 {/* <span>
@@ -914,26 +930,49 @@ function MenuItem() {
                                       >{person.price_half ? '₹' + person.price_half : '---'}</h4> : null}
                                   </div>
                                   <div className="description_div" style={{ display: 'flex' }}>
-                                    {person.item_type == 'Veg' ? <>
+
+                                    {/* {person.item_type == 'Veg' ? <>
                                       <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
-                                    }
+                                    } */}
+
+                                    {/* Commented by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others.
+                                    */}
+                                    {/* {person.item_type == 'Veg' ? <>
+                                      <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+
+                                    </> :
+                                      <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" ></img>
+                                    } */}
+                                    {/* End of commented code 10-04-2023 */}
+
+                                    {/* Added by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others.
+                                    */}
+                                    {person.item_type == 'Veg' ? (
+                                      <>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {person.item_type == 'Nonveg' ? (
+                                      <>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {person.item_type == 'Other' ? (
+                                      <>
+                                        {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
+                                      </>
+                                    ) : null}
                                     &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
-                                  {/* added by rohan -9/4/23
-                                      reason- add button to add item to list */}
-                                  <div className="add_buttonContainer">
-                                    <button className="add_product" style={{
-                                      color: colors.headingColor,
-                                      backgroundColor: colors.headingBackgroundColor,
-                                      borderRadius: '6px',
-                                    }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
-                                      />Add</button>
-                                  </div>
-                                  {/* end of 9/4/23 */}
-
+                                  <br />
+                                  <br />
                                 </div>
 
                               </>
@@ -1058,12 +1097,38 @@ function MenuItem() {
                     //  style={{ margin: '3% 0 0 3%' }}
                     >
                       {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{showdata.item_description}</h3> */}
-                      {showdata.item_type == 'Veg' ? <>
+
+                      {/* Commented by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others icons.
+                                    */}
+                      {/* {showdata.item_type == 'Veg' ? <>
                         <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                       </> :
                         <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
-                      }
+                      } */}
+                      {/* End of commented code 10-04-2023 */}
+
+                      {/* Added by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others.
+                                    */}
+                      {showdata.item_type == 'Veg' ? (
+                        <>
+                          <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                        </>
+                      ) : null}
+                      {showdata.item_type == 'Nonveg' ? (
+                        <>
+                          <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                        </>
+                      ) : null}
+                      {showdata.item_type == 'Other' ? (
+                        <>
+                          {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
+                        </>
+                      ) : null}
                       &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
 
                     </div>
@@ -1259,12 +1324,38 @@ function MenuItem() {
                                   // style={{ margin: '3% 0 0 3%' }}
                                   >
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor,padding:'4px 0 0 0' }}>{m.description}</h3> */}
-                                    {m.item_type == 'Veg' ? <>
+
+                                    {/* Commented by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others.
+                                    */}
+                                    {/* {m.item_type == 'Veg' ? <>
                                       <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
-                                    }
+                                    } */}
+                                    {/* End of commented code 10-04-2023 */}
+
+                                    {/* Added by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others icons.
+                                    */}
+                                    {m.item_type == 'Veg' ? (
+                                      <>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {m.item_type == 'Nonveg' ? (
+                                      <>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {m.item_type == 'Other' ? (
+                                      <>
+                                        {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
+                                      </>
+                                    ) : null}
                                     &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</span>
 
                                   </div>
@@ -1300,12 +1391,38 @@ function MenuItem() {
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
-                                    {m.item_type == 'Veg' ? <>
+
+                                    {/* Commented by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others icons.
+                                    */}
+                                    {/* {m.item_type == 'Veg' ? <>
                                       <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
 
                                     </> :
                                       <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk"></img>
-                                    }
+                                    } */}
+                                    {/* End of commented code 10-04-2023 */}
+
+                                    {/* Added by :- Parineeta Gedam
+                                        Date :- 10-04-2023
+                                        Reason :- show veg, non-veg, others.
+                                    */}
+                                    {m.item_type == 'Veg' ? (
+                                      <>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {m.item_type == 'Nonveg' ? (
+                                      <>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                      </>
+                                    ) : null}
+                                    {m.item_type == 'Other' ? (
+                                      <>
+                                        {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
+                                      </>
+                                    ) : null}
                                     &nbsp; <div className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</div>
 
                                   </div>

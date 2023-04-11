@@ -74,4 +74,14 @@ urlpatterns = [
     path('<str:tenant>/all-menus/',getAllMenusAPI.as_view()),
     # End of addition
 
+    # Added by :- Parineeta Gedam on 06-04-2023
+    # Reason : post operation perform for customer details, order table, orderItems table.
+    path('<str:tenant>/customer-details/',PostCustomerDetailsAPIView.as_view()),
+    # End of added code 06-04-2023
+
+    # Added by :- Parineeta Gedam on 06-04-2023
+    # Reason : post operation perform for customer details, order table, orderItems table.
+    path('<str:tenant>/update-payment-mode/',updatePaymentModeAPIView.as_view()),
+    # End of added code 06-04-2023
+
 ]   

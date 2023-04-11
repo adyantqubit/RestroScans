@@ -9,6 +9,7 @@ import { GlobalContext } from '../../context/Context'
 import { useNavigate } from 'react-router-dom'
 import config from '../../config/config'
 import PopupDetail from '../MenuItem/PopupDetail'
+import CustomerDetailsForm from '../CustomerDetails/CustomerDetailsForm'
 
 const Cart = () => {
   const nav = useNavigate()
@@ -31,8 +32,23 @@ const Cart = () => {
     else {
        setRemoveProductIndex(selectedItem)
     }
-
   }
+
+
+   {/* Added by :- Parineeta Gedam
+      Date :- 06-04-2023
+      Reason :- Open Model for customer details.
+  */}
+
+  var [isPopupOpen, setPopupVisiblity] = useState(false)
+
+  const navigate = useNavigate();
+
+  const showModal = () => {
+    setPopupVisiblity(true);
+
+  };
+  {/* End of added code 06-04-2023 */ }
 
   return (
     <>
@@ -76,7 +92,21 @@ const Cart = () => {
 
       {cart.length > 0 ? <div className={style.btnContainer} style={{ background: colors.headingBackgroundColor, color: colors.subHeadingColor }}>
         <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => nav(-1)}>Cancel</button>
-        <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}>Proceed</button>
+           {/* Commented by :- Parineeta Gedam
+            Date :- 06-04-2023
+            Reason :- Open Model for customer details.
+        */}
+        {/* <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}>Proceed</button> */}
+        {/* End of added code 06-04-2023 */}
+
+          {/* Added by :- Parineeta Gedam
+            Date :- 06-04-2023
+            Reason :- Open Model for customer details.
+        */}
+
+        <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => {showModal()}} >Proceed</button>
+        <CustomerDetailsForm setPopupVisiblity={setPopupVisiblity} isPopupOpen={isPopupOpen} />
+        {/* End of added code 06-04-2023 */}
       </div> : null}
     </>
   )
