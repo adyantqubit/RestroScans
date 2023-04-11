@@ -294,3 +294,62 @@ export const updateAllOfferItems = async (value, tenant,id) => {
   return response ? response.data : {};
 };
 // End getting offers
+
+
+
+// ------------------------ App Setting API -------------------------------- //
+// Added by Yuvraj Sahu on 8-4-2023
+// Reason - to save app setting
+export const saveSettingApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/setting-changes/color/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving setting
+
+
+// Added by Yuvraj Sahu on 8-4-2023
+// Reason - to save app setting
+export const getSettingApi = async (tenant) => {
+  const response = await API.get(`api/v1/${tenant}/setting-changes/color/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving setting
+// --------------------- End of app setting API ----------------------
+
+
+// This function is used to call
+// API for get all orders from backend
+// Added by Yuvraj Sahu on 9-4-2023
+// Reason - to get all orders
+export const getOrdersApi = async (tenant) => {
+  const response = await API.get(`api/v1/${tenant}/all-orders/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of getting all orders
+
+
+// This function is used to call
+// API for get all items of that perticular order from backend
+// Added by Yuvraj Sahu on 9-4-2023
+// Reason - to get order items
+export const getOrderItemsApi = async (tenant, id) => {
+  const response = await API.get(`api/v1/${tenant}/order-items/${id}/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of getting all orders

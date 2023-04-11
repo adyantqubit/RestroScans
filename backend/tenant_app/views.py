@@ -343,15 +343,23 @@ class SettingAPIView(APIView):
         setting=Setting.objects.last()
         if setting is not None:
            settingSerializer=SettingSerializer(setting)
+           return Response({
+            "msg":"success",
+            "setting":settingSerializer.data,
+            })
         else:
             settingSerializer={"data":0}
-        return Response({
-            "msg":"success",
-            "setting":settingSerializer['data'],
-            })
+            return Response({
+                "msg":"success",
+                "setting":"",
+                })
     
     def post(self,request,tenant):
-        serial = SettingSerializer(data=request.data)
+        if "id" in request.data :
+            obj = Setting.objects.get(id=request.data["id"])
+            serial = SettingSerializer(obj, data=request.data)
+        else :
+            serial = SettingSerializer(data=request.data)
         if serial.is_valid():
             serial.save()
             return Response({
@@ -562,3 +570,46 @@ class updatePaymentModeAPIView(APIView):
 
 
 # End
+
+
+"""
+This method is created for getting 
+all latest orders for app
+"""
+# Added by Yuvraj Sahu on 9-4-2023
+# Reason - to get all orders
+class getOrdersAPI(APIView):
+    def get(self,request,tenant):
+        allOrders = Order.objects.all().order_by("-date")
+        ordersSerializer=OrderSerializer(allOrders, many=True)
+        return Response ({"msg":"success", "allOrders": ordersSerializer.data})
+# End of getting orders
+"""
+End of getting all orders
+"""
+
+"""
+This method is created for getting 
+all the items inside perticular order
+note - this is for restaurant app
+"""
+# Added by Yuvraj Sahu on 9-4-2023
+# Reason - to get all items inside the order
+class getOrderItemsAPI(APIView):
+    def get(self, request, tenant, pk):
+        order = Order.objects.filter(id=pk).first()
+        customerDetail =  CustomerDetail.objects.filter(id=order.customer_id.id).first()
+        itemObjs = OrderItem.objects.filter(order_id=pk)
+        orderItemsSerializer=OrderItemSerializer(itemObjs, many=True)
+        customerSerializer=CustomerDetailSerializer(customerDetail)
+        OrderSerializers = OrderSerializer(order)
+        return Response ({
+            "msg":"success",
+            "orderItems": orderItemsSerializer.data,
+            "customerDetail": customerSerializer.data,
+            "orderDetail": OrderSerializers.data
+            })
+# End of getting order items
+"""
+End of getting all orders
+"""

@@ -117,6 +117,10 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 # Added by Parineeta Gedam on 06-04-2023
 # Reason : show the Order
 class OrderSerializer(serializers.ModelSerializer):
+	# Added by Yuvraj Sahu on 9-4-2023
+	# Reason - to get customer name from customer detail table
+    customer_name = serializers.CharField(source="customer_id.name")
+    # End of addition 
     class Meta:
         model = Order
         fields = '__all__'

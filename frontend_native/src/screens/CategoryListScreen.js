@@ -27,21 +27,28 @@ import {AppStateContext} from "../context/AppStateProvider";
 
 export default function CategoryListScreen({ route, navigation }) {
   /* Get the param */
-  const { menuName, categoryList, itemList, menuList, menuID, menuObj, filteredCategories } = route.params;
+  const {
+    menuName,
+    categoryList,
+    itemList,
+    menuList,
+    menuID,
+    menuObj,
+    filteredCategories,
+  } = route.params;
 
   const [tempPhoto, setTempPhoto] = useState(null);
   const [icon, setImage] = useState(null);
   var [isDisable, setIsDisable] = useState(false);
   const [isMenuChecked, setMenuChecked] = useState(menuObj[0].is_active);
 
-
-// Added by Yuvraj Sahu on 7-4-2023
+  // Added by Yuvraj Sahu on 7-4-2023
   // Reason - to get all menu, category and item and rerender page
-  var {render, setRender} = useContext(AppStateContext)
+  var { render, setRender } = useContext(AppStateContext);
 
-  useEffect(()=>{
-    getAllmenus()
-  },[render])
+  useEffect(() => {
+    getAllmenus();
+  }, [render]);
 
   var [menuObject, setMenuObject] = useState(menuObj);
   //  var menuObject = menuObj
@@ -51,19 +58,20 @@ export default function CategoryListScreen({ route, navigation }) {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    var response = await getAllMenuList (tenant)
+    var response = await getAllMenuList(tenant);
     if (response) {
       // setMenuObject((response.menuList).filter((dt) => dt.id == menuID )[0])
-      setCategoryObject((response.categoryList).filter((dt) => dt.menu_id == menuID ))
+      setCategoryObject(
+        response.categoryList.filter((dt) => dt.menu_id == menuID)
+      );
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     // setMenuObject()
     // getAllmenus()
-  },[])
-// End of addition
-
+  }, []);
+  // End of addition
 
   // To upload image
   const pickImage = async () => {
@@ -104,9 +112,9 @@ export default function CategoryListScreen({ route, navigation }) {
     updateMenuApi(formData, tenant, menuID).then((response) => {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
-        var a = response.menuList.filter((dt)=>dt.id == menuID)
-        setMenuObject(a)
-        setRender(!render)
+        var a = response.menuList.filter((dt) => dt.id == menuID);
+        setMenuObject(a);
+        setRender(!render);
         // navigate('login')
         // setState("stateChanged")
       }
@@ -164,15 +172,15 @@ export default function CategoryListScreen({ route, navigation }) {
   } = useForm({
     defaultValues: {
       // name: menuObj[0].name,
-      name: menuObject[0].name
+      name: menuObject[0].name,
     },
   });
 
   // Added by Yuvraj Sahu on 4-4-2023
   // Reason - to navigate item screan and send filtered item list
   function itemFilter(categoryID, categoryName) {
-  	// Modified by Yuvraj Sahu on 7-4-2023
-  	// Reason - to filter new data
+    // Modified by Yuvraj Sahu on 7-4-2023
+    // Reason - to filter new data
     var categoryObj = categoryObject.filter((dt) => dt.id == categoryID);
     // End of modification
     var filteredItems = itemList.filter((e) => e.category == categoryID);
@@ -184,7 +192,7 @@ export default function CategoryListScreen({ route, navigation }) {
       menuName: menuName,
       categoryObj: categoryObj,
       menuList: menuList,
-      categoryList: categoryList
+      categoryList: categoryList,
     });
   }
   // End of addition
@@ -277,14 +285,14 @@ export default function CategoryListScreen({ route, navigation }) {
           )}
         </View>
         <View style={styles.activeStatus}>
-        <Checkbox
-          // style={styles.checkbox}
-          value={isMenuChecked}
-          onValueChange={setMenuChecked}
-          color={isMenuChecked ? "#4630EB" : undefined}
-        />
+          <Checkbox
+            // style={styles.checkbox}
+            value={isMenuChecked}
+            onValueChange={setMenuChecked}
+            color={isMenuChecked ? "#4630EB" : undefined}
+          />
           <Text style={styles.activeLable}>Active status</Text>
-          </View>
+        </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
@@ -336,7 +344,9 @@ export default function CategoryListScreen({ route, navigation }) {
 
         </View>
         <View style={styles.categoryContainer}>
-          <Text style={styles.categoryLable}>Categories inside {menuObject[0].name}</Text>
+          <Text style={styles.categoryLable}>
+            Categories inside {menuObject[0].name}
+          </Text>
           {categoryObject.map((categoryData, id) => (
             <Pressable
               key={id}
@@ -364,7 +374,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     backgroundColor: "white",
-    paddingTop: 10
+    paddingTop: 10,
   },
   mainHeader: {
     marginTop: 10,
@@ -485,9 +495,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "93%",
     alignSelf: "center",
-    marginTop: 5
+    marginTop: 5,
   },
   activeLable: {
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });

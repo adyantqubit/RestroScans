@@ -8,7 +8,7 @@ import AddMenu from '../components/AddMenu';
 import AddCategory from '../components/AddCategory';
 const Tab = createMaterialTopTabNavigator();
 
-export function MenuAddScreen() {
+export function AddScreen() {
     return (
       <Tab.Navigator>
         <Tab.Screen name="Menu" component={AddMenu} />

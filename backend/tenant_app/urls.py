@@ -83,5 +83,16 @@ urlpatterns = [
     # Reason : post operation perform for customer details, order table, orderItems table.
     path('<str:tenant>/update-payment-mode/',updatePaymentModeAPIView.as_view()),
     # End of added code 06-04-2023
+    
+    # Added by Yuvraj Sahu on 9-4-23
+    # Reason : get all orders / this is access for restaurant
+    path('<str:tenant>/all-orders/',getOrdersAPI.as_view()),
+    # End of addition
 
-]   
+    # Added by Yuvraj Sahu on 9-4-23
+    # Reason : get all orders / this is access for reastaurant
+    path('<str:tenant>/order-items/<int:pk>/',getOrderItemsAPI.as_view()),
+    # End of addition
+
+
+]

@@ -1,6 +1,6 @@
 // Created by Yuvraj Sahu on 24-2-2023
 // Reason - it is created for restaurant after restaurant login
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -16,14 +16,18 @@ import RNExitApp from "react-native-exit-app";
 import config, { setTenant, tenantName } from "../config/config";
 import { colors, fonts } from "../Colours/globalColor";
 import { useNavigation } from "@react-navigation/native";
+import { AppStateContext } from "../context/AppStateProvider";
 // import '../Colours/GlobalColor.css';
 
 export default function HomeScreen({ navigation }) {
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
 
+  var { render, setRender, getSettingData } = useContext(AppStateContext)
+
    React.useEffect(() => {
     authNavigate();
+    getSettingData();
   }, []);
 
   useEffect(() => {

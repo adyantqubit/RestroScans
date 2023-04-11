@@ -165,6 +165,13 @@ class SettingAdmin(admin.ModelAdmin):
             return False
         else:
             return True
+    # Added by Yuvraj sahu on 84-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(SettingAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['tax'].widget.attrs['style'] = 'width: 20em;'
+        return form
+    # End of addition
     # Added by Yuvraj Sahu on 29-3-2023
     # Reason - to add only one time
     def has_add_permission(self, request):

@@ -8,11 +8,13 @@ import OfferScreen from "../screens/OfferScreen";
 import PreviewMenuScreen from "../screens/PreviewMenuScreen";
 import { colors } from "../Colours/globalColor";
 import MenuThemeScreen from "../screens/MenuThemeScreen";
-import { MenuAddScreen } from "../screens/MenuAddScreen";
+import { AddScreen } from "../screens/AddScreen";
 import { AddBannerItemScreen } from "../screens/AddBannerItemScreen";
 
 // import { getTenantApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
+import SettingScreen from "../screens/SettingScreen";
+import OrdersScreen from "../screens/OrdersScreen";
 
 export default function DrawerNavigation() {
   const Drawer = createDrawerNavigator();
@@ -53,7 +55,7 @@ export default function DrawerNavigation() {
       />
       <Drawer.Screen
         name="Add"
-        component={MenuAddScreen}
+        component={AddScreen}
         options={{ drawerLabel: "Add Menu Item", title: "Add Menu Item" }}
       />
       <Drawer.Screen
@@ -85,6 +87,22 @@ export default function DrawerNavigation() {
         component={MenuThemeScreen}
         options={{ drawerLabel: "Theme", title: "Theme" }}
       />
+      {/* Added Yuvraj Sahu on 8-4-2023
+      Reason - to define routing for setting screen */}
+      <Drawer.Screen
+        name="SettingScreen"
+        component={SettingScreen}
+        options={{ drawerLabel: "Setting", title: "Setting" }}
+      />
+      {/* End of addition */}
+      {/* Added Yuvraj Sahu on 9-4-2023
+      Reason - to define routing for order screen */}
+      <Drawer.Screen
+        name="OrdersScreen"
+        component={OrdersScreen}
+        options={{ drawerLabel: "All Orders", title: "All Orders" }}
+      />
+      {/* End of addition */}
     </Drawer.Navigator>
   );
 }

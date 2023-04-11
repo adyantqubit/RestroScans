@@ -133,6 +133,16 @@ const AuthNavigation = () => {
             component={OfferItemsDetailScreen}
           ></Stack.Screen>
           {/* End of addition */}
+
+          {/* Added by Yuvraj Sahu on 9-4-2023
+          Reason - to navigate order item screen */}
+          <Stack.Screen
+            name="OrderItemsScreen"
+            options={{ title: "Order Detail" }}
+            component={OrderItemsScreen}
+          ></Stack.Screen>
+          {/* End of addition */}
+
         </Stack.Navigator>
       </NavigationContainer>
     </>
