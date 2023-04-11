@@ -105,7 +105,7 @@ class Offer(models.Model):
     id = models.AutoField(primary_key=True)
     offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
     discount = models.IntegerField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],verbose_name='Discount(%)')
+                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
     offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image")
     description=models.TextField(null=True,blank=True)
     

@@ -11,7 +11,7 @@ import {
     Image,
 } from "react-native";
 import React, { useState } from "react";
-import { saveMenuApi, updateAllOffer, getAllOfferItemList, deleteMenuApi } from "../api/Services";
+import { saveMenuApi, updateAllOffer, getAllOfferItemList, deleteOfferApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import { useForm, Controller } from "react-hook-form";
@@ -99,39 +99,39 @@ export default function OfferItemsScreen({ route, navigation }) {
 
     // Added by Om on 07-04-23
     // Reason : To delete the menu section
-    // const handleDelete = async () => {
-    //   var tenant = JSON.parse(
-    //     await SecureStore.getItemAsync("tenantInfo")
-    //   ).tenant_name;
+    const handleDelete = async () => {
+      var tenant = JSON.parse(
+        await SecureStore.getItemAsync("tenantInfo")
+      ).tenant_name;
 
-    //   deleteMenuApi(tenant, menuID).then((response) => {
-    //     if (response.msg) {
-    //       Alert.alert("Succesfull", response.msg);
-    //       setRender(!render)
-    //       navigation.pop()
-    //     }
-    //     if (response.error) {
-    //       Alert.alert("Error", response.error);
-    //     }
-    //   });
-    // };
+      deleteOfferApi(tenant, bannerList[0].id).then((response) => {
+        if (response.msg) {
+          Alert.alert("Succesfull", response.msg);
+          setRender(!render)
+          navigation.pop()
+        }
+        if (response.error) {
+          Alert.alert("Error", response.error);
+        }
+      });
+    };
 
-    // function showAlert1() {
-    //   Alert.alert(
-    //     'Alert Title',
-    //     'My Alert Msg',
-    //     [
-    //       {
-    //         text: 'Cancel',
-    //         style: 'cancel',
-    //       },
-    //       {
-    //         text: 'OK',
-    //         onPress: () => { handleDelete() }
-    //       },
-    //     ]
-    //   );
-    // }
+    function showAlert1() {
+      Alert.alert(
+        'Alert Title',
+        'My Alert Msg',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => { handleDelete() }
+          },
+        ]
+      );
+    }
     // End of addition
     const {
         control,
@@ -326,7 +326,7 @@ export default function OfferItemsScreen({ route, navigation }) {
 
                     {/* Added by Om on 07-04-23
           Reason : Add delete for functionality */}
-                    {/* <Pressable
+                    <Pressable
             onPress={showAlert1}
             disabled={isDisable}
             style={{
@@ -345,9 +345,9 @@ export default function OfferItemsScreen({ route, navigation }) {
                 fontWeight: "bold",
               }}
             >
-              Delete menu
+              Delete banner
             </Text>
-          </Pressable> */}
+          </Pressable>
                     {/* End of addition */}
 
                 </View>

@@ -353,3 +353,46 @@ export const getOrderItemsApi = async (tenant, id) => {
   return response ? response.data : {};
 };
 // End of getting all orders
+
+
+// Added by Om on 8-4-2023
+// Reason - to delete the banner and banner-items
+export const deleteOfferApi = async ( tenant, id) => {
+  const response = await API.delete(`/api/v1/${tenant}/offer-details/${id}/`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const deleteOfferItemsApi = async ( tenant, id) => {
+  const response = await API.delete(`/api/v1/${tenant}/offer-items-details/${id}/`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition 
+
+// Added by Om shrivastava on 11-04-23
+// Reason - to get app theme
+export const getApptheme = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/app-theme/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const saveAppTheme = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/app-theme/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting menu list

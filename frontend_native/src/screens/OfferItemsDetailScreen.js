@@ -14,7 +14,7 @@ import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
     getAllOfferItemList,
-    deleteCategoryApi,
+    deleteOfferItemsApi,
     getMenuList,
     saveCategoryApi,
     updateAllOfferItems,
@@ -189,38 +189,39 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
     // Added by Om on 07-04-23
     // Reason : To delete the category section
 
-    // const handleDelete = async () => {
-    //   var tenant = JSON.parse(
-    //     await SecureStore.getItemAsync("tenantInfo")
-    //   ).tenant_name;
+    const handleDelete = async () => {
+      var tenant = JSON.parse(
+        await SecureStore.getItemAsync("tenantInfo")
+      ).tenant_name;
 
-    //   deleteCategoryApi(tenant, categoryID).then((response) => {
-    //     if (response.msg) {
-    //       Alert.alert("Succesfull", response.msg);
-    //       navigation.pop()
-    //     }
-    //     if (response.error) {
-    //       Alert.alert("Error", response.error);
-    //     }
-    //   });
-    // };
+      deleteOfferItemsApi(tenant, bannerItemList[0].id).then((response) => {
+        if (response.msg) {
+          Alert.alert("Succesfull", response.msg);
+          setRender(!render)
+          navigation.pop()
+        }
+        if (response.error) {
+          Alert.alert("Error", response.error);
+        }
+      });
+    };
 
-    // function showAlert1() {
-    //   Alert.alert(
-    //     'Alert Title',
-    //     'My Alert Msg',
-    //     [
-    //       {
-    //         text: 'Cancel',
-    //         style: 'cancel',
-    //       },
-    //       {
-    //         text: 'OK',
-    //         onPress: () => { handleDelete() }
-    //       },
-    //     ]
-    //   );
-    // }
+    function showAlert1() {
+      Alert.alert(
+        'Alert Title',
+        'My Alert Msg',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => { handleDelete() }
+          },
+        ]
+      );
+    }
     // End of addition
 
     return (
@@ -291,7 +292,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                     </Pressable>
                     {/* Added by Om on 07-04-23
             Reason : Add delete functionality */}
-                    {/* <Pressable
+                    <Pressable
               onPress={showAlert1}
               disabled={isDisable}
               style={{
@@ -310,9 +311,9 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                   fontWeight: "bold",
                 }}
               >
-                Delete category
+                Delete banner-items
               </Text>
-            </Pressable> */}
+            </Pressable>
                     {/* End of addition */}
 
                 </View>
