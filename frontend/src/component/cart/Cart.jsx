@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom'
 import config from '../../config/config'
 import PopupDetail from '../MenuItem/PopupDetail'
 import CustomerDetailsForm from '../CustomerDetails/CustomerDetailsForm'
+import secureLocalStorage from "react-secure-storage";
+import { updateOrders } from '../../api/Services';
+
 
 const Cart = () => {
   const nav = useNavigate()
@@ -34,6 +37,35 @@ const Cart = () => {
     }
   }
 
+  {/* Added by :- Parineeta Gedam
+      Date :- 11-04-2023
+      Reason :- get orders from localstroage.
+  */}
+
+  var orders = secureLocalStorage.getItem('order');
+  var orderItem = secureLocalStorage.getItem('orderItem');
+  console.log("orderItems",orderItem)
+  {/* End of added code 06-04-2023 */ }
+
+  {/* Added by :- Parineeta Gedam
+      Date :- 11-04-2023
+      Reason :- update the orders
+  */}
+
+  const navigations = async () => {
+    const cartData = {
+      cart: cart,
+      orders:orders.order_id,
+      orderItem : orderItem,
+    };
+    console.log("data",cartData)
+    var tenantName = localStorage.getItem("tenantName")
+    const response = await updateOrders(tenantName,cartData);
+    console.log("res", response)
+    navigate('/invoice')
+  };
+
+  {/* End of added code 06-04-2023 */ }
 
    {/* Added by :- Parineeta Gedam
       Date :- 06-04-2023
@@ -46,8 +78,8 @@ const Cart = () => {
 
   const showModal = () => {
     setPopupVisiblity(true);
-
   };
+
   {/* End of added code 06-04-2023 */ }
 
   return (
@@ -91,7 +123,7 @@ const Cart = () => {
       </div>
 
       {cart.length > 0 ? <div className={style.btnContainer} style={{ background: colors.headingBackgroundColor, color: colors.subHeadingColor }}>
-        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => nav(-1)}>Cancel</button>
+        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Cancel</button>
            {/* Commented by :- Parineeta Gedam
             Date :- 06-04-2023
             Reason :- Open Model for customer details.
@@ -104,7 +136,8 @@ const Cart = () => {
             Reason :- Open Model for customer details.
         */}
 
-        <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => {showModal()}} >Proceed</button>
+        <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => {!orders ? showModal() : navigations()}} >Proceed</button>
+        
         <CustomerDetailsForm setPopupVisiblity={setPopupVisiblity} isPopupOpen={isPopupOpen} />
         {/* End of added code 06-04-2023 */}
       </div> : null}

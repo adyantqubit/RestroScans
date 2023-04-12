@@ -285,6 +285,7 @@ Reason - To store Order Item
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
+    item_id= models.ForeignKey(Item,blank=True,null=True,on_delete=models.CASCADE)
     item = models.CharField(max_length=255)
     serving_size = models.CharField(max_length=255)
     quantity = models.IntegerField(default=0)
@@ -301,4 +302,21 @@ class OrderItem(models.Model):
 
 """
 End of added code 06-04-2023
+"""
+"""
+Added by - Parineeta Gedam on 11-04-2023
+Reason - To store scanner
+"""
+class PaymentMethod(models.Model):
+    scanner = models.ImageField(upload_to='scanner/', null=True)
+
+    class Meta:
+        verbose_name = "Payment Method"
+        verbose_name_plural = 'j) Payment Method'
+
+    def __str__(self):
+        return f"{self.scanner}"
+
+"""
+End of added code 11-04-2023
 """

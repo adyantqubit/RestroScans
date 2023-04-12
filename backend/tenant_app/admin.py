@@ -294,4 +294,18 @@ admin.site.register(OrderItem, OrderItemAdmin)
 """
 End of added code 06-04-2023
 """
+"""
+Added by :- Parineeta Gedam Date - 06-04-2023
+Reason- Register Order Item.
+"""
+class PaymentMethodAdmin(admin.ModelAdmin):
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+admin.site.register(PaymentMethod, PaymentMethodAdmin)
 
+"""
+End of added code 06-04-2023
+"""

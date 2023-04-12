@@ -129,10 +129,6 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 # Added by Parineeta Gedam on 06-04-2023
 # Reason : show the Order
 class OrderSerializer(serializers.ModelSerializer):
-	# Added by Yuvraj Sahu on 9-4-2023
-	# Reason - to get customer name from customer detail table
-    customer_name = serializers.CharField(source="customer_id.name")
-    # End of addition 
     class Meta:
         model = Order
         fields = '__all__'
@@ -151,11 +147,9 @@ class AllOrderSerializer(serializers.ModelSerializer):
 # Added by Parineeta Gedam on 06-04-2023
 # Reason : show the Order Item
 class OrderItemSerializer(serializers.ModelSerializer):
-    # rating = serializers.DecimalField(allow_null=True, allow_blank=True)
     class Meta:
         model = OrderItem
         fields = '__all__'
-
 # End of added code 06-04-2023
 
 
@@ -167,3 +161,10 @@ class AppThemeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # End of addition
+# Added by Parineeta Gedam on 06-04-2023
+# Reason : show the payment method
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentMethod
+        fields = '__all__'
+# End of added code 06-04-2023

@@ -58,7 +58,7 @@ export const getThemeChanges = async (tenantId) => {
 
 // Added by :- Parineeta Gedam
 // Date :- 06-04-2023
-// Reason :- Post API for customer details.
+// Reason :- Post API for customer details and orders.
 export const postCustomerDetails = async(formdata,tenantId) => {
   const response = await API.post(`/${tenantId}/customer-details/`,formdata,
   {headers : {'Content-Type':'application/json'}}).catch(
@@ -66,6 +66,17 @@ export const postCustomerDetails = async(formdata,tenantId) => {
   return response ? response.data: {}
 }
 // End of added code 006-04-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 09-04-2023
+// Reason :- update the order items when user again add the items in cart
+export const updateOrders = async(tenantId,cartData) => {
+  const response = await API.put(`/${tenantId}/update-orders/`,cartData,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 09-04-2023
 
 // Added by :- Parineeta Gedam
 // Date :- 09-04-2023
@@ -84,6 +95,29 @@ export const updateOrderItemsApi = async(tenantId,orderId) => {
 // Reason :- update the payment mode
 export const updatePaymentModeApi = async(tenantId,order) => {
   const response = await API.put(`/${tenantId}/update-payment-mode/`,order,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 09-04-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 09-04-2023
+// Reason :- update the rating and review
+export const updateRatingAndReviewApi = async(tenantId,invoiceData) => {
+  const response = await API.put(`/${tenantId}/update-rating-review/`,invoiceData,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 09-04-2023
+
+
+// Added by :- Parineeta Gedam
+// Date :- 09-04-2023
+// Reason :- get scanner
+export const getScannerApi = async(tenantId) => {
+  const response = await API.get(`/${tenantId}/get-scanner/`,
   {headers : {'Content-Type':'application/json'}}).catch(
       err => console.log(err))
   return response ? response.data: {}

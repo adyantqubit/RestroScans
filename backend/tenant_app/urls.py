@@ -80,8 +80,13 @@ urlpatterns = [
     # End of added code 06-04-2023
 
     # Added by :- Parineeta Gedam on 06-04-2023
-    # Reason : post operation perform for customer details, order table, orderItems table.
-    path('<str:tenant>/update-payment-mode/',updatePaymentModeAPIView.as_view()),
+    # Reason : In order table update the payment mode.
+    path('<str:tenant>/update-orders/',updateOrdersAPIView.as_view()),
+    # End of added code 06-04-2023
+
+    # Added by :- Parineeta Gedam on 06-04-2023
+    # Reason : In order table update the payment mode.
+    path('<str:tenant>/update-rating-review/',updateRatingAndReviewAPIView.as_view()),
     # End of added code 06-04-2023
     
     # Added by Yuvraj Sahu on 9-4-23
@@ -99,4 +104,14 @@ urlpatterns = [
     path('<str:tenant>/app-theme/',AppThemeAPI.as_view()),
     # End of addition
 
-]
+    # Added by :- Parineeta Gedam on 06-04-2023
+    # Reason : get scanner
+    path('<str:tenant>/get-scanner/',getPaymentMethodAPIView.as_view()),
+    # End of added code 06-04-2023
+
+    # Added by :- Parineeta Gedam on 06-04-2023
+    # Reason : In order table update the payment mode.
+    path('<str:tenant>/update-payment-mode/',updatePaymentModeAPIView.as_view()),
+    # End of added code 06-04-2023
+
+]   

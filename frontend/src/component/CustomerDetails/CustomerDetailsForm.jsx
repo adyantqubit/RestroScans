@@ -18,7 +18,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 
   {/* Added by :- Parineeta Gedam
     Date :- 06-04-2023
-    Reason :- Ui desiging and functionality of customer details form.
+    Reason :- submit the customer details, orders, and order items
 */}
   const navigate = useNavigate();
 
@@ -31,10 +31,8 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
       table_number: formdata.table_number,
       cart: cart,
     };
-    console.log("customerDetail",customerDetail)
     var tenantName = localStorage.getItem("tenantName")
     const response = await postCustomerDetails(customerDetail, tenantName);
-    console.log("res",response)
     if (response.msg) {
       secureLocalStorage.setItem("invoice_detail",response.data)
       secureLocalStorage.setItem("customerDetails", JSON.stringify(response.data.contact_number))

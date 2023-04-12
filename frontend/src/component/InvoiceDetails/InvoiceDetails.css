@@ -130,6 +130,23 @@
 }
 /* End of added css */
 
+/* ------ Review Container ------------ */
+
+.invoice_review_container{
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+.invoice_review_label{
+    width: 20%;
+}
+.invoice_review_input{
+    width: 50%;
+    height: 10%;
+}
+
+/* End of added code */
+
 
 /* ---------- Button css --------------- */
 .invoice_btn_container {

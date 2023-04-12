@@ -1,13 +1,9 @@
-.payment_heading_container{
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 5px;
-    background-color: aquamarine;
-    border-radius: 10px;
+.payment_heading_container {
+    width: 100%;
 }
-.payment_heading{
-    align-items: center;
+
+.payment_heading {
+    text-align: center;
     font-size: 22px;
     font-weight: 600;
     font-family: 'Times New Roman', Times, serif;
@@ -15,16 +11,29 @@
 
 
 /* ------------ Radio Group css */
-.radio_container{
-    width: 100%;
+.radio_container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 5px;
+    justify-content: center;
+    border: 2px solid black;
+    
 }
-.payment_radio_icon{
-    width: 50%;
-    float: inline-end;
+.payment_mode_container{
+    width: 100%;
+    margin-left: 25px;
+    display: flex;
 }
-.payment_mode_haeding{
-
+.payment_mode_img_container{
+    width: 20%;
+    height: 50%;
+}
+.payment_mode_heading {
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 /* End of added code  */
@@ -34,6 +43,8 @@
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+    justify-content: center;
     margin-top: 5px;
 }
+
 /* End of added button css --------------------- */

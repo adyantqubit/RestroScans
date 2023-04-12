@@ -478,6 +478,7 @@ def orderItemsCreation(request,order_obj):
                 discounted=0
                 if allOffer.filter(item_name=item).count() > 0:
                    discounted = allOffer.get(item_name=item).offer_name.discount
+                cartData["item_id"]=item.id   
                 cartData['order_id'] =  order_obj.id
                 cartData['item'] =  cart['name']
                 cartData['serving_size'] =  cart['serve_size']
@@ -548,13 +549,53 @@ class PostCustomerDetailsAPIView(APIView):
         #     return Response({"msg":"error"},status=status.HTTP_201_CREATED)
 # End of added code 06-04-2023 
 
+# Added by :- Parineeta Gedam
+# Date :- 10-04-2023
+# Reason :- In order Item table update rating and review 
 
-# Added
+class updateRatingAndReviewAPIView(APIView):
+   
+    def put(self, request, tenant):
 
-class updatePaymentModeAPIView(APIView):
-    # on pay button and on check invoice button when login user click on this button then whatever product he/she order , all product are save into the OrderHistory model.
+        orderList = request.data
+        for order in orderList:
+            orderObj = OrderItem.objects.get(id = order['id'])
+            if 'rating' in order:
+                orderObj.rating = order['rating']
+            else :
+                pass                 
+
+            if order['review'] == "":
+                orderObj.review = "-"
+            else :
+                orderObj.review = order['review']
+
+            orderObj.save()
+
+        return Response({ "msg": "success"},status=status.HTTP_201_CREATED)
+# End of added code 10-04-2023
+
+# Added by :- Parineeta Gedam
+# Date :- 10-04-2023
+# Reason :- In order and order items table update cart data.
+
+class updateOrdersAPIView(APIView):
+   
     def put(self, request, tenant):
         print("request", request.data)
+
+        updateOrderList = []
+
+
+        # cart= []
+        # cart=request.data['cart']
+        # cart.filter(id=)
+
+        # for cartItem in request.data['cart']:
+        #     for orderItem in request.data['orderItem']:
+        #         # if orderItem[]
+        #         pass
+
 
         # orderObj = Order.objects.filter(order_id = request.data['order_id'])
         # print("orderObj",orderObj)
@@ -565,11 +606,8 @@ class updatePaymentModeAPIView(APIView):
         #     print("----------------")
         #     OrderSerializer.save()
         #     return Response({"msg":"success", "orderSerializer" : orderSerializer.data},status=status.HTTP_201_CREATED)
-        return Response({"error":serializers.errors},status=status.HTTP_400_BAD_REQUEST)
-        
-
-
-# End
+        return Response({})
+# End of added code 10-04-2023
 
 
 """
@@ -663,3 +701,36 @@ class AppThemeAPI(APIView):
         return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of modification
 # End of addition
+
+"""
+Added by :- Parineeta Gedam 
+Date - 11/04/2023
+Reason - To add scanner
+"""
+class getPaymentMethodAPIView(APIView):
+    def get(self,tenant):
+        print("------")
+        content = PaymentMethod.objects.all()
+        serializer = PaymentMethodSerializer(content, many=True)
+        return Response(serializer.data)
+"""
+End of added code
+"""
+
+# Added by :- Parineeta Gedam
+# Date :- 10-04-2023
+# Reason :- In order table update the payment mode['cash', 'scanner', 'card']. 
+
+class updatePaymentModeAPIView(APIView):
+   
+    def put(self, request, tenant):
+
+        orderObj = Order.objects.get(order_id = request.data['order_id'])
+        print("orderObj",orderObj)
+        orderObj.payment_mode=request.data['payment_mode']
+        orderObj.save()
+        return Response({"msg":"success"},200)
+    
+
+# End of added code 10-04-2023
+
