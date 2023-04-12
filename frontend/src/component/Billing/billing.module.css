@@ -1,0 +1,236 @@
+.billingContainer {
+    font-family:monospace;
+    letter-spacing: 0.6px;
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 2px 0;
+    padding-bottom: 150px;
+    /* margin-bottom: 50p; */
+}
+
+.inLineContainer {
+    min-width: 100%;
+    min-height: 10px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Hotellabel{
+    min-width: 100%;
+    /* margin-bottom: 8px; */
+    /* height: 50%; */
+    font-size: 17px;
+    font-weight: 600;
+    padding: 0 3%;
+    text-align: center;
+}
+
+.centerLabel{
+    min-width: 100%;
+    /* width: inherit; */
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: 600;
+    /* padding: 0 3%; */
+    text-align: center;
+}
+
+.label {
+    min-width: 22%;
+    /* width: inherit; */
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0 3%;
+    text-align: start;
+    white-space: nowrap;
+    /* text-align: ; */
+}
+
+.text {
+    min-width: 25%;
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+    /* padding: 1.5% 3%; */
+}
+
+.tableHeader {
+    height: 30px;
+    width: 95%;
+    margin: auto;
+    border-top: 1px solid black;
+    margin-top: 20px;
+    border-bottom: 1px solid black;
+    display: flex;
+    gap: 8px;
+}
+
+.titleHeading {
+    font-size: 12px;
+    width: 60%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    padding-right: 8%;
+    font-weight: 600;
+    text-align: start;
+}
+
+.rateHeading {
+    font-size: 12px;
+    width: 15%;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+}
+
+.quantityHeading {
+    font-size: 12px;
+    width: 20%;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+}
+
+.totalHeading {
+    font-size: 12px;
+    width: 15%;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+}
+
+.tableContents {
+    min-height: 30px;
+    width: 95%;
+    margin: auto;
+    margin: 1px 0;
+    display: flex;
+    gap: 4px;
+}
+
+.titleText {
+    font-size: 12px;
+    width: 58%;
+    /* background-color: black; */
+    padding: 0.5% 4%;
+    font-weight: 600;
+}
+
+.quantityText {
+    font-size: 12px;
+    width: 5%;
+    /* background-color: black; */
+    padding: 2% 2%;
+    font-weight: 600;
+}
+
+.rateText {
+    font-size: 12px;
+    width: 30%;
+    /* background-color: black; */
+    padding: 2% 2%;
+    font-weight: 600;
+    text-align: end;
+    white-space: nowrap;
+}
+
+.totalText {
+    font-size: 12px;
+    width: 30%;
+    /* background-color: black; */
+    padding: 2% 2%;
+    font-weight: 600;
+    text-align: end;
+    white-space: nowrap;
+}
+
+.breakLine {
+    width: 95%;
+    margin: 10px auto;
+    background-color: black;
+    height: 1px;
+
+}
+
+.CalculationBoxContainer {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: flex-end;
+    /* padding-right: 4%; */
+}
+
+.calculationBox {
+    width: 60%;
+    margin-right: 4%;
+    margin-bottom: 2%;
+    height: 100px;
+}
+
+.TotalBox{
+    width: 70%;
+    margin-right: 4%;
+    margin-bottom: 2%;
+    height: auto;  
+}
+
+.calculationLabel {
+    font-size: 12px;
+    width: 20%;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.calculationText {
+    width: 50%;
+    text-align: end;
+    font-size: 12px;
+    white-space: nowrap;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+}
+
+.TotalBoxContainer{
+    width: 100%;
+    height: auto;
+    padding: 0 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.calculationLine {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.TotalLabel{
+    font-size: 17px;
+    width: 20%;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+    width: 100%;
+    letter-spacing: 2px;
+}
+
+.TotalText{
+    font-size: 17px;
+    width: 80%;
+    text-align: end;
+    /* background-color: black; */
+    padding: 2% 4%;
+    font-weight: 600;
+    width: 100%;
+    letter-spacing: 2px;
+}

@@ -37,12 +37,29 @@
     padding: 5px 0;
 }
 
-.img{
+.imgContainer{
     width: 22%;
     height: fit-content;
+    padding-top:1%;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.img{
+    width: 100%;
+    height: fit-content;
     /* height: 100%; */
-    padding-top: 8px;
-    border-radius: 25px;
+    /* padding-top: 2px;
+    border-radius: 25px; */
+}
+
+.type_img{
+    width: 15px;
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    border-radius: 10px;
 }
 
 .infomation{
@@ -86,7 +103,7 @@
     padding: 3.5px 5px;
     width: 50%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     font-size: 13px;
     letter-spacing: 1.5px;
     font-family: "Times New Roman";
@@ -128,7 +145,7 @@
     /* margin-top: 5px; */
     width: 90%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     font-size: 13px;
     letter-spacing: 1.5px;
     font-family: "Times New Roman";

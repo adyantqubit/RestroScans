@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
 from admin_app.models import *
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -86,6 +87,14 @@ class Item(models.Model):
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
     # End of code addition
+    
+    average_rating=models.FloatField(default=0.0)
+    best_seller=models.BooleanField(default=False)
+    
+    @property
+    def average_rating(self):
+        return self.orderitem_set.aggregate(Avg('rating'))['rating__avg']
+    
     def __str__(self):
         return self.name 
     # Added by Yuvraj Sahu on 29-3-2023

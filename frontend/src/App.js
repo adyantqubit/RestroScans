@@ -11,6 +11,8 @@ import { useContext } from "react";
 import { GlobalContext } from "./context/Context";
 import InvoiceDetails from "./component/InvoiceDetails/InvoiceDetails";
 import Payment from "./component/Payment/Payment";
+import Billing from "./component/Billing/Billing";
+
 
 function App() {
   const { colors ,restaurant_name} = useContext(GlobalContext)
@@ -40,6 +42,7 @@ function App() {
           <Route exact path="/*" element={<Cover />} />
           <Route exact path="/menu-item" element={<MenuItem />} />
           <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/billing" element={<Billing/>} />
           {/* <Route exact path="/<str:tenant>/tenant-details/" element={<Cover />} /> */}
 
           {/* Added by :- Parineeta Gedam

@@ -161,7 +161,7 @@ class SettingAdmin(admin.ModelAdmin):
 
     # Added by Om on 11-04-23
     # Reason : Show the list display fields
-    list_display=("id","app_theme", "tax")
+    list_display=("id","app_theme", "tax","allow_half_price")
     # End of addition
     list_per_page=10
     def has_change_permission(self, request, obj=None) :

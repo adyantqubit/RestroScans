@@ -12,7 +12,8 @@ import PopupDetail from '../MenuItem/PopupDetail'
 import CustomerDetailsForm from '../CustomerDetails/CustomerDetailsForm'
 import secureLocalStorage from "react-secure-storage";
 import { updateOrders } from '../../api/Services';
-
+import vegIcon from '../../images/veg_icon.png'
+import nonVegIcon from '../../images/nonveg_icon.png'
 
 const Cart = () => {
   const nav = useNavigate()
@@ -91,28 +92,32 @@ const Cart = () => {
         {cart.length > 0 ? cart.map((item, i) =>
           <div className={style.card} >
             <RemoveItem removeProductIndex={removeProductIndex} currentIndex={item} setRemoveProductIndex={setRemoveProductIndex} />
-            <img alt="" src={config.siteURL + item.icon} className={style.img} />
+            <div className={style.imgContainer}>
+              <img alt="" src={config.siteURL + item.icon} className={style.img} />
+              {item.item_type == "Veg" ?
+                <img alt="" src={vegIcon} className={style.type_img} />
+                :
+                <img alt="" src={nonVegIcon} className={style.type_img} />}
+            </div>
 
             <div className={style.infomation}>
 
               <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
-              <div>
-                <div className={style.row1}>
-                  <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {item.serve_size}</div>
-                  <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
-                    <span className={style.sign} onClick={e => decreaseQuantity(item)}>
-                      -
-                    </span>
-                    {item.quantity}
-                    <span className={style.sign} onClick={e => { setDetailPopupVisiblity(true); setSelectedItem(item) }}>
-                      +
-                    </span>
-                  </span>
-                </div>
+              <div className={style.row1}>
+                <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {item.serve_size}</div>
+                <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price}</div>
+              </div>
 
-                <div className={style.row2} style={{ color: colors.subHeadingColor }}>
-                  <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price}</div>
-                </div>
+              <div className={style.row2} style={{ color: colors.subHeadingColor }}>
+                <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
+                  <span className={style.sign} onClick={e => decreaseQuantity(item)}>
+                    -
+                  </span>
+                  {item.quantity}
+                  <span className={style.sign} onClick={e => { setDetailPopupVisiblity(true); setSelectedItem(item) }}>
+                    +
+                  </span>
+                </span>
               </div>
             </div>
           </div>
@@ -123,7 +128,7 @@ const Cart = () => {
       </div>
 
       {cart.length > 0 ? <div className={style.btnContainer} style={{ background: colors.headingBackgroundColor, color: colors.subHeadingColor }}>
-        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Cancel</button>
+        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => nav(-1)}>Cancel</button>
            {/* Commented by :- Parineeta Gedam
             Date :- 06-04-2023
             Reason :- Open Model for customer details.
@@ -156,23 +161,23 @@ function RemoveItem({ removeProductIndex, currentIndex, setRemoveProductIndex })
   const { cart, setCart } = useContext(GlobalContext)
 
   function removeFromCart() {
-    var itemIndex=cart.findIndex(c=>c.id==removeProductIndex.id && c.serve_size == removeProductIndex.serve_size)
-    setCart(elementRemover(itemIndex,cart))
+    var itemIndex = cart.findIndex(c => c.id == removeProductIndex.id && c.serve_size == removeProductIndex.serve_size)
+    setCart(elementRemover(itemIndex, cart))
     setRemoveProductIndex(null)
-    localStorage.setItem("cart",JSON.stringify(elementRemover(itemIndex,cart)))
+    localStorage.setItem("cart", JSON.stringify(elementRemover(itemIndex, cart)))
   }
 
-  function elementRemover(specificIndex,list){
-    var temp=[];
-    for(var i=0;i<list.length;i++){
-       if(i!=specificIndex)
-       temp.push(list[i])
+  function elementRemover(specificIndex, list) {
+    var temp = [];
+    for (var i = 0; i < list.length; i++) {
+      if (i != specificIndex)
+        temp.push(list[i])
     }
 
     return temp
-}
+  }
 
-  if (removeProductIndex && removeProductIndex.id == currentIndex.id && removeProductIndex.serve_size==currentIndex.serve_size)
+  if (removeProductIndex && removeProductIndex.id == currentIndex.id && removeProductIndex.serve_size == currentIndex.serve_size)
     return (
       <div className={style.removeContainer}>
         <div className={style.warningText} >Are you sure want to remove this item?</div>
@@ -188,6 +193,7 @@ function RemoveItem({ removeProductIndex, currentIndex, setRemoveProductIndex })
 // Created on 8/4/23 - Rohan 
 // reason-This function return blank page ui 
 function BlankPage() {
+  const nav = useNavigate()
   const { colors } = useContext(GlobalContext)
   return <div className={style.blankPageContainer}>
     <div className={style.blankImgContainer}>
@@ -197,7 +203,7 @@ function BlankPage() {
       No item is added currently !
     </div>
     <div className={style.blankBtnContainer} >
-      <button className={style.blankBtn} style={{ color: colors.subHeadingColor, background: colors.bannerColor }}>Browse Menu</button>
+      <button className={style.blankBtn} style={{ color: colors.subHeadingColor, background: colors.bannerColor }} onClick={e => nav(-1)}>Browse Menu</button>
     </div>
   </div>
 }

@@ -18,7 +18,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 
   {/* Added by :- Parineeta Gedam
     Date :- 06-04-2023
-    Reason :- submit the customer details, orders, and order items
+    Reason :- Ui desiging and functionality of customer details form.
 */}
   const navigate = useNavigate();
 

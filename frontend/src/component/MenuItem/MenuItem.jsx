@@ -897,8 +897,17 @@ function MenuItem() {
 
                                     & nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
-                                  <br />
-                                  <br />
+                                  {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                                  <div>
+                                    <button className="add_product" style={{
+                                      color: colors.headingColor,
+                                      backgroundColor: colors.headingBackgroundColor,
+                                      borderRadius: '6px',
+                                    }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
+                                      />Add</button>
+                                  </div>
+                                  {/* end of 9/4/23 */}
                                 </div>
 
                                 {/* <span>
@@ -971,8 +980,18 @@ function MenuItem() {
                                     ) : null}
                                     &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
                                   </div>
-                                  <br />
-                                  <br />
+                                  {/* added by rohan -9/4/23
+                                      reason- add button to add item to list */}
+                                  <div className="add_buttonContainer">
+                                    <button className="add_product" style={{
+                                      color: colors.headingColor,
+                                      backgroundColor: colors.headingBackgroundColor,
+                                      borderRadius: '6px',
+                                    }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
+                                      />Add</button>
+                                  </div>
+                                  {/* end of 9/4/23 */}
+
                                 </div>
 
                               </>
