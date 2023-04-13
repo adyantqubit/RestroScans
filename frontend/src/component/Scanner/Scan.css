@@ -1,0 +1,25 @@
+.scanner_img_container{
+    
+}
+
+
+
+
+.scanner_btn_container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    font-size: 25px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.scanner_btn_heading {
+    padding: 5px;
+    text-align: center;
+    letter-spacing: 1.7px;
+    margin-bottom: 0px;
+    font-family: 'Times New Roman', Times, serif;
+}

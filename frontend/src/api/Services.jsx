@@ -123,3 +123,15 @@ export const getScannerApi = async(tenantId) => {
   return response ? response.data: {}
 }
 // End of added code 09-04-2023
+
+
+// Added by :- Parineeta Gedam
+// Date :- 06-04-2023
+// Reason :- Post API for customer details and orders.
+export const postCheckPaymentStatus = async(order,tenantId) => {
+  const response = await API.post(`/${tenantId}/check-payment-status/`,order,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 006-04-2023

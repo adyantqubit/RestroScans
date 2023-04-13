@@ -1,3 +1,7 @@
+// Added by :- Parineeta Gedam
+// Date :- 07-04-2023   
+// Reason :- show the customer form
+
 import { React, useContext } from 'react';
 import { GlobalContext } from "../../context/Context";
 import { Button, Form, Input, Card, message, } from "antd";
@@ -18,7 +22,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 
   {/* Added by :- Parineeta Gedam
     Date :- 06-04-2023
-    Reason :- Ui desiging and functionality of customer details form.
+    Reason :- submit the customer details, orders, and order items
 */}
   const navigate = useNavigate();
 
@@ -179,23 +183,25 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   </Form.Item>
                 </Form.Item>
 
+                <div className={style.checkInvoiceBtn}>
                 <Form.Item>
                   <Button
                     id="signBtn"
                     type="primary"
                     htmlType="submit"
                     block
+                    className={style.checkInvoiceBtnHeading}
                     style={{
                       backgroundColor: colors.bannerColor,
                       color: colors.backgroundTheme,
                       border: "none",
-                      fontWeight: "600",
-                      marginBottom:"50%"
+                      width:"80%",
                     }}
                   >
-                    Proceed to pay
+                   Check invoice
                   </Button>
                 </Form.Item>
+                </div>
               </Form>
             </Card>
 
@@ -206,3 +212,5 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
   )
 }
 
+
+// End of added code 07-04-2023

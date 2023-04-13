@@ -708,8 +708,7 @@ Date - 11/04/2023
 Reason - To add scanner
 """
 class getPaymentMethodAPIView(APIView):
-    def get(self,tenant):
-        print("------")
+    def get(self,request,tenant):
         content = PaymentMethod.objects.all()
         serializer = PaymentMethodSerializer(content, many=True)
         return Response(serializer.data)
@@ -733,4 +732,15 @@ class updatePaymentModeAPIView(APIView):
     
 
 # End of added code 10-04-2023
+
+# Added by :- Parineeta Gedam
+# Date :- 13-04-2023
+# Reason : check payment status
+class CheckPaymentStatusAPIView(APIView):
+    def post(self,request,tenant):
+        orderObj = Order.objects.get(order_id = request.data['order_id'])
+        serializer = OrderSerializer(orderObj)
+        return Response({"order":serializer.data},200)
+    
+# End of added code 13-04-2023
 

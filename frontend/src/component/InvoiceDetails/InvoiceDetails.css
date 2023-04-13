@@ -1,5 +1,15 @@
+/* Added by :- Parineeta Gedam
+Date :- 07-04-2023   
+Reason :- Invoice css */
+
 .invoice_heading_container{
     width: 100%;
+    font-size: 25px;
+    font-family: "Times New Roman";
+    letter-spacing: 1.7px;
+    font-weight: 600;
+    text-align: center;
+    padding: 5px 0;
 }
 
 .invoice_heading {
@@ -139,6 +149,8 @@
 }
 .invoice_review_label{
     width: 20%;
+    font-family: 'Times New Roman';
+    font-weight: 550;
 }
 .invoice_review_input{
     width: 50%;
@@ -155,6 +167,15 @@
     width: 50%;
     margin-top: 5px;
 }
+.invoice_btn_heading{
+    font-size: 16px;
+    letter-spacing: 1.7px;
+    font-family: "Times New Roman";
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+    text-align: center;
+}
 /* End of added button css --------------------- */
 
 .invoice_total_price_container .invoice_total_rating_sub_heading {
@@ -167,3 +188,6 @@
     word-wrap: break-all;
     margin-right: 5px;
 }
+
+
+/* End of added code 13-04-2023 */

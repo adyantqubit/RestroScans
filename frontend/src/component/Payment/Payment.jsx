@@ -74,7 +74,7 @@ export default function Payment() {
     console.log("ghchgc", response)
     if (response.msg) {
       message.success({
-        content: "success",
+        content: "Payment done successfully",
         key: 1,
         // icon: <CheckCircleOutlined />,
         style: {
@@ -85,10 +85,11 @@ export default function Payment() {
           color: colors.headingColor,
         },
       });
+      navigate("/bill-success");
     }
     else {
       message.error({
-        content: "error",
+        content: "Please try again",
         key: 1,
         // icon: <CheckCircleOutlined />,
         style: {
@@ -134,11 +135,11 @@ export default function Payment() {
           type="primary"
           htmlType="submit"
           block
+          className='payment_btn_heading'
           style={{
             backgroundColor: colors.bannerColor,
             color: colors.backgroundTheme,
             border: "none",
-            fontWeight: "600",
           }}
           onClick={() => {
             submitPaymentMode();

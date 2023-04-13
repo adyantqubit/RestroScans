@@ -95,8 +95,8 @@ export default function InvoiceDetails() {
 
   return (
     <>
-      <div className='invoice_heading_container'>
-        <h1 className='invoice_heading' style={{ backgroundColor: colors.headingBackgroundColor }}>Invoice</h1>
+      <div className='invoice_heading_container'style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Invoice
+        {/* <h1 className='invoice_heading' style={{ backgroundColor: colors.headingBackgroundColor }}>Invoice</h1> */}
       </div>
 
       <div className='invoice_Details_container'>
@@ -189,11 +189,11 @@ export default function InvoiceDetails() {
           type="primary"
           htmlType="submit"
           block
+          className='invoice_btn_heading'
           style={{
             backgroundColor: colors.bannerColor,
             color: colors.backgroundTheme,
             border: "none",
-            fontWeight: "600",
           }}
           onClick={(e) => updateInvoiceData()}
         >

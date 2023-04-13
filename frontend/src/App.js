@@ -12,12 +12,13 @@ import { GlobalContext } from "./context/Context";
 import InvoiceDetails from "./component/InvoiceDetails/InvoiceDetails";
 import Payment from "./component/Payment/Payment";
 import Billing from "./component/Billing/Billing";
-
+import BillSuccess from "./component/BillSuccess/BillSuccess";
+import Billing2 from "./component/BillPage/Billing";
 
 function App() {
-  const { colors ,restaurant_name} = useContext(GlobalContext)
-  
-  
+  const { colors, restaurant_name } = useContext(GlobalContext)
+
+
   // const nav = useNavigate()
 
   return (
@@ -33,7 +34,7 @@ function App() {
             {restaurant_name.toUpperCase()}
           </h2>
 
-          
+
 
         </div>
         {/* end of heading */}
@@ -47,11 +48,20 @@ function App() {
 
           {/* Added by :- Parineeta Gedam
               Date :- 07-04-2023
-              Reason : invoice
+              Reason : show the invoice, payment, and bill success page.
           */}
 
           <Route exact path="/invoice" element={<InvoiceDetails />} />
           <Route exact path="/payment" element={<Payment />} />
+
+          {/* End of added code */}
+
+          {/* Added by :- Parineeta Gedam
+              Date :- 11-04-2023
+              Reason : show the bill success page and Billing.
+          */}
+          <Route exact path="/bill-success" element={<BillSuccess />} />
+          <Route exact path="/billing" element={<Billing2 />} />
 
 
           {/* End of added code */}
