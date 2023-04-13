@@ -88,12 +88,16 @@ class Item(models.Model):
     is_active=models.BooleanField(default=False)
     # End of code addition
     
+    # addede by rohan -13/4/23
+    # reason- for calculating average rating from oorder item tabel
     average_rating=models.FloatField(default=0.0)
     best_seller=models.BooleanField(default=False)
     
     @property
     def average_rating(self):
         return self.orderitem_set.aggregate(Avg('rating'))['rating__avg']
+    
+    # end of code
     
     def __str__(self):
         return self.name 
