@@ -744,3 +744,80 @@ class CheckPaymentStatusAPIView(APIView):
     
 # End of added code 13-04-2023
 
+
+
+# Added by - Ashish Dewangan on 09-04-2023
+# Reason - to Dashboard data
+class DashboardAPI(APIView):
+    def get(self,request,tenant):
+        from django.utils.timezone import timedelta
+        from django.utils.timezone import datetime
+        from django.db.models import Sum
+
+        today=datetime.today().date()
+        weekDay=today.weekday()
+        startOfTheWeek=today - timedelta(days=weekDay)
+        dayOfMonth=today.day
+        startOfTheMonth=today - timedelta(days=(dayOfMonth-1))
+        thisYear=today.year
+        data=[]
+        
+        summary=[]
+        ordersCount=dict()
+        totalOrders = Order.objects.filter(date__gte=today).count()
+        ordersCount["title"]="Total orders of today"
+        ordersCount["value"]=totalOrders
+        summary.append(ordersCount)
+        totalRevenue=dict()
+        revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
+        totalRevenue["title"]="Today's revenue"
+        totalRevenue["value"]=revenue["total__sum"]
+        summary.append(totalRevenue)
+        data.append(summary)
+
+        summary=[]
+        ordersCount=dict()
+        totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
+        ordersCount["title"]="Total orders of this week"
+        ordersCount["value"]=totalOrders
+        summary.append(ordersCount)
+        totalRevenue=dict()
+        revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
+        totalRevenue["title"]="This week's revenue"
+        totalRevenue["value"]=revenue["total__sum"]
+        summary.append(totalRevenue)
+        data.append(summary)
+
+        summary=[]
+        ordersCount=dict()
+        totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
+        ordersCount["title"]="Total orders of this month"
+        ordersCount["value"]=totalOrders
+        summary.append(ordersCount)
+        totalRevenue=dict()
+        revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
+        totalRevenue["title"]="This month's revenue"
+        totalRevenue["value"]=revenue["total__sum"]
+        summary.append(totalRevenue)
+        data.append(summary)
+
+        summary=[]
+        ordersCount=dict()
+        totalOrders = Order.objects.filter(date__year=thisYear).count()
+        ordersCount["title"]="Total orders of this year"
+        ordersCount["value"]=totalOrders
+        summary.append(ordersCount)
+        totalRevenue=dict()
+        revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
+        totalRevenue["title"]="This year's revenue"
+        totalRevenue["value"]=revenue["total__sum"]
+        summary.append(totalRevenue)
+        data.append(summary)        
+
+        todays_orders=Order.objects.filter(date__gte=today)
+        todays_orders_serializer=OrderSerializer(todays_orders, many=True)
+        return Response({
+            "todays_orders":todays_orders_serializer.data,
+            "revenue_details":data
+        })
+# End of code addition for dashboard data

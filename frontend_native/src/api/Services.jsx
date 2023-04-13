@@ -396,3 +396,15 @@ export const saveAppTheme = async (value, tenant) => {
   return response ? response.data : {};
 };
 // End getting menu list
+
+// Added by Ashish Dewangan on 09-04-2023
+// Reason - to get Dashboard data
+export const getDashboardData = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/dashboard-data/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of code addition by Ashish for dashboard data

@@ -119,4 +119,9 @@ urlpatterns = [
     path('<str:tenant>/check-payment-status/',CheckPaymentStatusAPIView.as_view()),
     # End of added code 06-04-2023
 
+    # Added by - Ashish Dewangan on 09-04-23
+    # Reason - to get dashboard data
+    path('<str:tenant>/dashboard-data/',DashboardAPI.as_view()),
+    # End of code addition for dashboard data
+
 ]   
