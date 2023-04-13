@@ -14,16 +14,20 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
 
 // Added by Yuvraj Sahu on 15-3-2023
 // Reason - to tenant from localstorage and get menu lost
 
 export default function MenuListScreen({ navigation }) {
+
+  const isFocused = useIsFocused();
+
   var {render, setRender} = useContext(AppStateContext)
   useEffect(() => {
     getAllMenus();
     // getTenant();
-  }, [render]);
+  }, [render, isFocused]);
 
   var [menuList, setMenuList] = useState([]);
   var [categoryList, setCategoryList] = useState([]);
@@ -65,7 +69,7 @@ export default function MenuListScreen({ navigation }) {
   }
 
   return (
-    <View style={{ backgroundColor: colors.backgroundTheme, height: "100%" }}>
+    <View style={{ height: "100%" }}>
       <ScrollView>
         {/* Menu Items ----------------------------------------------- */}
         <View style={styles.menuContainer}>

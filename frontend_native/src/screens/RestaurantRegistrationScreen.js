@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -19,10 +19,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import { useNavigation } from "@react-navigation/native";
+import { AppStateContext } from "../context/AppStateProvider";
 
 export default function RestaurantRegistrationScreen({
   navigation: { navigate },
 }) {
+  //Added by Yuvraj Sahu on 12-4-2023
+  // Re render the page when data save
+  var { render, setRender } = useContext(AppStateContext);
+
   const navigator = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -54,15 +59,54 @@ export default function RestaurantRegistrationScreen({
     }
   };
 
+  // Added by Yuvraj Sahu on 12-4-2023
+  // Reason - to add background image
+  var [backImage, setBackImage] = useState(null);
+  const [backgroundFileName, setBackgroundFileName] = useState("");
+  const [backgroundPhoto, setBackgroundPhoto] = useState(null);
+  const pickBackImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setBackImage(result.assets[0].uri);
+      // alert(result.assets[0].fileName);
+      setBackgroundFileName(result.assets[0].fileName);
+      setBackgroundPhoto(result.assets[0]);
+    }
+  };
+  // End of addition
   const handleRegister = (formValues) => {
     var formData = new FormData();
-    const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
 
-    formData.append("restaurant_logo", {
-      uri: restaurant_logo,
-      name: restaurant_logo,
-      type: `image/${ext}`,
-    });
+    if (tempPhoto != null) {
+      const ext = tempPhoto.uri.substring(
+        tempPhoto.uri.lastIndexOf(".") + 1
+      );
+      formData.append("restaurant_logo", {
+        uri: restaurant_logo,
+        name: restaurant_logo,
+        type: `image/${ext}`,
+      });
+    }
+
+    // Added by Yuvraj Sahu on 12-4-2023
+    // Reason - to upload background image
+    if (backgroundPhoto != null) {
+      const ext = backgroundPhoto.uri.substring(
+        backgroundPhoto.uri.lastIndexOf(".") + 1
+      );
+      formData.append("restaurant_background_img", {
+        uri: backImage,
+        name: backImage,
+        type: `image/${ext}`,
+      });
+    }
+    // End of addition
 
     formData.append("restaurant_name", formValues.restaurant_name);
     formData.append("tag_line", formValues.tag_line);
@@ -78,6 +122,7 @@ export default function RestaurantRegistrationScreen({
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
         navigate("LoginScreen");
+        setRender(!render);
       }
       if (response.err) {
         Alert.alert("Error", response.msg);
@@ -141,7 +186,7 @@ export default function RestaurantRegistrationScreen({
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Name
+            Owner Name
           </Text>
           <Controller
             control={control}
@@ -164,7 +209,7 @@ export default function RestaurantRegistrationScreen({
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter your name"
+                    placeholder="Enter owner name"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -241,8 +286,8 @@ export default function RestaurantRegistrationScreen({
                 message: "Mobile number is required!",
               },
               pattern: {
-                value: /^[6789]\d{9}$/,
-                message: "Mobile Number is invalid!",
+                value: /^\d{10}$/,
+                message: "Mobile Number must be 10 digit",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -274,20 +319,24 @@ export default function RestaurantRegistrationScreen({
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Telephone Number
           </Text>
           <Controller
             control={control}
             name="telephone_number"
             rules={{
-              required: {
-                value: true,
-                message: "Telephone number is required!",
-              },
+              // required: {
+              //   value: true,
+              //   message: "Telephone number is required!",
+              // },
+              // pattern: {
+              //   value: /^[6789]\d{9}$/,
+              //   message: "Telephone number is invalid!",
+              // },
               pattern: {
-                value: /^[6789]\d{9}$/,
-                message: "Telephone number is invalid!",
+                value: /^\d{10}$/,
+                message: "Teliphone Number must be 10 digit",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -333,6 +382,7 @@ export default function RestaurantRegistrationScreen({
               minLength: {
                 value: 8,
                 message: "Password must be at least 8 characters!",
+                style: { marginTop: -10 },
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -477,18 +527,18 @@ export default function RestaurantRegistrationScreen({
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Tag line
           </Text>
           <Controller
             control={control}
             name="tag_line"
-            rules={{
-              required: {
-                value: true,
-                message: "Tag is required!",
-              },
-            }}
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Tag is required!",
+            //   },
+            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -560,16 +610,54 @@ export default function RestaurantRegistrationScreen({
         </View>
 
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: 'black',
+            borderRadius: 3,
+            // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
         >
           <Button title="Upload restaurant logo" onPress={pickImage} />
           {restaurant_logo && (
             <Image
               source={{ uri: restaurant_logo }}
-              style={{ width: 200, height: 200 }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
             />
           )}
         </View>
+
+        {/* Added by Yuvraj Sahu on 12-2023
+        Reason - to add restaurant background image */}
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: 'black',
+            borderRadius: 3,
+            // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            marginTop: 10,
+          }}
+        >
+          <Button title="Upload background image" onPress={pickBackImage} />
+          {backImage && (
+            <Image
+              source={{ uri: backImage }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
+            />
+          )}
+        </View>
+        {/* End of addition */}
 
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable

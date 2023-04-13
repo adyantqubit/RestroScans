@@ -27,13 +27,15 @@ export default function HomeScreen({ navigation }) {
 
    React.useEffect(() => {
     authNavigate();
-  }, []);
+  }, [render]);
 
 // Added by Yuvraj Sahu on 12-4-2023
 // Reason - to re render page
+React.useEffect(()=>{
+},[render])
   React.useEffect(()=>{
     getSettingData();
-  },[render])
+  },[])
 
   useEffect(() => {
     const backAction = () => {
@@ -88,6 +90,7 @@ export default function HomeScreen({ navigation }) {
       ((await SecureStore.getItemAsync("token")) == null) &&
       ((await SecureStore.getItemAsync("tenantInfo")) == null)
       ) {
+        setRender(!render)
       navigation.navigate("LoginScreen");
     }
   };

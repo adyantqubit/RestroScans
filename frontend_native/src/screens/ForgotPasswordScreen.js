@@ -44,7 +44,7 @@ function ResetPassword({ navigation: navigate }) {
       if (res.msg) {
         Alert.alert("Success", "Password Changed successfully. You can login");
         setISBtnDisable(false);
-        navigate("login");
+        navigation.navigate("LoginScreen");
         resetForm({ values: "" });
       } else {
         Alert.alert("Error", "Something went wrong");
@@ -227,7 +227,6 @@ export default function ForgotPasswordScreen() {
 
   //when user click send otp for forget password
   const submitLog = (values, { resetForm }) => {
-    alert("otp submmition");
     setISBtnDisable(true);
     sendOtpApi(values)
       .then(async (res) => {

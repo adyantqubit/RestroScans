@@ -16,7 +16,13 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { deleteItemApi, getMenuList, saveCategoryApi, saveItemApi, updateItemApi } from "../api/Services";
+import {
+  deleteItemApi,
+  getMenuList,
+  saveCategoryApi,
+  saveItemApi,
+  updateItemApi,
+} from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
@@ -30,7 +36,7 @@ export default function EditItemScreen({ route, navigation }) {
   const { itemID, categoryList, itemObj, categoryID, categoryName } =
     route.params;
 
-  var {render, setRender} = useContext(AppStateContext)
+  var { render, setRender } = useContext(AppStateContext);
 
   // added by Yuvraj Sahu on 6-4-2023
   // Reason - to check checkbox
@@ -40,28 +46,42 @@ export default function EditItemScreen({ route, navigation }) {
   const [categorySelected, setCategorySelected] = React.useState("");
   var [categories, setCategories] = useState([]);
   React.useEffect(() => {
-    const getMenus = async () => {
-      // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-      // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-      // if (response.categoryList) {
-      setCategories(
-        categoryList.map(function (obj) {
-          obj["key"] = obj["id"]; // Assign new key
-          obj["value"] = obj["name"]; // Rename key
-          delete obj["id"]; // Delete old key
-          delete obj["name"]; // Delete name
-          delete obj["icon"]; // Delete icon
-          delete obj["menu_name"]; // Delete menu name
-          delete obj["menu"]; // Delete menu
-          return obj;
-        })
-      );
-      // }
-    };
     getMenus();
     getTenant();
   }, []);
+
+  const getMenus = async () => {
+    // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    // if (response.categoryList) {
+    setCategories(
+      categoryList.map(function (obj) {
+        obj["key"] = obj["id"]; // Assign new key
+        obj["value"] = obj["name"]; // Rename key
+        delete obj["id"]; // Delete old key
+        delete obj["name"]; // Delete name
+        delete obj["icon"]; // Delete icon
+        delete obj["menu_name"]; // Delete menu name
+        delete obj["menu"]; // Delete menu
+        return obj;
+      })
+    );
+    // }
+    // Added by Yuvraj Sahu on 13-4-2023
+    // reason - to get enu list from backend
+    // End of addition
+  };
   // End of show menu list
+
+  // Added by Yuvraj Sahu on 24-3-2023
+  // Reason - to show item type list in dropdown
+  const [itemTypeSelected, setItemTypeSelected] = React.useState("");
+  var [itemtypes, setItemTypes] = useState([
+    { key: "Veg", value: "Veg" },
+    { key: "Nonveg", value: "Nonveg" },
+    { key: "Other", value: "Other" },
+  ]);
+  // End of addition
 
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get tenant from localStorage
@@ -106,18 +126,28 @@ export default function EditItemScreen({ route, navigation }) {
       });
     }
     formData.append("name", formValues.name);
+    if (formValues.price_half != null) {
     formData.append("price_half", formValues.price_half);
+    }
+    if (formValues.price_full != null) {
     formData.append("price_full", formValues.price_full);
+    }
     formData.append("category", categorySelected);
+    if (formValues.description != null) {
     formData.append("description", formValues.description);
+    }
     formData.append("is_active", isItemChecked);
+    // Added by Yuvraj Sahu on 12-4-2023
+    // Reason - to save item type
+    formData.append("item_type", itemTypeSelected);
+    // End of addition
 
     // console.log('formData------'+JSON.stringify(formData))
     updateItemApi(formData, tenant, itemID).then((response) => {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
-        setRender(!render)
+        setRender(!render);
         // navigate('login')
       }
       if (response.error) {
@@ -181,11 +211,10 @@ export default function EditItemScreen({ route, navigation }) {
   // }
   // End of addition
 
-
   return (
     <ScrollView>
       <View style={styles.container}>
-      <Text style={styles.labels}>
+        <Text style={styles.labels}>
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
           Edit category name
         </Text>
@@ -194,7 +223,18 @@ export default function EditItemScreen({ route, navigation }) {
           setSelected={setCategorySelected}
           data={categories}
           search={false}
-          boxStyles={{ borderRadius: 5, alignSelf: "center", width: "93%", borderColor: "black", marginTop: 10 }} //override default styles
+          dropdownStyles={{
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 1,
+          }}
+          boxStyles={{
+            borderRadius: 5,
+            alignSelf: "center",
+            width: "93%",
+            borderColor: "black",
+            marginTop: 10,
+          }} //override default styles
           defaultOption={{ key: categoryID, value: categoryName }}
         />
         <View style={{ marginTop: 15 }}>
@@ -241,24 +281,50 @@ export default function EditItemScreen({ route, navigation }) {
           />
         </View>
 
+        {/* Added by Yuvraj Sahu on 12-4-2023
+        Reason - to add item type */}
+        <Text style={styles.labels}>
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          Edit item type
+        </Text>
+        <SelectList
+          // onSelect={setCategorySelected}
+          setSelected={setItemTypeSelected}
+          data={itemtypes}
+          search={false}
+          dropdownStyles={{
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 1,
+          }}
+          boxStyles={{
+            borderRadius: 0,
+            width: "93%",
+            alignSelf: "center",
+            borderRadius: 5,
+            borderColor: "black",
+            marginTop: 10,
+          }} //override default styles
+          defaultOption={{
+            key: itemObj[0].item_type,
+            value: itemObj[0].item_type,
+          }}
+        />
+
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
             Edit half price
           </Text>
           <Controller
             control={control}
             name="price_half"
-            rules={{
-              required: {
-                value: true,
-                message: "Half price is required!",
-              },
-              // pattern: {
-              //   value: /^[6789]\d{9}$/,
-              //   message: "Mobile Number is invalid!",
-              // },
-            }}
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Half price is required!",
+            //   },
+            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -288,22 +354,18 @@ export default function EditItemScreen({ route, navigation }) {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
             Edit full price
           </Text>
           <Controller
             control={control}
             name="price_full"
-            rules={{
-              required: {
-                value: true,
-                message: "Full price is required!",
-              },
-              // pattern: {
-              //   value: /^[6789]\d{9}$/,
-              //   message: "Mobile Number is invalid!",
-              // },
-            }}
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Full price is required!",
+            //   },
+            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -333,18 +395,18 @@ export default function EditItemScreen({ route, navigation }) {
 
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
             Edit description
           </Text>
           <Controller
             control={control}
             name="description"
-            rules={{
-              required: {
-                value: true,
-                message: "Description is required!",
-              },
-            }}
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Description is required!",
+            //   },
+            // }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
                 <View>
@@ -377,6 +439,20 @@ export default function EditItemScreen({ route, navigation }) {
         <View
           style={{
             display: "flex",
+            flexDirection: "row",
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        >
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          <Text>Upload icon</Text>
+        </View>
+
+        <View
+          style={{
+            display: "flex",
             alignItems: "center",
             justifyContent: "center",
             // borderColor: 'black',
@@ -400,13 +476,13 @@ export default function EditItemScreen({ route, navigation }) {
           )}
         </View>
         <View style={styles.activeStatus}>
-        <Checkbox
-          // style={styles.checkbox}
-          value={isItemChecked}
-          onValueChange={setItemChecked}
-          color={isItemChecked ? "#4630EB" : undefined}
-        />
-        <Text style={styles.activeLable}>Active status</Text>
+          <Checkbox
+            // style={styles.checkbox}
+            value={isItemChecked}
+            onValueChange={setItemChecked}
+            color={isItemChecked ? "#4630EB" : undefined}
+          />
+          <Text style={styles.activeLable}>Active status</Text>
         </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
@@ -456,7 +532,6 @@ export default function EditItemScreen({ route, navigation }) {
             </Text>
           </Pressable> */}
           {/* End of addition */}
-
         </View>
       </View>
     </ScrollView>
@@ -469,7 +544,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",
-    paddingTop: 10
+    paddingTop: 10,
   },
   mainHeader: {
     marginTop: 10,
@@ -557,9 +632,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "93%",
     alignSelf: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   activeLable: {
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });

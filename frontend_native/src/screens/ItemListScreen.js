@@ -245,6 +245,11 @@ export default function ItemListScreen({ route, navigation }) {
           setSelected={setMenuSelected}
           data={data}
           search={false}
+          dropdownStyles={{
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 1,
+          }}
           boxStyles={{
             borderRadius: 0,
             width: "93%",

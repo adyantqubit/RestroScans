@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -16,13 +16,33 @@ import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
 import { getMenuList, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
+import { AppStateContext } from "../context/AppStateProvider";
+import Checkbox from "expo-checkbox";
 // import { tenantName } from "../config/config";
 // import { Country, State, City } from "country-state-city";
 
 export default function AddMenu() {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    getValues,
+    getFieldState,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+    },
+  });
+
   var [isDisable, setIsDisable] = useState(false);
 
   const [tempPhoto, setTempPhoto] = useState(null);
+
+  var { render, setRender } = useContext(AppStateContext);
+
+  useEffect(() => {}, [render]);
 
   const [icon, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
@@ -75,6 +95,11 @@ export default function AddMenu() {
   // };
   // End of getting tenant detail
 
+  // Added by Yuvraj Sahu on 12-4-2023
+  // Reason - to save active status
+  const [isMenuActive, setMenuActive] = useState(false);
+  // End of addition
+
   const handleRegister = async (formValues) => {
     var formData = new FormData();
 
@@ -87,10 +112,18 @@ export default function AddMenu() {
     });
 
     formData.append("name", formValues.name);
+    // Added by Yuvraj Sahu on 12-4-2023
+    // Reason - to save active status
+    formData.append("is_active", isMenuActive);
+    // End of addition
 
     saveMenuApi(formData, tenant).then((response) => {
       if (response.msg) {
         Alert.alert("Succesfull", response.msg);
+        setRender(!render);
+        reset("");
+        setImage(null);
+        setMenuActive(false);
         // navigate('login')
         // setState("stateChanged")
       }
@@ -99,20 +132,6 @@ export default function AddMenu() {
       }
     });
   };
-
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-    },
-  });
 
   return (
     <ScrollView>
@@ -196,6 +215,20 @@ export default function AddMenu() {
             />
           )}
         </View>
+
+        {/* Added by Yuvraj Sahu on 12-4-2023
+        Reason - to select active status */}
+        <View style={styles.activeStatus}>
+          <Checkbox
+            value={isMenuActive}
+            onValueChange={setMenuActive}
+            color={isMenuActive ? "#4630EB" : undefined}
+          />
+          <Pressable onPress={() => setMenuActive(!isMenuActive)}>
+            <Text style={styles.activeLable}>Active status</Text>
+          </Pressable>
+        </View>
+        {/* End of addition */}
 
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
@@ -317,5 +350,15 @@ const styles = StyleSheet.create({
   imagePickerContainer: {
     margin: 15,
     marginTop: 20,
+  },
+  activeStatus: {
+    display: "flex",
+    flexDirection: "row",
+    width: "93%",
+    alignSelf: "center",
+    marginTop: 5,
+  },
+  activeLable: {
+    marginLeft: 10,
   },
 });

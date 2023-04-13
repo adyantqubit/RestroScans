@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -14,47 +14,74 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
-
 import { Ionicons } from "@expo/vector-icons";
 import { getMenuList, saveCategoryApi, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
+import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
+import Checkbox from "expo-checkbox";
+
 // import { Country, State, City } from "country-state-city";
 
 export default function AddCategory() {
   // Added by Yuvraj Sahu on 24-3-2023
   // Reason - to show menu list in dropdown
+  const isFocused = useIsFocused();
   const [menuSelected, setMenuSelected] = React.useState("");
   var [data, setData] = useState([]);
-  React.useEffect(() => {
-    const getMenus = async () => {
-      var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-      const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-      if (response.menuList) {
-        capitals = setData(
-          response.menuList.map(function (obj) {
-            obj["key"] = obj["id"]; // Assign new key
-            obj["value"] = obj["name"]; // Rename key
-            delete obj["id"]; // Delete old key
-            delete obj["name"]; // Delete name
-            delete obj["icon"]; // Delete icon
-            return obj;
-          })
-        );
-      }
-    };
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    getValues,
+    getFieldState,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      menu: "",
+      // icon: ""
+    },
+  });
+
+  var { render, setRender } = useContext(AppStateContext);
+
+  useEffect(() => {
     getMenus();
     getTenant();
-  }, []);
+  }, [isFocused]);
   // End of show menu list
-
+  const getMenus = async () => {
+    var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    if (response.menuList) {
+      setData(
+        response.menuList.map(function (obj) {
+          obj["key"] = obj["id"]; // Assign new key
+          obj["value"] = obj["name"]; // Rename key
+          delete obj["id"]; // Delete old key
+          delete obj["name"]; // Delete name
+          delete obj["icon"]; // Delete icon
+          return obj;
+        })
+      );
+    }
+  };
   var [isDisable, setIsDisable] = useState(false);
 
   const [tempPhoto, setTempPhoto] = useState(null);
 
   const [icon, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
+
+  // Added by Yuvraj Sahu on 12-4-2023
+  // Reason - to save active status
+  const [isCategoryActive, setCatgeoryActive] = useState(false);
+  // End of addition
 
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get tenant from localStorage
@@ -84,15 +111,20 @@ export default function AddCategory() {
     setIsDisable(true);
     var formData = new FormData();
 
-    const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-
-    formData.append("icon", {
-      uri: icon,
-      name: icon,
-      type: `image/${ext}`,
-    });
+    if (icon != null) {
+      const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+      formData.append("icon", {
+        uri: icon,
+        name: icon,
+        type: `image/${ext}`,
+      });
+    }
     formData.append("name", formValues.name);
     formData.append("menu", menuSelected);
+    // Added by Yuvraj Sahu on 12-4-2023
+    // Reason - to save active status
+    formData.append("is_active", isCategoryActive);
+    // End of addition
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     saveCategoryApi(formData, JSON.parse(tenantInfo).tenant_name).then(
@@ -100,6 +132,11 @@ export default function AddCategory() {
         if (response.msg) {
           Alert.alert("Successful", response.msg);
           setIsDisable(false);
+          setRender(!render);
+          reset("");
+          setImage(null);
+          setMenuSelected("");
+          setCatgeoryActive(false);
           // navigate('login')
         }
         if (response.err) {
@@ -110,32 +147,31 @@ export default function AddCategory() {
     );
   };
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-      menu: "",
-      // icon: ""
-    },
-  });
-
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text>Add category</Text>
+        <Text style={styles.labels}>
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          Select menu name
+        </Text>
         <SelectList
           // onSelect={() => }
           setSelected={setMenuSelected}
           data={data}
           search={false}
-          boxStyles={{ borderRadius: 0 }} //override default styles
+          dropdownStyles={{
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 1,
+          }}
+          boxStyles={{
+            borderRadius: 0,
+            width: "93%",
+            alignSelf: "center",
+            borderRadius: 5,
+            borderColor: "black",
+            marginTop: 10,
+          }} //override default styles
           // defaultOption={data[0]}
         />
         <View style={{ marginTop: 5 }}>
@@ -183,13 +219,54 @@ export default function AddCategory() {
         </View>
 
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        >
+          <Text style={{ marginLeft: 10 }}>Upload icon</Text>
+        </View>
+
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: 'black',
+            borderRadius: 3,
+            // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
         >
           <Button title="Add category icon" onPress={pickImage} />
           {icon && (
-            <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
+            <Image
+              source={{ uri: icon }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
+            />
           )}
         </View>
+
+        {/* Added by Yuvraj Sahu on 12-4-2023
+        Reason - to select active status */}
+        <View style={styles.activeStatus}>
+          <Checkbox
+            value={isCategoryActive}
+            onValueChange={setCatgeoryActive}
+            color={isCategoryActive ? "#4630EB" : undefined}
+          />
+          <Pressable onPress={() => setCatgeoryActive(!isCategoryActive)}>
+            <Text style={styles.activeLable}>Active status</Text>
+          </Pressable>
+        </View>
+        {/* End of addition */}
 
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
@@ -222,6 +299,7 @@ export default function AddCategory() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 10,
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",
@@ -306,5 +384,15 @@ const styles = StyleSheet.create({
   imagePickerContainer: {
     margin: 15,
     marginTop: 20,
+  },
+  activeStatus: {
+    display: "flex",
+    flexDirection: "row",
+    width: "93%",
+    alignSelf: "center",
+    marginTop: 5,
+  },
+  activeLable: {
+    marginLeft: 10,
   },
 });
