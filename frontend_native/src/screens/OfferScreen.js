@@ -13,12 +13,19 @@ import config from "../config/config";
 import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function MenuListScreen({ navigation }) {
   var {render, setRender} = useContext(AppStateContext)
+  const isFocused = useIsFocused()
+
+  // useEffect(() => {
+  //   getAllOffers();
+  // }, [render]);
+
   useEffect(() => {
     getAllOffers();
-  }, [render]);
+  }, [isFocused]);
 
   // Set the banner name and banner items name in this state
   var [bannerList, setBannerList] = useState([]);
@@ -42,7 +49,7 @@ export default function MenuListScreen({ navigation }) {
   // console.log(bannerItemList)
 
 // After click the banner items than all details set in this function then navigate the next screen
-  function onOfferClick(offerName) {
+  function onOfferClick(offerName,bannerId) {
     var bannerName = bannerList.filter((dt) => dt.offer_name == offerName);
     var offerList = bannerItemList.filter((e) => e.offer_name == offerName);
     navigation.navigate("OfferItemsScreen", {
@@ -50,13 +57,18 @@ export default function MenuListScreen({ navigation }) {
       offerList: offerList,
       offerName:offerName,
       bannerList:bannerList,
-      bannerItemList:bannerItemList
+      bannerItemList:bannerItemList,
+      bannerId:bannerId
   });
+  // alert(JSON.stringify(bannerId))
+  // alert(JSON.stringify(bannerItemList))
+  // alert(JSON.stringify(offerName))
+  // alert(JSON.stringify(offerList))
 
   }
  
   return (
-    <View style={{ backgroundColor: colors.backgroundTheme, height: "100%" }}>
+    <View style={{  height: "100%" }}>
       <ScrollView>
         <View style={styles.menuContainer}>
           {bannerList.length > 0 ? (
@@ -64,7 +76,7 @@ export default function MenuListScreen({ navigation }) {
               {bannerList.map((bannerData, id) => (
                 <Pressable
                   style={styles.menuPress}
-                  onPress={(e) => onOfferClick( bannerData.offer_name)}
+                  onPress={(e) => onOfferClick( bannerData.offer_name,bannerData.id)}
                   key={id}
                 >
                   <Image

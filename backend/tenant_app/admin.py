@@ -31,7 +31,12 @@ class MenuAdmin(admin.ModelAdmin):
     list_display=("id","name",'is_active')
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("name","id")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method    
+    # search_fields=("name","id")
+    search_fields=["name","id",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -55,7 +60,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display=("id","name", "menu",'is_active')
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("name","menu")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method    
+    # search_fields=("name","menu")
+    search_fields=["name","menu",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -81,7 +91,12 @@ class ItemAdmin(admin.ModelAdmin):
     list_display=("id","name", "category", "price_full", "price_half",'is_active')
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("name","menu")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method 
+    # search_fields=("name","menu")
+    search_fields=["name","menu",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -107,7 +122,12 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
     list_display=("id","offer_name", "discount")
-    search_fields=("name","offer_name")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method 
+    # search_fields=("name","offer_name")
+    search_fields=["name","offer_name",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -131,7 +151,13 @@ class OfferAdmin(admin.ModelAdmin):
 @admin.register(OfferItem)
 class OfferItemAdmin(admin.ModelAdmin):
     list_display=("id","offer_name", "item_name")
-    search_fields=("name","offer_name", "item_name")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method 
+    # search_fields=("name","offer_name", "item_name",)
+    search_fields=["name","offer_name", "item_name",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+    
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -183,7 +209,12 @@ class SettingAdmin(admin.ModelAdmin):
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
     list_display=("id","content")
-    search_fields=("content", "id")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method 
+    # search_fields=("content", "id")
+    search_fields=["content", "id",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    

@@ -22,18 +22,25 @@ import Checkbox from "expo-checkbox";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
 export default function OfferItemsScreen({ route, navigation }) {
 
-    const { offerName, bannerName, offerList,bannerList ,bannerItemList} = route.params;
+    const { offerName, bannerName, offerList,bannerList ,bannerItemList,bannerId} = route.params;
     const [tempPhoto, setTempPhoto] = useState(null);
     const [icon, setImage] = useState(null);
     var [isDisable, setIsDisable] = useState(false);
+    
+    const isFocused  = useIsFocused()
 
     var { render, setRender } = useContext(AppStateContext)
 // alert(JSON.stringify(bannerItemList[0].id))
+    // useEffect(() => {
+    //     getAllOffers()
+    // }, [render])
+
     useEffect(() => {
         getAllOffers()
-    }, [render])
+    }, [isFocused])
 
     var [bannerObject, setBannerObject] = useState(bannerName);
     var [bannerItemObject, setBannerItemsObject] = useState([]);
@@ -83,7 +90,7 @@ export default function OfferItemsScreen({ route, navigation }) {
         formData.append("discount", formValues.discount);
 //         alert(bannerName[0].id)
 // alert(tenant)
-        updateAllOffer(formData, tenant, bannerName[0].id).then((response) => {
+        updateAllOffer(formData, tenant, bannerId).then((response) => {
             if (response.msg) {
                 Alert.alert("Succesfull", response.msg);
                 // var a = response.offerBanner.filter((dt) => dt.id == bannerName[0].id)
@@ -104,7 +111,7 @@ export default function OfferItemsScreen({ route, navigation }) {
         await SecureStore.getItemAsync("tenantInfo")
       ).tenant_name;
 
-      deleteOfferApi(tenant, bannerList[0].id).then((response) => {
+      deleteOfferApi(tenant, bannerId).then((response) => {
         if (response.msg) {
           Alert.alert("Succesfull", response.msg);
           setRender(!render)
@@ -118,8 +125,8 @@ export default function OfferItemsScreen({ route, navigation }) {
 
     function showAlert1() {
       Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
+        'Confirmation',
+        'Are you sure to want delete this banner',
         [
           {
             text: 'Cancel',
@@ -149,8 +156,9 @@ export default function OfferItemsScreen({ route, navigation }) {
 
         },
     });
+    // alert(JSON.stringify(bannerItemObject))
 
-    function bannerItemfilter(offerItemList) {
+    function bannerItemfilter(offerItemList,bannerItemId) {
         var allItems = bannerItemObject.filter((dt) => dt.item_name == offerItemList);
         navigation.navigate("OfferItemsDetailScreen", {
             offerItemList: offerItemList,
@@ -159,14 +167,15 @@ export default function OfferItemsScreen({ route, navigation }) {
             allItems: allItems,
             offerName: offerName,
             bannerList:bannerList,
-            bannerItemList:bannerItemList
+            bannerItemList:bannerItemList,
+            bannerItemId:bannerItemId
         });
         //   alert(JSON.stringify(offerList))
         //   alert(JSON.stringify(allItems))
         //   alert(JSON.stringify(bannerName))
-        // alert(offerItemList)
+        alert( bannerItemId)
         // alert(JSON.stringify(bannerList))
-
+       
     }
 
     return (
@@ -359,7 +368,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                                 <Pressable
                                     key={id}
                                     style={styles.categoryListContainer}
-                                    onPress={(e) => bannerItemfilter(setData.item_name)}
+                                    onPress={(e) => bannerItemfilter(setData.item_name,setData.id)}
                                 >
                                     <Image
                                         source={{

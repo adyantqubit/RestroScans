@@ -49,7 +49,7 @@ export default function DrawerNavigation() {
           drawerLabel: "Menu List",
           title: "Menu List",
           headerStyle: {
-            backgroundColor: colors.backgroundTheme,
+            // backgroundColor: colors.backgroundTheme,
           },
         }}
       />
@@ -82,11 +82,11 @@ export default function DrawerNavigation() {
         options={{ drawerLabel: "Add Banner/Items", title: "Add Banner/Items" }}
       />
       {/* End of addition */}
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="MenuThemeScreen"
         component={MenuThemeScreen}
-        options={{ drawerLabel: "Theme", title: "Theme" }}
-      />
+        options={{ drawerLabel: "Themey", title: "Themey" }}
+      /> */}
       {/* Added Yuvraj Sahu on 8-4-2023
       Reason - to define routing for setting screen */}
       <Drawer.Screen

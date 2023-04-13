@@ -4,13 +4,16 @@ import React, { useState, useEffect } from "react";
 import { View, Text,TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
 import * as SecureStore from "expo-secure-store";
-
+import { useContext } from "react";
+import { AppStateContext } from "../context/AppStateProvider";
 
   export default function PreviewMenuScreen({ navigation, route }) {
+    var { render, setRender } = useContext(AppStateContext)
+
 
     useEffect(() => {
       getTenant();
-  }, []);
+    }, [render]);
 
 
   var [tenant, setTenant] = useState("");
@@ -24,7 +27,7 @@ import * as SecureStore from "expo-secure-store";
         <View style={{ flex:1 }} >
         {/* <WebView  source={{ uri: "https://diyacafe.restroscans.com/diyacafe/home" }} /> */}
           {/* <WebView  source={{ uri: `https://${tenant}.restroscans.com/${tenant}/home` }} /> */}
-          <WebView  source={{ uri: `192.168.215.45:3000/${tenant}/home` }} />
+          <WebView  source={{ uri: `192.168.1.27:3000/${tenant}/home` }} />
 
         </View>
         </View>

@@ -76,6 +76,10 @@ export default function AddBanner() {
         saveAllOffer(formData, tenant).then((response) => {
             if (response.msg) {
                 Alert.alert("Succesfull", response.msg);
+                resetField("offer_name");
+                resetField("discount");
+                resetField("offer_image");
+
                 setRender(!render)
             }
             if (response.err) {
@@ -87,18 +91,20 @@ export default function AddBanner() {
     // Set the values in this method
     const {
         control,
+        resetField,
         handleSubmit,
         formState: { errors },
     } = useForm({
         defaultValues: {
             offer_name: "",
             discount: "",
+            offer_image:"",
         },
     });
 
     return (
         <ScrollView>
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
                         <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -146,7 +152,7 @@ export default function AddBanner() {
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
                         <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                        Discount
+                        Discount(%)
                     </Text>
                     <Controller
                         control={control}
@@ -156,10 +162,10 @@ export default function AddBanner() {
                                 value: true,
                                 message: "Discount is required!",
                             },
-                            // pattern: {
-                            //   value: /^[6789]\d{9}$/,
-                            //   message: "Mobile Number is invalid!",
-                            // },
+                            pattern: {
+                              value: /^\d{0,2}$/,
+                              message: "Discount is not valid",
+                            },
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <>
@@ -176,6 +182,7 @@ export default function AddBanner() {
                                         placeholderTextColor="#A4A4A4"
                                         editable={true}
                                         keyboardType="number-pad"
+                                        
                                     />
                                 </View>
                                 {errors?.discount && (
@@ -213,7 +220,7 @@ export default function AddBanner() {
                         justifyContent: "space-around",
                     }}
                 >
-                    <Button title="Add banner image" onPress={pickImage} />
+                    <Button  title="Choose image" onPress={pickImage} />
                     {icon && (
                         <Image
                             source={{ uri: icon }}

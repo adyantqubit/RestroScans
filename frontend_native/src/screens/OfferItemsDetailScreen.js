@@ -9,7 +9,7 @@ import {
     TextInput,
     Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
@@ -28,6 +28,7 @@ import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function OfferItemsDetailScreen({ route, navigation }) {
     /* Get the param */
@@ -36,10 +37,13 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
         offerName,
         allItems,
         offerItemList,
-        bannerItemList
+        bannerItemList,
+        bannerItemId
     } = route.params;
 
     var [isDisable, setIsDisable] = useState(false); // For save button disable
+
+    const isFocused = useIsFocused();
     const [icon, setImage] = useState(null);
     const [uploadedFileName, setUploadedFileName] = useState("");
     const [tempPhoto, setTempPhoto] = useState(null);
@@ -54,57 +58,88 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
     var [data, setData] = useState([]);
     var [itemNamedata, setItemNameData] = useState([]);
 
-    React.useEffect(() => {
-        const getMenus = async () => {
+    useEffect(() => {
+        // const getMenus = async () => {
+        //     setData(
+        //         bannerList.map(function (obj) {
+        //             obj["key"] = obj["id"]; // Assign new key
+        //             obj["value"] = obj["offer_name"]; // Rename key
+        //             delete obj["id"]; // Delete old key
+        //             delete obj["offer_name"]; // Delete name
+        //             delete obj["discount"]; // Delete icon
+        //             delete obj["offer_image"]; // Delete icon
 
-            // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-            // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-            // if (response.menuList) {
-            setData(
-                bannerList.map(function (obj) {
+        //             return obj;
+        //         })
+        //     );
+        // };
+        // const getOfferItem = async () => {
+        //     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+        //     const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+        //     if (response.itemList) {
+        //         capitals = setItemNameData(
+        //             response.itemList.map(function (obj) {
+        //                 obj["key"] = obj["id"]; // Assign new key
+        //                 obj["value"] = obj["name"]; // Rename key
+        //                 delete obj["id"]; // Delete old key
+        //                 delete obj["name"]; // Delete name
+        //                 delete obj["icon"]; // Delete icon
+        //                 delete obj["category_name"]; // Delete category_name
+        //                 delete obj["category_img"]; // Delete category_img
+        //                 delete obj["menu_name"]; // Delete menu_name
+        //                 delete obj["menu_img"]; // Delete menu_img
+        //                 delete obj["item_type"]; // Delete item_type
+        //                 delete obj["price_full"]; // Delete price_full
+        //                 delete obj["price_half"]; // Delete price_half
+        //                 delete obj["description"]; // Delete description
+        //                 return obj;
+        //             })
+        //         );
+        //     }
+        // };
+        getMenus();
+        getOfferItem();
+        getAllmenus()
+    }, [isFocused]);
+
+    const getMenus = async () => {
+        setData(
+            bannerList.map(function (obj) {
+                obj["key"] = obj["id"]; // Assign new key
+                obj["value"] = obj["offer_name"]; // Rename key
+                delete obj["id"]; // Delete old key
+                delete obj["offer_name"]; // Delete name
+                delete obj["discount"]; // Delete icon
+                delete obj["offer_image"]; // Delete icon
+
+                return obj;
+            })
+        );
+    };
+    const getOfferItem = async () => {
+        var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+        const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+        if (response.itemList) {
+            capitals = setItemNameData(
+                response.itemList.map(function (obj) {
                     obj["key"] = obj["id"]; // Assign new key
-                    obj["value"] = obj["offer_name"]; // Rename key
+                    obj["value"] = obj["name"]; // Rename key
                     delete obj["id"]; // Delete old key
-                    delete obj["offer_name"]; // Delete name
-                    delete obj["discount"]; // Delete icon
-                    delete obj["offer_image"]; // Delete icon
-
+                    delete obj["name"]; // Delete name
+                    delete obj["icon"]; // Delete icon
+                    delete obj["category_name"]; // Delete category_name
+                    delete obj["category_img"]; // Delete category_img
+                    delete obj["menu_name"]; // Delete menu_name
+                    delete obj["menu_img"]; // Delete menu_img
+                    delete obj["item_type"]; // Delete item_type
+                    delete obj["price_full"]; // Delete price_full
+                    delete obj["price_half"]; // Delete price_half
+                    delete obj["description"]; // Delete description
                     return obj;
                 })
             );
-            // }
-        };
-        const getOfferItem = async () => {
-            var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-            const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-            if (response.itemList) {
-                capitals = setItemNameData(
-                    response.itemList.map(function (obj) {
-                        obj["key"] = obj["id"]; // Assign new key
-                        obj["value"] = obj["name"]; // Rename key
-                        delete obj["id"]; // Delete old key
-                        delete obj["name"]; // Delete name
-                        delete obj["icon"]; // Delete icon
-                        delete obj["category_name"]; // Delete category_name
-                        delete obj["category_img"]; // Delete category_img
-                        delete obj["menu_name"]; // Delete menu_name
-                        delete obj["menu_img"]; // Delete menu_img
-                        delete obj["item_type"]; // Delete item_type
-                        delete obj["price_full"]; // Delete price_full
-                        delete obj["price_half"]; // Delete price_half
-                        delete obj["description"]; // Delete description
-                        return obj;
-                    })
-                );
-            }
-        };
-
-
-        getMenus();
-        getOfferItem();
-        // getTenant()
-        getAllmenus()
-    }, [render]);
+        }
+    };
 
     var [itemObjects, setItemObjects] = useState([]);
     const getAllmenus = async () => {
@@ -151,7 +186,8 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
         updateAllOfferItems(
             formData,
             JSON.parse(tenantInfo).tenant_name,
-            bannerItemList[0].id,
+            // bannerItemList[0].id,
+            bannerItemId,
         ).then((response) => {
             if (response.msg) {
                 Alert.alert("Successful", response.msg);
@@ -194,7 +230,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
         await SecureStore.getItemAsync("tenantInfo")
       ).tenant_name;
 
-      deleteOfferItemsApi(tenant, bannerItemList[0].id).then((response) => {
+      deleteOfferItemsApi(tenant, bannerItemId).then((response) => {
         if (response.msg) {
           Alert.alert("Succesfull", response.msg);
           setRender(!render)
@@ -208,8 +244,8 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
 
     function showAlert1() {
       Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
+        'Confirmation',
+        'Are you sure to want delete this item',
         [
           {
             text: 'Cancel',

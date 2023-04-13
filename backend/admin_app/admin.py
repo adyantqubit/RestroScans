@@ -30,7 +30,11 @@ class AppSettingAdmin(admin.ModelAdmin):
     list_display=("id","app_logo","adyant_logo","title","bottom_text","adyant_webite_link")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("title","id")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method
+    # search_fields=("title","id")
+    search_fields=["title","id",]
+    # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_add_permission(self, request):
         count = AppSetting.objects.count()
@@ -54,7 +58,11 @@ class TenantAdmin(admin.ModelAdmin):
     list_display=("id","restaurant_name","tenant_name","created_at")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("restaurant_name","id","tenant_name")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method
+    # search_fields=("restaurant_name","id","tenant_name")
+    search_fields=["restaurant_name","id","tenant_name"]
+    # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -79,7 +87,12 @@ class OtpAdmin(admin.ModelAdmin):
     list_display=("id","otp")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("tenant_name", "restaurant_name","id")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method
+    # search_fields=("tenant_name", "restaurant_name","id")
+    search_fields=["tenant_name", "restaurant_name","id"]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -96,7 +109,12 @@ class RestaurantRequestAdmin(admin.ModelAdmin):
     list_display=("id","restaurant_name", "owner_name", "mobile_number", "address", "created_at", "is_active")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("restaurant_name","id","owner_name", "created_at")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method
+    # search_fields=("restaurant_name","id","owner_name", "created_at")
+    search_fields=["restaurant_name","id","owner_name", "created_at"]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -116,7 +134,13 @@ class VisitCountAdmin(admin.ModelAdmin):
     list_display=("id","tenant_name","count")
     # readonly_fields=("item","user_no")
     # ordering=("title",)
-    search_fields=("tenant_name","id")
+    # Commented and Modified by Om on 13-04-23
+    # Reason : Change the method
+    # search_fields=("tenant_name","id")
+    search_fields=["tenant_name","id"]
+    # End of comment and code modification by Om shrivastava on 13-04-23
+
+
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return False    

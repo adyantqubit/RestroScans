@@ -238,7 +238,7 @@ class OfferAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"success"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Banner added successfully"},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
@@ -294,7 +294,7 @@ class OfferItemsAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"success"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Banner item added successfully"},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
@@ -306,7 +306,7 @@ class OfferItemsAPIView(APIView):
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
             return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"This item already exist with other offer"}, 400)
     
     def delete(self, request,tenant, pk):
         id = pk
