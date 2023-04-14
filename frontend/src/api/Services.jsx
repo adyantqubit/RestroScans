@@ -135,3 +135,13 @@ export const postCheckPaymentStatus = async(order,tenantId) => {
   return response ? response.data: {}
 }
 // End of added code 006-04-2023
+
+// Added by rohan - 13/3/23
+// reason-to get top 10 best product
+export const getBestProducts=async()=>{
+  const response = await API.get(`/${localStorage.getItem('restroName')}/get-top-products/`,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// end of code -rohan-13/4/23

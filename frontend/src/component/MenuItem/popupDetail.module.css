@@ -175,14 +175,31 @@
     padding: 5px 0;
 }
 
-.img{
+.imgContainer{
     width: 22%;
     height: fit-content;
-    /* height: 100%; */
-    padding-top: 8px;
-    border-radius: 25px;
+    padding-top:1%;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
 }
 
+.img{
+    width: 100%;
+    height: fit-content;
+    /* height: 100%; */
+    /* padding-top: 2px;
+    border-radius: 25px; */
+}
+
+
+.type_img{
+    width: 15px;
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    border-radius: 10px;
+}
 .infomation{
     width: 80%;
     display: flex;

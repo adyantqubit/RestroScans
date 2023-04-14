@@ -6,7 +6,7 @@
 
 .cartContainer{
     /* background-color: aqua; */
-    max-height: 80%;
+    max-height: 75%;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -145,7 +145,7 @@
     /* margin-top: 5px; */
     width: 90%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     font-size: 13px;
     letter-spacing: 1.5px;
     font-family: "Times New Roman";
@@ -168,29 +168,56 @@
     width: 100%;
     min-height: 7vh;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-self: flex-end;
     justify-self: flex-end;
     position: fixed;
     bottom: 40px;
+    background-color: #fff;
+    padding-top: 5px;
     /* z-index: 9; */
+}
+
+.subTotal{
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.label{
+    font-size: 18px;
+    font-weight: 500;
+}
+.text{
+ font-size: 18px;
+ font-weight: 600;
+letter-spacing: 3px;
+
+}
+.flex{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
 }
 
 .cancleBtn{
     width: 48%;
-    margin: 10px auto;
+    /* margin: 5px auto; */
     font-size: 16px;
     letter-spacing: 1.7px;
     font-family: "Times New Roman";
     padding: 5px 0;
     border-radius: 5px;
     border: none;
+    color: white !important;
     box-shadow: 0 0 5px #000;
 }
 
 .ProceedBtn{
     width: 48%;
-    margin: 10px auto;
+    /* margin: 5px auto; */
     font-size: 16px;
     letter-spacing: 1.7px;
     font-family: "Times New Roman";

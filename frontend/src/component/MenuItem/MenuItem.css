@@ -116,6 +116,25 @@
     flex-direction: row;
     width: 20%;
     margin: 0 auto;
+    /* added by rohan-13/4/23 */
+    position: relative;
+    overflow: hidden;
+}
+
+/* added by rohan -13/4/23 */
+.ribbon{
+    width: 40px;
+    height: 14px;
+    background-color: greenyellow;
+    font-size: 11px;
+    color: black;
+    /* letter-spacing: 1px; */
+    padding:0 2px;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    transform: rotateY(0deg) rotate(-45deg);;
 }
 
 .category_serached_img {

@@ -123,5 +123,11 @@ urlpatterns = [
     # Reason - to get dashboard data
     path('<str:tenant>/dashboard-data/',DashboardAPI.as_view()),
     # End of code addition for dashboard data
+    
+    
+    # #Added by :- Rohan Kansari on 13/4/23
+    # # reason : To get all top 10 best product and also admin ticked best seller 
+    # path('<str:tenant>/get-top-products/',BesttSellerAPI.as_view()),
+    # # End of added code 13-04-23
 
 ]   

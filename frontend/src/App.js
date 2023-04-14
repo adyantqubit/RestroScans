@@ -14,11 +14,14 @@ import Payment from "./component/Payment/Payment";
 import Billing from "./component/Billing/Billing";
 import BillSuccess from "./component/BillSuccess/BillSuccess";
 import Billing2 from "./component/BillPage/Billing";
+import "./App.css"
+import landscapeMode from './images/landscape.png'
+
 
 function App() {
-  const { colors, restaurant_name } = useContext(GlobalContext)
-
-
+  const { colors ,restaurant_name} = useContext(GlobalContext)
+  
+  
   // const nav = useNavigate()
 
   return (
@@ -34,7 +37,7 @@ function App() {
             {restaurant_name.toUpperCase()}
           </h2>
 
-
+          
 
         </div>
         {/* end of heading */}
@@ -69,6 +72,13 @@ function App() {
         </Routes>
         <Footer />
       </div>
+      
+      {/* added by rohan- to show landscape error msg for all pages
+          date-13/4/34 */}
+      <div className="inlandscapemode" style={{ color: colors.subHeadingColor }}>
+        <img src={landscapeMode} style={{ height: '80vh' }} alt="" className="landscapimg" />
+      </div>
+      {/* end of code */}
     </BrowserRouter>
 
   );

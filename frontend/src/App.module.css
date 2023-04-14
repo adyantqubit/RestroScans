@@ -1,5 +1,34 @@
-.container{
+.container {
     box-sizing: border-box;
-   width: 100vw;
-   height: 100vh;
+    width: 100vw;
+    height: 100vh;
 }
+
+
+/* added by rohan-  to show landscape error for all pages 
+/*  on 13-4/23*/
+
+@media (orientation: portrait) {
+
+    .inlandscapemode {
+        display: none;
+    }
+
+}
+
+@media (orientation: landscape) {
+
+    .inlandscapemode {
+        display: block;
+    }
+
+    .container {
+        display: none;
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+    }
+
+}
+
+/* end of code */

@@ -83,6 +83,17 @@ const Cart = () => {
 
   {/* End of added code 06-04-2023 */ }
 
+  // added by rohan- 13/4/23
+  // reason - to get final subtotal of cart item
+  function itemsSubtotal(){
+    var subtotal=0;
+    cart.filter(c=>{
+      subtotal+=c.quantity*c.price
+    })
+    return subtotal
+  }
+  // end of code
+
   return (
     <>
       <PopupDetail item={selectedItem} isDetailPopupOpen={isDetailPopupOpen} setDetailPopupVisiblity={setDetailPopupVisiblity} />
@@ -105,10 +116,13 @@ const Cart = () => {
               <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
               <div className={style.row1}>
                 <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {item.serve_size}</div>
-                <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price}</div>
+                {/* added by rohan-13/4/23 - to get each item subtotal */}
+                <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div>
               </div>
 
               <div className={style.row2} style={{ color: colors.subHeadingColor }}>
+              {/* added by rohan-13/4/23 - to get all items subtotal */}
+              <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>₹ {item.price}</div>
                 <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
                   <span className={style.sign} onClick={e => decreaseQuantity(item)}>
                     -
@@ -128,21 +142,20 @@ const Cart = () => {
       </div>
 
       {cart.length > 0 ? <div className={style.btnContainer} style={{ background: colors.headingBackgroundColor, color: colors.subHeadingColor }}>
-        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Cancel</button>
-           {/* Commented by :- Parineeta Gedam
-            Date :- 06-04-2023
-            Reason :- Open Model for customer details.
-        */}
-        {/* <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}>Proceed</button> */}
-        {/* End of added code 06-04-2023 */}
-
+        {/* added by rohan-13/4/23 
+            reason- to show subtotal also */}
+        <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div>
+        <div className={style.flex}>
+          <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => nav(-1)}>Cancel</button>
+          {/* Removed garbage code by -rohan-13/4/23 */}
           {/* Added by :- Parineeta Gedam
             Date :- 06-04-2023
             Reason :- Open Model for customer details.
         */}
 
-        <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => {!orders ? showModal() : navigations()}} >Proceed</button>
-        
+          <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => { !orders ? showModal() : navigations() }} >Proceed</button>
+        </div>
+        {/* end of code -rohan -13/4/23 */}
         <CustomerDetailsForm setPopupVisiblity={setPopupVisiblity} isPopupOpen={isPopupOpen} />
         {/* End of added code 06-04-2023 */}
       </div> : null}

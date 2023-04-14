@@ -1,7 +1,7 @@
 // import "./MenuItem.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getmenuList, getofferDetails, gettenantList } from "../../api/Services";
+import { getBestProducts, getmenuList, getofferDetails, gettenantList } from "../../api/Services";
 import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
@@ -129,6 +129,10 @@ function MenuItem() {
   var tenantt = localStorage.getItem("tenantName")
   var restaurant_name = localStorage.getItem("restroName")
 
+  // Added by rohan - 13/4/23
+  // reason save all top 10 best products
+  const [bestProducts, setBestProduct] = useState(null)
+
 
   const getMenu = async () => {
     const response = await getmenuList(tenantt);
@@ -138,8 +142,12 @@ function MenuItem() {
       setCategoryList(response.categoryList)
       setItemList(response.itemList)
       setfilterCategory(response.menuList)
+      // this line is new added by -rohan
+      setBestProduct(response.top_product)
     }
   };
+
+  // end of code - 13/4/23
 
   // const getRestroName = async () => {
   //   const response = await gettenantList(tenantt);
@@ -156,7 +164,6 @@ function MenuItem() {
       setOfferBanner(response.offerBanner);
       setOfferList(response.offerItemList)
       // setOfferShow(response.offerItemList)
-
     }
   };
 
@@ -550,7 +557,7 @@ function MenuItem() {
           //added by rohan -9/4/23 to show header unhide header
           if (document.getElementsByClassName("front_page").length == 0)
             document.getElementsByClassName("heading_container")[0].style.display = "flex"
-            // end of code
+          // end of code
         }}
       >
 
@@ -561,7 +568,6 @@ function MenuItem() {
 
         {offerBanner.length > 0 ?
           <div >
-
             <Swiper
               style={{
                 "--swiper-pagination-color": colors.subHeadingColor,
@@ -812,6 +818,9 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
+                               {/* added by rohan- 13/4/23 - for best seller shown */}
+                               {bestProducts?.filter(b=>b.item==person.id).length>0?<div className="ribbon">Best</div>:null} 
+                            {/* end of addition - 13/4/23 */}
                             </div>
 
                             {/* <div className="price_item_description_div"> */}
@@ -1074,7 +1083,10 @@ function MenuItem() {
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
-
+                     {/* added by rohan- 13/4/23 - for best seller shown */}
+                     
+                     {bestProducts?.filter(b=>b.item==showdata.id).length>0?<div className="ribbon">Best</div>:null} 
+                    {/* end of addition - 13/4/23 */}
                   </div>
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
@@ -1301,7 +1313,9 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
-
+                              {/* added by rohan- 13/4/23 - for best seller shown */}
+                               {bestProducts?.filter(b=>b.item==m.id).length>0?<div className="ribbon">Best</div>:null} 
+                            {/* end of addition - 13/4/23 */}
                             </div>
                             {(offerList.filter((data) => data.item_name === m.name)).length > 0 ?
                               <>

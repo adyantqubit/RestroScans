@@ -29,6 +29,43 @@ class TenantAPIView(APIView):
             })
 # End of addition
 
+
+# added by rohan - 13/4/23
+# reason- to get top 10 best product
+def getBestproduct():
+    allItems = OrderItem.objects.all()
+    tempSort = []
+    # for sortItem in sort:
+    for item in allItems:
+        itemObj = Item.objects.get(id=item.item_id.id)
+        if {"item": itemObj} in tempSort:
+            pass
+        else:
+            tempSort.append({
+                "item": itemObj
+            })
+
+    sortedData = []
+    for item in tempSort:
+        OneProductRating = OrderItem.objects.filter(item_id=item['item'])
+        rating = []
+        for orderItem in OneProductRating:
+            if orderItem.rating is not None:
+                rating.append(float(orderItem.rating))
+
+        sortedData.append(
+            {
+                "item": item['item'].id,
+                "rating": sum(rating)/float(rating.__len__()),
+                # "count":rating.__len__()
+            }
+        )
+
+    list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
+    return list[:10]
+# end of code 13/4/23
+
+
 class MenuAPIView(APIView):
     def get(self,request,tenant):
         print('gfagfgf', tenant)
@@ -49,6 +86,10 @@ class MenuAPIView(APIView):
         # tenant=Tenant.objects.get(tenant_name=tenant)
         # tenantListSerializer=TenantListSerializer(tenant)
         # End of comment code
+
+        # Added by rohan -13/4/23
+        # reason- To send top product list
+        list = getBestproduct()
         return Response({
             "msg":"success",
             # Commented by Om
@@ -56,10 +97,12 @@ class MenuAPIView(APIView):
             # End of commented code
             "menuList":menuData.data,
             # "menuList":menuListSerializer.data,
-            "categoryList":categoryListSerializer.data,
-            "itemList":itemListSerializer.data
-            })
-    
+            "categoryList": categoryListSerializer.data,
+            "itemList": itemListSerializer.data,
+            "top_product": list
+
+        })
+    #end of code- rohan - 13/4/23
     # Added by Yuvraj Sahu on 23-3-2023
     # Reason - to save menu
     def post(self,request,tenant):
@@ -746,7 +789,57 @@ class CheckPaymentStatusAPIView(APIView):
     
 # End of added code 13-04-2023
 
+# Added by Rohan -13/4/23
+# reason- Getting best seller top 10 item which is rated in orderItem as rating review
+class BesttSellerAPI(APIView):
+    def get(self, request, tenant):
+        allItems = OrderItem.objects.all()
+        tempSort = []
+        # for sortItem in sort:
+        for item in allItems:
+            itemObj = Item.objects.get(id=item.item_id.id)
+            if {"item": itemObj} in tempSort:
+                pass
+            else:
+                tempSort.append({
+                    "item": itemObj
+                })
 
+        sortedData = []
+        for item in tempSort:
+            OneProductRating = OrderItem.objects.filter(item_id=item['item'])
+            rating = []
+            for orderItem in OneProductRating:
+                if orderItem.rating is not None:
+                    rating.append(float(orderItem.rating))
+
+            sortedData.append(
+                {
+                    "item": item['item'].id,
+                    "rating": sum(rating)/float(rating.__len__()),
+                    # "count":rating.__len__()
+                }
+            )
+
+        list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
+
+        return Response({"best_products": list[:10]})
+
+    # sorting format
+    #  sort=[
+    #      {
+    #          "item":"1",
+    #          "list":[],
+    #          "list_length":9
+    #          },
+    #      {
+    #          "item":"3",
+    #          "list":[],
+    #          "list_length":5
+    #      }
+    #  ]
+
+# End of code 13/4/23
 
 # Added by - Ashish Dewangan on 09-04-2023
 # Reason - to Dashboard data

@@ -7,6 +7,8 @@ import { AiOutlineClose } from "react-icons/ai"
 import { GlobalContext } from '../../context/Context'
 import { message } from 'antd';
 import config from '../../config/config'
+import vegIcon from '../../images/veg_icon.png'
+import nonVegIcon from '../../images/nonveg_icon.png'
 
 // created by rohan - 9/4/23
 // reason - to remove one specific index element from list
@@ -129,7 +131,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             icon: item.icon,
             discounted_full_price: item.discounted_full_price,
             discounted_half_price: item.discounted_half_price,
-            item_type:item.item_type
+            item_type: item.item_type
         }
     }
 
@@ -226,8 +228,14 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     <div className={style.detailContainer}>
                         <div className={style.card} >
                             <RemoveItem item={item} size={sizeSelected} currentSize="Full Plate" setSizeSlelected={setSizeSlelected} setQuantityFull={setQuantityFull} />
-                            <img alt="" src={config.siteURL + item.icon} className={style.img} />
-
+                            {/* <img alt="" src={config.siteURL + item.icon} className={style.img} /> */}
+                            <div className={style.imgContainer}>
+                                <img alt="" src={config.siteURL + item.icon} className={style.img} />
+                                {item.item_type == "Veg" ?
+                                    <img alt="" src={vegIcon} className={style.type_img} />
+                                    :
+                                    <img alt="" src={nonVegIcon} className={style.type_img} />}
+                            </div>
                             <div className={style.infomation}>
 
                                 <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
@@ -251,10 +259,15 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 </div>
                             </div>
                         </div>
-                        {item.discounted_half_price && colors.allow_half_price? <div className={style.card} >
+                        {item.discounted_half_price && colors.allow_half_price ? <div className={style.card} >
                             <RemoveItem item={item} size={sizeSelected} currentSize="Half Plate" setSizeSlelected={setSizeSlelected} setQuantityHalf={setQuantityHalf} />
-                            <img alt="" src={config.siteURL + item.icon} className={style.img} />
-
+                            <div className={style.imgContainer}>
+                                <img alt="" src={config.siteURL + item.icon} className={style.img} />
+                                {item.item_type == "Veg" ?
+                                    <img alt="" src={vegIcon} className={style.type_img} />
+                                    :
+                                    <img alt="" src={nonVegIcon} className={style.type_img} />}
+                            </div>
                             <div className={style.infomation}>
 
                                 <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>

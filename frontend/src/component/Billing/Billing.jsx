@@ -1,3 +1,6 @@
+// created by rohan -13/4/23
+// reason- this the bill pgae ui
+
 import React, { useContext } from 'react'
 import style from "./billing.module.css"
 import { GlobalContext } from '../../context/Context'
@@ -138,3 +141,5 @@ const Billing = () => {
 }
 
 export default Billing
+
+// end of code

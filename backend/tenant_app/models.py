@@ -90,12 +90,10 @@ class Item(models.Model):
     
     # addede by rohan -13/4/23
     # reason- for calculating average rating from oorder item tabel
-    average_rating=models.FloatField(default=0.0)
+    #removed average rating because no more need of this field 
     best_seller=models.BooleanField(default=False)
     
-    @property
-    def average_rating(self):
-        return self.orderitem_set.aggregate(Avg('rating'))['rating__avg']
+    
     
     # end of code
     
