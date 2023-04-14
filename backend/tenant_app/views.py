@@ -728,7 +728,6 @@ class updatePaymentModeAPIView(APIView):
     def put(self, request, tenant):
 
         orderObj = Order.objects.get(order_id = request.data['order_id'])
-        print("orderObj",orderObj)
         orderObj.payment_mode=request.data['payment_mode']
         orderObj.save()
         return Response({"msg":"success"},200)

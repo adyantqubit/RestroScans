@@ -40,7 +40,7 @@ const Cart = () => {
 
   {/* Added by :- Parineeta Gedam
       Date :- 11-04-2023
-      Reason :- get orders from localstroage.
+      Reason :- get data from localstroage.
   */}
 
   var orders = secureLocalStorage.getItem('order');
@@ -128,7 +128,7 @@ const Cart = () => {
       </div>
 
       {cart.length > 0 ? <div className={style.btnContainer} style={{ background: colors.headingBackgroundColor, color: colors.subHeadingColor }}>
-        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => nav(-1)}>Cancel</button>
+        <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Cancel</button>
            {/* Commented by :- Parineeta Gedam
             Date :- 06-04-2023
             Reason :- Open Model for customer details.

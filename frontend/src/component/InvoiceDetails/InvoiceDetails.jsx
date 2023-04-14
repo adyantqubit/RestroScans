@@ -62,18 +62,21 @@ export default function InvoiceDetails() {
     }
     const response = await updateRatingAndReviewApi(tenantName, invoiceData);
     if (response.msg) {
-      message.success({
-        content: "success",
-        key: 1,
-        // icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
+      // commented by :- Parineeta Gedam
+      // Reason :- don't show msg
+      // message.success({
+      //   content: "success",
+      //   key: 1,
+      //   // icon: <CheckCircleOutlined />,
+      //   style: {
+      //     marginTop: '5vh',
+      //     fontSize: "16px",
+      //     letterSpacing: "1.3px",
+      //     fontFamily: "Times News Roman",
+      //     color: colors.headingColor,
+      //   },
+      // });
+      // End of commented code
       navigate("/payment");
     }
     else {
@@ -95,7 +98,7 @@ export default function InvoiceDetails() {
 
   return (
     <>
-      <div className='invoice_heading_container'style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Invoice
+      <div className='invoice_heading_container'style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Order Details
         {/* <h1 className='invoice_heading' style={{ backgroundColor: colors.headingBackgroundColor }}>Invoice</h1> */}
       </div>
 

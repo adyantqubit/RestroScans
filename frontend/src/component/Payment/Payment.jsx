@@ -4,11 +4,12 @@ import { GlobalContext } from "../../context/Context";
 import secureLocalStorage from "react-secure-storage";
 import './Payment.css';
 import { updatePaymentModeApi } from '../../api/Services';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Scanner from '../Scanner/Scan';
 import cashImg from "../../images/cashImg.jpg";
+import scanImg from "../../images/scanImg.png";
 import cardImg from "../../images/cardImg.png";
-
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 export default function Payment() {
 
@@ -24,7 +25,7 @@ export default function Payment() {
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- click on cash radio options.
-  const [value, setValue] = useState("cash");
+  const [value, setValue] = useState("Cash");
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -51,32 +52,53 @@ export default function Payment() {
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- check, which radio options select by user.
+
+  // commented by :- Parineeta Gedam
+  // Date :- 10-04-2023
+  // Reason :- check, which radio options select by user.
+  // const submitPaymentMode = () => {
+  //   if (document.getElementById("cash").checked) {
+  //     ordernow();
+  //   } else {
+  //     showModal();
+  //   }
+  // };
+
+  // End of added code 13-04-2023
+
+  // Added by :- Parineeta Gedam
+  // Date :- 10-04-2023
+  // Reason :- check, which radio options select by user.
+
   const submitPaymentMode = () => {
-    if (document.getElementById("YES").checked) {
-      ordernow();
-    } else {
+    if (document.getElementById("Cash").checked) {
+      ordernow("Cash");
+    }
+    if (document.getElementById("Scanner").checked) {
       showModal();
     }
-  };
+    if (document.getElementById("Card").checked) {
+      ordernow("Card");
+    }
+  }
   // End of added code 10-04-2023
 
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- when user select "Cash" option then in order table "payment mode will be update."
-  const ordernow = async (value) => {
+  const ordernow = async (payment_mode) => {
     const order = {
       order_id: orders.order_id,
-      payment_mode: "cash",
+      payment_mode: payment_mode,
     }
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
-    console.log("res", order)
     console.log("ghchgc", response)
     if (response.msg) {
       message.success({
         content: "Payment done successfully",
         key: 1,
-        // icon: <CheckCircleOutlined />,
+        icon: <CheckCircleOutlined />,
         style: {
           marginTop: '5vh',
           fontSize: "16px",
@@ -91,7 +113,7 @@ export default function Payment() {
       message.error({
         content: "Please try again",
         key: 1,
-        // icon: <CheckCircleOutlined />,
+        icon: <CheckCircleOutlined />,
         style: {
           marginTop: '5vh',
           fontSize: "16px",
@@ -108,46 +130,56 @@ export default function Payment() {
   return (
     <>
       <div className='payment_heading_container'>
-        <h1 className='payment_heading'>Choose Payment Method</h1>
+        <h1 className='payment_heading' style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Choose Payment Method</h1>
       </div>
 
       <div className='radio_container'>
         <Radio.Group onChange={onChange} value={value}>
           <Space direction="vertical">
-            <Radio name="radio" id="YES" value="cash">
+            <Radio name="radio" id="Cash" value="Cash">
               <div className='payment_mode_container'>
                 <div className='payment_mode_img_container'><img src={cashImg} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
                 <span className='payment_mode_heading'>Cash</span>
               </div>
             </Radio>
-            <Radio name="radio" id="no" value="scanner" >
+            <Radio name="radio" id="Scanner" value="Scanner" >
+              <div className='payment_mode_container'>
+                <div className='payment_mode_img_container'><img src={scanImg} style={{ width: '100%', height: '10%' }} alt="no img"></img></div>
+                <span className='payment_mode_heading'>Scanner</span>
+              </div>
+            </Radio>
+            <Radio name="radio" id="Card" value="Card" >
               <div className='payment_mode_container'>
                 <div className='payment_mode_img_container'><img src={cardImg} style={{ width: '100%', height: '10%' }} alt="no img"></img></div>
-                <span className='payment_mode_heading'>Scan</span>
-              </div></Radio>
+                <span className='payment_mode_heading'>Card</span>
+              </div>
+            </Radio>
           </Space>
         </Radio.Group>
+
+        <div className='payment_btn_container'>
+          <Button
+            id="signBtn"
+            type="primary"
+            htmlType="submit"
+            block
+            className='payment_btn_heading'
+            style={{
+              backgroundColor: colors.bannerColor,
+              color: colors.backgroundTheme,
+              border: "none",
+            }}
+            onClick={() => {
+              submitPaymentMode();
+            }}
+          >
+            Pay
+          </Button>
+        </div>
+
       </div>
 
-      <div className='payment_btn_container'>
-        <Button
-          id="signBtn"
-          type="primary"
-          htmlType="submit"
-          block
-          className='payment_btn_heading'
-          style={{
-            backgroundColor: colors.bannerColor,
-            color: colors.backgroundTheme,
-            border: "none",
-          }}
-          onClick={() => {
-            submitPaymentMode();
-          }}
-        >
-          Pay
-        </Button>
-      </div>
+
 
       <div>
         <Modal

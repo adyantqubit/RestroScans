@@ -1,3 +1,7 @@
+// Added by :- PArineeta Gedam
+// Date :- 14-04-2023
+// Reason :- show the scanner
+
 import { React, useEffect, useState, useContext } from 'react';
 import { GlobalContext } from "../../context/Context";
 import { useNavigate} from "react-router-dom";
@@ -7,6 +11,7 @@ import { updatePaymentModeApi } from '../../api/Services';
 import secureLocalStorage from "react-secure-storage";
 import siteConfig from "../../config/config";
 import './Scan.css';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 export default function Scan() {
 
@@ -23,7 +28,7 @@ export default function Scan() {
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- get scanner
-  const [scanner, setScanner] = useState("");
+  const [scanner, setScanner] = useState([]);
 
   useEffect(() => {
     getScanner();
@@ -35,35 +40,38 @@ export default function Scan() {
       setScanner(scanner);
     }
   };
-  console.log("sdaf", scanner)
 
   // End of added code 11-04-2023
 
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- when select "Scanner" options then open a model.
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  // commented by :- Parineeta Gedam
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
   // End of added code 10-04-2023
 
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- click on cash radio options.
-  const [value, setValue] = useState("scanner");
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
+
+  // commented by :- Parineeta Gedam
+  // const [value, setValue] = useState("scanner");
+  // const onChange = (e) => {
+  //   setValue(e.target.value);
+  // };
   // End of added code 11-04-2023
 
   // Added by :- Parineeta Gedam
@@ -76,21 +84,19 @@ export default function Scan() {
 
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
-  // Reason :- when user select "Cash" option then in order table "payment mode will be update."
+  // Reason :- when user select "scanner" option then in order table "payment mode will be update."
   const ordernow = async (value) => {
     const order = {
       order_id: orders.order_id,
-      payment_mode: "scanner",
+      payment_mode: "Scanner",
     }
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
-    console.log("res", order)
-    console.log("ghchgc", response)
     if (response.msg) {
       message.success({
         content: "Payment done successfully",
         key: 1,
-        // icon: <CheckCircleOutlined />,
+        icon: <CheckCircleOutlined />,
         style: {
           marginTop: '5vh',
           fontSize: "16px",
@@ -105,7 +111,7 @@ export default function Scan() {
       message.error({
         content: "Please try again",
         key: 1,
-        // icon: <CheckCircleOutlined />,
+        icon: <CheckCircleOutlined />,
         style: {
           marginTop: '5vh',
           fontSize: "16px",
@@ -120,15 +126,12 @@ export default function Scan() {
 
   return (
     <>
-      <div style={{ paddingTop: "4%", backgroundColor: "#f0f0f0" }}>
+      <div className='scanner_parent_container'>
         <h2
-          style={{
-            textAlign: "center",
-            justifyContent: "center",
-            color: "black",
-          }}
+          className='scanner_heading'
+          style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}
         >
-          <b>Scan and Pay</b>
+          Scan and Pay
         </h2>
         <div className="scanner_img_container">
           <div
@@ -147,7 +150,7 @@ export default function Scan() {
                   className="scanner_img"
                 />
               );
-            })}  
+            })}   
             <br></br>
             <h6 style={{ textAlign: "center", justifyContent: "center" }}>
               Scan this QR code to secure payments
@@ -174,3 +177,5 @@ export default function Scan() {
     </>
   )
 }
+
+// End of added code 13-04-2023

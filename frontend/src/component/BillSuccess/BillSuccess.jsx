@@ -7,7 +7,10 @@ import secureLocalStorage from "react-secure-storage";
 import { postCheckPaymentStatus } from '../../api/Services';
 import { Button, message } from "antd";
 import { GlobalContext } from "../../context/Context";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import './BillSuccess.css';
+import enjoyYourMealImg from "../../images/enjoyYourMealImg.jpg";
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 
 export default function BillSuccess() {
@@ -44,7 +47,7 @@ export default function BillSuccess() {
             message.error({
                 content: "In Progress",
                 key: 1,
-                // icon: <CheckCircleOutlined />,
+                icon: <CheckCircleOutlined />,
                 style: {
                     marginTop: '5vh',
                     fontSize: "16px",
@@ -61,15 +64,17 @@ export default function BillSuccess() {
 
     return (
         <>
-            <div>BillSuccess</div>
+            <div className='bill-success-container'>
+            <img src={enjoyYourMealImg} style={{ width: '100%', height: '100%' }} alt="no img"></img>
+            </div>
 
-            <div className='payment_btn_container'>
+            <div className='bill_success_btn_container'>
                 <Button
                     id="signBtn"
                     type="primary"
                     htmlType="submit"
                     block
-                    className='payment_btn_heading'
+                    className='bill_success_btn_heading'
                     style={{
                         backgroundColor: colors.bannerColor,
                         color: colors.backgroundTheme,

@@ -1,10 +1,26 @@
-.scanner_img_container{
-    
+/* Added by :- Parineeta Gedam
+    Date :- 14-04-2023
+    Reason :- scanner css 
+*/
+
+/* heading css */
+.scanner_heading{
+    text-align: center;
+    justify-content: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 
+/* style={{ paddingTop: "4%", backgroundColor: "#f0f0f0" }} */
 
+.scanner_img_container{
+    margin-top: 15px;
+}
 
+/* scanner btn css  */
 .scanner_btn_container {
     margin-left: auto;
     margin-right: auto;
