@@ -119,7 +119,10 @@ class Offer(models.Model):
     offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image")
+    # Added (null = True) by Om on 13-04-23
+    # Reason : For update the offer banner image
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True)
+    # End of addition
     description=models.TextField(null=True,blank=True)
     
     def __str__(self):

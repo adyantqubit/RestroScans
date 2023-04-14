@@ -153,8 +153,13 @@ export default function AddBannerItems() {
                     setIsDisable(false);
                     // navigate('login')
                 }
-                if (response.error) {
-                    Alert.alert("Error", response.error);
+                // Modified by Om on 14-04-23
+                // Reason : response.error not work proper, so this part I put on else condition
+                else{
+                // if (response.error) {
+                //     alert(response.error)
+                    Alert.alert("Error", "Banner with this item name already exists");
+                  //  End of addition
                     setIsDisable(false);
                 }
             }

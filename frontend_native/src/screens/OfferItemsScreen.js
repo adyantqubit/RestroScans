@@ -92,7 +92,10 @@ export default function OfferItemsScreen({ route, navigation }) {
 // alert(tenant)
         updateAllOffer(formData, tenant, bannerId).then((response) => {
             if (response.msg) {
-                Alert.alert("Succesfull", response.msg);
+            	// Modified by Om on 14-04-23
+            	// Reason : Correct the spelling of success
+                Alert.alert("Successfull", response.msg);
+                // End of modfication
                 // var a = response.offerBanner.filter((dt) => dt.id == bannerName[0].id)
                 // setBannerObject(a)
                 setRender(!render)

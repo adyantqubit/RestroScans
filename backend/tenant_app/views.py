@@ -295,7 +295,10 @@ class OfferItemsAPIView(APIView):
         if serializedData.is_valid():
             serializedData.save()
             return Response({"msg":"Banner item added successfully"},status=status.HTTP_201_CREATED)
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+        # Modification by Om on 14-04-23
+        # Reason : Chagne the error method
+        return Response({"error":"Banner with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        # End of moodification
     # End of addition
 
     def put(self, request,tenant, pk):
