@@ -482,7 +482,12 @@ export default function EditItemScreen({ route, navigation }) {
             onValueChange={setItemChecked}
             color={isItemChecked ? "#4630EB" : undefined}
           />
+          {/*Added by Yuvraj Sahu on 13-4-2023
+          Reason - to make pressable to active status*/}
+          <Pressable onPress={() => setItemChecked(!isItemChecked)}>
           <Text style={styles.activeLable}>Active status</Text>
+          </Pressable>
+          {/*End of addition*/}
         </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable

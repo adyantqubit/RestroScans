@@ -18,46 +18,53 @@ import * as SecureStore from "expo-secure-store";
 import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
 import { SelectList } from "react-native-dropdown-select-list";
+import { useIsFocused } from "@react-navigation/native";
 
-export default function SettingScreen({navigation}) {
+export default function SettingScreen({ navigation }) {
   var { render, setRender, settings } = useContext(AppStateContext);
+
+  // Added by Yuvraj Sahu on 13-4-2023
+  // Reason - to re render page
+  const isFocused = useIsFocused();
+  // End of addition
 
   // Added by Yuvraj Sahu on 11-4-2023
   // Reason - to reRender page
-  {/* This function is used to re-render the page  */}
-  React.useEffect(()=>{
-  },[render])
+  {
+    /* This function is used to re-render the page  */
+  }
+  React.useEffect(() => {}, [render, isFocused]);
   // End of addition
-
+  
   // Added by Yuvraj Sahu on 11-4-2023
   // Reason - to set themes in dropdown
   const [theme, setTheme] = React.useState("");
   var [themeOption, setThemeOption] = useState([]);
   React.useEffect(() => {
-    const getMenus = async () => {
-      // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-      // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-      // if (response.categoryList) {
-        setThemeOption(
-          settings.themeOptions.map(function (obj) {
-          obj["key"] = obj["id"]; // Assign new key
-          obj["value"] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
-          delete obj["id"];
-          delete obj["background_color"];
-          delete obj["heading_color"];
-          delete obj["subheading_color"];
-          delete obj["banner_heading_color"];
-          delete obj["heading_bgcolor"];
-          delete obj["subheading_bgcolor"];
-          return obj;
-        })
-      );
-      // }
-    };
     getMenus();
   }, []);
 
-  
+  const getMenus = async () => {
+    // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    // if (response.categoryList) {
+    setThemeOption(
+      settings.themeOptions.map(function (obj) {
+        obj["key"] = obj["id"]; // Assign new key
+        obj["value"] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
+        delete obj["id"];
+        delete obj["background_color"];
+        delete obj["heading_color"];
+        delete obj["subheading_color"];
+        delete obj["banner_heading_color"];
+        delete obj["heading_bgcolor"];
+        delete obj["subheading_bgcolor"];
+        return obj;
+      })
+    );
+    // }
+  };
+
   const [allowHalfPrice, setAllowHalfPrice] = useState(
     settings.setting.allow_half_price
   );
@@ -70,15 +77,15 @@ export default function SettingScreen({navigation}) {
     settings.setting.id != undefined
       ? formData.append("id", settings.setting.id)
       : null;
-      // Commented by Yuvraj Sahu on 12-4-2023
-      // Reason - to remove fields
+    // Commented by Yuvraj Sahu on 12-4-2023
+    // Reason - to remove fields
     // formData.append("background_color", formValues.background_color);
     // formData.append("heading_color", formValues.heading_color);
     // formData.append("subheading_color", formValues.subheading_color);
     // formData.append("banner_heading_color", formValues.banner_heading_color);
     // formData.append("heading_bgcolor", formValues.heading_bgcolor);
     // formData.append("subheading_bgcolor", formValues.subheading_bgcolor);
-    // End of comment 
+    // End of comment
     formData.append("tax", formValues.tax);
     formData.append("allow_half_price", allowHalfPrice);
     formData.append("app_theme", theme);
@@ -90,8 +97,8 @@ export default function SettingScreen({navigation}) {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
-        setRender(!render)
-        navigation.navigate("HomeScreen")
+        setRender(!render);
+        navigation.navigate("HomeScreen");
       }
       if (response.error) {
         Alert.alert("Error", response.error);
@@ -110,8 +117,8 @@ export default function SettingScreen({navigation}) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-    	// Added by ?Yuvraj Sahu on 12-4-2023
-    	// Reason - to remove feilds
+      // Added by ?Yuvraj Sahu on 12-4-2023
+      // Reason - to remove feilds
       // background_color:
       //   settings.setting.background_color != undefined
       //     ? settings.setting.background_color
@@ -136,7 +143,7 @@ export default function SettingScreen({navigation}) {
       //   settings.setting.subheading_bgcolor != undefined
       //     ? settings.setting.subheading_bgcolor
       //     : "",
-      // End of comment 
+      // End of comment
       tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
       allow_half_price:
         settings.setting.allow_half_price != undefined
@@ -148,7 +155,7 @@ export default function SettingScreen({navigation}) {
   return (
     <ScrollView>
       <View style={styles.container}>
-      {/* Commented by Yuvraj Sahu on 12-4-2023
+        {/* Commented by Yuvraj Sahu on 12-4-2023
       Reason - to remove feilds */}
         {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
@@ -358,17 +365,32 @@ export default function SettingScreen({navigation}) {
           />
         </View> */}
         {/*End of Comment */}
-      <View style={{ marginTop: 5 }}>
-        <Text style={styles.labels}>Select theme option</Text>
-      </View>
-      <SelectList
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.labels}>Select theme option</Text>
+        </View>
+        <SelectList
           setSelected={setTheme}
           data={themeOption}
           search={false}
-          boxStyles={{ borderRadius: 5, alignSelf: "center", width: "93%", borderColor: "black", marginTop: 10 }} //override default styles
+          // Added by Yuvraj Sahu on 13-4-2023
+          // Reason - to design dropdown
+          dropdownStyles={{
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 1,
+          }}
+          // End of design
+          boxStyles={{
+            borderRadius: 5,
+            alignSelf: "center",
+            width: "93%",
+            borderColor: "black",
+            marginTop: 10,
+          }} //override default styles
           defaultOption={{
             key: settings.setting.id,
-            value: `${settings.setting.background_color}, ${settings.setting.heading_color}, ${settings.setting.subheading_color}`}}
+            value: `${settings.setting.background_color}, ${settings.setting.heading_color}, ${settings.setting.subheading_color}`,
+          }}
         />
 
         <View style={{ marginTop: 10 }}>

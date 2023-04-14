@@ -6,14 +6,17 @@ import { WebView } from "react-native-webview";
 import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
 
   export default function PreviewMenuScreen({ navigation, route }) {
     var { render, setRender } = useContext(AppStateContext)
 
+    const isFocused = useIsFocused();
+
 
     useEffect(() => {
       getTenant();
-    }, [render]);
+    }, [render, isFocused]);
 
 
   var [tenant, setTenant] = useState("");
@@ -27,11 +30,8 @@ import { AppStateContext } from "../context/AppStateProvider";
         <View style={{ flex:1 }} >
         {/* <WebView  source={{ uri: "https://diyacafe.restroscans.com/diyacafe/home" }} /> */}
           {/* <WebView  source={{ uri: `https://${tenant}.restroscans.com/${tenant}/home` }} /> */}
-          <WebView  source={{ uri: `192.168.1.27:3000/${tenant}/home` }} />
-
+          <WebView  source={{ uri: `192.168.1.10:3000/${tenant}/home` }} />
         </View>
         </View>
-  
-      
     );
   }

@@ -63,7 +63,10 @@ Reason - To have tenant table where tenant's information will be stored
 """
 class Tenant(TenantMixin):
     tenant_name=models.CharField(max_length=255,default='',unique=True)
-    tenant_logo=models.ImageField(upload_to='images/tenant/',blank=True,null=True)
+    # Commented by Yuvraj Sahu on 13-4-2023
+    # Reason - to remove tenant logo from restaurant
+    # tenant_logo=models.ImageField(upload_to='images/tenant/',blank=True,null=True)
+    # End of comment
      # Added by Om on 24-03-23
     # Reason: Show a restaurant name in tenant models
     restaurant_name = models.ForeignKey(RestaurantRequest,related_name='restaurant_id',null=True,on_delete=models.DO_NOTHING)

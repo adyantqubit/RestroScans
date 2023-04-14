@@ -63,12 +63,14 @@ export default function DrawerNavigation() {
         component={PreviewMenuScreen}
         options={{ drawerLabel: "Preview Menu", title: "Preview Menu" }}
       />
-      <Drawer.Screen
+      {/* Commented by Yuvraj Sahu on 13-4-2023
+      Reason - to remove QR code from drawer */}
+      {/* <Drawer.Screen
         name="QRCodeScreen"
         component={QRCodeScreen}
         options={{ drawerLabel: "Generate QR Code", title: "Generate QR Code" }}
-      />
-
+      /> */}
+      {/* End of comment */}
       <Drawer.Screen
         name="OfferScreen"
         component={OfferScreen}

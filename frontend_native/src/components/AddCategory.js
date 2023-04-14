@@ -50,6 +50,12 @@ export default function AddCategory() {
 
   var { render, setRender } = useContext(AppStateContext);
 
+ // Added by Yuvraj Sahu on 14-4-2023
+ // Reason - to re render the screen
+  useEffect(()=>{
+  },[render])
+  // end of addition
+
   useEffect(() => {
     getMenus();
     getTenant();

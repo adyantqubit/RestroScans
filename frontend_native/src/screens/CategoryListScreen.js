@@ -291,7 +291,12 @@ export default function CategoryListScreen({ route, navigation }) {
             onValueChange={setMenuChecked}
             color={isMenuChecked ? "#4630EB" : undefined}
           />
+           {/* Added by Yuvraj Sahu on 13-42023
+          Reason - to press active status in checkbox */}
+          <Pressable onPress={() => setMenuChecked(!isMenuChecked)}>
           <Text style={styles.activeLable}>Active status</Text>
+          </Pressable>
+          {/*End of addition*/}
         </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable

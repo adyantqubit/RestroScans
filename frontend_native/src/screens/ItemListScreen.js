@@ -307,6 +307,23 @@ export default function ItemListScreen({ route, navigation }) {
           />
         </View>
 
+        {/* Added by Yuvraj Sahu on 13-4-2023
+        Reason - to add lable for upload image */}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        >
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          <Text>Edit icon</Text>
+        </View>
+        {/* End of addition */}
+
         <View
           style={{
             display: "flex",
@@ -323,7 +340,7 @@ export default function ItemListScreen({ route, navigation }) {
         >
           <Button title="Edit category icon" onPress={pickImage} />
           {icon && (
-            <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
+            <Image source={{ uri: icon }} style={{ width: 50, height: 40, borderRadius: 5 }} />
           )}
           {!icon && categoryObj[0].icon && (
             <Image
@@ -339,7 +356,12 @@ export default function ItemListScreen({ route, navigation }) {
           onValueChange={setCategoryChecked}
           color={isCategoryChecked ? "#4630EB" : undefined}
         />
+        {/*Added by Yuvraj Sahu on 13-4-2023
+        Reason - to make pressable active status lable */}
+        <Pressable onPress={() => setCategoryChecked(!isCategoryChecked)}>
         <Text style={styles.activeLable}>Active status</Text>
+        </Pressable>
+        {/*End of addition*/}
         </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
