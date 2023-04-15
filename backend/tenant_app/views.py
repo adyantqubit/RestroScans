@@ -665,7 +665,11 @@ all latest orders for app
 class getOrdersAPI(APIView):
     def get(self,request,tenant):
         allOrders = Order.objects.all().order_by("-date")
-        ordersSerializer=OrderSerializer(allOrders, many=True)
+        # Modified by Yuvraj Sahu on 14-4-2023
+        # Reason - to recieve customer name from serializers
+        # ordersSerializer=OrderSerializer(allOrders, many=True)
+        ordersSerializer=AllOrderSerializer(allOrders, many=True)
+        # End of modification
         return Response ({"msg":"success", "allOrders": ordersSerializer.data})
 # End of getting orders
 """
