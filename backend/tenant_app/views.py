@@ -53,12 +53,15 @@ def getBestproduct():
             if orderItem.rating is not None:
                 rating.append(float(orderItem.rating))
 
-        sortedData.append(
-            {
-                "item": item['item'].id,
-                "rating": sum(rating)/float(rating.__len__()),
-                # "count":rating.__len__()
-            }
+        # added by rohan - 15/4/23
+        # Reason - To solve rating devide by zero issue
+        if rating.__len__() !=0:
+            sortedData.append(
+                {
+                    "item": item['item'].id,
+                    "rating": sum(rating)/float(rating.__len__()),
+                    # "count":rating.__len__()
+                }
         )
 
     list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
