@@ -27,10 +27,11 @@ function App() {
   return (
     <BrowserRouter>
 
-      <div className={`${appStyle.container}`}>
+      <div className={`${appStyle.container}`}
+     >
         {/*added by rohan- on 6/4/23
           reason- here i am adding cart and back button   */}
-        <div className="heading_container" >
+        <div className="heading_container" id="header" style={{position:"sticky",top:"0",zIndex:"99",background:colors.backgroundTheme}} >
           <h2 style={{ color: colors.headingColor }}
             // className="restaurant_name"
             className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
@@ -64,7 +65,7 @@ function App() {
               Reason : show the bill success page and Billing.
           */}
           <Route exact path="/bill-success" element={<BillSuccess />} />
-          <Route exact path="/billing" element={<Billing2 />} />
+          {/* <Route exact path="/billing" element={<Billing2 />} /> */}
 
 
           {/* End of added code */}

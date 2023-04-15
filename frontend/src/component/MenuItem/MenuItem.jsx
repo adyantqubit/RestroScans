@@ -22,7 +22,8 @@ import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
-import { MdRoomService } from "react-icons/md"
+import { MdRoomService } from "react-icons/md";
+import {GoSearch} from "react-icons/go";
 
 // Import Swiper styles
 import "swiper/css";
@@ -35,6 +36,7 @@ import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
 import Loader from "../Loader/Loader";
 import PopupDetail from "./PopupDetail";
 import { GrFormAdd } from "react-icons/gr";
+import { AiOutlineClose } from "react-icons/ai";
 
 function MenuItem() {
 
@@ -547,6 +549,9 @@ function MenuItem() {
 
   // End of added code 03-04-2023
 
+
+  const [searchVisible,setSearchVisiblity]=useState(false)
+
   return (
     <>
       {/* {isLoader == true ? <Loader /> : */}
@@ -560,7 +565,6 @@ function MenuItem() {
           // end of code
         }}
       >
-
         {/* Removing header from here and adding it to app.js file for globallization */}
 
         <div><GlobalColor /></div>
@@ -626,6 +630,7 @@ function MenuItem() {
         }
         <div id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
+          style={{background:colors.backgroundTheme}}
         >
 
           {/* Added by :- Parineeta Gedam
@@ -679,8 +684,13 @@ function MenuItem() {
                 onChange={e => { setNewSearch(e.target.value.trimStart());} }
                 placeholder='Search by Menu, Categories & Items name' />
             </Input.Group> */}
-
-            <input style={{ height: '4vh', width: '100%' }} id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' type="search" />
+             <GoSearch className="searchIcon" style={{backgroundColor:colors.bannerColor,color:colors.backgroundTheme}} onClick={e=>setSearchVisiblity(!searchVisible)}/>
+             {searchVisible?
+             <>
+             <input  className="inputBoxSearch" type="search" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' />
+             <AiOutlineClose className="closeIcon" onClick={e=>setSearchVisiblity(!searchVisible)}/>
+             </>
+             :null}
           </div>
           {/* Added by Rohan- 9/4/23  Reason- cart page */}
           <div className="icon_container">
@@ -715,7 +725,6 @@ function MenuItem() {
             <img
               src={nodataOffer}
               className='nodata_image' />
-
           </div>
           <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px' }}>
             Currently no items are available</h5>
@@ -1491,7 +1500,7 @@ function MenuItem() {
 
         <br />
 
-        <div className="main_footer_container" >
+        <div className="main_footer_container" style={{ backgroundColor: colors.backgroundTheme }}>
           <div className="footer_btn_container" >
             <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
           </div>

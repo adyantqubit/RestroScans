@@ -25,7 +25,7 @@ function elementRemover(specificIndex, list) {
 
 
 const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
-    const { colors, cart, setCart } = useContext(GlobalContext)
+    const { colors, cart, setCart,restaurant_name } = useContext(GlobalContext)
     const [messageApi, contextHolder] = message.useMessage();
     var [quantityhalf, setQuantityHalf] = useState(0)
     var [quantityFull, setQuantityFull] = useState(0)
@@ -131,9 +131,12 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             icon: item.icon,
             discounted_full_price: item.discounted_full_price,
             discounted_half_price: item.discounted_half_price,
-            item_type: item.item_type
+            item_type: item.item_type,
+            tenant:restaurant_name
         }
     }
+
+    
 
     // created by rohan - 9/4/23
     // reason - this will return current quantity of opened item only we have to pass the size the it fetch 
@@ -242,7 +245,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 <div>
                                     <div className={style.row1}>
                                         <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Full Plate</div>
-                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>? {item.discounted_full_price}</div>
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_full_price}</div>
                                     </div>
 
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>
@@ -274,7 +277,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 <div>
                                     <div className={style.row1}>
                                         <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Half Plate</div>
-                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>? {item.discounted_half_price}</div>
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_half_price}</div>
                                     </div>
 
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>

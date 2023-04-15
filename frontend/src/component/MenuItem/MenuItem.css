@@ -3,6 +3,9 @@
 .menu_maindiv {
     /* background-color: var(--primary-backeground-color); */
     height: 100%;
+    max-height: 75vh;
+    overflow: auto;
+
 }
 
 .restaurant_name {
@@ -10,10 +13,8 @@
     text-align: center;
     padding: 1%;
     margin: 0;
-    font-family: "Times New Roman"
-    ;
+    font-family: "Times New Roman";
     /* font-family: "Playfair+Display&display=swap"; */
-
     /* color: var(--heading-and-subheading); */
     font-size: 28px;
 }
@@ -180,10 +181,22 @@
     /* display: block !important; */
     display: block;
     /* border: 1px solid red; */
-    height: 44%;
-    overflow: auto;
+    /* height: 100%;
+    overflow: auto; */
 
     /* Omm */
+}
+
+._container_1veud_1{
+    position:unset;
+}
+
+:is(._fullPage_1veud_7,._prevPage_1veud_8,._nextPage_1veud_9):is(._left-to-right_1veud_17,._right-to-left_1veud_17){
+    overflow-x:unset !important;
+}
+
+._fullPage_1veud_7, ._prevPage_1veud_8, ._nextPage_1veud_9{
+    /* position: unset; */
 }
 
 .allcategory_container {
@@ -225,11 +238,17 @@
 .searchpage_main {
     padding: 1%;
     display: flex;
+    position: sticky;
+    top: 0px;
+    z-index: 99;
+
+
 }
 
 /* Added by :- Parineeta Gedam Date :- 05-04-2023 */
 .menu_container{
     width: 15%;
+    position: relative;
 }
 /* End of added code 05-04-2023 */
 
@@ -240,6 +259,7 @@
     /* added by Rohan -9/4/23*/
     width: 70%;
     margin: 0 2.5%;
+    /* position: relative; */
     /* end of code -9/4/23 */
      /* End of added code 05-04-2023 */
 }
@@ -421,8 +441,8 @@
 }
 
 .category_img {
-    height: 70%;
-    width: 22vw;
+    height: 70px;
+    width: 70px;
     border-radius: 100%;
 
 }
@@ -480,7 +500,8 @@
 }
 
 .searchpage_content {
-    height: 45%;
+    /* height: 45%; */
+    height: auto;
     overflow: auto;
     display: block !important;
 }
@@ -580,7 +601,7 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     /* bottom: 60px; */
     /* bottom: 45px; */
     bottom: 52px;
-
+    padding:10px 0;
     min-height: 13%;
     max-height: 13%;
     width: 100%;
@@ -591,21 +612,23 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     align-items: center;
     max-height: 20%;
 
+
 }
 
 .footer_btn_container {
     color: white;
-    width: 8%;
+    /* width: 8%; */
 }
 
 .category_container {
     color: white;
-    width: 84%;
+    /* added by rohan- to increase width and remove btn -15/4/23 */
+    width: 100%;
 
     overflow: auto;
     display: flex;
     min-width: 84%;
-    max-width: 84%;
+    /* max-width: 84%; */
 }
 
 .inLandscapeMode {
@@ -652,6 +675,8 @@ a.ant-notification-notice-close {
     text-align: center;
     transition: 200ms;
     width: 100%;
+    /* added by rohan -15-03-14 */
+    display: none;
     box-sizing: border-box;
     border: 0;
     font-size: 12px;
@@ -712,7 +737,36 @@ a.ant-notification-notice-close {
 
 }
 
+.searchIcon{
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    font-size: 24px;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
 
+.inputBoxSearch{
+    position: absolute;
+    width: 98%;
+    height: 38px;
+    left:0;
+    top: 0;
+    margin:0 1%;
+    z-index: 99;
+    background-color: #ededed;
+}
+
+
+.closeIcon{
+    position: absolute;
+    right: 20px;
+    top:0;
+    bottom: 0;
+    margin:auto 0;
+    z-index: 999;
+}
 @keyframes category_animated_div {
     20% {
         transform: rotate(15deg);
@@ -780,7 +834,7 @@ a.ant-notification-notice-close {
         height: 43%;
     }
     .main_footer_container{
-        bottom: 63px;
+        bottom: 20px;
     }
 
 }
@@ -848,3 +902,4 @@ a.ant-notification-notice-close {
     }
    
 }
+

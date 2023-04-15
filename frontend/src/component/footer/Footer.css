@@ -1,12 +1,26 @@
 .main_footer{
    position: fixed;
    bottom: 0px;
+   height: 20px;
    text-align: center;
-   justify-content: center;
+   justify-content: space-between;
    width: 100%;
-   background-color: #d0d0d0;
    z-index: 9999;
+   display: flex;
 }
+
+.powered_text{
+   width: 40%;
+   height: 100%;
+   background-color: #d0d0d0;
+
+}
+
+.marquee_container{
+    width: 60%;
+    height: 100%;
+}
+
 
 .footer_content{
     display: flex;

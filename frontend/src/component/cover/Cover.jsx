@@ -58,6 +58,8 @@ function Cover() {
 
   const navigate = useNavigate();
   const goToNext = () => {
+    document.getElementById('header').style.display="flex"
+    document.getElementById('footer').style.display="flex"
     navigate("/menu-item");
   };
 
@@ -71,6 +73,8 @@ function Cover() {
           {tenantDetails ? <div
             className='front_page'
             onLoad={e => {
+              document.getElementById('header').style.display="none"
+              document.getElementById('footer').style.display="none"
               // added by rohan - 9/4/23
               // reason- To hide header from cover page
               // document.getElementsByClassName("heading_container")[0].style.display = "none"
