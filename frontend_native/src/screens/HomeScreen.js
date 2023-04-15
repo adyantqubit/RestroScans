@@ -18,6 +18,7 @@ import config, { setTenant, tenantName } from "../config/config";
 import { colors, fonts } from "../Colours/globalColor";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { AppStateContext } from "../context/AppStateProvider";
+import { LinearGradient } from "expo-linear-gradient";
 // import '../Colours/GlobalColor.css';
 
 import { getDashboardData, getDashboardDetails } from "../api/Services";
@@ -27,7 +28,19 @@ export default function HomeScreen({ navigation }) {
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
   const [todaysOrders, setTodaysOrders] = useState([]);
-  const [revenueDetails, setRevenueDetails] = useState([]);
+  /**
+   * Commented and modified by - Ashish Dewangan on 15-04-2023
+   * Reason - Created variables to store backend data
+   */
+  // const [revenueDetails, setRevenueDetails] = useState([]);
+  const [revenueDetails, setRevenueDetails] = useState({});
+  const [todaysSummary, setTodaysSummary] = useState({});
+  const [thisWeeksSummary, setThisWeeksSummary] = useState({});
+  const [thisMonthsSummary, setThisMonthsSummary] = useState({});
+  const [thisYearsSummary, setThisYearsSummary] = useState({});
+  /**
+   * End of code modification
+   */
   var { render, setRender } = useContext(AppStateContext);
 
   var { render, setRender, getSettingData } = useContext(AppStateContext);
@@ -53,6 +66,17 @@ export default function HomeScreen({ navigation }) {
     if (response) {
       setTodaysOrders(response.todays_orders);
       setRevenueDetails(response.revenue_details);
+      /**
+       * Added by - Ashish Dewangan on 15-04-2023
+       * Reason - To store revenue details from backend to frontend variables
+       */
+      setTodaysSummary(response.revenue_details.todays_summary);
+      setThisWeeksSummary(response.revenue_details.this_weeks_summary);
+      setThisMonthsSummary(response.revenue_details.this_months_summary);
+      setThisYearsSummary(response.revenue_details.this_years_summary);
+      /**
+       * End of code addition
+       */
     }
   };
 
@@ -154,9 +178,13 @@ export default function HomeScreen({ navigation }) {
           </View> */}
         {/* End of code comment and modification by Ashish on 12-04-2023 */}
 
+        {/* Commented and modified by - Ashish Dewangan on 12-04-2023
+            Reason - To show revenue and count of orders in card form */}
+
         {/* Added by - Ashish Dewangan on 12-04-2023
             Reason - To show revenue and count of orders */}
-        {revenueDetails ? (
+
+        {/* {revenueDetails ? (
           <View
             style={{
               flex: 1,
@@ -194,47 +222,81 @@ export default function HomeScreen({ navigation }) {
               );
             })}
           </View>
-        ) : null}
+        ) : null} */}
 
         {/* 
           End of code addition for show revenue and count of orders on 12-04-2023
         */}
 
+        {revenueDetails ? (
+          <View style={styles.revenueContainer}>
+            <LinearGradient
+              colors={["#4099ff", "#73b4ff"]}
+              style={styles.revenueCard}
+            >
+              <Text style={styles.revenueCardTitle}>Today</Text>
+              <Text style={styles.revenueCardHeading}>Order Count</Text>
+              <Text style={styles.revenueCardData}>
+                {todaysSummary.order_count}
+              </Text>
+              <Text style={styles.revenueCardHeading}>Revenue</Text>
+              <Text style={styles.revenueCardData}>
+                {todaysSummary.total_revenue}
+              </Text>
+            </LinearGradient>
+
+            <LinearGradient
+              colors={["#2ed8b6", "#59e0c5"]}
+              style={styles.revenueCard}
+            >
+              <Text style={styles.revenueCardTitle}>This Week</Text>
+              <Text style={styles.revenueCardHeading}>Order Count</Text>
+              <Text style={styles.revenueCardData}>
+                {thisWeeksSummary.order_count}
+              </Text>
+              <Text style={styles.revenueCardHeading}>Revenue</Text>
+              <Text style={styles.revenueCardData}>
+                {thisWeeksSummary.total_revenue}
+              </Text>
+            </LinearGradient>
+            <LinearGradient
+              colors={["#FFB64D", "#ffcb80"]}
+              style={styles.revenueCard}
+            >
+              <Text style={styles.revenueCardTitle}>This Month</Text>
+              <Text style={styles.revenueCardHeading}>Order Count</Text>
+              <Text style={styles.revenueCardData}>
+                {thisMonthsSummary.order_count}
+              </Text>
+              <Text style={styles.revenueCardHeading}>Revenue</Text>
+              <Text style={styles.revenueCardData}>
+                {thisMonthsSummary.total_revenue}
+              </Text>
+            </LinearGradient>
+            <LinearGradient
+              colors={["#FF5370", "#ff869a"]}
+              style={styles.revenueCard}
+            >
+              <Text style={styles.revenueCardTitle}>This Year</Text>
+              <Text style={styles.revenueCardHeading}>Order Count</Text>
+              <Text style={styles.revenueCardData}>
+                {thisYearsSummary.order_count}
+              </Text>
+              <Text style={styles.revenueCardHeading}>Revenue</Text>
+              <Text style={styles.revenueCardData}>
+                {thisYearsSummary.total_revenue}
+              </Text>
+            </LinearGradient>
+          </View>
+        ) : null}
+        {/* End of code modification for showing revenue in card form on 15-04-2023 */}
+
         {/* Added by - Ashish Dewangan on 11-04-2023
             Reason - To show today's orders on dashboard(home screen) */}
         {todaysOrders ? (
-          <View
-            style={{
-              flex: 1,
-              width: "97%",
-              alignSelf: "center",
-              marginTop: 10,
-              backgroundColor: "white",
-              elevation: 5,
-              shadowColor: "#171717",
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                alignSelf: "center",
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                fontWeight: "bold",
-                marginBottom: 10,
-              }}
-            >
-              Today's Orders
-            </Text>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                padding: 2,
-              }}
-            >
+          <View style={styles.todaysOrderContainer}>
+            <Text style={styles.todaysOrderContainerTitle}>Today's Orders</Text>
+            <View style={styles.todaysOrderHeadingContainer}>
               <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
               <Text style={{ width: "13%", fontWeight: "bold" }}>
                 Table No.
@@ -249,15 +311,7 @@ export default function HomeScreen({ navigation }) {
             </View>
             {todaysOrders.map((order, index) => {
               return (
-                <View
-                  key={index}
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                    padding: 2,
-                  }}
-                >
+                <View key={index} style={styles.todaysOrderDataContainer}>
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
                   <Text style={{ width: "13%" }}>{order.table_number}</Text>
                   <Text style={{ width: "22%" }}>{order.order_status}</Text>
@@ -352,5 +406,82 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 18,
   },
+
+  /**
+   * Added by - Ashish Dewanagn on 15-04-2023
+   * Reason - To have styling of dashboard
+   */
+  revenueContainer: {
+    flex: 1,
+    width: "100%",
+    marginTop: 10,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  revenueCard: {
+    width: "23%",
+    elevation: 5,
+    shadowColor: "#171717",
+    borderRadius: 5,
+    alignSelf: "center",
+    padding: 2,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  revenueCardTitle: {
+    color: "white",
+    fontWeight: "900",
+    textAlign: "center",
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "white",
+  },
+  revenueCardHeading: {
+    color: "white",
+    fontWeight: "900",
+    textAlign: "center",
+  },
+  revenueCardData: {
+    color: "white",
+    fontWeight: "900",
+    textAlign: "center",
+    fontSize: 16,
+  },
+  todaysOrderContainer: {
+    flex: 1,
+    width: "97%",
+    alignSelf: "center",
+    marginTop: 10,
+    backgroundColor: "white",
+    elevation: 5,
+    shadowColor: "#171717",
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  todaysOrderContainerTitle: {
+    alignSelf: "center",
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  todaysOrderHeadingContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 2,
+  },
+  todaysOrderDataContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 3,
+    borderTopColor: "black",
+    borderTopWidth: 1,
+  },
+  /**
+   * End of code addition for styling of dashboard on 15-04-2023
+   */
   // End of designing
 });

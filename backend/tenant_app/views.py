@@ -36,14 +36,19 @@ def getBestproduct():
     allItems = OrderItem.objects.all()
     tempSort = []
     # for sortItem in sort:
+    #updated by rohan - 15/4/23
+    #reason - We apllied try catch here if item not found and handling rating error also
     for item in allItems:
-        itemObj = Item.objects.get(id=item.item_id.id)
-        if {"item": itemObj} in tempSort:
-            pass
-        else:
-            tempSort.append({
-                "item": itemObj
-            })
+        try:
+            itemObj = Item.objects.get(id=item.item_id.id)
+            if {"item": itemObj} in tempSort:
+                pass
+            else:
+                tempSort.append({
+                    "item": itemObj
+                })
+        except:
+            tempSort=[]        
 
     sortedData = []
     for item in tempSort:
@@ -882,64 +887,101 @@ class DashboardAPI(APIView):
         dayOfMonth=today.day
         startOfTheMonth=today - timedelta(days=(dayOfMonth-1))
         thisYear=today.year
-        data=[]
+
+        # Commented and modified by - Ashish Dewangan on 15-04-2023
+        # Reason - To send data in a different way
+        # data=[]
         
-        summary=[]
-        ordersCount=dict()
+        # summary=[]
+        # ordersCount=dict()
+        # totalOrders = Order.objects.filter(date__gte=today).count()
+        # ordersCount["title"]="Total orders of today"
+        # ordersCount["value"]=totalOrders
+        # summary.append(ordersCount)
+        # totalRevenue=dict()
+        # revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
+        # totalRevenue["title"]="Today's revenue"
+        # totalRevenue["value"]=revenue["total__sum"]
+        # summary.append(totalRevenue)
+        # data.append(summary)
+
+        # summary=[]
+        # ordersCount=dict()
+        # totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
+        # ordersCount["title"]="Total orders of this week"
+        # ordersCount["value"]=totalOrders
+        # summary.append(ordersCount)
+        # totalRevenue=dict()
+        # revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
+        # totalRevenue["title"]="This week's revenue"
+        # totalRevenue["value"]=revenue["total__sum"]
+        # summary.append(totalRevenue)
+        # data.append(summary)
+
+        # summary=[]
+        # ordersCount=dict()
+        # totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
+        # ordersCount["title"]="Total orders of this month"
+        # ordersCount["value"]=totalOrders
+        # summary.append(ordersCount)
+        # totalRevenue=dict()
+        # revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
+        # totalRevenue["title"]="This month's revenue"
+        # totalRevenue["value"]=revenue["total__sum"]
+        # summary.append(totalRevenue)
+        # data.append(summary)
+
+        # summary=[]
+        # ordersCount=dict()
+        # totalOrders = Order.objects.filter(date__year=thisYear).count()
+        # ordersCount["title"]="Total orders of this year"
+        # ordersCount["value"]=totalOrders
+        # summary.append(ordersCount)
+        # totalRevenue=dict()
+        # revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
+        # totalRevenue["title"]="This year's revenue"
+        # totalRevenue["value"]=revenue["total__sum"]
+        # summary.append(totalRevenue)
+        # data.append(summary)        
+
+        data=dict()
+
+        summary=dict()
         totalOrders = Order.objects.filter(date__gte=today).count()
-        ordersCount["title"]="Total orders of today"
-        ordersCount["value"]=totalOrders
-        summary.append(ordersCount)
-        totalRevenue=dict()
+        summary["order_count"]=totalOrders
         revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
-        totalRevenue["title"]="Today's revenue"
-        totalRevenue["value"]=revenue["total__sum"]
-        summary.append(totalRevenue)
-        data.append(summary)
+        summary["total_revenue"]=revenue["total__sum"]
+        data["todays_summary"]=summary
 
-        summary=[]
-        ordersCount=dict()
+        summary=dict()
         totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
-        ordersCount["title"]="Total orders of this week"
-        ordersCount["value"]=totalOrders
-        summary.append(ordersCount)
-        totalRevenue=dict()
+        summary["order_count"]=totalOrders
         revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
-        totalRevenue["title"]="This week's revenue"
-        totalRevenue["value"]=revenue["total__sum"]
-        summary.append(totalRevenue)
-        data.append(summary)
+        summary["total_revenue"]=revenue["total__sum"]
+        data["this_weeks_summary"]=summary
 
-        summary=[]
-        ordersCount=dict()
+        summary=dict()
         totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
-        ordersCount["title"]="Total orders of this month"
-        ordersCount["value"]=totalOrders
-        summary.append(ordersCount)
-        totalRevenue=dict()
+        summary["order_count"]=totalOrders
         revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
-        totalRevenue["title"]="This month's revenue"
-        totalRevenue["value"]=revenue["total__sum"]
-        summary.append(totalRevenue)
-        data.append(summary)
+        summary["total_revenue"]=revenue["total__sum"]
+        data["this_months_summary"]=summary
 
-        summary=[]
-        ordersCount=dict()
+
+        summary=dict()
         totalOrders = Order.objects.filter(date__year=thisYear).count()
-        ordersCount["title"]="Total orders of this year"
-        ordersCount["value"]=totalOrders
-        summary.append(ordersCount)
-        totalRevenue=dict()
+        summary["order_count"]=totalOrders
         revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
-        totalRevenue["title"]="This year's revenue"
-        totalRevenue["value"]=revenue["total__sum"]
-        summary.append(totalRevenue)
-        data.append(summary)        
+        summary["total_revenue"]=revenue["total__sum"]
+        data["this_years_summary"]=summary
 
-        todays_orders=Order.objects.filter(date__gte=today)
+        #End of code modification on 15-04-2023
+        
+        todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
         todays_orders_serializer=OrderSerializer(todays_orders, many=True)
         return Response({
             "todays_orders":todays_orders_serializer.data,
             "revenue_details":data
         })
+    
 # End of code addition for dashboard data
