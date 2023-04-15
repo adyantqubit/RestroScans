@@ -4,7 +4,7 @@ import { GlobalContext } from "../../context/Context";
 import secureLocalStorage from "react-secure-storage";
 import './Payment.css';
 import { updatePaymentModeApi } from '../../api/Services';
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Scanner from '../Scanner/Scan';
 import cashImg from "../../images/cashImg.jpg";
 import scanImg from "../../images/scanImg.png";
@@ -93,20 +93,23 @@ export default function Payment() {
     }
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
-    console.log("ghchgc", response)
     if (response.msg) {
-      message.success({
-        content: "Payment done successfully",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
+      // Commented by :- Parineeta Gedam
+      // Date :- 14-04-2023
+      // Reason :- dont'show success msg
+      // message.success({
+      //   content: "Payment done successfully",
+      //   key: 1,
+      //   icon: <CheckCircleOutlined />,
+      //   style: {
+      //     marginTop: '5vh',
+      //     fontSize: "16px",
+      //     letterSpacing: "1.3px",
+      //     fontFamily: "Times News Roman",
+      //     color: colors.headingColor,
+      //   },
+      // });
+      // End of commented code 14-04-2023
       navigate("/bill-success");
     }
     else {
@@ -176,11 +179,7 @@ export default function Payment() {
             Pay
           </Button>
         </div>
-
       </div>
-
-
-
       <div>
         <Modal
           footer={null}

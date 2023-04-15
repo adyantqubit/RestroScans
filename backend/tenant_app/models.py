@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
 from admin_app.models import *
 from django.db.models import Avg
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -234,11 +235,46 @@ Reason - To store customer detail
 
 class CustomerDetail(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
+
+    # Commented by :- Parineeta Gedam
+    # Date :- 14-04-2023
+    # Reason :- remove the name required validations
+
+    # name = models.CharField(max_length=255)
+    
+    # End of Commented code 14-04-2023
+
+    # Added by :- Parineeta Gedam
+    # Date :- 14-04-2023
+    # Reason :- remove the name required validations
+
+    name = models.CharField(max_length=255, null=True, blank=True)
+    
+    # End of Commented code 14-04-2023
+
     email = models.EmailField(_('email address'), null=True, blank=True) 
-    contact_number = models.BigIntegerField(unique=True, 
-                # validators=[validate_contact_number]
-                                            )
+
+    # Commented by :- Parineeta Gedam
+    # Date :- 14-04-2023
+    # Reason :- remove the cantact_number validations unique = True 
+
+    # contact_number = models.BigIntegerField(unique=True, 
+    #             validators=[validate_contact_number]
+    #                                         )
+    # End of Commented code 14-04-2023
+
+    # Added by :- Parineeta Gedam
+    # Date :- 14-04-2023
+    # Reason :- remove the cantact_number validations unique = True 
+
+    # check contact number length validations
+    def validate_mobile_number(contact_number):
+        if len(contact_number) > 10:
+            raise ValidationError("Contact number cannot be more than 10 digits")
+
+    contact_number = models.CharField(max_length=10,validators=[validate_mobile_number])
+
+    # End of Commented code 14-04-2023
 
     def __str__(self):
         return f"{self.name}"
