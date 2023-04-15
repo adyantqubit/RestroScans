@@ -491,12 +491,21 @@ def orderCreation(tenant,request):
         tax = Setting.objects.first()
 
         if tax is not None :
-            cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
-            a = (sum(itemsPrice)*(tax.tax))/100
+            # added by rohan-14/4/23 to save tax on cgst and scgt
+            # cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
+            cartData['cgst'] = (sum(itemsPrice)*(tax.cgst))/100
+            cartData['sgst']=(sum(itemsPrice)*(tax.sgst))/100
+            #end of addition
+            a = (sum(itemsPrice)*(tax.cgst))/100+(sum(itemsPrice)*(tax.sgst))/100
             cartData['total'] = a + sum(itemsPrice)
 
         else :
-            cartData['tax'] = 0
+            # cartData['tax'] = 0
+            # added by rohan -14/4/23 
+            # reason- to remove tax field with cgst and sgst no. 
+            cartData['cgst'] =0
+            cartData['sgst']=0
+            # end of code 
             cartData['total'] = sum(itemsPrice)
 
         orderSerializer = OrderSerializer(data=cartData)
@@ -789,7 +798,18 @@ class CheckPaymentStatusAPIView(APIView):
     def post(self,request,tenant):
         orderObj = Order.objects.get(order_id = request.data['order_id'])
         serializer = OrderSerializer(orderObj)
-        return Response({"order":serializer.data},200)
+        # added by rohan- 14/4/23
+        # reason to send all other detail of bill gstin number, fssai number, address from setting tabel and tenant tabel
+        settingserailize=SettingSaveSerializer(Setting.objects.last())
+        from admin_app.models import Tenant,RestaurantRequest
+        tenant=  Tenant.objects.get(tenant_name=tenant)
+        tenant_detail={
+            "name":tenant.restaurant_name.restaurant_name,
+            "address":tenant.restaurant_name.address
+        }
+        
+        return Response({"order":serializer.data,"setting":settingserailize.data,"tenant":tenant_detail},200)
+        # end of addition 14/4/23
     
 # End of added code 13-04-2023
 

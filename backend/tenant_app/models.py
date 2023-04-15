@@ -195,18 +195,26 @@ class Setting(models.Model):
     # Reason : Need to implement admin color, whatever the admin add.
     app_theme = models.ForeignKey(AppTheme,related_name='app_theme',on_delete=models.CASCADE,null=True,blank=True)
     # End of addition
-    # added by rohan- 6/4/23 Reason- to allow show half price
+    # added by rohan- 6/4/23 Reason- to allow show half price 
+    # removing null true blank true field beacuse of it is showing unknown in admin panel -14/4/23
     # cancel_btn=models.CharField(max_length=20,null=True,blank=True)
-    allow_half_price=models.BooleanField(default=True,null=True,blank=True)
+    allow_half_price=models.BooleanField(default=True)
     # Added by :- Parineeta Gedam
     # Date :- 08-04-2023
     # Reason :- for tax
 
-    tax = models.FloatField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],default=1.0,verbose_name='Tax(%)', null=True, blank=True)
-
+    # Added by rohan -14/4/23
+    # reason- To add cgst and scgt no. and remove tax
+    # tax = models.FloatField(validators=[MinValueValidator(0),
+    #                                    MaxValueValidator(99)],default=1.0,verbose_name='Tax(%)', null=True, blank=True)
+    cgst=models.FloatField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],default=0.0,verbose_name='CGST(%)', null=True, blank=True)
+    sgst=models.FloatField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],default=0.0,verbose_name='SGST(%)', null=True, blank=True)
+    gstin=models.CharField(max_length=50,default="",verbose_name="GstIn")
+    fssaino=models.CharField(max_length=50,default="",verbose_name="FSSAI NO")
     # End of added code 08-04-2023
-
+    # end of addition 14/4/23 
     
     def __str__(self):
         return "color changed"
@@ -310,7 +318,16 @@ class Order(models.Model):
     table_number = models.CharField(max_length=255)
     sub_total = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
-    tax = models.FloatField(default=0)
+    # Added by rohan -14/4/23
+    # reason- removing tax field and adding other cgst,scgt and other option also
+    # tax = models.FloatField(default=0)
+    cgst=models.FloatField(default=0.0)
+    sgst=models.FloatField(default=0.0)
+    pax=models.IntegerField(default=0)
+    sess=models.IntegerField(default=1)
+    dshr=models.CharField(max_length=100,null=True,blank=True)
+    capt=models.CharField(max_length=100,null=True,blank=True)
+    # end of code 14/4/23
     order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="In Process")
     payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
     date = models.DateTimeField(auto_now_add=True)

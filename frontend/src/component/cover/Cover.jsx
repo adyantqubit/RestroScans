@@ -73,7 +73,7 @@ function Cover() {
             onLoad={e => {
               // added by rohan - 9/4/23
               // reason- To hide header from cover page
-              document.getElementsByClassName("heading_container")[0].style.display = "none"
+              // document.getElementsByClassName("heading_container")[0].style.display = "none"
               // end of code
             }}
           >

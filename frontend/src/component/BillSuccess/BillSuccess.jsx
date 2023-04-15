@@ -41,6 +41,11 @@ export default function BillSuccess() {
         if (response.order.payment_status == "Completed") {
             if (response.order) {
                 navigate("/billing");
+                // added by rohan -14/4/23
+                // reason- To save updated order detail
+                secureLocalStorage.setItem('order',response.order)
+                secureLocalStorage.setItem('invoice_detail',response)
+                // end of code
             }
         }
         else {

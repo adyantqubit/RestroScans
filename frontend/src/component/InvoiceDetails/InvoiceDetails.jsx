@@ -256,8 +256,9 @@ console.log("invoiceDetail",invoiceDetail)
             </div>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Tax </span>
-              <span className="invoice_second_sub_heading"> ? {orders.tax}</span>
-            </div>
+              {/* Added by rohan- 14/4/23 -------------------------------- */}
+            <span className="invoice_second_sub_heading">{orders.cgst+orders.sgst}</span>
+          </div>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Total</span>
               <span className="invoice_second_sub_heading"> ? {orders.total}</span>

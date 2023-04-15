@@ -187,7 +187,12 @@ class SettingAdmin(admin.ModelAdmin):
 
     # Added by Om on 11-04-23
     # Reason : Show the list display fields
-    list_display=("id","app_theme", "tax","allow_half_price")
+    
+    
+    
+    #added by rohan - 14/4/23
+    #reson- to remove tax from setting and added cgst and sgst 
+    list_display=("id","app_theme", "cgst","sgst","allow_half_price")
     # End of addition
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -297,7 +302,11 @@ Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order table.
 """
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id','order_id','customer_id', 'table_number', 'sub_total','tax','total','order_status','payment_status','payment_mode','date']
+    # updated by rohan - 14/4/23 to show cgst and sgt in columns not tax so removing tax field
+    list_display = ['id','order_id','customer_id', 'table_number', 'sub_total',"cgst","sgst",
+                    # 'tax',
+                    'total','order_status','payment_status','payment_mode','date']
+    # end of code
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
