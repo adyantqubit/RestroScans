@@ -66,7 +66,9 @@ class OfferItemsSerializer(serializers.ModelSerializer):
     item_image = serializers.ImageField(source='item_name.icon')
     item_description = serializers.CharField(source='item_name.description')
     item_type = serializers.CharField(source='item_name.item_type')
-
+    # Added by Om 
+    item_id = serializers.CharField(source='item_name.id') 
+    # End of addition
     class Meta:
         model = OfferItem
         fields = '__all__'

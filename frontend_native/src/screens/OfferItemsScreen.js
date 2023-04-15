@@ -33,6 +33,11 @@ export default function OfferItemsScreen({ route, navigation }) {
     const isFocused  = useIsFocused()
 
     var { render, setRender } = useContext(AppStateContext)
+// Modification by Om on 14-04-23
+// Reason : Get the item id
+    // var { offerItemId, setOfferItemId} = useContext(AppStateContext)
+  var [offerItemId, setOfferItemId] = useState([]);
+// End of modification
 // alert(JSON.stringify(bannerItemList[0].id))
     // useEffect(() => {
     //     getAllOffers()
@@ -40,6 +45,7 @@ export default function OfferItemsScreen({ route, navigation }) {
 
     useEffect(() => {
         getAllOffers()
+        getItemId()
     }, [isFocused])
 
     var [bannerObject, setBannerObject] = useState(bannerName);
@@ -54,7 +60,18 @@ export default function OfferItemsScreen({ route, navigation }) {
             setBannerItemsObject((response.offerItemList).filter((dt) => dt.offer_name == offerName))
         }
     }
-
+// Modification by Om on 14-04-23
+// Reason : Get the item id
+    const getItemId = async () => {
+        var tenant = JSON.parse(
+          await SecureStore.getItemAsync("tenantInfo")
+        ).tenant_name;
+        var response = await getMenuList(tenant)
+        if (response.itemList) {
+          setOfferItemId(response)
+        }
+      }
+// End of modification
     // To upload image
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -154,6 +171,7 @@ export default function OfferItemsScreen({ route, navigation }) {
     } = useForm({
         defaultValues: {
             // name: menuObj[0].name,
+            // offer_image: `${bannerObject[0].offer_image}`,
             offer_name: bannerObject[0].offer_name,
             discount: `${bannerObject[0].discount}`
 
@@ -161,8 +179,10 @@ export default function OfferItemsScreen({ route, navigation }) {
     });
     // alert(JSON.stringify(bannerItemObject))
 
-    function bannerItemfilter(offerItemList,bannerItemId) {
+    function bannerItemfilter(offerItemList,bannerItemId, itemsId) {
         var allItems = bannerItemObject.filter((dt) => dt.item_name == offerItemList);
+        var ItemId = offerItemId.filter((dt) => dt.id == itemsId);
+
         navigation.navigate("OfferItemsDetailScreen", {
             offerItemList: offerItemList,
             bannerName: bannerName,
@@ -171,12 +191,20 @@ export default function OfferItemsScreen({ route, navigation }) {
             offerName: offerName,
             bannerList:bannerList,
             bannerItemList:bannerItemList,
-            bannerItemId:bannerItemId
+            bannerItemId:bannerItemId,
+            itemsId:itemsId,
+            bannerId:bannerId
+
         });
         //   alert(JSON.stringify(offerList))
         //   alert(JSON.stringify(allItems))
         //   alert(JSON.stringify(bannerName))
-        alert( bannerItemId)
+        // alert( bannerItemId)
+
+        // alert( bannerId)
+        // alert(itemsId)
+        
+
         // alert(JSON.stringify(bannerList))
        
     }
@@ -186,8 +214,8 @@ export default function OfferItemsScreen({ route, navigation }) {
             <View style={styles.container}>
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
-                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                        Edit banner name
+                        {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
+                        Banner name
                     </Text>
                     <Controller
                         control={control}
@@ -227,7 +255,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                     />
                 </View>
 
-                <View
+                {/* <View
                     style={{
                         display: "flex",
                         flexDirection: "row",
@@ -238,8 +266,8 @@ export default function OfferItemsScreen({ route, navigation }) {
                     }}
                 >
                     <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    <Text>Edit banner image</Text>
-                </View>
+                    <Text>Banner image</Text>
+                </View> */}
                 <View
                     style={{
                         display: "flex",
@@ -254,38 +282,38 @@ export default function OfferItemsScreen({ route, navigation }) {
                         justifyContent: "space-around",
                     }}
                 >
-                    <Button title="Edit banner image" onPress={pickImage} />
+                    <Button title="Banner image" onPress={pickImage} />
                     {icon && (
                         <Image
                             source={{ uri: icon }}
                             style={{ width: 50, height: 40, borderRadius: 5 }}
                         />
                     )}
-                    {!icon && bannerName[0].offer_image && (
+                    {!icon && bannerObject[0].offer_image && (
                         <Image
-                            source={{ uri: config.staticBaseURL + bannerName[0].offer_image }}
+                            source={{ uri: config.staticBaseURL + bannerObject[0].offer_image }}
                             style={{ width: 50, height: 40, borderRadius: 5 }}
                         />
                     )}
                 </View>
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
-                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                        {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
                         Discount
                     </Text>
                     <Controller
                         control={control}
                         name="discount"
-                        rules={{
-                            required: {
-                                value: true,
-                                message: "Discount is required!",
-                            },
+                        // rules={{
+                        //     required: {
+                        //         value: true,
+                        //         message: "Discount is required!",
+                        //     },
                             // pattern: {
                             //   value: /^[6789]\d{9}$/,
                             //   message: "Mobile Number is invalid!",
                             // },
-                        }}
+                        // }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <>
                                 <View>
@@ -371,7 +399,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                                 <Pressable
                                     key={id}
                                     style={styles.categoryListContainer}
-                                    onPress={(e) => bannerItemfilter(setData.item_name,setData.id)}
+                                    onPress={(e) => bannerItemfilter(setData.item_name,setData.id,setData.item_id)}
                                 >
                                     <Image
                                         source={{

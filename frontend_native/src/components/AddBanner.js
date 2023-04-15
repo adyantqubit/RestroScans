@@ -82,9 +82,16 @@ export default function AddBanner() {
 
                 setRender(!render)
             }
-            if (response.err) {
-                Alert.alert("Error", response.err);
-            }
+            // if (response.err) {
+            //     Alert.alert("Error", response.err);
+            // }
+            else{
+                // if (response.error) {
+                //     alert(response.error)
+                    Alert.alert("Error", "Something went wrong");
+                  //  End of addition
+                    // setIsDisable(false);
+                }
         });
     };
 
@@ -195,7 +202,7 @@ export default function AddBanner() {
                     />
                 </View>
 
-                <View
+                {/* <View
                     style={{
                         display: "flex",
                         flexDirection: "row",
@@ -207,19 +214,22 @@ export default function AddBanner() {
                 >
                     <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
                     <Text>Upload banner image</Text>
-                </View>
+                </View> */}
                 <View
                     style={{
                         display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        // alignItems: "center",
+                        // justifyContent: "center",
                         borderRadius: 3,
                         width: "93%",
-                        alignSelf: "center",
+                        // alignSelf: "center",
                         flexDirection: "row",
-                        justifyContent: "space-around",
+                        marginLeft:2
+                        // justifyContent: "space-around",
                     }}
                 >
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+
                     <Button  title="Choose image" onPress={pickImage} />
                     {icon && (
                         <Image

@@ -38,7 +38,9 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
         allItems,
         offerItemList,
         bannerItemList,
-        bannerItemId
+        bannerItemId,
+        bannerId,
+        itemsId
     } = route.params;
 
     var [isDisable, setIsDisable] = useState(false); // For save button disable
@@ -52,7 +54,10 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
     var [allitemsObject, setAllItemsObject] = useState(allItems);
 
     var { render, setRender } = useContext(AppStateContext)
-
+ 	// Added by Om on 15-04-23
+ 	// Reaason : get the item listed id in offer section
+    var { offerItemId, setOfferItemId} = useContext(AppStateContext)
+	// End of addtion
     const [menuSelected, setMenuSelected] = React.useState("");
     const [itemSelected, setItemSelected] = React.useState("");
     var [data, setData] = useState([]);
@@ -148,7 +153,11 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
         ).tenant_name;
         var response = await getAllOfferItemList(tenant)
         if (response) {
-            setItemObjects((response.offerItemList).filter((dt) => dt.offer_name == offerName))
+        	// Added by Om on 15-04-23
+ 	// Reaason : get the item listed id in offer section
+            // setItemObjects((response.offerItemList).filter((dt) => dt.offer_name == offerName))
+            setItemObjects((response.offerItemList).filter((dt) => dt.item_id == offerItemId))
+// End of addition
         }
     }
 
@@ -197,10 +206,19 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                 //   setAllItemsObject(categories)
 
             }
-            if (response.error) {
-                Alert.alert("Error", response.error);
-                //   setIsDisable(false);
-            }
+            // Added by Om on 15-04-23
+ 			// Reaason : Response.error not proper work, so I use else condition
+            // if (response.error) {
+            //     Alert.alert("Error", response.error);
+            //     //   setIsDisable(false);
+            // }
+            else{
+                // if (response.error) {
+                //     alert(response.error)
+                    Alert.alert("Error", "This banner or item name already exist");
+                  //  End of addition
+                    // setIsDisable(false);
+                }
         });
     };
 
@@ -265,8 +283,8 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
             {/* Edit Category Form  */}
             <View style={styles.container}>
                 <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Edit banner name
+                    {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
+                    Banner name
                 </Text>
                 <SelectList
                     setSelected={setMenuSelected}
@@ -280,12 +298,17 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                         borderColor: "black",
                         marginTop: 10,
                     }}
-                    defaultOption={{ key: offerName, value: offerName }}
+                    // Modification by Om on 15-04-23
+ 					// Reaason : get the item listed id in offer section
+                    // defaultOption={{ key: 1, value: "hghjk" }}
+                    // defaultOption={{ key: offerName, value: offerName }}
+                    defaultOption={{ key: bannerId, value: offerName }}
+                   // End of modification
                 />
                 <View style={{ marginTop: 15 }}>
                     <Text style={styles.labels}>
-                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                        Edit item name
+                        {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
+                        Item name
                     </Text>
                     
                     <SelectList
@@ -300,7 +323,10 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                             borderColor: "black",
                             marginTop: 10,
                         }}
-                        defaultOption={{ key: offerItemList, value: offerItemList }}
+                        // Modification by Om on 15-04-23
+ 						// Reaason : get the item listed id in offer section
+                        defaultOption={{ key: itemsId, value: offerItemList }}
+                    // End of modification
                     />
                 </View>
 

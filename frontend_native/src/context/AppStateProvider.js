@@ -1,18 +1,25 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import * as SecureStore from "expo-secure-store";
-import { getSettingApi } from '../api/Services';
+import { getMenuList, getSettingApi } from '../api/Services';
 
 export const AppStateContext = React.createContext();
 
 export const AppStateProvider = ({children}) => {
 
   var [render ,setRender] = useState(false)
+// Added by Om on 15-04-23
+// Reason : Get the item listing data
+  var [offerItemId, setOfferItemId] = useState([]);
 
   // useEffect(()=>{
   //   getSettingData();
   // },[])
 
+  useEffect(()=>{
+    getItemId();
+  },[])
+// End of addition
   // -------------- This function is used to getting app configuaration -------------
   var [settings, setSettings] = useState([]);
   const getSettingData = async () => {
@@ -26,8 +33,28 @@ export const AppStateProvider = ({children}) => {
   }
   // ------------------ End getting app configuaration ----------------------------
 
+  // Added by Om on 14-04-23
+  // Reason : To get offer Item id in banner listing page for updating
+  // const getOfferItem = async () => {
+  //   var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+  //   const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+  const getItemId = async () => {
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+    var response = await getMenuList(tenant)
+    if (response.itemList) {
+      setOfferItemId(response)
+    }
+  }
+
+  // End of addition
+
   return (
-    <AppStateContext.Provider value={{render, setRender, settings, getSettingData}}>
+    // Added by Om on 14-04-23
+    // Reason : For get the item id
+    <AppStateContext.Provider value={{render, setRender, settings, getSettingData,offerItemId,setOfferItemId}}>
+      {/* End of addition */}
       {children}
     </AppStateContext.Provider>
   );

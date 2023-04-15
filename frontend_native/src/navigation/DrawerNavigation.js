@@ -69,14 +69,8 @@ export default function DrawerNavigation() {
         name="QRCodeScreen"
         component={QRCodeScreen}
         options={{ drawerLabel: "Generate QR Code", title: "Generate QR Code" }}
-      /> */}
-      {/* End of comment */}
-      <Drawer.Screen
-        name="OfferScreen"
-        component={OfferScreen}
-        options={{ drawerLabel: "Banner/Items", title: "Banner/Items" }}
       />
-      {/* Added by Om on 08-04-23
+{/* Added by Om on 08-04-23
       Reason : Show added banner list */}
       <Drawer.Screen
         name="Addbanners"
@@ -84,6 +78,12 @@ export default function DrawerNavigation() {
         options={{ drawerLabel: "Add Banner/Items", title: "Add Banner/Items" }}
       />
       {/* End of addition */}
+      <Drawer.Screen
+        name="OfferScreen"
+        component={OfferScreen}
+        options={{ drawerLabel: "Banner/Items", title: "Banner/Items" }}
+      />
+      
       {/* <Drawer.Screen
         name="MenuThemeScreen"
         component={MenuThemeScreen}

@@ -301,11 +301,11 @@ class OfferAPIView(APIView):
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
             return Response({
-            "msg":"success",
+            "msg":"Successfully updated",
             "offerBanner":offerbannerSerializer.data,
             "offerItemList":offeritemsSerializer.data,
             })
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
     def delete(self, request,tenant, pk):
@@ -351,7 +351,7 @@ class OfferItemsAPIView(APIView):
         serializedData = OfferallItemsSerializer(itemObj, data=request.data)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
-            return Response({"msg":"Updated"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Successfully updated"},status=status.HTTP_201_CREATED)
         return Response({"error":"This item already exist with other offer"}, 400)
     
     def delete(self, request,tenant, pk):
