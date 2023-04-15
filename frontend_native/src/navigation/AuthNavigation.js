@@ -121,7 +121,7 @@ const AuthNavigation = () => {
           Reason - to navigate banner items section */}
           <Stack.Screen
             name="OfferItemsScreen"
-            options={{ title: "Edit Banner Detail" }}
+            options={{ title: "Banner/Offer details" }}
             component={OfferItemsScreen}
           ></Stack.Screen>
           {/* End of addition */}
@@ -130,7 +130,7 @@ const AuthNavigation = () => {
           Reason - to navigate banner items details section */}
           <Stack.Screen
             name="OfferItemsDetailScreen"
-            options={{ title: "Edit Banner-items Detail" }}
+            options={{ title: " Banner/Offer item details" }}
             component={OfferItemsDetailScreen}
           ></Stack.Screen>
           {/* End of addition */}

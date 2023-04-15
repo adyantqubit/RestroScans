@@ -25,23 +25,23 @@ import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
 export default function OfferItemsScreen({ route, navigation }) {
 
-    const { offerName, bannerName, offerList,bannerList ,bannerItemList,bannerId} = route.params;
+    const { offerName, bannerName, offerList, bannerList, bannerItemList, bannerId } = route.params;
     const [tempPhoto, setTempPhoto] = useState(null);
     const [icon, setImage] = useState(null);
     var [isDisable, setIsDisable] = useState(false);
-    
-    const isFocused  = useIsFocused()
 
+    const isFocused = useIsFocused()
+    // alert("hjh"+JSON.stringify( bannerName))
     var { render, setRender } = useContext(AppStateContext)
-// Modification by Om on 14-04-23
-// Reason : Get the item id
+    // Modification by Om on 14-04-23
+    // Reason : Get the item id
     // var { offerItemId, setOfferItemId} = useContext(AppStateContext)
-  var [offerItemId, setOfferItemId] = useState([]);
-// End of modification
-// alert(JSON.stringify(bannerItemList[0].id))
+    var [offerItemId, setOfferItemId] = useState([]);
+    // End of modification
+    // alert(JSON.stringify(bannerItemList[0].id))
     // useEffect(() => {
     //     getAllOffers()
-    // }, [render])
+    // }, [])
 
     useEffect(() => {
         getAllOffers()
@@ -60,18 +60,18 @@ export default function OfferItemsScreen({ route, navigation }) {
             setBannerItemsObject((response.offerItemList).filter((dt) => dt.offer_name == offerName))
         }
     }
-// Modification by Om on 14-04-23
-// Reason : Get the item id
+    // Modification by Om on 14-04-23
+    // Reason : Get the item id
     const getItemId = async () => {
         var tenant = JSON.parse(
-          await SecureStore.getItemAsync("tenantInfo")
+            await SecureStore.getItemAsync("tenantInfo")
         ).tenant_name;
         var response = await getMenuList(tenant)
         if (response.itemList) {
-          setOfferItemId(response)
+            setOfferItemId(response)
         }
-      }
-// End of modification
+    }
+    // End of modification
     // To upload image
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -105,12 +105,12 @@ export default function OfferItemsScreen({ route, navigation }) {
         }
         formData.append("offer_name", formValues.offer_name);
         formData.append("discount", formValues.discount);
-//         alert(bannerName[0].id)
-// alert(tenant)
+        //         alert(bannerName[0].id)
+        // alert(tenant)
         updateAllOffer(formData, tenant, bannerId).then((response) => {
             if (response.msg) {
-            	// Modified by Om on 14-04-23
-            	// Reason : Correct the spelling of success
+                // Modified by Om on 14-04-23
+                // Reason : Correct the spelling of success
                 Alert.alert("Successfull", response.msg);
                 // End of modfication
                 // var a = response.offerBanner.filter((dt) => dt.id == bannerName[0].id)
@@ -127,37 +127,37 @@ export default function OfferItemsScreen({ route, navigation }) {
     // Added by Om on 07-04-23
     // Reason : To delete the menu section
     const handleDelete = async () => {
-      var tenant = JSON.parse(
-        await SecureStore.getItemAsync("tenantInfo")
-      ).tenant_name;
+        var tenant = JSON.parse(
+            await SecureStore.getItemAsync("tenantInfo")
+        ).tenant_name;
 
-      deleteOfferApi(tenant, bannerId).then((response) => {
-        if (response.msg) {
-          Alert.alert("Succesfull", response.msg);
-          setRender(!render)
-          navigation.pop()
-        }
-        if (response.error) {
-          Alert.alert("Error", response.error);
-        }
-      });
+        deleteOfferApi(tenant, bannerId).then((response) => {
+            if (response.msg) {
+                Alert.alert("Succesfull", response.msg);
+                setRender(!render)
+                navigation.pop()
+            }
+            if (response.error) {
+                Alert.alert("Error", response.error);
+            }
+        });
     };
 
     function showAlert1() {
-      Alert.alert(
-        'Confirmation',
-        'Are you sure to want delete this banner',
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-          {
-            text: 'OK',
-            onPress: () => { handleDelete() }
-          },
-        ]
-      );
+        Alert.alert(
+            'Confirmation',
+            'Are you sure to want delete this banner',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'OK',
+                    onPress: () => { handleDelete() }
+                },
+            ]
+        );
     }
     // End of addition
     const {
@@ -179,7 +179,7 @@ export default function OfferItemsScreen({ route, navigation }) {
     });
     // alert(JSON.stringify(bannerItemObject))
 
-    function bannerItemfilter(offerItemList,bannerItemId, itemsId) {
+    function bannerItemfilter(offerItemList, bannerItemId, itemsId) {
         var allItems = bannerItemObject.filter((dt) => dt.item_name == offerItemList);
         var ItemId = offerItemId.filter((dt) => dt.id == itemsId);
 
@@ -189,11 +189,12 @@ export default function OfferItemsScreen({ route, navigation }) {
             offerList: offerList,
             allItems: allItems,
             offerName: offerName,
-            bannerList:bannerList,
-            bannerItemList:bannerItemList,
-            bannerItemId:bannerItemId,
-            itemsId:itemsId,
-            bannerId:bannerId
+            bannerList: bannerList,
+            bannerItemList: bannerItemList,
+            bannerItemId: bannerItemId,
+            itemsId: itemsId,
+            bannerId: bannerId,
+            bannerName: bannerName
 
         });
         //   alert(JSON.stringify(offerList))
@@ -215,7 +216,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
                         {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
-                        Banner name
+                        Banner/Offer name
                     </Text>
                     <Controller
                         control={control}
@@ -255,7 +256,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                     />
                 </View>
 
-                {/* <View
+                <View
                     style={{
                         display: "flex",
                         flexDirection: "row",
@@ -265,9 +266,9 @@ export default function OfferItemsScreen({ route, navigation }) {
                         marginBottom: 5,
                     }}
                 >
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
                     <Text>Banner image</Text>
-                </View> */}
+                </View>
                 <View
                     style={{
                         display: "flex",
@@ -282,16 +283,35 @@ export default function OfferItemsScreen({ route, navigation }) {
                         justifyContent: "space-around",
                     }}
                 >
-                    <Button title="Banner image" onPress={pickImage} />
+                    {/* Modification by Om on 15-04-23
+     Reason : Fix the image validation */}
+                    {/* <Button title="Banner image" onPress={pickImage} /> */}
+                    <Pressable
+             onPress={pickImage}
+              style={{
+                backgroundColor: "#d5d5d5",
+                width: 50,
+                padding: 5,
+                borderRadius: 5,
+                height: 40,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon name="upload" size={20} color="black" />
+            </Pressable>
+             {/* End of modification */}
                     {icon && (
                         <Image
                             source={{ uri: icon }}
                             style={{ width: 50, height: 40, borderRadius: 5 }}
                         />
                     )}
-                    {!icon && bannerObject[0].offer_image && (
+                    {!icon && bannerName[0].offer_image && (
                         <Image
-                            source={{ uri: config.staticBaseURL + bannerObject[0].offer_image }}
+                            source={{ uri: config.staticBaseURL + bannerName[0].offer_image }}
                             style={{ width: 50, height: 40, borderRadius: 5 }}
                         />
                     )}
@@ -299,7 +319,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
                         {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
-                        Discount
+                        Discount(%)
                     </Text>
                     <Controller
                         control={control}
@@ -309,10 +329,10 @@ export default function OfferItemsScreen({ route, navigation }) {
                         //         value: true,
                         //         message: "Discount is required!",
                         //     },
-                            // pattern: {
-                            //   value: /^[6789]\d{9}$/,
-                            //   message: "Mobile Number is invalid!",
-                            // },
+                        // pattern: {
+                        //   value: /^[6789]\d{9}$/,
+                        //   message: "Mobile Number is invalid!",
+                        // },
                         // }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <>
@@ -341,7 +361,9 @@ export default function OfferItemsScreen({ route, navigation }) {
                     />
                 </View>
 
-                <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
+                <View style={styles.btns}
+                //  style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+                 >
                     <Pressable
                         onPress={handleSubmit(handleRegister)}
                         disabled={isDisable}
@@ -350,7 +372,8 @@ export default function OfferItemsScreen({ route, navigation }) {
                             height: 40,
                             alignItems: "center",
                             justifyContent: "center",
-                            borderRadius: 3,
+                            borderRadius: 7,
+                            width:165
                         }}
                     >
                         <Text
@@ -365,29 +388,30 @@ export default function OfferItemsScreen({ route, navigation }) {
                     </Pressable>
 
                     {/* Added by Om on 07-04-23
-          Reason : Add delete for functionality */}
+                    Reason : Add delete for functionality */}
                     <Pressable
-            onPress={showAlert1}
-            disabled={isDisable}
-            style={{
-              backgroundColor: isDisable ? "grey" : colors.anotherButton,
-              height: 40,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 3,
-              marginTop: 10
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
-              }}
-            >
-              Delete banner
-            </Text>
-          </Pressable>
+                        onPress={showAlert1}
+                        disabled={isDisable}
+                        style={{
+                            backgroundColor: isDisable ? "grey" : colors.anotherButton,
+                            height: 40,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 7,
+                            marginLeft:20,
+                            width:165
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 16,
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Delete 
+                        </Text>
+                    </Pressable>
                     {/* End of addition */}
 
                 </View>
@@ -399,7 +423,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                                 <Pressable
                                     key={id}
                                     style={styles.categoryListContainer}
-                                    onPress={(e) => bannerItemfilter(setData.item_name,setData.id,setData.item_id)}
+                                    onPress={(e) => bannerItemfilter(setData.item_name, setData.id, setData.item_id)}
                                 >
                                     <Image
                                         source={{
@@ -440,7 +464,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 10,
         fontSize: 16,
-        borderRadius: 3,
+        borderRadius: 10,
     },
     labels: {
         paddingHorizontal: 10,
@@ -550,5 +574,14 @@ const styles = StyleSheet.create({
     },
     activeLable: {
         marginLeft: 10
-    }
+    },
+    // Modification by Om on 15-04-23
+    // Reason : Fix the image validation
+    btns: {
+        alignSelf: "center",
+        marginBottom: 20,
+        flexDirection:'row'
+    },
+    // End of modification
+
 });

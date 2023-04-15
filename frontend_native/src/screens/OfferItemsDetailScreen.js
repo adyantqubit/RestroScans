@@ -54,14 +54,17 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
     var [allitemsObject, setAllItemsObject] = useState(allItems);
 
     var { render, setRender } = useContext(AppStateContext)
- 	// Added by Om on 15-04-23
- 	// Reaason : get the item listed id in offer section
+
     var { offerItemId, setOfferItemId} = useContext(AppStateContext)
-	// End of addtion
+
     const [menuSelected, setMenuSelected] = React.useState("");
     const [itemSelected, setItemSelected] = React.useState("");
     var [data, setData] = useState([]);
     var [itemNamedata, setItemNameData] = useState([]);
+
+    // alert(offerName)
+    // alert( bannerId)
+
 
     useEffect(() => {
         // const getMenus = async () => {
@@ -115,7 +118,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                 delete obj["id"]; // Delete old key
                 delete obj["offer_name"]; // Delete name
                 delete obj["discount"]; // Delete icon
-                delete obj["offer_image"]; // Delete icon
+                // delete obj["offer_image"]; 
 
                 return obj;
             })
@@ -153,13 +156,16 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
         ).tenant_name;
         var response = await getAllOfferItemList(tenant)
         if (response) {
-        	// Added by Om on 15-04-23
- 	// Reaason : get the item listed id in offer section
             // setItemObjects((response.offerItemList).filter((dt) => dt.offer_name == offerName))
             setItemObjects((response.offerItemList).filter((dt) => dt.item_id == offerItemId))
-// End of addition
+
         }
     }
+
+
+
+// alert(JSON.stringify( offerItemId))
+// alert(itemObjects)
 
     //   For upload image
     const pickImage = async () => {
@@ -206,8 +212,6 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                 //   setAllItemsObject(categories)
 
             }
-            // Added by Om on 15-04-23
- 			// Reaason : Response.error not proper work, so I use else condition
             // if (response.error) {
             //     Alert.alert("Error", response.error);
             //     //   setIsDisable(false);
@@ -284,7 +288,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
             <View style={styles.container}>
                 <Text style={styles.labels}>
                     {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
-                    Banner name
+                    Banner/Offer name
                 </Text>
                 <SelectList
                     setSelected={setMenuSelected}
@@ -298,12 +302,10 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                         borderColor: "black",
                         marginTop: 10,
                     }}
-                    // Modification by Om on 15-04-23
- 					// Reaason : get the item listed id in offer section
                     // defaultOption={{ key: 1, value: "hghjk" }}
                     // defaultOption={{ key: offerName, value: offerName }}
                     defaultOption={{ key: bannerId, value: offerName }}
-                   // End of modification
+                    
                 />
                 <View style={{ marginTop: 15 }}>
                     <Text style={styles.labels}>
@@ -323,14 +325,13 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                             borderColor: "black",
                             marginTop: 10,
                         }}
-                        // Modification by Om on 15-04-23
- 						// Reaason : get the item listed id in offer section
                         defaultOption={{ key: itemsId, value: offerItemList }}
-                    // End of modification
                     />
                 </View>
 
-                <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
+                <View style={styles.btns}
+                //  style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+                 >
                     <Pressable
                         onPress={handleSubmit(handleRegister)}
                         disabled={isDisable}
@@ -339,7 +340,8 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                             height: 40,
                             alignItems: "center",
                             justifyContent: "center",
-                            borderRadius: 3,
+                            borderRadius: 7,
+                            width:165
                         }}
                     >
                         <Text
@@ -362,8 +364,9 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                 height: 40,
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 3,
-                marginTop: 10
+                borderRadius: 7,
+                marginLeft:20,
+                width:165
               }}
             >
               <Text
@@ -373,7 +376,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                   fontWeight: "bold",
                 }}
               >
-                Delete banner-items
+                Delete
               </Text>
             </Pressable>
                     {/* End of addition */}
@@ -449,5 +452,14 @@ const styles = StyleSheet.create({
     },
     activeLable: {
         marginLeft: 10
-    }
+    },
+    // Modification by Om on 15-04-23
+    // Reason : Fix the image validation
+    btns: {
+        alignSelf: "center",
+        marginBottom: 20,
+        flexDirection:'row',
+        marginTop:20
+    },
+    // End of modification
 });

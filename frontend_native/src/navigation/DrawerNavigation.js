@@ -75,13 +75,13 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="Addbanners"
         component={AddBannerItemScreen}
-        options={{ drawerLabel: "Add Banner/Items", title: "Add Banner/Items" }}
+        options={{ drawerLabel: "Add Banner/Offer", title: "Add Banner/Offer" }}
       />
       {/* End of addition */}
       <Drawer.Screen
         name="OfferScreen"
         component={OfferScreen}
-        options={{ drawerLabel: "Banner/Items", title: "Banner/Items" }}
+        options={{ drawerLabel: "Banner/Offer", title: "Banner/Offer" }}
       />
       
       {/* <Drawer.Screen

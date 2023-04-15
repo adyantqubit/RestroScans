@@ -155,11 +155,11 @@ export default function AddBannerItems() {
                 }
                 // Modified by Om on 14-04-23
                 // Reason : response.error not work proper, so this part I put on else condition
-                else{
-                // if (response.error) {
-                //     alert(response.error)
+                else {
+                    // if (response.error) {
+                    //     alert(response.error)
                     Alert.alert("Error", "Banner with this item name already exists");
-                  //  End of addition
+                    //  End of addition
                     setIsDisable(false);
                 }
             }
@@ -181,27 +181,30 @@ export default function AddBannerItems() {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text>Add offer name</Text>
+                <Text style={{ marginTop: 5 }}>Banner/Offer name</Text>
                 <SelectList
                     setSelected={setOfferSelect}
                     data={data}
                     search={false}
-                    boxStyles={{ borderRadius: 0 }} //override default styles
+                    boxStyles={{ borderRadius: 10,marginTop:8 }} //override default styles
                 />
                 <View style={{ marginTop: 5 }}>
                     <Text style={styles.labels}>
-                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                        Add item name
+                        {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
+                        Item name
                     </Text>
                     <SelectList
                         setSelected={setMenuList}
                         data={menuData}
                         search={false}
-                        boxStyles={{ borderRadius: 0 }} //override default styles
+                        boxStyles={{ borderRadius: 10,marginTop:8 }} //override default styles
                     />
                 </View>
 
-                <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
+                <View
+                    // style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+                    style={styles.btns}
+                >
                     <Pressable
                         onPress={handleSubmit(handleRegister)}
                         disabled={isDisable}
@@ -224,6 +227,8 @@ export default function AddBannerItems() {
                         </Text>
                     </Pressable>
                 </View>
+
+
             </View>
         </ScrollView>
     );
@@ -317,4 +322,14 @@ const styles = StyleSheet.create({
         margin: 15,
         marginTop: 20,
     },
+    // Modification by Om on 15-04-23
+    // Reason : Fix the image validation
+    btns: {
+        width: 190,
+        alignSelf: "center",
+        marginTop: 10,
+        marginBottom: 20
+    },
+    // End of modification
+
 });
