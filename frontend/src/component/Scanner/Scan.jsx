@@ -4,7 +4,7 @@
 
 import { React, useEffect, useState, useContext } from 'react';
 import { GlobalContext } from "../../context/Context";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, message } from "antd";
 import { getScannerApi } from '../../api/Services';
 import { updatePaymentModeApi } from '../../api/Services';
@@ -93,18 +93,22 @@ export default function Scan() {
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
     if (response.msg) {
-      message.success({
-        content: "Payment done successfully",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
+      // Commented by :- Parineeta Gedam
+      // Date :- 14-04-2023
+      // Reason :- dont'show success msg
+      // message.success({
+      //   content: "Payment done successfully",
+      //   key: 1,
+      //   icon: <CheckCircleOutlined />,
+      //   style: {
+      //     marginTop: '5vh',
+      //     fontSize: "16px",
+      //     letterSpacing: "1.3px",
+      //     fontFamily: "Times News Roman",
+      //     color: colors.headingColor,
+      //   },
+      // });
+      // End of commented code 14-04-2023
       navigate("/bill-success");
     }
     else {
@@ -127,12 +131,12 @@ export default function Scan() {
   return (
     <>
       <div className='scanner_parent_container'>
-        <h2
+        <h1
           className='scanner_heading'
           style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}
         >
           Scan and Pay
-        </h2>
+        </h1>
         <div className="scanner_img_container">
           <div
             className="scanner_childdiv"
@@ -140,21 +144,42 @@ export default function Scan() {
           >
             {scanner.map((scanner) => {
               return (
-                <img
-                  src={siteConfig.siteURL + scanner.scanner}
-                  style={{
-                    width: "50vw",
-                    textAlign: "center",
-                    justifyContent: "center",
-                  }}
-                  className="scanner_img"
-                />
+                <>
+                  <img
+                    src={siteConfig.siteURL + scanner.scanner}
+                    style={{
+                      width: "50vw",
+                      textAlign: "center",
+                      justifyContent: "center",
+                    }}
+                    className="scanner_img"
+                  />
+
+                  {/* Added by :- Parineeta Gedam
+                Date :- 15-04-2023
+                Reason :- show name and contact number
+             */}
+                  <div className='scan_details_1'>
+                    <span className='scan_details_value'>{scanner.name}</span>
+                  </div>
+                  <div className='scan_details_1'>
+                    <span className='scan_details_heading'>Contact Number </span>
+                    <span className='scan_details_colon'>: </span>
+                    <span className='scan_details_value'>{scanner.contact_number}</span>
+                  </div>
+                  {/* End of added code 15-04-2023 */}
+                </>
               );
-            })}   
+            })}
             <br></br>
-            <h6 style={{ textAlign: "center", justifyContent: "center" }}>
+            {/* Commented by :- Parineeta Gedam on 15-04-2023 */}
+            {/* <h1 className="scan_sub_heading">
               Scan this QR code to secure payments
-            </h6>
+            </h1> */}
+            {/* End of commented code 15-04-2023
+             */}
+
+
           </div>
         </div>
 
@@ -170,7 +195,8 @@ export default function Scan() {
             }}
             onClick={submitPaymentMode}
           >
-            Pay and Confirm Order
+            {/* Pay and Confirm Order */}
+            Confirm
           </Button>
         </div>
       </div>

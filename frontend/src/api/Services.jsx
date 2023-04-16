@@ -70,7 +70,7 @@ export const postCustomerDetails = async(formdata,tenantId) => {
 // Added by :- Parineeta Gedam
 // Date :- 09-04-2023
 // Reason :- update the order items when user again add the items in cart
-export const updateOrders = async(tenantId,cartData) => {
+export const updateOrdersApi = async(tenantId,cartData) => {
   const response = await API.put(`/${tenantId}/update-orders/`,cartData,
   {headers : {'Content-Type':'application/json'}}).catch(
       err => console.log(err))

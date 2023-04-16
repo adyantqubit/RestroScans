@@ -11,20 +11,55 @@
     font-weight: 600;
     margin-top: 0px;
     margin-bottom: 0px;
+/* modified by :- Parineeta Gedam on 15-04-2023 */
+    font-size: 18px;
+
 }
-
-
-/* style={{ paddingTop: "4%", backgroundColor: "#f0f0f0" }} */
 
 .scanner_img_container{
     margin-top: 15px;
 }
 
+/* modified by :- Parineeta Gedam on 15-04-2023 */
+.scan_details_1 {
+    margin-left: auto;
+    margin-bottom: auto;
+    display: flex;
+    width: 98%;
+    margin-top: 5px;
+}
+
+.scan_details_heading {
+    width: 42%;
+    word-wrap: break-word;
+    font-size: 14px;
+    font-family: 'Times New Roman';
+    font-weight: 600;
+    text-align: start;
+}
+
+.scan_details_colon {
+    width: 2%;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Times New Roman';
+}
+.scan_details_value {
+    margin-left: 7px;
+    width: 55%;
+    font-size: 14px;
+    font-family: 'Times New Roman';
+    /* font-weight: 600; */
+    word-wrap: break-word;
+    text-align: start;
+}
+/* End of added code 15-04-2023  */
+
 /* scanner btn css  */
 .scanner_btn_container {
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 70%;
     font-size: 25px;
     font-family: "Times New Roman";
     font-weight: 600;

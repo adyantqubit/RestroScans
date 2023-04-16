@@ -14,7 +14,7 @@ import { updateRatingAndReviewApi } from '../../api/Services';
 export default function InvoiceDetails() {
 
   // get colors from context 
-  var { colors } = useContext(GlobalContext);
+  var { colors,setCart } = useContext(GlobalContext);
 
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
@@ -24,9 +24,11 @@ export default function InvoiceDetails() {
   // Added by :-  Parineeta Gedam
   // Date :- 9-04-2023
   // Reason :- get order items from local stroage and map the data.
+
+  // modified by :- Parineeta gedam on 15-04-2023
   const [orderItems, setOrderItem] = useState([])
   useEffect(() => {
-    window.onpopstate = () => { }
+    window.onpopstate = () => { localStorage.removeItem('cart'); setCart([])}
     setOrderItem(secureLocalStorage.getItem('orderItem'))
   }, [])
   // End of added code 09-04-2023
@@ -39,9 +41,9 @@ export default function InvoiceDetails() {
   var orders = secureLocalStorage.getItem('order');
   var orderItem = secureLocalStorage.getItem('orderItem');
   var invoiceDetail = secureLocalStorage.getItem('invoice_detail');
+  var customerDetail = secureLocalStorage.getItem('customer_details');
   var tenantName = localStorage.getItem("tenantName");
 
-console.log("invoiceDetail",invoiceDetail)
   // Commented by :- Parineeta Gedam
   // Date :- 14-04-2023
   // Reason :- From Invoice page remove the rating and review  
@@ -142,7 +144,6 @@ console.log("invoiceDetail",invoiceDetail)
               Reason :- re-arrange the details.
           */}
 
-          
           <div className='invoice_details_1'>
             <span className='invoice_details_heading'>Order Id </span>
             <span className='invoice_details_colon'>: </span>
@@ -156,17 +157,18 @@ console.log("invoiceDetail",invoiceDetail)
           <div className='invoice_details_1'>
             <span className='invoice_details_heading'>Name </span>
             <span className='invoice_details_colon'>: </span>
-            <span className='invoice_details_value'>-</span>
+            <span className='invoice_details_value'>{customerDetail.name}</span>
           </div>
           <div className='invoice_details_1'>
             <span className='invoice_details_heading'>Contact Number </span>
             <span className='invoice_details_colon'>: </span>
-            <span className='invoice_details_value'>{invoiceDetail.contact_number}</span>
+            <span className='invoice_details_value'>{customerDetail.contact_number}</span>
           </div>
           <div className='invoice_details_1'>
             <span className='invoice_details_heading'>Date </span>
             <span className='invoice_details_colon'>: </span>
-            <span className='invoice_details_value'>-</span>
+            {/* modified by :- Parineeta, to show date. */}
+            <span className='invoice_details_value'>{new Date(orders.date).toLocaleDateString()}</span>
           </div>
         </div>
 

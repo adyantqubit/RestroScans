@@ -16,7 +16,7 @@ import secureLocalStorage from "react-secure-storage";
 export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) {
 
   // get data from context
-  var { colors, cart } = useContext(GlobalContext);
+  var { colors, cart, setCart } = useContext(GlobalContext);
 
   // close the customer details popup
   function closePopup() {
@@ -34,8 +34,8 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
   const SubmitCustomerDetails = async (formdata) => {
 
     const customerDetail = {
-      name: formdata.name,
-      email: formdata.email,
+      name: formdata.name ? formdata.name : "",
+      email: formdata.email ? formdata.email : "",
       contact_number: formdata.contact_number,
       table_number: formdata.table_number,
       cart: cart,
@@ -44,9 +44,19 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
     const response = await postCustomerDetails(customerDetail, tenantName);
     if (response.msg) {
       secureLocalStorage.setItem("invoice_detail", response.data)
-      secureLocalStorage.setItem("customerDetails", JSON.stringify(response.data.contact_number))
+      secureLocalStorage.setItem("customer_details", response.data.customer)
       secureLocalStorage.setItem("order", response.data.order_details)
       secureLocalStorage.setItem("orderItem", response.data.order_items)
+
+      // Added by :- Parineeta Gedam
+      // Date :- 14-04-2023
+      // Reason :- remove cart data from local storage
+
+      localStorage.removeItem('cart');
+      setCart([])
+
+      // End of added code 15-04-2023
+
       // Commented by :- Parineeta Gedam
       // Date :- 13-04-2023
       // Reason :- remove the validations msg
@@ -115,7 +125,8 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   label="Name :"
                   rules={[
                     {
-                      required: true,
+                      // commented by :- Parineeta [remove the requied validations]
+                      // required: true,
                       message: "Please enter your name",
                     },
                   ]}
@@ -129,7 +140,8 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   label="Email"
                   rules={[
                     {
-                      required: true,
+                      // commented by :- Parineeta [remove the requied validations]
+                      // required: true,
                       message: "Please enter your email",
                     },
 
@@ -138,6 +150,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                       message: "Please must be sure Email is valid",
                     },
                   ]}
+                  hasFeedback
                 >
                   <Input allowClear />
                 </Form.Item>

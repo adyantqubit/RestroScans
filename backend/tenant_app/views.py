@@ -393,7 +393,6 @@ class FooterandDescriptionAPIView(APIView):
 # Reason : Show the footer and description details
 class SettingAPIView(APIView):
     def get(self,request,tenant):
-        print('gfagfgf', tenant)
         setting=Setting.objects.last()
         if setting is not None:
            settingSerializer=SettingSerializer(setting)
@@ -565,9 +564,11 @@ def orderItemsCreation(request,order_obj):
 # Added by :- Parineeta Gedam
 # Date :- 06-04-2023
 # Reason : method for get data in frontend
+
+# modified by :- Parineeta gedam on 15-04-2023
 def responseDataCreation(order,orderItems,cutomer):
         return {
-            "contact_number":cutomer.contact_number,
+            "customer":CustomerDetailSerializer(cutomer).data,
             "order_details":order,
             "order_items":orderItems
         }
@@ -581,12 +582,53 @@ class PostCustomerDetailsAPIView(APIView):
 
         # try :
             try :
+                # Commented by :- Parineeta Gedam
+                # Date :- 14-04-2023
+                # Reason :- multiple name and email should be save.
+
+                # customerDetails = CustomerDetail.objects.get(contact_number = request.data['contact_number'])
+                # print("contact")
+                # if request.data["name"] in customerDetails.name.split(",") :
+                #     pass
+                # else :
+                #     customerDetails.name = customerDetails.name + "," + request.data["name"]
+                #     customerDetails.save()
+
+                # End of commented code 14-04-2023
+
+                # Added by :- Parineeta Gedam
+                # Date :- 14-04-2023
+                # Reason :- multiple email will be save.
+
                 customerDetails = CustomerDetail.objects.get(contact_number = request.data['contact_number'])
+
                 if request.data["name"] in customerDetails.name.split(",") :
                     pass
-                else :
+                else : 
                     customerDetails.name = customerDetails.name + "," + request.data["name"]
                     customerDetails.save()
+
+                if request.data["email"] in customerDetails.email.split(",")  :
+                    pass
+                else : 
+                    customerDetails.email = customerDetails.email + "," + request.data["email"]
+                    customerDetails.save()
+
+                if request.data["name"] in customerDetails.name.split(",")  :
+                    if request.data["email"] in customerDetails.email.split(",")  :
+                        pass
+                    else :
+                        customerDetails.email = customerDetails.email + "," + request.data["email"]
+                        customerDetails.save()
+
+                if request.data["email"] in customerDetails.email.split(",")  :
+                    if request.data["name"] in customerDetails.name.split(",")  :
+                        pass
+                    else :
+                        customerDetails.name = customerDetails.name + "," + request.data["name"]
+                        customerDetails.save()
+                
+                # End of added code :- 14-04-2023
 
             except :
                 customerDetails = {
@@ -642,34 +684,54 @@ class updateRatingAndReviewAPIView(APIView):
 # Date :- 10-04-2023
 # Reason :- In order and order items table update cart data.
 
+# Modified by :- Parineeta Gedam on 15-04-2023
+
 class updateOrdersAPIView(APIView):
    
     def put(self, request, tenant):
-        print("request", request.data)
 
-        updateOrderList = []
+        orderId = Order.objects.get(order_id = request.data['orders'])
 
+        orderItem = orderItemsCreation(request,orderId)
+        orderItemSerializer=orderItem['orderItemSerializer']
 
-        # cart= []
-        # cart=request.data['cart']
-        # cart.filter(id=)
+        orderItems=OrderItem.objects.filter(order_id=orderId)
 
-        # for cartItem in request.data['cart']:
-        #     for orderItem in request.data['orderItem']:
-        #         # if orderItem[]
-        #         pass
+        orderItemList=OrderItemSerializer(orderItems,many=True)
 
+        itemsPrice = []
+        allOffer=OfferItem.objects.all()
 
-        # orderObj = Order.objects.filter(order_id = request.data['order_id'])
-        # print("orderObj",orderObj)
+        # loop to getting offered or non offered price to get subtotal 
+        for cart in orderItemList.data:
+            item = Item.objects.get(id = cart['item_id'])
+            discounted=0
+            if allOffer.filter(item_name=item).count() > 0:
+                discounted = allOffer.get(item_name=item).offer_name.discount
+            if(cart['serving_size'] == "Half Plate"):
+                price = float(item.price_half)*float(cart['quantity']) - float(item.price_half *cart['quantity']/100)*discounted
+            else :
+                price =  float(item.price_full)*float(cart['quantity'])-float(item.price_full *cart['quantity']/100)*discounted
 
-        # orderSerializer = OrderSerializer(orderObj,data=request.data, partial = True)
-        # print("============",orderSerializer)
-        # if OrderSerializer.is_valid():
-        #     print("----------------")
-        #     OrderSerializer.save()
-        #     return Response({"msg":"success", "orderSerializer" : orderSerializer.data},status=status.HTTP_201_CREATED)
-        return Response({})
+            itemsPrice.append(price)
+
+        orderId.sub_total = sum(itemsPrice)
+        
+        tax = Setting.objects.first()
+
+        if tax is not None :
+            orderId.tax= (sum(itemsPrice)*(tax.tax))/100
+            a = (sum(itemsPrice)*(tax.tax))/100
+            orderId.total = a + sum(itemsPrice)
+
+        else :
+           orderId.tax=0
+           orderId.total = sum(itemsPrice)
+
+        orderId.save()
+        orderserializer=OrderSerializer(orderId)
+
+        return Response({"orderItemSerializer":orderItemList.data,"order":orderserializer.data})
 # End of added code 10-04-2023
 
 

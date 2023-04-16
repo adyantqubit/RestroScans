@@ -9,14 +9,17 @@
 
 .payment_heading {
     text-align: center;
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 20px;
+    /* font-weight: 600; */
     font-family: 'Times New Roman', Times, serif;
+    /* added by:- Parineeta */
+    margin-bottom: 17%;
 }
 
 
 /* ------------ Radio Group css */
-.radio_container {
+/* Commented by :- Parineeta Gedam on 15-04-2023 */
+/* .radio_container {
     position: absolute;
     margin: auto;
     top: 0;
@@ -29,26 +32,26 @@
     border-radius: 3px;
     box-shadow: 0 0 5px #000;
     border-radius: 10px;
-}
+} */
 
-.payment_mode_container {
+/* .payment_mode_container {
     width: 100%;
     margin-left: 25px;
     display: flex;
     margin-top: 15px;
-}
+} */
 
-.payment_mode_img_container {
+/* .payment_mode_img_container {
     width: 20%;
     height: 50%;
-}
+} */
 
-.payment_mode_heading {
+/* .payment_mode_heading {
     margin-left: 15px;
     font-size: 20px;
     font-weight: 600;
     font-family: 'Times New Roman', Times, serif;
-}
+} */
 
 /* antd radio color css */
 .ant-radio-checked .ant-radio-inner{
@@ -68,14 +71,17 @@
   }
 
 /* ---------- Button css --------------- */
+/* Modified by :- Parineeta on 15-04-2023 */
 .payment_btn_container {
     margin-left: auto;
     margin-right: auto;
-    width: 40%;
-    font-size: 25px;
+    /* width: 40%; */
+    /* font-size: 25px; */
     font-family: "Times New Roman";
     text-align: center;
     padding: 5px 0;
+    width: 30%;
+    margin-top: 5%;
 }
 
 .payment_btn_heading {
@@ -84,6 +90,53 @@
     margin-bottom: 0px;
     font-weight: 600;
     font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+
 }
 
 /* End of added button css --------------------- */
+
+
+/* Modified css by :- Parineeta Gedam
+    Date :- 15-04-2023
+    Reason :-  re-desiging payment page css
+*/
+
+.payment_parent_container{
+    margin-left: auto;
+    margin-right: auto;
+    width:80%;
+}
+
+.payment_child_container{
+    margin-left: 16%;
+    margin-right: auto;
+    width:70%;
+    height: 5%;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 0 2px #000;
+    border-radius: 10px;
+    display: flex;
+    margin-bottom: 10%;
+    background-color: rgb(242, 249, 249);
+}
+.payment_mode_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.payment_mode_img_container {
+    width: 23%;
+    height: 50%;
+}
+.payment_mode_heading {
+    margin-left: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+    /* Added by :- PArineeta Gedam */
+    width: 35%;
+
+}
+/* End of  added code 15-04-2023*/

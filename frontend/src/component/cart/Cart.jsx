@@ -11,7 +11,7 @@ import config from '../../config/config'
 import PopupDetail from '../MenuItem/PopupDetail'
 import CustomerDetailsForm from '../CustomerDetails/CustomerDetailsForm'
 import secureLocalStorage from "react-secure-storage";
-import { updateOrders } from '../../api/Services';
+import { updateOrderItemsApi, updateOrdersApi } from '../../api/Services';
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 
@@ -45,7 +45,7 @@ const Cart = () => {
 
   var orders = secureLocalStorage.getItem('order');
   var orderItem = secureLocalStorage.getItem('orderItem');
-  console.log("orderItems",orderItem)
+  
   {/* End of added code 06-04-2023 */ }
 
   {/* Added by :- Parineeta Gedam
@@ -59,10 +59,12 @@ const Cart = () => {
       orders:orders.order_id,
       orderItem : orderItem,
     };
-    console.log("data",cartData)
     var tenantName = localStorage.getItem("tenantName")
-    const response = await updateOrders(tenantName,cartData);
-    console.log("res", response)
+    const response = await updateOrdersApi(tenantName,cartData);
+    if(response) {
+      secureLocalStorage.setItem("order", response.order)
+      secureLocalStorage.setItem("orderItem", response.orderItemSerializer)
+    }
     navigate('/invoice')
   };
 

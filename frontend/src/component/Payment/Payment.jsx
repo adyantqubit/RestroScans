@@ -6,9 +6,9 @@ import './Payment.css';
 import { updatePaymentModeApi } from '../../api/Services';
 import { useNavigate } from "react-router-dom";
 import Scanner from '../Scanner/Scan';
-import cashImg from "../../images/cashImg.jpg";
-import scanImg from "../../images/scanImg.png";
-import cardImg from "../../images/cardImg.png";
+import cashPayment from "../../images/cashPayment.png";
+import scan from "../../images/scan.png";
+import debitCard from "../../images/debitCard.png";
 import { CheckCircleOutlined } from '@ant-design/icons';
 
 export default function Payment() {
@@ -136,7 +136,12 @@ export default function Payment() {
         <h1 className='payment_heading' style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Choose Payment Method</h1>
       </div>
 
-      <div className='radio_container'>
+      {/* Commented by :- Parineeta Gedam 
+          Date :- 15-04-2023
+          Reason :- re-desiging payment page
+      */}
+
+      {/* <div className='radio_container'>
         <Radio.Group onChange={onChange} value={value}>
           <Space direction="vertical">
             <Radio name="radio" id="Cash" value="Cash">
@@ -179,7 +184,66 @@ export default function Payment() {
             Pay
           </Button>
         </div>
+      </div> */}
+
+      {/* End of commented code 15-04-2023 */}
+
+      {/* Added by :- Parineeta Gedam
+          Date :- 15-04-2023
+          Reason :- re-desiging payment page
+      */}
+
+      <div className='payment_parent_container'>
+        <Radio.Group onChange={onChange} value={value}>
+          <Space direction="vertical">
+            <div className='payment_child_container'>
+              <Radio name="radio" id="Cash" value="Cash">
+                <div className="payment_mode_container">
+                  <div className='payment_mode_img_container'><img src={cashPayment} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
+                  <span className='payment_mode_heading'>Cash</span>
+                </div>
+              </Radio>
+            </div>
+            <div className='payment_child_container'>
+              <Radio name="radio" id="Scanner" value="Scanner">
+                <div className="payment_mode_container">
+                  <div className='payment_mode_img_container'><img src={scan} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
+                  <span className='payment_mode_heading'>Scanner</span>
+                </div>
+              </Radio>
+            </div>
+            <div className='payment_child_container'>
+              <Radio name="radio" id="Card" value="Card">
+                <div className="payment_mode_container">
+                  <div className='payment_mode_img_container'><img src={debitCard} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
+                  <span className='payment_mode_heading'>Card</span>
+                </div>
+              </Radio>
+            </div>
+          </Space>
+        </Radio.Group>
       </div>
+      <div className='payment_btn_container'>
+        <Button
+          id="signBtn"
+          type="primary"
+          htmlType="submit"
+          block
+          className='payment_btn_heading'
+          style={{
+            backgroundColor: colors.bannerColor,
+            color: colors.backgroundTheme,
+            border: "none",
+          }}
+          onClick={() => {
+            submitPaymentMode();
+          }}
+        >
+          Pay
+        </Button>
+      </div>
+      {/* End of added code 15-04-2023 */}
+
       <div>
         <Modal
           footer={null}

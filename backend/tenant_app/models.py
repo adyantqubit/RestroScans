@@ -377,6 +377,24 @@ Reason - To store scanner
 class PaymentMethod(models.Model):
     scanner = models.ImageField(upload_to='scanner/', null=True)
 
+    # Added by :- Parineeta Gedam
+    # Date :- 15-04-2023
+    # Reason :- show the name and contact number
+
+    id = models.AutoField(primary_key=True)
+
+    name = models.CharField(max_length=255, null=True, blank=True)
+
+    # check contact number length validations
+    def validate_mobile_number(contact_number):
+        if len(contact_number) > 10:
+            raise ValidationError("Contact number cannot be more than 10 digits")
+
+    contact_number = models.CharField(max_length=10,validators=[validate_mobile_number],null=True,blank=True)
+
+    # End of added code 15-04-2023
+
+
     class Meta:
         verbose_name = "Payment Method"
         verbose_name_plural = 'j) Payment Method'

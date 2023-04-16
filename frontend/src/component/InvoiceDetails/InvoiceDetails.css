@@ -60,7 +60,6 @@ Reason :- Invoice css */
     font-family: 'Times New Roman', Times, serif;
     /* font-weight: 600; */
     word-wrap: break-word;
-
 }
 /* End of edded code */
 
@@ -233,7 +232,7 @@ Reason :- Invoice css */
 .invoice_second_data_container .invoice_second_sub_heading {
     float: right;
     word-wrap: break-all;
-    margin-right: 5px;
+    /* margin-right: 5px; */
 }
 
 
