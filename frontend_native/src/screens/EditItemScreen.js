@@ -216,7 +216,7 @@ export default function EditItemScreen({ route, navigation }) {
       <View style={styles.container}>
         <Text style={styles.labels}>
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Edit category name
+          Category name
         </Text>
         <SelectList
           // onSelect={setCategorySelected}
@@ -240,7 +240,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 15 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Edit item name
+            Item name
           </Text>
           <Controller
             control={control}
@@ -285,7 +285,7 @@ export default function EditItemScreen({ route, navigation }) {
         Reason - to add item type */}
         <Text style={styles.labels}>
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Edit item type
+          Item type
         </Text>
         <SelectList
           // onSelect={setCategorySelected}
@@ -314,7 +314,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Edit half price
+            Half price
           </Text>
           <Controller
             control={control}
@@ -355,7 +355,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Edit full price
+            Full price
           </Text>
           <Controller
             control={control}
@@ -396,7 +396,7 @@ export default function EditItemScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Edit description
+            Description
           </Text>
           <Controller
             control={control}
@@ -447,7 +447,7 @@ export default function EditItemScreen({ route, navigation }) {
           }}
         >
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload icon</Text>
+          <Text>Upload image</Text>
         </View>
 
         <View
@@ -485,7 +485,7 @@ export default function EditItemScreen({ route, navigation }) {
           {/*Added by Yuvraj Sahu on 13-4-2023
           Reason - to make pressable to active status*/}
           <Pressable onPress={() => setItemChecked(!isItemChecked)}>
-          <Text style={styles.activeLable}>Active status</Text>
+          <Text style={styles.activeLable}>Item available</Text>
           </Pressable>
           {/*End of addition*/}
         </View>

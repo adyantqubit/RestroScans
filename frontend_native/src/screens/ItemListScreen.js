@@ -238,7 +238,7 @@ export default function ItemListScreen({ route, navigation }) {
       <View style={styles.container}>
         <Text style={styles.labels}>
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Edit menu name
+          Menu name
         </Text>
         <SelectList
           // onSelect={() => }
@@ -266,7 +266,7 @@ export default function ItemListScreen({ route, navigation }) {
         <View style={{ marginTop: 15 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Edit category name
+            Category name
           </Text>
           <Controller
             control={control}
@@ -320,7 +320,7 @@ export default function ItemListScreen({ route, navigation }) {
           }}
         >
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Edit icon</Text>
+          <Text>Item image</Text>
         </View>
         {/* End of addition */}
 
@@ -359,7 +359,7 @@ export default function ItemListScreen({ route, navigation }) {
         {/*Added by Yuvraj Sahu on 13-4-2023
         Reason - to make pressable active status lable */}
         <Pressable onPress={() => setCategoryChecked(!isCategoryChecked)}>
-        <Text style={styles.activeLable}>Active status</Text>
+        <Text style={styles.activeLable}>Category available</Text>
         </Pressable>
         {/*End of addition*/}
         </View>

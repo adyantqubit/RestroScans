@@ -10,7 +10,7 @@ import {
   Button,
   Image,
 } from "react-native";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -425,11 +425,27 @@ export default function AddItem() {
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: "row",
+            flexDirection: "row-reverse",
             justifyContent: "space-around",
           }}
         >
-          <Button title="Add item icon" onPress={pickImage} />
+          {/* <Button title="Add item icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
           {icon && (
             <Image
               source={{ uri: icon }}
@@ -452,7 +468,7 @@ export default function AddItem() {
             color={isItemActive ? "#4630EB" : undefined}
           />
           <Pressable onPress={() => setItemActive(!isItemActive)}>
-            <Text style={styles.activeLable}>Active status</Text>
+            <Text style={styles.activeLable}>Item available</Text>
           </Pressable>
         </View>
         {/* End of addition */}

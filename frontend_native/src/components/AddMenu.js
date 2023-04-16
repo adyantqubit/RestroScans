@@ -10,7 +10,7 @@ import {
   Button,
   Image,
 } from "react-native";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
@@ -191,7 +191,7 @@ export default function AddMenu() {
           }}
         >
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload icon</Text>
+          <Text>Upload image</Text>
         </View>
         <View
           style={{
@@ -203,11 +203,27 @@ export default function AddMenu() {
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: "row",
+            flexDirection: "row-reverse",
             justifyContent: "space-around",
           }}
         >
-          <Button title="Add menu icon" onPress={pickImage} />
+          {/* <Button title="Add menu icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
           {icon && (
             <Image
               source={{ uri: icon }}
@@ -219,14 +235,15 @@ export default function AddMenu() {
         {/* Added by Yuvraj Sahu on 12-4-2023
         Reason - to select active status */}
         <View style={styles.activeStatus}>
+          <Pressable onPress={() => setMenuActive(!isMenuActive)}>
+            {/* <Text style={styles.activeLable}>Active status</Text> */}
+            <Text style={styles.activeLable}>Menu available</Text>
+          </Pressable>
           <Checkbox
             value={isMenuActive}
             onValueChange={setMenuActive}
             color={isMenuActive ? "#4630EB" : undefined}
           />
-          <Pressable onPress={() => setMenuActive(!isMenuActive)}>
-            <Text style={styles.activeLable}>Active status</Text>
-          </Pressable>
         </View>
         {/* End of addition */}
 
@@ -359,6 +376,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   activeLable: {
-    marginLeft: 10,
+    marginRight: 10,
   },
 });

@@ -3,10 +3,9 @@
 
 
 export const colors ={
-    // btnColor: '#fca311',
+    // btnColor: '#ff6600',
     btnColor: '#c39212',
-
-    // Added by Om 
+	// Added by Om 
     anotherButton : '#00275e',
     // End of addition
     // btnColor: '#003366',

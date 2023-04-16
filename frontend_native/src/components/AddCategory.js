@@ -10,7 +10,7 @@ import {
   Button,
   Image,
 } from "react-native";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
@@ -247,11 +247,27 @@ export default function AddCategory() {
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: "row",
+            flexDirection: "row-reverse",
             justifyContent: "space-around",
           }}
         >
-          <Button title="Add category icon" onPress={pickImage} />
+          {/* <Button title="Add category icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
           {icon && (
             <Image
               source={{ uri: icon }}
@@ -269,7 +285,7 @@ export default function AddCategory() {
             color={isCategoryActive ? "#4630EB" : undefined}
           />
           <Pressable onPress={() => setCatgeoryActive(!isCategoryActive)}>
-            <Text style={styles.activeLable}>Active status</Text>
+            <Text style={styles.activeLable}>Category available</Text>
           </Pressable>
         </View>
         {/* End of addition */}

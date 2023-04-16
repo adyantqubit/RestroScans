@@ -21,7 +21,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function SettingScreen({ navigation }) {
-  var { render, setRender, settings } = useContext(AppStateContext);
+  var { render, setRender, settings, getSettingData } = useContext(AppStateContext);
 
   // Added by Yuvraj Sahu on 13-4-2023
   // Reason - to re render page
@@ -33,7 +33,9 @@ export default function SettingScreen({ navigation }) {
   {
     /* This function is used to re-render the page  */
   }
-  React.useEffect(() => {}, [render, isFocused]);
+  React.useEffect(() => {
+    getSettingData();
+  }, [render, isFocused]);
   // End of addition
   
   // Added by Yuvraj Sahu on 11-4-2023

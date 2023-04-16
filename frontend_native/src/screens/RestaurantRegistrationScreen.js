@@ -336,7 +336,7 @@ export default function RestaurantRegistrationScreen({
               // },
               pattern: {
                 value: /^\d{10}$/,
-                message: "Teliphone Number must be 10 digit",
+                message: "Telephone Number must be 10 digit",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (

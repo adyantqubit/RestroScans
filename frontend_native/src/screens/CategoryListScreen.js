@@ -203,7 +203,7 @@ export default function CategoryListScreen({ route, navigation }) {
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Edit menu name
+            Menu name
           </Text>
           <Controller
             control={control}
@@ -294,7 +294,7 @@ export default function CategoryListScreen({ route, navigation }) {
            {/* Added by Yuvraj Sahu on 13-42023
           Reason - to press active status in checkbox */}
           <Pressable onPress={() => setMenuChecked(!isMenuChecked)}>
-          <Text style={styles.activeLable}>Active status</Text>
+          <Text style={styles.activeLable}>Menu available</Text>
           </Pressable>
           {/*End of addition*/}
         </View>

@@ -23,15 +23,24 @@ export default function OrdersScreen({ route, navigation }) {
   var [orders, setOrders] = useState([]);
   // End of setting orders
 
+  // Added by Yuvraj Sahu on 13-4-2023
+  // Reason - to show loading when we call backend
+  // This react hooks is used to set loading for response
+  var [isLoading, setLoading] = useState(false);
+  // End of loading
+
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to get orders
   // This function is created for getting all orders
   const allOrders = async () => {
+  	// Added by Yuvraj Sahu on 13-4-2023
+    setLoading(true);
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
     var response = await getOrdersApi(tenant);
     if (response.msg) {
+      setLoading(false);
       setOrders(response.allOrders);
     }
   };
@@ -42,36 +51,40 @@ export default function OrdersScreen({ route, navigation }) {
   // and sreen and send the order id after navigation
   // it will be used for getting order items
   const handleOrder = async (id) => {
-    navigation.navigate("OrderItemsScreen", {orderID: id})
-  }
-
+    navigation.navigate("OrderItemsScreen", { orderID: id });
+  };
 
   return (
     <ScrollView>
       {/* This function is used to map or show the data  */}
       {orders.length > 0 ? (
-      <>
-      {orders.map((order, id) => (
-        <Pressable
-          key={id}
-          style={styles.orderListContainer}
-          onPress={(e) => handleOrder(order.id)}
-        >
-          <View>
-          <Text style={styles.customerName}>{order.customer_name}</Text>
-          <Text style={styles.tableNo}>Table no. - {order.table_number}</Text>
-          </View>
-          <View style={{alignItems: "flex-end"}}>
-          <Text style={styles.tableNo}>Order status - {order.order_status}</Text>
-          <Text style={styles.tableNo}>Payment status -  {order.payment_status}</Text>
-          </View>
-        </Pressable>
-      ))}
-      </>
-      )
-      : 
-      <Text>Loading.....</Text>
-      }
+        <>
+          {orders.map((order, id) => (
+            <Pressable
+              key={id}
+              style={styles.orderListContainer}
+              onPress={(e) => handleOrder(order.id)}
+            >
+              <View>
+                <Text style={styles.customerName}>{order.customer_name}</Text>
+                <Text style={styles.tableNo}>
+                  Table no. - {order.table_number}
+                </Text>
+              </View>
+              <View style={{ alignItems: "flex-end" }}>
+                <Text style={styles.tableNo}>
+                  Order status - {order.order_status}
+                </Text>
+                <Text style={styles.tableNo}>
+                  Payment status - {order.payment_status}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </>
+      ) : (
+        <Text style={{textAlign: "center", marginTop: 20}}>No data available</Text>
+      )}
     </ScrollView>
   );
 }
@@ -90,13 +103,13 @@ const styles = StyleSheet.create({
     width: "95%",
     // height: 80,
     alignSelf: "center",
-    padding: 10
+    padding: 10,
   },
   customerName: {
     fontSize: 16,
   },
   tableNo: {
     fontSize: 14,
-    marginTop: 4
-  }
+    marginTop: 4,
+  },
 });
