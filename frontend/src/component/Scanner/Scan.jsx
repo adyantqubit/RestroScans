@@ -176,8 +176,6 @@ export default function Scan() {
             </h1> */}
             {/* End of commented code 15-04-2023
              */}
-
-
           </div>
         </div>
 

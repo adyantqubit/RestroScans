@@ -307,6 +307,11 @@ class OrderAdmin(admin.ModelAdmin):
                     # 'tax',
                     'total','order_status','payment_status','payment_mode','date']
     # end of code
+
+    # Added by :- Parineeta Gedam on 17-04-2023
+    readonly_fields=['order_id','customer_id','sub_total','cgst','sgst','total']
+    # End of added code on 17-04-2023
+
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -323,7 +328,12 @@ Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order Item.
 """
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['id','order_id','item', 'serving_size', 'quantity','price','rating','review','date']
+    list_display = ['id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
+
+    # Added by :- Parineeta Gedam on 17-04-2023
+    readonly_fields=['order_id','item']
+    # End of added code on 17-04-2023
+
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False

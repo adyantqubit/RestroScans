@@ -255,7 +255,7 @@ function BlankPage() {
             <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.order_id}</span>
           </div>
           <div className={style.tableNoHeadingContainer}>
-            <span className={style.cartTableNoHeading} style={{ color: colors.subHeadingColor }}>{orders.table_number}</span>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.table_number}</span>
           </div>
           <div className={style.totalHeadingContainer}>
             <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.total}</span>

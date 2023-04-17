@@ -157,7 +157,18 @@ export default function InvoiceDetails() {
           <div className='invoice_details_1'>
             <span className='invoice_details_heading'>Name </span>
             <span className='invoice_details_colon'>: </span>
-            <span className='invoice_details_value'>{customerDetail.name}</span>
+            {/* commented by :- Parineeta Gedam on 17-04-2023 */}
+            {/* <span className='invoice_details_value'>{customerDetail.last_customer_name}</span> */}
+            {/* End of commented code on 17-04-2023  */}
+
+            {/* Added by :- Parineeta Gedam on 17-04-2023 */}
+            {customerDetail.last_customer_name ?
+              <>
+                <span className='invoice_details_value'>{customerDetail.last_customer_name}</span>
+              </> :
+              <><span className='invoice_details_value'>-</span></>}
+            {/* End of commented code on 17-04-2023  */}
+
           </div>
           <div className='invoice_details_1'>
             <span className='invoice_details_heading'>Contact Number </span>
@@ -254,7 +265,7 @@ export default function InvoiceDetails() {
           <div className='invoice_second_container'>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Subtotal</span>
-              <span className="invoice_second_sub_heading"> ? {orders.sub_total}</span>
+              <span className="invoice_second_sub_heading">? {orders.sub_total}</span>
             </div>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Cgst </span>
@@ -273,7 +284,7 @@ export default function InvoiceDetails() {
 
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Total</span>
-              <span className="invoice_second_sub_heading"> ? {orders.total}</span>
+              <span className="invoice_second_sub_heading"><b> ? {orders.total}</b></span>
             </div>
           </div>
         </div>
@@ -302,7 +313,7 @@ export default function InvoiceDetails() {
           Proceed to pay
         </Button>
       </div> */}
-          {/* End of added code 16-04-2023 */}
+      {/* End of added code 16-04-2023 */}
     </>
   )
 }

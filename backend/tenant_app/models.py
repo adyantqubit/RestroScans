@@ -293,6 +293,14 @@ class CustomerDetail(models.Model):
 
     # End of Commented code 14-04-2023
 
+    # Added by :- Parineeta Gedam
+    # Date :- 17-04-2023
+    # Reason :- latest name show 
+
+    last_customer_name = models.CharField(max_length=255, null=True, blank=True)
+    
+    # End of Commented code 17-04-2023
+
     def __str__(self):
         return f"{self.name}"
 
@@ -308,10 +316,11 @@ End of added code 06-04-2023
 Added by - Parineeta Gedam on 06-04-2023
 Reason - To store Order
 """
-
+# Modified by :- Parineeta Gedam on 17-04-2023
 ORDER_STATUS = (
-    ("In Process", "In Process"),
-    ("Cooking", "Cooking"),
+    ("Placed", "Placed"),
+    ("Confirm", "Confirm"),
+    ("Cooked", "Cooked"),
     ("Served", "Served"),
 )
 
@@ -319,6 +328,7 @@ PAYMENT_STATUS = (
     ("Pending", "Pending"),
     ("Completed", "Completed"),
 )
+# End of modified code on 17-04-2023
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
@@ -337,7 +347,7 @@ class Order(models.Model):
     dshr=models.CharField(max_length=100,null=True,blank=True)
     capt=models.CharField(max_length=100,null=True,blank=True)
     # end of code 14/4/23
-    order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="In Process")
+    order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="Placed")
     payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
     date = models.DateTimeField(auto_now_add=True)
     payment_mode = models.CharField(max_length=100,null=True,blank=True)
@@ -358,6 +368,12 @@ Added by - Parineeta Gedam on 06-04-2023
 Reason - To store Order Item
 """
 
+# Modified by :- Parineeta Gedam on 17-04-2023
+ITEM_STATUS = (
+    ("Pending", "Pending"),
+    ("Completed", "Completed"),
+)
+
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
@@ -369,6 +385,11 @@ class OrderItem(models.Model):
     rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
     review = models.TextField(null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
+
+    # Modified by :- Parineeta Gedam 17-04-2023
+    item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")
+    # End of modified code 17-04-2023
+
     def __str__(self):
         return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
 

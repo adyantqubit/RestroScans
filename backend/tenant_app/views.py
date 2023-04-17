@@ -477,20 +477,6 @@ def orderNoGeneration(tenant):
 # Added by :- Parineeta Gedam
 # Date :- 06-04-2023
 # Reason : method for save the cart item in order table
-def orderCreation(tenant,request):
-        
-        # Save cart item in Order table
-        order_no = orderNoGeneration(tenant)  
-        cartData = dict ()
-        
-        # setting order id , customer id (foreing key), and table no
-        cartData['order_id'] =  order_no
-        customer_id = CustomerDetail.objects.get(contact_number = request.data['contact_number'])
-        cartData['customer_id'] =  customer_id.id
-        cartData['table_number'] =  request.data['table_number']
-        
-        itemsPrice = []
-        allOffer=OfferItem.objects.all()
 
 
 def orderCreation(tenant, request):
@@ -641,41 +627,66 @@ class PostCustomerDetailsAPIView(APIView):
 
             customerDetails = CustomerDetail.objects.get(
                 contact_number=request.data['contact_number'])
+            
+            # Modified by :- Parineeta Gedam
+            # Date :- 17-04-2023
+            # Reason :- To save multiple name and email with comas.
 
             if request.data["name"] in customerDetails.name.split(","):
                 pass
             else:
-                customerDetails.name = customerDetails.name + \
-                    "," + request.data["name"]
-                customerDetails.save()
+                if len(request.data["name"])>0:
+                    if len(customerDetails.name) > 0 :
+                        customerDetails.name = customerDetails.name + "," + request.data["name"]
+                    else :
+                        customerDetails.name = request.data["name"]
+                    customerDetails.save()
 
             if request.data["email"] in customerDetails.email.split(","):
                 pass
             else:
-                customerDetails.email = customerDetails.email + \
-                    "," + request.data["email"]
-                customerDetails.save()
-
-            if request.data["name"] in customerDetails.name.split(","):
-                if request.data["email"] in customerDetails.email.split(","):
-                    pass
-                else:
-                    customerDetails.email = customerDetails.email + \
-                        "," + request.data["email"]
+                if len(request.data["email"])>0:
+                    if len(customerDetails.email) > 0 :
+                        customerDetails.email = customerDetails.email + "," + request.data["email"]
+                    else :
+                        customerDetails.email = request.data["email"]
                     customerDetails.save()
 
-            if request.data["email"] in customerDetails.email.split(","):
-                if request.data["name"] in customerDetails.name.split(","):
-                    pass
-                else:
-                    customerDetails.name = customerDetails.name + \
-                        "," + request.data["name"]
-                    customerDetails.save()
+            # Commented code :- Parineeta Gedam
+            # Date :- 17-04-2023
+            # Reason :- some changes in logic to save name and email
+
+            # if request.data["name"] in customerDetails.name.split(","):
+            #     if request.data["email"] in customerDetails.email.split(","):
+            #         pass
+            #     else:
+            #         if len(request.data["email"])>0:
+            #             customerDetails.email = customerDetails.email + "," + request.data["email"]
+            #             customerDetails.save()
+
+            # if request.data["email"] in customerDetails.email.split(","):
+            #     if request.data["name"] in customerDetails.name.split(","):
+            #         pass
+            #     else:
+            #         if len(request.data["name"])>0:
+            #             customerDetails.name = customerDetails.name + "," + request.data["name"]
+            #             customerDetails.save()
 
             # End of added code :- 14-04-2023
 
+            # End of commented code on 17-04-2023
+
+            # Modified by :- Parineeta Gedam
+            customerDetails.last_customer_name = request.data['name']
+            customerDetails.save()
+            # End of added code 17-04-2023
+
         except:
             customerDetails = {
+                # Added by :- Parineeta Gedam on 17-04-2023 
+                # reason :- last customer name save.
+                "last_customer_name" : request.data['name'],
+                # End of added code on 17-04-2023
                 "name": request.data['name'],
                 "email": request.data['email'],
                 "contact_number": request.data['contact_number'],
@@ -781,13 +792,17 @@ class updateOrdersAPIView(APIView):
             # added by :- Parineeta Gedam on 16-04-2023
             # reason :- to save tax on cgst and scgt
 
-            tax.cgst = (sum(itemsPrice)*(tax.cgst))/100
-            tax.sgst = (sum(itemsPrice)*(tax.sgst))/100
-            a = (sum(itemsPrice)*(tax.cgst))/100 + (sum(itemsPrice)*(tax.sgst))/100
+            # modified by :- Parineeta Gedam
+            cgst = (sum(itemsPrice)*(tax.cgst))/100
+            sgst = (sum(itemsPrice)*(tax.sgst))/100
+            a = (sum(itemsPrice)*(cgst))/100 + (sum(itemsPrice)*(sgst))/100
 
             orderId.cgst = (sum(itemsPrice)*(tax.cgst))/100
             orderId.sgst = (sum(itemsPrice)*(tax.sgst))/100
-            orderId.total = a + sum(itemsPrice)
+
+            orderId.total = orderId.sub_total+orderId.cgst+orderId.sgst
+
+            orderId.order_status = "Placed"
 
             # End of commented code 16-04-2023
 

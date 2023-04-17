@@ -79,16 +79,17 @@ Reason :- Invoice css */
     margin-top: 5px;
 }
 .invoice_table_sub_heading{
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 550;
 }
 .invoice_serial_no_container{
     width: 12%;
     word-wrap: break-word;
+    text-align: center;
 }
 .invoice_serial_no_sub_heading{
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 550;
 }
@@ -100,7 +101,7 @@ Reason :- Invoice css */
     float: right;
 }
 .invoice_total_price_container .invoice_table_price_sub_heading{
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 550;
     float: right;
@@ -131,13 +132,14 @@ Reason :- Invoice css */
     width: 10%;
     word-wrap: break-word;
     margin-left: 5px;
-
+    text-align: center;
 }
 
 .invoice_total_price_container {
     width: 30%;
     float: left;
     word-wrap: break-word;
+    margin-top: 5px;
 }
 
 /*  total container css  */
@@ -170,12 +172,13 @@ Reason :- Invoice css */
 
 .invoice_second_container {
     width: 100%;
+    margin-top: 5px;
     /* padding: 5px; */
 }
 
 .invoice_second_data_container {
     width: 100%;
-    /* padding: 1px; */
+    padding: 2px 0px 2px 0px;
 }
 /* End of added css */
 
@@ -226,7 +229,7 @@ Reason :- Invoice css */
     word-wrap: break-all;
     font-size: 12px;
     font-family: 'Times New Roman';
-    margin-top: 5px;
+    /* margin-top: 5px; */
 }
 
 .invoice_second_data_container .invoice_second_sub_heading {
