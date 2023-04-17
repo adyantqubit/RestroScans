@@ -4,8 +4,8 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   Image,
+  SafeAreaView,
   StyleSheet,
   Pressable,
   BackHandler,
@@ -22,6 +22,7 @@ import { LinearGradient } from "expo-linear-gradient";
 // import '../Colours/GlobalColor.css';
 
 import { getDashboardData, getDashboardDetails } from "../api/Services";
+import { SvgCssUri } from 'react-native-svg';
 
 export default function HomeScreen({ navigation }) {
   const isFocused = useIsFocused();
@@ -41,6 +42,9 @@ export default function HomeScreen({ navigation }) {
   /**
    * End of code modification
    */
+
+  var [scanner, setScanner] = useState(""); // Added by Om on 16-04-23 for show the QR code scanner
+
   var { render, setRender } = useContext(AppStateContext);
 
   var { render, setRender, getSettingData } = useContext(AppStateContext);
@@ -48,6 +52,7 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     authNavigate();
     getSettingData();
+    getQRCode()  // Added by Om on 16-04-23 for show set the method in useeffect
   }, [isFocused]);
 
   /**
@@ -57,6 +62,14 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     initializeDashboard();
   }, [isFocused]);
+
+  // Added by Om on 16-04-23
+  // Reason : For set the QR code data in scanner variable
+  const getQRCode = async () => {
+    var qrCode = await SecureStore.getItemAsync("qrCodeTenant");
+    setScanner(qrCode);
+  };
+  // End of addition
 
   const initializeDashboard = async () => {
     var tenant = JSON.parse(
@@ -227,6 +240,62 @@ export default function HomeScreen({ navigation }) {
         {/* 
           End of code addition for show revenue and count of orders on 12-04-2023
         */}
+        {/* Added by Om on 16-04-23
+        Reason : For show the QR code image in native site */}
+        <View style={{
+          alignItems:"center",
+          justifyContent:"center",
+          alignSelf:'center',
+          // borderColor:'red',
+          // borderWidth:1,
+          paddingTop:12,
+          paddingBottom:10,
+          width:"100%",
+          // height:'30%'
+        }}>
+
+          <SvgCssUri
+        width="180"
+        height="180"
+        viewBox="0 0 450 470"
+        uri="http://192.168.1.30:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+        // uri={scanner}
+
+      />
+      <Text style={{fontSize:10,marginLeft:12}}>Adyant Softtech Pvt Ltd Raipur</Text>
+      <Text style={{fontSize:10,lineHeight:12}}>restroscans.com Scan menu</Text>
+      <Text style={{fontSize:10,lineHeight:12}}>Table no :</Text>
+
+
+        </View>
+       <View></View>
+        <View style={styles.btns}
+                 >
+                    <Pressable
+                        // onPress={handleSubmit(handleRegister)}
+                        // disabled={isDisable}
+                        style={{
+                            backgroundColor:  colors.btnColor,
+                            height: 20,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 7,
+                            width:60
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 10,
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Print
+                        </Text>
+                    </Pressable>
+
+                </View>
+        {/* End of addition */}
 
         {revenueDetails ? (
           <View style={styles.revenueContainer}>
@@ -480,6 +549,15 @@ const styles = StyleSheet.create({
     borderTopColor: "black",
     borderTopWidth: 1,
   },
+  // Added by Om on 16-04-23
+    // Reason : Fix the button
+    btns: {
+      alignSelf: "center",
+      fontSize:3,
+      flexDirection:'row',
+      // paddingTop:40
+  },
+  // End of modification
   /**
    * End of code addition for styling of dashboard on 15-04-2023
    */

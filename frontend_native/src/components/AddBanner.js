@@ -12,6 +12,7 @@ import {
     Pressable,
     Button,
     Image,
+    TouchableOpacity, Linking
 } from "react-native";
 
 import { useForm, Controller } from "react-hook-form";
@@ -109,7 +110,7 @@ export default function AddBanner() {
                 else {
                     // if (response.error) {
                     //     alert(response.error)
-        // End of modification
+                    // End of modification
                     Alert.alert("Error", "Something went wrong");
                     //  End of addition
                     // setIsDisable(false);
@@ -134,164 +135,165 @@ export default function AddBanner() {
     });
 
     return (
-        <ScrollView>
-            <View style={styles.container} >
-                <View style={{ marginTop: 5 }}>
-                    <Text style={styles.labels}>
-                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                        Banner/Offer name
-                    </Text>
-                    <Controller
-                        control={control}
-                        name="offer_name"
-                        rules={{
-                            required: {
-                                value: true,
-                                message: "Banner/Offer name is required",
-                            },
-                            //   pattern: {
-                            //     value: /^(?!\s+$).*/,
-                            //     message: "Menu offer_name cannot contain only blankspaces!",
-                            //   },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <>
-                                <View>
-                                    <TextInput
-                                        style={styles.input}
-                                        value={value}
-                                        onBlur={onBlur}
-                                        onChangeText={onChange}
-                                        placeholder="Enter banner/offer name"
-                                        autoCapitalize="none"
-                                        autoCorrect={false}
-                                        secureTextEntry={false}
-                                        placeholderTextColor="#A4A4A4"
-                                        editable={true}
-                                        keyboardType="default"
-                                    />
-                                </View>
+        <>
+            <ScrollView>
+                <View style={styles.container} >
+                    <View style={{ marginTop: 5 }}>
+                        <Text style={styles.labels}>
+                            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                            Banner/Offer name
+                        </Text>
+                        <Controller
+                            control={control}
+                            name="offer_name"
+                            rules={{
+                                required: {
+                                    value: true,
+                                    message: "Banner/Offer name is required",
+                                },
+                                //   pattern: {
+                                //     value: /^(?!\s+$).*/,
+                                //     message: "Menu offer_name cannot contain only blankspaces!",
+                                //   },
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <>
+                                    <View>
+                                        <TextInput
+                                            style={styles.input}
+                                            value={value}
+                                            onBlur={onBlur}
+                                            onChangeText={onChange}
+                                            placeholder="Enter banner/offer name"
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            secureTextEntry={false}
+                                            placeholderTextColor="#A4A4A4"
+                                            editable={true}
+                                            keyboardType="default"
+                                        />
+                                    </View>
 
-                                {errors?.offer_name && (
-                                    <Text style={styles.textdanger}>{errors?.offer_name?.message}</Text>
-                                )}
-                            </>
-                        )}
-                    />
-                </View>
-
-                <View style={{ marginTop: 5 }}>
-                    <Text style={styles.labels}>
-                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                        Discount(%)
-                    </Text>
-                    <Controller
-                        control={control}
-                        name="discount"
-                        rules={{
-                            required: {
-                                value: true,
-                                message: "Discount is required!",
-                            },
-                            pattern: {
-                                value: /^\d{0,2}$/,
-                                message: "Discount is not valid",
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <>
-                                <View>
-                                    <TextInput
-                                        style={styles.input}
-                                        value={value}
-                                        onBlur={onBlur}
-                                        onChangeText={onChange}
-                                        placeholder="Enter discount"
-                                        autoCapitalize="none"
-                                        autoCorrect={false}
-                                        secureTextEntry={false}
-                                        placeholderTextColor="#A4A4A4"
-                                        editable={true}
-                                        keyboardType="number-pad"
-
-                                    />
-                                </View>
-                                {errors?.discount && (
-                                    <Text style={styles.textdanger}>
-                                        {errors?.discount?.message}
-                                    </Text>
-                                )}
-                            </>
-                        )}
-                    />
-                </View>
-
-                <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 5,
-            marginBottom: 5,
-          }}
-        >
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload image</Text>
-        </View>
-                <View
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        // borderColor: 'black',
-                        borderRadius: 3,
-                        // borderWidth: 1,
-                        width: "93%",
-                        alignSelf: "center",
-                        flexDirection: "row-reverse",
-                        justifyContent: "space-around",
-                      }}
-                >
-                    {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
-                     {/* Modification by Om on 15-04-23
-         Reason : Fix the image validation */}
-                    {/* <Button  title="Choose image" onPress={pickImage} /> */}
-                    <Pressable
-             onPress={pickImage}
-              style={{
-                backgroundColor: "#d5d5d5",
-                width: 50,
-                padding: 5,
-                borderRadius: 5,
-                height: 40,
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name="upload" size={20} color="black" />
-            </Pressable>
-            {/* End of addition */}
-                    {icon && (
-                        <Image
-                            source={{ uri: icon }}
-                            style={{ width: 50, height: 40, borderRadius: 5 }}
+                                    {errors?.offer_name && (
+                                        <Text style={styles.textdanger}>{errors?.offer_name?.message}</Text>
+                                    )}
+                                </>
+                            )}
                         />
-                    )}
-                </View>
-                 {/* Modification by Om on 15-04-23
+                    </View>
+
+                    <View style={{ marginTop: 5 }}>
+                        <Text style={styles.labels}>
+                            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                            Discount(%)
+                        </Text>
+                        <Controller
+                            control={control}
+                            name="discount"
+                            rules={{
+                                required: {
+                                    value: true,
+                                    message: "Discount is required!",
+                                },
+                                pattern: {
+                                    value: /^\d{0,2}$/,
+                                    message: "Discount is not valid",
+                                },
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <>
+                                    <View>
+                                        <TextInput
+                                            style={styles.input}
+                                            value={value}
+                                            onBlur={onBlur}
+                                            onChangeText={onChange}
+                                            placeholder="Enter discount"
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            secureTextEntry={false}
+                                            placeholderTextColor="#A4A4A4"
+                                            editable={true}
+                                            keyboardType="number-pad"
+
+                                        />
+                                    </View>
+                                    {errors?.discount && (
+                                        <Text style={styles.textdanger}>
+                                            {errors?.discount?.message}
+                                        </Text>
+                                    )}
+                                </>
+                            )}
+                        />
+                    </View>
+
+                    <View
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "93%",
+                            alignSelf: "center",
+                            marginTop: 5,
+                            marginBottom: 5,
+                        }}
+                    >
+                        <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                        <Text>Upload image</Text>
+                    </View>
+                    <View
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            // borderColor: 'black',
+                            borderRadius: 3,
+                            // borderWidth: 1,
+                            width: "93%",
+                            alignSelf: "center",
+                            flexDirection: "row-reverse",
+                            justifyContent: "space-around",
+                        }}
+                    >
+                        {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
+                        {/* Modification by Om on 15-04-23
          Reason : Fix the image validation */}
-                {isImgRequired && (
-                    <Text style={{ color: "red", marginLeft: 10 }}>
-                        Item icon is required!
-                    </Text>
-                )}
-                {/* End of addtion */}
-                {/*Commented by Om on 15-04-23
+                        {/* <Button  title="Choose image" onPress={pickImage} /> */}
+                        <Pressable
+                            onPress={pickImage}
+                            style={{
+                                backgroundColor: "#d5d5d5",
+                                width: 50,
+                                padding: 5,
+                                borderRadius: 5,
+                                height: 40,
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Icon name="upload" size={20} color="black" />
+                        </Pressable>
+                        {/* End of addition */}
+                        {icon && (
+                            <Image
+                                source={{ uri: icon }}
+                                style={{ width: 50, height: 40, borderRadius: 5 }}
+                            />
+                        )}
+                    </View>
+                    {/* Modification by Om on 15-04-23
+         Reason : Fix the image validation */}
+                    {isImgRequired && (
+                        <Text style={{ color: "red", marginLeft: 120, marginTop: 8 }}>
+                            Item icon is required!
+                        </Text>
+                    )}
+                    {/* End of addtion */}
+                    {/*Commented by Om on 15-04-23
      Reason : Fix the image designing not used yet     */}
-                {/* <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
+                    {/* <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
                     <Pressable
                         onPress={handleSubmit(handleRegister)}
                         disabled={isDisable}
@@ -314,39 +316,51 @@ export default function AddBanner() {
                         </Text>
                     </Pressable>
                 </View> */}
-{/* End of Commented code */}
-                <View style={styles.btns}>
-                    {/* <Button title="Save"/> */}
-                    <Pressable
-                        onPress={handleSubmit(handleRegister)}
-                        disabled={isDisable}
-                        style={{
-                            // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                            backgroundColor: isDisable ? "grey" : colors.btnColor,
-                            height: 40,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 3,
-                        }}
-                    >
-                        <Text
+                    {/* End of Commented code */}
+                    <View style={styles.btns}>
+                        {/* <Button title="Save"/> */}
+                        <Pressable
+                            onPress={handleSubmit(handleRegister)}
+                            disabled={isDisable}
                             style={{
-                                color: "white",
-                                fontSize: 16,
-                                fontWeight: "bold",
+                                // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                                backgroundColor: isDisable ? "grey" : colors.btnColor,
+                                height: 40,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: 3,
                             }}
                         >
-                            Save
-                        </Text>
-                    </Pressable>
-                </View>
-                {menuList.map((dt, id) => (
-                    <View key={id}>
-                        <Text>{dt.name}</Text>
+                            <Text
+                                style={{
+                                    color: "white",
+                                    fontSize: 16,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Save
+                            </Text>
+                        </Pressable>
                     </View>
-                ))}
+                    {menuList.map((dt, id) => (
+                        <View key={id}>
+                            <Text>{dt.name}</Text>
+                        </View>
+                    ))}
+                </View>
+            </ScrollView>
+            {/* Added by Om for show the footer */}
+            <View
+                style={{ backgroundColor: '#003366', display: "flex", flexDirection: "row", justifyContent: 'center', flexWrap: 'wrap', }}
+            >
+                <TouchableOpacity onPress={() => Linking.openURL('https://adyant.co.in/')}>
+                    <Text style={{ color: 'white' }}>
+                        Adyant Powered © 2023
+                    </Text>
+                </TouchableOpacity>
             </View>
-        </ScrollView>
+            {/* End of addition */}
+        </>
     );
 }
 

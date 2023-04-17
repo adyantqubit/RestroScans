@@ -60,6 +60,10 @@ export default function LoginScreen({ navigation }) {
         await SecureStore.deleteItemAsync("token");
         await SecureStore.deleteItemAsync("tenantInfo");
         // End of addition
+        // Added by Om shrivastava on 16-4-2023
+        // Reason - to delete previous data datas from securestorage
+        await SecureStore.deleteItemAsync("qrCodeTenant");
+        // End of addition
         await SecureStore.setItemAsync("token", JSON.stringify(res.token));
         await SecureStore.setItemAsync(
           "userData",
@@ -69,6 +73,13 @@ export default function LoginScreen({ navigation }) {
           "tenantInfo",
           JSON.stringify(res.tenantInfo)
         );
+        // Added by Om shrivastava on 16-4-2023
+        // Reason - to set the QR code in securestorage
+        await SecureStore.setItemAsync(
+          "qrCodeTenant",
+         res.qrCodeTenant
+        );
+        // End of addition
         navigation.navigate("DrawerScreens");
         Alert.alert("Sccess", "Loggedin Successfully");
         setRender(!render);

@@ -98,13 +98,26 @@ class RestaurantLoginView(APIView):
         response = Response()
         response.set_cookie(key='refreshToken', value=refresh_token)
 
+        # Added by Om on 16-04-23
+        # Reason : To get QR code in native site
+        domainURL=Tenant.objects.filter(restaurant_name = restaurant.id).values().first()
+        url=domainURL["domain_url"]
+        path= settings.HTTP_METHOD+url+':8000/media/'+url +'/images/qrcode/qr.svg'
+        # End of addition
+       
         response.data = {
             'token': access_token,
             'userData': [RestaurantRequest.objects.filter(email=request.data.get('email')).values()[0]],
             # Added by Yuvraj Sahu on 25-3-2023
             # Reason - to get tenant data
-            'tenantInfo': Tenant.objects.filter(restaurant_name = restaurant.id).values().first()
+            'tenantInfo': Tenant.objects.filter(restaurant_name = restaurant.id).values().first(),
             # End of Addition
+
+            # Added by Om on 16-04-2023
+            # Reason - to get QR code
+            'qrCodeTenant':path
+            # End of Addition
+
         }
         return response
 
