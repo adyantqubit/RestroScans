@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import config from "../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
-	getAllMenuList,
+  getAllMenuList,
   deleteCategoryApi,
   getMenuList,
   saveCategoryApi,
@@ -62,14 +62,13 @@ export default function ItemListScreen({ route, navigation }) {
   );
   // End of addition
 
-  var {render, setRender} = useContext(AppStateContext)
+  var { render, setRender } = useContext(AppStateContext);
   // Added by Yuvraj Sahu on 5-4-2023
   // Reason - to show category list in dropdown
   const [menuSelected, setMenuSelected] = React.useState("");
   var [data, setData] = useState([]);
   React.useEffect(() => {
     const getMenus = async () => {
-      
       // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
       // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
       // if (response.menuList) {
@@ -87,24 +86,26 @@ export default function ItemListScreen({ route, navigation }) {
     };
     getMenus();
     // getTenant()
-    getAllmenus()
+    getAllmenus();
   }, [render]);
 
   // Added by Yuvraj Sahu on 7-4-2023
   // Reason - to get all menuus for filteration
-  var [itemObjects, setItemObjects] =useState([]);
+  var [itemObjects, setItemObjects] = useState([]);
   const getAllmenus = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    var response = await getAllMenuList (tenant)
+    var response = await getAllMenuList(tenant);
     if (response) {
       // setMenuObject((response.menuList).filter((dt) => dt.id == menuID )[0])
-      setItemObjects((response.itemList).filter((dt) => dt.category_id == categoryID ))
+      setItemObjects(
+        response.itemList.filter((dt) => dt.category_id == categoryID)
+      );
       // setRender(!render)
     }
-  }
-    // end of getting menus
+  };
+  // end of getting menus
 
   //   For upload image
   const pickImage = async () => {
@@ -149,11 +150,13 @@ export default function ItemListScreen({ route, navigation }) {
       if (response.msg) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
-        setRender(!render)
+        setRender(!render);
         // alert(JSON.stringify(response.categoryList))
-        var categories = (response.categoryList).filter((dt)=>dt.id == categoryID)
-        setCategoryObject(categories)
-        
+        var categories = response.categoryList.filter(
+          (dt) => dt.id == categoryID
+        );
+        setCategoryObject(categories);
+
         // navigate('login')
       }
       if (response.error) {
@@ -334,13 +337,35 @@ export default function ItemListScreen({ route, navigation }) {
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: "row",
+            flexDirection: "row-reverse",
             justifyContent: "space-around",
           }}
         >
-          <Button title="Edit category icon" onPress={pickImage} />
+          {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
+          {/* <Button title="Edit category icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
+          {/* End of addition */}
           {icon && (
-            <Image source={{ uri: icon }} style={{ width: 50, height: 40, borderRadius: 5 }} />
+            <Image
+              source={{ uri: icon }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
+            />
           )}
           {!icon && categoryObj[0].icon && (
             <Image
@@ -350,18 +375,18 @@ export default function ItemListScreen({ route, navigation }) {
           )}
         </View>
         <View style={styles.activeStatus}>
-        <Checkbox
-          // style={styles.checkbox}
-          value={isCategoryChecked}
-          onValueChange={setCategoryChecked}
-          color={isCategoryChecked ? "#4630EB" : undefined}
-        />
-        {/*Added by Yuvraj Sahu on 13-4-2023
+          <Checkbox
+            // style={styles.checkbox}
+            value={isCategoryChecked}
+            onValueChange={setCategoryChecked}
+            color={isCategoryChecked ? "#4630EB" : undefined}
+          />
+          {/*Added by Yuvraj Sahu on 13-4-2023
         Reason - to make pressable active status lable */}
-        <Pressable onPress={() => setCategoryChecked(!isCategoryChecked)}>
-        <Text style={styles.activeLable}>Category available</Text>
-        </Pressable>
-        {/*End of addition*/}
+          <Pressable onPress={() => setCategoryChecked(!isCategoryChecked)}>
+            <Text style={styles.activeLable}>Category available</Text>
+          </Pressable>
+          {/*End of addition*/}
         </View>
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
@@ -372,7 +397,12 @@ export default function ItemListScreen({ route, navigation }) {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 16-4-2023
+              // Reason - to re-design button
+              width: "40%",
+              borderRadius: 10,
+              alignSelf: "center",
+              // End of re-designing
             }}
           >
             <Text
@@ -410,11 +440,12 @@ export default function ItemListScreen({ route, navigation }) {
             </Text>
           </Pressable> */}
           {/* End of addition */}
-
         </View>
       </View>
       <View style={styles.categoryContainer}>
-        <Text style={styles.categoryLable}>Items inside {categoryObject[0].name}</Text>
+        <Text style={styles.categoryLable}>
+          Items inside {categoryObject[0].name}
+        </Text>
         {itemObjects.map((dt, id) => (
           <Pressable
             key={id}
@@ -443,7 +474,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",
-    paddingTop: 15
+    paddingTop: 15,
   },
   labels: {
     paddingHorizontal: 10,
@@ -455,7 +486,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   textdanger: {
     color: "#dc3545",
@@ -501,9 +532,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "93%",
     alignSelf: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   activeLable: {
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });

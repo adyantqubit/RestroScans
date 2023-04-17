@@ -13,7 +13,12 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import { saveMenuApi, updateMenuApi,getAllMenuList, deleteMenuApi } from "../api/Services";
+import {
+  saveMenuApi,
+  updateMenuApi,
+  getAllMenuList,
+  deleteMenuApi,
+} from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import { useForm, Controller } from "react-hook-form";
@@ -23,7 +28,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Checkbox from "expo-checkbox";
 import { useEffect } from "react";
 import { useContext } from "react";
-import {AppStateContext} from "../context/AppStateProvider";
+import { AppStateContext } from "../context/AppStateProvider";
 
 export default function CategoryListScreen({ route, navigation }) {
   /* Get the param */
@@ -266,11 +271,33 @@ export default function CategoryListScreen({ route, navigation }) {
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: "row",
+            // Modified by Yuvraj 17-4-2023
+            // reason - to design upload
+            flexDirection: "row-reverse",
+            // End of designing
             justifyContent: "space-around",
           }}
         >
-          <Button title="Edit menu icon" onPress={pickImage} />
+          {/* Added and modified by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button from icon */}
+          {/* <Button title="Edit menu icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
+          {/* End of aadition */}
           {icon && (
             <Image
               source={{ uri: icon }}
@@ -291,10 +318,10 @@ export default function CategoryListScreen({ route, navigation }) {
             onValueChange={setMenuChecked}
             color={isMenuChecked ? "#4630EB" : undefined}
           />
-           {/* Added by Yuvraj Sahu on 13-42023
+          {/* Added by Yuvraj Sahu on 13-42023
           Reason - to press active status in checkbox */}
           <Pressable onPress={() => setMenuChecked(!isMenuChecked)}>
-          <Text style={styles.activeLable}>Menu available</Text>
+            <Text style={styles.activeLable}>Menu available</Text>
           </Pressable>
           {/*End of addition*/}
         </View>
@@ -307,7 +334,12 @@ export default function CategoryListScreen({ route, navigation }) {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 16-4-2023
+              // Reason - to re-design button
+              width: "40%",
+              borderRadius: 10,
+              alignSelf: "center",
+              // End of re-designing
             }}
           >
             <Text
@@ -346,7 +378,6 @@ export default function CategoryListScreen({ route, navigation }) {
             </Text>
           </Pressable> */}
           {/* End of addition */}
-
         </View>
         <View style={styles.categoryContainer}>
           <Text style={styles.categoryLable}>
@@ -394,7 +425,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,

@@ -13,6 +13,7 @@ import {
   Button,
   Image,
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -127,14 +128,14 @@ export default function EditItemScreen({ route, navigation }) {
     }
     formData.append("name", formValues.name);
     if (formValues.price_half != null) {
-    formData.append("price_half", formValues.price_half);
+      formData.append("price_half", formValues.price_half);
     }
     if (formValues.price_full != null) {
-    formData.append("price_full", formValues.price_full);
+      formData.append("price_full", formValues.price_full);
     }
     formData.append("category", categorySelected);
     if (formValues.description != null) {
-    formData.append("description", formValues.description);
+      formData.append("description", formValues.description);
     }
     formData.append("is_active", isItemChecked);
     // Added by Yuvraj Sahu on 12-4-2023
@@ -460,11 +461,30 @@ export default function EditItemScreen({ route, navigation }) {
             // borderWidth: 1,
             width: "93%",
             alignSelf: "center",
-            flexDirection: "row",
+            flexDirection: "row-reverse",
             justifyContent: "space-around",
           }}
         >
-          <Button title="Edit item icon" onPress={pickImage} />
+          {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
+          {/* <Button title="Edit item icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
+          {/* End of addition */}
           {icon && (
             <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
           )}
@@ -485,7 +505,7 @@ export default function EditItemScreen({ route, navigation }) {
           {/*Added by Yuvraj Sahu on 13-4-2023
           Reason - to make pressable to active status*/}
           <Pressable onPress={() => setItemChecked(!isItemChecked)}>
-          <Text style={styles.activeLable}>Item available</Text>
+            <Text style={styles.activeLable}>Item available</Text>
           </Pressable>
           {/*End of addition*/}
         </View>
@@ -498,7 +518,12 @@ export default function EditItemScreen({ route, navigation }) {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 16-4-2023
+              // Reason - to re-design button
+              width: "40%",
+              borderRadius: 10,
+              alignSelf: "center",
+              // End of re-designing
             }}
           >
             <Text
@@ -564,7 +589,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,

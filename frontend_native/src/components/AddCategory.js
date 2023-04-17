@@ -50,10 +50,9 @@ export default function AddCategory() {
 
   var { render, setRender } = useContext(AppStateContext);
 
- // Added by Yuvraj Sahu on 14-4-2023
- // Reason - to re render the screen
-  useEffect(()=>{
-  },[render])
+  // Added by Yuvraj Sahu on 14-4-2023
+  // Reason - to re render the screen
+  useEffect(() => {}, [render]);
   // end of addition
 
   useEffect(() => {
@@ -251,6 +250,8 @@ export default function AddCategory() {
             justifyContent: "space-around",
           }}
         >
+          {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
           {/* <Button title="Add category icon" onPress={pickImage} /> */}
           <Pressable
             onPress={pickImage}
@@ -268,6 +269,7 @@ export default function AddCategory() {
           >
             <Icon name="upload" size={20} color="black" />
           </Pressable>
+          {/* End of addition */}
           {icon && (
             <Image
               source={{ uri: icon }}
@@ -299,7 +301,12 @@ export default function AddCategory() {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 16-4-2023
+              // Reason - to re-design button
+              width: "40%",
+              borderRadius: 10,
+              alignSelf: "center",
+              // End of re-designing
             }}
           >
             <Text
@@ -339,7 +346,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,

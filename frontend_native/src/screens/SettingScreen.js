@@ -21,7 +21,8 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function SettingScreen({ navigation }) {
-  var { render, setRender, settings, getSettingData } = useContext(AppStateContext);
+  var { render, setRender, settings, getSettingData } =
+    useContext(AppStateContext);
 
   // Added by Yuvraj Sahu on 13-4-2023
   // Reason - to re render page
@@ -37,7 +38,7 @@ export default function SettingScreen({ navigation }) {
     getSettingData();
   }, [render, isFocused]);
   // End of addition
-  
+
   // Added by Yuvraj Sahu on 11-4-2023
   // Reason - to set themes in dropdown
   const [theme, setTheme] = React.useState("");
@@ -53,7 +54,9 @@ export default function SettingScreen({ navigation }) {
     setThemeOption(
       settings.themeOptions.map(function (obj) {
         obj["key"] = obj["id"]; // Assign new key
-        obj["value"] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
+        obj[
+          "value"
+        ] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
         delete obj["id"];
         delete obj["background_color"];
         delete obj["heading_color"];
@@ -88,9 +91,24 @@ export default function SettingScreen({ navigation }) {
     // formData.append("heading_bgcolor", formValues.heading_bgcolor);
     // formData.append("subheading_bgcolor", formValues.subheading_bgcolor);
     // End of comment
-    formData.append("tax", formValues.tax);
+    /* Removed by Yuvraj Sahu on 16-4-2023
+      Reason - to remove tax and add cgst and sgst
+    */
+    // formData.append("tax", formValues.tax);
+    /* End of addition */
     formData.append("allow_half_price", allowHalfPrice);
     formData.append("app_theme", theme);
+    /**
+     * Added by Yuvraj Sahu on 16-4-2023
+     * Reason - to add new filsd in setting
+     */
+    formData.append("cgst", formValues.cgst);
+    formData.append("sgst", formValues.sgst);
+    formData.append("gstin", formValues.gstin);
+    formData.append("fssaino", formValues.fssaino);
+    /**
+     * End of addition
+     */
 
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -100,7 +118,7 @@ export default function SettingScreen({ navigation }) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
         setRender(!render);
-        navigation.navigate("HomeScreen");
+        // navigation.navigate("HomeScreen");
       }
       if (response.error) {
         Alert.alert("Error", response.error);
@@ -146,7 +164,32 @@ export default function SettingScreen({ navigation }) {
       //     ? settings.setting.subheading_bgcolor
       //     : "",
       // End of comment
-      tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
+
+      /*
+      commented and added by Yuvraj Sahu on 16-42023
+      Reason - to change tax to cgst and sgst
+       */
+      // tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
+      cgst:
+        settings.setting.cgst != undefined ? `${settings.setting.cgst}` : "",
+      sgst:
+        settings.setting.sgst != undefined ? `${settings.setting.sgst}` : "",
+      /*
+      End of comment and addition
+      */
+
+      /*
+     Added by Yuvraj Sahu on 16-4-2023
+     Reason - to add new field
+     */
+      gstin:
+        settings.setting.cgst != undefined ? `${settings.setting.gstin}` : "",
+      fssaino:
+        settings.setting.cgst != undefined ? `${settings.setting.fssaino}` : "",
+      /*
+       * End of addition
+       */
+
       allow_half_price:
         settings.setting.allow_half_price != undefined
           ? settings.setting.allow_half_price
@@ -395,19 +438,16 @@ export default function SettingScreen({ navigation }) {
           }}
         />
 
-        <View style={{ marginTop: 10 }}>
+        {/* Commented and added by Yuvraj Sahu on 16-4-2023
+        Reason - to replace tax with cgst and sgst */}
+        {/* <View style={{ marginTop: 10 }}>
           <Text style={styles.labels}>
-            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
             Tax
           </Text>
           <Controller
             control={control}
             name="tax"
             rules={{
-              // required: {
-              //   value: true,
-              //   message: "Tax is required",
-              // },
               pattern: {
                 value: /^(0?[1-9]|[1-9][0-9])$/,
                 message: "Enter valid number !",
@@ -437,7 +477,165 @@ export default function SettingScreen({ navigation }) {
               </>
             )}
           />
+        </View> */}
+        <View style={{ marginTop: 10 }}>
+          <Text style={styles.labels}>CGST</Text>
+          <Controller
+            control={control}
+            name="cgst"
+            rules={{
+              pattern: {
+                // value: /^(0?[1-9]|[1-9][0-9])$/,
+                value: /^[1-9]\d*(\.\d+)?$/,
+                message: "Enter valid number !",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter central tax"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="default"
+                  />
+                </View>
+
+                {errors?.cgst && (
+                  <Text style={styles.textdanger}>{errors?.cgst?.message}</Text>
+                )}
+              </>
+            )}
+          />
         </View>
+
+        <View style={{ marginTop: 10 }}>
+          <Text style={styles.labels}>SGST</Text>
+          <Controller
+            control={control}
+            name="sgst"
+            rules={{
+              pattern: {
+                // value: /^(0?[1-9]|[1-9][0-9])$/,
+                value: /^[1-9]\d*(\.\d+)?$/,
+                message: "Enter valid number!",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter state tax"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="default"
+                  />
+                </View>
+
+                {errors?.sgst && (
+                  <Text style={styles.textdanger}>{errors?.sgst?.message}</Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+        {/* End of comment and addition */}
+
+        {/* Added by Yuvraj Sahu on 16-4-2023
+        Reason - to add gstin no and fssaino */}
+        <View style={{ marginTop: 10 }}>
+          <Text style={styles.labels}>GSTIN</Text>
+          <Controller
+            control={control}
+            name="gstin"
+            rules={{
+              pattern: {
+                // value: /^(0?[1-9]|[1-9][0-9])$/,
+                value: /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/,
+                message: "Enter valid gst number!",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter gstin"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="default"
+                  />
+                </View>
+
+                {errors?.gstin && (
+                  <Text style={styles.textdanger}>
+                    {errors?.gstin?.message}
+                  </Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+
+        <View style={{ marginTop: 10 }}>
+          <Text style={styles.labels}>FSSAI NO</Text>
+          <Controller
+            control={control}
+            name="fssaino"
+            // rules={{
+            //   pattern: {
+            //     value: /^(0?[1-9]|[1-9][0-9])$/,
+            //     message: "Enter valid number!",
+            //   },
+            // }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter fssai number"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="default"
+                  />
+                </View>
+
+                {errors?.fssaino && (
+                  <Text style={styles.textdanger}>
+                    {errors?.fssaino?.message}
+                  </Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+        {/* End of addition */}
 
         <View style={styles.activeStatus}>
           <Checkbox

@@ -143,9 +143,13 @@ export default function AddItem() {
         name: icon,
         type: `image/${ext}`,
       });
-    } else {
+    } 
+    // Added by Yuvraj Sahu on 16-4-2023
+    // Reason - to give validation msg
+    if (!icon){
       setImgRequired(true);
     }
+    // End of addition 
     formData.append("name", formValues.name);
     formData.append("price_half", formValues.price_half);
     formData.append("price_full", formValues.price_full);
@@ -482,7 +486,12 @@ export default function AddItem() {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 16-4-2023
+              // Reason - to re-design button
+              width: "40%",
+              borderRadius: 10,
+              alignSelf: "center"
+              // End of re-designing
             }}
           >
             <Text
@@ -522,7 +531,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,

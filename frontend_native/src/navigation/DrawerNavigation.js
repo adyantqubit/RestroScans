@@ -10,7 +10,7 @@ import { colors } from "../Colours/globalColor";
 import MenuThemeScreen from "../screens/MenuThemeScreen";
 import { AddScreen } from "../screens/AddScreen";
 import { AddBannerItemScreen } from "../screens/AddBannerItemScreen";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 // import { getTenantApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 import SettingScreen from "../screens/SettingScreen";
@@ -39,6 +39,10 @@ export default function DrawerNavigation() {
           drawerLabel: "Home",
           title: "Home",
           headerStyle: {},
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => <Icon name="home" size={20} color="black" />,
+          // end of addition
         }}
       />
 
@@ -51,17 +55,37 @@ export default function DrawerNavigation() {
           headerStyle: {
             // backgroundColor: colors.backgroundTheme,
           },
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => <Icon name="list" size={20} color="black" />,
+          // end of addition
         }}
       />
       <Drawer.Screen
         name="Add"
         component={AddScreen}
-        options={{ drawerLabel: "Add Menu Item", title: "Add Menu Item" }}
+        options={{
+          drawerLabel: "Add Menu Item",
+          title: "Add Menu Item",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => (
+            <Icon name="upload" size={20} color="black" />
+          ),
+          // end of addition
+        }}
       />
       <Drawer.Screen
         name="PreviewMenuScreen"
         component={PreviewMenuScreen}
-        options={{ drawerLabel: "Preview Menu", title: "Preview Menu" }}
+        options={{
+          drawerLabel: "Preview Menu",
+          title: "Preview Menu",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => <Icon name="book" size={20} color="black" />,
+          // end of addition
+        }}
       />
       {/* Commented by Yuvraj Sahu on 13-4-2023
       Reason - to remove QR code from drawer */}
@@ -75,15 +99,31 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="Addbanners"
         component={AddBannerItemScreen}
-        options={{ drawerLabel: "Add Banner/Offer", title: "Add Banner/Offer" }}
+        options={{
+          drawerLabel: "Add Banner/Offer",
+          title: "Add Banner/Offer",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => (
+            <Icon name="ticket" size={20} color="black" />
+          ),
+          // end of addition
+        }}
       />
       {/* End of addition */}
       <Drawer.Screen
         name="OfferScreen"
         component={OfferScreen}
-        options={{ drawerLabel: "Banner/Offer", title: "Banner/Offer" }}
+        options={{
+          drawerLabel: "Banner/Offer",
+          title: "Banner/Offer",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => <Icon name="tags" size={20} color="black" />,
+          // end of addition
+        }}
       />
-      
+
       {/* <Drawer.Screen
         name="MenuThemeScreen"
         component={MenuThemeScreen}
@@ -94,7 +134,14 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="SettingScreen"
         component={SettingScreen}
-        options={{ drawerLabel: "Setting", title: "Setting" }}
+        options={{
+          drawerLabel: "Setting",
+          title: "Setting",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => <Icon name="gear" size={20} color="black" />,
+          // end of addition
+        }}
       />
       {/* End of addition */}
       {/* Added Yuvraj Sahu on 9-4-2023
@@ -102,7 +149,16 @@ export default function DrawerNavigation() {
       <Drawer.Screen
         name="OrdersScreen"
         component={OrdersScreen}
-        options={{ drawerLabel: "All Orders", title: "All Orders" }}
+        options={{
+          drawerLabel: "All Orders",
+          title: "All Orders",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => (
+            <Icon name="clipboard" size={20} color="black" />
+          ),
+          // end of addition
+        }}
       />
       {/* End of addition */}
     </Drawer.Navigator>

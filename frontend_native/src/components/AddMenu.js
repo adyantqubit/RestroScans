@@ -77,7 +77,10 @@ export default function AddMenu() {
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get tenant from localStorage
   var [tenant, setTenant] = useState("");
-  var [menuList, setMenuList] = useState([]);
+  // Commented by Yuvraj on 17-4-2023
+  // Reason - to remove 
+  // var [menuList, setMenuList] = useState([]);
+  // End of addition
   const getTenant = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     setTenant(JSON.parse(tenantInfo).tenant_name);
@@ -256,7 +259,12 @@ export default function AddMenu() {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 16-4-2023
+              // Reason - to re-design button
+              width: "40%",
+              borderRadius: 10,
+              alignSelf: "center"
+              // End of re-designing
             }}
           >
             <Text
@@ -270,11 +278,14 @@ export default function AddMenu() {
             </Text>
           </Pressable>
         </View>
-        {menuList.map((dt, id) => (
+        // Commented by Yuvraj Sahu on 17-4-2023
+        // Reason - to remove code 
+		{menuList.map((dt, id) => (
           <View key={id}>
             <Text>{dt.name}</Text>
           </View>
         ))}
+        // End of comment
       </View>
     </ScrollView>
   );
@@ -300,7 +311,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,
