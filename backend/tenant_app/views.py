@@ -48,9 +48,21 @@ def getBestproduct():
                     "item": itemObj
                 })
         except:
-            tempSort=[]        
-
-    sortedData = []
+            tempSort=[]   
+            
+    #Added by rohan-16/4/23
+    # reason- To get all admin selected best seller first this will go then after rated item will append
+    
+    bestProducts=Item.objects.filter(best_seller=True)
+    bests=[]
+    for best in bestProducts:
+        bests.append({
+            "item":best.id,
+            "rating":5.0
+        })
+    
+    sortedData = bests
+    # end of code - 16/4/23
     for item in tempSort:
         OneProductRating = OrderItem.objects.filter(item_id=item['item'])
         rating = []
@@ -465,6 +477,20 @@ def orderNoGeneration(tenant):
 # Added by :- Parineeta Gedam
 # Date :- 06-04-2023
 # Reason : method for save the cart item in order table
+def orderCreation(tenant,request):
+        
+        # Save cart item in Order table
+        order_no = orderNoGeneration(tenant)  
+        cartData = dict ()
+        
+        # setting order id , customer id (foreing key), and table no
+        cartData['order_id'] =  order_no
+        customer_id = CustomerDetail.objects.get(contact_number = request.data['contact_number'])
+        cartData['customer_id'] =  customer_id.id
+        cartData['table_number'] =  request.data['table_number']
+        
+        itemsPrice = []
+        allOffer=OfferItem.objects.all()
 
 
 def orderCreation(tenant, request):

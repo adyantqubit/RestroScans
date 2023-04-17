@@ -79,7 +79,11 @@ class Item(models.Model):
     # End of addition
     price_full=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
     price_half=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
-    description=models.CharField(max_length=80,null=True,blank=True,)
+    #commented and Modified by Rohan kansari-16/4/23
+    #reason- to increase description max length limitation
+    # description=models.CharField(max_length=80,null=True,blank=True,)
+    description=models.CharField(max_length=500,null=True,blank=True,)
+	# end of code modification- by Rohan kansari - on 16/4/23
 	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
     icon=models.ImageField(upload_to='images/item/', null=True)
@@ -211,8 +215,13 @@ class Setting(models.Model):
                                        MaxValueValidator(99)],default=0.0,verbose_name='CGST(%)', null=True, blank=True)
     sgst=models.FloatField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],default=0.0,verbose_name='SGST(%)', null=True, blank=True)
-    gstin=models.CharField(max_length=50,default="",verbose_name="GstIn")
-    fssaino=models.CharField(max_length=50,default="",verbose_name="FSSAI NO")
+    #commented and modified by rohankansari - on 16/4/23
+    #reason - not wsetting gst and fssai no mandatory
+    #gstin=models.CharField(max_length=50,default="",verbose_name="GstIn")
+    #fssaino=models.CharField(max_length=50,default="",verbose_name="FSSAI NO")
+    gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GstIn")
+    fssaino=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="FSSAI NO")
+    #end of code modification by rohan kansari -on 16/4/23
     # End of added code 08-04-2023
     # end of addition 14/4/23 
     

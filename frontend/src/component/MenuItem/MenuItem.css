@@ -27,17 +27,27 @@
 }
 /*adde by rohan -9/4/23 */
 .add_product{
-    width: 30%;
-    min-height: 20px;
+    width: 23%;
+    min-height: 15px;
     border: none;
     font-family: "Times New Roman";
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1.5px;
-    margin:0 15px;
-    padding: 4px 0;
+    margin:0 8px;
+    padding: 2px 12px;
+    float: right;
+    position: relative;
+    text-align: right;
+    top:-0px
+    /* top:0; */
 }
 
+.plus_icon{
+    position: absolute;
+    left: 6px;
+    padding-top: 0.5px;
+}
 /* added by rohan -6/4/23 */
 .heading_container{
     display: flex;
@@ -96,7 +106,19 @@
     padding: 0;
     /* margin: 0; */
     font-size: 13px;
+    /* top:-3px; */
     margin-bottom: 2%;
+    width: 90%;
+    min-height:21px;
+    position: relative;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+     -webkit-line-clamp: 1;
+    display: -webkit-box;
+    
+    -webkit-box-orient: vertical;
     /* align-items: center; */
     /* padding-bottom: 5%; */
 }
@@ -477,6 +499,11 @@
     font-size: 20px;
 }
 
+.cardItem{
+   display: flex;
+   margin:10px 0;
+}
+
 .react-multiple-carousel__arrow--left {
     left: -3.5% !important;
 }
@@ -739,10 +766,10 @@ a.ant-notification-notice-close {
 
 .searchIcon{
     position: absolute;
-    right: 0;
-    left: 0;
+    right: 50px;
+    /* left: 0; */
     margin: 0 auto;
-    font-size: 24px;
+    font-size: 18px;
     padding: 4px 8px;
     border-radius: 5px;
 }

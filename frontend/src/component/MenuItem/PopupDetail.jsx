@@ -94,7 +94,9 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             } else {
                 // if selected item is not found then it means it is new item with quantity so we have to push 
                 // item with entered quantity
-                cartTemp = [...cartTemp, cartDataCreate(quantityhalf, "Half Plate", item.discounted_full_price)]
+                //Added by rohan - 16/4/23
+                //reason- i am bymistake written full price in half price section
+                cartTemp = [...cartTemp, cartDataCreate(quantityhalf, "Half Plate", item.discounted_half_price)]
                 setCart(cartTemp)
                 notification("Successfully added to your list.")
             }
@@ -136,7 +138,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
         }
     }
 
-    
+
 
     // created by rohan - 9/4/23
     // reason - this will return current quantity of opened item only we have to pass the size the it fetch 

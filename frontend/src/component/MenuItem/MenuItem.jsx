@@ -23,7 +23,7 @@ import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
 import { MdRoomService } from "react-icons/md";
-import {GoSearch} from "react-icons/go";
+import { GoSearch } from "react-icons/go";
 
 // Import Swiper styles
 import "swiper/css";
@@ -36,7 +36,7 @@ import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
 import Loader from "../Loader/Loader";
 import PopupDetail from "./PopupDetail";
 import { GrFormAdd } from "react-icons/gr";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 
 function MenuItem() {
 
@@ -550,7 +550,16 @@ function MenuItem() {
   // End of added code 03-04-2023
 
 
-  const [searchVisible,setSearchVisiblity]=useState(false)
+  const [searchVisible, setSearchVisiblity] = useState(false)
+
+  // Added by rohan -16/4/23
+  // reason- To hide and unhide description
+  function toggleDescription(style){
+    if(style.display=="unset")
+    style.display=""
+    else
+    style.display="unset"
+  }
 
   return (
     <>
@@ -630,7 +639,7 @@ function MenuItem() {
         }
         <div id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
-          style={{background:colors.backgroundTheme}}
+          style={{ background: colors.backgroundTheme }}
         >
 
           {/* Added by :- Parineeta Gedam
@@ -684,13 +693,16 @@ function MenuItem() {
                 onChange={e => { setNewSearch(e.target.value.trimStart());} }
                 placeholder='Search by Menu, Categories & Items name' />
             </Input.Group> */}
-             <GoSearch className="searchIcon" style={{backgroundColor:colors.bannerColor,color:colors.backgroundTheme}} onClick={e=>setSearchVisiblity(!searchVisible)}/>
-             {searchVisible?
-             <>
-             <input  className="inputBoxSearch" type="search" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' />
-             <AiOutlineClose className="closeIcon" onClick={e=>setSearchVisiblity(!searchVisible)}/>
-             </>
-             :null}
+            {/* Added by rohan-16/4/23
+                Reason- designing new search ui */}
+            <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
+            {searchVisible ?
+              <>
+                <input className="inputBoxSearch" type="search" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' />
+                <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
+              </>
+              : null}
+              {/*End of Code */}
           </div>
           {/* Added by Rohan- 9/4/23  Reason- cart page */}
           <div className="icon_container">
@@ -725,6 +737,7 @@ function MenuItem() {
             <img
               src={nodataOffer}
               className='nodata_image' />
+
           </div>
           <h5 style={{ color: colors.subHeadingColor, textAlign: 'center', fontSize: '18px' }}>
             Currently no items are available</h5>
@@ -822,14 +835,14 @@ function MenuItem() {
                           }
                           // end of code - Rohan 
 
-                          return <div style={{ display: 'flex' }}  >
+                          return <div className="cardItem"  >
                             <div className="showimg_div" >
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
-                               {/* added by rohan- 13/4/23 - for best seller shown */}
-                               {bestProducts?.filter(b=>b.item==person.id).length>0?<div className="ribbon">Best</div>:null} 
-                            {/* end of addition - 13/4/23 */}
+                              {/* added by rohan- 13/4/23 - for best seller shown */}
+                              {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best</div> : null}
+                              {/* end of addition - 13/4/23 */}
                             </div>
 
                             {/* <div className="price_item_description_div"> */}
@@ -913,18 +926,20 @@ function MenuItem() {
                                     ) : null}
                                     {/* End of added code 10-04-2023 */}
 
-                                    & nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
+                                    {/* & nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span> */}
                                   </div>
+
+                                  
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
-                                  <div>
+                                  {/* <div>
                                     <button className="add_product" style={{
                                       color: colors.headingColor,
                                       backgroundColor: colors.headingBackgroundColor,
                                       borderRadius: '6px',
                                     }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
                                       />Add</button>
-                                  </div>
+                                  </div> */}
                                   {/* end of 9/4/23 */}
                                 </div>
 
@@ -996,18 +1011,35 @@ function MenuItem() {
                                         {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
                                       </>
                                     ) : null}
-                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span>
+                                    {/* &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span> */}
+                                  
+                                     {/* Modified by rohan- 16/4/23
+                                        Reason - Removing old description design and adding button and description together */}
+                                        &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                        <button className="add_product" style={{
+                                color: colors.bannerColor,
+                                backgroundColor: "transparent",
+                                border:`1px solid ${colors.bannerColor}`,
+                                borderRadius: '6px',
+                              }} onClick={e => { callPopupModel(person, fullprice, halfprice)  }}> 
+                              <AiOutlinePlus className="plus_icon"
+                              style={{
+                                color:colors.bannerColor
+                              }}/>Add</button>
+                                          {person.description}
+                                        </span>
+                                    {/* End of code - 16/4/23*/}  
                                   </div>
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
-                                  <div className="add_buttonContainer">
+                                  {/* <div className="add_buttonContainer">
                                     <button className="add_product" style={{
                                       color: colors.headingColor,
                                       backgroundColor: colors.headingBackgroundColor,
                                       borderRadius: '6px',
                                     }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}> <GrFormAdd
                                       />Add</button>
-                                  </div>
+                                  </div> */}
                                   {/* end of 9/4/23 */}
 
                                 </div>
@@ -1086,15 +1118,15 @@ function MenuItem() {
           {offerShow.length > 0 ?
             <>
               {offerShow.map((showdata, id) => (
-                <div style={{ display: 'flex' }} onClick={e => callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata))}>
+                <div className="cardItem" >
                   <div className="showimg_div" >
                     {console.log(totalFullPrice(showdata))}
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
-                     {/* added by rohan- 13/4/23 - for best seller shown */}
-                     
-                     {bestProducts?.filter(b=>b.item==showdata.id).length>0?<div className="ribbon">Best</div>:null} 
+                    {/* added by rohan- 13/4/23 - for best seller shown */}
+
+                    {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best</div> : null}
                     {/* end of addition - 13/4/23 */}
                   </div>
                   <div className="price_item_description_div">
@@ -1169,19 +1201,35 @@ function MenuItem() {
                           {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
                         </>
                       ) : null}
-                      &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span>
+                      {/* &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span> */}
 
+                        {/* Modified by rohan- 16/4/23
+                            Reason - Removing old description design and adding button and description together */}
+                            &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                            <button className="add_product" style={{
+                                color: colors.bannerColor,
+                                backgroundColor: "transparent",
+                                border:`1px solid ${colors.bannerColor}`,
+                                borderRadius: '6px',
+                              }} onClick={e => { callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata)) }}> 
+                              <AiOutlinePlus className="plus_icon"
+                              style={{
+                                color:colors.bannerColor
+                              }}/>Add</button>
+                              {showdata.item_description}
+                            </span>
+                        {/* End of code - 16/4/23*/}
                     </div>
                     {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
-                    <div className="add_buttonContainer">
+                    {/* <div className="add_buttonContainer">
                       <button className="add_product" style={{
                         color: colors.headingColor,
                         backgroundColor: colors.headingBackgroundColor,
                         borderRadius: '6px',
                       }} onClick={e => { callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata)) }}> <GrFormAdd
                         />Add</button>
-                    </div>
+                    </div> */}
                     {/* end of 9/4/23 */}
                   </div>
 
@@ -1316,15 +1364,15 @@ function MenuItem() {
                             halfprice = mainSectionHalfPrice(m);
                           }
                           // end of code
-                          return <div style={{ display: 'flex' }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}>
+                          return <div className="cardItem" >
                             <div className="showimg_div" >
 
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
                               {/* added by rohan- 13/4/23 - for best seller shown */}
-                               {bestProducts?.filter(b=>b.item==m.id).length>0?<div className="ribbon">Best</div>:null} 
-                            {/* end of addition - 13/4/23 */}
+                              {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best</div> : null}
+                              {/* end of addition - 13/4/23 */}
                             </div>
                             {(offerList.filter((data) => data.item_name === m.name)).length > 0 ?
                               <>
@@ -1398,20 +1446,39 @@ function MenuItem() {
                                         {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
                                       </>
                                     ) : null}
-                                    &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</span>
+                                    {/* &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</span> */}
 
+                                    {/* Modified by rohan- 16/4/23
+                                    Reason - Removing old description design and adding button and description together */}
+                                    &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                    
+                                    <button className="add_product" style={{
+                                        color: colors.bannerColor,
+                                        backgroundColor: "transparent",
+                                        border:`1px solid ${colors.bannerColor}`,
+                                        borderRadius: '6px',
+                                      }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> 
+                                      <AiOutlinePlus className="plus_icon"
+                                      style={{
+                                        color:colors.bannerColor
+                                      }}/>Add</button>
+                                      {m.description}
+                                    </span>
+                                    {/* End of code - 16/4/23*/}
                                   </div>
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
-                                  <div className="add_buttonContainer">
+                                  {/* <div className="add_buttonContainer">
                                     <button className="add_product" style={{
                                       color: colors.headingColor,
                                       backgroundColor: colors.headingBackgroundColor,
                                       borderRadius: '6px',
                                     }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> <GrFormAdd
                                       />Add</button>
-                                  </div>
+                                  </div> */}
                                   {/* end of 9/4/23 */}
+
+
                                 </div>
 
                               </>
@@ -1465,19 +1532,38 @@ function MenuItem() {
                                         {/* <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img> */}
                                       </>
                                     ) : null}
-                                    &nbsp; <div className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</div>
 
+                                    {/* &nbsp; <div className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</div> */}
+                                    
+                                     {/* Modified by rohan- 16/4/23
+                                    Reason - Removing old description design and adding button and description together */}
+                                    &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                    <button className="add_product" style={{
+                                        color: colors.bannerColor,
+                                        backgroundColor: "transparent",
+                                        border:`1px solid ${colors.bannerColor}`,
+                                        borderRadius: '6px',
+                                      }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> 
+                                      <AiOutlinePlus className="plus_icon"
+                                      style={{
+                                        color:colors.bannerColor
+                                      }}
+                                        />Add</button>
+                                      {m.description} 
+                                      To check button in not overlapping with text and text goes below button according to its height and if text is more then button height then text cover below button space also
+                                    </span>
+                                    {/* End of code - 16/4/23*/}
                                   </div>
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
-                                  <div className="add_buttonContainer">
+                                  {/* <div className="add_buttonContainer">
                                     <button className="add_product" style={{
                                       color: colors.headingColor,
                                       backgroundColor: colors.headingBackgroundColor,
                                       borderRadius: '6px',
                                     }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> <GrFormAdd
                                       />Add</button>
-                                  </div>
+                                  </div> */}
                                   {/* end of 9/4/23 */}
                                 </div>
 
@@ -1509,6 +1595,7 @@ function MenuItem() {
               <div id={id} className='all-menu'
                 onClick={
                   e => {
+                    if(searchVisible)
                     document.getElementById('search_box').value = "";
                     onMenuChange(id, data.id);
                     setSelected(id);
