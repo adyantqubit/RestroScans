@@ -1457,7 +1457,7 @@ function MenuItem() {
                                         backgroundColor: "transparent",
                                         border:`1px solid ${colors.bannerColor}`,
                                         borderRadius: '6px',
-                                      }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> 
+                                      }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> 
                                       <AiOutlinePlus className="plus_icon"
                                       style={{
                                         color:colors.bannerColor
@@ -1543,7 +1543,7 @@ function MenuItem() {
                                         backgroundColor: "transparent",
                                         border:`1px solid ${colors.bannerColor}`,
                                         borderRadius: '6px',
-                                      }} onClick={e => { callPopupModel(data, fullprice, halfprice) }}> 
+                                      }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> 
                                       <AiOutlinePlus className="plus_icon"
                                       style={{
                                         color:colors.bannerColor

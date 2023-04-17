@@ -14,6 +14,26 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+.OrdersBtn{
+    width: auto;
+    height: 40px;
+    padding: 4px 10px;
+    border: none;
+    margin-top: 10px;
+    position: relative;
+    font-family: "Times New Roman";
+    font-size: 16px;
+    /* padding-right: 30px; */
+    letter-spacing: 1.4px;
+    border-radius: 10px;
+    font-weight: 500;
+    background-color:transparent;
+    border: 1px solid black;
+}
+
+.titleSpan{
+    padding: 10px 0;
+}
 
 .card{
     position: relative;
@@ -34,7 +54,10 @@
     letter-spacing: 1.7px;
     font-weight: 600;
     text-align: center;
-    padding: 5px 0;
+    height: 40px;
+    /* padding: 15px 0; */
+    display: flex;
+    justify-content: space-around;
 }
 
 .imgContainer{
@@ -174,6 +197,7 @@
     justify-self: flex-end;
     position: fixed;
     bottom: 40px;
+    
     background-color: #fff;
     padding-top: 5px;
     /* z-index: 9; */
@@ -306,6 +330,7 @@ letter-spacing: 3px;
     width: 100%;
     display:flex;
     justify-content: center;
+    gap:15px;
 }
 
 .blankBtn{
@@ -352,6 +377,8 @@ letter-spacing: 3px;
 }
 .tableNoHeadingContainer{
     width: 35%;
+}
+.cartTableNoHeading{
     text-align: center;
 }
 .totalHeadingContainer{
