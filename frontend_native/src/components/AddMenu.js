@@ -78,7 +78,7 @@ export default function AddMenu() {
   // Reason - to get tenant from localStorage
   var [tenant, setTenant] = useState("");
   // Commented by Yuvraj on 17-4-2023
-  // Reason - to remove 
+  // Reason - to remove
   // var [menuList, setMenuList] = useState([]);
   // End of addition
   const getTenant = async () => {
@@ -263,7 +263,7 @@ export default function AddMenu() {
               // Reason - to re-design button
               width: "40%",
               borderRadius: 10,
-              alignSelf: "center"
+              alignSelf: "center",
               // End of re-designing
             }}
           >
@@ -278,14 +278,14 @@ export default function AddMenu() {
             </Text>
           </Pressable>
         </View>
-        // Commented by Yuvraj Sahu on 17-4-2023
-        // Reason - to remove code 
-		{menuList.map((dt, id) => (
+        {/* Commented by Yuvraj Sahu on 17-4-2023
+        Reason - to remove code  */}
+        {/* {menuList.map((dt, id) => (
           <View key={id}>
             <Text>{dt.name}</Text>
           </View>
-        ))}
-        // End of comment
+        ))} */}
+        {/* End of comment */}
       </View>
     </ScrollView>
   );
