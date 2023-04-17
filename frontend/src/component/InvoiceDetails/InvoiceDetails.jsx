@@ -14,7 +14,7 @@ import { updateRatingAndReviewApi } from '../../api/Services';
 export default function InvoiceDetails() {
 
   // get colors from context 
-  var { colors,setCart } = useContext(GlobalContext);
+  var { colors, setCart } = useContext(GlobalContext);
 
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
@@ -28,7 +28,7 @@ export default function InvoiceDetails() {
   // modified by :- Parineeta gedam on 15-04-2023
   const [orderItems, setOrderItem] = useState([])
   useEffect(() => {
-    window.onpopstate = () => { localStorage.removeItem('cart'); setCart([])}
+    window.onpopstate = () => { localStorage.removeItem('cart'); setCart([]) }
     setOrderItem(secureLocalStorage.getItem('orderItem'))
   }, [])
   // End of added code 09-04-2023
@@ -257,10 +257,20 @@ export default function InvoiceDetails() {
               <span className="invoice_second_sub_heading"> ? {orders.sub_total}</span>
             </div>
             <div className='invoice_second_data_container'>
-              <span className="invoice_sub_heading">Tax </span>
+              <span className="invoice_sub_heading">Cgst </span>
               {/* Added by rohan- 14/4/23 -------------------------------- */}
-            <span className="invoice_second_sub_heading">{orders.cgst+orders.sgst}</span>
-          </div>
+              {/* Modified by rohan- 16-04-2023 -------------------------------- */}
+              <span className="invoice_second_sub_heading"> ? {orders.cgst}</span>
+            </div>
+
+            {/* Modified by rohan- 16-04-2023 -------------------------------- */}
+
+            <div className='invoice_second_data_container'>
+              <span className="invoice_sub_heading">Sgst</span>
+              <span className="invoice_second_sub_heading"> ? {orders.sgst}</span>
+            </div>
+            {/* End of added code 16-04-2023 */}
+
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Total</span>
               <span className="invoice_second_sub_heading"> ? {orders.total}</span>
@@ -271,7 +281,11 @@ export default function InvoiceDetails() {
 
       <hr style={{ backgroundColor: "black", height: "1px", width: "94%", borderTop: "1px solid black" }}></hr>
 
-      <div className='invoice_btn_container'>
+      {/* commented by :- Parineeta Gedam
+          Date :- 16-04-2023
+          Reason :- now this functionality not showing 
+      */}
+      {/* <div className='invoice_btn_container'>
         <Button
           id="signBtn"
           type="primary"
@@ -287,7 +301,8 @@ export default function InvoiceDetails() {
         >
           Proceed to pay
         </Button>
-      </div>
+      </div> */}
+          {/* End of added code 16-04-2023 */}
     </>
   )
 }

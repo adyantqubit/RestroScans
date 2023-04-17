@@ -163,8 +163,6 @@ export default function Scan() {
                     <span className='scan_details_value'>{scanner.name}</span>
                   </div>
                   <div className='scan_details_1'>
-                    <span className='scan_details_heading'>Contact Number </span>
-                    <span className='scan_details_colon'>: </span>
                     <span className='scan_details_value'>{scanner.contact_number}</span>
                   </div>
                   {/* End of added code 15-04-2023 */}

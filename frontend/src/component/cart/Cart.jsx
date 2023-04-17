@@ -208,17 +208,76 @@ function RemoveItem({ removeProductIndex, currentIndex, setRemoveProductIndex })
 // Created on 8/4/23 - Rohan 
 // reason-This function return blank page ui 
 function BlankPage() {
+
+  {/* Added by :- Parineeta Gedam
+      Date :- 11-04-2023
+      Reason :- get data from localstroage.
+  */}
+
+  var orders = secureLocalStorage.getItem('order');
+
+  const goToOrderDetails = () => {
+   nav('/invoice')
+  };
+
+  {/* End of added code 06-04-2023 */ }
+
   const nav = useNavigate()
   const { colors } = useContext(GlobalContext)
-  return <div className={style.blankPageContainer}>
-    <div className={style.blankImgContainer}>
-      <img alt="" src={img} className={style.blankImg} />
-    </div>
-    <div className={style.blankText} style={{ color: colors.subHeadingColor }}>
-      No item is added currently !
-    </div>
-    <div className={style.blankBtnContainer} >
-      <button className={style.blankBtn} style={{ color: colors.subHeadingColor, background: colors.bannerColor }} onClick={e => nav(-1)}>Browse Menu</button>
-    </div>
-  </div>
+  return (
+    <>
+
+      {/* Added by :- Parineeta Gedam
+        Date :- 16-04-2023
+        reason :- show the orders data if customer wants to navigate to invoice page.
+    */}
+
+      { orders ? 
+      <>
+      <div className={style.orderDetailsContainer} onClick={e => goToOrderDetails() }>
+      <div className={style.cartTableHeadingContainer}>
+        <div className={style.cartDataContainer}>
+          <div className={style.orderIdHeadingContainer}>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>Order Id</span>
+          </div>
+          <div className={style.tableNoHeadingContainer}>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>Table Number</span>
+          </div>
+          <div className={style.totalHeadingContainer}>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>Total</span>
+          </div>
+        </div>
+      </div>
+      <hr class={style.horizontalLine}></hr>
+      <div className={style.cartTableHeadingContainer}>
+        <div className={style.cartDataContainer}>
+          <div className={style.orderIdHeadingContainer}>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.order_id}</span>
+          </div>
+          <div className={style.tableNoHeadingContainer}>
+            <span className={style.cartTableNoHeading} style={{ color: colors.subHeadingColor }}>{orders.table_number}</span>
+          </div>
+          <div className={style.totalHeadingContainer}>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.total}</span>
+          </div> 
+        </div>
+      </div>
+      </div>
+      </>
+      : null }
+
+      {/* End of added code 16-04-2023 */}
+      <div className={style.blankPageContainer}>
+        <div className={style.blankImgContainer}>
+          <img alt="" src={img} className={style.blankImg} />
+        </div>
+        <div className={style.blankText} style={{ color: colors.subHeadingColor }}>
+          No item is added currently !
+        </div>
+        <div className={style.blankBtnContainer} >
+          <button className={style.blankBtn} style={{ color: colors.subHeadingColor, background: colors.bannerColor }} onClick={e => nav(-1)}>Browse Menu</button>
+        </div>
+      </div>
+    </>
+  )
 }
