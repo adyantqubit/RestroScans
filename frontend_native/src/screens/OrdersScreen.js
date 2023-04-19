@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import Footer from '../../src/components/Footer/Footer'
+import { useIsFocused } from "@react-navigation/native";
 
 export default function OrdersScreen({ route, navigation }) {
 

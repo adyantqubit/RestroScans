@@ -195,9 +195,9 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  function goToOrderDetails(orderId) {
+  function goToOrderDetails(id,orderId) {
     // alert(orderId);
-    navigation.navigate("OrderItemsScreen", { orderID: orderId });
+    navigation.navigate("OrderItemsScreen", {id:id, orderID: orderId });
   }
   // Added by Om on 18-04-23
   // Reason : Add the print functionality
@@ -466,7 +466,7 @@ const printDoc = async () =>{
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id)}
+                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
                   >
                     <Text
                       style={{
@@ -519,7 +519,7 @@ const printDoc = async () =>{
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id)}
+                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
                   >
                     <Text
                       style={{
@@ -571,7 +571,7 @@ const printDoc = async () =>{
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id)}
+                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
                   >
                     <Text
                       style={{
