@@ -122,8 +122,14 @@ export default function RestaurantRegistrationScreen({
         navigate("LoginScreen");
         setRender(!render);
       }
+      // Added by Yuvraj Sahu on 19-4-2023
+      // reason - to show duplicate data error 
+      if (response.duplicate) {
+        Alert.alert("Error", response.duplicate);
+      }
       if (response.err) {
-        Alert.alert("Error", response.msg);
+        Alert.alert("Error", response.err)
+        // End of aadition
       }
     });
   };
@@ -781,7 +787,9 @@ export default function RestaurantRegistrationScreen({
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              borderRadius: 10,
+              width: 150,
+              alignSelf: "center"
             }}
           >
             <Text
@@ -814,13 +822,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,
@@ -855,7 +863,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 12,
     marginTop: 10,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   inputPassword: {
     paddingTop: 10,
@@ -863,8 +871,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingRight: 10,
     fontSize: 15,
-    borderRadius: 3,
+    borderRadius: 10,
     flex: 1,
+    height: 41
   },
   passIcon: {
     margin: 5,

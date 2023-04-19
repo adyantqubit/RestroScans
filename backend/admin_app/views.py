@@ -49,10 +49,10 @@ class RestaurantRegistartionView(APIView):
                 serializer.save()
                 return Response({'msg':'Successfully Saved'})
             else :
-                return Response({'err':'Data not save'})
+                return Response({'err':'Something went wrong'})
         except Exception as e:
             print(e)    
-            return Response({'msg':'Error'})
+            return Response({'duplicate':'Mobile number and email has been already saved'})
 """
 End of code addition
 """
@@ -88,7 +88,7 @@ class RestaurantLoginView(APIView):
         if restaurant.is_active==False:
             # response = Response()
             response.data = {
-                'error': 'Please wait for approval'
+                'notAproved': 'Please wait for approval'
             }
             return response
         # End of Modification
