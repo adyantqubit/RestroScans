@@ -24,6 +24,8 @@ import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
 import { MdRoomService } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
+import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -642,9 +644,12 @@ function MenuItem() {
           :
           <div style={{ height: '15vh', }}>
             {/* <h3 color="red">yupp</h3> */}
+            {/* modified by :- Parineeta Gedam on 19-04-2023 */}
             <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
-              src={nodataOffer}
+              // src={nodataOffer}
+              src={offer_comming_soon_img}
               alt="bydefault_img" />
+              {/* End of modified code on 19-04-2023 */}
           </div>
         }
         <div id="hide_search"
@@ -716,13 +721,13 @@ function MenuItem() {
           </div>
           {/* Added by Rohan- 9/4/23  Reason- cart page */}
           {/*added by rohan -18/4/23- to add functionality of subscription */}
-          {subscribePlan?.includes("order")?
-          <div className="icon_container">
-          <Link to="/cart">
-            <span className="selected_amount">{cart.length}</span>
-            <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
-          </Link>
-        </div>:null}
+          {subscribePlan?.includes("order") ?
+            <div className="icon_container">
+              <Link to="/cart">
+                <span className="selected_amount">{cart.length}</span>
+                <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
+              </Link>
+            </div> : null}
           {/* end of code  */}
         </div>
 
@@ -738,7 +743,7 @@ function MenuItem() {
           </div>
           : null}
 
-        <div id="offer_divv" className="when_offer_is_null" style={{ display: 'none', height: '41%' }}>
+        <div id="offer_divv" className="when_offer_is_null" style={{ display: 'none' }}>
           <span style={{ display: 'flex', padding: '1%', fontSize: '16px' }}>
             <span style={{ color: '#ffff9f', padding: '0', width: '89%', fontSize: '15px' }}>
             </span>
@@ -841,7 +846,7 @@ function MenuItem() {
                           // Reason - To get dicounted amount to push in detail popup model
                           var fullprice = person.price_full;
                           var halfprice = person.price_half;
-                          if (offerList.filter((data) => data.item_name === person.name).length > 0) {
+                          if (offerList.filter((data) => parseInt(data.id) === person.id).length > 0) {
                             fullprice = searchSectionFullPrice(person);
                             halfprice = searchSectionHalfPrice(person);
                           }
@@ -862,7 +867,7 @@ function MenuItem() {
                             {/* <h4 style={{ color: colors.subHeadingColor }}
                                     className="allitems_name"
                                   >{person.name}</h4> */}
-                            {(offerList.filter((data) => data.item_name === person.name)).length > 0 ?
+                            {(offerList.filter((data) => parseInt(data.id) === person.id)).length > 0 ?
                               <>
 
                                 <div className="price_item_description_div">
@@ -885,7 +890,7 @@ function MenuItem() {
                                   </div>
 
                                   <div className="price_description_container" >
-                                    <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
+                                    <h4 style={{ color: 'red', padding: '0', }}
                                       className="allitems_name">Offered price</h4>
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
@@ -923,12 +928,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -938,9 +943,21 @@ function MenuItem() {
                                     ) : null}
                                     {/* End of added code 10-04-2023 */}
 
-                                    {/* & nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span> */}
+                                    <span onClick={e => toggleDescription(e.currentTarget.style)} className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor ,padding:"0 5px" }}>
+                                      
+                                    {subscribePlan?.includes("order") ? <button className="add_product" style={{
+                                        color: colors.bannerColor,
+                                        backgroundColor: "transparent",
+                                        border: `1px solid ${colors.bannerColor}`,
+                                        borderRadius: '6px',
+                                      }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}>
+                                        <AiOutlinePlus className="plus_icon"
+                                          style={{
+                                            color: colors.bannerColor
+                                          }} />Add</button> : null}
+                                      {person.description} 
+                                      </span>
                                   </div>
-
                                   
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
@@ -1010,12 +1027,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1024,25 +1041,25 @@ function MenuItem() {
                                       </>
                                     ) : null}
                                     {/* &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{person.description}</span> */}
-                                  
-                                     {/* Modified by rohan- 16/4/23
-                                        Reason - Removing old description design and adding button and description together */}
-                                        &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                                        {/*added by rohan -18/4/23- to add functionality of subscription */}
 
-                                        {subscribePlan?.includes("order")?<button className="add_product" style={{
-                                color: colors.bannerColor,
-                                backgroundColor: "transparent",
-                                border:`1px solid ${colors.bannerColor}`,
-                                borderRadius: '6px',
-                              }} onClick={e => { callPopupModel(person, fullprice, halfprice)  }}> 
-                              <AiOutlinePlus className="plus_icon"
-                              style={{
-                                color:colors.bannerColor
-                              }}/>Add</button>:null}
-                                          {person.description}
-                                        </span>
-                                    {/* End of code - 16/4/23*/}  
+                                    {/* Modified by rohan- 16/4/23
+                                        Reason - Removing old description design and adding button and description together */}
+                                    &nbsp; <span className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                      {/*added by rohan -18/4/23- to add functionality of subscription */}
+
+                                      {subscribePlan?.includes("order") ? <button className="add_product" style={{
+                                        color: colors.bannerColor,
+                                        backgroundColor: "transparent",
+                                        border: `1px solid ${colors.bannerColor}`,
+                                        borderRadius: '6px',
+                                      }} onClick={e => { callPopupModel(person, fullprice, halfprice) }}>
+                                        <AiOutlinePlus className="plus_icon"
+                                          style={{
+                                            color: colors.bannerColor
+                                          }} />Add</button> : null}
+                                      {person.description}
+                                    </span>
+                                    {/* End of code - 16/4/23*/}
                                   </div>
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
@@ -1163,7 +1180,7 @@ function MenuItem() {
                     </div>
 
                     <div className="price_description_container" >
-                      <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
+                      <h4 style={{ color: 'red',}}
                         className="allitems_name">Offered price</h4>
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
@@ -1202,12 +1219,12 @@ function MenuItem() {
                                     */}
                       {showdata.item_type == 'Veg' ? (
                         <>
-                          <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                          <img src={vegIcon} style={{ width: '5%', height: '2%', marginTop:'2px' }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Nonveg' ? (
                         <>
-                          <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                          <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Other' ? (
@@ -1217,24 +1234,24 @@ function MenuItem() {
                       ) : null}
                       {/* &nbsp; <span className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{showdata.item_description}</span> */}
 
-                        {/* Modified by rohan- 16/4/23
+                      {/* Modified by rohan- 16/4/23
                             Reason - Removing old description design and adding button and description together */}
-                            &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                             {/*added by rohan -18/4/23- to add functionality of subscription */}
+                      &nbsp; <span className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                        {/*added by rohan -18/4/23- to add functionality of subscription */}
 
-                            {subscribePlan?.includes("order")?<button className="add_product" style={{
-                                color: colors.bannerColor,
-                                backgroundColor: "transparent",
-                                border:`1px solid ${colors.bannerColor}`,
-                                borderRadius: '6px',
-                              }} onClick={e => { callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata)) }}> 
-                              <AiOutlinePlus className="plus_icon"
-                              style={{
-                                color:colors.bannerColor
-                              }}/>Add</button>:null}
-                              {showdata.item_description}
-                            </span>
-                        {/* End of code - 16/4/23*/}
+                        {subscribePlan?.includes("order") ? <button className="add_product" style={{
+                          color: colors.bannerColor,
+                          backgroundColor: "transparent",
+                          border: `1px solid ${colors.bannerColor}`,
+                          borderRadius: '6px',
+                        }} onClick={e => { callPopupModel(showdata, totalFullPrice(showdata), totalHalfPrice(showdata)) }}>
+                          <AiOutlinePlus className="plus_icon"
+                            style={{
+                              color: colors.bannerColor
+                            }} />Add</button> : null}
+                        {showdata.item_description}
+                      </span>
+                      {/* End of code - 16/4/23*/}
                     </div>
                     {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
@@ -1375,7 +1392,7 @@ function MenuItem() {
                           // Reason - To get dicounted amount to push in detail popup model
                           var fullprice = m.price_full;
                           var halfprice = m.price_half;
-                          if ((offerList.filter((data) => data.item_name === m.name)).length > 0) {
+                          if ((offerList.filter((data) => parseInt(data.item_id) === m.id)).length > 0) {
                             fullprice = mainSectionFullPrice(m);
                             halfprice = mainSectionHalfPrice(m);
                           }
@@ -1389,8 +1406,9 @@ function MenuItem() {
                               {/* added by rohan- 13/4/23 - for best seller shown */}
                               {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best</div> : null}
                               {/* end of addition - 13/4/23 */}
+
                             </div>
-                            {(offerList.filter((data) => data.item_name === m.name)).length > 0 ?
+                            {(offerList.filter((data) => parseInt(data.item_id) === m.id)).length > 0 ?
                               <>
                                 <div className="price_item_description_div">
                                   <div className="price_description_container" >
@@ -1449,12 +1467,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
@@ -1466,18 +1484,18 @@ function MenuItem() {
 
                                     {/* Modified by rohan- 16/4/23
                                     Reason - Removing old description design and adding button and description together */}
-                                    &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                                    {/*added by rohan -18/4/23- to add functionality of subscription */}
-                                    {subscribePlan?.includes("order")? <button className="add_product" style={{
+                                    &nbsp; <span className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                      {/*added by rohan -18/4/23- to add functionality of subscription */}
+                                      {subscribePlan?.includes("order") ? <button className="add_product" style={{
                                         color: colors.bannerColor,
                                         backgroundColor: "transparent",
-                                        border:`1px solid ${colors.bannerColor}`,
+                                        border: `1px solid ${colors.bannerColor}`,
                                         borderRadius: '6px',
-                                      }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> 
-                                      <AiOutlinePlus className="plus_icon"
-                                      style={{
-                                        color:colors.bannerColor
-                                      }}/>Add</button>:null}
+                                      }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}>
+                                        <AiOutlinePlus className="plus_icon"
+                                          style={{
+                                            color: colors.bannerColor
+                                          }} />Add</button> : null}
                                       {m.description}
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1535,12 +1553,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
@@ -1550,23 +1568,23 @@ function MenuItem() {
                                     ) : null}
 
                                     {/* &nbsp; <div className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor }}>{m.description}</div> */}
-                                    
-                                     {/* Modified by rohan- 16/4/23
+
+                                    {/* Modified by rohan- 16/4/23
                                     Reason - Removing old description design and adding button and description together */}
-                                    &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                                    {/*added by rohan -18/4/23- to add functionality of subscription */}
-                                    {subscribePlan?.includes("order")?<button className="add_product" style={{
+                                    &nbsp; <span className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                      {/*added by rohan -18/4/23- to add functionality of subscription */}
+                                      {subscribePlan?.includes("order") ? <button className="add_product" style={{
                                         color: colors.bannerColor,
                                         backgroundColor: "transparent",
-                                        border:`1px solid ${colors.bannerColor}`,
+                                        border: `1px solid ${colors.bannerColor}`,
                                         borderRadius: '6px',
-                                      }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}> 
-                                      <AiOutlinePlus className="plus_icon"
-                                      style={{
-                                        color:colors.bannerColor
-                                      }}
-                                        />Add</button>:null}
-                                      {m.description} 
+                                      }} onClick={e => { callPopupModel(m, fullprice, halfprice) }}>
+                                        <AiOutlinePlus className="plus_icon"
+                                          style={{
+                                            color: colors.bannerColor
+                                          }}
+                                        />Add</button> : null}
+                                      {m.description}
                                     </span>
                                     {/* End of code - 16/4/23*/}
                                   </div>
@@ -1611,8 +1629,8 @@ function MenuItem() {
               <div id={id} className='all-menu'
                 onClick={
                   e => {
-                    if(searchVisible)
-                    document.getElementById('search_box').value = "";
+                    if (searchVisible)
+                      document.getElementById('search_box').value = "";
                     onMenuChange(id, data.id);
                     setSelected(id);
                   }

@@ -9,8 +9,8 @@ const Tab = createMaterialTopTabNavigator();
 export function AddBannerItemScreen() {
     return (
       <Tab.Navigator>
-        <Tab.Screen name="Banner" component={AddBanner} />
-        <Tab.Screen name="Banneritems" component={AddBannerItems} />
+        <Tab.Screen name="Banner/Offer" component={AddBanner} />
+        <Tab.Screen name="Banner/Offer-items" component={AddBannerItems} />
       </Tab.Navigator>
     );
   }

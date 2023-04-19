@@ -96,7 +96,11 @@ export default function MenuListScreen({ navigation }) {
               ))}
             </>
           ) : (
-            <Text>Currently no banners are listed</Text>
+            <View style={{flex:1,justifyContent: "center",alignItems: "center",height:600}}>
+              <Image source={require('../../assets/No_offer.jpg')}  style={styles.tinyLogo}/>
+
+            <Text style={{fontSize:14,marginTop:22,fontWeight:'bold'}}>Currently no banner/offer are listed</Text>
+       </View>
           )}
         </View>
         
@@ -137,5 +141,8 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 5,
   },
- 
+  tinyLogo: {
+    width: 390,
+    height: 150,
+  },
 });

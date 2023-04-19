@@ -100,6 +100,8 @@ export default function Context(props) {
         }
         const response = await postCheckPaymentStatus(order, tenantName);
             if (response.order) {
+                secureLocalStorage.removeItem('order')
+                secureLocalStorage.removeItem('invoice_detail')
                 secureLocalStorage.setItem('order',response.order)
                 secureLocalStorage.setItem('invoice_detail',response)
         }

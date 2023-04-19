@@ -135,7 +135,7 @@ export default function OfferItemsScreen({ route, navigation }) {
 
         deleteOfferApi(tenant, bannerId).then((response) => {
             if (response.msg) {
-                Alert.alert("Succesfull", response.msg);
+                Alert.alert("Successfull", response.msg);
                 setRender(!render)
                 navigation.pop()
             }
@@ -148,7 +148,7 @@ export default function OfferItemsScreen({ route, navigation }) {
     function showAlert1() {
         Alert.alert(
             'Confirmation',
-            'Are you sure to want delete this banner',
+            'Are you sure to delete this banner/offer',
             [
                 {
                     text: 'Cancel',
@@ -227,7 +227,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                         rules={{
                             required: {
                                 value: true,
-                                message: "Banner name is required",
+                                message: "Banner/Offer name is required",
                             },
                             //   pattern: {
                             //     value: /^(?!\s+$).*/,
@@ -270,7 +270,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                     }}
                 >
                     {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
-                    <Text>Banner image</Text>
+                    <Text>Banner/Offer image</Text>
                 </View>
                 <View
                     style={{
@@ -419,7 +419,7 @@ export default function OfferItemsScreen({ route, navigation }) {
 
                 </View>
                 <View style={styles.categoryContainer}>
-                    <Text style={styles.categoryLable}>Banner Items inside {bannerObject[0].name}</Text>
+                    <Text style={styles.categoryLable}>Banner/Offer Items inside {bannerObject[0].name}</Text>
                     {bannerItemObject.length > 0 ? (
                         <>
                             {bannerItemObject.map((setData, id) => (
@@ -440,7 +440,13 @@ export default function OfferItemsScreen({ route, navigation }) {
                             ))}
                         </>
                     ) : (
-                        <Text style={{ marginTop: 150 }}>No items are listed here</Text>
+                        // Modified by Om on 19-04-23
+                        <View  style={{height : 200,alignItems: "center",
+                        justifyContent: "center",
+                        alignSelf: 'center',}}>
+                        <Text >No items are listed here</Text>
+                        </View>
+                        // End of addtion
                     )}
                 </View>
             </View>

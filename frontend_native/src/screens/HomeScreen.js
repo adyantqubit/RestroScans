@@ -24,14 +24,22 @@ import { LinearGradient } from "expo-linear-gradient";
 import { getDashboardData, getDashboardDetails } from "../api/Services";
 import { SvgCssUri } from 'react-native-svg';
 import * as Print from 'expo-print'
+import Icon from "react-native-vector-icons/AntDesign";
+
 
 export default function HomeScreen({ navigation }) {
   const isFocused = useIsFocused();
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
-  const [todaysOrders, setTodaysOrders] = useState([]);
 
-  const [selectedPrinter, setSelectedPrinter] = React.useState();
+  /**
+   * Commented by - Ashish Dewangan on 19-04-2023
+   * Reason - No longer needed
+   */
+  // const [todaysOrders, setTodaysOrders] = useState([]);
+  /**
+   * End of comment
+   */
 
   /**
    * Commented and modified by - Ashish Dewangan on 15-04-2023
@@ -50,9 +58,11 @@ export default function HomeScreen({ navigation }) {
 
   /**
    * Added by -Ashish Dewangan on 19-04-2023
-   * Reason - To show new orders
+   * Reason - To show todays orders
    */
-  const [todaysNewOrders,setTodaysNewOrders]=useState([]);
+  const [todaysNewlyPlacedOrders, setTodaysNewlyPlacedOrders] = useState([]);
+  const [todaysPendingOrders, setTodaysPendingOrders] = useState([]);
+  const [todaysCompletedOrders, setTodaysCompletedOrders] = useState([]);
   /**
    * End of code addition by Ashish on 19-04-2025
    */
@@ -91,7 +101,6 @@ export default function HomeScreen({ navigation }) {
     ).tenant_name;
     const response = await getDashboardData(tenant);
     if (response) {
-      setTodaysOrders(response.todays_orders);
       setRevenueDetails(response.revenue_details);
       /**
        * Added by - Ashish Dewangan on 15-04-2023
@@ -110,7 +119,9 @@ export default function HomeScreen({ navigation }) {
        * Added by - Ashish Dewangan on 19-04-2023
        * Reason - To show todays new orders
        */
-      setTodaysNewOrders(response.todays_new_orders);
+      setTodaysNewlyPlacedOrders(response.todays_newly_placed_orders);
+      setTodaysPendingOrders(response.todays_pending_orders);
+      setTodaysCompletedOrders(response.todays_completed_orders);
       /**
        * End of code addition by Ashish Dewangan on 19-04-2023
        */
@@ -186,9 +197,9 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  function goToOrderDetails(orderId) {
+  function goToOrderDetails(id,orderId) {
     // alert(orderId);
-    navigation.navigate("OrderItemsScreen", { orderID: orderId });
+    navigation.navigate("OrderItemsScreen", {id:id, orderID: orderId });
   }
   // Added by Om on 18-04-23
   // Reason : Add the print functionality
@@ -207,28 +218,37 @@ export default function HomeScreen({ navigation }) {
 <html>
  
   <body style="text-align: center;">
-    
+  <span style="font-size: 90px; font-family: Helvetica Neue; font-weight: bold;">
+  ${userData.restaurant_name}
+</span>
     <img
-      src=http://192.168.215.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.28:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 90vw;" />
-      <h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
-      Adyant Softtech Pvt Ltd Raipur
-    </h1><h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
-    restroscans.com Scan menu
-  </h1><h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
+      <div>
+      <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+      Adyant Softtech Pvt. Ltd., Raipur
+    </h1><h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+    Scan menu
+  </h1>
+  <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <img src = '../../assets/No_offer.jpg'/>
+   restroscans.com
+</h1>
+  <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
   Table no :
 </h1>
+</div>
   </body>
 </html>
 `;
 
-const printDoc = async () =>{
-  await Print.printAsync({
-    html,
-  });
-};
-  
+  const printDoc = async () => {
+    await Print.printAsync({
+      html,
+    });
+  };
+
   // End of addition 
 
   return (
@@ -249,10 +269,15 @@ const printDoc = async () =>{
                 style={styles.restaurantImg}
               />
             </View> */}
-        {/* <View style={styles.restaurantDetail}>
-            <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
-            <Text style={styles.restaurantHeadline}>{userData.tag_line}</Text>
-          </View> */}
+
+        {/* Uncommentded by Om on 19-04-23
+            Reason: show the Restaurant name */}
+        <View style={styles.restaurantDetail}>
+          <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
+          {/* <Text style={styles.restaurantHeadline}>{userData.tag_line}</Text> */}
+        </View>
+        {/* End of Uncommentded code */}
+
         {/* End of code comment and modification by Ashish on 12-04-2023 */}
 
         {/* Commented and modified by - Ashish Dewangan on 12-04-2023
@@ -312,7 +337,7 @@ const printDoc = async () =>{
           alignSelf: 'center',
           // borderColor:'red',
           // borderWidth:1,
-          paddingTop: 12,
+          // paddingTop: 12,
           paddingBottom: 10,
           width: "100%",
           // height:'30%'
@@ -322,14 +347,29 @@ const printDoc = async () =>{
             width="180"
             height="180"
             viewBox="0 0 450 470"
-            uri="http://192.168.215.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+            uri="http://192.168.1.28:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
           // uri={scanner}
 
           />
-          <Text style={{ fontSize: 10, marginLeft: 12 }}>Adyant Softtech Pvt Ltd Raipur</Text>
-          <Text style={{ fontSize: 10, lineHeight: 12 }}>restroscans.com Scan menu</Text>
-          <Text style={{ fontSize: 10, lineHeight: 12 }}>Table no :</Text>
+          <View style={{
+            marginTop: -15, alignItems: "center",
+            justifyContent: "center",
+            alignSelf: 'center',
+          }}>
+            <Text style={{ fontSize: 10, }}>Adyant Softtech Pvt. Ltd., Raipur</Text>
+            <Text style={{ fontSize: 10, }}>Scan menu </Text>
+              <Text style={{ fontSize: 10, }}>
 
+               
+              <Icon name="earth" size={12} color="black" />
+
+              &nbsp;restroscans.com </Text>
+
+
+            <Text style={{ fontSize: 10, }}>
+
+              Table no: </Text>
+          </View>
 
         </View>
         <View></View>
@@ -426,9 +466,9 @@ const printDoc = async () =>{
 
         {/* Added by - Ashish Dewangan on 19-04-2023
             Reason - To show today's new  orders on dashboard(home screen) */}
-        {todaysNewOrders ? (
+        {todaysNewlyPlacedOrders ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Today's New Orders</Text>
+            <Text style={styles.todaysOrderContainerTitle}>Newly Placed Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
               <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
               <Text style={{ width: "13%", fontWeight: "bold" }}>
@@ -442,7 +482,7 @@ const printDoc = async () =>{
               </Text>
               <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
             </View>
-            {todaysNewOrders.map((order, index) => {
+            {todaysNewlyPlacedOrders.map((order, index) => {
               return (
                 <View key={index} style={styles.todaysOrderDataContainer}>
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
@@ -457,7 +497,7 @@ const printDoc = async () =>{
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id)}
+                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
                   >
                     <Text
                       style={{
@@ -478,10 +518,10 @@ const printDoc = async () =>{
 
 
         {/* Added by - Ashish Dewangan on 11-04-2023
-            Reason - To show today's orders on dashboard(home screen) */}
-        {todaysOrders ? (
+            Reason - To show today's pending orders on dashboard(home screen) */}
+        {todaysPendingOrders ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Today's Orders</Text>
+            <Text style={styles.todaysOrderContainerTitle}>Pending Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
               <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
               <Text style={{ width: "13%", fontWeight: "bold" }}>
@@ -495,7 +535,7 @@ const printDoc = async () =>{
               </Text>
               <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
             </View>
-            {todaysOrders.map((order, index) => {
+            {todaysPendingOrders.map((order, index) => {
               return (
                 <View key={index} style={styles.todaysOrderDataContainer}>
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
@@ -510,7 +550,7 @@ const printDoc = async () =>{
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id)}
+                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
                   >
                     <Text
                       style={{
@@ -528,6 +568,59 @@ const printDoc = async () =>{
           </View>
         ) : null}
         {/* End of code addition for show today's orders on dashboard(home screen) on 11-04-2023*/}
+
+        {/* Added by - Ashish Dewangan on 11-04-2023
+            Reason - To show today's Completed orders on dashboard(home screen) */}
+        {todaysCompletedOrders ? (
+          <View style={styles.todaysOrderContainer}>
+            <Text style={styles.todaysOrderContainerTitle}>Completed Orders</Text>
+            <View style={styles.todaysOrderHeadingContainer}>
+              <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
+              <Text style={{ width: "13%", fontWeight: "bold" }}>
+                Table No.
+              </Text>
+              <Text style={{ width: "22%", fontWeight: "bold" }}>
+                Order Status
+              </Text>
+              <Text style={{ width: "25%", fontWeight: "bold" }}>
+                Payment Status
+              </Text>
+              <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
+            </View>
+            {todaysCompletedOrders.map((order, index) => {
+              return (
+                <View key={index} style={styles.todaysOrderDataContainer}>
+                  <Text style={{ width: "25%" }}>{order.order_id}</Text>
+                  <Text style={{ width: "13%" }}>{order.table_number}</Text>
+                  <Text style={{ width: "22%" }}>{order.order_status}</Text>
+                  <Text style={{ width: "25%" }}>{order.payment_status}</Text>
+                  <Pressable
+                    key={index}
+                    style={{
+                      width: "15%",
+                      backgroundColor: colors.btnColor,
+                      borderRadius: 10,
+                      padding: 1,
+                    }}
+                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        color: "#FFFFFF",
+                      }}
+                    >
+                      View
+                    </Text>
+                  </Pressable>
+                </View>
+              );
+            })}
+          </View>
+        ) : null}
+        {/* End of code addition for show today's orders on dashboard(home screen) on 11-04-2023*/}
+
 
         {/* Commented by - Ashish Dewangan on 11-03-2023
             Reason - to Hide logout button from home screen */}
@@ -570,6 +663,7 @@ const styles = StyleSheet.create({
   },
   restaurantLable: {
     fontSize: fonts.title1,
+    fontWeight: 'bold'
   },
   restaurantHeadline: {
     fontSize: 15,

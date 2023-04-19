@@ -173,10 +173,18 @@ class OfferItemAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(OfferItemAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['offer_name'].widget.attrs['style'] = 'width: 20em;'
-        form.base_fields['item_name'].widget.attrs['style'] = 'width: 20em;'
+
+        # Modified by :- Parineeta Gedam on :- 19-04-2023
+        # form.base_fields['item_name'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['item_name'].widget.attrs['style'] = 'width: 30em;'
+        # End of added code on :- 19-04-2023
+
+        # added by :- Parineeta Gedam on :- 19-04-2023
+        form.base_fields['item_name'].label_from_instance = lambda inst: "{} : {}: {}".format(inst.name,inst.category.name,inst.category.menu)   
+        # End of added code
         return form
     # End of addition
-        
+
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
     # Commented by Om on 11-04-23 on 10-04-23

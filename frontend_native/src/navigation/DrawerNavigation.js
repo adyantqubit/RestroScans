@@ -1,5 +1,5 @@
 import React ,{useContext,useState} from "react";
-import { StyleSheet, ImageBackground ,Button,Alert,Pressable,Text} from "react-native";
+import { StyleSheet, ImageBackground ,Button,Alert,Pressable,Text,View} from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "../screens/HomeScreen";
 import MenuListScreen from "../screens/MenuListScreen";
@@ -52,14 +52,14 @@ export default function DrawerNavigation({ navigation }) { // Navigation added b
   function showAlert1() {
     Alert.alert(
         'Confirmation',
-        'Are you sure to want logout',
+        'Are you sure you want to log out?',
         [
             {
                 text: 'Cancel',
                 style: 'cancel',
             },
             {
-                text: 'OK',
+                text: 'Yes',
                 onPress: () => { logOut() }
             },
         ]
@@ -95,12 +95,17 @@ var logOut = async () => {
           headerStyle: {},
           // Added by Om on 18-04-23
           // Reason : Completer the logout funcitonality
+          // Modified by Om on 19-04-23 For change the logout style
           headerRight: () => (
-            <Button
+            <View style={{marginRight:10,borderRadius:12}} > 
+            <Text
               onPress={showAlert1}
-              title="Logout"
-              color="black"
-            />
+              style={{textDecorationLine:'underline',fontSize:15,fontWeight:'bold',color:'blue'}}
+              // title="Logout"
+              // color="#c39212"
+              // bor
+            >Logout</Text>
+            </View>
           ),
           // End of addition
 

@@ -59,12 +59,16 @@
    align-items: center;
    padding: 3%;
 }
+
+/* Modified by :- Parineeta Gedam on 19-04-2023 */
 .restaurant_logo{
-    border-radius: 100%;
+    /* border-radius: 100%; */
     width:64%;
     margin-top: 22%;
     /* border: 1px solid black; */
 }
+/* End of added code on 19-04-2023 */
+
 .restaurant_img_div {
     display: flex;
     align-items: center;

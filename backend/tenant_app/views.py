@@ -319,7 +319,7 @@ class OfferAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Banner added successfully"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Banner/Offer added successfully"},status=status.HTTP_201_CREATED) 
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
@@ -351,7 +351,7 @@ class OfferAPIView(APIView):
         category = Offer.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Successfully banner deleted"},200)
+            return Response({"msg":"Successfully banner/offer deleted"},200)
         return Response({"error":"error"}, 404)
     
 # End of addition
@@ -375,10 +375,10 @@ class OfferItemsAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Banner item added successfully"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Banner/Offer item added successfully"},status=status.HTTP_201_CREATED)
         # Modification by Om on 14-04-23
         # Reason : Chagne the error method
-        return Response({"error":"Banner with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
         # End of moodification
     # End of addition
 
@@ -397,7 +397,7 @@ class OfferItemsAPIView(APIView):
         category = OfferItem.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Successfully banner items deleted"},200)
+            return Response({"msg":"Successfully banner/offer items deleted"},200)
         return Response({"error":"error"}, 404)
 # End of addition
 
@@ -834,8 +834,11 @@ class updateOrdersAPIView(APIView):
             # added by :- Parineeta Gedam on 16-04-2023
             # reason :- to save tax on cgst and scgt
 
-            tax.cgst = 0
-            tax.sgst = 0
+            # Modified by :- Parineeta Gedam
+            # tax.cgst = 0
+            # tax.sgst = 0
+            orderId.cgst = 0
+            orderId.sgst = 0
             orderId.total = sum(itemsPrice)
 
             # End of commented code 16-04-2023
@@ -1161,20 +1164,37 @@ class DashboardAPI(APIView):
         #End of code modification on 15-04-2023
 
         # Added by - Ashish Dewangan on 19-04-2023
-        # Reason - To show todays new orders
-        todays_new_orders=Order.objects.filter(date__gte=today,order_status='Placed')
-        todays_new_orders_serializer=OrderSerializer(todays_new_orders, many=True)
-        # End of code addition
+        # Reason - To show todays new placed orders
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+        todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+        # End of code addition by Ashish Dewangan on 19-04-2023
 
-        todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
-        todays_orders_serializer=OrderSerializer(todays_orders, many=True)
+        # Commented and modified by - Ashish Dewangan on 19-04-2023
+        # Reason - to not show placed orders on todays pending orders
+        #todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
+        from django.db.models import Q
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+        todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+        #End of code modification by Ashish Dewangan on 19-04-2023
+
+        # Added by - Ashish Dewangan on 19-04-2023
+        # Reason - To show todays completed orders
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+        todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+        # End of code addition by Ashish Dewangan on 19-04-2023
+
         return Response({
-            
-            "todays_orders":todays_orders_serializer.data,
+            "todays_pending_orders":todays_pending_orders_serializer.data,
             "revenue_details":data,
+            
             # Added by - Ashish Dewangan on 19-04-2023
             # Reason - To show todays new orders
-            "todays_new_orders":todays_new_orders_serializer.data
+            "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
+            # End of code addition
+
+            # Added by - Ashish Dewangan on 19-04-2023
+            # Reason - To show todays new orders
+            "todays_completed_orders":todays_completed_orders_serializer.data
             # End of code addition
         })
     
@@ -1186,20 +1206,13 @@ class DashboardAPI(APIView):
 class UpdateOrderPaymentStatus(APIView):
     def put(self, request, tenant, orderID):
         orderObj = Order.objects.get(order_id = orderID)
-        print(orderObj.table_number)
-        arr = []
-        pendingOrderItems = OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").values()
-        items = pendingOrderItems
-        for i in pendingOrderItems :
-            arr.append(i)
-        print("pendingOrderItems Pre-------------",pendingOrderItems)
-        if request.data["order_status"] != "Placed" :
-            OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Completed")
-        print("pendingOrderItems Post-------------",items)
-        serializedData = OrderSerializer(orderObj,data=request.data, partial=True)
+        if request.data["order_status"] == "Confirm" :
+            OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Confirm")
+        serializedData = OrderSerializer(orderObj,request.data, partial=True)
         if serializedData.is_valid(raise_exception=True):
-            # if request.data["order_status"] != "Placed" :
             serializedData.save()
-            return Response({"success":"Status updated", "pendingItems": arr},status=status.HTTP_201_CREATED)
+            orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
+            orderItemSerializer=OrderItemSerializer(orderItems, many=True)
+            return Response({"success":"Status updated","order_items":orderItemSerializer.data},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition

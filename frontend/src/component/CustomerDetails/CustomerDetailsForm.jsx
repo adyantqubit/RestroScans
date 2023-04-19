@@ -135,7 +135,9 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   ]}
                   hasFeedback
                 >
-                  <Input allowClear />
+                  <Input 
+                  // allowClear 
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -155,7 +157,9 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   ]}
                   hasFeedback
                 >
-                  <Input allowClear />
+                  <Input 
+                  // allowClear 
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -164,7 +168,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   rules={[
                     {
                       required: true,
-                      message: "Please enter your valid contact number",
+                      message: "Please enter valid contact number",
                     },
                     () => ({
                       validator(_, value) {
@@ -172,11 +176,11 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                           return Promise.reject();
                         }
                         if (isNaN(value)) {
-                          return Promise.reject("Contact has to be a number.");
+                          return Promise.reject("Contact has to be in digits.");
                         }
                         if (value.length < 10) {
                           return Promise.reject(
-                            "Contact number can't be less than 10 digits"
+                            "Contact number should be in 10 digits"
                           );
                         }
                         if (value.length > 10) {
@@ -190,7 +194,9 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   ]}
                   hasFeedback
                 >
-                  <Input maxLength={10} allowClear />
+                  <Input maxLength={10} 
+                  // allowClear 
+                  />
                 </Form.Item>
                 <Form.Item>
                   <Form.Item
@@ -204,7 +210,9 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                     ]}
                     hasFeedback
                   >
-                    <Input allowClear />
+                    <Input 
+                    // allowClear 
+                    />
                   </Form.Item>
                 </Form.Item>
 
@@ -220,11 +228,12 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                         backgroundColor: colors.bannerColor,
                         color: colors.backgroundTheme,
                         border: "none",
-                        width: "80%",
+                        // width: "80%",
                       }}
                     >
                       {/* Check invoice */}
-                      Place order
+                      {/* Place order */}
+                      Place Order
                     </Button>
                   </Form.Item>
                 </div>

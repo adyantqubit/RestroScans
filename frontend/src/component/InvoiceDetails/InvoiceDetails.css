@@ -126,6 +126,7 @@ Reason :- Invoice css */
     width: 50%;
     word-wrap: break-word;
     margin-left: 5px;
+    text-align: center;
 }
 
 .invoice_qty_container {
