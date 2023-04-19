@@ -1206,20 +1206,13 @@ class DashboardAPI(APIView):
 class UpdateOrderPaymentStatus(APIView):
     def put(self, request, tenant, orderID):
         orderObj = Order.objects.get(order_id = orderID)
-        print(orderObj.table_number)
-        arr = []
-        pendingOrderItems = OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").values()
-        items = pendingOrderItems
-        for i in pendingOrderItems :
-            arr.append(i)
-        print("pendingOrderItems Pre-------------",pendingOrderItems)
-        if request.data["order_status"] != "Placed" :
-            OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Completed")
-        print("pendingOrderItems Post-------------",items)
-        serializedData = OrderSerializer(orderObj,data=request.data, partial=True)
+        if request.data["order_status"] == "Confirm" :
+            OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Confirm")
+        serializedData = OrderSerializer(orderObj,request.data, partial=True)
         if serializedData.is_valid(raise_exception=True):
-            # if request.data["order_status"] != "Placed" :
             serializedData.save()
-            return Response({"success":"Status updated", "pendingItems": arr},status=status.HTTP_201_CREATED)
+            orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
+            orderItemSerializer=OrderItemSerializer(orderItems, many=True)
+            return Response({"success":"Status updated","order_items":orderItemSerializer.data},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition

@@ -371,7 +371,11 @@ Reason - To store Order Item
 # Modified by :- Parineeta Gedam on 17-04-2023
 ITEM_STATUS = (
     ("Pending", "Pending"),
-    ("Completed", "Completed"),
+    # Commented and modified by - Ashish Dewangan on 19-04-2023
+    # Reason - To have confirm status instead of completed for order item
+    # ("Completed", "Completed"),
+    ("Confirm", "Confirm"),
+    # End of code modification by Ashish Dewangan on 19-04-2023 
 )
 
 class OrderItem(models.Model):

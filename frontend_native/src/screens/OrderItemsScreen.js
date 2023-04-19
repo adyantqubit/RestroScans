@@ -9,6 +9,7 @@ import { AppStateContext } from "../context/AppStateProvider";
 import { ScrollView } from "react-native-gesture-handler";
 import { SelectList } from "react-native-dropdown-select-list";
 import { colors } from "../Colours/globalColor";
+import * as Print from "expo-print";
 
 export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender } = useContext(AppStateContext);
@@ -71,7 +72,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   }
   // Modified by Yuvraj Sahu on 18-4-2023
   // Reason - to change status name
-  var d = orderDetail.order_status
+  var d = orderDetail.order_status;
   var orderStatusData = [
     { key: "Placed", value: "Placed" },
     { key: "Confirm", value: "Confirm" },
@@ -113,50 +114,156 @@ export default function OrderItemsScreen({ route, navigation }) {
     }
   };
 
-  // alert(amount.totalPrice);
+  /**
+   * Added by - Ashish Dewangan on 19-04-2023
+   * Reason - To print order items for kitchen whenever order status is changed by admin to confirm
+   */
+  var str = "";
+  var html = "";
 
-	// Added by Yuvraj Sahu on 17-4-2023
-	// Reason - to update order and payment status
-	{/**
-	* This method is created for API calling to update the order and payment status
-	*/}
-  const handleUpdate = async() => {
+  const printDoc = async () => {
+    await Print.printAsync({
+      html,
+    });
+  };
+  /**
+   * End of code addition by Ashish Dewangan on 19-04-2023
+   */
+
+  // Added by Yuvraj Sahu on 17-4-2023
+  // Reason - to update order and payment status
+  {
+    /**
+     * This method is created for API calling to update the order and payment status
+     */
+  }
+
+  const handleUpdate = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    var status = {order_status: orderStatusSelected, payment_status: paymentStatusSelected}
+
+    var status = {
+      order_status: orderStatusSelected,
+      payment_status: paymentStatusSelected,
+    };
+
+    /**
+     * Added by - Ashish Dewangan on 19-04-2023
+     * Reason - To print pending order items for kitchen whenever order status is changed by admin to confirm
+     */
+    str = `<div style="display:flex;flex-direction:column;width=100%;border-bottom:1px solid black;">
+      <div style="display:flex;flex-direction:row;width=100%;">
+        <div style="width:30%;text-align:left;">Order No </div><div>:  ${orderDetail.order_id}</div>
+      </div>
+      <div style="display:flex;flex-direction:row;width=100%;">
+        <div style="width:30%;text-align:left;">Table No </div><div>:  ${orderDetail.table_number}</div>
+      </div>
+      <div style="display:flex;flex-direction:row;width=100%;">
+        <div style="width:30%;text-align:left;">Name </div><div>:  ${customerDetail.name}</div>
+      </div>
+      <div style="display:flex;flex-direction:row;width=100%;">
+        <div style="width:30%;text-align:left;">Email </div><div>:  ${customerDetail.email}</div>
+      </div>
+      <div style="display:flex;flex-direction:row;width=100%;">
+        <div style="width:30%;text-align:left;">Contact No </div><div>:  ${customerDetail.contact_number}</div>
+      </div>
+    </div>
+    
+    <div style="width:100%;display:flex;flex-direction:row;border-bottom:1px solid black;">
+      <div style="width:70%;font-weight:bold;text-align:left;">Item</div>
+      <div style="width:30%;font-weight:bold;">Quantity</div>
+    </div>`;
+    for (var i = 0; i < orderItems.length; i++) {
+      if (orderItems[i].item_status == "Pending") {
+        str =
+          str +
+          `<div style="width:100%;display:flex;flex-direction:row;">
+                  <div style="width:70%;text-align:left;">${orderItems[i].item} (${orderItems[i].serving_size})</div>
+                  <div style="width:30%;">${orderItems[i].quantity}</div>
+                </div>`;
+      }
+    }
+    str = str + `</div>`;
+    html = `
+    <html>
+      <body style="text-align: center;">
+          <h1 >
+          ${str}
+        </h1>
+      </body>
+    </html>
+    `;
+    if (orderStatusSelected == "Confirm") {
+      printDoc();
+    }
+    /**
+     * End of code addition by Ashish Dewangan on 19-04-2023
+     */
+
     var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
     if (response.success) {
-      // Alert.alert("Updated", "Status is updated")
-      Alert.alert("aaaaaaaaaaaaaaaa"+JSON.stringify(response.pendingItems))
+      /**
+       * Added by - Ashish Dewangan on 19-04-2023
+       * Reason - To set latest status of items inside the order
+       */
+      setOrderItems(response.order_items);
+      Alert.alert("Order Updated");
+      /**
+       * End of code addition by Ashish Dewangan on 19-04-2023
+       */
     }
-  }
+  };
   // End of addition
-
-
 
   return (
     <ScrollView>
       <View style={{ padding: 10 }}>
         <View>
-        <Text style={{marginTop: 5}}><Text>Order ID</Text> : {orderDetail.order_id}</Text>
-        <Text style={{marginTop: 5}}><Text>Table No.</Text> : {orderDetail.table_number}</Text>
-          <Text style={{marginTop: 5}}><Text>Name</Text> : {customerDetail.name}</Text>
-          {customerDetail.email && <Text style={{marginTop: 5}}><Text>Email</Text> : {customerDetail.email}</Text>}
-          <Text style={{marginTop: 5}}><Text>Phone</Text> : {customerDetail.contact_number}</Text>
+          <Text style={{ marginTop: 5 }}>
+            <Text>Order ID</Text> : {orderDetail.order_id}
+          </Text>
+          <Text style={{ marginTop: 5 }}>
+            <Text>Table No.</Text> : {orderDetail.table_number}
+          </Text>
+          <Text style={{ marginTop: 5 }}>
+            <Text>Name</Text> : {customerDetail.name}
+          </Text>
+          {customerDetail.email && (
+            <Text style={{ marginTop: 5 }}>
+              <Text>Email</Text> : {customerDetail.email}
+            </Text>
+          )}
+          <Text style={{ marginTop: 5 }}>
+            <Text>Phone</Text> : {customerDetail.contact_number}
+          </Text>
         </View>
         {orderItems.length > 0 ? (
           <>
             <View style={styles.itemHeadingContainer}>
               <Text style={styles.itemContainer}>Item</Text>
               <Text style={styles.qtyContainer}>Qty</Text>
+              {/* Added by - Ashish Dewangan on 19-04-2023
+                  Reason - To show item status */}
+              <Text style={styles.itemStatusContainer}>Status</Text>
+              {/* End of code addition by Ashish on 19-04-2023 */}
               <Text style={styles.costContainer}>Cost</Text>
             </View>
             {orderItems.map((orderItem, id) => (
               <View key={id} style={styles.tableContainer}>
-                <Text style={styles.itemContainer}>{orderItem.item} ({orderItem.serving_size})</Text>
+                <Text style={styles.itemContainer}>
+                  {orderItem.item} ({orderItem.serving_size})
+                </Text>
                 <Text style={styles.qtyContainer}>{orderItem.quantity}</Text>
-                <Text style={styles.costContainer}>₹ {orderItem.quantity * orderItem.price}</Text>
+                {/* Added by - Ashish Dewangan on 19-04-2023
+                  Reason - To show item status */}
+                <Text style={styles.itemStatusContainer}>
+                  {orderItem.item_status}
+                </Text>
+                {/* End of code addition by Ashish on 19-04-2023 */}
+                <Text style={styles.costContainer}>
+                  ₹ {orderItem.quantity * orderItem.price}
+                </Text>
               </View>
             ))}
           </>
@@ -198,55 +305,55 @@ export default function OrderItemsScreen({ route, navigation }) {
         </View>
       </View>
       <View style={styles.statusContainer}>
-        <View style={{marginTop: 20}}>
-        <View style={styles.orderStatusContainer}>
-          <Text>Order status</Text>
-          <SelectList
-            setSelected={setOrderStatus}
-            data={orderStatusData}
-            search={false}
-            dropdownStyles={{
-              // width: "93%",
-              alignSelf: "center",
-              marginTop: 1,
-              height: 125,
-            }}
-            boxStyles={{
-              // width: "93%",
-              alignSelf: "center",
-              borderRadius: 5,
-              borderColor: "black",
-              // marginTop: 10,
-            }}
-            //override default styles
-            defaultOption={{
-              key: orderDetail.order_status,
-              value: orderDetail.order_status,
-            }}
-          />
-        </View>
-        <View style={styles.orderStatusContainer}>
-          <Text>Payment status</Text>
-          <SelectList
-            setSelected={setPaymentStatus}
-            data={paymentStatusData}
-            search={false}
-            dropdownStyles={{
-              alignSelf: "center",
-              marginTop: 1,
-              height: 100,
-            }}
-            boxStyles={{
-              alignSelf: "center",
-              borderRadius: 5,
-              borderColor: "black",
-            }}
-            defaultOption={{
-              key: orderDetail.payment_status,
-              value: orderDetail.payment_status,
-            }}
-          />
-        </View>
+        <View style={{ marginTop: 20 }}>
+          <View style={styles.orderStatusContainer}>
+            <Text>Order status</Text>
+            <SelectList
+              setSelected={setOrderStatus}
+              data={orderStatusData}
+              search={false}
+              dropdownStyles={{
+                // width: "93%",
+                alignSelf: "center",
+                marginTop: 1,
+                height: 125,
+              }}
+              boxStyles={{
+                // width: "93%",
+                alignSelf: "center",
+                borderRadius: 5,
+                borderColor: "black",
+                // marginTop: 10,
+              }}
+              //override default styles
+              defaultOption={{
+                key: orderDetail.order_status,
+                value: orderDetail.order_status,
+              }}
+            />
+          </View>
+          <View style={styles.orderStatusContainer}>
+            <Text>Payment status</Text>
+            <SelectList
+              setSelected={setPaymentStatus}
+              data={paymentStatusData}
+              search={false}
+              dropdownStyles={{
+                alignSelf: "center",
+                marginTop: 1,
+                height: 100,
+              }}
+              boxStyles={{
+                alignSelf: "center",
+                borderRadius: 5,
+                borderColor: "black",
+              }}
+              defaultOption={{
+                key: orderDetail.payment_status,
+                value: orderDetail.payment_status,
+              }}
+            />
+          </View>
         </View>
       </View>
       <View style={styles.btns}>
@@ -294,7 +401,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
-    marginTop: 20
+    marginTop: 20,
   },
   totalBorder: {
     borderBottomColor: "black",
@@ -333,16 +440,27 @@ const styles = StyleSheet.create({
   // Added by Yuvraj Sahu on 17-4-2023
   // Reason - to design table
   itemContainer: {
-    width: "50%"
+    width: "45%",
   },
   qtyContainer: {
     width: "10%",
-    textAlign: "center"
+    textAlign: "center",
   },
+  /**
+   * Added by - Ashish Dewangan on 19-04-2023
+   * Reason - To have css style for item status
+   */
+  itemStatusContainer: {
+    width: "20%",
+    textAlign: "center",
+  },
+  /**
+   * End of code addition by Ashish Dewangan on 19-04-2023
+   */
   costContainer: {
-    width: "40%",
+    width: "25%",
     display: "flex",
-    textAlign: "right"
-  }
+    textAlign: "right",
+  },
   // End of table design
 });
