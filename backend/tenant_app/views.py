@@ -23,9 +23,27 @@ class TenantAPIView(APIView):
         visitCount.count=visitCount.count+1
         visitCount.save()
         tenantListSerializer=TenantListSerializer(tenant)
+        
+        
+        # Added by rohan - 18/4/23
+        # reason - to save send all subscribe features
+        provided_features=[]
+        if tenantListSerializer.data['Subscribe_plan'] is not None:
+          plan= Plans.objects.get(id=tenant.Subscribe_plan.id)
+          features=PlannedFeatures.objects.filter(plan_selected=plan)
+          for feature in features:
+              provided_features.append(feature.feature_selected.feature_name)
+              
+        else:
+            provided_features.append("menu view")   
+           
+        print("features----------------------------",provided_features) 
+        
+        # End of code - Rohan - 18/4/23  
         return Response({
             "msg":"success",
-            "tenantDetails":tenantListSerializer.data
+            "tenantDetails":tenantListSerializer.data,
+            "features_provided":provided_features
             })
 # End of addition
 

@@ -109,6 +109,7 @@
     /* top:-3px; */
     margin-bottom: 2%;
     width: 90%;
+    line-height: 20px;
     min-height:21px;
     position: relative;
     word-break: break-all;
@@ -279,9 +280,9 @@
     border-radius: 2%;
     /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
     /* added by Rohan -9/4/23*/
-    width: 70%;
+    width: 100%;
     margin: 0 2.5%;
-    /* position: relative; */
+    position: relative;
     /* end of code -9/4/23 */
      /* End of added code 05-04-2023 */
 }
@@ -770,7 +771,7 @@ a.ant-notification-notice-close {
 
 .searchIcon{
     position: absolute;
-    right: 50px;
+    right: 0px;
     /* left: 0; */
     margin: 0 auto;
     font-size: 18px;
@@ -780,11 +781,11 @@ a.ant-notification-notice-close {
 
 .inputBoxSearch{
     position: absolute;
-    width: 98%;
-    height: 38px;
+    width: 100%;
+    height: 30px;
     left:0;
     top: 0;
-    margin:0 1%;
+    /* margin:0 1%; */
     z-index: 99;
     background-color: #ededed;
 }

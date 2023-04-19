@@ -57,7 +57,12 @@
     height: 40px;
     /* padding: 15px 0; */
     display: flex;
-    justify-content: space-around;
+    padding: 0 6%;
+    top:0;
+    justify-content: space-between;
+    /* position: sticky; */
+    
+
 }
 
 .imgContainer{

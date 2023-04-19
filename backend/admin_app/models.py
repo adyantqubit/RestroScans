@@ -1,6 +1,24 @@
 from django.db import models
 from tenant_schemas.models import TenantMixin
 
+#Added by Rohan Kansari- 16/4/23
+# Reason - To add plan Subcribtion feature where all feature is allow according to plan
+
+# In this model, we 
+class Plans(models.Model):
+    plan_name=models.CharField(max_length=50,default="")
+    
+class Features(models.Model):
+    feature_name=models.CharField(max_length=50,default="")   
+    
+class PlannedFeatures(models.Model):
+      plan_selected=models.ForeignKey(Plans,on_delete=models.CASCADE,blank=True,null=True)
+      feature_selected=models.ForeignKey(Features,on_delete=models.CASCADE,blank=True,null=True)
+      
+     
+         
+# end of code - Rohan Kansari - 16/4/23 
+
 
 """-------------------------------------------------------------------
 Added by - Yuvraj Sahu on 15-02-2023
@@ -78,6 +96,9 @@ class Tenant(TenantMixin):
     created_at=models.DateField(auto_now=True)
     updated_at=models.DateField(auto_now=True)
     restaurant_phone_number=models.CharField(max_length=15,null=True,blank=True)
+    # Added by rohankansari - 17/4/23
+    # Reason - to Add function of Subscription
+    Subscribe_plan=models.ForeignKey(Plans,on_delete=models.SET_NULL,blank=True,null=True)
     def __str__(self):
             return self.tenant_name
     # Added by Yuvraj Sahu on 28-3-2023
@@ -185,3 +206,5 @@ class AppTheme(models.Model):
 """
 End of code addition
 """
+
+

@@ -11,11 +11,20 @@ import { useContext } from 'react';
 import { GlobalContext } from "../../context/Context";
 import GlobalColor from '../Colors/GlobalColor'
 import Loader from "../Loader/Loader";
+import { TenantValidate } from "../Validators/ConfirmTenant";
 
 function Cover() {
-  var { tenantName, setTenantName ,setRestaurant_name} = useContext(GlobalContext);
+  var { tenantName, tenantDetails,setTenantName,restaurant_name, setRestaurant_name,subscribePlan,setSubscribePlan } = useContext(GlobalContext);
   var { colors } = useContext(GlobalContext);
 
+// added by rohan - 17/4/23
+  // reason- To validate user is in same tenant of not
+  TenantValidate()
+  // end of code - rohan kansari -17/4/23
+  
+  
+
+  
 
   var location = useLocation();
   var path = location.pathname; // This Variable help to find the path of our URL where the data comes
@@ -32,29 +41,22 @@ function Cover() {
 
   // Above method use for split the restaurent name
 
-  const [tenantDetails, setTenantDetails] = useState(null); // Our data set in this variable which comes from backend
+  //const [tenantDetails, setTenantDetails] = useState(null); // Our data set in this variable which comes from backend
   const [isLoader, setIsLoader] = useState(true)
+//removed by rohan kansari- 18/4/23 - To provide tenant detail in all page throungh context
 
   useEffect(() => {
-    getMenu(localStorage.getItem("tenantName"));
-
-
-  }, []);
-
-  useEffect(() => {
-    if (tenantDetails != null){
+    if (tenantDetails != null) {
       localStorage.setItem("restroName", tenantDetails["restaurant"])
       setRestaurant_name(tenantDetails["restaurant"])
+      //added by rohan-18/4/23
+      setIsLoader(false)
     }
   }, [tenantDetails])
 
-  const getMenu = async () => {
-    const response = await gettenantList(tenant);
-    if (response) {
-      setIsLoader(false)
-      setTenantDetails(response.tenantDetails);
-    }
-  };
+  
+  //Remove this api calling and moved it to context 
+  //removed by rohan -18/4/23
 
   const navigate = useNavigate();
   const goToNext = () => {

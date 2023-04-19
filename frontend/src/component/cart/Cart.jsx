@@ -14,8 +14,15 @@ import secureLocalStorage from "react-secure-storage";
 import { updateOrderItemsApi, updateOrdersApi } from '../../api/Services';
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
+import {BiArrowBack} from 'react-icons/bi'
+import { TenantValidate } from '../Validators/ConfirmTenant'
 
 const Cart = () => {
+
+  // added by rohan - 17/4/23
+  // reason- To validate user is in same tenant of not
+  TenantValidate()
+  // end of code - rohan kansari -17/4/23
   const nav = useNavigate()
   const [isDetailPopupOpen, setDetailPopupVisiblity] = useState(false)
   const [removeProductIndex, setRemoveProductIndex] = useState(null)
@@ -101,7 +108,11 @@ const Cart = () => {
       <PopupDetail item={selectedItem} isDetailPopupOpen={isDetailPopupOpen} setDetailPopupVisiblity={setDetailPopupVisiblity} />
 
       <div className={style.cartContainer} style={{ color: colors.backgroundTheme }}>
-        <div style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }} className={style.cartTitle}>MY CART</div>
+        <div style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }} className={style.cartTitle}>
+        {/*Added by rohan kansari -18/4/23 - add back button*/}
+        <BiArrowBack onClick={e=>nav(-1)}/>
+        
+        MY CART ({cart.length})</div>
         {cart.length > 0 ? cart.map((item, i) =>
           <div className={style.card} >
             <RemoveItem removeProductIndex={removeProductIndex} currentIndex={item} setRemoveProductIndex={setRemoveProductIndex} />

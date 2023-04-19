@@ -37,17 +37,23 @@ import Loader from "../Loader/Loader";
 import PopupDetail from "./PopupDetail";
 import { GrFormAdd } from "react-icons/gr";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
+import { TenantValidate } from "../Validators/ConfirmTenant";
+import secureLocalStorage from "react-secure-storage";
 
 function MenuItem() {
 
-
+ // added by rohan - 17/4/23
+  // reason- To validate user is in same tenant of not
+  TenantValidate()
+  // end of code - rohan kansari -17/4/23
   var { searchedValue,
-    setSearchedValue, colors, cart } = useContext(GlobalContext);
-
+    setSearchedValue, colors, cart,subscribePlan } = useContext(GlobalContext);
+   
+  console.log("----------------------subscribePlan",subscribePlan)  
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
   const [itemList, setItemList] = useState([]); // Our Item set in this variable
-
+  
   var [filterCategory, setfilterCategory] = useState([])
   var [offerShow, setOfferShow] = useState([])
 
@@ -66,6 +72,8 @@ function MenuItem() {
     setfilterCategory(menuList.filter((dt) => dt.id == data))
 
     setOfferShow([])
+
+    
 
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
     // document.getElementById('hide_search').style.display = 'block'
@@ -255,6 +263,8 @@ function MenuItem() {
       return price
     }
   }
+
+
   function searchSectionHalfPrice(setData) {
     if (offerList) {
       var search_amount = 0;
@@ -698,19 +708,21 @@ function MenuItem() {
             <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
-                <input className="inputBoxSearch" type="search" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Search by Menu, Categories & Items name' />
+                <input className="inputBoxSearch" type="search" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
               : null}
               {/*End of Code */}
           </div>
           {/* Added by Rohan- 9/4/23  Reason- cart page */}
+          {/*added by rohan -18/4/23- to add functionality of subscription */}
+          {subscribePlan?.includes("order")?
           <div className="icon_container">
-            <Link to="/cart">
-              <span className="selected_amount">{cart.length}</span>
-              <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
-            </Link>
-          </div>
+          <Link to="/cart">
+            <span className="selected_amount">{cart.length}</span>
+            <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
+          </Link>
+        </div>:null}
           {/* end of code  */}
         </div>
 
@@ -1016,7 +1028,9 @@ function MenuItem() {
                                      {/* Modified by rohan- 16/4/23
                                         Reason - Removing old description design and adding button and description together */}
                                         &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                                        <button className="add_product" style={{
+                                        {/*added by rohan -18/4/23- to add functionality of subscription */}
+
+                                        {subscribePlan?.includes("order")?<button className="add_product" style={{
                                 color: colors.bannerColor,
                                 backgroundColor: "transparent",
                                 border:`1px solid ${colors.bannerColor}`,
@@ -1025,7 +1039,7 @@ function MenuItem() {
                               <AiOutlinePlus className="plus_icon"
                               style={{
                                 color:colors.bannerColor
-                              }}/>Add</button>
+                              }}/>Add</button>:null}
                                           {person.description}
                                         </span>
                                     {/* End of code - 16/4/23*/}  
@@ -1206,7 +1220,9 @@ function MenuItem() {
                         {/* Modified by rohan- 16/4/23
                             Reason - Removing old description design and adding button and description together */}
                             &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                            <button className="add_product" style={{
+                             {/*added by rohan -18/4/23- to add functionality of subscription */}
+
+                            {subscribePlan?.includes("order")?<button className="add_product" style={{
                                 color: colors.bannerColor,
                                 backgroundColor: "transparent",
                                 border:`1px solid ${colors.bannerColor}`,
@@ -1215,7 +1231,7 @@ function MenuItem() {
                               <AiOutlinePlus className="plus_icon"
                               style={{
                                 color:colors.bannerColor
-                              }}/>Add</button>
+                              }}/>Add</button>:null}
                               {showdata.item_description}
                             </span>
                         {/* End of code - 16/4/23*/}
@@ -1451,8 +1467,8 @@ function MenuItem() {
                                     {/* Modified by rohan- 16/4/23
                                     Reason - Removing old description design and adding button and description together */}
                                     &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                                    
-                                    <button className="add_product" style={{
+                                    {/*added by rohan -18/4/23- to add functionality of subscription */}
+                                    {subscribePlan?.includes("order")? <button className="add_product" style={{
                                         color: colors.bannerColor,
                                         backgroundColor: "transparent",
                                         border:`1px solid ${colors.bannerColor}`,
@@ -1461,7 +1477,7 @@ function MenuItem() {
                                       <AiOutlinePlus className="plus_icon"
                                       style={{
                                         color:colors.bannerColor
-                                      }}/>Add</button>
+                                      }}/>Add</button>:null}
                                       {m.description}
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1538,7 +1554,8 @@ function MenuItem() {
                                      {/* Modified by rohan- 16/4/23
                                     Reason - Removing old description design and adding button and description together */}
                                     &nbsp; <span className="description_content" onClick={e=> toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
-                                    <button className="add_product" style={{
+                                    {/*added by rohan -18/4/23- to add functionality of subscription */}
+                                    {subscribePlan?.includes("order")?<button className="add_product" style={{
                                         color: colors.bannerColor,
                                         backgroundColor: "transparent",
                                         border:`1px solid ${colors.bannerColor}`,
@@ -1548,9 +1565,8 @@ function MenuItem() {
                                       style={{
                                         color:colors.bannerColor
                                       }}
-                                        />Add</button>
+                                        />Add</button>:null}
                                       {m.description} 
-                                      To check button in not overlapping with text and text goes below button according to its height and if text is more then button height then text cover below button space also
                                     </span>
                                     {/* End of code - 16/4/23*/}
                                   </div>

@@ -173,3 +173,33 @@ class AppThemeAdmin(admin.ModelAdmin):
             return True
         else:
             return False
+        
+#added by rohan - 18/4/23
+#reason - to add plans and subscription functioin nality
+@admin.register(Plans)
+class PlanAdmin(admin.ModelAdmin):
+    list_display=("plan_name",)
+    
+@admin.register(Features)
+class Feature(admin.ModelAdmin):
+      list_display=("feature_name",)     
+      
+@admin.register(PlannedFeatures)
+class PlannedFeatureAdmin(admin.ModelAdmin):
+    list_display=("Plan_selected","Feature_selected",)        
+    
+    def Plan_selected(self,obj):
+        return obj.plan_selected.plan_name
+        
+    def Feature_selected(self, obj):
+        return obj.feature_selected.feature_name
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(PlannedFeatureAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['plan_selected'].label_from_instance = lambda inst: "{}".format(inst.plan_name)  
+        form.base_fields['feature_selected'].label_from_instance = lambda inst: "{}".format(inst.feature_name)  
+        
+        return form  
+        
+        
+        ##end of code - Rohan kansari-18/4/23

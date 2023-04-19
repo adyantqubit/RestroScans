@@ -16,7 +16,7 @@ import secureLocalStorage from "react-secure-storage";
 export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) {
 
   // get data from context
-  var { colors, cart, setCart } = useContext(GlobalContext);
+  var { colors, cart, setCart,restaurant_name } = useContext(GlobalContext);
 
   // close the customer details popup
   function closePopup() {
@@ -39,12 +39,15 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
       contact_number: formdata.contact_number,
       table_number: formdata.table_number,
       cart: cart,
+      //added by rohan- 18/4/23 - to set tenant validation
+      tenant:restaurant_name
     };
     var tenantName = localStorage.getItem("tenantName")
     const response = await postCustomerDetails(customerDetail, tenantName);
     if (response.msg) {
       secureLocalStorage.setItem("invoice_detail", response.data)
-      secureLocalStorage.setItem("customer_details", response.data.customer)
+      //added by rohan- 18/4/23 - to set tenant validation
+      secureLocalStorage.setItem("customer_details",customerDetail)
       secureLocalStorage.setItem("order", response.data.order_details)
       secureLocalStorage.setItem("orderItem", response.data.order_items)
 

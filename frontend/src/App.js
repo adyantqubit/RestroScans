@@ -17,12 +17,8 @@ import Billing2 from "./component/BillPage/Billing";
 import "./App.css"
 import landscapeMode from './images/landscape.png'
 
-
 function App() {
-  const { colors ,restaurant_name} = useContext(GlobalContext)
-  
-  
-  // const nav = useNavigate()
+  const { colors ,restaurant_name,subscribePlan} = useContext(GlobalContext)
 
   return (
     <BrowserRouter>
@@ -46,7 +42,7 @@ function App() {
         <Routes>
           <Route exact path="/*" element={<Cover />} />
           <Route exact path="/menu-item" element={<MenuItem />} />
-          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/cart" element={subscribePlan?.includes("order")?<Cart />:<Navigate to="/menu-item"/>} />
           <Route exact path="/billing" element={<Billing/>} />
           {/* <Route exact path="/<str:tenant>/tenant-details/" element={<Cover />} /> */}
 

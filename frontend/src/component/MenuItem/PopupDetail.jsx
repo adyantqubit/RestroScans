@@ -134,7 +134,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             discounted_full_price: item.discounted_full_price,
             discounted_half_price: item.discounted_half_price,
             item_type: item.item_type,
-            tenant:restaurant_name
+            tenant:restaurant_name,
         }
     }
 

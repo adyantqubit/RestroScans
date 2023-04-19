@@ -162,9 +162,10 @@ export default function InvoiceDetails() {
             {/* End of commented code on 17-04-2023  */}
 
             {/* Added by :- Parineeta Gedam on 17-04-2023 */}
-            {customerDetail.last_customer_name ?
+            {/* modiefied by rohan -18/4/23 - reason - changes in customer json object*/}
+            {customerDetail.name ?
               <>
-                <span className='invoice_details_value'>{customerDetail.last_customer_name}</span>
+                <span className='invoice_details_value'>{customerDetail.name}</span>
               </> :
               <><span className='invoice_details_value'>-</span></>}
             {/* End of commented code on 17-04-2023  */}
@@ -268,7 +269,7 @@ export default function InvoiceDetails() {
               <span className="invoice_second_sub_heading">? {orders.sub_total}</span>
             </div>
             <div className='invoice_second_data_container'>
-              <span className="invoice_sub_heading">Cgst </span>
+              <span className="invoice_sub_heading">CGST </span>
               {/* Added by rohan- 14/4/23 -------------------------------- */}
               {/* Modified by rohan- 16-04-2023 -------------------------------- */}
               <span className="invoice_second_sub_heading"> ? {orders.cgst}</span>
@@ -277,7 +278,7 @@ export default function InvoiceDetails() {
             {/* Modified by rohan- 16-04-2023 -------------------------------- */}
 
             <div className='invoice_second_data_container'>
-              <span className="invoice_sub_heading">Sgst</span>
+              <span className="invoice_sub_heading">SGST</span>
               <span className="invoice_second_sub_heading"> ? {orders.sgst}</span>
             </div>
             {/* End of added code 16-04-2023 */}
