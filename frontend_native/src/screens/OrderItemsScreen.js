@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Button, Pressable } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
 import React from "react";
-import { getOrderItemsApi } from "../api/Services";
+import { getOrderItemsApi, updateOrderAndPaymentStatus } from "../api/Services";
 import { useState } from "react";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
@@ -14,7 +14,10 @@ export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender } = useContext(AppStateContext);
 
   /* Get the order id using params */
-  const { orderID } = route.params;
+  // Added and modified by Yuvraj Sahu on 17-4-2023
+  // Reason - to get order id in from router
+  const { id, orderID } = route.params;
+  // End of modification
 
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to call function when page is render
@@ -66,11 +69,16 @@ export default function OrderItemsScreen({ route, navigation }) {
   {
     /* This is array holds order status data */
   }
+  // Modified by Yuvraj Sahu on 18-4-2023
+  // Reason - to change status name
+  var d = orderDetail.order_status
   var orderStatusData = [
-    { key: "In Process", value: "In Process" },
-    { key: "Cooking", value: "Cooking" },
+    { key: "Placed", value: "Placed" },
+    { key: "Confirm", value: "Confirm" },
+    { key: "Cooked", value: "Cooked" },
     { key: "Served", value: "Served" },
   ];
+  // End of modification
   // End of addition
 
   // Added by Yuvraj Sahu on 14-4-2023
@@ -91,7 +99,10 @@ export default function OrderItemsScreen({ route, navigation }) {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    var response = await getOrderItemsApi(tenant, orderID);
+    // Modified by Yuvraj Sahu on 18-4-2023
+    // Reason - to change order ir to id
+    var response = await getOrderItemsApi(tenant, id);
+    // End of modification
     if (response.msg) {
       setOrderItems(response.orderItems);
       setCustomerDetail(response.customerDetail);
@@ -104,26 +115,48 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   // alert(amount.totalPrice);
 
+	// Added by Yuvraj Sahu on 17-4-2023
+	// Reason - to update order and payment status
+	{/**
+	* This method is created for API calling to update the order and payment status
+	*/}
+  const handleUpdate = async() => {
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+    var status = {order_status: orderStatusSelected, payment_status: paymentStatusSelected}
+    var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
+    if (response.success) {
+      // Alert.alert("Updated", "Status is updated")
+      Alert.alert("aaaaaaaaaaaaaaaa"+JSON.stringify(response.pendingItems))
+    }
+  }
+  // End of addition
+
+
+
   return (
     <ScrollView>
       <View style={{ padding: 10 }}>
         <View>
-          <Text style={{marginTop: 5}}>Name : {customerDetail.name}</Text>
-          {customerDetail.email && <Text style={{marginTop: 5}}>Email : {customerDetail.email}</Text>}
-          <Text style={{marginTop: 5}}>Phone : {customerDetail.contact_number}</Text>
+        <Text style={{marginTop: 5}}><Text>Order ID</Text> : {orderDetail.order_id}</Text>
+        <Text style={{marginTop: 5}}><Text>Table No.</Text> : {orderDetail.table_number}</Text>
+          <Text style={{marginTop: 5}}><Text>Name</Text> : {customerDetail.name}</Text>
+          {customerDetail.email && <Text style={{marginTop: 5}}><Text>Email</Text> : {customerDetail.email}</Text>}
+          <Text style={{marginTop: 5}}><Text>Phone</Text> : {customerDetail.contact_number}</Text>
         </View>
         {orderItems.length > 0 ? (
           <>
             <View style={styles.itemHeadingContainer}>
-              <Text>Item</Text>
-              <Text>Qty</Text>
-              <Text>Cost</Text>
+              <Text style={styles.itemContainer}>Item</Text>
+              <Text style={styles.qtyContainer}>Qty</Text>
+              <Text style={styles.costContainer}>Cost</Text>
             </View>
-            {orderItems.map((customer, id) => (
+            {orderItems.map((orderItem, id) => (
               <View key={id} style={styles.tableContainer}>
-                <Text>{customer.item}</Text>
-                <Text>{customer.quantity}</Text>
-                <Text>{customer.quantity * customer.price}</Text>
+                <Text style={styles.itemContainer}>{orderItem.item} ({orderItem.serving_size})</Text>
+                <Text style={styles.qtyContainer}>{orderItem.quantity}</Text>
+                <Text style={styles.costContainer}>₹ {orderItem.quantity * orderItem.price}</Text>
               </View>
             ))}
           </>
@@ -138,15 +171,29 @@ export default function OrderItemsScreen({ route, navigation }) {
           Reason - to show total price */}
           <View style={styles.amountRow}>
             <Text>Total Price :</Text>
-            <Text>{orderDetail.sub_total}</Text>
+            <Text>₹ {orderDetail.sub_total}</Text>
           </View>
-          <View style={styles.amountRow}>
+          {/* Commented by Yuvraj Sahu on 17-4-2023
+          Reason - to remove gst */}
+          {/* <View style={styles.amountRow}>
             <Text>GST :</Text>
             <Text>{orderDetail.tax}</Text>
+          </View> */}
+          {/* End of removal */}
+          {/* Added by Yuvraj Sahu on 17-4-2023
+          Reason - to add cgst and sgst */}
+          <View style={styles.amountRow}>
+            <Text>CGST :</Text>
+            <Text>₹ {orderDetail.cgst}</Text>
           </View>
           <View style={styles.amountRow}>
+            <Text>SGST :</Text>
+            <Text>₹ {orderDetail.sgst}</Text>
+          </View>
+          {/* End of addition */}
+          <View style={styles.amountRow}>
             <Text>Grand Total :</Text>
-            <Text>{orderDetail.total}</Text>
+            <Text>₹ {orderDetail.total}</Text>
           </View>
         </View>
       </View>
@@ -205,7 +252,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       <View style={styles.btns}>
         {/* <Button title="Save"/> */}
         <Pressable
-          // onPress={handleSubmit(handleRegister)}
+          onPress={handleUpdate}
           // disabled={isDisable}
           style={{
             // backgroundColor: isDisable ? "grey" : colors.btnColor,
@@ -223,7 +270,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               fontWeight: "bold",
             }}
           >
-            Save
+            Update
           </Text>
         </Pressable>
       </View>
@@ -283,4 +330,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   // End of addition
+  // Added by Yuvraj Sahu on 17-4-2023
+  // Reason - to design table
+  itemContainer: {
+    width: "50%"
+  },
+  qtyContainer: {
+    width: "10%",
+    textAlign: "center"
+  },
+  costContainer: {
+    width: "40%",
+    display: "flex",
+    textAlign: "right"
+  }
+  // End of table design
 });

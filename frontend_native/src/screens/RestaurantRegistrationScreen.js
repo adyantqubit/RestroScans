@@ -12,7 +12,7 @@ import {
   Image,
   BackHandler,
 } from "react-native";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -84,9 +84,7 @@ export default function RestaurantRegistrationScreen({
     var formData = new FormData();
 
     if (tempPhoto != null) {
-      const ext = tempPhoto.uri.substring(
-        tempPhoto.uri.lastIndexOf(".") + 1
-      );
+      const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
       formData.append("restaurant_logo", {
         uri: restaurant_logo,
         name: restaurant_logo,
@@ -287,7 +285,7 @@ export default function RestaurantRegistrationScreen({
               },
               pattern: {
                 value: /^\d{10}$/,
-                message: "Mobile Number must be 10 digit",
+                message: "Mobile Number must be 10 digits",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -336,7 +334,7 @@ export default function RestaurantRegistrationScreen({
               // },
               pattern: {
                 value: /^\d{10}$/,
-                message: "Telephone Number must be 10 digit",
+                message: "Telephone Number must be 10 digits",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -443,7 +441,7 @@ export default function RestaurantRegistrationScreen({
               },
               validate: (value) =>
                 value === getValues("password") ||
-                "Password & Confirm Password does not match!",
+                "Password and confirm password should be same!",
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <>
@@ -612,11 +610,65 @@ export default function RestaurantRegistrationScreen({
         <View
           style={{
             display: "flex",
+            flexDirection: "row",
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        >
+          <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+          <Text>Upload logo</Text>
+        </View>
+
+        <View
+          style={{
+            display: "flex",
             alignItems: "center",
             justifyContent: "center",
             // borderColor: 'black',
             borderRadius: 3,
             // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: "row-reverse",
+            justifyContent: "space-around",
+          }}
+        >
+          {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
+          {/* <Button title="Edit item icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
+          {/* End of addition */}
+          {restaurant_logo && (
+            <Image
+              source={{ uri: restaurant_logo }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
+            />
+          )}
+        </View>
+
+        {/* <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 3,
             width: "93%",
             alignSelf: "center",
             flexDirection: "row",
@@ -630,11 +682,71 @@ export default function RestaurantRegistrationScreen({
               style={{ width: 50, height: 40, borderRadius: 5 }}
             />
           )}
+        </View> */}
+
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        >
+          <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+          <Text>Upload background image</Text>
         </View>
 
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: 'black',
+            borderRadius: 3,
+            // borderWidth: 1,
+            width: "93%",
+            alignSelf: "center",
+            flexDirection: "row-reverse",
+            justifyContent: "space-around",
+          }}
+        >
+          {/* Added by Yuvraj Sahu on 19-4-2023
+          Reason - to add upload icon and remove button */}
+          {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
+          {/* <Button title="Edit item icon" onPress={pickImage} /> */}
+          <Pressable
+            onPress={pickBackImage}
+            style={{
+              backgroundColor: "#d5d5d5",
+              width: 50,
+              padding: 5,
+              borderRadius: 5,
+              height: 40,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon name="upload" size={20} color="black" />
+          </Pressable>
+          {/* End of addition */}
+          {backImage && (
+            <Image
+              source={{ uri: backImage }}
+              style={{ width: 50, height: 40, borderRadius: 5 }}
+            />
+          )}
+        </View>
+
+        {/* Commented by Yuvraj Sahu on 19-4-2023
+          Reason - to remove upload button */}
         {/* Added by Yuvraj Sahu on 12-2023
         Reason - to add restaurant background image */}
-        <View
+        {/* <View
           style={{
             display: "flex",
             alignItems: "center",
@@ -656,8 +768,9 @@ export default function RestaurantRegistrationScreen({
               style={{ width: 50, height: 40, borderRadius: 5 }}
             />
           )}
-        </View>
+        </View> */}
         {/* End of addition */}
+        {/* End of Comment  */}
 
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable

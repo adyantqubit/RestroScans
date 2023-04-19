@@ -81,7 +81,7 @@ export default function LoginScreen({ navigation }) {
         );
         // End of addition
         navigation.navigate("DrawerScreens");
-        Alert.alert("Sccess", "Loggedin Successfully");
+        Alert.alert("Success", "Logged In Successfully");
         setRender(!render);
         resetForm({ values: "" });
       }
@@ -90,7 +90,7 @@ export default function LoginScreen({ navigation }) {
         setIsBtnDisable(false);
       }
       if (res.invalid) {
-        alert("Invaild email and password");
+        alert("Invaild email or password");
         setIsBtnDisable(false);
       }
     });
@@ -261,18 +261,30 @@ export default function LoginScreen({ navigation }) {
                 </Pressable>
               </View>
 
-              <View
+              {/* Modified by Yuvraj Sahu on 19-4-2023
+              Reason - to remove button and line and also add link */}
+              {/* <View
                 style={{
                   borderBottomColor: "black",
                   borderBottomWidth: 1,
                   width: "93%",
                   alignSelf: "center",
                 }}
-              />
+              /> */}
 
-              <Pressable onPress={navRegister} style={styles.registerBtn}>
+              {/* <Pressable onPress={navRegister} style={styles.registerBtn}>
                 <Text style={styles.registerText}>Register</Text>
-              </Pressable>
+              </Pressable> */}
+
+              <View style={{ width: "93%" }}>
+                <Pressable
+                  onPress={forgotPasswordHandler}
+                  style={{ alignSelf: "flex-end" }}
+                >
+                  <Text style={{ color: "blue" }}>Registration</Text>
+                </Pressable>
+              </View>
+              {/* End of removal */}
             </View>
           </View>
         </ImageBackground>

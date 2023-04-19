@@ -37,7 +37,7 @@ export default function SettingScreen({ navigation }) {
   }
   React.useEffect(() => {
     getSettingData();
-  }, [render, isFocused]);
+  }, [ isFocused]);
   // End of addition
 
   // Added by Yuvraj Sahu on 11-4-2023
@@ -119,7 +119,7 @@ export default function SettingScreen({ navigation }) {
         Alert.alert("Successful", response.msg);
         setIsDisable(false);
         setRender(!render);
-        // navigation.navigate("HomeScreen");
+        navigation.navigate("HomeScreen");
       }
       if (response.error) {
         Alert.alert("Error", response.error);

@@ -130,4 +130,9 @@ urlpatterns = [
     # path('<str:tenant>/get-top-products/',BesttSellerAPI.as_view()),
     # # End of added code 13-04-23
 
+    # Added by Yuvraj on 17-4-23
+    # Reason : update order and payment status
+    path('<str:tenant>/order-payment-status/<str:orderID>/',UpdateOrderPaymentStatus.as_view()),
+    # End of addition
+
 ]   

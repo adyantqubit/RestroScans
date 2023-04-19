@@ -408,3 +408,19 @@ export const getDashboardData = async (tenantId) => {
   return response ? response.data : {};
 };
 // End of code addition by Ashish for dashboard data
+
+
+// Added by Yuvraj Sahu on 17-04-2023
+// Reason - to update order and payment status
+/**
+ * This method is created for update order and payment status
+ */
+export const updateOrderAndPaymentStatus = async (tenant, status, orderID) => {
+  const response = await API.put(`/api/v1/${tenant}/order-payment-status/${orderID}/`, status, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+ // End of addition

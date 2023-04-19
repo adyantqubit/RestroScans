@@ -8,13 +8,22 @@ import { ScrollView } from "react-native-gesture-handler";
 import Footer from '../../src/components/Footer/Footer'
 
 export default function OrdersScreen({ route, navigation }) {
+
+	// Added by Yuvraj Sahu on 17-4-2023
+	// Reason - to re render the screen
+  const isFocused = useIsFocused();
+	// End of re render
+	
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to call function when page is render
   // This function is used for calling
   // function when page render
+  
+  // Added by Yuvraj Sahu on 17-4-2023
+	// Reason - to re render the screen
   useEffect(() => {
     allOrders();
-  }, []);
+  }, [isFocused]);
   // End of addition
 
   // Added by Yuvraj Sahu on 9-4-2023
@@ -34,7 +43,7 @@ export default function OrdersScreen({ route, navigation }) {
   // Reason - to get orders
   // This function is created for getting all orders
   const allOrders = async () => {
-  	// Added by Yuvraj Sahu on 13-4-2023
+    // Added by Yuvraj Sahu on 13-4-2023
     setLoading(true);
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -51,8 +60,14 @@ export default function OrdersScreen({ route, navigation }) {
   // This method is created for navigate the order
   // and sreen and send the order id after navigation
   // it will be used for getting order items
-  const handleOrder = async (id) => {
-    navigation.navigate("OrderItemsScreen", { orderID: id });
+  const handleOrder = async (id, order_id) => {
+    // Added and modified by Yuvraj Sahu on 17-4-2023
+    // Reason - to send order_id in order itema screen
+    navigation.navigate("OrderItemsScreen", {
+      id: id,
+      orderID: order_id,
+    });
+    // And of modification
   };
 
   return (
@@ -65,7 +80,7 @@ export default function OrdersScreen({ route, navigation }) {
             <Pressable
               key={id}
               style={styles.orderListContainer}
-              onPress={(e) => handleOrder(order.id)}
+              onPress={(e) => handleOrder(order.id, order.order_id)}
             >
               <View>
                 <Text style={styles.customerName}>{order.customer_name}</Text>
@@ -85,7 +100,9 @@ export default function OrdersScreen({ route, navigation }) {
           ))}
         </>
       ) : (
-        <Text style={{textAlign: "center", marginTop: 20}}>No data available</Text>
+        <Text style={{ textAlign: "center", marginTop: 20 }}>
+          No data available
+        </Text>
       )}
     </ScrollView>
     {/* Added by Om on 18-04-23 For showing the footer*/}
