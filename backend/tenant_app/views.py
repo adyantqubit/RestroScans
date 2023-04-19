@@ -834,8 +834,11 @@ class updateOrdersAPIView(APIView):
             # added by :- Parineeta Gedam on 16-04-2023
             # reason :- to save tax on cgst and scgt
 
-            tax.cgst = 0
-            tax.sgst = 0
+            # Modified by :- Parineeta Gedam
+            # tax.cgst = 0
+            # tax.sgst = 0
+            orderId.cgst = 0
+            orderId.sgst = 0
             orderId.total = sum(itemsPrice)
 
             # End of commented code 16-04-2023

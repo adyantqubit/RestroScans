@@ -103,8 +103,6 @@ export default function Context(props) {
                 secureLocalStorage.setItem('order',response.order)
                 secureLocalStorage.setItem('invoice_detail',response)
         }
-       
-
     }
 // end of code - rohan kansari -18/4/23
 

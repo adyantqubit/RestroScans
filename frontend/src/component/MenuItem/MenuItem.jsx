@@ -24,6 +24,8 @@ import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
 import { MdRoomService } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
+import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -642,9 +644,12 @@ function MenuItem() {
           :
           <div style={{ height: '15vh', }}>
             {/* <h3 color="red">yupp</h3> */}
+            {/* modified by :- Parineeta Gedam on 19-04-2023 */}
             <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
-              src={nodataOffer}
+              // src={nodataOffer}
+              src={offer_comming_soon_img}
               alt="bydefault_img" />
+              {/* End of modified code on 19-04-2023 */}
           </div>
         }
         <div id="hide_search"
@@ -885,7 +890,7 @@ function MenuItem() {
                                   </div>
 
                                   <div className="price_description_container" >
-                                    <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
+                                    <h4 style={{ color: 'red', padding: '0', }}
                                       className="allitems_name">Offered price</h4>
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
@@ -923,12 +928,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1010,12 +1015,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1163,7 +1168,7 @@ function MenuItem() {
                     </div>
 
                     <div className="price_description_container" >
-                      <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
+                      <h4 style={{ color: 'red',}}
                         className="allitems_name">Offered price</h4>
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
@@ -1202,12 +1207,12 @@ function MenuItem() {
                                     */}
                       {showdata.item_type == 'Veg' ? (
                         <>
-                          <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                          <img src={vegIcon} style={{ width: '5%', height: '2%', marginTop:'2px' }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Nonveg' ? (
                         <>
-                          <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                          <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Other' ? (
@@ -1449,12 +1454,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
@@ -1535,12 +1540,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
