@@ -1161,20 +1161,37 @@ class DashboardAPI(APIView):
         #End of code modification on 15-04-2023
 
         # Added by - Ashish Dewangan on 19-04-2023
-        # Reason - To show todays new orders
-        todays_new_orders=Order.objects.filter(date__gte=today,order_status='Placed')
-        todays_new_orders_serializer=OrderSerializer(todays_new_orders, many=True)
-        # End of code addition
+        # Reason - To show todays new placed orders
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+        todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+        # End of code addition by Ashish Dewangan on 19-04-2023
 
-        todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
-        todays_orders_serializer=OrderSerializer(todays_orders, many=True)
+        # Commented and modified by - Ashish Dewangan on 19-04-2023
+        # Reason - to not show placed orders on todays pending orders
+        #todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
+        from django.db.models import Q
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+        todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+        #End of code modification by Ashish Dewangan on 19-04-2023
+
+        # Added by - Ashish Dewangan on 19-04-2023
+        # Reason - To show todays completed orders
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+        todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+        # End of code addition by Ashish Dewangan on 19-04-2023
+
         return Response({
-            
-            "todays_orders":todays_orders_serializer.data,
+            "todays_pending_orders":todays_pending_orders_serializer.data,
             "revenue_details":data,
+            
             # Added by - Ashish Dewangan on 19-04-2023
             # Reason - To show todays new orders
-            "todays_new_orders":todays_new_orders_serializer.data
+            "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
+            # End of code addition
+
+            # Added by - Ashish Dewangan on 19-04-2023
+            # Reason - To show todays new orders
+            "todays_completed_orders":todays_completed_orders_serializer.data
             # End of code addition
         })
     

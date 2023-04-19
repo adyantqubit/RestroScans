@@ -29,9 +29,15 @@ export default function HomeScreen({ navigation }) {
   const isFocused = useIsFocused();
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
-  const [todaysOrders, setTodaysOrders] = useState([]);
 
-  const [selectedPrinter, setSelectedPrinter] = React.useState();
+  /**
+   * Commented by - Ashish Dewangan on 19-04-2023
+   * Reason - No longer needed
+   */
+  // const [todaysOrders, setTodaysOrders] = useState([]);
+  /**
+   * End of comment
+   */
 
   /**
    * Commented and modified by - Ashish Dewangan on 15-04-2023
@@ -50,9 +56,11 @@ export default function HomeScreen({ navigation }) {
 
   /**
    * Added by -Ashish Dewangan on 19-04-2023
-   * Reason - To show new orders
+   * Reason - To show todays orders
    */
-  const [todaysNewOrders,setTodaysNewOrders]=useState([]);
+  const [todaysNewlyPlacedOrders,setTodaysNewlyPlacedOrders]=useState([]);
+  const [todaysPendingOrders, setTodaysPendingOrders] = useState([]);
+  const [todaysCompletedOrders, setTodaysCompletedOrders] = useState([]);
   /**
    * End of code addition by Ashish on 19-04-2025
    */
@@ -91,7 +99,6 @@ export default function HomeScreen({ navigation }) {
     ).tenant_name;
     const response = await getDashboardData(tenant);
     if (response) {
-      setTodaysOrders(response.todays_orders);
       setRevenueDetails(response.revenue_details);
       /**
        * Added by - Ashish Dewangan on 15-04-2023
@@ -110,7 +117,9 @@ export default function HomeScreen({ navigation }) {
        * Added by - Ashish Dewangan on 19-04-2023
        * Reason - To show todays new orders
        */
-      setTodaysNewOrders(response.todays_new_orders);
+      setTodaysNewlyPlacedOrders(response.todays_newly_placed_orders);
+      setTodaysPendingOrders(response.todays_pending_orders);
+      setTodaysCompletedOrders(response.todays_completed_orders);
       /**
        * End of code addition by Ashish Dewangan on 19-04-2023
        */
@@ -426,9 +435,9 @@ const printDoc = async () =>{
 
         {/* Added by - Ashish Dewangan on 19-04-2023
             Reason - To show today's new  orders on dashboard(home screen) */}
-        {todaysNewOrders ? (
+        {todaysNewlyPlacedOrders ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Today's New Orders</Text>
+            <Text style={styles.todaysOrderContainerTitle}>Newly Placed Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
               <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
               <Text style={{ width: "13%", fontWeight: "bold" }}>
@@ -442,7 +451,7 @@ const printDoc = async () =>{
               </Text>
               <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
             </View>
-            {todaysNewOrders.map((order, index) => {
+            {todaysNewlyPlacedOrders.map((order, index) => {
               return (
                 <View key={index} style={styles.todaysOrderDataContainer}>
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
@@ -478,10 +487,10 @@ const printDoc = async () =>{
 
 
         {/* Added by - Ashish Dewangan on 11-04-2023
-            Reason - To show today's orders on dashboard(home screen) */}
-        {todaysOrders ? (
+            Reason - To show today's pending orders on dashboard(home screen) */}
+        {todaysPendingOrders ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Today's Orders</Text>
+            <Text style={styles.todaysOrderContainerTitle}>Pending Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
               <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
               <Text style={{ width: "13%", fontWeight: "bold" }}>
@@ -495,7 +504,7 @@ const printDoc = async () =>{
               </Text>
               <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
             </View>
-            {todaysOrders.map((order, index) => {
+            {todaysPendingOrders.map((order, index) => {
               return (
                 <View key={index} style={styles.todaysOrderDataContainer}>
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
@@ -528,6 +537,59 @@ const printDoc = async () =>{
           </View>
         ) : null}
         {/* End of code addition for show today's orders on dashboard(home screen) on 11-04-2023*/}
+
+        {/* Added by - Ashish Dewangan on 11-04-2023
+            Reason - To show today's Completed orders on dashboard(home screen) */}
+        {todaysCompletedOrders ? (
+          <View style={styles.todaysOrderContainer}>
+            <Text style={styles.todaysOrderContainerTitle}>Completed Orders</Text>
+            <View style={styles.todaysOrderHeadingContainer}>
+              <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
+              <Text style={{ width: "13%", fontWeight: "bold" }}>
+                Table No.
+              </Text>
+              <Text style={{ width: "22%", fontWeight: "bold" }}>
+                Order Status
+              </Text>
+              <Text style={{ width: "25%", fontWeight: "bold" }}>
+                Payment Status
+              </Text>
+              <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
+            </View>
+            {todaysCompletedOrders.map((order, index) => {
+              return (
+                <View key={index} style={styles.todaysOrderDataContainer}>
+                  <Text style={{ width: "25%" }}>{order.order_id}</Text>
+                  <Text style={{ width: "13%" }}>{order.table_number}</Text>
+                  <Text style={{ width: "22%" }}>{order.order_status}</Text>
+                  <Text style={{ width: "25%" }}>{order.payment_status}</Text>
+                  <Pressable
+                    key={index}
+                    style={{
+                      width: "15%",
+                      backgroundColor: colors.btnColor,
+                      borderRadius: 10,
+                      padding: 1,
+                    }}
+                    onPress={(e) => goToOrderDetails(order.id)}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        color: "#FFFFFF",
+                      }}
+                    >
+                      View
+                    </Text>
+                  </Pressable>
+                </View>
+              );
+            })}
+          </View>
+        ) : null}
+        {/* End of code addition for show today's orders on dashboard(home screen) on 11-04-2023*/}
+
 
         {/* Commented by - Ashish Dewangan on 11-03-2023
             Reason - to Hide logout button from home screen */}
