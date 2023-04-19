@@ -1141,12 +1141,23 @@ class DashboardAPI(APIView):
         data["this_years_summary"]=summary
 
         #End of code modification on 15-04-2023
-        
+
+        # Added by - Ashish Dewangan on 19-04-2023
+        # Reason - To show todays new orders
+        todays_new_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+        todays_new_orders_serializer=OrderSerializer(todays_new_orders, many=True)
+        # End of code addition
+
         todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
         todays_orders_serializer=OrderSerializer(todays_orders, many=True)
         return Response({
+            
             "todays_orders":todays_orders_serializer.data,
-            "revenue_details":data
+            "revenue_details":data,
+            # Added by - Ashish Dewangan on 19-04-2023
+            # Reason - To show todays new orders
+            "todays_new_orders":todays_new_orders_serializer.data
+            # End of code addition
         })
     
 # End of code addition for dashboard data
