@@ -19,6 +19,7 @@ import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from '../../src/components/Footer/Footer'
 
 export default function SettingScreen({ navigation }) {
   var { render, setRender, settings, getSettingData } =
@@ -198,6 +199,7 @@ export default function SettingScreen({ navigation }) {
   });
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         {/* Commented by Yuvraj Sahu on 12-4-2023
@@ -672,6 +674,10 @@ export default function SettingScreen({ navigation }) {
         </View>
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+           {/* End of addition */}
+        </>
   );
 }
 

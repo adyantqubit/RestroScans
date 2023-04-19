@@ -23,12 +23,16 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { getDashboardData, getDashboardDetails } from "../api/Services";
 import { SvgCssUri } from 'react-native-svg';
+import * as Print from 'expo-print'
 
 export default function HomeScreen({ navigation }) {
   const isFocused = useIsFocused();
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
   const [todaysOrders, setTodaysOrders] = useState([]);
+
+  const [selectedPrinter, setSelectedPrinter] = React.useState();
+
   /**
    * Commented and modified by - Ashish Dewangan on 15-04-2023
    * Reason - Created variables to store backend data
@@ -186,6 +190,46 @@ export default function HomeScreen({ navigation }) {
     // alert(orderId);
     navigation.navigate("OrderItemsScreen", { orderID: orderId });
   }
+  // Added by Om on 18-04-23
+  // Reason : Add the print functionality
+
+  // const generatePdf = async () => {
+  //   const options = {
+  //     html: '<h1>Om</h1>',
+  //     fileName: 'html_to_pdf',
+  //     directory: 'Documents'
+  //   }
+  //   const file = await reactNativeHTMLToPdf.convert(options);
+  //   console.log(file)
+  // };
+
+  const html = `
+<html>
+ 
+  <body style="text-align: center;">
+    
+    <img
+      src=http://192.168.215.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      //  src=${scanner}
+      style="width: 90vw;" />
+      <h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
+      Adyant Softtech Pvt Ltd Raipur
+    </h1><h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
+    restroscans.com Scan menu
+  </h1><h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
+  Table no :
+</h1>
+  </body>
+</html>
+`;
+
+const printDoc = async () =>{
+  await Print.printAsync({
+    html,
+  });
+};
+  
+  // End of addition 
 
   return (
     <SafeAreaView>
@@ -263,58 +307,57 @@ export default function HomeScreen({ navigation }) {
         {/* Added by Om on 16-04-23
         Reason : For show the QR code image in native site */}
         <View style={{
-          alignItems:"center",
-          justifyContent:"center",
-          alignSelf:'center',
+          alignItems: "center",
+          justifyContent: "center",
+          alignSelf: 'center',
           // borderColor:'red',
           // borderWidth:1,
-          paddingTop:12,
-          paddingBottom:10,
-          width:"100%",
+          paddingTop: 12,
+          paddingBottom: 10,
+          width: "100%",
           // height:'30%'
         }}>
 
           <SvgCssUri
-        width="180"
-        height="180"
-        viewBox="0 0 450 470"
-        uri="http://192.168.1.30:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
-        // uri={scanner}
+            width="180"
+            height="180"
+            viewBox="0 0 450 470"
+            uri="http://192.168.215.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+          // uri={scanner}
 
-      />
-      <Text style={{fontSize:10,marginLeft:12}}>Adyant Softtech Pvt Ltd Raipur</Text>
-      <Text style={{fontSize:10,lineHeight:12}}>restroscans.com Scan menu</Text>
-      <Text style={{fontSize:10,lineHeight:12}}>Table no :</Text>
+          />
+          <Text style={{ fontSize: 10, marginLeft: 12 }}>Adyant Softtech Pvt Ltd Raipur</Text>
+          <Text style={{ fontSize: 10, lineHeight: 12 }}>restroscans.com Scan menu</Text>
+          <Text style={{ fontSize: 10, lineHeight: 12 }}>Table no :</Text>
 
 
         </View>
-       <View></View>
+        <View></View>
         <View style={styles.btns}
-                 >
-                    <Pressable
-                        // onPress={handleSubmit(handleRegister)}
-                        // disabled={isDisable}
-                        style={{
-                            backgroundColor:  colors.btnColor,
-                            height: 20,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 7,
-                            width:60
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: "white",
-                                fontSize: 10,
-                                fontWeight: "bold",
-                            }}
-                        >
-                            Print
-                        </Text>
-                    </Pressable>
+        >
+          <Pressable
+            onPress={printDoc}
+            style={{
+              backgroundColor: colors.btnColor,
+              height: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 7,
+              width: 60
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 10,
+                fontWeight: "bold",
+              }}
+            >
+              Print
+            </Text>
+          </Pressable>
 
-                </View>
+        </View>
         {/* End of addition */}
 
         {revenueDetails ? (
@@ -624,12 +667,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   // Added by Om on 16-04-23
-    // Reason : Fix the button
-    btns: {
-      alignSelf: "center",
-      fontSize:3,
-      flexDirection:'row',
-      // paddingTop:40
+  // Reason : Fix the button
+  btns: {
+    alignSelf: "center",
+    fontSize: 3,
+    flexDirection: 'row',
+    // paddingTop:40
   },
   // End of modification
   /**

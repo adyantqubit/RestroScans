@@ -5,6 +5,7 @@ import * as SecureStore from "expo-secure-store";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import Footer from '../../src/components/Footer/Footer'
 
 export default function OrdersScreen({ route, navigation }) {
   // Added by Yuvraj Sahu on 9-4-2023
@@ -55,6 +56,7 @@ export default function OrdersScreen({ route, navigation }) {
   };
 
   return (
+    <>
     <ScrollView>
       {/* This function is used to map or show the data  */}
       {orders.length > 0 ? (
@@ -86,6 +88,10 @@ export default function OrdersScreen({ route, navigation }) {
         <Text style={{textAlign: "center", marginTop: 20}}>No data available</Text>
       )}
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
+ </>
   );
 }
 

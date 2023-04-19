@@ -18,6 +18,7 @@ import { getMenuList, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
+import Footer from '../../src/components/Footer/Footer'
 // import { tenantName } from "../config/config";
 // import { Country, State, City } from "country-state-city";
 
@@ -137,6 +138,7 @@ export default function AddMenu() {
   };
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <View style={{ marginTop: 5 }}>
@@ -288,6 +290,10 @@ export default function AddMenu() {
         {/* End of comment */}
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
+ </>
   );
 }
 

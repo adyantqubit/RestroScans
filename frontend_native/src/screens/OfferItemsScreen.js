@@ -23,6 +23,8 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from '../../src/components/Footer/Footer'
+
 export default function OfferItemsScreen({ route, navigation }) {
 
     const { offerName, bannerName, offerList, bannerList, bannerItemList, bannerId } = route.params;
@@ -211,6 +213,7 @@ export default function OfferItemsScreen({ route, navigation }) {
     }
 
     return (
+        <>
         <ScrollView>
             <View style={styles.container}>
                 <View style={{ marginTop: 5 }}>
@@ -442,6 +445,10 @@ export default function OfferItemsScreen({ route, navigation }) {
                 </View>
             </View>
         </ScrollView>
+         {/* Added by Om on 18-04-23 For showing the footer*/}
+         <Footer/>
+         {/* End of addition */}
+        </>
     );
 }
 const styles = StyleSheet.create({

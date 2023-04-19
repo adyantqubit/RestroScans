@@ -28,6 +28,8 @@ import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import Footer from '../../src/components/Footer/Footer'
+
 
 export default function ItemListScreen({ route, navigation }) {
   /* Get the param */
@@ -236,6 +238,7 @@ export default function ItemListScreen({ route, navigation }) {
   // End of addition
 
   return (
+    <>
     <ScrollView>
       {/* Edit Category Form  */}
       <View style={styles.container}>
@@ -464,6 +467,10 @@ export default function ItemListScreen({ route, navigation }) {
         ))}
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+           {/* End of addition */}
+        </>
   );
 }
 

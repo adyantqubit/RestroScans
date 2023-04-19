@@ -22,7 +22,7 @@ import { saveAllOffer } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import { useContext } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import Footer from '../../src/components/Footer/Footer'
 import { AppStateContext } from "../context/AppStateProvider";
 
 export default function AddBanner() {
@@ -349,17 +349,9 @@ export default function AddBanner() {
                     ))}
                 </View>
             </ScrollView>
-            {/* Added by Om for show the footer */}
-            <View
-                style={{ backgroundColor: '#003366', display: "flex", flexDirection: "row", justifyContent: 'center', flexWrap: 'wrap', }}
-            >
-                <TouchableOpacity onPress={() => Linking.openURL('https://adyant.co.in/')}>
-                    <Text style={{ color: 'white' }}>
-                        Adyant Powered © 2023
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            {/* End of addition */}
+           {/* Added by Om on 18-04-23 For showing the footer*/}
+           <Footer/>
+           {/* End of addition */}
         </>
     );
 }

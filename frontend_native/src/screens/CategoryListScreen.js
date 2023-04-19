@@ -29,6 +29,7 @@ import Checkbox from "expo-checkbox";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
+import Footer from '../../src/components/Footer/Footer'
 
 export default function CategoryListScreen({ route, navigation }) {
   /* Get the param */
@@ -203,6 +204,7 @@ export default function CategoryListScreen({ route, navigation }) {
   // End of addition
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <View style={{ marginTop: 5 }}>
@@ -402,6 +404,10 @@ export default function CategoryListScreen({ route, navigation }) {
         </View>
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
+ </>
   );
 }
 

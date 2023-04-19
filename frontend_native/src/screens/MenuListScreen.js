@@ -15,6 +15,8 @@ import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from '../../src/components/Footer/Footer'
+
 
 // Added by Yuvraj Sahu on 15-3-2023
 // Reason - to tenant from localstorage and get menu lost
@@ -69,6 +71,7 @@ export default function MenuListScreen({ navigation }) {
   }
 
   return (
+    <>
     <View style={{ height: "100%" }}>
       <ScrollView>
         {/* Menu Items ----------------------------------------------- */}
@@ -148,7 +151,12 @@ export default function MenuListScreen({ navigation }) {
       </View> */}
         {/* Items List Close ------------------------------------------ */}
       </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
     </View>
+    
+ </>
   );
 }
 

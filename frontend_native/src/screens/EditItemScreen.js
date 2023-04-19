@@ -31,6 +31,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import Checkbox from "expo-checkbox";
 import config from "../config/config";
 import { AppStateContext } from "../context/AppStateProvider";
+import Footer from '../../src/components/Footer/Footer'
 
 export default function EditItemScreen({ route, navigation }) {
   /* Get the param */
@@ -213,6 +214,7 @@ export default function EditItemScreen({ route, navigation }) {
   // End of addition
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.labels}>
@@ -565,6 +567,10 @@ export default function EditItemScreen({ route, navigation }) {
         </View>
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
+ </>
   );
 }
 

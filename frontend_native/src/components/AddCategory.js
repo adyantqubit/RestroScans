@@ -22,6 +22,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
+import Footer from '../../src/components/Footer/Footer'
 
 // import { Country, State, City } from "country-state-city";
 
@@ -153,6 +154,7 @@ export default function AddCategory() {
   };
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.labels}>
@@ -322,6 +324,10 @@ export default function AddCategory() {
         </View>
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
+ </>
   );
 }
 

@@ -19,6 +19,8 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from '../../src/components/Footer/Footer'
+
 
 export default function AddBannerItems() {
 
@@ -179,6 +181,7 @@ export default function AddBannerItems() {
     });
 
     return (
+        <>
         <ScrollView>
             <View style={styles.container}>
                 <Text style={{ marginTop: 5 }}>Banner/Offer name</Text>
@@ -231,6 +234,10 @@ export default function AddBannerItems() {
 
             </View>
         </ScrollView>
+         {/* Added by Om on 18-04-23 For showing the footer*/}
+         <Footer/>
+           {/* End of addition */}
+        </>
     );
 }
 

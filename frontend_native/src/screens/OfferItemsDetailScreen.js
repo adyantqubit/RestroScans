@@ -29,6 +29,8 @@ import Checkbox from "expo-checkbox";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from '../../src/components/Footer/Footer'
+
 
 export default function OfferItemsDetailScreen({ route, navigation }) {
     /* Get the param */
@@ -283,6 +285,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
     // End of addition
 
     return (
+        <>
         <ScrollView>
             {/* Edit Category Form  */}
             <View style={styles.container}>
@@ -384,6 +387,10 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
                 </View>
             </View>
         </ScrollView>
+       {/* Added by Om on 18-04-23 For showing the footer*/}
+       <Footer/>
+       {/* End of addition */}
+    </>
     );
 }
 

@@ -14,6 +14,7 @@ import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from '../../src/components/Footer/Footer'
 
 export default function MenuListScreen({ navigation }) {
   var {render, setRender} = useContext(AppStateContext)
@@ -100,6 +101,9 @@ export default function MenuListScreen({ navigation }) {
         </View>
         
       </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer/>
+           {/* End of addition */}
     </View>
   );
 }

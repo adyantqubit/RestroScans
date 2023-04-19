@@ -22,6 +22,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { AppStateContext } from "../context/AppStateProvider";
 // import { Country, State, City } from "country-state-city";
 import Checkbox from "expo-checkbox";
+import Footer from '../../src/components/Footer/Footer'
 
 export default function AddItem() {
   // Added by Yuvraj Sahu on 24-3-2023
@@ -182,6 +183,7 @@ export default function AddItem() {
   };
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.labels}>
@@ -507,6 +509,10 @@ export default function AddItem() {
         </View>
       </View>
     </ScrollView>
+    {/* Added by Om on 18-04-23 For showing the footer*/}
+    <Footer/>
+    {/* End of addition */}
+ </>
   );
 }
 
