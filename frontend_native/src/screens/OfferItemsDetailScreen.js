@@ -207,7 +207,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
             bannerItemId,
         ).then((response) => {
             if (response.msg) {
-                Alert.alert("Successful", response.msg);
+                Alert.alert("Successfull", response.msg);
                 //   setIsDisable(false);
                 setRender(!render)
                 //   var categories = (response.categoryList).filter((dt)=>dt.id == categoryID)
@@ -221,7 +221,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
             else{
                 // if (response.error) {
                 //     alert(response.error)
-                    Alert.alert("Error", "This banner or item name already exist");
+                    Alert.alert("Error", "This banner/offer or item name already exist");
                   //  End of addition
                     // setIsDisable(false);
                 }

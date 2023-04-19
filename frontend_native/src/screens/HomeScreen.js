@@ -24,6 +24,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { getDashboardData, getDashboardDetails } from "../api/Services";
 import { SvgCssUri } from 'react-native-svg';
 import * as Print from 'expo-print'
+import Icon from "react-native-vector-icons/AntDesign";
+
 
 export default function HomeScreen({ navigation }) {
   const isFocused = useIsFocused();
@@ -58,7 +60,7 @@ export default function HomeScreen({ navigation }) {
    * Added by -Ashish Dewangan on 19-04-2023
    * Reason - To show todays orders
    */
-  const [todaysNewlyPlacedOrders,setTodaysNewlyPlacedOrders]=useState([]);
+  const [todaysNewlyPlacedOrders, setTodaysNewlyPlacedOrders] = useState([]);
   const [todaysPendingOrders, setTodaysPendingOrders] = useState([]);
   const [todaysCompletedOrders, setTodaysCompletedOrders] = useState([]);
   /**
@@ -216,28 +218,37 @@ export default function HomeScreen({ navigation }) {
 <html>
  
   <body style="text-align: center;">
-    
+  <span style="font-size: 90px; font-family: Helvetica Neue; font-weight: bold;">
+  ${userData.restaurant_name}
+</span>
     <img
-      src=http://192.168.215.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.28:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 90vw;" />
-      <h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
-      Adyant Softtech Pvt Ltd Raipur
-    </h1><h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
-    restroscans.com Scan menu
-  </h1><h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
+      <div>
+      <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+      Adyant Softtech Pvt. Ltd., Raipur
+    </h1><h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+    Scan menu
+  </h1>
+  <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <img src = '../../assets/No_offer.jpg'/>
+   restroscans.com
+</h1>
+  <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
   Table no :
 </h1>
+</div>
   </body>
 </html>
 `;
 
-const printDoc = async () =>{
-  await Print.printAsync({
-    html,
-  });
-};
-  
+  const printDoc = async () => {
+    await Print.printAsync({
+      html,
+    });
+  };
+
   // End of addition 
 
   return (
@@ -258,10 +269,15 @@ const printDoc = async () =>{
                 style={styles.restaurantImg}
               />
             </View> */}
-        {/* <View style={styles.restaurantDetail}>
-            <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
-            <Text style={styles.restaurantHeadline}>{userData.tag_line}</Text>
-          </View> */}
+
+        {/* Uncommentded by Om on 19-04-23
+            Reason: show the Restaurant name */}
+        <View style={styles.restaurantDetail}>
+          <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
+          {/* <Text style={styles.restaurantHeadline}>{userData.tag_line}</Text> */}
+        </View>
+        {/* End of Uncommentded code */}
+
         {/* End of code comment and modification by Ashish on 12-04-2023 */}
 
         {/* Commented and modified by - Ashish Dewangan on 12-04-2023
@@ -321,7 +337,7 @@ const printDoc = async () =>{
           alignSelf: 'center',
           // borderColor:'red',
           // borderWidth:1,
-          paddingTop: 12,
+          // paddingTop: 12,
           paddingBottom: 10,
           width: "100%",
           // height:'30%'
@@ -331,14 +347,29 @@ const printDoc = async () =>{
             width="180"
             height="180"
             viewBox="0 0 450 470"
-            uri="http://192.168.215.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+            uri="http://192.168.1.28:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
           // uri={scanner}
 
           />
-          <Text style={{ fontSize: 10, marginLeft: 12 }}>Adyant Softtech Pvt Ltd Raipur</Text>
-          <Text style={{ fontSize: 10, lineHeight: 12 }}>restroscans.com Scan menu</Text>
-          <Text style={{ fontSize: 10, lineHeight: 12 }}>Table no :</Text>
+          <View style={{
+            marginTop: -15, alignItems: "center",
+            justifyContent: "center",
+            alignSelf: 'center',
+          }}>
+            <Text style={{ fontSize: 10, }}>Adyant Softtech Pvt. Ltd., Raipur</Text>
+            <Text style={{ fontSize: 10, }}>Scan menu </Text>
+              <Text style={{ fontSize: 10, }}>
 
+               
+              <Icon name="earth" size={12} color="black" />
+
+              &nbsp;restroscans.com </Text>
+
+
+            <Text style={{ fontSize: 10, }}>
+
+              Table no: </Text>
+          </View>
 
         </View>
         <View></View>
@@ -632,6 +663,7 @@ const styles = StyleSheet.create({
   },
   restaurantLable: {
     fontSize: fonts.title1,
+    fontWeight: 'bold'
   },
   restaurantHeadline: {
     fontSize: 15,

@@ -319,7 +319,7 @@ class OfferAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Banner added successfully"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Banner/Offer added successfully"},status=status.HTTP_201_CREATED) 
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
@@ -351,7 +351,7 @@ class OfferAPIView(APIView):
         category = Offer.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Successfully banner deleted"},200)
+            return Response({"msg":"Successfully banner/offer deleted"},200)
         return Response({"error":"error"}, 404)
     
 # End of addition
@@ -375,10 +375,10 @@ class OfferItemsAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Banner item added successfully"},status=status.HTTP_201_CREATED)
+            return Response({"msg":"Banner/Offer item added successfully"},status=status.HTTP_201_CREATED)
         # Modification by Om on 14-04-23
         # Reason : Chagne the error method
-        return Response({"error":"Banner with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
         # End of moodification
     # End of addition
 
@@ -397,7 +397,7 @@ class OfferItemsAPIView(APIView):
         category = OfferItem.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Successfully banner items deleted"},200)
+            return Response({"msg":"Successfully banner/offer items deleted"},200)
         return Response({"error":"error"}, 404)
 # End of addition
 

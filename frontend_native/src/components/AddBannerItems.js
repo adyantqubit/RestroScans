@@ -160,7 +160,7 @@ export default function AddBannerItems() {
                 else {
                     // if (response.error) {
                     //     alert(response.error)
-                    Alert.alert("Error", "Banner with this item name already exists");
+                    Alert.alert("Error", "Banner/Offer with this item name already exists");
                     //  End of addition
                     setIsDisable(false);
                 }
