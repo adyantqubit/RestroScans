@@ -137,13 +137,13 @@ const Cart = () => {
               {/* added by rohan-13/4/23 - to get all items subtotal */}
               <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>₹ {item.price}</div>
                 <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
-                  <span className={style.sign} onClick={e => decreaseQuantity(item)}>
+                  <div className={style.sign} onClick={e => decreaseQuantity(item)}>
                     -
-                  </span>
-                  {item.quantity}
-                  <span className={style.sign} onClick={e => { setDetailPopupVisiblity(true); setSelectedItem(item) }}>
+                  </div>
+                  <div className={style.quantityText}>{item.quantity}</div>
+                  <div className={style.signPlus} onClick={e => { setDetailPopupVisiblity(true); setSelectedItem(item) }}>
                     +
-                  </span>
+                  </div>
                 </span>
               </div>
             </div>
@@ -208,8 +208,8 @@ function RemoveItem({ removeProductIndex, currentIndex, setRemoveProductIndex })
       <div className={style.removeContainer}>
         <div className={style.warningText} >Are you sure want to remove this item?</div>
         <div className={style.deleteBtnContainer}>
-          <button className={style.btn} onClick={removeFromCart}>sure!</button>
-          <button className={style.btn} onClick={e => setRemoveProductIndex(null)}>Cancel</button>
+          <button className={style.btn} onClick={removeFromCart}>Yes</button>
+          <button className={style.btn} onClick={e => setRemoveProductIndex(null)}>No</button>
         </div>
       </div>
     )

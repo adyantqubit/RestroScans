@@ -31,13 +31,21 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     var [quantityFull, setQuantityFull] = useState(0)
     var [sizeSelected, setSizeSlelected] = useState(null)
 
+    if (typeof item?.item_name != "undefined"){
+        item['name']=item.item_name
+        item['icon']=item.item_image
+    }
+
     useEffect(() => {
         // whenever diffrent item is selected it reset the current quantity of item from cart 
         if (item) {
             setQuantityFull(CurrentAddedQuantity("Full Plate"))
             setQuantityHalf(CurrentAddedQuantity("Half Plate"))
         }
-    }, [item])
+
+       
+        
+    }, [item,isDetailPopupOpen])
 
 
     function closePopup() {
@@ -58,13 +66,13 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 // if found then set current increases or deacrease amount to cart item and pass a message
                 cartTemp[cartIndex].quantity = quantityFull
                 setCart([...cartTemp])
-                notification("Successfully quantity updated.")
+                notification("Successfully quantity updated")
             } else {
                 // if selected item is not found then it means it is new item with quantity so we have to push 
                 // item with entered quantity
                 cartTemp = [...cartTemp, cartDataCreate(quantityFull, "Full Plate", item.discounted_full_price)]
                 setCart([...cartTemp])
-                notification("Successfully added to your list.")
+                notification("Successfully added to your list")
 
             }
         }
@@ -77,7 +85,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     // if found index then remove item 
                     setCart(elementRemover(cartId, cartTemp))
                     cartTemp = elementRemover(cartId, cartTemp)
-                    notification("Item is succesfully removed from list.")
+                    notification("Item is succesfully removed from list")
                 }
             }
         }
@@ -90,7 +98,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 // if found then set current increases or deacrease amount to cart item and pass a message
                 cartTemp[cartId].quantity = quantityhalf
                 setCart(cartTemp)
-                notification("Successfully quantity updated.")
+                notification("Successfully quantity updated")
             } else {
                 // if selected item is not found then it means it is new item with quantity so we have to push 
                 // item with entered quantity
@@ -98,7 +106,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 //reason- i am bymistake written full price in half price section
                 cartTemp = [...cartTemp, cartDataCreate(quantityhalf, "Half Plate", item.discounted_half_price)]
                 setCart(cartTemp)
-                notification("Successfully added to your list.")
+                notification("Successfully added to your list")
             }
         }
         else {
@@ -110,7 +118,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     // if found index then remove item 
                     setCart(elementRemover(cartId, cartTemp))
                     cartTemp = elementRemover(cartId, cartTemp)
-                    notification("Item is succesfully removed from list.")
+                    notification("Item is succesfully removed from list")
                 }
             }
         }
@@ -208,13 +216,16 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             content: `${msg}`,
             className: 'custom-class',
             style: {
-                marginTop: '5vh',
+                marginTop: '4.5vh',
                 fontSize: "16px",
                 letterSpacing: "1.3px",
                 fontFamily: "Times News Roman",
-                color: colors.headingColor,
+                color: colors.subHeadingColor,
+
             },
-            key: 1
+
+            key: 1,
+            duration:3
         });
     }
 
@@ -228,7 +239,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
 
                 {item ? <div className={style.InformationBox} style={{ backgroundColor: colors.backgroundTheme }}>
                     <div className={style.heading} style={{ color: colors.bannerColor }}>
-                        Please select half or full plate
+                        Please select half or full 
                     </div>
                     <div className={style.detailContainer}>
                         <div className={style.card} >
@@ -255,8 +266,8 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                             <span className={style.sign} onClick={e => { decreamentQuantiy("Full Plate") }}>
                                                 -
                                             </span>
-                                            {quantityFull}
-                                            <span className={style.sign} onClick={e => { setQuantityFull(++quantityFull) }}>
+                                            <div className={style.quantityText}>{quantityFull}</div>
+                                            <span className={style.signPlus} onClick={e => { setQuantityFull(++quantityFull) }}>
                                                 +
                                             </span>
                                         </span>
@@ -287,8 +298,8 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                             <span className={style.sign} onClick={e => { decreamentQuantiy("Half Plate") }}>
                                                 -
                                             </span>
-                                            {quantityhalf}
-                                            <span className={style.sign} onClick={e => { setQuantityHalf(++quantityhalf) }}>
+                                            <div className={style.quantityText}>{quantityhalf}</div>
+                                            <span className={style.signPlus} onClick={e => { setQuantityHalf(++quantityhalf) }}>
                                                 +
                                             </span>
                                         </span>
@@ -304,7 +315,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
 
                     <div className={style.buttonContainer}>
                         <button className={style.fullSelectionBtn}
-                            style={{ backgroundColor: colors.bannerColor, color: colors.subHeadingColor }}
+                            style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }}
                             onClick={AddItemToCart}
                         >
                             Submit
@@ -349,8 +360,8 @@ function RemoveItem({ item, size, currentSize, setSizeSlelected, setQuantityFull
             <div className={style.removeContainer}>
                 <div className={style.warningText} >Are you sure want to remove this item?</div>
                 <div className={style.deleteBtnContainer}>
-                    <button className={style.btn} onClick={removeFromCart}>sure!</button>
-                    <button className={style.btn} onClick={e => { setSizeSlelected(null) }}>Cancel</button>
+                    <button className={style.btn} onClick={removeFromCart}>Yes</button>
+                    <button className={style.btn} onClick={e => { setSizeSlelected(null) }}>No</button>
                 </div>
             </div>
         )

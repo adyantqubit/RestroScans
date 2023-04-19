@@ -29,6 +29,7 @@
 .add_product{
     width: 23%;
     min-height: 15px;
+    max-width: 59px;
     border: none;
     font-family: "Times New Roman";
     font-size: 12px;
@@ -45,8 +46,9 @@
 
 .plus_icon{
     position: absolute;
-    left: 6px;
+    left: 2px;
     padding-top: 0.5px;
+    
 }
 /* added by rohan -6/4/23 */
 .heading_container{
@@ -175,7 +177,7 @@
 
 .when_offer_is_null {
     display: none;
-    height: 41%;
+    /* height: 41%; */
 }
 
 .when_offer_is_null_spanmain {
@@ -206,8 +208,8 @@
     /* display: block !important; */
     display: block;
     /* border: 1px solid red; */
-    /* height: 100%;
-    overflow: auto; */
+     height: 100%; 
+    /* overflow: auto; */
 
     /* Omm */
 }
@@ -216,12 +218,25 @@
     position:unset;
 }
 
-:is(._fullPage_1veud_7,._prevPage_1veud_8,._nextPage_1veud_9):is(._left-to-right_1veud_17,._right-to-left_1veud_17){
-    overflow-x:unset !important;
-}
+
+
+/* :is(._fullPage_1veud_7,._prevPage_1veud_8,._nextPage_1veud_9):is(._left-to-right_1veud_17,._right-to-left_1veud_17){
+    max-height: 100%;
+     overflow: hidden; 
+    overflow-x: auto !important;
+} */
+/* 
 
 ._fullPage_1veud_7, ._prevPage_1veud_8, ._nextPage_1veud_9{
-    /* position: unset; */
+     position: unset; 
+} */
+
+/* ._fullPage_1veud_7, ._prevPage_1veud_8, ._nextPage_1veud_9{
+    position:unset !important;
+} */
+
+:is(._fullPage_1veud_7,._prevPage_1veud_8,._nextPage_1veud_9):is(._left-to-right_1veud_17,._right-to-left_1veud_17){
+    overflow-x:unset !important;
 }
 
 .allcategory_container {
@@ -611,7 +626,7 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
 .offer_maindiv {
     color: white;
     display: block;
-    height: 50%;
+    /* height: 50%; */
     overflow: auto;
 }
 
@@ -794,10 +809,14 @@ a.ant-notification-notice-close {
     background-color: #ededed;
 }
 
+.button_container{
+    float:right;
+    width: 50px;
+}
 
 .closeIcon{
     position: absolute;
-    right: 20px;
+    right: 8px;
     top:0;
     bottom: 0;
     margin:auto 0;
@@ -867,7 +886,7 @@ a.ant-notification-notice-close {
     } */
 
     .offer_maindiv {
-        height: 43%;
+        /* height: 43%; */
     }
     .main_footer_container{
         bottom: 20px;

@@ -68,15 +68,16 @@
 .imgContainer{
     width: 22%;
     height: fit-content;
+    max-height: 100px;
     padding-top:1%;
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
     position: relative;
 }
 
 .img{
-    width: 100%;
-    height: fit-content;
+    width: 70px;
+    height: 70px;
     /* height: 100%; */
     /* padding-top: 2px;
     border-radius: 25px; */
@@ -87,7 +88,7 @@
     position: absolute;
     top: 8px;
     right: 4px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
 }
 
 .infomation{
@@ -121,7 +122,7 @@
 
 .label{
     font-size: 12px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     font-family: "Times New Roman";
     font-weight: 400;
 }
@@ -141,6 +142,7 @@
 .quantityContainer{
     background-color: #f2f2f2;
     overflow: hidden;
+    display: flex;
 }
 
 .sign{
@@ -150,11 +152,26 @@
     margin: 0 3px;
     border-radius: 5px;
     text-align: center;
-    padding: 0px 5px;
+    padding: 0px 0px;
     font-size: 20px;
     font-weight: 600;
 }
 
+.signPlus{
+    min-width: 20px;
+    /* min-height: 15px; */
+    background-color: transparent;
+    margin: 0 3px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0px 0px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.quantityText{
+    padding: 5px 0;
+}
 
 
 .row1{
@@ -202,7 +219,7 @@
     justify-self: flex-end;
     position: fixed;
     bottom: 40px;
-    
+    /* gap:20px; */
     background-color: #fff;
     padding-top: 5px;
     /* z-index: 9; */
@@ -232,10 +249,10 @@ letter-spacing: 3px;
 }
 
 .cancleBtn{
-    width: 48%;
+    width: 46%;
     /* margin: 5px auto; */
-    font-size: 16px;
-    letter-spacing: 1.7px;
+    font-size: 18px;
+    letter-spacing: 1px;
     font-family: "Times New Roman";
     padding: 5px 0;
     border-radius: 5px;
@@ -245,10 +262,10 @@ letter-spacing: 3px;
 }
 
 .ProceedBtn{
-    width: 48%;
+    width: 46%;
     /* margin: 5px auto; */
-    font-size: 16px;
-    letter-spacing: 1.7px;
+    font-size: 18px;
+    letter-spacing: 1px;
     font-family: "Times New Roman";
     padding: 5px 0;
     border-radius: 5px;
