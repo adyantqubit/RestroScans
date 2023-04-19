@@ -233,7 +233,7 @@ export default function InvoiceDetails() {
                     <span className="invoice_qunatity_sub_heading">{items.quantity}</span>
                   </div>
                   <div className='invoice_total_price_container'>
-                    <span className="invoice_total_rating_sub_heading"> ? {items.quantity * items.price}</span>
+                    <span className="invoice_total_rating_sub_heading"> ₹ {items.quantity * items.price}</span>
                   </div>
                 </div>
 
@@ -266,26 +266,26 @@ export default function InvoiceDetails() {
           <div className='invoice_second_container'>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Subtotal</span>
-              <span className="invoice_second_sub_heading">? {orders.sub_total}</span>
+              <span className="invoice_second_sub_heading">₹ {orders.sub_total}</span>
             </div>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">CGST </span>
               {/* Added by rohan- 14/4/23 -------------------------------- */}
               {/* Modified by rohan- 16-04-2023 -------------------------------- */}
-              <span className="invoice_second_sub_heading"> ? {orders.cgst}</span>
+              <span className="invoice_second_sub_heading"> ₹ {orders.cgst}</span>
             </div>
 
             {/* Modified by rohan- 16-04-2023 -------------------------------- */}
 
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">SGST</span>
-              <span className="invoice_second_sub_heading"> ? {orders.sgst}</span>
+              <span className="invoice_second_sub_heading"> ₹ {orders.sgst}</span>
             </div>
             {/* End of added code 16-04-2023 */}
 
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Total</span>
-              <span className="invoice_second_sub_heading"><b> ? {orders.total}</b></span>
+              <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span>
             </div>
           </div>
         </div>
