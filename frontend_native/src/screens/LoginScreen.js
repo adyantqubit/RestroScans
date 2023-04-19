@@ -278,7 +278,7 @@ export default function LoginScreen({ navigation }) {
 
               <View style={{ width: "93%" }}>
                 <Pressable
-                  onPress={forgotPasswordHandler}
+                  onPress={navRegister}
                   style={{ alignSelf: "flex-end" }}
                 >
                   <Text style={{ color: "blue" }}>Registration</Text>
