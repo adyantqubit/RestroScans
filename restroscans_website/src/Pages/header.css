@@ -1,0 +1,291 @@
+/* Added by:- Suman sahu  Date:- 05/04/2023
+Reason:- Create css for Header.jsx */
+
+@import "../root.css";
+
+.header_main_div {
+  background-color: rgba(225, 239, 254, 1);
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  margin: auto;
+}
+.restro_scans_logo {
+  float: left;
+}
+.header_adyant_logo {
+  width: 4.5vw;
+  height: 4.5vh;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+}
+.logo_link {
+  line-height: 3.5rem;
+  padding-left: 2rem;
+  text-decoration: none;
+}
+.header_restroscan_link {
+  font-size: 1.4rem;
+  color: black;
+  font-family: sans-serif;
+}
+.links_div {
+  line-height: 6vh;
+  display: flex;
+  float: right;
+  margin-top: 0.3rem;
+}
+.header_links {
+  font-family: sans-serif;
+  font-size: 1rem;
+  color: black;
+  font-weight: 500;
+  padding: 0.7rem 1.3rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.header_links:hover {
+  color: rgb(0, 106, 255);
+}
+.header_btn_responsive {
+  display: none;
+}
+.header_btn {
+  border: 2px;
+  width: 12vw;
+  font-size: 1rem;
+  color: rgb(221, 223, 225);
+  font-weight: bold;
+  height: 3rem;
+  border-radius: 3rem;
+
+  background-image: radial-gradient(
+    circle,
+    rgb(70, 130, 151) 50%,
+    rgb(24, 91, 114) 100%
+  );
+  border-radius: 2rem 0;
+  box-shadow: 0px 0px 4px black;
+  cursor: pointer;
+  margin-right: 3rem;
+  margin-top: 0.5rem;
+  padding-right: 1rem;
+}
+
+.header_btn:hover {
+  background-image: radial-gradient(
+    circle,
+    rgb(183, 111, 111) 10%,
+    rgb(160, 95, 95) 100%
+  );
+  color: aliceblue;
+}
+
+.header_menu {
+  display: none;
+}
+.menu_open_first {
+  top: 0;
+  right: 0;
+  margin-left: 2rem;
+  float: right;
+  margin-right: 3rem;
+  display: flex;
+  list-style: none;
+  line-height: 4;
+}
+#features_link,
+#pricing_link {
+  display: none;
+}
+
+.header_icons {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .header_btn {
+    height: 2.5rem;
+  }
+}
+@media (max-width: 1024px) {
+  .logo_link {
+    padding-left: 1rem;
+    line-height: 7vh;
+  }
+  .header_adyant_logo {
+    height: 3vh;
+    margin-top: 1.5rem;
+  }
+}
+@media (max-width: 900px) {
+  html {
+    font-size: 80%;
+  }
+  .header_main_div {
+    padding-bottom: 0.7rem;
+  }
+  .side_bar_icon {
+    font-size: 2rem;
+  }
+  .header_menu {
+    display: block;
+    font-size: 3rem;
+    float: left;
+    margin-left: 1rem;
+    cursor: pointer;
+  }
+  .header_icons {
+    display: inline-block;
+    color: white;
+  }
+  .links_div {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    /* float: revert; */
+    margin-top: 4.7rem;
+    /* background-color: rgb(20, 19, 19); */
+    background-color: rgba(225, 239, 254, 1);
+  }
+  .menu_open_second li {
+    margin: 3rem 0;
+  }
+  .menu_open_second {
+    top: auto;
+    transition: all 0.5s;
+    list-style: none;
+    height: 60vh;
+  }
+  .menu_open_first {
+    display: none;
+  }
+  .header_links {
+    /* color: whitesmoke; */
+    font-size: 1.2rem;
+    font-family: sans-serif;
+  }
+  .header_btn {
+    display: none;
+  }
+  .header_btn_responsive {
+    width: fit-content;
+    display: flex;
+    float: right;
+    justify-content: center;
+    align-items: center;
+    border: 2px;
+    width: fit-content;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 3rem;
+    border-radius: 3rem;
+
+    background-image: radial-gradient(
+      circle,
+      rgb(70, 130, 151) 50%,
+      rgb(24, 91, 114) 100%
+    );
+    border-radius: 2rem 0;
+    box-shadow: 0px 0px 8px black;
+    cursor: pointer;
+    margin-right: 5rem;
+    margin-top: 1rem;
+    padding-right: 1rem;
+    color: rgb(221, 223, 225);
+  }
+  .header_btn_responsive:hover {
+    background-image: radial-gradient(
+      circle,
+      rgb(183, 111, 111) 10%,
+      rgb(160, 95, 95) 100%
+    );
+  }
+}
+@media (max-width: 768px) {
+  .links_div {
+    /* width: 18vw; */
+    margin-top: 4.8rem;
+  }
+  .header_btn_responsive {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+    height: 2.5rem;
+    margin-top: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .links_div {
+    /* width: 22vw; */
+    margin-top: 5rem;
+  }
+  .header_adyant_logo {
+    width: 8vw;
+    height: 3.5vh;
+  }
+}
+@media (max-width: 500px) {
+  .header_menu {
+    margin-left: 0.5rem;
+  }
+  .logo_link {
+    padding-left: 0;
+  }
+  .header_restroscan_link {
+    font-size: 1.3rem;
+  }
+  .header_adyant_logo {
+    margin-top: 1rem;
+    width: 10vw;
+    height: 3.2vh;
+  }
+  .header_btn_responsive {
+    margin-right: 2rem;
+  }
+  .restro_scans_logo {
+    float: left;
+    padding-left: 1rem;
+  }
+  .header_btn_responsive {
+    height: 2.5rem;
+  }
+  .links_div {
+    /* width: 27vw; */
+    line-height: 3vh;
+    margin-top: 4.2rem;
+  }
+  .header_links {
+    padding: 0 1.3rem;
+  }
+  #features_link,
+  #pricing_link {
+    display: flex;
+    padding-left: 1.5rem;
+  }
+}
+@media (max-width: 400px) {
+  .header_btn_responsive {
+    height: 2rem;
+    margin-right: 1rem;
+  }
+  .links_div {
+    /* width: 35vw; */
+    margin-top: 4.9rem;
+  }
+}
+@media (max-width: 321px) {
+  .header_menu {
+    font-size: 2.5rem;
+  }
+  .side_bar_icon {
+    font-size: 1.4rem;
+  }
+  .header_restroscan_link {
+    font-size: 1rem;
+  }
+  .header_adyant_logo {
+    margin-right: 0.5rem;
+  }
+}
+
+/* End of added code 05/04/2023 */

@@ -1,0 +1,13 @@
+/* Added by - Suman sahu 
+  Date - 20-04-2023
+  Reason - Global css for website
+*/
+
+:root {
+  /* ----------Font sizes of all pages */
+  --primary-textFontSize: 2rem;
+  --descriptions-textFontSize: 1rem;
+
+  /* ----------Font sizes of about us page */
+  --primary-subheading-textFontSize: 1.5rem;
+}

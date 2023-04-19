@@ -1,0 +1,731 @@
+/* Added by:- Suman sahu On 05/04/2023
+Reason:- Create css for Home.jsx */
+
+/* ------------------- Main Section--------------------------- */
+.home_main_div {
+  height: 100%;
+  padding-top: 3rem;
+  width: 100%;
+  margin: auto;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* ------------------- Description Section--------------------------- */
+.home_description_section {
+  background-color: rgba(225, 239, 254, 1);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 80%, 0 100%);
+  height: 90vh;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  display: flex;
+  padding-top: 2rem;
+}
+.description_left_img_div {
+  width: 50%;
+}
+.scanner_img {
+  height: 55vh;
+  width: 30vw;
+  margin-top: 3rem;
+  margin-left: 8rem;
+  border-radius: 1rem;
+}
+.description_right_content_div {
+  width: 50%;
+  margin-left: 4rem;
+}
+.restro_heading {
+  font-size: var(--primary-textFontSize);
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+  display: flex;
+  font-family: sans-serif;
+  color: rgb(122, 38, 38);
+  text-align: center;
+}
+.restro_description {
+  width: 30vw;
+  font-size: var(--descriptions-textFontSize);
+  justify-content: center;
+  text-align: justify;
+  color: rgb(73, 72, 72);
+}
+.description_btn_div {
+  text-align: center;
+  width: 30vw;
+}
+.book_demo_btn {
+  border: 1px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  width: 50%;
+  height: 3rem;
+  background-image: radial-gradient(
+    circle,
+    rgb(70, 130, 151) 50%,
+    rgb(24, 91, 114) 100%
+  );
+  cursor: pointer;
+  margin-top: 2.5rem;
+  float: left;
+}
+.book_demo_btn:hover {
+  background-image: radial-gradient(
+    circle,
+    rgb(183, 111, 111) 10%,
+    rgb(160, 95, 95) 100%
+  );
+}
+
+/* ------------------- Benifits Section--------------------------- */
+.benefits_heading {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-family: sans-serif;
+  font-size: var(--primary-textFontSize);
+  color: rgb(122, 38, 38);
+  text-align: center;
+}
+.benefits_card_div {
+  display: block;
+  justify-content: center;
+}
+.upper_div {
+  display: flex;
+  justify-content: center;
+}
+.lower_div {
+  display: flex;
+  justify-content: center;
+}
+.benefits_card {
+  width: 20vw;
+  min-height: 30vh;
+  background: rgb(254, 244, 244, 0.3);
+  margin: 2rem;
+  box-shadow: 1px 1px 4px 1px grey;
+  border-radius: 3.5rem 0;
+}
+.benefits_card h3 {
+  text-align: center;
+  align-items: center;
+  margin: 0;
+  padding: 0.7rem 0;
+  color: rgb(10, 100, 130);
+  margin-top: 0.8rem;
+}
+.card_description {
+  padding: 0 1.5rem;
+  color: rgb(85, 83, 83);
+  text-align: justify;
+}
+
+/* -------------------Features Section--------------------------- */
+.home_features_section {
+  display: block;
+  margin-left: 8rem;
+}
+.features_container {
+  padding-left: 4rem;
+  display: flex;
+  width: 85%;
+  height: 50vh;
+}
+.feature_lists_div {
+  display: flex;
+  width: 60%;
+}
+.features_heading {
+  font-size: var(--primary-textFontSize);
+  color: rgb(122, 38, 38);
+  text-align: center;
+}
+.feature_label_first_div {
+  width: 55%;
+  height: 60%;
+  margin-left: 2rem;
+}
+.feature_label_second_div {
+  width: 55%;
+  height: 60%;
+  margin-left: 2rem;
+}
+.features {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+.features_logo {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.7rem;
+  border: 1px solid palevioletred;
+  padding: 0.1rem;
+  border-radius: 5rem;
+  background-color: white;
+}
+.feature_label {
+  font-size: 1.2rem;
+  color: #383838;
+}
+.features_img_div {
+  width: 30%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.features_gif {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 90%;
+  width: 15vw;
+}
+
+/* -------------------Pricing Plans Section--------------------------- */
+.home_pricing_section {
+  width: 90%;
+  margin: auto;
+}
+.pricing_heading {
+  font-size: var(--primary-textFontSize);
+  color: rgb(122, 38, 38);
+  /* font-weight: 800; */
+  text-align: center;
+}
+.pricing_plans_container {
+  display: flex;
+  justify-content: center;
+}
+.pricing_first_div {
+  display: flex;
+  width: 50%;
+}
+.pricing_second_div {
+  display: flex;
+  width: 50%;
+}
+.pricing_img_div {
+  width: 50%;
+  text-align: center;
+}
+.pricing_images {
+  width: 20rem;
+  height: 27rem;
+  justify-content: center;
+  border: 0.1rem solid rgb(132, 129, 129);
+  border-radius: 1rem;
+  margin-bottom: 5rem;
+}
+
+/* -------------------Gallery Details Section--------------------------- */
+.home_gallery_section {
+  width: 95%;
+  margin: auto;
+}
+.gallery_heading {
+  font-size: var(--primary-textFontSize);
+  color: rgb(122, 38, 38);
+  /* font-weight: 800; */
+  text-align: center;
+  margin: auto;
+}
+.galary_slider_images {
+  width: 35rem;
+  height: 20rem;
+  border: 0.1rem solid none;
+  margin-top: 2rem;
+}
+.gallery_slider_div {
+  height: 55vh;
+  margin-bottom: 5rem;
+}
+.swiper-wrapper {
+  text-align: center;
+}
+.div {
+  display: inline-flex !important;
+}
+/* -------------------Patners Details Section--------------------------- */
+.home_restaurent_section {
+  margin: auto;
+  width: 98%;
+  display: block;
+  height: fit-content;
+  padding-bottom: 3rem;
+}
+.restaurent_heading {
+  font-size: var(--primary-textFontSize);
+  color: rgb(122, 38, 38);
+  text-align: center;
+  margin-top: 0;
+}
+.restaurents_container {
+  height: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  border: 2px solid none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.restaurents {
+  width: 13vw;
+  margin: 0.5rem 0.5rem;
+  /* border: 1px solid rgb(204, 196, 196); */
+  padding: 1rem;
+}
+.restaurent_logo {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 10rem;
+  justify-content: center;
+  border: 0.2px solid none;
+  /* margin-top: 1rem; */
+}
+.restaurent_title {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: bold;
+  color: rgb(10, 100, 130);
+}
+.restaurent_address {
+  font-size: 1rem;
+  justify-content: center;
+  text-align: justify;
+  margin: 0;
+  color: rgb(85, 83, 83);
+}
+@media (max-width: 1400px) {
+  .home_description_section {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 80%, 0 100%);
+    height: 90vh;
+  }
+  /* -------------- Description Section------------ */
+  .restro_description {
+    width: 40vw;
+  }
+  .scanner_img {
+    height: 50vh;
+  }
+  /* -------------- Features Section------------ */
+  .features_container {
+    padding-left: 4rem;
+  }
+  .features_heading_div {
+    margin: 2rem;
+  }
+  .feature_lists_div {
+    width: 75%;
+  }
+  /* -------------- Pricing Section------------ */
+  .pricing_images {
+    width: 15rem;
+    height: 23rem;
+  }
+  /* -------------- Gallery Section------------ */
+  .gallery_slider_div {
+    height: 50vh;
+    margin-bottom: 5rem;
+  }
+  .galary_slider_images {
+    width: 35vw;
+    height: 35vh;
+  }
+}
+@media (max-width: 1200px) {
+  .home_description_section {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 80%, 0 100%);
+    height: 90vh;
+  }
+  /* -------------- Description Section------------ */
+  .scanner_img {
+    height: 60vh;
+    width: 40vw;
+    margin-left: 6rem;
+  }
+  .description_right_content_div {
+    margin-left: 4rem;
+  }
+  .restro_description {
+    width: 40vw;
+    margin: 0;
+  }
+  .book_demo_btn {
+    margin-top: 2rem;
+    width: 60%;
+  }
+  /* -------------- Benefits Section------------ */
+  .benefits_card {
+    width: 25vw;
+    margin: 1rem;
+  }
+  .benefits_card h3 {
+    font-size: 1rem;
+  }
+  .description_btn_div {
+    width: 40vw;
+  }
+  /* -------------- Features Section------------ */
+  .features_gif {
+    width: 19vw;
+  }
+  .feature_label {
+    font-size: 1.2rem;
+  }
+  /* -------------- Pricing Section------------ */
+
+  .pricing_images {
+    width: 16rem;
+    height: 21rem;
+  }
+  /* ------------Gallery Section-------------- */
+  .gallery_slider_div {
+    margin-bottom: 5rem;
+  }
+}
+@media (max-width: 1024px) {
+  html {
+    font-size: 85%;
+  }
+  /* ------------Description Section-------------- */
+  .home_description_section {
+    height: 85vh;
+  }
+  .scanner_img {
+    margin-left: 5rem;
+    height: 55vh;
+  }
+  .restro_description {
+    margin-bottom: 3.5rem;
+  }
+  .book_demo_btn {
+    margin-top: 0;
+  }
+  /* ------------Benifits Section-------------- */
+  .benefits_card {
+    width: 28vw;
+  }
+  /* ------------Features Section-------------- */
+  .features_img_div {
+    height: 85%;
+  }
+  /* ------------Pricing Section-------------- */
+  /* ------------Gallery Section-------------- */
+  .home_gallery_section {
+    width: 100%;
+  }
+  .gallery_slider_div {
+    height: 40vh;
+    margin-bottom: 5rem;
+  }
+  .galary_slider_images {
+    width: 35vw;
+    height: 30vh;
+  }
+}
+@media (max-width: 900px) {
+  html {
+    font-size: 60%;
+  }
+  /* ------------Description Section-------------- */
+  .home_description_section {
+    height: 80vh;
+  }
+  .scanner_img {
+    height: 45vh;
+  }
+  .book_demo_btn {
+    width: 70%;
+  }
+  /* ------------Benefits Section-------------- */
+  .card_description {
+    padding: 0 1rem;
+  }
+  /* ------------Features Section-------------- */
+  .feature_label_first_div {
+    margin-left: 0;
+  }
+  /* ------------Pricing Section-------------- */
+  .pricing_images {
+    width: 14rem;
+    height: 19rem;
+  }
+  /* ------------Gallery Section-------------- */
+  .gallery_slider_div {
+    height: 40vh;
+    margin-bottom: 5rem;
+  }
+  .galary_slider_images {
+    width: 35vw;
+    height: 30vh;
+  }
+}
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
+  .home_main_div {
+    width: 100%;
+    /* padding-top: 0; */
+  }
+  /* ------------Description Section-------------- */
+  .home_description_section {
+    height: 110vh;
+    flex-direction: column-reverse;
+    padding-top: 1rem;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+  }
+  .restro_heading {
+    margin: auto;
+    padding: 0;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+  }
+  .description_left_img_div {
+    margin: 0;
+    padding: 0 0 2rem 0;
+    width: 100%;
+    text-align: center;
+  }
+  .scanner_img {
+    padding: 0;
+    height: 60vh;
+    width: 85%;
+    margin: auto;
+  }
+  .description_right_content_div {
+    width: 85%;
+    text-align: center;
+    margin: auto;
+    height: fit-content;
+  }
+  .restro_description {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  .description_btn_div {
+    width: 30%;
+    text-align: center;
+    margin: auto;
+  }
+  .book_demo_btn {
+    width: 100%;
+    height: 3.5rem;
+    margin-bottom: 0;
+  }
+  /* ------------Benefits Section-------------- */
+  .home_benefits_section {
+    margin-top: 1rem;
+  }
+  /* ----------Features Section------------- */
+  .home_features_section {
+    height: 100vh;
+  }
+  .features_heading_div {
+    padding: 1rem 0;
+  }
+  .features_container {
+    padding-left: 3rem;
+    display: block;
+  }
+  .feature_lists_div {
+    width: 100%;
+  }
+  .feature_label_first_div {
+    width: 50%;
+  }
+  .feature_label_second_div {
+    width: 50%;
+    margin-left: 8rem;
+  }
+  .features {
+    margin-bottom: 1rem;
+  }
+  .feature_label {
+    font-size: 1.3rem;
+  }
+  .features_img_div {
+    width: 100%;
+    height: auto;
+    text-align: center;
+  }
+  .features_gif {
+    width: 35vw;
+    height: 55vh;
+  }
+  /* ------------Pricing Section-------------- */
+  .home_pricing_section {
+    margin-top: 6rem;
+    width: 100%;
+  }
+  .pricing_images {
+    margin-bottom: 2rem;
+  }
+  /* ----------Gallery Section------------- */
+  .gallery_slider_div {
+    height: 30vh;
+    margin-bottom: 2rem;
+  }
+  .galary_slider_images {
+    width: 35vw;
+    height: 20vh;
+  }
+}
+@media (max-width: 600px) {
+  html {
+    font-size: 40%;
+  }
+  /* ------------Description Section-------------- */
+  .description_btn_div {
+    width: 45%;
+  }
+  /* ---------------Benefits Section-------------- */
+  /* ----------------Features Section------------- */
+  .feature_label {
+    font-size: 1rem;
+  }
+  .features_gif {
+    width: 50vw;
+    height: 60vh;
+  }
+  /* ----------------Pricing Section-------------- */
+  .pricing_plans_container {
+    display: block;
+  }
+  .pricing_first_div {
+    width: 100%;
+  }
+  .pricing_second_div {
+    width: 100%;
+  }
+  .pricing_images {
+    width: 40vw;
+    height: 45vh;
+    margin-bottom: 3rem;
+  }
+  /* --------------Gallery Section---------------- */
+  .galary_slider_images {
+    width: 35vw;
+  }
+  .restaurents {
+    width: 22vw;
+  }
+}
+@media (max-width: 500px) {
+  html {
+    font-size: 30%;
+  }
+  .description_btn_div {
+    width: 48%;
+  }
+  /* ---------------Benefits Section-------------- */
+  .benefits_card {
+    width: 60vw;
+    min-height: 25vh;
+    margin: auto;
+  }
+  .upper_div {
+    display: block;
+  }
+  .lower_div {
+    display: block;
+  }
+  /* ----------------Features Section------------- */
+  .home_features_section {
+    display: none;
+  }
+  /* ----------------Pricing Section-------------- */
+  .home_pricing_section {
+    display: none;
+  }
+  /* ----------------Gallery Section-------------- */
+  .home_gallery_section {
+    display: none;
+  }
+}
+@media (max-width: 400px) {
+  html {
+    font-size: 25%;
+  }
+  .home_main_div {
+    padding-top: 1.5rem;
+  }
+  /* ---------------Description Section-------------- */
+  .restro_description {
+    width: 100%;
+    margin: auto;
+  }
+  .home_description_section {
+    height: 105vh;
+  }
+  .scanner_img {
+    height: 40vh;
+  }
+  .description_btn_div {
+    margin-top: 2rem;
+    width: 55%;
+  }
+  .book_demo_btn {
+    margin-bottom: 0;
+  }
+  /* ---------------Benefits Section-------------- */
+  .home_benefits_section {
+    padding-bottom: 2rem;
+  }
+  .benefits_card {
+    width: 75%;
+  }
+  /* ---------------Features Section-------------- */
+  .home_features_section {
+    height: 155vh;
+    padding-left: 0;
+  }
+  .feature_lists_div {
+    display: block;
+    margin-left: 3rem;
+  }
+  .feature_label_first_div {
+    width: 100%;
+  }
+  .feature_label_second_div {
+    width: 100%;
+    margin-left: 0;
+  }
+  .feature_label {
+    font-size: 1.3rem;
+  }
+  .features_gif {
+    width: 75vw;
+    height: 70vh;
+  }
+  /* ---------------Pricing Section-------------- */
+  .home_pricing_section {
+    margin-top: 4rem;
+  }
+  .pricing_images {
+    width: 45vw;
+    height: 33vh;
+  }
+}
+@media (max-width: 320px) {
+  html {
+    font-size: 20%;
+  }
+  /* ----------------Pricing Section-------------- */
+  .pricing_first_div {
+    display: block;
+  }
+  .pricing_second_div {
+    display: block;
+  }
+  .pricing_img_div {
+    width: 100%;
+  }
+  .pricing_images {
+    width: 70vw;
+    height: 40vh;
+    margin-bottom: 1rem;
+  }
+}
+/* End of added code 05/04/2023 */

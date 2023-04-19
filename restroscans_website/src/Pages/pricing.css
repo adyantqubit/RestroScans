@@ -1,0 +1,51 @@
+.Pricing_main_container {
+  margin: auto;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  width: 100%;
+  display: block;
+}
+.pricing_main_heading {
+  font-size: 3rem;
+  color: rgb(122, 38, 38);
+  font-weight: 800;
+  text-align: center;
+}
+.pricings {
+  width: 25rem;
+  height: 30rem;
+  justify-content: center;
+  border: 0.1rem solid rgb(132, 129, 129);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+@media (max-width: 500px) {
+  .Pricing_main_container {
+    margin: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    width: 100%;
+    display: block;
+  }
+  .pricing_main_heading {
+    font-size: 3rem;
+    color: rgb(122, 38, 38);
+    font-weight: 800;
+    text-align: center;
+  }
+  .pricings {
+    width: 25rem;
+    height: 30rem;
+    justify-content: center;
+    border: 0.1rem solid rgb(132, 129, 129);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .pricings {
+    width: 20rem;
+    height: 25rem;
+  }
+}

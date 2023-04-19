@@ -232,4 +232,82 @@ class PlannedFeatureAdmin(admin.ModelAdmin):
         return form  
         
         
-        ##end of code - Rohan kansari-18/4/23
+         ##end of code - Rohan kansari-18/4/23
+
+# Added by - Suman Sahu on 09/04/2023
+# Reason - Create table for Show GallerySettings Details on home page
+
+
+@admin.register(GallerySettings)
+class GallerySettingAdmin(admin.ModelAdmin):
+    list_per_page = 10
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+    def has_module_permission(self, request, view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
+
+
+# End of code addition 09/04/2023
+
+
+@admin.register(GetRestroscansRequest)
+class GetRestroscansRequestAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "owner_name",
+        "email",
+        "restaurant_name",
+        "mobile_number",
+    )
+    search_fields = ("restaurant_name", "id", "owner_name")
+    list_per_page = 10
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+    def has_module_permission(self, request, view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
+
+
+# End of code addition 09/04/2023
+
+
+@admin.register(ContactUsRequest)
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "email",
+        "mobile_number",
+        "query",
+    )
+    list_per_page = 10
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+    def has_module_permission(self, request, view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
+
+
+# End of code addition 09/04/2023

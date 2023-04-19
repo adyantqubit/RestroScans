@@ -1,0 +1,164 @@
+// Added by:- Suman sahu On 05/04/2023
+// Reason:- Create Home page for RestroScans
+
+import React, { useRef } from "react";
+import "./restroscans.css";
+import { RestaurantRequestPostApi } from "../api/service";
+import { message } from "antd";
+import {
+  faPhone,
+  faEnvelope,
+  faUser,
+  faCutlery,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+
+function RestroScans() {
+  // Added by:- Suman sahu On 13/04/2023
+  // Reason:- created for nevigate one page to another page
+  const navigate = useNavigate();
+  // End of added code 13/04/2023
+
+  // Added by:- Suman sahu On 13/04/2023
+  // when click on submit button this function will be call
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    var owner = {
+      restaurant_name: e.target.restaurant_name.value,
+      owner_name: e.target.owner_name.value,
+      email: e.target.email.value,
+      mobile_number: e.target.mobile_number.value,
+    };
+
+    if (owner.owner_name === "") {
+      document.getElementById("ownerName").innerText =
+        "Please enter owner name";
+      return false;
+    } else {
+      document.getElementById("ownerName").innerText = "";
+    }
+
+    if (owner.restaurant_name === "") {
+      document.getElementById("restaurant_name").innerText =
+        "Please enter restaurant name";
+      return false;
+    } else {
+      document.getElementById("restaurant_name").innerText = "";
+    }
+
+    if (owner.email === "") {
+      document.getElementById("email").innerText = "Please enter email";
+      return false;
+    } else {
+      document.getElementById("email").innerText = "";
+    }
+
+    if (owner.mobile_number === "") {
+      document.getElementById("mobile_number").innerText =
+        "Please enter mobile number";
+      return false;
+    } else {
+      document.getElementById("mobile_number").innerText = "";
+    }
+
+    const response = await RestaurantRequestPostApi(owner);
+    if (response["success"]) {
+      document.getElementById("form").reset();
+      var succesNotification = response["success"];
+      message.success({
+        content: succesNotification,
+        key: 1,
+        style: {
+          marginTop: "7vh",
+        },
+      });
+    } else {
+      message.error({
+        content: "Retry!!!",
+        key: 1,
+        style: {
+          marginTop: "7vh",
+        },
+      });
+    }
+  };
+  // End of added code 13/04/2023
+  return (
+    <>
+      <div className="restroscans_container" id="restro">
+        <form
+          onSubmit={handleFormSubmit}
+          id="form"
+          className="getrestroscans_form"
+        >
+          <div className="restroscans_main_div">
+            <h1 className="get_restroscans_heading">Get RestroScans</h1>
+            <div className="inner_div">
+              <div className="input_div">
+                <FontAwesomeIcon icon={faUser} className="input_icons" />
+                <input
+                  className="input_box"
+                  type="text"
+                  name="owner_name"
+                  placeholder="Owner Name"
+                />
+              </div>
+              <p id="ownerName" className="error_msg"></p>
+
+              <div className="input_div">
+                <FontAwesomeIcon icon={faCutlery} className="input_icons" />
+                <input
+                  className="input_box"
+                  type="text"
+                  name="restaurant_name"
+                  placeholder="Restaurant Name"
+                />
+              </div>
+              <p id="restaurant_name" className="error_msg"></p>
+
+              <div className="input_div">
+                <FontAwesomeIcon icon={faEnvelope} className="input_icons" />
+                <input
+                  className="input_box"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                />
+              </div>
+              <p id="email" className="error_msg"></p>
+
+              <div className="input_div">
+                <FontAwesomeIcon icon={faPhone} className="input_icons" />
+                <input
+                  className="input_box"
+                  type="text"
+                  name="mobile_number"
+                  placeholder="Mobile Number"
+                  maxLength={10}
+                />
+              </div>
+              <p id="mobile_number" className="error_msg"></p>
+            </div>
+
+            <div className="btn_div">
+              <button className="submit_btn" type="submit">
+                Submit
+              </button>
+              <button
+                className="submit_btn"
+                type="button"
+                onClick={() => navigate(-1)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+}
+
+export default RestroScans;
+/* End of added code 05/04/2023 */

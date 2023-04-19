@@ -1,3 +1,6 @@
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,6 +15,8 @@ from .send_mail import *
 Added by - Ashish Dewangan on 08-02-2023
 Reason - To get list of tenants
 """
+
+
 class TenantAPIView(APIView):
     def get(self,request,tenantId=None):
         if tenantId:
@@ -31,9 +36,7 @@ End of code addition
 Added by - Yuvraj Sahu on 15-2-2023
 Reason - To save tenant request
 """
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 class RestaurantRegistartionView(APIView):
     # @csrf_exempt
@@ -206,3 +209,103 @@ class AppSettingAPI(APIView):
             "title":settings["title"],
             "bottom_text":settings["bottom_text"],
             "adyant_webite_link":settings["adyant_webite_link"]},200)
+
+
+"""
+Added by:- Suman sahu  on 08/04/2023
+Reason:- Created API for get Pricing images
+"""
+
+
+class PricingImageAPI(APIView):
+    def get(self, request):
+        pricingData = WebsiteSetting.objects.all().last()
+        pricingSerializer = PricingSerializer(pricingData)
+        return Response({"pricingData": pricingSerializer.data})
+
+
+"""
+End of code addition 08/04/2023
+"""
+
+"""
+Added by:- Suman sahu  on 09/04/2023
+Reason:- Created API for Gallery Details
+"""
+
+
+class GalleryDetailsAPI(APIView):
+    def get(self, request):
+        galleryData = GallerySettings.objects.all()
+        gallerySerializer = GallerySerializer(galleryData, many=True)
+        return Response({"galleryData": gallerySerializer.data})
+
+
+"""
+End of code addition 09/04/2023
+"""
+
+"""
+Added by:- Suman sahu  on 13/04/2023
+Reason:- Created API for post Restroscans requests 
+"""
+
+
+class GetRestroscansRequestAPI(APIView):
+    def post(self, request, format=None):
+        serializer = GetRestroscansRequestSerializer(data=request.data)
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({"success": "Successfully Submitted"})
+            else:
+                return Response({"err": "Data not save"})
+        except Exception as e:
+            return Response({"msg": "Error"})
+
+
+"""
+End of code addition 13/04/2023
+"""
+
+"""
+Added by:- Suman sahu  on 14/04/2023
+Reason:- Created API for post "Contact Us" form
+"""
+
+
+class ContactUsAPI(APIView):
+    def post(self, request, format=None):
+        serializer = PostContactUsSerializer(data=request.data)
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({"success": "Successfully Submitted"})
+            else:
+                return Response({"err": "Data not save"})
+        except Exception as e:
+            return Response({"msg": "Error"})
+
+
+"""
+End of code addition 14/04/2023
+"""
+
+"""
+Added by:- Suman sahu  on 19/04/2023
+Reason:- Created API for get our top Retaurents details
+"""
+
+
+class RestaurentPatnersDetailsAPI(APIView):
+    def get(self, request):
+        RestaurentDetails = RestaurantRequest.objects.filter(is_partner=True)
+        restaurentsSerializer = RestaurentPatnersSerializer(
+            RestaurentDetails, many=True
+        )
+        return Response({"restaurentsData": restaurentsSerializer.data})
+
+
+"""
+End of code addition 19/04/2023
+"""

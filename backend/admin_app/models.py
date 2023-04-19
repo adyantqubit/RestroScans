@@ -70,7 +70,12 @@ class RestaurantRequest(models.Model):
     is_active = models.BooleanField(default=False)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
-    
+
+    # Added by:- Suman sahu On 20/04/2023
+    # Reason:- Show patners details on the home page
+    is_partner = models.BooleanField(default=False)
+    # End of added code 20/04/2023
+
     def __str__(self):
             return self.restaurant_name
     
@@ -237,5 +242,94 @@ class AppTheme(models.Model):
 """
 End of code addition
 """
+"""
+Added by - Suman Sahu on 24-03-2023
+Reason - Create for Show pricing plans on home page 
+"""
 
 
+class WebsiteSetting(models.Model):
+    pricing_plan1 = models.ImageField(
+        upload_to="images/app_setting/", blank=True, null=True
+    )
+    pricing_plan2 = models.ImageField(
+        upload_to="images/app_setting/", blank=True, null=True
+    )
+    pricing_plan3 = models.ImageField(
+        upload_to="images/app_setting/", blank=True, null=True
+    )
+    pricing_plan4 = models.ImageField(
+        upload_to="images/app_setting/", blank=True, null=True
+    )
+    title = models.CharField(max_length=30, default="")
+    bottom_text = models.CharField(max_length=30, default="")
+
+    def __str__(self):
+        return self.title
+
+
+"""
+End of code addition
+"""
+
+
+"""-------------------------------------------------------------------
+Added by - Suman Sahu on 24-03-2023
+Reason - Create for Show Gallery Details on home page 
+"""
+
+
+class GallerySettings(models.Model):
+    gallery = models.ImageField(
+        upload_to="images/app_setting/", blank=True, null=True)
+    title = models.CharField(max_length=30, default="")
+
+    def __str__(self):
+        return self.title
+
+
+"""
+End of code addition
+"""
+
+"""-------------------------------------------------------------------
+Added by - Suman Sahu on 13-04-2023
+Reason - To store Restroscans requests 
+"""
+
+
+class GetRestroscansRequest(models.Model):
+    id = models.AutoField(primary_key=True)
+    restaurant_name = models.CharField(max_length=255, default="")
+    owner_name = models.CharField(max_length=255, default="")
+    email = models.EmailField()
+    mobile_number = models.CharField(max_length=15, default="", unique=True)
+
+    def __str__(self):
+        return self.restaurant_name
+
+
+"""
+End of code addition 13-04-2023
+"""
+
+"""-------------------------------------------------------------------
+Added by - Suman Sahu on 14-04-2023
+Reason - To store Contact Us form 
+"""
+
+
+class ContactUsRequest(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20, default="")
+    email = models.EmailField()
+    mobile_number = models.CharField(max_length=15, default="", unique=True)
+    query = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+"""
+End of code addition 13-04-2023
+"""
