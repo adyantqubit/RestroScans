@@ -135,7 +135,10 @@ export default function AddItem() {
   };
 
   const handleRegister = (formValues) => {
-    // setIsDisable(true);
+  	// Uncommented by Yuvraj Sahu on 20-4-2023
+  	// Reason - to disable btn
+    setIsDisable(true);
+    // End of uncomment
     var formData = new FormData();
     if (icon != null) {
       const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
@@ -166,7 +169,7 @@ export default function AddItem() {
     if (icon != null) {
       saveItemApi(formData, tenant).then((response) => {
         if (response.msg) {
-          Alert.alert("Successful", response.msg);
+          Alert.alert(response.msg);
           setIsDisable(false);
           setRender(!render);
           reset("");
@@ -175,7 +178,7 @@ export default function AddItem() {
           // navigate('login')
         }
         if (response.err) {
-          Alert.alert("Error", response.msg);
+          Alert.alert(response.msg);
           setIsDisable(false);
         }
       });
@@ -204,7 +207,7 @@ export default function AddItem() {
             borderRadius: 0,
             width: "93%",
             alignSelf: "center",
-            borderRadius: 5,
+            borderRadius: 10,
             borderColor: "black",
             marginTop: 10,
           }} //override default styles
@@ -275,7 +278,7 @@ export default function AddItem() {
             borderRadius: 0,
             width: "93%",
             alignSelf: "center",
-            borderRadius: 5,
+            borderRadius: 10,
             borderColor: "black",
             marginTop: 10,
           }} //override default styles
@@ -531,7 +534,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,

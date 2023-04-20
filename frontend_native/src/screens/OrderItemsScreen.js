@@ -271,7 +271,7 @@ export default function OrderItemsScreen({ route, navigation }) {
           <Text>No data</Text>
         )}
         {/* Modified by Yuvraj Sahu on 11-4-2023
-      Reason - to design order detail */}
+        Reason - to design order detail */}
         <View style={styles.totalBorder} />
         <View>
           {/* Modified by Yuvraj Sahu on 14-4-2023
@@ -367,7 +367,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             height: 40,
             alignItems: "center",
             justifyContent: "center",
-            borderRadius: 3,
+            borderRadius: 10,
           }}
         >
           <Text

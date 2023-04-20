@@ -28,8 +28,7 @@ import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
 import { useContext } from "react";
 import { AppStateContext } from "../context/AppStateProvider";
-import Footer from '../../src/components/Footer/Footer'
-
+import Footer from "../../src/components/Footer/Footer";
 
 export default function ItemListScreen({ route, navigation }) {
   /* Get the param */
@@ -127,7 +126,10 @@ export default function ItemListScreen({ route, navigation }) {
 
   // For make data and send it to backend
   const handleRegister = async (formValues) => {
-    // setIsDisable(true)
+  	// Uncommented by Yuvraj Sahu on 20-4-2023
+  	// Reason - to disable btn
+    setIsDisable(true)
+    // End of uncomment
     var formData = new FormData();
 
     if (icon != null) {
@@ -150,7 +152,7 @@ export default function ItemListScreen({ route, navigation }) {
       categoryID
     ).then((response) => {
       if (response.msg) {
-        Alert.alert("Successful", response.msg);
+        Alert.alert(response.msg);
         setIsDisable(false);
         setRender(!render);
         // alert(JSON.stringify(response.categoryList))
@@ -239,188 +241,192 @@ export default function ItemListScreen({ route, navigation }) {
 
   return (
     <>
-    <ScrollView>
-      {/* Edit Category Form  */}
-      <View style={styles.container}>
-        <Text style={styles.labels}>
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Menu name
-        </Text>
-        <SelectList
-          // onSelect={() => }
-          setSelected={setMenuSelected}
-          data={data}
-          search={false}
-          dropdownStyles={{
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 1,
-          }}
-          boxStyles={{
-            borderRadius: 0,
-            width: "93%",
-            alignSelf: "center",
-            borderRadius: 5,
-            borderColor: "black",
-            marginTop: 10,
-          }} //override default styles
-          // Added by Yuvraj Sahu on 6-4-2023
-          // Reason - to select default value in dropdown
-          defaultOption={{ key: menuID, value: menuName }}
-          // End of default value selection
-        />
-        <View style={{ marginTop: 15 }}>
+      <ScrollView>
+        {/* Edit Category Form  */}
+        <View style={styles.container}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Category name
+            Menu name
           </Text>
-          <Controller
-            control={control}
-            name="name"
-            rules={{
-              required: {
-                value: true,
-                message: "Category name is required",
-              },
-              //   pattern: {
-              //     value: /^(?!\s+$).*/,
-              //     message: "Menu name cannot contain only blankspaces!",
-              //   },
+          <SelectList
+            // onSelect={() => }
+            setSelected={setMenuSelected}
+            data={data}
+            search={false}
+            dropdownStyles={{
+              width: "93%",
+              alignSelf: "center",
+              marginTop: 1,
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter category name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                  />
-                </View>
-
-                {errors?.name && (
-                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        {/* Added by Yuvraj Sahu on 13-4-2023
-        Reason - to add lable for upload image */}
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 5,
-            marginBottom: 5,
-          }}
-        >
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Item image</Text>
-        </View>
-        {/* End of addition */}
-
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // borderColor: 'black',
-            borderRadius: 3,
-            // borderWidth: 1,
-            width: "93%",
-            alignSelf: "center",
-            flexDirection: "row-reverse",
-            justifyContent: "space-around",
-          }}
-        >
-          {/* Added and commented by Yuvraj Sahu on 16-4-2023
-          Reason - to replace button lable and add icon */}
-          {/* <Button title="Edit category icon" onPress={pickImage} /> */}
-          <Pressable
-            onPress={pickImage}
-            style={{
-              backgroundColor: "#d5d5d5",
-              width: 50,
-              padding: 5,
+            boxStyles={{
+              borderRadius: 0,
+              width: "93%",
+              alignSelf: "center",
               borderRadius: 5,
-              height: 40,
+              borderColor: "black",
+              marginTop: 10,
+            }} //override default styles
+            // Added by Yuvraj Sahu on 6-4-2023
+            // Reason - to select default value in dropdown
+            defaultOption={{ key: menuID, value: menuName }}
+            // End of default value selection
+          />
+          <View style={{ marginTop: 15 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+              Category name
+            </Text>
+            <Controller
+              control={control}
+              name="name"
+              rules={{
+                required: {
+                  value: true,
+                  message: "Category name is required",
+                },
+                //   pattern: {
+                //     value: /^(?!\s+$).*/,
+                //     message: "Menu name cannot contain only blankspaces!",
+                //   },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter category name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                    />
+                  </View>
+
+                  {errors?.name && (
+                    <Text style={styles.textdanger}>
+                      {errors?.name?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
+
+          {/* Added by Yuvraj Sahu on 13-4-2023
+        Reason - to add lable for upload image */}
+          <View
+            style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="upload" size={20} color="black" />
-          </Pressable>
-          {/* End of addition */}
-          {icon && (
-            <Image
-              source={{ uri: icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-          {!icon && categoryObj[0].icon && (
-            <Image
-              source={{ uri: config.staticBaseURL + categoryObj[0].icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-        </View>
-        <View style={styles.activeStatus}>
-          <Checkbox
-            // style={styles.checkbox}
-            value={isCategoryChecked}
-            onValueChange={setCategoryChecked}
-            color={isCategoryChecked ? "#4630EB" : undefined}
-          />
-          {/*Added by Yuvraj Sahu on 13-4-2023
-        Reason - to make pressable active status lable */}
-          <Pressable onPress={() => setCategoryChecked(!isCategoryChecked)}>
-            <Text style={styles.activeLable}>Category available</Text>
-          </Pressable>
-          {/*End of addition*/}
-        </View>
-        <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
-          <Pressable
-            onPress={handleSubmit(handleRegister)}
-            disabled={isDisable}
-            style={{
-              backgroundColor: isDisable ? "grey" : colors.btnColor,
-              height: 40,
-              alignItems: "center",
-              justifyContent: "center",
-              // Added by Yuvraj Sahu on 16-4-2023
-              // Reason - to re-design button
-              width: "40%",
-              borderRadius: 10,
+              width: "93%",
               alignSelf: "center",
-              // End of re-designing
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            <Text
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text>Item image</Text>
+          </View>
+          {/* End of addition */}
+
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              // borderColor: 'black',
+              borderRadius: 3,
+              // borderWidth: 1,
+              width: "93%",
+              alignSelf: "center",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
+            {/* <Button title="Edit category icon" onPress={pickImage} /> */}
+            <Pressable
+              onPress={pickImage}
               style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
+                backgroundColor: "#d5d5d5",
+                width: 50,
+                padding: 5,
+                borderRadius: 5,
+                height: 40,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Save changes
-            </Text>
-          </Pressable>
-          {/* Added by Om on 07-04-23
+              <Icon name="upload" size={20} color="black" />
+            </Pressable>
+            {/* End of addition */}
+            {icon && (
+              <Image
+                source={{ uri: icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+            {!icon && categoryObj[0].icon && (
+              <Image
+                source={{ uri: config.staticBaseURL + categoryObj[0].icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+          </View>
+          <View style={styles.activeStatus}>
+            <Checkbox
+              // style={styles.checkbox}
+              value={isCategoryChecked}
+              onValueChange={setCategoryChecked}
+              color={isCategoryChecked ? "#4630EB" : undefined}
+            />
+            {/*Added by Yuvraj Sahu on 13-4-2023
+        Reason - to make pressable active status lable */}
+            <Pressable onPress={() => setCategoryChecked(!isCategoryChecked)}>
+              <Text style={styles.activeLable}>Category available</Text>
+            </Pressable>
+            {/*End of addition*/}
+          </View>
+          <View
+            style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+          >
+            <Pressable
+              onPress={handleSubmit(handleRegister)}
+              disabled={isDisable}
+              style={{
+                backgroundColor: isDisable ? "grey" : colors.btnColor,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                // Added by Yuvraj Sahu on 16-4-2023
+                // Reason - to re-design button
+                width: "40%",
+                borderRadius: 10,
+                alignSelf: "center",
+                // End of re-designing
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Save changes
+              </Text>
+            </Pressable>
+            {/* Added by Om on 07-04-23
           Reason : Add delete functionality */}
-          {/* <Pressable
+            {/* <Pressable
             onPress={showAlert1}
             disabled={isDisable}
             style={{
@@ -442,35 +448,35 @@ export default function ItemListScreen({ route, navigation }) {
               Delete category
             </Text>
           </Pressable> */}
-          {/* End of addition */}
+            {/* End of addition */}
+          </View>
         </View>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.categoryLable}>
-          Items inside {categoryObject[0].name}
-        </Text>
-        {itemObjects.map((dt, id) => (
-          <Pressable
-            key={id}
-            style={styles.categoryListContainer}
-            onPress={(e) => handleEditItem(dt.id)}
-          >
-            <Image
-              source={{
-                uri: config.staticBaseURL + dt.icon,
-              }}
-              style={styles.menuIcon}
-            />
-            <Text>{dt.name}</Text>
-            <Icon name="edit" size={20} color="black" />
-          </Pressable>
-        ))}
-      </View>
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-           {/* End of addition */}
-        </>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryLable}>
+            Items inside {categoryObject[0].name}
+          </Text>
+          {itemObjects.map((dt, id) => (
+            <Pressable
+              key={id}
+              style={styles.categoryListContainer}
+              onPress={(e) => handleEditItem(dt.id)}
+            >
+              <Image
+                source={{
+                  uri: config.staticBaseURL + dt.icon,
+                }}
+                style={styles.menuIcon}
+              />
+              <Text>{dt.name}</Text>
+              <Icon name="edit" size={20} color="black" />
+            </Pressable>
+          ))}
+        </View>
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -487,7 +493,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,

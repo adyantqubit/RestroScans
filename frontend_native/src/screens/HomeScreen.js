@@ -232,7 +232,7 @@ export default function HomeScreen({ navigation }) {
     Scan menu
   </h1>
   <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.28:19000/assets/globe.png'}' width='30px' height='30px'/>
+  <img src = '../../assets/No_offer.jpg'/>
    restroscans.com
 </h1>
   <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -342,7 +342,6 @@ export default function HomeScreen({ navigation }) {
           width: "100%",
           // height:'30%'
         }}>
-
           <SvgCssUri
             width="180"
             height="180"

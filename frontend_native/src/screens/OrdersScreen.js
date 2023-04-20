@@ -5,23 +5,22 @@ import * as SecureStore from "expo-secure-store";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import Footer from '../../src/components/Footer/Footer'
+import Footer from "../../src/components/Footer/Footer";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function OrdersScreen({ route, navigation }) {
-
-	// Added by Yuvraj Sahu on 17-4-2023
-	// Reason - to re render the screen
+  // Added by Yuvraj Sahu on 17-4-2023
+  // Reason - to re render the screen
   const isFocused = useIsFocused();
-	// End of re render
-	
+  // End of re render
+
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to call function when page is render
   // This function is used for calling
   // function when page render
-  
+
   // Added by Yuvraj Sahu on 17-4-2023
-	// Reason - to re render the screen
+  // Reason - to re render the screen
   useEffect(() => {
     allOrders();
   }, [isFocused]);
@@ -73,43 +72,52 @@ export default function OrdersScreen({ route, navigation }) {
 
   return (
     <>
-    <ScrollView>
-      {/* This function is used to map or show the data  */}
-      {orders.length > 0 ? (
-        <>
-          {orders.map((order, id) => (
-            <Pressable
-              key={id}
-              style={styles.orderListContainer}
-              onPress={(e) => handleOrder(order.id, order.order_id)}
-            >
-              <View>
-                <Text style={styles.customerName}>{order.customer_name}</Text>
-                <Text style={styles.tableNo}>
-                  Table no. - {order.table_number}
-                </Text>
-              </View>
-              <View style={{ alignItems: "flex-end" }}>
-                <Text style={styles.tableNo}>
-                  Order status - {order.order_status}
-                </Text>
-                <Text style={styles.tableNo}>
-                  Payment status - {order.payment_status}
-                </Text>
-              </View>
-            </Pressable>
-          ))}
-        </>
-      ) : (
-        <Text style={{ textAlign: "center", marginTop: 20 }}>
-          No data available
-        </Text>
-      )}
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-    {/* End of addition */}
- </>
+      <ScrollView>
+        {/* This function is used to map or show the data  */}
+        {orders.length > 0 ? (
+          <>
+            {orders.map((order, id) => (
+              <Pressable
+                key={id}
+                style={styles.orderListContainer}
+                onPress={(e) => handleOrder(order.id, order.order_id)}
+              >
+                {/* Modified by Yuvraj Sahu 20-4-2023
+                Reason - to add order id and show date */}
+                <View>
+                  <Text style={styles.customerName}>{order.customer_name}</Text>
+                  <Text style={styles.tableNo}>
+                    Table no. - {order.table_number}
+                  </Text>
+                  <Text style={styles.tableNo}>
+                    Order ID - {order.order_id}
+                  </Text>
+                </View>
+                <View style={{ alignItems: "flex-end" }}>
+                  <Text style={styles.tableNo}>
+                    Order status - {order.order_status}
+                  </Text>
+                  <Text style={styles.tableNo}>
+                    Payment status - {order.payment_status}
+                  </Text>
+                  <Text style={styles.tableNo}>
+                    Date - {new Date(order.date).toLocaleDateString()}
+                  </Text>
+                </View>
+                {/* End of designing */}
+              </Pressable>
+            ))}
+          </>
+        ) : (
+          <Text style={{ textAlign: "center", marginTop: 20 }}>
+            No data available
+          </Text>
+        )}
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -128,7 +136,18 @@ const styles = StyleSheet.create({
     // height: 80,
     alignSelf: "center",
     padding: 10,
+    // Added by Yuvraj Sahu on 20-4-2023
+    // Reason - to design card
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
+  // End of designing
   customerName: {
     fontSize: 16,
   },

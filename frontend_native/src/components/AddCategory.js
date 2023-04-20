@@ -136,7 +136,7 @@ export default function AddCategory() {
     saveCategoryApi(formData, JSON.parse(tenantInfo).tenant_name).then(
       (response) => {
         if (response.msg) {
-          Alert.alert("Successful", response.msg);
+          Alert.alert(response.msg);
           setIsDisable(false);
           setRender(!render);
           reset("");
@@ -146,7 +146,7 @@ export default function AddCategory() {
           // navigate('login')
         }
         if (response.err) {
-          Alert.alert("Error", response.msg);
+          Alert.alert(response.msg);
           setIsDisable(false);
         }
       }
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,

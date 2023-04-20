@@ -12,7 +12,7 @@ import {
   Alert,
   Pressable,
   ActivityIndicator,
-  Modal
+  Modal,
 } from "react-native";
 import { Formik } from "formik";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -43,16 +43,16 @@ function ResetPassword({ navigation: navigate }) {
     setISBtnDisable(true);
     updatePasswordApi(values).then(async (res) => {
       if (res.msg) {
-        Alert.alert("Success", "Password Changed successfully. You can login");
+        Alert.alert("Password Changed successfully. You can login");
         setISBtnDisable(false);
         navigation.navigate("LoginScreen");
         resetForm({ values: "" });
       } else {
-        Alert.alert("Error", "Something went wrong");
+        Alert.alert("Something went wrong");
         setISBtnDisable(false);
       }
       if (res.error) {
-        Alert.alert("Error", res.error);
+        Alert.alert(res.error);
         setISBtnDisable(false);
       }
     });
@@ -78,9 +78,9 @@ function ResetPassword({ navigation: navigate }) {
           touched,
           errors,
         }) => (
-        	// Commented by Yuvraj Sahu on 19-4-2023
-        	// Reason - to remove extra spaces in otp form 
-        	// And also ui changes
+          // Commented by Yuvraj Sahu on 19-4-2023
+          // Reason - to remove extra spaces in otp form
+          // And also ui changes
           // <ScrollView style={styles.container}>
           <View style={styles.container}>
             <View>
@@ -249,13 +249,13 @@ export default function ForgotPasswordScreen() {
       .then(async (res) => {
         if (res.mail) {
           email = res.mail;
-          alert("OTP is sent succssfully. Please check your email");
+          Alert.alert("OTP is sent successfully.Please check your Email");
           setOTPIsBtnDisable(false);
           resetForm({ values: "" });
           setInputDisable(!isInputDisable);
         }
         if (res.error) {
-          alert(res.error);
+          Alert.alert(res.error);
           setOTPIsBtnDisable(false);
         }
       })
@@ -295,9 +295,9 @@ export default function ForgotPasswordScreen() {
     });
   };
 
-  var [isResendOTP, setResendOTP] = useState(false)
+  var [isResendOTP, setResendOTP] = useState(false);
   const handleResendOTP = async () => {
-    setResendOTP(true)
+    setResendOTP(true);
     // if(isResendOTP) {
     //   return (
     //        <View>
@@ -305,36 +305,41 @@ export default function ForgotPasswordScreen() {
     //        </View>
     //   )
     //  }
-     var response = await sendOtpApi({email: email})
-     if (response.mail) {
-      setResendOTP(false)
+    var response = await sendOtpApi({ email: email });
+    if (response.mail) {
+      setResendOTP(false);
       // alert("Successfully sent OTP")
-     }
-  }
+    }
+  };
 
   return (
     <View>
-
-<Modal
+      <ScrollView>
+      <Modal
         // animationType="slide"
         transparent={true}
         // backdropColor="transparent"
         visible={isResendOTP}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           setModalVisible(!isResendOTP);
-        }}>
+        }}
+      >
         <View
-        //  style={styles.centeredView}
-    style={{backgroundColor: isResendOTP ? 'rgba(0, 0, 0, 0.5)' : "white", flex: 1, justifyContent: "center", alignItems: "center"}}
-         >
+          //  style={styles.centeredView}
+          style={{
+            backgroundColor: isResendOTP ? "rgba(0, 0, 0, 0.5)" : "white",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <View style={styles.modalView}>
-          <ActivityIndicator size={50} color="white" />
+            <ActivityIndicator size={50} color="white" />
             <Text style={styles.modalText}>Please wait for get OTP</Text>
           </View>
         </View>
-        </Modal>
-
+      </Modal>
 
       <Formik
         initialValues={{ email: "" }}
@@ -369,7 +374,10 @@ export default function ForgotPasswordScreen() {
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  backgroundColor={isInputDisable ? "#e0e0d1" : "white"}
+                  // Modified by Yuvraj Sahu on 20-4-2023
+                  // Reason - to color change when btn disable
+                  backgroundColor={isInputDisable ? "#E0E0E0" : "white"}
+                  // End of addition
                   editable={isInputDisable ? false : true}
                 />
                 {errors.email && touched.email && !isInputDisable && (
@@ -387,29 +395,53 @@ export default function ForgotPasswordScreen() {
                 <Pressable
                   onPress={handleSubmit}
                   // disabled={isOTPBtnDisable}
-                  disabled={isInputDisable}
+                  // Modified by Yuvraj Sahu on 20-4-2023
+                  // Reason - to disable
+                  disabled={isInputDisable ? isInputDisable : isOTPBtnDisable}
                   style={{
-                    backgroundColor: !isOTPBtnDisable
-                      ? colors.btnColor
-                      : "#E0E0E0",
+                    backgroundColor:
+                      !isOTPBtnDisable && !isInputDisable
+                        ? colors.btnColor
+                        : "#E0E0E0",
                     height: 40,
                     alignItems: "center",
                     justifyContent: "center",
                     borderRadius: 10,
+                    width: 150,
+                    alignSelf: "center",
+                    // End of btn disable
                   }}
                 >
                   <Text
                     style={{
-                      color: !isOTPBtnDisable ? "white" : "#989898",
+                    	// Modified by Yuvraj Sahu on 20-4-2023
+                    	// Reason - to change color when btn disable
+                      color:
+                        !isOTPBtnDisable && !isInputDisable
+                          ? "white"
+                          : "#989898",
                       fontSize: 16,
                       fontWeight: "bold",
+                      // End of disable
                     }}
                   >
                     Send OTP
                   </Text>
                 </Pressable>
-                <Pressable onPress={handleResendOTP} disabled={!isInputDisable} style={{marginTop: 20}}>
-                  <Text style={{color: "blue",display: "flex", alignSelf: "flex-end"}}>Resend OTP</Text>
+                <Pressable
+                  onPress={handleResendOTP}
+                  disabled={!isInputDisable}
+                  style={{ marginTop: 20 }}
+                >
+                  <Text
+                    style={{
+                      color: "blue",
+                      display: "flex",
+                      alignSelf: "flex-end",
+                    }}
+                  >
+                    Resend OTP
+                  </Text>
                   {/* {isResendOTP && <Text style={{display: "flex", alignSelf: "flex-end"}}>Please wait</Text>} */}
                 </Pressable>
               </View>
@@ -418,7 +450,6 @@ export default function ForgotPasswordScreen() {
           // </ScrollView>
         )}
       </Formik>
-
 
       <Formik
         initialValues={{
@@ -438,160 +469,164 @@ export default function ForgotPasswordScreen() {
           touched,
           errors,
         }) => (
-          <ScrollView style={styles.container}>
-            <View style={styles.container}>
+        	// Modified by Yuvraj Sahu on 20-4-2023
+        	// Reason - to design screen 
+          // <ScrollView style={styles.container}>
+          <View style={styles.container}>
+            <View>
               <View>
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    OTP
-                  </Text>
+                <Text style={styles.labels}>
+                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                  OTP
+                </Text>
 
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("otp")}
-                    onBlur={handleBlur("otp")}
-                    value={values.otp}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter OTP"
-                    keyboardType="number-pad"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    backgroundColor={!isInputDisable ? "#e0e0d1" : "white"}
-                    editable={!isInputDisable ? false : true}
-                  />
-                  {/* {errors.otp && touched.otp && (
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("otp")}
+                  onBlur={handleBlur("otp")}
+                  value={values.otp}
+                  placeholderTextColor="#A4A4A4"
+                  placeholder="Enter OTP"
+                  keyboardType="number-pad"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                  editable={!isInputDisable ? false : true}
+                />
+                {/* {errors.otp && touched.otp && (
                     <Text style={styles.textdanger}>{errors.otp}</Text>
                   )} */}
-                </View>
+              </View>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Password
-                  </Text>
+              <View>
+                <Text style={styles.labels}>
+                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                  Password
+                </Text>
 
-                  <View style={styles.passContainer}>
-                    <TextInput
-                      style={styles.inputPassword}
-                      onChangeText={handleChange("password")}
-                      onBlur={handleBlur("password")}
-                      value={values.password}
-                      placeholderTextColor="#A4A4A4"
-                      placeholder="Enter your password"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      secureTextEntry={!showPassword}
-                      backgroundColor={!isInputDisable ? "#e0e0d1" : "white"}
-                      editable={!isInputDisable ? false : true}
-                    />
+                <View style={styles.passContainer}>
+                  <TextInput
+                    style={styles.inputPassword}
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
+                    value={values.password}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter your password"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={!showPassword}
+                    backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                    editable={!isInputDisable ? false : true}
+                  />
 
-                    <TouchableOpacity
-                      onPress={() => setShowPassword(!showPassword)}
-                      style={{
-                        backgroundColor: !isInputDisable ? "#e0e0d1" : "white",
-                        borderTopRightRadius: 10,
-                        borderBottomRightRadius: 10,
-                      }}
-                    >
-                      <Ionicons
-                        name={showPassword ? "eye" : "eye-off"}
-                        size={24}
-                        color="black"
-                        style={styles.passIcon}
-                      />
-                    </TouchableOpacity>
-                  </View>
-
-                  {errors.password && touched.password && (
-                    <Text style={styles.textdanger}>{errors.password}</Text>
-                  )}
-                </View>
-
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Confirm Password
-                  </Text>
-
-                  <View style={styles.passContainer}>
-                    <TextInput
-                      style={styles.inputPassword}
-                      onChangeText={handleChange("confirm_password")}
-                      onBlur={handleBlur("confirm_password")}
-                      value={values.confirm_password}
-                      placeholderTextColor="#A4A4A4"
-                      placeholder="Enter your password"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      secureTextEntry={!showConfirmPassword}
-                      backgroundColor={!isInputDisable ? "#e0e0d1" : "white"}
-                      editable={!isInputDisable ? false : true}
-                    />
-
-                    <TouchableOpacity
-                      onPress={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      style={{
-                        backgroundColor: !isInputDisable ? "#e0e0d1" : "white",
-                        borderTopRightRadius: 10,
-                        borderBottomRightRadius: 10,
-                      }}
-                    >
-                      <Ionicons
-                        name={showConfirmPassword ? "eye" : "eye-off"}
-                        size={24}
-                        color="black"
-                        style={styles.passIcon}
-                      />
-                    </TouchableOpacity>
-                  </View>
-
-                  {errors.confirm_password && touched.confirm_password && (
-                    <Text style={styles.textdanger}>
-                      {errors.confirm_password}
-                    </Text>
-                  )}
-                </View>
-
-                <View
-                  style={{
-                    marginBottom: 30,
-                    marginHorizontal: 10,
-                    marginTop: 10,
-                  }}
-                >
-                  <Pressable
-                    onPress={handleSubmit}
-                    // disabled={isBtnDisable}
-                    disabled={!isInputDisable}
+                  <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
                     style={{
-                      backgroundColor: !isBtnDisable
-                        ? colors.btnColor
-                        : "#E0E0E0",
-                      height: 40,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: 10,
+                      backgroundColor: !isInputDisable ? "#E0E0E0" : "white",
+                      borderTopRightRadius: 10,
+                      borderBottomRightRadius: 10,
                     }}
                   >
-                    <Text
-                      style={{
-                        color: !isBtnDisable ? "white" : "#989898",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Reset Password
-                    </Text>
-                  </Pressable>
+                    <Ionicons
+                      name={showPassword ? "eye" : "eye-off"}
+                      size={24}
+                      color="black"
+                      style={styles.passIcon}
+                    />
+                  </TouchableOpacity>
                 </View>
+
+                {errors.password && touched.password && (
+                  <Text style={styles.textdanger}>{errors.password}</Text>
+                )}
+              </View>
+
+              <View>
+                <Text style={styles.labels}>
+                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                  Confirm Password
+                </Text>
+
+                <View style={styles.passContainer}>
+                  <TextInput
+                    style={styles.inputPassword}
+                    onChangeText={handleChange("confirm_password")}
+                    onBlur={handleBlur("confirm_password")}
+                    value={values.confirm_password}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter your password"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={!showConfirmPassword}
+                    backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                    editable={!isInputDisable ? false : true}
+                  />
+
+                  <TouchableOpacity
+                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                    style={{
+                      backgroundColor: !isInputDisable ? "#E0E0E0" : "white",
+                      borderTopRightRadius: 10,
+                      borderBottomRightRadius: 10,
+                    }}
+                  >
+                    <Ionicons
+                      name={showConfirmPassword ? "eye" : "eye-off"}
+                      size={24}
+                      color="black"
+                      style={styles.passIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                {errors.confirm_password && touched.confirm_password && (
+                  <Text style={styles.textdanger}>
+                    {errors.confirm_password}
+                  </Text>
+                )}
+              </View>
+
+              <View
+                style={{
+                  marginBottom: 30,
+                  marginHorizontal: 10,
+                  marginTop: 10,
+                }}
+              >
+                <Pressable
+                  onPress={handleSubmit}
+                  // disabled={isBtnDisable}
+                  disabled={!isInputDisable && !isBtnDisable}
+                  style={{
+                    backgroundColor:
+                      isInputDisable && !isBtnDisable
+                        ? colors.btnColor
+                        : "#E0E0E0",
+                    height: 40,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 10,
+                    width: 150,
+                    alignSelf: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: !isBtnDisable ? "white" : "#989898",
+                      fontSize: 16,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Reset Password
+                  </Text>
+                </Pressable>
               </View>
             </View>
-          </ScrollView>
+          </View>
+          // </ScrollView>
         )}
       </Formik>
+      </ScrollView>
     </View>
   );
 }
@@ -650,9 +685,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 
-
-
-
   // centeredView: {
   //   flex: 1,
   //   justifyContent: 'center',
@@ -661,11 +693,11 @@ const styles = StyleSheet.create({
   // },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     backgroundColor: colors.btnColor,
     shadowOffset: {
       width: 0,
@@ -681,20 +713,20 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalText: {
     // marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 });

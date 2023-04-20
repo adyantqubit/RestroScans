@@ -116,7 +116,10 @@ export default function EditItemScreen({ route, navigation }) {
   };
 
   const handleRegister = (formValues) => {
-    // setIsDisable(true);
+  	// UnCommented by Yuvraj Sahu on 20-4-2023
+  	// Reason - to disable btn
+    setIsDisable(true);
+    // End of addition
     var formData = new FormData();
 
     if (icon != null) {
@@ -147,7 +150,7 @@ export default function EditItemScreen({ route, navigation }) {
     // console.log('formData------'+JSON.stringify(formData))
     updateItemApi(formData, tenant, itemID).then((response) => {
       if (response.msg) {
-        Alert.alert("Successful", response.msg);
+        Alert.alert(response.msg);
         setIsDisable(false);
         setRender(!render);
         // navigate('login')
@@ -589,7 +592,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,

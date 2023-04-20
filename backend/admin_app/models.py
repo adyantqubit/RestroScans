@@ -38,12 +38,21 @@ class RestaurantRequest(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     def validate_image(fieldfile_obj):
+       try: 
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
         if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
         else:
             return True
+       except: 
+           import os # new
+           from pathlib import Path
+           filesize=os.path.getsize(fieldfile_obj.file.name)
+           print(filesize)
+           megabyte_limit = 200
+           if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
     # end of code - rohan - 20/4/23
     
     id = models.AutoField(primary_key=True)
@@ -194,12 +203,21 @@ class AppSetting(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
      def validate_image(fieldfile_obj):
+       try: 
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
         if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
         else:
             return True
+       except: 
+           import os # new
+           from pathlib import Path
+           filesize=os.path.getsize(fieldfile_obj.file.name)
+           print(filesize)
+           megabyte_limit = 200
+           if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
      # end of code - rohan - 20/4/23
      app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
      adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])

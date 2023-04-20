@@ -279,3 +279,6 @@ API_VERSION = "v1/"
 """
 End of code addition
 """
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]

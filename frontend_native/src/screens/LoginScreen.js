@@ -25,6 +25,7 @@ import { useNavigation } from "@react-navigation/native";
 import { colors } from "../Colours/globalColor";
 import config from "../config/config";
 import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function LoginScreen({ navigation }) {
   const navigator = useNavigation();
@@ -36,6 +37,15 @@ export default function LoginScreen({ navigation }) {
   var { render, setRender } = useContext(AppStateContext);
   useEffect(() => {}, [render]);
   // End of addition
+
+  // Added by Yuvraj Sahu on 20-4-2023
+  // Reason - to re render
+  /**
+   * This function is created for re render the screen
+   */
+  const isFocused = useIsFocused();
+  useEffect(() => {}, [isFocused]);
+  // End of re render
 
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get adyant logo and show it background
@@ -166,6 +176,14 @@ export default function LoginScreen({ navigation }) {
         //   style={{ flex: 1, height: "100%" }}
         // >
         <View style={styles.container}>
+          {/* Added by Yuvraj Sahu on 20-4-2023
+          Reason - to show description */}
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>
+              Please enter your registered email id to continue
+            </Text>
+            {/* End of addition */}
+          </View>
           <View style={{ marginTop: 30 }}>
             <View>
               <Text style={styles.labels}>
@@ -253,6 +271,7 @@ export default function LoginScreen({ navigation }) {
                   padding: "3%",
                   width: 150,
                   alignSelf: "center",
+                  marginTop: 20,
                 }}
               >
                 <Text
@@ -288,12 +307,13 @@ export default function LoginScreen({ navigation }) {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
-                marginTop: 50,
+                marginTop: 10,
+                alignSelf: "center",
               }}
             >
               <Text>New to Restroscans?</Text>
               <Pressable onPress={navRegister}>
-                <Text style={{ color: "#8533ff" }}>Registration</Text>
+                <Text style={{ color: "#8533ff" }}> Sign up</Text>
               </Pressable>
             </View>
             {/* End of removal */}
@@ -374,4 +394,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+  // Added by Yuvraj Sahu on 20-4-2023
+  // Reason - to desig description
+  descriptionContainer: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  description: {
+    alignSelf: "center",
+    fontSize: 16,
+  },
+  // End of addition
 });

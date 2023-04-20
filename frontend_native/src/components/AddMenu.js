@@ -18,7 +18,7 @@ import { getMenuList, saveMenuApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
-import Footer from '../../src/components/Footer/Footer'
+import Footer from "../../src/components/Footer/Footer";
 // import { tenantName } from "../config/config";
 // import { Country, State, City } from "country-state-city";
 
@@ -139,161 +139,165 @@ export default function AddMenu() {
 
   return (
     <>
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Menu name
-          </Text>
-          <Controller
-            control={control}
-            name="name"
-            rules={{
-              required: {
-                value: true,
-                message: "Menu name is required",
-              },
-              //   pattern: {
-              //     value: /^(?!\s+$).*/,
-              //     message: "Menu name cannot contain only blankspaces!",
-              //   },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter menu name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                  />
-                </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+              Menu name
+            </Text>
+            <Controller
+              control={control}
+              name="name"
+              rules={{
+                required: {
+                  value: true,
+                  message: "Menu name is required",
+                },
+                //   pattern: {
+                //     value: /^(?!\s+$).*/,
+                //     message: "Menu name cannot contain only blankspaces!",
+                //   },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter menu name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                    />
+                  </View>
 
-                {errors?.name && (
-                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+                  {errors?.name && (
+                    <Text style={styles.textdanger}>
+                      {errors?.name?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 5,
-            marginBottom: 5,
-          }}
-        >
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload image</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // borderColor: 'black',
-            borderRadius: 3,
-            // borderWidth: 1,
-            width: "93%",
-            alignSelf: "center",
-            flexDirection: "row-reverse",
-            justifyContent: "space-around",
-          }}
-        >
-          {/* <Button title="Add menu icon" onPress={pickImage} /> */}
-          <Pressable
-            onPress={pickImage}
+          <View
             style={{
-              backgroundColor: "#d5d5d5",
-              width: 50,
-              padding: 5,
-              borderRadius: 5,
-              height: 40,
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="upload" size={20} color="black" />
-          </Pressable>
-          {icon && (
-            <Image
-              source={{ uri: icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-        </View>
-
-        {/* Added by Yuvraj Sahu on 12-4-2023
-        Reason - to select active status */}
-        <View style={styles.activeStatus}>
-          <Pressable onPress={() => setMenuActive(!isMenuActive)}>
-            {/* <Text style={styles.activeLable}>Active status</Text> */}
-            <Text style={styles.activeLable}>Menu available</Text>
-          </Pressable>
-          <Checkbox
-            value={isMenuActive}
-            onValueChange={setMenuActive}
-            color={isMenuActive ? "#4630EB" : undefined}
-          />
-        </View>
-        {/* End of addition */}
-
-        <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
-          <Pressable
-            onPress={handleSubmit(handleRegister)}
-            disabled={isDisable}
-            style={{
-              backgroundColor: isDisable ? "grey" : colors.btnColor,
-              height: 40,
-              alignItems: "center",
-              justifyContent: "center",
-              // Added by Yuvraj Sahu on 16-4-2023
-              // Reason - to re-design button
-              width: "40%",
-              borderRadius: 10,
+              width: "93%",
               alignSelf: "center",
-              // End of re-designing
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            <Text
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text>Upload image</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              // borderColor: 'black',
+              borderRadius: 3,
+              // borderWidth: 1,
+              width: "93%",
+              alignSelf: "center",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            {/* <Button title="Add menu icon" onPress={pickImage} /> */}
+            <Pressable
+              onPress={pickImage}
               style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
+                backgroundColor: "#d5d5d5",
+                width: 50,
+                padding: 5,
+                borderRadius: 5,
+                height: 40,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Save
-            </Text>
-          </Pressable>
-        </View>
-        {/* Commented by Yuvraj Sahu on 17-4-2023
+              <Icon name="upload" size={20} color="black" />
+            </Pressable>
+            {icon && (
+              <Image
+                source={{ uri: icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+          </View>
+
+          {/* Added by Yuvraj Sahu on 12-4-2023
+        Reason - to select active status */}
+          <View style={styles.activeStatus}>
+            <Pressable onPress={() => setMenuActive(!isMenuActive)}>
+              {/* <Text style={styles.activeLable}>Active status</Text> */}
+              <Text style={styles.activeLable}>Menu available</Text>
+            </Pressable>
+            <Checkbox
+              value={isMenuActive}
+              onValueChange={setMenuActive}
+              color={isMenuActive ? "#4630EB" : undefined}
+            />
+          </View>
+          {/* End of addition */}
+
+          <View
+            style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+          >
+            <Pressable
+              onPress={handleSubmit(handleRegister)}
+              disabled={isDisable}
+              style={{
+                backgroundColor: isDisable ? "grey" : colors.btnColor,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                // Added by Yuvraj Sahu on 16-4-2023
+                // Reason - to re-design button
+                width: "40%",
+                borderRadius: 10,
+                alignSelf: "center",
+                // End of re-designing
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Save
+              </Text>
+            </Pressable>
+          </View>
+          {/* Commented by Yuvraj Sahu on 17-4-2023
         Reason - to remove code  */}
-        {/* {menuList.map((dt, id) => (
+          {/* {menuList.map((dt, id) => (
           <View key={id}>
             <Text>{dt.name}</Text>
           </View>
         ))} */}
-        {/* End of comment */}
-      </View>
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-    {/* End of addition */}
- </>
+          {/* End of comment */}
+        </View>
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -311,7 +315,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,

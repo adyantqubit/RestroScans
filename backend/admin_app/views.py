@@ -50,7 +50,11 @@ class RestaurantRegistartionView(APIView):
         try:
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
-                return Response({'msg':'Successfully Saved'})
+                # if request.data["mobile_number"] == RestaurantRequest.objects.filter(mobile_number = request.data["mobile_number"]) :
+                #     return Response({"duplicate": "Mobile number has been already saved"})
+                # if request.data["email"] == RestaurantRequest.objects.filter(email = request.data["email"]) :
+                #     return Response({"duplicate": "Email has been already saved"})
+                return Response({'msg':'Saved successfully'})
             else :
                 return Response({'err':'Something went wrong'})
         except Exception as e:
@@ -68,8 +72,6 @@ Reason - To authenticate restaurant for login using jwt
 class RestaurantLoginView(APIView):
     def post(self, request):
         restaurant = RestaurantRequest.objects.filter(email = request.data.get('email')).first()
-        print(request.data.get('password'))
-        print(restaurant.email)
         # Modified by Yuvraj Sahu on 2-3-2023
         # Reason - to send email and password validation msg
         response = Response()
@@ -140,7 +142,7 @@ class OtpAPI(APIView):
                 serializer.save()
                 send_otp_via_email(email)
                 data=dict()
-                data["msg"]="OTP is sent succssfully. Please check your email"
+                data["msg"]="OTP is sent successfully. Please check your email"
                 data["mail"]=email
                 response=Response(data, status=200)
                 return response

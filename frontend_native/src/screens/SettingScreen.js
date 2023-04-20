@@ -78,7 +78,10 @@ export default function SettingScreen({ navigation }) {
   var [isDisable, setIsDisable] = useState(false);
 
   const handleRegister = async (formValues) => {
-    // setIsDisable(true);
+  	// Added by Yuvraj Sahu on 20-4-2023
+  	// Reason - to disable btn 
+    setIsDisable(true);
+    // End of addition
     var formData = new FormData();
     settings.setting.id != undefined
       ? formData.append("id", settings.setting.id)
@@ -116,7 +119,7 @@ export default function SettingScreen({ navigation }) {
     ).tenant_name;
     saveSettingApi(formData, tenant).then((response) => {
       if (response.msg) {
-        Alert.alert("Successful", response.msg);
+        Alert.alert(response.msg);
         setIsDisable(false);
         setRender(!render);
         navigation.navigate("HomeScreen");
@@ -428,7 +431,7 @@ export default function SettingScreen({ navigation }) {
           }}
           // End of design
           boxStyles={{
-            borderRadius: 5,
+            borderRadius: 10,
             alignSelf: "center",
             width: "93%",
             borderColor: "black",
@@ -500,7 +503,7 @@ export default function SettingScreen({ navigation }) {
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter central tax"
+                    placeholder="Enter central GST"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -538,7 +541,7 @@ export default function SettingScreen({ navigation }) {
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter state tax"
+                    placeholder="Enter state GST"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -568,7 +571,7 @@ export default function SettingScreen({ navigation }) {
               pattern: {
                 // value: /^(0?[1-9]|[1-9][0-9])$/,
                 value: /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/,
-                message: "Enter valid gst number!",
+                message: "Enter valid GST number!",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -579,7 +582,7 @@ export default function SettingScreen({ navigation }) {
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter gstin"
+                    placeholder="Enter GSTIN"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -618,7 +621,7 @@ export default function SettingScreen({ navigation }) {
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter fssai number"
+                    placeholder="Enter FSSAI number"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -658,7 +661,12 @@ export default function SettingScreen({ navigation }) {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 3,
+              // Added by Yuvraj Sahu on 20-4-2023
+              // Reason - to design btn
+              borderRadius: 10,
+              width: 150,
+              alignSelf: "center"
+              // End of designing
             }}
           >
             <Text
@@ -701,7 +709,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,

@@ -118,17 +118,17 @@ export default function RestaurantRegistrationScreen({
 
     postRestaurantDetail(formData).then((response) => {
       if (response.msg) {
-        Alert.alert("Succesfull", response.msg);
+        Alert.alert(response.msg);
         navigate("LoginScreen");
         setRender(!render);
       }
       // Added by Yuvraj Sahu on 19-4-2023
       // reason - to show duplicate data error 
       if (response.duplicate) {
-        Alert.alert("Error", response.duplicate);
+        Alert.alert(response.duplicate);
       }
       if (response.err) {
-        Alert.alert("Error", response.err)
+        Alert.alert(response.err)
         // End of aadition
       }
     });

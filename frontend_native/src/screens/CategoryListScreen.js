@@ -98,6 +98,10 @@ export default function CategoryListScreen({ route, navigation }) {
   // End upload image
 
   const handleRegister = async (formValues) => {
+  	// Added by Yuvraj Sahu on 20-4-2023
+  	// Reason - to disable btn
+    setIsDisable(true)
+    // End of addition
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
@@ -117,16 +121,24 @@ export default function CategoryListScreen({ route, navigation }) {
     formData.append("is_active", isMenuChecked);
     updateMenuApi(formData, tenant, menuID).then((response) => {
       if (response.msg) {
-        Alert.alert("Succesfull", response.msg);
+        Alert.alert(response.msg);
         var a = response.menuList.filter((dt) => dt.id == menuID);
         setMenuObject(a);
         setRender(!render);
+        // Added by Yuvraj Sahu on 20-4-2023
+        // Reason - to disable false btn
+        setIsDisable(false)
+        // End of addition 
         // navigate('login')
         // setState("stateChanged")
       }
       // end of addition
       if (response.error) {
         Alert.alert("Error", response.error);
+        // Added by Yuvraj Sahu on 20-4-2023
+        // Reason - to disable false btn
+        setIsDisable(false)
+        // End of addition
       }
     });
   };
@@ -425,7 +437,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,
