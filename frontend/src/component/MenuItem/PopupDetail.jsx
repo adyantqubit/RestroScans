@@ -232,7 +232,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     return (
         <>
             {contextHolder}
-            {isDetailPopupOpen ? <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
+            {isDetailPopupOpen && item.discounted_full_price>0 && item.discounted_half_price>0? <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
                 <div className={style.closeContainer}>
                     <AiOutlineClose size={30} style={{ color: "#fff", margin: "auto 0" }} onClick={closePopup} />
                 </div>
@@ -242,7 +242,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                         Please select half or full 
                     </div>
                     <div className={style.detailContainer}>
-                        <div className={style.card} >
+                    {item.discounted_full_price>0?<div className={style.card} >
                             <RemoveItem item={item} size={sizeSelected} currentSize="Full Plate" setSizeSlelected={setSizeSlelected} setQuantityFull={setQuantityFull} />
                             {/* <img alt="" src={config.siteURL + item.icon} className={style.img} /> */}
                             <div className={style.imgContainer}>
@@ -274,8 +274,8 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {item.discounted_half_price && colors.allow_half_price ? <div className={style.card} >
+                        </div>:null}
+                        {item.discounted_half_price>0 && colors.allow_half_price ? <div className={style.card} >
                             <RemoveItem item={item} size={sizeSelected} currentSize="Half Plate" setSizeSlelected={setSizeSlelected} setQuantityHalf={setQuantityHalf} />
                             <div className={style.imgContainer}>
                                 <img alt="" src={config.siteURL + item.icon} className={style.img} />
@@ -307,9 +307,10 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 </div>
                             </div>
                         </div> :
-                            <div className={style.halfWarning} onClick={e => {
+                            // <div className={style.halfWarning} onClick={e => {
 
-                            }}>For this half plate is not available!</div>
+                            // }}>For this half plate is not available!</div>
+                            null
                         }
                     </div>
 

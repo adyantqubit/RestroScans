@@ -97,6 +97,13 @@ class SettingSerializer(serializers.ModelSerializer):
     background_color = serializers.CharField(source="app_theme.background_color")
     heading_color = serializers.CharField(source="app_theme.heading_color")
     subheading_color = serializers.CharField(source="app_theme.subheading_color")
+    
+    # Added by rohan kansari - 20/4/23
+    # reason- To get all other color
+    banner_heading_color= serializers.CharField(source="app_theme.banner_heading_color")
+    heading_bgcolor= serializers.CharField(source="app_theme.heading_bgcolor")
+    subheading_bgcolor=serializers.CharField(source="app_theme.subheading_bgcolor")
+    #Added by rohan- 20/4/23
     class Meta:
         model = Setting
         fields = '__all__'

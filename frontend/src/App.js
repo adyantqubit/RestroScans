@@ -24,6 +24,7 @@ function App() {
     <BrowserRouter>
 
       <div className={`${appStyle.container}`}
+      style={{background:colors.backgroundTheme}}
      >
         {/*added by rohan- on 6/4/23
           reason- here i am adding cart and back button   */}

@@ -25,6 +25,7 @@ import landscapeMode from '../../images/landscape.png'
 import { MdRoomService } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
+import ReactReadMoreReadLess from "react-read-more-read-less";
 
 
 // Import Swiper styles
@@ -885,14 +886,14 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {person.price_full ? '₹' + person.price_full : '---'}</strike>
+                                      <strike>  {person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {person.price_half ? '₹' + person.price_half : '---'}</strike>
+                                      <strike>  {person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
                                     </h4> : null}
                                   </div>
 
@@ -910,7 +911,7 @@ function MenuItem() {
                                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                         className="allitems_price"
                                       >
-                                        &nbsp;&nbsp;&nbsp; ₹{searchSectionHalfPrice(person)}
+                                        &nbsp; ₹{searchSectionHalfPrice(person)}
                                       </h4> : null}
                                   </div>
 
@@ -999,13 +1000,13 @@ function MenuItem() {
                                     >{person.name}</h4>
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{person.price_full ? '₹' + person.price_full : '---'}</h4>
+                                    >{person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ?
                                       <h4 style={{ color: colors.subHeadingColor }}
                                         className="allitems_price"
-                                      >{person.price_half ? '₹' + person.price_half : '---'}</h4> : null}
+                                      >{person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
                                   </div>
                                   <div className="description_div" style={{ display: 'flex' }}>
 
@@ -1064,7 +1065,13 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
+                                          <ReactReadMoreReadLess
+                                          charLimit={55}
+                                          readMoreText={"more"}
+                                          readLessText={"less"}
+                                      >
                                       {person.description}
+                                      </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
                                   </div>
@@ -1175,14 +1182,14 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        <strike>  {showdata.item_fullprice ? '₹' + showdata.item_fullprice : '---'}</strike>
+                        <strike>  {showdata.item_fullprice ? '₹' + showdata.item_fullprice : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        <strike>  {showdata.item_halfprice ? '₹' + showdata.item_halfprice : '---'}</strike>
+                        <strike>  {showdata.item_halfprice ? '₹' + showdata.item_halfprice : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
                       </h4> : null}
                     </div>
 
@@ -1199,7 +1206,7 @@ function MenuItem() {
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        &nbsp;&nbsp;&nbsp;  ₹{totalHalfPrice(showdata)}
+                        &nbsp;  ₹{totalHalfPrice(showdata)}
                       </h4> : null}
                     </div>
 
@@ -1256,7 +1263,13 @@ function MenuItem() {
                             style={{
                               color: colors.bannerColor
                             }} />Add</button> : null}
+                            <ReactReadMoreReadLess
+                                          charLimit={55}
+                                          readMoreText={"more"}
+                                          readLessText={"less"}
+                                      >
                         {showdata.item_description}
+                        </ReactReadMoreReadLess>
                       </span>
                       {/* End of code - 16/4/23*/}
                     </div>
@@ -1425,14 +1438,14 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {m.price_full ? '₹' + m.price_full : '---'}</strike>
+                                      <strike>  {m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {m.price_half ? '₹' + m.price_half : '---'}</strike>
+                                      <strike>  {m.price_half ? '₹' + m.price_half :<>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
                                     </h4> : null}
                                   </div>
 
@@ -1447,7 +1460,7 @@ function MenuItem() {
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      &nbsp;&nbsp;&nbsp; ₹{mainSectionHalfPrice(m)}
+                                      &nbsp; ₹{mainSectionHalfPrice(m)}
                                     </h4> : null}
                                   </div>
 
@@ -1491,7 +1504,7 @@ function MenuItem() {
 
                                     {/* Modified by rohan- 16/4/23
                                     Reason - Removing old description design and adding button and description together */}
-                                    &nbsp; <span className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                    &nbsp; <span ref={ref} className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
                                       {/*added by rohan -18/4/23- to add functionality of subscription */}
                                       {subscribePlan?.includes("order") ? <button className="add_product" style={{
                                         color: colors.bannerColor,
@@ -1503,7 +1516,13 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
+                                          <ReactReadMoreReadLess
+                                          charLimit={55}
+                                          readMoreText={"more"}
+                                          readLessText={"less"}
+                                      >
                                       {m.description}
+                                      </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
                                   </div>
@@ -1532,12 +1551,12 @@ function MenuItem() {
                                     >{m.name}</h4>
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_full ? '₹' + m.price_full : '---'}</h4>
+                                    >{m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_half ? '₹' + m.price_half : '---'}</h4> : null}
+                                    >{m.price_half ? '₹' + m.price_half :<>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
@@ -1578,7 +1597,7 @@ function MenuItem() {
 
                                     {/* Modified by rohan- 16/4/23
                                     Reason - Removing old description design and adding button and description together */}
-                                    &nbsp; <span className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
+                                    &nbsp; <span ref={ref} className="description_content" onClick={e => toggleDescription(e.currentTarget.style)} style={{ alignItems: 'center', color: colors.subHeadingColor }}>
                                       {/*added by rohan -18/4/23- to add functionality of subscription */}
                                       {subscribePlan?.includes("order") ? <button className="add_product" style={{
                                         color: colors.bannerColor,
@@ -1591,7 +1610,13 @@ function MenuItem() {
                                             color: colors.bannerColor
                                           }}
                                         />Add</button> : null}
+                                        <ReactReadMoreReadLess
+                                          charLimit={55}
+                                          readMoreText={"more"}
+                                          readLessText={"less"}
+                                      >
                                       {m.description}
+                                      </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
                                   </div>
