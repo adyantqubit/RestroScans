@@ -61,10 +61,10 @@ class RestaurantRequest(models.Model):
     # Reason - remove mandatory field from tag line
     tag_line = models.CharField(max_length=255, null=True, blank=True)
     # End of code modification
-    restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True,validators=[validate_image])
+    restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True)
      # Added by Om on 24-03-23
     # Reason: Show a restaurant background image
-    restaurant_background_img = models.ImageField(upload_to='images/tenantBackgroundImage/',blank=True,null=True,validators=[validate_image])
+    restaurant_background_img = models.ImageField(upload_to='images/tenantBackgroundImage/',blank=True,null=True)
     # End of addition
     owner_name = models.CharField(max_length=255, default='')
     email =models.EmailField(unique=True)
@@ -219,8 +219,8 @@ class AppSetting(models.Model):
            if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
      # end of code - rohan - 20/4/23
-     app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
-     adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
+     app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True)
+     adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True)
      title=models.CharField(max_length=30, default='')
      bottom_text=models.CharField(max_length=30, default='')
      adyant_webite_link=models.CharField(max_length=255, default='')

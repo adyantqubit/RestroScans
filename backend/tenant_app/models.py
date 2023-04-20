@@ -35,7 +35,7 @@ class Menu(models.Model):
     # end of code - rohan - 20/4/23
     
     name=models.CharField(max_length=30,default='')
-    icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True,validators=[validate_image])
+    icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -78,7 +78,7 @@ class Category(models.Model):
     
     menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
     name=models.CharField(max_length=30,default='',verbose_name='Category name')
-    icon=models.ImageField(upload_to='images/category/',null=True,blank=True,validators=[validate_image])
+    icon=models.ImageField(upload_to='images/category/',null=True,blank=True)
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -217,7 +217,7 @@ class Offer(models.Model):
                                        MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image])
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True)
     # End of addition
     description=models.TextField(null=True,blank=True)
     
@@ -522,7 +522,7 @@ class PaymentMethod(models.Model):
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
     # end of code - rohan - 20/4/23
     
-    scanner = models.ImageField(upload_to='scanner/', null=True,validators=[validate_image])
+    scanner = models.ImageField(upload_to='scanner/', null=True)
 
     # Added by :- Parineeta Gedam
     # Date :- 15-04-2023
