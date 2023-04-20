@@ -1,6 +1,6 @@
 // import "./MenuItem.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getBestProducts, getmenuList, getofferDetails, gettenantList } from "../../api/Services";
 import siteConfig from "../../config/config";
 import './MenuItem.css'
@@ -563,7 +563,7 @@ function MenuItem() {
 
 
   const [searchVisible, setSearchVisiblity] = useState(false)
-
+  const ref=useRef()
   // Added by rohan -16/4/23
   // reason- To hide and unhide description
   function toggleDescription(style){
@@ -572,6 +572,13 @@ function MenuItem() {
     else
     style.display="unset"
   }
+
+  // added by rohan kansari -19/4/23
+  // reason to clear search if search is not visible
+  useEffect(()=>{
+    if(!searchVisible)
+    setNewSearch("")
+  },[searchVisible])
 
   return (
     <>
@@ -713,7 +720,7 @@ function MenuItem() {
             <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
-                <input className="inputBoxSearch" type="search" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
+                <input className="inputBoxSearch" type="text" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
               : null}
