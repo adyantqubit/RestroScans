@@ -685,7 +685,7 @@ function MenuItem() {
                 >
                   <div className="menu_img_container" >
                     <img src={siteConfig.siteURL + showMenu.icon}
-                      className="menu_img"
+                      className="drawer_menu_img"
                     />
                   </div>
 

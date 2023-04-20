@@ -180,7 +180,7 @@ class OfferItemAdmin(admin.ModelAdmin):
         # End of added code on :- 19-04-2023
 
         # added by :- Parineeta Gedam on :- 19-04-2023
-        form.base_fields['item_name'].label_from_instance = lambda inst: "{} : {}: {}".format(inst.name,inst.category.name,inst.category.menu)   
+        form.base_fields['item_name'].label_from_instance = lambda inst: "{} : {} : {}".format(inst.name,inst.category.name,inst.category.menu)   
         # End of added code
         return form
     # End of addition
@@ -299,6 +299,12 @@ class CustomerDetailAdmin(admin.ModelAdmin):
             return False
         else:
             return True
+        
+    # Modified by :- Parineeta Gedam on 20-04-2023
+    def has_delete_permission(self, request, obj=None) :
+        return False
+    # End of modified code on 20-04-2023
+
 admin.site.register(CustomerDetail, CustomerDetailAdmin)
 
 """
@@ -325,6 +331,12 @@ class OrderAdmin(admin.ModelAdmin):
             return False
         else:
             return True
+        
+    # Modified by :- Parineeta Gedam on 20-04-2023
+    def has_delete_permission(self, request, obj=None) :
+        return False
+    # End of modified code on 20-04-2023
+
 admin.site.register(Order, OrderAdmin)
 
 """
@@ -347,6 +359,12 @@ class OrderItemAdmin(admin.ModelAdmin):
             return False
         else:
             return True
+        
+    # Modified by :- Parineeta Gedam on 20-04-2023
+    def has_delete_permission(self, request, obj=None) :
+        return False
+    # End of modified code on 20-04-2023
+    
 admin.site.register(OrderItem, OrderItemAdmin)
 
 """

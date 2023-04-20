@@ -287,7 +287,7 @@ export default function InvoiceDetails() {
               <span className="invoice_sub_heading">Total</span>
               {/* Modified by :- Parineeta Gedam on 19-04-2023 */}
               {/* <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span> */}
-              <span className="invoice_second_sub_heading"><b> ₹ {orders.total.toFixed()}</b></span>
+              <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span>
               {/* End of modified code on 19-04-2023 */}
             </div>
           </div>
