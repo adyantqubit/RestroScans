@@ -232,7 +232,7 @@ export default function HomeScreen({ navigation }) {
     Scan menu
   </h1>
   <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '../../assets/No_offer.jpg'/>
+  <img src = '${'http://192.168.1.28:19000/assets/globe.png'}' width='30px' height='30px'/>
    restroscans.com
 </h1>
   <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
