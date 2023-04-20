@@ -78,31 +78,33 @@ class TenantAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(TenantAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['restaurant_name'].widget.attrs['style'] = 'width: 20em;'
+        form.base_fields['Subscribe_plan'].label_from_instance= lambda inst: "{}".format(inst.plan_name) 
         return form
     # End of addition
+   
 
         
-@admin.register(Otp)
-class OtpAdmin(admin.ModelAdmin):
-    list_display=("id","otp")
-    # readonly_fields=("item","user_no")
-    # ordering=("title",)
-    # Commented and Modified by Om on 13-04-23
-    # Reason : Change the method
-    # search_fields=("tenant_name", "restaurant_name","id")
-    search_fields=["tenant_name", "restaurant_name","id"]
-    # End of comment and code modification by Om shrivastava on 13-04-23
+# @admin.register(Otp)
+# class OtpAdmin(admin.ModelAdmin):
+#     list_display=("id","otp")
+#     # readonly_fields=("item","user_no")
+#     # ordering=("title",)
+#     # Commented and Modified by Om on 13-04-23
+#     # Reason : Change the method
+#     # search_fields=("tenant_name", "restaurant_name","id")
+#     search_fields=["tenant_name", "restaurant_name","id"]
+#     # End of comment and code modification by Om shrivastava on 13-04-23
 
-    list_per_page=10
-    def has_change_permission(self, request, obj=None) :
-        return True    
-    def has_delete_permission(self, request, obj=None) :
-        return True   
-    def has_module_permission(self, request,view=None):
-        if request.tenant.schema_name == get_public_schema_name():
-            return True
-        else:
-            return False 
+#     list_per_page=10
+#     def has_change_permission(self, request, obj=None) :
+#         return True    
+#     def has_delete_permission(self, request, obj=None) :
+#         return True   
+#     def has_module_permission(self, request,view=None):
+#         if request.tenant.schema_name == get_public_schema_name():
+#             return True
+#         else:
+#             return False 
         
 @admin.register(RestaurantRequest)
 class RestaurantRequestAdmin(admin.ModelAdmin):
@@ -179,10 +181,28 @@ class AppThemeAdmin(admin.ModelAdmin):
 @admin.register(Plans)
 class PlanAdmin(admin.ModelAdmin):
     list_display=("plan_name",)
+    def has_change_permission(self, request, obj=None) :
+        return False    
+    def has_delete_permission(self, request, obj=None) :
+        return False  
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
     
 @admin.register(Features)
 class Feature(admin.ModelAdmin):
-      list_display=("feature_name",)     
+      list_display=("feature_name",)  
+      def has_change_permission(self, request, obj=None) :
+            return True    
+      def has_delete_permission(self, request, obj=None) :
+        return True  
+      def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False   
       
 @admin.register(PlannedFeatures)
 class PlannedFeatureAdmin(admin.ModelAdmin):
@@ -193,6 +213,16 @@ class PlannedFeatureAdmin(admin.ModelAdmin):
         
     def Feature_selected(self, obj):
         return obj.feature_selected.feature_name
+    
+    def has_change_permission(self, request, obj=None) :
+        return True    
+    def has_delete_permission(self, request, obj=None) :
+        return True  
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
     
     def get_form(self, request, obj=None, **kwargs):
         form = super(PlannedFeatureAdmin, self).get_form(request, obj, **kwargs)

@@ -8,12 +8,21 @@ from tenant_schemas.models import TenantMixin
 class Plans(models.Model):
     plan_name=models.CharField(max_length=50,default="")
     
+    class Meta:
+        verbose_name_plural = "Plans"
+    
 class Features(models.Model):
     feature_name=models.CharField(max_length=50,default="")   
+    
+    class Meta:
+        verbose_name_plural = "Features"
     
 class PlannedFeatures(models.Model):
       plan_selected=models.ForeignKey(Plans,on_delete=models.CASCADE,blank=True,null=True)
       feature_selected=models.ForeignKey(Features,on_delete=models.CASCADE,blank=True,null=True)
+      
+      class Meta:
+            verbose_name_plural = "Planned Features"
       
      
          

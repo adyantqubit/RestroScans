@@ -232,7 +232,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     return (
         <>
             {contextHolder}
-            {isDetailPopupOpen && item.discounted_full_price>0 && item.discounted_half_price>0? <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
+            {isDetailPopupOpen && (item.discounted_full_price>0 ||  item.discounted_half_price>0)? <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
                 <div className={style.closeContainer}>
                     <AiOutlineClose size={30} style={{ color: "#fff", margin: "auto 0" }} onClick={closePopup} />
                 </div>

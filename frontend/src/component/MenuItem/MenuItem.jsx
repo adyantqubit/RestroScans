@@ -875,7 +875,7 @@ function MenuItem() {
                             {/* <h4 style={{ color: colors.subHeadingColor }}
                                     className="allitems_name"
                                   >{person.name}</h4> */}
-                            {(offerList.filter((data) => parseInt(data.id) === person.id)).length > 0 ?
+                            {(offerList.filter((data) => parseInt(data.item_id) === person.id)).length > 0 ?
                               <>
 
                                 <div className="price_item_description_div">
@@ -1070,7 +1070,7 @@ function MenuItem() {
                                           readMoreText={"more"}
                                           readLessText={"less"}
                                       >
-                                      {person.description}
+                                      {person.description&&person.description.length>0?person.description:"  "}
                                       </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1268,7 +1268,7 @@ function MenuItem() {
                                           readMoreText={"more"}
                                           readLessText={"less"}
                                       >
-                        {showdata.item_description}
+                        {showdata.item_description&&showdata.item_description.length>0?showdata.item_description:" "}
                         </ReactReadMoreReadLess>
                       </span>
                       {/* End of code - 16/4/23*/}
@@ -1521,7 +1521,7 @@ function MenuItem() {
                                           readMoreText={"more"}
                                           readLessText={"less"}
                                       >
-                                      {m.description}
+                                      {m.description&&m.description.length>0?m.description:" "}
                                       </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1615,7 +1615,7 @@ function MenuItem() {
                                           readMoreText={"more"}
                                           readLessText={"less"}
                                       >
-                                      {m.description}
+                                      {m.description&&m.description.length>0?m.description:" "}
                                       </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
