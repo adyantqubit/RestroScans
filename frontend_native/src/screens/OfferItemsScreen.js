@@ -113,14 +113,14 @@ export default function OfferItemsScreen({ route, navigation }) {
             if (response.msg) {
                 // Modified by Om on 14-04-23
                 // Reason : Correct the spelling of success
-                Alert.alert("Successfull", response.msg);
+                Alert.alert( response.msg);
                 // End of modfication
                 // var a = response.offerBanner.filter((dt) => dt.id == bannerName[0].id)
                 // setBannerObject(a)
                 setRender(!render)
             }
             if (response.error) {
-                Alert.alert("Error", response.error);
+                Alert.alert( response.error);
             }
         });
 
@@ -135,12 +135,12 @@ export default function OfferItemsScreen({ route, navigation }) {
 
         deleteOfferApi(tenant, bannerId).then((response) => {
             if (response.msg) {
-                Alert.alert("Successfull", response.msg);
+                Alert.alert( response.msg);
                 setRender(!render)
                 navigation.pop()
             }
             if (response.error) {
-                Alert.alert("Error", response.error);
+                Alert.alert( response.error);
             }
         });
     };

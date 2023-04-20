@@ -96,7 +96,7 @@ export default function AddBanner() {
         if (icon != null) {
             saveAllOffer(formData, tenant).then((response) => {
                 if (response.msg) {
-                    Alert.alert("Succesfull", response.msg);
+                    Alert.alert( response.msg);
                     // resetField("offer_name");
                     // resetField("discount");
                     // resetField("offer_image");
@@ -111,7 +111,7 @@ export default function AddBanner() {
                     // if (response.error) {
                     //     alert(response.error)
                     // End of modification
-                    Alert.alert("Error", "Something went wrong");
+                    Alert.alert("Something went wrong");
                     //  End of addition
                     // setIsDisable(false);
                 }

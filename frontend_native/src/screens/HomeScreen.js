@@ -213,36 +213,123 @@ export default function HomeScreen({ navigation }) {
   //   const file = await reactNativeHTMLToPdf.convert(options);
   //   console.log(file)
   // };
-
+// Modfication by Om on 20-04-23
+// Reason : Fix the Print functionality, need to add 4 QR images
   const html = `
-<html>
+<html >
  
-  <body style="text-align: center;">
-  <span style="font-size: 90px; font-family: Helvetica Neue; font-weight: bold;">
+  <body style="text-align: center;margin:0px;padding:0px;">
+  <div style="display:flex;flex-wrap:wrap;">
+  <div style="width:50vw; height:50vh;">
+  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold; text-transform:uppercase">
   ${userData.restaurant_name}
-</span>
+</div>
     <img
-      src=http://192.168.1.28:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
-      style="width: 90vw;" />
+      style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
-      <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
       Adyant Softtech Pvt. Ltd., Raipur
-    </h1><h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-    Scan menu
-  </h1>
-  <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '../../assets/No_offer.jpg'/>
+    </h1>
+    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
-  <h1 style="font-size: 40px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+    <b>  Scan menu</b>
+  </h1>
+  
+  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
   Table no :
 </h1>
+</div>
+</div>
+
+
+<div style="width:50vw; height:50vh;">
+  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+  ${userData.restaurant_name}
+</div>
+    <img
+      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      //  src=${scanner}
+      style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
+      <div>
+      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+      Adyant Softtech Pvt. Ltd., Raipur
+    </h1>
+    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+   restroscans.com
+</h1>
+    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+    <b>  Scan menu</b>
+  </h1>
+  
+  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  Table no :
+</h1>
+</div>
+</div>
+
+<div style="width:50vw; height:50vh;">
+  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+  ${userData.restaurant_name}
+</div>
+    <img
+      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      //  src=${scanner}
+      style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+      <div>
+      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+      Adyant Softtech Pvt. Ltd., Raipur
+    </h1>
+    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+   restroscans.com
+</h1>
+    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+    <b>  Scan menu</b>
+  </h1>
+  
+  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  Table no :
+</h1>
+</div>
+</div>
+
+<div style="width:50vw; height:50vh;">
+  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+  ${userData.restaurant_name}
+</div>
+    <img
+      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      //  src=${scanner}
+      style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+      <div>
+      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+      Adyant Softtech Pvt. Ltd., Raipur
+    </h1>
+    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+   restroscans.com
+</h1>
+    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  <b>  Scan menu</b>
+  </h1>
+  
+  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  Table no :
+</h1>
+</div>
+</div>
+
 </div>
   </body>
 </html>
 `;
-
+// End of modification
   const printDoc = async () => {
     await Print.printAsync({
       html,
@@ -342,31 +429,26 @@ export default function HomeScreen({ navigation }) {
           width: "100%",
           // height:'30%'
         }}>
+
           <SvgCssUri
             width="180"
             height="180"
             viewBox="0 0 450 470"
-            uri="http://192.168.1.28:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+            uri="http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
           // uri={scanner}
 
           />
           <View style={{
-            marginTop: -15, alignItems: "center",
+            marginTop: -10, alignItems: "center",
             justifyContent: "center",
             alignSelf: 'center',
           }}>
             <Text style={{ fontSize: 10, }}>Adyant Softtech Pvt. Ltd., Raipur</Text>
-            <Text style={{ fontSize: 10, }}>Scan menu </Text>
-              <Text style={{ fontSize: 10, }}>
-
-               
-              <Icon name="earth" size={12} color="black" />
-
-              &nbsp;restroscans.com </Text>
-
-
             <Text style={{ fontSize: 10, }}>
-
+              <Icon name="earth" size={12} color="black" />
+              &nbsp;restroscans.com </Text>
+            <Text style={{ fontSize: 12,fontWeight:'bold' }}>Scan menu </Text>
+            <Text style={{ fontSize: 10, }}>
               Table no: </Text>
           </View>
 
@@ -662,7 +744,8 @@ const styles = StyleSheet.create({
   },
   restaurantLable: {
     fontSize: fonts.title1,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textTransform:'uppercase'
   },
   restaurantHeadline: {
     fontSize: 15,

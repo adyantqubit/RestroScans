@@ -207,7 +207,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
             bannerItemId,
         ).then((response) => {
             if (response.msg) {
-                Alert.alert("Successfull", response.msg);
+                Alert.alert( response.msg);
                 //   setIsDisable(false);
                 setRender(!render)
                 //   var categories = (response.categoryList).filter((dt)=>dt.id == categoryID)
@@ -221,7 +221,7 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
             else{
                 // if (response.error) {
                 //     alert(response.error)
-                    Alert.alert("Error", "This banner/offer or item name already exist");
+                    Alert.alert( "This banner/offer or item name already exist");
                   //  End of addition
                     // setIsDisable(false);
                 }
@@ -256,12 +256,12 @@ export default function OfferItemsDetailScreen({ route, navigation }) {
 
       deleteOfferItemsApi(tenant, bannerItemId).then((response) => {
         if (response.msg) {
-          Alert.alert("Succesfull", response.msg);
+          Alert.alert( response.msg);
           setRender(!render)
           navigation.pop()
         }
         if (response.error) {
-          Alert.alert("Error", response.error);
+          Alert.alert( response.error);
         }
       });
     };

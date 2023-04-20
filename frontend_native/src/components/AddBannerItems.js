@@ -150,7 +150,7 @@ export default function AddBannerItems() {
         saveAllOfferItems(formData, JSON.parse(tenantInfo).tenant_name).then(
             (response) => {
                 if (response.msg) {
-                    Alert.alert("Successful", response.msg);
+                    Alert.alert( response.msg);
                     setRender(!render)
                     setIsDisable(false);
                     // navigate('login')
@@ -160,7 +160,7 @@ export default function AddBannerItems() {
                 else {
                     // if (response.error) {
                     //     alert(response.error)
-                    Alert.alert("Error", "Banner/Offer with this item name already exists");
+                    Alert.alert( "Banner/Offer with this item name already exists");
                     //  End of addition
                     setIsDisable(false);
                 }
