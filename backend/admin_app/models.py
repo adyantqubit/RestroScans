@@ -1,5 +1,6 @@
 from django.db import models
 from tenant_schemas.models import TenantMixin
+from django.core.exceptions import ValidationError
 
 #Added by Rohan Kansari- 16/4/23
 # Reason - To add plan Subcribtion feature where all feature is allow according to plan
@@ -34,16 +35,27 @@ Added by - Yuvraj Sahu on 15-02-2023
 Reason - To store tenant requests
 """
 class RestaurantRequest(models.Model):
+     # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+    # end of code - rohan - 20/4/23
+    
     id = models.AutoField(primary_key=True)
     restaurant_name =models.CharField(max_length=255, default='')
     # Modified by Yuvraj sahu on 29-3-2023
     # Reason - remove mandatory field from tag line
     tag_line = models.CharField(max_length=255, null=True, blank=True)
     # End of code modification
-    restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True)
+    restaurant_logo=models.ImageField(upload_to='images/tenantRequest/',blank=True,null=True,validators=[validate_image])
      # Added by Om on 24-03-23
     # Reason: Show a restaurant background image
-    restaurant_background_img = models.ImageField(upload_to='images/tenantBackgroundImage/',blank=True,null=True)
+    restaurant_background_img = models.ImageField(upload_to='images/tenantBackgroundImage/',blank=True,null=True,validators=[validate_image])
     # End of addition
     owner_name = models.CharField(max_length=255, default='')
     email =models.EmailField(unique=True)
@@ -174,8 +186,18 @@ Added by - Yuvraj Sahu on 24-03-2023
 Reason - To store settings of react native app
 """
 class AppSetting(models.Model):
-     app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True)
-     adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True)
+    # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+     def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+     # end of code - rohan - 20/4/23
+     app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
+     adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
      title=models.CharField(max_length=30, default='')
      bottom_text=models.CharField(max_length=30, default='')
      adyant_webite_link=models.CharField(max_length=255, default='')

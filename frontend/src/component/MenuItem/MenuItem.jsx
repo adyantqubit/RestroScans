@@ -692,7 +692,7 @@ function MenuItem() {
                   <span>
                     <h6 style={{
                       color: colors.bannerColor, paddingTop: '2%',
-                      backgroundColor: colors.headingBackgroundColor,
+                      // backgroundColor: colors.headingBackgroundColor,
                     }}
                       className="drawer_menu_name"
                     >{showMenu.name}
@@ -805,7 +805,7 @@ function MenuItem() {
                     <h3 className="main_menu_name"
                       style={{
                         color: colors.headingColor, textAlign: 'center',
-                        backgroundColor: colors.headingBackgroundColor
+                        // backgroundColor: colors.headingBackgroundColor
                       }}
                     >
                       {obj}

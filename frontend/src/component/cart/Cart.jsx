@@ -108,7 +108,7 @@ const Cart = () => {
       <PopupDetail item={selectedItem} isDetailPopupOpen={isDetailPopupOpen} setDetailPopupVisiblity={setDetailPopupVisiblity} />
 
       <div className={style.cartContainer} style={{ color: colors.backgroundTheme }}>
-        <div style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }} className={style.cartTitle}>
+        <div style={{ color: colors.headingColor }} className={style.cartTitle}>
         {/*Added by rohan kansari -18/4/23 - add back button*/}
         <BiArrowBack onClick={e=>nav(-1)}/>
         
@@ -154,7 +154,7 @@ const Cart = () => {
 
       </div>
 
-      {cart.length > 0 ? <div className={style.btnContainer} style={{ background: colors.headingBackgroundColor, color: colors.subHeadingColor }}>
+      {cart.length > 0 ? <div className={style.btnContainer} style={{background:"transparent", color: colors.subHeadingColor }}>
         {/* added by rohan-13/4/23 
             reason- to show subtotal also */}
         <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div>
@@ -289,7 +289,7 @@ function BlankPage() {
           No item is added currently !
         </div>
         <div className={style.blankBtnContainer} >
-          <button className={style.blankBtn} style={{ color: colors.subHeadingColor, background: colors.bannerColor }} onClick={e => nav(-1)}>Browse Menu</button>
+          <button className={style.blankBtn} style={{ color: colors.backgroundTheme, background: colors.bannerColor }} onClick={e => nav(-1)}>Browse Menu</button>
         </div>
       </div>
     </>

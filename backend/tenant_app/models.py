@@ -14,8 +14,19 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of menu
 """
 class Menu(models.Model):
+     # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+    # end of code - rohan - 20/4/23
+    
     name=models.CharField(max_length=30,default='')
-    icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True)
+    icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True,validators=[validate_image])
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -36,9 +47,20 @@ Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of category
 """
 class Category(models.Model):
+    # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+    # end of code - rohan - 20/4/23
+    
     menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
     name=models.CharField(max_length=30,default='',verbose_name='Category name')
-    icon=models.ImageField(upload_to='images/category/',null=True,blank=True)
+    icon=models.ImageField(upload_to='images/category/',null=True,blank=True,validators=[validate_image])
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -67,6 +89,18 @@ IMAGE_CHOICE = (
 )
 # End of addition
 class Item(models.Model):
+    
+    # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+    # end of code - rohan - 20/4/23
+        
     category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='',verbose_name="Category name")
     name=models.CharField(max_length=30,default='',verbose_name="Item name")
      # Added by Om on 28-03-2023
@@ -86,7 +120,7 @@ class Item(models.Model):
 	# end of code modification- by Rohan kansari - on 16/4/23
 	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
-    icon=models.ImageField(upload_to='images/item/', null=True)
+    icon=models.ImageField(upload_to='images/item/', null=True, validators=[validate_image])
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
@@ -101,6 +135,18 @@ class Item(models.Model):
     
     
     # end of code
+    
+    # Added by rohan kansari -20/4/23
+    # reason - to add image validation ,admin not able to enter more then 200kb
+    
+    # def clean_icon(self):
+    #     image = self.cleaned_data.get('image', False)
+    #     if image:
+    #         if image._size > 200*1024:
+    #             raise ValidationError("Image file too large ( > 200kb )")
+    #         return image
+    #     else:
+    #         raise ValidationError("Couldn't read uploaded image")
     
     def __str__(self):
         return self.name 
@@ -118,13 +164,24 @@ Added by - Om Shrivastava on 01-03-2023
 Reason - To store offer for every Items
 """
 class Offer(models.Model):
+     # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+    # end of code - rohan - 20/4/23
+    
     id = models.AutoField(primary_key=True)
     offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True)
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image])
     # End of addition
     description=models.TextField(null=True,blank=True)
     
@@ -409,7 +466,18 @@ Added by - Parineeta Gedam on 11-04-2023
 Reason - To store scanner
 """
 class PaymentMethod(models.Model):
-    scanner = models.ImageField(upload_to='scanner/', null=True)
+     # added by rohan kansari - 20/4/23
+    # reason- To add validation on image , admin not able to add image more than 200kb
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+        if filesize > megabyte_limit*1024:
+            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        else:
+            return True
+    # end of code - rohan - 20/4/23
+    
+    scanner = models.ImageField(upload_to='scanner/', null=True,validators=[validate_image])
 
     # Added by :- Parineeta Gedam
     # Date :- 15-04-2023
