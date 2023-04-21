@@ -147,7 +147,7 @@ class Item(models.Model):
 	# end of code modification- by Rohan kansari - on 16/4/23
 	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
-    icon=models.ImageField(upload_to='images/item/', null=True, validators=[validate_image])
+    icon=models.ImageField(upload_to='images/item/', null=True, )
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
