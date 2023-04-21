@@ -15,7 +15,7 @@ import CategoryListScreen from "../screens/CategoryListScreen";
 import ItemListScreen from "../screens/ItemListScreen";
 import EditItemScreen from "../screens/EditItemScreen";
 import OfferItemsScreen from "../screens/OfferItemsScreen";
-import OfferItemsDetailScreen from "../screens/OfferItemsDetailScreen";
+
 import OrderItemsScreen from "../screens/OrderItemsScreen";
 
 const AuthNavigation = () => {
@@ -123,15 +123,6 @@ const AuthNavigation = () => {
             name="OfferItemsScreen"
             options={{ title: "Banner/Offer details" }}
             component={OfferItemsScreen}
-          ></Stack.Screen>
-          {/* End of addition */}
-
-          {/* Added by Om on 8-4-2023
-          Reason - to navigate banner items details section */}
-          <Stack.Screen
-            name="OfferItemsDetailScreen"
-            options={{ title: " Banner/Offer item details" }}
-            component={OfferItemsDetailScreen}
           ></Stack.Screen>
           {/* End of addition */}
 

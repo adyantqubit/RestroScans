@@ -7,22 +7,14 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { getAllOfferList, } from "../api/Services";
-import { colors } from "../Colours/globalColor";
+import { getAllOfferList } from "../api/Services";
 import config from "../config/config";
 import * as SecureStore from "expo-secure-store";
-import { useContext } from "react";
-import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from '../../src/components/Footer/Footer'
+import Footer from "../../src/components/Footer/Footer";
 
 export default function MenuListScreen({ navigation }) {
-  var {render, setRender} = useContext(AppStateContext)
-  const isFocused = useIsFocused()
-
-  // useEffect(() => {
-  //   getAllOffers();
-  // }, [render]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     getAllOffers();
@@ -30,46 +22,29 @@ export default function MenuListScreen({ navigation }) {
 
   // Set the banner name and banner items name in this state
   var [bannerList, setBannerList] = useState([]);
-  var [bannerItemList, setBannerItemList] = useState([]);
 
   // GET all banner data in this method
   const getAllOffers = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    // console.log(tenant)
     const response = await getAllOfferList(tenant);
     if (response) {
       setBannerList(response.offerBanner);
-      setBannerItemList(response.offerItemList);
-      // setItemList(response.itemList);
     }
-
   };
-  // console.log(bannerList)
-  // console.log(bannerItemList)
 
-// After click the banner items than all details set in this function then navigate the next screen
-  function onOfferClick(offerName,bannerId) {
-    var bannerName = bannerList.filter((dt) => dt.offer_name == offerName);
-    var offerList = bannerItemList.filter((e) => e.offer_name == offerName);
+  // After click the banner items than all details set in this function then navigate the next screen
+  function onOfferClick(bannerId) {
+    var filteredBannerList = bannerList.filter((dt) => dt.id == bannerId);
+
     navigation.navigate("OfferItemsScreen", {
-      bannerName: bannerName,
-      offerList: offerList,
-      offerName:offerName,
-      bannerList:bannerList,
-      bannerItemList:bannerItemList,
-      bannerId:bannerId
-  });
-  // alert(JSON.stringify(bannerId))
-  // alert(JSON.stringify(bannerItemList))
-  // alert(JSON.stringify(offerName))
-  // alert(JSON.stringify(offerList))
-
+      banner: filteredBannerList[0],
+    });
   }
- 
+
   return (
-    <View style={{  height: "100%" }}>
+    <View style={{ height: "100%" }}>
       <ScrollView>
         <View style={styles.menuContainer}>
           {bannerList.length > 0 ? (
@@ -77,7 +52,7 @@ export default function MenuListScreen({ navigation }) {
               {bannerList.map((bannerData, id) => (
                 <Pressable
                   style={styles.menuPress}
-                  onPress={(e) => onOfferClick( bannerData.offer_name,bannerData.id)}
+                  onPress={(e) => onOfferClick(bannerData.id)}
                   key={id}
                 >
                   <Image
@@ -86,34 +61,41 @@ export default function MenuListScreen({ navigation }) {
                     }}
                     style={styles.menuIcon}
                   />
-                  <Text style={styles.btnText} 
-                  value={bannerData.id}
-                  >
+                  <Text style={styles.btnText} value={bannerData.id}>
                     {bannerData.offer_name}
                   </Text>
-                 
                 </Pressable>
               ))}
             </>
           ) : (
-            <View style={{flex:1,justifyContent: "center",alignItems: "center",height:600}}>
-              <Image source={require('../../assets/No_offer.jpg')}  style={styles.tinyLogo}/>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                height: 600,
+              }}
+            >
+              <Image
+                source={require("../../assets/No_offer.jpg")}
+                style={styles.tinyLogo}
+              />
 
-            <Text style={{fontSize:14,marginTop:22,fontWeight:'bold'}}>Currently no banner/offer are listed</Text>
-       </View>
+              <Text style={{ fontSize: 14, marginTop: 22, fontWeight: "bold" }}>
+                Currently no banner/offer are listed
+              </Text>
+            </View>
           )}
         </View>
-        
       </ScrollView>
       {/* Added by Om on 18-04-23 For showing the footer*/}
-      <Footer/>
-           {/* End of addition */}
+      <Footer />
+      {/* End of addition */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
- 
   menuPress: {
     backgroundColor: "white",
     margin: 8,
@@ -127,7 +109,7 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
   },
-  
+
   menuContainer: {
     display: "flex",
     flexDirection: "row",
@@ -135,7 +117,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignContent: "stretch",
   },
-  
+
   menuIcon: {
     height: "80%",
     width: "100%",
