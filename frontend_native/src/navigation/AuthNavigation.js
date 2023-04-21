@@ -11,12 +11,7 @@ import DrawerNavigation from "../navigation/DrawerNavigation";
 import SplashScreen from "../screens/SplashScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { colors } from "../Colours/globalColor";
-import CategoryListScreen from "../screens/CategoryListScreen";
-import ItemListScreen from "../screens/ItemListScreen";
-import EditItemScreen from "../screens/EditItemScreen";
-import OfferItemsScreen from "../screens/OfferItemsScreen";
 
-import OrderItemsScreen from "../screens/OrderItemsScreen";
 
 const AuthNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -92,49 +87,63 @@ const AuthNavigation = () => {
 
           {/* Added by Yuvraj Sahu on 3-4-2023
           Reason - to navigate category list screen */}
-          <Stack.Screen
+          {/* Commented by Yuvraj Sahu on 21-4-2023
+          Reason - to remove navigation and add in menu navigation */}
+          {/* <Stack.Screen
             name="CategoryListScreen"
             options={{ title: "Menu Detail" }}
             component={CategoryListScreen}
-          ></Stack.Screen>
+          ></Stack.Screen> */}
+          {/* End of comment */}
           {/* End of addition */}
 
           {/* Added by Yuvraj Sahu on 3-4-2023
           Reason - to navigate item list screen */}
-          <Stack.Screen
+          {/* Commented by Yuvraj Sahu on 21-4-2023
+          Reason - to remove navigation and add in menu navigation */}
+          {/* <Stack.Screen
             name="ItemListScreen"
             options={{ title: "Category Detail" }}
             component={ItemListScreen}
-          ></Stack.Screen>
+          ></Stack.Screen> */}
+          {/* End of comment */}
           {/* End of addition */}
 
           {/* Added by Yuvraj Sahu on 5-4-2023
           Reason - to navigate edit item screen */}
-          <Stack.Screen
+          {/* Commented by Yuvraj Sahu on 21-4-2023
+          Reason - to remove navigation and add in menu navigation */}
+          {/* <Stack.Screen
             name="ItemEditScreen"
             options={{ title: "Item Detail" }}
             component={EditItemScreen}
-          ></Stack.Screen>
+          ></Stack.Screen> */}
+          {/* End of comment */}
           {/* End of addition */}
 
           {/* Added by Om on 8-4-2023
           Reason - to navigate banner items section */}
-          <Stack.Screen
+          {/* Commented by Yuvraj Sahu on 21-4-2023
+          Reason - to remove navigation and add in OfferNavigation */}
+          {/* <Stack.Screen
             name="OfferItemsScreen"
             options={{ title: "Banner/Offer details" }}
             component={OfferItemsScreen}
-          ></Stack.Screen>
+          ></Stack.Screen> */}
+          {/* End of comment */}
           {/* End of addition */}
 
           {/* Added by Yuvraj Sahu on 9-4-2023
           Reason - to navigate order item screen */}
-          <Stack.Screen
+          {/* Commented by Yuvraj Sahu on 21-4-2023
+          Reason - to update navigation of order */}
+          {/* <Stack.Screen
             name="OrderItemsScreen"
             options={{ title: "Order Detail" }}
             component={OrderItemsScreen}
-          ></Stack.Screen>
+          ></Stack.Screen> */}
+          {/* End of comment */}
           {/* End of addition */}
-
         </Stack.Navigator>
       </NavigationContainer>
     </>

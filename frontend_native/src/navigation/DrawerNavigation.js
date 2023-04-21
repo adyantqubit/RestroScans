@@ -1,26 +1,33 @@
-import React ,{useContext,useState} from "react";
-import { StyleSheet, ImageBackground ,Button,Alert,Pressable,Text,View} from "react-native";
+import React, { useContext, useState } from "react";
+import {
+  StyleSheet,
+  ImageBackground,
+  Button,
+  Alert,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "../screens/HomeScreen";
-import MenuListScreen from "../screens/MenuListScreen";
-import QRCodeScreen from "../screens/QRCodeScreen";
-import OfferScreen from "../screens/OfferScreen";
 import PreviewMenuScreen from "../screens/PreviewMenuScreen";
 import { colors } from "../Colours/globalColor";
-import MenuThemeScreen from "../screens/MenuThemeScreen";
-import { AddScreen } from "../screens/AddScreen";
-import { AddBannerItemScreen } from "../screens/AddBannerItemScreen";
 import Icon from "react-native-vector-icons/FontAwesome";
 // import { getTenantApi } from "../api/Services";
 import * as SecureStore from "expo-secure-store";
 import SettingScreen from "../screens/SettingScreen";
-import OrdersScreen from "../screens/OrdersScreen";
 import { useIsFocused } from "@react-navigation/native";
 import { AppStateContext } from "../context/AppStateProvider";
+import MenuNavigation from "./MenuNavigation";
+import OfferNavigation from "./OfferNavigation";
+import OrderNavigation from "./OrderNavigation";
+import { AddMenuNavigation } from "./AddMenuNavigation";
+import { AddOfferNavigation } from "./AddOfferNavigation";
 
-export default function DrawerNavigation({ navigation }) { // Navigation added by Om on 18-04-23 , This helps to navigate the after logout screen is change
+export default function DrawerNavigation({ navigation }) {
+  // Navigation added by Om on 18-04-23 , This helps to navigate the after logout screen is change
   const Drawer = createDrawerNavigator();
-  const isFocused = useIsFocused();     // isFocused helped to rerender the page, added by Om on 18-04-23
+  const isFocused = useIsFocused(); // isFocused helped to rerender the page, added by Om on 18-04-23
   var [userData, setUserData] = useState([]);
 
   var { render, setRender, getSettingData } = useContext(AppStateContext);
@@ -29,7 +36,7 @@ export default function DrawerNavigation({ navigation }) { // Navigation added b
     getTenant();
     authNavigate();
     getSettingData();
-  }, [isFocused]);    // Added by Om on 18-04-23 For helped the rerender issue
+  }, [isFocused]); // Added by Om on 18-04-23 For helped the rerender issue
 
   var getTenant = async () => {
     var userData = await SecureStore.getItemAsync("userData");
@@ -50,39 +57,36 @@ export default function DrawerNavigation({ navigation }) { // Navigation added b
   };
 
   function showAlert1() {
-    Alert.alert(
-        'Confirmation',
-        'Are you sure you want to log out?',
-        [
-            {
-                text: 'Cancel',
-                style: 'cancel',
-            },
-            {
-                text: 'Yes',
-                onPress: () => { logOut() }
-            },
-        ]
-    );
-}
-
-var logOut = async () => {
-  await SecureStore.deleteItemAsync("userData");
-  await SecureStore.deleteItemAsync("token");
-  await SecureStore.deleteItemAsync("tenantInfo");
-  await SecureStore.deleteItemAsync("qrCodeTenant");
-
-  if (
-    (await SecureStore.getItemAsync("userData")) == null &&
-    (await SecureStore.getItemAsync("token")) == null &&
-    (await SecureStore.getItemAsync("tenantInfo")) == null &&
-    (await SecureStore.getItemAsync("qrCodeTenant")) == null 
-
-  ) {
-    navigation.navigate("LoginScreen");
+    Alert.alert("Confirmation", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: () => {
+          logOut();
+        },
+      },
+    ]);
   }
-};
-// End of addition
+
+  var logOut = async () => {
+    await SecureStore.deleteItemAsync("userData");
+    await SecureStore.deleteItemAsync("token");
+    await SecureStore.deleteItemAsync("tenantInfo");
+    await SecureStore.deleteItemAsync("qrCodeTenant");
+
+    if (
+      (await SecureStore.getItemAsync("userData")) == null &&
+      (await SecureStore.getItemAsync("token")) == null &&
+      (await SecureStore.getItemAsync("tenantInfo")) == null &&
+      (await SecureStore.getItemAsync("qrCodeTenant")) == null
+    ) {
+      navigation.navigate("LoginScreen");
+    }
+  };
+  // End of addition
 
   return (
     <Drawer.Navigator>
@@ -97,14 +101,21 @@ var logOut = async () => {
           // Reason : Completer the logout funcitonality
           // Modified by Om on 19-04-23 For change the logout style
           headerRight: () => (
-            <View style={{marginRight:10,borderRadius:12}} > 
-            <Text
-              onPress={showAlert1}
-              style={{textDecorationLine:'underline',fontSize:15,fontWeight:'bold',color:'blue'}}
-              // title="Logout"
-              // color="#c39212"
-              // bor
-            >Logout</Text>
+            <View style={{ marginRight: 10, borderRadius: 12 }}>
+              <Text
+                onPress={showAlert1}
+                style={{
+                  textDecorationLine: "underline",
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  color: "blue",
+                }}
+                // title="Logout"
+                // color="#c39212"
+                // bor
+              >
+                Logout
+              </Text>
             </View>
           ),
           // End of addition
@@ -117,11 +128,17 @@ var logOut = async () => {
       />
 
       <Drawer.Screen
-        name="MenuListScreen"
-        component={MenuListScreen}
+      	// Modified by Yuvraj Sahu on 21-4-2023
+      	// Reason - to fix navigation
+      	// name="MenuListScreen"
+        // component={MenuListScreen}
+        name="Menus"
+        component={MenuNavigation}
+        // End of modification
         options={{
           drawerLabel: "Menu List",
           title: "Menu List",
+
           headerStyle: {
             // backgroundColor: colors.backgroundTheme,
           },
@@ -133,7 +150,7 @@ var logOut = async () => {
       />
       <Drawer.Screen
         name="Add"
-        component={AddScreen}
+        component={AddMenuNavigation}
         options={{
           drawerLabel: "Add Menu Item",
           title: "Add Menu Item",
@@ -157,18 +174,12 @@ var logOut = async () => {
           // end of addition
         }}
       />
-      {/* Commented by Yuvraj Sahu on 13-4-2023
-      Reason - to remove QR code from drawer */}
-      {/* <Drawer.Screen
-        name="QRCodeScreen"
-        component={QRCodeScreen}
-        options={{ drawerLabel: "Generate QR Code", title: "Generate QR Code" }}
-      />
+    
 {/* Added by Om on 08-04-23
       Reason : Show added banner list */}
       <Drawer.Screen
         name="Addbanners"
-        component={AddBannerItemScreen}
+        component={AddOfferNavigation}
         options={{
           drawerLabel: "Add Banner/Offer",
           title: "Add Banner/Offer",
@@ -182,8 +193,13 @@ var logOut = async () => {
       />
       {/* End of addition */}
       <Drawer.Screen
-        name="OfferScreen"
-        component={OfferScreen}
+      	// Modified by Yuvraj Sahu on 21-4-2023
+      	// Reason - to fix navigation
+      	// name="OfferScreen"
+        // component={OfferScreen}
+        name="Offer"
+        component={OfferNavigation}
+        // End of modification
         options={{
           drawerLabel: "Banner/Offer",
           title: "Banner/Offer",
@@ -194,11 +210,6 @@ var logOut = async () => {
         }}
       />
 
-      {/* <Drawer.Screen
-        name="MenuThemeScreen"
-        component={MenuThemeScreen}
-        options={{ drawerLabel: "Themey", title: "Themey" }}
-      /> */}
       {/* Added Yuvraj Sahu on 8-4-2023
       Reason - to define routing for setting screen */}
       <Drawer.Screen
@@ -216,7 +227,9 @@ var logOut = async () => {
       {/* End of addition */}
       {/* Added Yuvraj Sahu on 9-4-2023
       Reason - to define routing for order screen */}
-      <Drawer.Screen
+      {/* Commented by Yuvraj Sahu on 21-4-2023
+      Reason - to update navigation of order */}
+      {/* <Drawer.Screen
         name="OrdersScreen"
         component={OrdersScreen}
         options={{
@@ -229,7 +242,25 @@ var logOut = async () => {
           ),
           // end of addition
         }}
+      /> */}
+      {/* End of comment */}
+      {/* Added by Yuvraj Sahu on 21-4-2023
+      REason - to update order navigation */}
+      <Drawer.Screen
+        name="OrderNavigation"
+        component={OrderNavigation}
+        options={{
+          drawerLabel: "All Orders",
+          title: "All Orders",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => (
+            <Icon name="clipboard" size={20} color="black" />
+          ),
+          // end of addition
+        }}
       />
+      {/* End of navigation */}
       {/* End of addition */}
     </Drawer.Navigator>
   );

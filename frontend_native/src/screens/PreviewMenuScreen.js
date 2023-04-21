@@ -48,7 +48,7 @@ import { useIsFocused } from "@react-navigation/native";
            * Reason - To reload webview when we visit preview screen
            */}
            {/* <WebView  source={{ uri: `192.168.1.21:3000/${tenant}/home` }} /> */}
-          <WebView ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)}  source={{ uri: `192.168.1.21:3000/${tenant}/home` }} />
+          <WebView ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)}  source={{ uri: `192.168.193.97:3000/${tenant}/home` }} />
           {/* End of code modification of webview reload on 15-04-2023 */}
         </View>
         </View>

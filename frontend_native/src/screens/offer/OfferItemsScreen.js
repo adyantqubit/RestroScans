@@ -16,18 +16,18 @@ import {
   getAllOfferItemList,
   deleteOfferApi,
   deleteOfferItemsApi,
-} from "../api/Services";
+} from "../../api/Services";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import { useForm, Controller } from "react-hook-form";
-import { colors } from "../Colours/globalColor";
-import config from "../config/config";
+import { colors } from "../../Colours/globalColor";
+import config from "../../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { AppStateContext } from "../context/AppStateProvider";
+import { AppStateContext } from "../../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from "../../src/components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import { MaterialIcons } from "@expo/vector-icons";
 export default function OfferItemsScreen({ route, navigation }) {
   const { banner } = route.params;

@@ -7,11 +7,11 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { getAllOfferList } from "../api/Services";
-import config from "../config/config";
+import { getAllOfferList } from "../../api/Services";
+import config from "../../config/config";
 import * as SecureStore from "expo-secure-store";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from "../../src/components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 
 export default function MenuListScreen({ navigation }) {
   const isFocused = useIsFocused();
@@ -77,7 +77,7 @@ export default function MenuListScreen({ navigation }) {
               }}
             >
               <Image
-                source={require("../../assets/No_offer.jpg")}
+                source={require("../../../assets/No_offer.jpg")}
                 style={styles.tinyLogo}
               />
 

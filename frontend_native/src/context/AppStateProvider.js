@@ -22,6 +22,7 @@ export const AppStateProvider = ({ children }) => {
   // -------------- This function is used to getting app configuaration -------------
   var [settings, setSettings] = useState([]);
   const getSettingData = async () => {
+    // if (await SecureStore.getItemAsync("tenantInfo")) {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
@@ -29,6 +30,7 @@ export const AppStateProvider = ({ children }) => {
     if (response) {
       setSettings(response);
     }
+  // }
   };
   // ------------------ End getting app configuaration ----------------------------
 

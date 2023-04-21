@@ -280,16 +280,16 @@ export default function ForgotPasswordScreen() {
     setISBtnDisable(true);
     updatePasswordApi(values).then(async (res) => {
       if (res.msg) {
-        Alert.alert("Success", "Password Changed successfully. You can login");
+        Alert.alert("Password Changed successfully. You can login");
         setISBtnDisable(false);
         navigation.navigate("LoginScreen");
         resetForm({ values: "" });
       } else {
-        Alert.alert("Error", "Something went wrong");
+        Alert.alert("Something went wrong");
         setISBtnDisable(false);
       }
       if (res.error) {
-        Alert.alert("Error", res.error);
+        Alert.alert(res.error);
         setISBtnDisable(false);
       }
     });
@@ -312,320 +312,323 @@ export default function ForgotPasswordScreen() {
     }
   };
 
+
   return (
     <View>
       <ScrollView>
-      <Modal
-        // animationType="slide"
-        transparent={true}
-        // backdropColor="transparent"
-        visible={isResendOTP}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!isResendOTP);
-        }}
-      >
-        <View
-          //  style={styles.centeredView}
-          style={{
-            backgroundColor: isResendOTP ? "rgba(0, 0, 0, 0.5)" : "white",
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
+        <Modal
+          // animationType="slide"
+          transparent={true}
+          // backdropColor="transparent"
+          visible={isResendOTP}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!isResendOTP);
           }}
         >
-          <View style={styles.modalView}>
-            <ActivityIndicator size={50} color="white" />
-            <Text style={styles.modalText}>Please wait for get OTP</Text>
-          </View>
-        </View>
-      </Modal>
-
-      <Formik
-        initialValues={{ email: "" }}
-        validateOnMount={true}
-        validationSchema={emailSchema}
-        onSubmit={submitLog}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          touched,
-          errors,
-        }) => (
-          // <ScrollView style={styles.container}>
-          <View style={styles.container}>
-            <View style={{ marginTop: 30 }}>
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Email
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                  placeholderTextColor="#A4A4A4"
-                  placeholder="Enter your email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  // Modified by Yuvraj Sahu on 20-4-2023
-                  // Reason - to color change when btn disable
-                  backgroundColor={isInputDisable ? "#E0E0E0" : "white"}
-                  // End of addition
-                  editable={isInputDisable ? false : true}
-                />
-                {errors.email && touched.email && !isInputDisable && (
-                  <Text style={styles.textdanger}>{errors.email}</Text>
-                )}
-              </View>
-
-              <View
-                style={{
-                  marginBottom: 30,
-                  marginHorizontal: 10,
-                  marginTop: 10,
-                }}
-              >
-                <Pressable
-                  onPress={handleSubmit}
-                  // disabled={isOTPBtnDisable}
-                  // Modified by Yuvraj Sahu on 20-4-2023
-                  // Reason - to disable
-                  disabled={isInputDisable ? isInputDisable : isOTPBtnDisable}
-                  style={{
-                    backgroundColor:
-                      !isOTPBtnDisable && !isInputDisable
-                        ? colors.btnColor
-                        : "#E0E0E0",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 10,
-                    width: 150,
-                    alignSelf: "center",
-                    // End of btn disable
-                  }}
-                >
-                  <Text
-                    style={{
-                    	// Modified by Yuvraj Sahu on 20-4-2023
-                    	// Reason - to change color when btn disable
-                      color:
-                        !isOTPBtnDisable && !isInputDisable
-                          ? "white"
-                          : "#989898",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      // End of disable
-                    }}
-                  >
-                    Send OTP
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={handleResendOTP}
-                  disabled={!isInputDisable}
-                  style={{ marginTop: 20 }}
-                >
-                  <Text
-                    style={{
-                      color: "blue",
-                      display: "flex",
-                      alignSelf: "flex-end",
-                    }}
-                  >
-                    Resend OTP
-                  </Text>
-                  {/* {isResendOTP && <Text style={{display: "flex", alignSelf: "flex-end"}}>Please wait</Text>} */}
-                </Pressable>
-              </View>
+          <View
+            //  style={styles.centeredView}
+            style={{
+              backgroundColor: isResendOTP ? "rgba(0, 0, 0, 0.5)" : "white",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View style={styles.modalView}>
+              <ActivityIndicator size={50} color="white" />
+              <Text style={styles.modalText}>Please wait for get OTP</Text>
             </View>
           </View>
-          // </ScrollView>
-        )}
-      </Formik>
+        </Modal>
 
-      <Formik
-        initialValues={{
-          otp: "",
-          password: "",
-          confirm_password: "",
-        }}
-        validateOnMount={true}
-        validationSchema={forgetPasswordSchema}
-        onSubmit={handleReset}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          touched,
-          errors,
-        }) => (
-        	// Modified by Yuvraj Sahu on 20-4-2023
-        	// Reason - to design screen 
-          // <ScrollView style={styles.container}>
-          <View style={styles.container}>
-            <View>
+        <Formik
+          initialValues={{ email: "" }}
+          validateOnMount={true}
+          validationSchema={emailSchema}
+          onSubmit={submitLog}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            touched,
+            errors,
+          }) => (
+            // <ScrollView style={styles.container}>
+            <View style={styles.container}>
+              <View style={{ marginTop: 30 }}>
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    Email
+                  </Text>
+
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    value={values.email}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter your email"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    // Modified by Yuvraj Sahu on 20-4-2023
+                    // Reason - to color change when btn disable
+                    backgroundColor={isInputDisable ? "#E0E0E0" : "white"}
+                    // End of addition
+                    editable={isInputDisable ? false : true}
+                  />
+                  {errors.email && touched.email && !isInputDisable && (
+                    <Text style={styles.textdanger}>{errors.email}</Text>
+                  )}
+                </View>
+
+                <View
+                  style={{
+                    marginBottom: 30,
+                    marginHorizontal: 10,
+                    marginTop: 10,
+                  }}
+                >
+                  <Pressable
+                    onPress={handleSubmit}
+                    // disabled={isOTPBtnDisable}
+                    // Modified by Yuvraj Sahu on 20-4-2023
+                    // Reason - to disable
+                    disabled={isInputDisable ? isInputDisable : isOTPBtnDisable}
+                    style={{
+                      backgroundColor:
+                        !isOTPBtnDisable && !isInputDisable
+                          ? colors.btnColor
+                          : "#E0E0E0",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 10,
+                      width: 150,
+                      alignSelf: "center",
+                      // End of btn disable
+                    }}
+                  >
+                    <Text
+                      style={{
+                        // Modified by Yuvraj Sahu on 20-4-2023
+                        // Reason - to change color when btn disable
+                        color:
+                          !isOTPBtnDisable && !isInputDisable
+                            ? "white"
+                            : "#989898",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        // End of disable
+                      }}
+                    >
+                      Send OTP
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={handleResendOTP}
+                    disabled={!isInputDisable}
+                    style={{ marginTop: 20 }}
+                  >
+                    <Text
+                      style={{
+                        color: "blue",
+                        display: "flex",
+                        alignSelf: "flex-end",
+                      }}
+                    >
+                      Resend OTP
+                    </Text>
+                    {/* {isResendOTP && <Text style={{display: "flex", alignSelf: "flex-end"}}>Please wait</Text>} */}
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+            // </ScrollView>
+          )}
+        </Formik>
+
+        <Formik
+          initialValues={{
+            otp: "",
+            password: "",
+            confirm_password: "",
+          }}
+          validateOnMount={true}
+          validationSchema={forgetPasswordSchema}
+          onSubmit={handleReset}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            touched,
+            errors,
+          }) => (
+            // Modified by Yuvraj Sahu on 20-4-2023
+            // Reason - to design screen
+            // <ScrollView style={styles.container}>
+            <View style={styles.container}>
               <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  OTP
-                </Text>
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    OTP
+                  </Text>
 
-                <TextInput
-                  style={styles.input}
-                  onChangeText={handleChange("otp")}
-                  onBlur={handleBlur("otp")}
-                  value={values.otp}
-                  placeholderTextColor="#A4A4A4"
-                  placeholder="Enter OTP"
-                  keyboardType="number-pad"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
-                  editable={!isInputDisable ? false : true}
-                />
-                {/* {errors.otp && touched.otp && (
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("otp")}
+                    onBlur={handleBlur("otp")}
+                    value={values.otp}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter OTP"
+                    keyboardType="number-pad"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                    editable={!isInputDisable ? false : true}
+                  />
+                  {/* {errors.otp && touched.otp && (
                     <Text style={styles.textdanger}>{errors.otp}</Text>
                   )} */}
-              </View>
-
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Password
-                </Text>
-
-                <View style={styles.passContainer}>
-                  <TextInput
-                    style={styles.inputPassword}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter your password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={!showPassword}
-                    backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
-                    editable={!isInputDisable ? false : true}
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    style={{
-                      backgroundColor: !isInputDisable ? "#E0E0E0" : "white",
-                      borderTopRightRadius: 10,
-                      borderBottomRightRadius: 10,
-                    }}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye" : "eye-off"}
-                      size={24}
-                      color="black"
-                      style={styles.passIcon}
-                    />
-                  </TouchableOpacity>
                 </View>
 
-                {errors.password && touched.password && (
-                  <Text style={styles.textdanger}>{errors.password}</Text>
-                )}
-              </View>
-
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Confirm Password
-                </Text>
-
-                <View style={styles.passContainer}>
-                  <TextInput
-                    style={styles.inputPassword}
-                    onChangeText={handleChange("confirm_password")}
-                    onBlur={handleBlur("confirm_password")}
-                    value={values.confirm_password}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter your password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={!showConfirmPassword}
-                    backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
-                    editable={!isInputDisable ? false : true}
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                    style={{
-                      backgroundColor: !isInputDisable ? "#E0E0E0" : "white",
-                      borderTopRightRadius: 10,
-                      borderBottomRightRadius: 10,
-                    }}
-                  >
-                    <Ionicons
-                      name={showConfirmPassword ? "eye" : "eye-off"}
-                      size={24}
-                      color="black"
-                      style={styles.passIcon}
-                    />
-                  </TouchableOpacity>
-                </View>
-
-                {errors.confirm_password && touched.confirm_password && (
-                  <Text style={styles.textdanger}>
-                    {errors.confirm_password}
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    Password
                   </Text>
-                )}
-              </View>
 
-              <View
-                style={{
-                  marginBottom: 30,
-                  marginHorizontal: 10,
-                  marginTop: 10,
-                }}
-              >
-                <Pressable
-                  onPress={handleSubmit}
-                  // disabled={isBtnDisable}
-                  disabled={!isInputDisable && !isBtnDisable}
+                  <View style={styles.passContainer}>
+                    <TextInput
+                      style={styles.inputPassword}
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter your password"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={!showPassword}
+                      backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                      editable={!isInputDisable ? false : true}
+                    />
+
+                    <TouchableOpacity
+                      onPress={() => setShowPassword(!showPassword)}
+                      style={{
+                        backgroundColor: !isInputDisable ? "#E0E0E0" : "white",
+                        borderTopRightRadius: 10,
+                        borderBottomRightRadius: 10,
+                      }}
+                    >
+                      <Ionicons
+                        name={showPassword ? "eye" : "eye-off"}
+                        size={24}
+                        color="black"
+                        style={styles.passIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {errors.password && touched.password && (
+                    <Text style={styles.textdanger}>{errors.password}</Text>
+                  )}
+                </View>
+
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                    Confirm Password
+                  </Text>
+
+                  <View style={styles.passContainer}>
+                    <TextInput
+                      style={styles.inputPassword}
+                      onChangeText={handleChange("confirm_password")}
+                      onBlur={handleBlur("confirm_password")}
+                      value={values.confirm_password}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter your password"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={!showConfirmPassword}
+                      backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                      editable={!isInputDisable ? false : true}
+                    />
+
+                    <TouchableOpacity
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      style={{
+                        backgroundColor: !isInputDisable ? "#E0E0E0" : "white",
+                        borderTopRightRadius: 10,
+                        borderBottomRightRadius: 10,
+                      }}
+                    >
+                      <Ionicons
+                        name={showConfirmPassword ? "eye" : "eye-off"}
+                        size={24}
+                        color="black"
+                        style={styles.passIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {errors.confirm_password && touched.confirm_password && (
+                    <Text style={styles.textdanger}>
+                      {errors.confirm_password}
+                    </Text>
+                  )}
+                </View>
+
+                <View
                   style={{
-                    backgroundColor:
-                      isInputDisable && !isBtnDisable
-                        ? colors.btnColor
-                        : "#E0E0E0",
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 10,
-                    width: 150,
-                    alignSelf: "center",
+                    marginBottom: 30,
+                    marginHorizontal: 10,
+                    marginTop: 10,
                   }}
                 >
-                  <Text
+                  <Pressable
+                    onPress={handleSubmit}
+                    // disabled={isBtnDisable}
+                    disabled={!isInputDisable && !isBtnDisable}
                     style={{
-                      color: !isBtnDisable ? "white" : "#989898",
-                      fontSize: 16,
-                      fontWeight: "bold",
+                      backgroundColor:
+                        isInputDisable && !isBtnDisable
+                          ? colors.btnColor
+                          : "#E0E0E0",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 10,
+                      width: 150,
+                      alignSelf: "center",
                     }}
                   >
-                    Reset Password
-                  </Text>
-                </Pressable>
+                    <Text
+                      style={{
+                        color: !isBtnDisable ? "white" : "#989898",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Reset Password
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
-          </View>
-          // </ScrollView>
-        )}
-      </Formik>
+            // </ScrollView>
+          )}
+        </Formik>
       </ScrollView>
     </View>
   );

@@ -13,16 +13,16 @@ import {
 
 import { useForm } from "react-hook-form";
 import * as SecureStore from "expo-secure-store";
-import { getAllOfferList, getMenuList, saveAllOfferItems } from "../api/Services";
-import { colors } from "../Colours/globalColor";
+import { getAllOfferList, getMenuList, saveAllOfferItems } from "../../api/Services";
+import { colors } from "../../Colours/globalColor";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useContext } from "react";
-import { AppStateContext } from "../context/AppStateProvider";
+import { AppStateContext } from "../../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from '../../src/components/Footer/Footer'
+import Footer from '../../components/Footer/Footer'
 
 
-export default function AddBannerItems() {
+export default function AddOfferItemScreen() {
 
     const [offerSelect, setOfferSelect] = React.useState("");
     const [menuList, setMenuList] = React.useState("");

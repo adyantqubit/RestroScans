@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }) {
   //Added by Yuvraj Sahu on 12-4-2023
   // Re render the page when data save
   var { render, setRender } = useContext(AppStateContext);
-  useEffect(() => {}, [render]);
+  // useEffect(() => {}, [render]);
   // End of addition
 
   // Added by Yuvraj Sahu on 20-4-2023
@@ -44,7 +44,7 @@ export default function LoginScreen({ navigation }) {
    * This function is created for re render the screen
    */
   const isFocused = useIsFocused();
-  useEffect(() => {}, [isFocused]);
+  // useEffect(() => {}, [isFocused]);
   // End of re render
 
   // Added by Yuvraj Sahu on 25-3-2023
@@ -93,11 +93,11 @@ export default function LoginScreen({ navigation }) {
         resetForm({ values: "" });
       }
       if (res.notAproved) {
-        alert("Please wait for admin approval");
+        Alert.alert("Please wait for admin approval");
         setIsBtnDisable(false);
       }
       if (res.invalid) {
-        alert("Invaild email or password");
+        Alert.alert("Invaild email or password");
         setIsBtnDisable(false);
       }
       // Commented by Yuvraj Sahu on 19-4-2023

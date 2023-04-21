@@ -7,15 +7,15 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { getAllMenuList, getMenuList } from "../api/Services";
-import { colors } from "../Colours/globalColor";
-import config, { tenantName } from "../config/config";
+import { getAllMenuList, getMenuList } from "../../api/Services";
+import { colors } from "../../Colours/globalColor";
+import config, { tenantName } from "../../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
-import { AppStateContext } from "../context/AppStateProvider";
+import { AppStateContext } from "../../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from '../../src/components/Footer/Footer'
+import Footer from '../../components/Footer/Footer'
 
 
 // Added by Yuvraj Sahu on 15-3-2023

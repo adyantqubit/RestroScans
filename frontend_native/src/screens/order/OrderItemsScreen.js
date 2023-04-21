@@ -1,19 +1,20 @@
 import { View, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
 import React from "react";
-import { getOrderItemsApi, updateOrderAndPaymentStatus } from "../api/Services";
+import { getOrderItemsApi, updateOrderAndPaymentStatus } from "../../api/Services";
 import { useState } from "react";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
-import { AppStateContext } from "../context/AppStateProvider";
+import { AppStateContext } from "../../context/AppStateProvider";
 import { ScrollView } from "react-native-gesture-handler";
 import { SelectList } from "react-native-dropdown-select-list";
-import { colors } from "../Colours/globalColor";
+import { colors } from "../../Colours/globalColor";
 import * as Print from "expo-print";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender } = useContext(AppStateContext);
-
+  const isFocused=useIsFocused();
   /* Get the order id using params */
   // Added and modified by Yuvraj Sahu on 17-4-2023
   // Reason - to get order id in from router
@@ -25,7 +26,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   // This function is used for calling function when first time page render
   useEffect(() => {
     getOrderItems();
-  }, [render]);
+  }, [isFocused]);
   // End of addition
 
   // Added by Yuvraj Sahu on 9-4-2023

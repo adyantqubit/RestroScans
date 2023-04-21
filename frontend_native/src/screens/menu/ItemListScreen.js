@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import config from "../config/config";
+import config from "../../config/config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   getAllMenuList,
@@ -19,16 +19,16 @@ import {
   saveCategoryApi,
   updateCategoryApi,
   updateItemApi,
-} from "../api/Services";
+} from "../../api/Services";
 import * as SecureStore from "expo-secure-store";
-import { colors } from "../Colours/globalColor";
+import { colors } from "../../Colours/globalColor";
 import { useForm, Controller } from "react-hook-form";
 import { SelectList } from "react-native-dropdown-select-list";
 import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
 import { useContext } from "react";
-import { AppStateContext } from "../context/AppStateProvider";
-import Footer from "../../src/components/Footer/Footer";
+import { AppStateContext } from "../../context/AppStateProvider";
+import Footer from "../../components/Footer/Footer";
 
 export default function ItemListScreen({ route, navigation }) {
   /* Get the param */

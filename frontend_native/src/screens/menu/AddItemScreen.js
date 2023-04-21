@@ -13,25 +13,37 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
-import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
-import { getMenuList, saveCategoryApi, saveMenuApi } from "../api/Services";
-import { colors } from "../Colours/globalColor";
+import { getMenuList, saveCategoryApi, saveItemApi } from "../../api/Services";
+import { colors } from "../../Colours/globalColor";
+import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
-import { AppStateContext } from "../context/AppStateProvider";
-import { useIsFocused } from "@react-navigation/native";
-import Checkbox from "expo-checkbox";
-import Footer from '../../src/components/Footer/Footer'
-
+import { AppStateContext } from "../../context/AppStateProvider";
 // import { Country, State, City } from "country-state-city";
+import Checkbox from "expo-checkbox";
+import Footer from '../../components/Footer/Footer';
 
-export default function AddCategory() {
+export default function AddItemScreen() {
   // Added by Yuvraj Sahu on 24-3-2023
-  // Reason - to show menu list in dropdown
-  const isFocused = useIsFocused();
-  const [menuSelected, setMenuSelected] = React.useState("");
-  var [data, setData] = useState([]);
+  // Reason - to show category list in dropdown
+  const [categorySelected, setCategorySelected] = React.useState("");
+  var [categories, setCategories] = useState([]);
+
+  // Added by Yuvraj Sahu on 24-3-2023
+  // Reason - to show item type list in dropdown
+  const [itemTypeSelected, setItemTypeSelected] = React.useState("");
+  var [itemtypes, setItemTypes] = useState([
+    { key: "Veg", value: "Veg" },
+    { key: "Nonveg", value: "Nonveg" },
+    { key: "Other", value: "Other" },
+  ]);
+  // End of addition
+
+  // Added by Yuvraj Sahu on 12-4-2023
+  // Reason - to save active status
+  const [isItemActive, setItemActive] = useState(false);
+  // End of addition
 
   const {
     control,
@@ -44,50 +56,43 @@ export default function AddCategory() {
   } = useForm({
     defaultValues: {
       name: "",
-      menu: "",
-      // icon: ""
+      category: "",
+      description: "",
+      price_full: "",
+      price_half: "",
     },
   });
 
   var { render, setRender } = useContext(AppStateContext);
 
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to re render the screen
-  useEffect(() => {}, [render]);
-  // end of addition
-
   useEffect(() => {
     getMenus();
+  }, [render]);
+
+  React.useEffect(() => {
+    // getMenus();
     getTenant();
-  }, [isFocused]);
+  }, []);
   // End of show menu list
+
   const getMenus = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-    if (response.menuList) {
-      setData(
-        response.menuList.map(function (obj) {
+    if (response.categoryList) {
+      setCategories(
+        response.categoryList.map(function (obj) {
           obj["key"] = obj["id"]; // Assign new key
           obj["value"] = obj["name"]; // Rename key
           delete obj["id"]; // Delete old key
           delete obj["name"]; // Delete name
           delete obj["icon"]; // Delete icon
+          delete obj["menu_name"]; // Delete menu name
+          delete obj["menu"]; // Delete menu
           return obj;
         })
       );
     }
   };
-  var [isDisable, setIsDisable] = useState(false);
-
-  const [tempPhoto, setTempPhoto] = useState(null);
-
-  const [icon, setImage] = useState(null);
-  const [uploadedFileName, setUploadedFileName] = useState("");
-
-  // Added by Yuvraj Sahu on 12-4-2023
-  // Reason - to save active status
-  const [isCategoryActive, setCatgeoryActive] = useState(false);
-  // End of addition
 
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get tenant from localStorage
@@ -98,6 +103,21 @@ export default function AddCategory() {
     setTenant(JSON.parse(tenantInfo).tenant_name);
   };
   // End of getting tenant detail
+
+  var [isDisable, setIsDisable] = useState(false);
+
+  const [tempPhoto, setTempPhoto] = useState(null);
+
+  const [icon, setImage] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState("");
+
+  // Added by Yuvraj Sahu on 12-4-2023
+  // Reason - to show image validation msg
+  {
+    /* This state manage the image validation msg */
+  }
+  var [isImgRequired, setImgRequired] = useState(false);
+  // End of addition
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -110,13 +130,16 @@ export default function AddCategory() {
       setImage(result.assets[0].uri);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
+      setImgRequired(false);
     }
   };
 
-  const handleRegister = async (formValues) => {
+  const handleRegister = (formValues) => {
+  	// Uncommented by Yuvraj Sahu on 20-4-2023
+  	// Reason - to disable btn
     setIsDisable(true);
+    // End of uncomment
     var formData = new FormData();
-
     if (icon != null) {
       const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
       formData.append("icon", {
@@ -124,33 +147,42 @@ export default function AddCategory() {
         name: icon,
         type: `image/${ext}`,
       });
+    } 
+    // Added by Yuvraj Sahu on 16-4-2023
+    // Reason - to give validation msg
+    if (!icon){
+      setImgRequired(true);
     }
+    // End of addition 
     formData.append("name", formValues.name);
-    formData.append("menu", menuSelected);
+    formData.append("price_half", formValues.price_half);
+    formData.append("price_full", formValues.price_full);
+    formData.append("category", categorySelected);
+    formData.append("description", formValues.description);
     // Added by Yuvraj Sahu on 12-4-2023
-    // Reason - to save active status
-    formData.append("is_active", isCategoryActive);
+    // Reason - to save active status and item type
+    formData.append("is_active", isItemActive);
+    formData.append("item_type", itemTypeSelected);
     // End of addition
 
-    var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    saveCategoryApi(formData, JSON.parse(tenantInfo).tenant_name).then(
-      (response) => {
+    // console.log('formData------'+JSON.stringify(formData))
+    if (icon != null) {
+      saveItemApi(formData, tenant).then((response) => {
         if (response.msg) {
           Alert.alert(response.msg);
           setIsDisable(false);
           setRender(!render);
           reset("");
           setImage(null);
-          setMenuSelected("");
-          setCatgeoryActive(false);
+          setItemActive(false);
           // navigate('login')
         }
         if (response.err) {
           Alert.alert(response.msg);
           setIsDisable(false);
         }
-      }
-    );
+      });
+    }
   };
 
   return (
@@ -159,12 +191,12 @@ export default function AddCategory() {
       <View style={styles.container}>
         <Text style={styles.labels}>
           <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Select menu name
+          Select category name
         </Text>
         <SelectList
-          // onSelect={() => }
-          setSelected={setMenuSelected}
-          data={data}
+          // onSelect={setCategorySelected}
+          setSelected={setCategorySelected}
+          data={categories}
           search={false}
           dropdownStyles={{
             width: "93%",
@@ -175,16 +207,17 @@ export default function AddCategory() {
             borderRadius: 0,
             width: "93%",
             alignSelf: "center",
-            borderRadius: 5,
+            borderRadius: 10,
             borderColor: "black",
             marginTop: 10,
           }} //override default styles
+          // defaultOption={data[0]}
           // defaultOption={data[0]}
         />
         <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Category name
+            Item name
           </Text>
           <Controller
             control={control}
@@ -207,7 +240,7 @@ export default function AddCategory() {
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
-                    placeholder="Enter category name"
+                    placeholder="Enter item name"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={false}
@@ -225,6 +258,158 @@ export default function AddCategory() {
           />
         </View>
 
+        {/* Added by Yuvraj Sahu on 12-4-2023
+        Reason - to add item type */}
+        <Text style={styles.labels}>
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          Select item type
+        </Text>
+        <SelectList
+          // onSelect={setCategorySelected}
+          setSelected={setItemTypeSelected}
+          data={itemtypes}
+          search={false}
+          dropdownStyles={{
+            width: "93%",
+            alignSelf: "center",
+            marginTop: 1,
+          }}
+          boxStyles={{
+            borderRadius: 0,
+            width: "93%",
+            alignSelf: "center",
+            borderRadius: 10,
+            borderColor: "black",
+            marginTop: 10,
+          }} //override default styles
+          defaultOption={itemtypes[0]}
+        />
+
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.labels}>
+            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+            Half price
+          </Text>
+          <Controller
+            control={control}
+            name="price_half"
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Half price is required!",
+            //   },
+            // }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter half price"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="number-pad"
+                  />
+                </View>
+                {errors?.price_half && (
+                  <Text style={styles.textdanger}>
+                    {errors?.price_half?.message}
+                  </Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.labels}>
+            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+            Full price
+          </Text>
+          <Controller
+            control={control}
+            name="price_full"
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Full price is required!",
+            //   },
+            // }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter full price"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="number-pad"
+                  />
+                </View>
+                {errors?.price_full && (
+                  <Text style={styles.textdanger}>
+                    {errors?.price_full?.message}
+                  </Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.labels}>
+            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+            Description
+          </Text>
+          <Controller
+            control={control}
+            name="description"
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Description is required!",
+            //   },
+            // }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <View>
+                  <TextInput
+                    style={styles.input}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    placeholder="Enter description"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={false}
+                    placeholderTextColor="#A4A4A4"
+                    editable={true}
+                    keyboardType="default"
+                    // defaultValues={defaultValues}
+                  />
+                </View>
+
+                {errors?.description && (
+                  <Text style={styles.textdanger}>
+                    {errors?.description?.message}
+                  </Text>
+                )}
+              </>
+            )}
+          />
+        </View>
+
         <View
           style={{
             display: "flex",
@@ -235,7 +420,8 @@ export default function AddCategory() {
             marginBottom: 5,
           }}
         >
-          <Text style={{ marginLeft: 10 }}>Upload icon</Text>
+          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+          <Text>Upload icon</Text>
         </View>
 
         <View
@@ -252,9 +438,7 @@ export default function AddCategory() {
             justifyContent: "space-around",
           }}
         >
-          {/* Added and commented by Yuvraj Sahu on 16-4-2023
-          Reason - to replace button lable and add icon */}
-          {/* <Button title="Add category icon" onPress={pickImage} /> */}
+          {/* <Button title="Add item icon" onPress={pickImage} /> */}
           <Pressable
             onPress={pickImage}
             style={{
@@ -271,7 +455,6 @@ export default function AddCategory() {
           >
             <Icon name="upload" size={20} color="black" />
           </Pressable>
-          {/* End of addition */}
           {icon && (
             <Image
               source={{ uri: icon }}
@@ -279,17 +462,22 @@ export default function AddCategory() {
             />
           )}
         </View>
+        {isImgRequired && (
+          <Text style={{ color: "red", marginLeft: 10 }}>
+            Item icon is required!
+          </Text>
+        )}
 
         {/* Added by Yuvraj Sahu on 12-4-2023
         Reason - to select active status */}
         <View style={styles.activeStatus}>
           <Checkbox
-            value={isCategoryActive}
-            onValueChange={setCatgeoryActive}
-            color={isCategoryActive ? "#4630EB" : undefined}
+            value={isItemActive}
+            onValueChange={setItemActive}
+            color={isItemActive ? "#4630EB" : undefined}
           />
-          <Pressable onPress={() => setCatgeoryActive(!isCategoryActive)}>
-            <Text style={styles.activeLable}>Category available</Text>
+          <Pressable onPress={() => setItemActive(!isItemActive)}>
+            <Text style={styles.activeLable}>Item available</Text>
           </Pressable>
         </View>
         {/* End of addition */}
@@ -307,7 +495,7 @@ export default function AddCategory() {
               // Reason - to re-design button
               width: "40%",
               borderRadius: 10,
-              alignSelf: "center",
+              alignSelf: "center"
               // End of re-designing
             }}
           >
@@ -333,8 +521,8 @@ export default function AddCategory() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingTop: 10,
+    flex: 1,
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",

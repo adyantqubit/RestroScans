@@ -14,15 +14,15 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
-import { getMenuList, saveMenuApi } from "../api/Services";
-import { colors } from "../Colours/globalColor";
-import { AppStateContext } from "../context/AppStateProvider";
+import { getMenuList, saveMenuApi } from "../../api/Services";
+import { colors } from "../../Colours/globalColor";
+import { AppStateContext } from "../../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
-import Footer from "../../src/components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 // import { tenantName } from "../config/config";
 // import { Country, State, City } from "country-state-city";
 
-export default function AddMenu() {
+export default function AddMenuScreen() {
   const {
     control,
     handleSubmit,

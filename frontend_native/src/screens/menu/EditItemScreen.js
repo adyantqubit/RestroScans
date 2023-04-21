@@ -23,15 +23,15 @@ import {
   saveCategoryApi,
   saveItemApi,
   updateItemApi,
-} from "../api/Services";
-import { colors } from "../Colours/globalColor";
+} from "../../api/Services";
+import { colors } from "../../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
 import Checkbox from "expo-checkbox";
-import config from "../config/config";
-import { AppStateContext } from "../context/AppStateProvider";
-import Footer from '../../src/components/Footer/Footer'
+import config from "../../config/config";
+import { AppStateContext } from "../../context/AppStateProvider";
+import Footer from '../../components/Footer/Footer'
 
 export default function EditItemScreen({ route, navigation }) {
   /* Get the param */

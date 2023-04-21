@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
-import { getOrdersApi } from "../api/Services";
+import { getOrdersApi } from "../../api/Services";
 import * as SecureStore from "expo-secure-store";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import Footer from "../../src/components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import { useIsFocused } from "@react-navigation/native";
 
-export default function OrdersScreen({ route, navigation }) {
+export default function OrderListScreen({ route, navigation }) {
   // Added by Yuvraj Sahu on 17-4-2023
   // Reason - to re render the screen
   const isFocused = useIsFocused();

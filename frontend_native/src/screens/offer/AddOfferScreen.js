@@ -18,14 +18,14 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
-import { saveAllOffer } from "../api/Services";
-import { colors } from "../Colours/globalColor";
+import { saveAllOffer } from "../../api/Services";
+import { colors } from "../../Colours/globalColor";
 import { useContext } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Footer from '../../src/components/Footer/Footer'
-import { AppStateContext } from "../context/AppStateProvider";
+import Footer from '../../components/Footer/Footer'
+import { AppStateContext } from "../../context/AppStateProvider";
 
-export default function AddBanner() {
+export default function AddOfferScreen() {
     var [isDisable, setIsDisable] = useState(false);
 
     const [tempPhoto, setTempPhoto] = useState(null);

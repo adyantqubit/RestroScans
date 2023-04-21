@@ -67,9 +67,7 @@ export default function HomeScreen({ navigation }) {
    * End of code addition by Ashish on 19-04-2025
    */
 
-  var [scanner, setScanner] = useState(""); // Added by Om on 16-04-23 for show the QR code scanner
-
-  var { render, setRender } = useContext(AppStateContext);
+  var [scanner, setScanner] = useState(""); // Added by Om on 16-04-23 for show the QR code scanner;
 
   var { render, setRender, getSettingData } = useContext(AppStateContext);
 
@@ -199,7 +197,8 @@ export default function HomeScreen({ navigation }) {
 
   function goToOrderDetails(id,orderId) {
     // alert(orderId);
-    navigation.navigate("OrderItemsScreen", {id:id, orderID: orderId });
+    navigation.navigate('OrderNavigation',{ screen: 'OrderItemsScreen',initial:false,params: {id:id, orderID: orderId} })
+    // navigation.navigate("OrderItemsScreen", {id:id, orderID: orderId });
   }
   // Added by Om on 18-04-23
   // Reason : Add the print functionality
