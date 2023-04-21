@@ -168,7 +168,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   rules={[
                     {
                       required: true,
-                      message: "Please enter valid contact number",
+                      message: "Please enter contact number",
                     },
                     () => ({
                       validator(_, value) {

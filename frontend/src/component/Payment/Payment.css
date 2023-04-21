@@ -80,7 +80,7 @@
     font-family: "Times New Roman";
     text-align: center;
     padding: 5px 0;
-    width: 30%;
+    width: 25%;
     margin-top: 5%;
 }
 
@@ -89,7 +89,7 @@
     letter-spacing: 1.7px;
     margin-bottom: 0px;
     font-weight: 600;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Times New Roman';
     font-size: 16px;
 
 }
@@ -102,16 +102,16 @@
     Reason :-  re-desiging payment page css
 */
 
-.payment_parent_container{
+.payment_parent_container {
     margin-left: auto;
     margin-right: auto;
-    width:80%;
+    width: 80%;
 }
 
-.payment_child_container{
+.payment_child_container {
     margin-left: 16%;
     margin-right: auto;
-    width:70%;
+    width: 70%;
     height: 5%;
     padding: 10px;
     border-radius: 3px;
@@ -126,10 +126,12 @@
     display: flex;
     justify-content: space-evenly;
 }
+
 .payment_mode_img_container {
     width: 23%;
     height: 50%;
 }
+
 .payment_mode_heading {
     margin-left: 15px;
     font-size: 18px;
@@ -139,4 +141,5 @@
     width: 35%;
 
 }
+
 /* End of  added code 15-04-2023*/

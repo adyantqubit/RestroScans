@@ -26,6 +26,8 @@ import { MdRoomService } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
+import welcome_banner from '../../images/welcome_banner.jpg';
+
 
 
 // Import Swiper styles
@@ -596,7 +598,12 @@ function MenuItem() {
       >
         {/* Removing header from here and adding it to app.js file for globallization */}
 
-        <div><GlobalColor /></div>
+        {/* Added by :- Parineeta Gedam 21-04-2023
+        Reason :- remove global color from here and adding it to app.js file for globalization
+     */}
+        {/* <div><GlobalColor /></div> */}
+        {/* End of added code 21-04-2023 */}
+
         {/* {isLoader == true ? <Loader /> : */}
 
         {offerBanner.length > 0 ?
@@ -655,9 +662,10 @@ function MenuItem() {
             {/* modified by :- Parineeta Gedam on 19-04-2023 */}
             <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
               // src={nodataOffer}
-              src={offer_comming_soon_img}
+              // src={offer_comming_soon_img}
+              src={welcome_banner}
               alt="bydefault_img" />
-              {/* End of modified code on 19-04-2023 */}
+            {/* End of modified code on 19-04-2023 */}
           </div>
         }
         <div id="hide_search"

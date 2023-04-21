@@ -16,16 +16,24 @@ import BillSuccess from "./component/BillSuccess/BillSuccess";
 import Billing2 from "./component/BillPage/Billing";
 import "./App.css"
 import landscapeMode from './images/landscape.png'
+import GlobalColor from "./component/Colors/GlobalColor";
 
 function App() {
-  const { colors ,restaurant_name,subscribePlan} = useContext(GlobalContext)
+  const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
 
   return (
     <BrowserRouter>
 
       <div className={`${appStyle.container}`}
-      style={{background:colors.backgroundTheme}}
-     >
+        style={{ background: colors.backgroundTheme }}
+      >
+
+        {/* Added by :- Parineeta Gedam 21-04-2023
+        Reason :- Apply global color 
+     */}
+        <div><GlobalColor /></div>
+        {/* End of added code 21-04-2023 */}
+
         {/*added by rohan- on 6/4/23
           reason- here i am adding cart and back button   */}
         <div className="heading_container" id="header" style={{position:"sticky",top:"0",zIndex:"99",background:colors.backgroundTheme}} >

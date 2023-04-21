@@ -583,12 +583,23 @@ def orderItemsCreation(request, order_obj):
         cartData['serving_size'] = cart['serve_size']
         cartData['quantity'] = cart['quantity']
 
+        # Commented by :- Parineeta gedam
+        # if (cart['serve_size'] == "Half Plate"):
+        #     cartData['price'] = float(
+        #         item.price_half) - float(item.price_half/100)*discounted
+        # else:
+        #     cartData['price'] = float(
+        #         item.price_full)-float(item.price_full/100)*discounted
+        # End of added code
+         
+        # Modified by :- Parineeta Gedam on 21-04-2023
         if (cart['serve_size'] == "Half Plate"):
             cartData['price'] = float(
-                item.price_half) - float(item.price_half/100)*discounted
+                item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)*discounted
         else:
             cartData['price'] = float(
-                item.price_full)-float(item.price_full/100)*discounted
+                item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*discounted
+        # End of added code
 
         cartItem.append(cartData)
 

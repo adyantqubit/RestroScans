@@ -66,7 +66,7 @@ Reason :- Invoice css */
 /* ----------- Horizoantal line css ---------------- */
 .invoice_horizontal_line{
     width: 100%;
-    border-top: 1px solid black;
+    border-top: 1.5px solid black;
     margin-top: 0px;
     margin-bottom: 0px;
 }
@@ -141,8 +141,12 @@ Reason :- Invoice css */
     float: left;
     word-wrap: break-word;
     margin-top: 5px;
+    margin-right: 5px
 }
 
+.invoice_child_container{
+    margin-top: 1px;
+}
 /*  total container css  */
 
 .invoice__second_sub_heading{
@@ -169,6 +173,7 @@ Reason :- Invoice css */
     font-size: 14px;
     font-weight: 500;
     font-family: 'Times New Roman', Times, serif;
+    margin-right: 5px;
 }
 
 .invoice_second_container {
@@ -241,3 +246,8 @@ Reason :- Invoice css */
 
 
 /* End of added code 13-04-2023 */
+
+.order_details_container{
+    max-height: 100vh;
+    overflow: auto;
+}

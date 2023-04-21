@@ -16,6 +16,7 @@ import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import {BiArrowBack} from 'react-icons/bi'
 import { TenantValidate } from '../Validators/ConfirmTenant'
+import empty_cart_img from "../../images/empty_cart_img.png"
 
 const Cart = () => {
 
@@ -283,7 +284,12 @@ function BlankPage() {
       {/* End of added code 16-04-2023 */}
       <div className={style.blankPageContainer}>
         <div className={style.blankImgContainer}>
-          <img alt="" src={img} className={style.blankImg} />
+          {/* Modified by :- Parineeta Gedam on :- 21-04-2023
+              Reason :- change the img
+          */}
+          {/* <img alt="" src={img} className={style.blankImg} /> */}
+          <img alt="" src={empty_cart_img} className={style.blankImg} />
+          {/* End of modified  */}
         </div>
         <div className={style.blankText} style={{ color: colors.subHeadingColor }}>
           No item is added currently !

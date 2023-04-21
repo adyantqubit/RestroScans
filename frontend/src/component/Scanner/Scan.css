@@ -12,7 +12,7 @@
     margin-top: 0px;
     margin-bottom: 0px;
 /* modified by :- Parineeta Gedam on 15-04-2023 */
-    font-size: 18px;
+    font-size: 20px;
 
 }
 
@@ -51,7 +51,7 @@
 .scan_details_value {
     margin-left: 7px;
     /* width: 55%; */
-    font-size: 14px;
+    font-size: 16px;
     font-family: 'Times New Roman';
     font-weight: 600;
     word-wrap: break-word;
@@ -65,18 +65,19 @@
 .scanner_btn_container {
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
-    font-size: 25px;
+    width: 35%;
+    /* font-size: 25px; */
     font-family: "Times New Roman";
-    font-weight: 600;
+    /* font-weight: 600; */
     text-align: center;
-    padding: 5px 0;
+    /* padding: 5px 0; */
 }
 
 .scanner_btn_heading {
-    padding: 5px;
+    padding: 0px 10px 0px 10px;
     text-align: center;
     letter-spacing: 1.7px;
     margin-bottom: 0px;
     font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
 }

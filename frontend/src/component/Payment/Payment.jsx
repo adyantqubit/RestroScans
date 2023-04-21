@@ -133,7 +133,7 @@ export default function Payment() {
   return (
     <>
       <div className='payment_heading_container'>
-        <h1 className='payment_heading' style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Choose Payment Method</h1>
+        <h1 className='payment_heading' style={{ color: colors.headingColor }}>Choose Payment Method</h1>
       </div>
 
       {/* Commented by :- Parineeta Gedam 
@@ -212,14 +212,18 @@ export default function Payment() {
                 </div>
               </Radio>
             </div>
-            <div className='payment_child_container'>
+            {/* Commented by :- Parineeta Gedam on 21-04-2023
+                reason :- now card option not show
+            */}
+            {/* <div className='payment_child_container'>
               <Radio name="radio" id="Card" value="Card">
                 <div className="payment_mode_container">
                   <div className='payment_mode_img_container'><img src={debitCard} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
                   <span className='payment_mode_heading'>Card</span>
                 </div>
               </Radio>
-            </div>
+            </div> */}
+            {/* End of commented code on 21-04-2023 */}
           </Space>
         </Radio.Group>
       </div>

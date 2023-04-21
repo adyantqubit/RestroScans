@@ -329,15 +329,17 @@ letter-spacing: 3px;
 }
 
 .blankImg{
-    margin-top:90px;
-    width: 70%;
-    height: 50%;
+    /* margin-top:90px; */
+    /* margin-top:30px; */
+    width: 60%;
+    max-height: 300px;
 }
 
 .blankImgContainer{
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
+    justify-content: center;
 }
 
 .blankText{

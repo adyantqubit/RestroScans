@@ -122,7 +122,8 @@ export default function InvoiceDetails() {
 
   return (
     <>
-      <div className='invoice_heading_container' style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}>Order Details
+    <div className='order_details_container' style={{ background: colors.backgroundTheme }}>
+      <div className='invoice_heading_container' style={{ color: colors.headingColor }}>Order Details
         {/* <h1 className='invoice_heading' style={{ backgroundColor: colors.headingBackgroundColor }}>Invoice</h1> */}
       </div>
 
@@ -186,7 +187,13 @@ export default function InvoiceDetails() {
 
         {/* End of added code 14-04-2023 */}
 
-        <hr class="invoice_horizontal_line" style={{ backgroundColor: "black", height: "1px" }}></hr>
+        {/* Modified by :- Parineeta Gedam
+          Date :- 21-04-2023
+          reason :- showing extra white spacing
+      */}
+        {/* <hr class="invoice_horizontal_line"></hr> */}
+        <div class="invoice_horizontal_line"></div>
+        {/* End of modified code on 21-4-2023 */}
 
         <div className='invoice_table_heading_container'>
           <div className='invoice_data_container'>
@@ -205,7 +212,13 @@ export default function InvoiceDetails() {
           </div>
         </div>
 
-        <hr class="invoice_horizontal_line"></hr>
+        {/* Modified by :- Parineeta Gedam
+          Date :- 21-04-2023
+          reason :- showing extra white spacing
+      */}
+        {/* <hr class="invoice_horizontal_line"></hr> */}
+        <div class="invoice_horizontal_line"></div>
+        {/* End of modified code on 21-4-2023 */}
 
         <div className='invoice_child_container'>
           {orderItems.map((items, index) => (
@@ -233,7 +246,10 @@ export default function InvoiceDetails() {
                     <span className="invoice_qunatity_sub_heading">{items.quantity}</span>
                   </div>
                   <div className='invoice_total_price_container'>
-                    <span className="invoice_total_rating_sub_heading"> ₹ {items.quantity * items.price}</span>
+                    {/* Modified by :- Parineeta Gedam on 21-04-2023 */}
+                    {/* <span className="invoice_total_rating_sub_heading"> ₹ {items.quantity * items.price}</span> */}
+                    <span className="invoice_total_rating_sub_heading"> ₹ {items.price}</span>
+                    {/* End of modified code on 21-04-2023 */}
                   </div>
                 </div>
 
@@ -261,7 +277,15 @@ export default function InvoiceDetails() {
               {/* End of commented code 14-04-2023 */}
             </>
           ))}
-          <hr class="invoice_horizontal_line"></hr>
+
+          {/* Modified by :- Parineeta Gedam
+          Date :- 21-04-2023
+          reason :- showing extra white spacing
+      */}
+          {/* <hr class="invoice_horizontal_line"></hr> */}
+          <div class="invoice_horizontal_line"></div>
+          {/* End of modified code on 21-4-2023 */}
+
 
           <div className='invoice_second_container'>
             <div className='invoice_second_data_container'>
@@ -294,13 +318,19 @@ export default function InvoiceDetails() {
         </div>
       </div>
 
-      <hr style={{ backgroundColor: "black", height: "1px", width: "94%", borderTop: "1px solid black" }}></hr>
+      {/* Modified by :- Parineeta Gedam
+          Date :- 21-04-2023
+          reason :- showing extra white spacing
+      */}
+      {/* <hr style={{ backgroundColor: "black", height: "1px", width: "94%", borderTop: "1px solid black", marginBottom:"0px" }}></hr> */}
+      <div style={{width:"93%", border:"1.5px solid black", margin:"0px 10px 0px 10px"}}></div>
+      {/* End of modified code on 21-4-2023 */}
 
       {/* commented by :- Parineeta Gedam
           Date :- 16-04-2023
           Reason :- now this functionality not showing 
       */}
-      {/* <div className='invoice_btn_container'>
+      <div className='invoice_btn_container'>
         <Button
           id="signBtn"
           type="primary"
@@ -311,13 +341,16 @@ export default function InvoiceDetails() {
             backgroundColor: colors.bannerColor,
             color: colors.backgroundTheme,
             border: "none",
+            marginBottom: '30%',
+
           }}
           onClick={(e) => updateInvoiceData()}
         >
           Proceed to pay
         </Button>
-      </div> */}
+      </div>
       {/* End of added code 16-04-2023 */}
+      </div>
     </>
   )
 }

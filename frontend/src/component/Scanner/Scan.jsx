@@ -133,7 +133,7 @@ export default function Scan() {
       <div className='scanner_parent_container'>
         <h1
           className='scanner_heading'
-          style={{ backgroundColor: colors.headingBackgroundColor, color: colors.headingColor }}
+          style={{color: colors.headingColor }}
         >
           Scan and Pay
         </h1>
