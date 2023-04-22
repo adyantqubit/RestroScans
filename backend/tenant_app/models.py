@@ -243,7 +243,9 @@ class Offer(models.Model):
     # end of code - rohan - 20/4/23
     
     id = models.AutoField(primary_key=True)
-    offer_name=models.CharField(max_length=30, verbose_name="Banner/Offer name")
+    # Max Length changes by Om on 22-04-23
+    # Offer name is not mandatory according to testing team, changes by Om on 22-04-23
+    offer_name=models.CharField(max_length=40, verbose_name="Banner/Offer name") 
     discount = models.IntegerField(validators=[MinValueValidator(0),
                                        MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
     # Added (null = True) by Om on 13-04-23
