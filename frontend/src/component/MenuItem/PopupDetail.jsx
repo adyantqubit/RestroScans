@@ -239,7 +239,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
 
                 {item ? <div className={style.InformationBox} style={{ backgroundColor: colors.backgroundTheme }}>
                     <div className={style.heading} style={{ color: colors.bannerColor }}>
-                        Please select half or full 
+                        Please select size 
                     </div>
                     <div className={style.detailContainer}>
                     {item.discounted_full_price>0?<div className={style.card} >
@@ -250,6 +250,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 {item.item_type == "Veg" ?
                                     <img alt="" src={vegIcon} className={style.type_img} />
                                     :
+                                    item.item_type == "Other"?null:
                                     <img alt="" src={nonVegIcon} className={style.type_img} />}
                             </div>
                             <div className={style.infomation}>
@@ -257,7 +258,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
                                 <div>
                                     <div className={style.row1}>
-                                        <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Full Plate</div>
+                                        <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Full </div>
                                         <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_full_price}</div>
                                     </div>
 
@@ -282,6 +283,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 {item.item_type == "Veg" ?
                                     <img alt="" src={vegIcon} className={style.type_img} />
                                     :
+                                    item.item_type == "Other"?null:
                                     <img alt="" src={nonVegIcon} className={style.type_img} />}
                             </div>
                             <div className={style.infomation}>
@@ -289,7 +291,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                 <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
                                 <div>
                                     <div className={style.row1}>
-                                        <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Half Plate</div>
+                                        <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Half </div>
                                         <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_half_price}</div>
                                     </div>
 

@@ -72,6 +72,11 @@ const Cart = () => {
     if(response) {
       secureLocalStorage.setItem("order", response.order)
       secureLocalStorage.setItem("orderItem", response.orderItemSerializer)
+      // Added by rohan-22/4/23
+      // reason - To remove cart item on response
+      localStorage.removeItem('cart'); 
+      setCart([]);
+      // end of code - rohan - 22//4/23
     }
     navigate('/invoice')
   };
@@ -104,6 +109,16 @@ const Cart = () => {
   }
   // end of code
 
+  //Added by rohan - 21/4/23
+  // reason - to remove plate from label 
+
+  function TrimPlate(size){
+   if (size=="Half Plate")
+    return "Half";
+   else
+     return "Full"; 
+  }
+
   return (
     <>
       <PopupDetail item={selectedItem} isDetailPopupOpen={isDetailPopupOpen} setDetailPopupVisiblity={setDetailPopupVisiblity} />
@@ -123,6 +138,7 @@ const Cart = () => {
               {item.item_type == "Veg" ?
                 <img alt="" src={vegIcon} className={style.type_img} />
                 :
+                item.item_type == "Other"?null:
                 <img alt="" src={nonVegIcon} className={style.type_img} />}
             </div>
 
@@ -130,7 +146,7 @@ const Cart = () => {
 
               <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
               <div className={style.row1}>
-                <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {item.serve_size}</div>
+                <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {TrimPlate(item.serve_size)}</div>
                 {/* added by rohan-13/4/23 - to get each item subtotal */}
                 <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div>
               </div>
@@ -156,7 +172,7 @@ const Cart = () => {
 
       </div>
 
-      {cart.length > 0 ? <div className={style.btnContainer} style={{background:"transparent", color: colors.subHeadingColor }}>
+      {cart.length > 0 ? <div className={style.btnContainer} style={{background:colors.backgroundTheme, color: colors.subHeadingColor }}>
         {/* added by rohan-13/4/23 
             reason- to show subtotal also */}
         <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div>

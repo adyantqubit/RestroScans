@@ -94,15 +94,15 @@ class DescriptionSerializer(serializers.ModelSerializer):
 class SettingSerializer(serializers.ModelSerializer):
 	# Added by Yuvraj Sahu on 12-4-2023
 	# Reason - to serialize foreignkey field fields
-    background_color = serializers.CharField(source="app_theme.background_color")
-    heading_color = serializers.CharField(source="app_theme.heading_color")
-    subheading_color = serializers.CharField(source="app_theme.subheading_color")
+    background_color = serializers.CharField(source="app_theme.background_color",allow_null=True)
+    heading_color = serializers.CharField(source="app_theme.heading_color",allow_null=True)
+    subheading_color = serializers.CharField(source="app_theme.subheading_color",allow_null=True)
     
     # Added by rohan kansari - 20/4/23
     # reason- To get all other color
-    banner_heading_color= serializers.CharField(source="app_theme.banner_heading_color")
-    heading_bgcolor= serializers.CharField(source="app_theme.heading_bgcolor")
-    subheading_bgcolor=serializers.CharField(source="app_theme.subheading_bgcolor")
+    banner_heading_color= serializers.CharField(source="app_theme.banner_heading_color",allow_null=True)
+    heading_bgcolor= serializers.CharField(source="app_theme.heading_bgcolor",allow_null=True)
+    subheading_bgcolor=serializers.CharField(source="app_theme.subheading_bgcolor",allow_null=True)
     #Added by rohan- 20/4/23
     class Meta:
         model = Setting

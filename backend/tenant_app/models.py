@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from admin_app.models import *
 from django.db.models import Avg
 from django.core.exceptions import ValidationError
-
+from django.conf import settings
 
 # Create your models here.
 
@@ -13,29 +13,45 @@ from django.core.exceptions import ValidationError
 Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of menu
 """
-class Menu(models.Model):
-     # added by rohan kansari - 20/4/23
-    # reason- To add validation on image , admin not able to add image more than 200kb
-    def validate_image(fieldfile_obj):
-       try: 
+
+ # added by rohan kansari - 20/4/23
+# reason- To add validation on image , admin not able to add image more than 200kb
+# Modiefied by rohan - 21/4/23 - to Handel image resave error
+def validate_image(fieldfile_obj):
+# #    try: 
+    try:
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
-        if filesize > megabyte_limit*1024:
+    except:
+      try:  
+       import os # new
+       from pathlib import Path
+       filesize=os.path.getsize(fieldfile_obj.file.name)
+       print(filesize)
+       megabyte_limit = 200
+       if filesize > megabyte_limit*1024:
+        raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+      except:
+        return     
+    if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        else:
-            return True
-       except: 
-           import os # new
-           from pathlib import Path
-           filesize=os.path.getsize(fieldfile_obj.file.name)
-           print(filesize)
-           megabyte_limit = 200
-           if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit)) 
-    # end of code - rohan - 20/4/23
+   
     
+#    except: 
+#        import os # new
+#        from pathlib import Path
+#        filesize=os.path.getsize(fieldfile_obj.file.name)
+#        print(filesize)
+#        megabyte_limit = 200
+#        if filesize > megabyte_limit*1024:
+#         raise ValidationError("Max file size is %skb" % str(megabyte_limit)) 
+# end of code - rohan - 20/4/23
+    
+    
+class Menu(models.Model):
+
     name=models.CharField(max_length=30,default='')
-    icon=models.ImageField(verbose_name="image", upload_to='images/menu/', null=True)
+    icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image])
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -43,10 +59,18 @@ class Menu(models.Model):
     def __str__(self):
         return self.name 
     # Added by Yuvraj Sahu on 29-3-2023
-    # Reason - to arrange the table
+    # Reason - to arra nge the table
     class Meta:
         verbose_name_plural = 'c) Menu'
     # End of addition
+    
+            
+    # def clean_icon(self):
+    #     icon = self.cleaned_data.get("icon")
+    #     print(icon.path)
+    #     if icon.size>200*1024:
+    #         raise ValidationError("max size 200kb")
+    #     return icon
 """
 End of code addition
 """
@@ -58,27 +82,30 @@ Reason - To store details of category
 class Category(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
+    # Modiefied by rohan - 21/4/23 - to Handel image resave error
     def validate_image(fieldfile_obj):
-      try: 
+      try:
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
-        if filesize > megabyte_limit*1024:
+      except:
+        try:  
+            import os # new
+            from pathlib import Path
+            filesize=os.path.getsize(fieldfile_obj.file.name)
+            print(filesize)
+            megabyte_limit = 200
+            if filesize > megabyte_limit*1024:
+                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        except:
+                return     
+      if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        else:
-            return True
-      except: 
-           import os # new
-           from pathlib import Path
-           filesize=os.path.getsize(fieldfile_obj.file.name)
-           print(filesize)
-           megabyte_limit = 200
-           if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+   
     # end of code - rohan - 20/4/23
     
     menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
     name=models.CharField(max_length=30,default='',verbose_name='Category name')
-    icon=models.ImageField(upload_to='images/category/',null=True,blank=True)
+    icon=models.ImageField(upload_to='images/category/',null=True,blank=True,validators=[validate_image])
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -110,21 +137,23 @@ class Item(models.Model):
     
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
+    # Modiefied - 21/4/23 - to Handel image resave error
     def validate_image(fieldfile_obj):
-       try: 
+      try:
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
-        if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        else:
-            return True
-       except: 
-           import os # new
-           from pathlib import Path
-           filesize=os.path.getsize(fieldfile_obj.file.name)
-           print(filesize)
-           megabyte_limit = 200
-           if filesize > megabyte_limit*1024:
+      except:
+        try:  
+            import os # new
+            from pathlib import Path
+            filesize=os.path.getsize(fieldfile_obj.file.name)
+            print(filesize)
+            megabyte_limit = 200
+            if filesize > megabyte_limit*1024:
+                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        except:
+                return     
+      if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
     # end of code - rohan - 20/4/23
         
@@ -147,7 +176,7 @@ class Item(models.Model):
 	# end of code modification- by Rohan kansari - on 16/4/23
 	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
-    icon=models.ImageField(upload_to='images/item/', null=True, )
+    icon=models.ImageField(upload_to='images/item/', null=True,validators=[validate_image])
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
@@ -193,21 +222,23 @@ Reason - To store offer for every Items
 class Offer(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
+    # Modiefied - 21/4/23 - to Handel image resave error
     def validate_image(fieldfile_obj):
-       try: 
+      try:
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
-        if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        else:
-            return True
-       except: 
-           import os # new
-           from pathlib import Path
-           filesize=os.path.getsize(fieldfile_obj.file.name)
-           print(filesize)
-           megabyte_limit = 200
-           if filesize > megabyte_limit*1024:
+      except:
+        try:  
+            import os # new
+            from pathlib import Path
+            filesize=os.path.getsize(fieldfile_obj.file.name)
+            print(filesize)
+            megabyte_limit = 200
+            if filesize > megabyte_limit*1024:
+                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        except:
+                return     
+      if filesize > megabyte_limit*1024:
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
     # end of code - rohan - 20/4/23
     
@@ -217,7 +248,7 @@ class Offer(models.Model):
                                        MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True)
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image])
     # End of addition
     description=models.TextField(null=True,blank=True)
     

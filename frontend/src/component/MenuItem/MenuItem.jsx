@@ -919,7 +919,7 @@ function MenuItem() {
                                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                         className="allitems_price"
                                       >
-                                        &nbsp; ₹{searchSectionHalfPrice(person)}
+                                       ₹{searchSectionHalfPrice(person)}
                                       </h4> : null}
                                   </div>
 
@@ -1214,7 +1214,7 @@ function MenuItem() {
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        &nbsp;  ₹{totalHalfPrice(showdata)}
+                      ₹{totalHalfPrice(showdata)}
                       </h4> : null}
                     </div>
 
@@ -1458,7 +1458,7 @@ function MenuItem() {
                                   </div>
 
                                   <div className="price_description_container" >
-                                    <h4 style={{ color: 'red', padding: '0', margin: '0 0 0 8px' }}
+                                    <h4 style={{ color: 'red', padding: '0' }}
                                       className="allitems_name">Offered price</h4>
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
@@ -1468,7 +1468,7 @@ function MenuItem() {
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      &nbsp; ₹{mainSectionHalfPrice(m)}
+                                       ₹{mainSectionHalfPrice(m)}
                                     </h4> : null}
                                   </div>
 

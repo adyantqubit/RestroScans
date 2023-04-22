@@ -28,7 +28,8 @@ export default function InvoiceDetails() {
   // modified by :- Parineeta gedam on 15-04-2023
   const [orderItems, setOrderItem] = useState([])
   useEffect(() => {
-    window.onpopstate = () => { localStorage.removeItem('cart'); setCart([]) }
+
+    // window.onpopstate = () => { if(allow_pop){localStorage.removeItem('cart'); setCart([]);}}
     setOrderItem(secureLocalStorage.getItem('orderItem'))
   }, [])
   // End of added code 09-04-2023
