@@ -1370,7 +1370,7 @@ function MenuItem() {
 
                   <h5 style={{
                     color: colors.headingColor, paddingTop: '2%',
-                    backgroundColor: colors.headingBackgroundColor
+                    // backgroundColor: colors.headingBackgroundColor
                   }}
                     className="main_menu_name"
                   >{showMenu.name}

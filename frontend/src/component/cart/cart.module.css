@@ -35,6 +35,13 @@
     padding: 10px 0;
 }
 
+/* Modified by :- Parineeta gedam on 21-04-2023*/
+.title_length{
+    width: 95%;
+    text-align: center;
+}
+/* End of modified code on 21-04-2023 */
+
 .card{
     position: relative;
     width:auto;
@@ -331,6 +338,7 @@ letter-spacing: 3px;
 .blankImg{
     /* margin-top:90px; */
     /* margin-top:30px; */
+    margin-top: 5%;
     width: 60%;
     max-height: 300px;
 }
@@ -356,6 +364,7 @@ letter-spacing: 3px;
     display:flex;
     justify-content: center;
     gap:15px;
+    margin-top: 15px;
 }
 
 .blankBtn{
@@ -412,7 +421,7 @@ letter-spacing: 3px;
     text-align: center;
 }
 .horizontalLine{
-    width: 100%;
+    width: 98%;
     border-top: 1px solid black;
     margin-top: 0px;
     margin-bottom: 0px;

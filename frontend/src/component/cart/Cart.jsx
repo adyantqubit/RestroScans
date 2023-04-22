@@ -112,8 +112,9 @@ const Cart = () => {
         <div style={{ color: colors.headingColor }} className={style.cartTitle}>
         {/*Added by rohan kansari -18/4/23 - add back button*/}
         <BiArrowBack onClick={e=>nav(-1)}/>
-        
-        MY CART ({cart.length})</div>
+        {/* Modified by :- Parineeta Gedam on 21-04-2023 */}
+        <div className={style.title_length}>MY CART ({cart.length})</div></div>
+        {/* End of modified code on 21-04-2023 */}
         {cart.length > 0 ? cart.map((item, i) =>
           <div className={style.card} >
             <RemoveItem removeProductIndex={removeProductIndex} currentIndex={item} setRemoveProductIndex={setRemoveProductIndex} />
