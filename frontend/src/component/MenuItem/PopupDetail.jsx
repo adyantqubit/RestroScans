@@ -9,7 +9,11 @@ import { message } from 'antd';
 import config from '../../config/config'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
+import {
+    RadiusUprightOutlined,
+  } from '@ant-design/icons';
 
+  import { Button, Divider, notification, Space } from 'antd';
 // created by rohan - 9/4/23
 // reason - to remove one specific index element from list
 function elementRemover(specificIndex, list) {
@@ -26,7 +30,7 @@ function elementRemover(specificIndex, list) {
 
 const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     const { colors, cart, setCart,restaurant_name } = useContext(GlobalContext)
-    const [messageApi, contextHolder] = message.useMessage();
+    // const [messageApi, contextHolder] = message.useMessage();
     var [quantityhalf, setQuantityHalf] = useState(0)
     var [quantityFull, setQuantityFull] = useState(0)
     var [sizeSelected, setSizeSlelected] = useState(null)
@@ -42,8 +46,6 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             setQuantityFull(CurrentAddedQuantity("Full Plate"))
             setQuantityHalf(CurrentAddedQuantity("Half Plate"))
         }
-
-       
         
     }, [item,isDetailPopupOpen])
 
@@ -66,13 +68,13 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 // if found then set current increases or deacrease amount to cart item and pass a message
                 cartTemp[cartIndex].quantity = quantityFull
                 setCart([...cartTemp])
-                notification("Successfully quantity updated")
+                notify("Successfully quantity updated")
             } else {
                 // if selected item is not found then it means it is new item with quantity so we have to push 
                 // item with entered quantity
                 cartTemp = [...cartTemp, cartDataCreate(quantityFull, "Full Plate", item.discounted_full_price)]
                 setCart([...cartTemp])
-                notification("Successfully added to your list")
+                notify("Successfully added to your list")
 
             }
         }
@@ -85,7 +87,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     // if found index then remove item 
                     setCart(elementRemover(cartId, cartTemp))
                     cartTemp = elementRemover(cartId, cartTemp)
-                    notification("Item is succesfully removed from list")
+                    notify("Item is succesfully removed from list")
                 }
             }
         }
@@ -98,7 +100,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 // if found then set current increases or deacrease amount to cart item and pass a message
                 cartTemp[cartId].quantity = quantityhalf
                 setCart(cartTemp)
-                notification("Successfully quantity updated")
+                notify("Successfully quantity updated")
             } else {
                 // if selected item is not found then it means it is new item with quantity so we have to push 
                 // item with entered quantity
@@ -106,7 +108,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 //reason- i am bymistake written full price in half price section
                 cartTemp = [...cartTemp, cartDataCreate(quantityhalf, "Half Plate", item.discounted_half_price)]
                 setCart(cartTemp)
-                notification("Successfully added to your list")
+                notify("Successfully added to your list")
             }
         }
         else {
@@ -118,7 +120,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     // if found index then remove item 
                     setCart(elementRemover(cartId, cartTemp))
                     cartTemp = elementRemover(cartId, cartTemp)
-                    notification("Item is succesfully removed from list")
+                    notify("Item is succesfully removed from list")
                 }
             }
         }
@@ -210,36 +212,59 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
 
     }
 
-    function notification(msg) {
-        messageApi.open({
-            type: 'success',
-            content: `${msg}`,
-            className: 'custom-class',
-            style: {
-                marginTop: '4.5vh',
-                fontSize: "16px",
-                letterSpacing: "1.3px",
-                fontFamily: "Times News Roman",
-                color: colors.subHeadingColor,
+    const [api, contextHolder] =notification.useNotification()
 
+ 
+
+    function notify(msg) {
+
+        
+            api.success({
+              
+              message: `${msg} `,
+            //   description: <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>,
+            RadiusUprightOutlined,
+            duration:3,
+            style:{
+                top:"25px",
+                background:colors.bannerColor,
+                color:colors.backgroundTheme
             },
+            
+            })
+        // messageApi.open({
+        //     type: 'success',
+        //     content: `${msg}`,
+        //     className: 'custom-class',
+        //     style: {
+        //         marginTop: '4.5vh',
+        //         fontSize: "16px",
+        //         letterSpacing: "1.3px",
+        //         fontFamily: "Times News Roman",
+        //         color: colors.subHeadingColor,
+                
+        //     },
+            
+        //     key: 1,
+        //     duration:3000
+        // });
 
-            key: 1,
-            duration:3
-        });
+    //   var el= document.getElementsByClassName("ant-message-notice-content")[0]
+    //   console.log(el)
     }
 
     return (
         <>
             {contextHolder}
-            {isDetailPopupOpen && (item.discounted_full_price>0 ||  item.discounted_half_price>0)? <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
+            {isDetailPopupOpen && (item.discounted_full_price>0 || (colors.allow_half_price && item.discounted_half_price>0))? 
+            <div className={`${style.popupContainer} ${isDetailPopupOpen ? style.fade : null}`} id="detailModel">
                 <div className={style.closeContainer}>
                     <AiOutlineClose size={30} style={{ color: "#fff", margin: "auto 0" }} onClick={closePopup} />
                 </div>
 
                 {item ? <div className={style.InformationBox} style={{ backgroundColor: colors.backgroundTheme }}>
                     <div className={style.heading} style={{ color: colors.bannerColor }}>
-                        Please select size 
+                        Please select quantity
                     </div>
                     <div className={style.detailContainer}>
                     {item.discounted_full_price>0?<div className={style.card} >
@@ -325,7 +350,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                         </button>
                     </div>
                 </div> : null}
-            </div> : null}
+            </div> : setDetailPopupVisiblity(false)}
         </>
     )
 }

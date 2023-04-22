@@ -37,8 +37,9 @@ const Billing = () => {
     function SubtotalOfItems(){
         var total=0
         billingData.items.filter(o=>{
-           total+=o.price*o.quantity
+           total+=o.price
         })
+
         return total
     }
 
@@ -102,10 +103,10 @@ const Billing = () => {
                             {o.quantity}
                         </div>
                         <div className={style.rateText}>
-                            ₹ {o.price}
+                            ₹ {o.price/o.quantity}
                         </div>
                         <div className={style.totalText}>
-                            ₹ {o.price*o.quantity}
+                            ₹ {o.price}
                         </div>
                     </div>
                 )}
@@ -131,7 +132,6 @@ const Billing = () => {
                 <div className={style.breakLine} />
 
                 <div className={style.calculationLine}><div className={style.calculationLabel}>****** THANK YOU VISIT AGAIN ******</div></div>
-
 
             </div> : null}
         </>

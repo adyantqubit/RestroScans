@@ -90,12 +90,15 @@
     margin: 0;
     flex-direction: column;
     width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .price_description_container {
     display: flex;
     gap:15px;
-    justify-content: space-around;
+    justify-content: space-between;
     /* padding: 0 10px; */
 
     margin: 0 10px;
@@ -105,7 +108,7 @@
 
 /* modified by :- Parineeta Gedam */
 .description_div {
-    margin: 0 10px;
+    margin-left:10px;
     padding: 0;
 }
 /* End of added code 19-04-2023 */
@@ -350,7 +353,7 @@
 .allitems_heading_name {
     font-family: "Times New Roman"
     ;
-    width: 98%;
+    width: 60%;
     padding-left: 1%;
     font-size: 14px;
     font-weight: bolder;
@@ -358,9 +361,10 @@
 .allitems_heading_price {
     font-family: "Times New Roman"
     ;
-    width: 45%;
+    width: 22%;
     font-size: 14px;
     font-weight: bolder;
+    text-align: end;
     /* padding-left: 3%; */
 }   
 
@@ -386,6 +390,7 @@
     /* padding-left: 5%; */
     /* margin: 10px; */
     font-size: 13px;
+    text-align: end;
     margin: 0px;
 }
 /* End of modified code 19-04-2023 */
@@ -984,3 +989,36 @@ a.ant-notification-notice-close {
    
 }
 
+.overflowHide{
+
+    overflow-y: hidden;
+}
+
+.overflowHide::-webkit-scrollbar{
+    display: none;
+}
+
+.drawerBtn{
+    width: 25px;
+    height:25px;
+    background-color: #000;
+    position: absolute;
+    top:-14px;
+    right:0;
+    left:0;
+    margin:0 auto;
+    border-radius: 50%;
+
+}
+
+.blank_menu_Container{
+    position: fixed;
+    bottom: 20px;
+    height:5vh;
+    width:100%;
+    background-color:pink;
+}
+
+.arrow_toggle{
+    margin: 5px 5px;
+}

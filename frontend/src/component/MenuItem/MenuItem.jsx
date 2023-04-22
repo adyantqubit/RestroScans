@@ -22,7 +22,7 @@ import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
-import { MdRoomService } from "react-icons/md";
+import { MdRoomService ,MdOutlineKeyboardArrowUp,MdOutlineKeyboardArrowDown} from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
@@ -846,10 +846,11 @@ function MenuItem() {
                         <div style={{
                           display: 'flex',
                           padding: '5% 0% 0% 0%',
+                          justifyContent:"space-between",
                           color: 'lightblue'
                         }}
                         >
-                          <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', marginLeft: '8%' }}>
+                          <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center' }}>
                             Item name
                           </div>
                           <div className="allitems_heading_price" style={{ color: colors.bannerColor }} >Full price</div>
@@ -894,14 +895,14 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
+                                       {person.price_full ?  <strike>₹ {person.price_full}</strike>: <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
+                                      {person.price_half ?  <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4> : null}
                                   </div>
 
@@ -911,7 +912,7 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      ₹{searchSectionFullPrice(person)}
+                                      {searchSectionFullPrice(person)>0?<>₹ {searchSectionFullPrice(person)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
@@ -919,7 +920,7 @@ function MenuItem() {
                                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                         className="allitems_price"
                                       >
-                                       ₹{searchSectionHalfPrice(person)}
+                                       {searchSectionHalfPrice(person)>0?<> ₹ {searchSectionHalfPrice(person)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                       </h4> : null}
                                   </div>
 
@@ -949,7 +950,7 @@ function MenuItem() {
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1043,12 +1044,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1157,11 +1158,12 @@ function MenuItem() {
           <div style={{
             display: 'flex',
             padding: '5% 0% 0% 0%',
-            color: 'lightblue'
+            color: 'lightblue',
+            justifyContent:"space-between",
 
           }}
           >
-            <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', marginLeft: '8%' }}>
+            <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center' }}>
               Item name
             </div>
             <div className="allitems_heading_price" style={{ color: colors.bannerColor }}>Full price</div>
@@ -1190,14 +1192,14 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        <strike>  {showdata.item_fullprice ? '₹' + showdata.item_fullprice : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
+                        {showdata.item_fullprice ?  <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        <strike>  {showdata.item_halfprice ? '₹' + showdata.item_halfprice : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
+                        {showdata.item_halfprice ?  <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                       </h4> : null}
                     </div>
 
@@ -1207,14 +1209,14 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        ₹{totalFullPrice(showdata)}
+                        {totalFullPrice(showdata)>0?<>₹ {totalFullPrice(showdata)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                      ₹{totalHalfPrice(showdata)}
+                      {totalHalfPrice(showdata)>0?<> ₹ {totalHalfPrice(showdata)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                       </h4> : null}
                     </div>
 
@@ -1241,12 +1243,12 @@ function MenuItem() {
                                     */}
                       {showdata.item_type == 'Veg' ? (
                         <>
-                          <img src={vegIcon} style={{ width: '5%', height: '2%', marginTop:'2px' }} alt="kk" className=""></img>
+                          <img src={vegIcon} style={{ width: '5%', height: '50%', marginTop:'2px' }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Nonveg' ? (
                         <>
-                          <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
+                          <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Other' ? (
@@ -1364,7 +1366,7 @@ function MenuItem() {
             shadowBackground='transparent'
           >
             {menuList.map((showMenu) => (
-              <div>
+              <div className="overflowHide">
                 <span style={{ textAlign: 'center' }}
                 >
 
@@ -1399,10 +1401,12 @@ function MenuItem() {
                       <div style={{
                         display: 'flex',
                         padding: '5% 0% 0% 0%',
-                        color: 'lightblue'
+                        color: 'lightblue',
+                        justifyContent:"space-between",
+
                       }}
                       >
-                        <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', marginLeft: '8%' }}>
+                        <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center',paddingLeft: colors.allow_half_price?"4%":"1%" }}>
                           Item name
                         </div>
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor, }} >Full price</div>
@@ -1446,14 +1450,14 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
+                                      {m.price_full ? <strike>₹ { m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      <strike>  {m.price_half ? '₹' + m.price_half :<>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</strike>
+                                       {m.price_half ? <strike>₹ { m.price_half}</strike> :<>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4> : null}
                                   </div>
 
@@ -1463,12 +1467,12 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      ₹{mainSectionFullPrice(m)}
+                                      {mainSectionFullPrice(m)>0?<> ₹ {mainSectionFullPrice(m)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                     </h4>
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                       ₹{mainSectionHalfPrice(m)}
+                                       {mainSectionHalfPrice(m)>0? <> ₹ {mainSectionHalfPrice(m)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                     </h4> : null}
                                   </div>
 
@@ -1495,12 +1499,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
@@ -1587,12 +1591,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'}} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'}} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
