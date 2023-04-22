@@ -121,6 +121,9 @@
     /* background-color: black; */
     padding: 0.5% 4%;
     font-weight: 600;
+    /* Modified by :- Parineeta Gedam on 22-04-2023 */
+    word-break: break-all;
+    /* End of added code on 22-04-2023 */
 }
 
 .quantityText {

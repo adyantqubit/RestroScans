@@ -20,6 +20,12 @@ Reason :- Customer Form css */
   box-shadow: 0px 0px 5px #212121;
 }
 
+.customerFormHeading{
+  letter-spacing: 1.7px;
+  font-family: "Times New Roman";
+  word-spacing: -1px;
+}
+
 .customerCloseContainer{
   width: 80%;
   height: 5%;

@@ -59,7 +59,7 @@ class Menu(models.Model):
     def __str__(self):
         return self.name 
     # Added by Yuvraj Sahu on 29-3-2023
-    # Reason - to arra nge the table
+    # Reason - to arrange the table
     class Meta:
         verbose_name_plural = 'c) Menu'
     # End of addition

@@ -107,7 +107,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 
           <div className={style.customerInformationBox} style={{ backgroundColor: colors.backgroundTheme }}>
             <Card hoverable>
-              <h2 style={{ textAlign: "center", color: colors.headingColor }}>Please fill the details</h2>
+              <h2 style={{ textAlign: "center", color: colors.headingColor }} className={style.customerFormHeading}>Please fill the details</h2>
               <Form
                 name="basic"
                 labelCol={{

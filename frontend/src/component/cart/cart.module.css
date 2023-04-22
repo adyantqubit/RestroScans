@@ -353,7 +353,8 @@ letter-spacing: 3px;
 .blankText{
     margin-top: 10px;
     text-align: center;
-    font-size: 13px;
+    /* font-size: 13px; */
+    font-size: 14px;
     letter-spacing: 1.5px;
     font-family: "Times New Roman";
     font-weight: 600;
@@ -371,7 +372,8 @@ letter-spacing: 3px;
     margin-top: 10px;
     min-width: 80px;
     min-height: 30px;
-    font-size: 13px;
+    /* font-size: 13px; */
+    font-size: 14px;
     letter-spacing: 1.7px;
     font-family: "Times New Roman";
     font-weight: 600;

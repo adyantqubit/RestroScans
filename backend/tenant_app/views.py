@@ -580,7 +580,18 @@ def orderItemsCreation(request, order_obj):
         cartData["item_id"] = item.id
         cartData['order_id'] = order_obj.id
         cartData['item'] = cart['name']
-        cartData['serving_size'] = cart['serve_size']
+        
+        # Commented by :- Parineeta gedam on 22-04-2023
+        # cartData['serving_size'] = cart['serve_size']
+        # End of added code on 22-04-2023
+
+        # Added by :- Parineeta Gedam on 22-04-2023
+        if (cart['serve_size'] == "Half Plate"):
+            cartData['serving_size'] = "Half"
+        else :
+            cartData['serving_size'] = "Full"
+        # End of added code on 22-04-2023
+
         cartData['quantity'] = cart['quantity']
 
         # Commented by :- Parineeta gedam
