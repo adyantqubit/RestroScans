@@ -148,12 +148,8 @@ const Cart = () => {
               <div className={style.row1}>
                 <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {TrimPlate(item.serve_size)}</div>
                 {/* added by rohan-13/4/23 - to get each item subtotal */}
-                <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div>
-              </div>
+                {/* Added by rohan - 22/4/23 - reason to swipe amount showing in top in place of subtotal */}
 
-              <div className={style.row2} style={{ color: colors.subHeadingColor }}>
-              {/* added by rohan-13/4/23 - to get all items subtotal */}
-              <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>₹ {item.price}</div>
                 <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
                   <div className={style.sign} onClick={e => decreaseQuantity(item)}>
                     -
@@ -163,6 +159,14 @@ const Cart = () => {
                     +
                   </div>
                 </span>
+              </div>
+
+              <div className={style.row2} style={{ color: colors.subHeadingColor }}>
+              {/* added by rohan-13/4/23 - to get all items subtotal */}
+              <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>₹ {item.price}</div>
+              {/* Added by rohan - 22/4/23 - reason to swipe subtotal amount showing in bottom in place of quantity */}
+              <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div>
+
               </div>
             </div>
           </div>
