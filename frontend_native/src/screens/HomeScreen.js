@@ -25,6 +25,7 @@ import { getDashboardData, getDashboardDetails } from "../api/Services";
 import { SvgCssUri } from 'react-native-svg';
 import * as Print from 'expo-print'
 import Icon from "react-native-vector-icons/AntDesign";
+import Footer from "../components/Footer/Footer";
 
 
 export default function HomeScreen({ navigation }) {
@@ -224,7 +225,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -232,7 +233,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -251,7 +252,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -259,7 +260,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -277,7 +278,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -285,7 +286,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -303,7 +304,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -311,7 +312,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.41.45:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -338,7 +339,8 @@ export default function HomeScreen({ navigation }) {
   // End of addition 
 
   return (
-    <SafeAreaView>
+    <>
+ {/* <SafeAreaView> */}
       {/* Commented adn modified by - Ashish Dewangan on 12-04-2023
       Reason - To hide restaurant name and logo */}
 
@@ -433,7 +435,7 @@ export default function HomeScreen({ navigation }) {
             width="180"
             height="180"
             viewBox="0 0 450 470"
-            uri="http://192.168.41.45:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+            uri="http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
           // uri={scanner}
 
           />
@@ -493,7 +495,8 @@ export default function HomeScreen({ navigation }) {
               </Text>
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
-                {todaysSummary.total_revenue}
+                {/* Modification by Om on 22-04-23, Fix the revenue size */}
+                {todaysSummary.total_revenue?todaysSummary.total_revenue.toFixed(2):''}
               </Text>
             </LinearGradient>
 
@@ -508,7 +511,8 @@ export default function HomeScreen({ navigation }) {
               </Text>
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
-                {thisWeeksSummary.total_revenue}
+                {/* Modification by Om on 22-04-23, Fix the revenue size */}
+                {thisWeeksSummary.total_revenue?thisWeeksSummary.total_revenue.toFixed(2):''}
               </Text>
             </LinearGradient>
             <LinearGradient
@@ -522,7 +526,8 @@ export default function HomeScreen({ navigation }) {
               </Text>
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
-                {thisMonthsSummary.total_revenue}
+                {/* Modification by Om on 22-04-23, Fix the revenue size */}
+                {thisMonthsSummary.total_revenue?thisMonthsSummary.total_revenue.toFixed(2):''}
               </Text>
             </LinearGradient>
             <LinearGradient
@@ -536,7 +541,8 @@ export default function HomeScreen({ navigation }) {
               </Text>
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
-                {thisYearsSummary.total_revenue}
+                {/* Modification by Om on 22-04-23, Fix the revenue size */}
+                {thisYearsSummary.total_revenue?thisYearsSummary.total_revenue.toFixed(2):''} 
               </Text>
             </LinearGradient>
           </View>
@@ -712,10 +718,19 @@ export default function HomeScreen({ navigation }) {
          </View>
         */}
         {/* End of comment for Hide logout button from home screen on 11-03-2023 */}
+       
       </ScrollView>
       {/* End of modification */}
       {/* End of code comment and modification by Ashish*/}
-    </SafeAreaView>
+       {/* Added by Om on 18-04-23 For showing the footer*/}
+     
+      {/* End of addition */}
+     
+    {/* </SafeAreaView> */}
+    <>
+      <Footer />
+      </>
+    </>
   );
 }
 
@@ -819,6 +834,7 @@ const styles = StyleSheet.create({
     shadowColor: "#171717",
     borderWidth: 1,
     borderRadius: 5,
+    marginBottom:10
   },
   todaysOrderContainerTitle: {
     alignSelf: "center",

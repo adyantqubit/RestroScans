@@ -63,7 +63,7 @@ export default function OfferItemsScreen({ route, navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [10, 4], // Aspect changes by Om on 22-04-23 because we need to set the offer image size
       quality: 1,
     });
     if (!result.canceled) {
@@ -154,7 +154,7 @@ export default function OfferItemsScreen({ route, navigation }) {
   } = useForm({
     defaultValues: {
       offer_name: bannerObject.offer_name,
-      discount: `${bannerObject.discount}`,
+      discount: `${!bannerObject.discount? "0":bannerObject.discount}`, //Modified by Om for set the null value to 0
     },
   });
 
@@ -212,7 +212,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                       value={value}
                       onBlur={onBlur}
                       onChangeText={onChange}
-                      placeholder="Enter menu name"
+                      placeholder="Enter item name"
                       autoCapitalize="none"
                       autoCorrect={false}
                       secureTextEntry={false}
@@ -297,6 +297,12 @@ export default function OfferItemsScreen({ route, navigation }) {
             <Controller
               control={control}
               name="discount"
+              rules={{
+                pattern: {
+                    value: /^\d{0,2}$/,
+                    message: "Discount is not valid",
+                },
+            }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <>
                   <View>

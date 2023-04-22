@@ -41,7 +41,7 @@ export default function AddOfferScreen() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [10, 4], // Aspect changes by Om on 22-04-23 because we need to set the offer image size
             quality: 1,
         });
         if (!result.canceled) {
@@ -151,10 +151,12 @@ export default function AddOfferScreen() {
                                     value: true,
                                     message: "Banner/Offer name is required",
                                 },
-                                //   pattern: {
-                                //     value: /^(?!\s+$).*/,
-                                //     message: "Menu offer_name cannot contain only blankspaces!",
-                                //   },
+                                // Added by Om on 22-04-23 For fix the banner/offer length size
+                                pattern: {
+                                    value: /^[a-z|A-Z | 0-9 | !@]{1,38}$/,
+                                    message: "Banner/Offer name should not be more than 40 characters",
+                                },
+                                // End of addition
                             }}
                             render={({ field: { onChange, onBlur, value } }) => (
                                 <>
@@ -184,7 +186,7 @@ export default function AddOfferScreen() {
 
                     <View style={{ marginTop: 5 }}>
                         <Text style={styles.labels}>
-                            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                            {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
                             Discount(%)
                         </Text>
                         <Controller
@@ -192,8 +194,8 @@ export default function AddOfferScreen() {
                             name="discount"
                             rules={{
                                 required: {
-                                    value: true,
-                                    message: "Discount is required!",
+                                    // value: true,
+                                    // message: "Discount is required!",
                                 },
                                 pattern: {
                                     value: /^\d{0,2}$/,
@@ -286,8 +288,8 @@ export default function AddOfferScreen() {
                     {/* Modification by Om on 15-04-23
          Reason : Fix the image validation */}
                     {isImgRequired && (
-                        <Text style={{ color: "red", marginLeft: 120, marginTop: 8 }}>
-                            Item icon is required!
+                        <Text style={{ color: "red", marginLeft: 87, marginTop: 8 }}>
+                            Banner/Offer image is required
                         </Text>
                     )}
                     {/* End of addtion */}

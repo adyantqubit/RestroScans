@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   btnText: {
     color: "black",
     fontWeight: "bold",
+    fontSize:13
   },
 
   menuContainer: {
