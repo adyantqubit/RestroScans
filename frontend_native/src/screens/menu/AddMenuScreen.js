@@ -182,24 +182,23 @@ export default function AddMenuScreen() {
     formData.append("is_active", isMenuActive);
 
     if (icon != null) {
-      // saveMenuApi(formData, tenant).then(async (res) => {
-      //   if (res.msg) {
-      //     setSaveBtnDisable(false);
-      //     Alert.alert(res.msg);
-      //     resetForm({ values: "" });
-      //     setImage(null);
-      //     setMenuActive(false);
-      //   } else if (res.error) {
-      //     setSaveBtnDisable(false);
-      //     Alert.alert(res.error);
-      //   } else {
-      //     setSaveBtnDisable(false);
-      //     Alert.alert("Something went wrong");
-      //   }
-      // });
+      saveMenuApi(formData, tenant).then(async (res) => {
+        if (res.msg) {
+          setSaveBtnDisable(false);
+          Alert.alert(res.msg);
+          resetForm({ values: "" });
+          setImage(null);
+          setMenuActive(false);
+        } else if (res.error) {
+          setSaveBtnDisable(false);
+          Alert.alert(res.error);
+        } else {
+          setSaveBtnDisable(false);
+          Alert.alert("Something went wrong");
+        }
+      });
     }
   };
-
   // ----------------------End of formik registration--------------------
 
   return (
