@@ -184,6 +184,11 @@ export default function InvoiceDetails() {
             {/* modified by :- Parineeta, to show date. */}
             <span className='invoice_details_value'>{new Date(orders.date).toLocaleDateString()}</span>
           </div>
+          <div className='invoice_details_1'>
+            <span className='invoice_details_heading'>Time </span>
+            <span className='invoice_details_colon'>: </span>
+            <span className='invoice_details_value'>{new Date(orders.date).toLocaleTimeString()}</span>
+          </div>
         </div>
 
         {/* End of added code 14-04-2023 */}
@@ -208,7 +213,8 @@ export default function InvoiceDetails() {
               <span className="invoice_table_sub_heading">Qty</span>
             </div>
             <div className='invoice_total_price_container'>
-              <span className="invoice_table_price_sub_heading">Cost</span>
+              {/* <span className="invoice_table_price_sub_heading">Cost</span> */}
+              <span className="invoice_table_price_sub_heading">Price</span>
             </div>
           </div>
         </div>
@@ -309,7 +315,7 @@ export default function InvoiceDetails() {
             {/* End of added code 16-04-2023 */}
 
             <div className='invoice_second_data_container'>
-              <span className="invoice_sub_heading">Total</span>
+              <span className="invoice_sub_heading"><b>Total</b></span>
               {/* Modified by :- Parineeta Gedam on 19-04-2023 */}
               {/* <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span> */}
               <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span>

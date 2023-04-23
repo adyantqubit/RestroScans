@@ -68,8 +68,14 @@ const Cart = () => {
       orderItem : orderItem,
     };
     var tenantName = localStorage.getItem("tenantName")
-    const response = await updateOrdersApi(tenantName,cartData);
-    if(response) {
+    const response = await updateOrdersApi(tenantName, cartData);
+    if (response) {
+
+      // Modified by :- Parineeta
+      localStorage.removeItem('order');
+      localStorage.removeItem('orderItem');
+      // end of code
+      
       secureLocalStorage.setItem("order", response.order)
       secureLocalStorage.setItem("orderItem", response.orderItemSerializer)
       // Added by rohan-22/4/23

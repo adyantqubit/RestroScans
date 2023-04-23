@@ -533,6 +533,14 @@ def orderCreation(tenant, request):
     tax = Setting.objects.first()
 
     if tax is not None:
+
+        # Modified by :- Parineeta Gedam
+        if tax.sgst is None:
+            tax.sgst = 0
+        if tax.cgst is None:
+            tax.cgst = 0
+        # End of modified code
+
         # added by rohan-14/4/23 to save tax on cgst and scgt
         # cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
         cartData['cgst'] = float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100))
@@ -831,6 +839,13 @@ class updateOrdersAPIView(APIView):
 
             # added by :- Parineeta Gedam on 16-04-2023
             # reason :- to save tax on cgst and scgt
+
+            # Modified by :- Parineeta Gedam
+            if tax.sgst is None:
+                tax.sgst = 0
+            if tax.cgst is None:
+                tax.cgst = 0
+        # End of modified code
 
             # modified by :- Parineeta Gedam
             cgst = (sum(itemsPrice)*(tax.cgst))/100
