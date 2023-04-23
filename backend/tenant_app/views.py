@@ -434,7 +434,7 @@ class SettingAPIView(APIView):
             settingSerializer={"data":0}
             return Response({
                 "msg":"no data",
-                "setting":"",
+                "setting":{},
                 })
     
     def post(self,request,tenant):
@@ -934,19 +934,35 @@ class AppThemeAPI(APIView):
         setting=Setting.objects.last()
         theme=AppTheme.objects.all()
         themeSerializer=AppThemeSerializer(theme,many=True)
-        if setting or theme is not None:
-           settingSerializer=SettingSerializer(setting)
-           return Response({
-            "msg":"success",
-            "themeOptions": themeSerializer.data,
-            "setting":settingSerializer.data,
-            })
+        data=dict()
+        
+        if setting:
+            settingSerializer=SettingSerializer(setting)
+            data["setting"]=settingSerializer.data
         else:
-            settingSerializer={"data":0}
-            return Response({
-                "msg":"no data",
-                "setting":"",
-                })
+            data["setting"]={}  
+
+        if theme:
+            themeSerializer=AppThemeSerializer(theme,many=True)
+            data["themeOptions"]=themeSerializer.data
+        else:
+            data["themeOptions"]=[] 
+
+        return Response({"msg":"success","setting":data["setting"],"themeOptions":data["themeOptions"]})
+        # if setting or theme is not None:
+        #    settingSerializer=SettingSerializer(setting)
+        #    return Response({
+        #     "msg":"success",
+        #     "themeOptions": themeSerializer.data,
+        #     "setting":settingSerializer.data,
+        #     })
+        # else:
+        #     settingSerializer={"data":0}
+        #     return Response({
+        #         "msg":"no data",
+        #         "themeOptions":[],
+        #         "setting":{},
+        #         })
     
     # def post(self,request,tenant):
     #     theme=AppTheme.objects.get(id=request.data["app_theme_id"])

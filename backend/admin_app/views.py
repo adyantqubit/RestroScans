@@ -54,7 +54,7 @@ class RestaurantRegistartionView(APIView):
                 #     return Response({"duplicate": "Mobile number has been already saved"})
                 # if request.data["email"] == RestaurantRequest.objects.filter(email = request.data["email"]) :
                 #     return Response({"duplicate": "Email has been already saved"})
-                return Response({'msg':'Saved successfully'})
+                return Response({'msg':'Registered Successfully'})
             else :
                 return Response({'err':'Something went wrong'})
         except Exception as e:

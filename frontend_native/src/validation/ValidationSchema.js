@@ -52,7 +52,7 @@ export const forgetPasswordSchema = yup.object().shape({
     .required("Confirm Password is required!")
     .oneOf(
       [yup.ref("password"), null],
-      "Password and Confirm Password does not match!"
+      "Password and confirm password should be same!"
     )
     .matches(
       /^(?!\s+$).*/,
@@ -149,4 +149,24 @@ export const userProfileSchema = yup.object().shape({
   // .required("State is required!"),
   city: yup.string(),
   // .required("City is required!"),
+});
+
+// Added by yuvraj Sahu on 22-04-2023
+// Reason - to validate setting
+export const settingSchema = yup.object().shape({
+  gstin: yup
+    .string()
+    .matches(
+      /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/,
+      "Enter valid GST number"
+    ),
+});
+
+// Added by yuvraj Sahu on 22-04-2023
+// Reason - to validate add menu
+export const addMenuSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Menu name is required!")
+    .max(30, ({ max }) => `Menu name should no be more than ${max} characters`),
 });

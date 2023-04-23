@@ -1,7 +1,8 @@
 // Created by Yuvraj Sahu on 8-4-2023
 // Reason - to setting app features
-
-import React, { useState, useEffect, useContext } from "react";
+import SelectDropdown from "react-native-select-dropdown";
+import { AntDesign } from "@expo/vector-icons";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -12,22 +13,34 @@ import {
   Pressable,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { saveSettingApi } from "../api/Services";
+import { getSettingApi, saveSettingApi } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from '../../src/components/Footer/Footer'
+import Footer from "../../src/components/Footer/Footer";
+import { Formik } from "formik";
+import { settingSchema } from "../validation/ValidationSchema";
 
 export default function SettingScreen({ navigation }) {
-  var { render, setRender, settings, getSettingData } =
-    useContext(AppStateContext);
+  // var { render, setRender, settings,setSettings, getSettingData } =
+  //   useContext(AppStateContext);
+
+  const isFocused = useIsFocused();
+  const [settings, setSettings] = useState({});
+  const [theme, setTheme] = useState("");
+  const [themeOption, setThemeOption] = useState([]);
+  var [themeList, setThemeList] = useState([]);
+  const [allowHalfPrice, setAllowHalfPrice] = useState(false);
+  useEffect(() => {
+    getSettingData();
+  }, [isFocused]);
 
   // Added by Yuvraj Sahu on 13-4-2023
   // Reason - to re render page
-  const isFocused = useIsFocused();
+
   // End of addition
 
   // Added by Yuvraj Sahu on 11-4-2023
@@ -35,57 +48,74 @@ export default function SettingScreen({ navigation }) {
   {
     /* This function is used to re-render the page  */
   }
-  React.useEffect(() => {
-    getSettingData();
-  }, [ isFocused]);
+
+  const getSettingData = async () => {
+    if (await SecureStore.getItemAsync("tenantInfo")) {
+      var tenant = JSON.parse(
+        await SecureStore.getItemAsync("tenantInfo")
+      ).tenant_name;
+      var response = await getSettingApi(tenant);
+      if (response) {
+        setSettings(response.setting);
+        setThemeOption(response.themeOptions);
+        setAllowHalfPrice(settings.allow_half_price);
+        // alert("setting-----------------------"+JSON.stringify(settings)+"theme options----------------------"+JSON.stringify(themeOption))
+      }
+      getMenus1();
+      // getMenus();
+    }
+  };
+
   // End of addition
 
   // Added by Yuvraj Sahu on 11-4-2023
   // Reason - to set themes in dropdown
-  const [theme, setTheme] = React.useState("");
-  var [themeOption, setThemeOption] = useState([]);
-  React.useEffect(() => {
-    getMenus();
-  }, []);
 
+  // useEffect(() => {
+  //   getMenus();
+  // }, []);
+
+  const getMenus1 = async () => {
+    // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    // if (response.categoryList) {
+    var themes = themeOption.map((e) => {
+      return { key: e.id, value: e.background_color + ", " + e.heading_color };
+    });
+
+    setThemeList(themes);
+  };
   const getMenus = async () => {
     // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
     // if (response.categoryList) {
-    setThemeOption(
-      settings.themeOptions.map(function (obj) {
-        obj["key"] = obj["id"]; // Assign new key
-        obj[
-          "value"
-        ] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
-        delete obj["id"];
-        delete obj["background_color"];
-        delete obj["heading_color"];
-        delete obj["subheading_color"];
-        delete obj["banner_heading_color"];
-        delete obj["heading_bgcolor"];
-        delete obj["subheading_bgcolor"];
-        return obj;
-      })
-    );
+    var themes = themeOption.map(function (obj) {
+      obj["key"] = obj["id"]; // Assign new key
+      obj[
+        "value"
+      ] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
+      delete obj["id"];
+      delete obj["background_color"];
+      delete obj["heading_color"];
+      delete obj["subheading_color"];
+      delete obj["banner_heading_color"];
+      delete obj["heading_bgcolor"];
+      delete obj["subheading_bgcolor"];
+      return obj;
+    });
+    setThemeOption(themes);
     // }
   };
-
-  const [allowHalfPrice, setAllowHalfPrice] = useState(
-    settings.setting.allow_half_price
-  );
 
   var [isDisable, setIsDisable] = useState(false);
 
   const handleRegister = async (formValues) => {
-  	// Added by Yuvraj Sahu on 20-4-2023
-  	// Reason - to disable btn 
-    setIsDisable(true);
+    // Added by Yuvraj Sahu on 20-4-2023
+    // Reason - to disable btn
+    // setIsDisable(true);
     // End of addition
     var formData = new FormData();
-    settings.setting.id != undefined
-      ? formData.append("id", settings.setting.id)
-      : null;
+    settings.id != undefined ? formData.append("id", settings.id) : null;
     // Commented by Yuvraj Sahu on 12-4-2023
     // Reason - to remove fields
     // formData.append("background_color", formValues.background_color);
@@ -100,6 +130,7 @@ export default function SettingScreen({ navigation }) {
     */
     // formData.append("tax", formValues.tax);
     /* End of addition */
+
     formData.append("allow_half_price", allowHalfPrice);
     formData.append("app_theme", theme);
     /**
@@ -113,23 +144,57 @@ export default function SettingScreen({ navigation }) {
     /**
      * End of addition
      */
+    // alert(JSON.stringify(formData));
+    // var tenant = JSON.parse(
+    //   await SecureStore.getItemAsync("tenantInfo")
+    // ).tenant_name;
+    // saveSettingApi(formData, tenant).then((response) => {
+    //   if (response.msg) {
+    //     Alert.alert(response.msg);
+    //     setIsDisable(false);
+    //     setRender(!render);
+    //     navigation.navigate("HomeScreen");
+    //   }
+    //   if (response.error) {
+    //     Alert.alert("Error", response.error);
+    //     setIsDisable(false);
+    //   }
+    // });
+  };
 
+  // ------------------------- formik regitration ------------------------
+  var [settingBtnDisable, setSettingBtnDisable] = useState(false);
+
+  const updateSetting = async (values, { resetForm }) => {
+    setSettingBtnDisable(true);
+    settings != undefined && (values["id"] = settings.id);
+    values["allow_half_price"] = allowHalfPrice;
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    saveSettingApi(formData, tenant).then((response) => {
-      if (response.msg) {
-        Alert.alert(response.msg);
-        setIsDisable(false);
-        setRender(!render);
-        navigation.navigate("HomeScreen");
+    values["app_theme"] =
+      theme != ""
+        ? theme
+        : settings.app_theme != undefined
+        ? settings.app_theme
+        : "";
+    saveSettingApi(values, tenant).then(async (res) => {
+      if (res.msg) {
+        Alert.alert(res.msg);
+        setSettingBtnDisable(false);
+        // resetForm({ values: "" });
+      } else {
+        Alert.alert("Something went wrong");
+        setSettingBtnDisable(false);
       }
-      if (response.error) {
-        Alert.alert("Error", response.error);
-        setIsDisable(false);
+      if (res.error) {
+        Alert.alert(res.error);
+        setSettingBtnDisable(false);
       }
     });
   };
+
+  // ----------------------End of formik registration--------------------
 
   const {
     control,
@@ -174,10 +239,12 @@ export default function SettingScreen({ navigation }) {
       Reason - to change tax to cgst and sgst
        */
       // tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
-      cgst:
-        settings.setting.cgst != undefined ? `${settings.setting.cgst}` : "",
-      sgst:
-        settings.setting.sgst != undefined ? `${settings.setting.sgst}` : "",
+      cgst: settings.cgst,
+      sgst: settings.sgst
+        ? settings.sgst != undefined
+          ? "" + settings.sgst
+          : ""
+        : "",
       /*
       End of comment and addition
       */
@@ -186,28 +253,40 @@ export default function SettingScreen({ navigation }) {
      Added by Yuvraj Sahu on 16-4-2023
      Reason - to add new field
      */
-      gstin:
-        settings.setting.cgst != undefined ? `${settings.setting.gstin}` : "",
-      fssaino:
-        settings.setting.cgst != undefined ? `${settings.setting.fssaino}` : "",
+      gstin: settings.gstin
+        ? settings.gstin != undefined
+          ? "" + settings.gstin
+          : ""
+        : "",
+      fssaino: settings.fssaino
+        ? settings.fssaino != undefined
+          ? "" + settings.fssaino
+          : ""
+        : "",
       /*
        * End of addition
        */
 
-      allow_half_price:
-        settings.setting.allow_half_price != undefined
-          ? settings.setting.allow_half_price
-          : "",
+      allow_half_price: settings.allow_half_price,
     },
   });
 
+  // function updateSetting(e,inputBox){
+  //   // alert(e+",,,,,"+inputBox)
+  //   var oldSetting=settings;
+  //   oldSetting.cgst=e;
+  //   alert(JSON.stringify(oldSetting))
+  //   setSettings(oldSetting)
+  // }
+  // alert("settings.gstin" + JSON.stringify(settings.cgst));
+
   return (
     <>
-    <ScrollView>
-      <View style={styles.container}>
-        {/* Commented by Yuvraj Sahu on 12-4-2023
-      Reason - to remove feilds */}
-        {/* <View style={{ marginTop: 5 }}>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Commented by Yuvraj Sahu on 12-4-2023
+        Reason - to remove feilds */}
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             Background Color
           </Text>
@@ -414,14 +493,59 @@ export default function SettingScreen({ navigation }) {
             )}
           />
         </View> */}
-        {/*End of Comment */}
-        <View style={{ marginTop: 5 }}>
+          {/*End of Comment */}
+          {/* <SelectDropdown
+            defaultValue={
+              themeOption.filter((e) => {
+                return e.id == settings.app_theme;
+              })[0]
+            }
+            data={themeOption}
+            dropdownOverlayColor="rgba(0,0,0,0)"
+            buttonTextStyle={{ fontSize: 16 }}
+            rowTextStyle={{ fontSize: 16 }}
+            rowStyle={{ height: 41 }}
+            selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+            dropdownStyle={{
+              borderRadius: 10,
+              backgroundColor: "white",
+              borderWidth: 1,
+            }}
+            renderDropdownIcon={() => {
+              return <AntDesign name="down" size={14} color="black" />;
+            }}
+            buttonStyle={{
+              height: 41,
+              borderColor: "black",
+              borderWidth: 1,
+              borderRadius: 10,
+              backgroundColor: "white",
+              width: "94%",
+              alignSelf: "center",
+            }}
+            onSelect={(selectedItem, index) => {
+              setTheme(selectedItem.id);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return (
+                selectedItem.background_color +
+                ", " +
+                selectedItem.heading_color
+              );
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.background_color + ", " + item.heading_color;
+            }}
+          /> */}
+
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>Select theme option</Text>
         </View>
         <SelectList
           setSelected={setTheme}
-          data={themeOption}
+          data={themeList}
           search={false}
+          
           // Added by Yuvraj Sahu on 13-4-2023
           // Reason - to design dropdown
           dropdownStyles={{
@@ -438,14 +562,14 @@ export default function SettingScreen({ navigation }) {
             marginTop: 10,
           }} //override default styles
           defaultOption={{
-            key: settings.setting.id,
-            value: `${settings.setting.background_color}, ${settings.setting.heading_color}, ${settings.setting.subheading_color}`,
+            key: settings.id,
+            value: `${settings.background_color}, ${settings.heading_color}, ${settings.subheading_color}`,
           }}
-        />
+        /> */}
 
-        {/* Commented and added by Yuvraj Sahu on 16-4-2023
+          {/* Commented and added by Yuvraj Sahu on 16-4-2023
         Reason - to replace tax with cgst and sgst */}
-        {/* <View style={{ marginTop: 10 }}>
+          {/* <View style={{ marginTop: 10 }}>
           <Text style={styles.labels}>
             Tax
           </Text>
@@ -483,7 +607,7 @@ export default function SettingScreen({ navigation }) {
             )}
           />
         </View> */}
-        <View style={{ marginTop: 10 }}>
+          {/* <View style={{ marginTop: 10 }}>
           <Text style={styles.labels}>CGST</Text>
           <Controller
             control={control}
@@ -557,12 +681,12 @@ export default function SettingScreen({ navigation }) {
               </>
             )}
           />
-        </View>
-        {/* End of comment and addition */}
+        </View> */}
+          {/* End of comment and addition */}
 
-        {/* Added by Yuvraj Sahu on 16-4-2023
+          {/* Added by Yuvraj Sahu on 16-4-2023
         Reason - to add gstin no and fssaino */}
-        <View style={{ marginTop: 10 }}>
+          {/* <View style={{ marginTop: 10 }}>
           <Text style={styles.labels}>GSTIN</Text>
           <Controller
             control={control}
@@ -639,10 +763,9 @@ export default function SettingScreen({ navigation }) {
               </>
             )}
           />
-        </View>
-        {/* End of addition */}
+        </View> */}
 
-        <View style={styles.activeStatus}>
+          {/* <View style={styles.activeStatus}>
           <Checkbox
             // style={styles.checkbox}
             value={allowHalfPrice}
@@ -653,6 +776,7 @@ export default function SettingScreen({ navigation }) {
         </View>
 
         <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 20 }}>
+        
           <Pressable
             onPress={handleSubmit(handleRegister)}
             disabled={isDisable}
@@ -679,13 +803,271 @@ export default function SettingScreen({ navigation }) {
               Save
             </Text>
           </Pressable>
+        </View> */}
+
+          {/* ------------------------------- formik ---------------------------- */}
+
+          <Formik
+            enableReinitialize={true}
+            initialValues={{
+              cgst: settings.cgst != undefined ? settings.cgst : "",
+              sgst: settings.sgst != undefined ? settings.sgst : "",
+              gstin: settings.gstin,
+              fssaino: settings.fssaino,
+              // app_theme: "",
+            }}
+            validateOnMount={true}
+            validationSchema={settingSchema}
+            onSubmit={updateSetting}
+           >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              // Modified by Yuvraj Sahu on 20-4-2023
+              // Reason - to design screen
+              // <ScrollView style={styles.container}>
+              <View style={styles.container}>
+                <View>
+                  <Text style={styles.labels}> Select Theme</Text>
+                  <SelectDropdown
+                    defaultValue={
+                      themeOption.filter((e) => {
+                        return e.id == settings.app_theme;
+                      })[0]
+                    }
+                    data={themeOption}
+                    dropdownOverlayColor="rgba(0,0,0,0)"
+                    buttonTextStyle={{ fontSize: 16 }}
+                    rowTextStyle={{ fontSize: 16 }}
+                    rowStyle={{ height: 41 }}
+                    selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                    dropdownStyle={{
+                      borderRadius: 10,
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                    }}
+                    renderDropdownIcon={() => {
+                      return <AntDesign name="down" size={14} color="black" />;
+                    }}
+                    buttonStyle={{
+                      height: 41,
+                      borderColor: "black",
+                      borderWidth: 1,
+                      borderRadius: 10,
+                      backgroundColor: "white",
+                      width: "94%",
+                      alignSelf: "center",
+                      marginBottom: 10,
+                    }}
+                    onSelect={(selectedItem, index) => {
+                      setTheme(selectedItem.id);
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                      return (
+                        selectedItem.background_color +
+                        ", " +
+                        selectedItem.heading_color
+                      );
+                    }}
+                    rowTextForSelection={(item, index) => {
+                      return item.background_color + ", " + item.heading_color;
+                    }}
+                  />
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      CGST
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("cgst")}
+                      onBlur={handleBlur("cgst")}
+                      value={"" + values.cgst}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter CGST"
+                      keyboardType="number-pad"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {errors.cgst && touched.cgst && (
+                      <Text style={styles.textdanger}>{errors.cgst}</Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      SGST
+                    </Text>
+                    {/* <View style={styles.passContainer}> */}
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("sgst")}
+                      onBlur={handleBlur("sgst")}
+                      value={"" + values.sgst}
+                      placeholderTextColor="#A4A4A4"
+                      keyboardType="number-pad"
+                      placeholder="Enter SGST"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      // secureTextEntry={!showPassword}
+                      // backgroundColor={!isInputDisable ? "#E0E0E0" : "white"}
+                      // editable={!isInputDisable ? false : true}
+                    />
+                    {/* </View> */}
+
+                    {errors.sgst && touched.sgst && (
+                      <Text style={styles.textdanger}>{errors.sgst}</Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      GSTIN
+                    </Text>
+
+                    {/* <View style={styles.passContainer}> */}
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("gstin")}
+                      onBlur={handleBlur("gstin")}
+                      value={values.gstin}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter GSTIN"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                  </View>
+                  {errors.gstin && touched.gstin && (
+                    <Text style={styles.textdanger}>{errors.gstin}</Text>
+                  )}
+                  {/* </View> */}
+
+                  {/* <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      FSSAI NO.
+                    </Text>
+
+                    <View style={styles.passContainer}>
+                      <TextInput
+                        style={styles.fssaino}
+                        onChangeText={handleChange("fssaino")}
+                        onBlur={handleBlur("fssaino")}
+                        // value={values.fssaino}
+                        placeholderTextColor="#A4A4A4"
+                        placeholder="Enter FSSAI"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                      />
+                    </View>
+
+                    {errors.fssaino && touched.fssaino && (
+                      <Text style={styles.textdanger}>{errors.fssaino}</Text>
+                    )}
+                  </View> */}
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      FSSAI NO.
+                    </Text>
+
+                    {/* <View style={styles.passContainer}> */}
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("fssaino")}
+                      onBlur={handleBlur("fssaino")}
+                      value={values.fssaino}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter FSSAI NO."
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {/* </View> */}
+
+                    {errors.fssaino && touched.fssaino && (
+                      <Text style={styles.textdanger}>{errors.fssaino}</Text>
+                    )}
+                  </View>
+
+                  <View style={styles.activeStatus}>
+                    <Checkbox
+                      // style={styles.checkbox}
+                      value={allowHalfPrice}
+                      onValueChange={setAllowHalfPrice}
+                      color={allowHalfPrice ? "#4630EB" : undefined}
+                    />
+                    {/* <Text style={styles.activeLable}>Allow half price</Text> */}
+                    <Pressable
+                      onPress={() => setAllowHalfPrice(!allowHalfPrice)}
+                    >
+                      <Text style={styles.activeLable}>Allow half price</Text>
+                    </Pressable>
+                  </View>
+
+                  <View
+                    style={{
+                      marginBottom: 30,
+                      marginHorizontal: 10,
+                      marginTop: 10,
+                    }}
+                  >
+                    <Pressable
+                      onPress={handleSubmit}
+                      disabled={settingBtnDisable}
+                      // disabled={!isInputDisable && !isBtnDisable}
+                      style={{
+                        // backgroundColor:
+                        //   isInputDisable && !isBtnDisable
+                        //     ? colors.btnColor
+                        //     : "#E0E0E0",
+                        backgroundColor: settingBtnDisable
+                          ? "#E0E0E0"
+                          : colors.btnColor,
+                        height: 40,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        width: 150,
+                        alignSelf: "center",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          // color: !isBtnDisable ? "white" : "#989898",
+                          color: settingBtnDisable ? "#989898" : colors.white,
+                          color: colors.white,
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Update Setting
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+            )}
+          </Formik>
+
+          {/* ------------------------------- End formik ---------------------------- */}
         </View>
-      </View>
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-           {/* End of addition */}
-        </>
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -695,6 +1077,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     backgroundColor: "#fff",
+    paddingTop: 10,
   },
   mainHeader: {
     marginTop: 10,
@@ -703,21 +1086,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    marginTop: 2,
     fontSize: 16,
     borderRadius: 10,
+    marginBottom: 20,
   },
   labels: {
     paddingHorizontal: 10,
   },
   textdanger: {
     color: "#dc3545",
+    marginTop: -10,
     marginBottom: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   dropdownText: {
     fontSize: 14,

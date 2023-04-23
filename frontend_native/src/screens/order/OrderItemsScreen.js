@@ -803,6 +803,7 @@ function ExtractDateTime(format) {
                 alignSelf: "center",
                 marginTop: 1,
                 height: 125,
+                width: 130
               }}
               boxStyles={{
                 // width: "93%",
@@ -810,6 +811,7 @@ function ExtractDateTime(format) {
                 borderRadius: 5,
                 borderColor: "black",
                 // marginTop: 10,
+                width: 130
               }}
               //override default styles
               defaultOption={{
@@ -833,11 +835,13 @@ function ExtractDateTime(format) {
                 alignSelf: "center",
                 marginTop: 1,
                 height: 100,
+                width: 130
               }}
               boxStyles={{
                 alignSelf: "center",
                 borderRadius: 5,
                 borderColor: "black",
+                width: 130
               }}
               defaultOption={{
                 key: orderDetail.payment_status,
