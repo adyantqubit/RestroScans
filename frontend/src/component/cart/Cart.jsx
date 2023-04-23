@@ -72,8 +72,8 @@ const Cart = () => {
     if (response) {
 
       // Modified by :- Parineeta
-      localStorage.removeItem('order');
-      localStorage.removeItem('orderItem');
+      secureLocalStorage.removeItem('order');
+      secureLocalStorage.removeItem('orderItem');
       // end of code
       
       secureLocalStorage.setItem("order", response.order)
