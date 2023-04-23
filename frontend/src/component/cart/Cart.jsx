@@ -299,7 +299,7 @@ function BlankPage() {
           <div className={style.totalHeadingContainer}>
               {/* Modified by :- Parineeta Gedam on 19-04-2023 */}
               {/* <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.total}</span> */}
-            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.total}</span>
+            <span className={style.cartHeading} style={{ color: colors.subHeadingColor }}>{orders.total.toFixed(2)}</span>
               {/* End of modified code on 19-04-2023 */}
           </div> 
         </div>

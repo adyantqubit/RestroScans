@@ -36,6 +36,9 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     var [sizeSelected, setSizeSlelected] = useState(null)
 
     if (typeof item?.item_name != "undefined"){
+        // Added by Rohan Kansari - 23/4/23
+        // reason- Beacuse Offer item id is saved in item_id so we have to save manually 
+        item['id']=item.item_id
         item['name']=item.item_name
         item['icon']=item.item_image
     }
@@ -227,9 +230,14 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             duration:3,
             style:{
                 top:"25px",
-                background:colors.bannerColor,
-                color:colors.backgroundTheme
+                background:colors.subheadingBackgroundColor,
+                color:colors.subHeadingColor
             },
+
+            // Added by Rohan kansari - 23/4/23
+            //Reason - To fixed notification show only one time 
+              key: 1,
+            // end of code
             
             })
         // messageApi.open({

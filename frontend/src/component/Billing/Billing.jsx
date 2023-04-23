@@ -115,18 +115,18 @@ const Billing = () => {
 
                 <div className={style.CalculationBoxContainer}>
                     <div className={style.calculationBox}>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}>Sub-Total :</div> <div className={style.calculationText}>₹ {SubtotalOfItems()}</div></div>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}>CGST (%{billingData.detail.cgst/SubtotalOfItems()*100}) :</div> <div className={style.calculationText}>₹ {billingData.detail.cgst}</div></div>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}>SGST (%{billingData.detail.sgst/SubtotalOfItems()*100}) :</div> <div className={style.calculationText}>₹ {billingData.detail.sgst}</div></div>
+                        <div className={style.calculationLine}><div className={style.calculationLabel}>Sub-Total :</div> <div className={style.calculationText}>₹ {SubtotalOfItems().toFixed(2)}</div></div>
+                        <div className={style.calculationLine}><div className={style.calculationLabel}>CGST (%{(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}) :</div> <div className={style.calculationText}>₹ {(billingData.detail.cgst).toFixed(2)}</div></div>
+                        <div className={style.calculationLine}><div className={style.calculationLabel}>SGST (%{(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}) :</div> <div className={style.calculationText}>₹ {(billingData.detail.sgst).toFixed(2)}</div></div>
                         <div className={style.breakLine} />   
-                        <div className={style.calculationLine}><div className={style.calculationLabel}>Total :</div> <div className={style.calculationText}>₹ {SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst}</div></div>
+                        <div className={style.calculationLine}><div className={style.calculationLabel}>Total :</div> <div className={style.calculationText}>₹ {(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFIxed(2)}</div></div>
                     </div>
                 </div>
 
                 <div className={style.breakLine} />
                 <div className={style.TotalBoxContainer} >
                     <div className={style.TotalBox}>
-                        <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>₹ {SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst}</div></div>
+                        <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>₹ {(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
                     </div>
                 </div>
                 <div className={style.breakLine} />

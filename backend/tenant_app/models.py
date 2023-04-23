@@ -254,6 +254,12 @@ class Offer(models.Model):
     # End of addition
     description=models.TextField(null=True,blank=True)
     
+    # Added by Rohan Kansari- 23/4/23
+    # Reason - Adding video column for Banner and allow to give permission
+    video_link=models.CharField(max_length=500,blank=True,null=True)
+    show_video_Hide_Image=models.BooleanField(default=False)
+    #End of code - RohanKansari - 23/4/23
+    
     def __str__(self):
         return self.offer_name
     

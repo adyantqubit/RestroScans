@@ -22,12 +22,11 @@ import crossKnifeImg from '../../images/cross_sign.jpg'
 import vegIcon from '../../images/veg_icon.png'
 import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
-import { MdRoomService ,MdOutlineKeyboardArrowUp,MdOutlineKeyboardArrowDown} from "react-icons/md";
+import { MdRoomService, MdOutlineKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
-
 
 
 // Import Swiper styles
@@ -47,7 +46,7 @@ import secureLocalStorage from "react-secure-storage";
 
 function MenuItem() {
 
- // added by rohan - 17/4/23
+  // added by rohan - 17/4/23
   // reason- To validate user is in same tenant of not
   TenantValidate()
   // end of code - rohan kansari -17/4/23
@@ -622,10 +621,10 @@ function MenuItem() {
               pagination={{
                 clickable: true,
               }}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
+              // autoplay={{
+              //   delay: 2500,
+              //   disableOnInteraction: false,
+              // }}
               // mousewheel={true}
               keyboard={true}
               modules={[Navigation, Pagination, Autoplay]}
@@ -641,6 +640,8 @@ function MenuItem() {
                       e => onOfferShow(item.offer_name)
                     }
                   >
+
+                    {/*                      
                     <img
                       src={siteConfig.siteURL + item.offer_image}
                       className='offer_banner'
@@ -650,7 +651,35 @@ function MenuItem() {
                       style={{ color: colors.bannerColor }}
                     >
                       {item.offer_name}
-                    </h2>
+                    </h2> */}
+
+                    {/* Modified by rohan kansari - 23/4/23
+                        Reason - To Show video if video section is selected from backend */}
+
+                    {
+                     ! item.show_video_Hide_Image ?
+                        <>
+                          <img
+                            src={siteConfig.siteURL + item.offer_image}
+                            className='offer_banner'
+                          />
+                          <h2
+                            className='offer_content'
+                            style={{ color: colors.bannerColor }}
+                          >
+                            {item.offer_name}
+                          </h2>
+                        </> :
+                        // <video width="100%"  id="player1" preload="none" >
+                        //   <source type="video/youtube" src="http://www.youtube.com/watch?v=nOEw9iiopwI" />
+                        // </video>
+                        <div className="container">
+                         <iframe className="responsive-iframe" width="100%" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"/>
+                        </div>
+                    }
+
+                    {/* End of code - 23/4/23 - Rohan kansari */}
+
                   </div>
                 </SwiperSlide>
               ))}
@@ -733,7 +762,7 @@ function MenuItem() {
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
               : null}
-              {/*End of Code */}
+            {/*End of Code */}
           </div>
           {/* Added by Rohan- 9/4/23  Reason- cart page */}
           {/*added by rohan -18/4/23- to add functionality of subscription */}
@@ -846,7 +875,7 @@ function MenuItem() {
                         <div style={{
                           display: 'flex',
                           padding: '5% 0% 0% 0%',
-                          justifyContent:"space-between",
+                          justifyContent: "flex-end",
                           color: 'lightblue'
                         }}
                         >
@@ -895,14 +924,14 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                       {person.price_full ?  <strike>₹ {person.price_full}</strike>: <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {person.price_full ? <strike>₹ {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {person.price_half ?  <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {person.price_half ? <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4> : null}
                                   </div>
 
@@ -912,7 +941,7 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {searchSectionFullPrice(person)>0?<>₹ {searchSectionFullPrice(person)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {searchSectionFullPrice(person) > 0 ? <>₹ {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
@@ -920,7 +949,7 @@ function MenuItem() {
                                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                         className="allitems_price"
                                       >
-                                       {searchSectionHalfPrice(person)>0?<> ₹ {searchSectionHalfPrice(person)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                        {searchSectionHalfPrice(person) > 0 ? <> ₹ {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                       </h4> : null}
                                   </div>
 
@@ -945,12 +974,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '2%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -960,9 +989,9 @@ function MenuItem() {
                                     ) : null}
                                     {/* End of added code 10-04-2023 */}
 
-                                    <span onClick={e => toggleDescription(e.currentTarget.style)} className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor ,padding:"0 5px" }}>
-                                      
-                                    {subscribePlan?.includes("order") ? <button className="add_product" style={{
+                                    <span onClick={e => toggleDescription(e.currentTarget.style)} className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor, padding: "0 5px" }}>
+
+                                      {subscribePlan?.includes("order") ? <button className="add_product" style={{
                                         color: colors.bannerColor,
                                         backgroundColor: "transparent",
                                         border: `1px solid ${colors.bannerColor}`,
@@ -972,10 +1001,10 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
-                                      {person.description} 
-                                      </span>
+                                      {person.description}
+                                    </span>
                                   </div>
-                                  
+
                                   {/* added by rohan -9/4/23
                                       reason- add button to add item to list */}
                                   {/* <div>
@@ -1044,12 +1073,12 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1074,12 +1103,12 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
-                                          <ReactReadMoreReadLess
-                                          charLimit={55}
-                                          readMoreText={"more"}
-                                          readLessText={"less"}
+                                      <ReactReadMoreReadLess
+                                        charLimit={55}
+                                        readMoreText={"more"}
+                                        readLessText={"less"}
                                       >
-                                      {person.description&&person.description.length>0?person.description:"  "}
+                                        {person.description && person.description.length > 0 ? person.description : "  "}
                                       </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1159,7 +1188,7 @@ function MenuItem() {
             display: 'flex',
             padding: '5% 0% 0% 0%',
             color: 'lightblue',
-            justifyContent:"space-between",
+            justifyContent: "flex-end",
 
           }}
           >
@@ -1192,31 +1221,31 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        {showdata.item_fullprice ?  <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {showdata.item_fullprice ? <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        {showdata.item_halfprice ?  <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {showdata.item_halfprice ? <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                       </h4> : null}
                     </div>
 
                     <div className="price_description_container" >
-                      <h4 style={{ color: 'red',}}
+                      <h4 style={{ color: 'red', }}
                         className="allitems_name">Offered price</h4>
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        {totalFullPrice(showdata)>0?<>₹ {totalFullPrice(showdata)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {totalFullPrice(showdata) > 0 ? <>₹ {totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                      {totalHalfPrice(showdata)>0?<> ₹ {totalHalfPrice(showdata)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {totalHalfPrice(showdata) > 0 ? <> ₹ {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                       </h4> : null}
                     </div>
 
@@ -1243,12 +1272,12 @@ function MenuItem() {
                                     */}
                       {showdata.item_type == 'Veg' ? (
                         <>
-                          <img src={vegIcon} style={{ width: '5%', height: '50%', marginTop:'2px' }} alt="kk" className=""></img>
+                          <img src={vegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Nonveg' ? (
                         <>
-                          <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
+                          <img src={nonVegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Other' ? (
@@ -1273,12 +1302,12 @@ function MenuItem() {
                             style={{
                               color: colors.bannerColor
                             }} />Add</button> : null}
-                            <ReactReadMoreReadLess
-                                          charLimit={55}
-                                          readMoreText={"more"}
-                                          readLessText={"less"}
-                                      >
-                        {showdata.item_description&&showdata.item_description.length>0?showdata.item_description:" "}
+                        <ReactReadMoreReadLess
+                          charLimit={55}
+                          readMoreText={"more"}
+                          readLessText={"less"}
+                        >
+                          {showdata.item_description && showdata.item_description.length > 0 ? showdata.item_description : " "}
                         </ReactReadMoreReadLess>
                       </span>
                       {/* End of code - 16/4/23*/}
@@ -1402,11 +1431,11 @@ function MenuItem() {
                         display: 'flex',
                         padding: '5% 0% 0% 0%',
                         color: 'lightblue',
-                        justifyContent:"space-between",
+                        justifyContent: "flex-end",
 
                       }}
                       >
-                        <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center',paddingLeft: colors.allow_half_price?"4%":"1%" }}>
+                        <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center', paddingLeft: colors.allow_half_price ? "4%" : "1%" }}>
                           Item name
                         </div>
                         <div className="allitems_heading_price" style={{ color: colors.bannerColor, }} >Full price</div>
@@ -1450,14 +1479,14 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {m.price_full ? <strike>₹ { m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {m.price_full ? <strike>₹ {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                       {m.price_half ? <strike>₹ { m.price_half}</strike> :<>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {m.price_half ? <strike>₹ {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                     </h4> : null}
                                   </div>
 
@@ -1467,12 +1496,12 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {mainSectionFullPrice(m)>0?<> ₹ {mainSectionFullPrice(m)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {mainSectionFullPrice(m) > 0 ? <> ₹ {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                     </h4>
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                       {mainSectionHalfPrice(m)>0? <> ₹ {mainSectionHalfPrice(m)}</>:<>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {mainSectionHalfPrice(m) > 0 ? <> ₹ {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
                                     </h4> : null}
                                   </div>
 
@@ -1499,12 +1528,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'}} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'}} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
@@ -1528,12 +1557,12 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
-                                          <ReactReadMoreReadLess
-                                          charLimit={55}
-                                          readMoreText={"more"}
-                                          readLessText={"less"}
+                                      <ReactReadMoreReadLess
+                                        charLimit={55}
+                                        readMoreText={"more"}
+                                        readLessText={"less"}
                                       >
-                                      {m.description&&m.description.length>0?m.description:" "}
+                                        {m.description && m.description.length > 0 ? m.description : " "}
                                       </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1568,7 +1597,7 @@ function MenuItem() {
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_half ? '₹' + m.price_half :<>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                    >{m.price_half ? '₹' + m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
@@ -1591,12 +1620,12 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'}} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{ width: '5%', height: '50%',marginTop:'2px'  }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
@@ -1622,12 +1651,12 @@ function MenuItem() {
                                             color: colors.bannerColor
                                           }}
                                         />Add</button> : null}
-                                        <ReactReadMoreReadLess
-                                          charLimit={55}
-                                          readMoreText={"more"}
-                                          readLessText={"less"}
+                                      <ReactReadMoreReadLess
+                                        charLimit={55}
+                                        readMoreText={"more"}
+                                        readLessText={"less"}
                                       >
-                                      {m.description&&m.description.length>0?m.description:" "}
+                                        {m.description && m.description.length > 0 ? m.description : " "}
                                       </ReactReadMoreReadLess>
                                     </span>
                                     {/* End of code - 16/4/23*/}
@@ -1664,7 +1693,9 @@ function MenuItem() {
 
         <br />
 
-        <div className="main_footer_container" style={{ backgroundColor: colors.backgroundTheme }}>
+        {/* {menuListVisible? */}
+        <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
+          {/* <div className="drawerBtn" onClick={e=>setmenuListVisiblity(!menuListVisible)} style={{backgroundColor:colors.bannerColor}}><MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{color:colors.backgroundTheme}}/></div> */}
           <div className="footer_btn_container" >
             <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
           </div>
@@ -1700,6 +1731,10 @@ function MenuItem() {
           </div>
 
         </div>
+        {/* :
+     <div className="blank_menu_Container">
+       <div className="drawerBtn" onClick={e=>setmenuListVisiblity(!menuListVisible)} style={{backgroundColor:colors.bannerColor}}><MdOutlineKeyboardArrowUp color="white"  className="arrow_toggle" style={{color:colors.backgroundTheme}}/></div>
+      </div>}  */}
 
         {/* <Footer /> */}
       </div>
