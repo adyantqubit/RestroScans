@@ -500,7 +500,7 @@ function ExtractDateTime(format) {
         orderItem =
           orderItem +
           `<div class="tableContents ">
-              <div class="quantityText">1</div>
+              <div class="quantityText">${i+1}</div>
               <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
               <div class="rateText">${orderItems[i].quantity}</div>
               <div class="totalText"></div>
