@@ -178,8 +178,8 @@ function ExtractDateTime(format) {
         `<div class="tableContents ">
                   <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
                   <div class="quantityText">${orderItems[i].quantity}</div>
-                  <div class="rateText">₹ ${orderItems[i].price}</div>
-                  <div class="totalText"> ₹ ${orderItems[i].quantity * orderItems[i].price}</div>
+                  <div class="rateText">${orderItems[i].price}</div>
+                  <div class="totalText"> ${orderItems[i].quantity * orderItems[i].price}</div>
 
                 </div>`;
     }
@@ -200,42 +200,42 @@ function ExtractDateTime(format) {
             <hr>
 
             <div class="inLineContainer">
-              <div class="label">Date :  </div>
-              <div class="text"> ${new Date(orderDetail.date).toLocaleDateString()}</div>
-              <div class="label">Time :  </div>
-              <div class="text">${ExtractDateTime(orderDetail.date).time}</div>
+              <div class="label">Date </div>
+              <div class="text">    ${new Date(orderDetail.date).toLocaleDateString()}</div>
+              <div class="label">Time  </div>
+              <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
 
             </div>
             <div class="inLineContainer">
-              <div class="label">Bill :  </div>
+              <div class="label">Bill   </div>
               <div class="text"> ${orderDetail.order_id}</div>
-              <div class="label">Table : </div>
-              <div class="text">${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
+              <div class="label">Table </div>
+              <div class="text">  ${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
               
             </div>
             <div class="inLineContainer">
-            <div class="label">Pax : </div>
+            <div class="label">Pax  </div>
             <div class="text"> ${orderDetail.pax}</div>
-            <div class="label">Sess :   </div>
-            <div class="text">${orderDetail.sess}</div>
+            <div class="label">Sess   </div>
+            <div class="text">   ${orderDetail.sess}</div>
             </div>
             <div class="inLineContainer">
-              <div class="label">Dshr :   </div>
-              <div class="text">${!orderDetail.dshr? "N/A":orderDetail.dshr}</div>
-              <div class="label">Capt :   </div>
-              <div class="text">${!orderDetail.capt? "N/A":orderDetail.capt}</div>
+              <div class="label">Dshr   </div>
+              <div class="text">   ${!orderDetail.dshr? "N/A":orderDetail.dshr}</div>
+              <div class="label">Capt   </div>
+              <div class="text">  ${!orderDetail.capt? "N/A":orderDetail.capt}</div>
             </div>
             <div class="inLineContainer">
-              <div class="label">Payment :   </div>
-              <div class="text">${orderDetail.payment_mode}</div>
-              <div class="label">Status :   </div>
-              <div class="text">${orderDetail.payment_status}</div>
+              <div class="label">Payment   </div>
+              <div class="text">  ${orderDetail.payment_mode}</div>
+              <div class="label">Status   </div>
+              <div class="text">  ${orderDetail.payment_status}</div>
             </div>
             <div class="tableHeader">
               <div class="titleHeading"> Item Name   </div>
               <div class="quantityHeading">Qty</div>
-              <div class="rateHeading">     Rate </div>
-              <div class="totalHeading"> Amount</div>
+              <div class="rateHeading">     Rate(₹) </div>
+              <div class="totalHeading"> Amt(₹)</div>
             </div>
             
           ${itemStr} 
@@ -243,21 +243,21 @@ function ExtractDateTime(format) {
           <div class='CalculationBoxContainer'>
             <div class="calculationBox">
               <div class="calculationLine">
-                <div  class="calculationLabel" > Sub -Total :</div>
-                <div  class="calculationText" > ${SubtotalOfItems()}</div>
+                <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
+                <div  class="calculationText" >₹${SubtotalOfItems()}</div>
               </div>
               <div class="calculationLine">
-                <div  class="calculationLabel" > CGST %${(orderDetail.cgst/SubtotalOfItems()*100).toFixed(2)}</div>
-                <div  class="calculationText" >₹ ${orderDetail.cgst}  </div>
+                <div  class="calculationLabel" > CGST (%${(orderDetail.cgst/SubtotalOfItems()*100).toFixed(2)}) :</div>
+                <div  class="calculationText" >₹${orderDetail.cgst}  </div>
               </div>
               <div class="calculationLine">
-                <div  class="calculationLabel" > SGST %${(orderDetail.sgst/SubtotalOfItems()*100).toFixed(2)}</div>
-                <div  class="calculationText" >₹ ${orderDetail.sgst} </div>
+                <div  class="calculationLabel" > SGST (%${(orderDetail.sgst/SubtotalOfItems()*100).toFixed(2)}) :</div>
+                <div  class="calculationText" >₹${orderDetail.sgst} </div>
               </div>
               <hr>
               <div class="calculationLine">
                 <div  class="calculationLabel" > Total :</div>
-                <div  class="calculationText" >₹ ${SubtotalOfItems()+orderDetail.cgst+orderDetail.sgst}</div>
+                <div  class="calculationText" >₹${(SubtotalOfItems()+orderDetail.cgst+orderDetail.sgst).toFixed(2)}</div>
               </div>
             </div>
           </div> 
@@ -265,8 +265,10 @@ function ExtractDateTime(format) {
           <div class="TotalBoxContainer">
             <div class="TotalBox">
                 <div class="calculationLine">
-                  <div class="TotalLabel">Total :</div>
-                  <div class="grandTotalText">₹ ${SubtotalOfItems()+orderDetail.cgst+orderDetail.sgst}</div>
+                  <div class="TotalLabel">Total </div>
+                  <div class="TotalLabel">: </div>
+
+                  <div class="grandTotalText">₹${(SubtotalOfItems()+orderDetail.cgst+orderDetail.sgst).toFixed(2)}</div>
                 </div>
             </div>
           </div>
@@ -290,7 +292,7 @@ function ExtractDateTime(format) {
 .billingContainer {
   font-family:monospace;
   letter-spacing: 0.6px;
-  width: 320px;
+  width: 300px;
   height: auto;
   margin: 0 auto;
   border-radius: 5px;
@@ -314,23 +316,23 @@ function ExtractDateTime(format) {
 }
 .centerLabel{
   min-width: 100%;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
   text-align: center;
 }
 .label {
-  min-width: 22%;
-  font-size: 12px;
+  min-width: 15%;
+  font-size: 10px;
   font-weight: 700;
-  padding: 0 3%;
+  padding: 0 2%;
   text-align: start;
   white-space: nowrap;
 }
 .text {
   min-width: 22%;
   word-break: break-all;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   text-align: left;
 }
 .tableHeader {
@@ -344,64 +346,64 @@ function ExtractDateTime(format) {
   gap: 8px;
 }
 .titleHeading {
-  font-size: 12px;
+  font-size: 10px;
   width: 60%;
-  padding: 2% 0%;
-  padding-right: 8%;
-  font-weight: 700;
+  padding: 2% 0% 2% 1%;
+  
+  font-weight: 600;
   text-align: start;
 }
 .quantityHeading {
-  font-size: 12px;
+  font-size: 10px;
   width: 20%;
-  padding: 2% 4%;
-  font-weight: 700;
+  padding: 2% 0% 2% 12%;
+  font-weight: 600;
 }
 .rateHeading {
-  font-size: 12px;
+  font-size: 10px;
   width: 15%;
   padding: 2% 4%;
-  font-weight: 700;
+  font-weight: 600;
 }
 .totalHeading {
-  font-size: 12px;
+  font-size: 10px;
   width: 15%;
   padding: 2% 4%;
-  font-weight: 700;
+  font-weight: 600;
 }
 .tableContents {
   min-height: 30px;
-  width: 320px;
+  width: 95%;
   margin:0 auto;
-  margin: 1px 0;
+  margin: 1px 0 !important;
   display: flex;
   gap: 4px;
 }
 .titleText {
-  font-size: 12px;
-  width: 58%;
+  font-size: 10px;
+  width: 58% !important;
   padding: 0.5% 4%;
-  font-weight: 700;
+  font-weight: 600;
 }
 .quantityText {
-  font-size: 12px;
+  font-size: 10px;
   width: 5%;
   padding: 2% 2%;
-  font-weight: 700;
+  font-weight: 600;
 }
 .rateText {
-  font-size: 12px;
+  font-size: 10px;
   width: 30%;
   padding: 2% 2%;
-  font-weight: 700;
+  font-weight: 600;
   text-align: end;
   white-space: nowrap;
 }
 .totalText {
-  font-size: 12px;
+  font-size: 10px;
   width: 30%;
   padding: 2% 2%;
-  font-weight: 700;
+  font-weight: 600;
   text-align: end;
   white-space: nowrap;
 }
@@ -422,20 +424,21 @@ function ExtractDateTime(format) {
   justify-content: space-between;
 }
 .calculationLabel {
-  font-size: 12px;
+  font-size: 10px;
   width: 20%;
   padding: 2% 4%;
-  font-weight: 700;
+  font-weight: 600;
   width: 100%;
   white-space: nowrap;
+  text-align:center
 }
 .calculationText {
   width: 50%;
   text-align: end;
-  font-size: 12px;
+  font-size: 10px;
   white-space: nowrap;
   padding: 2% 4%;
-  font-weight: 700;
+  font-weight: 600;
 }
 .TotalBoxContainer{
   width: 100%;
@@ -495,12 +498,13 @@ function ExtractDateTime(format) {
     var restaurantName = JSON.parse(await SecureStore.getItemAsync('userData')).restaurant_name
 
     var orderItem=""
+    var SNumberIncreasing = 1
     for (var i = 0; i < orderItems.length; i++) {
       if (orderItems[i].item_status == "Pending") {
         orderItem =
           orderItem +
           `<div class="tableContents ">
-              <div class="quantityText">${i+1}</div>
+              <div class="quantityText">${SNumberIncreasing++}</div>
               <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
               <div class="rateText">${orderItems[i].quantity}</div>
               <div class="totalText"></div>
@@ -519,17 +523,17 @@ function ExtractDateTime(format) {
             </div>
             <hr>
             <div class="inLineContainer">
-            <div class="label">Date :  </div>
-            <div class="text"> ${new Date(orderDetail.date).toLocaleDateString()}</div>
-            <div class="label">Time :  </div>
-            <div class="text">${ExtractDateTime(orderDetail.date).time}</div>
+            <div class="label">Date   </div>
+            <div class="text">: ${new Date(orderDetail.date).toLocaleDateString()}</div>
+            <div class="label">Time   </div>
+            <div class="text"> : ${ExtractDateTime(orderDetail.date).time}</div>
 
           </div>
           <div class="inLineContainer">
-            <div class="label">Order id :  </div>
-            <div class="text"> ${orderDetail.order_id}</div>
-            <div class="label">Table : </div>
-            <div class="text">${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
+            <div class="label">Order id   </div>
+            <div class="text">: ${orderDetail.order_id}</div>
+            <div class="label">Table  </div>
+            <div class="text"> : ${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
             
           </div>
           <div class="tableHeader">
@@ -630,7 +634,7 @@ function ExtractDateTime(format) {
     }
     .tableContents {
       min-height: 30px;
-      width: 320px;
+      width: 95%;
       margin:0 auto;
       margin: 1px 0;
       display: flex;
@@ -661,7 +665,7 @@ function ExtractDateTime(format) {
       width: 30%;
       padding: 2% 2%;
       font-weight: 700;
-      text-align: end;
+      text-align: center;
       white-space: nowrap;
     }
     </style>
@@ -803,7 +807,6 @@ function ExtractDateTime(format) {
                 alignSelf: "center",
                 marginTop: 1,
                 height: 125,
-                width: 130
               }}
               boxStyles={{
                 // width: "93%",
@@ -811,7 +814,6 @@ function ExtractDateTime(format) {
                 borderRadius: 5,
                 borderColor: "black",
                 // marginTop: 10,
-                width: 130
               }}
               //override default styles
               defaultOption={{
@@ -835,13 +837,11 @@ function ExtractDateTime(format) {
                 alignSelf: "center",
                 marginTop: 1,
                 height: 100,
-                width: 130
               }}
               boxStyles={{
                 alignSelf: "center",
                 borderRadius: 5,
                 borderColor: "black",
-                width: 130
               }}
               defaultOption={{
                 key: orderDetail.payment_status,
