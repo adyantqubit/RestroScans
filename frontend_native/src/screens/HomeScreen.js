@@ -225,7 +225,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -233,7 +233,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -252,7 +252,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -260,7 +260,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -278,7 +278,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -286,7 +286,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -304,7 +304,7 @@ export default function HomeScreen({ navigation }) {
   ${userData.restaurant_name}
 </div>
     <img
-      src=http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
       //  src=${scanner}
       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
       <div>
@@ -312,7 +312,7 @@ export default function HomeScreen({ navigation }) {
       Adyant Softtech Pvt. Ltd., Raipur
     </h1>
     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.16:19000/assets/globe.png'}' width='14px' height='14px'/>
+  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
    restroscans.com
 </h1>
     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
@@ -435,14 +435,15 @@ export default function HomeScreen({ navigation }) {
             width="180"
             height="180"
             viewBox="0 0 450 470"
-            uri="http://192.168.1.16:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+            uri="http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
           // uri={scanner}
 
           />
           <View style={{
-            marginTop: -10, alignItems: "center",
+            marginTop: -2, alignItems: "center",
             justifyContent: "center",
             alignSelf: 'center',
+            marginLeft:10
           }}>
             <Text style={{ fontSize: 10, }}>Adyant Softtech Pvt. Ltd., Raipur</Text>
             <Text style={{ fontSize: 10, }}>
@@ -552,7 +553,7 @@ export default function HomeScreen({ navigation }) {
 
         {/* Added by - Ashish Dewangan on 19-04-2023
             Reason - To show today's new  orders on dashboard(home screen) */}
-        {todaysNewlyPlacedOrders ? (
+        {todaysNewlyPlacedOrders.length>0 ? (
           <View style={styles.todaysOrderContainer}>
             <Text style={styles.todaysOrderContainerTitle}>Newly Placed Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
@@ -599,13 +600,14 @@ export default function HomeScreen({ navigation }) {
               );
             })}
           </View>
-        ) : null}
+        ) : 
+        null}
         {/* End of code addition for show today's new orders on dashboard(home screen) on 19-04-2023*/}
 
 
         {/* Added by - Ashish Dewangan on 11-04-2023
             Reason - To show today's pending orders on dashboard(home screen) */}
-        {todaysPendingOrders ? (
+        {todaysPendingOrders.length>0 ? (
           <View style={styles.todaysOrderContainer}>
             <Text style={styles.todaysOrderContainerTitle}>Pending Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
@@ -657,7 +659,7 @@ export default function HomeScreen({ navigation }) {
 
         {/* Added by - Ashish Dewangan on 11-04-2023
             Reason - To show today's Completed orders on dashboard(home screen) */}
-        {todaysCompletedOrders ? (
+        {todaysCompletedOrders.length>0 ? (
           <View style={styles.todaysOrderContainer}>
             <Text style={styles.todaysOrderContainerTitle}>Completed Orders</Text>
             <View style={styles.todaysOrderHeadingContainer}>
@@ -759,7 +761,8 @@ const styles = StyleSheet.create({
   restaurantLable: {
     fontSize: fonts.title1,
     fontWeight: 'bold',
-    textTransform:'uppercase'
+    textTransform:'uppercase',
+    marginLeft:10
   },
   restaurantHeadline: {
     fontSize: 15,
