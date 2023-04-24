@@ -293,35 +293,62 @@ export default function InvoiceDetails() {
           <div class="invoice_horizontal_line"></div>
           {/* End of modified code on 21-4-2023 */}
 
-
-          <div className='invoice_second_container'>
+          {/* Added by :- Parineeta Gedam on :- 24-04-2023
+              Reason :- changes in desiging
+          */}
+          {/* <div className='invoice_second_container'>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">Subtotal</span>
               <span className="invoice_second_sub_heading">₹ {orders.sub_total}</span>
             </div>
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">CGST </span>
-              {/* Added by rohan- 14/4/23 -------------------------------- */}
-              {/* Modified by rohan- 16-04-2023 -------------------------------- */}
               <span className="invoice_second_sub_heading"> ₹ {orders.cgst}</span>
             </div>
-
-            {/* Modified by rohan- 16-04-2023 -------------------------------- */}
 
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading">SGST</span>
               <span className="invoice_second_sub_heading"> ₹ {orders.sgst}</span>
             </div>
-            {/* End of added code 16-04-2023 */}
 
             <div className='invoice_second_data_container'>
               <span className="invoice_sub_heading"><b>Total</b></span>
+              <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span>
+            </div>
+          </div> */}
+          {/* End of commented code on 24-04-2023 */}
+
+          {/* Added by :- Parineeta Gedam on 24-04-2023
+              Reason :- changes in desiging
+          */}
+          <div className='invoice_second_container'>
+            <div className='invoice_second_data_container'>
+              <div className="invoice_sub_heading">Subtotal : </div>
+              <div className="invoice_second_sub_heading">₹ {orders.sub_total}</div>
+            </div>
+            <div className='invoice_second_data_container'>
+              <div className="invoice_sub_heading">CGST : </div>
+              {/* Added by rohan- 14/4/23 -------------------------------- */}
+              {/* Modified by rohan- 16-04-2023 -------------------------------- */}
+              <div className="invoice_second_sub_heading"> ₹ {orders.cgst}</div>
+            </div>
+
+            {/* Modified by rohan- 16-04-2023 -------------------------------- */}
+            <div className='invoice_second_data_container'>
+              <div className="invoice_sub_heading">SGST : </div>
+              <div className="invoice_second_sub_heading"> ₹ {orders.sgst}</div>
+            </div>
+            {/* End of added code on 16-04-2023 */}
+
+            <div className='invoice_second_data_container'>
+              <div className="invoice_sub_heading"><b>Total : </b></div>
               {/* Modified by :- Parineeta Gedam on 19-04-2023 */}
               {/* <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span> */}
-              <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span>
+              <div className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></div>
               {/* End of modified code on 19-04-2023 */}
             </div>
           </div>
+          {/* End of added code */}
         </div>
       </div>
 

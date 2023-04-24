@@ -194,7 +194,7 @@ const Cart = () => {
             Reason :- Open Model for customer details.
         */}
 
-          <button className={style.ProceedBtn} style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => { !orders ? showModal() : navigations() }} >Proceed</button>
+          <button className={style.ProceedBtn} style={{ background: colors.bannerColor, color: colors.subHeadingColor }} onClick={e => { !orders ? showModal() : navigations() }} >Proceed</button>
         </div>
         {/* end of code -rohan -13/4/23 */}
         <CustomerDetailsForm setPopupVisiblity={setPopupVisiblity} isPopupOpen={isPopupOpen} />

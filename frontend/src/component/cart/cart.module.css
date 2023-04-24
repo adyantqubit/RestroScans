@@ -265,7 +265,9 @@ letter-spacing: 3px;
     padding: 5px 0;
     border-radius: 5px;
     border: none;
-    color: white !important;
+    /* Commented by :- Parineeta Gedam */
+    /* color: white !important; */
+    /* End of commented code */
     box-shadow: 0 0 5px #000;
 }
 

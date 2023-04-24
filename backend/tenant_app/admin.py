@@ -217,8 +217,16 @@ class SettingAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return not Setting.objects.exists()
     # End of eddition
-    
-        
+
+    # Added by :-  Parineeta Gedam on :- 24-04-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(SettingAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['cgst'].widget.attrs['style'] = 'width: 13em;'
+        form.base_fields['sgst'].widget.attrs['style'] = 'width: 13em;'
+        return form
+    # End of addition on :- 24-04-2023
+
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
     list_display=("id","content")
@@ -337,6 +345,21 @@ class OrderAdmin(admin.ModelAdmin):
         return False
     # End of modified code on 20-04-2023
 
+    # Added by :-  Parineeta Gedam on :- 24-04-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['table_number'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['order_status'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['payment_status'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['payment_mode'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['dshr'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['capt'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['pax'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['sess'].widget.attrs['style'] = 'width: 15em;'
+        return form
+    # End of addition on :- 24-04-2023
+
 admin.site.register(Order, OrderAdmin)
 
 """
@@ -364,6 +387,20 @@ class OrderItemAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None) :
         return False
     # End of modified code on 20-04-2023
+
+    # Added by :-  Parineeta Gedam on :- 24-04-2023
+    # Reason - to design form
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(OrderItemAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['item_id'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['quantity'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['serving_size'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['price'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['rating'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['review'].widget.attrs['style'] = 'width: 20em;  height:5em;'
+        form.base_fields['item_status'].widget.attrs['style'] = 'width: 15em;'
+        return form
+    # End of addition on :- 24-04-2023
     
 admin.site.register(OrderItem, OrderItemAdmin)
 
