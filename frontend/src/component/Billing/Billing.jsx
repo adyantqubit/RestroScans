@@ -170,9 +170,7 @@ const Billing = () => {
                 </div>
                 {/* End of added code on 24-04-2023  */}
             </div> : null}
-
-
-        </>
+        </div>
     )
 }
 
