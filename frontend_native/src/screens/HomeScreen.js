@@ -762,7 +762,7 @@ const styles = StyleSheet.create({
     fontSize: fonts.title1,
     fontWeight: 'bold',
     textTransform:'uppercase',
-    marginLeft:10
+    marginLeft:18
   },
   restaurantHeadline: {
     fontSize: 15,

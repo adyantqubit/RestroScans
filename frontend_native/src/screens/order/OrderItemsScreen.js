@@ -507,7 +507,6 @@ function ExtractDateTime(format) {
               <div class="quantityText">${SNumberIncreasing++}</div>
               <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
               <div class="rateText">${orderItems[i].quantity}</div>
-              <div class="totalText"></div>
             </div>`;
       }
     }
@@ -524,23 +523,22 @@ function ExtractDateTime(format) {
             <hr>
             <div class="inLineContainer">
             <div class="label">Date   </div>
-            <div class="text">: ${new Date(orderDetail.date).toLocaleDateString()}</div>
+            <div class="text"> ${new Date(orderDetail.date).toLocaleDateString()}</div>
             <div class="label">Time   </div>
-            <div class="text"> : ${ExtractDateTime(orderDetail.date).time}</div>
+            <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
 
           </div>
           <div class="inLineContainer">
             <div class="label">Order id   </div>
-            <div class="text">: ${orderDetail.order_id}</div>
+            <div class="text"> ${orderDetail.order_id}</div>
             <div class="label">Table  </div>
-            <div class="text"> : ${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
+            <div class="text">  ${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
             
           </div>
           <div class="tableHeader">
-              <div class="quantityHeading"> SNo   </div>
+              <div class="serialNo"> SNo   </div>
               <div class="titleHeading">Item Name</div>
-              <div class="rateHeading">   Qty   </div>
-              <div class="totalHeading"> </div>
+              <div class="qtyHeading">   Qty   </div>
             </div>
             ${orderItem} 
     </div>`;
@@ -582,18 +580,18 @@ function ExtractDateTime(format) {
       text-align: center;
     }
     .label {
-      min-width: 22%;
-      font-size: 12px;
+      min-width: 15%;
+      font-size: 10px;
       font-weight: 700;
-      padding: 0 3%;
+      padding: 0 2%;
       text-align: start;
       white-space: nowrap;
     }
     .text {
       min-width: 22%;
       word-break: break-all;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 600;
       text-align: left;
     }
     .tableHeader {
@@ -606,32 +604,28 @@ function ExtractDateTime(format) {
       display: flex;
       gap: 8px;
     }
+    .serialNo {
+      font-size: 12px;
+      width: 20%;
+      padding: 2% 0%;
+      font-weight: 700;
+    }
     .titleHeading {
       font-size: 12px;
-      width: 60%;
+      width: 50%;
       padding: 2% 0%;
       padding-right: 8%;
       font-weight: 700;
       text-align: start;
     }
-    .quantityHeading {
+    
+    .qtyHeading {
       font-size: 12px;
-      width: 20%;
-      padding: 2% 4%;
+      width: 30%;
+      padding: 2% 0% 0% 0%;
       font-weight: 700;
     }
-    .rateHeading {
-      font-size: 12px;
-      width: 15%;
-      padding: 2% 4%;
-      font-weight: 700;
-    }
-    .totalHeading {
-      font-size: 12px;
-      width: 15%;
-      padding: 2% 4%;
-      font-weight: 700;
-    }
+    
     .tableContents {
       min-height: 30px;
       width: 95%;
@@ -640,25 +634,27 @@ function ExtractDateTime(format) {
       display: flex;
       gap: 4px;
     }
-    .titleText {
-      font-size: 12px;
-      width: 58%;
-      padding: 0.5% 4%;
-      font-weight: 700;
-    }
     .quantityText {
-      font-size: 12px;
-      width: 5%;
-      padding: 2% 2%;
-      font-weight: 700;
+      font-size: 10px;
+      width: 10%;
+      padding: 2% 0% 0% 5%;
+      font-weight: 600;
+    }
+    .titleText {
+      font-size: 10px;
+      width: 70%;
+      font-weight: 600;
+      padding: 2% 0% 0% 8%;
+      text-align:left
     }
     .rateText {
       font-size: 12px;
-      width: 30%;
-      padding: 2% 2%;
-      font-weight: 700;
+      width: 15%;
+      font-weight: 600;
       text-align: end;
       white-space: nowrap;
+      padding: 2% 0% 0% 5%;
+      text-align:left
     }
     .totalText {
       font-size: 12px;
