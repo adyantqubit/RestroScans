@@ -26,9 +26,24 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 # for model_name, model in app.models.items():     
 #     admin.site.register(model,TenantAdmin)        
 
+
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display=("id","name",'is_active')
+
+    list_display=("id","categories_list","name",'is_active')
+
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To show categories inside the menu
+    def get_queryset(self, request):
+        self.request = request      
+        return super().get_queryset(request)
+    def categories_list(self,obj):
+        from django.utils.html import format_html
+        from django.conf import settings
+        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/category/?menu_id__id__exact="+str(obj.id)+"'>View Categories</>")
+    categories_list.allow_tags = True
+    # End of code addition by Ashish Dewangan on 24-04-2023
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -55,9 +70,24 @@ class MenuAdmin(admin.ModelAdmin):
         return form
     # End of addition
 
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display=("id","name", "menu",'is_active')
+    
+    list_display=("id","item_list","name", "menu",'is_active')
+
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To show items inside the category
+    def get_queryset(self, request):
+        self.request = request      
+        return super().get_queryset(request)
+    def item_list(self,obj):
+        from django.utils.html import format_html
+        from django.conf import settings
+        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/item/?category_id__id__exact="+str(obj.id)+"'>View Items</>")
+    item_list.allow_tags = True
+    # End of code addition by Ashish Dewangan on 24-04-2023
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -65,7 +95,6 @@ class CategoryAdmin(admin.ModelAdmin):
     # search_fields=("name","menu")
     search_fields=["name","menu",]
     # End of comment and code modification by Om shrivastava on 13-04-23
-
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -96,7 +125,6 @@ class ItemAdmin(admin.ModelAdmin):
     # search_fields=("name","menu")
     search_fields=["name","menu",]
     # End of comment and code modification by Om shrivastava on 13-04-23
-
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
@@ -122,6 +150,7 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
     list_display=("id","offer_name", "discount")
+    
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("name","offer_name")
@@ -323,17 +352,33 @@ End of added code 06-04-2023
 Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order table.
 """
+
 class OrderAdmin(admin.ModelAdmin):
+
     # updated by rohan - 14/4/23 to show cgst and sgt in columns not tax so removing tax field
-    list_display = ['id','order_id','customer_id', 'table_number', 'sub_total',"cgst","sgst",
+    list_display = ['id','order_items','order_id','customer_id', 'table_number', 'sub_total',
                     # 'tax',
-                    'total','order_status','payment_status','payment_mode','date']
+                    'total','order_status','payment_status','date']
     # end of code
 
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To show order items inside order page
+    def get_queryset(self, request):
+        self.request = request      
+        return super().get_queryset(request)
+    def order_items(self,obj):
+        from django.utils.html import format_html
+        from django.conf import settings
+        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+    order_items.allow_tags = True
+    # End of code addition by Ashish Dewangan on 24-04-2023
+
     # Added by :- Parineeta Gedam on 17-04-2023
-    readonly_fields=['order_id','customer_id','sub_total','cgst','sgst','total']
+    readonly_fields=['order_id','customer_id','sub_total','pax','dshr','capt','sess','cgst','sgst','total']
     # End of added code on 17-04-2023
 
+   
+    
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -353,10 +398,13 @@ class OrderAdmin(admin.ModelAdmin):
         form.base_fields['order_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_mode'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['dshr'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['capt'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['pax'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['sess'].widget.attrs['style'] = 'width: 15em;'
+        # Commented by - Ashish Dewangan on 24-04-2023
+        # reason - not used anymore
+        # form.base_fields['dshr'].widget.attrs['style'] = 'width: 15em;'
+        # form.base_fields['capt'].widget.attrs['style'] = 'width: 15em;'
+        # form.base_fields['pax'].widget.attrs['style'] = 'width: 15em;'
+        # form.base_fields['sess'].widget.attrs['style'] = 'width: 15em;'
+        # End of comment
         return form
     # End of addition on :- 24-04-2023
 
@@ -371,11 +419,17 @@ Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order Item.
 """
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
-
+    list_display = ['id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
+    
+    # Commented and modified by - Ashish Dewangan on 24-04-2023
+    # Reason - To diallow editing of below fields
     # Added by :- Parineeta Gedam on 17-04-2023
-    readonly_fields=['order_id','item']
+    # readonly_fields=['order_id','item']
     # End of added code on 17-04-2023
+    readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
+    #End of code modification by Ashish Dewagnan on 24-04-2023
+
+    list_filter=['order_id',]
 
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
@@ -392,10 +446,13 @@ class OrderItemAdmin(admin.ModelAdmin):
     # Reason - to design form
     def get_form(self, request, obj=None, **kwargs):
         form = super(OrderItemAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['item_id'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['quantity'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['serving_size'].widget.attrs['style'] = 'width: 15em;'
-        form.base_fields['price'].widget.attrs['style'] = 'width: 15em;'
+        # Commented by - Ashish Dewangan on 24-04-2023
+        # Reason - Not required because we cant change their value
+        # form.base_fields['item_id'].widget.attrs['style'] = 'width: 15em;'
+        # form.base_fields['quantity'].widget.attrs['style'] = 'width: 15em;'
+        # form.base_fields['serving_size'].widget.attrs['style'] = 'width: 15em;'
+        # form.base_fields['price'].widget.attrs['style'] = 'width: 15em;'
+        # End of comment by Ashish Dewangan on 24-04-2023
         form.base_fields['rating'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['review'].widget.attrs['style'] = 'width: 20em;  height:5em;'
         form.base_fields['item_status'].widget.attrs['style'] = 'width: 15em;'

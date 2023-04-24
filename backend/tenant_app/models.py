@@ -358,7 +358,7 @@ class Setting(models.Model):
     # end of addition 14/4/23 
     
     def __str__(self):
-        return "color changed"
+        return "Setting"
     # Added by Yuvraj Sahu on 29-3-2023
     # Reason - to arrange the table
     class Meta:
@@ -526,8 +526,13 @@ class OrderItem(models.Model):
     item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")
     # End of modified code 17-04-2023
 
+    # Commented and modified by - Ashish Dewangan on 24-04-2023
+    # Reason - To show details of each order item properly 
+    # def __str__(self):
+    #     return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
     def __str__(self):
-        return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
+        return f"  order ID: {self.order_id} | Item Name : {self.item} | Size : {self.serving_size} | Quantity : {self.quantity} | Price : {self.price} "
+    #End of code modification by Ashish Dewangan on 24-04-2023
 
     class Meta:
         verbose_name = "Order Item"

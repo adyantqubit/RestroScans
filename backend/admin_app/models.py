@@ -11,12 +11,24 @@ class Plans(models.Model):
     
     class Meta:
         verbose_name_plural = "Plans"
+
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To show title when we open row details   
+    def __str__(self):
+        return self.plan_name
+    # End of code addition    
     
 class Features(models.Model):
     feature_name=models.CharField(max_length=50,default="")   
     
     class Meta:
         verbose_name_plural = "Features"
+
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To show title when we open row details   
+    def __str__(self):
+        return self.feature_name
+    # End of code addition      
     
 class PlannedFeatures(models.Model):
       plan_selected=models.ForeignKey(Plans,on_delete=models.CASCADE,blank=True,null=True)
@@ -25,6 +37,11 @@ class PlannedFeatures(models.Model):
       class Meta:
             verbose_name_plural = "Planned Features"
       
+      # Added by - Ashish Dewangan on 24-04-2023
+      # Reason - To show title when we open row details   
+      def __str__(self):
+          return "Edit feature of this plan"
+      # End of code addition  
      
          
 # end of code - Rohan Kansari - 16/4/23 
@@ -258,8 +275,8 @@ class AppTheme(models.Model):
     heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
     subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
     
-    def _str_(self):
-        return "background: "+self.background_color+" heading: "+self.heading_color
+    def __str__(self):
+        return "Background Color: "+self.background_color+" | Heading Color: "+self.heading_color
 
 """
 End of code addition
