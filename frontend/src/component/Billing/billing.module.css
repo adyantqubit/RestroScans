@@ -13,17 +13,18 @@
 .inLineContainer {
     min-width: 100%;
     min-height: 10px;
-    margin: 4px 0;
+    margin: 4px 4px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
+
 
 .Hotellabel{
     min-width: 100%;
     /* margin-bottom: 8px; */
     /* height: 50%; */
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0 3%;
     text-align: center;
 }
@@ -38,20 +39,27 @@
     text-align: center;
 }
 
+
+.column1{
+    min-width:48%;
+    display: flex;
+}
 .label {
-    min-width: 22%;
+    min-width: 45%;
+    /* max-width: 45%; */
     /* width: inherit; */
     /* height: 50%; */
     font-size: 12px;
-    font-weight: 600;
-    padding: 0 3%;
+    font-weight: 700;
+    
     text-align: start;
     white-space: nowrap;
+
     /* text-align: ; */
 }
 
 .text {
-    min-width: 22%;
+    min-width: 50%;
     /* height: 50%; */
 
     word-break: break-all;
@@ -200,7 +208,7 @@
     font-size: 12px;
     white-space: nowrap;
     /* background-color: black; */
-    padding: 2% 4%;
+    padding: 2% 0 0 4%;
     font-weight: 600;
 }
 
@@ -224,8 +232,9 @@
     width: 20%;
     /* background-color: black; */
     padding: 2% 4%;
-    font-weight: 600;
+    font-weight: 700;
     width: 100%;
+    white-space: nowrap;
     letter-spacing: 2px;
 }
 
@@ -235,7 +244,8 @@
     text-align: end;
     /* background-color: black; */
     padding: 2% 4%;
-    font-weight: 600;
+    font-weight: 700;
     width: 100%;
+    white-space: nowrap;
     letter-spacing: 2px;
 }

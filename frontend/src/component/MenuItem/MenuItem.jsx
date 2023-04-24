@@ -876,6 +876,7 @@ function MenuItem() {
                           display: 'flex',
                           padding: '5% 0% 0% 0%',
                           justifyContent: "flex-end",
+                          gap: colors.allow_half_price?"0px":"22%",
                           color: 'lightblue'
                         }}
                         >
@@ -1078,7 +1079,7 @@ function MenuItem() {
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Other' ? (
@@ -1171,12 +1172,12 @@ function MenuItem() {
 
           </span>
 
-          <span className="allcategory_container"
-          >
+          <span className="allcategory_container">
             <span style={{
               color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
               borderRadius: '6px',
               padding: '1px 8px',
+              
             }} className="category_name"> {offer_name} {offer_discount}%</span>
             {/* <span style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
                               borderRadius: '6px',
@@ -1188,8 +1189,9 @@ function MenuItem() {
             display: 'flex',
             padding: '5% 0% 0% 0%',
             color: 'lightblue',
-            justifyContent: "flex-end",
-
+            gap: colors.allow_half_price?"0px":"22%",
+            justifyContent: 'flex-end',
+            
           }}
           >
             <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center' }}>
@@ -1272,7 +1274,7 @@ function MenuItem() {
                                     */}
                       {showdata.item_type == 'Veg' ? (
                         <>
-                          <img src={vegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
+                          <img src={vegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                         </>
                       ) : null}
                       {showdata.item_type == 'Nonveg' ? (
@@ -1431,6 +1433,7 @@ function MenuItem() {
                         display: 'flex',
                         padding: '5% 0% 0% 0%',
                         color: 'lightblue',
+                        gap: colors.allow_half_price?"0px":"22%",
                         justifyContent: "flex-end",
 
                       }}
@@ -1528,7 +1531,7 @@ function MenuItem() {
                                     */}
                                     {m.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
@@ -1625,7 +1628,7 @@ function MenuItem() {
                                     ) : null}
                                     {m.item_type == 'Nonveg' ? (
                                       <>
-                                        <img src={nonVegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
+                                        <img src={nonVegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {m.item_type == 'Other' ? (
