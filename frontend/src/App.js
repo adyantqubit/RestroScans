@@ -18,6 +18,7 @@ import "./App.css"
 import landscapeMode from './images/landscape.png'
 import GlobalColor from "./component/Colors/GlobalColor";
 import RatingAndReview from "./component/RatingAndReviewPage/RatingAndReview";
+import secureLocalStorage from "react-secure-storage";
 
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
@@ -78,7 +79,7 @@ function App() {
               Date :- 24-04-2023
               Reason : show the rating and review page.
           */}
-          <Route exact path="/rating-review" element={<RatingAndReview/>} />
+          <Route exact path="/rating-review" element={secureLocalStorage.getItem("order")?<RatingAndReview/>:<Navigate to="/menu-item"/>} />
           {/* <Route exact path="/billing" element={<Billing2 />} /> */}
           {/* End of added code */}
 

@@ -1,4 +1,4 @@
-import { React, useContext, useEffect, useState } from 'react';
+import { React, useContext} from 'react';
 import { GlobalContext } from "../../context/Context";
 import './RatingAndReview.css';
 import { Rate, Button } from 'antd';
@@ -46,53 +46,45 @@ export default function RatingAndReview() {
             };
             orderData.push(data);
         }
-        console.log("orderData",orderData)
         const response = await updateRatingAndReviewApi(tenantName, orderData);
-        console.log("res", response)
-        navigate(`/${localStorage.getItem('tenantName')}/home`);
+        navigate(`/menu-item`);
     }
 
+    // Added by :- Parineeta Gedam on 24-04-2023
+    const navigations = () => {
+        navigate(`/menu-item`);
+      };
+    //   End of added code on 24-04-2023
+    
     return (
         <>
-            <div className='first_parent_container'>
-                <div className='rating_review_heading'>Please give rating and review</div>
-                {orderItems.map((items, index) => (
-                    <>
-                        <div className='rating_review_data_container' id={"order" + items.id} key={index}>
-                            <div className='rating_data_container'>
-                                <div className='orderitem_name'>{items.item}</div>
-                                <div className='rating_container' id={"order" + items.id + "rating"} name="rating">
-                                    <Rate name="rating" onChange={e => getRatingValue(items.id, e)}/>
-                                    <input name="rating" id={"order" + items.id + "rating"} style={{ display: "none" }} />
+            <div className='rating_review_parent_container' style={{background:colors.backgroundTheme}}>
+                <div className='first_parent_container'>
+                    <div className='rating_review_heading'>Please give rating and review</div>
+                    {orderItems.map((items, index) => (
+                        <>
+                            <div className='rating_review_data_container' id={"order" + items.id} key={index}>
+                                <div className='rating_data_container'>
+                                    <div className='orderitem_name'>{items.item}</div>
+                                    <div className='rating_container' id={"order" + items.id + "rating"} name="rating" >
+                                        <Rate name="rating" onChange={e => getRatingValue(items.id, e)} />
+                                        <input name="rating" id={"order" + items.id + "rating"} style={{ display: "none" }} />
+                                    </div>
+                                </div>
+                                <div className='review_container' name="review">
+                                    <div className='review_label'>Review : </div>
+                                    <input className='review_input_box' name="review" id={"order" + items.id + "review"} maxLength={255} />
                                 </div>
                             </div>
-                            <div className='review_container' name="review">
-                                <div className='review_label'>Review : </div>
-                                <input className='review_input_box' name="review" id={"order" + items.id + "review"} maxLength={255} />
-                            </div>
-                        </div>
-                    </>
-                ))}
-            </div>
+                        </>
+                    ))}
+                </div>
 
-            <div className='rating_review_btn_container'>
-                <Button
-                    id="signBtn"
-                    type="primary"
-                    htmlType="submit"
-                    block
-                    className='rating_review_btn_heading'
-                    style={{
-                        backgroundColor: colors.bannerColor,
-                        color: colors.backgroundTheme ,
-                        border: "none",
-                        marginBottom: '30%',
-
-                    }}
-                    onClick={(e) => updateInvoiceData()}
-                >
-                    Done
-                </Button>
+                <div className='rating_review_btn_container'>
+                <button className='rating_review_skip_btn' style={{ background: colors.bannerColor, color: colors.backgroundTheme }} 
+                onClick={(e) => navigations()}> Skip </button>
+                <button className='rating_review_done_heading' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}  onClick={(e) => updateInvoiceData()}> Done </button>
+                </div>
             </div>
         </>
     )
