@@ -9,7 +9,7 @@ import { Button, message } from "antd";
 import { GlobalContext } from "../../context/Context";
 import { useNavigate} from "react-router-dom";
 import './BillSuccess.css';
-import enjoyYourMealImg from "../../images/enjoyYourMealImg.jpg";
+import enjoyYourMealImg1 from "../../images/enjoyYourMealImg1.png";
 import { CheckCircleOutlined } from '@ant-design/icons';
 
 
@@ -70,7 +70,7 @@ export default function BillSuccess() {
     return (
         <>
             <div className='bill-success-container'>
-            <img src={enjoyYourMealImg} style={{ width: '100%', height: '100%' }} alt="no img"></img>
+            <img src={enjoyYourMealImg1} style={{ width: '100%', height: '100%' }} alt="no img"></img>
             </div>
 
             <div className='bill_success_btn_container'>

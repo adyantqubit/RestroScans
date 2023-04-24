@@ -726,7 +726,7 @@ function MenuItem() {
                     />
                   </div>
 
-                  <span>
+                  <span className="drawer_menu_name_container">
                     <h6 style={{
                       color: colors.bannerColor, paddingTop: '2%',
                       // backgroundColor: colors.headingBackgroundColor,

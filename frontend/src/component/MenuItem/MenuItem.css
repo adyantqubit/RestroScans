@@ -448,6 +448,10 @@
     margin: 0 auto;
 }
 
+/* Modified by :- Parineeta Gedam  */
+.drawer_menu_name_container{
+    width: 85%;
+}
 /* End of added code on 20-04-2023 */
 
 .ant-btn {

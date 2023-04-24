@@ -5,11 +5,12 @@
     right: 0;
     bottom: 10%;
     left: 0;
-    width: 60%;
+    width: 70%;
     height: 35%;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 5px #000;
+    background-color: rgb(242, 224, 204);
 }
 
 .bill_success_btn_container{

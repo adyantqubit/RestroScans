@@ -5,9 +5,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import style from "./billing.module.css"
 import { GlobalContext } from '../../context/Context'
 import secureLocalStorage from 'react-secure-storage'
+import { useNavigate } from "react-router-dom";
+
 
 const Billing = () => {
-    const { colors ,restaurant_name} = useContext(GlobalContext)
+
+    // Added by :- Parineeta Gedam
+    const navigate = useNavigate();
+
+
+    const { colors, restaurant_name } = useContext(GlobalContext)
     const [billingData, setBillingData] = useState(null)
 
     useEffect(() => {
@@ -148,7 +155,20 @@ const Billing = () => {
 
                 <div className={style.calculationLine}><div className={style.calculationLabel}>****** THANK YOU VISIT AGAIN ******</div></div>
 
+                {/* Added by :- Parineeta Gedam
+                    Date :- 24-04-2023
+                    Reason :- Add rate and review
+                */}
+                <div className={style.rate_us_container}>
+                    <div className={style.rate_us_heading}>Rating and Review</div>
+                    <div className={style.rate_us_btn_container}>
+                    <button className={style.rate_us_button} style={{ background: colors.bannerColor, color: colors.subHeadingColor}} onClick={navigate("/rating-review")}>Rate us</button>
+                    </div>
+                </div>
+                {/* End of added code on 24-04-2023  */}
             </div> : null}
+
+
         </>
     )
 }

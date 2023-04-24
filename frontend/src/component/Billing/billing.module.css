@@ -249,3 +249,28 @@
     white-space: nowrap;
     letter-spacing: 2px;
 }
+
+
+/* Added by :- Parineeta Gedam */
+
+.rate_us_container{
+    margin-top: 5px;
+}
+.rate_us_heading{
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    font-family: 'Times New Roman';
+}
+.rate_us_btn_container{
+    margin-top: 15px;
+    text-align: center;
+}
+.rate_us_button{
+    width: 30%;
+    font-size: 18px;
+    font-family: 'Times New Roman';
+    padding: 5px 0px 5px 0px;
+    border: none;
+}
+/* End of added code */

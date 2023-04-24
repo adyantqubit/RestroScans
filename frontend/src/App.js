@@ -17,6 +17,7 @@ import Billing2 from "./component/BillPage/Billing";
 import "./App.css"
 import landscapeMode from './images/landscape.png'
 import GlobalColor from "./component/Colors/GlobalColor";
+import RatingAndReview from "./component/RatingAndReviewPage/RatingAndReview";
 
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
@@ -71,8 +72,14 @@ function App() {
           */}
           <Route exact path="/bill-success" element={<BillSuccess />} />
           {/* <Route exact path="/billing" element={<Billing2 />} /> */}
+          {/* End of added code */}
 
-
+          {/* Added by :- Parineeta Gedam
+              Date :- 24-04-2023
+              Reason : show the rating and review page.
+          */}
+          <Route exact path="/rating-review" element={<RatingAndReview/>} />
+          {/* <Route exact path="/billing" element={<Billing2 />} /> */}
           {/* End of added code */}
 
         </Routes>

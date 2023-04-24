@@ -1,0 +1,76 @@
+/* Added by :- Parineeta Gedam */
+/* Date :- 24-04-2023 */
+/* Reason :- css of rating and review page */
+
+.first_parent_container{
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rating_review_heading{
+    font-size: 18px;
+    font-family: "Times New Roman";
+    letter-spacing: 1.7px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.rating_review_data_container{
+    margin-top: 25px;
+    height: 30%;
+    padding: 5px 5px 5px 5px;
+    box-shadow: 0 0 5px #000;
+    border-radius: 5px;
+
+}
+.rating_data_container{
+    display: flex;
+    align-items: center;
+}
+.orderitem_name{
+    font-size: 16px;
+    font-family: 'Times New Roman';
+    font-weight: 600;
+    letter-spacing: 1.7;
+    width: 50%;
+    word-break: break-all;
+}
+.rating_container{
+    width: 50%;
+    height: 5%;
+}
+.review_container{
+    display: flex;
+    margin-top: 10px;
+}
+.review_label{
+    width: 20%;
+    font-size: 16px;
+    font-family: 'Times New Roman';
+    letter-spacing: 1.7;
+    font-weight: 600;
+}
+.review_input_box{
+    width: 75%;
+    height: 20%;
+    padding: 2px 2px 2px 2px;
+    font-size: 16px;
+    font-family: 'Times New Roman';
+}
+
+/* button css */
+.rating_review_btn_container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    margin-top: 25px;
+}
+.rating_review_btn_heading {
+    font-size: 16px;
+    letter-spacing: 1.7px;
+    font-family: "Times New Roman";
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+    text-align: center;
+}

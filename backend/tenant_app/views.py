@@ -814,15 +814,16 @@ class updateOrdersAPIView(APIView):
             discounted = 0
             if allOffer.filter(item_name=item).count() > 0:
                 discounted = allOffer.get(item_name=item).offer_name.discount
-            if (cart['serving_size'] == "Half Plate"):
+                # Modified by:-  parineeta- 24/4/23
+                # Reason - We changed half plate to half string so, this if matching condition occurs  
+            if (cart['serving_size'] == "Half"):
                 price = float(item.price_half)*float(cart['quantity']) - float(
                     item.price_half * cart['quantity']/100)*discounted
             else:
-                price = float(item.price_full)*float(cart['quantity'])-float(
+                price = float(item.price_full)*float(cart['quantity']) - float(
                     item.price_full * cart['quantity']/100)*discounted
 
             itemsPrice.append(price)
-
         orderId.sub_total = float("{:.2f}".format((sum(itemsPrice))))
 
         tax = Setting.objects.first()
