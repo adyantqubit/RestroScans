@@ -51,7 +51,9 @@ const Billing = () => {
     }
 
     return (
-        <>
+        // Modified by Rohan Kansari - 24/4/23
+        // Reason - To apply color even after 100vh
+        <div style={{ background: colors.backgroundTheme}}>
             {billingData ? <div className={style.billingContainer} style={{ background: colors.backgroundTheme, border: `1px solid ${colors.subHeadingColor}` }}>
                 <div className={style.inLineContainer} >
                     <div className={style.Hotellabel} style={{ textAlign: "center" }}>{restaurant_name.toUpperCase()}</div>
@@ -169,7 +171,8 @@ const Billing = () => {
             </div> : null}
 
 
-        </>
+        </div>
+        // End of code - 24/4/23- Rohan Kansari
     )
 }
 
