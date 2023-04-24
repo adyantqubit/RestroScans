@@ -28,6 +28,11 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 @admin.register(AppSetting)
 class AppSettingAdmin(admin.ModelAdmin):
     list_display=("id","app_logo","adyant_logo","title","bottom_text","adyant_webite_link")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id","app_logo","adyant_logo","title","bottom_text","adyant_webite_link")
+    # End of code addition
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -56,6 +61,11 @@ class AppSettingAdmin(admin.ModelAdmin):
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
     list_display=("id","restaurant_name","tenant_name","created_at")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id","restaurant_name","tenant_name","created_at")
+    # End of code addition
+    #     
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -109,6 +119,11 @@ class TenantAdmin(admin.ModelAdmin):
 @admin.register(RestaurantRequest)
 class RestaurantRequestAdmin(admin.ModelAdmin):
     list_display=("id","restaurant_name", "owner_name", "mobile_number", "address", "created_at", "is_active")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id","restaurant_name", "owner_name", "mobile_number", "address", "created_at", "is_active")
+    # End of code addition
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -134,6 +149,11 @@ class RestaurantRequestAdmin(admin.ModelAdmin):
 @admin.register(VisitCount)
 class VisitCountAdmin(admin.ModelAdmin):
     list_display=("id","tenant_name","count")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id","tenant_name","count")
+    # End of code addition
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -162,6 +182,11 @@ End of code addition
 @admin.register(AppTheme)
 class AppThemeAdmin(admin.ModelAdmin):
     list_display=("id","background_color", "heading_color", "subheading_color", "banner_heading_color", "heading_bgcolor", "subheading_bgcolor")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id","background_color", "heading_color", "subheading_color", "banner_heading_color", "heading_bgcolor", "subheading_bgcolor")
+    # End of code addition
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # search_fields=("background_color","heading_color","subheading_color")
@@ -181,6 +206,11 @@ class AppThemeAdmin(admin.ModelAdmin):
 @admin.register(Plans)
 class PlanAdmin(admin.ModelAdmin):
     list_display=("plan_name",)
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("plan_name",)
+    # End of code addition
+
     def has_change_permission(self, request, obj=None) :
         return False    
     def has_delete_permission(self, request, obj=None) :
@@ -193,7 +223,11 @@ class PlanAdmin(admin.ModelAdmin):
     
 @admin.register(Features)
 class Feature(admin.ModelAdmin):
-      list_display=("feature_name",)  
+      list_display=("feature_name",)
+      # Added by - Ashish Dewangan on 24-04-2023
+      # Reason - To make columns clickable. So that the user can navigate to details of this row
+      list_display_links = ("feature_name",)
+      # End of code addition  
       def has_change_permission(self, request, obj=None) :
             return True    
       def has_delete_permission(self, request, obj=None) :
@@ -207,7 +241,10 @@ class Feature(admin.ModelAdmin):
 @admin.register(PlannedFeatures)
 class PlannedFeatureAdmin(admin.ModelAdmin):
     list_display=("Plan_selected","Feature_selected",)        
-    
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("Plan_selected","Feature_selected",)
+    # End of code addition 
     def Plan_selected(self,obj):
         return obj.plan_selected.plan_name
         
@@ -267,6 +304,14 @@ class GetRestroscansRequestAdmin(admin.ModelAdmin):
         "restaurant_name",
         "mobile_number",
     )
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id",
+        "owner_name",
+        "email",
+        "restaurant_name",
+        "mobile_number",)
+    # End of code addition 
     search_fields = ("restaurant_name", "id", "owner_name")
     list_per_page = 10
 
@@ -295,6 +340,14 @@ class ContactUsAdmin(admin.ModelAdmin):
         "mobile_number",
         "query",
     )
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ( "id",
+        "name",
+        "email",
+        "mobile_number",
+        "query",)
+    # End of code addition
     list_per_page = 10
 
     def has_change_permission(self, request, obj=None):

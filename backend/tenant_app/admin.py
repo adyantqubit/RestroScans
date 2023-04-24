@@ -31,6 +31,10 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 class MenuAdmin(admin.ModelAdmin):
 
     list_display=("id","categories_list","name",'is_active')
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links = ("id","name",'is_active')
+    # End of code addition
 
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To show categories inside the menu
@@ -75,6 +79,10 @@ class MenuAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     
     list_display=("id","item_list","name", "menu",'is_active')
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","name", "menu",'is_active')
+    # End of code addition
 
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To show items inside the category
@@ -118,6 +126,11 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     list_display=("id","name", "category", "price_full", "price_half",'is_active')
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","name", "category", "price_full", "price_half",'is_active')
+    # End of code addition
+
     # readonly_fields=("item","user_no")
     # ordering=("title",)
     # Commented and Modified by Om on 13-04-23
@@ -150,7 +163,11 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
     list_display=("id","offer_name", "discount")
-    
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","offer_name", "discount")
+    # End of code addition
+
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("name","offer_name")
@@ -180,6 +197,11 @@ class OfferAdmin(admin.ModelAdmin):
 @admin.register(OfferItem)
 class OfferItemAdmin(admin.ModelAdmin):
     list_display=("id","offer_name", "item_name")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","offer_name", "item_name")
+    # End of code addition
+
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("name","offer_name", "item_name",)
@@ -230,6 +252,11 @@ class SettingAdmin(admin.ModelAdmin):
     #added by rohan - 14/4/23
     #reson- to remove tax from setting and added cgst and sgst 
     list_display=("id","app_theme", "cgst","sgst","allow_half_price")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","app_theme", "cgst","sgst","allow_half_price")
+    # End of code addition 
+
     # End of addition
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -259,6 +286,11 @@ class SettingAdmin(admin.ModelAdmin):
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
     list_display=("id","content")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","content")
+    # End of code addition
+
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("content", "id")
@@ -291,6 +323,10 @@ admin.site.unregister(Group)
 class MyUserAdmin(admin.ModelAdmin):
     from django.conf import settings
     list_display=("id","username", "email")
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=("id","username", "email")
+    # End of code addition
     def has_add_permission(self, request):
         if request.tenant.schema_name != get_public_schema_name() :
             return not User.objects.exists()
@@ -331,6 +367,11 @@ Reason- Register Customer Detail table.
 """
 class CustomerDetailAdmin(admin.ModelAdmin):
     list_display = ['id','name','email','contact_number']
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=('id','name','email','contact_number')
+    # End of code addition
+
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -360,6 +401,12 @@ class OrderAdmin(admin.ModelAdmin):
                     # 'tax',
                     'total','order_status','payment_status','date']
     # end of code
+
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=('id','order_id','customer_id', 'table_number', 'sub_total',
+                    'total','order_status','payment_status','date')
+    # End of code addition
 
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To show order items inside order page
@@ -420,7 +467,11 @@ Reason- Register Order Item.
 """
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
-    
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=('id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # End of code addition
+
     # Commented and modified by - Ashish Dewangan on 24-04-2023
     # Reason - To diallow editing of below fields
     # Added by :- Parineeta Gedam on 17-04-2023
@@ -470,6 +521,10 @@ Reason- Register Order Item.
 """
 class PaymentMethodAdmin(admin.ModelAdmin):
     list_display = ['id','scanner','name','contact_number']
+    # Added by - Ashish Dewangan on 24-04-2023
+    # Reason - To make columns clickable. So that the user can navigate to details of this row
+    list_display_links=('id','scanner','name','contact_number')
+    # End of code addition
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
