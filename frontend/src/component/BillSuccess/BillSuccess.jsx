@@ -9,7 +9,7 @@ import { Button, message } from "antd";
 import { GlobalContext } from "../../context/Context";
 import { useNavigate} from "react-router-dom";
 import './BillSuccess.css';
-import enjoyYourMealImg1 from "../../images/enjoyYourMealImg1.png";
+import enjoyYourMealImg1 from "../../images/enjoyYourMealImg1.jpg";
 import { CheckCircleOutlined } from '@ant-design/icons';
 
 

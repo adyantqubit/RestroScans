@@ -162,7 +162,7 @@ const Billing = () => {
                 <div className={style.rate_us_container}>
                     <div className={style.rate_us_heading}>Rating and Review</div>
                     <div className={style.rate_us_btn_container}>
-                    <button className={style.rate_us_button} style={{ background: colors.bannerColor, color: colors.subHeadingColor}} onClick={navigate("/rating-review")}>Rate us</button>
+                    <button className={style.rate_us_button} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={(e) => navigate("/rating-review")}>Rate us</button>
                     </div>
                 </div>
                 {/* End of added code on 24-04-2023  */}

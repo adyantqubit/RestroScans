@@ -68,7 +68,7 @@ export default function RatingAndReview() {
                             </div>
                             <div className='review_container' name="review">
                                 <div className='review_label'>Review : </div>
-                                <input className='review_input_box' name="review" id={"order" + items.id + "review"} />
+                                <input className='review_input_box' name="review" id={"order" + items.id + "review"} maxLength={255} />
                             </div>
                         </div>
                     </>
@@ -84,7 +84,7 @@ export default function RatingAndReview() {
                     className='rating_review_btn_heading'
                     style={{
                         backgroundColor: colors.bannerColor,
-                        color: colors.backgroundTheme,
+                        color: colors.backgroundTheme ,
                         border: "none",
                         marginBottom: '30%',
 

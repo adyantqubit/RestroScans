@@ -33,7 +33,7 @@
     font-weight: 600;
     letter-spacing: 1.7;
     width: 60%;
-    word-break: break-all;
+    word-break: break-word;
 }
 .rating_container{
     width: 40%;
