@@ -24,6 +24,8 @@ export default function Context(props) {
     const [tenantDetails, setTenantDetails] = useState(null); // Our data set in this variable which comes from backend
 
     var [colors, setColors] = useState({
+        // Modified by -Rohan kansari - 24/4/23
+        // Reason to - Set default background color
         headingColor: 'black',
         backgroundTheme: 'white',
         subHeadingColor: 'black',
@@ -32,6 +34,7 @@ export default function Context(props) {
         subheadingBackgroundColor: '#fcf4e7',
         // added by rohan- 6/4/23 - To add half price shown functionality
         allow_half_price: true
+        // End of code -  24/4/23 -Rohan
     })
 
     // Added by yuvraj on 22-1-2023
@@ -102,8 +105,11 @@ export default function Context(props) {
             if (response.order!=null) {
                 secureLocalStorage.removeItem('order')
                 secureLocalStorage.removeItem('invoice_detail')
+
+                if(secureLocalStorage.getItem('customer_details')){
                 secureLocalStorage.setItem('order',response.order)
                 secureLocalStorage.setItem('invoice_detail',response)
+                }
         }
        
     }

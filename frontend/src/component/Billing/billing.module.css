@@ -1,11 +1,12 @@
 .billingContainer {
     font-family:monospace;
     letter-spacing: 0.6px;
-    width: 300px;
-    height: auto;
-    margin: 0 auto;
+    width: 300px;   
+    height:auto;
+    margin:20px auto;
     border-radius: 5px;
     padding: 2px 0;
+    overflow: auto;
     padding-bottom: 150px;
     /* margin-bottom: 50p; */
 }
