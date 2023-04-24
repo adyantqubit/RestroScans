@@ -49,7 +49,7 @@ export default function RatingAndReview() {
         console.log("orderData",orderData)
         const response = await updateRatingAndReviewApi(tenantName, orderData);
         console.log("res", response)
-        navigate("/");
+        navigate(`/${localStorage.getItem('tenantName')}/home`);
     }
 
     return (
