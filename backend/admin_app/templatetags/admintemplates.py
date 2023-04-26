@@ -102,3 +102,75 @@ def getInActiveCategories(context):
 
     return inActiveMenu
 # End of addition
+
+
+# Added by - Ashish Dewangan on 26-04-2023
+# Reason - To show todays orders on dashboard
+@register.simple_tag(takes_context=True)
+def getTodaysOrders(context):
+    from django.utils.timezone import timedelta
+    from django.utils.timezone import datetime
+    from django.db.models import Sum
+
+    today=datetime.today().date()
+    weekDay=today.weekday()
+    startOfTheWeek=today - timedelta(days=weekDay)
+    dayOfMonth=today.day
+    startOfTheMonth=today - timedelta(days=(dayOfMonth-1))
+    thisYear=today.year
+
+    data=dict()
+
+    summary=dict()
+    totalOrders = Order.objects.filter(date__gte=today).count()
+    summary["order_count"]=totalOrders
+    revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
+    summary["total_revenue"]=revenue["total__sum"]
+    data["todays_summary"]=summary
+
+    summary=dict()
+    totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
+    summary["order_count"]=totalOrders
+    revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
+    summary["total_revenue"]=revenue["total__sum"]
+    data["this_weeks_summary"]=summary
+
+    summary=dict()
+    totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
+    summary["order_count"]=totalOrders
+    revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
+    summary["total_revenue"]=revenue["total__sum"]
+    data["this_months_summary"]=summary
+
+
+    summary=dict()
+    totalOrders = Order.objects.filter(date__year=thisYear).count()
+    summary["order_count"]=totalOrders
+    revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
+    summary["total_revenue"]=revenue["total__sum"]
+    data["this_years_summary"]=summary
+
+    todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+    todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+
+    from django.db.models import Q
+    todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+    todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+
+    todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+    todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+
+    from django.conf import settings
+    http_method=settings.HTTP_METHOD
+    request=context['request']
+   
+    return {
+        "todays_pending_orders":todays_pending_orders_serializer.data,
+        "revenue_details":data,
+        "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
+        "todays_completed_orders":todays_completed_orders_serializer.data,
+        "request":request,
+        "http_method":http_method
+    }
+
+# End of code addition by Ashish Dewangan on 26-04-2023

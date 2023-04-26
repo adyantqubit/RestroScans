@@ -441,6 +441,12 @@ class OrderAdmin(admin.ModelAdmin):
         return False
     # End of modified code on 20-04-2023
 
+    # Added by :- Ashish Dewangan on 26-04-2023
+    # Reason - To disallow admin to create an order
+    def has_add_permission(self, request, obj=None) :
+        return False
+    # End of code addition by Ashish Dewangan on 26-04-2023
+
     # Added by :-  Parineeta Gedam on :- 24-04-2023
     # Reason - to design form
     def get_form(self, request, obj=None, **kwargs):
@@ -484,8 +490,6 @@ class OrderItemAdmin(admin.ModelAdmin):
     readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
     #End of code modification by Ashish Dewagnan on 24-04-2023
 
-    list_filter=['order_id',]
-
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -496,6 +500,12 @@ class OrderItemAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None) :
         return False
     # End of modified code on 20-04-2023
+
+    # Added by :- Ashish Dewangan on 26-04-2023
+    # Reason - To disallow admin to create OrderItems
+    def has_add_permission(self, request, obj=None) :
+        return False
+    # End of code addition by Ashish Dewangan on 26-04-2023
 
     # Added by :-  Parineeta Gedam on :- 24-04-2023
     # Reason - to design form
