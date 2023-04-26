@@ -77,7 +77,7 @@ export default function MenuListScreen({ navigation }) {
               }}
             >
               <Image
-                source={require("../../../assets/No_offer.jpg")}
+                source={require("../../../assets/Welcome.jpg")} // Change the image by Om on 24-04-23
                 style={styles.tinyLogo}
               />
 

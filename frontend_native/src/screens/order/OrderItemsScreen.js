@@ -136,7 +136,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   function SubtotalOfItems(){
     var total=0
     orderItems.filter(o=>{
-       total+=o.price*o.quantity
+       total+=o.price
     })
     return total
 }
@@ -178,8 +178,8 @@ function ExtractDateTime(format) {
         `<div class="tableContents ">
                   <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
                   <div class="quantityText">${orderItems[i].quantity}</div>
-                  <div class="rateText">${orderItems[i].price}</div>
-                  <div class="totalText"> ${orderItems[i].quantity * orderItems[i].price}</div>
+                  <div class="rateText">${(orderItems[i].price/orderItems[i].quantity).toFixed(2)}</div>
+                  <div class="totalText"> ${(orderItems[i].price ).toFixed(2)}</div>
 
                 </div>`;
     }
@@ -244,7 +244,7 @@ function ExtractDateTime(format) {
             <div class="calculationBox">
               <div class="calculationLine">
                 <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
-                <div  class="calculationText" >₹${SubtotalOfItems()}</div>
+                <div  class="calculationText" >₹${SubtotalOfItems().toFixed(2)}</div>
               </div>
               <div class="calculationLine">
                 <div  class="calculationLabel" > CGST (%${(orderDetail.cgst/SubtotalOfItems()*100).toFixed(2)}) :</div>
@@ -748,7 +748,11 @@ function ExtractDateTime(format) {
                 </Text>
                 {/* End of code addition by Ashish on 19-04-2023 */}
                 <Text style={styles.costContainer}>
-                  ₹ {orderItem.quantity * orderItem.price}
+                  {/* Added by om - 24/4/23
+                      Reason - To fixed subtotal calculation */}
+                  {/* ₹ {orderItem.quantity * orderItem.price} */}
+                  ₹ { orderItem.price}
+                  {/* End of code - om - 24/4/23 */}
                 </Text>
               </View>
             ))}

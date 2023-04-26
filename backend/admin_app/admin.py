@@ -71,7 +71,10 @@ class TenantAdmin(admin.ModelAdmin):
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method
     # search_fields=("restaurant_name","id","tenant_name")
-    search_fields=["restaurant_name","id","tenant_name"]
+    # Changes by Om on 24-04-23
+    # Reason : Search by restaurant name is not working
+    search_fields=["restaurant_name__restaurant_name","id","tenant_name",] 
+    # End of addition
     # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_change_permission(self, request, obj=None) :

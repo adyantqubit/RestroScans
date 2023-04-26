@@ -101,7 +101,9 @@ class CategoryAdmin(admin.ModelAdmin):
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method    
     # search_fields=("name","menu")
-    search_fields=["name","menu",]
+    # Modified by Om on 24-04-23 for search proper this admin site
+    search_fields=["name","menu__name",]
+    # End of addition
     # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -136,7 +138,9 @@ class ItemAdmin(admin.ModelAdmin):
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("name","menu")
-    search_fields=["name","menu",]
+    # Modified by Om on 24-04-23 for search proper this admin site
+    search_fields=["name","category__name",]
+    # End of addition
     # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -171,7 +175,7 @@ class OfferAdmin(admin.ModelAdmin):
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("name","offer_name")
-    search_fields=["name","offer_name",]
+    search_fields=["offer_name",]
     # End of comment and code modification by Om shrivastava on 13-04-23
 
     list_per_page=10
@@ -205,7 +209,7 @@ class OfferItemAdmin(admin.ModelAdmin):
     # Commented and Modified by Om on 13-04-23
     # Reason : Change the method 
     # search_fields=("name","offer_name", "item_name",)
-    search_fields=["name","offer_name", "item_name",]
+    search_fields=["offer_name__offer_name", "item_name__name",]
     # End of comment and code modification by Om shrivastava on 13-04-23
     
 
