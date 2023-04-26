@@ -13,6 +13,7 @@
    width: 40%;
    height: 100%;
    background-color: #d0d0d0;
+   border-radius: 5px ;
 
 }
 
@@ -34,5 +35,6 @@
 .anchor_container{
 text-decoration: none;
 font-size: 13px;
+margin: 5px 0;
 color: black;
 }

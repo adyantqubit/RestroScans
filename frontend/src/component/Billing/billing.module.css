@@ -6,7 +6,7 @@
     margin:20px auto;
     border-radius: 5px;
     padding: 2px 0;
-    overflow: auto;
+    overflow-x: hidden;
     padding-bottom: 150px;
     /* margin-bottom: 50p; */
 }
@@ -52,7 +52,6 @@
     /* height: 50%; */
     font-size: 12px;
     font-weight: 700;
-    
     text-align: start;
     white-space: nowrap;
 
@@ -181,7 +180,7 @@
 
 .calculationBox {
     width: 60%;
-    margin-right: 4%;
+    margin-right: 4%;   
     margin-bottom: 2%;
     height: 100px;
 }
