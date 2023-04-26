@@ -29,8 +29,12 @@ import Checkbox from "expo-checkbox";
 import { useContext } from "react";
 import { AppStateContext } from "../../context/AppStateProvider";
 import Footer from "../../components/Footer/Footer";
+import SelectDropdown from "react-native-select-dropdown";
+import { AntDesign } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function ItemListScreen({ route, navigation }) {
+  const isFocused=useIsFocused();
   /* Get the param */
   const {
     categoryID,
@@ -69,30 +73,41 @@ export default function ItemListScreen({ route, navigation }) {
   const [menuSelected, setMenuSelected] = React.useState("");
   var [data, setData] = useState([]);
   React.useEffect(() => {
-    const getMenus = async () => {
-      // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-      // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-      // if (response.menuList) {
-      setData(
-        menuList.map(function (obj) {
-          obj["key"] = obj["id"]; // Assign new key
-          obj["value"] = obj["name"]; // Rename key
-          delete obj["id"]; // Delete old key
-          delete obj["name"]; // Delete name
-          delete obj["icon"]; // Delete icon
-          return obj;
-        })
-      );
-      // }
-    };
-    getMenus();
+
+    // getMenus();
     // getTenant()
     getAllmenus();
-  }, [render]);
-
+  }, [isFocused]);
+  const getMenus = async () => {
+    // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    // if (response.menuList) {
+    // setData(
+    //   menuList.map(function (obj) {
+    //     obj["key"] = obj["id"]; // Assign new key
+    //     obj["value"] = obj["name"]; // Rename key
+    //     delete obj["id"]; // Delete old key
+    //     delete obj["name"]; // Delete name
+    //     delete obj["icon"]; // Delete icon
+    //     return obj;
+    //   })
+    // );
+    setData(menuList);
+    // }
+  };
   // Added by Yuvraj Sahu on 7-4-2023
   // Reason - to get all menuus for filteration
   var [itemObjects, setItemObjects] = useState([]);
+  // Added by Yuvraj Sahu on 24-4-2023
+  // Reason - to set menu in dropdown
+  var [menuDatas, setMenuDatas] = useState([]);
+  // End of sett category
+
+  // Added by Yuvraj Sahu on 24-4-2023
+  // Reason - to set menu in dropdown
+  var [menuValue, setMenuValue] = useState([]);
+  // End of sett category
+
   const getAllmenus = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -100,9 +115,15 @@ export default function ItemListScreen({ route, navigation }) {
     var response = await getAllMenuList(tenant);
     if (response) {
       // setMenuObject((response.menuList).filter((dt) => dt.id == menuID )[0])
+      var itemList=response.itemList.filter((dt) => dt.category_id == categoryID)
       setItemObjects(
-        response.itemList.filter((dt) => dt.category_id == categoryID)
+        itemList
       );
+      var menuList=response.menuList.filter((e) => e.is_active == true)
+      setMenuDatas(menuList);
+      var selectedMenu=(response.menuList.filter((e) => e.id == menuID))[0]
+      setMenuValue(selectedMenu);
+      // alert("menuValue"+JSON.stringify(menuValue))
       // setRender(!render)
     }
   };
@@ -126,9 +147,9 @@ export default function ItemListScreen({ route, navigation }) {
 
   // For make data and send it to backend
   const handleRegister = async (formValues) => {
-  	// Uncommented by Yuvraj Sahu on 20-4-2023
-  	// Reason - to disable btn
-    setIsDisable(true)
+    // Uncommented by Yuvraj Sahu on 20-4-2023
+    // Reason - to disable btn
+    setIsDisable(true);
     // End of uncomment
     var formData = new FormData();
 
@@ -248,7 +269,9 @@ export default function ItemListScreen({ route, navigation }) {
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Menu name
           </Text>
-          <SelectList
+          {/* Added and commented by Yuvraj Sahu on 24-4-2023
+          Reason - to change dropdown  */}
+          {/* <SelectList
             // onSelect={() => }
             setSelected={setMenuSelected}
             data={data}
@@ -270,7 +293,55 @@ export default function ItemListScreen({ route, navigation }) {
             // Reason - to select default value in dropdown
             defaultOption={{ key: menuID, value: menuName }}
             // End of default value selection
+          /> */}
+
+          <SelectDropdown
+            // defaultValue={
+            //   themeOption.filter((e) => {
+            //     return e.id == settings.app_theme;
+            //   })[0]
+            // }
+            defaultValue={
+              menuDatas.filter((e)=>{
+              return (e.id==menuValue.id)
+            })[0]
+            }
+            data={menuDatas}
+            dropdownOverlayColor="rgba(0,0,0,0)"
+            buttonTextStyle={{ fontSize: 16 }}
+            rowTextStyle={{ fontSize: 16 }}
+            rowStyle={{ height: 41 }}
+            selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+            dropdownStyle={{
+              borderRadius: 10,
+              backgroundColor: "white",
+              borderWidth: 1,
+            }}
+            renderDropdownIcon={() => {
+              return <AntDesign name="down" size={14} color="black" />;
+            }}
+            buttonStyle={{
+              height: 41,
+              borderColor: "black",
+              borderWidth: 1,
+              borderRadius: 10,
+              backgroundColor: "white",
+              width: "94%",
+              alignSelf: "center",
+              marginBottom: 10,
+            }}
+            onSelect={(selectedItem, index) => {
+              setMenuSelected(selectedItem.id);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem.name;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.name;
+            }}
           />
+          {/* End of Modification od dropdown */}
+
           <View style={{ marginTop: 15 }}>
             <Text style={styles.labels}>
               <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -497,7 +568,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    marginTop: 0,
     fontSize: 16,
     borderRadius: 10,
   },

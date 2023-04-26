@@ -84,7 +84,12 @@ export default function OrderListScreen({ route, navigation }) {
               >
                 {/* Modified by Yuvraj Sahu 20-4-2023
                 Reason - to add order id and show date */}
-                <View>
+                <View
+                  // Modified by Yuvraj Sahu on 24-4-2023
+                  // Reason - to fix overflow
+                  style={{ width: "45%" }}
+                  // End of modification
+                >
                   <Text style={styles.customerName}>{order.customer_name}</Text>
                   <Text style={styles.tableNo}>
                     Table no. - {order.table_number}
@@ -93,7 +98,14 @@ export default function OrderListScreen({ route, navigation }) {
                     Order ID - {order.order_id}
                   </Text>
                 </View>
-                <View style={{ alignItems: "flex-end" }}>
+                <View
+                  // Modified by Yuvraj Sahu on 24-4-2023
+                  // Reason - to fix overflow
+                  style={{
+                    width: "55%",
+                  }}
+                  // End of modification
+                >
                   <Text style={styles.tableNo}>
                     Order status - {order.order_status}
                   </Text>
@@ -154,5 +166,11 @@ const styles = StyleSheet.create({
   tableNo: {
     fontSize: 14,
     marginTop: 4,
+    // Added by Yuvraj Sahu on 24-4-2023
+    // Reason - to fix overflow
+    flexShrink: 1,
+    flexWrap: "wrap",
+    width: "100%",
+    // End of addition
   },
 });

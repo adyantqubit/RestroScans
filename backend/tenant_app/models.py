@@ -491,6 +491,15 @@ class Order(models.Model):
         verbose_name = "Order"
         verbose_name_plural = 'i) Order'
 
+    # Added by Yuvraj Sahu on 24-4-2023
+    # Reason - to update order item status based on order status
+    def save(self, *args, **kwargs ):
+        if self.order_status == "Confirm" :
+           OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
+        super().save( *args, **kwargs)
+    # End of addition
+
+
 """
 End of added code 06-04-2023
 """

@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import {
   deleteItemApi,
+  getAllMenuList,
   getMenuList,
   saveCategoryApi,
   saveItemApi,
@@ -31,7 +32,10 @@ import { SelectList } from "react-native-dropdown-select-list";
 import Checkbox from "expo-checkbox";
 import config from "../../config/config";
 import { AppStateContext } from "../../context/AppStateProvider";
-import Footer from '../../components/Footer/Footer'
+import Footer from "../../components/Footer/Footer";
+import { AntDesign } from "@expo/vector-icons";
+import SelectDropdown from "react-native-select-dropdown";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function EditItemScreen({ route, navigation }) {
   /* Get the param */
@@ -116,8 +120,8 @@ export default function EditItemScreen({ route, navigation }) {
   };
 
   const handleRegister = (formValues) => {
-  	// UnCommented by Yuvraj Sahu on 20-4-2023
-  	// Reason - to disable btn
+    // UnCommented by Yuvraj Sahu on 20-4-2023
+    // Reason - to disable btn
     setIsDisable(true);
     // End of addition
     var formData = new FormData();
@@ -216,84 +220,164 @@ export default function EditItemScreen({ route, navigation }) {
   // }
   // End of addition
 
+  // Added by Yuvraj Sahu on 24-4-2023
+  // Reason - to get active menu, category and items
+  const isFocused = useIsFocused();
+  var [categoryValue, setCategoryValue] = useState([])
+  useEffect(() => {
+    getAllMenus();
+  }, [isFocused]);
+  var [categoryDatas, setCategoryDatas] = useState([]);
+  var [itemValue, setItemValue] = useState("");
+
+  const getAllMenus = async () => {
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+    var response = await getAllMenuList(tenant);
+    if (response) {
+      setCategoryDatas(response.categoryList);
+      var slectedCategory = response.categoryList.filter((dt)=>dt.id==categoryID)
+      setCategoryValue(slectedCategory)
+      // alert(itemID)
+      // alert("aaaaaaa"+JSON.stringify(response.itemList))
+      var slectedItem = response.itemList.filter((dt)=>dt.id==itemID)[0].item_type
+      setItemValue(slectedItem)
+      // alert("itemValue"+JSON.stringify(itemValue[0].item_type))
+      // alert("menuValue"+JSON.stringify(menuValue))
+    }
+  };
+  // End of addition
+
   return (
     <>
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.labels}>
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Category name
-        </Text>
-        <SelectList
-          // onSelect={setCategorySelected}
-          setSelected={setCategorySelected}
-          data={categories}
-          search={false}
-          dropdownStyles={{
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 1,
-          }}
-          boxStyles={{
-            borderRadius: 5,
-            alignSelf: "center",
-            width: "93%",
-            borderColor: "black",
-            marginTop: 10,
-          }} //override default styles
-          defaultOption={{ key: categoryID, value: categoryName }}
-        />
-        <View style={{ marginTop: 15 }}>
+      <ScrollView>
+        <View style={styles.container}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Item name
+            Category name
           </Text>
-          <Controller
-            control={control}
-            name="name"
-            rules={{
-              required: {
-                value: true,
-                message: "Category name is required",
-              },
-              //   pattern: {
-              //     value: /^(?!\s+$).*/,
-              //     message: "Menu name cannot contain only blankspaces!",
-              //   },
+          {/* Commented and added by Yuvraj Sahu on 24-4-2023
+          Reason - to change dropdown */}
+          {/* <SelectList
+            // onSelect={setCategorySelected}
+            setSelected={setCategorySelected}
+            data={categories}
+            search={false}
+            dropdownStyles={{
+              width: "93%",
+              alignSelf: "center",
+              marginTop: 1,
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter item name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                  />
-                </View>
+            boxStyles={{
+              borderRadius: 5,
+              alignSelf: "center",
+              width: "93%",
+              borderColor: "black",
+              marginTop: 10,
+            }} //override default styles
+            defaultOption={{ key: categoryID, value: categoryName }}
+          /> */}
 
-                {errors?.name && (
-                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
-                )}
-              </>
-            )}
+          <SelectDropdown
+            defaultValue={
+              categoryDatas.filter((e) => {
+                return e.id == categoryID;
+              })[0]
+            }
+            // data={categories}
+            data={categoryDatas}
+            dropdownOverlayColor="rgba(0,0,0,0)"
+            buttonTextStyle={{ fontSize: 16 }}
+            rowTextStyle={{ fontSize: 16 }}
+            rowStyle={{ height: 41 }}
+            selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+            dropdownStyle={{
+              borderRadius: 10,
+              backgroundColor: "white",
+              borderWidth: 1,
+            }}
+            renderDropdownIcon={() => {
+              return <AntDesign name="down" size={14} color="black" />;
+            }}
+            buttonStyle={{
+              height: 41,
+              borderColor: "black",
+              borderWidth: 1,
+              borderRadius: 10,
+              backgroundColor: "white",
+              width: "94%",
+              alignSelf: "center",
+              marginBottom: 10,
+            }}
+            onSelect={(selectedItem, index) => {
+              setCategorySelected(selectedItem.id);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem.name;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.name;
+            }}
           />
-        </View>
+          {/* End of addition */}
 
-        {/* Added by Yuvraj Sahu on 12-4-2023
+          <View style={{ marginTop: 15 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+              Item name
+            </Text>
+            <Controller
+              control={control}
+              name="name"
+              rules={{
+                required: {
+                  value: true,
+                  message: "Category name is required",
+                },
+                //   pattern: {
+                //     value: /^(?!\s+$).*/,
+                //     message: "Menu name cannot contain only blankspaces!",
+                //   },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter item name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                    />
+                  </View>
+
+                  {errors?.name && (
+                    <Text style={styles.textdanger}>
+                      {errors?.name?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
+
+          {/* Added by Yuvraj Sahu on 12-4-2023
         Reason - to add item type */}
-        <Text style={styles.labels}>
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Item type
-        </Text>
-        <SelectList
+          <Text style={styles.labels}>
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            Item type
+          </Text>
+
+          {/* Added and modified by Yuvraj Sahu on 24-4-2023
+        Reason - to change dropdown  */}
+          {/* <SelectList
           // onSelect={setCategorySelected}
           setSelected={setItemTypeSelected}
           data={itemtypes}
@@ -315,236 +399,288 @@ export default function EditItemScreen({ route, navigation }) {
             key: itemObj[0].item_type,
             value: itemObj[0].item_type,
           }}
-        />
+        /> */}
 
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Half price
-          </Text>
-          <Controller
-            control={control}
-            name="price_half"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Half price is required!",
-            //   },
+          <SelectDropdown
+            // defaultValue={(e) => {
+            //   return itemObj[0].item_type;
             // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter half price"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {errors?.price_half && (
-                  <Text style={styles.textdanger}>
-                    {errors?.price_half?.message}
-                  </Text>
-                )}
-              </>
-            )}
+            defaultValue={
+              itemtypes.filter((e)=>{
+              return (e.value==itemValue)
+            })[0]
+            }
+            data={itemtypes}
+            dropdownOverlayColor="rgba(0,0,0,0)"
+            buttonTextStyle={{ fontSize: 16 }}
+            rowTextStyle={{ fontSize: 16 }}
+            rowStyle={{ height: 41 }}
+            selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+            dropdownStyle={{
+              borderRadius: 10,
+              backgroundColor: "white",
+              borderWidth: 1,
+            }}
+            renderDropdownIcon={() => {
+              return <AntDesign name="down" size={14} color="black" />;
+            }}
+            buttonStyle={{
+              height: 41,
+              borderColor: "black",
+              borderWidth: 1,
+              borderRadius: 10,
+              backgroundColor: "white",
+              width: "94%",
+              alignSelf: "center",
+              marginBottom: 10,
+            }}
+            onSelect={(selectedItemType, index) => {
+              setItemTypeSelected(selectedItemType.value);
+              // setItemTypeRequired(false);
+            }}
+            buttonTextAfterSelection={(selectedItemType, index) => {
+              return selectedItemType.value;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.value;
+            }}
           />
-        </View>
 
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Full price
-          </Text>
-          <Controller
-            control={control}
-            name="price_full"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Full price is required!",
-            //   },
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter full price"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {errors?.price_full && (
-                  <Text style={styles.textdanger}>
-                    {errors?.price_full?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+          {/* End of modification */}
 
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Description
-          </Text>
-          <Controller
-            control={control}
-            name="description"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Description is required!",
-            //   },
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter description"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                    // defaultValues={defaultValues}
-                  />
-                </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+              Half price
+            </Text>
+            <Controller
+              control={control}
+              name="price_half"
+              // rules={{
+              //   required: {
+              //     value: true,
+              //     message: "Half price is required!",
+              //   },
+              // }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter half price"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="number-pad"
+                    />
+                  </View>
+                  {errors?.price_half && (
+                    <Text style={styles.textdanger}>
+                      {errors?.price_half?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-                {errors?.description && (
-                  <Text style={styles.textdanger}>
-                    {errors?.description?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+              Full price
+            </Text>
+            <Controller
+              control={control}
+              name="price_full"
+              // rules={{
+              //   required: {
+              //     value: true,
+              //     message: "Full price is required!",
+              //   },
+              // }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter full price"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="number-pad"
+                    />
+                  </View>
+                  {errors?.price_full && (
+                    <Text style={styles.textdanger}>
+                      {errors?.price_full?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 5,
-            marginBottom: 5,
-          }}
-        >
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload image</Text>
-        </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+              Description
+            </Text>
+            <Controller
+              control={control}
+              name="description"
+              // rules={{
+              //   required: {
+              //     value: true,
+              //     message: "Description is required!",
+              //   },
+              // }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter description"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                      // defaultValues={defaultValues}
+                    />
+                  </View>
 
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // borderColor: 'black',
-            borderRadius: 3,
-            // borderWidth: 1,
-            width: "93%",
-            alignSelf: "center",
-            flexDirection: "row-reverse",
-            justifyContent: "space-around",
-          }}
-        >
-          {/* Added and commented by Yuvraj Sahu on 16-4-2023
-          Reason - to replace button lable and add icon */}
-          {/* <Button title="Edit item icon" onPress={pickImage} /> */}
-          <Pressable
-            onPress={pickImage}
+                  {errors?.description && (
+                    <Text style={styles.textdanger}>
+                      {errors?.description?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
+
+          <View
             style={{
-              backgroundColor: "#d5d5d5",
-              width: 50,
-              padding: 5,
-              borderRadius: 5,
-              height: 40,
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="upload" size={20} color="black" />
-          </Pressable>
-          {/* End of addition */}
-          {icon && (
-            <Image source={{ uri: icon }} style={{ width: 200, height: 200 }} />
-          )}
-          {!icon && itemObj[0].icon && (
-            <Image
-              source={{ uri: config.staticBaseURL + itemObj[0].icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-        </View>
-        <View style={styles.activeStatus}>
-          <Checkbox
-            // style={styles.checkbox}
-            value={isItemChecked}
-            onValueChange={setItemChecked}
-            color={isItemChecked ? "#4630EB" : undefined}
-          />
-          {/*Added by Yuvraj Sahu on 13-4-2023
-          Reason - to make pressable to active status*/}
-          <Pressable onPress={() => setItemChecked(!isItemChecked)}>
-            <Text style={styles.activeLable}>Item available</Text>
-          </Pressable>
-          {/*End of addition*/}
-        </View>
-        <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
-          <Pressable
-            onPress={handleSubmit(handleRegister)}
-            disabled={isDisable}
-            style={{
-              backgroundColor: isDisable ? "grey" : colors.btnColor,
-              height: 40,
-              alignItems: "center",
-              justifyContent: "center",
-              // Added by Yuvraj Sahu on 16-4-2023
-              // Reason - to re-design button
-              width: "40%",
-              borderRadius: 10,
+              width: "93%",
               alignSelf: "center",
-              // End of re-designing
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            <Text
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text>Upload image</Text>
+          </View>
+
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              // borderColor: 'black',
+              borderRadius: 3,
+              // borderWidth: 1,
+              width: "93%",
+              alignSelf: "center",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
+            }}
+          >
+            {/* Added and commented by Yuvraj Sahu on 16-4-2023
+          Reason - to replace button lable and add icon */}
+            {/* <Button title="Edit item icon" onPress={pickImage} /> */}
+            <Pressable
+              onPress={pickImage}
               style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
+                backgroundColor: "#d5d5d5",
+                width: 50,
+                padding: 5,
+                borderRadius: 5,
+                height: 40,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Save changes
-            </Text>
-          </Pressable>
+              <Icon name="upload" size={20} color="black" />
+            </Pressable>
+            {/* End of addition */}
+            {icon && (
+              <Image
+                source={{ uri: icon }}
+                style={{ width: 50, height: 40 }}
+              />
+            )}
+            {!icon && itemObj[0].icon && (
+              <Image
+                source={{ uri: config.staticBaseURL + itemObj[0].icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+          </View>
+          <View style={styles.activeStatus}>
+            <Checkbox
+              // style={styles.checkbox}
+              value={isItemChecked}
+              onValueChange={setItemChecked}
+              color={isItemChecked ? "#4630EB" : undefined}
+            />
+            {/*Added by Yuvraj Sahu on 13-4-2023
+          Reason - to make pressable to active status*/}
+            <Pressable onPress={() => setItemChecked(!isItemChecked)}>
+              <Text style={styles.activeLable}>Item available</Text>
+            </Pressable>
+            {/*End of addition*/}
+          </View>
+          <View
+            style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+          >
+            <Pressable
+              onPress={handleSubmit(handleRegister)}
+              disabled={isDisable}
+              style={{
+                backgroundColor: isDisable ? "grey" : colors.btnColor,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                // Added by Yuvraj Sahu on 16-4-2023
+                // Reason - to re-design button
+                width: "40%",
+                borderRadius: 10,
+                alignSelf: "center",
+                // End of re-designing
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Save changes
+              </Text>
+            </Pressable>
 
-          {/* Added by Om on 07-04-23
+            {/* Added by Om on 07-04-23
           Reason : Add delete functionality */}
-          {/* <Pressable
+            {/* <Pressable
             onPress={showAlert1}
             disabled={isDisable}
             style={{
@@ -566,14 +702,14 @@ export default function EditItemScreen({ route, navigation }) {
               Delete item
             </Text>
           </Pressable> */}
-          {/* End of addition */}
+            {/* End of addition */}
+          </View>
         </View>
-      </View>
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-    {/* End of addition */}
- </>
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -598,6 +734,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     fontSize: 16,
+    marginTop:0,
     borderRadius: 10,
   },
   labels: {

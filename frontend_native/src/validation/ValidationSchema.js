@@ -170,3 +170,27 @@ export const addMenuSchema = yup.object().shape({
     .required("Menu name is required!")
     .max(30, ({ max }) => `Menu name should no be more than ${max} characters`),
 });
+// End of addition
+
+// Added by yuvraj Sahu on 23-04-2023
+// Reason - to validate add menu
+export const addCategorySchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Category name is required!")
+    .max(
+      30,
+      ({ max }) => `Category name should no be more than ${max} characters`
+    ),
+});
+// End of addition
+
+// Added by yuvraj Sahu on 23-04-2023
+// Reason - to validate add menu
+export const addItemSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Item name is required!")
+    .max(30, ({ max }) => `Item name should no be more than ${max} characters`),
+});
+// End of addition

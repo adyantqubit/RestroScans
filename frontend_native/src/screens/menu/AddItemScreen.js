@@ -22,7 +22,12 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { AppStateContext } from "../../context/AppStateProvider";
 // import { Country, State, City } from "country-state-city";
 import Checkbox from "expo-checkbox";
-import Footer from '../../components/Footer/Footer';
+import Footer from "../../components/Footer/Footer";
+import { Formik } from "formik";
+import { addItemSchema } from "../../validation/ValidationSchema";
+import SelectDropdown from "react-native-select-dropdown";
+import { AntDesign } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function AddItemScreen() {
   // Added by Yuvraj Sahu on 24-3-2023
@@ -43,6 +48,11 @@ export default function AddItemScreen() {
   // Added by Yuvraj Sahu on 12-4-2023
   // Reason - to save active status
   const [isItemActive, setItemActive] = useState(false);
+  // End of addition
+
+  // Added by Yuvraj Sahu on 24-4-2023
+  // Reason - to add best seller
+  const [isBestSeller, setBestSeller] = useState(false);
   // End of addition
 
   const {
@@ -79,18 +89,21 @@ export default function AddItemScreen() {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
     if (response.categoryList) {
-      setCategories(
-        response.categoryList.map(function (obj) {
-          obj["key"] = obj["id"]; // Assign new key
-          obj["value"] = obj["name"]; // Rename key
-          delete obj["id"]; // Delete old key
-          delete obj["name"]; // Delete name
-          delete obj["icon"]; // Delete icon
-          delete obj["menu_name"]; // Delete menu name
-          delete obj["menu"]; // Delete menu
-          return obj;
-        })
-      );
+      // Commented and modified by Yuvraj Sahu on 23-4-2023
+      // Reason - to set category list in dropdown
+      // setCategories(
+      //   response.categoryList.map(function (obj) {
+      //     obj["key"] = obj["id"]; // Assign new key
+      //     obj["value"] = obj["name"]; // Rename key
+      //     delete obj["id"]; // Delete old key
+      //     delete obj["name"]; // Delete name
+      //     delete obj["icon"]; // Delete icon
+      //     delete obj["menu_name"]; // Delete menu name
+      //     delete obj["menu"]; // Delete menu
+      //     return obj;
+      //   })
+      // );
+      setCategories(response.categoryList);
     }
   };
 
@@ -134,11 +147,85 @@ export default function AddItemScreen() {
     }
   };
 
-  const handleRegister = (formValues) => {
-  	// Uncommented by Yuvraj Sahu on 20-4-2023
-  	// Reason - to disable btn
-    setIsDisable(true);
-    // End of uncomment
+  // Commeted by Yuvraj Sahu on 24-4-2023
+  // Reason - to change API calling method
+  // const handleRegister = (formValues) => {
+  //   // Uncommented by Yuvraj Sahu on 20-4-2023
+  //   // Reason - to disable btn
+  //   setIsDisable(true);
+  //   // End of uncomment
+  //   var formData = new FormData();
+  //   if (icon != null) {
+  //     const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
+  //     formData.append("icon", {
+  //       uri: icon,
+  //       name: icon,
+  //       type: `image/${ext}`,
+  //     });
+  //   }
+  //   // Added by Yuvraj Sahu on 16-4-2023
+  //   // Reason - to give validation msg
+  //   if (!icon) {
+  //     setImgRequired(true);
+  //   }
+  //   // End of addition
+  //   formData.append("name", formValues.name);
+  //   formData.append("price_half", formValues.price_half);
+  //   formData.append("price_full", formValues.price_full);
+  //   formData.append("category", categorySelected);
+  //   formData.append("description", formValues.description);
+  //   // Added by Yuvraj Sahu on 12-4-2023
+  //   // Reason - to save active status and item type
+  //   formData.append("is_active", isItemActive);
+  //   formData.append("item_type", itemTypeSelected);
+  //   // End of addition
+
+  //   // console.log('formData------'+JSON.stringify(formData))
+  //   if (icon != null) {
+  //     saveItemApi(formData, tenant).then((response) => {
+  //       if (response.msg) {
+  //         Alert.alert(response.msg);
+  //         setIsDisable(false);
+  //         setRender(!render);
+  //         reset("");
+  //         setImage(null);
+  //         setItemActive(false);
+  //         // navigate('login')
+  //       }
+  //       if (response.err) {
+  //         Alert.alert(response.msg);
+  //         setIsDisable(false);
+  //       }
+  //     });
+  //   }
+  // };
+
+  // ------------------------- formik regitration ------------------------
+  const isFocused = useIsFocused();
+  useEffect(() => {}, [isFocused]);
+  var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
+  const [itemName, setItemName] = useState("");
+  var [itemRequired, setItemRequired] = useState(false);
+  var [itemTypeRequired, setItemTypeRequired] = useState(false);
+
+  const handleRegister = async (values, { resetForm }) => {
+    // setSaveBtnDisable(true);
+    if (itemName == "") {
+      setItemRequired(true);
+    }
+    if (itemTypeSelected == "") {
+      setItemTypeRequired(true);
+    }
+    // Added by Yuvraj Sahu on 16-4-2023
+    // Reason - to give validation msg
+    if (!icon) {
+      setImgRequired(true);
+    }
+    // End of addition
+    var tenant = JSON.parse(
+      await SecureStore.getItemAsync("tenantInfo")
+    ).tenant_name;
+
     var formData = new FormData();
     if (icon != null) {
       const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
@@ -147,375 +234,678 @@ export default function AddItemScreen() {
         name: icon,
         type: `image/${ext}`,
       });
-    } 
-    // Added by Yuvraj Sahu on 16-4-2023
-    // Reason - to give validation msg
-    if (!icon){
-      setImgRequired(true);
     }
-    // End of addition 
-    formData.append("name", formValues.name);
-    formData.append("price_half", formValues.price_half);
-    formData.append("price_full", formValues.price_full);
-    formData.append("category", categorySelected);
-    formData.append("description", formValues.description);
-    // Added by Yuvraj Sahu on 12-4-2023
-    // Reason - to save active status and item type
+    formData.append("name", values.name);
+    formData.append("category", itemName);
     formData.append("is_active", isItemActive);
-    formData.append("item_type", itemTypeSelected);
-    // End of addition
+    formData.append("price_full", values.price_full);
+    formData.append("price_half", values.price_half);
+    formData.append("description", values.description);
+    formData.append("best_seller", isBestSeller);
 
-    // console.log('formData------'+JSON.stringify(formData))
+    // alert("value"+JSON.stringify(formData))
+
     if (icon != null) {
-      saveItemApi(formData, tenant).then((response) => {
-        if (response.msg) {
-          Alert.alert(response.msg);
-          setIsDisable(false);
-          setRender(!render);
-          reset("");
+      // if (categoryName != "") {
+      saveItemApi(formData, tenant).then(async (res) => {
+        if (res.msg) {
+          setSaveBtnDisable(false);
+          Alert.alert(res.msg);
+          resetForm({ values: "" });
           setImage(null);
           setItemActive(false);
-          // navigate('login')
-        }
-        if (response.err) {
-          Alert.alert(response.msg);
-          setIsDisable(false);
+          setBestSeller(false);
+          setItemName("");
+        } else if (res.error) {
+          setSaveBtnDisable(false);
+          // Alert.alert(res.error);
+        } else {
+          setSaveBtnDisable(false);
+          Alert.alert("Something went wrong");
         }
       });
+      // }
     }
   };
+  // ----------------------End of formik registration--------------------
 
   return (
     <>
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.labels}>
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Select category name
-        </Text>
-        <SelectList
-          // onSelect={setCategorySelected}
-          setSelected={setCategorySelected}
-          data={categories}
-          search={false}
-          dropdownStyles={{
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 1,
-          }}
-          boxStyles={{
-            borderRadius: 0,
-            width: "93%",
-            alignSelf: "center",
-            borderRadius: 10,
-            borderColor: "black",
-            marginTop: 10,
-          }} //override default styles
-          // defaultOption={data[0]}
-          // defaultOption={data[0]}
-        />
-        <View style={{ marginTop: 5 }}>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Commeted by Yuvraj Sahu on 24-4-2023
+        Reason - to change form to formik */}
+          {/* <Text style={styles.labels}>
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            Select category name
+          </Text>
+          <SelectList
+            // onSelect={setCategorySelected}
+            setSelected={setCategorySelected}
+            data={categories}
+            search={false}
+            dropdownStyles={{
+              width: "93%",
+              alignSelf: "center",
+              marginTop: 1,
+            }}
+            boxStyles={{
+              borderRadius: 0,
+              width: "93%",
+              alignSelf: "center",
+              borderRadius: 10,
+              borderColor: "black",
+              marginTop: 10,
+            }}
+          />
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+              Item name
+            </Text>
+            <Controller
+              control={control}
+              name="name"
+              rules={{
+                required: {
+                  value: true,
+                  message: "Category name is required",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter item name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                    />
+                  </View>
+
+                  {errors?.name && (
+                    <Text style={styles.textdanger}>
+                      {errors?.name?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Item name
+            Select item type
           </Text>
-          <Controller
-            control={control}
-            name="name"
-            rules={{
-              required: {
-                value: true,
-                message: "Category name is required",
-              },
-              //   pattern: {
-              //     value: /^(?!\s+$).*/,
-              //     message: "Menu name cannot contain only blankspaces!",
-              //   },
+          <SelectList
+            setSelected={setItemTypeSelected}
+            data={itemtypes}
+            search={false}
+            dropdownStyles={{
+              width: "93%",
+              alignSelf: "center",
+              marginTop: 1,
             }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter item name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                  />
-                </View>
-
-                {errors?.name && (
-                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
-                )}
-              </>
-            )}
+            boxStyles={{
+              borderRadius: 0,
+              width: "93%",
+              alignSelf: "center",
+              borderRadius: 10,
+              borderColor: "black",
+              marginTop: 10,
+            }} //override default styles
+            defaultOption={itemtypes[0]}
           />
-        </View>
 
-        {/* Added by Yuvraj Sahu on 12-4-2023
-        Reason - to add item type */}
-        <Text style={styles.labels}>
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          Select item type
-        </Text>
-        <SelectList
-          // onSelect={setCategorySelected}
-          setSelected={setItemTypeSelected}
-          data={itemtypes}
-          search={false}
-          dropdownStyles={{
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 1,
-          }}
-          boxStyles={{
-            borderRadius: 0,
-            width: "93%",
-            alignSelf: "center",
-            borderRadius: 10,
-            borderColor: "black",
-            marginTop: 10,
-          }} //override default styles
-          defaultOption={itemtypes[0]}
-        />
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+              Half price
+            </Text>
+            <Controller
+              control={control}
+              name="price_half"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter half price"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="number-pad"
+                    />
+                  </View>
+                  {errors?.price_half && (
+                    <Text style={styles.textdanger}>
+                      {errors?.price_half?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Half price
-          </Text>
-          <Controller
-            control={control}
-            name="price_half"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Half price is required!",
-            //   },
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter half price"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {errors?.price_half && (
-                  <Text style={styles.textdanger}>
-                    {errors?.price_half?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+              Full price
+            </Text>
+            <Controller
+              control={control}
+              name="price_full"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter full price"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="number-pad"
+                    />
+                  </View>
+                  {errors?.price_full && (
+                    <Text style={styles.textdanger}>
+                      {errors?.price_full?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Full price
-          </Text>
-          <Controller
-            control={control}
-            name="price_full"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Full price is required!",
-            //   },
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter full price"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {errors?.price_full && (
-                  <Text style={styles.textdanger}>
-                    {errors?.price_full?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+          <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+              Description
+            </Text>
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter description"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                      // defaultValues={defaultValues}
+                    />
+                  </View>
 
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-            Description
-          </Text>
-          <Controller
-            control={control}
-            name="description"
-            // rules={{
-            //   required: {
-            //     value: true,
-            //     message: "Description is required!",
-            //   },
-            // }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter description"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                    // defaultValues={defaultValues}
-                  />
-                </View>
+                  {errors?.description && (
+                    <Text style={styles.textdanger}>
+                      {errors?.description?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-                {errors?.description && (
-                  <Text style={styles.textdanger}>
-                    {errors?.description?.message}
-                  </Text>
-                )}
-              </>
-            )}
-          />
-        </View>
-
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 5,
-            marginBottom: 5,
-          }}
-        >
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Upload icon</Text>
-        </View>
-
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // borderColor: 'black',
-            borderRadius: 3,
-            // borderWidth: 1,
-            width: "93%",
-            alignSelf: "center",
-            flexDirection: "row-reverse",
-            justifyContent: "space-around",
-          }}
-        >
-          {/* <Button title="Add item icon" onPress={pickImage} /> */}
-          <Pressable
-            onPress={pickImage}
+          <View
             style={{
-              backgroundColor: "#d5d5d5",
-              width: 50,
-              padding: 5,
-              borderRadius: 5,
-              height: 40,
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
+              width: "93%",
+              alignSelf: "center",
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            <Icon name="upload" size={20} color="black" />
-          </Pressable>
-          {icon && (
-            <Image
-              source={{ uri: icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-        </View>
-        {isImgRequired && (
-          <Text style={{ color: "red", marginLeft: 10 }}>
-            Item icon is required!
-          </Text>
-        )}
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text>Upload icon</Text>
+          </View>
 
-        {/* Added by Yuvraj Sahu on 12-4-2023
-        Reason - to select active status */}
-        <View style={styles.activeStatus}>
-          <Checkbox
-            value={isItemActive}
-            onValueChange={setItemActive}
-            color={isItemActive ? "#4630EB" : undefined}
-          />
-          <Pressable onPress={() => setItemActive(!isItemActive)}>
-            <Text style={styles.activeLable}>Item available</Text>
-          </Pressable>
-        </View>
-        {/* End of addition */}
-
-        <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
-          <Pressable
-            onPress={handleSubmit(handleRegister)}
-            disabled={isDisable}
+          <View
             style={{
-              backgroundColor: isDisable ? "grey" : colors.btnColor,
-              height: 40,
+              display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              // Added by Yuvraj Sahu on 16-4-2023
-              // Reason - to re-design button
-              width: "40%",
-              borderRadius: 10,
-              alignSelf: "center"
-              // End of re-designing
+              // borderColor: 'black',
+              borderRadius: 3,
+              // borderWidth: 1,
+              width: "93%",
+              alignSelf: "center",
+              flexDirection: "row-reverse",
+              justifyContent: "space-around",
             }}
           >
-            <Text
+            <Pressable
+              onPress={pickImage}
               style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
+                backgroundColor: "#d5d5d5",
+                width: 50,
+                padding: 5,
+                borderRadius: 5,
+                height: 40,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Save
+              <Icon name="upload" size={20} color="black" />
+            </Pressable>
+            {icon && (
+              <Image
+                source={{ uri: icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+          </View>
+          {isImgRequired && (
+            <Text style={{ color: "red", marginLeft: 10 }}>
+              Item icon is required!
             </Text>
-          </Pressable>
+          )}
+          <View style={styles.activeStatus}>
+            <Checkbox
+              value={isItemActive}
+              onValueChange={setItemActive}
+              color={isItemActive ? "#4630EB" : undefined}
+            />
+            <Pressable onPress={() => setItemActive(!isItemActive)}>
+              <Text style={styles.activeLable}>Item available</Text>
+            </Pressable>
+          </View>
+
+          <View
+            style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+          >
+            <Pressable
+              onPress={handleSubmit(handleRegister)}
+              disabled={isDisable}
+              style={{
+                backgroundColor: isDisable ? "grey" : colors.btnColor,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                // Added by Yuvraj Sahu on 16-4-2023
+                // Reason - to re-design button
+                width: "40%",
+                borderRadius: 10,
+                alignSelf: "center",
+                // End of re-designing
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Save
+              </Text>
+            </Pressable>
+          </View> */}
+
+          {/* ------------------------------- Formik 24-4-2023 ------------------------------  */}
+          <Formik
+            // enableReinitialize={true}
+            initialValues={{
+              name: "",
+              price_full: "",
+              price_half: "",
+              description: "",
+            }}
+            // validateOnMount={true}
+            validationSchema={addItemSchema}
+            onSubmit={handleRegister}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              // Modified by Yuvraj Sahu on 20-4-2023
+              // Reason - to design screen
+              // <ScrollView style={styles.container}>
+              <View>
+                <Text style={styles.labels}>
+                  <Text style={{ color: "red" }}>*</Text>Select Category
+                </Text>
+                <SelectDropdown
+                  data={categories}
+                  dropdownOverlayColor="rgba(0,0,0,0)"
+                  buttonTextStyle={{ fontSize: 16 }}
+                  rowTextStyle={{ fontSize: 16 }}
+                  rowStyle={{ height: 41 }}
+                  selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                  dropdownStyle={{
+                    borderRadius: 10,
+                    backgroundColor: "white",
+                    borderWidth: 1,
+                  }}
+                  renderDropdownIcon={() => {
+                    return <AntDesign name="down" size={14} color="black" />;
+                  }}
+                  buttonStyle={{
+                    height: 41,
+                    borderColor: "black",
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    backgroundColor: "white",
+                    width: "94%",
+                    alignSelf: "center",
+                    marginBottom: 10,
+                  }}
+                  onSelect={(selectedItem, index) => {
+                    setItemName(selectedItem.id);
+                    setItemRequired(false);
+                  }}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem.name;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item.name;
+                  }}
+                />
+                {itemRequired && (
+                  <Text
+                    style={{
+                      color: "red",
+                      paddingHorizontal: 10,
+                      marginTop: -10,
+                    }}
+                  >
+                    Category is required
+                  </Text>
+                )}
+
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    Item name
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("name")}
+                    onBlur={handleBlur("name")}
+                    value={values.name}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Item name"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.name && touched.name && (
+                    <Text style={styles.textdanger}>{errors.name}</Text>
+                  )}
+                </View>
+
+                <Text style={styles.labels}>
+                  <Text style={{ color: "red" }}>*</Text>Select Item Type
+                </Text>
+                <SelectDropdown
+                  data={itemtypes}
+                  dropdownOverlayColor="rgba(0,0,0,0)"
+                  buttonTextStyle={{ fontSize: 16 }}
+                  rowTextStyle={{ fontSize: 16 }}
+                  rowStyle={{ height: 41 }}
+                  selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                  dropdownStyle={{
+                    borderRadius: 10,
+                    backgroundColor: "white",
+                    borderWidth: 1,
+                  }}
+                  renderDropdownIcon={() => {
+                    return <AntDesign name="down" size={14} color="black" />;
+                  }}
+                  buttonStyle={{
+                    height: 41,
+                    borderColor: "black",
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    backgroundColor: "white",
+                    width: "94%",
+                    alignSelf: "center",
+                    marginBottom: 10,
+                  }}
+                  onSelect={(selectedItemType, index) => {
+                    setItemTypeSelected(selectedItemType.value);
+                    setItemTypeRequired(false);
+                  }}
+                  buttonTextAfterSelection={(selectedItemType, index) => {
+                    return selectedItemType.value;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item.value;
+                  }}
+                />
+                {itemTypeRequired && (
+                  <Text
+                    style={{
+                      color: "red",
+                      paddingHorizontal: 10,
+                      marginTop: -10,
+                    }}
+                  >
+                    Item Type is required
+                  </Text>
+                )}
+
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.labels}>
+                    {/* <Text style={{ color: "red", fontWeight: "650" }}> *</Text> */}
+                    {"  "}Full Price
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("price_full")}
+                    onBlur={handleBlur("price_full")}
+                    value={values.price_full}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Full Price"
+                    keyboardType="number-pad"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.price_full && touched.price_full && (
+                    <Text style={styles.textdanger}>{errors.price_full}</Text>
+                  )}
+                </View>
+
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.labels}>
+                    {/* <Text style={{ color: "red", fontWeight: "650" }}> *</Text> */}
+                    {"  "}Half Price
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("price_half")}
+                    onBlur={handleBlur("price_half")}
+                    value={values.price_half}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Half Price"
+                    keyboardType="number-pad"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.price_half && touched.price_half && (
+                    <Text style={styles.textdanger}>{errors.price_half}</Text>
+                  )}
+                </View>
+
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.labels}>
+                    {/* <Text style={{ color: "red", fontWeight: "650" }}> *</Text> */}
+                    {"  "}Description
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("description")}
+                    onBlur={handleBlur("description")}
+                    value={values.description}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Description"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.description && touched.description && (
+                    <Text style={styles.textdanger}>{errors.description}</Text>
+                  )}
+                </View>
+
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "93%",
+                    alignSelf: "center",
+                    marginTop: 5,
+                    marginBottom: 5,
+                  }}
+                >
+                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                  <Text>Upload image</Text>
+                </View>
+
+                <View
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // borderColor: 'black',
+                    borderRadius: 3,
+                    // borderWidth: 1,
+                    width: "93%",
+                    alignSelf: "center",
+                    flexDirection: "row-reverse",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <Pressable
+                    onPress={pickImage}
+                    style={{
+                      backgroundColor: "#d5d5d5",
+                      width: 50,
+                      padding: 5,
+                      borderRadius: 5,
+                      height: 40,
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Icon name="upload" size={20} color="black" />
+                  </Pressable>
+                  {icon && (
+                    <Image
+                      source={{ uri: icon }}
+                      style={{ width: 50, height: 40, borderRadius: 5 }}
+                    />
+                  )}
+                </View>
+                {isImgRequired && (
+                  <Text style={{ color: "red", marginLeft: 10 }}>
+                    Item icon is required!
+                  </Text>
+                )}
+                <View style={styles.activeStatus}>
+                  <Checkbox
+                    value={isItemActive}
+                    onValueChange={setItemActive}
+                    color={isItemActive ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setItemActive(!isItemActive)}>
+                    <Text style={styles.activeLable}>Item available</Text>
+                  </Pressable>
+                </View>
+
+                {/* Added by Yuvraj Sahu on 24-4-2023
+                Reason - to add best seller  */}
+                <View style={styles.activeStatus}>
+                  <Checkbox
+                    value={isBestSeller}
+                    onValueChange={setBestSeller}
+                    color={isBestSeller ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setBestSeller(!isBestSeller)}>
+                    <Text style={styles.activeLable}>Best seller</Text>
+                  </Pressable>
+                </View>
+                {/* End of addition */}
+
+                <View
+                  style={{
+                    marginBottom: 30,
+                    marginHorizontal: 10,
+                    marginTop: 10,
+                  }}
+                >
+                  <Pressable
+                    onPress={(e) => {
+                      handleSubmit();
+                    }}
+                    disabled={isSaveBtnDisable}
+                    style={{
+                      backgroundColor: isSaveBtnDisable
+                        ? "#E0E0E0"
+                        : colors.btnColor,
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 10,
+                      width: 150,
+                      alignSelf: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: isSaveBtnDisable ? "#989898" : colors.white,
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Save
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+          </Formik>
         </View>
-      </View>
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-    {/* End of addition */}
- </>
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -538,7 +928,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    marginTop: 0,
     fontSize: 16,
     borderRadius: 10,
   },
@@ -549,6 +939,8 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    marginTop: -10,
+    marginLeft: 5,
   },
   dropdownText: {
     fontSize: 14,
@@ -614,6 +1006,7 @@ const styles = StyleSheet.create({
     width: "93%",
     alignSelf: "center",
     marginTop: 5,
+    marginBottom: 5,
   },
   activeLable: {
     marginLeft: 10,

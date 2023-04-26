@@ -158,7 +158,9 @@ export default function AddMenuScreen() {
 
   // ------------------------- formik regitration ------------------------
   const isFocused = useIsFocused();
-  useEffect(() => {}, [isFocused]);
+  useEffect(() => {
+    setImage(null);
+  }, [isFocused]);
   var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
   const handleRegister = async (values, { resetForm }) => {
     // setSaveBtnDisable(true);
@@ -388,6 +390,19 @@ export default function AddMenuScreen() {
                 <View
                   style={{
                     display: "flex",
+                    flexDirection: "row",
+                    width: "93%",
+                    alignSelf: "center",
+                    marginTop: 5,
+                    marginBottom: 5,
+                  }}
+                >
+                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                  <Text>Upload image</Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     // borderColor: 'black',
@@ -429,7 +444,7 @@ export default function AddMenuScreen() {
                 )}
 
                 <View style={styles.activeStatus}>
-                <Checkbox
+                  <Checkbox
                     value={isMenuActive}
                     onValueChange={setMenuActive}
                     color={isMenuActive ? "#4630EB" : undefined}
