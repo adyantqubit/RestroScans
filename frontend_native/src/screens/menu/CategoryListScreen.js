@@ -29,37 +29,56 @@ import Checkbox from "expo-checkbox";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { AppStateContext } from "../../context/AppStateProvider";
-import Footer from '../../components/Footer/Footer'
+import Footer from "../../components/Footer/Footer";
+import { Formik } from "formik";
+import { addMenuSchema } from "../../validation/ValidationSchema";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function CategoryListScreen({ route, navigation }) {
+  // Commeted and modified by Yuvraj Sahu on 26-4-2023
+  // Reason - to remove other detail apart form id
   /* Get the param */
-  const {
-    menuName,
-    categoryList,
-    itemList,
-    menuList,
-    menuID,
-    menuObj,
-    filteredCategories,
-  } = route.params;
+  // const {
+  //   menuName,
+  //   categoryList,
+  //   itemList,
+  //   menuList,
+  //   menuID,
+  //   menuObj,
+  //   filteredCategories,
+  // } = route.params;
+  const { menuID } = route.params;
+  // End of comment
 
   const [tempPhoto, setTempPhoto] = useState(null);
   const [icon, setImage] = useState(null);
   var [isDisable, setIsDisable] = useState(false);
-  const [isMenuChecked, setMenuChecked] = useState(menuObj[0].is_active);
+
+  // Modified and removed by Yuvraj Sahu on 26-4-2023
+  // Reason - to set active field in checkbox
+  const [isMenuChecked, setMenuChecked] = useState(false);
+  // End of set active
 
   // Added by Yuvraj Sahu on 7-4-2023
   // Reason - to get all menu, category and item and rerender page
   var { render, setRender } = useContext(AppStateContext);
-
+  // Added and modification by Yuvraj Sahu on 26-4-2023
+  // Reason - to re render the page
+  const isFocused = useIsFocused();
   useEffect(() => {
     getAllmenus();
-  }, [render]);
+  }, [isFocused]);
+  // end of modification
 
-  var [menuObject, setMenuObject] = useState(menuObj);
+  var [menuObject, setMenuObject] = useState({});
   //  var menuObject = menuObj
   var [categoryObject, setCategoryObject] = useState([]);
   var [itemObject, setItemObject] = useState([""]);
+
+  // Added by Yuvraj Sahu on 26-4-2023
+  // Reason - to set selcted menu
+  var [selectedMenu, setSelectedMenu] = useState({});
+
   const getAllmenus = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -67,9 +86,19 @@ export default function CategoryListScreen({ route, navigation }) {
     var response = await getAllMenuList(tenant);
     if (response) {
       // setMenuObject((response.menuList).filter((dt) => dt.id == menuID )[0])
-      setCategoryObject(
-        response.categoryList.filter((dt) => dt.menu_id == menuID)
+
+      //Added and modified by Yuvraj Sahu on 26-4-2023
+      // Reason - to set data for mapping and get newest value from backend
+      var selectedMenu = response.menuList.filter((dt) => dt.id == menuID)[0];
+      var filteredCategory = response.categoryList.filter(
+        (dt) => dt.menu_id == menuID
       );
+      var menuChecked = selectedMenu.is_active;
+      setMenuChecked(menuChecked);
+      setCategoryObject(filteredCategory);
+      setSelectedMenu(selectedMenu);
+      setMenuObject(selectedMenu);
+      // End of modification
     }
   };
 
@@ -98,9 +127,9 @@ export default function CategoryListScreen({ route, navigation }) {
   // End upload image
 
   const handleRegister = async (formValues) => {
-  	// Added by Yuvraj Sahu on 20-4-2023
-  	// Reason - to disable btn
-    setIsDisable(true)
+    // Added by Yuvraj Sahu on 20-4-2023
+    // Reason - to disable btn
+    setIsDisable(true);
     // End of addition
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -122,13 +151,15 @@ export default function CategoryListScreen({ route, navigation }) {
     updateMenuApi(formData, tenant, menuID).then((response) => {
       if (response.msg) {
         Alert.alert(response.msg);
-        var a = response.menuList.filter((dt) => dt.id == menuID);
+        var a = response.menuList.filter((dt) => dt.id == menuID)[0];
         setMenuObject(a);
-        setRender(!render);
+        // Commented by Yuvraj Sahu on 27-4-2023
+        // setRender(!render);
+        // End of comment
         // Added by Yuvraj Sahu on 20-4-2023
         // Reason - to disable false btn
-        setIsDisable(false)
-        // End of addition 
+        setIsDisable(false);
+        // End of addition
         // navigate('login')
         // setState("stateChanged")
       }
@@ -137,7 +168,7 @@ export default function CategoryListScreen({ route, navigation }) {
         Alert.alert("Error", response.error);
         // Added by Yuvraj Sahu on 20-4-2023
         // Reason - to disable false btn
-        setIsDisable(false)
+        setIsDisable(false);
         // End of addition
       }
     });
@@ -179,247 +210,379 @@ export default function CategoryListScreen({ route, navigation }) {
   //   );
   // }
   // End of addition
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      // name: menuObj[0].name,
-      name: menuObject[0].name,
-    },
-  });
+
+  // Commeted by yuvraj Sahu on 26-4-2023
+  // Reason - to change the form
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   setValue,
+  //   getValues,
+  //   getFieldState,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     // name: menuObj[0].name,
+  //     name: menuObject[0].name,
+  //   },
+  // });
+  // End of comment
 
   // Added by Yuvraj Sahu on 4-4-2023
   // Reason - to navigate item screan and send filtered item list
   function itemFilter(categoryID, categoryName) {
     // Modified by Yuvraj Sahu on 7-4-2023
     // Reason - to filter new data
-    var categoryObj = categoryObject.filter((dt) => dt.id == categoryID);
+    // Commeted by Yuvraj Sahu on 26-4-2023
+    // Reason - to no need to pass using params
+    // var categoryObj = categoryObject.filter((dt) => dt.id == categoryID);
     // End of modification
-    var filteredItems = itemList.filter((e) => e.category == categoryID);
+    // var filteredItems = itemList.filter((e) => e.category == categoryID);
+
+    // Commented and modified by Yuvraj Sahu on 26-4-2023
+    // Reason - to send only id using params
+    // navigation.navigate("ItemListScreen", {
+    //   categoryID: categoryID,
+    //   categoryName: categoryName,
+    //   itemList: filteredItems,
+    //   menuID: menuID,
+    //   menuName: menuName,
+    //   categoryObj: categoryObj,
+    //   menuList: menuList,
+    //   categoryList: categoryList,
+    // });
     navigation.navigate("ItemListScreen", {
       categoryID: categoryID,
-      categoryName: categoryName,
-      itemList: filteredItems,
+      // categoryName: categoryName,
+      // itemList: filteredItems,
       menuID: menuID,
-      menuName: menuName,
-      categoryObj: categoryObj,
-      menuList: menuList,
-      categoryList: categoryList,
+      // menuName: menuName,
+      // categoryObj: categoryObj,
+      // menuList: menuList,
+      // categoryList: categoryList,
     });
   }
   // End of addition
 
   return (
     <>
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={{ marginTop: 5 }}>
-          <Text style={styles.labels}>
-            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-            Menu name
-          </Text>
-          <Controller
-            control={control}
-            name="name"
-            rules={{
-              required: {
-                value: true,
-                message: "Menu name is required",
-              },
-              //   pattern: {
-              //     value: /^(?!\s+$).*/,
-              //     message: "Menu name cannot contain only blankspaces!",
-              //   },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <>
-                <View>
-                  <TextInput
-                    style={styles.input}
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholder="Enter menu name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={false}
-                    placeholderTextColor="#A4A4A4"
-                    editable={true}
-                    keyboardType="default"
-                  />
-                </View>
-                {errors?.name && (
-                  <Text style={styles.textdanger}>{errors?.name?.message}</Text>
-                )}
-              </>
-            )}
-          />
-        </View>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Added and commented by Yuvraj Sahu on 26-4-2023
+        Reason - to change the form into formik */}
+          {/* <View style={{ marginTop: 5 }}>
+            <Text style={styles.labels}>
+              <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+              Menu name
+            </Text>
+            <Controller
+              control={control}
+              name="name"
+              rules={{
+                required: {
+                  value: true,
+                  message: "Menu name is required",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <>
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      value={value}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      placeholder="Enter menu name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      secureTextEntry={false}
+                      placeholderTextColor="#A4A4A4"
+                      editable={true}
+                      keyboardType="default"
+                    />
+                  </View>
+                  {errors?.name && (
+                    <Text style={styles.textdanger}>
+                      {errors?.name?.message}
+                    </Text>
+                  )}
+                </>
+              )}
+            />
+          </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "93%",
-            alignSelf: "center",
-            marginTop: 5,
-            marginBottom: 5,
-          }}
-        >
-          <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-          <Text>Edit icon</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // borderColor: 'black',
-            borderRadius: 3,
-            // borderWidth: 1,
-            width: "93%",
-            alignSelf: "center",
-            // Modified by Yuvraj 17-4-2023
-            // reason - to design upload
-            flexDirection: "row-reverse",
-            // End of designing
-            justifyContent: "space-around",
-          }}
-        >
-          {/* Added and modified by Yuvraj Sahu on 16-4-2023
-          Reason - to replace button from icon */}
-          {/* <Button title="Edit menu icon" onPress={pickImage} /> */}
-          <Pressable
-            onPress={pickImage}
+           <View
             style={{
-              backgroundColor: "#d5d5d5",
-              width: 50,
-              padding: 5,
-              borderRadius: 5,
-              height: 40,
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="upload" size={20} color="black" />
-          </Pressable>
-          {/* End of aadition */}
-          {icon && (
-            <Image
-              source={{ uri: icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-          {!icon && menuObj[0].icon && (
-            <Image
-              source={{ uri: config.staticBaseURL + menuObj[0].icon }}
-              style={{ width: 50, height: 40, borderRadius: 5 }}
-            />
-          )}
-        </View>
-        <View style={styles.activeStatus}>
-          <Checkbox
-            // style={styles.checkbox}
-            value={isMenuChecked}
-            onValueChange={setMenuChecked}
-            color={isMenuChecked ? "#4630EB" : undefined}
-          />
-          {/* Added by Yuvraj Sahu on 13-42023
-          Reason - to press active status in checkbox */}
-          <Pressable onPress={() => setMenuChecked(!isMenuChecked)}>
-            <Text style={styles.activeLable}>Menu available</Text>
-          </Pressable>
-          {/*End of addition*/}
-        </View>
-        <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
-          <Pressable
-            onPress={handleSubmit(handleRegister)}
-            disabled={isDisable}
-            style={{
-              backgroundColor: isDisable ? "grey" : colors.btnColor,
-              height: 40,
-              alignItems: "center",
-              justifyContent: "center",
-              // Added by Yuvraj Sahu on 16-4-2023
-              // Reason - to re-design button
-              width: "40%",
-              borderRadius: 10,
+              width: "93%",
               alignSelf: "center",
-              // End of re-designing
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
-              }}
-            >
-              Save changes
-            </Text>
-          </Pressable>
-
-          {/* Added by Om on 07-04-23
-          Reason : Add delete for functionality */}
-          {/* <Pressable
-            onPress={showAlert1}
-            disabled={isDisable}
+            <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+            <Text>Edit icon</Text>
+          </View>
+          <View
             style={{
-              backgroundColor: isDisable ? "grey" : colors.anotherButton,
-              height: 40,
+              display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              // borderColor: 'black',
               borderRadius: 3,
-              marginTop: 10
+              // borderWidth: 1,
+              width: "93%",
+              alignSelf: "center",
+              // Modified by Yuvraj 17-4-2023
+              // reason - to design upload
+              flexDirection: "row-reverse",
+              // End of designing
+              justifyContent: "space-around",
             }}
           >
-            <Text
+            <Pressable
+              onPress={pickImage}
               style={{
-                color: "white",
-                fontSize: 16,
-                fontWeight: "bold",
+                backgroundColor: "#d5d5d5",
+                width: 50,
+                padding: 5,
+                borderRadius: 5,
+                height: 40,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Delete menu
-            </Text>
-          </Pressable> */}
-          {/* End of addition */}
-        </View>
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryLable}>
-            Categories inside {menuObject[0].name}
-          </Text>
-          {categoryObject.map((categoryData, id) => (
-            <Pressable
-              key={id}
-              style={styles.categoryListContainer}
-              onPress={(e) => itemFilter(categoryData.id, categoryData.name)}
-            >
-              <Image
-                source={{
-                  uri: config.staticBaseURL + categoryData.icon,
-                }}
-                style={styles.menuIcon}
-              />
-              <Text>{categoryData.name}</Text>
-              <Icon name="edit" size={20} color="black" />
+              <Icon name="upload" size={20} color="black" />
             </Pressable>
-          ))}
+            {icon && (
+              <Image
+                source={{ uri: icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+            {!icon && menuObj[0].icon && (
+              <Image
+                source={{ uri: config.staticBaseURL + menuObj[0].icon }}
+                style={{ width: 50, height: 40, borderRadius: 5 }}
+              />
+            )}
+          </View>
+          <View style={styles.activeStatus}>
+            <Checkbox
+              // style={styles.checkbox}
+              value={isMenuChecked}
+              onValueChange={setMenuChecked}
+              color={isMenuChecked ? "#4630EB" : undefined}
+            />
+            <Pressable onPress={() => setMenuChecked(!isMenuChecked)}>
+              <Text style={styles.activeLable}>Menu available</Text>
+            </Pressable>
+          </View>
+          <View
+            style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+          >
+            <Pressable
+              onPress={handleSubmit(handleRegister)}
+              disabled={isDisable}
+              style={{
+                backgroundColor: isDisable ? "grey" : colors.btnColor,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                // Added by Yuvraj Sahu on 16-4-2023
+                // Reason - to re-design button
+                width: "40%",
+                borderRadius: 10,
+                alignSelf: "center",
+                // End of re-designing
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Save changes
+              </Text>
+            </Pressable>
+          </View> */}
+
+          {/* ----------------------------- formik 23-4-2023 ------------------------------ */}
+
+          <Formik
+            enableReinitialize={true}
+            initialValues={{
+              name: selectedMenu.name,
+            }}
+            // validateOnMount={true}
+            validationSchema={addMenuSchema}
+            onSubmit={handleRegister}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              // Modified by Yuvraj Sahu on 20-4-2023
+              // Reason - to design screen
+              // <ScrollView style={styles.container}>
+              <View>
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    Menu name
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("name")}
+                    onBlur={handleBlur("name")}
+                    value={values.name}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Menu name"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.name && touched.name && (
+                    <Text style={styles.textdanger}>{errors.name}</Text>
+                  )}
+                </View>
+
+                <View
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // borderColor: 'black',
+                    borderRadius: 3,
+                    // borderWidth: 1,
+                    width: "93%",
+                    alignSelf: "center",
+                    // Modified by Yuvraj 17-4-2023
+                    // reason - to design upload
+                    flexDirection: "row-reverse",
+                    // End of designing
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <Pressable
+                    onPress={pickImage}
+                    style={{
+                      backgroundColor: "#d5d5d5",
+                      width: 50,
+                      padding: 5,
+                      borderRadius: 5,
+                      height: 40,
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Icon name="upload" size={20} color="black" />
+                  </Pressable>
+                  {icon && (
+                    <Image
+                      source={{ uri: icon }}
+                      style={{ width: 50, height: 40, borderRadius: 5 }}
+                    />
+                  )}
+                  {!icon && selectedMenu.icon && (
+                    <Image
+                      source={{ uri: config.staticBaseURL + selectedMenu.icon }}
+                      style={{ width: 50, height: 40, borderRadius: 5 }}
+                    />
+                  )}
+                </View>
+                <View style={styles.activeStatus}>
+                  <Checkbox
+                    // style={styles.checkbox}
+                    value={isMenuChecked}
+                    onValueChange={setMenuChecked}
+                    color={isMenuChecked ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setMenuChecked(!isMenuChecked)}>
+                    <Text style={styles.activeLable}>Menu available</Text>
+                  </Pressable>
+                </View>
+
+                <View
+                  style={{
+                    marginBottom: 30,
+                    marginHorizontal: 10,
+                    marginTop: 10,
+                  }}
+                >
+                  <Pressable
+                    onPress={handleSubmit}
+                    disabled={isDisable}
+                    style={{
+                      backgroundColor: isDisable ? "grey" : colors.btnColor,
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // Added by Yuvraj Sahu on 16-4-2023
+                      // Reason - to re-design button
+                      width: "40%",
+                      borderRadius: 10,
+                      alignSelf: "center",
+                      // End of re-designing
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Save changes
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+          </Formik>
+
+          {/* -------------------------- End formik -------------------------------------- */}
+
+          {/* ---------------------- Category lists ------------------------------ */}
+          <View style={styles.categoryContainer}>
+            <Text style={styles.categoryLable}>
+              Categories inside {menuObject.name}
+            </Text>
+            {categoryObject.map((categoryData, id) => (
+              <Pressable
+                key={id}
+                style={styles.categoryListContainer}
+                onPress={(e) => itemFilter(categoryData.id, categoryData.name)}
+              >
+                <Image
+                  source={{
+                    uri: config.staticBaseURL + categoryData.icon,
+                  }}
+                  style={styles.menuIcon}
+                />
+                <Text>{categoryData.name}</Text>
+                <Icon name="edit" size={20} color="black" />
+              </Pressable>
+            ))}
+          </View>
         </View>
-      </View>
-    </ScrollView>
-    {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-    {/* End of addition */}
- </>
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <Footer />
+      {/* End of addition */}
+    </>
   );
 }
 

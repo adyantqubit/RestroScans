@@ -16,6 +16,7 @@ import {
   getAllOfferItemList,
   deleteOfferApi,
   deleteOfferItemsApi,
+  getAllOfferList,
 } from "../../api/Services";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
@@ -29,8 +30,12 @@ import { AppStateContext } from "../../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
 import Footer from "../../components/Footer/Footer";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Formik } from "formik";
+import Checkbox from "expo-checkbox";
+import { addOfferSchema } from "../../validation/ValidationSchema";
+
 export default function OfferItemsScreen({ route, navigation }) {
-  const { banner } = route.params;
+  const { banner, bannerId } = route.params;
 
   const [tempPhoto, setTempPhoto] = useState(null);
   const [icon, setImage] = useState(null);
@@ -46,16 +51,33 @@ export default function OfferItemsScreen({ route, navigation }) {
   var [bannerObject, setBannerObject] = useState(banner);
   var [bannerItemList, setBannerItemList] = useState([]);
 
+  // Added by Yuvraj Sahu on 26-4-2023
+  // Reason - to set offer object
+  var [offerObj, setOfferObj] = useState({});
+  // End of adiition
+
   const getAllOfferItems = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
-    var response = await getAllOfferItemList(tenant);
+    // Added and commented by Yuvraj Sahu on 26-4-2023
+    // Reason - to get offers with offer items
+    // var response = await getAllOfferItemList(tenant);
+    var response = await getAllOfferList(tenant);
+    // End of addition
     if (response) {
       var offerItemList = response.offerItemList.filter(
         (dt) => dt.offer_name == bannerObject.offer_name
       );
       setBannerItemList(offerItemList);
+
+      // Added by Yuvraj Sahu on 26-4-2023
+      // Reason - to get banner object and checkbox
+      var offerObj = response.offerBanner.filter((dt) => dt.id == bannerId)[0];
+      setOfferObj(offerObj);
+      var showVideoChecked = offerObj.show_video_Hide_Image;
+      setIsShowVideo(showVideoChecked);
+      // End of addition
     }
   };
 
@@ -72,6 +94,11 @@ export default function OfferItemsScreen({ route, navigation }) {
     }
   };
   // End upload image
+
+  // Added by Yuvraj Sahu on 26-4-2023
+  // Reason - to add show image hide image
+  const [isShowVideo, setIsShowVideo] = useState(false);
+  // End of addition
 
   // Update the valuesss
   const handleRegister = async (formValues) => {
@@ -90,17 +117,20 @@ export default function OfferItemsScreen({ route, navigation }) {
     }
     formData.append("offer_name", formValues.offer_name);
     formData.append("discount", formValues.discount);
+    formData.append("video_link", formValues.video_link);
+    formData.append("description", formValues.description);
+    formData.append("show_video_Hide_Image", isShowVideo);
 
     updateAllOffer(formData, tenant, bannerObject.id).then((response) => {
       if (response.msg) {
         // Modified by Om on 14-04-23
         // Reason : Correct the spelling of success
-        Alert.alert("Successfull", response.msg);
+        Alert.alert(response.msg);
         // End of modfication
         setRender(!render);
       }
       if (response.error) {
-        Alert.alert("Error", response.error);
+        Alert.alert(response.error);
       }
     });
   };
@@ -114,12 +144,12 @@ export default function OfferItemsScreen({ route, navigation }) {
 
     deleteOfferApi(tenant, bannerObject.id).then((response) => {
       if (response.msg) {
-        Alert.alert("Successfull", response.msg);
+        Alert.alert(response.msg);
         setRender(!render);
         navigation.pop();
       }
       if (response.error) {
-        Alert.alert("Error", response.error);
+        Alert.alert(response.error);
       }
     });
   };
@@ -143,20 +173,20 @@ export default function OfferItemsScreen({ route, navigation }) {
     );
   }
   // End of addition
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      offer_name: bannerObject.offer_name,
-      discount: `${!bannerObject.discount? "0":bannerObject.discount}`, //Modified by Om for set the null value to 0
-    },
-  });
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   setValue,
+  //   getValues,
+  //   getFieldState,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     offer_name: bannerObject.offer_name,
+  //     discount: `${!bannerObject.discount ? "0" : bannerObject.discount}`, //Modified by Om for set the null value to 0
+  //   },
+  // });
 
   function deleteBannerItemPermission(bannerItemId) {
     Alert.alert("Confirmation", "Are you sure you want to delete this item?", [
@@ -193,7 +223,10 @@ export default function OfferItemsScreen({ route, navigation }) {
     <>
       <ScrollView>
         <View style={styles.container}>
-          <View style={{ marginTop: 5 }}>
+          {/* Commeted and added by Yuvraj Sahu on 26-4-2023
+          Reason - to change form into formik */}
+
+          {/* <View style={{ marginTop: 5 }}>
             <Text style={styles.labels}>Banner/Offer name</Text>
             <Controller
               control={control}
@@ -257,9 +290,6 @@ export default function OfferItemsScreen({ route, navigation }) {
               justifyContent: "space-around",
             }}
           >
-            {/* Modification by Om on 15-04-23
-                        Reason : Fix the image validation */}
-            {/* <Button title="Banner image" onPress={pickImage} /> */}
             <Pressable
               onPress={pickImage}
               style={{
@@ -276,7 +306,6 @@ export default function OfferItemsScreen({ route, navigation }) {
             >
               <Icon name="upload" size={20} color="black" />
             </Pressable>
-            {/* End of modification */}
             {icon && (
               <Image
                 source={{ uri: icon }}
@@ -299,10 +328,10 @@ export default function OfferItemsScreen({ route, navigation }) {
               name="discount"
               rules={{
                 pattern: {
-                    value: /^\d{0,2}$/,
-                    message: "Discount is not valid",
+                  value: /^\d{0,2}$/,
+                  message: "Discount is not valid",
                 },
-            }}
+              }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <>
                   <View>
@@ -353,9 +382,6 @@ export default function OfferItemsScreen({ route, navigation }) {
                 Save changes
               </Text>
             </Pressable>
-
-            {/* Added by Om on 07-04-23
-                    Reason : Add delete for functionality */}
             <Pressable
               onPress={deleteBannerPermission}
               disabled={isDisable}
@@ -379,8 +405,227 @@ export default function OfferItemsScreen({ route, navigation }) {
                 Delete
               </Text>
             </Pressable>
-            {/* End of addition */}
-          </View>
+          </View> */}
+
+          {/* End of comment */}
+
+          {/* ----------------------------- formik 23-4-2023 ------------------------------ */}
+          <Formik
+            enableReinitialize={true}
+            initialValues={{
+              offer_name: offerObj.offer_name,
+              discount: "" + offerObj.discount,
+              //   Added by Yuvraj Sahu on 26-4-2023
+              //   Reason - to add more fields
+              show_video_Hide_Image: isShowVideo,
+              video_link: offerObj.video_link,
+              description: offerObj.description,
+              // End of addition
+            }}
+            // validateOnMount={true}
+            validationSchema={addOfferSchema}
+            onSubmit={handleRegister}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              // Modified by Yuvraj Sahu on 20-4-2023
+              // Reason - to design screen
+              // <ScrollView style={styles.container}>
+              <View>
+                <View>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    Offer name
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("offer_name")}
+                    onBlur={handleBlur("offer_name")}
+                    value={values.offer_name}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Offer name"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.offer_name && touched.offer_name && (
+                    <Text style={styles.textdanger}>{errors.offer_name}</Text>
+                  )}
+                </View>
+
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.labels}>
+                    {/* <Text style={{ color: "red", fontWeight: "650" }}> *</Text> */}
+                    {"  "}Discount
+                  </Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("discount")}
+                    onBlur={handleBlur("discount")}
+                    value={values.discount}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Discount"
+                    keyboardType="number-pad"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.discount && touched.discount && (
+                    <Text style={styles.textdanger}>{errors.discount}</Text>
+                  )}
+                </View>
+
+                {/* Added by Yuvraj Sahu on 26-4-2023
+                Reason - to add more fields */}
+
+                <View>
+                  <Text style={styles.labels}>{"  "} Video Link</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("video_link")}
+                    onBlur={handleBlur("video_link")}
+                    value={values.video_link}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Video Link"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.video_link && touched.video_link && (
+                    <Text style={styles.textdanger}>{errors.video_link}</Text>
+                  )}
+                </View>
+
+                <View>
+                  <Text style={styles.labels}>{"  "} Description</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("description")}
+                    onBlur={handleBlur("description")}
+                    value={values.description}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Description"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.description && touched.description && (
+                    <Text style={styles.textdanger}>{errors.description}</Text>
+                  )}
+                </View>
+
+                {/* End of addition */}
+
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "93%",
+                    alignSelf: "center",
+                    marginTop: 5,
+                    marginBottom: 5,
+                  }}
+                >
+                  <Text>Banner/Offer image</Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // borderColor: 'black',
+                    borderRadius: 3,
+                    // borderWidth: 1,
+                    width: "93%",
+                    alignSelf: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <Pressable
+                    onPress={pickImage}
+                    style={{
+                      backgroundColor: "#d5d5d5",
+                      width: 50,
+                      padding: 5,
+                      borderRadius: 5,
+                      height: 40,
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Icon name="upload" size={20} color="black" />
+                  </Pressable>
+                  {icon && (
+                    <Image
+                      source={{ uri: icon }}
+                      style={{ width: 50, height: 40, borderRadius: 5 }}
+                    />
+                  )}
+                  {!icon && bannerObject.offer_image && (
+                    <Image
+                      source={{
+                        uri: config.staticBaseURL + bannerObject.offer_image,
+                      }}
+                      style={{ width: 50, height: 40, borderRadius: 5 }}
+                    />
+                  )}
+                </View>
+
+                {/* Added by Yuvraj Sahu on 26-4-2023
+                Reason - to add more fields */}
+                <View style={styles.showVideo}>
+                  <Checkbox
+                    value={isShowVideo}
+                    onValueChange={setIsShowVideo}
+                    color={isShowVideo ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setIsShowVideo(!isShowVideo)}>
+                    <Text style={styles.showVideoLable}>
+                      Show video hide image
+                    </Text>
+                  </Pressable>
+                </View>
+                {/* End of addition */}
+
+                <View style={styles.btns}>
+                  <Pressable
+                    onPress={handleSubmit}
+                    disabled={isDisable}
+                    style={{
+                      // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                      backgroundColor: isDisable ? "grey" : colors.btnColor,
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 3,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Save
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+          </Formik>
+          {/* -------------------------- End formik -------------------------------------- */}
+
+          {/* ------------------------ Offer items ----------------------------- */}
           <View style={styles.categoryContainer}>
             <Text style={styles.categoryLable}>
               Items inside this Banner/Offer {bannerObject.name}
@@ -566,4 +811,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   // End of modification
+
+  // Added by Yuvraj Sahu on 26-4-2023
+  // Reason - to design checkbox
+  showVideo: {
+    display: "flex",
+    flexDirection: "row",
+    width: "93%",
+    alignSelf: "center",
+    marginTop: 5,
+  },
+  showVideoLable: {
+    marginLeft: 10,
+  },
+  // End of addition
 });

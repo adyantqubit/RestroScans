@@ -194,3 +194,16 @@ export const addItemSchema = yup.object().shape({
     .max(30, ({ max }) => `Item name should no be more than ${max} characters`),
 });
 // End of addition
+
+
+// Added by yuvraj Sahu on 26-04-2023
+// Reason - to validate add Offer
+export const addOfferSchema = yup.object().shape({
+  offer_name: yup
+    .string()
+    .required("Item name is required!")
+    .max(40, ({ max }) => `Offer name should no be more than ${max} characters`),
+    video_link: yup.string()
+    .max(500, ({ max }) => `Video link should no be more than ${max} characters`),
+});
+// End of addition

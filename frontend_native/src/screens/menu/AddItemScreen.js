@@ -55,34 +55,36 @@ export default function AddItemScreen() {
   const [isBestSeller, setBestSeller] = useState(false);
   // End of addition
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-      category: "",
-      description: "",
-      price_full: "",
-      price_half: "",
-    },
-  });
-
-  var { render, setRender } = useContext(AppStateContext);
-
-  useEffect(() => {
-    getMenus();
-  }, [render]);
+  // Commeted by Yuvraj Sahu on 26-4-2023
+  // Reason - to remove useform
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   setValue,
+  //   getValues,
+  //   getFieldState,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     name: "",
+  //     category: "",
+  //     description: "",
+  //     price_full: "",
+  //     price_half: "",
+  //   },
+  // });
+  // End of removal
 
   React.useEffect(() => {
     // getMenus();
     getTenant();
   }, []);
+
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    getMenus();
+  }, [isFocused]);
   // End of show menu list
 
   const getMenus = async () => {
@@ -201,8 +203,6 @@ export default function AddItemScreen() {
   // };
 
   // ------------------------- formik regitration ------------------------
-  const isFocused = useIsFocused();
-  useEffect(() => {}, [isFocused]);
   var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
   const [itemName, setItemName] = useState("");
   var [itemRequired, setItemRequired] = useState(false);

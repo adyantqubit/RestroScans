@@ -37,9 +37,9 @@ export default function MenuListScreen({ navigation }) {
   // After click the banner items than all details set in this function then navigate the next screen
   function onOfferClick(bannerId) {
     var filteredBannerList = bannerList.filter((dt) => dt.id == bannerId);
-
     navigation.navigate("OfferItemsScreen", {
       banner: filteredBannerList[0],
+      bannerId: bannerId
     });
   }
 
