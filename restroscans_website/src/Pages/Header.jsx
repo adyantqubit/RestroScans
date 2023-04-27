@@ -4,8 +4,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./header.css";
-import Adyant from "../images/adyant.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPhone,
+  faHouse,
+  faImage,
+  faUser,
+  faDollarSign,
+  faIndianRupee,
+  faIndianRupeeSign,
+  faList,
+} from "@fortawesome/free-solid-svg-icons";
+import RestroscansLogo from "../images/restroscans_logo.png";
 
 function Header({ isOpen, setIsOpen }) {
   // Added by:- Suman sahu  Date:- 07/04/2023
@@ -37,14 +47,13 @@ function Header({ isOpen, setIsOpen }) {
             className="side_bar_icon"
           />
         </label>
-        <label className="restro_scans_logo">
+        <label className="restroscans_logo_section">
           <Link
             className="logo_link"
             onClick={() => openSiteOfAdyant("https://adyant.co.in/")}
-          >
-            <img src={Adyant} className="header_adyant_logo" />
-          </Link>
-          <span className="header_restroscan_link">restroscans.com</span>
+          ></Link>
+          <img src={RestroscansLogo} className="header_restroscans_logo" />
+          {/* <span className="header_restroscan_link">RestroScans</span> */}
         </label>
         <button
           className="header_btn_responsive"
@@ -58,12 +67,14 @@ function Header({ isOpen, setIsOpen }) {
             className={isOpen == true ? "menu_open_second" : "menu_open_first"}
           >
             <li>
+              <FontAwesomeIcon icon={faHouse} className="header_link_icons" />
               <Link className="header_links" to="/" onClick={menuClose}>
                 Home
               </Link>
             </li>
 
             <li>
+              <FontAwesomeIcon icon={faList} className="features_icon" />
               <Link
                 className="header_links"
                 to="/features"
@@ -75,6 +86,17 @@ function Header({ isOpen, setIsOpen }) {
             </li>
 
             <li>
+              <FontAwesomeIcon icon={faImage} className="header_link_icons" />
+              <Link className="header_links" to="/gallery" onClick={menuClose}>
+                Gallery
+              </Link>
+            </li>
+
+            <li>
+              <FontAwesomeIcon
+                icon={faIndianRupeeSign}
+                className="pricing_icon"
+              />
               <Link
                 className="header_links"
                 to="/pricing"
@@ -86,24 +108,20 @@ function Header({ isOpen, setIsOpen }) {
             </li>
 
             <li>
-              <Link className="header_links" to="/gallery" onClick={menuClose}>
-                Gallery
-              </Link>
-            </li>
-
-            <li>
+              <FontAwesomeIcon icon={faPhone} className="header_link_icons" />
               <Link
                 className="header_links"
                 to="/contactus"
                 onClick={menuClose}
               >
-                Contact us
+                Contact US
               </Link>
             </li>
 
             <li>
+              <FontAwesomeIcon icon={faUser} className="header_link_icons" />
               <Link className="header_links" to="/aboutus" onClick={menuClose}>
-                About us
+                About US
               </Link>
             </li>
           </div>

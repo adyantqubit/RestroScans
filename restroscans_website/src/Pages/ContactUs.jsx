@@ -173,8 +173,8 @@ function ContactUs() {
                   id="name"
                   placeholder="Name"
                 />
+                <p id="errName" className="contactus_error_msg"></p>
               </div>
-              <p id="errName" className="error_msg"></p>
 
               <div className="contactus_input_div">
                 <FontAwesomeIcon
@@ -188,8 +188,8 @@ function ContactUs() {
                   id="email"
                   placeholder="Email"
                 />
+                <p id="errEmail" className="contactus_error_msg"></p>
               </div>
-              <p id="errEmail" className="error_msg"></p>
 
               <div className="contactus_input_div">
                 <FontAwesomeIcon
@@ -203,8 +203,8 @@ function ContactUs() {
                   id="mobile_number"
                   placeholder="Mobile Number"
                 />
+                <p id="errMobileNumber" className="contactus_error_msg"></p>
               </div>
-              <p id="errMobileNumber" className="error_msg"></p>
             </div>
 
             <div className="contactus_input_div">
@@ -216,8 +216,8 @@ function ContactUs() {
                 id="query"
                 placeholder="Your queries"
               />
+              <p id="errQuery" className="contactus_error_msg"></p>
             </div>
-            <p id="errQuery" className="error_msg"></p>
 
             <div className="contactus_btn_div">
               <button className="contactus_submit_btn" type="submit">

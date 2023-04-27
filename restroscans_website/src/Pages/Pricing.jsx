@@ -20,15 +20,19 @@ function Pricing() {
       setPricingData(response.pricingData);
     }
   };
+  // console.log(pricingData);
   // End of added code 15/04/2023
 
   return (
     <>
       <div className="Pricing_main_container">
         <h2 className="pricing_main_heading">Pricing</h2>
+
         <div className="pricings_div">
           {
             <div className="pricings_img_div">
+              <div dangerouslySetInnerHTML={{ __html: pricingData.content }} />
+
               <img
                 className="pricings"
                 alt="Price"
@@ -36,11 +40,11 @@ function Pricing() {
               />
             </div>
           }
-          {
+          {/* {
             <div className="pricings_img_div">
               <img
                 className="pricings"
-                alt="Price"
+                alt="Price11"
                 src={config.staticBaseURL + pricingData.pricing_plan2}
               />
             </div>
@@ -62,7 +66,7 @@ function Pricing() {
                 src={config.staticBaseURL + pricingData.pricing_plan4}
               />
             </div>
-          }
+          } */}
         </div>
       </div>
     </>

@@ -103,8 +103,8 @@ function RestroScans() {
                   name="owner_name"
                   placeholder="Owner Name"
                 />
+                <p id="ownerName" className="restroscans_error_msg"></p>
               </div>
-              <p id="ownerName" className="error_msg"></p>
 
               <div className="input_div">
                 <FontAwesomeIcon icon={faCutlery} className="input_icons" />
@@ -114,8 +114,8 @@ function RestroScans() {
                   name="restaurant_name"
                   placeholder="Restaurant Name"
                 />
+                <p id="restaurant_name" className="restroscans_error_msg"></p>
               </div>
-              <p id="restaurant_name" className="error_msg"></p>
 
               <div className="input_div">
                 <FontAwesomeIcon icon={faEnvelope} className="input_icons" />
@@ -125,8 +125,8 @@ function RestroScans() {
                   name="email"
                   placeholder="Email"
                 />
+                <p id="email" className="restroscans_error_msg"></p>
               </div>
-              <p id="email" className="error_msg"></p>
 
               <div className="input_div">
                 <FontAwesomeIcon icon={faPhone} className="input_icons" />
@@ -137,8 +137,8 @@ function RestroScans() {
                   placeholder="Mobile Number"
                   maxLength={10}
                 />
+                <p id="mobile_number" className="restroscans_error_msg"></p>
               </div>
-              <p id="mobile_number" className="error_msg"></p>
             </div>
 
             <div className="btn_div">

@@ -266,6 +266,8 @@ End of code addition
 Added by - Om shrivastava on 10-04-2023
 Reason - To store App theme on react native app
 """
+
+
 class AppTheme(models.Model):
     id = models.AutoField(primary_key=True)
     background_color =models.CharField(max_length=20,null=True,blank=True)
@@ -288,18 +290,19 @@ Reason - Create for Show pricing plans on home page
 
 
 class WebsiteSetting(models.Model):
+    content = RichTextField(blank=True, null=True)
     pricing_plan1 = models.ImageField(
         upload_to="images/app_setting/", blank=True, null=True
     )
-    pricing_plan2 = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True
-    )
-    pricing_plan3 = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True
-    )
-    pricing_plan4 = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True
-    )
+    # pricing_plan2 = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True
+    # )
+    # pricing_plan3 = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True
+    # )
+    # pricing_plan4 = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True
+    # )
     title = models.CharField(max_length=30, default="")
     bottom_text = models.CharField(max_length=30, default="")
 

@@ -89,7 +89,7 @@ function Home() {
             <img src={Scanner} className="scanner_img" alt="scanner" />
           </div>
           <div className="description_right_content_div">
-            <h2 className="restro_heading">Restro Scans</h2>
+            <h2 className="restro_heading">Restroscans</h2>
             <p className="restro_description">
               The Restroscan application is created to assist restaurant
               proprietors and administrators in handling different aspects of
@@ -99,11 +99,7 @@ function Home() {
               assist restaurant proprietors and administrators in handling
               different aspects of their business. It has a user-friendly and
               easy-to-use interface that allows users to navigate through the
-              various modules and functions with ease. The Restroscan
-              application is created to assist restaurant proprietors and
-              aspects of their business. It has a user-friendly and easy-to-use
-              interface that allows users to navigate through the various
-              modules and functions with ease.
+              various modules and functions with ease.
             </p>
             <div className="description_btn_div">
               <button
@@ -262,10 +258,12 @@ function Home() {
                     className="pricing_images"
                     alt="Price"
                     src={config.staticBaseURL + pricingData.pricing_plan1}
+                    width={"80%"}
+                    height={"40%"}
                   />
                 </div>
               }
-              {
+              {/* {
                 <div className="pricing_img_div">
                   <img
                     className="pricing_images"
@@ -294,7 +292,7 @@ function Home() {
                     src={config.staticBaseURL + pricingData.pricing_plan4}
                   />
                 </div>
-              }
+              } */}
             </div>
           </div>
         </div>
@@ -330,9 +328,7 @@ function Home() {
 
         {restaurentsData != null && restaurentsData.length > 0 ? (
           <div className="home_restaurent_section">
-            <h2 className="restaurent_heading">
-              Restaurents connected with us
-            </h2>
+            <h2 className="restaurent_heading">Restaurant connected with us</h2>
             <div className="restaurents_container">
               {restaurentsData.map((item) => (
                 <div className="restaurents">

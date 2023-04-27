@@ -12,7 +12,7 @@
 }
 /* ------------------About Adyant Section------------- */
 .about_adyant {
-  padding-top: 6.5rem;
+  padding-top: 5rem;
   width: 50%;
 }
 .contactus_heading1 {
@@ -126,11 +126,11 @@
 }
 /* ------------------ContactUs Form Section------------- */
 .contactus_form {
-  margin-top: 6.5rem;
+  padding-top: 5rem;
   width: 50%;
 }
 .contactus_main_div {
-  height: 60vh;
+  height: 65vh;
   width: 80%;
   background: rgba(210, 224, 238, 0.5);
   box-shadow: 1px 1px 4px 1px gray;
@@ -153,7 +153,7 @@
 }
 .contactus_input_div {
   height: 5vh;
-  display: flex;
+  display: block;
   justify-content: center;
   padding: 1rem 0;
 }
@@ -194,12 +194,12 @@
 }
 .contactus_input_icons {
   position: relative;
-  bottom: -22px;
+  /* bottom: -22px; */
   left: 2rem;
 }
 .contactus_query_icon {
   position: relative;
-  bottom: -27px;
+  bottom: 62px;
   left: 2rem;
 }
 input::placeholder {
@@ -211,7 +211,7 @@ textarea::placeholder {
   font-weight: 600;
 }
 .contactus_btn_div {
-  margin-top: 2.5rem;
+  margin-top: 3.5rem;
 }
 .contactus_submit_btn {
   border: 1px;
@@ -235,12 +235,18 @@ textarea::placeholder {
   box-shadow: 1px 1px 6px rgb(8, 8, 8);
 }
 
+.contactus_error_msg {
+  color: rgb(183, 16, 16);
+  font-size: 1rem;
+  margin-top: -0.6rem;
+}
+
 @media (max-width: 1400px) {
   .contactus_container {
     height: 83.5vh;
   }
   .contactus_main_div {
-    height: 60vh;
+    height: 65vh;
     width: 80%;
   }
   .contactus_input_box {
@@ -254,6 +260,9 @@ textarea::placeholder {
   }
   .query_input_box {
     width: 26vw;
+  }
+  .contactus_query_icon {
+    bottom: 76px;
   }
 }
 @media (max-width: 1200px) {
@@ -281,17 +290,27 @@ textarea::placeholder {
 }
 @media (max-width: 1024px) {
   .about_adyant {
-    padding-top: 10rem;
+    padding-top: 6rem;
   }
   .contactus_btn_div {
     margin-top: 5rem;
+  }
+  .contactus_submit_btn {
+    width: 12vw;
   }
   .about_restroscans {
     margin-top: 9rem;
     padding-top: 0;
   }
   .contactus_form {
-    margin-top: 9rem;
+    padding-top: 6rem;
+  }
+  .query_input_box,
+  .contactus_input_box {
+    width: 30vw;
+  }
+  .contactus_query_icon {
+    bottom: 80px;
   }
 }
 @media (max-width: 900px) {
@@ -303,26 +322,30 @@ textarea::placeholder {
   .contactus_heading {
     padding-top: 2.5rem;
   }
-  .contactus_input_box {
-    width: 35vw;
-  }
+  .contactus_input_box,
   .query_input_box {
-    width: 35vw;
+    width: 32vw;
   }
   .contactus_submit_btn {
-    width: 15vw;
+    width: 13vw;
+  }
+  .contactus_query_icon {
+    bottom: 83px;
   }
 }
 @media (max-width: 768px) {
   .contactus_container {
     display: block;
-    height: 140vh;
-    padding-bottom: 0;
+    height: fit-content;
+    padding-bottom: 2rem;
     background-size: 100rem 100rem;
+  }
+  .contactus_main_div {
+    width: 70%;
   }
   .about_adyant {
     width: 100%;
-    padding-top: 6rem;
+    padding-top: 5rem;
   }
   .adyant_description_contactus {
     color: aliceblue;
@@ -356,11 +379,11 @@ textarea::placeholder {
   .contactus_submit_btn {
     width: 17vw;
   }
+  .contactus_form {
+    padding-top: 0;
+  }
 }
 @media (max-width: 600px) {
-  .contactus_container {
-    height: 135vh;
-  }
   .adyant_description_contactus {
     width: 80%;
   }
@@ -392,11 +415,8 @@ textarea::placeholder {
   }
 }
 @media (max-width: 500px) {
-  .contactus_container {
-    height: 130vh;
-  }
   .contactus_main_div {
-    width: 70vw;
+    width: 80vw;
   }
   .adyant_description_contactus {
     font-size: 1.1rem;
@@ -406,12 +426,17 @@ textarea::placeholder {
   }
   .adyant_info_div {
     width: 60%;
+    padding-top: 0;
+  }
+  .contactus_input_box {
+    width: 58vw;
+  }
+  .query_input_box {
+    height: 10vh;
+    width: 58vw;
   }
 }
 @media (max-width: 400px) {
-  .contactus_container {
-    height: 140vh;
-  }
   .contactus_main_div {
     width: 85vw;
   }
@@ -419,10 +444,11 @@ textarea::placeholder {
     width: 50%;
   }
   .contactus_input_box {
-    width: 60vw;
+    width: 70vw;
   }
   .query_input_box {
-    width: 60vw;
+    width: 70vw;
+    height: 9vh;
   }
   .contactus_submit_btn {
     width: 25vw;

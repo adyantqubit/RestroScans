@@ -14,14 +14,17 @@ Reason:- Create css for Home.jsx */
 /* ------------------- Description Section--------------------------- */
 .home_description_section {
   background-color: rgba(225, 239, 254, 1);
+  /* background-image: url("contact.jpg"); */
+  background-size: 100rem 80rem;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 80%, 0 100%);
-  height: 90vh;
+  height: fit-content;
   width: 100%;
   margin: auto;
   overflow: hidden;
   background-repeat: no-repeat;
   display: flex;
   padding-top: 2rem;
+  padding-bottom: 13rem;
 }
 .description_left_img_div {
   width: 50%;
@@ -30,12 +33,12 @@ Reason:- Create css for Home.jsx */
   height: 55vh;
   width: 30vw;
   margin-top: 3rem;
-  margin-left: 8rem;
+  /* margin-left: 8rem; */
   border-radius: 1rem;
 }
 .description_right_content_div {
   width: 50%;
-  margin-left: 4rem;
+  /* margin-left: 4rem; */
 }
 .restro_heading {
   font-size: var(--primary-textFontSize);
@@ -47,7 +50,7 @@ Reason:- Create css for Home.jsx */
   text-align: center;
 }
 .restro_description {
-  width: 30vw;
+  width: 80%;
   font-size: var(--descriptions-textFontSize);
   justify-content: center;
   text-align: justify;
@@ -71,13 +74,16 @@ Reason:- Create css for Home.jsx */
   cursor: pointer;
   margin-top: 2.5rem;
   float: left;
+  box-shadow: 0px 0px 4px black;
+  color: rgb(221, 223, 225);
 }
 .book_demo_btn:hover {
   background-image: radial-gradient(
     circle,
-    rgb(183, 111, 111) 10%,
-    rgb(160, 95, 95) 100%
+    rgb(217, 187, 187) 10%,
+    rgb(194, 162, 162) 100%
   );
+  color: black;
 }
 
 /* ------------------- Benifits Section--------------------------- */
@@ -169,6 +175,7 @@ Reason:- Create css for Home.jsx */
 .feature_label {
   font-size: 1.2rem;
   color: #383838;
+  padding-top: 0.3rem;
 }
 .features_img_div {
   width: 30%;
@@ -299,7 +306,6 @@ Reason:- Create css for Home.jsx */
 @media (max-width: 1400px) {
   .home_description_section {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 80%, 0 100%);
-    height: 90vh;
   }
   /* -------------- Description Section------------ */
   .restro_description {
@@ -310,7 +316,7 @@ Reason:- Create css for Home.jsx */
   }
   /* -------------- Features Section------------ */
   .features_container {
-    padding-left: 4rem;
+    padding-left: 0;
   }
   .features_heading_div {
     margin: 2rem;
@@ -321,7 +327,7 @@ Reason:- Create css for Home.jsx */
   /* -------------- Pricing Section------------ */
   .pricing_images {
     width: 15rem;
-    height: 23rem;
+    height: 21rem;
   }
   /* -------------- Gallery Section------------ */
   .gallery_slider_div {
@@ -330,13 +336,12 @@ Reason:- Create css for Home.jsx */
   }
   .galary_slider_images {
     width: 35vw;
-    height: 35vh;
+    height: 45vh;
   }
 }
 @media (max-width: 1200px) {
   .home_description_section {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 80%, 0 100%);
-    height: 90vh;
   }
   /* -------------- Description Section------------ */
   .scanner_img {
@@ -389,9 +394,7 @@ Reason:- Create css for Home.jsx */
     font-size: 85%;
   }
   /* ------------Description Section-------------- */
-  .home_description_section {
-    height: 85vh;
-  }
+
   .scanner_img {
     margin-left: 5rem;
     height: 55vh;
@@ -429,9 +432,7 @@ Reason:- Create css for Home.jsx */
     font-size: 60%;
   }
   /* ------------Description Section-------------- */
-  .home_description_section {
-    height: 80vh;
-  }
+
   .scanner_img {
     height: 45vh;
   }
@@ -471,10 +472,10 @@ Reason:- Create css for Home.jsx */
   }
   /* ------------Description Section-------------- */
   .home_description_section {
-    height: 110vh;
     flex-direction: column-reverse;
-    padding-top: 1rem;
+    padding-top: 3rem;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
+    padding-bottom: 3rem;
   }
   .restro_heading {
     margin: auto;
@@ -484,14 +485,14 @@ Reason:- Create css for Home.jsx */
   }
   .description_left_img_div {
     margin: 0;
-    padding: 0 0 2rem 0;
+    /* padding: 0 0 2rem 0; */
     width: 100%;
     text-align: center;
   }
   .scanner_img {
     padding: 0;
-    height: 60vh;
-    width: 85%;
+    height: 50vh;
+    width: 60%;
     margin: auto;
   }
   .description_right_content_div {
@@ -512,7 +513,7 @@ Reason:- Create css for Home.jsx */
   .book_demo_btn {
     width: 100%;
     height: 3.5rem;
-    margin-bottom: 0;
+    margin-bottom: 2rem;
   }
   /* ------------Benefits Section-------------- */
   .home_benefits_section {
@@ -521,13 +522,16 @@ Reason:- Create css for Home.jsx */
   /* ----------Features Section------------- */
   .home_features_section {
     height: 100vh;
+    margin-left: 0;
   }
   .features_heading_div {
     padding: 1rem 0;
   }
   .features_container {
-    padding-left: 3rem;
+    padding-left: 0;
     display: block;
+    margin: auto;
+    width: 80%;
   }
   .feature_lists_div {
     width: 100%;
@@ -537,7 +541,6 @@ Reason:- Create css for Home.jsx */
   }
   .feature_label_second_div {
     width: 50%;
-    margin-left: 8rem;
   }
   .features {
     margin-bottom: 1rem;
@@ -553,6 +556,7 @@ Reason:- Create css for Home.jsx */
   .features_gif {
     width: 35vw;
     height: 55vh;
+    padding-top: 1rem;
   }
   /* ------------Pricing Section-------------- */
   .home_pricing_section {
@@ -579,6 +583,9 @@ Reason:- Create css for Home.jsx */
   /* ------------Description Section-------------- */
   .description_btn_div {
     width: 45%;
+  }
+  .scanner_img {
+    height: 40vh;
   }
   /* ---------------Benefits Section-------------- */
   /* ----------------Features Section------------- */
@@ -619,7 +626,14 @@ Reason:- Create css for Home.jsx */
   .description_btn_div {
     width: 48%;
   }
+  .scanner_img {
+    width: 80%;
+    height: 45vh;
+  }
   /* ---------------Benefits Section-------------- */
+  .benefits_card_div {
+    padding-bottom: 2rem;
+  }
   .benefits_card {
     width: 60vw;
     min-height: 25vh;
@@ -648,16 +662,10 @@ Reason:- Create css for Home.jsx */
   html {
     font-size: 25%;
   }
-  .home_main_div {
-    padding-top: 1.5rem;
-  }
   /* ---------------Description Section-------------- */
   .restro_description {
     width: 100%;
     margin: auto;
-  }
-  .home_description_section {
-    height: 105vh;
   }
   .scanner_img {
     height: 40vh;
@@ -665,9 +673,6 @@ Reason:- Create css for Home.jsx */
   .description_btn_div {
     margin-top: 2rem;
     width: 55%;
-  }
-  .book_demo_btn {
-    margin-bottom: 0;
   }
   /* ---------------Benefits Section-------------- */
   .home_benefits_section {

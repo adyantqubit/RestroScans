@@ -12,6 +12,7 @@ import {
   faInstagram,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import Adyant from "../images/adyant.png";
 
 const Footer = () => {
   // Added by:- Suman sahu  Date:- 07/04/2023
@@ -91,7 +92,9 @@ const Footer = () => {
             className="adyant_footer_link"
             onClick={() => opeenSiteOfAdyant("https://adyant.co.in/")}
           >
-            <h6 className="adyant">Powered by Adyant</h6>
+            <h6 className="adyant">
+              Powered by <img src={Adyant} className="footer_adyant_logo" />
+            </h6>
           </Link>
         </div>
       </div>

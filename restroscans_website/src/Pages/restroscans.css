@@ -36,9 +36,9 @@
 }
 .input_div {
   height: 5vh;
-  display: flex;
+  display: block;
   justify-content: center;
-  padding: 1rem 0;
+  padding: 1.2rem 0;
 }
 .input_box {
   font-size: 1rem;
@@ -59,7 +59,7 @@
 }
 .input_icons {
   position: relative;
-  bottom: -22px;
+  /* bottom: -22px; */
   left: 2rem;
   /* color: rgb(220, 224, 228); */
 }
@@ -67,6 +67,9 @@ input::placeholder {
   font: 1rem sans-serif;
   font-weight: 600;
   /* color: rgb(220, 224, 228); */
+}
+.btn_div {
+  padding-top: 1rem;
 }
 .submit_btn {
   border: 1px;
@@ -91,11 +94,10 @@ input::placeholder {
   box-shadow: 1px 1px 6px rgb(8, 8, 8);
 }
 
-.error_msg {
-  color: red;
+.restroscans_error_msg {
+  color: rgb(183, 16, 16);
   font-size: 1rem;
-  margin: 0;
-  word-spacing: 5px;
+  margin-top: -0.6rem;
 }
 
 @media (max-width: 1400px) {

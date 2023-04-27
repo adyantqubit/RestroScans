@@ -10,17 +10,15 @@ Reason:- Create css for Header.jsx */
   width: 100%;
   margin: auto;
 }
-.restro_scans_logo {
+.restroscans_logo_section {
   float: left;
 }
-.header_adyant_logo {
-  width: 4.5vw;
-  height: 4.5vh;
-  margin-right: 1rem;
-  margin-top: 0.5rem;
+.header_restroscans_logo {
+  height: 8vh;
+  width: 6vw;
 }
 .logo_link {
-  line-height: 3.5rem;
+  /* line-height: 3.5rem; */
   padding-left: 2rem;
   text-decoration: none;
 }
@@ -76,10 +74,10 @@ Reason:- Create css for Header.jsx */
 .header_btn:hover {
   background-image: radial-gradient(
     circle,
-    rgb(183, 111, 111) 10%,
-    rgb(160, 95, 95) 100%
+    rgb(217, 187, 187) 10%,
+    rgb(194, 162, 162) 100%
   );
-  color: aliceblue;
+  color: black;
 }
 
 .header_menu {
@@ -103,27 +101,36 @@ Reason:- Create css for Header.jsx */
 .header_icons {
   display: none;
 }
+
+.header_link_icons {
+  display: none;
+}
+
+.features_icon,
+.pricing_icon {
+  display: none;
+}
+
 @media (max-width: 1200px) {
   .header_btn {
     height: 2.5rem;
+  }
+  .header_restroscans_logo {
+    height: 9vh;
   }
 }
 @media (max-width: 1024px) {
   .logo_link {
     padding-left: 1rem;
-    line-height: 7vh;
   }
-  .header_adyant_logo {
-    height: 3vh;
-    margin-top: 1.5rem;
+  .header_restroscans_logo {
+    height: 8vh;
+    width: 7vw;
   }
 }
 @media (max-width: 900px) {
   html {
     font-size: 80%;
-  }
-  .header_main_div {
-    padding-bottom: 0.7rem;
   }
   .side_bar_icon {
     font-size: 2rem;
@@ -135,6 +142,10 @@ Reason:- Create css for Header.jsx */
     margin-left: 1rem;
     cursor: pointer;
   }
+  .header_restroscans_logo {
+    height: 8.5vh;
+    width: 8vw;
+  }
   .header_icons {
     display: inline-block;
     color: white;
@@ -144,18 +155,19 @@ Reason:- Create css for Header.jsx */
     z-index: 999;
     width: 100%;
     /* float: revert; */
-    margin-top: 4.7rem;
+    margin-top: 4.5rem;
+    justify-content: center;
     /* background-color: rgb(20, 19, 19); */
     background-color: rgba(225, 239, 254, 1);
   }
-  .menu_open_second li {
+  /* .menu_open_second li {
     margin: 3rem 0;
-  }
+  } */
   .menu_open_second {
     top: auto;
     transition: all 0.5s;
     list-style: none;
-    height: 60vh;
+    /* height: 60vh; */
   }
   .menu_open_first {
     display: none;
@@ -201,32 +213,35 @@ Reason:- Create css for Header.jsx */
       rgb(160, 95, 95) 100%
     );
   }
+  .header_link_icons {
+    display: inline-block;
+  }
 }
 @media (max-width: 768px) {
-  .links_div {
-    /* width: 18vw; */
-    margin-top: 4.8rem;
-  }
   .header_btn_responsive {
     margin-right: 1rem;
     font-size: 0.8rem;
     height: 2.5rem;
     margin-top: 1rem;
   }
+  .header_restroscans_logo {
+    height: 8vh;
+    width: 8.5vw;
+  }
 }
 @media (max-width: 600px) {
-  .links_div {
-    /* width: 22vw; */
-    margin-top: 5rem;
-  }
-  .header_adyant_logo {
-    width: 8vw;
-    height: 3.5vh;
+  .header_restroscans_logo {
+    height: 8vh;
+    width: 10.5vw;
   }
 }
 @media (max-width: 500px) {
   .header_menu {
     margin-left: 0.5rem;
+  }
+  .header_restroscans_logo {
+    height: 7.5vh;
+    width: 13.5vw;
   }
   .logo_link {
     padding-left: 0;
@@ -234,15 +249,10 @@ Reason:- Create css for Header.jsx */
   .header_restroscan_link {
     font-size: 1.3rem;
   }
-  .header_adyant_logo {
-    margin-top: 1rem;
-    width: 10vw;
-    height: 3.2vh;
-  }
   .header_btn_responsive {
     margin-right: 2rem;
   }
-  .restro_scans_logo {
+  .restroscans_logo_section {
     float: left;
     padding-left: 1rem;
   }
@@ -251,16 +261,19 @@ Reason:- Create css for Header.jsx */
   }
   .links_div {
     /* width: 27vw; */
-    line-height: 3vh;
-    margin-top: 4.2rem;
+    /* line-height: 3vh; */
+    margin-top: 4rem;
   }
   .header_links {
     padding: 0 1.3rem;
   }
   #features_link,
   #pricing_link {
-    display: flex;
-    padding-left: 1.5rem;
+    display: inline;
+  }
+  .features_icon,
+  .pricing_icon {
+    display: inline-block;
   }
 }
 @media (max-width: 400px) {
@@ -268,9 +281,9 @@ Reason:- Create css for Header.jsx */
     height: 2rem;
     margin-right: 1rem;
   }
-  .links_div {
-    /* width: 35vw; */
-    margin-top: 4.9rem;
+  .header_restroscans_logo {
+    height: 7vh;
+    width: 15.5vw;
   }
 }
 @media (max-width: 321px) {
@@ -283,8 +296,8 @@ Reason:- Create css for Header.jsx */
   .header_restroscan_link {
     font-size: 1rem;
   }
-  .header_adyant_logo {
-    margin-right: 0.5rem;
+  .links_div {
+    margin-top: 3.8rem;
   }
 }
 

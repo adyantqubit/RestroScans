@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import "./gallery.css";
 import { GalleryDetailsGetApi, OurTopRestaurentGetApi } from "../api/service";
 import config from "../api/config";
+import RestroscansLogo from "../images/restroscans_logo.png";
 
 function Gallery() {
   // Added by:- Suman sahu On 08/04/2023
@@ -26,9 +27,8 @@ function Gallery() {
       <div className="gallary_first_section">
         <div className="top_image">
           <div className="gallery_container"></div>
-          <div class="bg-text">
-            <h1 className="gallery_first_heading">ADYANT</h1>
-            <p className="gallery_description">"We Buikd Quality Speaks"</p>
+          <div class="bg_text">
+            <img src={RestroscansLogo} className="gallery_logo" />
           </div>
         </div>
       </div>
@@ -39,8 +39,9 @@ function Gallery() {
             <div>
               <img
                 src={config.staticBaseURL + item.gallery}
-                className="galary_images"
+                className="gallery_images"
               />
+              <p className="restaurent_title">{item.title}</p>
             </div>
           ))}
         </div>
