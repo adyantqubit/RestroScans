@@ -23,6 +23,8 @@ import OfferNavigation from "./OfferNavigation";
 import OrderNavigation from "./OrderNavigation";
 import { AddMenuNavigation } from "./AddMenuNavigation";
 import { AddOfferNavigation } from "./AddOfferNavigation";
+import PrintQRScreen from "../screens/PrintQRScreen";
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function DrawerNavigation({ navigation }) {
   // Navigation added by Om on 18-04-23 , This helps to navigate the after logout screen is change
@@ -261,6 +263,23 @@ export default function DrawerNavigation({ navigation }) {
         }}
       />
       {/* End of navigation */}
+      {/* End of addition */}
+
+      {/* Added by Om on 26-04-23
+      Reason : Add new tab for QR code */}
+      <Drawer.Screen
+        name="PrintQRScreen"
+        component={PrintQRScreen}
+        options={{
+          drawerLabel: "Print QR",
+          title: "Print QR",
+          // Added by Yuvraj Sahu on 16-4-2023
+          // Reason - to add icon in drawer
+          drawerIcon: (config) => 
+          <MaterialIcons name="local-print-shop" size={24} color="black" />,
+          // end of addition
+        }}
+      />
       {/* End of addition */}
     </Drawer.Navigator>
   );

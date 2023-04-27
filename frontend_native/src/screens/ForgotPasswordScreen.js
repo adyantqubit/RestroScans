@@ -23,6 +23,7 @@ import {
 } from "../validation/ValidationSchema";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../Colours/globalColor";
+import Footer from "../components/Footer/Footer";
 
 var email = null;
 
@@ -314,7 +315,9 @@ export default function ForgotPasswordScreen() {
 
 
   return (
-    <View>
+    <>
+    {/* Style apply by Om on 26-04-23 for main container*/}
+    <View style={styles.container}> 
       <ScrollView>
         <Modal
           // animationType="slide"
@@ -631,13 +634,22 @@ export default function ForgotPasswordScreen() {
         </Formik>
       </ScrollView>
     </View>
+    {/* <View 
+    // style={{paddingTop:172}}
+    > */}
+    <Footer />
+    {/* </View> */}
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  // Modification by Om on 26-04-23 for fix the footer length
   container: {
     paddingHorizontal: 10,
     backgroundColor: "#fff",
+    flex:1
+    // End of the code
   },
   mainHeader: {
     marginTop: "10%",

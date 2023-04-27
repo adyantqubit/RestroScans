@@ -20,6 +20,7 @@ import { postRestaurantDetail } from "../api/Services";
 import { colors } from "../Colours/globalColor";
 import { useNavigation } from "@react-navigation/native";
 import { AppStateContext } from "../context/AppStateProvider";
+import Footer from "../components/Footer/Footer";
 
 export default function RestaurantRegistrationScreen({
   navigation: { navigate },
@@ -185,6 +186,7 @@ export default function RestaurantRegistrationScreen({
   }, []);
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <View style={{ marginTop: 5 }}>
@@ -805,6 +807,12 @@ export default function RestaurantRegistrationScreen({
         </View>
       </View>
     </ScrollView>
+     {/* Added by Om on 26-04-23 For showing the footer*/}
+     <>
+     <Footer />
+     </>
+     {/* End of addition */}
+   </>
   );
 }
 

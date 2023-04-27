@@ -26,6 +26,7 @@ import { colors } from "../Colours/globalColor";
 import config from "../config/config";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from "../components/Footer/Footer";
 
 export default function LoginScreen({ navigation }) {
   const navigator = useNavigation();
@@ -150,6 +151,7 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   return (
+    <>
     <Formik
       initialValues={{ email: "", password: "" }}
       validateOnMount={true}
@@ -323,6 +325,12 @@ export default function LoginScreen({ navigation }) {
         // </ScrollView>
       )}
     </Formik>
+     {/* Added by Om on 26-04-23 For showing the footer*/}
+     <>
+     <Footer />
+     </>
+     {/* End of addition */}
+   </>
   );
 }
 

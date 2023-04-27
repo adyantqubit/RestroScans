@@ -11,10 +11,11 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { colors } from "../../Colours/globalColor";
 import * as Print from "expo-print";
 import { useIsFocused } from "@react-navigation/native";
+import Footer from "../../components/Footer/Footer";
 
 export default function OrderItemsScreen({ route, navigation }) {
-  var { render, setRender,settings } = useContext(AppStateContext); //Need to use settings, for GST number.
-  const isFocused=useIsFocused();
+  var { render, setRender, settings } = useContext(AppStateContext); //Need to use settings, for GST number.
+  const isFocused = useIsFocused();
   /* Get the order id using params */
   // Added and modified by Yuvraj Sahu on 17-4-2023
   // Reason - to get order id in from router
@@ -133,21 +134,21 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   // Added by Om on 23-04-23
   // Reason : Show the subtotal and current order date 
-  function SubtotalOfItems(){
-    var total=0
-    orderItems.filter(o=>{
-       total+=o.price
+  function SubtotalOfItems() {
+    var total = 0
+    orderItems.filter(o => {
+      total += o.price
     })
     return total
-}
-function ExtractDateTime(format) {
-  var d = new Date(format);
-  var date = d.toLocaleDateString()
-  var time = d.toLocaleTimeString()
+  }
+  function ExtractDateTime(format) {
+    var d = new Date(format);
+    var date = d.toLocaleDateString()
+    var time = d.toLocaleTimeString()
 
-  return { date, time }
-}
-// End of addition
+    return { date, time }
+  }
+  // End of addition
 
   // Added by Yuvraj Sahu on 17-4-2023
   // Reason - to update order and payment status
@@ -156,8 +157,8 @@ function ExtractDateTime(format) {
      * This method is created for API calling to update the order and payment status
      */
   }
-// Added by Om on 23-04-23
-// Reason : To perform the print functionality of native site
+  // Added by Om on 23-04-23
+  // Reason : To perform the print functionality of native site
   const printBill = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -170,7 +171,7 @@ function ExtractDateTime(format) {
     //   order_status: orderStatusSelected,
     //   payment_status: paymentStatusSelected,
     // };
-    var itemStr=""
+    var itemStr = ""
     for (var i = 0; i < orderItems.length; i++) {
       // if () {
       itemStr =
@@ -178,8 +179,8 @@ function ExtractDateTime(format) {
         `<div class="tableContents ">
                   <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
                   <div class="quantityText">${orderItems[i].quantity}</div>
-                  <div class="rateText">${(orderItems[i].price/orderItems[i].quantity).toFixed(2)}</div>
-                  <div class="totalText"> ${(orderItems[i].price ).toFixed(2)}</div>
+                  <div class="rateText">${(orderItems[i].price / orderItems[i].quantity).toFixed(2)}</div>
+                  <div class="totalText"> ${(orderItems[i].price).toFixed(2)}</div>
 
                 </div>`;
     }
@@ -201,7 +202,7 @@ function ExtractDateTime(format) {
 
             <div class="inLineContainer">
               <div class="label">Date </div>
-              <div class="text">    ${new Date(orderDetail.date).toLocaleDateString()}</div>
+              <div class="text">    ${new Date(orderDetail.date).toLocaleDateString('en-GB')}</div>
               <div class="label">Time  </div>
               <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
 
@@ -210,7 +211,7 @@ function ExtractDateTime(format) {
               <div class="label">Bill   </div>
               <div class="text"> ${orderDetail.order_id}</div>
               <div class="label">Table </div>
-              <div class="text">  ${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
+              <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number}</div>
               
             </div>
             <div class="inLineContainer">
@@ -221,9 +222,9 @@ function ExtractDateTime(format) {
             </div>
             <div class="inLineContainer">
               <div class="label">Dshr   </div>
-              <div class="text">   ${!orderDetail.dshr? "N/A":orderDetail.dshr}</div>
+              <div class="text">   ${!orderDetail.dshr ? "N/A" : orderDetail.dshr}</div>
               <div class="label">Capt   </div>
-              <div class="text">  ${!orderDetail.capt? "N/A":orderDetail.capt}</div>
+              <div class="text">  ${!orderDetail.capt ? "N/A" : orderDetail.capt}</div>
             </div>
             <div class="inLineContainer">
               <div class="label">Payment   </div>
@@ -247,17 +248,17 @@ function ExtractDateTime(format) {
                 <div  class="calculationText" >₹${SubtotalOfItems().toFixed(2)}</div>
               </div>
               <div class="calculationLine">
-                <div  class="calculationLabel" > CGST (%${(orderDetail.cgst/SubtotalOfItems()*100).toFixed(2)}) :</div>
+                <div  class="calculationLabel" > CGST (%${(orderDetail.cgst / SubtotalOfItems() * 100).toFixed(2)}) :</div>
                 <div  class="calculationText" >₹${orderDetail.cgst}  </div>
               </div>
               <div class="calculationLine">
-                <div  class="calculationLabel" > SGST (%${(orderDetail.sgst/SubtotalOfItems()*100).toFixed(2)}) :</div>
+                <div  class="calculationLabel" > SGST (%${(orderDetail.sgst / SubtotalOfItems() * 100).toFixed(2)}) :</div>
                 <div  class="calculationText" >₹${orderDetail.sgst} </div>
               </div>
               <hr>
               <div class="calculationLine">
                 <div  class="calculationLabel" > Total :</div>
-                <div  class="calculationText" >₹${(SubtotalOfItems()+orderDetail.cgst+orderDetail.sgst).toFixed(2)}</div>
+                <div  class="calculationText" >₹${(SubtotalOfItems() + orderDetail.cgst + orderDetail.sgst).toFixed(2)}</div>
               </div>
             </div>
           </div> 
@@ -268,7 +269,7 @@ function ExtractDateTime(format) {
                   <div class="TotalLabel">Total </div>
                   <div class="TotalLabel">: </div>
 
-                  <div class="grandTotalText">₹${(SubtotalOfItems()+orderDetail.cgst+orderDetail.sgst).toFixed(2)}</div>
+                  <div class="grandTotalText">₹${(SubtotalOfItems() + orderDetail.cgst + orderDetail.sgst).toFixed(2)}</div>
                 </div>
             </div>
           </div>
@@ -280,7 +281,7 @@ function ExtractDateTime(format) {
           </div>
 
     </div>`;
-    
+
 
 
     str = str + `</div>`;
@@ -485,7 +486,7 @@ function ExtractDateTime(format) {
       printDoc();
     }
   };
-// End of addition
+  // End of addition
   const handleUpdate = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -497,7 +498,7 @@ function ExtractDateTime(format) {
     };
     var restaurantName = JSON.parse(await SecureStore.getItemAsync('userData')).restaurant_name
 
-    var orderItem=""
+    var orderItem = ""
     var SNumberIncreasing = 1
     for (var i = 0; i < orderItems.length; i++) {
       if (orderItems[i].item_status == "Pending") {
@@ -523,7 +524,7 @@ function ExtractDateTime(format) {
             <hr>
             <div class="inLineContainer">
             <div class="label">Date   </div>
-            <div class="text"> ${new Date(orderDetail.date).toLocaleDateString()}</div>
+             <div class="text"> ${new Date(orderDetail.date).toLocaleDateString('en-GB')}</div>
             <div class="label">Time   </div>
             <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
 
@@ -532,7 +533,7 @@ function ExtractDateTime(format) {
             <div class="label">Order id   </div>
             <div class="text"> ${orderDetail.order_id}</div>
             <div class="label">Table  </div>
-            <div class="text">  ${!orderDetail.table_number? "N/A":orderDetail.table_number}</div>
+            <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number}</div>
             
           </div>
           <div class="tableHeader">
@@ -542,7 +543,7 @@ function ExtractDateTime(format) {
             </div>
             ${orderItem} 
     </div>`;
-    
+
     str = str + `</div>`;
     html = `
     <html>
@@ -702,6 +703,7 @@ function ExtractDateTime(format) {
   };
 
   return (
+    <>
     <ScrollView>
       <View style={{ padding: 10 }}>
         <View>
@@ -711,7 +713,7 @@ function ExtractDateTime(format) {
           <Text style={{ marginTop: 5 }}>
             <Text>Table No.</Text> : {orderDetail.table_number}
           </Text>
-          
+
           <Text style={{ marginTop: 5 }}>
             <Text>Name</Text> : {customerDetail.name}
           </Text>
@@ -733,7 +735,8 @@ function ExtractDateTime(format) {
                   Reason - To show item status */}
               <Text style={styles.itemStatusContainer}>Status</Text>
               {/* End of code addition by Ashish on 19-04-2023 */}
-              <Text style={styles.costContainer}>Cost</Text>
+              {/* Add rupees icon by Om on 26-04-23  */}
+              <Text style={styles.costContainer}>Cost(₹)</Text>
             </View>
             {orderItems.map((orderItem, id) => (
               <View key={id} style={styles.tableContainer}>
@@ -751,7 +754,8 @@ function ExtractDateTime(format) {
                   {/* Added by om - 24/4/23
                       Reason - To fixed subtotal calculation */}
                   {/* ₹ {orderItem.quantity * orderItem.price} */}
-                  ₹ { orderItem.price}
+                    {/* ₹  removed by Om on 26-04-23 */}
+                   {orderItem.price}  
                   {/* End of code - om - 24/4/23 */}
                 </Text>
               </View>
@@ -789,7 +793,8 @@ function ExtractDateTime(format) {
           </View>
           {/* End of addition */}
           <View style={styles.amountRow}>
-            <Text>Grand Total :</Text>
+            {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
+            <Text style={{fontWeight:"bold",fontSize:15}}>Grand Total :</Text>
             <Text>₹ {orderDetail.total}</Text>
           </View>
         </View>
@@ -855,8 +860,61 @@ function ExtractDateTime(format) {
 
         </View>
       </View>
-      <View style={styles.btns}>
+      <View >
         {/* <Button title="Save"/> */}
+        {/* Modification by Om on 26-04-23
+        Reason : Fix the button designin  */}
+        {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
+          <View style={styles.mainButtonDiv}>
+            <Pressable
+              onPress={handleUpdate}
+              // disabled={isDisable}
+              style={{
+                // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                backgroundColor: colors.btnColor,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 7,
+                width: 165,
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Update
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={printBill}
+              style={{
+                backgroundColor: colors.anotherButton,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 7,
+                marginLeft: 20,
+                width: 165,
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                {/* Content changes by Om on 27-04-23 */}
+                Print bill 
+              </Text>
+            </Pressable>
+          </View>
+        ) : 
+        <View style={styles.btns}>
         <Pressable
           onPress={handleUpdate}
           // disabled={isDisable}
@@ -878,11 +936,12 @@ function ExtractDateTime(format) {
           >
             Update
           </Text>
-        </Pressable>
+        </Pressable> 
+        </View>}
       </View>
       {/* Added by Om  on 21-04-23
       Reason : When order status is served than payent status is completed functionality */}
-      {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
+      {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
         <>
           <View style={styles.btns}>
             <Pressable
@@ -907,9 +966,17 @@ function ExtractDateTime(format) {
             </Pressable>
           </View>
         </>
-      ) : null}
+      ) : null} */}
       {/* End of the addition */}
     </ScrollView>
+       {/* Added by Om on 18-04-23 For showing the footer*/}
+       <>
+      <Footer />
+      </>
+      {/* End of addition */}
+    </>
+
+
   );
 }
 
@@ -963,6 +1030,7 @@ const styles = StyleSheet.create({
     width: 150,
     alignSelf: "center",
     marginTop: 10,
+    marginBottom:12 // Added by Om on 26-04-23 for apply the padding above the button
   },
   // End of addition
   // Added by Yuvraj Sahu on 17-4-2023
@@ -989,6 +1057,14 @@ const styles = StyleSheet.create({
     width: "25%",
     display: "flex",
     textAlign: "right",
+  },
+  // Added by Om on 26-04-23
+  // Reason : Fix the button designing
+  mainButtonDiv: {
+    alignSelf: "center",
+    marginTop: 10,
+    flexDirection: "row",
+    marginBottom:12
   },
   // End of table design
 });

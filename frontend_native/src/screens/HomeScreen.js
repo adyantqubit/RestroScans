@@ -215,120 +215,123 @@ export default function HomeScreen({ navigation }) {
   // };
 // Modfication by Om on 20-04-23
 // Reason : Fix the Print functionality, need to add 4 QR images
-  const html = `
-<html >
+// Commented by Om on 26-04-23
+// Reason : According to sir, this functionality is not show on this page
+//   const html = `
+// <html >
  
-  <body style="text-align: center;margin:0px;padding:0px;">
-  <div style="display:flex;flex-wrap:wrap;">
-  <div style="width:50vw; height:50vh;">
-  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold; text-transform:uppercase">
-  ${userData.restaurant_name}
-</div>
-    <img
-      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-      //  src=${scanner}
-      style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
-      <div>
-      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-      Adyant Softtech Pvt. Ltd., Raipur
-    </h1>
-    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
-   restroscans.com
-</h1>
-    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-    <b>  Scan menu</b>
-  </h1>
+//   <body style="text-align: center;margin:0px;padding:0px;">
+//   <div style="display:flex;flex-wrap:wrap;">
+//   <div style="width:50vw; height:50vh;">
+//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold; text-transform:uppercase">
+//   ${userData.restaurant_name}
+// </div>
+//     <img
+//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+//       //  src=${scanner}
+//       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+//       <div>
+//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//       Adyant Softtech Pvt. Ltd., Raipur
+//     </h1>
+//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+//    www.restroscans.com
+// </h1>
+//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//     <b>  Scan menu</b>
+//   </h1>
   
-  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  Table no :
-</h1>
-</div>
-</div>
+//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   Table no :
+// </h1>
+// </div>
+// </div>
 
 
-<div style="width:50vw; height:50vh;">
-  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
-  ${userData.restaurant_name}
-</div>
-    <img
-      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-      //  src=${scanner}
-      style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
-      <div>
-      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-      Adyant Softtech Pvt. Ltd., Raipur
-    </h1>
-    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
-   restroscans.com
-</h1>
-    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-    <b>  Scan menu</b>
-  </h1>
+// <div style="width:50vw; height:50vh;">
+//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+//   ${userData.restaurant_name}
+// </div>
+//     <img
+//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+//       //  src=${scanner}
+//       style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
+//       <div>
+//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//       Adyant Softtech Pvt. Ltd., Raipur
+//     </h1>
+//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+//    www.restroscans.com
+// </h1>
+//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//     <b>  Scan menu</b>
+//   </h1>
   
-  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  Table no :
-</h1>
-</div>
-</div>
+//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   Table no :
+// </h1>
+// </div>
+// </div>
 
-<div style="width:50vw; height:50vh;">
-  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
-  ${userData.restaurant_name}
-</div>
-    <img
-      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-      //  src=${scanner}
-      style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
-      <div>
-      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-      Adyant Softtech Pvt. Ltd., Raipur
-    </h1>
-    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
-   restroscans.com
-</h1>
-    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-    <b>  Scan menu</b>
-  </h1>
+// <div style="width:50vw; height:50vh;">
+//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+//   ${userData.restaurant_name}
+// </div>
+//     <img
+//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+//       //  src=${scanner}
+//       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+//       <div>
+//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//       Adyant Softtech Pvt. Ltd., Raipur
+//     </h1>
+//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+//    www.restroscans.com
+// </h1>
+//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//     <b>  Scan menu</b>
+//   </h1>
   
-  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  Table no :
-</h1>
-</div>
-</div>
+//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   Table no :
+// </h1>
+// </div>
+// </div>
 
-<div style="width:50vw; height:50vh;">
-  <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
-  ${userData.restaurant_name}
-</div>
-    <img
-      src=http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-      //  src=${scanner}
-      style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
-      <div>
-      <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-      Adyant Softtech Pvt. Ltd., Raipur
-    </h1>
-    <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <img src = '${'http://192.168.1.6:19000/assets/globe.png'}' width='14px' height='14px'/>
-   restroscans.com
-</h1>
-    <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  <b>  Scan menu</b>
-  </h1>
+// <div style="width:50vw; height:50vh;">
+//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+//   ${userData.restaurant_name}
+// </div>
+//     <img
+//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
+//       //  src=${scanner}
+//       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+//       <div>
+//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//       Adyant Softtech Pvt. Ltd., Raipur
+//     </h1>
+//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+//    www.restroscans.com
+// </h1>
+//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   <b>  Scan menu</b>
+//   </h1>
   
-  <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-  Table no :
-</h1>
-</div>
-</div>
+//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+//   Table no :
+// </h1>
+// </div>
+// </div>
 
-</div>
-  </body>
-</html>
-`;
+// </div>
+//   </body>
+// </html>
+// `;
+// End of commented code
 // End of modification
   const printDoc = async () => {
     await Print.printAsync({
@@ -360,10 +363,12 @@ export default function HomeScreen({ navigation }) {
 
         {/* Uncommentded by Om on 19-04-23
             Reason: show the Restaurant name */}
-        <View style={styles.restaurantDetail}>
+            {/* Commented by Om on 26-03-23
+            Reason : According to sir, this functionality is not show on this page */}
+        {/* <View style={styles.restaurantDetail}>
           <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
-          {/* <Text style={styles.restaurantHeadline}>{userData.tag_line}</Text> */}
-        </View>
+        </View> */}
+        {/* End of commented code */}
         {/* End of Uncommentded code */}
 
         {/* End of code comment and modification by Ashish on 12-04-2023 */}
@@ -419,7 +424,9 @@ export default function HomeScreen({ navigation }) {
         */}
         {/* Added by Om on 16-04-23
         Reason : For show the QR code image in native site */}
-        <View style={{
+        {/* Commented by Om on 26-03-23
+            Reason : According to sir, this functionality is not show on this page */}
+        {/* <View style={{
           alignItems: "center",
           justifyContent: "center",
           alignSelf: 'center',
@@ -435,7 +442,7 @@ export default function HomeScreen({ navigation }) {
             width="180"
             height="180"
             viewBox="0 0 450 470"
-            uri="http://192.168.1.6:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
+            uri="http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg"
           // uri={scanner}
 
           />
@@ -448,7 +455,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={{ fontSize: 10, }}>Adyant Softtech Pvt. Ltd., Raipur</Text>
             <Text style={{ fontSize: 10, }}>
               <Icon name="earth" size={12} color="black" />
-              &nbsp;restroscans.com </Text>
+              &nbsp;www.restroscans.com </Text>
             <Text style={{ fontSize: 12,fontWeight:'bold' }}>Scan menu </Text>
             <Text style={{ fontSize: 10, }}>
               Table no: </Text>
@@ -480,7 +487,9 @@ export default function HomeScreen({ navigation }) {
             </Text>
           </Pressable>
 
-        </View>
+        </View> */}
+        {/* End of commented code */}
+
         {/* End of addition */}
 
         {revenueDetails ? (

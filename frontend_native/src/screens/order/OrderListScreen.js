@@ -106,10 +106,10 @@ export default function OrderListScreen({ route, navigation }) {
                   }}
                   // End of modification
                 >
-                  <Text style={styles.tableNo}>
+                  <Text style={styles.orderandPaymentStatus}>
                     Order status - {order.order_status}
                   </Text>
-                  <Text style={styles.tableNo}>
+                  <Text style={styles.orderandPaymentStatus}>
                     Payment status - {order.payment_status}
                   </Text>
                   <Text style={styles.tableNo}>
@@ -173,4 +173,16 @@ const styles = StyleSheet.create({
     width: "100%",
     // End of addition
   },
+  // Added by Om on 26-04-23
+  // Reason : Create the order and payment status class name
+  orderandPaymentStatus: {
+    fontSize: 14,
+    marginTop: 4,
+    fontWeight:'bold', 
+    flexShrink: 1,
+    flexWrap: "wrap",
+    width: "100%",
+    fontWeight:'bold' 
+  },
+  // End of addition
 });
