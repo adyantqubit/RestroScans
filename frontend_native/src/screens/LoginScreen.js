@@ -152,166 +152,171 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   return (
-  	<View style={{flex: 1}}>
-    <ScrollView keyboardShouldPersistTaps="handled">
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validateOnMount={true}
-        validationSchema={loginSchema}
-        onSubmit={submitLog}
-        style={{ width: "100%", height: "100%" }}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          touched,
-          isValid,
-          errors,
-        }) => (
-          // <ScrollView style={{height: "100%"}}>
-          // Commented by Yuvraj Sahu on 19-4-2023
-          // Reason - to remove background image and ui changes
-          // <ImageBackground
-          //   source={{ uri: config.imageUrl + appSettings.app_logo }}
-          //   resizeMode="cover"
-          //   blurRadius={2}
-          //   style={{ flex: 1, height: "100%" }}
-          // >
-          <View style={styles.container}>
-            {/* Added by Yuvraj Sahu on 20-4-2023
+    <>
+      <View style={{ flex: 1 }}>
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validateOnMount={true}
+            validationSchema={loginSchema}
+            onSubmit={submitLog}
+            style={{ width: "100%", height: "100%" }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              isValid,
+              errors,
+            }) => (
+              // <ScrollView style={{height: "100%"}}>
+              // Commented by Yuvraj Sahu on 19-4-2023
+              // Reason - to remove background image and ui changes
+              // <ImageBackground
+              //   source={{ uri: config.imageUrl + appSettings.app_logo }}
+              //   resizeMode="cover"
+              //   blurRadius={2}
+              //   style={{ flex: 1, height: "100%" }}
+              // >
+              <View style={styles.container}>
+                {/* Added by Yuvraj Sahu on 20-4-2023
           Reason - to show description */}
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.description}>
-                Please enter your registered email id to continue
-              </Text>
-              {/* End of addition */}
-            </View>
-            <View style={{ marginTop: 30 }}>
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Email
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  onChangeText={handleChange("email")}
-                  // Added by- Suman sahu  On 24/04/2023
-                  // Reason- show error message when focusout that input box
-                  onBlur={handleBlur("email")}
-                  // End of added code 24/04/2023
-
-                  value={values.email}
-                  placeholderTextColor="#A4A4A4"
-                  placeholder="Enter your email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-                {errors.email && touched.email && (
-                  <Text style={styles.textdanger}>{errors.email}</Text>
-                )}
-              </View>
-
-              <View>
-                <Text style={styles.labels}>
-                  <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                  Password
-                </Text>
-
-                <View style={styles.passContainer}>
-                  <TextInput
-                    style={styles.inputPassword}
-                    onChangeText={handleChange("password")}
-                    // Added by- Suman sahu  On 24/04/2023
-                    // Reason- show error message when focusout that input box
-                    onBlur={handleBlur("password")}
-                    // End of added code 24/04/2023
-
-                    value={values.password}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter your password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={!showPassword}
-                  />
-
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                  >
-                    <Ionicons
-                      name={showPassword ? "eye" : "eye-off"}
-                      size={24}
-                      color="black"
-                      style={styles.passIcon}
-                    />
-                  </TouchableOpacity>
+                <View style={styles.descriptionContainer}>
+                  <Text style={styles.description}>
+                    Please enter your registered email id to continue
+                  </Text>
+                  {/* End of addition */}
                 </View>
+                <View style={{ marginTop: 30 }}>
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Email
+                    </Text>
 
-                {errors.password && touched.password && (
-                  <Text style={styles.textdanger}>{errors.password}</Text>
-                )}
-              </View>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("email")}
+                      // Added by- Suman sahu  On 24/04/2023
+                      // Reason- show error message when focusout that input box
+                      onBlur={handleBlur("email")}
+                      // End of added code 24/04/2023
 
-              <View style={{ width: "93%" }}>
-                <Pressable
-                  onPress={forgotPasswordHandler}
-                  style={{ alignSelf: "flex-end" }}
-                >
-                  {/* Modified by - Suman sahu On 23/04/2023
+                      value={values.email}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter your email"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {errors.email && touched.email && (
+                      <Text style={styles.textdanger}>{errors.email}</Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Password
+                    </Text>
+
+                    <View style={styles.passContainer}>
+                      <TextInput
+                        style={styles.inputPassword}
+                        onChangeText={handleChange("password")}
+                        // Added by- Suman sahu  On 24/04/2023
+                        // Reason- show error message when focusout that input box
+                        onBlur={handleBlur("password")}
+                        // End of added code 24/04/2023
+
+                        value={values.password}
+                        placeholderTextColor="#A4A4A4"
+                        placeholder="Enter your password"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        secureTextEntry={!showPassword}
+                      />
+
+                      <TouchableOpacity
+                        onPress={() => setShowPassword(!showPassword)}
+                      >
+                        <Ionicons
+                          name={showPassword ? "eye" : "eye-off"}
+                          size={24}
+                          color="black"
+                          style={styles.passIcon}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    {errors.password && touched.password && (
+                      <Text style={styles.textdanger}>{errors.password}</Text>
+                    )}
+                  </View>
+
+                  <View style={{ width: "93%" }}>
+                    <Pressable
+                      onPress={forgotPasswordHandler}
+                      style={{ alignSelf: "flex-end" }}
+                    >
+                      {/* Modified by - Suman sahu On 23/04/2023
                     Reason - For change color that text */}
 
-                  {/* <Text style={{ color: "#8533ff" }}>Forgot Password?</Text> */}
-                  <Text style={{ color: "blue" }}>Forgot Password?</Text>
+                      {/* <Text style={{ color: "#8533ff" }}>Forgot Password?</Text> */}
+                      <Text style={{ color: "blue" }}>Forgot Password?</Text>
 
-                  {/* End of modified code 23/04/2023 */}
-                </Pressable>
-              </View>
+                      {/* End of modified code 23/04/2023 */}
+                    </Pressable>
+                  </View>
 
-              <View
-                style={{
-                  marginBottom: 20,
-                  marginHorizontal: 10,
-                  marginTop: 10,
-                }}
-              >
-                <Pressable
-                  onPress={handleSubmit}
-                  disabled={isBtnDisable}
-                  // Modified by- Suman sahu  On 26/04/2023
-                  // Reason - for redesign buttons styles
-                  style={{
-                    backgroundColor: !isBtnDisable
-                      ? colors.btnColor
-                      : "#E0E0E0",
-                    height: 35,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 10,
-                    // padding: "3%",
-                    width: 150,
-                    alignSelf: "center",
-                    marginTop: 20,
-                  }}
-                  // End of modified code 26/04/2023
-                >
-                  <Text
+                  <View
                     style={{
-                      color: !isBtnDisable ? "white" : "#989898",
-                      fontSize: 16,
-                      fontWeight: "bold",
+                      marginBottom: 20,
+                      marginHorizontal: 10,
+                      marginTop: 10,
                     }}
                   >
-                    Login
-                  </Text>
-                </Pressable>
-              </View>
+                    <Pressable
+                      onPress={handleSubmit}
+                      disabled={isBtnDisable}
+                      // Modified by- Suman sahu  On 26/04/2023
+                      // Reason - for redesign buttons styles
+                      style={{
+                        backgroundColor: !isBtnDisable
+                          ? colors.btnColor
+                          : "#E0E0E0",
+                        height: 35,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        // padding: "3%",
+                        width: 150,
+                        alignSelf: "center",
+                        marginTop: 20,
+                      }}
+                      // End of modified code 26/04/2023
+                    >
+                      <Text
+                        style={{
+                          color: !isBtnDisable ? "white" : "#989898",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Login
+                      </Text>
+                    </Pressable>
+                  </View>
 
-              {/* Modified by Yuvraj Sahu on 19-4-2023
+                  {/* Modified by Yuvraj Sahu on 19-4-2023
               Reason - to remove button and line and also add link */}
-              {/* <View
+                  {/* <View
                 style={{
                   borderBottomColor: "black",
                   borderBottomWidth: 1,
@@ -320,45 +325,46 @@ export default function LoginScreen({ navigation }) {
                 }}
               /> */}
 
-              {/* <Pressable onPress={navRegister} style={styles.registerBtn}>
+                  {/* <Pressable onPress={navRegister} style={styles.registerBtn}>
                 <Text style={styles.registerText}>Register</Text>
               </Pressable> */}
 
-              <View
-                style={{
-                  width: "93%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  marginTop: 10,
-                  alignSelf: "center",
-                }}
-              >
-                <Text>New to Restroscans?</Text>
-                <Pressable onPress={navRegister}>
-                  {/* Modified by - Suman sahu On 23/04/2023
+                  <View
+                    style={{
+                      width: "93%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      marginTop: 10,
+                      alignSelf: "center",
+                    }}
+                  >
+                    <Text>New to Restroscans?</Text>
+                    <Pressable onPress={navRegister}>
+                      {/* Modified by - Suman sahu On 23/04/2023
                     Reason - For change color that text */}
 
-                  {/* <Text style={{ color: "#8533ff" }}> Sign up</Text> */}
-                  <Text style={{ color: "blue" }}> Sign up</Text>
+                      {/* <Text style={{ color: "#8533ff" }}> Sign up</Text> */}
+                      <Text style={{ color: "blue" }}> Sign up</Text>
 
-                  {/* End of modified code 23/04/2023 */}
-                </Pressable>
+                      {/* End of modified code 23/04/2023 */}
+                    </Pressable>
+                  </View>
+                  {/* End of removal */}
+                </View>
               </View>
-              {/* End of removal */}
-            </View>
-          </View>
-          // </ImageBackground>
-          // </ScrollView>
-        )}
-      </Formik>
-      {/* Added by Om on 26-04-23 For showing the footer*/}
-     <>
-     <Footer />
-     </>
-     {/* End of addition */}
-    </ScrollView>
-    </View>
+              // </ImageBackground>
+              // </ScrollView>
+            )}
+          </Formik>
+        </ScrollView>
+        {/* Added by Om on 26-04-23 For showing the footer*/}
+        <>
+          <Footer />
+        </>
+        {/* End of addition */}
+      </View>
+    </>
   );
 }
 
