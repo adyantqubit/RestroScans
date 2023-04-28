@@ -19,6 +19,7 @@ import landscapeMode from './images/landscape.png'
 import GlobalColor from "./component/Colors/GlobalColor";
 import RatingAndReview from "./component/RatingAndReviewPage/RatingAndReview";
 import secureLocalStorage from "react-secure-storage";
+import Otppopup from "./component/CustomerDetails/Otppopup";
 
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
@@ -82,6 +83,10 @@ function App() {
           <Route exact path="/rating-review" element={secureLocalStorage.getItem("order")?<RatingAndReview/>:<Navigate to="/menu-item"/>} />
           {/* <Route exact path="/billing" element={<Billing2 />} /> */}
           {/* End of added code */}
+
+          {/* Added by - Rohan knasari - 26/4/23 */}
+           <Route path="/Verification" element={secureLocalStorage.getItem('order')?<Navigate to="/cart"/>:<Otppopup/>}/>
+          {/* End of addition - 26/4/23 - ROhan */}
 
         </Routes>
         <Footer />

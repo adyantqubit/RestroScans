@@ -132,7 +132,7 @@ const Cart = () => {
       <div className={style.cartContainer} style={{ color: colors.backgroundTheme }}>
         <div style={{ color: colors.headingColor }} className={style.cartTitle}>
         {/*Added by rohan kansari -18/4/23 - add back button*/}
-        <BiArrowBack onClick={e=>nav(-1)}/>
+        <BiArrowBack onClick={e=>nav("/menu-item")}/>
         {/* Modified by :- Parineeta Gedam on 21-04-2023 */}
         <div className={style.title_length}>MY CART ({cart.length})</div></div>
         {/* End of modified code on 21-04-2023 */}

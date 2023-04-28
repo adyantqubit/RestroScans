@@ -1,0 +1,197 @@
+// Created by Rohan Kansari- 26/4/23
+// Reason- This page show when Customer place their order so, otp box show to confirm order
+
+import React, { useContext, useEffect, useState } from 'react'
+import style from "./otp.module.css"
+import { IoIosArrowRoundBack } from "react-icons/io"
+import { useLocation, useNavigate } from 'react-router-dom'
+import { GlobalContext } from '../../context/Context'
+import verificationImg from "../../images/verification.png"
+import OTPInput, { ResendOTP } from "otp-input-react";
+import { Spin } from 'antd';
+import {firebase,auth} from '../../config/firebase'
+import secureLocalStorage from 'react-secure-storage'
+import { postCustomerDetails } from '../../api/Services'
+import {
+  RadiusUprightOutlined,
+} from '@ant-design/icons';
+
+import { notification } from 'antd'
+
+
+
+const Otppopup = () => {
+  const state = useLocation()
+  console.log(state.state.contact_number)
+  
+  const [api, contextHolder] =notification.useNotification()
+  const navigate = useNavigate()
+  const { colors,setCart } = useContext(GlobalContext)
+  const [OTP, setOTP] = useState("");
+  const [isLoading, setLoading] = useState(false)
+  
+   useEffect(()=>{
+
+   
+    if(state.state.contact_number){
+    configureCaptcha()
+    onSignInSubmit()
+    }
+
+   },[state.state.contact_number])
+  // Firebase Authentication method
+
+
+   const configureCaptcha = () =>{
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+        'size': 'invisible',
+        'callback': (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          
+          notify("Sending OTP, please wait.","success")
+        },
+        defaultCountry: "IN",
+      
+      });
+    }
+  
+    
+    const onSignInSubmit = () => {
+      
+      const phoneNumber = "+91" + state.state.contact_number
+      firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+          .then((confirmationResult) => {
+            // SMS sent. Prompt user to type the code from the message, then sign the
+            // user in with confirmationResult.confirm(code).
+            window.confirmationResult = confirmationResult;
+            notify("OTP has been sent","success")
+            // ...
+          }).catch((error) => {
+            // Error; SMS not sent
+            // ...
+            notify("Please retry ! Something went wrong","error")
+          });
+    }
+  
+  
+    const onSubmitOTP = (e) =>{
+      setLoading(true)
+      e.preventDefault()
+      const code = OTP
+      console.log(code)
+      window.confirmationResult.confirm(code).then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        console.log(JSON.stringify(user))
+        
+        notify("Proceeding Your order.","success")
+
+        setTimeout(()=>{
+          setLoading(true)
+          SubmitOrder()
+        },1500)
+       
+        // ...
+      }).catch((error) => {
+       setLoading(false)
+        notify(" OTP dosen't match. Please try again","error")
+        // User couldn't sign in (bad verification code?)
+        // ...
+      });
+    }
+
+
+
+      function notify(msg,type) {
+
+        if(type=="success")
+        api.success({
+          
+        message: `${msg} `,
+        RadiusUprightOutlined,
+        duration:3,
+        style:{
+            top:"5vh",
+            background:colors.subheadingBackgroundColor,
+            color:colors.subHeadingColor,
+            width:"80vw",
+            fontFamily:"Times New Roman"
+        },
+          key: 1,
+        
+        })
+
+        if (type=="error")
+        api.error({
+          
+          message: `${msg} `,
+          RadiusUprightOutlined,
+          duration:3,
+          style:{
+              top:"5vh",
+              background:colors.subheadingBackgroundColor,
+              color:colors.subHeadingColor,
+              width:"80vw",
+              fontFamily:"Times New Roman"
+          },
+            key: 1,
+          
+          })
+
+      }
+    
+
+
+    const SubmitOrder=async ()=>{
+      var tenantName = localStorage.getItem("tenantName")
+      const response = await postCustomerDetails(state.state, tenantName);
+      if (response.msg) {
+        secureLocalStorage.setItem("invoice_detail", response.data)
+        //added by rohan- 18/4/23 - to set tenant validation
+        secureLocalStorage.setItem("customer_details",state.state)
+        secureLocalStorage.setItem("order", response.data.order_details)
+        secureLocalStorage.setItem("orderItem", response.data.order_items)
+  
+        // Added by :- Parineeta Gedam
+        // Date :- 14-04-2023
+        // Reason :- remove cart data from local storage
+  
+        localStorage.removeItem('cart');
+        setCart([])
+        navigate("/invoice")
+    }
+
+  }
+  
+
+  return (
+    <>
+    <div id='sign-in-button'></div>
+    {contextHolder}
+    <div className={style.otpContainer} >
+      <div className={style.header}>
+        <IoIosArrowRoundBack
+          className={style.backButton}
+          style={{ color: colors.headingColor }}
+          onClick={e => navigate(-1)} /></div>
+      <div className={style.bgImgBox}>
+        <img alt="" className={style.verificationImg} src={verificationImg} />
+      </div>
+      <div className={style.formContainer} style={{ background: colors.subheadingBackgroundColor }}>
+        <div className={style.formTitle}>OTP VERIFICATION</div>
+        <div className={style.reasonText}>We will Send you a one time password in Entered mobile number , Enter O.T.P. and confirm your order</div>
+
+        <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />
+
+        <ResendOTP maxTime={30}  onResendClick={() => {onSignInSubmit()}} className={style.resendBtn} />
+
+        {isLoading?<Spin className={style.spin}/>:<button className={style.submitBtn} style={{background:colors.bannerColor, color: colors.backgroundTheme}}  onClick={onSubmitOTP}>
+               Verify
+              </button>}
+      </div>
+    </div>
+    </>
+  )
+}
+
+export default Otppopup

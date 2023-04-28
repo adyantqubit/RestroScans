@@ -4,12 +4,13 @@
     /* background-color: var(--primary-backeground-color); */
     height: 100%;
     max-height: 75vh;
+    /* padding-bottom: 200px; */
     overflow: auto;
 
 }
 
 .restaurant_name {
-    width: 100%;
+    width: 80%;
     text-align: center;
     padding: 1%;
     margin: 0;
@@ -298,8 +299,6 @@
     position: sticky;
     top: 0px;
     z-index: 99;
-
-
 }
 
 /* Added by :- Parineeta Gedam Date :- 05-04-2023 */
@@ -1048,9 +1047,140 @@ a.ant-notification-notice-close {
     bottom: 20px;
     height:5vh;
     width:100%;
-    background-color:pink;
+    
 }
 
 .arrow_toggle{
     margin: 5px 5px;
 }
+
+
+/* Added by rohan kansari- 27/4/23 - add to design new search bar and header */
+
+
+.Hotel_container{
+    position: fixed;
+    top: 0;
+    height: 6vh;
+    display: flex;
+    z-index: 9999;
+    width: 100%;
+    box-shadow: 0px 0px 5px #9c9c9c;
+}
+
+.hotel_name{
+    width: 73%;
+    align-self: center;
+    text-align: center;
+    font-family: "Times New Roman";
+    font-size: 22px;
+    margin: 0;
+    position: absolute;
+    left: 13%;
+}
+
+.menu_container{
+    align-self: center;
+    position: relative;
+    
+}
+
+
+.icon_container{
+    align-self: flex-end;
+    width: 10%;
+    /* left: 70%; */
+    right:20px;
+    bottom: -3px;
+}
+
+.searchpage_main{
+    display: none !important;
+}
+
+.searchContainer{
+    width: 80%;
+    background-color:transparent;
+}
+
+
+  .search__toggler {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #0062ff;
+    opacity: 1;
+    top: -4px;
+    left: -4px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+  .search__toggler:hover{
+    cursor: pointer;
+  }
+  .search__toggler::before {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: 22px;
+    right:0;
+    bottom:0;
+    left: 22px;
+    width: 12px;
+    height: 2px;
+    background: #fff;
+    transform: rotate(45deg);
+    transition: all 0.2s;
+  }
+  .search__toggler::after {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top:-5px;
+    right:0;
+    bottom:0;
+    left: -5px;
+    width:25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transition: all 0.2s;
+  }
+
+
+  .search__cross{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #212121;
+    opacity: 1;
+    top: -4px;
+    right:-22px ;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+   
+  }
+
+  
+  .search__cross::before{
+    position: absolute;
+    margin: auto;
+    top: 22px;
+    right:0;
+    bottom:0;
+    right: -22px;
+    width: 12px;
+    height: 2px;
+    background: #fff;
+    transform: rotate(45deg);
+    transition: all 0.2s;
+  }
+
+  .searchInput{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+
+  /* End of code - ROhan kansari - 27/4/23 */

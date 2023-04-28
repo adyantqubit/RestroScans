@@ -27,6 +27,7 @@ import { GoSearch } from "react-icons/go";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
+import Draggable from 'react-draggable';
 
 
 // Import Swiper styles
@@ -51,13 +52,13 @@ function MenuItem() {
   TenantValidate()
   // end of code - rohan kansari -17/4/23
   var { searchedValue,
-    setSearchedValue, colors, cart,subscribePlan } = useContext(GlobalContext);
-   
-  console.log("----------------------subscribePlan",subscribePlan)  
+    setSearchedValue, colors, cart, subscribePlan } = useContext(GlobalContext);
+
+  console.log("----------------------subscribePlan", subscribePlan)
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
   const [itemList, setItemList] = useState([]); // Our Item set in this variable
-  
+
   var [filterCategory, setfilterCategory] = useState([])
   var [offerShow, setOfferShow] = useState([])
 
@@ -77,18 +78,26 @@ function MenuItem() {
 
     setOfferShow([])
 
-    
-
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
     // document.getElementById('hide_search').style.display = 'block'
-    document.getElementById('hide_search').style.display = 'flex'
+    // commented by ROhan kansari- 27/4/23
+    // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
-    document.getElementById(id).classList.add("category_animated_div");
 
+
+    // Added by Rohan - 26/4/23
+    // Reason - only add this animation when menulist is visible
+    if (menuListVisible)
+      document.getElementById(id).classList.add("category_animated_div");
+    // End of code - 26/4/23 - Rohan
 
     for (var i = 0; i < menuList.length; i++) {
-      if (i != id)
+      // Added by Rohan - 26/4/23
+      // Reason - only add this animation when menulist is visible
+      if (i != id && menuListVisible)
         document.getElementById(i).classList.remove("category_animated_div");
+      // End of code - 26/4/23 - Rohan
+
     }
 
     setNewSearch('')
@@ -103,7 +112,7 @@ function MenuItem() {
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
 
-    document.getElementById('hide_search').style.display = 'none';
+    // document.getElementById('hide_search').style.display = 'none';
 
     setNewSearch("")
 
@@ -113,7 +122,7 @@ function MenuItem() {
 
       // Modified by :- Parineeta Gedam Date :- 05-04-2023
       // document.getElementById('hide_search').style.display = 'block'
-      document.getElementById('hide_search').style.display = 'flex'
+      // document.getElementById('hide_search').style.display = 'flex'
       // End of added code 05-04-2023
 
       // function openModal() {
@@ -213,7 +222,7 @@ function MenuItem() {
     setOfferShow([])
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
     // document.getElementById('hide_search').style.display = 'block'
-    document.getElementById('hide_search').style.display = 'flex'
+    // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
   };
 
@@ -318,7 +327,7 @@ function MenuItem() {
       (document.getElementById('flip_div_idd').style.height = '41% ')
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
     // document.getElementById('hide_search').style.display = 'block'
-    document.getElementById('hide_search').style.display = 'flex'
+    // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023 
 
   }
@@ -472,7 +481,7 @@ function MenuItem() {
     setOfferShow([])
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
     // document.getElementById('hide_search').style.display = 'block'
-    document.getElementById('hide_search').style.display = 'flex'
+    // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
 
     setNewSearch('')
@@ -508,7 +517,7 @@ function MenuItem() {
     setOfferShow([])
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
     // document.getElementById('hide_search').style.display = 'block'
-    document.getElementById('hide_search').style.display = 'flex'
+    // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
 
 
@@ -565,22 +574,50 @@ function MenuItem() {
 
 
   const [searchVisible, setSearchVisiblity] = useState(false)
-  const ref=useRef()
+  const ref = useRef()
   // Added by rohan -16/4/23
   // reason- To hide and unhide description
-  function toggleDescription(style){
-    if(style.display=="unset")
-    style.display=""
+  function toggleDescription(style) {
+    if (style.display == "unset")
+      style.display = ""
     else
-    style.display="unset"
+      style.display = "unset"
   }
 
   // added by rohan kansari -19/4/23
   // reason to clear search if search is not visible
-  useEffect(()=>{
-    if(!searchVisible)
-    setNewSearch("")
-  },[searchVisible])
+  useEffect(() => {
+    if (!searchVisible)
+      setNewSearch("")
+
+    console.log("search change")  
+  }, [searchVisible])
+
+  const [menuListVisible, setmenuListVisiblity] = useState(true)
+
+  // Added by Rohan kansari -27/4/23
+  // Reason - To apply animation when menu list is visible
+  function applyAnimation() {
+    document.getElementById(selected).classList.add("category_animated_div");
+
+    for (var i = 0; i < menuList.length; i++) {
+      if (i != selected)
+        document.getElementById(i).classList.remove("category_animated_div");
+    }
+  }
+
+
+  useEffect(() => {
+    if (menuListVisible)
+      try {
+        applyAnimation()
+      }
+      catch {
+
+      }
+  }, [menuListVisible])
+
+  // End of code Rohan kansari - 27/4/23
 
   return (
     <>
@@ -591,10 +628,97 @@ function MenuItem() {
         onLoad={e => {
           //added by rohan -9/4/23 to show header unhide header
           if (document.getElementsByClassName("front_page").length == 0)
-            document.getElementsByClassName("heading_container")[0].style.display = "flex"
+            // Added  by rohan kansari -27/4/23
+            // Reason - To apply animation of selected menu 
+            applyAnimation()
+          // End of code- Rohan kansari - 27/4/23
+          document.getElementsByClassName("heading_container")[0].style.display = "flex"
           // end of code
         }}
       >
+
+
+        {/* Adding By Rohan kansari - 27/4/23
+            Reason- To add new design header where menu, name and cart icon show together */}
+
+        <div className="Hotel_container" id="header" style={{ background: colors.backgroundTheme }} >
+
+          <div className='menu_container'>
+            <Button onClick={showDrawer} style={{ backgroundColor: colors.bannerColor, width: "99%", color: colors.subheadingBackgroundColor }}>
+              Menu
+            </Button>
+            <Drawer title="Menu" placement="bottom" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
+              {menuList.map((showMenu, id) => (
+                <div className="drawer_menu_parent_container"
+                  onClick={e => {
+                    onMenuChange(id, showMenu.id);
+                    setSelected(id);
+                    onClose();
+                  }
+                  }
+                >
+                  <div className="menu_img_container" >
+                    <img src={siteConfig.siteURL + showMenu.icon}
+                      className="drawer_menu_img"
+                    />
+                  </div>
+
+                  <span className="drawer_menu_name_container">
+                    <h6 style={{
+                      color: colors.bannerColor, paddingTop: '2%',
+                      // backgroundColor: colors.headingBackgroundColor,
+                    }}
+                      className="drawer_menu_name"
+                    >{showMenu.name}
+                    </h6>
+                  </span>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+
+                </div>
+              ))}
+            </Drawer>
+          </div>
+
+          {/* <Draggable cancel=".click">
+            {searchVisible ?
+              <div className="searchContainer " >
+                <input className="searchInput" />
+                <div className="click search__cross" >
+                  <AiOutlineClose color="white" size={30} style={{ margin: "10px " }} onClick={e =>{ console.log("search hit"); setSearchVisiblity(false)} } />
+                </div>
+              </div>
+              :
+              <div className="searchContainer">
+              <div className="click search__toggler" onClick={e =>{ console.log("search hit"); setSearchVisiblity(true)} }>
+                </div>
+              </div>
+            }
+          </Draggable> */}
+
+
+          <h2 style={{ color: colors.headingColor }}
+            // className="restaurant_name"
+            className={restaurant_name.length > 9 ? 'hotel_name' : 'restaurant_fontsize'}>
+            {restaurant_name.toUpperCase()}
+          </h2>
+
+
+          {subscribePlan?.includes("order") ?
+            <div className="icon_container">
+              <Link to="/cart">
+                <span className="selected_amount">{cart.length}</span>
+                <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
+              </Link>
+            </div> : null}
+
+
+
+        </div>
+        {/* end of heading - Rohan kansari - 27/4/23 */}
+
+        {/*End of code - Rohan Kansari - 27/4/23  */}
         {/* Removing header from here and adding it to app.js file for globallization */}
 
         {/* Added by :- Parineeta Gedam 21-04-2023
@@ -657,7 +781,7 @@ function MenuItem() {
                         Reason - To Show video if video section is selected from backend */}
 
                     {
-                     ! item.show_video_Hide_Image ?
+                      !item.show_video_Hide_Image ?
                         <>
                           <img
                             src={siteConfig.siteURL + item.offer_image}
@@ -674,7 +798,7 @@ function MenuItem() {
                         //   <source type="video/youtube" src="http://www.youtube.com/watch?v=nOEw9iiopwI" />
                         // </video>
                         <div className="container">
-                         <iframe className="responsive-iframe" width="100%" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"/>
+                          <iframe className="responsive-iframe" width="100%" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" />
                         </div>
                     }
 
@@ -697,16 +821,20 @@ function MenuItem() {
             {/* End of modified code on 19-04-2023 */}
           </div>
         }
-        <div id="hide_search"
+
+        {/* Commented by Rohan kansari - 27/4/23
+    Reason- To shift this feature in top header  */}
+
+        {/* <div id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
           style={{ background: colors.backgroundTheme }}
-        >
+        > */}
 
-          {/* Added by :- Parineeta Gedam
+        {/* Added by :- Parineeta Gedam
               Date :- 03-04-2023
               Reason :- for drawer
           */}
-          <div className='menu_container'>
+        {/* <div className='menu_container'>
             <Button onClick={showDrawer} style={{ backgroundColor: colors.bannerColor, width: "99%", color: colors.subheadingBackgroundColor }}>
               Menu
             </Button>
@@ -742,39 +870,41 @@ function MenuItem() {
                 </div>
               ))}
             </Drawer>
-          </div>
+          </div> */}
 
-          {/* End of added code 03-0-2023 */}
+        {/* End of added code 03-0-2023 */}
 
-          <div className='searchpage_input'>
-            {/* <Input.Group >
+        {/* <div className='searchpage_input'> */}
+        {/* <Input.Group >
               <Search size='large' 
                 // value={search}
                 onChange={e => { setNewSearch(e.target.value.trimStart());} }
                 placeholder='Search by Menu, Categories & Items name' />
             </Input.Group> */}
-            {/* Added by rohan-16/4/23
+        {/* Added by rohan-16/4/23
                 Reason- designing new search ui */}
-            <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
+        {/* <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
                 <input className="inputBoxSearch" type="text" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
-              : null}
-            {/*End of Code */}
-          </div>
-          {/* Added by Rohan- 9/4/23  Reason- cart page */}
-          {/*added by rohan -18/4/23- to add functionality of subscription */}
-          {subscribePlan?.includes("order") ?
+              : null} */}
+        {/*End of Code */}
+        {/* </div> */}
+        {/* Added by Rohan- 9/4/23  Reason- cart page */}
+        {/*added by rohan -18/4/23- to add functionality of subscription */}
+        {/* {subscribePlan?.includes("order") ?
             <div className="icon_container">
               <Link to="/cart">
                 <span className="selected_amount">{cart.length}</span>
                 <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
               </Link>
-            </div> : null}
-          {/* end of code  */}
-        </div>
+            </div> : null} */}
+        {/* end of code  */}
+        {/* </div> */}
+
+        {/* End of commenting - 27/4/23 - Rohan Kansari */}
 
         {filter.length == 0 && search.length > 2 ?
           <div >
@@ -876,7 +1006,7 @@ function MenuItem() {
                           display: 'flex',
                           padding: '5% 0% 0% 0%',
                           justifyContent: "flex-end",
-                          gap: colors.allow_half_price?"0px":"22%",
+                          gap: colors.allow_half_price ? "0px" : "22%",
                           color: 'lightblue'
                         }}
                         >
@@ -975,7 +1105,7 @@ function MenuItem() {
                                     */}
                                     {person.item_type == 'Veg' ? (
                                       <>
-                                        <img src={vegIcon} style={{width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
+                                        <img src={vegIcon} style={{ width: '15px', height: '15px', marginTop: '2px' }} alt="kk" className=""></img>
                                       </>
                                     ) : null}
                                     {person.item_type == 'Nonveg' ? (
@@ -1177,7 +1307,7 @@ function MenuItem() {
               color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
               borderRadius: '6px',
               padding: '1px 8px',
-              
+
             }} className="category_name"> {offer_name} {offer_discount}%</span>
             {/* <span style={{ color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
                               borderRadius: '6px',
@@ -1189,9 +1319,9 @@ function MenuItem() {
             display: 'flex',
             padding: '5% 0% 0% 0%',
             color: 'lightblue',
-            gap: colors.allow_half_price?"0px":"22%",
+            gap: colors.allow_half_price ? "0px" : "22%",
             justifyContent: 'flex-end',
-            
+
           }}
           >
             <div className="allitems_heading_name" style={{ color: colors.bannerColor, textAlign: 'center' }}>
@@ -1381,6 +1511,7 @@ function MenuItem() {
           }
         </div>
 
+
         {/* Added by rohan on - 5/4/2023
             Reason- This will show one popup model to select option like full price and half price product. */}
         <PopupDetail item={clickedDetail} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
@@ -1433,7 +1564,7 @@ function MenuItem() {
                         display: 'flex',
                         padding: '5% 0% 0% 0%',
                         color: 'lightblue',
-                        gap: colors.allow_half_price?"0px":"22%",
+                        gap: colors.allow_half_price ? "0px" : "22%",
                         justifyContent: "flex-end",
 
                       }}
@@ -1696,49 +1827,51 @@ function MenuItem() {
 
         <br />
 
-        {/* {menuListVisible? */}
-        <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
-          {/* <div className="drawerBtn" onClick={e=>setmenuListVisiblity(!menuListVisible)} style={{backgroundColor:colors.bannerColor}}><MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{color:colors.backgroundTheme}}/></div> */}
-          <div className="footer_btn_container" >
-            <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
-          </div>
-          <div className="category_container" >
-            {menuList.map((data, id) => (
-              <div id={id} className='all-menu'
-                onClick={
-                  e => {
-                    if (searchVisible)
-                      document.getElementById('search_box').value = "";
-                    onMenuChange(id, data.id);
-                    setSelected(id);
+        {/* Added By Rohan - 26/4/23
+            Reason - To toggle menu card container */}
+        {menuListVisible ?
+          <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
+            <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "87vh" }} style={{ backgroundColor: colors.bannerColor }}><MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} /></div>
+            <div className="footer_btn_container" >
+              <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
+            </div>
+            <div className="category_container" >
+              {menuList.map((data, id) => (
+                <div id={id} className='all-menu'
+                  onClick={
+                    e => {
+                      if (searchVisible)
+                        document.getElementById('search_box').value = "";
+                      onMenuChange(id, data.id);
+                      setSelected(id);
+                    }
                   }
-                }
-              >
-                <img className="category_img"
-                  style={{
-                    // border: '2px solid yellow',
-                  }}
-                  src={siteConfig.siteURL + data.icon}
-                />
-                <div className="footer_category_name" style={{ color: colors.headingColor }}>{data.name}</div>
-              </div>
-            ))}
-          </div>
-          <div lassName="footer_btn_container" style={{
-            //  border: '2px solid green'
-          }}>
-            <button style={{
-              backgroundColor: colors.bannerColor
-            }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{ color: 'white' }} /></button>
+                >
+                  <img className="category_img"
+                    style={{
+                      // border: '2px solid yellow',
+                    }}
+                    src={siteConfig.siteURL + data.icon}
+                  />
+                  <div className="footer_category_name" style={{ color: colors.headingColor }}>{data.name}</div>
+                </div>
+              ))}
+            </div>
+            <div lassName="footer_btn_container" style={{
+              //  border: '2px solid green'
+            }}>
+              <button style={{
+                backgroundColor: colors.bannerColor
+              }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{ color: 'white' }} /></button>
+
+            </div>
 
           </div>
-
-        </div>
-        {/* :
-     <div className="blank_menu_Container">
-       <div className="drawerBtn" onClick={e=>setmenuListVisiblity(!menuListVisible)} style={{backgroundColor:colors.bannerColor}}><MdOutlineKeyboardArrowUp color="white"  className="arrow_toggle" style={{color:colors.backgroundTheme}}/></div>
-      </div>}  */}
-
+          :
+          <div className="blank_menu_Container" style={{ background: colors.subheadingBackgroundColor }}>
+            <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "75vh"; }} style={{ backgroundColor: colors.bannerColor }}><MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} /></div>
+          </div>}
+        {/* End of code - 26/4/23 - Rohan */}
         {/* <Footer /> */}
       </div>
 
@@ -1768,6 +1901,9 @@ function MenuItem() {
       </div>
 
       {/* } */}
+
+
+
     </>
   );
 

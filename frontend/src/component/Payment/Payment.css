@@ -13,7 +13,12 @@
     /* font-weight: 600; */
     font-family: 'Times New Roman', Times, serif;
     /* added by:- Parineeta */
-    margin-bottom: 17%;
+
+    /* Modified by Rohan kansari - 27/4/23
+       Reason - To align all thing in center not only option div*/
+    /* margin-top: 17%; */
+    margin-top: 35%
+    /* end of code - Rohan kansari - 27/4/23 */
 }
 
 
@@ -111,7 +116,11 @@
     border-radius: 15px;
     background-color: floralwhite;
     padding: 22px 0px 0px 0px;
-    margin-top: 35%;
+    /* Modified by Rohan kansari - 27/4/23
+       Reason - To align all thing in center not only option div*/
+    /* margin-top: 35%; */
+       margin-top:5%;
+    /* End of code - Rohan kansari - 27/4/23 */
 }
 
 .payment_child_container {

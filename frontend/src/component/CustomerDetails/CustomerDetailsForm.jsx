@@ -42,58 +42,70 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
       //added by rohan- 18/4/23 - to set tenant validation
       tenant:restaurant_name
     };
-    var tenantName = localStorage.getItem("tenantName")
-    const response = await postCustomerDetails(customerDetail, tenantName);
-    if (response.msg) {
-      secureLocalStorage.setItem("invoice_detail", response.data)
-      //added by rohan- 18/4/23 - to set tenant validation
-      secureLocalStorage.setItem("customer_details",customerDetail)
-      secureLocalStorage.setItem("order", response.data.order_details)
-      secureLocalStorage.setItem("orderItem", response.data.order_items)
 
-      // Added by :- Parineeta Gedam
-      // Date :- 14-04-2023
-      // Reason :- remove cart data from local storage
+    
 
-      localStorage.removeItem('cart');
-      setCart([])
+    // Added by Rohan kansari - 26/4/23
+    // Reason- To navigate otp form first then proceed further
+    navigate("/Verification",{state:customerDetail})
+    // End of code - Rohan kansari - 26/4/23
 
-      // End of added code 15-04-2023
+  
+    // Commented by Rohan kansari - 27/4/23
+    // Reason - TO shift all placeorder functionality in otp section so not needed here
+    // var tenantName = localStorage.getItem("tenantName")
+    // const response = await postCustomerDetails(customerDetail, tenantName);
+    // if (response.msg) {
+    //   secureLocalStorage.setItem("invoice_detail", response.data)
+    //   //added by rohan- 18/4/23 - to set tenant validation
+    //   secureLocalStorage.setItem("customer_details",customerDetail)
+    //   secureLocalStorage.setItem("order", response.data.order_details)
+    //   secureLocalStorage.setItem("orderItem", response.data.order_items)
 
-      // Commented by :- Parineeta Gedam
-      // Date :- 13-04-2023
-      // Reason :- remove the validations msg
-      // message.success({
-      //   content: "Successfully Submit",
-      //   key: 1,
-      //   icon: <CheckCircleOutlined />,
-      //   style: {
-      //     marginTop: '5vh',
-      //     fontSize: "16px",
-      //     letterSpacing: "1.3px",
-      //     fontFamily: "Times News Roman",
-      //     color: colors.headingColor,
-      //   },
-      // });
-      // End of added code 13-04-2023
-      navigate("/invoice");
-    }
-    else {
-      message.error({
-        content: "Please try again",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
-    }
+    //   // Added by :- Parineeta Gedam
+    //   // Date :- 14-04-2023
+    //   // Reason :- remove cart data from local storage
+
+    //   localStorage.removeItem('cart');
+    //   setCart([])
+
+    //   // End of added code 15-04-2023
+
+    //   // Commented by :- Parineeta Gedam
+    //   // Date :- 13-04-2023
+    //   // Reason :- remove the validations msg
+    //   // message.success({
+    //   //   content: "Successfully Submit",
+    //   //   key: 1,
+    //   //   icon: <CheckCircleOutlined />,
+    //   //   style: {
+    //   //     marginTop: '5vh',
+    //   //     fontSize: "16px",
+    //   //     letterSpacing: "1.3px",
+    //   //     fontFamily: "Times News Roman",
+    //   //     color: colors.headingColor,
+    //   //   },
+    //   // });
+    //   // End of added code 13-04-2023
+    //   navigate("/invoice");
+    // }
+    // else {
+    //   message.error({
+    //     content: "Please try again",
+    //     key: 1,
+    //     icon: <CheckCircleOutlined />,
+    //     style: {
+    //       marginTop: '5vh',
+    //       fontSize: "16px",
+    //       letterSpacing: "1.3px",
+    //       fontFamily: "Times News Roman",
+    //       color: colors.headingColor,
+    //     },
+    //   });
+    // }
+  // End of commenting 0 rjan kansari - 27/4/23
   }
-
+  
   //   End of added code 06-04-2023
 
 
