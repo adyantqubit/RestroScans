@@ -186,7 +186,10 @@ export default function AddOfferItemScreen() {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           <Text style={{ marginTop: 5 }}>Banner/Offer name</Text>
 
@@ -297,19 +300,23 @@ export default function AddOfferItemScreen() {
             {/* End of addition */}
           </View>
 
+          {/*  Modified by- Suman sahu  On 26/04/2023
+               Reason - for redesign buttons styles */}
           <View
-            // style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
-            style={styles.btns}
+            style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}
+            // style={styles.btns}
           >
             <Pressable
               onPress={handleSubmit(handleRegister)}
               disabled={isDisable}
               style={{
                 backgroundColor: isDisable ? "grey" : colors.btnColor,
-                height: 40,
+                height: 35,
+                width: "35%",
+                alignSelf: "center",
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 3,
+                borderRadius: 10,
               }}
             >
               <Text
@@ -323,6 +330,7 @@ export default function AddOfferItemScreen() {
               </Text>
             </Pressable>
           </View>
+          {/*  End of modified code 26/04/2023 */}
         </View>
       </ScrollView>
       {/* Added by Om on 18-04-23 For showing the footer*/}

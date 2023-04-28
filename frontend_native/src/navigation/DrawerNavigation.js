@@ -23,8 +23,11 @@ import OfferNavigation from "./OfferNavigation";
 import OrderNavigation from "./OrderNavigation";
 import { AddMenuNavigation } from "./AddMenuNavigation";
 import { AddOfferNavigation } from "./AddOfferNavigation";
+import PaymentMethod from "../screens/personalInformation/PaymentMethod";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PrintQRScreen from "../screens/PrintQRScreen";
-import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function DrawerNavigation({ navigation }) {
   // Navigation added by Om on 18-04-23 , This helps to navigate the after logout screen is change
@@ -107,7 +110,13 @@ export default function DrawerNavigation({ navigation }) {
               <Text
                 onPress={showAlert1}
                 style={{
-                  textDecorationLine: "underline",
+                  //  Modified by - Suman sahu  On 23/04/2023
+                  // Reason - remove underline on logout icon
+
+                  // textDecorationLine: "underline",
+
+                  // End of commented code
+
                   fontSize: 15,
                   fontWeight: "bold",
                   color: "blue",
@@ -116,7 +125,13 @@ export default function DrawerNavigation({ navigation }) {
                 // color="#c39212"
                 // bor
               >
-                Logout
+                {/* Modified by - Suman sahu  On 23/04/2023
+                    Reason - change logout text to icon */}
+
+                {/* Logout */}
+                <MaterialCommunityIcons name="logout" size={24} color="black" />
+
+                {/* End of modified code 23/04/2023 */}
               </Text>
             </View>
           ),
@@ -130,9 +145,9 @@ export default function DrawerNavigation({ navigation }) {
       />
 
       <Drawer.Screen
-      	// Modified by Yuvraj Sahu on 21-4-2023
-      	// Reason - to fix navigation
-      	// name="MenuListScreen"
+        // Modified by Yuvraj Sahu on 21-4-2023
+        // Reason - to fix navigation
+        // name="MenuListScreen"
         // component={MenuListScreen}
         name="Menus"
         component={MenuNavigation}
@@ -176,8 +191,8 @@ export default function DrawerNavigation({ navigation }) {
           // end of addition
         }}
       />
-    
-{/* Added by Om on 08-04-23
+
+      {/* Added by Om on 08-04-23
       Reason : Show added banner list */}
       <Drawer.Screen
         name="Addbanners"
@@ -195,9 +210,9 @@ export default function DrawerNavigation({ navigation }) {
       />
       {/* End of addition */}
       <Drawer.Screen
-      	// Modified by Yuvraj Sahu on 21-4-2023
-      	// Reason - to fix navigation
-      	// name="OfferScreen"
+        // Modified by Yuvraj Sahu on 21-4-2023
+        // Reason - to fix navigation
+        // name="OfferScreen"
         // component={OfferScreen}
         name="Offer"
         component={OfferNavigation}
@@ -280,6 +295,23 @@ export default function DrawerNavigation({ navigation }) {
           // end of addition
         }}
       />
+      {/* End of addition */}
+
+      {/* Added by Yuvraj Sahu on 27-4-2023
+        Reason - to define route for navigation on payment method */}
+      <Drawer.Screen
+        name="PaymentMethod"
+        component={PaymentMethod}
+        options={{
+          drawerLabel: "Payment Method",
+          title: "Payment Method",
+          drawerIcon: (config) => (
+            <FontAwesome5 name="comments-dollar" size={24} color="black" />
+          ),
+        }}
+      />
+      {/* End of adding payment method */}
+
       {/* End of addition */}
     </Drawer.Navigator>
   );

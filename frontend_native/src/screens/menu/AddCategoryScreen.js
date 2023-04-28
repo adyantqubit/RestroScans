@@ -124,8 +124,8 @@ export default function AddCategoryScreen() {
     }
   };
 
-	// Commented by Yuvraj Sahu on 24-4-2023
-	// Reason - to change api calling for chnage form to formik
+  // Commented by Yuvraj Sahu on 24-4-2023
+  // Reason - to change api calling for chnage form to formik
   // const handleRegister = async (formValues) => {
   //   setIsDisable(true);
   //   var formData = new FormData();
@@ -164,9 +164,9 @@ export default function AddCategoryScreen() {
   //   );
   // };
   // End of comment
-	
-	// Added by Yuvraj Sahu on 24-4-2023
-	// Reason - to change form to formik
+
+  // Added by Yuvraj Sahu on 24-4-2023
+  // Reason - to change form to formik
   // ------------------------- formik regitration ------------------------
   // useEffect(() => {}, [isFocused]);
   var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
@@ -221,9 +221,12 @@ export default function AddCategoryScreen() {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
-        {/* Commented by Yuvraj Sahu on 24-4-2023
+          {/* Commented by Yuvraj Sahu on 24-4-2023
         Reason - to change form (formik) */}
           {/* <View style={styles.container}>
           <Text style={styles.labels}>
@@ -516,6 +519,28 @@ export default function AddCategoryScreen() {
                     />
                   )}
                 </View>
+
+                {/* Added by- Suman sahu  On 26/04/2023
+                    Reason- add label in upload image field */}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 26/04/2023 */}
                 <View style={styles.activeStatus}>
                   <Checkbox
                     value={isCategoryActive}
@@ -541,17 +566,20 @@ export default function AddCategoryScreen() {
                       handleSubmit();
                     }}
                     disabled={isSaveBtnDisable}
+                    // Modified by- Suman sahu  On 26/04/2023
+                    // Reason - for redesign buttons styles
                     style={{
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 40,
+                      height: 35,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
-                      width: 150,
+                      width: "35%",
                       alignSelf: "center",
                     }}
+                    // End of modified code
                   >
                     <Text
                       style={{

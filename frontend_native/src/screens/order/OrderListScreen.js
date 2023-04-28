@@ -72,7 +72,10 @@ export default function OrderListScreen({ route, navigation }) {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         {/* This function is used to map or show the data  */}
         {orders.length > 0 ? (
           <>

@@ -282,7 +282,10 @@ export default function EditItemScreen({ route, navigation }) {
 
   return (
     <>
-      <ScrollView>
+       {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           {/* <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
@@ -917,6 +920,29 @@ export default function EditItemScreen({ route, navigation }) {
                     />
                   )}
                 </View>
+                
+                {/* Added by- Suman sahu  On 26/04/2023
+              Reason- add label in upload image field */}
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              alignSelf: "center",
+              justifyContent: "center",
+              marginTop: 5,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 12,
+              }}
+            >
+              Please upload image below 200kb
+            </Text>
+          </View>
+          {/* End of added code 26/04/2023 */}
+          
                 <View style={styles.activeStatus}>
                   <Checkbox
                     // style={styles.checkbox}
@@ -940,7 +966,7 @@ export default function EditItemScreen({ route, navigation }) {
                     disabled={isDisable}
                     style={{
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 40,
+                      height: 35,
                       alignItems: "center",
                       justifyContent: "center",
                       // Added by Yuvraj Sahu on 16-4-2023

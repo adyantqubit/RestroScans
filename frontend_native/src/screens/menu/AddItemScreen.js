@@ -271,7 +271,10 @@ export default function AddItemScreen() {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           {/* Commeted by Yuvraj Sahu on 24-4-2023
         Reason - to change form to formik */}
@@ -832,6 +835,29 @@ export default function AddItemScreen() {
                     />
                   )}
                 </View>
+
+                {/* Added by- Suman sahu  On 26/04/2023
+                    Reason- add label in upload image field */}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 26/04/2023 */}
+
                 {isImgRequired && (
                   <Text style={{ color: "red", marginLeft: 10 }}>
                     Item icon is required!
@@ -874,17 +900,20 @@ export default function AddItemScreen() {
                       handleSubmit();
                     }}
                     disabled={isSaveBtnDisable}
+                    // Modified by- Suman sahu  On 26/04/2023
+                    // Reason - for redesign buttons styles
                     style={{
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 40,
+                      height: 35,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
-                      width: 150,
+                      width: "35%",
                       alignSelf: "center",
                     }}
+                    // End of modified code 26/04/2023
                   >
                     <Text
                       style={{

@@ -424,3 +424,31 @@ export const updateOrderAndPaymentStatus = async (tenant, status, orderID) => {
   return response ? response.data : {};
 };
  // End of addition
+
+
+ // ------------------------------- Payment method API --------------------------- //
+// Added by Yuvraj Sahu on 27-4-2023
+// Reason - to save payment method
+export const savePaymentMethodApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/get-scanner/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving payment method
+
+
+ // ------------------------------- Payment method API --------------------------- //
+// Added by Yuvraj Sahu on 27-4-2023
+// Reason - to get payment method
+export const getPaymentMethodApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/get-scanner/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting payment method

@@ -166,7 +166,10 @@ export default function AddOfferScreen() {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           {/* Commented and Added by Yuvraj Sahu on 26-4-2023
             Reason - to remove react hook forn and use formik */}
@@ -500,6 +503,27 @@ export default function AddOfferScreen() {
                     />
                   )}
                 </View>
+                {/* Added by- Suman sahu  On 26/04/2023
+                    Reason- add label in upload image field */}
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              alignSelf: "center",
+              justifyContent: "center",
+              marginTop: 5,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 12,
+              }}
+            >
+              Please upload image below 200kb
+            </Text>
+          </View>
+          {/* End of added code 26/04/2023 */}
                 {isImgRequired && (
                   <Text style={{ color: "red", marginLeft: 87, marginTop: 8 }}>
                     Banner/Offer image is required
@@ -529,10 +553,12 @@ export default function AddOfferScreen() {
                     style={{
                       // backgroundColor: isDisable ? "grey" : colors.btnColor,
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 40,
+                      height: 35,
                       alignItems: "center",
                       justifyContent: "center",
-                      borderRadius: 3,
+                      borderRadius: 10,
+                      width: '35%',
+                      alignSelf: "center"
                     }}
                   >
                     <Text
@@ -650,11 +676,11 @@ const styles = StyleSheet.create({
   // Modification by Om on 15-04-23
   // Reason : Fix the image validation
   btns: {
-    width: 190,
-    alignSelf: "center",
-    marginTop: 10,
-    marginBottom: 20,
-    //  marginBottom: 30, marginHorizontal: 10, marginTop: 10
+    // width: 190,
+    // alignSelf: "center",
+    // marginTop: 10,
+    // marginBottom: 20,
+    marginBottom: 30, marginHorizontal: 10, marginTop: 10
     // End of modification
   },
   // Added by Yuvraj Sahu on 26-4-2023

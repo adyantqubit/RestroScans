@@ -15,17 +15,15 @@ import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
-import Footer from '../../components/Footer/Footer'
-
+import Footer from "../../components/Footer/Footer";
 
 // Added by Yuvraj Sahu on 15-3-2023
 // Reason - to tenant from localstorage and get menu lost
 
 export default function MenuListScreen({ navigation }) {
-
   const isFocused = useIsFocused();
 
-  var {render, setRender} = useContext(AppStateContext)
+  var { render, setRender } = useContext(AppStateContext);
   useEffect(() => {
     getAllMenus();
     // getTenant();
@@ -60,7 +58,7 @@ export default function MenuListScreen({ navigation }) {
       filteredCategories: filteredCategories,
       categoryList: categoryList,
       itemList: filteredItem,
-      menuList: menuList
+      menuList: menuList,
     });
     // setFilterCategory(categoryList.filter((e) => e.menu_name == val));
     // setFilterItem([]);
@@ -72,37 +70,37 @@ export default function MenuListScreen({ navigation }) {
 
   return (
     <>
-    <View style={{ height: "100%" }}>
-      <ScrollView>
-        {/* Menu Items ----------------------------------------------- */}
-        <View style={styles.menuContainer}>
-          {menuList.length > 0 ? (
-            <>
-              {menuList.map((menuData, id) => (
-                <Pressable
-                  style={styles.menuPress}
-                  onPress={(e) => categoryFilter(menuData.id, menuData.name)}
-                  key={id}
-                >
-                  <Image
-                    source={{
-                      uri: config.staticBaseURL + menuData.icon,
-                    }}
-                    style={styles.menuIcon}
-                  />
-                  <Text style={styles.btnText} value={menuData.id}>
-                    {menuData.name}
-                  </Text>
-                </Pressable>
-              ))}
-            </>
-          ) : (
-            <Text>No menus are listed here</Text>
-          )}
-        </View>
-        {/* Menu Item Close ------------------------------------------ */}
-        {/* Category List ----------------------------------------------- */}
-        {/* <View style={styles.categoryContainer}>
+      <View style={{ height: "100%" }}>
+        <ScrollView>
+          {/* Menu Items ----------------------------------------------- */}
+          <View style={styles.menuContainer}>
+            {menuList.length > 0 ? (
+              <>
+                {menuList.map((menuData, id) => (
+                  <Pressable
+                    style={styles.menuPress}
+                    onPress={(e) => categoryFilter(menuData.id, menuData.name)}
+                    key={id}
+                  >
+                    <Image
+                      source={{
+                        uri: config.staticBaseURL + menuData.icon,
+                      }}
+                      style={styles.menuIcon}
+                    />
+                    <Text style={styles.btnText} value={menuData.id}>
+                      {menuData.name}
+                    </Text>
+                  </Pressable>
+                ))}
+              </>
+            ) : (
+              <Text style={styles.noMenusText}>No menus are listed here</Text>
+            )}
+          </View>
+          {/* Menu Item Close ------------------------------------------ */}
+          {/* Category List ----------------------------------------------- */}
+          {/* <View style={styles.categoryContainer}>
           {filterCategory.map((categoryData, id) => (
             <View key={id}>
               <View style={styles.categoryView} key={id}>
@@ -138,9 +136,9 @@ export default function MenuListScreen({ navigation }) {
             </View>
           ))}
         </View> */}
-        {/* Category List Close ------------------------------------------ */}
-        {/* Items List ----------------------------------------------- */}
-        {/* <View style={styles.itemContainer}>
+          {/* Category List Close ------------------------------------------ */}
+          {/* Items List ----------------------------------------------- */}
+          {/* <View style={styles.itemContainer}>
         {filterItem.map((itemData, id) => (
           <View style={styles.btnContainer} key={id}>
             <Pressable style={styles.menuPress}>
@@ -149,14 +147,13 @@ export default function MenuListScreen({ navigation }) {
           </View>
         ))}
       </View> */}
-        {/* Items List Close ------------------------------------------ */}
-      </ScrollView>
-      {/* Added by Om on 18-04-23 For showing the footer*/}
-    <Footer/>
-    {/* End of addition */}
-    </View>
-    
- </>
+          {/* Items List Close ------------------------------------------ */}
+        </ScrollView>
+        {/* Added by Om on 18-04-23 For showing the footer*/}
+        <Footer />
+        {/* End of addition */}
+      </View>
+    </>
   );
 }
 
@@ -225,4 +222,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 30,
   },
+
+  // Added by- Suman sahu  On 23/04/2023
+  // Reason- fix text margin when no items added in the menu list
+  noMenusText: {
+    marginLeft: 100,
+    marginTop: 50,
+  },
+  // End of added code 23/04/2023
 });

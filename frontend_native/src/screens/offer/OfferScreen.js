@@ -39,13 +39,16 @@ export default function MenuListScreen({ navigation }) {
     var filteredBannerList = bannerList.filter((dt) => dt.id == bannerId);
     navigation.navigate("OfferItemsScreen", {
       banner: filteredBannerList[0],
-      bannerId: bannerId
+      bannerId: bannerId,
     });
   }
 
   return (
     <View style={{ height: "100%" }}>
-      <ScrollView>
+      {/* Added by Yuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.menuContainer}>
           {bannerList.length > 0 ? (
             <>
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
   btnText: {
     color: "black",
     fontWeight: "bold",
-    fontSize:13
+    fontSize: 13,
   },
 
   menuContainer: {

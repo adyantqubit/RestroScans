@@ -14,7 +14,11 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
-import { getMenuList, saveMenuApi } from "../../api/Services";
+import {
+  getMenuList,
+  saveMenuApi,
+  savePaymentMethodApi,
+} from "../../api/Services";
 import { colors } from "../../Colours/globalColor";
 import { AppStateContext } from "../../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
@@ -26,21 +30,24 @@ import { addMenuSchema } from "../../validation/ValidationSchema";
 // import { Country, State, City } from "country-state-city";
 
 export default function AddMenuScreen() {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-    },
-  });
+  // Commeted by Yuvraj Sahu on 27-4-2023
+  // Reason - to remove use form
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   setValue,
+  //   getValues,
+  //   getFieldState,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     name: "",
+  //   },
+  // });
 
-  var [isDisable, setIsDisable] = useState(false);
+  // var [isDisable, setIsDisable] = useState(false);
+  // End of comment
 
   const [tempPhoto, setTempPhoto] = useState(null);
 
@@ -184,7 +191,7 @@ export default function AddMenuScreen() {
     formData.append("is_active", isMenuActive);
 
     if (icon != null) {
-      saveMenuApi(formData, tenant).then(async (res) => {
+      savePaymentMethodApi(formData, tenant).then(async (res) => {
         if (res.msg) {
           setSaveBtnDisable(false);
           Alert.alert(res.msg);
@@ -205,7 +212,10 @@ export default function AddMenuScreen() {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           {/* <View>
             <View style={{ marginTop: 5 }}>
@@ -374,7 +384,11 @@ export default function AddMenuScreen() {
                   <TextInput
                     style={styles.input}
                     onChangeText={handleChange("name")}
+                    // Added by- Suman sahu  On 24/04/2023
+                    // Reason- show error message when focusout the input box
                     onBlur={handleBlur("name")}
+                    // End of added code 24/04/2023
+
                     value={values.name}
                     placeholderTextColor="#A4A4A4"
                     placeholder="Enter Menu name"
@@ -437,10 +451,41 @@ export default function AddMenuScreen() {
                     />
                   )}
                 </View>
+
+                {/* Added by- Suman sahu  On 26/04/2023
+                    Reason- add label in upload image field */}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                  {/* End of added code 26/04/2023 */}
+                </View>
                 {isImgRequired && (
-                  <Text style={{ color: "red", marginLeft: 10 }}>
+                  // Modified by- Suman sahu  On 23/04/2023
+                  // Reason- To show error messages in the center
+
+                  // <Text style={{ color: "red", marginLeft: 10 }}>
+                  //   Menu icon is required!
+                  // </Text>
+
+                  <Text style={{ color: "red", marginLeft: 100 }}>
                     Menu icon is required!
                   </Text>
+
+                  // End of modified code 23/04/2023
                 )}
 
                 <View style={styles.activeStatus}>
@@ -455,26 +500,40 @@ export default function AddMenuScreen() {
                 </View>
 
                 <View
+                  // Modified by - Suman sahu On 23/04/2023
+                  // Reason - add some padding above save button
+
+                  // style={{
+                  //   marginBottom: 30,
+                  //   marginHorizontal: 10,
+                  //   marginTop: 10,
+                  // }}
+
                   style={{
                     marginBottom: 30,
                     marginHorizontal: 10,
-                    marginTop: 10,
+                    marginTop: 15,
                   }}
+
+                  // End of modified code 23/04/2023
                 >
                   <Pressable
                     onPress={handleSubmit}
                     disabled={isSaveBtnDisable}
+                    // Modified by- Suman sahu  On 26/04/2023
+                    // Reason - for redesign buttons styles
                     style={{
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 40,
+                      height: 35,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
-                      width: 150,
+                      width: "35%",
                       alignSelf: "center",
                     }}
+                    // End of modified code 24/04/2023
                   >
                     <Text
                       style={{

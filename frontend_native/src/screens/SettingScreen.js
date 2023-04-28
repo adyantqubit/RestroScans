@@ -29,13 +29,23 @@ export default function SettingScreen({ navigation }) {
   //   useContext(AppStateContext);
 
   const isFocused = useIsFocused();
-  const [settings, setSettings] = useState({});
+  var [settings, setSettings] = useState({});
   const [theme, setTheme] = useState("");
   const [themeOption, setThemeOption] = useState([]);
   var [themeList, setThemeList] = useState([]);
-  const [allowHalfPrice, setAllowHalfPrice] = useState(false);
+  var [allowHalfPrice, setAllowHalfPrice] = useState(false);
+
+  // Added by Yuvraj Sahu on 27-4-2023
+  // Reason - to set default value for setting
+  var [defaultValue, setDefaultValue] = useState({});
+  // End of addition
+
   useEffect(() => {
     getSettingData();
+    // Added by Yuvraj Sahu on 27-4-2023
+    // Reason - to clear default value for setting
+    setDefaultValue({ cgst: "", sgst: "", gstin: "", fssaino: "" });
+    // End of addition
   }, [isFocused]);
 
   // Added by Yuvraj Sahu on 13-4-2023
@@ -59,7 +69,20 @@ export default function SettingScreen({ navigation }) {
         setSettings(response.setting);
         setThemeOption(response.themeOptions);
         setAllowHalfPrice(settings.allow_half_price);
-        // alert("setting-----------------------"+JSON.stringify(settings)+"theme options----------------------"+JSON.stringify(themeOption))
+
+        // Added by Yuvraj Sahu on 27-4-2023
+        // Reason - to set default value from setting
+        setDefaultValue({
+          cgst: response.setting.cgst != undefined ? response.setting.cgst : "",
+          sgst: response.setting.sgst != undefined ? response.setting.sgst : "",
+          gstin:
+            response.setting.gstin != undefined ? response.setting.gstin : "",
+          fssaino:
+            response.setting.fssaino != undefined
+              ? response.setting.fssaino
+              : "",
+        });
+        // End of addition
       }
       getMenus1();
       // getMenus();
@@ -85,82 +108,92 @@ export default function SettingScreen({ navigation }) {
 
     setThemeList(themes);
   };
-  const getMenus = async () => {
-    // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-    // if (response.categoryList) {
-    var themes = themeOption.map(function (obj) {
-      obj["key"] = obj["id"]; // Assign new key
-      obj[
-        "value"
-      ] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
-      delete obj["id"];
-      delete obj["background_color"];
-      delete obj["heading_color"];
-      delete obj["subheading_color"];
-      delete obj["banner_heading_color"];
-      delete obj["heading_bgcolor"];
-      delete obj["subheading_bgcolor"];
-      return obj;
-    });
-    setThemeOption(themes);
-    // }
-  };
 
-  var [isDisable, setIsDisable] = useState(false);
+  // Commeted by Yuvraj Sahu on 27-4-2023
+  // Reason - not using
+  // const getMenus = async () => {
+  //   // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
+  //   // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+  //   // if (response.categoryList) {
+  //   var themes = themeOption.map(function (obj) {
+  //     obj["key"] = obj["id"]; // Assign new key
+  //     obj[
+  //       "value"
+  //     ] = `${obj["background_color"]}, ${obj["heading_color"]}, ${obj["subheading_color"]}`; // Rename key
+  //     delete obj["id"];
+  //     delete obj["background_color"];
+  //     delete obj["heading_color"];
+  //     delete obj["subheading_color"];
+  //     delete obj["banner_heading_color"];
+  //     delete obj["heading_bgcolor"];
+  //     delete obj["subheading_bgcolor"];
+  //     return obj;
+  //   });
+  //   setThemeOption(themes);
+  //   // }
+  // };
+  // End of comment
 
-  const handleRegister = async (formValues) => {
-    // Added by Yuvraj Sahu on 20-4-2023
-    // Reason - to disable btn
-    // setIsDisable(true);
-    // End of addition
-    var formData = new FormData();
-    settings.id != undefined ? formData.append("id", settings.id) : null;
-    // Commented by Yuvraj Sahu on 12-4-2023
-    // Reason - to remove fields
-    // formData.append("background_color", formValues.background_color);
-    // formData.append("heading_color", formValues.heading_color);
-    // formData.append("subheading_color", formValues.subheading_color);
-    // formData.append("banner_heading_color", formValues.banner_heading_color);
-    // formData.append("heading_bgcolor", formValues.heading_bgcolor);
-    // formData.append("subheading_bgcolor", formValues.subheading_bgcolor);
-    // End of comment
-    /* Removed by Yuvraj Sahu on 16-4-2023
-      Reason - to remove tax and add cgst and sgst
-    */
-    // formData.append("tax", formValues.tax);
-    /* End of addition */
+  // Commented by Yuvraj Sahu on 27-4-2023
+  // Reason - to remove state ( not using ) in the time of form changing
+  // var [isDisable, setIsDisable] = useState(false);
+  // End of comment
 
-    formData.append("allow_half_price", allowHalfPrice);
-    formData.append("app_theme", theme);
-    /**
-     * Added by Yuvraj Sahu on 16-4-2023
-     * Reason - to add new filsd in setting
-     */
-    formData.append("cgst", formValues.cgst);
-    formData.append("sgst", formValues.sgst);
-    formData.append("gstin", formValues.gstin);
-    formData.append("fssaino", formValues.fssaino);
-    /**
-     * End of addition
-     */
-    // alert(JSON.stringify(formData));
-    // var tenant = JSON.parse(
-    //   await SecureStore.getItemAsync("tenantInfo")
-    // ).tenant_name;
-    // saveSettingApi(formData, tenant).then((response) => {
-    //   if (response.msg) {
-    //     Alert.alert(response.msg);
-    //     setIsDisable(false);
-    //     setRender(!render);
-    //     navigation.navigate("HomeScreen");
-    //   }
-    //   if (response.error) {
-    //     Alert.alert("Error", response.error);
-    //     setIsDisable(false);
-    //   }
-    // });
-  };
+  // Commented by Yuvraj Sahu on 27-4-2023
+  // Reason - to replace form and API calling
+  // const handleRegister = async (formValues) => {
+  //   // Added by Yuvraj Sahu on 20-4-2023
+  //   // Reason - to disable btn
+  //   // setIsDisable(true);
+  //   // End of addition
+  //   var formData = new FormData();
+  //   settings.id != undefined ? formData.append("id", settings.id) : null;
+  //   // Commented by Yuvraj Sahu on 12-4-2023
+  //   // Reason - to remove fields
+  //   // formData.append("background_color", formValues.background_color);
+  //   // formData.append("heading_color", formValues.heading_color);
+  //   // formData.append("subheading_color", formValues.subheading_color);
+  //   // formData.append("banner_heading_color", formValues.banner_heading_color);
+  //   // formData.append("heading_bgcolor", formValues.heading_bgcolor);
+  //   // formData.append("subheading_bgcolor", formValues.subheading_bgcolor);
+  //   // End of comment
+  //   /* Removed by Yuvraj Sahu on 16-4-2023
+  //     Reason - to remove tax and add cgst and sgst
+  //   */
+  //   // formData.append("tax", formValues.tax);
+  //   /* End of addition */
+
+  //   formData.append("allow_half_price", allowHalfPrice);
+  //   formData.append("app_theme", theme);
+  //   /**
+  //    * Added by Yuvraj Sahu on 16-4-2023
+  //    * Reason - to add new filsd in setting
+  //    */
+  //   formData.append("cgst", formValues.cgst);
+  //   formData.append("sgst", formValues.sgst);
+  //   formData.append("gstin", formValues.gstin);
+  //   formData.append("fssaino", formValues.fssaino);
+  //   /**
+  //    * End of addition
+  //    */
+  //   // alert(JSON.stringify(formData));
+  //   // var tenant = JSON.parse(
+  //   //   await SecureStore.getItemAsync("tenantInfo")
+  //   // ).tenant_name;
+  //   // saveSettingApi(formData, tenant).then((response) => {
+  //   //   if (response.msg) {
+  //   //     Alert.alert(response.msg);
+  //   //     setIsDisable(false);
+  //   //     setRender(!render);
+  //   //     navigation.navigate("HomeScreen");
+  //   //   }
+  //   //   if (response.error) {
+  //   //     Alert.alert("Error", response.error);
+  //   //     setIsDisable(false);
+  //   //   }
+  //   // });
+  // };
+  // End of comment
 
   // ------------------------- formik regitration ------------------------
   var [settingBtnDisable, setSettingBtnDisable] = useState(false);
@@ -196,80 +229,87 @@ export default function SettingScreen({ navigation }) {
 
   // ----------------------End of formik registration--------------------
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      // Added by ?Yuvraj Sahu on 12-4-2023
-      // Reason - to remove feilds
-      // background_color:
-      //   settings.setting.background_color != undefined
-      //     ? settings.setting.background_color
-      //     : "",
-      // heading_color:
-      //   settings.setting.heading_color != undefined
-      //     ? settings.setting.heading_color
-      //     : "",
-      // subheading_color:
-      //   settings.setting.subheading_color != undefined
-      //     ? settings.setting.subheading_color
-      //     : "",
-      // banner_heading_color:
-      //   settings.setting.banner_heading_color != undefined
-      //     ? settings.setting.banner_heading_color
-      //     : "",
-      // heading_bgcolor:
-      //   settings.setting.heading_bgcolor != undefined
-      //     ? settings.setting.heading_bgcolor
-      //     : "",
-      // subheading_bgcolor:
-      //   settings.setting.subheading_bgcolor != undefined
-      //     ? settings.setting.subheading_bgcolor
-      //     : "",
-      // End of comment
+  /**
+   * Commented by Yuvraj Sahu on 27-4-2023
+   * Reason - to remove useForm
+   */
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   setValue,
+  //   getValues,
+  //   getFieldState,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     // Added by ?Yuvraj Sahu on 12-4-2023
+  //     // Reason - to remove feilds
+  //     // background_color:
+  //     //   settings.setting.background_color != undefined
+  //     //     ? settings.setting.background_color
+  //     //     : "",
+  //     // heading_color:
+  //     //   settings.setting.heading_color != undefined
+  //     //     ? settings.setting.heading_color
+  //     //     : "",
+  //     // subheading_color:
+  //     //   settings.setting.subheading_color != undefined
+  //     //     ? settings.setting.subheading_color
+  //     //     : "",
+  //     // banner_heading_color:
+  //     //   settings.setting.banner_heading_color != undefined
+  //     //     ? settings.setting.banner_heading_color
+  //     //     : "",
+  //     // heading_bgcolor:
+  //     //   settings.setting.heading_bgcolor != undefined
+  //     //     ? settings.setting.heading_bgcolor
+  //     //     : "",
+  //     // subheading_bgcolor:
+  //     //   settings.setting.subheading_bgcolor != undefined
+  //     //     ? settings.setting.subheading_bgcolor
+  //     //     : "",
+  //     // End of comment
 
-      /*
-      commented and added by Yuvraj Sahu on 16-42023
-      Reason - to change tax to cgst and sgst
-       */
-      // tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
-      cgst: settings.cgst,
-      sgst: settings.sgst
-        ? settings.sgst != undefined
-          ? "" + settings.sgst
-          : ""
-        : "",
-      /*
-      End of comment and addition
-      */
+  //     /*
+  //     commented and added by Yuvraj Sahu on 16-42023
+  //     Reason - to change tax to cgst and sgst
+  //      */
+  //     // tax: settings.setting.tax != undefined ? `${settings.setting.tax}` : "",
+  //     cgst: settings.cgst,
+  //     sgst: settings.sgst
+  //       ? settings.sgst != undefined
+  //         ? "" + settings.sgst
+  //         : ""
+  //       : "",
+  //     /*
+  //     End of comment and addition
+  //     */
 
-      /*
-     Added by Yuvraj Sahu on 16-4-2023
-     Reason - to add new field
-     */
-      gstin: settings.gstin
-        ? settings.gstin != undefined
-          ? "" + settings.gstin
-          : ""
-        : "",
-      fssaino: settings.fssaino
-        ? settings.fssaino != undefined
-          ? "" + settings.fssaino
-          : ""
-        : "",
-      /*
-       * End of addition
-       */
+  //     /*
+  //    Added by Yuvraj Sahu on 16-4-2023
+  //    Reason - to add new field
+  //    */
+  //     gstin: settings.gstin
+  //       ? settings.gstin != undefined
+  //         ? "" + settings.gstin
+  //         : ""
+  //       : "",
+  //     fssaino: settings.fssaino
+  //       ? settings.fssaino != undefined
+  //         ? "" + settings.fssaino
+  //         : ""
+  //       : "",
+  //     /*
+  //      * End of addition
+  //      */
 
-      allow_half_price: settings.allow_half_price,
-    },
-  });
+  //     allow_half_price: settings.allow_half_price,
+  //   },
+  // });
+  /**
+   * End of removal useForm
+   */
 
   // function updateSetting(e,inputBox){
   //   // alert(e+",,,,,"+inputBox)
@@ -278,11 +318,14 @@ export default function SettingScreen({ navigation }) {
   //   alert(JSON.stringify(oldSetting))
   //   setSettings(oldSetting)
   // }
-  // alert("settings.gstin" + JSON.stringify(settings.cgst));
+  // alert("settings.gstin" + JSON.stringify(settings.gstin));
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           {/* Commented by Yuvraj Sahu on 12-4-2023
         Reason - to remove feilds */}
@@ -809,17 +852,14 @@ export default function SettingScreen({ navigation }) {
 
           <Formik
             enableReinitialize={true}
-            initialValues={{
-              cgst: settings.cgst != undefined ? settings.cgst : "",
-              sgst: settings.sgst != undefined ? settings.sgst : "",
-              gstin: settings.gstin,
-              fssaino: settings.fssaino,
-              // app_theme: "",
-            }}
-            validateOnMount={true}
+            // modified by Yuvraj Sahu on 27-4-2023
+            // Reason - to set default value from usestate
+            initialValues={defaultValue}
+            // validateOnMount={true}
+            // End of modification
             validationSchema={settingSchema}
             onSubmit={updateSetting}
-           >
+          >
             {({
               handleChange,
               handleBlur,
@@ -1027,6 +1067,9 @@ export default function SettingScreen({ navigation }) {
                       onPress={handleSubmit}
                       disabled={settingBtnDisable}
                       // disabled={!isInputDisable && !isBtnDisable}
+
+                      // Modified by- Suman sahu  On 26/04/2023
+                      // Reason - for fix buttons styles
                       style={{
                         // backgroundColor:
                         //   isInputDisable && !isBtnDisable
@@ -1035,13 +1078,14 @@ export default function SettingScreen({ navigation }) {
                         backgroundColor: settingBtnDisable
                           ? "#E0E0E0"
                           : colors.btnColor,
-                        height: 40,
+                        height: 35,
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: 10,
                         width: 150,
                         alignSelf: "center",
                       }}
+                      // End of modified code 24/04/2023
                     >
                       <Text
                         style={{

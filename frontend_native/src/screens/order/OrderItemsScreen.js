@@ -704,15 +704,18 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   return (
     <>
-    <ScrollView>
-      <View style={{ padding: 10 }}>
-        <View>
-          <Text style={{ marginTop: 5 }}>
-            <Text>Order ID</Text> : {orderDetail.order_id}
-          </Text>
-          <Text style={{ marginTop: 5 }}>
-            <Text>Table No.</Text> : {orderDetail.table_number}
-          </Text>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
+        <View style={{ padding: 10 }}>
+          <View>
+            <Text style={{ marginTop: 5 }}>
+              <Text>Order ID</Text> : {orderDetail.order_id}
+            </Text>
+            <Text style={{ marginTop: 5 }}>
+              <Text>Table No.</Text> : {orderDetail.table_number}
+            </Text>
 
           <Text style={{ marginTop: 5 }}>
             <Text>Name</Text> : {customerDetail.name}

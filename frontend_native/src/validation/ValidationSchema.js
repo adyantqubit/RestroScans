@@ -39,6 +39,18 @@ export const forgetPasswordSchema = yup.object().shape({
   //   .string()
   //   .email("Please enter valid email!")
   //   .required("Email address is required!"),
+
+  // Added by- Suman sahu  On 24/04/2023
+  // Reason- for add error msg on "OTP" input field
+
+  otp: yup
+    .string()
+    .min(4, ({ min }) => `OTP must be at least ${min} digits!`)
+    .max(4, ({ max }) => `OTP contain only ${max} digits!`)
+    .required("OTP is required!"),
+
+  // End of added code 24/04/2023
+
   password: yup
     .string()
     .min(8, ({ min }) => `Password must be at least ${min} characters!`)
@@ -63,32 +75,48 @@ export const forgetPasswordSchema = yup.object().shape({
 // End of addition
 
 export const registrationSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required("First Name is required!")
-    .matches(/^(?!\s+$).*/, "First Name cannot contain only blankspaces!"),
+  // Modified by- Suman sahu On 24/04/2023
+  // Reason - Add validations on the registration page
 
-  lastName: yup
-    .string()
-    .required("Last Name is required!")
-    .matches(/^(?!\s+$).*/, "Last Name cannot contain only blankspaces!"),
+  // firstName: yup
+  //   .string()
+  //   .required("First Name is required!")
+  //   .matches(/^(?!\s+$).*/, "First Name cannot contain only blankspaces!"),
 
-  gender: yup.string(),
+  // lastName: yup
+  //   .string()
+  //   .required("Last Name is required!")
+  //   .matches(/^(?!\s+$).*/, "Last Name cannot contain only blankspaces!"),
+
+  // gender: yup.string(),
   // .required("Gender is required!"),
 
   // dateOfBirth: yup.string().required("Date Of Birth is required!"),
 
-  email: yup
-    .string()
-    .email("Please enter valid email!")
-    .required("Email address is required!"),
+  // End of commented code 24/04/2023
 
-  contactNumber: yup
+  owner_name: yup
     .string()
-    // .min(10, ({ min }) => `Password must be ${min} numbers!`)
-    // .max(12, ({ max }) => `Password must be ${max} numbers!`)
-    .matches(contactRegExp, "Please enter valid contact number!")
-    .required("Contact Number is required!"),
+    .required("Owner name is required!")
+    .matches(/^(?!\s+$).*/, "Owner name cannot contain only blankspaces!"),
+
+  restaurant_name: yup
+    .string()
+    .required("Restaurant name is required!")
+    .matches(/^(?!\s+$).*/, "Restaurant name cannot contain only blankspaces!"),
+
+  email: yup.string().email("Email is invalid!").required("Email is required!"),
+
+  // Commented by:- Suman sahu  On 24/04/2023
+
+  // contactNumber: yup
+  //   .string()
+  //   // .min(10, ({ min }) => `Password must be ${min} numbers!`)
+  //   // .max(12, ({ max }) => `Password must be ${max} numbers!`)
+  //   .matches(contactRegExp, "Please enter valid contact number!")
+  //   .required("Contact Number is required!"),
+
+  // End of commented code 24/04/2023
 
   password: yup
     .string()
@@ -100,27 +128,37 @@ export const registrationSchema = yup.object().shape({
   //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
   //   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
   // )
-  confirmPassword: yup
+  confirm_password: yup
     .string()
     // .min(8, ({ min }) => `Confirm Password must be at least ${min} characters!`)
     // .max(20, ({ max }) => `Password must be at least ${max} characters`)
-    .required("Confirm Password is required!")
+    .required("Confirm password is required!")
     .oneOf(
       [yup.ref("password"), null],
-      "Password and Confirm Password does not match!"
+      "Password and Confirm password does not match!"
     )
     .matches(
       /^(?!\s+$).*/,
-      "Confirm Password cannot contain only blankspaces!"
+      "Confirm password cannot contain only blankspaces!"
     ),
 
   // country: yup.string().required("Country is required!"),
   // state: yup.string().required("State is required!"),
   // city: yup.string().required("City is required!"),
 
-  country: yup.string(),
-  state: yup.string(),
-  city: yup.string(),
+  // country: yup.string(),
+  // state: yup.string(),
+  // city: yup.string(),
+
+  mobile_number: yup
+    .string()
+    .min(10, ({ min }) => `Mobile number must be ${min} digits!`)
+    .max(10, ({ max }) => `Mobile number must be ${max} digits!`)
+    .required("Mobile Number is required!"),
+
+  address: yup.string().required("Address is required!"),
+
+  // End of modified code 24/04/2023
 });
 
 export const userProfileSchema = yup.object().shape({
@@ -202,8 +240,34 @@ export const addOfferSchema = yup.object().shape({
   offer_name: yup
     .string()
     .required("Item name is required!")
-    .max(40, ({ max }) => `Offer name should no be more than ${max} characters`),
-    video_link: yup.string()
-    .max(500, ({ max }) => `Video link should no be more than ${max} characters`),
+    .max(
+      40,
+      ({ max }) => `Offer name should no be more than ${max} characters`
+    ),
+  video_link: yup
+    .string()
+    .max(
+      500,
+      ({ max }) => `Video link should no be more than ${max} characters`
+    ),
+});
+// End of addition
+
+// Added by yuvraj Sahu on 27-04-2023
+// Reason - to give validation in payment method
+export const addPaymentMethodSchema = yup.object().shape({
+  name: yup
+    .string()
+    .max(255, ({ max }) => `Name should no be more than ${max} characters`),
+  contact_number: yup
+    .string()
+    .max(
+      10,
+      ({ max }) => `contact number should no be more than ${max} characters`
+    )
+    .min(
+      10,
+      ({ min }) => `contact number should no be less than ${min} characters`
+    ),
 });
 // End of addition

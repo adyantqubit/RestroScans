@@ -22,8 +22,8 @@ import { LinearGradient } from "expo-linear-gradient";
 // import '../Colours/GlobalColor.css';
 
 import { getDashboardData, getDashboardDetails } from "../api/Services";
-import { SvgCssUri } from 'react-native-svg';
-import * as Print from 'expo-print'
+import { SvgCssUri } from "react-native-svg";
+import * as Print from "expo-print";
 import Icon from "react-native-vector-icons/AntDesign";
 import Footer from "../components/Footer/Footer";
 

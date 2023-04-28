@@ -1007,11 +1007,30 @@ Added by :- Parineeta Gedam
 Date - 11/04/2023
 Reason - To add scanner
 """
+# Added by yuvraj Sahu on 27-4-2023
+# Reason - to save payment method from react native app
 class getPaymentMethodAPIView(APIView):
     def get(self,request,tenant):
         content = PaymentMethod.objects.all()
         serializer = PaymentMethodSerializer(content, many=True)
         return Response(serializer.data)
+    def post(self, request, tenant):
+        print(request.data)
+        if "id" in request.data:
+            paymentMethod = PaymentMethod.objects.get(id=request.data["id"])
+            serializedData = PaymentMethodSerializer(paymentMethod, data=request.data, partial=True)
+            if serializedData.is_valid():
+                serializedData.save()
+                return Response({"msg":"Updated successfully"},status=status.HTTP_200_OK)
+            return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+        else :
+            serializedData = PaymentMethodSerializer(data=request.data)
+            if serializedData.is_valid():
+                serializedData.save()
+                return Response({"msg":"Saved successfully"},status=status.HTTP_201_CREATED)
+            return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    
 
 
 """

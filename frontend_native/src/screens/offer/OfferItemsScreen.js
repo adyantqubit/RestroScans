@@ -125,9 +125,17 @@ export default function OfferItemsScreen({ route, navigation }) {
       if (response.msg) {
         // Modified by Om on 14-04-23
         // Reason : Correct the spelling of success
+
+        // Modified by- Suman sahu  On 24/04/2023
+        // Reason- Remove "successfull" text on success msg
+
+        // Alert.alert("Successfull", response.msg);
         Alert.alert(response.msg);
+
+        // End of modified code 24/04/2023
+
         // End of modfication
-        setRender(!render);
+        // setRender(!render);
       }
       if (response.error) {
         Alert.alert(response.error);
@@ -144,8 +152,13 @@ export default function OfferItemsScreen({ route, navigation }) {
 
     deleteOfferApi(tenant, bannerObject.id).then((response) => {
       if (response.msg) {
+        // Modified by- Suman sahu  On 24/04/2023
+        // Reason- Remove "successfull" text on deleted msg
+
+        // Alert.alert("Successfull", response.msg);
         Alert.alert(response.msg);
-        setRender(!render);
+        // setRender(!render);
+        // End of modified code 24/04/2023
         navigation.pop();
       }
       if (response.error) {
@@ -209,7 +222,14 @@ export default function OfferItemsScreen({ route, navigation }) {
 
     deleteOfferItemsApi(tenant, bannerItemId).then((response) => {
       if (response.msg) {
-        Alert.alert("Succesfull", response.msg);
+        // Modified by- Suman sahu  On 24/04/2023
+        // Reason- Remove "successfull" text on deleted msg
+
+        // Alert.alert("Succesfull", response.msg);
+        Alert.alert(response.msg);
+
+        // End of modified code 24/04/2023
+
         setRender(!render);
         navigation.pop();
       }
@@ -221,7 +241,10 @@ export default function OfferItemsScreen({ route, navigation }) {
 
   return (
     <>
-      <ScrollView>
+      {/* Added byYuvraj Sahu on 27-4-2023
+    Reason - to click at one time on button when cursor stays on input */}
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {/* End of addition - button click */}
         <View style={styles.container}>
           {/* Commeted and added by Yuvraj Sahu on 26-4-2023
           Reason - to change form into formik */}
@@ -414,7 +437,11 @@ export default function OfferItemsScreen({ route, navigation }) {
             enableReinitialize={true}
             initialValues={{
               offer_name: offerObj.offer_name,
-              discount: "" + offerObj.discount,
+              // Modified by Yuvraj Sahu on 28-4-2023
+              // Reason - to set not null value
+              discount:
+                "" + offerObj.discount != undefined && offerObj.discount,
+              // End of modification
               //   Added by Yuvraj Sahu on 26-4-2023
               //   Reason - to add more fields
               show_video_Hide_Image: isShowVideo,
@@ -579,6 +606,27 @@ export default function OfferItemsScreen({ route, navigation }) {
                     />
                   )}
                 </View>
+                {/* Added by- Suman sahu  On 26/04/2023
+              Reason- add label in upload image field */}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 26/04/2023 */}
 
                 {/* Added by Yuvraj Sahu on 26-4-2023
                 Reason - to add more fields */}
@@ -603,10 +651,11 @@ export default function OfferItemsScreen({ route, navigation }) {
                     style={{
                       // backgroundColor: isDisable ? "grey" : colors.btnColor,
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 40,
+                      height: 35,
                       alignItems: "center",
                       justifyContent: "center",
-                      borderRadius: 3,
+                      borderRadius: 10,
+                      width: "35%",
                     }}
                   >
                     <Text
@@ -616,7 +665,35 @@ export default function OfferItemsScreen({ route, navigation }) {
                         fontWeight: "bold",
                       }}
                     >
-                      Save
+                      Save changes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={deleteBannerPermission}
+                    disabled={isDisable}
+                    // Modified by- Suman sahu  On 26/04/2023
+                    // Reason - for redesign buttons styles
+                    style={{
+                      backgroundColor: isDisable
+                        ? "grey"
+                        : colors.anotherButton,
+                      height: 35,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 10,
+                      marginLeft: 20,
+                      width: 160,
+                    }}
+                    // End of modified code 26/04/2023
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Delete
                     </Text>
                   </Pressable>
                 </View>
@@ -809,6 +886,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     flexDirection: "row",
+    marginTop: 10,
   },
   // End of modification
 
