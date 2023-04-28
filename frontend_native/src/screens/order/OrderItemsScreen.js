@@ -805,7 +805,8 @@ export default function OrderItemsScreen({ route, navigation }) {
       <View style={styles.statusContainer}>
         <View style={{ marginTop: 20 }}>
           <View style={styles.orderStatusContainer}>
-            <Text>Order status</Text>
+           {/* Font weight apply by Om on 27-04-23 */}
+            <Text style={{fontWeight:'bold'}}>Order status</Text>
             <SelectList
               setSelected={setOrderStatus}
               data={orderStatusData}
@@ -836,7 +837,8 @@ export default function OrderItemsScreen({ route, navigation }) {
           {/* {orderDetail.order_status == "Served" ? (
             <> */}
           <View style={styles.orderStatusContainer}>
-            <Text>Payment status</Text>
+           {/* Font weight apply by Om on 27-04-23 */}
+            <Text style={{fontWeight:'bold'}}>Payment status</Text> 
             <SelectList
               setSelected={setPaymentStatus}
               data={paymentStatusData}
