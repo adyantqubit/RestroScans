@@ -761,7 +761,10 @@ function MenuItem() {
                   <div
                     className='offer_div'
                     onClick={
-                      e => onOfferShow(item.offer_name)
+                      // Added by ROhankansari -28/4/23
+                      // Reason - To not show offer page while video playing
+                      e => {if(!item.show_video_Hide_Image) onOfferShow(item.offer_name)}
+                      // End of code - 28/4/23 Rohan kansari
                     }
                   >
 

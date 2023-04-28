@@ -1089,7 +1089,7 @@ a.ant-notification-notice-close {
 .icon_container{
     align-self: flex-end;
     width: 10%;
-    /* left: 70%; */
+    left: 70%;
     right:20px;
     bottom: -3px;
 }
