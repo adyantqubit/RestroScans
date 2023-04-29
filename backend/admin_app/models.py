@@ -1,6 +1,7 @@
 from django.db import models
 from tenant_schemas.models import TenantMixin
 from django.core.exceptions import ValidationError
+from ckeditor.fields import RichTextField
 
 #Added by Rohan Kansari- 16/4/23
 # Reason - To add plan Subcribtion feature where all feature is allow according to plan
@@ -276,6 +277,9 @@ class AppTheme(models.Model):
     banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
     heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
     subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
+    # Added by ROhan kansari - 28/4/23
+    # Reason - To add one more card color
+    card_color=models.CharField(max_length=20,null=True,blank=True)
     
     def __str__(self):
         return "Background Color: "+self.background_color+" | Heading Color: "+self.heading_color

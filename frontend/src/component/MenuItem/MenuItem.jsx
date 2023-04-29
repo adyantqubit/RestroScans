@@ -24,6 +24,7 @@ import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
 import { MdRoomService, MdOutlineKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
+import {BsBoxArrowUpLeft} from "react-icons/bs";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
@@ -590,7 +591,7 @@ function MenuItem() {
     if (!searchVisible)
       setNewSearch("")
 
-    console.log("search change")  
+    console.log("search change")
   }, [searchVisible])
 
   const [menuListVisible, setmenuListVisiblity] = useState(true)
@@ -619,10 +620,24 @@ function MenuItem() {
 
   // End of code Rohan kansari - 27/4/23
 
+
+  // Added by Rohan Kansari - 28/4/23
+  // Reason- To showw video in popup container with full size
+
+  const [videoVisible,setVideoVisiblity]=useState(false)
+
+  // End of code - 28/4/23 Rohan Kansari
+
   return (
     <>
       {/* {isLoader == true ? <Loader /> : */}
-
+          {/* Added By Rohan Kansari- 28/4/23
+            Reason - initialize popup page for video her*/}
+          {videoVisible?<div className="video_container">
+             <div classname="header"><AiOutlineClose color="white" size={30} style={{ margin: "10px " }} onClick={e=>setVideoVisiblity(false)}/></div>
+             <iframe style ={{display: "block" ,border: "none",height:"50vh" , width: "100%",float:"left" ,marginLeft:"0px"}} src="https://www.youtube.com/embed/dm2RHGYRtas"  border='0' width='620' height='465'  marginheight='0' marginwidth='0' frameborder='0'  title="YouTube video player" allow="autoplay; encrypted-media" id="Overlayvideo" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+            </div>:null}
+        {/*End of code - 28/4/23 - Rohan Kansari  */}
       <div className='menu_maindiv'
         style={{ backgroundColor: colors.backgroundTheme }}
         onLoad={e => {
@@ -728,6 +743,8 @@ function MenuItem() {
         {/* End of added code 21-04-2023 */}
 
         {/* {isLoader == true ? <Loader /> : */}
+        
+        
 
         {offerBanner.length > 0 ?
           <div >
@@ -801,6 +818,10 @@ function MenuItem() {
                         //   <source type="video/youtube" src="http://www.youtube.com/watch?v=nOEw9iiopwI" />
                         // </video>
                         <div className="container">
+                          {/* Added by Rohan kansari - 28/4/23
+                              Reason - To add on full screen column upon video */}
+                          <BsBoxArrowUpLeft style={{position:"absolute",zIndex:"9999",color:"white",right:"20px",bottom:"25%",fontSize:"25px"}} onClick={e=>{setVideoVisiblity(true); console.log("the hit")}}/>
+                          {/* End of code - ROhan kansari - 28/4/23 */}
                           <iframe className="responsive-iframe" width="100%" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" />
                         </div>
                     }
@@ -1032,7 +1053,10 @@ function MenuItem() {
                           }
                           // end of code - Rohan 
 
-                          return <div className="cardItem"  >
+                          // Added by ROhan kansari - 28/4/23
+                          // Reason- To style card
+                          return <div className="cardItem"  style={{background:colors.card_color,padding:"6px 0"}}>
+                            {/* end of code - ROhan kansari - 28/4/23 */}
                             <div className="showimg_div" >
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
@@ -1337,7 +1361,10 @@ function MenuItem() {
           {offerShow.length > 0 ?
             <>
               {offerShow.map((showdata, id) => (
-                <div className="cardItem" >
+                // Added by ROhan kansari - 28/4/23
+                // Reason- To style card
+                <div className="cardItem" style={{background:colors.card_color,padding:"6px 0"}} >
+                  {/* end of code - ROhan kansari - 28/4/23 */}
                   <div className="showimg_div" >
                     {console.log(totalFullPrice(showdata))}
                     <img src={siteConfig.siteURL + showdata.item_image}
@@ -1595,7 +1622,10 @@ function MenuItem() {
                             halfprice = mainSectionHalfPrice(m);
                           }
                           // end of code
-                          return <div className="cardItem" >
+                          // Added by ROhan kansari - 28/4/23
+                          // Reason- To style card
+                          return <div className="cardItem" style={{background:colors.card_color,padding:"6px 0"}}>
+                            {/* end of code - ROhan kansari - 28/4/23 */}
                             <div className="showimg_div" >
 
                               <img src={siteConfig.siteURL + m.icon}

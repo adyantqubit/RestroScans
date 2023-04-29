@@ -33,8 +33,11 @@ export default function Context(props) {
         headingBackgroundColor: 'white',
         subheadingBackgroundColor: '#fcf4e7',
         // added by rohan- 6/4/23 - To add half price shown functionality
-        allow_half_price: true
+        allow_half_price: true,
         // End of code -  24/4/23 -Rohan
+        // Added by Rohan kansari- 28/4/23
+        // Reason - To set card color 
+        card_color:"#f7f7f7"
     })
 
     // Added by yuvraj on 22-1-2023

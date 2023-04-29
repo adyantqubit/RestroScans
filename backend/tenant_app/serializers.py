@@ -104,6 +104,10 @@ class SettingSerializer(serializers.ModelSerializer):
     heading_bgcolor= serializers.CharField(source="app_theme.heading_bgcolor",allow_null=True)
     subheading_bgcolor=serializers.CharField(source="app_theme.subheading_bgcolor",allow_null=True)
     #Added by rohan- 20/4/23
+    
+    # Added by ROhan kansari -28/4/23
+    # Reason - Sending card color also 
+    card_color=serializers.CharField(source="app_theme.card_color",allow_null=True)
     class Meta:
         model = Setting
         fields = '__all__'

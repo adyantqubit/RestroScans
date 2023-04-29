@@ -94,9 +94,9 @@ function App() {
       
       {/* added by rohan- to show landscape error msg for all pages
           date-13/4/34 */}
-      <div className="inlandscapemode" style={{ color: colors.subHeadingColor }}>
+      {/* <div className="inlandscapemode" style={{ color: colors.subHeadingColor }}>
         <img src={landscapeMode} style={{ height: '80vh' }} alt="" className="landscapimg" />
-      </div>
+      </div> */}
       {/* end of code */}
     </BrowserRouter>
 
