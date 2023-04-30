@@ -214,18 +214,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number}</div>
               
             </div>
-            <div class="inLineContainer">
-            <div class="label">Pax  </div>
-            <div class="text"> ${orderDetail.pax}</div>
-            <div class="label">Sess   </div>
-            <div class="text">   ${orderDetail.sess}</div>
-            </div>
-            <div class="inLineContainer">
-              <div class="label">Dshr   </div>
-              <div class="text">   ${!orderDetail.dshr ? "N/A" : orderDetail.dshr}</div>
-              <div class="label">Capt   </div>
-              <div class="text">  ${!orderDetail.capt ? "N/A" : orderDetail.capt}</div>
-            </div>
+         
             <div class="inLineContainer">
               <div class="label">Payment   </div>
               <div class="text">  ${orderDetail.payment_mode}</div>

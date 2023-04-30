@@ -25,10 +25,9 @@ import { AddMenuNavigation } from "./AddMenuNavigation";
 import { AddOfferNavigation } from "./AddOfferNavigation";
 import PaymentMethod from "../screens/personalInformation/PaymentMethod";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PrintQRScreen from "../screens/PrintQRScreen";
-import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function DrawerNavigation({ navigation }) {
   // Navigation added by Om on 18-04-23 , This helps to navigate the after logout screen is change
