@@ -9,7 +9,7 @@ import { GlobalContext } from '../../context/Context'
 import verificationImg from "../../images/verification.png"
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { Spin } from 'antd';
-import {firebase,auth} from '../../config/firebase'
+import {firebase,auth} from '../../firebase'
 import secureLocalStorage from 'react-secure-storage'
 import { postCustomerDetails } from '../../api/Services'
 import {

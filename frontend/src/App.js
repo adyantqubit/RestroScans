@@ -21,8 +21,34 @@ import RatingAndReview from "./component/RatingAndReviewPage/RatingAndReview";
 import secureLocalStorage from "react-secure-storage";
 import Otppopup from "./component/CustomerDetails/Otppopup";
 
+import { getFCMToken } from './firebase';
+import { useEffect } from "react";
+
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
+
+  // Added by Om on 30-04-23
+  // Reason : Connectivity with backend to firebase than UI
+  useEffect(()=>{
+    localStorage.removeItem("sentToServer")
+    if (Notification.permission === 'granted') {
+      getFCMToken()
+    }else{
+      //open pop up with a button
+    }
+    
+  },[])
+  function requestBrowserPermission(){
+    Notification.requestPermission()
+    .then(function() {
+      console.log('Notification permission granted.');
+      getFCMToken()
+    })
+    .catch(function(err) {
+      console.log('Unable to get permission to notify.', err);
+    });
+  }
+  // End of addition
 
   return (
     <BrowserRouter>
