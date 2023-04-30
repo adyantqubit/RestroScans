@@ -135,4 +135,9 @@ urlpatterns = [
     path('<str:tenant>/order-payment-status/<str:orderID>/',UpdateOrderPaymentStatus.as_view()),
     # End of addition
 
+    # Added by Ashish Dewangan on 28-04-2023
+    # Reason : To store customer's FCM token on backend
+    path('<str:tenant>/store-fcm-token/',FcmNotificationAPI.as_view()),
+    # End of code addition by Ashish Dewangan on 28-04-2023
+
 ]   

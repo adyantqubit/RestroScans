@@ -2,6 +2,8 @@ from pathlib import Path
 
 import django
 from django.utils.encoding import force_str
+from firebase_admin import initialize_app
+from firebase_admin import credentials
 django.utils.encoding.force_text = force_str
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +35,7 @@ SHARED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.auth',
+
 ]
 
 TENANT_APPS = [
@@ -42,6 +45,7 @@ TENANT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.admin',
+ 
 ]
 
 INSTALLED_APPS = [
@@ -61,6 +65,11 @@ INSTALLED_APPS = [
     # Reason - to setup admin template 
     'admin_volt.apps.AdminVoltConfig',
     # End of addition
+
+    # Added by - Ashish Dewangan on 28-04-2023
+    # Reason - To have fcm functionality
+    "fcm_django",
+    # End of code addition by Ashish Dewangan on 28-04-2023
 ]
 
 """
@@ -282,3 +291,13 @@ End of code addition
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 ]
+
+
+# Added by - Ashish Dewangan on 28-04-2023
+# Reason - To have firebase push notification functionality
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY":"AAAAw0w79gg:APA91bGVfwOYhSYySYNwnrlk6mg_LnjKHSsCwIC9KM_f8nQhLC-i1-pn5Weo7C2xvKIMJP9jSXM1PdUA-kZUPaHLDsc_Qju2w3euxDo5T4XKbKxetPkLy33O97LnrYqf1R3qEiek3vLQ",
+}
+cred = credentials.Certificate(os.path.join(BASE_DIR, 'backend/credentials.json'))
+initialize_app(cred)
+# End of code addition by Ashish Dewangan on 28-04-2023

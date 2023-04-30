@@ -181,3 +181,11 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         model = PaymentMethod
         fields = '__all__'
 # End of added code 06-04-2023
+
+# Added by - Ashish Dewangan on 28-04-2023
+# Reason : To have serializer for FCM Devices token
+class FcmNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FcmNotification
+        fields = '__all__'
+# End of added code 06-04-2023

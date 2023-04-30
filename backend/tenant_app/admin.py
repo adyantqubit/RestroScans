@@ -549,3 +549,11 @@ admin.site.register(PaymentMethod, PaymentMethodAdmin)
 """
 End of added code 06-04-2023
 """
+
+# Added by - Ashish Dewangan on 29-04-2023
+# Reason - To register notification model on admin panel
+# ( ***********For testing only. please comment it on deployment time. We dont want to show restaurant owner about user token*************)
+# @admin.register(FcmNotification)
+# class FcmNotificationAdmin(admin.ModelAdmin):
+#     list_display = ("id",)
+# End of code addition    

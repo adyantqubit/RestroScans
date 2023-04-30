@@ -605,3 +605,11 @@ class PaymentMethod(models.Model):
 """
 End of added code 11-04-2023
 """
+
+# Added by - Ashish Dewangan on 28-04-2023
+# Reason - To have notification model
+from fcm_django.models import AbstractFCMDevice
+class FcmNotification(AbstractFCMDevice):
+    name=models.CharField(max_length=20,default='')
+    phone_number=models.CharField(max_length=10,default='')
+# End of code addition by Ashish Dewangan on 28-04-2023

@@ -1289,3 +1289,23 @@ class UpdateOrderPaymentStatus(APIView):
             return Response({"success":"Updated status","order_items":orderItemSerializer.data},status=status.HTTP_201_CREATED)
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition
+
+
+# Added by - Ashish Dewangan on 28-04-2023
+# Reason - To create FCM notification API
+class FcmNotificationAPI(APIView):
+    def post(self, request, tenant):
+        try:
+            oldToken=FcmNotification.objects.get(registration_id=request.data["registration_id"])
+            oldToken.delete()
+        except Exception as e:
+            print(e)
+
+        serializedData=FcmNotificationSerializer(data=request.data,partial=True)
+        try:
+            if serializedData.is_valid(raise_exception=True):
+                serializedData.save()
+                return Response("token saved",200)
+        except Exception as e:
+            return Response("some problem occured",200)
+# End of Code addition by Ashish Dewanan on 28-04-2023
