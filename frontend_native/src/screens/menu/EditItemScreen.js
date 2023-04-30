@@ -40,14 +40,12 @@ import { Formik } from "formik";
 import { addItemSchema } from "../../validation/ValidationSchema";
 
 export default function EditItemScreen({ route, navigation }) {
-
   // Commeted and added by Yuvraj sahu on 26-4-2023
   // Reason - to set api calling value from backend and remove props value
   /* Get the param */
   // const { itemID, categoryList, itemObj, categoryID, categoryName } = route.params;
   const { itemID, categoryID } = route.params;
   // end of comment
-
 
   var { render, setRender } = useContext(AppStateContext);
 
@@ -60,7 +58,7 @@ export default function EditItemScreen({ route, navigation }) {
   // End of modification
 
   const [categorySelected, setCategorySelected] = React.useState("");
-  
+
   // Commented by Yuvraj Sahu on 27-4-2023
   // var [categories, setCategories] = useState([]);
   React.useEffect(() => {
@@ -69,8 +67,8 @@ export default function EditItemScreen({ route, navigation }) {
   }, []);
   // End of comment
 
-// Commeted by yuvraj Sahu on 26-4-2023
-// Reason - to change the dropdown
+  // Commeted by yuvraj Sahu on 26-4-2023
+  // Reason - to change the dropdown
   // const getMenus = async () => {
   //   // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
   //   // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
@@ -125,7 +123,10 @@ export default function EditItemScreen({ route, navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // Modified by Yuvraj Sahu on 28-4-2023
+      // Reason - to add same width and height on image
+      aspect: [4, 4],
+      // End of modification
       quality: 1,
     });
     if (!result.canceled) {
@@ -180,8 +181,8 @@ export default function EditItemScreen({ route, navigation }) {
     });
   };
 
-// Commemted by Yuvraj Sahu on 26-4-2023
-// Reason - to change the form into formik
+  // Commemted by Yuvraj Sahu on 26-4-2023
+  // Reason - to change the form into formik
   // const {
   //   control,
   //   handleSubmit,
@@ -200,7 +201,7 @@ export default function EditItemScreen({ route, navigation }) {
   //   },
   // });
   // End of comment
-  
+
   // Added by Om on 07-04-23
   // Reason : To delete the item section
 
@@ -282,7 +283,7 @@ export default function EditItemScreen({ route, navigation }) {
 
   return (
     <>
-       {/* Added byYuvraj Sahu on 27-4-2023
+      {/* Added byYuvraj Sahu on 27-4-2023
     Reason - to click at one time on button when cursor stays on input */}
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* End of addition - button click */}
@@ -920,29 +921,29 @@ export default function EditItemScreen({ route, navigation }) {
                     />
                   )}
                 </View>
-                
+
                 {/* Added by- Suman sahu  On 26/04/2023
               Reason- add label in upload image field */}
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              alignSelf: "center",
-              justifyContent: "center",
-              marginTop: 5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-              }}
-            >
-              Please upload image below 200kb
-            </Text>
-          </View>
-          {/* End of added code 26/04/2023 */}
-          
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 26/04/2023 */}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     // style={styles.checkbox}

@@ -198,6 +198,11 @@ export const settingSchema = yup.object().shape({
       /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/,
       "Enter valid GST number"
     ),
+  // Added by Yuvraj Sahu on 28-4-2023
+  // Reason - to validate cgst and sgst
+  cgst: yup.number().max(99, ({ max }) => `cgst should no be more than ${max}`),
+  sgst: yup.number().max(99, ({ max }) => `sgst should no be more than ${max}`),
+  // End of addition
 });
 
 // Added by yuvraj Sahu on 22-04-2023
@@ -232,7 +237,6 @@ export const addItemSchema = yup.object().shape({
     .max(30, ({ max }) => `Item name should no be more than ${max} characters`),
 });
 // End of addition
-
 
 // Added by yuvraj Sahu on 26-04-2023
 // Reason - to validate add Offer

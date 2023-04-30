@@ -59,7 +59,7 @@ class RestaurantRegistartionView(APIView):
                 return Response({'err':'Something went wrong'})
         except Exception as e:
             print(e)    
-            return Response({'duplicate':'Mobile number and email has been already saved'})
+            return Response({'duplicate':'Mobile number or email has been already saved'})
 """
 End of code addition
 """

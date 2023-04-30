@@ -156,7 +156,10 @@ export default function ItemListScreen({ route, navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // Modified by Yuvraj Sahu on 28-4-2023
+      // Reason - to add same width and height on image
+      aspect: [4, 4],
+      // End of modification
       quality: 1,
     });
     if (!result.canceled) {
@@ -507,29 +510,29 @@ export default function ItemListScreen({ route, navigation }) {
                   )}
                   {/* End of modification */}
                 </View>
-                
+
                 {/* Added by- Suman sahu  On 26/04/2023
               Reason- add label in upload image field */}
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              alignSelf: "center",
-              justifyContent: "center",
-              marginTop: 5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-              }}
-            >
-              Please upload image below 200kb
-            </Text>
-          </View>
-          {/* End of added code 26/04/2023 */}
-          
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 26/04/2023 */}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     // style={styles.checkbox}
@@ -586,29 +589,46 @@ export default function ItemListScreen({ route, navigation }) {
               </View>
             )}
           </Formik>
-        </View>
-
-        {/* ------------------------------- List of items ------------------------------------ */}
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryLable}>
-            Items inside {categoryValue.name}
-          </Text>
-          {itemObjects.map((dt, id) => (
-            <Pressable
-              key={id}
-              style={styles.categoryListContainer}
-              onPress={(e) => handleEditItem(dt.id)}
-            >
-              <Image
-                source={{
-                  uri: config.staticBaseURL + dt.icon,
+          {/* ------------------------------- List of items ------------------------------------ */}
+          <View style={styles.categoryContainer}>
+            <Text style={styles.categoryLable}>
+              Items inside {categoryValue.name}
+            </Text>
+            {/* Added by Yuvraj Sahu on 28-4-2023
+            Reason - to show no item available if no data present */}
+            {itemObjects.length > 0 ? (
+              <>
+                {itemObjects.map((dt, id) => (
+                  <Pressable
+                    key={id}
+                    style={styles.categoryListContainer}
+                    onPress={(e) => handleEditItem(dt.id)}
+                  >
+                    <Image
+                      source={{
+                        uri: config.staticBaseURL + dt.icon,
+                      }}
+                      style={styles.menuIcon}
+                    />
+                    <Text>{dt.name}</Text>
+                    <Icon name="edit" size={20} color="black" />
+                  </Pressable>
+                ))}
+              </>
+            ) : (
+              <View
+                style={{
+                  height: 200,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignSelf: "center",
                 }}
-                style={styles.menuIcon}
-              />
-              <Text>{dt.name}</Text>
-              <Icon name="edit" size={20} color="black" />
-            </Pressable>
-          ))}
+              >
+                <Text>No item Available</Text>
+              </View>
+            )}
+          </View>
+          {/* End of addition */}
         </View>
       </ScrollView>
       {/* Added by Om on 18-04-23 For showing the footer*/}
@@ -650,6 +670,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     paddingHorizontal: 10,
+    marginHorizontal: 10,
   },
   menuIcon: {
     height: 50,

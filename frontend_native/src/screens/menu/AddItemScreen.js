@@ -37,11 +37,13 @@ export default function AddItemScreen() {
 
   // Added by Yuvraj Sahu on 24-3-2023
   // Reason - to show item type list in dropdown
-  const [itemTypeSelected, setItemTypeSelected] = React.useState("");
+  // Added by Yuvraj Sahu on 28-4-2023
+  // Reason - to set default value in dropdown
+  const [itemTypeSelected, setItemTypeSelected] = React.useState("Other");
   var [itemtypes, setItemTypes] = useState([
+    { key: "Other", value: "Other" },
     { key: "Veg", value: "Veg" },
     { key: "Nonveg", value: "Nonveg" },
-    { key: "Other", value: "Other" },
   ]);
   // End of addition
 
@@ -138,7 +140,10 @@ export default function AddItemScreen() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // Modified by Yuvraj Sahu on 28-4-2023
+      // Reason - to add same width and height on image
+      aspect: [4, 4],
+      // End of modification
       quality: 1,
     });
     if (!result.canceled) {
@@ -242,6 +247,10 @@ export default function AddItemScreen() {
     formData.append("price_half", values.price_half);
     formData.append("description", values.description);
     formData.append("best_seller", isBestSeller);
+    // Added by Yuvraj Sahu on 30-4-2023
+    // Reason - to add save item type in order item table
+    formData.append("item_type", itemTypeSelected);
+    // End of addition
 
     // alert("value"+JSON.stringify(formData))
 
@@ -672,6 +681,10 @@ export default function AddItemScreen() {
                   <Text style={{ color: "red" }}>*</Text>Select Item Type
                 </Text>
                 <SelectDropdown
+                // Added by Yuvraj Sahu on 28-4-2023
+                // Reason - to set default value
+                  defaultValue={itemtypes[0]}
+                  // End of addition 
                   data={itemtypes}
                   dropdownOverlayColor="rgba(0,0,0,0)"
                   buttonTextStyle={{ fontSize: 16 }}

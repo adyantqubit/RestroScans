@@ -114,7 +114,10 @@ export default function AddCategoryScreen() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // Modified by Yuvraj Sahu on 28-4-2023
+      // Reason - to add same width and height on image
+      aspect: [4, 4],
+      // End of modification
       quality: 1,
     });
     if (!result.canceled) {
