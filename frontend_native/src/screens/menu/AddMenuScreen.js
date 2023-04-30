@@ -62,6 +62,9 @@ export default function AddMenuScreen() {
   /**
    * End of addition
    */
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
 
   var { render, setRender } = useContext(AppStateContext);
 
@@ -77,6 +80,7 @@ export default function AddMenuScreen() {
       // Reason - to add same width and height on image
       aspect: [4, 4],
       // End of modification
+      base64: true,
       quality: 1,
     });
     if (!result.canceled) {
@@ -89,6 +93,16 @@ export default function AddMenuScreen() {
       // Reason - to hide validation msg
       setImgRequired(false);
       // End of addition
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
 
@@ -193,23 +207,27 @@ export default function AddMenuScreen() {
     formData.append("name", values.name);
     formData.append("is_active", isMenuActive);
 
-    if (icon != null) {
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (icon != null && isFileSizeError == false) {
       saveMenuApi(formData, tenant).then(async (res) => {
         if (res.msg) {
           setSaveBtnDisable(false);
           Alert.alert(res.msg);
           resetForm({ values: "" });
           setImage(null);
+          setFileSizeError(false);
           setMenuActive(false);
         } else if (res.error) {
           setSaveBtnDisable(false);
           Alert.alert(res.error);
         } else {
           setSaveBtnDisable(false);
-          Alert.alert("Something went wrong");
+          Alert.alert("Something Went Wrong");
         }
       });
     }
+    // End of modification 29/04/2023
   };
   // ----------------------End of formik registration--------------------
 
@@ -491,6 +509,15 @@ export default function AddMenuScreen() {
                   // End of modified code 23/04/2023
                 )}
 
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     value={isMenuActive}
@@ -529,7 +556,7 @@ export default function AddMenuScreen() {
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,

@@ -1078,7 +1078,7 @@ export default function SettingScreen({ navigation }) {
                         backgroundColor: settingBtnDisable
                           ? "#E0E0E0"
                           : colors.btnColor,
-                        height: 35,
+                        height: 30,
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: 10,

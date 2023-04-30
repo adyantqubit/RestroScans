@@ -110,6 +110,10 @@ export default function AddCategoryScreen() {
   };
   // End of getting tenant detail
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -118,12 +122,22 @@ export default function AddCategoryScreen() {
       // Reason - to add same width and height on image
       aspect: [4, 4],
       // End of modification
+      base64: true,
       quality: 1,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
 
@@ -199,13 +213,14 @@ export default function AddCategoryScreen() {
     formData.append("is_active", isCategoryActive);
 
     // if (icon != null) {
-    if (categoryName != "") {
+    if (categoryName != "" && isFileSizeError == false) {
       saveCategoryApi(formData, tenant).then(async (res) => {
         if (res.msg) {
           setSaveBtnDisable(false);
           Alert.alert(res.msg);
           resetForm({ values: "" });
           setImage(null);
+          setFileSizeError(false);
           setCatgeoryActive(false);
           setCategoryName("");
         } else if (res.error) {
@@ -213,7 +228,7 @@ export default function AddCategoryScreen() {
           // Alert.alert(res.error);
         } else {
           setSaveBtnDisable(false);
-          Alert.alert("Something went wrong");
+          Alert.alert("Something Went Wrong");
         }
       });
     }
@@ -544,6 +559,16 @@ export default function AddCategoryScreen() {
                   </Text>
                 </View>
                 {/* End of added code 26/04/2023 */}
+
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     value={isCategoryActive}
@@ -575,7 +600,7 @@ export default function AddCategoryScreen() {
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,

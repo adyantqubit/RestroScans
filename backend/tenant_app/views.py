@@ -149,8 +149,8 @@ class MenuAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Saved successfully"},status=status.HTTP_201_CREATED)
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
     # Added by Yuvraj Sahu on 6-4-2023
@@ -173,10 +173,10 @@ class MenuAPIView(APIView):
             serializedData.save()
             # return Response({"msg":"Updated"}, status=status.HTTP_201_CREATED)
             return Response({
-            "msg":"Updated successfully",
-            "menuList":menuData.data,
-            "categoryList":categoryListSerializer.data,
-            "itemList":itemListSerializer.data
+                "msg": "Updated Successfully",
+                "menuList": menuData.data,
+                "categoryList": categoryListSerializer.data,
+                "itemList": itemListSerializer.data
             })
             # End of addition
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -189,8 +189,8 @@ class MenuAPIView(APIView):
         menu = Menu.objects.get(id=id)
         if menu :
             menu.delete()
-            return Response({"msg":"Deleted successfully"},200)
-        return Response({"error":"error"}, 404)
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
     # End of addition
 
 """
@@ -210,8 +210,8 @@ class CategoryAPIView(APIView):
         serializedData = CategorySaveSerializer(data=request.data)
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Saved successfully"},status=status.HTTP_201_CREATED)
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
     # Added by Yuvraj Sahu on 6-4-2023
@@ -233,10 +233,10 @@ class CategoryAPIView(APIView):
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
             return Response({
-            "msg":"Updated successfully",
-            "menuList":menuData.data,
-            "categoryList":categoryListSerializer.data,
-            "itemList":itemListSerializer.data
+                "msg": "Updated Successfully",
+                "menuList": menuData.data,
+                "categoryList": categoryListSerializer.data,
+                "itemList": itemListSerializer.data
             })
             # End of addition
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -249,8 +249,8 @@ class CategoryAPIView(APIView):
         category = Category.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Deleted successfully"},200)
-        return Response({"error":"error"}, 404)
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
     # End of addition
     
 class ItemAPIView(APIView):
@@ -266,8 +266,8 @@ class ItemAPIView(APIView):
         serializedData = ItemSaveSerializer(data=request.data)
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Saved successfully"},status=status.HTTP_201_CREATED)
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
     # Added by Yuvraj Sahu on 6-4-2023
@@ -279,8 +279,8 @@ class ItemAPIView(APIView):
         serializedData = ItemSaveSerializer(itemObj, data=request.data)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
-            return Response({"msg":"Updated successfully"},status=status.HTTP_201_CREATED)
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": "Updated Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
     
     # Added by Om on 06-04-23
@@ -290,8 +290,8 @@ class ItemAPIView(APIView):
         item = Item.objects.get(id=id)
         if item :
             item.delete()
-            return Response({"msg":"Deleted successfully"},200)
-        return Response({"error":"error"},404)
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
     # End of addition
 
 # Added by Om on 01-03-23
@@ -319,8 +319,8 @@ class OfferAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Banner/Offer added successfully"},status=status.HTTP_201_CREATED) 
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": "Banner/Offer Added Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
     # Added by Om on 6-4-2023
@@ -339,11 +339,11 @@ class OfferAPIView(APIView):
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
             return Response({
-            "msg":"Updated successfully",
-            "offerBanner":offerbannerSerializer.data,
-            "offerItemList":offeritemsSerializer.data,
+                "msg": "Updated Successfully",
+                "offerBanner": offerbannerSerializer.data,
+                "offerItemList": offeritemsSerializer.data,
             })
-        return Response({"error":"Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Something Went Wrong"}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
 
     def delete(self, request,tenant, pk):
@@ -351,9 +351,9 @@ class OfferAPIView(APIView):
         category = Offer.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Deleted successfully"},200)
-        return Response({"error":"error"}, 404)
-    
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
+
 # End of addition
 
 # Added by Om on 08-04-23
@@ -375,7 +375,7 @@ class OfferItemsAPIView(APIView):
      
         if serializedData.is_valid():
             serializedData.save()
-            return Response({"msg":"Banner/Offer item added successfully"},status=status.HTTP_201_CREATED)
+            return Response({"msg": "Banner/Offer Item Added Successfully"}, status=status.HTTP_201_CREATED)
         # Modification by Om on 14-04-23
         # Reason : Chagne the error method
         return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
@@ -389,16 +389,16 @@ class OfferItemsAPIView(APIView):
         serializedData = OfferallItemsSerializer(itemObj, data=request.data)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
-            return Response({"msg":"Updated successfully"},status=status.HTTP_201_CREATED)
-        return Response({"error":"This item already exist with other offer"}, 400)
-    
-    def delete(self, request,tenant, pk):
+            return Response({"msg": "Updated Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": "This item already exist with other offer"}, 400)
+
+    def delete(self, request, tenant, pk):
         id = pk
         category = OfferItem.objects.get(id=id)
         if category :
             category.delete()
-            return Response({"msg":"Deleted successfully"},200)
-        return Response({"error":"error"}, 404)
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
 # End of addition
 
 # Added by Om on 11-03-23
@@ -446,10 +446,10 @@ class SettingAPIView(APIView):
         if serial.is_valid():
             serial.save()
             return Response({
-            "msg":"Updated successfully",
-            "settingsetdata":serial.data,
-            },status=status.HTTP_201_CREATED)
-        return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
+                "msg": "Updated Successfully",
+                "settingsetdata": serial.data,
+            }, status=status.HTTP_201_CREATED)
+        return Response({"error": serial.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition
 
 
@@ -995,10 +995,10 @@ class AppThemeAPI(APIView):
         if serial.is_valid():
             serial.save()
             return Response({
-            "msg":"Saved successfully",
-            "settingsetdata":serial.data,
-            },status=status.HTTP_201_CREATED)
-        return Response({"error":serial.errors}, status=status.HTTP_400_BAD_REQUEST)
+                "msg": "Saved Successfully",
+                "settingsetdata": serial.data,
+            }, status=status.HTTP_201_CREATED)
+        return Response({"error": serial.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of modification
 # End of addition
 

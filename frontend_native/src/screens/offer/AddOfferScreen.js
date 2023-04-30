@@ -40,6 +40,10 @@ export default function AddOfferScreen() {
 
   var { render, setRender } = useContext(AppStateContext);
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   // This method helps to pick the image functionality
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,12 +51,23 @@ export default function AddOfferScreen() {
       allowsEditing: true,
       aspect: [10, 4], // Aspect changes by Om on 22-04-23 because we need to set the offer image size
       quality: 1,
+      base64: true,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
       setImgRequired(false);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
 
@@ -112,7 +127,10 @@ export default function AddOfferScreen() {
 
     // Modification by Om on 15-04-23
     // Reason : Fix the image validation
-    if (icon != null) {
+
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (icon != null && isFileSizeError == false) {
       saveAllOffer(formData, tenant).then((response) => {
         if (response.msg) {
           Alert.alert(response.msg);
@@ -505,30 +523,40 @@ export default function AddOfferScreen() {
                 </View>
                 {/* Added by- Suman sahu  On 26/04/2023
                     Reason- add label in upload image field */}
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              alignSelf: "center",
-              justifyContent: "center",
-              marginTop: 5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-              }}
-            >
-              Please upload image below 200kb
-            </Text>
-          </View>
-          {/* End of added code 26/04/2023 */}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: "#7d7c7a",
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 26/04/2023 */}
                 {isImgRequired && (
                   <Text style={{ color: "red", marginLeft: 87, marginTop: 8 }}>
                     Banner/Offer image is required
                   </Text>
                 )}
+
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
 
                 {/* Added by Yuvraj Sahu on 26-4-2023
                 Reason - to add more fields */}
@@ -553,12 +581,12 @@ export default function AddOfferScreen() {
                     style={{
                       // backgroundColor: isDisable ? "grey" : colors.btnColor,
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
-                      width: '35%',
-                      alignSelf: "center"
+                      width: "35%",
+                      alignSelf: "center",
                     }}
                   >
                     <Text
@@ -680,7 +708,9 @@ const styles = StyleSheet.create({
     // alignSelf: "center",
     // marginTop: 10,
     // marginBottom: 20,
-    marginBottom: 30, marginHorizontal: 10, marginTop: 10
+    marginBottom: 30,
+    marginHorizontal: 10,
+    marginTop: 10,
     // End of modification
   },
   // Added by Yuvraj Sahu on 26-4-2023

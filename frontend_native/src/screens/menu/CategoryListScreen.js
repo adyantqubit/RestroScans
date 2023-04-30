@@ -108,6 +108,10 @@ export default function CategoryListScreen({ route, navigation }) {
   }, []);
   // End of addition
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   // To upload image
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -117,6 +121,7 @@ export default function CategoryListScreen({ route, navigation }) {
       // Reason - to add same width and height on image
       aspect: [4, 4],
       // End of modification
+      base64: true,
       quality: 1,
     });
     if (!result.canceled) {
@@ -125,6 +130,16 @@ export default function CategoryListScreen({ route, navigation }) {
       // setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
       // setTempPhoto(result.assets[0]);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
   // End upload image
@@ -151,30 +166,37 @@ export default function CategoryListScreen({ route, navigation }) {
     // Added by Yuvraj Sahu on 7-4-2023
     // Reason - to add active status and reRender page
     formData.append("is_active", isMenuChecked);
-    updateMenuApi(formData, tenant, menuID).then((response) => {
-      if (response.msg) {
-        Alert.alert(response.msg);
-        var a = response.menuList.filter((dt) => dt.id == menuID)[0];
-        setMenuObject(a);
-        // Commented by Yuvraj Sahu on 27-4-2023
-        // setRender(!render);
-        // End of comment
-        // Added by Yuvraj Sahu on 20-4-2023
-        // Reason - to disable false btn
-        setIsDisable(false);
-        // End of addition
-        // navigate('login')
-        // setState("stateChanged")
-      }
-      // end of addition
-      if (response.error) {
-        Alert.alert("Error", response.error);
-        // Added by Yuvraj Sahu on 20-4-2023
-        // Reason - to disable false btn
-        setIsDisable(false);
-        // End of addition
-      }
-    });
+
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (isFileSizeError == false) {
+      updateMenuApi(formData, tenant, menuID).then((response) => {
+        if (response.msg) {
+          Alert.alert(response.msg);
+          var a = response.menuList.filter((dt) => dt.id == menuID)[0];
+          setMenuObject(a);
+          // Commented by Yuvraj Sahu on 27-4-2023
+          // setRender(!render);
+          // End of comment
+          // Added by Yuvraj Sahu on 20-4-2023
+          // Reason - to disable false btn
+          setIsDisable(false);
+          // End of addition
+          // navigate('login')
+          // setState("stateChanged")
+          setFileSizeError(false);
+        }
+        // end of addition
+        if (response.error) {
+          Alert.alert("Error", response.error);
+          // Added by Yuvraj Sahu on 20-4-2023
+          // Reason - to disable false btn
+          setIsDisable(false);
+          // End of addition
+        }
+      });
+    }
+    // End of modification 20/04/2023
   };
 
   // Added by Om on 07-04-23
@@ -526,6 +548,15 @@ export default function CategoryListScreen({ route, navigation }) {
                 </View>
                 {/* End of added code 26/04/2023 */}
 
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     // style={styles.checkbox}
@@ -550,12 +581,12 @@ export default function CategoryListScreen({ route, navigation }) {
                     disabled={isDisable}
                     style={{
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       // Added by Yuvraj Sahu on 16-4-2023
                       // Reason - to re-design button
-                      width: "35%",
+                      width: "40%",
                       borderRadius: 10,
                       alignSelf: "center",
                       // End of re-designing

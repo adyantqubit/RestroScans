@@ -297,6 +297,8 @@ class GallerySettingAdmin(admin.ModelAdmin):
 
 # End of code addition 09/04/2023
 
+# Added by - Suman Sahu on 09/04/2023
+# Reason - Create table for Show GetRestroscansRequest Details
 
 @admin.register(GetRestroscansRequest)
 class GetRestroscansRequestAdmin(admin.ModelAdmin):
@@ -333,6 +335,8 @@ class GetRestroscansRequestAdmin(admin.ModelAdmin):
 
 # End of code addition 09/04/2023
 
+# Added by - Suman Sahu on 09/04/2023
+# Reason - Create table for Show ContactUsRequest Details
 
 @admin.register(ContactUsRequest)
 class ContactUsAdmin(admin.ModelAdmin):
@@ -351,6 +355,29 @@ class ContactUsAdmin(admin.ModelAdmin):
         "mobile_number",
         "query",)
     # End of code addition
+    list_per_page = 10
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+    def has_module_permission(self, request, view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
+
+
+# End of code addition 09/04/2023
+
+# Added by - Suman Sahu on 09/04/2023
+# Reason - Create table for Show WebsiteSetting Details
+
+@admin.register(WebsiteSetting)
+class WebsiteSettingsAdmin(admin.ModelAdmin):
+
     list_per_page = 10
 
     def has_change_permission(self, request, obj=None):

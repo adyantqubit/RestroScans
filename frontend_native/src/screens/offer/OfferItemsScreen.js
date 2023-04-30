@@ -81,16 +81,31 @@ export default function OfferItemsScreen({ route, navigation }) {
     }
   };
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [10, 4], // Aspect changes by Om on 22-04-23 because we need to set the offer image size
       quality: 1,
+      base64: true,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setTempPhoto(result.assets[0]);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
   // End upload image
@@ -121,26 +136,30 @@ export default function OfferItemsScreen({ route, navigation }) {
     formData.append("description", formValues.description);
     formData.append("show_video_Hide_Image", isShowVideo);
 
-    updateAllOffer(formData, tenant, bannerObject.id).then((response) => {
-      if (response.msg) {
-        // Modified by Om on 14-04-23
-        // Reason : Correct the spelling of success
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (isFileSizeError == false) {
+      updateAllOffer(formData, tenant, bannerObject.id).then((response) => {
+        if (response.msg) {
+          // Modified by Om on 14-04-23
+          // Reason : Correct the spelling of success
 
-        // Modified by- Suman sahu  On 24/04/2023
-        // Reason- Remove "successfull" text on success msg
+          // Modified by- Suman sahu  On 24/04/2023
+          // Reason- Remove "successfull" text on success msg
 
-        // Alert.alert("Successfull", response.msg);
-        Alert.alert(response.msg);
+          // Alert.alert("Successfull", response.msg);
+          Alert.alert(response.msg);
 
-        // End of modified code 24/04/2023
+          // End of modified code 24/04/2023
 
-        // End of modfication
-        // setRender(!render);
-      }
-      if (response.error) {
-        Alert.alert(response.error);
-      }
-    });
+          // End of modfication
+          // setRender(!render);
+        }
+        if (response.error) {
+          Alert.alert(response.error);
+        }
+      });
+    }
   };
 
   // Added by Om on 07-04-23
@@ -628,6 +647,15 @@ export default function OfferItemsScreen({ route, navigation }) {
                 </View>
                 {/* End of added code 26/04/2023 */}
 
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 {/* Added by Yuvraj Sahu on 26-4-2023
                 Reason - to add more fields */}
                 <View style={styles.showVideo}>
@@ -651,7 +679,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                     style={{
                       // backgroundColor: isDisable ? "grey" : colors.btnColor,
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
@@ -677,7 +705,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                       backgroundColor: isDisable
                         ? "grey"
                         : colors.anotherButton,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,

@@ -271,6 +271,30 @@ export default function PaymentMethod() {
                     />
                   )}
                 </View>
+
+                {/* Added by- Suman sahu  On 28/04/2023
+              Reason- add label in upload image field */}
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: "#7d7c7a",
+                    }}
+                  >
+                    Please upload image below 200kb
+                  </Text>
+                </View>
+                {/* End of added code 28/04/2023 */}
+
                 {isImgRequired && (
                   <Text style={{ color: "red", marginLeft: 10 }}>
                     Scanner is required!
@@ -291,11 +315,11 @@ export default function PaymentMethod() {
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 40,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
-                      width: 120,
+                      width: "35%",
                       alignSelf: "center",
                     }}
                   >

@@ -46,12 +46,19 @@ export default function RestaurantRegistrationScreen({
   // Added for testing image picker
   const [restaurant_logo, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
+
+  /* This is add for show image limit validation msg */
+  var [isLogoFileSizeError, setLogoFileSizeError] = useState(false);
+  var [isBgFileSizeError, setBgFileSizeError] = useState(false);
+  /* End of addition */
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
     if (!result.canceled) {
@@ -59,6 +66,16 @@ export default function RestaurantRegistrationScreen({
       // alert(result.assets[0].fileName);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setLogoFileSizeError(true);
+      } else {
+        setLogoFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
 
@@ -73,6 +90,7 @@ export default function RestaurantRegistrationScreen({
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
     if (!result.canceled) {
@@ -80,6 +98,16 @@ export default function RestaurantRegistrationScreen({
       // alert(result.assets[0].fileName);
       setBackgroundFileName(result.assets[0].fileName);
       setBackgroundPhoto(result.assets[0]);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setBgFileSizeError(true);
+      } else {
+        setBgFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
   // End of addition
@@ -198,19 +226,24 @@ export default function RestaurantRegistrationScreen({
     formData.append("address", values.address);
 
     // alert("form" + JSON.stringify(formData));
-    postRestaurantDetail(formData).then(async (response) => {
-      if (response.msg) {
-        Alert.alert(response.msg);
-        navigate("LoginScreen");
-        setRender(!render);
-      }
-      if (response.duplicate) {
-        Alert.alert(response.duplicate);
-      }
-      if (response.err) {
-        Alert.alert(response.err);
-      }
-    });
+
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (isLogoFileSizeError == false && isBgFileSizeError == false) {
+      postRestaurantDetail(formData).then(async (response) => {
+        if (response.msg) {
+          Alert.alert(response.msg);
+          navigate("LoginScreen");
+          setRender(!render);
+        }
+        if (response.duplicate) {
+          Alert.alert(response.duplicate);
+        }
+        if (response.err) {
+          Alert.alert(response.err);
+        }
+      });
+    }
   };
   // ----------------------End of formik registration--------------------
   // End of addition 24/04/2023
@@ -247,10 +280,10 @@ export default function RestaurantRegistrationScreen({
   }, []);
 
   return (
-  	<>
-    <ScrollView keyboardShouldPersistTaps="handled">
-      <View style={styles.container}>
-        {/* <View style={{ marginTop: 5 }}>
+    <>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <View style={styles.container}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Owner Name
@@ -286,7 +319,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Email
@@ -329,7 +362,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Mobile Number
@@ -374,7 +407,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>Telephone Number</Text>
           <Controller
             control={control}
@@ -412,7 +445,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Password
@@ -469,7 +502,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Confirm Password
@@ -529,7 +562,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Restaurant name
@@ -571,7 +604,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>Tag line</Text>
           <Controller
             control={control}
@@ -604,7 +637,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View style={{ marginTop: 5 }}>
+          {/* <View style={{ marginTop: 5 }}>
           <Text style={styles.labels}>
             <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
             Address
@@ -646,7 +679,7 @@ export default function RestaurantRegistrationScreen({
           />
         </View> */}
 
-        {/* <View
+          {/* <View
           style={{
             display: "flex",
             flexDirection: "row",
@@ -696,7 +729,7 @@ export default function RestaurantRegistrationScreen({
           )}
         </View> */}
 
-        {/* <View
+          {/* <View
           style={{
             display: "flex",
             flexDirection: "row",
@@ -746,7 +779,7 @@ export default function RestaurantRegistrationScreen({
           )}
         </View> */}
 
-        {/* <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
+          {/* <View style={{ marginBottom: 30, marginHorizontal: 10, marginTop: 10 }}>
           <Pressable
             onPress={handleSubmit(handleRegister)}
             disabled={isDisable}
@@ -772,425 +805,462 @@ export default function RestaurantRegistrationScreen({
           </Pressable>
         </View> */}
 
-        <Formik
-          validateOnMount={true}
-          initialValues={{
-            owner_name: "",
-            email: "",
-            mobile_number: "",
-            telephone_number: "",
-            password: "",
-            confirm_password: "",
-            restaurant_name: "",
-            address: "",
-            restaurant_logo: "",
-            restaurant_background_img: "",
-          }}
-          validationSchema={registrationSchema}
-          onSubmit={handleRegister}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            touched,
-            errors,
-          }) => (
-            <View style={styles.container}>
-              <View>
+          <Formik
+            validateOnMount={true}
+            initialValues={{
+              owner_name: "",
+              email: "",
+              mobile_number: "",
+              telephone_number: "",
+              password: "",
+              confirm_password: "",
+              restaurant_name: "",
+              address: "",
+              restaurant_logo: "",
+              restaurant_background_img: "",
+            }}
+            validationSchema={registrationSchema}
+            onSubmit={handleRegister}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              <View style={styles.container}>
                 <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Owner Name
-                  </Text>
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Owner Name
+                    </Text>
 
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("owner_name")}
-                    onBlur={handleBlur("owner_name")}
-                    value={values.owner_name}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter owner name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  {errors.owner_name && touched.owner_name && (
-                    <Text style={styles.textdanger}>{errors.owner_name}</Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("owner_name")}
+                      onBlur={handleBlur("owner_name")}
+                      value={values.owner_name}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter owner name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {errors.owner_name && touched.owner_name && (
+                      <Text style={styles.textdanger}>{errors.owner_name}</Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Email
+                    </Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter email"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+
+                    {errors.email && touched.email && (
+                      <Text style={styles.textdanger}>{errors.email}</Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Mobile Number
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("mobile_number")}
+                      onBlur={handleBlur("mobile_number")}
+                      value={values.mobile_number}
+                      placeholderTextColor="#A4A4A4"
+                      keyboardType="number-pad"
+                      placeholder="Enter mobile number"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                  </View>
+                  {errors.mobile_number && touched.mobile_number && (
+                    <Text style={styles.textdanger}>
+                      {errors.mobile_number}
+                    </Text>
                   )}
-                </View>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Email
-                  </Text>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter email"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      Telephone Number
+                    </Text>
 
-                  {errors.email && touched.email && (
-                    <Text style={styles.textdanger}>{errors.email}</Text>
-                  )}
-                </View>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("telephone_number")}
+                      // onBlur={handleBlur("telephone_number")}
+                      value={values.telephone_number}
+                      placeholderTextColor="#A4A4A4"
+                      keyboardType="number-pad"
+                      placeholder="Enter telephone number"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Mobile Number
-                  </Text>
-
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("mobile_number")}
-                    onBlur={handleBlur("mobile_number")}
-                    value={values.mobile_number}
-                    placeholderTextColor="#A4A4A4"
-                    keyboardType="number-pad"
-                    placeholder="Enter mobile number"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                </View>
-                {errors.mobile_number && touched.mobile_number && (
-                  <Text style={styles.textdanger}>{errors.mobile_number}</Text>
-                )}
-
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-                    Telephone Number
-                  </Text>
-
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("telephone_number")}
-                    // onBlur={handleBlur("telephone_number")}
-                    value={values.telephone_number}
-                    placeholderTextColor="#A4A4A4"
-                    keyboardType="number-pad"
-                    placeholder="Enter telephone number"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-
-                  {/* {errors.telephone_number && touched.telephone_number && (
+                    {/* {errors.telephone_number && touched.telephone_number && (
                     <Text style={styles.textdanger}>
                       {errors.telephone_number}
                     </Text>
                   )} */}
-                </View>
+                  </View>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Password
-                  </Text>
-
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-
-                  {errors.password && touched.password && (
-                    <Text style={styles.textdanger}>{errors.password}</Text>
-                  )}
-                </View>
-
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Confirm Password
-                  </Text>
-
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("confirm_password")}
-                    onBlur={handleBlur("confirm_password")}
-                    value={values.confirm_password}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter confirm password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-
-                  {errors.confirm_password && touched.confirm_password && (
-                    <Text style={styles.textdanger}>
-                      {errors.confirm_password}
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Password
                     </Text>
-                  )}
-                </View>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Restaurant name
-                  </Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter password"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
 
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("restaurant_name")}
-                    onBlur={handleBlur("restaurant_name")}
-                    value={values.restaurant_name}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter restaurant name"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
+                    {errors.password && touched.password && (
+                      <Text style={styles.textdanger}>{errors.password}</Text>
+                    )}
+                  </View>
 
-                  {errors.restaurant_name && touched.restaurant_name && (
-                    <Text style={styles.textdanger}>
-                      {errors.restaurant_name}
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Confirm Password
                     </Text>
-                  )}
-                </View>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-                    Tag line
-                  </Text>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("confirm_password")}
+                      onBlur={handleBlur("confirm_password")}
+                      value={values.confirm_password}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter confirm password"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
 
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("tag_line")}
-                    // onBlur={handleBlur("tag_line")}
-                    value={values.tag_line}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter tag line"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
+                    {errors.confirm_password && touched.confirm_password && (
+                      <Text style={styles.textdanger}>
+                        {errors.confirm_password}
+                      </Text>
+                    )}
+                  </View>
 
-                  {/* {errors.tag_line && touched.tag_line && (
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Restaurant name
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("restaurant_name")}
+                      onBlur={handleBlur("restaurant_name")}
+                      value={values.restaurant_name}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter restaurant name"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+
+                    {errors.restaurant_name && touched.restaurant_name && (
+                      <Text style={styles.textdanger}>
+                        {errors.restaurant_name}
+                      </Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      Tag line
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("tag_line")}
+                      // onBlur={handleBlur("tag_line")}
+                      value={values.tag_line}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter tag line"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+
+                    {/* {errors.tag_line && touched.tag_line && (
                     <Text style={styles.textdanger}>{errors.tag_line}</Text>
                   )} */}
-                </View>
+                  </View>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Address
-                  </Text>
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Address
+                    </Text>
 
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("address")}
-                    onBlur={handleBlur("address")}
-                    value={values.address}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("address")}
+                      onBlur={handleBlur("address")}
+                      value={values.address}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter address"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
 
-                  {errors.address && touched.address && (
-                    <Text style={styles.textdanger}>{errors.address}</Text>
-                  )}
-                </View>
+                    {errors.address && touched.address && (
+                      <Text style={styles.textdanger}>{errors.address}</Text>
+                    )}
+                  </View>
 
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "93%",
-                    alignSelf: "center",
-                    marginTop: 5,
-                    marginBottom: 5,
-                  }}
-                >
-                  <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-                  <Text>Upload logo</Text>
-                </View>
-
-                <View
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 3,
-                    width: "93%",
-                    alignSelf: "center",
-                    flexDirection: "row-reverse",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <Pressable
-                    onPress={pickImage}
+                  <View
                     style={{
-                      backgroundColor: "#d5d5d5",
-                      width: 50,
-                      padding: 5,
-                      borderRadius: 5,
-                      height: 40,
                       display: "flex",
                       flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Icon name="upload" size={20} color="black" />
-                  </Pressable>
-                  {restaurant_logo && (
-                    <Image
-                      source={{ uri: restaurant_logo }}
-                      style={{ width: 50, height: 40, borderRadius: 5 }}
-                    />
-                  )}
-                </View>
-                {/* Added by- Suman sahu  On 26/04/2023
-                    Reason- add label in upload image field */}
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    marginTop: 5,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                    }}
-                  >
-                    Please upload image below 200kb
-                  </Text>
-                </View>
-                {/* End of added code 26/04/2023 */}
-
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "93%",
-                    alignSelf: "center",
-                    marginTop: 5,
-                    marginBottom: 5,
-                  }}
-                >
-                  <Text style={{ color: "red", fontWeight: "650" }}> </Text>
-                  <Text>Upload background image</Text>
-                </View>
-
-                <View
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 3,
-                    width: "93%",
-                    alignSelf: "center",
-                    flexDirection: "row-reverse",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <Pressable
-                    onPress={pickBackImage}
-                    style={{
-                      backgroundColor: "#d5d5d5",
-                      width: 50,
-                      padding: 5,
-                      borderRadius: 5,
-                      height: 40,
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Icon name="upload" size={20} color="black" />
-                  </Pressable>
-                  {backImage && (
-                    <Image
-                      source={{ uri: backImage }}
-                      style={{ width: 50, height: 40, borderRadius: 5 }}
-                    />
-                  )}
-                </View>
-                {/* Added by- Suman sahu  On 26/04/2023
-                    Reason- add label in upload image field */}
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    marginTop: 5,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                    }}
-                  >
-                    Please upload image below 200kb
-                  </Text>
-                </View>
-                {/* End of added code 26/04/2023 */}
-
-                <View
-                  style={{
-                    marginBottom: 30,
-                    marginHorizontal: 10,
-                    marginTop: 10,
-                  }}
-                >
-                  <Pressable
-                    onPress={handleSubmit}
-                    disabled={isDisable}
-                    // Modified by- Suman sahu  On 26/04/2023
-                    // Reason - for redesign buttons styles
-                    style={{
-                      backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      // backgroundColor: colors.btnColor,
-                      height: 35,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: 10,
-                      width: 150,
+                      width: "93%",
                       alignSelf: "center",
+                      marginTop: 5,
+                      marginBottom: 5,
                     }}
-                    // End of modified code 26/04/2023
+                  >
+                    <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                    <Text>Upload logo</Text>
+                  </View>
+
+                  <View
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 3,
+                      width: "93%",
+                      alignSelf: "center",
+                      flexDirection: "row-reverse",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Pressable
+                      onPress={pickImage}
+                      style={{
+                        backgroundColor: "#d5d5d5",
+                        width: 50,
+                        padding: 5,
+                        borderRadius: 5,
+                        height: 40,
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Icon name="upload" size={20} color="black" />
+                    </Pressable>
+                    {restaurant_logo && (
+                      <Image
+                        source={{ uri: restaurant_logo }}
+                        style={{ width: 50, height: 40, borderRadius: 5 }}
+                      />
+                    )}
+                  </View>
+                  {/* Added by- Suman sahu  On 26/04/2023
+                    Reason- add label in upload image field */}
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "100%",
+                      alignSelf: "center",
+                      justifyContent: "center",
+                      marginTop: 5,
+                    }}
                   >
                     <Text
                       style={{
-                        color: "white",
-                        fontSize: 16,
-                        fontWeight: "bold",
+                        fontSize: 13,
+                        color: "#7d7c7a",
                       }}
                     >
-                      Register
+                      Please upload image below 200kb
                     </Text>
-                  </Pressable>
+                  </View>
+                  {/* End of added code 26/04/2023 */}
+
+                  {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                  {isLogoFileSizeError && (
+                    <Text style={{ color: "red", marginLeft: 70 }}>
+                      Please upload image below 200kb
+                    </Text>
+                  )}
+                  {/* End of addition  29-04-2023*/}
+
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "93%",
+                      alignSelf: "center",
+                      marginTop: 5,
+                      marginBottom: 5,
+                    }}
+                  >
+                    <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                    <Text>Upload background image</Text>
+                  </View>
+
+                  <View
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 3,
+                      width: "93%",
+                      alignSelf: "center",
+                      flexDirection: "row-reverse",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <Pressable
+                      onPress={pickBackImage}
+                      style={{
+                        backgroundColor: "#d5d5d5",
+                        width: 50,
+                        padding: 5,
+                        borderRadius: 5,
+                        height: 40,
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Icon name="upload" size={20} color="black" />
+                    </Pressable>
+                    {backImage && (
+                      <Image
+                        source={{ uri: backImage }}
+                        style={{ width: 50, height: 40, borderRadius: 5 }}
+                      />
+                    )}
+                  </View>
+
+                  {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                  {isBgFileSizeError && (
+                    <Text style={{ color: "red", marginLeft: 70 }}>
+                      Please upload image below 200kb
+                    </Text>
+                  )}
+                  {/* End of addition  29-04-2023*/}
+
+                  {/* Added by- Suman sahu  On 26/04/2023
+                    Reason- add label in upload image field */}
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "100%",
+                      alignSelf: "center",
+                      justifyContent: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: "#7d7c7a",
+                      }}
+                    >
+                      Please upload image below 200kb
+                    </Text>
+                  </View>
+                  {/* End of added code 26/04/2023 */}
+
+                  <View
+                    style={{
+                      marginBottom: 30,
+                      marginHorizontal: 10,
+                      marginTop: 10,
+                    }}
+                  >
+                    <Pressable
+                      onPress={handleSubmit}
+                      disabled={isDisable}
+                      // Modified by- Suman sahu  On 26/04/2023
+                      // Reason - for redesign buttons styles
+                      style={{
+                        backgroundColor: isDisable ? "grey" : colors.btnColor,
+                        // backgroundColor: colors.btnColor,
+                        height: 30,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        width: 150,
+                        alignSelf: "center",
+                      }}
+                      // End of modified code 26/04/2023
+                    >
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Register
+                      </Text>
+                    </Pressable>
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
-        </Formik>
-      </View>
-    </ScrollView>
-  {/* Added by Om on 26-04-23 For showing the footer*/}
-     <>
-     <Footer />
-     </>
-     {/* End of addition */}
-   </>
+            )}
+          </Formik>
+        </View>
+      </ScrollView>
+      {/* Added by Om on 26-04-23 For showing the footer*/}
+      <>
+        <Footer />
+      </>
+      {/* End of addition */}
+    </>
   );
 }
 

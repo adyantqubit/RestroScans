@@ -311,7 +311,7 @@ export default function AddOfferItemScreen() {
               disabled={isDisable}
               style={{
                 backgroundColor: isDisable ? "grey" : colors.btnColor,
-                height: 35,
+                height: 30,
                 width: "35%",
                 alignSelf: "center",
                 alignItems: "center",

@@ -136,6 +136,10 @@ export default function AddItemScreen() {
   var [isImgRequired, setImgRequired] = useState(false);
   // End of addition
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -144,6 +148,7 @@ export default function AddItemScreen() {
       // Reason - to add same width and height on image
       aspect: [4, 4],
       // End of modification
+      base64: true,
       quality: 1,
     });
     if (!result.canceled) {
@@ -151,6 +156,15 @@ export default function AddItemScreen() {
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
       setImgRequired(false);
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
 
@@ -254,7 +268,7 @@ export default function AddItemScreen() {
 
     // alert("value"+JSON.stringify(formData))
 
-    if (icon != null) {
+    if (icon != null && isFileSizeError == false) {
       // if (categoryName != "") {
       saveItemApi(formData, tenant).then(async (res) => {
         if (res.msg) {
@@ -262,6 +276,7 @@ export default function AddItemScreen() {
           Alert.alert(res.msg);
           resetForm({ values: "" });
           setImage(null);
+          setFileSizeError(false);
           setItemActive(false);
           setBestSeller(false);
           setItemName("");
@@ -872,10 +887,20 @@ export default function AddItemScreen() {
                 {/* End of added code 26/04/2023 */}
 
                 {isImgRequired && (
-                  <Text style={{ color: "red", marginLeft: 10 }}>
+                  <Text style={{ color: "red", marginLeft: 100 }}>
                     Item icon is required!
                   </Text>
                 )}
+
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     value={isItemActive}
@@ -919,7 +944,7 @@ export default function AddItemScreen() {
                       backgroundColor: isSaveBtnDisable
                         ? "#E0E0E0"
                         : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,

@@ -291,7 +291,7 @@ export default function LoginScreen({ navigation }) {
                         backgroundColor: !isBtnDisable
                           ? colors.btnColor
                           : "#E0E0E0",
-                        height: 35,
+                        height: 30,
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: 10,

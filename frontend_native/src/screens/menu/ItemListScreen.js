@@ -151,6 +151,10 @@ export default function ItemListScreen({ route, navigation }) {
   };
   // end of getting menus
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   //   For upload image
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -160,12 +164,23 @@ export default function ItemListScreen({ route, navigation }) {
       // Reason - to add same width and height on image
       aspect: [4, 4],
       // End of modification
+      base64: true,
       quality: 1,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
   // End of upload image
@@ -194,28 +209,33 @@ export default function ItemListScreen({ route, navigation }) {
     // setRender(!render)
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    updateCategoryApi(
-      formData,
-      JSON.parse(tenantInfo).tenant_name,
-      categoryID
-    ).then((response) => {
-      if (response.msg) {
-        Alert.alert(response.msg);
-        setIsDisable(false);
-        setRender(!render);
-        // alert(JSON.stringify(response.categoryList))
-        var categories = response.categoryList.filter(
-          (dt) => dt.id == categoryID
-        )[0];
-        setCategoryValue(categories);
 
-        // navigate('login')
-      }
-      if (response.error) {
-        Alert.alert("Error", response.error);
-        setIsDisable(false);
-      }
-    });
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (isFileSizeError == false) {
+      updateCategoryApi(
+        formData,
+        JSON.parse(tenantInfo).tenant_name,
+        categoryID
+      ).then((response) => {
+        if (response.msg) {
+          Alert.alert(response.msg);
+          setIsDisable(false);
+          setRender(!render);
+          // alert(JSON.stringify(response.categoryList))
+          var categories = response.categoryList.filter(
+            (dt) => dt.id == categoryID
+          )[0];
+          setCategoryValue(categories);
+
+          // navigate('login')
+        }
+        if (response.error) {
+          Alert.alert("Error", response.error);
+          setIsDisable(false);
+        }
+      });
+    }
   };
   // End of comment
   // End of sending data
@@ -533,6 +553,15 @@ export default function ItemListScreen({ route, navigation }) {
                 </View>
                 {/* End of added code 26/04/2023 */}
 
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     // style={styles.checkbox}
@@ -564,7 +593,7 @@ export default function ItemListScreen({ route, navigation }) {
                     disabled={isDisable}
                     style={{
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       // Added by Yuvraj Sahu on 16-4-2023

@@ -119,6 +119,11 @@ export default function EditItemScreen({ route, navigation }) {
 
   const [icon, setImage] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
+
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -127,12 +132,23 @@ export default function EditItemScreen({ route, navigation }) {
       // Reason - to add same width and height on image
       aspect: [4, 4],
       // End of modification
+      base64: true,
       quality: 1,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
+
+      // Added by Suman Sahu on 29-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 29-04-2023
     }
   };
 
@@ -169,16 +185,19 @@ export default function EditItemScreen({ route, navigation }) {
     // End of addition
 
     // console.log('formData------'+JSON.stringify(formData))
-    updateItemApi(formData, tenant, itemID).then((response) => {
-      if (response.msg) {
-        Alert.alert(response.msg);
-        setIsDisable(false);
-      }
-      if (response.error) {
-        Alert.alert("Error", response.error);
-        setIsDisable(false);
-      }
-    });
+    if (isFileSizeError == false) {
+      updateItemApi(formData, tenant, itemID).then((response) => {
+        if (response.msg) {
+          Alert.alert(response.msg);
+          setIsDisable(false);
+          setFileSizeError(false);
+        }
+        if (response.error) {
+          Alert.alert("Error", response.error);
+          setIsDisable(false);
+        }
+      });
+    }
   };
 
   // Commemted by Yuvraj Sahu on 26-4-2023
@@ -944,6 +963,15 @@ export default function EditItemScreen({ route, navigation }) {
                 </View>
                 {/* End of added code 26/04/2023 */}
 
+                {/* Added by Suman Sahu on 29-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  29-04-2023*/}
+
                 <View style={styles.activeStatus}>
                   <Checkbox
                     // style={styles.checkbox}
@@ -967,7 +995,7 @@ export default function EditItemScreen({ route, navigation }) {
                     disabled={isDisable}
                     style={{
                       backgroundColor: isDisable ? "grey" : colors.btnColor,
-                      height: 35,
+                      height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       // Added by Yuvraj Sahu on 16-4-2023

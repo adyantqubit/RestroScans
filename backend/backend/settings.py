@@ -66,6 +66,9 @@ INSTALLED_APPS = [
     'admin_volt.apps.AdminVoltConfig',
     # End of addition
 
+    'ckeditor',
+    
+    
     # Added by - Ashish Dewangan on 28-04-2023
     # Reason - To have fcm functionality
     "fcm_django",

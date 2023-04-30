@@ -27,11 +27,17 @@ import * as Print from "expo-print";
 import Icon from "react-native-vector-icons/AntDesign";
 import Footer from "../components/Footer/Footer";
 
-
 export default function HomeScreen({ navigation }) {
   const isFocused = useIsFocused();
   var [userData, setUserData] = useState([]);
   var navigator = useNavigation();
+
+  // Added by- Suman sahu  On 29/04/2023
+  // Reason - show order details(Newly Placed Orders, pending orders, completed orders) in collapsible
+  var [height, setHeight] = useState("none");
+  var [displayCompletedOrder, setDisplayCompletedOrder] = useState("none");
+  var [displayPendingOrder, setDisplayPendingOrder] = useState("none");
+  // End of addition 29/04/2023
 
   /**
    * Commented by - Ashish Dewangan on 19-04-2023
@@ -75,7 +81,7 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     authNavigate();
     getSettingData();
-    getQRCode()  // Added by Om on 16-04-23 for show set the method in useeffect
+    getQRCode(); // Added by Om on 16-04-23 for show set the method in useeffect
   }, [isFocused]);
 
   /**
@@ -109,12 +115,12 @@ export default function HomeScreen({ navigation }) {
       setThisWeeksSummary(response.revenue_details.this_weeks_summary);
       setThisMonthsSummary(response.revenue_details.this_months_summary);
       setThisYearsSummary(response.revenue_details.this_years_summary);
-      
+
       /**
        * End of code addition
        */
 
-       /**
+      /**
        * Added by - Ashish Dewangan on 19-04-2023
        * Reason - To show todays new orders
        */
@@ -196,9 +202,13 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  function goToOrderDetails(id,orderId) {
+  function goToOrderDetails(id, orderId) {
     // alert(orderId);
-    navigation.navigate('OrderNavigation',{ screen: 'OrderItemsScreen',initial:false,params: {id:id, orderID: orderId} })
+    navigation.navigate("OrderNavigation", {
+      screen: "OrderItemsScreen",
+      initial: false,
+      params: { id: id, orderID: orderId },
+    });
     // navigation.navigate("OrderItemsScreen", {id:id, orderID: orderId });
   }
   // Added by Om on 18-04-23
@@ -213,137 +223,138 @@ export default function HomeScreen({ navigation }) {
   //   const file = await reactNativeHTMLToPdf.convert(options);
   //   console.log(file)
   // };
-// Modfication by Om on 20-04-23
-// Reason : Fix the Print functionality, need to add 4 QR images
-// Commented by Om on 26-04-23
-// Reason : According to sir, this functionality is not show on this page
-//   const html = `
-// <html >
- 
-//   <body style="text-align: center;margin:0px;padding:0px;">
-//   <div style="display:flex;flex-wrap:wrap;">
-//   <div style="width:50vw; height:50vh;">
-//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold; text-transform:uppercase">
-//   ${userData.restaurant_name}
-// </div>
-//     <img
-//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-//       //  src=${scanner}
-//       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
-//       <div>
-//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//       Adyant Softtech Pvt. Ltd., Raipur
-//     </h1>
-//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
-//    www.restroscans.com
-// </h1>
-//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//     <b>  Scan menu</b>
-//   </h1>
-  
-//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   Table no :
-// </h1>
-// </div>
-// </div>
+  // Modfication by Om on 20-04-23
+  // Reason : Fix the Print functionality, need to add 4 QR images
+  // Commented by Om on 26-04-23
+  // Reason : According to sir, this functionality is not show on this page
+  //   const html = `
+  // <html >
 
+  //   <body style="text-align: center;margin:0px;padding:0px;">
+  //   <div style="display:flex;flex-wrap:wrap;">
+  //   <div style="width:50vw; height:50vh;">
+  //   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold; text-transform:uppercase">
+  //   ${userData.restaurant_name}
+  // </div>
+  //     <img
+  //       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg
+  //       //  src=${scanner}
+  //       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+  //       <div>
+  //       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //       Adyant Softtech Pvt. Ltd., Raipur
+  //     </h1>
+  //     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+  //    www.restroscans.com
+  // </h1>
+  //     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //     <b>  Scan menu</b>
+  //   </h1>
 
-// <div style="width:50vw; height:50vh;">
-//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
-//   ${userData.restaurant_name}
-// </div>
-//     <img
-//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-//       //  src=${scanner}
-//       style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
-//       <div>
-//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//       Adyant Softtech Pvt. Ltd., Raipur
-//     </h1>
-//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
-//    www.restroscans.com
-// </h1>
-//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//     <b>  Scan menu</b>
-//   </h1>
-  
-//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   Table no :
-// </h1>
-// </div>
-// </div>
+  //   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   Table no :
+  // </h1>
+  // </div>
+  // </div>
 
-// <div style="width:50vw; height:50vh;">
-//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
-//   ${userData.restaurant_name}
-// </div>
-//     <img
-//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-//       //  src=${scanner}
-//       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
-//       <div>
-//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//       Adyant Softtech Pvt. Ltd., Raipur
-//     </h1>
-//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
-//    www.restroscans.com
-// </h1>
-//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//     <b>  Scan menu</b>
-//   </h1>
-  
-//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   Table no :
-// </h1>
-// </div>
-// </div>
+  // <div style="width:50vw; height:50vh;">
+  //   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+  //   ${userData.restaurant_name}
+  // </div>
+  //     <img
+  //       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg
+  //       //  src=${scanner}
+  //       style="width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;" />
+  //       <div>
+  //       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //       Adyant Softtech Pvt. Ltd., Raipur
+  //     </h1>
+  //     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+  //    www.restroscans.com
+  // </h1>
+  //     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //     <b>  Scan menu</b>
+  //   </h1>
 
-// <div style="width:50vw; height:50vh;">
-//   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
-//   ${userData.restaurant_name}
-// </div>
-//     <img
-//       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg 
-//       //  src=${scanner}
-//       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
-//       <div>
-//       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//       Adyant Softtech Pvt. Ltd., Raipur
-//     </h1>
-//     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
-//    www.restroscans.com
-// </h1>
-//     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   <b>  Scan menu</b>
-//   </h1>
-  
-//   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
-//   Table no :
-// </h1>
-// </div>
-// </div>
+  //   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   Table no :
+  // </h1>
+  // </div>
+  // </div>
 
-// </div>
-//   </body>
-// </html>
-// `;
-// End of commented code
-// End of modification
+  // <div style="width:50vw; height:50vh;">
+  //   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+  //   ${userData.restaurant_name}
+  // </div>
+  //     <img
+  //       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg
+  //       //  src=${scanner}
+  //       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+  //       <div>
+  //       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //       Adyant Softtech Pvt. Ltd., Raipur
+  //     </h1>
+  //     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+  //    www.restroscans.com
+  // </h1>
+  //     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //     <b>  Scan menu</b>
+  //   </h1>
+
+  //   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   Table no :
+  // </h1>
+  // </div>
+  // </div>
+
+  // <div style="width:50vw; height:50vh;">
+  //   <div style="font-size: 30px; font-family: Helvetica Neue; font-weight: bold;text-transform:uppercase"">
+  //   ${userData.restaurant_name}
+  // </div>
+  //     <img
+  //       src=http://192.168.1.10:8000/media/ashoka.moreshop.co.in/images/qrcode/qr.svg
+  //       //  src=${scanner}
+  //       style="width: 330px;height:330px; margin-top:-20px; margin-bottom:-20px;" />
+  //       <div>
+  //       <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //       Adyant Softtech Pvt. Ltd., Raipur
+  //     </h1>
+  //     <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   <img src = '${'http://192.168.1.10:19000/assets/globe.png'}' width='14px' height='14px'/>
+  //    www.restroscans.com
+  // </h1>
+  //     <h1 style="font-size: 24px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   <b>  Scan menu</b>
+  //   </h1>
+
+  //   <h1 style="font-size: 14px; font-family: Helvetica Neue; font-weight: normal;padding : 0px;margin:0px">
+  //   Table no :
+  // </h1>
+  // </div>
+  // </div>
+
+  // </div>
+  //   </body>
+  // </html>
+  // `;
+  // End of commented code
+  // End of modification
   const printDoc = async () => {
     await Print.printAsync({
       html,
     });
   };
 
-  // End of addition 
+  // End of addition
+
+  const [openOrders, setOpenOrders] = useState(false);
 
   return (
     <>
- {/* <SafeAreaView> */}
+      {/* <SafeAreaView> */}
       {/* Commented adn modified by - Ashish Dewangan on 12-04-2023
       Reason - To hide restaurant name and logo */}
 
@@ -363,7 +374,7 @@ export default function HomeScreen({ navigation }) {
 
         {/* Uncommentded by Om on 19-04-23
             Reason: show the Restaurant name */}
-            {/* Commented by Om on 26-03-23
+        {/* Commented by Om on 26-03-23
             Reason : According to sir, this functionality is not show on this page */}
         {/* <View style={styles.restaurantDetail}>
           <Text style={styles.restaurantLable}>{userData.restaurant_name}</Text>
@@ -506,7 +517,9 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
                 {/* Modification by Om on 22-04-23, Fix the revenue size */}
-                {todaysSummary.total_revenue?todaysSummary.total_revenue.toFixed(2):''}
+                {todaysSummary.total_revenue
+                  ? todaysSummary.total_revenue.toFixed(2)
+                  : ""}
               </Text>
             </LinearGradient>
 
@@ -522,7 +535,9 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
                 {/* Modification by Om on 22-04-23, Fix the revenue size */}
-                {thisWeeksSummary.total_revenue?thisWeeksSummary.total_revenue.toFixed(2):''}
+                {thisWeeksSummary.total_revenue
+                  ? thisWeeksSummary.total_revenue.toFixed(2)
+                  : ""}
               </Text>
             </LinearGradient>
             <LinearGradient
@@ -537,7 +552,9 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
                 {/* Modification by Om on 22-04-23, Fix the revenue size */}
-                {thisMonthsSummary.total_revenue?thisMonthsSummary.total_revenue.toFixed(2):''}
+                {thisMonthsSummary.total_revenue
+                  ? thisMonthsSummary.total_revenue.toFixed(2)
+                  : ""}
               </Text>
             </LinearGradient>
             <LinearGradient
@@ -552,35 +569,62 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.revenueCardHeading}>Revenue</Text>
               <Text style={styles.revenueCardData}>
                 {/* Modification by Om on 22-04-23, Fix the revenue size */}
-                {thisYearsSummary.total_revenue?thisYearsSummary.total_revenue.toFixed(2):''} 
+                {thisYearsSummary.total_revenue
+                  ? thisYearsSummary.total_revenue.toFixed(2)
+                  : ""}
               </Text>
             </LinearGradient>
           </View>
         ) : null}
         {/* End of code modification for showing revenue in card form on 15-04-2023 */}
 
-
         {/* Added by - Ashish Dewangan on 19-04-2023
             Reason - To show today's new  orders on dashboard(home screen) */}
-        {todaysNewlyPlacedOrders.length>0 ? (
+
+        {/* Modify by- Suman sahu  On 29/04/2023
+            Reason - show order details(Newly Placed Orders, pending orders, completed orders) in collapsible */}
+        {todaysNewlyPlacedOrders.length > 0 ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Newly Placed Orders</Text>
-            <View style={styles.todaysOrderHeadingContainer}>
-              <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
-              <Text style={{ width: "13%", fontWeight: "bold" }}>
-                Table No.
+            <Pressable
+              onPress={(e) => {
+                if (height == "none") setHeight("flex");
+                else setHeight("none");
+              }}
+            >
+              <Text style={styles.todaysOrderContainerTitle}>
+                Newly Placed Orders
               </Text>
-              <Text style={{ width: "22%", fontWeight: "bold" }}>
-                Order Status
-              </Text>
-              <Text style={{ width: "25%", fontWeight: "bold" }}>
-                Payment Status
-              </Text>
-              <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
-            </View>
+            </Pressable>
+            <Pressable
+              onPress={(e) => {
+                if (height == "none") setHeight("flex");
+                else setHeight("none");
+              }}
+            >
+              <View style={styles.todaysOrderHeadingContainer}>
+                <Text style={{ width: "25%", fontWeight: "bold" }}>
+                  Order ID
+                </Text>
+                <Text style={{ width: "13%", fontWeight: "bold" }}>
+                  Table No.
+                </Text>
+                <Text style={{ width: "22%", fontWeight: "bold" }}>
+                  Order Status
+                </Text>
+                <Text style={{ width: "25%", fontWeight: "bold" }}>
+                  Payment Status
+                </Text>
+                <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
+              </View>
+            </Pressable>
+
             {todaysNewlyPlacedOrders.map((order, index) => {
               return (
-                <View key={index} style={styles.todaysOrderDataContainer}>
+                <View
+                  key={index}
+                  style={[styles.todaysOrderDataContainer, { display: height }]}
+                  id="newly_placed_orders_div"
+                >
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
                   <Text style={{ width: "13%" }}>{order.table_number}</Text>
                   <Text style={{ width: "22%" }}>{order.order_status}</Text>
@@ -593,7 +637,7 @@ export default function HomeScreen({ navigation }) {
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
+                    onPress={(e) => goToOrderDetails(order.id, order.order_id)}
                   >
                     <Text
                       style={{
@@ -609,32 +653,57 @@ export default function HomeScreen({ navigation }) {
               );
             })}
           </View>
-        ) : 
-        null}
+        ) : null}
         {/* End of code addition for show today's new orders on dashboard(home screen) on 19-04-2023*/}
-
 
         {/* Added by - Ashish Dewangan on 11-04-2023
             Reason - To show today's pending orders on dashboard(home screen) */}
-        {todaysPendingOrders.length>0 ? (
+        {todaysPendingOrders.length > 0 ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Pending Orders</Text>
-            <View style={styles.todaysOrderHeadingContainer}>
-              <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
-              <Text style={{ width: "13%", fontWeight: "bold" }}>
-                Table No.
+            <Pressable
+              onPress={(e) => {
+                if (displayPendingOrder == "none")
+                  setDisplayPendingOrder("flex");
+                else setDisplayPendingOrder("none");
+              }}
+            >
+              <Text style={styles.todaysOrderContainerTitle}>
+                Pending Orders
               </Text>
-              <Text style={{ width: "22%", fontWeight: "bold" }}>
-                Order Status
-              </Text>
-              <Text style={{ width: "25%", fontWeight: "bold" }}>
-                Payment Status
-              </Text>
-              <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
-            </View>
+            </Pressable>
+            <Pressable
+              onPress={(e) => {
+                if (displayPendingOrder == "none")
+                  setDisplayPendingOrder("flex");
+                else setDisplayPendingOrder("none");
+              }}
+            >
+              <View style={styles.todaysOrderHeadingContainer}>
+                <Text style={{ width: "25%", fontWeight: "bold" }}>
+                  Order ID
+                </Text>
+                <Text style={{ width: "13%", fontWeight: "bold" }}>
+                  Table No.
+                </Text>
+                <Text style={{ width: "22%", fontWeight: "bold" }}>
+                  Order Status
+                </Text>
+                <Text style={{ width: "25%", fontWeight: "bold" }}>
+                  Payment Status
+                </Text>
+                <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
+              </View>
+            </Pressable>
             {todaysPendingOrders.map((order, index) => {
               return (
-                <View key={index} style={styles.todaysOrderDataContainer}>
+                <View
+                  key={index}
+                  style={[
+                    styles.todaysOrderDataContainer,
+                    { display: displayPendingOrder },
+                  ]}
+                  id="newly_Pending_orders_div"
+                >
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
                   <Text style={{ width: "13%" }}>{order.table_number}</Text>
                   <Text style={{ width: "22%" }}>{order.order_status}</Text>
@@ -647,7 +716,7 @@ export default function HomeScreen({ navigation }) {
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
+                    onPress={(e) => goToOrderDetails(order.id, order.order_id)}
                   >
                     <Text
                       style={{
@@ -668,25 +737,53 @@ export default function HomeScreen({ navigation }) {
 
         {/* Added by - Ashish Dewangan on 11-04-2023
             Reason - To show today's Completed orders on dashboard(home screen) */}
-        {todaysCompletedOrders.length>0 ? (
+        {todaysCompletedOrders.length > 0 ? (
           <View style={styles.todaysOrderContainer}>
-            <Text style={styles.todaysOrderContainerTitle}>Completed Orders</Text>
-            <View style={styles.todaysOrderHeadingContainer}>
-              <Text style={{ width: "25%", fontWeight: "bold" }}>Order ID</Text>
-              <Text style={{ width: "13%", fontWeight: "bold" }}>
-                Table No.
+            <Pressable
+              onPress={(e) => {
+                if (displayCompletedOrder == "none")
+                  setDisplayCompletedOrder("flex");
+                else setDisplayCompletedOrder("none");
+              }}
+            >
+              <Text style={styles.todaysOrderContainerTitle}>
+                Completed Orders
               </Text>
-              <Text style={{ width: "22%", fontWeight: "bold" }}>
-                Order Status
-              </Text>
-              <Text style={{ width: "25%", fontWeight: "bold" }}>
-                Payment Status
-              </Text>
-              <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
-            </View>
+            </Pressable>
+
+            <Pressable
+              onPress={(e) => {
+                if (displayCompletedOrder == "none")
+                  setDisplayCompletedOrder("flex");
+                else setDisplayCompletedOrder("none");
+              }}
+            >
+              <View style={styles.todaysOrderHeadingContainer}>
+                <Text style={{ width: "25%", fontWeight: "bold" }}>
+                  Order ID
+                </Text>
+                <Text style={{ width: "13%", fontWeight: "bold" }}>
+                  Table No.
+                </Text>
+                <Text style={{ width: "22%", fontWeight: "bold" }}>
+                  Order Status
+                </Text>
+                <Text style={{ width: "25%", fontWeight: "bold" }}>
+                  Payment Status
+                </Text>
+                <Text style={{ width: "15%", fontWeight: "bold" }}></Text>
+              </View>
+            </Pressable>
             {todaysCompletedOrders.map((order, index) => {
               return (
-                <View key={index} style={styles.todaysOrderDataContainer}>
+                <View
+                  key={index}
+                  style={[
+                    styles.todaysOrderDataContainer,
+                    { display: displayCompletedOrder },
+                  ]}
+                  id="newly_completed_orders_div"
+                >
                   <Text style={{ width: "25%" }}>{order.order_id}</Text>
                   <Text style={{ width: "13%" }}>{order.table_number}</Text>
                   <Text style={{ width: "22%" }}>{order.order_status}</Text>
@@ -699,7 +796,7 @@ export default function HomeScreen({ navigation }) {
                       borderRadius: 10,
                       padding: 1,
                     }}
-                    onPress={(e) => goToOrderDetails(order.id,order.order_id)}
+                    onPress={(e) => goToOrderDetails(order.id, order.order_id)}
                   >
                     <Text
                       style={{
@@ -716,8 +813,10 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         ) : null}
-        {/* End of code addition for show today's orders on dashboard(home screen) on 11-04-2023*/}
 
+        {/* End of modification 29/04/2023 */}
+
+        {/* End of code addition for show today's orders on dashboard(home screen) on 11-04-2023*/}
 
         {/* Commented by - Ashish Dewangan on 11-03-2023
             Reason - to Hide logout button from home screen */}
@@ -729,17 +828,16 @@ export default function HomeScreen({ navigation }) {
          </View>
         */}
         {/* End of comment for Hide logout button from home screen on 11-03-2023 */}
-       
       </ScrollView>
       {/* End of modification */}
       {/* End of code comment and modification by Ashish*/}
-       {/* Added by Om on 18-04-23 For showing the footer*/}
-     
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+
       {/* End of addition */}
-     
-    {/* </SafeAreaView> */}
-    <>
-      <Footer />
+
+      {/* </SafeAreaView> */}
+      <>
+        <Footer />
       </>
     </>
   );
@@ -769,9 +867,9 @@ const styles = StyleSheet.create({
   },
   restaurantLable: {
     fontSize: fonts.title1,
-    fontWeight: 'bold',
-    textTransform:'uppercase',
-    marginLeft:18
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    marginLeft: 18,
   },
   restaurantHeadline: {
     fontSize: 15,
@@ -846,7 +944,7 @@ const styles = StyleSheet.create({
     shadowColor: "#171717",
     borderWidth: 1,
     borderRadius: 5,
-    marginBottom:10
+    marginBottom: 10,
   },
   todaysOrderContainerTitle: {
     alignSelf: "center",
@@ -874,7 +972,7 @@ const styles = StyleSheet.create({
   btns: {
     alignSelf: "center",
     fontSize: 3,
-    flexDirection: 'row',
+    flexDirection: "row",
     // paddingTop:40
   },
   // End of modification

@@ -70,6 +70,16 @@ export default function OrderListScreen({ route, navigation }) {
     // And of modification
   };
 
+  // Added by- Suman Sahu on 29-4-2023
+  // Reason - to show time in order list screen
+  function ExtractDateTime(format) {
+    var d = new Date(format);
+    var time = d.toLocaleTimeString();
+
+    return { time };
+  }
+  // End of addition 29-4-2023
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -118,6 +128,13 @@ export default function OrderListScreen({ route, navigation }) {
                   <Text style={styles.tableNo}>
                     Date - {new Date(order.date).toLocaleDateString()}
                   </Text>
+
+                  {/* Added by- Suman Sahu on 29-4-2023
+                      Reason - to show time in order list screen */}
+                  <Text style={styles.tableNo}>
+                    Time - {ExtractDateTime(order.date).time}
+                  </Text>
+                  {/* End of addition 29-04-2023 */}
                 </View>
                 {/* End of designing */}
               </Pressable>
@@ -181,11 +198,11 @@ const styles = StyleSheet.create({
   orderandPaymentStatus: {
     fontSize: 14,
     marginTop: 4,
-    fontWeight:'bold', 
+    fontWeight: "bold",
     flexShrink: 1,
     flexWrap: "wrap",
     width: "100%",
-    fontWeight:'bold' 
+    fontWeight: "bold",
   },
   // End of addition
 });
