@@ -425,7 +425,12 @@ class OrderAdmin(admin.ModelAdmin):
     # End of code addition by Ashish Dewangan on 24-04-2023
 
     # Added by :- Parineeta Gedam on 17-04-2023
-    readonly_fields=['order_id','customer_id','sub_total','pax','dshr','capt','sess','cgst','sgst','total']
+    readonly_fields=['order_id','customer_id','sub_total',
+                    #  Commented by ROhankansari - 29/4/23
+                    # Reason - Not needed yet
+                    #  'pax','dshr','capt','sess'
+                    # End of code- 29/4/23
+                     'cgst','sgst','total']
     # End of added code on 17-04-2023
 
    

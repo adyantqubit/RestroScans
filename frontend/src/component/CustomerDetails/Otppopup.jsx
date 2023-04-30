@@ -79,6 +79,10 @@ const Otppopup = () => {
       e.preventDefault()
       const code = OTP
       console.log(code)
+
+      // Modified by ROhankansari - 29/4/23
+      // Reason - sending error if nothing is entered
+      if(code.length>0){
       window.confirmationResult.confirm(code).then((result) => {
         // User signed in successfully.
         const user = result.user;
@@ -87,7 +91,6 @@ const Otppopup = () => {
         notify("Proceeding Your order.","success")
 
         setTimeout(()=>{
-          setLoading(true)
           SubmitOrder()
         },1500)
        
@@ -98,6 +101,16 @@ const Otppopup = () => {
         // User couldn't sign in (bad verification code?)
         // ...
       });
+    }
+    // If enterted length is 0 then this notification message is shown
+      else
+      {
+        setLoading(false)
+        notify("Please enter OTP","error")
+      }
+
+      // End of code - Rohankansari - 29/4/23
+
     }
 
 
@@ -178,7 +191,7 @@ const Otppopup = () => {
         <img alt="" className={style.verificationImg} src={verificationImg} />
       </div>
       <div className={style.formContainer} style={{ background: colors.subheadingBackgroundColor }}>
-        <div className={style.formTitle}>OTP VERIFICATION</div>
+        <div className={style.formTitle}>OTP Verification</div>
         <div className={style.reasonText}>We will Send you a one time password in Entered mobile number , Enter O.T.P. and confirm your order</div>
 
         <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />

@@ -628,6 +628,9 @@ function MenuItem() {
 
   // End of code - 28/4/23 Rohan Kansari
 
+
+
+
   return (
     <>
       {/* {isLoader == true ? <Loader /> : */}
@@ -639,6 +642,7 @@ function MenuItem() {
             </div>:null}
         {/*End of code - 28/4/23 - Rohan Kansari  */}
       <div className='menu_maindiv'
+      id="menu_maindiv"
         style={{ backgroundColor: colors.backgroundTheme }}
         onLoad={e => {
           //added by rohan -9/4/23 to show header unhide header
@@ -662,7 +666,11 @@ function MenuItem() {
             <Button onClick={showDrawer} style={{ backgroundColor: colors.bannerColor, width: "99%", color: colors.subheadingBackgroundColor }}>
               Menu
             </Button>
-            <Drawer title="Menu" placement="bottom" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
+            <Drawer 
+            // Commented by Rohankansari - 29/4/23
+            // Reason - requirment is to remove name
+            // title="Menu" 
+            placement="bottom" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
               {menuList.map((showMenu, id) => (
                 <div className="drawer_menu_parent_container"
                   onClick={e => {
@@ -699,15 +707,14 @@ function MenuItem() {
           {/* <Draggable cancel=".click">
             {searchVisible ?
               <div className="searchContainer " >
-                <input className="searchInput" />
+                <input className="searchInput click" type="text"/>
                 <div className="click search__cross" >
-                  <AiOutlineClose color="white" size={30} style={{ margin: "10px " }} onClick={e =>{ console.log("search hit"); setSearchVisiblity(false)} } />
+                  <AiOutlineClose color="white" size={30} style={{ margin: "10px " }} onClick={e => { console.log("search hit"); setSearchVisiblity(false) }} />
                 </div>
               </div>
               :
-              <div className="searchContainer">
-              <div className="click search__toggler" onClick={e =>{ console.log("search hit"); setSearchVisiblity(true)} }>
-                </div>
+              <div className="searchContainer" onClick={e => { console.log("search hit"); setSearchVisiblity(true) }}>
+                <div className="search__toggler" />
               </div>
             }
           </Draggable> */}
@@ -820,9 +827,22 @@ function MenuItem() {
                         <div className="container">
                           {/* Added by Rohan kansari - 28/4/23
                               Reason - To add on full screen column upon video */}
-                          <BsBoxArrowUpLeft style={{position:"absolute",zIndex:"9999",color:"white",right:"20px",bottom:"25%",fontSize:"25px"}} onClick={e=>{setVideoVisiblity(true); console.log("the hit")}}/>
+                          {/* <BsBoxArrowUpLeft style={{position:"absolute",zIndex:"9999",color:"white",right:"20px",bottom:"25%",fontSize:"25px"}} onClick={e=>{
+                            var iframe= document.getElementById("iframe")
+                            if (iframe.requestFullscreen) {
+                              iframe.requestFullscreen();
+                            } else if (iframe.webkitRequestFullscreen) {
+                              iframe.webkitRequestFullscreen();
+                            } else if (iframe.mozRequestFullScreen) {
+                              iframe.mozRequestFullScreen();
+                            } else if (iframe.msRequestFullscreen) {
+                              iframe.msRequestFullscreen();
+                            
+                            }
+
+                          }}/> */}
                           {/* End of code - ROhan kansari - 28/4/23 */}
-                          <iframe className="responsive-iframe" width="100%" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" />
+                          <iframe width="100%" height="100%"  src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
                         </div>
                     }
 
@@ -1575,7 +1595,6 @@ function MenuItem() {
                     // {categoryList.map((data) => (
                     <div className="allcategory_menu_div">
                       <span className="allcategory_container"
-                        style={{}}
                       >
                         {/* <img style={{ border: '1px solid black' }}
                       src={siteConfig.siteURL + data.icon}
@@ -1929,7 +1948,7 @@ function MenuItem() {
       </>
       {/* End of addition */}
 
-      <div className="inlandscapemode" style={{ color: colors.subHeadingColor }}>
+      <div className="inlandscapemode" id="landscape" style={{ color: colors.subHeadingColor }}>
         <img src={landscapeMode} style={{ height: '80vh' }} alt="" className="landscapimg" />
       </div>
 

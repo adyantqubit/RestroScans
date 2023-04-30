@@ -474,10 +474,13 @@ class Order(models.Model):
     # tax = models.FloatField(default=0)
     cgst=models.FloatField(default=0.0)
     sgst=models.FloatField(default=0.0)
-    pax=models.IntegerField(default=0)
-    sess=models.IntegerField(default=1)
-    dshr=models.CharField(max_length=100,null=True,blank=True)
-    capt=models.CharField(max_length=100,null=True,blank=True)
+    # Commented by ROhan Kansari - 29/4/23
+    # Reason - Not needed yet 
+    # pax=models.IntegerField(default=0)
+    # sess=models.IntegerField(default=1)
+    # dshr=models.CharField(max_length=100,null=True,blank=True)
+    # capt=models.CharField(max_length=100,null=True,blank=True)
+    # end of commeting - 29/4/23
     # end of code 14/4/23
     order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="Placed")
     payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")

@@ -55,8 +55,11 @@ function Footer() {
 
          {/* Commented by rohan - 15/4/23
             Reason - To remove two columns and shown in into only one line */}
-        <div className='powered_text'>
-          <a className='anchor_container' href="https://adyant.co.in/" target='_blank'>Adyant Powered © 2023</a>
+
+          {/*   Added  by ROhankansari - 29/4/23 
+                Reason- To adding footer color and styling  */}
+        <div className='powered_text' style={{background:colors.bannerColor}}>
+          <a className='anchor_container' style={{color:colors.backgroundTheme}} href="https://adyant.co.in/" target='_blank'>Adyant Powered © 2023</a>
         </div>
         {restaurantDescription.length > 0 ? 
         restaurantDescription.map((showdata) => (<marquee
@@ -66,7 +69,7 @@ function Footer() {
         >
           {showdata.content}
         </marquee>)):null}
-      {/* end of code */}
+      {/* end of code- ROhankanari - 29/4/23 */}
       </div>
     </div>
   )

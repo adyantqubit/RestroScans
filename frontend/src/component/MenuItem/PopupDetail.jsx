@@ -77,7 +77,8 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 // item with entered quantity
                 cartTemp = [...cartTemp, cartDataCreate(quantityFull, "Full Plate", item.discounted_full_price)]
                 setCart([...cartTemp])
-                notify("Successfully added to your list")
+                // Chnages by - ROhan kansari - 29/4/23
+                notify("Successfully added to your cart")
 
             }
         }

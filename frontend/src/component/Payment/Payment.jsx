@@ -77,9 +77,12 @@ export default function Payment() {
     if (document.getElementById("Scanner").checked) {
       showModal();
     }
-    if (document.getElementById("Card").checked) {
-      ordernow("Card");
-    }
+    // Commented by ROhan kansari - 29/4/23
+    // Reason - because card option not needed any more
+    // if (document.getElementById("Card").checked) {
+    //   ordernow("Card");
+    // }
+    // End of code - ROhankansari - 29/4/23
   }
   // End of added code 10-04-2023
 

@@ -82,20 +82,24 @@ const Billing = () => {
                 <div className={style.column1}> <div className={style.label}>Table  </div><div className={style.text}>{billingData.detail.table_number ? billingData.detail.table_number : 'N/A'}</div></div>
                    {/* ENd of code - Rohan - 24/4/23 */}
                 </div>
-                <div className={style.inLineContainer}>
+                {/* <div className={style.inLineContainer}> */}
                       {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}
-                <div className={style.column1}>  <div className={style.label}>Pax  </div><div className={style.text}>{billingData.detail.pax}</div></div>
-                <div className={style.column1}><div className={style.label}>Sess  </div><div className={style.text}>{billingData.detail.sess}</div></div>
+                         {/*Modified by Rohankansari- 29/4/23
+                        Reason - requirements is to hide pax sess    */}
+                {/* <div className={style.column1}>  <div className={style.label}>Pax  </div><div className={style.text}>{billingData.detail.pax}</div></div>
+                <div className={style.column1}><div className={style.label}>Sess  </div><div className={style.text}>{billingData.detail.sess}</div></div> */}
                      {/* ENd of code - Rohan - 24/4/23 */}
-                </div>
-                <div className={style.inLineContainer}>
+                {/* </div> */}
+                {/* <div className={style.inLineContainer}> */}
                      {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}
-                <div className={style.column1}> <div className={style.label}>Dshr  </div><div className={style.text}>{billingData.detail.dshr&&billingData.detail.dshr.length?billingData.detail.dshr:`N/A`}</div></div>
-                <div className={style.column1}> <div className={style.label}>Capt  </div><div className={style.text}>{billingData.detail.capt&&billingData.detail.capt.length?billingData.detail.capt:`N/A`}</div></div>
+                        {/*Modified by Rohankansari- 29/4/23
+                        Reason - requirements is to hide pax sess    */}
+                {/* <div className={style.column1}> <div className={style.label}>Dshr  </div><div className={style.text}>{billingData.detail.dshr&&billingData.detail.dshr.length?billingData.detail.dshr:`N/A`}</div></div>
+                <div className={style.column1}> <div className={style.label}>Capt  </div><div className={style.text}>{billingData.detail.capt&&billingData.detail.capt.length?billingData.detail.capt:`N/A`}</div></div> */}
                 {/* ENd of code - Rohan - 24/4/23 */}
-                </div>
+                {/* </div> */}
                 <div className={style.inLineContainer}>
                     {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}

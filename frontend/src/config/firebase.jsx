@@ -3,7 +3,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCS76-CpDJ9flZMfA_DkTzxMDM7JHHQf8M",
+  apiKey: "AIzaSyCtteMG6cG1sriiusPycnPaYk0lx7wedaw",
   authDomain: "react-test-6f575.firebaseapp.com",
   databaseURL: "https://react-test-6f575-default-rtdb.firebaseio.com",
   projectId: "react-test-6f575",
@@ -12,6 +12,7 @@ const firebaseConfig = {
   appId: "1:838797620744:web:fe35139e88e9a8ad5583bd",
   measurementId: "G-H37PMXYQ5X"
 };
+
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   var auth = firebase.auth();
