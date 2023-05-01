@@ -3,15 +3,16 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { postFCMToken } from './api/Services';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA0HOWr-ja4GbWdl4dZovKCZC1dYQLFK2I",
+  apiKey: "AIzaSyAIcy2oKuVW11_0gmv-6mYnCsQCwiop6Qg",
   authDomain: "firstfcmmessagingproject.firebaseapp.com",
   projectId: "firstfcmmessagingproject",
   storageBucket: "firstfcmmessagingproject.appspot.com",
   messagingSenderId: "553700732551",
   appId: "1:553700732551:web:9474e08234630043a9d222",
-  measurementId: "G-S8QY4EZYBE",
+  measurementId: "G-S8QY4EZYBE"
 };
 
 /**
@@ -26,7 +27,8 @@ export {firebase,auth}
 
 
 /**
- * Om
+ * Added by - Om Shrivastava on 30-04-2023
+ * Reason - To connect FCM for push notificaiton.
  */
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging();
@@ -38,6 +40,7 @@ export const getFCMToken = () => {
     .then(function (currentToken) {
       console.log("Got current token-----", currentToken);
       if (currentToken) {
+        localStorage.setItem('fcmToken',currentToken)
         sendTokenToServer(currentToken);
       } else {
         console.log(
@@ -57,23 +60,17 @@ onMessage(function (payload) {
   console.log("Message received. ", payload);
 });
 
-function sendTokenToServer(currentToken) {
+
+const sendTokenToServer=async (currentToken)=> {
+
   if (!isTokenSentToServer()) {
     console.log("Sending token to server...");
-    // TODO(developer): Send the current token to your server.
-    fetch("http://192.168.1.9:8000/api/v1/ashoka/store-fcm-token/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        registration_id: currentToken,
-        type: "web",
-      }),
-      credentials: "include",
-    }).then(function (response) {
-      console.log(response);
-    });
+    var tenant=localStorage.getItem("tenantName")
+    var data={
+      registration_id:currentToken,
+      type:"web",
+    }
+    const response = await postFCMToken(data,tenant)
     setTokenSentToServer(true);
   } else {
     console.log(
@@ -82,6 +79,7 @@ function sendTokenToServer(currentToken) {
     );
   }
 }
+
 
 function isTokenSentToServer() {
   if (window.localStorage.getItem("sentToServer") == 1) {
@@ -99,5 +97,5 @@ function setTokenSentToServer(sent) {
 }
 
 /**
- * Om
+ * End of code addition by Om Shrivastava for FCM push notification on 30-04-2023
  */

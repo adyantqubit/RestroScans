@@ -652,6 +652,15 @@ def responseDataCreation(order, orderItems, cutomer):
 
 class PostCustomerDetailsAPIView(APIView):
     def post(self, request, tenant):
+        # Added by - Ashish Dewangan on 30-04-2023
+        # Reason - To save phone number on FcmNotification table 
+        try:
+            fcmNotification=FcmNotification.objects.get(registration_id=request.data["fcmToken"])
+            fcmNotification.phone_number=request.data["contact_number"]
+            fcmNotification.save()
+        except Exception as e:
+            print("No token provided. Continue the flow")
+        # End of code addition by Ashish Dewangan for phone number save to FcmNotification on 30-04-2023
 
         # try :
         try:
@@ -795,7 +804,7 @@ class updateRatingAndReviewAPIView(APIView):
 class updateOrdersAPIView(APIView):
 
     def put(self, request, tenant):
-
+        
         orderId = Order.objects.get(order_id=request.data['orders'])
 
         orderItem = orderItemsCreation(request, orderId)
@@ -1293,17 +1302,33 @@ class UpdateOrderPaymentStatus(APIView):
 # Reason - To create FCM notification API
 class FcmNotificationAPI(APIView):
     def post(self, request, tenant):
-        try:
-            oldToken=FcmNotification.objects.get(registration_id=request.data["registration_id"])
-            oldToken.delete()
-        except Exception as e:
-            print(e)
+        # Commented and modified by - Ashish Dewangan on 28-04-2023
+        # Reason - No need to delete old token because refresh token is not coming
+        # try:
+        #     oldToken=FcmNotification.objects.get(registration_id=request.data["registration_id"])
+        #     oldToken.delete()
+        # except Exception as e:
+        #     print(e)
 
-        serializedData=FcmNotificationSerializer(data=request.data,partial=True)
+        #     serializedData=FcmNotificationSerializer(data=request.data,partial=True)
+        # try:
+        #     if serializedData.is_valid(raise_exception=True):
+        #         serializedData.save()
+        #         return Response("token saved",200)
+        # except Exception as e:
+        #     return Response("some problem occured",200)
+            
         try:
-            if serializedData.is_valid(raise_exception=True):
-                serializedData.save()
-                return Response("token saved",200)
+            #If token already exists the pass
+            oldToken=FcmNotification.objects.get(registration_id=request.data["registration_id"])
+            return Response("No need to create new token",200)
         except Exception as e:
-            return Response("some problem occured",200)
+            serializedData=FcmNotificationSerializer(data=request.data,partial=True)
+            try:
+                if serializedData.is_valid(raise_exception=True):
+                    serializedData.save()
+                    return Response("token saved",200)
+            except Exception as e:
+                return Response("some problem occured",200)
+        # End of code modification by Ashish Dewangan on 30-04-2023    
 # End of Code addition by Ashish Dewanan on 28-04-2023

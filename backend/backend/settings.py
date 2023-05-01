@@ -299,7 +299,7 @@ FILE_UPLOAD_HANDLERS = [
 # Added by - Ashish Dewangan on 28-04-2023
 # Reason - To have firebase push notification functionality
 FCM_DJANGO_SETTINGS = {
-    "FCM_SERVER_KEY":"AAAAw0w79gg:APA91bGVfwOYhSYySYNwnrlk6mg_LnjKHSsCwIC9KM_f8nQhLC-i1-pn5Weo7C2xvKIMJP9jSXM1PdUA-kZUPaHLDsc_Qju2w3euxDo5T4XKbKxetPkLy33O97LnrYqf1R3qEiek3vLQ",
+    "FCM_SERVER_KEY":"AAAAgOsiroc:APA91bE1B1_2U5YThv_olkTP_b8zvbgLq8dOfjHnkf1Qh9UjKk7DTmMVkYeIaGcCm57AEMIRBPYZGHZgA_CMRyDXSlnHR7mhyVKz-Qn3diaUJNE41CVx7cVFIk7tF1aC1KxswhU0lhCz",
 }
 cred = credentials.Certificate(os.path.join(BASE_DIR, 'backend/credentials.json'))
 initialize_app(cred)

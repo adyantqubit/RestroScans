@@ -60,6 +60,12 @@ export const getThemeChanges = async (tenantId) => {
 // Date :- 06-04-2023
 // Reason :- Post API for customer details and orders.
 export const postCustomerDetails = async(formdata,tenantId) => {
+//Added by - Ashish Dewangan on 30-04-2023
+//Reason - To send Fcm token to backend
+  var fcmToken=localStorage.getItem("fcmToken")
+  if(fcmToken)
+    formdata["fcmToken"]=fcmToken
+//End of code addition
   const response = await API.post(`/${tenantId}/customer-details/`,formdata,
   {headers : {'Content-Type':'application/json'}}).catch(
       err => console.log(err))
@@ -71,6 +77,12 @@ export const postCustomerDetails = async(formdata,tenantId) => {
 // Date :- 09-04-2023
 // Reason :- update the order items when user again add the items in cart
 export const updateOrdersApi = async(tenantId,cartData) => {
+//Added by - Ashish Dewangan on 30-04-2023
+//Reason - To send Fcm token to backend
+  var fcmToken=localStorage.getItem("fcmToken")
+  if(fcmToken)
+    cartData["fcmToken"]=fcmToken
+//End of code addition
   const response = await API.put(`/${tenantId}/update-orders/`,cartData,
   {headers : {'Content-Type':'application/json'}}).catch(
       err => console.log(err))
@@ -145,3 +157,17 @@ export const getBestProducts=async()=>{
   return response ? response.data: {}
 }
 // end of code -rohan-13/4/23
+
+/**
+ * Added by - Ashish Dewangan on 30-04-2023
+ * Reason - To send FCM token to backend 
+ */
+export const postFCMToken = async(data,tenantId) => {
+  const response = await API.post(`/${tenantId}/store-fcm-token/`,data,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+/**
+ * End of code addition by Ashish Dewangan of FCM token on 30-04-2023
+ */

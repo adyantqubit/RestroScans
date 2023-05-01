@@ -31,6 +31,10 @@ function App() {
   // Reason : Connectivity with backend to firebase than UI
   useEffect(()=>{
     localStorage.removeItem("sentToServer")
+    // Added by - Ashish Dewangan on 30-04-2023
+    //Reason - To delete old token from localstorage when user reloads the page
+    localStorage.removeItem("fcmToken")
+    //End of code addition by Ashish dewanan on 30-04-2023
     if (Notification.permission === 'granted') {
       getFCMToken()
     }else{
@@ -57,7 +61,7 @@ function App() {
     
         style={{ background: colors.backgroundTheme }}
       >
-
+          
         {/* Added by :- Parineeta Gedam 21-04-2023
         Reason :- Apply global color 
      */}
