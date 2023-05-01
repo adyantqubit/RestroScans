@@ -28,6 +28,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PrintQRScreen from "../screens/PrintQRScreen";
+import CustomerListScreen from "../screens/customer/CustomerListScreen";
+import { FontAwesome } from '@expo/vector-icons';
+
 
 export default function DrawerNavigation({ navigation }) {
   // Navigation added by Om on 18-04-23 , This helps to navigate the after logout screen is change
@@ -279,6 +282,21 @@ export default function DrawerNavigation({ navigation }) {
       />
       {/* End of navigation */}
       {/* End of addition */}
+
+      {/* Added by Yuvraj Sahu on 01-05-2023
+      Reason - to show customer list navigation */}
+      <Drawer.Screen
+        name="CustomerListScreen"
+        component={CustomerListScreen}
+        options={{
+          drawerLabel: "All Customers",
+          title: "All Customers",
+          drawerIcon: (config) => (
+            <FontAwesome name="users" size={20} color="black" />
+          ),
+        }}
+      />
+      {/* End of addition by Yuvraj Sahu on 01-05-2023 */}
 
       {/* Added by Om on 26-04-23
       Reason : Add new tab for QR code */}

@@ -140,4 +140,9 @@ urlpatterns = [
     path('<str:tenant>/store-fcm-token/',FcmNotificationAPI.as_view()),
     # End of code addition by Ashish Dewangan on 28-04-2023
 
+    # Added by Yuvraj Sahu on 01-05-23
+    # Reason : get all customer list. This is access for restaurant
+    path('<str:tenant>/all-customers/',getCustomerList.as_view()),
+    # End of addition
+
 ]   

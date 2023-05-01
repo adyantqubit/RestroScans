@@ -106,8 +106,8 @@ export default function CategoryListScreen({ route, navigation }) {
   var [isFileSizeError, setFileSizeError] = useState(false);
   const isFocused = useIsFocused();
   useEffect(() => {
-  	// Added by Yuvraj Sahu on 30-42023
-  	// Reason - to replace entered value into saved value
+    // Added by Yuvraj Sahu on 30-42023
+    // Reason - to replace entered value into saved value
     setSelectedMenu({ name: "" });
     setImage(null);
     // End of addition
@@ -652,7 +652,7 @@ export default function CategoryListScreen({ route, navigation }) {
                 <Text>No category Available</Text>
               </View>
             )}
-			{/* End of addition */}
+            {/* End of addition */}
           </View>
         </View>
       </ScrollView>
@@ -692,6 +692,10 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to design validation msg
+    marginTop: -10,
+    // End of addition of yuvraj - 01-05-2023
   },
   dropdownText: {
     fontSize: 14,

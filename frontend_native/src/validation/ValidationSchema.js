@@ -254,6 +254,9 @@ export const addOfferSchema = yup.object().shape({
       500,
       ({ max }) => `Video link should no be more than ${max} characters`
     ),
+  discount: yup
+    .number()
+    .max(100, ({ max }) => `Discount should not be more than ${max}`),
 });
 // End of addition
 

@@ -1283,7 +1283,10 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    // changed by Yuvraj Sahu on 01-05-2023
+    // Reason - to design textbox and lable
+    marginTop: 3,
+    // End of designing by Yuvraj - 01-05-2023
     fontSize: 16,
     borderRadius: 10,
   },

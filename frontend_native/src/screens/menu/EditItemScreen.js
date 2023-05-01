@@ -263,6 +263,15 @@ export default function EditItemScreen({ route, navigation }) {
   const isFocused = useIsFocused();
   var [categoryValue, setCategoryValue] = useState([]);
   useEffect(() => {
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to refresh default value when we go back
+    setSelectedItemValue({
+      name: "",
+      price_full: "",
+      price_half: "",
+      description: "",
+    });
+    // End of addition by Yuvraj on 01-05-2023
     getAllMenus();
   }, [isFocused]);
   var [categoryDatas, setCategoryDatas] = useState([]);
@@ -649,12 +658,7 @@ export default function EditItemScreen({ route, navigation }) {
           {/* ------------------------------- Formik 24-4-2023 ------------------------------  */}
           <Formik
             enableReinitialize={true}
-            initialValues={{
-              name: selectedItemValue.name,
-              price_full: selectedItemValue.price_full,
-              price_half: selectedItemValue.price_half,
-              description: selectedItemValue.description,
-            }}
+            initialValues={selectedItemValue}
             validateOnMount={true}
             validationSchema={addItemSchema}
             onSubmit={handleRegister}
@@ -1062,6 +1066,10 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to design validation msg
+    marginTop: -10,
+    // End of addition of yuvraj - 01-05-2023
   },
   dropdownText: {
     fontSize: 14,

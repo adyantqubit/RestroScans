@@ -1332,3 +1332,20 @@ class FcmNotificationAPI(APIView):
                 return Response("some problem occured",200)
         # End of code modification by Ashish Dewangan on 30-04-2023    
 # End of Code addition by Ashish Dewanan on 28-04-2023
+
+
+"""
+This method is created for getting 
+all customers for mobile app
+"""
+# Added by Yuvraj Sahu on 01-05-2023
+# Reason - to get all customers
+class getCustomerList(APIView):
+    def get(self,request,tenant):
+        allCustomers = CustomerDetail.objects.all().order_by("-id")
+        ordersSerializer=CustomerDetailSerializer(allCustomers, many=True)
+        return Response ({"msg":"success", "allCustomers": ordersSerializer.data})
+# End of getting customer list
+"""
+End of getting all customers
+"""

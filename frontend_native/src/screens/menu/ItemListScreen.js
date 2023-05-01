@@ -699,6 +699,10 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to design validation msg
+    marginTop: -10,
+    // End of addition of yuvraj - 01-05-2023
   },
   // End form style
   categoryContainer: {

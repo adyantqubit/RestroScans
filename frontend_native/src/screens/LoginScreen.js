@@ -392,6 +392,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 10,
     backgroundColor: "white",
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to decrease gap lable and text box and validation
+    marginTop: 5,
+    // marginBottom: 2,
+    // End of addition of yuvraj on 01-05-2023
   },
   passContainer: {
     flexDirection: "row",
@@ -401,6 +406,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     backgroundColor: "white",
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to decrease gap lable and text box and validation
+    marginTop: 5,
+    // End of addition of yuvraj on 01-05-2023
   },
   inputPassword: {
     // paddingTop: 10,
@@ -421,6 +430,7 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    marginTop: -10
   },
   registerBtn: {
     width: "95%",
