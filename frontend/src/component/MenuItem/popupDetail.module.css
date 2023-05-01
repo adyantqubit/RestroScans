@@ -131,14 +131,18 @@
 }
 
 .sign{
-    min-width: 20px;
-    min-height: 15px;
-    background-color: transparent;
-    margin: 0 3px;
+    /* Added by - Rohan kansari - 30/4/23
+       Reason - To align minus plus sign properly */
+    align-self: center;
+    min-width: 10px;
+    /* min-height: 15px; */
+    height: 2px;
+    background-color: black;
+    margin: 0 10px;
     border-radius: 5px;
-    text-align: center;
-    padding: 0px 5px;
-    font-size: 20px;
+    /* text-align: center; */
+    padding: 0px 0px;
+    /* font-size: 20px; */
     font-weight: 600;
 }
 
@@ -260,14 +264,19 @@
 }
 
 .sign{
-    min-width: 20px;
-    min-height: 15px;
-    background-color: transparent;
-    margin: 0 3px;
+
+    /* Added by - Rohan kansari - 30/4/23
+       Reason - To align minus plus sign properly */
+    align-self: center;
+    min-width: 10px;
+    /* min-height: 15px; */
+    height: 1px;
+    background-color: black;
+    margin: 0 10px;
     border-radius: 5px;
-    text-align: center;
+    /* text-align: center; */
     padding: 0px 0px;
-    font-size: 20px;
+    /* font-size: 20px; */
     font-weight: 600;
 }
 
@@ -280,7 +289,7 @@
     text-align: center;
     padding: 0px 0px;
     font-size: 20px;
-    font-weight: 600;
+    font-weight:bolder;
 }
 
 .quantityText{

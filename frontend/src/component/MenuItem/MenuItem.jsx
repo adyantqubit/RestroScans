@@ -629,7 +629,17 @@ function MenuItem() {
   // End of code - 28/4/23 Rohan Kansari
 
 
-
+  // Added by ROhanakansari - 30/4/23
+  // Reason- TO stop youtube video on prev and next button click of slider
+  var stopAllYouTubeVideos = () => { 
+    var iframes = document.getElementsByClassName('iframe');
+    for (var i=0;i<iframes.length;i++){
+      var temp=iframes[i].src
+      iframes[i].src=temp
+    }  
+  }
+  
+  // End of code- ROhankansari 
 
   return (
     <>
@@ -722,7 +732,7 @@ function MenuItem() {
 
           <h2 style={{ color: colors.headingColor }}
             // className="restaurant_name"
-            className={restaurant_name.length > 9 ? 'hotel_name' : 'restaurant_fontsize'}>
+            className={restaurant_name.length > 14 ? 'hotel_name' : 'restaurant_fontsize'}>
             {restaurant_name.toUpperCase()}
           </h2>
 
@@ -769,6 +779,7 @@ function MenuItem() {
               pagination={{
                 clickable: true,
               }}
+
               // autoplay={{
               //   delay: 2500,
               //   disableOnInteraction: false,
@@ -778,6 +789,10 @@ function MenuItem() {
               modules={[Navigation, Pagination, Autoplay]}
               // , Mousewheel, Keyboard]}
               className="mySwiper"
+
+              onNavigationPrev={e=>{stopAllYouTubeVideos()}}
+              onNavigationNext={e=>{stopAllYouTubeVideos()}}
+              
             >
 
               {offerBanner.map((item, id) => (
@@ -842,7 +857,7 @@ function MenuItem() {
 
                           }}/> */}
                           {/* End of code - ROhan kansari - 28/4/23 */}
-                          <iframe width="100%" height="100%"  src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
+                          <iframe width="100%" height="100%" className="iframe" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
                         </div>
                     }
 
@@ -869,10 +884,10 @@ function MenuItem() {
         {/* Commented by Rohan kansari - 27/4/23
     Reason- To shift this feature in top header  */}
 
-        {/* <div id="hide_search"
+        <div id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
-          style={{ background: colors.backgroundTheme }}
-        > */}
+          style={{ background: "transparent"}}
+        >
 
         {/* Added by :- Parineeta Gedam
               Date :- 03-04-2023
@@ -918,7 +933,7 @@ function MenuItem() {
 
         {/* End of added code 03-0-2023 */}
 
-        {/* <div className='searchpage_input'> */}
+        <div className='searchpage_input'>
         {/* <Input.Group >
               <Search size='large' 
                 // value={search}
@@ -927,15 +942,15 @@ function MenuItem() {
             </Input.Group> */}
         {/* Added by rohan-16/4/23
                 Reason- designing new search ui */}
-        {/* <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
+        <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
                 <input className="inputBoxSearch" type="text" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
-              : null} */}
+              : null}
         {/*End of Code */}
-        {/* </div> */}
+        </div>
         {/* Added by Rohan- 9/4/23  Reason- cart page */}
         {/*added by rohan -18/4/23- to add functionality of subscription */}
         {/* {subscribePlan?.includes("order") ?
@@ -946,7 +961,7 @@ function MenuItem() {
               </Link>
             </div> : null} */}
         {/* end of code  */}
-        {/* </div> */}
+        </div>
 
         {/* End of commenting - 27/4/23 - Rohan Kansari */}
 

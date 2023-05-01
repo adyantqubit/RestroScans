@@ -401,14 +401,18 @@ Reason- Register Order table.
 class OrderAdmin(admin.ModelAdmin):
 
     # updated by rohan - 14/4/23 to show cgst and sgt in columns not tax so removing tax field
-    list_display = ['id','order_items','order_id','customer_id', 'table_number', 'sub_total',
+    # Mofified by ROhankansari - 30/4/23
+    # Reason - TO show number instead of name if not entered
+    list_display = ['id','order_items','order_id','get_customer', 'table_number', 'sub_total',
                     # 'tax',
                     'total','order_status','payment_status','date']
     # end of code
 
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
-    list_display_links=('id','order_id','customer_id', 'table_number', 'sub_total',
+    # Mofified by ROhankansari - 30/4/23
+    # Reason - TO show number instead of name if not entered
+    list_display_links=('id','order_id','get_customer', 'table_number', 'sub_total',
                     'total','order_status','payment_status','date')
     # End of code addition
 
@@ -417,6 +421,16 @@ class OrderAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         self.request = request      
         return super().get_queryset(request)
+    
+    # Created by ROhankansari - 30/4/23
+    # Reason - TO show number if name is not entered
+    def get_customer(self, obj):
+        if len(obj.customer_id.name)>0:
+            return obj.customer_id.name
+        else:
+            return obj.customer_id.contact_number
+        # End of code - ROhan kansari - 30/4/23
+        
     def order_items(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
@@ -460,6 +474,7 @@ class OrderAdmin(admin.ModelAdmin):
         form.base_fields['order_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_mode'].widget.attrs['style'] = 'width: 15em;'
+
         # Commented by - Ashish Dewangan on 24-04-2023
         # reason - not used anymore
         # form.base_fields['dshr'].widget.attrs['style'] = 'width: 15em;'

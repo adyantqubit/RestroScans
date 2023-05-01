@@ -69,7 +69,9 @@ function App() {
         <div className="heading_container" id="header" style={{position:"sticky",top:"0",zIndex:"99",background:colors.backgroundTheme}} >
           <h2 style={{ color: colors.headingColor }}
             // className="restaurant_name"
-            className={restaurant_name.length > 9 ? 'restaurant_name' : 'restaurant_fontsize'}>
+            // Modified by Rohankansari - 30/4/23
+            // Reason - To arrange font according to length
+            className={restaurant_name.length > 14 ? 'restaurant_name' : 'restaurant_fontsize'}>
             {restaurant_name.toUpperCase()}
           </h2>
 

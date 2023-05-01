@@ -158,7 +158,7 @@ const Cart = () => {
 
                 <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
                   <div className={style.sign} onClick={e => decreaseQuantity(item)}>
-                    -
+                    
                   </div>
                   <div className={style.quantityText}>{item.quantity}</div>
                   <div className={style.signPlus} onClick={e => { setDetailPopupVisiblity(true); setSelectedItem(item) }}>
@@ -322,7 +322,9 @@ function BlankPage() {
           No item is added currently !
         </div>
         <div className={style.blankBtnContainer} >
-          <button className={style.blankBtn} style={{ color: colors.backgroundTheme, background: colors.bannerColor }} onClick={e => nav(-1)}>Browse Menu</button>
+        {/* Added by Rohan - 30/4/23
+            Reason - To change backbutton functionality */}
+          <button className={style.blankBtn} style={{ color: colors.backgroundTheme, background: colors.bannerColor }} onClick={e => nav("/menu-item")}>Browse Menu</button>
         </div>
       </div>
     </>

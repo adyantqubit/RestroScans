@@ -299,7 +299,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>
                                         <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
                                             <span className={style.sign} onClick={e => { decreamentQuantiy("Full Plate") }}>
-                                                -
+                                                
                                             </span>
                                             <div className={style.quantityText}>{quantityFull}</div>
                                             <span className={style.signPlus} onClick={e => { setQuantityFull(++quantityFull) }}>
@@ -332,7 +332,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>
                                         <span className={style.quantityContainer} style={{ color: colors.subHeadingColor }}>
                                             <span className={style.sign} onClick={e => { decreamentQuantiy("Half Plate") }}>
-                                                -
+                                            
                                             </span>
                                             <div className={style.quantityText}>{quantityhalf}</div>
                                             <span className={style.signPlus} onClick={e => { setQuantityHalf(++quantityhalf) }}>
