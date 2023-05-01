@@ -28,8 +28,18 @@ import { AppStateContext } from "../../context/AppStateProvider";
 import { Formik } from "formik";
 import Checkbox from "expo-checkbox";
 import { addOfferSchema } from "../../validation/ValidationSchema";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function AddOfferScreen() {
+  /**
+   * Added by Yuvraj Sahu on 30-4-2023
+   * Reason - to re render the screen
+   */
+  const isFocused = useIsFocused();
+  /**
+   * End of addition
+   */
+
   var [isDisable, setIsDisable] = useState(false);
 
   const [tempPhoto, setTempPhoto] = useState(null);
@@ -71,9 +81,17 @@ export default function AddOfferScreen() {
     }
   };
 
+  /**
+   * Added by Yuvraj Sahu on 30-4-2023
+   * Reason - to re render the screen
+   */
   useEffect(() => {
+    setImage(null);
     getTenant();
-  }, []);
+  }, [isFocused]);
+  /**
+   * End of modification
+   */
 
   // Need to set the tenant name
   var [tenant, setTenant] = useState("");

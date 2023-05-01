@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -78,15 +78,24 @@ export default function AddItemScreen() {
   // });
   // End of removal
 
-  React.useEffect(() => {
-    // getMenus();
-    getTenant();
-  }, []);
+  // Added and Commented by Yuvraj Sahu on 30-4-2023
+  // Reason to reset the dropdown
+  const categoryDropdownRef = useRef({});
+  const itemTypeDropdownRef = useRef({});
+
+  //Commented by Yuvraj Sahu on 30-4-2023
+  // Reason - to using extra code
+  // React.useEffect(() => {
+  //   // getMenus();
+  //   getTenant();
+  // }, []);
 
   const isFocused = useIsFocused();
   useEffect(() => {
     getMenus();
+    getTenant();
   }, [isFocused]);
+  // End of addition
   // End of show menu list
 
   const getMenus = async () => {
@@ -280,6 +289,12 @@ export default function AddItemScreen() {
           setItemActive(false);
           setBestSeller(false);
           setItemName("");
+          // Added by Yuvraj Sahu on 30-4-2023
+          // Reason - to clear dropdown when save data
+          categoryDropdownRef.current.reset();
+          itemTypeDropdownRef.current.selectIndex(0);
+          setItemTypeSelected("Other");
+          // End of addition
         } else if (res.error) {
           setSaveBtnDisable(false);
           // Alert.alert(res.error);
@@ -625,6 +640,10 @@ export default function AddItemScreen() {
                 </Text>
                 <SelectDropdown
                   data={categories}
+                  // Added by Yuvraj Sahu on 30-4-2023
+                  // Reason - to clear dropdown when save data
+                  ref={categoryDropdownRef}
+                  // End of addition
                   dropdownOverlayColor="rgba(0,0,0,0)"
                   buttonTextStyle={{ fontSize: 16 }}
                   rowTextStyle={{ fontSize: 16 }}
@@ -696,10 +715,14 @@ export default function AddItemScreen() {
                   <Text style={{ color: "red" }}>*</Text>Select Item Type
                 </Text>
                 <SelectDropdown
-                // Added by Yuvraj Sahu on 28-4-2023
-                // Reason - to set default value
+                  // Added by Yuvraj Sahu on 28-4-2023
+                  // Reason - to set default value
                   defaultValue={itemtypes[0]}
-                  // End of addition 
+                  // End of addition
+                  // Added by Yuvraj Sahu on 30-4-2023
+                  // Reason - to clear dropdown when save data
+                  ref={itemTypeDropdownRef}
+                  // End of addition
                   data={itemtypes}
                   dropdownOverlayColor="rgba(0,0,0,0)"
                   buttonTextStyle={{ fontSize: 16 }}

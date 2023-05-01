@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -58,9 +58,16 @@ export default function AddCategoryScreen() {
 
   var { render, setRender } = useContext(AppStateContext);
 
+  // Added by Yuvraj Sahu on 30-4-2023
+  // Reason to reset the dropdown
+  const menuDropdownRef = useRef({});
+  // End of addition
+
   // Added by Yuvraj Sahu on 14-4-2023
   // Reason - to re render the screen
-  useEffect(() => {}, [render]);
+  // Commented by Yuvraj Sahu on 30-2-2023
+  // Reason - to remove that line because it is managing throw isfocuse
+  // useEffect(() => {}, [render]);
   // end of addition
 
   useEffect(() => {
@@ -223,6 +230,10 @@ export default function AddCategoryScreen() {
           setFileSizeError(false);
           setCatgeoryActive(false);
           setCategoryName("");
+          // Added by Yuvraj Sahu on 30-4-2023
+          // Reason - to clear dropdown when save data
+          menuDropdownRef.current.reset();
+          // End of addition
         } else if (res.error) {
           setSaveBtnDisable(false);
           // Alert.alert(res.error);
@@ -433,6 +444,10 @@ export default function AddCategoryScreen() {
                 </Text>
                 <SelectDropdown
                   data={data}
+                  // Added by Yuvraj Sahu on 30-4-2023
+                  // Reason - to clear dropdown when save data
+                  ref={menuDropdownRef}
+                  // End of addition
                   dropdownOverlayColor="rgba(0,0,0,0)"
                   buttonTextStyle={{ fontSize: 16 }}
                   rowTextStyle={{ fontSize: 16 }}

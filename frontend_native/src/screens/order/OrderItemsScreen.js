@@ -1039,8 +1039,8 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginHorizontal: 10,
     marginTop: 15,
-
-    // End of modification 30/04/2023  },
+  },
+    // End of modification 30/04/2023
   // End of addition
   // Added by Yuvraj Sahu on 17-4-2023
   // Reason - to design table

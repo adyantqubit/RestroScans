@@ -246,8 +246,13 @@ class Offer(models.Model):
     # Max Length changes by Om on 22-04-23
     # Offer name is not mandatory according to testing team, changes by Om on 22-04-23
     offer_name=models.CharField(max_length=40, verbose_name="Banner/Offer name") 
-    discount = models.IntegerField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    # Commented and modified by Yuvraj Sahu on 30-4-2023
+    # Reason - to save decimal value in discount
+    # discount = models.IntegerField(validators=[MinValueValidator(0),
+    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    discount = models.DecimalField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
+    # End of modification
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image
     offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image])

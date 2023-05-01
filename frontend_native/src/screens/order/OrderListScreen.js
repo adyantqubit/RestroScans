@@ -105,10 +105,10 @@ export default function OrderListScreen({ route, navigation }) {
                 >
                   <Text style={styles.customerName}>{order.customer_name}</Text>
                   <Text style={styles.tableNo}>
-                    Table no. - {order.table_number}
+                    Table no. : {order.table_number}
                   </Text>
                   <Text style={styles.tableNo}>
-                    Order ID - {order.order_id}
+                    Order ID : {order.order_id}
                   </Text>
                 </View>
                 <View
@@ -120,13 +120,23 @@ export default function OrderListScreen({ route, navigation }) {
                   // End of modification
                 >
                   <Text style={styles.orderandPaymentStatus}>
-                    Order status - {order.order_status}
+                    Order status : {order.order_status}
                   </Text>
                   <Text style={styles.orderandPaymentStatus}>
-                    Payment status - {order.payment_status}
+                    Payment status : {order.payment_status}
                   </Text>
                   <Text style={styles.tableNo}>
-                    Date - {new Date(order.date).toLocaleDateString()}
+                    Date :{" "}
+                    {/* Added and commeted by Yuvraj Sahu on 30-4-2023
+                    Reason - to formate date in dd/mm/yy */}
+                    {/* Date - {new Date(order.date).toLocaleDateString()} */}
+                    {new Date(order.date)
+                      .toISOString()
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                    {/* End of modification */}
                   </Text>
 
                   {/* Added by- Suman Sahu on 29-4-2023

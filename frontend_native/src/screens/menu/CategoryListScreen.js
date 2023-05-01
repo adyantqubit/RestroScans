@@ -62,13 +62,6 @@ export default function CategoryListScreen({ route, navigation }) {
   // Added by Yuvraj Sahu on 7-4-2023
   // Reason - to get all menu, category and item and rerender page
   var { render, setRender } = useContext(AppStateContext);
-  // Added and modification by Yuvraj Sahu on 26-4-2023
-  // Reason - to re render the page
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    getAllmenus();
-  }, [isFocused]);
-  // end of modification
 
   var [menuObject, setMenuObject] = useState({});
   //  var menuObject = menuObj
@@ -108,9 +101,19 @@ export default function CategoryListScreen({ route, navigation }) {
   }, []);
   // End of addition
 
-  /* This is add for show image limit validation msg */
+  // Added and modification by Yuvraj Sahu on 26-4-2023
+  // Reason - to re render the page
   var [isFileSizeError, setFileSizeError] = useState(false);
-  /* End of addition */
+  const isFocused = useIsFocused();
+  useEffect(() => {
+  	// Added by Yuvraj Sahu on 30-42023
+  	// Reason - to replace entered value into saved value
+    setSelectedMenu({ name: "" });
+    setImage(null);
+    // End of addition
+    getAllmenus();
+  }, [isFocused]);
+  // end of modification
 
   // To upload image
   const pickImage = async () => {

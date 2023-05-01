@@ -82,12 +82,10 @@ export default function ItemListScreen({ route, navigation }) {
   // Added by Yuvraj Sahu on 5-4-2023
   // Reason - to show category list in dropdown
   const [menuSelected, setMenuSelected] = React.useState("");
-  var [data, setData] = useState([]);
-  React.useEffect(() => {
-    // getMenus();
-    // getTenant()
-    getAllmenus();
-  }, [isFocused]);
+
+  // Commeted by Yuvraj Sahu on 30-4-2023
+  // Reason - remove code (no using this time)
+  // var [data, setData] = useState([]);
   // const getMenus = async () => {
   // var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
   // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
@@ -370,7 +368,16 @@ export default function ItemListScreen({ route, navigation }) {
   // End of comment
   // End of addition
 
-  // alert(JSON.stringify(categoryValue))
+  // Added by Yuvraj Sahu on 30-4-2023
+  // Reason - to replace entered value with
+  // saved value when come back in this screen
+  React.useEffect(() => {
+    // getMenus();
+    // getTenant()
+    setCategoryValue({ name: "" });
+    setImage(null);
+    getAllmenus();
+  }, [isFocused]);
 
   return (
     <>

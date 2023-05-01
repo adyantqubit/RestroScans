@@ -1,7 +1,7 @@
 // Created by Om on 08-04-2023
 // Reason - to create banner items section
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -36,6 +36,12 @@ export default function AddOfferItemScreen() {
 
   var [data, setData] = useState([]);
   var [menuData, setMenuData] = useState([]);
+
+  // Added by Yuvraj Sahu on 30-4-2023
+  // Reason to reset the dropdown
+  const bannerDropdownRef = useRef({});
+  const itemDropdownRef = useRef({});
+  // End of addition
 
   // Need to set the banner data in dropdown format
   useEffect(() => {
@@ -157,6 +163,12 @@ export default function AddOfferItemScreen() {
           Alert.alert(response.msg);
           setRender(!render);
           setIsDisable(false);
+          // Added by Yuvraj Sahu on 30-4-2023
+          // Reason - to clear dropdown when save data
+          bannerDropdownRef.current.reset();
+          itemDropdownRef.current.reset();
+          // End of addition
+
           // navigate('login')
         }
         // Modified by Om on 14-04-23
@@ -207,6 +219,10 @@ export default function AddOfferItemScreen() {
             //     return e.id == settings.app_theme;
             //   })[0]
             // }
+            // Added by Yuvraj Sahu on 30-4-2023
+            // Reason - to clear dropdown when save data
+            ref={bannerDropdownRef}
+            // End of addition
             data={data}
             dropdownOverlayColor="rgba(0,0,0,0)"
             buttonTextStyle={{ fontSize: 16 }}
@@ -263,6 +279,10 @@ export default function AddOfferItemScreen() {
               //     return e.id == settings.app_theme;
               //   })[0]
               // }
+              // Added by Yuvraj Sahu on 30-4-2023
+              // Reason - to clear dropdown when save data
+              ref={itemDropdownRef}
+              // End of addition
               data={menuData}
               dropdownOverlayColor="rgba(0,0,0,0)"
               buttonTextStyle={{ fontSize: 16 }}
