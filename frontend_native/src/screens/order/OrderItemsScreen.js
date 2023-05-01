@@ -15,6 +15,7 @@ import { colors } from "../../Colours/globalColor";
 import * as Print from "expo-print";
 import { useIsFocused } from "@react-navigation/native";
 import Footer from "../../components/Footer/Footer";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender, settings } = useContext(AppStateContext); //Need to use settings, for GST number.
@@ -784,9 +785,20 @@ export default function OrderItemsScreen({ route, navigation }) {
               </View>
               {orderItems.map((orderItem, id) => (
                 <View key={id} style={styles.tableContainer}>
-                  <Text style={styles.itemContainer}>
-                    {orderItem.item} ({orderItem.serving_size})
-                  </Text>
+                  <View style={styles.itemContainer}>
+                    <Text>
+                      {orderItem.item} ({orderItem.serving_size})
+                    </Text>
+                    {orderItem.rating && (
+                      <Text>
+                        Rating : {orderItem.rating}{" "}
+                        <FontAwesome name="star" size={13} color="black" />
+                      </Text>
+                    )}
+                    {orderItem.review && (
+                      <Text>Review : {orderItem.review}</Text>
+                    )}
+                  </View>
                   <Text style={styles.qtyContainer}>{orderItem.quantity}</Text>
                   {/* Added by - Ashish Dewangan on 19-04-2023
                   Reason - To show item status */}
