@@ -262,7 +262,7 @@ textarea::placeholder {
     width: 26vw;
   }
   .contactus_query_icon {
-    bottom: 76px;
+    bottom: 52px;
   }
 }
 @media (max-width: 1200px) {
@@ -309,9 +309,6 @@ textarea::placeholder {
   .contactus_input_box {
     width: 30vw;
   }
-  .contactus_query_icon {
-    bottom: 80px;
-  }
 }
 @media (max-width: 900px) {
   .contactus_container {
@@ -330,7 +327,7 @@ textarea::placeholder {
     width: 13vw;
   }
   .contactus_query_icon {
-    bottom: 83px;
+    bottom: 60px;
   }
 }
 @media (max-width: 768px) {
@@ -435,6 +432,9 @@ textarea::placeholder {
     height: 10vh;
     width: 58vw;
   }
+  .contactus_query_icon{
+    bottom: 52px;
+  }
 }
 @media (max-width: 400px) {
   .contactus_main_div {
@@ -458,5 +458,8 @@ textarea::placeholder {
   }
   .adyant_info_div {
     width: 80%;
+  }
+  .contactus_query_icon{
+    bottom: 45px;
   }
 }

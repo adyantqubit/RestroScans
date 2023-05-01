@@ -132,13 +132,14 @@ Reason:- Create css for Home.jsx */
 /* -------------------Features Section--------------------------- */
 .home_features_section {
   display: block;
-  margin-left: 8rem;
+  /* margin-left: 8rem; */
 }
 .features_container {
   padding-left: 4rem;
   display: flex;
   width: 85%;
   height: 50vh;
+  margin-left: 8rem;
 }
 .feature_lists_div {
   display: flex;
@@ -236,7 +237,8 @@ Reason:- Create css for Home.jsx */
   color: rgb(122, 38, 38);
   /* font-weight: 800; */
   text-align: center;
-  margin: auto;
+  /* margin: auto; */
+  margin-top: 0;
 }
 .galary_slider_images {
   width: 35rem;
@@ -247,6 +249,9 @@ Reason:- Create css for Home.jsx */
 .gallery_slider_div {
   height: 55vh;
   margin-bottom: 5rem;
+}
+.swiper-horizontal{
+  margin-bottom: 2rem;
 }
 .swiper-wrapper {
   text-align: center;
@@ -317,6 +322,7 @@ Reason:- Create css for Home.jsx */
   /* -------------- Features Section------------ */
   .features_container {
     padding-left: 0;
+    margin-left: 6rem;
   }
   .features_heading_div {
     margin: 2rem;
@@ -330,6 +336,9 @@ Reason:- Create css for Home.jsx */
     height: 21rem;
   }
   /* -------------- Gallery Section------------ */
+  .gallery_heading{
+    margin-top: 2rem;
+  }
   .gallery_slider_div {
     height: 50vh;
     margin-bottom: 5rem;
@@ -337,6 +346,9 @@ Reason:- Create css for Home.jsx */
   .galary_slider_images {
     width: 35vw;
     height: 45vh;
+  }
+  .swiper-horizontal{
+    margin-bottom: 3rem;
   }
 }
 @media (max-width: 1200px) {
@@ -374,9 +386,13 @@ Reason:- Create css for Home.jsx */
   /* -------------- Features Section------------ */
   .features_gif {
     width: 19vw;
+    height: 100%;
   }
   .feature_label {
     font-size: 1.2rem;
+  }
+  .features_container {
+    margin-left: 5rem;
   }
   /* -------------- Pricing Section------------ */
 
@@ -387,6 +403,9 @@ Reason:- Create css for Home.jsx */
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
     margin-bottom: 5rem;
+  }
+  .swiper-horizontal{
+    margin-bottom: 2rem;
   }
 }
 @media (max-width: 1024px) {
@@ -410,8 +429,14 @@ Reason:- Create css for Home.jsx */
     width: 28vw;
   }
   /* ------------Features Section-------------- */
+  .features_container{
+    height: 45vh;
+  }
   .features_img_div {
-    height: 85%;
+    height: 90%;
+  }
+  .features_gif{
+    height: 100%;
   }
   /* ------------Pricing Section-------------- */
   /* ------------Gallery Section-------------- */
@@ -426,6 +451,10 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 30vh;
   }
+  .swiper-horizontal{
+    margin-bottom: 1rem;
+  }
+  
 }
 @media (max-width: 900px) {
   html {
@@ -447,6 +476,16 @@ Reason:- Create css for Home.jsx */
   .feature_label_first_div {
     margin-left: 0;
   }
+  .features_container{
+    height: 40vh;
+  }
+  .features_img_div{
+    height: 100%;
+  }
+  .features_gif{
+    height: 100%;
+    width: 21vw;
+  }
   /* ------------Pricing Section-------------- */
   .pricing_images {
     width: 14rem;
@@ -461,6 +500,10 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 30vh;
   }
+  .swiper-horizontal{
+    margin-bottom: 1rem;
+  }
+  
 }
 @media (max-width: 768px) {
   html {
@@ -518,6 +561,9 @@ Reason:- Create css for Home.jsx */
   /* ------------Benefits Section-------------- */
   .home_benefits_section {
     margin-top: 1rem;
+  }
+  .benefits_heading{
+    margin-top: 2rem;
   }
   /* ----------Features Section------------- */
   .home_features_section {
@@ -612,6 +658,9 @@ Reason:- Create css for Home.jsx */
     margin-bottom: 3rem;
   }
   /* --------------Gallery Section---------------- */
+  .home_gallery_section{
+    padding-top: 4rem;
+  }
   .galary_slider_images {
     width: 35vw;
   }
