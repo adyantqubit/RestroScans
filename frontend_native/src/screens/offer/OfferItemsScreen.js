@@ -683,7 +683,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
-                      width: "35%",
+                      width: 140,
                     }}
                   >
                     <Text
@@ -704,13 +704,15 @@ export default function OfferItemsScreen({ route, navigation }) {
                     style={{
                       backgroundColor: isDisable
                         ? "grey"
-                        : colors.anotherButton,
+                        : // : colors.anotherButton,
+                          colors.btnColor, // for change color- by Suman sahu
+
                       height: 30,
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: 10,
                       marginLeft: 20,
-                      width: 160,
+                      width: 140,
                     }}
                     // End of modified code 26/04/2023
                   >

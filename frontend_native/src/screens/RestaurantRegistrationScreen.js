@@ -1233,7 +1233,7 @@ export default function RestaurantRegistrationScreen({
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: 10,
-                        width: 150,
+                        width: 140,
                         alignSelf: "center",
                       }}
                       // End of modified code 26/04/2023

@@ -16,7 +16,7 @@ import UKFlag from "../images/ukflag.png";
 import USFlag from "../images/usflag.png";
 import IndiaFlag from "../images/indiaflag.png";
 import NewzelandFlag from "../images/new.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ContactUs() {
   const handleFormSubmit = async (e) => {
@@ -78,6 +78,11 @@ function ContactUs() {
     window.open(url, "_blank", "noreferrer");
   };
   // End of added code
+
+  // Added by:- Suman sahu On 30/04/2023
+  // Reason:- created for nevigate one page to another page
+  const navigate = useNavigate();
+  // End of added code 30/04/2023
   return (
     <>
       <div className="contactus_container">
@@ -226,7 +231,7 @@ function ContactUs() {
               <button
                 className="contactus_submit_btn"
                 type="button"
-                // onClick={() => navigate(-1)}
+                onClick={() => navigate("/")}
               >
                 Cancel
               </button>

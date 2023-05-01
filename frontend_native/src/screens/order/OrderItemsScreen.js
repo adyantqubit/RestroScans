@@ -707,8 +707,12 @@ export default function OrderItemsScreen({ route, navigation }) {
             </Text>
 
           <Text style={{ marginTop: 5 }}>
-            <Text>Name</Text> : {customerDetail.name}
-          </Text>
+              {/* Modify by- Suman sahu  On 30/04/2023
+                  Reason- show only latest name on the order details */}
+              {/* <Text>Name</Text> : {customerDetail.name} */}
+              <Text>Name</Text> : {customerDetail.last_customer_name}
+              {/* End of modification 30/04/2023 */}
+            </Text>
           {customerDetail.email && (
             <Text style={{ marginTop: 5 }}>
               <Text>Email</Text> : {customerDetail.email}
@@ -866,11 +870,11 @@ export default function OrderItemsScreen({ route, navigation }) {
               style={{
                 // backgroundColor: isDisable ? "grey" : colors.btnColor,
                 backgroundColor: colors.btnColor,
-                height: 40,
+                height: 30,
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 7,
-                width: 165,
+                borderRadius: 10,
+                  width: "35%",
               }}
             >
               <Text
@@ -886,14 +890,15 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Pressable
               onPress={printBill}
               style={{
-                backgroundColor: colors.anotherButton,
-                height: 40,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 7,
-                marginLeft: 20,
-                width: 165,
-              }}
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
             >
               <Text
                 style={{
@@ -913,13 +918,15 @@ export default function OrderItemsScreen({ route, navigation }) {
           onPress={handleUpdate}
           // disabled={isDisable}
           style={{
-            // backgroundColor: isDisable ? "grey" : colors.btnColor,
-            backgroundColor: colors.btnColor,
-            height: 40,
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 10,
-          }}
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
         >
           <Text
             style={{
@@ -1021,11 +1028,19 @@ const styles = StyleSheet.create({
     // marginTop: 20
   },
   btns: {
-    width: 150,
-    alignSelf: "center",
-    marginTop: 10,
-    marginBottom:12 // Added by Om on 26-04-23 for apply the padding above the button
-  },
+    // Modified by - Suman sahu  On 30/04/2023
+    // Reason- fix and redesign button
+
+    // width: 150,
+    // alignSelf: "center",
+    // marginTop: 10,
+    // marginBottom: 12, // Added by Om on 26-04-23 for apply the padding above the button
+
+    marginBottom: 30,
+    marginHorizontal: 10,
+    marginTop: 15,
+
+    // End of modification 30/04/2023  },
   // End of addition
   // Added by Yuvraj Sahu on 17-4-2023
   // Reason - to design table

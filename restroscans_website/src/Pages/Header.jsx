@@ -47,13 +47,17 @@ function Header({ isOpen, setIsOpen }) {
             className="side_bar_icon"
           />
         </label>
-        <label className="restroscans_logo_section">
+        <label
+          className="restroscans_logo_section"
+          onClick={() => navigate("/")}
+        >
           <Link
             className="logo_link"
-            onClick={() => openSiteOfAdyant("https://adyant.co.in/")}
-          ></Link>
-          <img src={RestroscansLogo} className="header_restroscans_logo" />
-          {/* <span className="header_restroscan_link">RestroScans</span> */}
+            // onClick={() => openSiteOfAdyant("https://adyant.co.in/")}
+          >
+            <img src={RestroscansLogo} className="header_restroscans_logo" />
+            {/* <span className="header_restroscan_link">RestroScans</span> */}
+          </Link>
         </label>
         <button
           className="header_btn_responsive"
@@ -92,7 +96,7 @@ function Header({ isOpen, setIsOpen }) {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <FontAwesomeIcon
                 icon={faIndianRupeeSign}
                 className="pricing_icon"
@@ -105,7 +109,7 @@ function Header({ isOpen, setIsOpen }) {
               >
                 Pricing
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <FontAwesomeIcon icon={faPhone} className="header_link_icons" />

@@ -185,7 +185,7 @@ export default function LoginScreen({ navigation }) {
           Reason - to show description */}
                 <View style={styles.descriptionContainer}>
                   <Text style={styles.description}>
-                    Please enter your registered email id to continue
+                    Please enter your registered email id to continue.
                   </Text>
                   {/* End of addition */}
                 </View>
@@ -296,7 +296,7 @@ export default function LoginScreen({ navigation }) {
                         justifyContent: "center",
                         borderRadius: 10,
                         // padding: "3%",
-                        width: 150,
+                        width: "35%",
                         alignSelf: "center",
                         marginTop: 20,
                       }}
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   description: {
-    alignSelf: "center",
+    // alignSelf: "center",  // Commented by- Suman sahu for alignment that text On 30/04/2023
     fontSize: 16,
   },
   // End of addition

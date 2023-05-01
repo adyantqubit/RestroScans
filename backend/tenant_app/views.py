@@ -1021,16 +1021,14 @@ class getPaymentMethodAPIView(APIView):
             serializedData = PaymentMethodSerializer(paymentMethod, data=request.data, partial=True)
             if serializedData.is_valid():
                 serializedData.save()
-                return Response({"msg":"Updated successfully"},status=status.HTTP_200_OK)
-            return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
-        else :
+                return Response({"msg": "Updated Successfully"}, status=status.HTTP_200_OK)
+            return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+        else:
             serializedData = PaymentMethodSerializer(data=request.data)
             if serializedData.is_valid():
                 serializedData.save()
-                return Response({"msg":"Saved successfully"},status=status.HTTP_201_CREATED)
-            return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    
+                return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+            return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 """

@@ -9,6 +9,7 @@ Reason:- Create css for Header.jsx */
   z-index: 9999;
   width: 100%;
   margin: auto;
+  box-shadow: 0 0 4px;
 }
 .restroscans_logo_section {
   float: left;
@@ -155,7 +156,7 @@ Reason:- Create css for Header.jsx */
     z-index: 999;
     width: 100%;
     /* float: revert; */
-    margin-top: 4.5rem;
+    margin-top: 4.8rem;
     justify-content: center;
     /* background-color: rgb(20, 19, 19); */
     background-color: rgba(225, 239, 254, 1);
@@ -227,6 +228,9 @@ Reason:- Create css for Header.jsx */
   .header_restroscans_logo {
     height: 8vh;
     width: 8.5vw;
+  }
+  .links_div {
+    margin-top: 4.5rem;
   }
 }
 @media (max-width: 600px) {

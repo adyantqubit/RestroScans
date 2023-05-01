@@ -91,18 +91,33 @@ export default function PaymentMethod() {
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [tempPhoto, setTempPhoto] = useState(null);
 
+  /* This is add for show image limit validation msg */
+  var [isFileSizeError, setFileSizeError] = useState(false);
+  /* End of addition */
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
+      base64: true,
     });
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setUploadedFileName(result.assets[0].fileName);
       setTempPhoto(result.assets[0]);
       setImgRequired(false);
+
+      // Added by Suman Sahu on 30-4-2023
+      // Reason - to show validation msg image filed when user upload image above 200kb
+      const fileSize = result.base64.length * (3 / 4) - 2;
+      if (fileSize > 200000) {
+        setFileSizeError(true);
+      } else {
+        setFileSizeError(false);
+      }
+      // End of addition 30-04-2023
     }
   };
 
@@ -133,7 +148,12 @@ export default function PaymentMethod() {
       });
     }
 
-    if (icon != null || savedPaymentMethod.scanner) {
+    // Modify by- Suman sahu  On 29/04/2023
+    // Reason- add condition for image field when user upload image above 200kb form not saved
+    if (
+      (icon != null || savedPaymentMethod.scanner) &&
+      isFileSizeError == false
+    ) {
       alert(JSON.stringify(formData));
       savePaymentMethodApi(formData, tenant).then(async (res) => {
         if (res.msg) {
@@ -300,6 +320,15 @@ export default function PaymentMethod() {
                     Scanner is required!
                   </Text>
                 )}
+
+                {/* Added by Suman Sahu on 30-04-2023
+                    Reason - to show validation msg image filed when user upload image above 200kb */}
+                {isFileSizeError && (
+                  <Text style={{ color: "red", marginLeft: 70 }}>
+                    Please upload image below 200kb
+                  </Text>
+                )}
+                {/* End of addition  30-04-2023*/}
 
                 <View
                   style={{
