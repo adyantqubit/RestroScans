@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
 import React from "react";
-import { getOrderItemsApi, updateOrderAndPaymentStatus } from "../../api/Services";
+import {
+  getOrderItemsApi,
+  updateOrderAndPaymentStatus,
+} from "../../api/Services";
 import { useState } from "react";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
@@ -133,20 +136,20 @@ export default function OrderItemsScreen({ route, navigation }) {
    */
 
   // Added by Om on 23-04-23
-  // Reason : Show the subtotal and current order date 
+  // Reason : Show the subtotal and current order date
   function SubtotalOfItems() {
-    var total = 0
-    orderItems.filter(o => {
-      total += o.price
-    })
-    return total
+    var total = 0;
+    orderItems.filter((o) => {
+      total += o.price;
+    });
+    return total;
   }
   function ExtractDateTime(format) {
     var d = new Date(format);
-    var date = d.toLocaleDateString()
-    var time = d.toLocaleTimeString()
+    var date = d.toLocaleDateString();
+    var time = d.toLocaleTimeString();
 
-    return { date, time }
+    return { date, time };
   }
   // End of addition
 
@@ -164,23 +167,33 @@ export default function OrderItemsScreen({ route, navigation }) {
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
 
-    var restaurantName = JSON.parse(await SecureStore.getItemAsync('userData')).restaurant_name
-    var restaurantAddress = JSON.parse(await SecureStore.getItemAsync('userData')).address
+    var restaurantName = JSON.parse(
+      await SecureStore.getItemAsync("userData")
+    ).restaurant_name;
+    var restaurantAddress = JSON.parse(
+      await SecureStore.getItemAsync("userData")
+    ).address;
 
     // var status = {
     //   order_status: orderStatusSelected,
     //   payment_status: paymentStatusSelected,
     // };
-    var itemStr = ""
+    var itemStr = "";
     for (var i = 0; i < orderItems.length; i++) {
       // if () {
       itemStr =
         itemStr +
         `<div class="tableContents ">
-                  <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
+                  <div class="titleText">${orderItems[i].item} (${
+          orderItems[i].serving_size
+        })</div>
                   <div class="quantityText">${orderItems[i].quantity}</div>
-                  <div class="rateText">${(orderItems[i].price / orderItems[i].quantity).toFixed(2)}</div>
-                  <div class="totalText"> ${(orderItems[i].price).toFixed(2)}</div>
+                  <div class="rateText">${(
+                    orderItems[i].price / orderItems[i].quantity
+                  ).toFixed(2)}</div>
+                  <div class="totalText"> ${orderItems[i].price.toFixed(
+                    2
+                  )}</div>
 
                 </div>`;
     }
@@ -196,22 +209,35 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="centerLabel">GSTIN :- ${settings.setting.gstin}</div>
             </div>
             <div class="inLineContainer">
-              <div class="centerLabel">FSSAI NO :- ${settings.setting.gstin}</div>
+              <div class="centerLabel">FSSAI NO :- ${
+                settings.setting.gstin
+              }</div>
             </div>
             <hr>
 
             <div class="inLineContainer">
               <div class="label">Date </div>
-              <div class="text">    ${new Date(orderDetail.date).toLocaleDateString('en-GB')}</div>
+              <div class="text">
+              ${new Date(orderDetail.date)
+                .toISOString()
+                .split("T")[0]
+                .split("-")
+                .reverse()
+                .join("/")}
+              </div>
               <div class="label">Time  </div>
-              <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
+              <div class="text">  ${
+                ExtractDateTime(orderDetail.date).time
+              }</div>
 
             </div>
             <div class="inLineContainer">
               <div class="label">Bill   </div>
               <div class="text"> ${orderDetail.order_id}</div>
               <div class="label">Table </div>
-              <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number}</div>
+              <div class="text">  ${
+                !orderDetail.table_number ? "N/A" : orderDetail.table_number
+              }</div>
               
             </div>
          
@@ -234,20 +260,32 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="calculationBox">
               <div class="calculationLine">
                 <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
-                <div  class="calculationText" >₹${SubtotalOfItems().toFixed(2)}</div>
+                <div  class="calculationText" >₹${SubtotalOfItems().toFixed(
+                  2
+                )}</div>
               </div>
               <div class="calculationLine">
-                <div  class="calculationLabel" > CGST (%${(orderDetail.cgst / SubtotalOfItems() * 100).toFixed(2)}) :</div>
+                <div  class="calculationLabel" > CGST (%${(
+                  (orderDetail.cgst / SubtotalOfItems()) *
+                  100
+                ).toFixed(2)}) :</div>
                 <div  class="calculationText" >₹${orderDetail.cgst}  </div>
               </div>
               <div class="calculationLine">
-                <div  class="calculationLabel" > SGST (%${(orderDetail.sgst / SubtotalOfItems() * 100).toFixed(2)}) :</div>
+                <div  class="calculationLabel" > SGST (%${(
+                  (orderDetail.sgst / SubtotalOfItems()) *
+                  100
+                ).toFixed(2)}) :</div>
                 <div  class="calculationText" >₹${orderDetail.sgst} </div>
               </div>
               <hr>
               <div class="calculationLine">
                 <div  class="calculationLabel" > Total :</div>
-                <div  class="calculationText" >₹${(SubtotalOfItems() + orderDetail.cgst + orderDetail.sgst).toFixed(2)}</div>
+                <div  class="calculationText" >₹${(
+                  SubtotalOfItems() +
+                  orderDetail.cgst +
+                  orderDetail.sgst
+                ).toFixed(2)}</div>
               </div>
             </div>
           </div> 
@@ -258,7 +296,11 @@ export default function OrderItemsScreen({ route, navigation }) {
                   <div class="TotalLabel">Total </div>
                   <div class="TotalLabel">: </div>
 
-                  <div class="grandTotalText">₹${(SubtotalOfItems() + orderDetail.cgst + orderDetail.sgst).toFixed(2)}</div>
+                  <div class="grandTotalText">₹${(
+                    SubtotalOfItems() +
+                    orderDetail.cgst +
+                    orderDetail.sgst
+                  ).toFixed(2)}</div>
                 </div>
             </div>
           </div>
@@ -270,8 +312,6 @@ export default function OrderItemsScreen({ route, navigation }) {
           </div>
 
     </div>`;
-
-
 
     str = str + `</div>`;
 
@@ -485,17 +525,21 @@ export default function OrderItemsScreen({ route, navigation }) {
       order_status: orderStatusSelected,
       payment_status: paymentStatusSelected,
     };
-    var restaurantName = JSON.parse(await SecureStore.getItemAsync('userData')).restaurant_name
+    var restaurantName = JSON.parse(
+      await SecureStore.getItemAsync("userData")
+    ).restaurant_name;
 
-    var orderItem = ""
-    var SNumberIncreasing = 1
+    var orderItem = "";
+    var SNumberIncreasing = 1;
     for (var i = 0; i < orderItems.length; i++) {
       if (orderItems[i].item_status == "Pending") {
         orderItem =
           orderItem +
           `<div class="tableContents ">
               <div class="quantityText">${SNumberIncreasing++}</div>
-              <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size})</div>
+              <div class="titleText">${orderItems[i].item} (${
+            orderItems[i].serving_size
+          })</div>
               <div class="rateText">${orderItems[i].quantity}</div>
             </div>`;
       }
@@ -512,8 +556,10 @@ export default function OrderItemsScreen({ route, navigation }) {
             </div>
             <hr>
             <div class="inLineContainer">
-            <div class="label">Date   </div>
-             <div class="text"> ${new Date(orderDetail.date).toLocaleDateString('en-GB')}</div>
+            <div class="label">Date  </div>
+             <div class="text"> ${new Date(orderDetail.date).toLocaleDateString(
+               "en-GB"
+             )}</div>
             <div class="label">Time   </div>
             <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
 
@@ -522,7 +568,9 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="label">Order id   </div>
             <div class="text"> ${orderDetail.order_id}</div>
             <div class="label">Table  </div>
-            <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number}</div>
+            <div class="text">  ${
+              !orderDetail.table_number ? "N/A" : orderDetail.table_number
+            }</div>
             
           </div>
           <div class="tableHeader">
@@ -682,7 +730,7 @@ export default function OrderItemsScreen({ route, navigation }) {
 
       // Added by Om on 21-04-23
       // Reason : Navigate the home page
-      navigation.pop()
+      navigation.pop();
       // End of addition
 
       /**
@@ -706,218 +754,192 @@ export default function OrderItemsScreen({ route, navigation }) {
               <Text>Table No.</Text> : {orderDetail.table_number}
             </Text>
 
-          <Text style={{ marginTop: 5 }}>
+            <Text style={{ marginTop: 5 }}>
               {/* Modify by- Suman sahu  On 30/04/2023
                   Reason- show only latest name on the order details */}
               {/* <Text>Name</Text> : {customerDetail.name} */}
               <Text>Name</Text> : {customerDetail.last_customer_name}
               {/* End of modification 30/04/2023 */}
             </Text>
-          {customerDetail.email && (
+            {customerDetail.email && (
+              <Text style={{ marginTop: 5 }}>
+                <Text>Email</Text> : {customerDetail.email}
+              </Text>
+            )}
             <Text style={{ marginTop: 5 }}>
-              <Text>Email</Text> : {customerDetail.email}
+              <Text>Phone</Text> : {customerDetail.contact_number}
             </Text>
-          )}
-          <Text style={{ marginTop: 5 }}>
-            <Text>Phone</Text> : {customerDetail.contact_number}
-          </Text>
-        </View>
-        {orderItems.length > 0 ? (
-          <>
-            <View style={styles.itemHeadingContainer}>
-              <Text style={styles.itemContainer}>Item</Text>
-              <Text style={styles.qtyContainer}>Qty</Text>
-              {/* Added by - Ashish Dewangan on 19-04-2023
-                  Reason - To show item status */}
-              <Text style={styles.itemStatusContainer}>Status</Text>
-              {/* End of code addition by Ashish on 19-04-2023 */}
-              {/* Add rupees icon by Om on 26-04-23  */}
-              <Text style={styles.costContainer}>Cost(₹)</Text>
-            </View>
-            {orderItems.map((orderItem, id) => (
-              <View key={id} style={styles.tableContainer}>
-                <Text style={styles.itemContainer}>
-                  {orderItem.item} ({orderItem.serving_size})
-                </Text>
-                <Text style={styles.qtyContainer}>{orderItem.quantity}</Text>
+          </View>
+          {orderItems.length > 0 ? (
+            <>
+              <View style={styles.itemHeadingContainer}>
+                <Text style={styles.itemContainer}>Item</Text>
+                <Text style={styles.qtyContainer}>Qty</Text>
                 {/* Added by - Ashish Dewangan on 19-04-2023
                   Reason - To show item status */}
-                <Text style={styles.itemStatusContainer}>
-                  {orderItem.item_status}
-                </Text>
+                <Text style={styles.itemStatusContainer}>Status</Text>
                 {/* End of code addition by Ashish on 19-04-2023 */}
-                <Text style={styles.costContainer}>
-                  {/* Added by om - 24/4/23
-                      Reason - To fixed subtotal calculation */}
-                  {/* ₹ {orderItem.quantity * orderItem.price} */}
-                    {/* ₹  removed by Om on 26-04-23 */}
-                   {orderItem.price}  
-                  {/* End of code - om - 24/4/23 */}
-                </Text>
+                {/* Add rupees icon by Om on 26-04-23  */}
+                <Text style={styles.costContainer}>Cost(₹)</Text>
               </View>
-            ))}
-          </>
-        ) : (
-          <Text>No data</Text>
-        )}
-        {/* Modified by Yuvraj Sahu on 11-4-2023
+              {orderItems.map((orderItem, id) => (
+                <View key={id} style={styles.tableContainer}>
+                  <Text style={styles.itemContainer}>
+                    {orderItem.item} ({orderItem.serving_size})
+                  </Text>
+                  <Text style={styles.qtyContainer}>{orderItem.quantity}</Text>
+                  {/* Added by - Ashish Dewangan on 19-04-2023
+                  Reason - To show item status */}
+                  <Text style={styles.itemStatusContainer}>
+                    {orderItem.item_status}
+                  </Text>
+                  {/* End of code addition by Ashish on 19-04-2023 */}
+                  <Text style={styles.costContainer}>
+                    {/* Added by om - 24/4/23
+                      Reason - To fixed subtotal calculation */}
+                    {/* ₹ {orderItem.quantity * orderItem.price} */}
+                    {/* ₹  removed by Om on 26-04-23 */}
+                    {orderItem.price}
+                    {/* End of code - om - 24/4/23 */}
+                  </Text>
+                </View>
+              ))}
+            </>
+          ) : (
+            <Text>No data</Text>
+          )}
+          {/* Modified by Yuvraj Sahu on 11-4-2023
         Reason - to design order detail */}
-        <View style={styles.totalBorder} />
-        <View>
-          {/* Modified by Yuvraj Sahu on 14-4-2023
+          <View style={styles.totalBorder} />
+          <View>
+            {/* Modified by Yuvraj Sahu on 14-4-2023
           Reason - to show total price */}
-          <View style={styles.amountRow}>
-            <Text>Total Price :</Text>
-            <Text>₹ {orderDetail.sub_total}</Text>
-          </View>
-          {/* Commented by Yuvraj Sahu on 17-4-2023
+            <View style={styles.amountRow}>
+              <Text>Total Price :</Text>
+              <Text>₹ {orderDetail.sub_total}</Text>
+            </View>
+            {/* Commented by Yuvraj Sahu on 17-4-2023
           Reason - to remove gst */}
-          {/* <View style={styles.amountRow}>
+            {/* <View style={styles.amountRow}>
             <Text>GST :</Text>
             <Text>{orderDetail.tax}</Text>
           </View> */}
-          {/* End of removal */}
-          {/* Added by Yuvraj Sahu on 17-4-2023
+            {/* End of removal */}
+            {/* Added by Yuvraj Sahu on 17-4-2023
           Reason - to add cgst and sgst */}
-          <View style={styles.amountRow}>
-            <Text>CGST :</Text>
-            <Text>₹ {orderDetail.cgst}</Text>
-          </View>
-          <View style={styles.amountRow}>
-            <Text>SGST :</Text>
-            <Text>₹ {orderDetail.sgst}</Text>
-          </View>
-          {/* End of addition */}
-          <View style={styles.amountRow}>
-            {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
-            <Text style={{fontWeight:"bold",fontSize:15}}>Grand Total :</Text>
-            <Text>₹ {orderDetail.total}</Text>
+            <View style={styles.amountRow}>
+              <Text>CGST :</Text>
+              <Text>₹ {orderDetail.cgst}</Text>
+            </View>
+            <View style={styles.amountRow}>
+              <Text>SGST :</Text>
+              <Text>₹ {orderDetail.sgst}</Text>
+            </View>
+            {/* End of addition */}
+            <View style={styles.amountRow}>
+              {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
+              <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+                Grand Total :
+              </Text>
+              <Text>₹ {orderDetail.total}</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.statusContainer}>
-        <View style={{ marginTop: 20 }}>
-          <View style={styles.orderStatusContainer}>
-           {/* Font weight apply by Om on 27-04-23 */}
-            <Text style={{fontWeight:'bold'}}>Order status</Text>
-            <SelectList
-              setSelected={setOrderStatus}
-              data={orderStatusData}
-              search={false}
-              dropdownStyles={{
-                // width: "93%",
-                alignSelf: "center",
-                marginTop: 1,
-                height: 125,
-              }}
-              boxStyles={{
-                // width: "93%",
-                alignSelf: "center",
-                borderRadius: 5,
-                borderColor: "black",
-                // marginTop: 10,
-              }}
-              //override default styles
-              defaultOption={{
-                key: orderDetail.order_status,
-                value: orderDetail.order_status,
-              }}
-            />
-          </View>
+        <View style={styles.statusContainer}>
+          <View style={{ marginTop: 20 }}>
+            <View style={styles.orderStatusContainer}>
+              {/* Font weight apply by Om on 27-04-23 */}
+              <Text style={{ fontWeight: "bold" }}>Order status</Text>
+              <SelectList
+                setSelected={setOrderStatus}
+                data={orderStatusData}
+                search={false}
+                dropdownStyles={{
+                  // width: "93%",
+                  alignSelf: "center",
+                  marginTop: 1,
+                  height: 125,
+                }}
+                boxStyles={{
+                  // width: "93%",
+                  alignSelf: "center",
+                  borderRadius: 5,
+                  borderColor: "black",
+                  // marginTop: 10,
+                }}
+                //override default styles
+                defaultOption={{
+                  key: orderDetail.order_status,
+                  value: orderDetail.order_status,
+                }}
+              />
+            </View>
 
-          {/* Modified by Om on 20-04-23
+            {/* Modified by Om on 20-04-23
         Reason : When order status is served than this payment status is work */}
-          {/* {orderDetail.order_status == "Served" ? (
+            {/* {orderDetail.order_status == "Served" ? (
             <> */}
-          <View style={styles.orderStatusContainer}>
-           {/* Font weight apply by Om on 27-04-23 */}
-            <Text style={{fontWeight:'bold'}}>Payment status</Text> 
-            <SelectList
-              setSelected={setPaymentStatus}
-              data={paymentStatusData}
-              search={false}
-              dropdownStyles={{
-                alignSelf: "center",
-                marginTop: 1,
-                height: 100,
-              }}
-              boxStyles={{
-                alignSelf: "center",
-                borderRadius: 5,
-                borderColor: "black",
-              }}
-              defaultOption={{
-                key: orderDetail.payment_status,
-                value: orderDetail.payment_status,
-              }}
-            />
-          </View>
-          {/* </>
+            <View style={styles.orderStatusContainer}>
+              {/* Font weight apply by Om on 27-04-23 */}
+              <Text style={{ fontWeight: "bold" }}>Payment status</Text>
+              <SelectList
+                setSelected={setPaymentStatus}
+                data={paymentStatusData}
+                search={false}
+                dropdownStyles={{
+                  alignSelf: "center",
+                  marginTop: 1,
+                  height: 100,
+                }}
+                boxStyles={{
+                  alignSelf: "center",
+                  borderRadius: 5,
+                  borderColor: "black",
+                }}
+                defaultOption={{
+                  key: orderDetail.payment_status,
+                  value: orderDetail.payment_status,
+                }}
+              />
+            </View>
+            {/* </>
           ) : null} */}
-          {/* End of modification */}
-
-        </View>
-      </View>
-      <View >
-        {/* <Button title="Save"/> */}
-        {/* Modification by Om on 26-04-23
-        Reason : Fix the button designin  */}
-        {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
-          <View style={styles.mainButtonDiv}>
-            <Pressable
-              onPress={handleUpdate}
-              // disabled={isDisable}
-              style={{
-                // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                backgroundColor: colors.btnColor,
-                height: 30,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 10,
-                  width: "35%",
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                }}
-              >
-                Update
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={printBill}
-              style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "35%",
-                }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                }}
-              >
-                {/* Content changes by Om on 27-04-23 */}
-                Print bill 
-              </Text>
-            </Pressable>
+            {/* End of modification */}
           </View>
-        ) : 
-        <View style={styles.btns}>
-        <Pressable
-          onPress={handleUpdate}
-          // disabled={isDisable}
-          style={{
+        </View>
+        <View>
+          {/* <Button title="Save"/> */}
+          {/* Modification by Om on 26-04-23
+        Reason : Fix the button designin  */}
+          {orderDetail.order_status == "Served" &&
+          orderDetail.payment_status == "Completed" ? (
+            <View style={styles.mainButtonDiv}>
+              <Pressable
+                onPress={handleUpdate}
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Update
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={printBill}
+                style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   backgroundColor: colors.btnColor,
                   height: 30,
@@ -927,22 +949,51 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderRadius: 10,
                   width: "35%",
                 }}
-        >
-          <Text
-            style={{
-              color: "white",
-              fontSize: 16,
-              fontWeight: "bold",
-            }}
-          >
-            Update
-          </Text>
-        </Pressable> 
-        </View>}
-      </View>
-      {/* Added by Om  on 21-04-23
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {/* Content changes by Om on 27-04-23 */}
+                  Print bill
+                </Text>
+              </Pressable>
+            </View>
+          ) : (
+            <View style={styles.btns}>
+              <Pressable
+                onPress={handleUpdate}
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Update
+                </Text>
+              </Pressable>
+            </View>
+          )}
+        </View>
+        {/* Added by Om  on 21-04-23
       Reason : When order status is served than payent status is completed functionality */}
-      {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
+        {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
         <>
           <View style={styles.btns}>
             <Pressable
@@ -968,16 +1019,14 @@ export default function OrderItemsScreen({ route, navigation }) {
           </View>
         </>
       ) : null} */}
-      {/* End of the addition */}
-    </ScrollView>
-       {/* Added by Om on 18-04-23 For showing the footer*/}
-       <>
-      <Footer />
+        {/* End of the addition */}
+      </ScrollView>
+      {/* Added by Om on 18-04-23 For showing the footer*/}
+      <>
+        <Footer />
       </>
       {/* End of addition */}
     </>
-
-
   );
 }
 
@@ -1040,7 +1089,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 15,
   },
-    // End of modification 30/04/2023
+  // End of modification 30/04/2023
   // End of addition
   // Added by Yuvraj Sahu on 17-4-2023
   // Reason - to design table
@@ -1073,7 +1122,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
     flexDirection: "row",
-    marginBottom:12
+    marginBottom: 12,
   },
   // End of table design
 });
