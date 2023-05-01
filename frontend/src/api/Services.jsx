@@ -52,7 +52,7 @@ export const getThemeChanges = async (tenantId) => {
       "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
-  console.log(response)
+  // console.log(response)
   return response ? response.data : {};
 };
 

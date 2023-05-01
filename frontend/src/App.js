@@ -7,7 +7,7 @@ import MenuItem from "./component/MenuItem/MenuItem";
 import Footer from "./component/footer/Footer";
 import Cart from "./component/cart/Cart";
 import { FaClipboardList } from "react-icons/fa"
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { GlobalContext } from "./context/Context";
 import InvoiceDetails from "./component/InvoiceDetails/InvoiceDetails";
 import Payment from "./component/Payment/Payment";
@@ -23,13 +23,25 @@ import Otppopup from "./component/CustomerDetails/Otppopup";
 
 import { getFCMToken } from './firebase';
 import { useEffect } from "react";
+import { Modal } from 'antd';
 
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
 
   // Added by Om on 30-04-23
   // Reason : Connectivity with backend to firebase than UI
+  
+  var seperatedWords =  window.location.pathname.split('/') // Find the path of tenant name
+  var tenant = seperatedWords[1]
   useEffect(()=>{
+    /**
+     * Added by - Om shrivastava on 01-05-2023
+     * Reason - To store tenant name
+     */
+    localStorage.setItem("tenantName",tenant)
+    /**
+     * End of code addition by Om shrivastava on 01-05-2023
+     */
     localStorage.removeItem("sentToServer")
     // Added by - Ashish Dewangan on 30-04-2023
     //Reason - To delete old token from localstorage when user reloads the page
@@ -38,10 +50,13 @@ function App() {
     if (Notification.permission === 'granted') {
       getFCMToken()
     }else{
-      //open pop up with a button
+      // showModal()
+      var getPermission=Notification.requestPermission();
+      if(getPermission)
+        getFCMToken();
     }
-    
   },[])
+  
   function requestBrowserPermission(){
     Notification.requestPermission()
     .then(function() {
@@ -52,7 +67,6 @@ function App() {
       console.log('Unable to get permission to notify.', err);
     });
   }
-  // End of addition
 
   return (
     <BrowserRouter>
@@ -61,7 +75,7 @@ function App() {
     
         style={{ background: colors.backgroundTheme }}
       >
-          
+
         {/* Added by :- Parineeta Gedam 21-04-2023
         Reason :- Apply global color 
      */}

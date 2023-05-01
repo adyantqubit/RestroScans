@@ -24,12 +24,12 @@ export function TenantValidate() {
 
     }
 
-    console.log("run second validation--------------",localStorage.getItem("cart"))
+    // console.log("run second validation--------------",localStorage.getItem("cart"))
     if(JSON.parse(localStorage.getItem("cart")))
     if (JSON.parse(localStorage.getItem("cart")).length>0 && restaurant_name?.length>0){
         console.log('conditionSatisfied',JSON.parse(localStorage.getItem("cart"))[0],restaurant_name)
         if (JSON.parse(localStorage.getItem("cart"))[0]?.tenant != restaurant_name) {
-            console.log("-------------deleted all***************************************")
+            // console.log("-------------deleted all***************************************")
             localStorage.setItem("cart", JSON.stringify([]))
             setCart([])
             secureLocalStorage.removeItem("invoice_detail")
