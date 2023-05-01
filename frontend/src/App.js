@@ -38,7 +38,8 @@ function App() {
      * Added by - Om shrivastava on 01-05-2023
      * Reason - To store tenant name
      */
-    localStorage.setItem("tenantName",tenant)
+    if(seperatedWords[seperatedWords.length-1] == "home")
+      localStorage.setItem("tenantName",tenant)
     /**
      * End of code addition by Om shrivastava on 01-05-2023
      */
@@ -47,26 +48,26 @@ function App() {
     //Reason - To delete old token from localstorage when user reloads the page
     localStorage.removeItem("fcmToken")
     //End of code addition by Ashish dewanan on 30-04-2023
-    if (Notification.permission === 'granted') {
-      getFCMToken()
-    }else{
-      // showModal()
-      var getPermission=Notification.requestPermission();
-      if(getPermission)
-        getFCMToken();
-    }
+    // if (Notification.permission === 'granted') {
+    //   getFCMToken()
+    // }else{
+    //   // showModal()
+    //   var getPermission=Notification.requestPermission();
+    //   if(getPermission)
+    //     getFCMToken();
+    // }
   },[])
   
-  function requestBrowserPermission(){
-    Notification.requestPermission()
-    .then(function() {
-      console.log('Notification permission granted.');
-      getFCMToken()
-    })
-    .catch(function(err) {
-      console.log('Unable to get permission to notify.', err);
-    });
-  }
+  // function requestBrowserPermission(){
+  //   Notification.requestPermission()
+  //   .then(function() {
+  //     console.log('Notification permission granted.');
+  //     getFCMToken()
+  //   })
+  //   .catch(function(err) {
+  //     console.log('Unable to get permission to notify.', err);
+  //   });
+  // }
 
   return (
     <BrowserRouter>

@@ -521,10 +521,10 @@ def orderCreation(tenant, request):
             discounted = allOffer.get(item_name=item).offer_name.discount
         if (cart['serve_size'] == "Half Plate"):
             price = float(item.price_half)*float(cart['quantity']) - float(
-                item.price_half * cart['quantity']/100)*discounted
+                item.price_half * cart['quantity']/100)*float(discounted)
         else:
             price = float(item.price_full)*float(cart['quantity'])-float(
-                item.price_full * cart['quantity']/100)*discounted
+                item.price_full * cart['quantity']/100)*float(discounted)
 
         itemsPrice.append(price)
 
@@ -614,10 +614,10 @@ def orderItemsCreation(request, order_obj):
         # Modified by :- Parineeta Gedam on 21-04-2023
         if (cart['serve_size'] == "Half Plate"):
             cartData['price'] = float(
-                item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)*discounted
+                item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)*float(discounted)
         else:
             cartData['price'] = float(
-                item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*discounted
+                item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
         # End of added code
 
         cartItem.append(cartData)
@@ -827,10 +827,10 @@ class updateOrdersAPIView(APIView):
                 # Reason - We changed half plate to half string so, this if matching condition occurs  
             if (cart['serving_size'] == "Half"):
                 price = float(item.price_half)*float(cart['quantity']) - float(
-                    item.price_half * cart['quantity']/100)*discounted
+                    item.price_half * cart['quantity']/100)*float(discounted)
             else:
                 price = float(item.price_full)*float(cart['quantity']) - float(
-                    item.price_full * cart['quantity']/100)*discounted
+                    item.price_full * cart['quantity']/100)*float(discounted)
 
             itemsPrice.append(price)
         orderId.sub_total = float("{:.2f}".format((sum(itemsPrice))))

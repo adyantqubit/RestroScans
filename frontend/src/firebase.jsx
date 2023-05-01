@@ -31,70 +31,70 @@ export {firebase,auth}
  * Reason - To connect FCM for push notificaiton.
  */
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging();
-export const getFCMToken = () => {
-  getToken(messaging, {
-    vapidKey:
-      "BFBMZXfht5P5mlZ_MtL4OER7W1iZojCTNYgVAUe83trFjy4yIjLVAuxJ_IIGVlNkks9SNveg78G_GKiQBTOtnmk",
-  })
-    .then(function (currentToken) {
-      console.log("Got current token-----", currentToken);
-      if (currentToken) {
-        localStorage.setItem('fcmToken',currentToken)
-        sendTokenToServer(currentToken);
-      } else {
-        console.log(
-          "No Instance ID token available. Request permission to generate one."
-        );
-        setTokenSentToServer(false);
-      }
-    })
-    .catch(function (err) {
-      console.log("An error occurred while retrieving token. ", err);
-      setTokenSentToServer(false);
-    });
-  console.log("End get token");
-};
+// const messaging = getMessaging();
+// export const getFCMToken = () => {
+//   getToken(messaging, {
+//     vapidKey:
+//       "BFBMZXfht5P5mlZ_MtL4OER7W1iZojCTNYgVAUe83trFjy4yIjLVAuxJ_IIGVlNkks9SNveg78G_GKiQBTOtnmk",
+//   })
+//     .then(function (currentToken) {
+//       console.log("Got current token-----", currentToken);
+//       if (currentToken) {
+//         localStorage.setItem('fcmToken',currentToken)
+//         sendTokenToServer(currentToken);
+//       } else {
+//         console.log(
+//           "No Instance ID token available. Request permission to generate one."
+//         );
+//         setTokenSentToServer(false);
+//       }
+//     })
+//     .catch(function (err) {
+//       console.log("An error occurred while retrieving token. ", err);
+//       setTokenSentToServer(false);
+//     });
+//   console.log("End get token");
+// };
 
-onMessage(function (payload) {
-  console.log("Message received. ", payload);
-});
-
-
-const sendTokenToServer=async (currentToken)=> {
-
-  if (!isTokenSentToServer()) {
-    console.log("Sending token to server...");
-    var tenant=localStorage.getItem("tenantName")
-    var data={
-      registration_id:currentToken,
-      type:"web",
-    }
-    const response = await postFCMToken(data,tenant)
-    setTokenSentToServer(true);
-  } else {
-    console.log(
-      "Token already sent to server so won't send it again " +
-        "unless it changes"
-    );
-  }
-}
+// onMessage(function (payload) {
+//   console.log("Message received. ", payload);
+// });
 
 
-function isTokenSentToServer() {
-  if (window.localStorage.getItem("sentToServer") == 1) {
-    return true;
-  }
-  return false;
-}
+// const sendTokenToServer=async (currentToken)=> {
 
-function setTokenSentToServer(sent) {
-  if (sent) {
-    window.localStorage.setItem("sentToServer", 1);
-  } else {
-    window.localStorage.setItem("sentToServer", 0);
-  }
-}
+//   if (!isTokenSentToServer()) {
+//     console.log("Sending token to server...");
+//     var tenant=localStorage.getItem("tenantName")
+//     var data={
+//       registration_id:currentToken,
+//       type:"web",
+//     }
+//     const response = await postFCMToken(data,tenant)
+//     setTokenSentToServer(true);
+//   } else {
+//     console.log(
+//       "Token already sent to server so won't send it again " +
+//         "unless it changes"
+//     );
+//   }
+// }
+
+
+// function isTokenSentToServer() {
+//   if (window.localStorage.getItem("sentToServer") == 1) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// function setTokenSentToServer(sent) {
+//   if (sent) {
+//     window.localStorage.setItem("sentToServer", 1);
+//   } else {
+//     window.localStorage.setItem("sentToServer", 0);
+//   }
+// }
 
 /**
  * End of code addition by Om Shrivastava for FCM push notification on 30-04-2023

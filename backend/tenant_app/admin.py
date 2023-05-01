@@ -376,6 +376,11 @@ class CustomerDetailAdmin(admin.ModelAdmin):
     list_display_links=('id','name','email','contact_number')
     # End of code addition
 
+    # Added by - Ashish Dewangan on 01-05-2023
+    # Reason - To add pagination
+    list_per_page=10
+    # End of code addition
+
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -416,6 +421,12 @@ class OrderAdmin(admin.ModelAdmin):
                     'total','order_status','payment_status','date')
     # End of code addition
 
+    # Added by - Ashish Dewangan on 01-05-2023
+    # Reason - To add pagination and date filter
+    list_per_page=10
+    list_filter=('date',)
+    # End of code addition
+    
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To show order items inside order page
     def get_queryset(self, request):
@@ -500,6 +511,11 @@ class OrderItemAdmin(admin.ModelAdmin):
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=('id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # End of code addition
+
+    # Added by - Ashish Dewangan on 01-05-2023
+    # Reason - To add pagination
+    list_per_page=10
     # End of code addition
 
     # Commented and modified by - Ashish Dewangan on 24-04-2023
