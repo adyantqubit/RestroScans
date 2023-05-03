@@ -49,12 +49,31 @@ export default function LoginScreen({ navigation }) {
   // useEffect(() => {}, [isFocused]);
   // End of re render
 
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
+
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get adyant logo and show it background
   const [appSettings, setAppSettings] = useState("");
   useEffect(() => {
     getAppDetails();
-  }, []);
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    formRef.current.resetForm({});
+    /**
+     * End of refreshing validation msg
+     */
+  }, [isFocused]);
   const getAppDetails = async () => {
     const response = await getAppSetting();
     setAppSettings(response);
@@ -156,6 +175,11 @@ export default function LoginScreen({ navigation }) {
       <View style={{ flex: 1 }}>
         <ScrollView keyboardShouldPersistTaps="handled">
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             initialValues={{ email: "", password: "" }}
             validateOnMount={true}
             validationSchema={loginSchema}
@@ -430,7 +454,7 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
-    marginTop: -10
+    marginTop: -10,
   },
   registerBtn: {
     width: "95%",

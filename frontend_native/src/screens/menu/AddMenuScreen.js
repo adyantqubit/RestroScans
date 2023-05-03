@@ -202,11 +202,11 @@ export default function AddMenuScreen() {
      */
     setDefaultValue(val);
     setMenuActive(false);
+    formRef.current.setErrors({});
+    formRef.current.resetForm({});
     /**
      * End of refreshing validation msg
      */
-    formRef.current.setErrors({});
-    formRef.current.resetForm({});
 
   }, [isFocused]);
   var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
