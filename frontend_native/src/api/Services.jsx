@@ -452,3 +452,24 @@ export const getPaymentMethodApi = async (tenant) => {
   return response ? response.data : {};
 };
 // End getting payment method
+
+
+/**
+ * Added by Yuvraj Sahu on 01-05-2023
+ * Reason - to get all customer list
+ */
+/**
+ * This function is used to call
+ * API for get all orders from backend
+ */
+export const getAllCustomerApi = async (tenant) => {
+  const response = await API.get(`api/v1/${tenant}/all-customers/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of getting all orders
+ */

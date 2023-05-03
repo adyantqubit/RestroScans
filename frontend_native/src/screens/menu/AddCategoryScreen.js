@@ -40,21 +40,28 @@ export default function AddCategoryScreen() {
   const [menuSelected, setMenuSelected] = React.useState("");
   var [data, setData] = useState([]);
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    getValues,
-    getFieldState,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: "",
-      menu: "",
-      // icon: ""
-    },
-  });
+  /**
+   * Commeted by Yuvraj Sahu on 03-05-2023
+   * Reason - This is not using now we are using formik
+   */
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   setValue,
+  //   getValues,
+  //   getFieldState,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     name: "",
+  //     menu: "",
+  //     // icon: ""
+  //   },
+  // });
+  /**
+   * End of comment by Yuvraj Sahu on 03-05-2023
+   */
 
   var { render, setRender } = useContext(AppStateContext);
 
@@ -70,11 +77,35 @@ export default function AddCategoryScreen() {
   // useEffect(() => {}, [render]);
   // end of addition
 
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+
+  /**
+   * End of refreshing validation msg
+   */
   useEffect(() => {
     getMenus();
     getTenant();
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    formRef.current.resetForm({});
+    formRef.current.setErrors({});
+    menuDropdownRef.current.reset();
+    setCategoryName("");
+    setCatgeoryActive(false);
+    /**
+     * End of refreshing validation msg
+     */
   }, [isFocused]);
   // End of show menu list
+
   const getMenus = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
@@ -198,7 +229,16 @@ export default function AddCategoryScreen() {
   var [categoryRequired, setCategoryRequired] = useState(false);
 
   const handleRegister = async (values, { resetForm }) => {
-    setSaveBtnDisable(true);
+  	/**
+  	* Amodified by Yuvraj Sahu on 03-05-2023
+  	Reason - to button disable when menu selected
+  	*/
+    if (categoryName != "") {
+      setSaveBtnDisable(true);
+    }
+    /**
+    * End of addition
+    */
     if (categoryName == "") {
       setCategoryRequired(true);
     }
@@ -419,6 +459,11 @@ export default function AddCategoryScreen() {
           {/* ----------------------------- formik 23-4-2023 ------------------------------ */}
 
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             // enableReinitialize={true}
             initialValues={{
               name: "",

@@ -13,6 +13,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import Footer from "../../components/Footer/Footer";
 import { useIsFocused } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+import { colors } from "../../Colours/globalColor";
 
 export default function CustomerListScreen({ route, navigation }) {
   const isFocused = useIsFocused();
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 8,
     paddingHorizontal: 10,
     width: "95%",
@@ -147,7 +148,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     borderColor: "black",
-    backgroundColor: "#BAB8F7",
+    /**
+     * Added by yuvraj Sahu on 03-05-2023
+     * Reason - to give background color using global
+     */
+    // backgroundColor: "#BAB8F7",
+    backgroundColor: colors.lightTheme,
+    /**
+     * End of addition
+     */
     alignSelf: "center",
     justifyContent: "center",
   },

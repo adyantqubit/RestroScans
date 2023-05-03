@@ -91,6 +91,16 @@ export default function AddOfferItemScreen() {
     getOfferName();
     getAllItems();
     getTenant();
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the dropdown when
+     * we come back from another screen
+     */
+    bannerDropdownRef.current.reset();
+    itemDropdownRef.current.reset();
+    /**
+     * End of refreshing dropdown
+     */
   }, [isFocused]);
   // End of show menu list
 

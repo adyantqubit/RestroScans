@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -181,9 +181,33 @@ export default function AddMenuScreen() {
   // };
 
   // ------------------------- formik regitration ------------------------
+  var [defaultValue, setDefaultValue] = useState({})
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
   const isFocused = useIsFocused();
   useEffect(() => {
+    var val = {name: ""}
     setImage(null);
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    setDefaultValue(val);
+    setMenuActive(false);
+    /**
+     * End of refreshing validation msg
+     */
+    formRef.current.setErrors({});
+    formRef.current.resetForm({});
+
   }, [isFocused]);
   var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
   const handleRegister = async (values, { resetForm }) => {
@@ -377,10 +401,13 @@ export default function AddMenuScreen() {
           {/* ----------------------------- formik 23-4-2023 ------------------------------ */}
 
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             // enableReinitialize={true}
-            initialValues={{
-              name: "",
-            }}
+            initialValues={defaultValue}
             // validateOnMount={true}
             validationSchema={addMenuSchema}
             onSubmit={handleRegister}

@@ -90,10 +90,38 @@ export default function AddItemScreen() {
   //   getTenant();
   // }, []);
 
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
+
   const isFocused = useIsFocused();
   useEffect(() => {
     getMenus();
     getTenant();
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    categoryDropdownRef.current.reset();
+    setItemName("");
+    formRef.current.resetForm({});
+    formRef.current.setErrors({});
+    setItemActive(false);
+    setBestSeller(false);
+    setImgRequired(false);
+    setItemRequired(false);
+    setImage(null);
+    setFileSizeError(false);
+    /**
+     * End of refreshing validation msg
+     */
   }, [isFocused]);
   // End of addition
   // End of show menu list
@@ -612,6 +640,11 @@ export default function AddItemScreen() {
 
           {/* ------------------------------- Formik 24-4-2023 ------------------------------  */}
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             // enableReinitialize={true}
             initialValues={{
               name: "",

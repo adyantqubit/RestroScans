@@ -40,12 +40,34 @@ export default function SettingScreen({ navigation }) {
   var [defaultValue, setDefaultValue] = useState({});
   // End of addition
 
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  const settingDropdownRef = useRef({});
+  /**
+   * End of refreshing validation msg
+   */
+
   useEffect(() => {
     getSettingData();
     // Added by Yuvraj Sahu on 27-4-2023
     // Reason - to clear default value for setting
     setDefaultValue({ cgst: "", sgst: "", gstin: "", fssaino: "" });
     // End of addition
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to refresh validation msg
+     */
+    settingDropdownRef.current.reset();
+    formRef.current.setErrors({});
+    formRef.current.resetForm({});
+    setAllowHalfPrice(false);
+    /**
+     * End of refresh validation msg
+     */
   }, [isFocused]);
 
   // Added by Yuvraj Sahu on 13-4-2023
@@ -105,7 +127,6 @@ export default function SettingScreen({ navigation }) {
     var themes = themeOption.map((e) => {
       return { key: e.id, value: e.background_color + ", " + e.heading_color };
     });
-
     setThemeList(themes);
   };
 
@@ -851,6 +872,11 @@ export default function SettingScreen({ navigation }) {
           {/* ------------------------------- formik ---------------------------- */}
 
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             enableReinitialize={true}
             // modified by Yuvraj Sahu on 27-4-2023
             // Reason - to set default value from usestate
@@ -880,6 +906,14 @@ export default function SettingScreen({ navigation }) {
                         return e.id == settings.app_theme;
                       })[0]
                     }
+                    /**
+                     * Added by Yuvraj Sahu on 03-05-2023
+                     * Reason - to reset the dropdown when come back another screen
+                     */
+                    ref={settingDropdownRef}
+                    /**
+                     * End of addition
+                     */
                     data={themeOption}
                     dropdownOverlayColor="rgba(0,0,0,0)"
                     buttonTextStyle={{ fontSize: 16 }}

@@ -1,7 +1,7 @@
 // Created by Om on 08-04-2023
 // Reason - to create banner section
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -82,11 +82,33 @@ export default function AddOfferScreen() {
   };
 
   /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
+
+  /**
    * Added by Yuvraj Sahu on 30-4-2023
    * Reason - to re render the screen
    */
   useEffect(() => {
     setImage(null);
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    formRef.current.setErrors({});
+    formRef.current.resetForm({});
+    setIsShowVideo(false);
+    setFileSizeError(false);
+    /**
+     * End of refreshing validation msg
+     */
     getTenant();
   }, [isFocused]);
   /**
@@ -378,6 +400,11 @@ export default function AddOfferScreen() {
 
           {/* ----------------------------- formik 23-4-2023 ------------------------------ */}
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             // enableReinitialize={true}
             initialValues={{
               offer_name: "",

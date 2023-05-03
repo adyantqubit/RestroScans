@@ -13,7 +13,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { Formik } from "formik";
 import { addPaymentMethodSchema } from "../../validation/ValidationSchema";
 import { useIsFocused } from "@react-navigation/native";
@@ -31,7 +31,17 @@ export default function PaymentMethod() {
 
   // Added by Yuvraj Sahu on 27-4-2023
   // Reason - to set default value
-  var [defaultValue, setDefaultValue] = useState({});
+  /**
+   * Modified by Yuvraj Sahu on 03-05-2023
+   * Reason - to set default value in object form
+   */
+  var [defaultValue, setDefaultValue] = useState({
+    name: "",
+    contact_number: "",
+  });
+  /**
+   * End of set default value
+   */
   // End of addition
 
   // Added by Yuvraj Sahu on 27-4-2023
@@ -39,9 +49,18 @@ export default function PaymentMethod() {
   var [savedPaymentMethod, setSavedPaymentMethod] = useState({});
   // End of addition
 
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
+
   useEffect(() => {
     setImage(null);
-    setDefaultValue({ name: "", contact_number: "" });
     getPaymentData();
   }, [isFocused]);
 
@@ -66,6 +85,16 @@ export default function PaymentMethod() {
    * Reason - to get saved value for payment method
    */
   const getPaymentData = async () => {
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to set default value in form
+     */
+    var val = { name: "", contact_number: "" };
+    setDefaultValue(val);
+    setFileSizeError(false);
+    /**
+     * End of set default value
+     */
     if (await SecureStore.getItemAsync("tenantInfo")) {
       var tenant = JSON.parse(
         await SecureStore.getItemAsync("tenantInfo")
@@ -80,6 +109,18 @@ export default function PaymentMethod() {
               ? response[0].contact_number
               : "",
         });
+      } else {
+        /**
+         * Added by Yuvraj Sahu on 03-05-2023
+         * Reason - to re-fresh the validation
+         * msg when we come back from another screen
+         */
+        formRef.current.setErrors({});
+        formRef.current.setValues(val);
+        // defaultValue = val
+        /**
+         * End of refreshing validation msg
+         */
       }
     }
   };
@@ -154,7 +195,6 @@ export default function PaymentMethod() {
       (icon != null || savedPaymentMethod.scanner) &&
       isFileSizeError == false
     ) {
-      alert(JSON.stringify(formData));
       savePaymentMethodApi(formData, tenant).then(async (res) => {
         if (res.msg) {
           setSaveBtnDisable(false);
@@ -177,6 +217,11 @@ export default function PaymentMethod() {
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.container}>
           <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             enableReinitialize={true}
             initialValues={defaultValue}
             // initialValues={{
