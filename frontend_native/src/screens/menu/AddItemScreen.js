@@ -303,9 +303,9 @@ export default function AddItemScreen() {
     formData.append("item_type", itemTypeSelected);
     // End of addition
 
-    // alert("value"+JSON.stringify(formData))
-
-    if (icon != null && isFileSizeError == false) {
+    // Modified by yuvraj Sahu on 03-05-2023
+    // Reason - not calling backend if mendatory fields not filled
+    if (icon != null && isFileSizeError == false && itemName != "") {
       // if (categoryName != "") {
       saveItemApi(formData, tenant).then(async (res) => {
         if (res.msg) {
