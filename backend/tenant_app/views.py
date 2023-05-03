@@ -520,9 +520,13 @@ def orderCreation(tenant, request):
         if allOffer.filter(item_name=item).count() > 0:
             discounted = allOffer.get(item_name=item).offer_name.discount
         if (cart['serve_size'] == "Half Plate"):
+            # Added by Rohan kansari -  1/5/23
+            # Reason - becuase discount is throwing issue if discount is not in float
             price = float(item.price_half)*float(cart['quantity']) - float(
-                item.price_half * cart['quantity']/100)*float(discounted)
+                item.price_half * cart['quantity']/100)* float(discounted)
         else:
+            # Added by Rohan kansari -  1/5/23
+            # Reason - becuase discount is throwing issue if discount is not in float
             price = float(item.price_full)*float(cart['quantity'])-float(
                 item.price_full * cart['quantity']/100)*float(discounted)
 
@@ -613,11 +617,14 @@ def orderItemsCreation(request, order_obj):
          
         # Modified by :- Parineeta Gedam on 21-04-2023
         if (cart['serve_size'] == "Half Plate"):
+            # Added by Rohan kansari -  1/5/23
+            # Reason - becuase discount is throwing issue if discount is not in float
             cartData['price'] = float(
-                item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)*float(discounted)
+                item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)* float(discounted)
         else:
             cartData['price'] = float(
                 item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
+            # End of code - ROhan kansari - 1/5/23
         # End of added code
 
         cartItem.append(cartData)
@@ -826,9 +833,13 @@ class updateOrdersAPIView(APIView):
                 # Modified by:-  parineeta- 24/4/23
                 # Reason - We changed half plate to half string so, this if matching condition occurs  
             if (cart['serving_size'] == "Half"):
+                 # Added by Rohan kansari -  1/5/23
+            # Reason - becuase discount is throwing issue if discount is not in float
                 price = float(item.price_half)*float(cart['quantity']) - float(
                     item.price_half * cart['quantity']/100)*float(discounted)
             else:
+                 # Added by Rohan kansari -  1/5/23
+            # Reason - becuase discount is throwing issue if discount is not in float
                 price = float(item.price_full)*float(cart['quantity']) - float(
                     item.price_full * cart['quantity']/100)*float(discounted)
 

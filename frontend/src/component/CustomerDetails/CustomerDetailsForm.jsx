@@ -229,10 +229,10 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                 </Form.Item>
 
                 <div className={style.checkInvoiceBtn}>
-                  <Form.Item>
+                  {/* <Form.Item>
                     <Button
                       id="signBtn"
-                      type="primary"
+                      // type="primary"
                       htmlType="submit"
                       block
                       className={style.checkInvoiceBtnHeading}
@@ -243,11 +243,22 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                         // width: "80%",
                       }}
                     >
-                      {/* Check invoice */}
-                      {/* Place order */}
+                      {/* Check invoice 
+                      Place order
                       Place Order
                     </Button>
-                  </Form.Item>
+                  </Form.Item> */}
+
+                  {/* Added by ROhan kansari - 1/5/23
+                      Reason - To design new button because antd button showing blue effect which is a bug */}
+                  <button className={style.checkInvoiceBtnHeading}
+                  style={{
+                    backgroundColor: colors.bannerColor,
+                    color: colors.backgroundTheme,
+                    border: "none",
+                    // width: "80%",
+                  }}>Place Order</button>
+                  {/* End of code - 1/5/23 - ROhankansari */}
                 </div>
               </Form>
             </Card>

@@ -91,7 +91,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     // if found index then remove item 
                     setCart(elementRemover(cartId, cartTemp))
                     cartTemp = elementRemover(cartId, cartTemp)
-                    notify("Item is succesfully removed from list")
+                    notify("Item is succesfully removed from cart")
                 }
             }
         }
@@ -112,7 +112,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                 //reason- i am bymistake written full price in half price section
                 cartTemp = [...cartTemp, cartDataCreate(quantityhalf, "Half Plate", item.discounted_half_price)]
                 setCart(cartTemp)
-                notify("Successfully added to your list")
+                notify("Successfully added to your cart")
             }
         }
         else {
@@ -124,7 +124,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                     // if found index then remove item 
                     setCart(elementRemover(cartId, cartTemp))
                     cartTemp = elementRemover(cartId, cartTemp)
-                    notify("Item is succesfully removed from list")
+                    notify("Item is succesfully removed from cart")
                 }
             }
         }
@@ -355,7 +355,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
                             style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }}
                             onClick={AddItemToCart}
                         >
-                            Submit
+                            Add
                         </button>
                     </div>
                 </div> : null}

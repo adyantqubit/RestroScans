@@ -880,7 +880,7 @@ a.ant-notification-notice-close {
 .searchIcon {
     position: absolute;
     right: 0px;
-    left: 0;
+    /* left: 0px; */
     margin: 0 auto;
     font-size: 18px;
     padding: 4px 8px;

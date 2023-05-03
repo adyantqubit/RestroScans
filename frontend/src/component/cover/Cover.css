@@ -14,14 +14,16 @@
 }
 
 .front_page_lable {
+    /* Modified by - ROhan kansari - 1/5/23
+       Reason - To show logo also if name is too long  */
     position: absolute;
-    top: 35%;
+    top: 15%;
     left: 51%;
     transform: translate(-50%, -50%);
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    overflow: hidden;
+    /* overflow: hidden; */
     white-space: normal;
     width: 90%;
     text-align: center;

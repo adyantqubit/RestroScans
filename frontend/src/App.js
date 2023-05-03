@@ -38,8 +38,8 @@ function App() {
      * Added by - Om shrivastava on 01-05-2023
      * Reason - To store tenant name
      */
-    if(seperatedWords[seperatedWords.length-1] == "home")
-      localStorage.setItem("tenantName",tenant)
+     if(seperatedWords[seperatedWords.length-1]=="home")
+    localStorage.setItem("temporaryTenant",tenant)
     /**
      * End of code addition by Om shrivastava on 01-05-2023
      */

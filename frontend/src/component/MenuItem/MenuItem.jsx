@@ -36,7 +36,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import GlobalColor from './../Colors/GlobalColor'
+import GlobalColor from '../Colors/GlobalColor'
 // import { Navigation } from "swiper";
 import { Pagination, Navigation, Mousewheel, Keyboard, Autoplay } from "swiper";
 import Loader from "../Loader/Loader";
