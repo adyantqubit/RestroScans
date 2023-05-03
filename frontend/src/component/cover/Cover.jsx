@@ -70,7 +70,9 @@ function Cover() {
   return (
     <>
       {isLoader == true ? <Loader /> :
-        <div >
+      // Added by Rohan  kansari- 3/5/23 
+      // Reason - To apply bg-image in div  
+        <div style={{backgroundImage:`url(${siteConfig.siteURL + tenantDetails.restaurant_background_image})`}}>
           <div><GlobalColor /></div>
           {tenantDetails ? <div
             className='front_page'
@@ -83,10 +85,12 @@ function Cover() {
               // end of code
             }}
           >
-            <img
+            {/* Commented by - Rohan kansari- 3/5/23
+                Reason - give ackground image in div not in different node  */}
+            {/* <img
               src={siteConfig.siteURL + tenantDetails.restaurant_background_image}
               className='front_page_image'
-            />
+            /> */}
             <div className="front_page_lable">
               <h3 className="restro_name"
                 style={{ color: 'white', textShadow: "0px 0px 7px black" }}
