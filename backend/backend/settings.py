@@ -226,7 +226,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# Commented and modified by - Ashish Dewangan on 03-05-2023
+# Reason - To change time zone according to India.
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
+# End of code modification by Ashish Dewangan on 03-05-2023
 
 USE_I18N = True
 

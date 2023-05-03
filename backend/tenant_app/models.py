@@ -49,8 +49,12 @@ def validate_image(fieldfile_obj):
     
     
 class Menu(models.Model):
-
-    name=models.CharField(max_length=30,default='')
+    # Commented and modified by - Ashish Dewangan on 03-05-2023
+    # Reason - To change label of table
+    # name=models.CharField(max_length=30,default='')
+    name=models.CharField(max_length=30,default='',verbose_name='Menu name')
+    # End of code modification
+    
     icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image])
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
@@ -308,8 +312,11 @@ class Description(models.Model):
     content =models.TextField()
     
     def __str__(self):
-        return self.content 
-    
+        # Commented and modified by Ashish Dewangan on 03-05-2023
+        # Reason - To hide footer content as a label when we open footer model
+        # return self.content 
+        return '' 
+        # End of code modification by Ashish Dewangan on 03-05-2023
     class Meta:
         verbose_name_plural = 'g) Footer Description'
 """
@@ -470,7 +477,13 @@ PAYMENT_STATUS = (
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.CharField(max_length=255)
-    customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE)
+
+    # Commented and modified by - Ashish Dewangan on 03-05-2023
+    # Reason - To add verbose name
+    # customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE)
+    customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE,verbose_name='Customer')
+    # End of code modification by Ashish Dewangan on 03-05-2023
+
     table_number = models.CharField(max_length=255)
     sub_total = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
@@ -531,7 +544,13 @@ class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
     item_id= models.ForeignKey(Item,blank=True,null=True,on_delete=models.CASCADE)
-    item = models.CharField(max_length=255)
+
+    # Commented and modified by - Ashish Dewangan on 03-05-2023
+    # Reason - To add verbose name
+    # item = models.CharField(max_length=255)
+    item = models.CharField(max_length=255,verbose_name='Item name')
+    # End of code modification by Ashish Dewangan on 03-05-2023
+
     serving_size = models.CharField(max_length=255)
     quantity = models.IntegerField(default=0)
     price = models.FloatField(default=0)

@@ -1,4 +1,7 @@
+from typing import Dict, Optional
 from django.contrib import admin
+from django.http.request import HttpRequest
+from django.http.response import HttpResponse
 from .models import *
 from django.apps import apps
 from tenant_schemas.utils import get_public_schema_name
@@ -29,7 +32,6 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-
     list_display=("id","categories_list","name",'is_active')
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -77,7 +79,6 @@ class MenuAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    
     list_display=("id","item_list","name", "menu",'is_active')
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -251,8 +252,6 @@ class SettingAdmin(admin.ModelAdmin):
     # Added by Om on 11-04-23
     # Reason : Show the list display fields
     
-    
-    
     #added by rohan - 14/4/23
     #reson- to remove tax from setting and added cgst and sgst 
     list_display=("id","app_theme", "cgst","sgst","allow_half_price")
@@ -405,21 +404,52 @@ Reason- Register Order table.
 
 class OrderAdmin(admin.ModelAdmin):
 
+    # Added by - Ashish Dewangan on 03-05-2023
+    # Reason - To Redirect to dashboard after any action
+    def response_add(self, request, obj, post_url_continue="../%s/"):
+        from django.http import HttpResponseRedirect
+        if '_continue' not in request.POST:
+            return HttpResponseRedirect("/admin")
+        else:
+            return super(OrderAdmin, self).response_add(request, obj, post_url_continue)
+
+    def response_change(self, request, obj):
+        from django.http import HttpResponseRedirect
+        if '_continue' not in request.POST:
+            return HttpResponseRedirect("/admin")
+        else:
+            return super(OrderAdmin, self).response_change(request, obj)
+    # End of code addition by Ashish Dewangan 03-05-2023
+
     # updated by rohan - 14/4/23 to show cgst and sgt in columns not tax so removing tax field
     # Mofified by ROhankansari - 30/4/23
     # Reason - TO show number instead of name if not entered
-    list_display = ['id','order_items','order_id','get_customer', 'table_number', 'sub_total',
+    
+    # Commented and modified by - Ashish Dewangan on 03-05-2023
+    # Reason - To add view button 
+    # list_display = ['id','order_items','order_id','get_customer', 'table_number', 'sub_total',
+    #             # 'tax',
+    #             'total','order_status','payment_status','date']
+    list_display = ['view_order','order_items','order_id','customer_detail', 'table_number', 'sub_total',
                     # 'tax',
                     'total','order_status','payment_status','date']
     # end of code
-
+    # End of code modification by - Ashish Dewangan on 03-05-2023
+    
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     # Mofified by ROhankansari - 30/4/23
     # Reason - TO show number instead of name if not entered
-    list_display_links=('id','order_id','get_customer', 'table_number', 'sub_total',
+
+    # Commented and modified by - Ashish Dewangan on 03-05-2023
+    # Reason - To add view button
+    # list_display_links=('id','order_id','get_customer', 'table_number', 'sub_total',
+    #                 'total','order_status','payment_status','date')
+    list_display_links=('view_order','order_id','customer_detail', 'table_number', 'sub_total',
                     'total','order_status','payment_status','date')
+    # End of code modification by Ashish Dewangan on 03-05-2023
     # End of code addition
+
 
     # Added by - Ashish Dewangan on 01-05-2023
     # Reason - To add pagination and date filter
@@ -435,9 +465,14 @@ class OrderAdmin(admin.ModelAdmin):
     
     # Created by ROhankansari - 30/4/23
     # Reason - TO show number if name is not entered
-    def get_customer(self, obj):
-        if len(obj.customer_id.name)>0:
+    def customer_detail(self, obj):
+        # Commented and modified by - Ashish Dewangan on 03-05-2023
+        # Reason - To handle exception because length cant be checked if name is null
+        # def get_customer(self, obj):
+        # if len(obj.customer_id.name)>0:    
+        if obj.customer_id.name:
             return obj.customer_id.name
+        # End of code modification by - Ashish Dewangan on 03-05-2023
         else:
             return obj.customer_id.contact_number
         # End of code - ROhan kansari - 30/4/23
@@ -445,9 +480,22 @@ class OrderAdmin(admin.ModelAdmin):
     def order_items(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+        # Commented and modified by - Ashish Dewangan on 03-05-2023
+        # Reason - To style link tag as button
+        # return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+        return format_html("<a style='background-color: #c97303;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+        # End of code modification
     order_items.allow_tags = True
     # End of code addition by Ashish Dewangan on 24-04-2023
+
+    # Added by - Ashish Dewangan on 03-05-2023
+    # Reason - To add view button
+    def view_order(self,obj):
+        from django.utils.html import format_html
+        from django.conf import settings
+        return format_html("<a style='background-color: #c97303;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/order/"+str(obj.id)+"/change/'>View Details</>")
+    view_order.allow_tags = True
+    # End of code addition by - Ashish Dewangan on 03-05-2023
 
     # Added by :- Parineeta Gedam on 17-04-2023
     readonly_fields=['order_id','customer_id','sub_total',
@@ -507,10 +555,30 @@ Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order Item.
 """
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
+    # Added by - Ashish Dewangan on 03-05-2023
+    # Reason - To Redirect to dashboard after any action
+    def response_add(self, request, obj, post_url_continue="../%s/"):
+        from django.http import HttpResponseRedirect
+        if '_continue' not in request.POST:
+            return HttpResponseRedirect("/admin")
+        else:
+            return super(OrderItemAdmin, self).response_add(request, obj, post_url_continue)
+
+    def response_change(self, request, obj):
+        from django.http import HttpResponseRedirect
+        if '_continue' not in request.POST:
+            return HttpResponseRedirect("/admin")
+        else:
+            return super(OrderItemAdmin, self).response_change(request, obj)
+    # End of code addition by Ashish Dewangan 03-05-2023
+    list_display = ['view_order_item','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
-    list_display_links=('id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # Commented and modified by - Ashish Dewangan on 30-05-2023
+    # Reason - To add button
+    # list_display_links=('id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    list_display_links=('view_order_item','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # End of code modification by Ashish Dewangan on 03-05-2023
     # End of code addition
 
     # Added by - Ashish Dewangan on 01-05-2023
@@ -531,7 +599,23 @@ class OrderItemAdmin(admin.ModelAdmin):
             return False
         else:
             return True
-        
+
+    # Added by - Ashish Dewangan on 03-05-2023
+    # Reason - To show order items inside order page
+    def get_queryset(self, request):
+        self.request = request      
+        return super().get_queryset(request)
+    # End of code addition by Ashish Dewangan on 03-05-2023
+
+    # Added by - Ashish Dewangan on 03-05-2023
+    # Reason - To add view button
+    def view_order_item(self,obj):
+        from django.utils.html import format_html
+        from django.conf import settings
+        return format_html("<a style='background-color: #c97303;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/"+str(obj.id)+"/change/'>View Details</>")
+    view_order_item.allow_tags = True
+    # End of code addition by - Ashish Dewangan on 03-05-2023
+
     # Modified by :- Parineeta Gedam on 20-04-2023
     def has_delete_permission(self, request, obj=None) :
         return False
