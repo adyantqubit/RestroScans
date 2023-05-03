@@ -62,6 +62,10 @@ export default function SettingScreen({ navigation }) {
      * Reason - to refresh validation msg
      */
     settingDropdownRef.current.reset();
+    // Added by Yuvraj Sahu on 03-05-2023
+    // Reason - to theme empty when goback another screen
+    setTheme("");
+    // End of addition by yuvraj Sahu on 03-05-2023
     formRef.current.setErrors({});
     formRef.current.resetForm({});
     setAllowHalfPrice(false);
