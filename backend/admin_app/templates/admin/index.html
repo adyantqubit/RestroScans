@@ -821,7 +821,9 @@
                                                 <!-- Added by Om on 04-05-23
                                                 Reason : Generate the bill for the user and KOT -->
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_generate_bill' completed_orders.id %} "> Get Bill</a> 
+                                                    {% if  completed_orders.order_status == 'Served'  %} 
+                                                        <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_generate_bill' completed_orders.id %} "> Get Bill</a> 
+                                                    {% endif %}
                                                 </td>
 
                                                 <td class="fw-bolder text-gray-500">
