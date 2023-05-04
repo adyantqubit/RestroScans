@@ -101,36 +101,45 @@ export default function HomeScreen({ navigation }) {
   // End of addition
 
   const initializeDashboard = async () => {
-    var tenant = JSON.parse(
-      await SecureStore.getItemAsync("tenantInfo")
-    ).tenant_name;
-    const response = await getDashboardData(tenant);
-    if (response) {
-      setRevenueDetails(response.revenue_details);
-      /**
-       * Added by - Ashish Dewangan on 15-04-2023
-       * Reason - To store revenue details from backend to frontend variables
-       */
-      setTodaysSummary(response.revenue_details.todays_summary);
-      setThisWeeksSummary(response.revenue_details.this_weeks_summary);
-      setThisMonthsSummary(response.revenue_details.this_months_summary);
-      setThisYearsSummary(response.revenue_details.this_years_summary);
+    /**
+     * Added by Yuvraj Sahu on 04-05-2023
+     * Reason - to remove error bottom of the app when we logged out
+     */
+    // if ((await SecureStore.getItemAsync("userData")) != null) {
+      var tenant = JSON.parse(
+        await SecureStore.getItemAsync("tenantInfo")
+      ).tenant_name;
+      const response = await getDashboardData(tenant);
+      if (response) {
+        setRevenueDetails(response.revenue_details);
+        /**
+         * Added by - Ashish Dewangan on 15-04-2023
+         * Reason - To store revenue details from backend to frontend variables
+         */
+        setTodaysSummary(response.revenue_details.todays_summary);
+        setThisWeeksSummary(response.revenue_details.this_weeks_summary);
+        setThisMonthsSummary(response.revenue_details.this_months_summary);
+        setThisYearsSummary(response.revenue_details.this_years_summary);
 
-      /**
-       * End of code addition
-       */
+        /**
+         * End of code addition
+         */
 
-      /**
-       * Added by - Ashish Dewangan on 19-04-2023
-       * Reason - To show todays new orders
-       */
-      setTodaysNewlyPlacedOrders(response.todays_newly_placed_orders);
-      setTodaysPendingOrders(response.todays_pending_orders);
-      setTodaysCompletedOrders(response.todays_completed_orders);
-      /**
-       * End of code addition by Ashish Dewangan on 19-04-2023
-       */
+        /**
+         * Added by - Ashish Dewangan on 19-04-2023
+         * Reason - To show todays new orders
+         */
+        setTodaysNewlyPlacedOrders(response.todays_newly_placed_orders);
+        setTodaysPendingOrders(response.todays_pending_orders);
+        setTodaysCompletedOrders(response.todays_completed_orders);
+        /**
+         * End of code addition by Ashish Dewangan on 19-04-2023
+         */
+      // }
     }
+    /**
+     * End of addition by Yuvraj Sahu on 04-05-2023
+     */
   };
 
   /**

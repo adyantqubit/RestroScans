@@ -181,7 +181,7 @@ export default function AddMenuScreen() {
   // };
 
   // ------------------------- formik regitration ------------------------
-  var [defaultValue, setDefaultValue] = useState({})
+  var [defaultValue, setDefaultValue] = useState({});
   /**
    * Added by Yuvraj Sahu on 03-05-2023
    * Reason - to re-fresh the validation
@@ -193,21 +193,27 @@ export default function AddMenuScreen() {
    */
   const isFocused = useIsFocused();
   useEffect(() => {
-    var val = {name: ""}
+  	// Commeted by Yuvraj Sahu on 04-05-2023
+  	// Reason - to clear the form value by useref
+    // var val = {name: ""}
+    // End of comment
     setImage(null);
     /**
      * Added by Yuvraj Sahu on 03-05-2023
      * Reason - to re-fresh the validation
      * msg when we come back from another screen
      */
-    setDefaultValue(val);
+     // Commeted by Yuvraj Sahu on 04-05-2023
+  	// Reason - to clear the form value by useref
+    // setDefaultValue(val);
+    // End of comment
     setMenuActive(false);
-    formRef.current.setErrors({});
     formRef.current.resetForm({});
+    formRef.current.setErrors({});
+    setImgRequired(false);
     /**
      * End of refreshing validation msg
      */
-
   }, [isFocused]);
   var [isSaveBtnDisable, setSaveBtnDisable] = useState(false);
   const handleRegister = async (values, { resetForm }) => {
@@ -443,10 +449,12 @@ export default function AddMenuScreen() {
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
-
-                  {errors.name && touched.name && (
+				{/* Modified by Yuvraj Sahu on 04-05-2023
+				Reason - to validate name field */}
+                  {errors.name && (
                     <Text style={styles.textdanger}>{errors.name}</Text>
                   )}
+                  {/* End of modification by yuvraj Sahu on 4-05-2023 */}
                 </View>
 
                 <View

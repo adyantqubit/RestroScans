@@ -200,9 +200,23 @@ export const settingSchema = yup.object().shape({
     ),
   // Added by Yuvraj Sahu on 28-4-2023
   // Reason - to validate cgst and sgst
-  cgst: yup.number().max(99, ({ max }) => `cgst should no be more than ${max}`),
-  sgst: yup.number().max(99, ({ max }) => `sgst should no be more than ${max}`),
+  cgst: yup
+    .number()
+    .max(99, ({ max }) => `cgst should not be more than ${max}`),
+  sgst: yup
+    .number()
+    .max(99, ({ max }) => `sgst should not be more than ${max}`),
   // End of addition
+  /**
+   * Added by Yuvraj Sahu on 04-05-2023
+   * Reason - to give max length of fssai no.
+   */
+  fssaino: yup
+    .string()
+    .max(50, ({ max }) => `fssaino should not be more than ${max}`),
+  /**
+   * End of addition by Yuvraj Sahu on 04-05-2023
+   */
 });
 
 // Added by yuvraj Sahu on 22-04-2023

@@ -16,6 +16,8 @@ import * as Print from "expo-print";
 import { useIsFocused } from "@react-navigation/native";
 import Footer from "../../components/Footer/Footer";
 import { FontAwesome } from "@expo/vector-icons";
+import SelectDropdown from "react-native-select-dropdown";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender, settings } = useContext(AppStateContext); //Need to use settings, for GST number.
@@ -116,6 +118,15 @@ export default function OrderItemsScreen({ route, navigation }) {
       // Added by Yuvraj Sahu on 14-4-2023
       // Reason - to set order detail in state
       setOrderDetail(response.orderDetail);
+      /**
+      * Added by Yuvraj Sahu on 04-05-2023
+      * Reason - to set default value in dropdown
+      */
+      setOrderStatus(response.orderDetail.order_status);
+      setPaymentStatus(response.orderDetail.payment_status)
+      /**
+      * End of addition by yuvraj Sahu on 04-05-2023
+      */
       // End of addition
     }
   };
@@ -211,7 +222,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             </div>
             <div class="inLineContainer">
               <div class="centerLabel">FSSAI NO :- ${
-                settings.setting.gstin
+                settings.setting.fssaino
               }</div>
             </div>
             <hr>
@@ -862,7 +873,10 @@ export default function OrderItemsScreen({ route, navigation }) {
             <View style={styles.orderStatusContainer}>
               {/* Font weight apply by Om on 27-04-23 */}
               <Text style={{ fontWeight: "bold" }}>Order status</Text>
-              <SelectList
+
+              {/* Commeted and added by Yuvraj Sahu on 04-05-2023
+              Reason - to change the dropdown library */}
+              {/* <SelectList
                 setSelected={setOrderStatus}
                 data={orderStatusData}
                 search={false}
@@ -871,6 +885,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                   alignSelf: "center",
                   marginTop: 1,
                   height: 125,
+                  // Added by Yuvraj Sahu on 04-05-2023 Reason - to set width of dropdown
+                  width: 120,
+                  // End addition by yuvraj Sahu on 04-05-2023
                 }}
                 boxStyles={{
                   // width: "93%",
@@ -878,13 +895,60 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderRadius: 5,
                   borderColor: "black",
                   // marginTop: 10,
+                  // Added by Yuvraj Sahu on 04-05-2023 Reason - to set width of dropdown
+                  width: 120,
+                  // End addition by yuvraj Sahu on 04-05-2023
                 }}
                 //override default styles
                 defaultOption={{
                   key: orderDetail.order_status,
                   value: orderDetail.order_status,
                 }}
+              /> */}
+
+              <SelectDropdown
+                defaultValue={
+                  orderStatusData.filter((e) => {
+                    return e.value == orderDetail.order_status;
+                  })[0]
+                }
+                data={orderStatusData}
+                dropdownOverlayColor="rgba(0,0,0,0)"
+                buttonTextStyle={{ fontSize: 16 }}
+                rowTextStyle={{ fontSize: 16 }}
+                rowStyle={{ height: 41 }}
+                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                dropdownStyle={{
+                  borderRadius: 10,
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                }}
+                renderDropdownIcon={() => {
+                  return <AntDesign name="down" size={14} color="black" />;
+                }}
+                buttonStyle={{
+                  height: 41,
+                  borderColor: "black",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  backgroundColor: "white",
+                  width: "40%",
+                  alignSelf: "center",
+                  marginBottom: 10,
+                }}
+                onSelect={(selectedOrderStatus, index) => {
+                  setOrderStatus(selectedOrderStatus.value);
+                  // setOrderStatusChange(selectedOrderStatus.value)
+                }}
+                buttonTextAfterSelection={(selectedOrderStatus, index) => {
+                  // return selectedOrderStatus.value;
+                  return orderStatusSelected;
+                }}
+                rowTextForSelection={(order, index) => {
+                  return order.value;
+                }}
               />
+              {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
 
             {/* Modified by Om on 20-04-23
@@ -894,7 +958,10 @@ export default function OrderItemsScreen({ route, navigation }) {
             <View style={styles.orderStatusContainer}>
               {/* Font weight apply by Om on 27-04-23 */}
               <Text style={{ fontWeight: "bold" }}>Payment status</Text>
-              <SelectList
+
+              {/* Commeted and added by Yuvraj Sahu on 04-05-2023
+              Reason - to change the dropdown library */}
+              {/* <SelectList
                 setSelected={setPaymentStatus}
                 data={paymentStatusData}
                 search={false}
@@ -902,17 +969,66 @@ export default function OrderItemsScreen({ route, navigation }) {
                   alignSelf: "center",
                   marginTop: 1,
                   height: 100,
+                  // Added by Yuvraj Sahu on 04-05-2023 Reason - to set width of dropdown
+                  width: 120,
+                  // End addition by yuvraj Sahu on 04-05-2023
                 }}
                 boxStyles={{
                   alignSelf: "center",
                   borderRadius: 5,
                   borderColor: "black",
+                  // Added by Yuvraj Sahu on 04-05-2023 Reason - to set width of dropdown
+                  width: 120,
+                  // End addition by yuvraj Sahu on 04-05-2023
                 }}
                 defaultOption={{
                   key: orderDetail.payment_status,
                   value: orderDetail.payment_status,
                 }}
+              /> */}
+
+              <SelectDropdown
+                defaultValue={
+                  paymentStatusData.filter((e) => {
+                    return e.value == orderDetail.payment_status;
+                  })[0]
+                }
+                data={paymentStatusData}
+                dropdownOverlayColor="rgba(0,0,0,0)"
+                buttonTextStyle={{ fontSize: 16 }}
+                rowTextStyle={{ fontSize: 16 }}
+                rowStyle={{ height: 41 }}
+                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                dropdownStyle={{
+                  borderRadius: 10,
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                }}
+                renderDropdownIcon={() => {
+                  return <AntDesign name="down" size={14} color="black" />;
+                }}
+                buttonStyle={{
+                  height: 41,
+                  borderColor: "black",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  backgroundColor: "white",
+                  width: "40%",
+                  alignSelf: "center",
+                  marginBottom: 10,
+                }}
+                onSelect={(selectedPaymentStatus, index) => {
+                  setPaymentStatus(selectedPaymentStatus.value);
+                }}
+                buttonTextAfterSelection={(selectedPaymentStatus, index) => {
+                  return paymentStatusSelected;
+                  // return selectedPaymentStatus.value
+                }}
+                rowTextForSelection={(order, index) => {
+                  return order.value;
+                }}
               />
+              {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
             {/* </>
           ) : null} */}

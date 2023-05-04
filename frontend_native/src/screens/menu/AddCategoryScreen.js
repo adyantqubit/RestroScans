@@ -554,7 +554,6 @@ export default function AddCategoryScreen() {
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
-
                   {errors.name && touched.name && (
                     <Text style={styles.textdanger}>{errors.name}</Text>
                   )}
