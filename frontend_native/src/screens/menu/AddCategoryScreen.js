@@ -101,6 +101,15 @@ export default function AddCategoryScreen() {
     setCategoryName("");
     setCatgeoryActive(false);
     /**
+     * Added by Yuvraj Sahu on 04-05-2023
+     * Reason - to remove file size error when we come back
+     */
+    setImage(null);
+    setFileSizeError(false);
+    /**
+     * End of refreshing validation msg
+     */
+    /**
      * End of refreshing validation msg
      */
   }, [isFocused]);
@@ -229,7 +238,7 @@ export default function AddCategoryScreen() {
   var [categoryRequired, setCategoryRequired] = useState(false);
 
   const handleRegister = async (values, { resetForm }) => {
-  	/**
+    /**
   	* Amodified by Yuvraj Sahu on 03-05-2023
   	Reason - to button disable when menu selected
   	*/
@@ -237,8 +246,8 @@ export default function AddCategoryScreen() {
       setSaveBtnDisable(true);
     }
     /**
-    * End of addition
-    */
+     * End of addition
+     */
     if (categoryName == "") {
       setCategoryRequired(true);
     }

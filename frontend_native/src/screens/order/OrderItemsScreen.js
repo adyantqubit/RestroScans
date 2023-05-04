@@ -119,14 +119,14 @@ export default function OrderItemsScreen({ route, navigation }) {
       // Reason - to set order detail in state
       setOrderDetail(response.orderDetail);
       /**
-      * Added by Yuvraj Sahu on 04-05-2023
-      * Reason - to set default value in dropdown
-      */
+       * Added by Yuvraj Sahu on 04-05-2023
+       * Reason - to set default value in dropdown
+       */
       setOrderStatus(response.orderDetail.order_status);
-      setPaymentStatus(response.orderDetail.payment_status)
+      setPaymentStatus(response.orderDetail.payment_status);
       /**
-      * End of addition by yuvraj Sahu on 04-05-2023
-      */
+       * End of addition by yuvraj Sahu on 04-05-2023
+       */
       // End of addition
     }
   };
@@ -568,19 +568,19 @@ export default function OrderItemsScreen({ route, navigation }) {
             </div>
             <hr>
             <div class="inLineContainer">
-            <div class="label">Date  </div>
-             <div class="text"> ${new Date(orderDetail.date).toLocaleDateString(
-               "en-GB"
-             )}</div>
-            <div class="label">Time   </div>
-            <div class="text">  ${ExtractDateTime(orderDetail.date).time}</div>
+            <div class="label">Date</div>
+             <div class="text">: ${new Date(
+               orderDetail.date
+             ).toLocaleDateString("en-GB")}</div>
+            <div class="label">Time</div>
+            <div class="text">: ${ExtractDateTime(orderDetail.date).time}</div>
 
           </div>
           <div class="inLineContainer">
-            <div class="label">Order id   </div>
-            <div class="text"> ${orderDetail.order_id}</div>
-            <div class="label">Table  </div>
-            <div class="text">  ${
+            <div class="label">Order id</div>
+            <div class="text">: ${orderDetail.order_id}</div>
+            <div class="label">Table</div>
+            <div class="text">: ${
               !orderDetail.table_number ? "N/A" : orderDetail.table_number
             }</div>
             

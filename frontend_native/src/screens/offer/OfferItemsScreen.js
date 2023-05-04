@@ -463,7 +463,11 @@ export default function OfferItemsScreen({ route, navigation }) {
               // End of modification
               //   Added by Yuvraj Sahu on 26-4-2023
               //   Reason - to add more fields
-              show_video_Hide_Image: isShowVideo,
+              // Commented by Yuvraj Sahu on 04-05-2023
+              // Reason - to remove show video code for not
+              // re-fresh the form value when we press the checkbox
+              // show_video_Hide_Image: isShowVideo,
+              // End of Comment by yuvraj Sahu on 04-05-2023
               video_link: offerObj.video_link,
               description: offerObj.description,
               // End of addition

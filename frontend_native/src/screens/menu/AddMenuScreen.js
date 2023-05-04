@@ -193,8 +193,8 @@ export default function AddMenuScreen() {
    */
   const isFocused = useIsFocused();
   useEffect(() => {
-  	// Commeted by Yuvraj Sahu on 04-05-2023
-  	// Reason - to clear the form value by useref
+    // Commeted by Yuvraj Sahu on 04-05-2023
+    // Reason - to clear the form value by useref
     // var val = {name: ""}
     // End of comment
     setImage(null);
@@ -203,14 +203,19 @@ export default function AddMenuScreen() {
      * Reason - to re-fresh the validation
      * msg when we come back from another screen
      */
-     // Commeted by Yuvraj Sahu on 04-05-2023
-  	// Reason - to clear the form value by useref
+    // Commeted by Yuvraj Sahu on 04-05-2023
+    // Reason - to clear the form value by useref
     // setDefaultValue(val);
     // End of comment
     setMenuActive(false);
     formRef.current.resetForm({});
     formRef.current.setErrors({});
     setImgRequired(false);
+    /**
+     * Added by Yuvraj Sahu on 04-05-2023
+     * Reason - to remove file size error when we come back
+     */
+    setFileSizeError(false);
     /**
      * End of refreshing validation msg
      */
@@ -449,7 +454,7 @@ export default function AddMenuScreen() {
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
-				{/* Modified by Yuvraj Sahu on 04-05-2023
+                  {/* Modified by Yuvraj Sahu on 04-05-2023
 				Reason - to validate name field */}
                   {errors.name && (
                     <Text style={styles.textdanger}>{errors.name}</Text>

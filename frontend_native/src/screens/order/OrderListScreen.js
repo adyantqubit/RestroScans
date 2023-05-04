@@ -103,7 +103,7 @@ export default function OrderListScreen({ route, navigation }) {
                   style={{ width: "45%" }}
                   // End of modification
                 >
-                  <Text style={styles.customerName}>{order.customer_name}</Text>
+                  <Text style={styles.customerName}>{order.last_customer_name}</Text>
                   <Text style={styles.tableNo}>
                     Table no. : {order.table_number}
                   </Text>

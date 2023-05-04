@@ -152,6 +152,10 @@ class OrderSerializer(serializers.ModelSerializer):
 # Reason : to serializer orders
 class AllOrderSerializer(serializers.ModelSerializer):
     customer_name = serializers.CharField(source="customer_id.name")
+    # Added by yuvraj Sahu on 04-05-2023
+    # Reason - to get updated customer name
+    last_customer_name = serializers.CharField(source="customer_id.last_customer_name")
+    # End of addition by yuvraj Sahu on 04-05-2023
     class Meta:
         model = Order
         fields = '__all__'
