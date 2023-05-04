@@ -1,10 +1,20 @@
 from typing import Dict, Optional
+from django import forms
 from django.contrib import admin
 from django.http.request import HttpRequest
-from django.http.response import HttpResponse
 from .models import *
 from django.apps import apps
 from tenant_schemas.utils import get_public_schema_name
+from django.urls import reverse
+from django.utils.html import format_html
+from django.template.loader import get_template
+from django.urls import reverse
+from weasyprint import HTML,CSS
+from io import BytesIO
+from django.http import HttpResponse
+import subprocess
+import os
+
 # Register your models here.
 # admin.site.register(Student)
 
@@ -432,7 +442,14 @@ class OrderAdmin(admin.ModelAdmin):
     #             'total','order_status','payment_status','date']
     list_display = ['view_order','order_items','order_id','customer_detail', 'table_number', 'sub_total',
                     # 'tax',
-                    'total','order_status','payment_status','date']
+                    'total','order_status','payment_status','date' ,
+                    #Added by Om on 30-05-23 
+                    #Adding a generate_pdf button
+                    # 'generate_order',
+                    "get_bill",
+                    "get_kitchen_bill"
+                    # End of Code Addition
+                    ]
     # end of code
     # End of code modification by - Ashish Dewangan on 03-05-2023
     
@@ -450,7 +467,22 @@ class OrderAdmin(admin.ModelAdmin):
     # End of code modification by Ashish Dewangan on 03-05-2023
     # End of code addition
 
-
+    # Added by Om on 03-05-23
+    # For generate_pdf button
+    def get_bill(self, obj):
+        
+        if obj.order_status == "Served" and obj.payment_status == "Completed":
+            return format_html('<a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" href="{}" target = "_blank">Get Bill</a>',reverse('order_generate_bill', args=[obj.pk]))
+        return ''
+    
+    # Use for generate the kitchen bill section pdf
+    def get_kitchen_bill(self, obj):
+        
+        if obj.order_status == "Confirm" :
+            return format_html('<a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" href="{}" target = "_blank">Print KOT</a>',reverse('order_kot_generate_bill', args=[obj.pk]))
+        return ''
+	# End of code addition
+	
     # Added by - Ashish Dewangan on 01-05-2023
     # Reason - To add pagination and date filter
     list_per_page=10

@@ -241,8 +241,13 @@ STATIC_URL = '/staticfiles/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Added by Om on 04-05-23
+# Reason : set the GTK path in runtime
 import os
+GTK_FOLDER = r'C:\Program Files\GTK3-Runtime Win64\bin'
+os.environ['PATH'] = GTK_FOLDER + os.pathsep + os.environ.get('PATH', '')
+# End of addition
+
 # Modified by Yuvraj Sahu on 27-3-2023
 # Reason - to set static files path
 STATIC_ROOT = os.path.join(BASE_DIR, 'admin_app/static')

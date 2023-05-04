@@ -174,3 +174,14 @@ def getTodaysOrders(context):
     }
 
 # End of code addition by Ashish Dewangan on 26-04-2023
+
+# Added by - Om on 03-05-2023
+# Reason - To divide total amount by quantity in receipt
+
+@register.filter
+def divide(value, arg):
+    try:
+        return float(value) / float(arg)
+    except (ValueError, ZeroDivisionError):
+        return None
+# End of addition

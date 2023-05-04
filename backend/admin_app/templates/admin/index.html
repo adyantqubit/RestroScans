@@ -691,6 +691,11 @@
                                     <th class="text-gray-900" style="font-weight:800" scope="row">
                                         Date
                                     </th>
+                                    <!-- Added by Om on 04-05-23 for show the kitchen bill in dashboard -->
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Get Kitchen Bill
+                                    </th>
+                                    <!-- End of addition -->
                                 </tr>
                                 {% getTodaysOrders as todaysOrders %}
                                 {% if todaysOrders %}
@@ -718,6 +723,12 @@
                                                 <td class="fw-bolder text-gray-500">
                                                     <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.date }}</a>  
                                                 </td>
+                                                <!-- Added by Om on 04-05-23
+                                                Reason : Show the KOT bill  -->
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' pending_orders.id %}"> Print KOT</a> 
+                                                </td>
+                                                <!-- End of the addition -->
                                             </tr>
                                         {% endfor %}
                                     {% else %}
@@ -772,6 +783,14 @@
                                     <th class="text-gray-900" style="font-weight:800" scope="row">
                                         Date
                                     </th>
+                                    <!-- Added by Om on 04-05-23 for show the bill in dashboard -->
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Get Bill
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Get Kitchen Bill
+                                    </th>
+                                    <!-- End of addition -->
                                 </tr>
                                 {% getTodaysOrders as todaysOrders %}
                                 {% if todaysOrders %}
@@ -799,6 +818,16 @@
                                                 <td class="fw-bolder text-gray-500">
                                                     <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.date }}</a> 
                                                 </td>
+                                                <!-- Added by Om on 04-05-23
+                                                Reason : Generate the bill for the user and KOT -->
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_generate_bill' completed_orders.id %} "> Get Bill</a> 
+                                                </td>
+
+                                                <td class="fw-bolder text-gray-500">
+                                                        <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' completed_orders.id %}"> Print KOT</a> 
+                                                </td>
+                                                <!-- End of addition -->
                                             </tr>
                                         {% endfor %}
                                     {% else %}

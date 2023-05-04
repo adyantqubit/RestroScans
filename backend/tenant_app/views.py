@@ -6,6 +6,14 @@ from rest_framework import status
 from .models import *
 from admin_app.models import *
 from .serializers import *
+from django.http import HttpResponse
+# import os
+# GTK_FOLDER = r'C:\Program Files\GTK3-Runtime Win64\bin'
+# os.environ['PATH'] = GTK_FOLDER + os.pathsep + os.environ.get('PATH', '')
+from weasyprint import HTML , CSS
+import io
+from django.template.loader import get_template
+from admin_app.models import RestaurantRequest
 
 """
 Added by - Ashish Dewangan on 08-02-2023
@@ -1360,3 +1368,106 @@ class getCustomerList(APIView):
 """
 End of getting all customers
 """
+
+# Added by Om Shrivastava on 03-05-23 
+# Adding a generate_pdf button
+
+def generate_pdf_view(request, pk):
+
+    path = request.path     
+    hostname = request.get_host()
+    if "admin" in path:
+        seperated = hostname.split(".")
+        schemaName = settings.PUBLIC_SCHEMA_NAME
+        if seperated[0] != settings.DOMAIN_NAME:
+            schemaName = seperated[0]
+    from admin_app.models import Tenant, RestaurantRequest
+    tenant = Tenant.objects.get(tenant_name=schemaName)
+    restaurant_details = {
+        "name": tenant.restaurant_name.restaurant_name,
+        "address": tenant.restaurant_name.address
+    }
+    restaurant_settings = Setting.objects.all().values()
+    
+    order = Order.objects.get(id=pk)
+    order_details = OrderItem.objects.filter(order_id = order)
+    
+    rate = [] 
+    for items in order_details : 
+        rate.append(int(items.price / items.quantity))
+        
+    subtotal = 0
+    for items in order_details:
+        subtotal = subtotal+items.price
+    
+    # cgst = 0
+    # for gst_items in restaurant_settings:
+    #     cgst = subtotal * (gst_items['cgst'])
+        
+    # sgst = 0
+    # for gst_items in restaurant_settings:
+    #     sgst = subtotal * (gst_items['sgst'])
+        
+    total_amount = order.total    
+    
+    template = get_template('admin/receipt.html')
+    html_string = template.render({'restaurant_settings': restaurant_settings,'restaurant_details': restaurant_details, 'order': order, 'order_items': order_details,"sub_total" : subtotal,
+                                #    'cgst' : cgst,'sgst':sgst,
+                                    'total_amount': total_amount,"rate" : rate})
+
+    html = HTML(string=html_string)
+    result = io.BytesIO()
+    html.write_pdf(result, stylesheets=[CSS(string='@page {  size: 3.5in 8in; margin: 0; }')])
+    result.seek(0)
+
+    response = HttpResponse(result, content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{order.order_id}.pdf"'
+
+    return response
+
+def generate_pdf_kot_view(request, pk):
+
+    path = request.path
+    hostname = request.get_host()
+    if "admin" in path:
+        seperated = hostname.split(".")
+        schemaName = settings.PUBLIC_SCHEMA_NAME
+        if seperated[0] != settings.DOMAIN_NAME:
+            schemaName = seperated[0]
+    from admin_app.models import Tenant, RestaurantRequest
+    tenant = Tenant.objects.get(tenant_name=schemaName)
+    restaurant_details = {
+        "name": tenant.restaurant_name.restaurant_name,
+        "address": tenant.restaurant_name.address
+    }
+    restaurant_settings = Setting.objects.all().values()
+    
+    order = Order.objects.get(id=pk)
+    order_details = OrderItem.objects.filter(order_id = order)
+    
+    rate = [] 
+    for items in order_details : 
+        rate.append(int(items.price / items.quantity))
+        
+    subtotal = 0
+    for items in order_details:
+        subtotal = subtotal+items.price
+              
+    total_amount = order.total    
+    
+    template = get_template('admin/order.html')
+    html_string = template.render({'restaurant_settings': restaurant_settings,'restaurant_details': restaurant_details, 'order': order, 'order_items': order_details,"sub_total" : subtotal,
+    'total_amount': total_amount,"rate" : rate})
+
+    html = HTML(string=html_string)
+    result = io.BytesIO()
+    html.write_pdf(result, stylesheets=[CSS(string='@page {  size: 3.5in 8in; margin: 0; }')])
+    result.seek(0)
+
+    response = HttpResponse(result, content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{order.order_id}.pdf"'
+
+    return response
+
+
+    # End of addition 

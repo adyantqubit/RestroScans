@@ -144,5 +144,14 @@ urlpatterns = [
     # Reason : get all customer list. This is access for restaurant
     path('<str:tenant>/all-customers/',getCustomerList.as_view()),
     # End of addition
+    
+    #Added by Om on 03-05-23 
+    # #Adding a generate_pdf button
+    path('admin/tenant_app/order/<int:pk>/generate-pdf/', generate_pdf_view, name='order_generate_bill'),
+    # End of Code Addition
 
-]   
+    #Added by Om on 03-05-23 
+    # #Adding a generate_pdf button for kitchen
+    path('admin/tenant_app/order/<int:pk>/generate-kot-pdf/', generate_pdf_kot_view, name='order_kot_generate_bill'),
+    # End of Code Addition
+]
