@@ -187,7 +187,7 @@ const Cart = () => {
             reason- to show subtotal also */}
         <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div>
         <div className={style.flex}>
-          <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Cancel</button>
+          <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Back</button>
           {/* Removed garbage code by -rohan-13/4/23 */}
           {/* Added by :- Parineeta Gedam
             Date :- 06-04-2023

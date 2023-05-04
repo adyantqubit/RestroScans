@@ -7,7 +7,7 @@
     border-radius: 5px;
     padding: 2px 0;
     overflow-x: hidden;
-    padding-bottom: 150px;
+    padding-bottom: 70px;
     /* margin-bottom: 50p; */
 }
 
@@ -54,6 +54,7 @@
     font-weight: 700;
     text-align: start;
     white-space: nowrap;
+    display: flex;
 
     /* text-align: ; */
 }
@@ -200,6 +201,7 @@
     font-weight: 600;
     width: 100%;
     white-space: nowrap;
+    display: flex;
 }
 
 .calculationText {

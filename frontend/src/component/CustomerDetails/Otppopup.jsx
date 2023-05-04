@@ -175,7 +175,14 @@ const Otppopup = () => {
     }
 
   }
-  
+
+  // added by Rohan kansari- 3/5/23
+  // Reason - to apply styles after all component rendered
+  useEffect(()=>{
+  document.querySelectorAll("input").forEach(Element=>{
+    Element.style.fontSize="24px"
+  })
+  },[document.querySelectorAll("input")])
 
   return (
     <>

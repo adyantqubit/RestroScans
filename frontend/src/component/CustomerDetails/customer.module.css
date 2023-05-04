@@ -60,3 +60,19 @@ Reason :- Customer Form css */
 
 
 /* End of added code  07-04-2023 */
+
+
+.labelContainer{
+  font-size: 15px;
+  font-family: "Times New Roman";
+   display: flex;
+}
+
+.main_label{
+
+}
+
+.about_label{
+  color: grey;
+}
+

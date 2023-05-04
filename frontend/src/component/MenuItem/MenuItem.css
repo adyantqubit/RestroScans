@@ -3,7 +3,7 @@
 .menu_maindiv {
     /* background-color: var(--primary-backeground-color); */
     height: 100%;
-    max-height: 75vh;
+    max-height: 73vh;
     /* padding-bottom: 200px; */
     overflow: auto;
 
@@ -761,7 +761,19 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     overflow: auto;
     display: flex;
     min-width: 84%;
+    transition: height 3s ease;
+    height: unset;
     /* max-width: 84%; */
+}
+
+/* .zeroheight{
+    height: unset;
+    transition: height 3s;
+} */
+
+.newHieght{
+    transition: height 3s;
+    height: 5px;
 }
 
 .category_container::-webkit-scrollbar {

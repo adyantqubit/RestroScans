@@ -72,7 +72,7 @@ function Cover() {
       {isLoader == true ? <Loader /> :
       // Added by Rohan  kansari- 3/5/23 
       // Reason - To apply bg-image in div  
-        <div style={{backgroundImage:`url(${siteConfig.siteURL + tenantDetails.restaurant_background_image})`}}>
+        <div style={{backgroundImage:`url(${siteConfig.siteURL + tenantDetails.restaurant_background_image})`,backgroundRepeat:"no-repeat",backgroundSize:"cover"}}>
           <div><GlobalColor /></div>
           {tenantDetails ? <div
             className='front_page'

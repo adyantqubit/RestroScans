@@ -135,9 +135,66 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 
               //   id="regi"
               >
+                {/* Added by ROhan kansari - 3/5/23
+                    Reason - requirent is to show mandotary field in top */}
+                    <Form.Item
+                  name="contact_number"
+                  label={<div className={style.labelContainer}><span className={style.main_label}>Contact Number &nbsp;</span><div className={style.about_label}></div></div>}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter contact number",
+                    },
+                    () => ({
+                      validator(_, value) {
+                        if (!value) {
+                          return Promise.reject();
+                        }
+                        if (isNaN(value)) {
+                          return Promise.reject("Contact has to be in digits.");
+                        }
+                        if (value.length < 10) {
+                          return Promise.reject(
+                            "Contact number should be in 10 digits"
+                          );
+                        }
+                        if (value.length > 10) {
+                          return Promise.reject(
+                            "Contact number can't be more than 10 digits"
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    }),
+                  ]}
+                  hasFeedback
+                >
+                  <Input maxLength={10} 
+                  // allowClear 
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Form.Item
+                    name="table_number"
+                    label={<div className={style.labelContainer}><span className={style.main_label}>Table Number &nbsp;</span><div className={style.about_label}></div></div>}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter table number",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input 
+                    // allowClear 
+                    />
+                  </Form.Item>
+                </Form.Item>
+                {/* End of addition - 3/5/23 */}
+
                 <Form.Item
                   name="name"
-                  label="Name :"
+                  label={<div className={style.labelContainer}><span className={style.main_label}>Name &nbsp;</span><div className={style.about_label}>( Optional )</div></div>}
                   rules={[
                     {
                       // commented by :- Parineeta [remove the requied validations]
@@ -154,7 +211,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 
                 <Form.Item
                   name="email"
-                  label="Email"
+                  label={<div className={style.labelContainer}><span className={style.main_label}>Email &nbsp;</span><div className={style.about_label}>( Optional )</div></div>}
                   rules={[
                     {
                       // commented by :- Parineeta [remove the requied validations]
@@ -174,7 +231,9 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                   />
                 </Form.Item>
 
-                <Form.Item
+              {/* Commented by - Rohan kansari 3/5/23
+                  Reason - To shift this mandatory field in top */}
+                {/* <Form.Item
                   name="contact_number"
                   label="Contact number :"
                   rules={[
@@ -226,7 +285,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                     // allowClear 
                     />
                   </Form.Item>
-                </Form.Item>
+                </Form.Item> */}
 
                 <div className={style.checkInvoiceBtn}>
                   {/* <Form.Item>
@@ -248,6 +307,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
                       Place Order
                     </Button>
                   </Form.Item> */}
+                 {/* End of commenting - 3/5/23 - Rohan kansari */}
 
                   {/* Added by ROhan kansari - 1/5/23
                       Reason - To design new button because antd button showing blue effect which is a bug */}

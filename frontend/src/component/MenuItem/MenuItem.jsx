@@ -641,6 +641,27 @@ function MenuItem() {
   
   // End of code- ROhankansari 
 
+  // Added by Rohan kansari- 3/5/23
+  // Reaon - to hide menu drawer in 6 second if its open
+ 
+  useEffect(()=>{
+    var interval;
+   if(menuListVisible){
+    document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh" 
+    document.getElementById("category_container").className="category_container"
+   interval=setTimeout(()=>{
+     setmenuListVisiblity(false)
+   },6000)
+  }
+   else{
+    document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh" 
+    document.getElementById("category_container").className+=" newHieght"
+    window.clearTimeout(interval)
+   }
+  },[menuListVisible])
+
+  // End of code- 3/5/23
+
   return (
     <>
       {/* {isLoader == true ? <Loader /> : */}
@@ -1896,16 +1917,22 @@ function MenuItem() {
 
         {/* Added By Rohan - 26/4/23
             Reason - To toggle menu card container */}
-        {menuListVisible ?
+        {/*Commented on - 3/5/23 - ROhan Kansari / to commente hidding method and hidding through height
+          {menuListVisible ? */}
           <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
-            <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "87vh" }} style={{ backgroundColor: colors.bannerColor }}><MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} /></div>
-            <div className="footer_btn_container" >
+            <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); 
+              }} style={{ backgroundColor: colors.bannerColor }}>
+                {menuListVisible?
+                <MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} />:
+                <MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }}/>}
+                </div>
+            {/* <div className="footer_btn_container" >
               <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
-            </div>
-            <div className="category_container" >
+            </div> */}
+            <div className="category_container" id="category_container">
               {menuList.map((data, id) => (
                 <div id={id} className='all-menu'
-                  onClick={
+                  onClick={ 
                     e => {
                       if (searchVisible)
                         document.getElementById('search_box').value = "";
@@ -1924,20 +1951,20 @@ function MenuItem() {
                 </div>
               ))}
             </div>
-            <div lassName="footer_btn_container" style={{
+            {/* <div lassName="footer_btn_container" style={{
               //  border: '2px solid green'
             }}>
               <button style={{
                 backgroundColor: colors.bannerColor
               }} className="button-32" onClick={next}><span> </span> <RightOutlined style={{ color: 'white' }} /></button>
 
-            </div>
+            </div> */}
 
           </div>
-          :
-          <div className="blank_menu_Container" style={{ background: colors.subheadingBackgroundColor }}>
+          {/* : */}
+          {/* <div className="blank_menu_Container" style={{ background: colors.subheadingBackgroundColor }}>
             <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "75vh"; }} style={{ backgroundColor: colors.bannerColor }}><MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} /></div>
-          </div>}
+          </div>} */}
         {/* End of code - 26/4/23 - Rohan */}
         {/* <Footer /> */}
       </div>
