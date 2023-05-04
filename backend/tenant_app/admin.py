@@ -371,7 +371,13 @@ class MyGroupAdmin(admin.ModelAdmin):
     # End of addition
         
 admin.site.register(User, MyUserAdmin)
-admin.site.register(Group, MyGroupAdmin)
+
+# Commented by- Suman sahu On 03/05/2023
+# Reason- for hide this model in admin pannel
+
+# admin.site.register(Group, MyGroupAdmin)
+
+# End of addition 03/04/2023
 # End of addition
 
 """
