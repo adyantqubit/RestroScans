@@ -165,10 +165,10 @@ def getTodaysOrders(context):
     request=context['request']
    
     return {
-        "todays_pending_orders":todays_pending_orders_serializer.data,
+        "todays_pending_orders":todays_pending_orders,
         "revenue_details":data,
-        "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
-        "todays_completed_orders":todays_completed_orders_serializer.data,
+        "todays_newly_placed_orders":todays_newly_placed_orders,
+        "todays_completed_orders":todays_completed_orders,
         "request":request,
         "http_method":http_method
     }
