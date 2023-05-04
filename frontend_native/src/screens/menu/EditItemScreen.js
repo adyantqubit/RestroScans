@@ -142,7 +142,7 @@ export default function EditItemScreen({ route, navigation }) {
 
       // Added by Suman Sahu on 29-4-2023
       // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.base64.length * (3 / 4) - 2;
+      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
       if (fileSize > 200000) {
         setFileSizeError(true);
       } else {

@@ -124,7 +124,9 @@
 }
 
 .payment_child_container {
-    margin-left: 14%;
+    /* Modify by- Suman sahu On 03/05/2023 */
+    margin-left: auto;
+    /* End of modification 03/05/2023 */
     margin-right: auto;
     width: 70%;
     height: 5%;
@@ -158,3 +160,14 @@
 }
 
 /* End of  added code 15-04-2023*/
+
+/* Added by- Suman sahu  On 03/05/2023
+Reason- for center payment methon section */
+
+.css-dev-only-do-not-override-j0nf2s .ant-space-vertical {
+    width: 100%;
+}
+:where(.css-dev-only-do-not-override-j0nf2s).ant-radio-group {
+    width: 100%;
+}
+/* End of addition 03/05/2023 */

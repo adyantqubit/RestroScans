@@ -263,7 +263,7 @@ letter-spacing: 3px;
 .cancleBtn{
     width: 46%;
     /* margin: 5px auto; */
-    font-size: 18px;
+    font-size: 16px;
     letter-spacing: 1px;
     font-family: "Times New Roman";
     padding: 5px 0;
@@ -273,18 +273,28 @@ letter-spacing: 3px;
     /* color: white !important; */
     /* End of commented code */
     box-shadow: 0 0 5px #000;
+    /* Added by - Suman sahu */
+    background: #1677ff;
+    letter-spacing: 1.7px;
+    height: 4vh;
+    /* End of addition */
 }
 
 .ProceedBtn{
     width: 46%;
     /* margin: 5px auto; */
-    font-size: 18px;
+    font-size: 16px;
     letter-spacing: 1px;
     font-family: "Times New Roman";
     padding: 5px 0;
     border-radius: 5px;
     border: none;
     box-shadow: 0 0 5px #000;
+    /* Added by - Suman sahu */
+    background: #1677ff;
+    letter-spacing: 1.7px;
+    height: 4vh;
+    /* End of addition */
 }
 
 .removeContainer{
