@@ -825,7 +825,9 @@
                                                 </td>
 
                                                 <td class="fw-bolder text-gray-500">
+                                                    {% if  completed_orders.order_status == 'Confirm'  %} 
                                                         <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' completed_orders.id %}"> Print KOT</a> 
+                                                    {% endif %}
                                                 </td>
                                                 <!-- End of addition -->
                                             </tr>
