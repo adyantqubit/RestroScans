@@ -22,9 +22,9 @@
   .inLineContainer {
     min-width: 100%;
     min-height: 10px;
-    margin: 4px 0;
+    margin: 4px 4px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   .Hotellabel {
@@ -43,12 +43,12 @@
   }
 
   .label {
-    min-width: 15%;
-    font-size: 10px;
+    min-width: 25%;
+    font-size: 12px;
     font-weight: 700;
-    padding: 0 2%;
     text-align: start;
     white-space: nowrap;
+    display: flex;
   }
 
   .text {
@@ -57,6 +57,7 @@
     font-size: 10px;
     font-weight: 600;
     text-align: left;
+    margin-top: 2px;
   }
 
   .tableHeader {
@@ -189,6 +190,12 @@
     justify-content: center;
 
   }
+  /* Add css by Om on 05-05-23 */
+  .column1{
+    min-width:48%;
+    display: flex;
+  }
+  /* End of addition */
 </style>
 
 <body>
@@ -213,21 +220,40 @@
     </div>
     {% endfor %}
     <hr>
-
-    <div class="inLineContainer">
+<!-- Changes apply by Om on 05-05-23 for fix the alignment in bill section-->
+    <!-- <div class="inLineContainer">
       <div class="label">Date </div>
       <div class="text"> {{ order.date|date:"d/m/y" }}</div>
       <div class="label">Time </div>
       <div class="text"> {{ order.date|date:"H:i" }}</div>
 
-    </div>
+    </div> -->
+
     <div class="inLineContainer">
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Date  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.date|date:"d/m/y" }}</div>
+      </div>
+
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Time  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.date|date:"H:i" }}</div>
+      </div>
+    </div>
+
+    <!-- <div class="inLineContainer">
       <div class="label">Bill </div>
       <div class="text"> {{ order.order_id }}</div>
       <div class="label">Table </div>
       <div class="text"> {{ order.table_number }}</div>
 
-    </div>
+    </div> -->
     <!-- <div class="inLineContainer">
       <div class="label">Pax </div>
       <div class="text"> {{ order.pax }}</div>
@@ -241,11 +267,46 @@
       <div class="text"> {{ order.capt }}</div>
     </div> -->
     <div class="inLineContainer">
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Bill  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.order_id }}</div>
+      </div>
+
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Table  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.table_number }}</div>
+      </div>
+    </div>
+    <!-- <div class="inLineContainer">
       <div class="label">Payment </div>
       <div class="text"> {{ order.payment_mode }}</div>
       <div class="label">Status </div>
       <div class="text"> {{ order.payment_status }}</div>
+    </div> -->
+    <div class="inLineContainer">
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Payment  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.payment_mode }}</div>
+      </div>
+
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Status  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.payment_status }}</div>
+      </div>
     </div>
+    <!-- End of addition -->
     <div class="tableHeader">
       <div class="titleHeading"> Item Name</div>
       <div class="quantityHeading">Qty</div>
@@ -268,7 +329,7 @@
     <div class='CalculationBoxContainer'>
       <div class="calculationBox">
         <div class="calculationLine">
-          <div class="calculationLabel" style="text-align:right"> Sub-Total :</div>
+          <div class="calculationLabel" style="text-align:right;padding-right:10%"> Sub-Total :</div>
           <div class="calculationText">₹{{ sub_total|floatformat:2 }}</div>
         </div>
         {% for settings in restaurant_settings %}
