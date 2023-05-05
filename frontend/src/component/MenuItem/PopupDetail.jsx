@@ -28,7 +28,7 @@ function elementRemover(specificIndex, list) {
 }
 
 
-const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
+const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSeller }) => {
     const { colors, cart, setCart,restaurant_name } = useContext(GlobalContext)
     // const [messageApi, contextHolder] = message.useMessage();
     var [quantityhalf, setQuantityHalf] = useState(0)
@@ -139,6 +139,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
     function cartDataCreate(quantity, size, price) {
 
         return {
+            
             id: item.id,
             name: item.name,
             price: price,
@@ -149,6 +150,9 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity }) => {
             discounted_half_price: item.discounted_half_price,
             item_type: item.item_type,
             tenant:restaurant_name,
+            // Added by Rohan kansari - 4/5/23 - to best seller showing option 
+            best:bestSeller.filter(b=>b.item==item.id).length>0,
+
         }
     }
 

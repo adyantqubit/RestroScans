@@ -147,9 +147,10 @@ const Cart = () => {
                 item.item_type == "Other"?null:
                 <img alt="" src={nonVegIcon} className={style.type_img} />}
             </div>
-
+            {/* Added on 4/5/23 - Rohan Kansari - To show best seller option also */}
+            {item.best?<div className={style.ribbon}>Best Seller</div>:null}
             <div className={style.infomation}>
-
+              
               <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>
               <div className={style.row1}>
                 <div className={style.serve_size} style={{ color: colors.subHeadingColor }}> {TrimPlate(item.serve_size)}</div>

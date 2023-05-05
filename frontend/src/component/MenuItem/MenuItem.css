@@ -42,7 +42,7 @@
     letter-spacing: 1.5px;
     /* Modified by rohan kansari- 24/4/23
        Reason- To give left margin only  */
-    margin: 0 8px;
+    margin: 0 0px 0 8px;
     /* End of code- 24/4/23 - Rohan kansari */
     padding: 2px 12px;
     float: right;
@@ -104,7 +104,7 @@
     padding: 0;
     margin: 0;
     flex-direction: column;
-    width: 80%;
+    width: 75%;
     display: flex;
     flex-direction: column;
     /* gap:5px; */
@@ -117,14 +117,14 @@
     justify-content: space-between;
     /* padding: 0 10px; */
 
-    margin: 0 10px;
+    margin: 0 0px;
     margin-bottom: 4px;
 
 }
 
 /* modified by :- Parineeta Gedam */
 .description_div {
-    margin-left: 10px;
+    margin-left: 0px;
     padding: 0;
 }
 
@@ -174,29 +174,44 @@
 .showimg_div {
     flex-direction: row;
     width: 20%;
-    margin: 0 auto;
+    /* margin: 0 auto; */
+    display: flex;
     /* added by rohan-13/4/23 */
     position: relative;
     overflow: hidden;
 }
 
 /* added by rohan -13/4/23 */
+/* Modified by - ROhan kansari -4/5/23 */
 .ribbon {
-    width: 40px;
-    height: 14px;
+    width: 15px;
+    height: 70px;
     background-color: greenyellow;
     font-size: 11px;
     color: black;
     /* letter-spacing: 1px; */
-    padding: 0 2px;
+    /* padding: 0 2px; */
+
+    letter-spacing: .8px;
+    margin-right: 2px;
     text-align: center;
-    position: absolute;
+    writing-mode: vertical-rl;
+    text-orientation:sideways;
+    font-weight:500;
+    /* position: absolute;
     top: 5px;
-    left: -10px;
-    transform: rotateY(0deg) rotate(-45deg);
+    left: -10px; */
+    /* transform: rotateY(0deg) rotate(180deg); */
     ;
 }
 
+.null_ribbon{
+    width: 15px;
+    height: 70px;
+}
+
+
+/* End of modification - 4/5/23 */
 .category_serached_img {
     border-radius: 100%;
     width: 5%;
@@ -893,7 +908,7 @@ a.ant-notification-notice-close {
 
 .searchIcon {
     position: absolute;
-    right: 0px;
+    right: 3px;
     /* left: 0px; */
     margin: 0 auto;
     font-size: 18px;
@@ -923,7 +938,7 @@ a.ant-notification-notice-close {
 
 .closeIcon {
     position: absolute;
-    right: 4px;
+    right: 8px;
     top: 0;
     bottom: 0;
     margin: 5px 0;

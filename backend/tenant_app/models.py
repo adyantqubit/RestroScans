@@ -504,6 +504,9 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
     date = models.DateTimeField(auto_now_add=True)
     payment_mode = models.CharField(max_length=100,null=True,blank=True)
+    # Added By Rohan Kansari - 4/5/23
+    # Reason - To save overall review
+    review=models.TextField(null=True,blank=True)
 
     def __str__(self):
         return f"{self.order_id}"

@@ -102,6 +102,11 @@ function MenuItem() {
     }
 
     setNewSearch('')
+   
+      // Added by Rohan Kansari - 4/5/23
+      // Reason - To jump into top in each menu change
+      document.getElementById('menu_maindiv').scrollTo(0,0)
+
 
   }
 
@@ -433,6 +438,27 @@ function MenuItem() {
       // });
     }
 
+    
+    // Added by ROhankansari - 4/5/23
+    // Reason - To Stop animation on search div 
+    try{
+    if(search.length>0){
+    document.getElementById(selected).classList.remove("category_animated_div");
+    }
+    else{
+      document.getElementById(selected).classList.add("category_animated_div");
+      for (var i = 0; i < menuList.length; i++) {
+        if (i != selected)
+          document.getElementById(i).classList.remove("category_animated_div");
+      }
+    }
+  }
+  catch (e){
+
+  }
+
+    // End of code - 4/5/23 - Rohan kansari 
+
 
   }, [search])
 
@@ -599,6 +625,9 @@ function MenuItem() {
   // Added by Rohan kansari -27/4/23
   // Reason - To apply animation when menu list is visible
   function applyAnimation() {
+    // Added by ROhankansari - 4/5/23
+    // Reason - stop animation in search div
+    if(search.length==0)
     document.getElementById(selected).classList.add("category_animated_div");
 
     for (var i = 0; i < menuList.length; i++) {
@@ -701,7 +730,9 @@ function MenuItem() {
             // Commented by Rohankansari - 29/4/23
             // Reason - requirment is to remove name
             // title="Menu" 
-            placement="bottom" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
+            // Modified By RohanKansari-4/5/23 
+            // Reason - To animate drawer from top
+            placement="top" onClose={onClose} open={open} headerStyle={{ background: colors.bannerColor }} bodyStyle={{ marginBottom: "50px" }} >
               {menuList.map((showMenu, id) => (
                 <div className="drawer_menu_parent_container"
                   onClick={e => {
@@ -1117,10 +1148,11 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
-                              {/* added by rohan- 13/4/23 - for best seller shown */}
-                              {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best</div> : null}
-                              {/* end of addition - 13/4/23 */}
+                              
                             </div>
+                            {/* added by rohan- 13/4/23 - for best seller shown */}
+                            {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                              {/* end of addition - 13/4/23 */}
 
                             {/* <div className="price_item_description_div"> */}
                             {/* <div className="price_description_container" > */}
@@ -1373,7 +1405,9 @@ function MenuItem() {
           // className='offer_maindiv'
           className={offerShow.length < 1 ? 'offer_notshow' : 'offer_maindiv'}
         >
-          <span style={{ display: 'flex', padding: '2%', fontSize: '16px' }}>
+          {/* Modified by ROhankansari - 4/5/23
+              Reason - To solve overlap issue with search icon */}
+          <span style={{ display: 'flex', padding: '2%', fontSize: '16px',position:"relative",top:"30px" }}>
             <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>
               {/* Result not found */}
             </span>
@@ -1426,11 +1460,11 @@ function MenuItem() {
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
-                    {/* added by rohan- 13/4/23 - for best seller shown */}
-
-                    {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best</div> : null}
-                    {/* end of addition - 13/4/23 */}
                   </div>
+                  {/* added by rohan- 13/4/23 - for best seller shown */}
+
+                  {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                    {/* end of addition - 13/4/23 */}
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
                       <h4 style={{ color: colors.subHeadingColor }}
@@ -1600,7 +1634,9 @@ function MenuItem() {
 
         {/* Added by rohan on - 5/4/2023
             Reason- This will show one popup model to select option like full price and half price product. */}
-        <PopupDetail item={clickedDetail} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
+            {/* Added on 4/5/23 - Rohankansari 
+                Reason - To Show best seller product also */}
+        <PopupDetail item={clickedDetail} bestSeller={bestProducts} setDetailPopupVisiblity={setDetailPopupVisiblity} isDetailPopupOpen={isDetailPopupOpen} />
         {/* end of code- Rohan */}
         <div id="flip_div_idd"
           className={search.length != 0 || offerShow.length > 0 ? "menu_childdiv" : 'check'}
@@ -1686,11 +1722,13 @@ function MenuItem() {
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
-                              {/* added by rohan- 13/4/23 - for best seller shown */}
-                              {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best</div> : null}
-                              {/* end of addition - 13/4/23 */}
+                              
 
                             </div>
+                            {/* added by rohan- 13/4/23 - for best seller shown */}
+                            {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                              {/* end of addition - 13/4/23 */}
+
                             {(offerList.filter((data) => parseInt(data.item_id) === m.id)).length > 0 ?
                               <>
                                 <div className="price_item_description_div">

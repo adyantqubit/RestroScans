@@ -58,15 +58,22 @@ const Billing = () => {
                 <div className={style.inLineContainer} >
                     <div className={style.Hotellabel} style={{ textAlign: "center" }}>{restaurant_name.toUpperCase()}</div>
                 </div>
-                <div className={style.inLineContainer} style={{ textAlign: "center" }}>
-                    <div className={style.centerLabel}>{billingData.restro_detail.address}</div>
+                {/* Adding - by ROhankansari - 4/5/23
+                    Reason- To manage style */}
+                <div className={style.inLineContainer} style={{ textAlign: "center",margin:"0" }}>
+                    <div className={style.centerLabel} style={{padding:"0 10px"}}>{billingData.restro_detail.address}</div>
                 </div>
-                <div className={style.inLineContainer} style={{ textAlign: "center" }}>
+                {/* ENd of code - 4/5/23 */}
+
+                {/* Modified by - ROhan Kansari - 4/5/23
+                    Reason- Removing margin */}
+                <div className={style.inLineContainer} style={{ textAlign: "center",margin:"3px 0"  }}>
                     <div className={style.centerLabel}>GSTIN :-{`  `}{billingData.restro_number.gstin}</div>
                 </div>
-                <div className={style.inLineContainer} style={{ textAlign: "center" }}>
+                <div className={style.inLineContainer} style={{ textAlign: "center",margin:"3px 0"  }}>
                     <div className={style.centerLabel}>FSSAI NO :-{`  `}{billingData.restro_number.fssaino}</div>
                 </div>
+                {/* End of code- 4/5/23 Rohan Kansari */}
                 <div className={style.breakLine} />
                 <div className={style.inLineContainer}>
                     {/* Modiefied by Rohan kansari - 24/4/23
@@ -148,10 +155,10 @@ const Billing = () => {
                     <div className={style.calculationBox}>
                         {/* Modified on - 3/5/23 - To align colons */}
                         <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>₹{SubtotalOfItems().toFixed(2)}</div></div>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>:</div> ({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> <div className={style.calculationText}>₹{(billingData.detail.cgst).toFixed(2)}</div></div>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>:</div> ({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> <div className={style.calculationText}>₹{(billingData.detail.sgst).toFixed(2)}</div></div>
-                        <div className={style.breakLine} />   
-                        <div className={style.calculationLine}><div className={style.calculationLabel}>Total :</div> <div className={style.calculationText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.cgst).toFixed(2)}</div></div>
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.sgst).toFixed(2)}</div></div>
+                        <div className={style.breakLine} style={{width:"98%"}}/>   
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
                     </div>
                 </div>
 
@@ -162,9 +169,11 @@ const Billing = () => {
                     </div>
                 </div>
                 <div className={style.breakLine} />  
-
-                <div className={style.calculationLine}><div className={style.calculationLabel}>****** THANK YOU VISIT AGAIN ******</div></div>
-
+                  {/* Modified by - ROhan Kansari - 4/5/23
+                    Reason- Removing margin */}
+                <div className={style.calculationLine}><div className={style.calculationLabel}>******** THANK YOU VISIT AGAIN *********</div></div>
+                {/* End of code */}
+                
                 {/* Added by :- Parineeta Gedam
                     Date :- 24-04-2023
                     Reason :- Add rate and review

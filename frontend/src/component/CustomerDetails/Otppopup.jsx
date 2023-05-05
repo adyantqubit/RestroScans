@@ -199,7 +199,9 @@ const Otppopup = () => {
       </div>
       <div className={style.formContainer} style={{ background: colors.subheadingBackgroundColor }}>
         <div className={style.formTitle}>OTP Verification</div>
-        <div className={style.reasonText}>We will Send you a one time password in Entered mobile number , Enter O.T.P. and confirm your order</div>
+        {/* Modified by ROhan kansari - 4/5/23 
+            Reason -changing message */}
+        <div className={style.reasonText}>Enter OTP recieved on {state.state.contact_number}</div>
 
         <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />
 

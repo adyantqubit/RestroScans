@@ -46,7 +46,17 @@ export default function RatingAndReview() {
             };
             orderData.push(data);
         }
-        const response = await updateRatingAndReviewApi(tenantName, orderData);
+
+        // Added by ROhan kansari - 4/5/23
+        // Reason - Sending overall review 
+
+        const postingData={
+            ItemRateReview:orderData,
+            overallReview:document.getElementsByClassName("text_area")[0].value,
+            order_id:secureLocalStorage.getItem("order").order_id
+        }
+        const response = await updateRatingAndReviewApi(tenantName, postingData);
+        // End of code - 4/5/23 - Rohan Kansari
         navigate(`/menu-item`);
     }
 
@@ -80,6 +90,13 @@ export default function RatingAndReview() {
                     ))}
                 </div>
 
+                {/* Added by Rohan Kansari - 4/5/23 
+                    Reason- To add one text area for overall review */}
+                <div className='Overall_container'>
+                    <div className='review_label' style={{width:"80%"}}>Give Overall Review</div>
+                    <textarea className='text_area'></textarea>
+                </div>
+                {/* End of code- 4/5/23 - Rohan  */}
                 <div className='rating_review_btn_container'>
                 <button className='rating_review_skip_btn' style={{ background: colors.bannerColor, color: colors.backgroundTheme }} 
                 onClick={(e) => navigations()}> Skip </button>

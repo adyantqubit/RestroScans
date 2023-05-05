@@ -45,7 +45,8 @@
     width: 40%;
     height: 5%;
     padding: 0px 0px 0px 2px;
-    box-shadow: 0 0 5px #000;
+    /* commented by rohankansari 4/5/23 */
+    /* box-shadow: 0 0 5px #000; */
 }
 .review_container{
     display: flex;
@@ -95,3 +96,26 @@
     border: none;
     box-shadow: 0 0 5px #000;
 }
+
+/* Added by ROhankansari - 4/5/23
+   Reason - To style new overall comment field */
+
+.Overall_container{
+    width: 95%;
+    margin:20px auto 10px auto;
+    /* margin-top: 20px; */
+    display: flex;
+    flex-direction: column;
+    gap:2px;
+    height: max-content;
+
+}
+
+.text_area{
+    width: 98%;
+    height: 60px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+/* end of adition - rohankansari 4/5/23 */

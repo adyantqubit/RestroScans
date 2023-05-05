@@ -104,6 +104,7 @@
 }
 
 .productImg{
+    min-width: 100%;
     width: 95%;
     height: 80%;
     border-radius: 10px;

@@ -66,3 +66,16 @@ Reason - To modify ant d default medel and text color - 23/4/24 */
 
   
    /* end of code - rohan kansari - 23/4/23 */
+
+
+   /* Added by Rohankansari - 4/5/23
+     */
+   :where(.css-dev-only-do-not-override-j0nf2s).ant-drawer-top>.ant-drawer-content-wrapper{
+    top:40px !important;
+   }
+
+   :where(.css-dev-only-do-not-override-j0nf2s).ant-rate .ant-rate-star-second {
+    color: rgba(0,0,0,0.2);
+   }
+
+   /* end of code - 4/5/23 - rohan kansari */

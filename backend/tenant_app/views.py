@@ -791,7 +791,7 @@ class updateRatingAndReviewAPIView(APIView):
 
     def put(self, request, tenant):
 
-        orderList = request.data
+        orderList = request.data['ItemRateReview']
         for order in orderList:
             orderObj = OrderItem.objects.get(id=order['id'])
             if 'rating' in order:
@@ -805,6 +805,15 @@ class updateRatingAndReviewAPIView(APIView):
                 orderObj.review = order['review']
 
             orderObj.save()
+
+        # Added by ROhan kansari - 4/5/23
+        # Reason -To save overall review also in order table 
+        try: 
+            order=Order.objects.get(order_id=request.data['order_id'])
+            order.review=request.data['overallReview']
+            order.save()
+        except:
+            pass    
 
         return Response({"msg": "success"}, status=status.HTTP_201_CREATED)
 # End of added code 10-04-2023
