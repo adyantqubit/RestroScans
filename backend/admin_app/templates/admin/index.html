@@ -726,7 +726,9 @@
                                                 <!-- Added by Om on 04-05-23
                                                 Reason : Show the KOT bill  -->
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' pending_orders.id %}"> Print KOT</a> 
+                                                {% if  pending_orders.order_status == 'Confirm'  %} 
+                                                    <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' pending_orders.id %} "> Print KOT</a> 
+                                                {% endif %}
                                                 </td>
                                                 <!-- End of the addition -->
                                             </tr>
