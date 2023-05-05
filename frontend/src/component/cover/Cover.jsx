@@ -35,9 +35,11 @@ function Cover() {
   var seperatedWords = path.split('/')
   // alert(seperatedWords)
   var tenant = seperatedWords[1]
+  if(seperatedWords[seperatedWords.length-1]=="home"){
   localStorage.setItem("tenantName", tenant)
   // alert(tenant)
   setTenantName(tenant)
+  }
 
   // Above method use for split the restaurent name
 
