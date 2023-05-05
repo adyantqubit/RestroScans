@@ -508,8 +508,8 @@ class OrderAdmin(admin.ModelAdmin):
         # Reason - To handle exception because length cant be checked if name is null
         # def get_customer(self, obj):
         # if len(obj.customer_id.name)>0:    
-        if obj.customer_id.name:
-            return obj.customer_id.name
+        if obj.customer_id.last_customer_name:
+            return obj.customer_id.last_customer_name
         # End of code modification by - Ashish Dewangan on 03-05-2023
         else:
             return obj.customer_id.contact_number

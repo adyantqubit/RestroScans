@@ -31,8 +31,8 @@
     }
     .dataContainer{
         border-top: 2px solid black;
-        padding:5px;
-        padding-bottom: 0px;
+        padding-left:5px;
+        padding-right:5px;
         display: flex;
         flex-direction: column;
     }
@@ -47,13 +47,11 @@
     .dataSection{
         display: flex;
         flex-direction: column;
-        padding-top: 5px;
     }
     .dataRow{
         display: flex;
         border-bottom: 1px solid black;
-        padding-top:3px;
-        padding-bottom: 3px;
+
     }
 </style>
 
@@ -68,14 +66,23 @@
             <div class="titleSection">
                 <div style="width:60%">Item Name</div>
                 <div style="width:20%;text-align: center;">Total Sold</div>
-                <div style="width:20%;text-align: right;">Amount</div>
+                <div style="width:20%;text-align: right;">Amount (₹)</div>
             </div>
-            <div class="dataSection">
-                {% for order_item in order_items %}
+            <div class="dataSection" >
+                {% for order_item in order_items_half %}
                 <div class="dataRow">
-                    <div style="width:60%">{{ order_item.item }}</div>
+                    <div style="width:60%">{{ order_item.item }}  (Half)</div>
                     <div style="width:20%;text-align: center;">{{ order_item.count }}</div>
-                    <div style="width:20%;text-align: right;">₹ {{ order_item.sum }}</div>
+                    <div style="width:20%;text-align: right;"> {{ order_item.sum|floatformat:2 }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="dataSection" style="border-top:1px solid black">
+                {% for order_item in order_items_full %}
+                <div class="dataRow">
+                    <div style="width:60%">{{ order_item.item }}  (Full)</div>
+                    <div style="width:20%;text-align: center;">{{ order_item.count }}</div>
+                    <div style="width:20%;text-align: right;"> {{ order_item.sum|floatformat:2 }}</div>
                 </div>
                 {% endfor %}
             </div>

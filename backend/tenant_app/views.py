@@ -1582,27 +1582,31 @@ def item_report(request,report_period):
 
     if(report_period=='this_year'):
         report_title="This Year's Item Report"
-        order_items = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        order_items_half = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm',serving_size='Half').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+        order_items_full = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm',serving_size='Full').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
         # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
     if(report_period=='this_month'):
         report_title="This Month's Item Report"
-        order_items = OrderItem.objects.filter(date__gte=startOfTheMonth,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        order_items_half = OrderItem.objects.filter(date__gte=startOfTheMonth,item_status='Confirm',serving_size='Half').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+        order_items_full = OrderItem.objects.filter(date__gte=startOfTheMonth,item_status='Confirm',serving_size='Full').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
         # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
     if(report_period=='this_week'):
         report_title="This Week's Item Report"
-        order_items = OrderItem.objects.filter(date__gte=startOfTheWeek,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        order_items_half = OrderItem.objects.filter(date__gte=startOfTheWeek,item_status='Confirm',serving_size='Half').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+        order_items_full = OrderItem.objects.filter(date__gte=startOfTheWeek,item_status='Confirm',serving_size='Full').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
         # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
     if(report_period=='today'):
         report_title="Today's Item Report"
-        order_items = OrderItem.objects.filter(date__gte=today,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        order_items_half = OrderItem.objects.filter(date__gte=today,item_status='Confirm',serving_size='Half').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+        order_items_full = OrderItem.objects.filter(date__gte=today,item_status='Confirm',serving_size='Full').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
         # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
    
-    print("=============================",order_items)
     template = get_template('admin/item_report.html')
     html_string = template.render({'restaurant_details':restaurant_details,
                                    'report_title':report_title,
                                    'date':datetime.date.today(),
-                                   'order_items': order_items
+                                   'order_items_half': order_items_half,
+                                   'order_items_full':order_items_full
                                    })
     
     html = HTML(string=html_string)

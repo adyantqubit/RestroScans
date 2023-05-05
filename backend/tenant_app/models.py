@@ -445,7 +445,7 @@ class CustomerDetail(models.Model):
     # End of Commented code 17-04-2023
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.last_customer_name}"
 
     class Meta:
         verbose_name = "Customer Detail"
