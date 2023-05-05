@@ -4,7 +4,7 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import style from './cart.module.css'
-import img from "../../images/balnkCart.png"
+// import img from "../../images/balnkCart.png"
 import { GlobalContext } from '../../context/Context'
 import { useNavigate } from 'react-router-dom'
 import config from '../../config/config'
@@ -17,7 +17,7 @@ import nonVegIcon from '../../images/nonveg_icon.png'
 import {BiArrowBack} from 'react-icons/bi'
 import { TenantValidate } from '../Validators/ConfirmTenant'
 import empty_cart_img from "../../images/empty_cart_img.png"
-
+import blankCart from "../../images/blankCart.png"
 const Cart = () => {
 
   // added by rohan - 17/4/23
@@ -124,6 +124,8 @@ const Cart = () => {
    else
      return "Full"; 
   }
+
+  console.log(cart)
 
   return (
     <>
@@ -265,15 +267,41 @@ function BlankPage() {
   const nav = useNavigate()
   const { colors } = useContext(GlobalContext)
   return (
-    <>
+    <div className={style.blankContainer}>
 
       {/* Added by :- Parineeta Gedam
         Date :- 16-04-2023
         reason :- show the orders data if customer wants to navigate to invoice page.
     */}
 
+      
+
+      {/* End of added code 16-04-2023 */}
+      <div className={style.blankPageContainer}>
+        <div className={style.blankImgContainer}>
+          {/* Modified by :- Parineeta Gedam on :- 21-04-2023
+              Reason :- change the img
+          */}
+          {/* <img alt="" src={img} className={style.blankImg} /> */}
+          <img alt="" src={blankCart} className={style.blankImg} />
+          {/* End of modified  */}
+        </div>
+        <div className={style.blankText} style={{ color: colors.subHeadingColor }}>
+        Please add delicious dishes from menu
+        </div>
+        <div className={style.blankBtnContainer} >
+        {/* Added by Rohan - 30/4/23
+            Reason - To change backbutton functionality */}
+          <button className={style.blankBtn} style={{ color: colors.backgroundTheme, background: colors.bannerColor }} onClick={e => nav("/menu-item")}>Browse Menu</button>
+        </div>
+      </div>
+
       { orders ? 
       <>
+
+        <div className={style.blankText} style={{ color: colors.subHeadingColor,marginTop:"25px" }}>
+        Please tap to see your current order
+        </div>
       <div className={style.orderDetailsContainer} onClick={e => goToOrderDetails() }>
       <div className={style.cartTableHeadingContainer}>
         <div className={style.cartDataContainer}>
@@ -308,26 +336,6 @@ function BlankPage() {
       </div>
       </>
       : null }
-
-      {/* End of added code 16-04-2023 */}
-      <div className={style.blankPageContainer}>
-        <div className={style.blankImgContainer}>
-          {/* Modified by :- Parineeta Gedam on :- 21-04-2023
-              Reason :- change the img
-          */}
-          {/* <img alt="" src={img} className={style.blankImg} /> */}
-          <img alt="" src={empty_cart_img} className={style.blankImg} />
-          {/* End of modified  */}
-        </div>
-        <div className={style.blankText} style={{ color: colors.subHeadingColor }}>
-          No item is added currently !
-        </div>
-        <div className={style.blankBtnContainer} >
-        {/* Added by Rohan - 30/4/23
-            Reason - To change backbutton functionality */}
-          <button className={style.blankBtn} style={{ color: colors.backgroundTheme, background: colors.bannerColor }} onClick={e => nav("/menu-item")}>Browse Menu</button>
-        </div>
-      </div>
-    </>
+    </div>
   )
 }

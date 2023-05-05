@@ -30,7 +30,6 @@ import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
 import Draggable from 'react-draggable';
 
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -909,6 +908,7 @@ function MenuItem() {
 
                           }}/> */}
                           {/* End of code - ROhan kansari - 28/4/23 */}
+                          
                           <iframe width="100%" height="100%" className="iframe" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
                         </div>
                     }

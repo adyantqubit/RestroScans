@@ -115,8 +115,9 @@
 .title{
     width: 78%;
     font-size: 16px;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1px; */
     padding: 10px 8px;
+    font-weight: 100 !important;
     font-family: "Times New Roman";
 }
 
@@ -159,6 +160,7 @@
     /* row-gap: 15px; */
     overflow-y: auto;
     overflow-x: hidden;
+    
 }
 
 .card{
@@ -223,11 +225,10 @@
     width: 90%;
     font-size: 13px;
     /* margin-top: 5px; */
-    letter-spacing: 1.7px;
+    /* letter-spacing: 1px; */
     font-family: "Times New Roman";
     padding: 0px 5px;
-    font-weight: 600;
-    display: flex;
+    font-weight: 100 !important;    display: flex;
     justify-content: space-between;
 }
 
@@ -253,10 +254,9 @@
     display: flex;
     justify-content: flex-end;
     font-size: 13px;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     font-family: "Times New Roman";
-    font-weight: 600;
-}
+    font-weight: 100 !important;}
 
 .quantityContainer{
     background-color: #f2f2f2;
@@ -295,6 +295,7 @@
 
 .quantityText{
     padding: 5px 0;
+    font-weight: 300;
 }
 
 
@@ -330,9 +331,9 @@
     display: flex;
     justify-content: space-between;
     font-size: 13px;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     font-family: "Times New Roman";
-    font-weight: 600;
+    font-weight: 100;
 }
 
 

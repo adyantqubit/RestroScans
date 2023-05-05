@@ -151,7 +151,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
             item_type: item.item_type,
             tenant:restaurant_name,
             // Added by Rohan kansari - 4/5/23 - to best seller showing option 
-            best:bestSeller.filter(b=>b.item==item.id).length>0,
+            best: bestSeller?.filter(b=>b.item==item.id).length>0
 
         }
     }

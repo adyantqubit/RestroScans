@@ -125,11 +125,13 @@ const Billing = () => {
                     <div className={style.quantityHeading}>
                         Qty
                     </div>
+                    {/* Added by Rohan KAnsari 5/5/23- showing rupees sign only in top  */}
                     <div className={style.rateHeading}>
-                        Rate
+                        Rate(₹)
                     </div>
+                    {/* Added by Rohan KAnsari 5/5/23- showing rupees sign only in top  */}
                     <div className={style.totalHeading}>
-                        Amount
+                        Amount(₹)
                     </div>
                 </div>
                 {billingData.items.map(o =>
@@ -141,10 +143,10 @@ const Billing = () => {
                             {o.quantity}
                         </div>
                         <div className={style.rateText}>
-                            ₹{o.price/o.quantity}
+                            {o.price/o.quantity}
                         </div>
                         <div className={style.totalText}>
-                            ₹{o.price}
+                            {o.price}
                         </div>
                     </div>
                 )}

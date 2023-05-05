@@ -9,7 +9,7 @@
     max-height: 75%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    /* gap: 15px; */
     /* row-gap: 15px; */
     overflow-y: auto;
     overflow-x: hidden;
@@ -67,6 +67,7 @@
     padding: 0 6%;
     top:0;
     justify-content: space-between;
+    margin-top: 15px;
     /* position: sticky; */
     
 
@@ -113,10 +114,10 @@
     width: 90%;
     font-size: 13px;
     /* margin-top: 5px; */
-    letter-spacing: 1.7px;
+    /* letter-spacing: 1.7px; */
     font-family: "Times New Roman";
     padding: 0px 5px;
-    font-weight: 600;
+    font-weight: 100;
     display: flex;
     justify-content: space-between;
 }
@@ -143,9 +144,9 @@
     display: flex;
     justify-content: flex-end;
     font-size: 13px;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     font-family: "Times New Roman";
-    font-weight: 600;
+    font-weight: 300;
 }
 
 .quantityContainer{
@@ -184,6 +185,7 @@
 
 .quantityText{
     padding: 5px 0;
+    font-weight: 300;
 }
 
 
@@ -217,9 +219,9 @@
     display: flex;
     justify-content: space-between;
     font-size: 13px;
-    letter-spacing: 1.5px;
+    /* letter-spacing: 1.5px; */
     font-family: "Times New Roman";
-    font-weight: 600;
+    font-weight: 300;
 }
 
 .btnContainer{
@@ -346,8 +348,8 @@ letter-spacing: 3px;
     /* margin-top:90px; */
     /* margin-top:30px; */
     margin-top: 5%;
-    width: 60%;
-    max-height: 300px;
+    width: 70%;
+    max-height: 500px;
 }
 
 .blankImgContainer{
@@ -452,7 +454,7 @@ letter-spacing: 3px;
 /* Added by Rohan kansari -  4/5/23
    Reason - To design best seller option*/
 .ribbon{
-    width:15px;
+    width:13px;
     height: 70px;
     margin: auto;
     text-align: center;
@@ -461,7 +463,13 @@ letter-spacing: 3px;
     font-weight:500;
     background-color: greenyellow;
     font-size: 11px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     color: black;
+    padding-left: 0px;
+    position: relative;
+    left: -4px;
+
 }
 
 .null_ribbon{
@@ -471,3 +479,10 @@ letter-spacing: 3px;
 }
 
 /* End of code - Rohan Kansari - 4/5/23 */
+
+.blankContainer{
+    width: 100vw;
+    min-height: auto;
+    z-index: 10;
+    padding-bottom: 20px;
+}

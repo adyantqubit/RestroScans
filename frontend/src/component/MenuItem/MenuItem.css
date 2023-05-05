@@ -133,11 +133,13 @@
 .description_content {
     padding: 0;
     /* margin: 0; */
-    font-size: 13px;
+    font-size: 11px;
     /* top:-3px; */
     margin-bottom: 2%;
     width: 100%;
     line-height: 20px;
+    letter-spacing: .9px;
+    word-spacing: -1px;
     /* min-height:21px;
     position: relative;
     word-break: break-all;
@@ -163,7 +165,7 @@
     width: 70px;
     height: 70px;
     /* height: 2%; */
-    margin: 0 auto;
+    margin: 0 0 0 auto;
 }
 
 .category_side_img {
@@ -189,6 +191,12 @@
     background-color: greenyellow;
     font-size: 11px;
     color: black;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: black;
+    padding-left: 0px;
+    position: relative;
+    left: -3px;
     /* letter-spacing: 1px; */
     /* padding: 0 2px; */
 
@@ -410,14 +418,14 @@
     font-family: "Times New Roman";
     width: 40%;
     /* padding-left: 1%; */
-    font-size: 13px;
+    font-size: 12px;
     /* padding: 0; */
     /* margin: 10px; */
     margin: 0px;
     /* Added by ROhankansari - 29/4/23
        Reason - To remove boldness of font */
     font-weight: 500;
-    letter-spacing: 1.2px;
+    /* letter-spacing: .9px; */
     /* ENd of code - rohankansari - 29/4/23 */
     word-break: break-word;
 }
@@ -426,15 +434,15 @@
 
 /* modified by :- Parineeta Gedam */
 .allitems_price {
-    font-family: "Times New Roman"
-    ;
+    font-family: "Times New Roman";
     width: 25%;
     /* margin-left: 5%; */
     /* padding-left: 5%; */
     /* margin: 10px; */
-    font-size: 13px;
+    font-size: 12px;
     text-align: end;
     margin: 0px;
+    font-weight: 300;
 }
 
 /* End of modified code 19-04-2023 */
@@ -1266,4 +1274,9 @@ a.ant-notification-notice-close {
 
 #Overlayvideo {
     width: 100%;
+}
+
+
+.imgType{
+    margin-right: 2px;
 }

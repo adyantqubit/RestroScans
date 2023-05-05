@@ -201,7 +201,7 @@ const Otppopup = () => {
         <div className={style.formTitle}>OTP Verification</div>
         {/* Modified by ROhan kansari - 4/5/23 
             Reason -changing message */}
-        <div className={style.reasonText}>Enter OTP recieved on {state.state.contact_number}</div>
+        <div className={style.reasonText}>Enter OTP received on {state.state.contact_number}</div>
 
         <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />
 

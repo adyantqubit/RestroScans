@@ -1,4 +1,4 @@
-import { React, useContext} from 'react';
+import { React, useContext, useEffect} from 'react';
 import { GlobalContext } from "../../context/Context";
 import './RatingAndReview.css';
 import { Rate, Button } from 'antd';
@@ -65,13 +65,27 @@ export default function RatingAndReview() {
         navigate(`/menu-item`);
       };
     //   End of added code on 24-04-2023
+
+
+    // Added by :- Rohan Kansari on 5/5/23
+    // Reason :- remove duplicate element
+
+    
+    function removeDuplicates(arr) {
+        return arr.filter((arr, index, self) =>
+        index === self.findIndex((t) => (t.item === arr.item)))
+    }     
+    // End of code - 5/5/23 - Rohan Kansari
     
     return (
         <>
             <div className='rating_review_parent_container' style={{background:colors.backgroundTheme}}>
                 <div className='first_parent_container'>
                     <div className='rating_review_heading'>Please give rating and review</div>
-                    {orderItems.map((items, index) => (
+                    {/* Commented by Rohan Kansari - 5/5/23
+                        Reason - To remove duplicates in */}
+                    {/* {removeDuplicates(orderItems).map((items, index) => ( */}
+                        {orderItems.map((items, index) => (
                         <>
                             <div className='rating_review_data_container' id={"order" + items.id} key={index}>
                                 <div className='rating_data_container'>
