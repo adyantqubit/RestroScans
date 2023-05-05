@@ -125,8 +125,6 @@ const Cart = () => {
      return "Full"; 
   }
 
-  console.log(cart)
-
   return (
     <>
       <PopupDetail item={selectedItem} isDetailPopupOpen={isDetailPopupOpen} setDetailPopupVisiblity={setDetailPopupVisiblity} />

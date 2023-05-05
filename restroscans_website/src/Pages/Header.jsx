@@ -96,7 +96,7 @@ function Header({ isOpen, setIsOpen }) {
               </Link>
             </li>
 
-            {/* <li>
+            <li>
               <FontAwesomeIcon
                 icon={faIndianRupeeSign}
                 className="pricing_icon"
@@ -109,7 +109,7 @@ function Header({ isOpen, setIsOpen }) {
               >
                 Pricing
               </Link>
-            </li> */}
+            </li>
 
             <li>
               <FontAwesomeIcon icon={faPhone} className="header_link_icons" />

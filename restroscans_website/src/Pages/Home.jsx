@@ -248,22 +248,19 @@ function Home() {
           </div>
         </div>
 
-        {/* <div className="home_pricing_section">
+        <div className="home_pricing_section">
           <h2 className="pricing_heading">Pricing</h2>
-          <div className="pricing_plans_container">
-            <div className="pricing_first_div">
+          <div>
+            <div>
               {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan1}
-                    width={"80%"}
-                    height={"40%"}
-                  />
-                </div>
-              } */}
-        {/* {
+                <img
+                  className="pricing_images"
+                  alt="Price"
+                  src={config.staticBaseURL + pricingData.pricing_plan1}
+                
+                />
+              }
+              {/* {
                 <div className="pricing_img_div">
                   <img
                     className="pricing_images"
@@ -293,9 +290,9 @@ function Home() {
                   />
                 </div>
               } */}
-        {/* </div>
+            </div>
           </div>
-        </div> */}
+        </div>
 
         {galleryData != null && galleryData.length > 0 ? (
           <div className="home_gallery_section">

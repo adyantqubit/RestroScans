@@ -1,7 +1,7 @@
 // import "./MenuItem.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { getBestProducts, getmenuList, getofferDetails, gettenantList } from "../../api/Services";
+import { getBestProducts, getmenuList, getofferDetails, gettenantList, getThemeChanges } from "../../api/Services";
 import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
@@ -29,6 +29,8 @@ import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
 import Draggable from 'react-draggable';
+import { FloatingWhatsApp } from "react-floating-whatsapp";
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -689,6 +691,23 @@ function MenuItem() {
   },[menuListVisible])
 
   // End of code- 3/5/23
+  
+  // Added by - Suman sahu  On 05/05/2023
+  // Reason - get whatsapp number on whatsapp chatbot field
+
+  const [whatsApp, setwhatsAppDetail] = useState([]);
+
+  useEffect(() => {
+    WhatsAppDetails();
+  }, []);
+
+  const WhatsAppDetails = async () => {
+    const response = await getThemeChanges(tenantt);
+    if (response) {
+      setwhatsAppDetail(response.setting);
+    }
+  };
+  // End of addition 05/05/2023
 
   return (
     <>
@@ -908,7 +927,6 @@ function MenuItem() {
 
                           }}/> */}
                           {/* End of code - ROhan kansari - 28/4/23 */}
-                          
                           <iframe width="100%" height="100%" className="iframe" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
                         </div>
                     }
@@ -1003,6 +1021,21 @@ function MenuItem() {
               : null}
         {/*End of Code */}
         </div>
+
+        {/* Added by- Suman sahu On 05/05/2023 
+            reason - add whatsapp chatbot*/}
+        <div>
+          <FloatingWhatsApp
+          style={{right: -3}}
+          buttonStyle={{width: 25, height: 25, position: "initial"}}
+          phoneNumber={whatsApp.whatsapp_number}
+          accountName={restaurant_name}
+          // avatar={siteConfig.staticBaseURL + restaurant_logo}
+          />
+        </div>
+
+        {/* End of addition 05/05/2023 */}
+
         {/* Added by Rohan- 9/4/23  Reason- cart page */}
         {/*added by rohan -18/4/23- to add functionality of subscription */}
         {/* {subscribePlan?.includes("order") ?

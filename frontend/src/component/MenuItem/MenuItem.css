@@ -353,7 +353,11 @@
     border-radius: 2%;
     /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
     /* added by Rohan -9/4/23*/
-    width: 100%;
+
+    /* modify by - Suman sahu On 05/05/2023 */
+    width: 85%;
+    /* End of modification 05/05/2023 */
+
     margin: 0 2.5%;
     position: relative;
     /* end of code -9/4/23 */
@@ -1276,7 +1280,14 @@ a.ant-notification-notice-close {
     width: 100%;
 }
 
-
-.imgType{
-    margin-right: 2px;
+/* added by - Suman sahu On 05/05/2023 
+   reason - Add css for whatsapp chatbot */
+.styles-module_whatsappButton__tVits svg{
+    padding: .3rem !important;
 }
+
+.styles-module_whatsappButton__tVits:after{
+    width: 25px !important;
+    height: 25px !important;
+}
+/* End of addition 05/05/2023 */

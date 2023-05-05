@@ -28,10 +28,10 @@ function Pricing() {
       <div className="Pricing_main_container">
         <h2 className="pricing_main_heading">Pricing</h2>
 
-        <div className="pricings_div">
+        <div>
           {
-            <div className="pricings_img_div">
-              <div dangerouslySetInnerHTML={{ __html: pricingData.content }} />
+            <div>
+              {/* <div dangerouslySetInnerHTML={{ __html: pricingData.content }} /> */}
 
               <img
                 className="pricings"

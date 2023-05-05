@@ -367,6 +367,11 @@ class Setting(models.Model):
     #end of code modification by rohan kansari -on 16/4/23
     # End of added code 08-04-2023
     # end of addition 14/4/23 
+
+    # Added by - Suman sahu  On 05/05/2023
+    # Reason - for add whatsapp chatbot
+    whatsapp_number = models.CharField(max_length=15,null= True, blank=True)
+    # End of addition 05/05/2023
     
     def __str__(self):
         return "Setting"

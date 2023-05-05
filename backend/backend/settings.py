@@ -313,3 +313,12 @@ FCM_DJANGO_SETTINGS = {
 cred = credentials.Certificate(os.path.join(BASE_DIR, 'backend/credentials.json'))
 initialize_app(cred)
 # End of code addition by Ashish Dewangan on 28-04-2023
+
+
+# Added by - Suman sahu  On 05/05/2023
+# reason - change date & time format on admin side
+DATE_FORMAT = ( ( 'd/m/Y' ))
+DATE_INPUT_FORMATS = ( ('%d/%m/%Y'),)
+DATETIME_FORMAT = (( 'd/m/Y H:i' ))
+DATETIME_INPUT_FORMATS = (('%d/%m/%Y %H:%i'),)
+# End of addition 05/05/2023
