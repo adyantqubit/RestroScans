@@ -2,7 +2,6 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from .models import *
 from admin_app.models import *
 from .serializers import *
@@ -14,6 +13,9 @@ from weasyprint import HTML , CSS
 import io
 from django.template.loader import get_template
 from admin_app.models import RestaurantRequest
+import datetime
+from django.utils.timezone import timedelta
+# from django.utils.timezone import datetime
 
 """
 Added by - Ashish Dewangan on 08-02-2023
@@ -1480,3 +1482,136 @@ def generate_pdf_kot_view(request, pk):
 
 
     # End of addition 
+
+# Added by - Ashish Dewangan on 04-05-2023
+# Reason - To show order report on admin panel
+def order_report(request,report_period):
+    from admin_app.models import Tenant, RestaurantRequest
+    from django.db.models import Sum
+    path = request.path
+    hostname = request.get_host()
+
+    if "admin" in path:
+        seperated = hostname.split(".")
+        schemaName = settings.PUBLIC_SCHEMA_NAME
+        if seperated[0] != settings.DOMAIN_NAME:
+            schemaName = seperated[0]
+
+    
+    tenant = Tenant.objects.get(tenant_name=schemaName)
+    restaurant_details = {
+        "name": tenant.restaurant_name.restaurant_name,
+        "address": tenant.restaurant_name.address
+    }
+
+    today=datetime.date.today()
+    weekDay=today.weekday()
+    startOfTheWeek=today - timedelta(days=weekDay)
+    dayOfMonth=today.day
+    startOfTheMonth=today - timedelta(days=(dayOfMonth-1))
+    thisYear=today.year
+
+    if(report_period=='this_year'):
+        report_title="This Year's Order Report"
+        orders = Order.objects.filter(date__year=thisYear,payment_status='Completed').order_by('date')
+        total_revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum('total'))
+        total_orders=Order.objects.filter(date__year=thisYear,payment_status='Completed').count()
+    if(report_period=='this_month'):
+        report_title="This Month's Order Report"
+        orders = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').order_by('date')
+        total_revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum('total'))
+        total_orders=Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').count()
+    if(report_period=='this_week'):
+        report_title="This Week's Order Report"
+        orders = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').order_by('date')
+        total_revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum('total'))
+        total_orders=Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').count()        
+    if(report_period=='today'):
+        report_title="Today's Order Report"
+        orders = Order.objects.filter(date__gte=today,payment_status='Completed').order_by('date')
+        total_revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum('total'))
+        total_orders=Order.objects.filter(date__gte=today,payment_status='Completed').count() 
+    template = get_template('admin/order_report.html')
+    html_string = template.render({'restaurant_details':restaurant_details,
+                                   'report_title':report_title,
+                                   'date':datetime.date.today(),
+                                   'total_orders':total_orders,
+                                   'orders': orders,
+                                   'total_revenue':total_revenue["total__sum"],
+                                   })
+    
+    html = HTML(string=html_string)
+    result = io.BytesIO()
+    html.write_pdf(result, stylesheets=[CSS(string='')])
+    result.seek(0)
+
+    response = HttpResponse( result,content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="order_report.pdf"'
+
+    return response
+# End of code addition by Ashish Dewangan on 04-05-2023
+
+# Added by - Ashish Dewangan on 04-05-2023
+# Reason - To show item report on admin panel
+def item_report(request,report_period):
+    from admin_app.models import Tenant, RestaurantRequest
+    from django.db.models import Count,Sum
+
+    path = request.path
+    hostname = request.get_host()
+
+    if "admin" in path:
+        seperated = hostname.split(".")
+        schemaName = settings.PUBLIC_SCHEMA_NAME
+        if seperated[0] != settings.DOMAIN_NAME:
+            schemaName = seperated[0]
+
+    
+    tenant = Tenant.objects.get(tenant_name=schemaName)
+    restaurant_details = {
+        "name": tenant.restaurant_name.restaurant_name,
+        "address": tenant.restaurant_name.address
+    }
+
+    today=datetime.date.today()
+    weekDay=today.weekday()
+    startOfTheWeek=today - timedelta(days=weekDay)
+    dayOfMonth=today.day
+    startOfTheMonth=today - timedelta(days=(dayOfMonth-1))
+    thisYear=today.year
+
+    if(report_period=='this_year'):
+        report_title="This Year's Item Report"
+        order_items = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
+    if(report_period=='this_month'):
+        report_title="This Month's Item Report"
+        order_items = OrderItem.objects.filter(date__gte=startOfTheMonth,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
+    if(report_period=='this_week'):
+        report_title="This Week's Item Report"
+        order_items = OrderItem.objects.filter(date__gte=startOfTheWeek,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
+    if(report_period=='today'):
+        report_title="Today's Item Report"
+        order_items = OrderItem.objects.filter(date__gte=today,item_status='Confirm').values('item').order_by('item').annotate(count=Count('item')).annotate(sum=Sum('price'))
+        # total_amount = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm').values('item').order_by('item').annotate(Sum('price'))
+   
+    print("=============================",order_items)
+    template = get_template('admin/item_report.html')
+    html_string = template.render({'restaurant_details':restaurant_details,
+                                   'report_title':report_title,
+                                   'date':datetime.date.today(),
+                                   'order_items': order_items
+                                   })
+    
+    html = HTML(string=html_string)
+    result = io.BytesIO()
+    html.write_pdf(result, stylesheets=[CSS(string='')])
+    result.seek(0)
+
+    response = HttpResponse( result,content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="item_report.pdf"'
+
+    return response
+# End of code addition by Ashish Dewangan on 04-05-2023

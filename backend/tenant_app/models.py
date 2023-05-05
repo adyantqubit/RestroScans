@@ -8,7 +8,6 @@ from django.conf import settings
 
 # Create your models here.
 
-
 """-------------------------------------------------------
 Added by - Ashish Dewangan on 08-02-2023
 Reason - To store details of menu

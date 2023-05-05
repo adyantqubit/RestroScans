@@ -154,4 +154,15 @@ urlpatterns = [
     # #Adding a generate_pdf button for kitchen
     path('admin/tenant_app/order/<int:pk>/generate-kot-pdf/', generate_pdf_kot_view, name='order_kot_generate_bill'),
     # End of Code Addition
-]
+    
+    # Added by - Ashish Dewangan on 04-05-2023
+    # Reason - To generate order report from admin panel
+    path('admin/tenant_app/order_report/<report_period>', order_report, name='order_report'),
+    # End of code addition by Ashish Dewangan on 04-05-2023
+
+    # Added by - Ashish Dewangan on 04-05-2023
+    # Reason - To generate item report from admin panel
+    path('admin/tenant_app/item_report/<report_period>', item_report, name='item_report'),
+    # End of code addition by Ashish Dewangan on 04-05-2023
+
+]   

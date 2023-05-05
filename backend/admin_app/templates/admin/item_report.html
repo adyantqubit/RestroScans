@@ -1,0 +1,84 @@
+<!-- Created by - Ashish Dewangan on 04-05-2023
+     Reason - To show item report  -->
+
+{% load admintemplates %}
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Report</title>
+</head>
+<style>
+    .container{
+        border: 2px solid black;
+    }
+    .title{
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .reportTitle{
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .titleContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px;
+        font-weight: bold;
+    }
+    .dataContainer{
+        border-top: 2px solid black;
+        padding:5px;
+        padding-bottom: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+    .titleSection{
+        display: flex;
+        flex-direction: row;
+        border-bottom: 2px solid black;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        font-weight: bold;
+    }
+    .dataSection{
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px;
+    }
+    .dataRow{
+        display: flex;
+        border-bottom: 1px solid black;
+        padding-top:3px;
+        padding-bottom: 3px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="title">{{ restaurant_details.name}} </div>
+        <div class="reportTitle">{{report_title}}</div>
+        <div class="titleContainer">
+            <div class="subtitle">Report Date : {{date}}</div>
+        </div>
+        <div class="dataContainer">
+            <div class="titleSection">
+                <div style="width:60%">Item Name</div>
+                <div style="width:20%;text-align: center;">Total Sold</div>
+                <div style="width:20%;text-align: right;">Amount</div>
+            </div>
+            <div class="dataSection">
+                {% for order_item in order_items %}
+                <div class="dataRow">
+                    <div style="width:60%">{{ order_item.item }}</div>
+                    <div style="width:20%;text-align: center;">{{ order_item.count }}</div>
+                    <div style="width:20%;text-align: right;">₹ {{ order_item.sum }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>

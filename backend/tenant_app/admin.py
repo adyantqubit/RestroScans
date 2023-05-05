@@ -11,9 +11,9 @@ from django.template.loader import get_template
 from django.urls import reverse
 from weasyprint import HTML,CSS
 from io import BytesIO
-from django.http import HttpResponse
 import subprocess
 import os
+
 
 # Register your models here.
 # admin.site.register(Student)
@@ -521,7 +521,7 @@ class OrderAdmin(admin.ModelAdmin):
         # Commented and modified by - Ashish Dewangan on 03-05-2023
         # Reason - To style link tag as button
         # return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
-        return format_html("<a style='background-color: #c97303;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+        return format_html("<a style='background-color: #004376;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
         # End of code modification
     order_items.allow_tags = True
     # End of code addition by Ashish Dewangan on 24-04-2023
@@ -531,7 +531,7 @@ class OrderAdmin(admin.ModelAdmin):
     def view_order(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a style='background-color: #c97303;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/order/"+str(obj.id)+"/change/'>View Details</>")
+        return format_html("<a style='background-color: #92d050;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/order/"+str(obj.id)+"/change/'>View Details</>")
     view_order.allow_tags = True
     # End of code addition by - Ashish Dewangan on 03-05-2023
 
@@ -650,7 +650,7 @@ class OrderItemAdmin(admin.ModelAdmin):
     def view_order_item(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a style='background-color: #c97303;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/"+str(obj.id)+"/change/'>View Details</>")
+        return format_html("<a style='background-color: #92d050;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/"+str(obj.id)+"/change/'>View Details</>")
     view_order_item.allow_tags = True
     # End of code addition by - Ashish Dewangan on 03-05-2023
 
@@ -714,4 +714,4 @@ End of added code 06-04-2023
 # @admin.register(FcmNotification)
 # class FcmNotificationAdmin(admin.ModelAdmin):
 #     list_display = ("id",)
-# End of code addition    
+# End of code addition
