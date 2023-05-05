@@ -29,7 +29,10 @@ class TenantAPIView(APIView):
         from admin_app.models import Tenant
         from admin_app.serializers import TenantListSerializer
         tenant=Tenant.objects.get(tenant_name=tenant)
-        visitCount=VisitCount.objects.get(tenant_name=tenant)
+        try:
+            visitCount=VisitCount.objects.get(tenant_name=tenant)
+        except visitCount.DoesNotExist:
+               visitCount=visitCount()
         visitCount.count=visitCount.count+1
         visitCount.save()
         tenantListSerializer=TenantListSerializer(tenant)
