@@ -22,7 +22,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { getAppSetting, restaurentAuthentication } from "../api/Services";
 import { loginSchema } from "../validation/ValidationSchema";
 import { useNavigation } from "@react-navigation/native";
-import { colors } from "../Colours/globalColor";
+import { colors, inputs } from "../Colours/globalColor";
 import config from "../config/config";
 import { AppStateContext } from "../context/AppStateProvider";
 import { useIsFocused } from "@react-navigation/native";
@@ -406,7 +406,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 40,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     // padding: 10,
@@ -424,7 +432,15 @@ const styles = StyleSheet.create({
   },
   passContainer: {
     flexDirection: "row",
-    height: 40,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 40,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     borderWidth: 1,
     margin: 12,
     marginTop: 10,

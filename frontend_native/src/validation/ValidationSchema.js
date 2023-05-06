@@ -260,17 +260,25 @@ export const addOfferSchema = yup.object().shape({
     .required("Item name is required!")
     .max(
       40,
-      ({ max }) => `Offer name should no be more than ${max} characters`
+      ({ max }) => `Offer name should not be more than ${max} characters`
     ),
   video_link: yup
     .string()
     .max(
       500,
-      ({ max }) => `Video link should no be more than ${max} characters`
+      ({ max }) => `Video link should not be more than ${max} characters`
     ),
   discount: yup
-    .number()
-    .max(100, ({ max }) => `Discount should not be more than ${max}`),
+    // Added and modified by Yuvraj Sahu on 05-05-2023
+    // Reason to not allow decimal value
+    // .number("Offer name should be number")
+    .string()
+    // .max(100, ({ max }) => `Discount should not be more than ${max}`)
+    .matches(
+      /^[0-9]{1,2}$/g,
+      "Discount should not be more than 100 and decimal value"
+    ),
+  // end of addition by yuvraj Sahu on 05-05-2023
 });
 // End of addition
 

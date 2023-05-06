@@ -17,7 +17,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { postRestaurantDetail } from "../api/Services";
-import { colors } from "../Colours/globalColor";
+import { colors, inputs } from "../Colours/globalColor";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AppStateContext } from "../context/AppStateProvider";
 import { Formik } from "formik";
@@ -56,26 +56,33 @@ export default function RestaurantRegistrationScreen({
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
       quality: 1,
       base64: true,
+      fileSize: true
     });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      // alert(result.assets[0].fileName);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setLogoFileSizeError(true);
-      } else {
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    alert(result.assets[0].fileSize)
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */
+    if (fileSize > 200000) {
+      setLogoFileSizeError(true);
+    } else {
+      if (!result.canceled) {
         setLogoFileSizeError(false);
+        setImage(result.assets[0].uri);
+        // alert(result.assets[0].fileName);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
       }
-      // End of addition 29-04-2023
     }
   };
 
@@ -88,26 +95,31 @@ export default function RestaurantRegistrationScreen({
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [3, 6],
       quality: 1,
       base64: true,
     });
-
-    if (!result.canceled) {
-      setBackImage(result.assets[0].uri);
-      // alert(result.assets[0].fileName);
-      setBackgroundFileName(result.assets[0].fileName);
-      setBackgroundPhoto(result.assets[0]);
-
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setBgFileSizeError(true);
-      } else {
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */
+    if (fileSize > 200000) {
+      setBgFileSizeError(true);
+    } else {
+      if (!result.canceled) {
         setBgFileSizeError(false);
+        setBackImage(result.assets[0].uri);
+        // alert(result.assets[0].fileName);
+        setBackgroundFileName(result.assets[0].fileName);
+        setBackgroundPhoto(result.assets[0]);
       }
-      // End of addition 29-04-2023
     }
   };
   // End of addition
@@ -1279,7 +1291,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 42,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 42,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,

@@ -142,7 +142,7 @@ export default function OrderListScreen({ route, navigation }) {
                   {/* Added by- Suman Sahu on 29-4-2023
                       Reason - to show time in order list screen */}
                   <Text style={styles.tableNo}>
-                    Time - {ExtractDateTime(order.date).time}
+                    Time : {ExtractDateTime(order.date).time}
                   </Text>
                   {/* End of addition 29-04-2023 */}
                 </View>

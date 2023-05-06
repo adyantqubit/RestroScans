@@ -18,7 +18,7 @@ import {
   getMenuList,
   saveAllOfferItems,
 } from "../../api/Services";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useContext } from "react";
 import { AppStateContext } from "../../context/AppStateProvider";
@@ -108,7 +108,11 @@ export default function AddOfferItemScreen() {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getAllOfferList(JSON.parse(tenantInfo).tenant_name);
     if (response.offerBanner) {
-      capitals = setData(
+      /**
+       * Removed by Yuvraj Sahu on 05-05-2023
+       * Reason - to remove error
+       */
+      setData(
         response.offerBanner.map(function (obj) {
           obj["key"] = obj["id"]; // Assign new key
           obj["value"] = obj["offer_name"]; // Rename key
@@ -127,7 +131,11 @@ export default function AddOfferItemScreen() {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
     if (response.itemList) {
-      capitals = setMenuData(
+      /**
+       * Removed by Yuvraj Sahu on 05-05-2023
+       * Reason - to remove error
+       */
+      setMenuData(
         response.itemList.map(function (obj) {
           obj["key"] = obj["id"]; // Assign new key
           obj["value"] = obj["name"]; // Rename key
@@ -213,7 +221,7 @@ export default function AddOfferItemScreen() {
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* End of addition - button click */}
         <View style={styles.container}>
-          <Text style={{ marginTop: 5 }}>Banner/Offer name</Text>
+          <Text style={styles.labels}>Banner/Offer name</Text>
 
           {/* Commented and modified by Yuvraj Sahu on 24-4-2023
           Reason - to change dropdown */}
@@ -248,7 +256,15 @@ export default function AddOfferItemScreen() {
               return <AntDesign name="down" size={14} color="black" />;
             }}
             buttonStyle={{
-              height: 41,
+              /**
+               * Added by yuvraj Sahu on 05-05-2023
+               * Reason - to set hright of input box
+               */
+              // height: 41,
+              height: inputs.inputBoxHeight,
+              /**
+               * End of set input box height by yuvraj Sahu on 05-05-2023
+               */
               borderColor: "black",
               borderWidth: 1,
               borderRadius: 10,
@@ -308,7 +324,15 @@ export default function AddOfferItemScreen() {
                 return <AntDesign name="down" size={14} color="black" />;
               }}
               buttonStyle={{
-                height: 41,
+                /**
+                 * Added by yuvraj Sahu on 05-05-2023
+                 * Reason - to set hright of input box
+                 */
+                // height: 41,
+                height: inputs.inputBoxHeight,
+                /**
+                 * End of set input box height by yuvraj Sahu on 05-05-2023
+                 */
                 borderColor: "black",
                 borderWidth: 1,
                 borderRadius: 10,
@@ -372,6 +396,14 @@ export default function AddOfferItemScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    /**
+     * Added and modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give gap from top of the form
+     */
+    paddingTop: 10,
+    /**
+     * End of addition by Yuvraj Sahu on 05-05-2023
+     */
     flex: 1,
     height: "100%",
     paddingHorizontal: 10,
@@ -384,7 +416,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: 45,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
@@ -394,6 +434,14 @@ const styles = StyleSheet.create({
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",

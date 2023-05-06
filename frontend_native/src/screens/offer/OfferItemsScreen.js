@@ -93,20 +93,32 @@ export default function OfferItemsScreen({ route, navigation }) {
       quality: 1,
       base64: true,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setTempPhoto(result.assets[0]);
-
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to img not upload if img size is bigger
+     */
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */ if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      if (!result.canceled) {
         setFileSizeError(false);
+        setImage(result.assets[0].uri);
+        setTempPhoto(result.assets[0]);
       }
-      // End of addition 29-04-2023
     }
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
   };
   // End upload image
 
@@ -670,7 +682,10 @@ export default function OfferItemsScreen({ route, navigation }) {
                   />
                   <Pressable onPress={() => setIsShowVideo(!isShowVideo)}>
                     <Text style={styles.showVideoLable}>
-                      Show video hide image
+                      {/* Modified by yuvraj Sahu on 05-05-2023
+                      Reason - to change the video checkbox lable */}
+                      Show video
+                      {/* End of Modification by Yuvraj Sahu on 05-05-2023 */}
                     </Text>
                   </Pressable>
                 </View>
@@ -797,7 +812,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: 45,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,

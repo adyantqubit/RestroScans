@@ -19,7 +19,7 @@ import {
   saveMenuApi,
   savePaymentMethodApi,
 } from "../../api/Services";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 import { AppStateContext } from "../../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
 import Footer from "../../components/Footer/Footer";
@@ -83,27 +83,40 @@ export default function AddMenuScreen() {
       base64: true,
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      // alert(result.assets[0].fileName);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-      // setTempPhoto(result.assets[0]);
-      // Added by Yuvraj Sahu on 23-4-2023
-      // Reason - to hide validation msg
-      setImgRequired(false);
-      // End of addition
-
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
-        setFileSizeError(false);
+    /**
+     * Added by Yuvraj Sahu on 05-05-2023
+     * Reason - to not upload image if img size is big
+     */
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */ if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      setFileSizeError(false);
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        // alert(result.assets[0].fileName);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
+        // setTempPhoto(result.assets[0]);
+        // Added by Yuvraj Sahu on 23-4-2023
+        // Reason - to hide validation msg
+        setImgRequired(false);
+        // End of addition
       }
-      // End of addition 29-04-2023
     }
+    /**
+     * End of addition and modification by yuvraj Sahu on 05-05-2023
+     */
+    // End of addition 29-04-2023
   };
 
   // Added by Yuvraj Sahu on 26-3-2023
@@ -437,7 +450,7 @@ export default function AddMenuScreen() {
               <View>
                 <View>
                   <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    <Text style={{ color: "red", fontWeight: "650" }}> * </Text>
                     Menu name
                   </Text>
                   <TextInput
@@ -455,7 +468,7 @@ export default function AddMenuScreen() {
                     autoCorrect={false}
                   />
                   {/* Modified by Yuvraj Sahu on 04-05-2023
-				Reason - to validate name field */}
+				          Reason - to validate name field */}
                   {errors.name && (
                     <Text style={styles.textdanger}>{errors.name}</Text>
                   )}
@@ -647,16 +660,39 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 41,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginTop: 0,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
     fontSize: 16,
     borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",

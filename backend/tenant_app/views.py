@@ -755,6 +755,10 @@ class PostCustomerDetailsAPIView(APIView):
 
             # Modified by :- Parineeta Gedam
             customerDetails.last_customer_name = request.data['name']
+            # Added by Yuvraj Sahu on 05-05-2023
+            # Reason - to save latest email id of customer
+            customerDetails.last_email = request.data['email']
+            # End of addition by Yuvraj Sahu on 05-05-2023
             customerDetails.save()
             # End of added code 17-04-2023
 

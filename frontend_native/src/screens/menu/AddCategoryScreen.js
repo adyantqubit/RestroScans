@@ -16,7 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
 import { getMenuList, saveCategoryApi, saveMenuApi } from "../../api/Services";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
 import { AppStateContext } from "../../context/AppStateProvider";
@@ -162,6 +162,7 @@ export default function AddCategoryScreen() {
   /* End of addition */
 
   const pickImage = async () => {
+    setImage(null);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -172,19 +173,32 @@ export default function AddCategoryScreen() {
       base64: true,
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
-        setFileSizeError(false);
+    /**
+     * Added by Yuvraj Sahu on 05-05-2023
+     * Reason - to not upload image if img size is big
+     */
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */ if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      setFileSizeError(false);
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
       }
-      // End of addition 29-04-2023
+      /**
+       * End of addition and modification by yuvraj Sahu on 05-05-2023
+       */
     }
   };
 
@@ -239,9 +253,13 @@ export default function AddCategoryScreen() {
 
   const handleRegister = async (values, { resetForm }) => {
     /**
-  	* Amodified by Yuvraj Sahu on 03-05-2023
+  	* Modified by Yuvraj Sahu on 03-05-2023
   	Reason - to button disable when menu selected
   	*/
+    /**
+     * Modified by Yuvraj Sahu on 05-05-2023
+     * Reason - disble btn issue
+     */
     if (categoryName != "") {
       setSaveBtnDisable(true);
     }
@@ -269,7 +287,7 @@ export default function AddCategoryScreen() {
     formData.append("is_active", isCategoryActive);
 
     // if (icon != null) {
-    if (categoryName != "" && isFileSizeError == false) {
+    if (categoryName != "") {
       saveCategoryApi(formData, tenant).then(async (res) => {
         if (res.msg) {
           setSaveBtnDisable(false);
@@ -516,7 +534,15 @@ export default function AddCategoryScreen() {
                     return <AntDesign name="down" size={14} color="black" />;
                   }}
                   buttonStyle={{
-                    height: 41,
+                    /**
+                     * Added by yuvraj Sahu on 05-05-2023
+                     * Reason - to set hright of input box
+                     */
+                    // height: 41,
+                    height: inputs.inputBoxHeight,
+                    /**
+                     * End of set input box height by yuvraj Sahu on 05-05-2023
+                     */
                     borderColor: "black",
                     borderWidth: 1,
                     borderRadius: 10,
@@ -716,16 +742,32 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 41,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
     marginTop: 5,
-    fontSize: 16,
+    fontSize: 15,
     borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",
@@ -737,7 +779,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   pickerContainer: {
-    height: 40,
+    height: 41,
     margin: 12,
     borderWidth: 1,
     marginTop: 10,
@@ -754,7 +796,7 @@ const styles = StyleSheet.create({
   },
   passContainer: {
     flexDirection: "row",
-    height: 40,
+    height: 41,
     borderWidth: 1,
     margin: 12,
     marginTop: 10,

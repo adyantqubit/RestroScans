@@ -775,7 +775,11 @@ export default function OrderItemsScreen({ route, navigation }) {
             </Text>
             {customerDetail.email && (
               <Text style={{ marginTop: 5 }}>
-                <Text>Email</Text> : {customerDetail.email}
+                {/* Added and modified by yuvraj Sahu on 05-05-2023
+                Reason - to get latest email  */}
+                {/* <Text>Email</Text> : {customerDetail.email} */}
+                <Text>Email</Text> : {customerDetail.last_email}
+                {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
               </Text>
             )}
             <Text style={{ marginTop: 5 }}>
@@ -802,7 +806,11 @@ export default function OrderItemsScreen({ route, navigation }) {
                     </Text>
                     {orderItem.rating && (
                       <Text>
-                        Rating : {orderItem.rating}{" "}
+                        {/* Commeted and modified by Yuvraj Sahu on 05-05-2023
+                        Reason - to remove lable rating */}
+                        {/* Rating : {orderItem.rating}{" "} */}
+                        {orderItem.rating}{" "}
+                        {/* End of commented by Yuvraj Sahu on 05-05-2023 */}
                         <FontAwesome name="star" size={13} color="black" />
                       </Text>
                     )}

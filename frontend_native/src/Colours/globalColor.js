@@ -26,6 +26,17 @@ export const fonts = {
   text: 12,
 };
 
+/**
+* Added by Yuvraj Sahu on 05-05-2023
+* To set height and width
+*/
+export const inputs = {
+  inputBoxHeight: 45,
+};
+/**
+* End of addition by yuvraj Sahu on 05-05-2023
+*/
+
 // export const radius ={
 //     btnRadius: 10
 // }

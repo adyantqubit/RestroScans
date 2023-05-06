@@ -446,6 +446,10 @@ class CustomerDetail(models.Model):
     # Reason :- latest name show 
 
     last_customer_name = models.CharField(max_length=255, null=True, blank=True)
+    # Added by Yuvraj Sahu on 05-05-2023
+    # Reason - to save latest email id of customer
+    last_email = models.EmailField(_('email address'), null=True, blank=True)
+    # End of addition by Yuvraj Sahu on 05-05-2023
     
     # End of Commented code 17-04-2023
 
