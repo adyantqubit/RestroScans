@@ -23,33 +23,30 @@
         text-align: center;
     }
     .titleContainer{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
         padding: 5px;
         font-weight: bold;
+        
     }
     .dataContainer{
         border-top: 2px solid black;
         padding-left:5px;
         padding-right:5px;
-        display: flex;
-        flex-direction: column;
+       
     }
     .titleSection{
-        display: flex;
-        flex-direction: row;
         border-bottom: 2px solid black;
         padding-bottom: 5px;
         padding-top: 5px;
         font-weight: bold;
     }
     .dataSection{
-        display: flex;
-        flex-direction: column;
+        /* display: flex;
+        flex-direction: column; */
     }
     .dataRow{
-        display: flex;
+        /* display: flex; */
+        padding-top: 3px;
+        padding-bottom: 3px;
         border-bottom: 1px solid black;
 
     }
@@ -64,28 +61,30 @@
         </div>
         <div class="dataContainer">
             <div class="titleSection">
-                <div style="width:60%">Item Name</div>
-                <div style="width:20%;text-align: center;">Total Sold</div>
-                <div style="width:20%;text-align: right;">Amount (₹)</div>
+                <div style="width:50%;display:inline-block;">Item Name</div>
+                <div style="width:20%;text-align: center;display:inline-block;">Total Sold</div>
+                <div style="width:20%;text-align: right;display:inline-block;">Amount (₹)</div>
             </div>
-            <div class="dataSection" >
+            <div class="dataSection" style="border-bottom:1px solid black;">
                 {% for order_item in order_items_half %}
                 <div class="dataRow">
-                    <div style="width:60%">{{ order_item.item }}  (Half)</div>
-                    <div style="width:20%;text-align: center;">{{ order_item.count }}</div>
-                    <div style="width:20%;text-align: right;"> {{ order_item.sum|floatformat:2 }}</div>
+                    <div style="width:50%;display:inline-block;">{{ order_item.item }}  (Half)</div>
+                    <div style="width:20%;text-align: center;display:inline-block;">{{ order_item.count }}</div>
+                    <div style="width:20%;text-align: right;display:inline-block;"> {{ order_item.sum|floatformat:2 }}</div>
                 </div>
                 {% endfor %}
             </div>
-            <div class="dataSection" style="border-top:1px solid black">
+            <div class="dataSection" >
                 {% for order_item in order_items_full %}
                 <div class="dataRow">
-                    <div style="width:60%">{{ order_item.item }}  (Full)</div>
-                    <div style="width:20%;text-align: center;">{{ order_item.count }}</div>
-                    <div style="width:20%;text-align: right;"> {{ order_item.sum|floatformat:2 }}</div>
+                    <div style="width:50%;display:inline-block;">{{ order_item.item }}  (Full)</div>
+                    <div style="width:20%;text-align: center;display:inline-block;">{{ order_item.count }}</div>
+                    <div style="width:20%;text-align: right;display:inline-block;"> {{ order_item.sum|floatformat:2 }}</div>
                 </div>
                 {% endfor %}
             </div>
+
+            
         </div>
     </div>
 </body>

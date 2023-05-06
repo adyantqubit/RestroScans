@@ -1549,7 +1549,7 @@ def order_report(request,report_period):
     
     html = HTML(string=html_string)
     result = io.BytesIO()
-    html.write_pdf(result, stylesheets=[CSS(string='')])
+    html.write_pdf(result, stylesheets=[CSS(string='@page {    size: A4; margin: 2rem;  }')])
     result.seek(0)
 
     response = HttpResponse( result,content_type='application/pdf')
@@ -1618,7 +1618,7 @@ def item_report(request,report_period):
     
     html = HTML(string=html_string)
     result = io.BytesIO()
-    html.write_pdf(result, stylesheets=[CSS(string='')])
+    html.write_pdf(result, stylesheets=[CSS(string='@page {    size: A4; margin: 2rem;  }')])
     result.seek(0)
 
     response = HttpResponse( result,content_type='application/pdf')
