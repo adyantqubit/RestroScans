@@ -42,7 +42,11 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display=("id","categories_list","name",'is_active')
+    # Modified and commented by Om on 06-05-23
+    # Reason : Fix the alignment in menulist in admin panel
+    # list_display=("id","categories_list","name",'is_active')
+    list_display=("id","name","categories_list",'is_active')
+    # End of addition by Om on 06-05-23
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links = ("id","name",'is_active')

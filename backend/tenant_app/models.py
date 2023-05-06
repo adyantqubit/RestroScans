@@ -578,7 +578,11 @@ class OrderItem(models.Model):
     # def __str__(self):
     #     return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
     def __str__(self):
-        return f"  order ID: {self.order_id} | Item Name : {self.item} | Size : {self.serving_size} | Quantity : {self.quantity} | Price : {self.price} "
+        # Commented and modified by Om shrivastava on 06-05-23
+        # Reason : To change the return statement inside the orderitem table
+        # return f"  order ID: {self.order_id} | Item Name : {self.item} | Size : {self.serving_size} | Quantity : {self.quantity} | Price : {self.price} "
+        return 'Order item' 
+        #End of code modification by Om shrivastava on 06-05-23
     #End of code modification by Ashish Dewangan on 24-04-2023
 
     class Meta:
@@ -638,7 +642,11 @@ class PaymentMethod(models.Model):
         verbose_name_plural = 'j) Payment Method'
 
     def __str__(self):
-        return f"{self.scanner}"
+        # Modified and added by Om on 06-06-23
+        # Reason : Show the appropriate return in payment method modal
+        # return f"{self.scanner}"
+        return 'Payment details' 
+        # End of addition by Om on 06-05-23
 
 """
 End of added code 11-04-2023
