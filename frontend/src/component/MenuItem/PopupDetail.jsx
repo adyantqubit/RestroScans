@@ -63,6 +63,8 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
     function AddItemToCart() {
         var cartTemp = cart
 
+        var historyCart=JSON.parse(localStorage.getItem("cart"))
+
         if (quantityFull > 0) {
             // For full price is increase by one or already present in item with any quantity
             // then it find the index of selected item in cart
@@ -130,8 +132,17 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
         }
 
         // after all updation updated cart value is set to localstorage and close the popup container
-        localStorage.setItem("cart", JSON.stringify(cartTemp))
-        setDetailPopupVisiblity(!isDetailPopupOpen)
+
+        // Added by Rohan kansari-6/5/23
+        // Reason - show validation message if any changes is not their
+        if(JSON.stringify(historyCart) == JSON.stringify(cartTemp)){
+            notify("Please add quantity","error")
+        }else{
+            localStorage.setItem("cart", JSON.stringify(cartTemp))
+            setDetailPopupVisiblity(!isDetailPopupOpen)
+        }
+        // End of addition - Rohan kansari-6/5/23 
+        
     }
 
     // created by rohan - 9/4/23
@@ -155,6 +166,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
 
         }
     }
+
 
 
 
@@ -224,9 +236,31 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
 
  
 
-    function notify(msg) {
+    function notify(msg,error) {
 
-        
+        //  Added by Rohan kansari - 6/5/23
+        // Reason - to show error messge if no updation is shown
+            if(error=="error"){
+                api.warning({
+              
+                    message: `${msg} `,
+                  //   description: <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>,
+                  RadiusUprightOutlined,
+                  duration:3,
+                  style:{
+                      top:"25px",
+                      background:colors.subheadingBackgroundColor,
+                      color:colors.subHeadingColor
+                  },
+      
+                  // Added by Rohan kansari - 23/4/23
+                  //Reason - To fixed notification show only one time 
+                    key: 1,
+                  // end of code
+                  })
+            }
+            else
+            // ENd of code - Rohan kansari - 6/5/23
             api.success({
               
               message: `${msg} `,

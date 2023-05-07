@@ -57,6 +57,10 @@ const Otppopup = () => {
   
     
     const onSignInSubmit = () => {
+
+      // Added by Rohan kansari - 6/5/23
+      // Reason - To reset blank otp value on sending otp
+      setOTP("")
       
       const phoneNumber = "+91" + state.state.contact_number
       firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
