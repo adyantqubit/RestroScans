@@ -840,39 +840,65 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Text>No data</Text>
           )}
           {/* Modified by Yuvraj Sahu on 11-4-2023
-        Reason - to design order detail */}
+          Reason - to design order detail */}
           <View style={styles.totalBorder} />
           <View>
             {/* Modified by Yuvraj Sahu on 14-4-2023
-          Reason - to show total price */}
+            Reason - to show total price */}
             <View style={styles.amountRow}>
-              <Text>Total Price :</Text>
-              <Text>₹ {orderDetail.sub_total}</Text>
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text style={styles.totalPriceLables}>Total Price</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+              <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text>
             </View>
             {/* Commented by Yuvraj Sahu on 17-4-2023
-          Reason - to remove gst */}
+            Reason - to remove gst */}
             {/* <View style={styles.amountRow}>
             <Text>GST :</Text>
             <Text>{orderDetail.tax}</Text>
-          </View> */}
+            </View> */}
             {/* End of removal */}
             {/* Added by Yuvraj Sahu on 17-4-2023
-          Reason - to add cgst and sgst */}
+            Reason - to add cgst and sgst */}
             <View style={styles.amountRow}>
-              <Text>CGST :</Text>
-              <Text>₹ {orderDetail.cgst}</Text>
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text style={styles.totalPriceLables}>GST</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+              <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text>
             </View>
             <View style={styles.amountRow}>
-              <Text>SGST :</Text>
-              <Text>₹ {orderDetail.sgst}</Text>
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text style={styles.totalPriceLables}>SGST</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+              <Text style={styles.totalPrices}>₹ {orderDetail.sgst}</Text>
             </View>
             {/* End of addition */}
             <View style={styles.amountRow}>
               {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
-              <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+              {/* <Text style={{ fontWeight: "bold", fontSize: 15 }}>
                 Grand Total :
+              </Text> */}
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  textAlign: "right",
+                  width: "50%",
+                }}
+              >
+                Grand Total
               </Text>
-              <Text>₹ {orderDetail.total}</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+              <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text>
             </View>
           </View>
         </View>
@@ -1261,4 +1287,19 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   // End of table design
+  /**
+   * Added by yuvraj Sahu on 06-05-2023
+   * Reason - to design total price content
+   */
+  totalPriceLables: {
+    width: "50%",
+    textAlign: "right",
+  },
+  totalPrices: {
+    width: "20%",
+    textAlign: "right",
+  },
+  /**
+   * End of addition by Yuvraj Sahu on 06-05-2023
+   */
 });

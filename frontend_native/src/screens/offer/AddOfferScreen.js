@@ -48,6 +48,15 @@ export default function AddOfferScreen() {
   const [uploadedFileName, setUploadedFileName] = useState("");
   var [isImgRequired, setImgRequired] = useState(false);
 
+  /**
+   * Added by Yuvraj Sahu on 06-05-2023
+   * Reason - to video link validation
+   */
+  var [isVideoError, setIsVideoError] = useState(false);
+  /**
+   * End of addition by Yuvraj Sahu on 06-05-2023
+   */
+
   var { render, setRender } = useContext(AppStateContext);
 
   /* This is add for show image limit validation msg */
@@ -119,6 +128,8 @@ export default function AddOfferScreen() {
     formRef.current.resetForm({});
     setIsShowVideo(false);
     setFileSizeError(false);
+    setIsVideoError(false);
+    setImgRequired(false);
     /**
      * End of refreshing validation msg
      */
@@ -155,6 +166,17 @@ export default function AddOfferScreen() {
     //     type: `image/${ext}`,
     // });
 
+    /**
+     * Added by Yuvraj Sahu on 06-05-2023
+     * Reason - to video link validation
+     */
+    if (isShowVideo && formValues.video_link == "") {
+      setIsVideoError(true);
+    }
+    /**
+     * End of addition by Yuvraj Sahu on 06-05-2023
+     */
+
     if (icon != null) {
       const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
       formData.append("offer_image", {
@@ -183,7 +205,7 @@ export default function AddOfferScreen() {
 
     // Modify by- Suman sahu  On 29/04/2023
     // Reason- add condition for image field when user upload image above 200kb form not saved
-    if (icon != null && isFileSizeError == false) {
+    if (icon != null && isFileSizeError == false && isVideoError == false) {
       saveAllOffer(formData, tenant).then((response) => {
         if (response.msg) {
           Alert.alert(response.msg);
@@ -496,6 +518,7 @@ export default function AddOfferScreen() {
                   <TextInput
                     style={styles.input}
                     onChangeText={handleChange("video_link")}
+                    onChange={() => setIsVideoError(false)}
                     onBlur={handleBlur("video_link")}
                     value={values.video_link}
                     placeholderTextColor="#A4A4A4"
@@ -504,8 +527,13 @@ export default function AddOfferScreen() {
                     autoCorrect={false}
                   />
 
-                  {errors.video_link && touched.video_link && (
+                  {/* {errors.video_link && touched.video_link && (
                     <Text style={styles.textdanger}>{errors.video_link}</Text>
+                  )} */}
+                  {isVideoError && (
+                    <Text style={styles.textdanger}>
+                      Please enter video link
+                    </Text>
                   )}
                 </View>
 
@@ -637,7 +665,11 @@ export default function AddOfferScreen() {
 
                 <View style={styles.btns}>
                   <Pressable
-                    onPress={handleSubmit}
+                    onPress={() => {
+                      isShowVideo && values.video_link == ""
+                        ? setIsVideoError(true)
+                        : handleSubmit();
+                    }}
                     disabled={isDisable}
                     style={{
                       // backgroundColor: isDisable ? "grey" : colors.btnColor,

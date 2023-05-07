@@ -101,6 +101,16 @@ export default function AddOfferItemScreen() {
     /**
      * End of refreshing dropdown
      */
+    /**
+     * Added by yuvraj Sahu on 06-05-2023
+     * Reason - to reset dropdown when we come back same screen
+     */
+    setMenuList("");
+    setOfferSelect("");
+    setIsOfferNameError(false);
+    /**
+     * End of addition by Yuvraj Sahu on 06-05-2023
+     */
   }, [isFocused]);
   // End of show menu list
 
@@ -166,40 +176,58 @@ export default function AddOfferItemScreen() {
     setTenant(JSON.parse(tenantInfo).tenant_name);
   };
 
+  /**
+   * Added by Yuvraj Sahu on 06-05-2023
+   * Reason - to show the validation msg if offer not select
+   */
+  var [isOfferNameError, setIsOfferNameError] = useState(false);
+  /**
+   * End of addition by Yuvraj Sahu on 06-0-5-2023
+   */
+
   // Post the data in this method
   const handleRegister = async (formValues) => {
-    setIsDisable(true);
+    if (offerSelect == "") {
+      setIsOfferNameError(true);
+    } else {
+      setIsDisable(true);
+    }
     var formData = new FormData();
 
     formData.append("offer_name", offerSelect);
     formData.append("item_name", menuList);
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    saveAllOfferItems(formData, JSON.parse(tenantInfo).tenant_name).then(
-      (response) => {
-        if (response.msg) {
-          Alert.alert(response.msg);
-          setRender(!render);
-          setIsDisable(false);
-          // Added by Yuvraj Sahu on 30-4-2023
-          // Reason - to clear dropdown when save data
-          bannerDropdownRef.current.reset();
-          itemDropdownRef.current.reset();
-          // End of addition
+    if (offerSelect != "") {
+      setIsOfferNameError(false);
+      saveAllOfferItems(formData, JSON.parse(tenantInfo).tenant_name).then(
+        (response) => {
+          if (response.msg) {
+            Alert.alert(response.msg);
+            setRender(!render);
+            setIsDisable(false);
+            // Added by Yuvraj Sahu on 30-4-2023
+            // Reason - to clear dropdown when save data
+            bannerDropdownRef.current.reset();
+            itemDropdownRef.current.reset();
+            // End of addition
 
-          // navigate('login')
+            // navigate('login')
+          }
+          // Modified by Om on 14-04-23
+          // Reason : response.error not work proper, so this part I put on else condition
+          else {
+            // if (response.error) {
+            //     alert(response.error)
+            Alert.alert("Banner/Offer with this item name already exists");
+            //  End of addition
+            setIsDisable(false);
+          }
         }
-        // Modified by Om on 14-04-23
-        // Reason : response.error not work proper, so this part I put on else condition
-        else {
-          // if (response.error) {
-          //     alert(response.error)
-          Alert.alert("Banner/Offer with this item name already exists");
-          //  End of addition
-          setIsDisable(false);
-        }
-      }
-    );
+      );
+    } else {
+      setIsOfferNameError(true);
+    }
   };
 
   const {
@@ -221,7 +249,9 @@ export default function AddOfferItemScreen() {
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* End of addition - button click */}
         <View style={styles.container}>
-          <Text style={styles.labels}>Banner/Offer name</Text>
+          <Text style={styles.labels}>
+            <Text style={{ color: "red" }}>* </Text>Banner/Offer name
+          </Text>
 
           {/* Commented and modified by Yuvraj Sahu on 24-4-2023
           Reason - to change dropdown */}
@@ -275,6 +305,7 @@ export default function AddOfferItemScreen() {
             }}
             onSelect={(selectedItem, index) => {
               setOfferSelect(selectedItem.key);
+              setIsOfferNameError(false);
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem.value;
@@ -283,10 +314,13 @@ export default function AddOfferItemScreen() {
               return item.value;
             }}
           />
+          {isOfferNameError && (
+            <Text style={styles.textdanger}>Offer name is required!</Text>
+          )}
 
           <View style={{ marginTop: 5 }}>
             <Text style={styles.labels}>
-              {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
+              {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}{" "}
               Item name
             </Text>
 
@@ -447,6 +481,7 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    marginTop: -5,
   },
   dropdownText: {
     fontSize: 14,

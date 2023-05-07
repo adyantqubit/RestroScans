@@ -257,7 +257,7 @@ export const addItemSchema = yup.object().shape({
 export const addOfferSchema = yup.object().shape({
   offer_name: yup
     .string()
-    .required("Item name is required!")
+    .required("Offer name is required!")
     .max(
       40,
       ({ max }) => `Offer name should not be more than ${max} characters`
