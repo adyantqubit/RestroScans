@@ -63,7 +63,12 @@
             <div class="titleSection">
                 <div style="width:50%;display:inline-block;">Item Name</div>
                 <div style="width:20%;text-align: center;display:inline-block;">Total Sold</div>
-                <div style="width:20%;text-align: right;display:inline-block;">Amount (₹)</div>
+                 <!-- Modifed and added by Om on 07-05-23
+                Reason :  Show the rupees sign from using another file -->
+                <!-- <div style="width:20%;text-align: right;display:inline-block;">Amount (₹)</div> -->
+                <div style="width:20%;text-align: right;display:inline-block;">Amount ({{restaurant_details.rupee_symbol}})</div>
+                <!-- End of addition by Om on 07-05-23-->
+
             </div>
             <div class="dataSection" style="border-bottom:1px solid black;">
                 {% for order_item in order_items_half %}

@@ -16,6 +16,7 @@ from admin_app.models import RestaurantRequest
 import datetime
 from django.utils.timezone import timedelta
 # from django.utils.timezone import datetime
+from backend.config import * 
 
 """
 Added by - Ashish Dewangan on 08-02-2023
@@ -1403,7 +1404,11 @@ def generate_pdf_view(request, pk):
     tenant = Tenant.objects.get(tenant_name=schemaName)
     restaurant_details = {
         "name": tenant.restaurant_name.restaurant_name,
-        "address": tenant.restaurant_name.address
+        "address": tenant.restaurant_name.address,
+        # Added by Om on 07-05-23
+        # Reason : Show the rupee sign which comes from config.py file
+        "rupee_symbol":rupee_sign
+        # End of the code by Om on 07-05-23
     }
     restaurant_settings = Setting.objects.all().values()
     
@@ -1508,7 +1513,11 @@ def order_report(request,report_period):
     tenant = Tenant.objects.get(tenant_name=schemaName)
     restaurant_details = {
         "name": tenant.restaurant_name.restaurant_name,
-        "address": tenant.restaurant_name.address
+        "address": tenant.restaurant_name.address,
+        # Added by Om on 07-05-23
+        # Reason : Show the rupee sign which comes from config.py file
+        "rupee_symbol":rupee_sign
+        # End of the code by Om on 07-05-23
     }
 
     today=datetime.date.today()
@@ -1577,7 +1586,11 @@ def item_report(request,report_period):
     tenant = Tenant.objects.get(tenant_name=schemaName)
     restaurant_details = {
         "name": tenant.restaurant_name.restaurant_name,
-        "address": tenant.restaurant_name.address
+        "address": tenant.restaurant_name.address,
+        # Added by Om on 07-05-23
+        # Reason : Show the rupee sign which comes from config.py file
+        "rupee_symbol":rupee_sign
+        # End of the code by Om on 07-05-23
     }
 
     today=datetime.date.today()

@@ -301,8 +301,13 @@
                   <div style="font-size: 14px;">Total Orders</div>
                   <div style="font-size: 34px;font-weight: bold;">{{count.revenue_details.todays_summary.order_count}}</div>
                   <div  style="font-size: 14px;">Total Revenue</div>
-                  <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.todays_summary.total_revenue %} ₹ {{count.revenue_details.todays_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
-              </div>
+                   <!-- Modifed and added by Om on 07-05-23
+                    Reason :  Show the rupees sign from using another file -->
+                  <!-- <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.todays_summary.total_revenue %} ₹ {{count.revenue_details.todays_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div> -->
+                  <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.todays_summary.total_revenue %} {{count.rupee_symbol}} {{count.revenue_details.todays_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+                <!-- End of addition by Om on 07-05-23 -->
+                
+                </div>
               <div
                style=" display:flex;justify-content:center;padding: 8px"
              >
@@ -339,8 +344,12 @@
                 <div style="font-size: 14px;">Total Orders</div>
                 <div style="font-size: 34px;font-weight: bold;">{{count.revenue_details.this_weeks_summary.order_count}}</div>
                 <div  style="font-size: 14px;">Total Revenue</div>
-                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_weeks_summary.total_revenue %} ₹ {{count.revenue_details.this_weeks_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
-              </div>
+                <!-- Modifed and added by Om on 07-05-23
+                Reason :  Show the rupees sign from using another file -->
+                <!-- <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_weeks_summary.total_revenue %} ₹ {{count.revenue_details.this_weeks_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div> -->
+                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_weeks_summary.total_revenue %} {{count.rupee_symbol}} {{count.revenue_details.this_weeks_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+                <!-- End of addition by Om on 07-05-23 -->
+            </div>
                 <div
                 style=" display:flex;justify-content:center;padding: 8px"
               >
@@ -377,8 +386,12 @@
                 <div style="font-size: 14px;">Total Orders</div>
                 <div style="font-size: 34px;font-weight: bold;"> {{count.revenue_details.this_months_summary.order_count}}</div>
                 <div  style="font-size: 14px;">Total Revenue</div>
-                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_months_summary.total_revenue %} ₹ {{count.revenue_details.this_months_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
-              </div>
+                <!-- Modifed and added by Om on 07-05-23
+                Reason :  Show the rupees sign from using another file -->
+                <!-- <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_months_summary.total_revenue %} ₹ {{count.revenue_details.this_months_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div> -->
+                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_months_summary.total_revenue %}{{count.rupee_symbol}} {{count.revenue_details.this_months_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+                <!-- End of addition by Om on 07-05-23 -->
+            </div>
               <div
               style=" display:flex;justify-content:center;padding: 8px"
             >
@@ -417,8 +430,12 @@
                 <div style="font-size: 14px;">Total Orders</div>
                 <div style="font-size: 34px;font-weight: bold;"> {{count.revenue_details.this_years_summary.order_count}}</div>
                 <div  style="font-size: 14px;">Total Revenue</div>
-                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_years_summary.total_revenue %} ₹ {{count.revenue_details.this_years_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
-              </div>
+                 <!-- Modifed and added by Om on 07-05-23
+                Reason :  Show the rupees sign from using another file -->
+                <!-- <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_years_summary.total_revenue %} ₹ {{count.revenue_details.this_years_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div> -->
+                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_years_summary.total_revenue %} {{count.rupee_symbol}} {{count.revenue_details.this_years_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+                <!-- End of addition by Om on 07-05-23 -->
+            </div>
                     
                 <div
                 style=" display:flex;justify-content:center;padding: 8px"

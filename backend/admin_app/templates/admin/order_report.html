@@ -76,10 +76,20 @@
             <div class="titleSection" >
                 <div class="inlineColumn" style="width:20%;">Date</div>
                 <div class="inlineColumn" style="width:15%;">Order Id</div>
-                <div class="inlineColumn" style="width:20%;">Sub Total (₹)</div>
+                <!-- Modified and added by Om on 07-05-23
+                Reason : Show the rupee sign from using global file -->
+                <!-- <div class="inlineColumn" style="width:20%;">Sub Total (₹)</div> -->
+                <div class="inlineColumn" style="width:20%;">Sub Total ({{restaurant_details.rupee_symbol}})</div>
+                <!-- End of addition by Om shrivastava on 07-05-23 -->
+
                 <div class="inlineColumn" style="width:10%;">CGST</div>
                 <div class="inlineColumn" style="width:10%;">SGST</div>
-                <div class="inlineColumn" style="width:20%;">Total (₹)</div>
+                <!-- Modified and added by Om on 07-05-23
+                Reason : Show the rupee sign from using global file -->
+                <!-- <div class="inlineColumn" style="width:20%;">Total (₹)</div> -->
+                <div class="inlineColumn" style="width:20%;">Total ({{restaurant_details.rupee_symbol}})</div>
+                <!-- End of addition by Om shrivastava on 07-05-23 -->
+
             </div>
             <div class="dataSection">
                 {% for order in orders %}
@@ -96,7 +106,11 @@
             
             
         </div>
-        <div style="text-align: center; font-size: 16px;font-weight: bold;padding-bottom: 10px;">Total Revenue : ₹ {{total_revenue|floatformat:2}}</div>
+        <!-- Modified and added by Om on 07-05-23
+         Reason : Show the rupee sign from using global file -->
+        <!-- <div style="text-align: center; font-size: 16px;font-weight: bold;padding-bottom: 10px;">Total Revenue : ₹ {{total_revenue|floatformat:2}}</div> -->
+        <div style="text-align: center; font-size: 16px;font-weight: bold;padding-bottom: 10px;">Total Revenue : {{restaurant_details.rupee_symbol}} {{total_revenue|floatformat:2}}</div>
+        <!-- End of addition by Om shrivastava on 07-05-23 -->
     </div>
     
     
