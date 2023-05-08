@@ -108,6 +108,11 @@ export default function AddOfferItemScreen() {
     setMenuList("");
     setOfferSelect("");
     setIsOfferNameError(false);
+     /**
+      * Added by Yuvraj Sahu on 07-05-2023
+      * Reason - to give validation msg 
+      */
+    setIsOfferItemError(false);
     /**
      * End of addition by Yuvraj Sahu on 06-05-2023
      */
@@ -185,10 +190,27 @@ export default function AddOfferItemScreen() {
    * End of addition by Yuvraj Sahu on 06-0-5-2023
    */
 
+  /**
+   * Added by Yuvraj Sahu on 07-05-2023
+   * Reason - to show the validation msg if offer item not select
+   */
+  var [isOfferItemError, setIsOfferItemError] = useState(false);
+  /**
+   * End of addition by Yuvraj Sahu on 06-0-5-2023
+   */
+
   // Post the data in this method
   const handleRegister = async (formValues) => {
     if (offerSelect == "") {
       setIsOfferNameError(true);
+      /**
+      * Added by Yuvraj Sahu on 07-05-2023
+      * Reason - to give validation msg 
+      */
+      setIsOfferItemError(true);
+      /**
+      * End of addition by Yuvraj Sahu on 07-05-2023
+      */
     } else {
       setIsDisable(true);
     }
@@ -198,13 +220,27 @@ export default function AddOfferItemScreen() {
     formData.append("item_name", menuList);
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    if (offerSelect != "") {
+    /**
+    * Added by Yuvraj Sahu on 07-05-2023
+    * Resson - to make mandatory
+    */
+    if (offerSelect != "" && menuList != "") {
       setIsOfferNameError(false);
+      setIsOfferItemError(false);
       saveAllOfferItems(formData, JSON.parse(tenantInfo).tenant_name).then(
         (response) => {
           if (response.msg) {
             Alert.alert(response.msg);
-            setRender(!render);
+            /**
+             * Added and commeted by Yuvraj Sahu on 07-05-2023
+             * Reason - to clear dropdown value and re-render
+             */
+            setMenuList("");
+            setOfferSelect("");
+            // setRender(!render);
+            /**
+             * End of addition by Yuvraj Sahu on 07-05-2023
+             */
             setIsDisable(false);
             // Added by Yuvraj Sahu on 30-4-2023
             // Reason - to clear dropdown when save data
@@ -227,6 +263,14 @@ export default function AddOfferItemScreen() {
       );
     } else {
       setIsOfferNameError(true);
+      /**
+      * Added by Yuvraj Sahu on 07-05-2023
+      * Reason - to give validation msg 
+      */
+      setIsOfferItemError(true);
+      /**
+      * End of addition by Yuvraj Sahu on 07-05-2023
+      */
     }
   };
 
@@ -321,7 +365,10 @@ export default function AddOfferItemScreen() {
           <View style={{ marginTop: 5 }}>
             <Text style={styles.labels}>
               {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}{" "}
-              Item name
+              {/* Added by Yuvraj Sahu on 07-05-2023
+              Reason - to give mandatory  */}
+              <Text style={{ color: "red" }}>* </Text>Item name
+              {/* End of addtion by Yuvraj Sahu on 07-05-2023 */}
             </Text>
 
             {/* Added and commented by Yuvraj Sahu on 24-4-2023
@@ -377,6 +424,12 @@ export default function AddOfferItemScreen() {
               }}
               onSelect={(selectedItem, index) => {
                 setMenuList(selectedItem.key);
+                {/*
+      Added by Yuvraj Sahu on 07-05-2023
+      Reason - to give validation msg 
+      */}
+                setIsOfferItemError(false);
+                {/* End of remove validation*/}
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem.value;
@@ -385,6 +438,12 @@ export default function AddOfferItemScreen() {
                 return item.value;
               }}
             />
+            {/* Added by Yuvraj Sahu on 07-05-2023
+            Reason - to add offer item validation msg */}
+            {isOfferItemError && (
+              <Text style={styles.textdanger}>Item name is required!</Text>
+            )}
+            {/* End of addition by yuvraj Sahu on 07-05-2023 */}
             {/* End of addition */}
           </View>
 

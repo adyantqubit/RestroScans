@@ -751,6 +751,14 @@ export default function OrderItemsScreen({ route, navigation }) {
     }
   };
 
+	/**
+	* Added by Yuvraj Sahu on 07-05-2023
+	* Reason - to add date in order detail
+	*/
+  const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
+  /**
+  * End of addition by yuvraj Sahu on 07-05-2023
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -785,6 +793,23 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Text style={{ marginTop: 5 }}>
               <Text>Phone</Text> : {customerDetail.contact_number}
             </Text>
+            {/* Added by Yuvraj Sahu on 07-05-2023
+            Reason - to add date and time */}
+            <Text style={{ marginTop: 5 }}>
+              <Text>Date</Text> :{""}
+              {dt}
+              {/* {new Date(orderDetail.date)
+                .toISOString()
+                .split("T")[0]
+                .split("-")
+                .reverse()
+                .join("/")} */}
+            </Text>
+            <Text style={{ marginTop: 5 }}>
+              <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
+            </Text>
+            {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
+            
           </View>
           {orderItems.length > 0 ? (
             <>
@@ -865,7 +890,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             <View style={styles.amountRow}>
               {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
-              <Text style={styles.totalPriceLables}>GST</Text>
+              <Text style={styles.totalPriceLables}>CGST</Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
               <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text>
@@ -950,7 +975,13 @@ export default function OrderItemsScreen({ route, navigation }) {
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
-                rowStyle={{ height: 41 }}
+                /** Added by Yuvraj Sahu on 07-05-2023
+                 * Reson - to give hieght in dropdown
+                 */
+                rowStyle={{ height: 30 }}
+                /**
+                 * End of addition by Yuvraj Sahu on 07-05-2023
+                 */
                 selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
                 dropdownStyle={{
                   borderRadius: 10,
@@ -961,14 +992,20 @@ export default function OrderItemsScreen({ route, navigation }) {
                   return <AntDesign name="down" size={14} color="black" />;
                 }}
                 buttonStyle={{
-                  height: 41,
+                  /** Added by Yuvraj Sahu on 07-05-2023
+                   * Reson - to give hieght in dropdown
+                   */
+                  height: 30,
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
                   backgroundColor: "white",
                   width: "40%",
                   alignSelf: "center",
-                  marginBottom: 10,
+                  // marginBottom: 10,
+                  /**
+                   * End of addition by Yuvraj Sahu on 07-05-2023
+                   */
                 }}
                 onSelect={(selectedOrderStatus, index) => {
                   setOrderStatus(selectedOrderStatus.value);
@@ -986,7 +1023,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             </View>
 
             {/* Modified by Om on 20-04-23
-        Reason : When order status is served than this payment status is work */}
+            Reason : When order status is served than this payment status is work */}
             {/* {orderDetail.order_status == "Served" ? (
             <> */}
             <View style={styles.orderStatusContainer}>
@@ -1031,7 +1068,13 @@ export default function OrderItemsScreen({ route, navigation }) {
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
-                rowStyle={{ height: 41 }}
+                /** Added by Yuvraj Sahu on 07-05-2023
+                 * Reson - to give hieght in dropdown
+                 */
+                rowStyle={{ height: 30 }}
+                /**
+                 * End of addition by Yuvraj Sahu on 07-05-2023
+                 */
                 selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
                 dropdownStyle={{
                   borderRadius: 10,
@@ -1042,14 +1085,20 @@ export default function OrderItemsScreen({ route, navigation }) {
                   return <AntDesign name="down" size={14} color="black" />;
                 }}
                 buttonStyle={{
-                  height: 41,
+                  /** Added by Yuvraj Sahu on 07-05-2023
+                   * Reson - to give hieght in dropdown
+                   */
+                  height: 30,
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
                   backgroundColor: "white",
                   width: "40%",
                   alignSelf: "center",
-                  marginBottom: 10,
+                  // marginBottom: 10,
+                  /**
+                   * End of addition by Yuvraj Sahu on 07-05-2023
+                   */
                 }}
                 onSelect={(selectedPaymentStatus, index) => {
                   setPaymentStatus(selectedPaymentStatus.value);
@@ -1065,7 +1114,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
             {/* </>
-          ) : null} */}
+            ) : null} */}
             {/* End of modification */}
           </View>
         </View>
@@ -1225,7 +1274,16 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingLeft: 10,
   },
-  statusContainer: {},
+  /**
+   * Added by Yuvraj Sahu on 07-05-2023
+   * Reason - to reduce gap between status lables and dropdown box
+   */
+  statusContainer: {
+    paddingHorizontal: 30,
+  },
+  /**
+   * End of addition  by Yuvraj Sahu on 07-05-2023
+   */
   orderStatusContainer: {
     display: "flex",
     flexDirection: "row",
@@ -1233,6 +1291,13 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingRight: 10,
     paddingLeft: 10,
+    /**
+     * Added by Yuvraj Sahu on 07-05-2023
+     */
+    alignItems: "center",
+    /**
+     * End of addition by yuvraj Sahu on 07-05-2023
+     */
     // backgroundColor: "white",
     borderRadius: 5,
     padding: 5,

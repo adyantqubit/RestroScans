@@ -392,7 +392,11 @@ class OfferItemsAPIView(APIView):
             return Response({"msg": "Banner/Offer Item Added Successfully"}, status=status.HTTP_201_CREATED)
         # Modification by Om on 14-04-23
         # Reason : Chagne the error method
-        return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        # Added by Yuvraj Sahu on 07-05-2023
+        # Reason - to remove bad request error 
+        # return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_200_OK)
+        # End of addition by Yuvraj Sahu on 07-05-2023
         # End of moodification
     # End of addition
 
