@@ -20,7 +20,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function OrderItemsScreen({ route, navigation }) {
-  var { render, setRender, settings } = useContext(AppStateContext); //Need to use settings, for GST number.
+  var { render, setRender, settings,rupee_sign } = useContext(AppStateContext); //Need to use settings, for GST number.
   const isFocused = useIsFocused();
   /* Get the order id using params */
   // Added and modified by Yuvraj Sahu on 17-4-2023
@@ -262,8 +262,8 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="tableHeader">
               <div class="titleHeading"> Item Name   </div>
               <div class="quantityHeading">Qty</div>
-              <div class="rateHeading">     Rate(₹) </div>
-              <div class="totalHeading"> Amt(₹)</div>
+              <div class="rateHeading">     Rate(${rupee_sign}) </div>
+              <div class="totalHeading"> Amt(${rupee_sign})</div>
             </div>
             
           ${itemStr} 
@@ -272,7 +272,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="calculationBox">
               <div class="calculationLine">
                 <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
-                <div  class="calculationText" >₹${SubtotalOfItems().toFixed(
+                <div  class="calculationText" >${rupee_sign}${SubtotalOfItems().toFixed(
                   2
                 )}</div>
               </div>
@@ -281,19 +281,19 @@ export default function OrderItemsScreen({ route, navigation }) {
                   (orderDetail.cgst / SubtotalOfItems()) *
                   100
                 ).toFixed(2)}) :</div>
-                <div  class="calculationText" >₹${orderDetail.cgst}  </div>
+                <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
               </div>
               <div class="calculationLine">
                 <div  class="calculationLabel" > SGST (%${(
                   (orderDetail.sgst / SubtotalOfItems()) *
                   100
                 ).toFixed(2)}) :</div>
-                <div  class="calculationText" >₹${orderDetail.sgst} </div>
+                <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
               </div>
               <hr>
               <div class="calculationLine">
                 <div  class="calculationLabel" > Total :</div>
-                <div  class="calculationText" >₹${(
+                <div  class="calculationText" >${rupee_sign}${(
                   SubtotalOfItems() +
                   orderDetail.cgst +
                   orderDetail.sgst
@@ -308,7 +308,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   <div class="TotalLabel">Total </div>
                   <div class="TotalLabel">: </div>
 
-                  <div class="grandTotalText">₹${(
+                  <div class="grandTotalText">${rupee_sign}${(
                     SubtotalOfItems() +
                     orderDetail.cgst +
                     orderDetail.sgst
@@ -822,7 +822,12 @@ export default function OrderItemsScreen({ route, navigation }) {
                 <Text style={styles.itemStatusContainer}>Status</Text>
                 {/* End of code addition by Ashish on 19-04-2023 */}
                 {/* Add rupees icon by Om on 26-04-23  */}
-                <Text style={styles.costContainer}>Cost(₹)</Text>
+                {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+                {/* <Text style={styles.costContainer}>Cost(₹)</Text> */}
+                <Text style={styles.costContainer}>Cost({rupee_sign})</Text>
+                {/* End of addition by Om on 08-05-23 */}
+
               </View>
               {orderItems.map((orderItem, id) => (
                 <View key={id} style={styles.tableContainer}>
@@ -877,7 +882,12 @@ export default function OrderItemsScreen({ route, navigation }) {
               <Text style={styles.totalPriceLables}>Total Price</Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
-              <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text>
+
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total}</Text>
+              {/* End of addition by Om shrivastava 08-05-23 */}
             </View>
             {/* Commented by Yuvraj Sahu on 17-4-2023
             Reason - to remove gst */}
@@ -894,7 +904,13 @@ export default function OrderItemsScreen({ route, navigation }) {
               <Text style={styles.totalPriceLables}>CGST</Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
-              <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text>
+
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign} {orderDetail.cgst}</Text>
+              {/* End of addition by Om Shrivastava on 08-05-23    */}
+
             </View>
             <View style={styles.amountRow}>
               {/* Modified by Yuvraj Sahu on 06-05-2023
@@ -902,7 +918,13 @@ export default function OrderItemsScreen({ route, navigation }) {
               <Text style={styles.totalPriceLables}>SGST</Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
-              <Text style={styles.totalPrices}>₹ {orderDetail.sgst}</Text>
+
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.sgst}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sgst}</Text>
+              {/* End of addition by Om Shrivastava on 08-05-23    */}
+
             </View>
             {/* End of addition */}
             <View style={styles.amountRow}>
@@ -924,7 +946,12 @@ export default function OrderItemsScreen({ route, navigation }) {
               </Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
-              <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text>
+              
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total}</Text>
+              {/* End of addition by Om Shrivastava on 08-05-23    */}
             </View>
           </View>
         </View>

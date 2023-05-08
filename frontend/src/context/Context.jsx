@@ -18,7 +18,7 @@ export default function Context(props) {
 
     // Added by Om Shrivastava on 08-05-23
     // Reason : Create the rupee sign globally.
-    var [rupee_sign,setRupee_sign]=useState('?')
+    var [rupee_sign,setRupee_sign]=useState('₹')
     // End of addition by Om on 08-05-23
     
     // added by rohan kansari - 17/4/23
