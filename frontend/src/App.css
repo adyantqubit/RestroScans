@@ -79,3 +79,7 @@ Reason - To modify ant d default medel and text color - 23/4/24 */
    }
 
    /* end of code - 4/5/23 - rohan kansari */
+
+   :where(.css-dev-only-do-not-override-j0nf2s).ant-notification-notice .ant-notification-notice-close{
+    padding-top: 10px;
+   }

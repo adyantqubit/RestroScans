@@ -673,15 +673,16 @@ function MenuItem() {
 
   // Added by Rohan kansari- 3/5/23
   // Reaon - to hide menu drawer in 6 second if its open
- 
+  var interval=useRef()
   useEffect(()=>{
-    var interval;
+    
    if(menuListVisible){
     document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh" 
     document.getElementById("category_container").className="category_container"
    interval=setTimeout(()=>{
      setmenuListVisiblity(false)
    },6000)
+   
   }
    else{
     document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh" 
@@ -1015,11 +1016,14 @@ function MenuItem() {
         <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
-                <input className="inputBoxSearch" type="text" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
+                <input className="inputBoxSearch" type="text" id="search_box"
+                // Modified by Rohan kansari-7/5/23 - To remove . on double space on mobile
+                onChange={e=>setNewSearch(e.target.value.trimStart().replace(". "," "))}
+                placeholder='Type here to search' value ={search}/>
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
               : null}
-        {/*End of Code */}
+        {/*End of Code */}   
         </div>
 
         {/* Added by- Suman sahu On 05/05/2023 
@@ -2000,7 +2004,14 @@ function MenuItem() {
             {/* <div className="footer_btn_container" >
               <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
             </div> */}
-            <div className="category_container" id="category_container">
+            {/* Added by Rohna kansari-7/5/23 
+                Reason- To keep list open on touch */}
+            <div className="category_container" id="category_container" 
+            onTouchMove={e=>window.clearTimeout(interval)} 
+            onTouchEnd={e=>interval=setTimeout(()=>{
+              setmenuListVisiblity(false)
+            },6000)}>
+              {/* Ne dof code -rohankansari - 7/5/23 */}
               {menuList.map((data, id) => (
                 <div id={id} className='all-menu'
                   onClick={ 

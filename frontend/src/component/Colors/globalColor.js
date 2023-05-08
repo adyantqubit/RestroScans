@@ -43,13 +43,22 @@ export default function GlobalColor() {
             headingBackgroundColor:color.heading_bgcolor,
             subheadingBackgroundColor:color.subheading_bgcolor,
             // backgroundTheme:color.length==0 ? color.background_color :'red'
-            allow_half_price:color.allow_half_price,
+            // commented on -Rohan Kansari - 7/5/23
+            // reason - to get updated allow_half_price also if theme is not selected 
+            // allow_half_price:color.allow_half_price,
 
             // Added by Rohankansari - 28/4/23
             // Reason - To add card color here
             card_color:color.card_color
             // End of code
         })}
+
+        // Added by Rohan Kansari - 7/5/23
+        // Reason - To decouple half price with color , 
+        // issue was if no theme was selected then update allow_half_price is not getting
+        colors['allow_half_price']=color?.allow_half_price
+        setColors(colors)
+        // end of code - Rohan Kansari - 7/5/23
         // end of code - 24/4/23
     },[color])
 
