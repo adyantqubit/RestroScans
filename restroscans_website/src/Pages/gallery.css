@@ -12,8 +12,8 @@
 }
 .gallery_container {
   background-image: url("galleryBackground.jpg");
-  filter: blur(5px);
-  -webkit-filter: blur(5px);
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;

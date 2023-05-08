@@ -15,7 +15,7 @@ import {
   faIndianRupeeSign,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
-import RestroscansLogo from "../images/restroscans_logo.png";
+import RestroscansLogo from "../images/res1.png";
 
 function Header({ isOpen, setIsOpen }) {
   // Added by:- Suman sahu  Date:- 07/04/2023
@@ -118,14 +118,14 @@ function Header({ isOpen, setIsOpen }) {
                 to="/contactus"
                 onClick={menuClose}
               >
-                Contact US
+                Contact Us
               </Link>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faUser} className="header_link_icons" />
               <Link className="header_links" to="/aboutus" onClick={menuClose}>
-                About US
+                About Us
               </Link>
             </li>
           </div>

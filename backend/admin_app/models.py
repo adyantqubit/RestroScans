@@ -294,6 +294,10 @@ Reason - Create for Show pricing plans on home page
 
 
 class WebsiteSetting(models.Model):
+    # Added by- Suman sahu  On 08/05/2023
+    item_logo1 = models.ImageField(upload_to="images/app_setting/", blank=True, null=True)
+    item_title = models.CharField(max_length=50,null=True, blank=True)
+    # End of addition
     content = RichTextField(blank=True, null=True)
     pricing_plan1 = models.ImageField(
         upload_to="images/app_setting/", blank=True, null=True

@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./home.css";
-import Scanner from "../images/viewMenu.webp";
+import Scanner from "../images/homeScannerImage.jpg";
 import Table from "../images/table.png";
 import Onlinemenu from "../images/onlinemenu.png";
 import InAppOrdering from "../images/inappOrdering.png";

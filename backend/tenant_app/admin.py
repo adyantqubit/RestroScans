@@ -13,6 +13,7 @@ from weasyprint import HTML,CSS
 from io import BytesIO
 import subprocess
 import os
+from tenant_app.forms import *
 
 
 # Register your models here.
@@ -42,6 +43,10 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = MenuForm
+    # End of addition 07/05/2023
     # Modified and commented by Om on 06-05-23
     # Reason : Fix the alignment in menulist in admin panel
     # list_display=("id","categories_list","name",'is_active')
@@ -93,6 +98,10 @@ class MenuAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = CategoryForm
+    # End of addition 07/05/2023
     list_display=("id","item_list","name", "menu",'is_active')
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -142,6 +151,10 @@ class CategoryAdmin(admin.ModelAdmin):
         
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = ItemForm
+    # End of addition 07/05/2023
     list_display=("id","name", "category", "price_full", "price_half",'is_active')
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -181,6 +194,10 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = OfferForm
+    # End of addition 07/05/2023
     list_display=("id","offer_name", "discount")
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -696,6 +713,10 @@ Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order Item.
 """
 class PaymentMethodAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = PaymentMethodForm
+    # End of addition 07/05/2023
     list_display = ['id','scanner','name','contact_number']
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row

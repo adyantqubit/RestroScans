@@ -9,10 +9,16 @@ import config from "../api/config";
 function Pricing() {
   // Added by:- Suman sahu On 15/04/2023
   // Reason:- Created for get Pricing plans details
-  const [pricingData, setPricingData] = useState([]);
+  const [pricingData, setPricingData] = useState(null);
+  const [content,setContent]=useState([])
   useEffect(() => {
+    if(!pricingData)
     getPricingPlans();
-  }, []);
+    else{
+     var contentArr =pricingData.content.split(",")
+     setContent(contentArr)
+    }
+  }, [pricingData]);
 
   const getPricingPlans = async () => {
     const response = await PricingPlansGetApi();
@@ -22,21 +28,32 @@ function Pricing() {
   };
   // console.log(pricingData);
   // End of added code 15/04/2023
+  
 
   return (
     <>
       <div className="Pricing_main_container">
         <h2 className="pricing_main_heading">Pricing</h2>
 
-        <div>
           {
             <div>
-              {/* <div dangerouslySetInnerHTML={{ __html: pricingData.content }} /> */}
+              <div className="pricing_contents_div">
+                <div className="content_left_div">
+                  <img src={config.staticBaseURL + pricingData?.item_logo1} className="items_logo"/>
+                  <p className="items_title">{pricingData?.item_title}</p>
+                </div>
+                <div className="content_right_div">
+                  {content.map(c=>
+                    <div dangerouslySetInnerHTML={{ __html: c }} className="items_description" />
+
+                    )}
+                </div>
+              </div>
 
               <img
                 className="pricings"
                 alt="Price"
-                src={config.staticBaseURL + pricingData.pricing_plan1}
+                src={config.staticBaseURL + pricingData?.pricing_plan1}
               />
             </div>
           }
@@ -67,7 +84,6 @@ function Pricing() {
               />
             </div>
           } */}
-        </div>
       </div>
     </>
   );

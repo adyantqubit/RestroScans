@@ -5,6 +5,7 @@ from admin_app.models import *
 from django.db.models import Avg
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from django.core.validators import validate_image_file_extension
 
 # Create your models here.
 
@@ -54,7 +55,11 @@ class Menu(models.Model):
     name=models.CharField(max_length=30,default='',verbose_name='Menu name')
     # End of code modification
     
-    icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image])
+    # modifi by- Suman sahu  On 07/05/2023
+    # reason- change django default image field character validation message
+    icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image, validate_image_file_extension])
+    # End of addition 07/05/2023
+
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -108,7 +113,12 @@ class Category(models.Model):
     
     menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
     name=models.CharField(max_length=30,default='',verbose_name='Category name')
-    icon=models.ImageField(upload_to='images/category/',null=True,blank=True,validators=[validate_image])
+
+    # Modified by- Suman sahu  On 07/05/2023
+    # reason - change field name & change image default validation message
+    icon=models.ImageField( verbose_name="image",upload_to='images/category/',null=True,blank=True,validators=[validate_image, validate_image_file_extension])
+    # end of modification 07/05/2023
+
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -179,7 +189,12 @@ class Item(models.Model):
 	# end of code modification- by Rohan kansari - on 16/4/23
 	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
-    icon=models.ImageField(upload_to='images/item/', null=True,validators=[validate_image])
+
+    # modified by- Suman sahu  On 07/05/2023
+    # reason - change field name & change django image default validation message
+    icon=models.ImageField( verbose_name="image", upload_to='images/item/', null=True,validators=[validate_image, validate_image_file_extension])
+    # End of modification 07/05/2023
+
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
@@ -258,14 +273,23 @@ class Offer(models.Model):
     # End of modification
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image])
+    
+    # modifi by- Suman sahu  On 07/05/2023
+    # reason- change django default image field character validation message
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image, validate_image_file_extension])
+    # End of modification 07/05/2023
+    
     # End of addition
     description=models.TextField(null=True,blank=True)
     
     # Added by Rohan Kansari- 23/4/23
     # Reason - Adding video column for Banner and allow to give permission
     video_link=models.CharField(max_length=500,blank=True,null=True)
-    show_video_Hide_Image=models.BooleanField(default=False)
+
+    # modified by - Suman sahu On 07/05/2023
+    show_video_Hide_Image=models.BooleanField( verbose_name="Show Video",default=False)
+     #End of modification - 07/05/2023
+
     #End of code - RohanKansari - 23/4/23
     
     def __str__(self):
@@ -589,6 +613,20 @@ class OrderItem(models.Model):
         verbose_name = "Order Item"
         verbose_name_plural = 'j) Order Item'
 
+    # Added by Suman Sahu on 07-05-2023
+    # Reason - to update order status based on item status
+    def save(self, *args, **kwargs ):
+        if self.item_status == "Confirm" :
+            orderItemObj = OrderItem.objects.filter(order_id = self.order_id)
+            obj = orderItemObj.filter(item_status = "Pending").count()
+            if obj == 1:
+                orderObj = Order.objects.get(order_id = self.order_id)
+                orderObj.order_status="Confirm"
+                orderObj.save()
+        super().save( *args, **kwargs)
+    # End of addition 07/05/2023
+
+
 """
 End of added code 06-04-2023
 """
@@ -617,7 +655,11 @@ class PaymentMethod(models.Model):
             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
     # end of code - rohan - 20/4/23
     
-    scanner = models.ImageField(upload_to='scanner/', null=True)
+    # modifi by- Suman sahu  On 07/05/2023
+    # reason- change django default image field character validation message
+    scanner = models.ImageField(upload_to='scanner/', null=True,
+              validators=[validate_image_file_extension])
+    # End of modification 07/05/2023
 
     # Added by :- Parineeta Gedam
     # Date :- 15-04-2023

@@ -28,7 +28,7 @@ function Gallery() {
         <div className="top_image">
           <div className="gallery_container"></div>
           <div class="bg_text">
-            <img src={RestroscansLogo} className="gallery_logo" />
+            {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
           </div>
         </div>
       </div>
