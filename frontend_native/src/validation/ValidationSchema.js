@@ -264,6 +264,14 @@ export const addOfferSchema = yup.object().shape({
     ),
   video_link: yup
     .string()
+    /**
+     * Added by Yuvraj Sahu on 08-05-2023
+     * Reason - to validate video url
+     */
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      "Enter correct url!"
+    )
     .max(
       500,
       ({ max }) => `Video link should not be more than ${max} characters`

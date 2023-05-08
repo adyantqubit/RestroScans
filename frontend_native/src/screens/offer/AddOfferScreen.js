@@ -527,9 +527,9 @@ export default function AddOfferScreen() {
                     autoCorrect={false}
                   />
 
-                  {/* {errors.video_link && touched.video_link && (
+                  {errors.video_link && touched.video_link && (
                     <Text style={styles.textdanger}>{errors.video_link}</Text>
-                  )} */}
+                  )}
                   {isVideoError && (
                     <Text style={styles.textdanger}>
                       Please enter video link

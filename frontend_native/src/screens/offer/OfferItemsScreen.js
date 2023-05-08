@@ -10,7 +10,7 @@ import {
   Alert,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   updateAllOffer,
   getAllOfferItemList,
@@ -44,8 +44,28 @@ export default function OfferItemsScreen({ route, navigation }) {
   const isFocused = useIsFocused();
   var { render, setRender } = useContext(AppStateContext);
 
+  /**
+   * Added by Yuvraj Sahu on 08-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
+
   useEffect(() => {
     getAllOfferItems();
+    /**
+     * Added by Yuvraj Sahu on 08-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    formRef.current.setErrors({});
+    formRef.current.resetForm({});
+    /**
+     * End of refreshing validation msg
+     */
   }, [isFocused]);
 
   var [bannerObject, setBannerObject] = useState(banner);
@@ -464,14 +484,32 @@ export default function OfferItemsScreen({ route, navigation }) {
           {/* End of comment */}
 
           {/* ----------------------------- formik 23-4-2023 ------------------------------ */}
+
           <Formik
+            /** Added by Yuvraj Sahu on 08-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
             enableReinitialize={true}
             initialValues={{
               offer_name: offerObj.offer_name,
               // Modified by Yuvraj Sahu on 28-4-2023
               // Reason - to set not null value
+              /**
+              * Modified by Yuvraj Sahju on 08-05-2023
+              * Resson - to set not null value
+              */
               discount:
-                "" + offerObj.discount != undefined && offerObj.discount,
+                "" +
+                  (offerObj.discount != undefined ||
+                    offerObj.discount != null) ==
+                false
+                  ? offerObj.discount
+                  : "",
+                 /**
+                 * End of modification by Yuvraj Sahu on 08-05-2023
+                 */
               // End of modification
               //   Added by Yuvraj Sahu on 26-4-2023
               //   Reason - to add more fields
@@ -480,7 +518,15 @@ export default function OfferItemsScreen({ route, navigation }) {
               // re-fresh the form value when we press the checkbox
               // show_video_Hide_Image: isShowVideo,
               // End of Comment by yuvraj Sahu on 04-05-2023
-              video_link: offerObj.video_link,
+               /**
+              * Modified by Yuvraj Sahju on 08-05-2023
+              * Resson - to set not null value
+              */
+              video_link:
+                offerObj.video_link != null ? offerObj.video_link : "",
+                /**
+                 * End of modification by Yuvraj Sahu on 08-05-2023
+                 */
               description: offerObj.description,
               // End of addition
             }}

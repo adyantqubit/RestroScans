@@ -751,14 +751,14 @@ export default function OrderItemsScreen({ route, navigation }) {
     }
   };
 
-	/**
-	* Added by Yuvraj Sahu on 07-05-2023
-	* Reason - to add date in order detail
-	*/
+  /**
+   * Added by Yuvraj Sahu on 07-05-2023
+   * Reason - to add date in order detail
+   */
   const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
   /**
-  * End of addition by yuvraj Sahu on 07-05-2023
-  */
+   * End of addition by yuvraj Sahu on 07-05-2023
+   */
 
   return (
     <>
@@ -810,7 +810,6 @@ export default function OrderItemsScreen({ route, navigation }) {
               <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
             </Text>
             {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
-            
           </View>
           {orderItems.length > 0 ? (
             <>
@@ -1267,7 +1266,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       {/* End of addition */}
     </>
   );
-    }
+}
 
 const styles = StyleSheet.create({
   tableContainer: {
