@@ -29,7 +29,7 @@ function elementRemover(specificIndex, list) {
 
 
 const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSeller }) => {
-    const { colors, cart, setCart,restaurant_name } = useContext(GlobalContext)
+    const { colors, cart, setCart,restaurant_name,rupee_sign } = useContext(GlobalContext)
     // const [messageApi, contextHolder] = message.useMessage();
     var [quantityhalf, setQuantityHalf] = useState(0)
     var [quantityFull, setQuantityFull] = useState(0)
@@ -331,7 +331,12 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
                                 <div>
                                     <div className={style.row1}>
                                         <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Full </div>
-                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_full_price}</div>
+                                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                        // Reason : Create the rupee sign globally for using the config file. */}
+                                        {/* <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_full_price}</div> */}
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign} {item.discounted_full_price}</div>
+                                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                        
                                     </div>
 
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>
@@ -364,7 +369,12 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
                                 <div>
                                     <div className={style.row1}>
                                         <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Half </div>
-                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_half_price}</div>
+                                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                        // Reason : Create the rupee sign globally for using the config file. */}
+                                        {/* <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_half_price}</div> */}
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign} {item.discounted_half_price}</div>
+                                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </div>
 
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>

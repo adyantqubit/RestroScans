@@ -27,7 +27,7 @@ const Cart = () => {
   const nav = useNavigate()
   const [isDetailPopupOpen, setDetailPopupVisiblity] = useState(false)
   const [removeProductIndex, setRemoveProductIndex] = useState(null)
-  const { cart, setCart, colors } = useContext(GlobalContext)
+  const { cart, setCart, colors,rupee_sign } = useContext(GlobalContext)
   const [selectedItem, setSelectedItem] = useState(null)
 
 
@@ -170,9 +170,18 @@ const Cart = () => {
 
               <div className={style.row2} style={{ color: colors.subHeadingColor }}>
               {/* added by rohan-13/4/23 - to get all items subtotal */}
-              <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>₹ {item.price}</div>
+              {/* // Modified and commented by Om Shrivastava on 08-05-23
+              // Reason : Create the rupee sign globally for using the config file. */}
+              {/* <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>₹ {item.price}</div> */}
+              <div className={style.price} style={{ color: colors.subHeadingColor,justifyContent:"flex-start" }}>{rupee_sign}  {item.price}</div>
+              {/* End of addition by Om Shrivastava on 08-05-23 */}
+              
               {/* Added by rohan - 22/4/23 - reason to swipe subtotal amount showing in bottom in place of quantity */}
-              <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div>
+              {/* // Modified and commented by Om Shrivastava on 08-05-23
+              // Reason : Create the rupee sign globally for using the config file. */}
+              {/* <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div> */}
+              <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign}  {item.price*item.quantity}</div>
+              {/* End of addition by Om Shrivastava on 08-05-23 */}
 
               </div>
             </div>
@@ -186,7 +195,12 @@ const Cart = () => {
       {cart.length > 0 ? <div className={style.btnContainer} style={{background:colors.backgroundTheme, color: colors.subHeadingColor }}>
         {/* added by rohan-13/4/23 
             reason- to show subtotal also */}
-        <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div>
+        {/* // Modified and commented by Om Shrivastava on 08-05-23
+        // Reason : Create the rupee sign globally for using the config file. */}
+        {/* <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div> */}
+        <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>{rupee_sign}  {itemsSubtotal()}</div></div>
+        {/* End of addition by Om Shrivastava on 08-05-23 */}
+        
         <div className={style.flex}>
           <button className={style.cancleBtn} style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => nav(-1)}>Back</button>
           {/* Removed garbage code by -rohan-13/4/23 */}
@@ -213,7 +227,7 @@ export default Cart
 // reason-This function show one remove item confirmation
 function RemoveItem({ removeProductIndex, currentIndex, setRemoveProductIndex }) {
 
-  const { cart, setCart } = useContext(GlobalContext)
+  const { cart, setCart,rupee_sign } = useContext(GlobalContext)
 
   function removeFromCart() {
     var itemIndex = cart.findIndex(c => c.id == removeProductIndex.id && c.serve_size == removeProductIndex.serve_size)

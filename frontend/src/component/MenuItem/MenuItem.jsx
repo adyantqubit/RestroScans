@@ -54,7 +54,7 @@ function MenuItem() {
   TenantValidate()
   // end of code - rohan kansari -17/4/23
   var { searchedValue,
-    setSearchedValue, colors, cart, subscribePlan } = useContext(GlobalContext);
+    setSearchedValue, colors, cart, subscribePlan,rupee_sign } = useContext(GlobalContext);
 
   console.log("----------------------subscribePlan", subscribePlan)
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
@@ -1207,14 +1207,23 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {person.price_full ? <strike>₹ {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {person.price_full ? <strike> ₹ {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {person.price_full ? <strike>{rupee_sign}  {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {person.price_half ? <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {person.price_half ? <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {person.price_half ? <strike> {rupee_sign}  {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4> : null}
                                   </div>
 
@@ -1224,7 +1233,12 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {searchSectionFullPrice(person) > 0 ? <>₹ {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {searchSectionFullPrice(person) > 0 ? <>₹ {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                      {searchSectionFullPrice(person) > 0 ? <>{rupee_sign} {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
@@ -1232,7 +1246,12 @@ function MenuItem() {
                                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                         className="allitems_price"
                                       >
-                                        {searchSectionHalfPrice(person) > 0 ? <> ₹ {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                        {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                        {/* {searchSectionHalfPrice(person) > 0 ? <> ₹ {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                        {searchSectionHalfPrice(person) > 0 ? <> {rupee_sign} {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                      
                                       </h4> : null}
                                   </div>
 
@@ -1321,13 +1340,23 @@ function MenuItem() {
                                     >{person.name}</h4>
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file.
+                                    // >{person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    >{person.price_full ? {rupee_sign} + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                   
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ?
                                       <h4 style={{ color: colors.subHeadingColor }}
                                         className="allitems_price"
-                                      >{person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                        // Modified and commented by Om Shrivastava on 08-05-23
+                                        // Reason : Create the rupee sign globally for using the config file.
+                                      // >{person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      >{person.price_half ? {rupee_sign} + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                  
                                   </div>
                                   <div className="description_div" style={{ display: 'flex' }}>
 
@@ -1510,14 +1539,24 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        {showdata.item_fullprice ? <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                        // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {showdata.item_fullprice ? <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {showdata.item_fullprice ? <strike> {rupee_sign} {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        {showdata.item_halfprice ? <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {showdata.item_halfprice ? <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {showdata.item_halfprice ? <strike> {rupee_sign} {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4> : null}
                     </div>
 
@@ -1527,14 +1566,24 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        {totalFullPrice(showdata) > 0 ? <>₹ {totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                        // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {totalFullPrice(showdata) > 0 ? <>₹ {totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                        {totalFullPrice(showdata) > 0 ? <>{rupee_sign}{totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        {totalHalfPrice(showdata) > 0 ? <> ₹ {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                        // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {totalHalfPrice(showdata) > 0 ? <> ₹ {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                        {totalHalfPrice(showdata) > 0 ? <> {rupee_sign} {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4> : null}
                     </div>
 
@@ -1776,14 +1825,24 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {m.price_full ? <strike>₹ {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {m.price_full ? <strike>₹ {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {m.price_full ? <strike>{rupee_sign} {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {m.price_half ? <strike>₹ {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {m.price_half ? <strike>₹ {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {m.price_half ? <strike>{rupee_sign} {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4> : null}
                                   </div>
 
@@ -1793,12 +1852,21 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {mainSectionFullPrice(m) > 0 ? <> ₹ {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {mainSectionFullPrice(m) > 0 ? <> ₹ {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                      {mainSectionFullPrice(m) > 0 ? <> {rupee_sign} {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4>
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {mainSectionHalfPrice(m) > 0 ? <> ₹ {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {mainSectionHalfPrice(m) > 0 ? <> ₹ {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                      {mainSectionHalfPrice(m) > 0 ? <> {rupee_sign} {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                    
                                     </h4> : null}
                                   </div>
 
@@ -1889,12 +1957,22 @@ function MenuItem() {
                                     >{m.name}</h4>
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file.
+                                    // >{m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    >{m.price_full ?  rupee_sign + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_half ? '₹' + m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file.
+                                    // >{m.price_half ? '₹' + m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                    >{m.price_half ?  rupee_sign+ m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                  
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}

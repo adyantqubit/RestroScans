@@ -15,6 +15,11 @@ export default function Context(props) {
 
     var [tenantName, setTenantName] = useState([])
     var [restaurant_name, setRestaurant_name] = useState("")
+
+    // Added by Om Shrivastava on 08-05-23
+    // Reason : Create the rupee sign globally.
+    var [rupee_sign,setRupee_sign]=useState('?')
+    // End of addition by Om on 08-05-23
     
     // added by rohan kansari - 17/4/23
     // reason - save subscribe plan permissions
@@ -129,7 +134,8 @@ export default function Context(props) {
                 cart, setCart,
                 restaurant_name, setRestaurant_name,
                 subscribePlan,setSubscribePlan,
-                tenantDetails
+                tenantDetails,
+                rupee_sign,setRupee_sign
             }}>
                 {props.children}
             </GlobalContext.Provider>

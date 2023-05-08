@@ -14,7 +14,7 @@ const Billing = () => {
     const navigate = useNavigate();
 
 
-    const { colors, restaurant_name } = useContext(GlobalContext)
+    const { colors, restaurant_name,rupee_sign } = useContext(GlobalContext)
     const [billingData, setBillingData] = useState(null)
 
     useEffect(() => {
@@ -127,11 +127,21 @@ const Billing = () => {
                     </div>
                     {/* Added by Rohan KAnsari 5/5/23- showing rupees sign only in top  */}
                     <div className={style.rateHeading}>
-                        Rate(₹)
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* Rate(₹) */}
+                        Rate({rupee_sign})
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+
                     </div>
                     {/* Added by Rohan KAnsari 5/5/23- showing rupees sign only in top  */}
                     <div className={style.totalHeading}>
-                        Amount(₹)
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* Amount(₹) */}
+                        Amount({rupee_sign})
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+
                     </div>
                 </div>
                 {billingData.items.map(o =>
@@ -156,18 +166,45 @@ const Billing = () => {
                 <div className={style.CalculationBoxContainer}>
                     <div className={style.calculationBox}>
                         {/* Modified on - 3/5/23 - To align colons */}
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>₹{SubtotalOfItems().toFixed(2)}</div></div>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.cgst).toFixed(2)}</div></div>
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.sgst).toFixed(2)}</div></div>
-                        <div className={style.breakLine} style={{width:"98%"}}/>   
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>₹{SubtotalOfItems().toFixed(2)}</div></div> */}
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                        
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.cgst).toFixed(2)}</div></div> */}
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                        
+                         {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.sgst).toFixed(2)}</div></div> */}
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                        
+                        <div className={style.breakLine} style={{width:"98%"}}/>  
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */} 
+                        {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div> */}
+                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                         
                     </div>
                 </div>
 
                 <div className={style.breakLine} />
                 <div className={style.TotalBoxContainer} >
                     <div className={style.TotalBox}>
-                        <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div> */}
+                        <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>{rupee_sign}{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div>
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                         
                     </div>
                 </div>
                 <div className={style.breakLine} />  

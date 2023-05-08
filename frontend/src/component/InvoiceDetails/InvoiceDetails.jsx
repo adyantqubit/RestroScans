@@ -14,7 +14,7 @@ import { updateRatingAndReviewApi } from '../../api/Services';
 export default function InvoiceDetails() {
 
   // get colors from context 
-  var { colors, setCart } = useContext(GlobalContext);
+  var { colors, setCart,rupee_sign } = useContext(GlobalContext);
 
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
@@ -255,7 +255,11 @@ export default function InvoiceDetails() {
                   <div className='invoice_total_price_container'>
                     {/* Modified by :- Parineeta Gedam on 21-04-2023 */}
                     {/* <span className="invoice_total_rating_sub_heading"> ₹ {items.quantity * items.price}</span> */}
-                    <span className="invoice_total_rating_sub_heading"> ₹ {items.price}</span>
+                     {/* // Modified and commented by Om Shrivastava on 08-05-23
+                    // Reason : Create the rupee sign globally for using the config file. */}
+                    {/* <span className="invoice_total_rating_sub_heading"> ₹ {items.price}</span> */}
+                    <span className="invoice_total_rating_sub_heading"> {rupee_sign} {items.price}</span>
+                    {/* End of addition by Om Shrivastava on 08-05-23 */}
                     {/* End of modified code on 21-04-2023 */}
                   </div>
                 </div>
@@ -324,19 +328,31 @@ export default function InvoiceDetails() {
           <div className='invoice_second_container'>
             <div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">Subtotal : </div>
-              <div className="invoice_second_sub_heading">₹ {orders.sub_total}</div>
+               {/* // Modified and commented by Om Shrivastava on 08-05-23
+              // Reason : Create the rupee sign globally for using the config file. */}
+              {/* <div className="invoice_second_sub_heading">₹ {orders.sub_total}</div> */}
+              <div className="invoice_second_sub_heading"> {rupee_sign} {orders.sub_total}</div>
+              {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>
             <div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">CGST : </div>
               {/* Added by rohan- 14/4/23 -------------------------------- */}
               {/* Modified by rohan- 16-04-2023 -------------------------------- */}
-              <div className="invoice_second_sub_heading"> ₹ {orders.cgst}</div>
+               {/* // Modified and commented by Om Shrivastava on 08-05-23
+              // Reason : Create the rupee sign globally for using the config file. */}
+              {/* <div className="invoice_second_sub_heading"> ₹ {orders.cgst}</div> */}
+              <div className="invoice_second_sub_heading"> {rupee_sign} {orders.cgst}</div>
+              {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>
 
             {/* Modified by rohan- 16-04-2023 -------------------------------- */}
             <div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">SGST : </div>
-              <div className="invoice_second_sub_heading"> ₹ {orders.sgst}</div>
+              {/* // Modified and commented by Om Shrivastava on 08-05-23
+              // Reason : Create the rupee sign globally for using the config file. */}
+              {/* <div className="invoice_second_sub_heading"> ₹ {orders.sgst}</div> */}
+              <div className="invoice_second_sub_heading"> {rupee_sign}  {orders.sgst}</div>
+              {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>
             {/* End of added code on 16-04-2023 */}
 
@@ -344,7 +360,12 @@ export default function InvoiceDetails() {
               <div className="invoice_sub_heading"><b>Total : </b></div>
               {/* Modified by :- Parineeta Gedam on 19-04-2023 */}
               {/* <span className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></span> */}
-              <div className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></div>
+              {/* // Modified and commented by Om Shrivastava on 08-05-23
+              // Reason : Create the rupee sign globally for using the config file. */}
+              {/* <div className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></div> */}
+              <div className="invoice_second_sub_heading"><b>  {rupee_sign}  {orders.total}</b></div>
+              {/* End of addition by Om Shrivastava on 08-05-23 */}
+
               {/* End of modified code on 19-04-2023 */}
             </div>
           </div>
