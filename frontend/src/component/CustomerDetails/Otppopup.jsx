@@ -128,11 +128,19 @@ const Otppopup = () => {
         RadiusUprightOutlined,
         duration:3,
         style:{
-            top:"5vh",
+          // Modified by ROhan - 7/5/23
+            // Reason- to centeralized message box
+            top:"8vh",
             background:colors.subheadingBackgroundColor,
             color:colors.subHeadingColor,
-            width:"80vw",
+            width: "max-content",
+            right: "0px",
+            left: "0px",
+            position: "fixed",
+            minHeight: "50px",
+            margin:"auto",
             fontFamily:"Times New Roman"
+            // End of code - 7/5/23
         },
           key: 1,
         
@@ -145,11 +153,19 @@ const Otppopup = () => {
           RadiusUprightOutlined,
           duration:3,
           style:{
-              top:"5vh",
+            // Modified by ROhan - 7/5/23
+            // Reason- to centeralized message box
+              top:"8vh",
               background:colors.subheadingBackgroundColor,
               color:colors.subHeadingColor,
-              width:"80vw",
+              width: "max-content",
+              right: "0px",
+              left: "0px",
+              position: "fixed",
+              minHeight: "50px",
+              margin:"auto",
               fontFamily:"Times New Roman"
+              // End of code - 7/5/23
           },
             key: 1,
           
