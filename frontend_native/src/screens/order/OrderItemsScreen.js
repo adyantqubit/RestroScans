@@ -758,6 +758,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
   /**
   * End of addition by yuvraj Sahu on 07-05-2023
+  */
 
   return (
     <>
@@ -1239,7 +1240,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       {/* End of addition */}
     </>
   );
-}
+    }
 
 const styles = StyleSheet.create({
   tableContainer: {
