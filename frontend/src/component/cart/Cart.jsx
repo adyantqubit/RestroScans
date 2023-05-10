@@ -139,7 +139,9 @@ const Cart = () => {
         {cart.length > 0 ? cart.map((item, i) =>
           <div className={style.card} >
             <RemoveItem removeProductIndex={removeProductIndex} currentIndex={item} setRemoveProductIndex={setRemoveProductIndex} />
+            {item.best?<div className={style.ribbon}>Best Seller</div>:null}
             <div className={style.imgContainer}>
+            
               <img alt="" src={config.siteURL + item.icon} className={style.img} />
               {item.item_type == "Veg" ?
                 <img alt="" src={vegIcon} className={style.type_img} />
@@ -148,7 +150,7 @@ const Cart = () => {
                 <img alt="" src={nonVegIcon} className={style.type_img} />}
             </div>
             {/* Added on 4/5/23 - Rohan Kansari - To show best seller option also */}
-            {item.best?<div className={style.ribbon}>Best Seller</div>:null}
+            {/* {item.best?<div className={style.ribbon}>Best Seller</div>:null} */}
             <div className={style.infomation}>
               
               <div className={style.title} style={{ color: colors.subHeadingColor }}>{item.name}<div className={style.delete}></div></div>

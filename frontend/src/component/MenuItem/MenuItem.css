@@ -165,6 +165,10 @@
     width: 70px;
     height: 70px;
     /* height: 2%; */
+    /* added by Rohan kansari - 8/5/23 */
+    position: relative ;
+    right: 2px;
+    left: -2px;
     margin: 0 0 0 auto;
 }
 
@@ -181,6 +185,8 @@
     /* added by rohan-13/4/23 */
     position: relative;
     overflow: hidden;
+    /* added by Rohan kansari - 8/5/23 */
+    padding-right: 4px;
 }
 
 /* added by rohan -13/4/23 */
@@ -191,12 +197,14 @@
     background-color: greenyellow;
     font-size: 11px;
     color: black;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    /* added by Rohan kansari - 8/5/23 */
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     color: black;
     padding-left: 0px;
     position: relative;
-    left: -3px;
+    left: 3px;
+    z-index: 2;
     /* letter-spacing: 1px; */
     /* padding: 0 2px; */
 
@@ -209,7 +217,7 @@
     /* position: absolute;
     top: 5px;
     left: -10px; */
-    /* transform: rotateY(0deg) rotate(180deg); */
+    transform: rotateY(0deg) rotate(180deg);
     ;
 }
 
@@ -722,21 +730,39 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     min-height:22vh;
 } */
 .container {
-    position: relative;
+    /* added by Rohan kansari - 8/5/23 */
+    position: static;
     overflow: hidden;
     width: 100%;
+    top:0;
+    left:0;
+    right: 0;
+    padding: 0 10vw;
+    background-color: #000;
+    left: 0;
+    z-index: 0;
     /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 
+/* Removed and created by Rohan kansari- 8/5/23  */
+.iframeContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 15%;
+  
+  z-index: 9;
+  background-color: transparent;
+}
 
-.responsive-iframe {
-    position: absolute;
-    top: -8px;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
+/* Removed and created by Rohan kansari- 8/5/23  */
+#iframe{
+    width: 70%;
+    position:relative;
+    /* z-index: -1; */
+    /* z-index: 0; */
 }
 
 .offer_maindiv {
@@ -1291,3 +1317,4 @@ a.ant-notification-notice-close {
     height: 25px !important;
 }
 /* End of addition 05/05/2023 */
+

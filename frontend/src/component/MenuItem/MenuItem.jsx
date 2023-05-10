@@ -14,6 +14,7 @@ import 'flipping-pages/dist/style.css';
 import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
+import ReactPlayer from 'react-player'
 import noOfferItem from "../../images/offer_default.jpg"
 import nodataImg from '../../images/not_offer.png'
 import noOfferImg from "../../images/offer_default.jpg"
@@ -56,7 +57,9 @@ function MenuItem() {
   var { searchedValue,
     setSearchedValue, colors, cart, subscribePlan,rupee_sign } = useContext(GlobalContext);
 
-  console.log("----------------------subscribePlan", subscribePlan)
+    // Added by Rohankansari - 8/5/23
+    const videoRef = useRef(null);
+
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
   const [itemList, setItemList] = useState([]); // Our Item set in this variable
@@ -153,6 +156,8 @@ function MenuItem() {
   useEffect(() => {
     getMenu(tenantt);
     getOffer(tenantt);
+    // Added by Rohan kansari- 8/5/23 - To save video targeting node
+    setVidRef(document.querySelector(".react-player"));
     // getRestroName(tenantt)
   }, []);
 
@@ -661,36 +666,43 @@ function MenuItem() {
 
   // Added by ROhanakansari - 30/4/23
   // Reason- TO stop youtube video on prev and next button click of slider
-  var stopAllYouTubeVideos = () => { 
-    var iframes = document.getElementsByClassName('iframe');
-    for (var i=0;i<iframes.length;i++){
-      var temp=iframes[i].src
-      iframes[i].src=temp
-    }  
-  }
-  
+  // Removed by Rohan Kansari - 8//5/23 
+  // Reason - Becuase no longer in use , video functionality is changed
+  // var stopAllYouTubeVideos = () => {
+    // var iframes = document.getElementsByClassName('iframe');
+    // for (var i=0;i<iframes.length;i++){
+    //   var temp=iframes[i].src
+    //   iframes[i].src=temp
+    // }  
+  // }
+
   // End of code- ROhankansari 
 
   // Added by Rohan kansari- 3/5/23
   // Reaon - to hide menu drawer in 6 second if its open
-  var interval=useRef()
-  useEffect(()=>{
+  // Modified by Rohankansari - 8/5/23
+  // Reason - To save id of timeout in ref and clear it on new thread generation
+  var interval=useRef({render:null});
+  useEffect(() => {
     
-   if(menuListVisible){
-    document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh" 
-    document.getElementById("category_container").className="category_container"
-   interval=setTimeout(()=>{
-     setmenuListVisiblity(false)
-   },6000)
-   
-  }
-   else{
-    document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh" 
-    document.getElementById("category_container").className+=" newHieght"
-    window.clearTimeout(interval)
-   }
-  },[menuListVisible])
+    if (menuListVisible) {
+      if(interval.current.render)window.clearTimeout(interval.current.render);
+      document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh"
+      document.getElementById("category_container").className = "category_container"
+      interval.current.render = setTimeout(() => {
+        setmenuListVisiblity(false)
+        console.log("-------------------hit timeout")
+      }, 6000)
+    }
+    else {
+      document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh"
+      document.getElementById("category_container").className += " newHieght"
+      window.clearTimeout(interval.current.render)
+    }
 
+    
+  }, [menuListVisible])
+   // end of code by Rohan kansari - 8/5/23
   // End of code- 3/5/23
   
   // Added by - Suman sahu  On 05/05/2023
@@ -709,6 +721,18 @@ function MenuItem() {
     }
   };
   // End of addition 05/05/2023
+
+
+  // Added by Rohan Kansari- 8/5/23
+  // Reason - To handle video in banner
+  const [playVideo, setVideo] = useState({})
+  const [vidRef, setVidRef] = useState(null);
+  function setVideoPlayingToggle(id){
+
+    var key=`video${id}`
+    setVideo({ [key]:!playVideo[`video${id}`]})
+  }
+  // End of code - 8/5/23
 
   return (
     <>
@@ -861,9 +885,12 @@ function MenuItem() {
               // , Mousewheel, Keyboard]}
               className="mySwiper"
 
-              onNavigationPrev={e=>{stopAllYouTubeVideos()}}
-              onNavigationNext={e=>{stopAllYouTubeVideos()}}
-              
+              // Added by Rohan Kansari- 8/5/23
+              // Reason - To handle video in banner
+              onNavigationPrev={e => {var key= Object.keys(playVideo); setVideo({[key[0]]:false}) }}
+              onNavigationNext={e => { var key= Object.keys(playVideo); setVideo({[key[0]]:false})}}
+              // End of code - Rohan kansari- 8/5/23
+
             >
 
               {offerBanner.map((item, id) => (
@@ -928,7 +955,12 @@ function MenuItem() {
 
                           }}/> */}
                           {/* End of code - ROhan kansari - 28/4/23 */}
-                          <iframe width="100%" height="100%" className="iframe" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
+                          {/* // Added by Rohan Kansari- 8/5/23
+                            // Reason - To handle video in banner */}
+                          <div className="iframeContainer" onClick={e => { setVideoPlayingToggle(id)}}></div>
+                          <ReactPlayer ref={vidRef}  className="react-player" height="24vh" width="80vw" url={`${item.video_link}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`} playing={playVideo[`video${id}`]} /> 
+                          {/* End of code - Rohan kansari - 8/5/23 */}
+                          {/* <iframe  src="https://www.youtube.com/embed/j55IlDRHQ8w?mute=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>                          </div> */}
                         </div>
                     }
 
@@ -1182,14 +1214,17 @@ function MenuItem() {
                           return <div className="cardItem"  style={{background:colors.card_color,padding:"6px 0"}}>
                             {/* end of code - ROhan kansari - 28/4/23 */}
                             <div className="showimg_div" >
+                               {/* added by rohan- 8/5/23 - for best seller shown */}
+                            {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                            {/* end of addition rohan- 8/5/23 */}
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
                               
                             </div>
                             {/* added by rohan- 13/4/23 - for best seller shown */}
-                            {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
-                              {/* end of addition - 13/4/23 */}
+                            {/* {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
+                            {/* end of addition - 13/4/23 */}
 
                             {/* <div className="price_item_description_div"> */}
                             {/* <div className="price_description_container" > */}
@@ -1522,15 +1557,17 @@ function MenuItem() {
                 <div className="cardItem" style={{background:colors.card_color,padding:"6px 0"}} >
                   {/* end of code - ROhan kansari - 28/4/23 */}
                   <div className="showimg_div" >
-                    {console.log(totalFullPrice(showdata))}
+                    {/* added by rohan- 8/5/23 - for best seller shown */}
+                  {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                  {/* end of addition rohan- 8/5/23 */}
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
                   </div>
                   {/* added by rohan- 13/4/23 - for best seller shown */}
 
-                  {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
-                    {/* end of addition - 13/4/23 */}
+                  {/* {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
+                  {/* end of addition - 13/4/23 */}
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
                       <h4 style={{ color: colors.subHeadingColor }}
@@ -1804,16 +1841,18 @@ function MenuItem() {
                           return <div className="cardItem" style={{background:colors.card_color,padding:"6px 0"}}>
                             {/* end of code - ROhan kansari - 28/4/23 */}
                             <div className="showimg_div" >
-
+                            {/* added by rohan- 8/5/23 - for best seller shown */}
+                            {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                            {/* end of addition rohan- 8/5/23 */} 
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
-                              
+
 
                             </div>
-                            {/* added by rohan- 13/4/23 - for best seller shown */}
-                            {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
-                              {/* end of addition - 13/4/23 */}
+                          {/* added by rohan- 13/4/23 - for best seller shown */}
+                            {/* {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
+                            {/* end of addition - 13/4/23 */} 
 
                             {(offerList.filter((data) => parseInt(data.item_id) === m.id)).length > 0 ?
                               <>
@@ -2072,23 +2111,29 @@ function MenuItem() {
             Reason - To toggle menu card container */}
         {/*Commented on - 3/5/23 - ROhan Kansari / to commente hidding method and hidding through height
           {menuListVisible ? */}
-          <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
-            <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); 
-              }} style={{ backgroundColor: colors.bannerColor }}>
-                {menuListVisible?
-                <MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} />:
-                <MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }}/>}
-                </div>
-            {/* <div className="footer_btn_container" >
+        <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
+          <div className="drawerBtn" onClick={e => {
+            setmenuListVisiblity(!menuListVisible);
+          }} style={{ backgroundColor: colors.bannerColor }}>
+            {menuListVisible ?
+              <MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} /> :
+              <MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} />}
+          </div>
+          {/* <div className="footer_btn_container" >
               <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
             </div> */}
             {/* Added by Rohna kansari-7/5/23 
                 Reason- To keep list open on touch */}
-            <div className="category_container" id="category_container" 
-            onTouchMove={e=>window.clearTimeout(interval)} 
-            onTouchEnd={e=>interval=setTimeout(()=>{
+          {/*Modified by Rohan kansari - 8/5/23 
+             Reason - To clear and genrate new timeout for menu drawer closing  */}
+          <div className="category_container" id="category_container"
+            onTouchMove={e => {      if(interval.current.render)window.clearTimeout(interval.current.render);              console.log("clear------------------- ")}}
+            onTouchEnd={e => { console.log("--------- ",interval.current.render )
+            if(interval.current.render)window.clearTimeout(interval.current.render);
+
+            interval.current.render = setTimeout(() => {
               setmenuListVisiblity(false)
-            },6000)}>
+            },6000)} }>
               {/* Ne dof code -rohankansari - 7/5/23 */}
               {menuList.map((data, id) => (
                 <div id={id} className='all-menu'
