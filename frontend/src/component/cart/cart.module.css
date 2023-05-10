@@ -462,28 +462,20 @@ letter-spacing: 3px;
     background-color: greenyellow;
     font-size: 11px;
     color: black;
+    /* Changes by Rohan kansari-10/5/23 */
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     color: black;
     padding-left: 0px;
-    position: relative;
-    left: 4px;
-    z-index: 2;
-    /* letter-spacing: 1px; */
-    /* padding: 0 2px; */
-
+    position: absolute;
     letter-spacing: .8px;
     margin-right: 2px;
     text-align: center;
     writing-mode: vertical-rl;
     text-orientation:sideways;
     font-weight:500;
-    margin: 5px 0;
-    /* position: absolute;
-    top: 5px;
-    left: -10px; */
     transform: rotateY(0deg) rotate(180deg);
-
+    /* End of code Rohan kansari-10/5/23 */
 }
 
 .null_ribbon{

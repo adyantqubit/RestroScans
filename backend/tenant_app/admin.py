@@ -180,7 +180,8 @@ class ItemAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None) :
         return True    
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        # Modified by Rohan kansari - 10/5/23
+        return False   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False

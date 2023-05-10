@@ -21,7 +21,9 @@ const Billing = () => {
         var data = {
             "items": secureLocalStorage.getItem('orderItem'),
             "detail": secureLocalStorage.getItem('order'),
-            "customer_detail": secureLocalStorage.getItem('customerDetails'),
+            
+            // Modified by rohankansari - 10/5/23 - To correct the customer detail name
+            "customer_detail": secureLocalStorage.getItem('customer_details'),
             "restro_number":secureLocalStorage.getItem('invoice_detail').setting,
             "restro_detail":secureLocalStorage.getItem('invoice_detail').tenant
       
@@ -34,9 +36,13 @@ const Billing = () => {
     // reason- To extract date and time
     function ExtractDateTime(format) {
         var d = new Date(format);
-        var date = d.toLocaleDateString()
-        var time = d.toLocaleTimeString()
-
+        // Modified by rohankansari - 10/5/23 - extracting date
+        console.log(d.toISOString())
+        var date = format.substring(0,10).split("-").reverse().join("/")
+        var time = format.substring(11,19)
+        // var date = `${d.getDay()}/${d.getMonth()}/${d.getFullYear()}` 
+        // var time = d.toLocaleTimeString()
+        
         return { date, time }
     }
 
@@ -75,12 +81,22 @@ const Billing = () => {
                 </div>
                 {/* End of code- 4/5/23 Rohan Kansari */}
                 <div className={style.breakLine} />
+
+                {/* Added by Rohan kansari - 10/5/23
+                   Reason - Added new labels in bill ( name and contact number)*/}
+                <div className={style.inLineContainer}>
+                    <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Name</div><div>:</div>  </div><div className={style.text}>{billingData.customer_detail.name.length?billingData.customer_detail.name:" - "}</div></div>
+                    <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Phone</div><div>:</div> </div><div className={style.text}>{billingData.customer_detail.contact_number}</div></div>
+                </div>
+                {/* End of code - Rohan - 10/5/23 */}
+
                 <div className={style.inLineContainer}>
                     {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}
                         {/* Modified on - 3/5/23 - To align colons */}
-                    <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Date</div><div>:</div>  </div><div className={style.text}>{ExtractDateTime(billingData.detail.date).date}</div></div>
-                    <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Time</div><div>:</div> </div><div className={style.text}>{ExtractDateTime(billingData.detail.date).time}</div></div>
+                        {/* Modified on - 10/5/23 - Getting payment date */}
+                    <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Date</div><div>:</div>  </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).date}</div></div>
+                    <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Time</div><div>:</div> </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).time}</div></div>
                      {/* ENd of code - Rohan - 24/4/23 */}
                 </div>
                 <div className={style.inLineContainer}>
@@ -114,7 +130,10 @@ const Billing = () => {
                         Reason - To align all label */}
                         {/* Modified on - 3/5/23 - To align colons */}
                 <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Payment</div><div>:</div>  </div><div className={style.text}>{billingData.detail.payment_mode}</div></div>
-                <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Status</div><div>:</div>   </div><div className={style.text}>{billingData.detail.payment_status}</div></div>
+                {/* Commented by - Rohan Kansari - 10/5/23
+                    Reason - New requirement is to hide status column */}
+                {/* <div className={style.column1}><div className={style.label}><div style={{width:"90%"}}>Status</div><div>:</div>   </div><div className={style.text}>{billingData.detail.payment_status}</div></div> */}
+                {/* End of commenting- Rohan Kansari - 10/5/23 */}
                    {/* ENd of code - Rohan - 24/4/23 */}
                 </div>
 

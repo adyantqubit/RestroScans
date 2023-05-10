@@ -545,6 +545,10 @@ class Order(models.Model):
     # Reason - To save overall review
     review=models.TextField(null=True,blank=True)
 
+    # Added by Rohan kansari - 10/5/23
+    # Reason - To save payment confirmation date and time 
+    payment_confirmation_date_time=models.CharField(max_length=50,null=True,blank=True)
+
     def __str__(self):
         return f"{self.order_id}"
 
@@ -557,8 +561,19 @@ class Order(models.Model):
     def save(self, *args, **kwargs ):
         if self.order_status == "Confirm" :
            OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
+        # Added by Rohan kansari- 10/5/23
+        if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
+            from datetime import datetime
+            self.payment_confirmation_date_time=datetime.now() 
         super().save( *args, **kwargs)
+
+
     # End of addition
+
+    def __unicode__(self):
+        return "%s" % (self.date_start.strftime('%m/%d/%Y %H:%M %p'))
+
+    
 
 
 """

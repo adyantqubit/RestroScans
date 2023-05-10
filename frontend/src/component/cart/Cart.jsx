@@ -139,9 +139,11 @@ const Cart = () => {
         {cart.length > 0 ? cart.map((item, i) =>
           <div className={style.card} >
             <RemoveItem removeProductIndex={removeProductIndex} currentIndex={item} setRemoveProductIndex={setRemoveProductIndex} />
-            {item.best?<div className={style.ribbon}>Best Seller</div>:null}
-            <div className={style.imgContainer}>
             
+            <div className={style.imgContainer}>
+              {/*Moved by Rohan kansari - 10/5/23  */}
+            {item.best?<div className={style.ribbon}>Best Seller</div>:null}
+            {/* ENd of code - Rohan kansari - 10/5/23*/}
               <img alt="" src={config.siteURL + item.icon} className={style.img} />
               {item.item_type == "Veg" ?
                 <img alt="" src={vegIcon} className={style.type_img} />

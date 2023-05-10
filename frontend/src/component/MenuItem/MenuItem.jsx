@@ -25,7 +25,7 @@ import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
 import { MdRoomService, MdOutlineKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import {BsBoxArrowUpLeft} from "react-icons/bs";
+import {IoLogoYoutube} from "react-icons/io";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
@@ -957,7 +957,9 @@ function MenuItem() {
                           {/* End of code - ROhan kansari - 28/4/23 */}
                           {/* // Added by Rohan Kansari- 8/5/23
                             // Reason - To handle video in banner */}
-                          <div className="iframeContainer" onClick={e => { setVideoPlayingToggle(id)}}></div>
+                            {/* Modified by - Rohan kansari - 10/5/23
+                                Reason - to show play pause button  */}
+                          <div className="iframeContainer" onClick={e => { setVideoPlayingToggle(id)}}>{!playVideo[`video${id}`]?<><div className="centerBtn"/> <IoLogoYoutube className="pauseBtn"/></>:null}</div>
                           <ReactPlayer ref={vidRef}  className="react-player" height="24vh" width="80vw" url={`${item.video_link}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`} playing={playVideo[`video${id}`]} /> 
                           {/* End of code - Rohan kansari - 8/5/23 */}
                           {/* <iframe  src="https://www.youtube.com/embed/j55IlDRHQ8w?mute=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>                          </div> */}

@@ -12,11 +12,12 @@
 }
 
 .inLineContainer {
-    min-width: 100%;
+    /* Modified by ROhankansari - 10/5/23 */
+    width: 95%;
     min-height: 10px;
-    margin: 4px 4px;
+    margin: 4px auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 
 
