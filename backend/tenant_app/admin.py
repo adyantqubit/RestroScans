@@ -102,7 +102,13 @@ class CategoryAdmin(admin.ModelAdmin):
     # reason- change django default image field character validation message
     form = CategoryForm
     # End of addition 07/05/2023
-    list_display=("id","item_list","name", "menu",'is_active')
+
+    # Modified and commented by Om Shrivastava on 10-05-23
+    # Reason : Fix the alignment in categorylist in admin panel
+    # list_display=("id","item_list","name", "menu",'is_active')
+    list_display=("id","name", "menu","item_list",'is_active')
+    # End of addition by Om Shrivastava on 10/05/2023
+
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=("id","name", "menu",'is_active')

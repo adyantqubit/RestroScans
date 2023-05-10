@@ -382,7 +382,11 @@
           <div class="card-body">
             <div class="row d-block d-xl-flex align-items-center">
               <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-                <div style="font-size: 20px;font-weight: bold;"> This Months's Revenue</div>
+                <!-- Modifed and added by Om Shrivastava on 10-05-23
+                Reason : Correct the spelling of month revenue -->
+                <!-- <div style="font-size: 20px;font-weight: bold;"> This Months's Revenue</div> -->
+                <div style="font-size: 20px;font-weight: bold;"> This Month's Revenue</div>
+                <!-- End of addtion by Om Shrivastava on 10-05-23 -->
                 <div style="font-size: 14px;">Total Orders</div>
                 <div style="font-size: 34px;font-weight: bold;"> {{count.revenue_details.this_months_summary.order_count}}</div>
                 <div  style="font-size: 14px;">Total Revenue</div>
@@ -395,11 +399,18 @@
               <div
               style=" display:flex;justify-content:center;padding: 8px"
             >
-              <a href="{% url 'item_report' 'this_week'  %}"
+            <!-- Modifed and added by Om Shrivastava on 10-05-23
+            Reason : Correct the month revenue data  -->
+            <!-- <a href="{% url 'item_report' 'this_week'  %}" 
+                target="_blank"
+                class="linkButtonGreen"
+                style="color:white;font-weight: 500;"-->
+              <a href="{% url 'item_report' 'this_month'  %}"
                 target="_blank"
                 class="linkButtonGreen"
                 style="color:white;font-weight: 500;"
-              >   
+              > 
+              <!-- End of addition by Om Shrivastava on 10-05-23 -->
                 View Order Report
               </a>
             </div>
@@ -426,7 +437,11 @@
             <div class="row d-block d-xl-flex align-items-center">
               
               <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-                <div style="font-size: 20px;font-weight: bold;"> This Years's Revenue</div>
+                <!-- Modifed and added by Om Shrivastava on 10-05-23
+                Reason : Correct the spelling of month revenue -->
+                <!-- <div style="font-size: 20px;font-weight: bold;"> This Years's Revenue</div> -->
+                <div style="font-size: 20px;font-weight: bold;"> This Year's Revenue</div>
+                <!-- End of addtion by OM Shrivastava on 10-05-23 -->
                 <div style="font-size: 14px;">Total Orders</div>
                 <div style="font-size: 34px;font-weight: bold;"> {{count.revenue_details.this_years_summary.order_count}}</div>
                 <div  style="font-size: 14px;">Total Revenue</div>

@@ -228,6 +228,13 @@ export default function OrderItemsScreen({ route, navigation }) {
             <hr>
 
             <div class="inLineContainer">
+              <div class="label">Name   </div>
+              <div class="text">  ${customerDetail.last_customer_name}</div>
+              <div class="label">Contact   </div>
+              <div class="text">  ${customerDetail.contact_number}</div>
+            </div>
+            
+            <div class="inLineContainer">
               <div class="label">Date </div>
               <div class="text">
               ${new Date(orderDetail.date)
@@ -255,9 +262,8 @@ export default function OrderItemsScreen({ route, navigation }) {
          
             <div class="inLineContainer">
               <div class="label">Payment   </div>
-              <div class="text">  ${orderDetail.payment_mode}</div>
-              <div class="label">Status   </div>
-              <div class="text">  ${orderDetail.payment_status}</div>
+              <div class="text" style= "margin-right:53%">  ${orderDetail.payment_mode}</div>
+              
             </div>
             <div class="tableHeader">
               <div class="titleHeading"> Item Name   </div>

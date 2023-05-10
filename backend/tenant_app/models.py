@@ -686,7 +686,11 @@ class PaymentMethod(models.Model):
 
     class Meta:
         verbose_name = "Payment Method"
-        verbose_name_plural = 'j) Payment Method'
+        # Modified and added by Om Shrivastava on 10-05-23
+        # Reason : Correct the arrangement in payment method 
+        # verbose_name_plural = 'j) Payment Method'
+        verbose_name_plural = 'k) Payment Method'
+        # End of addition by Om Shrivastava on 10-05-23
 
     def __str__(self):
         # Modified and added by Om on 06-06-23

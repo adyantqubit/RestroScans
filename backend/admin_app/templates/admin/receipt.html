@@ -213,10 +213,14 @@
 
     {% for settings in restaurant_settings %}
     <div class="inLineContainer">
+      {% if  settings.gstin  %} 
       <div class="centerLabel">GSTIN :- {{ settings.gstin }}</div>
+      {% endif %}
     </div>
     <div class="inLineContainer">
+      {% if  settings.fssaino  %} 
       <div class="centerLabel">FSSAI NO :- {{ settings.fssaino }}</div>
+      {% endif %}
     </div>
     {% endfor %}
     <hr>
