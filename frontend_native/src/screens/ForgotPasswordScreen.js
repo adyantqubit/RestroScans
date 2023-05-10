@@ -245,8 +245,14 @@ export default function ForgotPasswordScreen() {
 
   //when user click send otp for forget password
   const submitLog = (values, { resetForm }) => {
+    // modified by - Suman sahu  On 10/05/2023
+    // reason - send trimed email data on the backend
+    var data={
+      email:values.email.trim(),
+    }
+    // End of modification 10/05/2023
     setOTPIsBtnDisable(true);
-    sendOtpApi(values)
+    sendOtpApi(data)
       .then(async (res) => {
         if (res.mail) {
           email = res.mail;
@@ -380,7 +386,11 @@ export default function ForgotPasswordScreen() {
                       style={styles.input}
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
-                      value={values.email}
+
+                      // modified by - Suman sahu  On 10/05/2023
+                      // reason - remove (.) sign after enter spaces
+                      value={values.email.replace(". "," ")}
+                      // end of modification
                       placeholderTextColor="#A4A4A4"
                       placeholder="Enter your email"
                       keyboardType="email-address"

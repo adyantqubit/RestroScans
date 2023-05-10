@@ -81,8 +81,16 @@ export default function LoginScreen({ navigation }) {
 
   //when user click login button this method is called
   const submitLog = (values, { resetForm }) => {
+    // modified by - Suman sahu  On 10/05/2023
+    // reason - send trimed email data on the backend
+    var data={
+      email:values.email.trim(),
+      password:values.password
+    }
+    // End of modification 10/05/2023
+   
     setIsBtnDisable(true);
-    restaurentAuthentication(values).then(async (res) => {
+    restaurentAuthentication(data).then(async (res) => {
       if (res.token) {
         setIsBtnDisable(false);
         // Added by Yuvraj sahu on 12-4-2023
@@ -230,7 +238,10 @@ export default function LoginScreen({ navigation }) {
                       onBlur={handleBlur("email")}
                       // End of added code 24/04/2023
 
-                      value={values.email}
+                      // modified by - Suman sahu  On 10/05/2023
+                      // reason - remove (.) sign after enter spaces
+                      value={values.email.replace(". "," ")}
+                      // end of modification
                       placeholderTextColor="#A4A4A4"
                       placeholder="Enter your email"
                       keyboardType="email-address"

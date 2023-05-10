@@ -24,6 +24,7 @@ function Gallery() {
 
   return (
     <>
+    <div>
       <div className="gallary_first_section">
         <div className="top_image">
           <div className="gallery_container"></div>
@@ -41,11 +42,12 @@ function Gallery() {
                 src={config.staticBaseURL + item.gallery}
                 className="gallery_images"
               />
-              <p className="restaurent_title">{item.title}</p>
+              <p className="gallery_bottom_text">{item.title}</p>
             </div>
           ))}
         </div>
       ) : null}
+    </div>
     </>
   );
 }

@@ -6,6 +6,10 @@ const passwordRegExp = /^((?!.*[\s])(?=.*[A-Z])(?=.*\d).{8,15})/;
 export const loginSchema = yup.object().shape({
   email: yup
     .string()
+    // added by - Suman sahu  On 10/05/2023
+    // reason - add trim method for trim white space in email input
+    .trim()
+    // End of addition 10/05/2023
     .email("Please enter valid email!")
     .required("Email address is required!"),
   password: yup
@@ -21,6 +25,10 @@ export const loginSchema = yup.object().shape({
 export const emailSchema = yup.object().shape({
   email: yup
     .string()
+    // added by - Suman sahu  On 10/05/2023
+    // reason - add trim method for trim white space in email input
+    .trim()
+    // End of addition 10/05/2023
     .email("Please enter valid email!")
     .required("Email address is required!"),
 });
@@ -105,7 +113,10 @@ export const registrationSchema = yup.object().shape({
     .required("Restaurant name is required!")
     .matches(/^(?!\s+$).*/, "Restaurant name cannot contain only blankspaces!"),
 
-  email: yup.string().email("Email is invalid!").required("Email is required!"),
+    // modify by - Suman sahu  On 10/05/2023
+    // reason - add trim method for trim white space in email input
+    email: yup.string().trim().email("Email is invalid!").required("Email is required!"),
+    // end of modification 10/05/2023
 
   // Commented by:- Suman sahu  On 24/04/2023
 

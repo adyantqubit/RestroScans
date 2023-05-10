@@ -1,4 +1,4 @@
-/* Added by:- Suman sahu On 05/04/2023
+/* Created by:- Suman sahu On 05/04/2023
 Reason:- Create css for Home.jsx */
 
 /* ------------------- Main Section--------------------------- */
@@ -13,9 +13,9 @@ Reason:- Create css for Home.jsx */
 
 /* ------------------- Description Section--------------------------- */
 .home_description_section {
-  background-color: rgba(225, 239, 254, 1);
-  /* background-image: url("contact.jpg"); */
-  background-size: 100rem 80rem;
+  /* background-color: rgba(225, 239, 254, 1); */
+  background-image: url("3.jpg");
+  background-size: 100% 100%;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 80%, 0 100%);
   height: fit-content;
   width: 100%;
@@ -24,7 +24,7 @@ Reason:- Create css for Home.jsx */
   background-repeat: no-repeat;
   display: flex;
   padding-top: 2rem;
-  padding-bottom: 13rem;
+  padding-bottom: 12rem;
 }
 .description_left_img_div {
   width: 50%;
@@ -45,8 +45,8 @@ Reason:- Create css for Home.jsx */
   margin-bottom: 2rem;
   margin-top: 3rem;
   display: flex;
-  font-family: sans-serif;
-  color: rgb(122, 38, 38);
+  font-family: var(--primary-headingFontFamily);
+  color: aliceblue;
   text-align: center;
 }
 .restro_description {
@@ -54,7 +54,8 @@ Reason:- Create css for Home.jsx */
   font-size: var(--descriptions-textFontSize);
   justify-content: center;
   text-align: justify;
-  color: rgb(73, 72, 72);
+  color: aliceblue;
+  font-family: Century Gothic;
 }
 .description_btn_div {
   text-align: center;
@@ -80,8 +81,8 @@ Reason:- Create css for Home.jsx */
 .book_demo_btn:hover {
   background-image: radial-gradient(
     circle,
-    rgb(217, 187, 187) 10%,
-    rgb(194, 162, 162) 100%
+    rgb(194, 162, 162) 10%,
+    rgb(116, 63, 63) 100%
   );
   color: black;
 }
@@ -90,9 +91,9 @@ Reason:- Create css for Home.jsx */
 .benefits_heading {
   margin: 0;
   margin-bottom: 1rem;
-  font-family: sans-serif;
+  font-family: var(--primary-headingFontFamily);
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  color: var(--primary-headingColor);
   text-align: center;
 }
 .benefits_card_div {
@@ -120,19 +121,19 @@ Reason:- Create css for Home.jsx */
   align-items: center;
   margin: 0;
   padding: 0.7rem 0;
-  color: rgb(10, 100, 130);
-  margin-top: 0.8rem;
+  background-color: rgb(194, 162, 162) ;
 }
 .card_description {
   padding: 0 1.5rem;
+  margin-top: 1.5rem;
   color: rgb(85, 83, 83);
   text-align: justify;
+  font-family: sans-serif;
 }
 
 /* -------------------Features Section--------------------------- */
 .home_features_section {
   display: block;
-  /* margin-left: 8rem; */
 }
 .features_container {
   padding-left: 4rem;
@@ -147,7 +148,8 @@ Reason:- Create css for Home.jsx */
 }
 .features_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
 }
 .feature_label_first_div {
@@ -198,7 +200,9 @@ Reason:- Create css for Home.jsx */
 }
 .pricing_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  /* color: rgb(122, 38, 38); */
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   /* font-weight: 800; */
   text-align: center;
 }
@@ -234,10 +238,9 @@ Reason:- Create css for Home.jsx */
 }
 .gallery_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
-  /* font-weight: 800; */
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
-  /* margin: auto; */
   margin-top: 0;
 }
 .galary_slider_images {
@@ -269,7 +272,9 @@ Reason:- Create css for Home.jsx */
 }
 .restaurent_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  /* color: rgb(122, 38, 38); */
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
   margin-top: 0;
 }
@@ -784,4 +789,4 @@ Reason:- Create css for Home.jsx */
     margin-bottom: 1rem;
   }
 }
-/* End of added code 05/04/2023 */
+/* End of Created code by-Suman sahu On  05/04/2023 */

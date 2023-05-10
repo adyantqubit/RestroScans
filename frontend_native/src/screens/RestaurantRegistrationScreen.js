@@ -878,7 +878,10 @@ export default function RestaurantRegistrationScreen({
                       style={styles.input}
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
-                      value={values.email}
+                      // modified by - Suman sahu  On 10/05/2023
+                      // reason - remove (.) sign after enter spaces
+                      value={values.email.replace(". "," ")}
+                      // end of modification
                       placeholderTextColor="#A4A4A4"
                       placeholder="Enter email"
                       autoCapitalize="none"

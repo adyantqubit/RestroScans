@@ -1,8 +1,11 @@
-# modifi by- Suman sahu  On 07/05/2023
+# Created by- Suman sahu  On 07/05/2023
 # reason- change django default image field character validation message
 
 from django import forms
 from tenant_app.models import *
+
+# Added by- Suman sahu  On 07/05/2023
+# reason- change django default image field character validation message
 class PaymentMethodForm(forms.ModelForm):
         class Meta:
             model = PaymentMethod
@@ -52,4 +55,7 @@ class OfferForm(forms.ModelForm):
                     'max_length': ('Filename should be below 100 characters'),
                 },
             }
-# End of addition 07/05/2023
+
+# End of added code by-Suman sahu On 07/05/2023
+
+# End of created code by-Suman sahu On 07/05/2023

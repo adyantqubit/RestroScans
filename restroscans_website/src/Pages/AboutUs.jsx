@@ -1,4 +1,5 @@
-// Added by:- Suman sahu On 14/04/2023
+// Created by:- Suman sahu On 14/04/2023
+// Reason:- Create About us page for RestroScans website
 
 import React from "react";
 import "./aboutus.css";
@@ -147,4 +148,4 @@ function AboutUs() {
 }
 
 export default AboutUs;
-/* End of added code 05/04/2023 */
+/* End of created code by-Suman sahu On  05/04/2023 */

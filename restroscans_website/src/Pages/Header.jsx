@@ -1,4 +1,4 @@
-// Added by:- Suman sahu  Date:- 05/04/2023
+// Created by:- Suman sahu  Date:- 05/04/2023
 // Reason:- Create Header for RestroScans
 
 import React, { useState } from "react";
@@ -24,14 +24,14 @@ function Header({ isOpen, setIsOpen }) {
   const openSiteOfAdyant = (url) => {
     window.open(url, "_blank", "noreferrer");
   };
-  // End of added code
+  // End of added code by-Suman sahu On 07/04/2023
 
   // Added by :- Suman sahu On 07/04/2023
   // Reason:- In responsive, click on any link after that header menu should be close
   function menuClose() {
     setIsOpen(false);
   }
-  // End of added code 07/04/2023
+  // End of added code by-Suman sahu 07/04/2023
 
   const navigate = useNavigate();
 
@@ -99,12 +99,13 @@ function Header({ isOpen, setIsOpen }) {
             <li>
               <FontAwesomeIcon
                 icon={faIndianRupeeSign}
-                className="pricing_icon"
+                // className="pricing_icon"
+                className="header_link_icons"
               />
               <Link
                 className="header_links"
                 to="/pricing"
-                id="pricing_link"
+                // id="pricing_link"
                 onClick={menuClose}
               >
                 Pricing
@@ -143,4 +144,4 @@ function Header({ isOpen, setIsOpen }) {
 }
 
 export default Header;
-/* End of added code 05/04/2023 */
+/* End of created code by-Suman sahu On  05/04/2023 */

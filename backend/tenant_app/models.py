@@ -266,10 +266,15 @@ class Offer(models.Model):
     offer_name=models.CharField(max_length=40, verbose_name="Banner/Offer name") 
     # Commented and modified by Yuvraj Sahu on 30-4-2023
     # Reason - to save decimal value in discount
-    # discount = models.IntegerField(validators=[MinValueValidator(0),
-    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
-    discount = models.DecimalField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
+
+    # Commented and modified by Suman Sahu on 10-05-2023
+    # Reason - to remove decimal value in discount
+    discount = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    # discount = models.DecimalField(validators=[MinValueValidator(0),
+    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
+    # End of modification by Suman sahu 10/05/2023
+    
     # End of modification
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image

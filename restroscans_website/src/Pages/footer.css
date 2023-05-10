@@ -47,7 +47,7 @@ Reason:- Create css for Footer.jsx */
   font-size: var(--footer-primary-heading);
   background: var(--footer-backgroundColor);
   margin-top: 2rem;
-  background-color: rgba(225, 239, 254, 1);
+  background-color: rgb(161, 191, 213);
 }
 .footer_section h5,
 h6 {
@@ -93,7 +93,7 @@ h6 {
 }
 @media (max-width: 768px) {
   .footer_section_2 {
-    background-color: rgba(225, 239, 254, 1);
+    background-color: rgb(161, 191, 213);
   }
   .footer_adyant_logo {
     width: 4.4vw;

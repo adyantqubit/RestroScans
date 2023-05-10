@@ -10,4 +10,8 @@
 
   /* ----------Font sizes of about us page */
   --primary-subheading-textFontSize: 1.5rem;
+
+  /* ----------Font color and family of all pages */
+  --primary-headingColor: rgb(24, 91, 114);
+  --primary-headingFontFamily: cursive;
 }
