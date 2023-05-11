@@ -201,3 +201,12 @@ def divide(value, arg):
     except (ValueError, ZeroDivisionError):
         return None
 # End of addition
+
+# Added by - Om Shrivastava on 11-05-2023
+# Reason - Create multiply method than use in receipt.html file.
+   
+@register.filter
+def multiply(qty, unit_price, *args, **kwargs):
+    # you would need to do any localization of the result here
+    return qty * unit_price
+# End of addition by Om Shrivastava 

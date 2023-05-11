@@ -539,7 +539,11 @@ class Order(models.Model):
     # end of code 14/4/23
     order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="Placed")
     payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
-    date = models.DateTimeField(auto_now_add=True)
+    # Modified and commented by Om Shrivastava on 11-05-23
+    # Reason : Change the name of date field in this modal
+    # date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
+    # End of modified and commented by Om Shrivastava on 11-05-23
     payment_mode = models.CharField(max_length=100,null=True,blank=True)
     # Added By Rohan Kansari - 4/5/23
     # Reason - To save overall review
@@ -611,7 +615,11 @@ class OrderItem(models.Model):
     price = models.FloatField(default=0)
     rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
     review = models.TextField(null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
+    # Modified and commented by Om Shrivastava on 11-05-23
+    # Reason : Change the name of date field in this modal
+    # date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
+    # End of modification and addition by Om Shrivastava on 11-05-23
 
     # Modified by :- Parineeta Gedam 17-04-2023
     item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")

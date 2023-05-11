@@ -354,7 +354,12 @@
         </div>
         {% for settings in restaurant_settings %}
         <div class="calculationLine">
-          <div class="calculationLabel"> CGST ({{ settings.cgst }}%) :</div>
+          <!-- Modification and added by Om Shrivastava on 11-05-23
+          Reason : When CGST is none than need to show 0%  -->
+          <!-- <div class="calculationLabel"> CGST ({{ settings.cgst }}%) :</div> -->
+          <div class="calculationLabel"> CGST ({% if order.cgst %}{{ order.cgst|divide:sub_total |multiply:100 |floatformat:2 }}{% else %}0{% endif %}%) :</div>
+          <!-- End of addition by Om Shrivastava on 11-05-23  -->
+          
           <!-- Modifed and added by Om on 07-05-23
           Reason :  Show the rupees sign from using another file -->
           <!-- <div class="calculationText">₹{{order.cgst|floatformat:2}} </div> -->
@@ -363,7 +368,12 @@
 
         </div>
         <div class="calculationLine">
-          <div class="calculationLabel"> SGST ({{ settings.sgst }}%) :</div>
+          <!-- Modification and added by Om Shrivastava on 11-05-23
+          Reason : When SGST is none than need to show 0%  -->
+          <!-- <div class="calculationLabel"> SGST ({{ settings.sgst }}%) :</div> -->
+          <div class="calculationLabel"> SGST ({% if order.sgst %}{{ order.sgst|divide:sub_total |multiply:100 |floatformat:2}}{% else %}0{% endif %}%) :</div>
+          <!-- End of addition by Om Shrivastava on 11-05-23  -->
+
           <!-- Modifed and added by Om on 07-05-23
           Reason :  Show the rupees sign from using another file -->
           <!-- <div class="calculationText">₹{{order.sgst|floatformat:2}} </div> -->
