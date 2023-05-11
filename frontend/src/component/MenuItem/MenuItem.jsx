@@ -1052,7 +1052,7 @@ function MenuItem() {
               <>
                 <input className="inputBoxSearch" type="text" id="search_box"
                 // Modified by Rohan kansari-7/5/23 - To remove . on double space on mobile
-                onChange={e=>setNewSearch(e.target.value.trimStart().replace(". "," "))}
+                onChange={e=>setNewSearch(e.target.value.trimStart().replace(". "," ").replace("  ",""))}
                 placeholder='Type here to search' value ={search}/>
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>

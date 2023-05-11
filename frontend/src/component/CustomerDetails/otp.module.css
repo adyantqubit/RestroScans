@@ -48,10 +48,11 @@
     margin-top: 5px;
 }
 
+/* Modified by ROhan kansari - 11/5/23 */
 .inputBox{
-    margin: 0 5%;
+    margin: 0 auto;
     margin-top: 15%;
-    width: 60%;
+    width: 95%;
 }
 
 .resendBtn{

@@ -216,6 +216,11 @@ class OfferAdmin(admin.ModelAdmin):
     # search_fields=("name","offer_name")
     search_fields=["offer_name",]
     # End of comment and code modification by Om shrivastava on 13-04-23
+ 
+    # Added by ROhan kansari - 11/5/23
+    # Reason - To remove this column from table
+    exclude=("description",)
+    # ENd of code - 11/5/23
 
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -657,8 +662,22 @@ class OrderItemAdmin(admin.ModelAdmin):
     # Added by :- Parineeta Gedam on 17-04-2023
     # readonly_fields=['order_id','item']
     # End of added code on 17-04-2023
-    readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
+    # Remove by ROhankansari - 11/5/23
+    # Reason - requirement is to hide this field if already we have name so dont show id
+    # readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
+    readonly_fields=['order_id','item', 'serving_size','quantity','price','date']
+    # End of code- ROhankansari -11/5/23
     #End of code modification by Ashish Dewagnan on 24-04-2023
+
+    # Added by ROhan kansari - 11/5/23
+    # Reason - To remove this column from table
+    exclude=("item_id",)
+    # ENd of code - 11/5/23
+
+    #Added by Rohan Kansari - 11/5/23
+    # Reason -To solve ordering issue of table
+    fields=('order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # End of code - 11/5/23 -Rohan Kansari
 
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():

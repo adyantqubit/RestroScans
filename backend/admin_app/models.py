@@ -6,6 +6,31 @@ from ckeditor.fields import RichTextField
 #Added by Rohan Kansari- 16/4/23
 # Reason - To add plan Subcribtion feature where all feature is allow according to plan
 
+# Added by Rohan Kansari - 11/5/23
+# Reason - To set global image validate function
+def validate_image(fieldfile_obj):
+    # #    try: 
+    try:
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+    except:
+      try:  
+       import os # new
+       from pathlib import Path
+       filesize=os.path.getsize(fieldfile_obj.file.name)
+       print(filesize)
+       megabyte_limit = 200
+       if filesize > megabyte_limit*1024:
+        # Changes by Rohan Kansari- 11/5/23 - Change validation message    
+        raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
+      except:
+        return     
+    if filesize > megabyte_limit*1024:
+            # Changes by Rohan Kansari- 11/5/23 - Change validation message
+            raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
+    # ENd of code - 11/5/23 - Rohan Kansari
+
+
 # In this model, we 
 class Plans(models.Model):
     plan_name=models.CharField(max_length=50,default="")
@@ -56,23 +81,25 @@ class RestaurantRequest(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
     
     id = models.AutoField(primary_key=True)
@@ -223,23 +250,25 @@ class AppSetting(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-     def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+     # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
      # end of code - rohan - 20/4/23
      app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
      adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
@@ -332,23 +361,25 @@ Reason - Create for Show Gallery Details on home page
 class GallerySettings(models.Model):
     
      # Modiefied by rohan - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
         
         
     gallery = models.ImageField(

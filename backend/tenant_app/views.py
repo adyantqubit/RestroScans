@@ -536,7 +536,10 @@ def orderCreation(tenant, request):
         item = Item.objects.get(id=cart['id'])
         discounted = 0
         if allOffer.filter(item_name=item).count() > 0:
-            discounted = allOffer.get(item_name=item).offer_name.discount
+            # Modified by Rohan Kansari - 11/5/23
+            # Reason - If discount is none then do nothing
+            if allOffer.get(item_name=item).offer_name.discount is not None:
+               discounted = allOffer.get(item_name=item).offer_name.discount
         if (cart['serve_size'] == "Half Plate"):
             # Added by Rohan kansari -  1/5/23
             # Reason - becuase discount is throwing issue if discount is not in float
@@ -606,7 +609,10 @@ def orderItemsCreation(request, order_obj):
         item = Item.objects.get(id=cart['id'])
         discounted = 0
         if allOffer.filter(item_name=item).count() > 0:
-            discounted = allOffer.get(item_name=item).offer_name.discount
+            # Modified by Rohan Kansari - 11/5/23
+            # Reason - If discount is none then do nothing
+            if allOffer.get(item_name=item).offer_name.discount is not None:
+               discounted = allOffer.get(item_name=item).offer_name.discount
         cartData["item_id"] = item.id
         cartData['order_id'] = order_obj.id
         cartData['item'] = cart['name']
@@ -860,7 +866,10 @@ class updateOrdersAPIView(APIView):
             item = Item.objects.get(id=cart['item_id'])
             discounted = 0
             if allOffer.filter(item_name=item).count() > 0:
-                discounted = allOffer.get(item_name=item).offer_name.discount
+                # Modified by Rohan Kansari - 11/5/23
+                # Reason - If discount is none then do nothing
+                if allOffer.get(item_name=item).offer_name.discount is not None:
+                   discounted = allOffer.get(item_name=item).offer_name.discount
                 # Modified by:-  parineeta- 24/4/23
                 # Reason - We changed half plate to half string so, this if matching condition occurs  
             if (cart['serving_size'] == "Half"):

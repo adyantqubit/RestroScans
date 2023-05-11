@@ -17,8 +17,8 @@ Reason - To store details of menu
  # added by rohan kansari - 20/4/23
 # reason- To add validation on image , admin not able to add image more than 200kb
 # Modiefied by rohan - 21/4/23 - to Handel image resave error
-def validate_image(fieldfile_obj):
-# #    try: 
+def validate_image(fieldfile_obj): 
+# #    try:      
     try:
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
@@ -30,11 +30,13 @@ def validate_image(fieldfile_obj):
        print(filesize)
        megabyte_limit = 200
        if filesize > megabyte_limit*1024:
-        raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        # Changes by Rohan Kansari- 11/5/23 - Change validation message    
+        raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
       except:
         return     
     if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+            # Changes by Rohan Kansari- 11/5/23 - Change validation message
+            raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
    
     
 #    except: 
@@ -91,23 +93,25 @@ class Category(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied by rohan - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
    
     # end of code - rohan - 20/4/23
     
@@ -151,23 +155,25 @@ class Item(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
         
     category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='',verbose_name="Category name")
@@ -241,23 +247,25 @@ class Offer(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
     
     id = models.AutoField(primary_key=True)
@@ -304,10 +312,23 @@ class Offer(models.Model):
         verbose_name = "Banner/Offer"
         verbose_name_plural = 'a) Banner/Offer'
 
+    # Added by ROhan kansari - 11/5/23
+    #  Reason - To validate video showing if video link field is blank then dont allow to check show video 
+    def clean(self):
+        if self.video_link is None:
+           if self.show_video_Hide_Image is True:
+                raise ValidationError({
+            'show_video_Hide_Image': ValidationError("Please enter video link"),
+            }) 
+    #End of code - Rohan kansari - 11/5/23    
+          
+
 class OfferItem(models.Model):
     id = models.AutoField(primary_key=True)
     offer_name=models.ForeignKey(Offer,verbose_name="Banner/Offer Name",related_name='offer_id',on_delete=models.CASCADE)
-    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True)
+    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True ,
+                                # Added by Rohan Kansari - 11/5/23 - To correct validation message
+                                error_messages ={"unique":"This item is already exists."})
     
     def __str__(self):
         return "Offer for Items"
@@ -568,14 +589,16 @@ class Order(models.Model):
         # Added by Rohan kansari- 10/5/23
         if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
             from datetime import datetime
-            self.payment_confirmation_date_time=datetime.now() 
+            self.payment_confirmation_date_time=datetime.now().strftime('%m/%d/%Y %H:%M') 
         super().save( *args, **kwargs)
 
 
     # End of addition
 
-    def __unicode__(self):
-        return "%s" % (self.date_start.strftime('%m/%d/%Y %H:%M %p'))
+    # Removed BY rohan kansari - 11/5/23 
+    # Reason - directly assigning string date in organize way
+    # def __unicode__(self):
+    #     return "%s" % (self.payment_confirmation_date_time.strftime('%m/%d/%Y %H:%M %p'))
 
     
 
@@ -665,22 +688,25 @@ Reason - To store scanner
 class PaymentMethod(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
-    def validate_image(fieldfile_obj):
-       try: 
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-        if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        else:
-            return True
-       except: 
-           import os # new
-           from pathlib import Path
-           filesize=os.path.getsize(fieldfile_obj.file.name)
-           print(filesize)
-           megabyte_limit = 200
-           if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
     
     # modifi by- Suman sahu  On 07/05/2023
