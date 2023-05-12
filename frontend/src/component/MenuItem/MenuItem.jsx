@@ -1380,7 +1380,11 @@ function MenuItem() {
                                       // Modified and commented by Om Shrivastava on 08-05-23
                                       // Reason : Create the rupee sign globally for using the config file.
                                     // >{person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
-                                    >{person.price_full ? {rupee_sign} + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    // Modification and addition by Om Shrivastava on 12-05-23
+                                    // Reason : Show the 'object object' than I need to remove this bug
+                                    // >{person.price_full ? {rupee_sign} + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    >{person.price_full ? rupee_sign + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      {/* End of modifiacation and addition by Om Shrivastava on 12-05-23 */}
                                       {/* End of addition by Om Shrivastava on 08-05-23 */}
                                    
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
@@ -1391,7 +1395,11 @@ function MenuItem() {
                                         // Modified and commented by Om Shrivastava on 08-05-23
                                         // Reason : Create the rupee sign globally for using the config file.
                                       // >{person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
-                                      >{person.price_half ? {rupee_sign} + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      // >{person.price_half ? {rupee_sign} + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      // Modification and addition by Om Shrivastava on 12-05-23
+                                      // Reason : Show the 'object object' than I need to remove this bug
+                                      >{person.price_half ? rupee_sign + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      {/* End of modifiacation and addition by Om Shrivastava on 12-05-23 */}
                                       {/* End of addition by Om Shrivastava on 08-05-23 */}
                                   
                                   </div>
