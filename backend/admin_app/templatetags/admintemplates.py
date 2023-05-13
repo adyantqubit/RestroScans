@@ -210,3 +210,15 @@ def multiply(qty, unit_price, *args, **kwargs):
     # you would need to do any localization of the result here
     return qty * unit_price
 # End of addition by Om Shrivastava 
+
+
+# Added by ROhankansari -12/5/23
+# Reason - TO split string
+@register.filter(name='split')
+def split(value, key):
+    """
+        Returns the value turned into a list.
+    """
+    return value.split(key)
+
+# End of code Rohan kansari- 12/5/23

@@ -1445,12 +1445,17 @@ def generate_pdf_view(request, pk):
     #     sgst = subtotal * (gst_items['sgst'])
         
     total_amount = order.total    
+
+    # Added by ROhanKansari - 12/5/23 - To pass customer detail also
+    customer=CustomerDetail.objects.get(id=order.customer_id.id)
+    customerSearializer=CustomerDetailSerializer(customer)
+    
     
     template = get_template('admin/receipt.html')
-    html_string = template.render({'restaurant_settings': restaurant_settings,'restaurant_details': restaurant_details, 'order': order, 'order_items': order_details,"sub_total" : subtotal,
+    html_string = template.render({'restaurant_settings': restaurant_settings,"customer":customerSearializer.data,'restaurant_details': restaurant_details, 'order': order, 'order_items': order_details,"sub_total" : subtotal,
                                 #    'cgst' : cgst,'sgst':sgst,
                                     'total_amount': total_amount,"rate" : rate})
-
+    # End of code - ROhankansari - 12/5/23
     html = HTML(string=html_string)
     result = io.BytesIO()
     html.write_pdf(result, stylesheets=[CSS(string='@page {  size: 3.5in 8in; margin: 0; }')])

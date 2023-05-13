@@ -20,11 +20,14 @@
   }
 
   .inLineContainer {
-    min-width: 100%;
+    {% comment %} Modified by Rohan Kansari - 13/5/23 {% endcomment %}
+    max-width: 96%;
     min-height: 10px;
-    margin: 4px 4px;
+    margin: 4px 10px;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap:4px;
+    {% comment %} End of code Rohan kansari- 13/5/23 {% endcomment %}
   }
 
   .Hotellabel {
@@ -50,6 +53,17 @@
     white-space: nowrap;
     display: flex;
   }
+
+  {% comment %} Added by ROhankansari - 13/5/23 {% endcomment %}
+  .label1 {
+    min-width: 18%;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: start;
+    white-space: nowrap;
+    display: flex;
+  }
+  {% comment %} ENd of code Rohan kansari- 13/5/23 {% endcomment %}
 
   .text {
     min-width: 22%;
@@ -233,22 +247,49 @@
 
     </div> -->
 
+    {% comment %} Added and modified by ROhankansari - 12/5/23
+                  Reason - To apply new labbel {% endcomment %}
+
     <div class="inLineContainer">
       <div class = "column1">
-        <div class="label">
-          <div style = "width:90%">Date  </div>
+        <div class="label1">
+          <div style = "width:90%">Name  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.date|date:"d/m/y" }}</div>
+        <div class="text"> {% with customer.name|split:"," as skills %}
+              {{ skills.0 }}
+      {% endwith %}</div>
       </div>
 
       <div class = "column1">
         <div class="label">
-          <div style = "width:90%">Time  </div>
+          <div style = "width:90%">Contact  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.date|date:"H:i" }}</div>
+        
+        <div class="text"> {{ customer.contact_number }}</div>
       </div>
+    </div>
+
+
+    <div class="inLineContainer">
+      <div class = "column1">
+
+        <div class="label1">
+          <div style = "width:90%">Bill  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.order_id }}</div>
+      </div>
+      
+      <div class = "column1">
+        <div class="label">
+          <div style = "width:90%">Table  </div>
+          <div>:</div>
+        </div>
+        <div class="text"> {{ order.table_number }}</div>
+      </div>
+    
     </div>
 
     <!-- <div class="inLineContainer">
@@ -272,20 +313,22 @@
     </div> -->
     <div class="inLineContainer">
       <div class = "column1">
-        <div class="label">
-          <div style = "width:90%">Bill  </div>
+        <div class="label1">
+          <div style = "width:90%">Date  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.order_id }}</div>
+        <div class="text"> {{ order.payment_confirmation_date_time|slice:"0:10"}}</div>
       </div>
-
+      
+      
       <div class = "column1">
         <div class="label">
-          <div style = "width:90%">Table  </div>
+          <div style = "width:90%">Payment  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.table_number }}</div>
+        <div class="text"> {{ order.payment_mode }}</div>
       </div>
+      
     </div>
     <!-- <div class="inLineContainer">
       <div class="label">Payment </div>
@@ -295,22 +338,27 @@
     </div> -->
     <div class="inLineContainer">
       <div class = "column1">
-        <div class="label">
-          <div style = "width:90%">Payment  </div>
+        <div class="label1">
+          <div style = "width:90%">Time  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.payment_mode }}</div>
+        
+        <div class="text"> {{ order.payment_confirmation_date_time|slice:"11:18" }}</div>
       </div>
 
-      <div class = "column1">
+      {% comment %} <div class = "column1">
         <div class="label">
           <div style = "width:90%">Status  </div>
           <div>:</div>
         </div>
         <div class="text"> {{ order.payment_status }}</div>
-      </div>
+      </div> {% endcomment %}
     </div>
     <!-- End of addition -->
+
+    {% comment %} End of code addition and modification - Rohan Kansari- 12/5/23  {% endcomment %}
+
+    
     <div class="tableHeader">
       <div class="titleHeading"> Item Name</div>
       <div class="quantityHeading">Qty</div>

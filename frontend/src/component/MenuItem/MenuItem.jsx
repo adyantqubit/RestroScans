@@ -1247,7 +1247,9 @@ function MenuItem() {
                                       {/* Modified and commented by Om Shrivastava on 08-05-23
                                       Reason : Create the rupee sign globally for using the config file. */}
                                       {/* {person.price_full ? <strike> ₹ {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
-                                      {person.price_full ? <strike>{rupee_sign}  {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {person.price_full ? <strike>{rupee_sign}  {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {person.price_full>0 ? <strike>{rupee_sign}  {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                       {/* End of addition by Om Shrivastava on 08-05-23 */}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
@@ -1258,7 +1260,9 @@ function MenuItem() {
                                       {/* Modified and commented by Om Shrivastava on 08-05-23
                                       Reason : Create the rupee sign globally for using the config file. */}
                                       {/* {person.price_half ? <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
-                                      {person.price_half ? <strike> {rupee_sign}  {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {person.price_half ? <strike>{rupee_sign}  {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {person.price_half>0 ? <strike>{rupee_sign}  {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                       {/* End of addition by Om Shrivastava on 08-05-23 */}
                                     
                                     </h4> : null}
@@ -1589,7 +1593,9 @@ function MenuItem() {
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
                         // Reason : Create the rupee sign globally for using the config file. */}
                         {/* {showdata.item_fullprice ? <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
-                        {showdata.item_fullprice ? <strike> {rupee_sign} {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                        {/* {showdata.item_fullprice ? <strike>{rupee_sign} {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {showdata.item_fullprice>0 ? <strike>{rupee_sign} {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                       
                       </h4>
@@ -1601,7 +1607,9 @@ function MenuItem() {
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
                          // Reason : Create the rupee sign globally for using the config file. */}
                         {/* {showdata.item_halfprice ? <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
-                        {showdata.item_halfprice ? <strike> {rupee_sign} {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                        {/* {showdata.item_halfprice ? <strike>{rupee_sign} {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {showdata.item_halfprice>0 ? <strike>{rupee_sign} {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                       
                       </h4> : null}
@@ -1877,7 +1885,9 @@ function MenuItem() {
                                       {/* // Modified and commented by Om Shrivastava on 08-05-23
                                       // Reason : Create the rupee sign globally for using the config file. */}
                                       {/* {m.price_full ? <strike>₹ {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
-                                      {m.price_full ? <strike>{rupee_sign} {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {m.price_full ? <strike>{rupee_sign} {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {m.price_full>0 ? <strike>{rupee_sign} {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                       {/* End of addition by Om Shrivastava on 08-05-23 */}
                                     
                                     </h4>
@@ -1889,7 +1899,9 @@ function MenuItem() {
                                       {/* // Modified and commented by Om Shrivastava on 08-05-23
                                       // Reason : Create the rupee sign globally for using the config file. */}
                                       {/* {m.price_half ? <strike>₹ {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
-                                      {m.price_half ? <strike>{rupee_sign} {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {m.price_half ? <strike>{rupee_sign} {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {m.price_half>0 ? <strike>{rupee_sign} {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
                                       {/* End of addition by Om Shrivastava on 08-05-23 */}
                                     
                                     </h4> : null}
