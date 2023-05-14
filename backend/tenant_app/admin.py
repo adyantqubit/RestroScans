@@ -341,6 +341,13 @@ class SettingAdmin(admin.ModelAdmin):
         form = super(SettingAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['cgst'].widget.attrs['style'] = 'width: 13em;'
         form.base_fields['sgst'].widget.attrs['style'] = 'width: 13em;'
+        # Added by Om Shrivastava on 14-05-23
+        # Reason : To Remove the edit and add icon 
+        field = form.base_fields["app_theme"]
+        field.widget.can_add_related = False
+        field.widget.can_change_related = False
+        field.widget.can_delete_related = False
+        # End of addition by Om Shrivastava on 14-05-23
         return form
     # End of addition on :- 24-04-2023
 
