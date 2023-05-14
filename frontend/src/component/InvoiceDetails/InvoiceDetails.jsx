@@ -326,14 +326,14 @@ export default function InvoiceDetails() {
               Reason :- changes in desiging
           */}
           <div className='invoice_second_container'>
-            <div className='invoice_second_data_container'>
+          {orders?.sgst>0&&orders?.sgst>0?<div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">Subtotal : </div>
                {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className="invoice_second_sub_heading">₹ {orders.sub_total}</div> */}
               <div className="invoice_second_sub_heading"> {rupee_sign} {orders.sub_total}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
-            </div>
+            </div>:null}
 
             {/* Modified by - ROhan KAnsari - 13/5/23 to dont show cgst if it is zero*/}
             {orders?.cgst>0?<div className='invoice_second_data_container'>

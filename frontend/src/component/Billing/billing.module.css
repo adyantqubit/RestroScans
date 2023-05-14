@@ -18,7 +18,7 @@
     margin: 4px auto;
     display: flex;
     justify-content: flex-start;
-    gap:4px;
+    gap:2px;
 }
 
 
@@ -64,7 +64,9 @@
 
 /* Added by ROhanKAnsari - 11/5/23 */
 .label1{
-    min-width: 35%;
+    /* modified by Rohankansari - 14/5/23 */
+    /* Reason - To Give less space between label and text */
+    min-width: 32%;
     /* max-width: 45%; */
     /* width: inherit; */
     /* height: 50%; */
@@ -196,7 +198,7 @@
 
 .CalculationBoxContainer {
     width: 100%;
-    height: 100px;
+    height: auto;
     display: flex;
     justify-content: flex-end;
     /* padding-right: 4%; */
@@ -206,7 +208,7 @@
     width: 60%;
     margin-right: 2%;   
     margin-bottom: 2%;
-    height: 100px;
+    height: auto;
 }
 
 .TotalBox{
@@ -299,5 +301,6 @@
     font-family: 'Times New Roman';
     padding: 5px 0px 5px 0px;
     border: none;
+    border-radius: 6px;
 }
 /* End of added code */

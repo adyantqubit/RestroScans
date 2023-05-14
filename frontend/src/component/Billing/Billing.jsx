@@ -73,11 +73,11 @@ const Billing = () => {
     {/*Added by- ROhan kANsari- 11/5/23
        Reason - All modification is to align column   */}
                 {billingData.restro_number.gstin?.length>0?<div className={style.inLineContainer} style={{ textAlign: "center", margin: "3px 0" }}>
-                    <div className={style.centerLabel}>GSTIN :-{`  `}{billingData.restro_number.gstin}</div>
+                    <div className={style.centerLabel}>GSTIN :{`  `}{billingData.restro_number.gstin}</div>
                 </div>:null}
 
                 {billingData.restro_number.fssaino?.length>0?<div className={style.inLineContainer} style={{ textAlign: "center", margin: "3px 0" }}>
-                    <div className={style.centerLabel}>FSSAI NO :-{`  `}{billingData.restro_number.fssaino}</div>
+                    <div className={style.centerLabel}>FSSAI NO :{`  `}{billingData.restro_number.fssaino}</div>
                 </div>:null}
                 {/* End of code- 4/5/23 Rohan Kansari */}
                 <div className={style.breakLine} />
@@ -174,12 +174,15 @@ const Billing = () => {
                         <div className={style.quantityText}>
                             {o.quantity}
                         </div>
+                        {/* Modified by Rohan Kansari - 14/5/23
+                            Reason - To apply float format in prices */}
                         <div className={style.rateText}>
-                            {o.price / o.quantity}
+                            {(o.price / o.quantity).toFixed(2)}
                         </div>
                         <div className={style.totalText}>
-                            {o.price}
+                            {o.price.toFixed(2)}
                         </div>
+                        {/* End of code - Rohan kansari */}
                     </div>
                 )}
 
@@ -193,7 +196,8 @@ const Billing = () => {
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
                          // Reason : Create the rupee sign globally for using the config file. */}
                         {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>₹{SubtotalOfItems().toFixed(2)}</div></div> */}
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>
+                        {/* Modified by Rohan kansari - 14/5/23 - To hide if cgst and sgst */}
+                        {billingData?.detail.cgst>0&&billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>:null}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                         
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
@@ -211,7 +215,7 @@ const Billing = () => {
                          {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                         
-                        <div className={style.breakLine} style={{width:"98%"}}/>  
+                        {billingData?.detail.cgst>0&&billingData?.detail.sgst>0?<div className={style.breakLine} style={{width:"98%"}}/>:null}
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
                          // Reason : Create the rupee sign globally for using the config file. */} 
                         {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div> */}
@@ -221,7 +225,7 @@ const Billing = () => {
                     </div>
                 </div>
 
-                <div className={style.breakLine} />
+               <div className={style.breakLine} />
                 <div className={style.TotalBoxContainer} >
                     <div className={style.TotalBox}>
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
