@@ -80,8 +80,13 @@ class MenuAdmin(admin.ModelAdmin):
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
+    # Modification and addition by Om Shrivastava on 14-05-23
+    # Reason : Remove the delete field  
+    # def has_delete_permission(self, request, obj=None) :
+    #     return True 
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False 
+    # End of modification and addition by Om Shrivastava on 14-05-23   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -137,9 +142,14 @@ class CategoryAdmin(admin.ModelAdmin):
     # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
-        return True    
+        return True 
+    # Modification and addition by Om Shrivastava on 14-05-23
+    # Reason : Remove the delete field  
+    # def has_delete_permission(self, request, obj=None) :
+    #     return True 
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False 
+    # End of modification and addition by Om Shrivastava on 14-05-23  
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -306,9 +316,14 @@ class SettingAdmin(admin.ModelAdmin):
     # End of addition
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
-        return True    
+        return True
+    # Modification and addition by Om Shrivastava on 14-05-23
+    # Reason : Remove the delete field    
+    # def has_delete_permission(self, request, obj=None) :
+    #     return True  
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False 
+    # End of modification and addition by Om Shrivastava on 14-05-23   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
