@@ -334,7 +334,9 @@ export default function InvoiceDetails() {
               <div className="invoice_second_sub_heading"> {rupee_sign} {orders.sub_total}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>
-            <div className='invoice_second_data_container'>
+
+            {/* Modified by - ROhan KAnsari - 13/5/23 to dont show cgst if it is zero*/}
+            {orders?.cgst>0?<div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">CGST : </div>
               {/* Added by rohan- 14/4/23 -------------------------------- */}
               {/* Modified by rohan- 16-04-2023 -------------------------------- */}
@@ -343,17 +345,18 @@ export default function InvoiceDetails() {
               {/* <div className="invoice_second_sub_heading"> ₹ {orders.cgst}</div> */}
               <div className="invoice_second_sub_heading"> {rupee_sign} {orders.cgst}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
-            </div>
+            </div>:null}
 
             {/* Modified by rohan- 16-04-2023 -------------------------------- */}
-            <div className='invoice_second_data_container'>
+            {/* Modified by - ROhan KAnsari - 13/5/23 to dont show cgst if it is zero*/}
+           {orders?.sgst>0?<div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">SGST : </div>
               {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className="invoice_second_sub_heading"> ₹ {orders.sgst}</div> */}
               <div className="invoice_second_sub_heading"> {rupee_sign}  {orders.sgst}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
-            </div>
+            </div>:null}
             {/* End of added code on 16-04-2023 */}
 
             <div className='invoice_second_data_container'>

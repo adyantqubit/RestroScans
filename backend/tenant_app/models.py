@@ -289,7 +289,8 @@ class Offer(models.Model):
     
     # modifi by- Suman sahu  On 07/05/2023
     # reason- change django default image field character validation message
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image, validate_image_file_extension])
+    # Modified Rohan Kansari - 13/5/23 - TO allow blank true
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,blank=True,validators=[validate_image, validate_image_file_extension])
     # End of modification 07/05/2023
     
     # End of addition
@@ -319,6 +320,11 @@ class Offer(models.Model):
            if self.show_video_Hide_Image is True:
                 raise ValidationError({
             'show_video_Hide_Image': ValidationError("Please enter video link"),
+            }) 
+        # Modified Rohan Kansari - 13/5/23 - To allow img blank true and if video and image both null then raise error message  
+        if self.video_link is None and bool(self.offer_image) is False:   
+           raise ValidationError({
+            'offer_image': ValidationError("This field is required if you are not entered video link"),
             }) 
     #End of code - Rohan kansari - 11/5/23    
           

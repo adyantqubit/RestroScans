@@ -1572,7 +1572,8 @@ function MenuItem() {
                   {/* end of code - ROhan kansari - 28/4/23 */}
                   <div className="showimg_div" >
                     {/* added by rohan- 8/5/23 - for best seller shown */}
-                  {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                  {/* Modified by Rohan Kansari - 13/5/23 to solve offer page best seller */}
+                  {bestProducts?.filter(b => b.item == showdata.item_id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
                   {/* end of addition rohan- 8/5/23 */}
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"

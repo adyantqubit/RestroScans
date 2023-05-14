@@ -199,13 +199,16 @@ const Billing = () => {
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
                          // Reason : Create the rupee sign globally for using the config file. */}
                         {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.cgst).toFixed(2)}</div></div> */}
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>
+                        {/* Modified by ROhan kansari - 13/5/23 - to remove cgst if price is zero*/}
+                         {/* Modified by - ROhan KAnsari - 13/5/23 to dont show cgst if it is zero*/}
+                        {billingData?.detail.cgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>:null}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                         
                          {/* // Modified and commented by Om Shrivastava on 08-05-23
                          // Reason : Create the rupee sign globally for using the config file. */}
                         {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>₹{(billingData.detail.sgst).toFixed(2)}</div></div> */}
-                        <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>
+                          {/* Modified by - ROhan KAnsari - 13/5/23 to dont show sgst if it is zero*/}
+                         {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                         
                         <div className={style.breakLine} style={{width:"98%"}}/>  

@@ -204,6 +204,8 @@
     padding-left: 0px;
     position: absolute;
     left: -2px;
+
+    /* Modified by ROhan KAnsari - 12/5/23 */
     z-index: 2;
     /* letter-spacing: 1px; */
     /* padding: 0 2px; */
@@ -647,7 +649,8 @@
 }
 
 .searchpage_content {
-    /* height: 45%; */
+    width: 98%;
+    margin: 0 auto;
     height: auto;
     overflow: auto;
     display: block !important;

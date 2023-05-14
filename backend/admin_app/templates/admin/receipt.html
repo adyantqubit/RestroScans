@@ -256,14 +256,16 @@
           <div style = "width:90%">Name  </div>
           <div>:</div>
         </div>
-        <div class="text"> {% with customer.name|split:"," as skills %}
-              {{ skills.0 }}
-      {% endwith %}</div>
+        <div class="text">
+          {% comment %} Modified by ROhankansari - 13/5/23 {% endcomment %}
+           {{customer.last_customer_name}}
+           {% comment %} End of modification - ROhankansari - 13/5/23 {% endcomment %}
+        </div>
       </div>
 
       <div class = "column1">
         <div class="label">
-          <div style = "width:90%">Contact  </div>
+          <div style = "width:90%">Phone  </div>
           <div>:</div>
         </div>
         
@@ -284,10 +286,10 @@
       
       <div class = "column1">
         <div class="label">
-          <div style = "width:90%">Table  </div>
+          <div style = "width:90%">Payment  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.table_number }}</div>
+        <div class="text"> {{ order.payment_mode }}</div>
       </div>
     
     </div>
@@ -320,13 +322,12 @@
         <div class="text"> {{ order.payment_confirmation_date_time|slice:"0:10"}}</div>
       </div>
       
-      
       <div class = "column1">
         <div class="label">
-          <div style = "width:90%">Payment  </div>
+          <div style = "width:90%">Table  </div>
           <div>:</div>
         </div>
-        <div class="text"> {{ order.payment_mode }}</div>
+        <div class="text"> {{ order.table_number }}</div>
       </div>
       
     </div>

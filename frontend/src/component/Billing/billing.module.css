@@ -222,7 +222,7 @@
     /* background-color: black; */
     padding: 2% 2%;
     font-weight: 600;
-    width: 100%;
+    width: 60%;
     white-space: nowrap;
     display: flex;
 }
@@ -230,7 +230,7 @@
 /* End of code - 4/5/23 -Rohan Kansari */
 
 .calculationText {
-    width: 50%;
+    width: 40%;
     text-align: end;
     font-size: 12px;
     white-space: nowrap;

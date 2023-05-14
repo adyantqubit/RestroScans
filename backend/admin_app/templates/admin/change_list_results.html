@@ -27,11 +27,17 @@
                         <a href="{{ header.url_primary }}">{{ header.text|capfirst }}</a>
                     {% else %}
                         {% if header.class_attrib == ' class="action-checkbox-column"' %}
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    {{ header.text|capfirst }}
-                                </label>
-                            </div>
+                           <!-- Modification and addition by Om Shrivastava on 14-05-23 
+                            Reason : Show proper alignment of checkbox -->
+                            <!-- <div class="form-check" > -->
+                                <div style="margin-left: -7.3px; width: 30px;display: flex;justify-content: center;align-items: center;" >
+                                    <div >
+                                        <!-- <label  class="form-check-label""> -->
+                                          {{ header.text|capfirst }}
+                                        <!-- </label> -->
+                                    </div>
+                                <!-- End of addition by Om Shrivastava on 14-05-23 -->
+                                </div>
                         {% else %}
                             <span>{{ header.text|capfirst }}</span>
                         {% endif %}

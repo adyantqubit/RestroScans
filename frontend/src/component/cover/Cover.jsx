@@ -100,8 +100,11 @@ function Cover() {
                 {tenantDetails.restaurant}
               </h3>
               <img
+              // Modified by ROhankansari - 13/5/23
+              // Reason -To jump into enu page on logo click also
                 src={siteConfig.siteURL + tenantDetails.restaurant_logo}
-                className="restaurant_logo" width='2%'
+                className="restaurant_logo" width='2%' onClick={goToNext}
+              //ENd of code - Rohan kansari - 13/5/23 
               />&nbsp;
             </div>
             <div className="front_child_div">
