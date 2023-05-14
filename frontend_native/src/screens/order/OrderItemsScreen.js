@@ -325,7 +325,7 @@ export default function OrderItemsScreen({ route, navigation }) {
           <hr>
           <div class="calculationLine">
             <div class="calculationLabel">
-            ****** THANK YOU VISIT AGAIN ******
+            ******** THANK YOU VISIT AGAIN *********
             </div>
           </div>
 
@@ -815,6 +815,16 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Text style={{ marginTop: 5 }}>
               <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
             </Text>
+            {/* Addition by Om Shrivastava on 13-05-23
+            Reason : Show the all over restaurant review   */}
+              {orderDetail.review && (
+            <Text style={{ marginTop: 5 }}>
+                
+                      <Text>Review : {orderDetail.review}</Text>
+            </Text>
+
+                    )}
+            {/* End of addition by Om Shrivastava on 13-05-23 */}
             {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
           </View>
           {orderItems.length > 0 ? (
@@ -903,6 +913,8 @@ export default function OrderItemsScreen({ route, navigation }) {
             {/* End of removal */}
             {/* Added by Yuvraj Sahu on 17-4-2023
             Reason - to add cgst and sgst */}
+            {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
+            {orderDetail.cgst ? <> 
             <View style={styles.amountRow}>
               {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
@@ -913,10 +925,16 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
               {/* <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text> */}
+              
               <Text style={styles.totalPrices}>{rupee_sign} {orderDetail.cgst}</Text>
               {/* End of addition by Om Shrivastava on 08-05-23    */}
-
+              
             </View>
+            </>:null}
+            {/* End of addition by Om shrivastava on 13-05-23 */}
+
+            {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
+            {orderDetail.sgst ? <>
             <View style={styles.amountRow}>
               {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
@@ -931,6 +949,9 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* End of addition by Om Shrivastava on 08-05-23    */}
 
             </View>
+            </>:null}
+            {/* End of addition by Om shrivastava on 13-05-23 */}
+
             {/* End of addition */}
             <View style={styles.amountRow}>
               {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}

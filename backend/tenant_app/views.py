@@ -1426,7 +1426,11 @@ def generate_pdf_view(request, pk):
     restaurant_settings = Setting.objects.all().values()
     
     order = Order.objects.get(id=pk)
-    order_details = OrderItem.objects.filter(order_id = order)
+    # Modification and addition by Om Shrivastava on 13-05-23
+    # Reason : Show the order by their id
+    # order_details = OrderItem.objects.filter(order_id = order)
+    order_details = OrderItem.objects.filter(order_id = order).order_by('id')
+    # End of commented and addition by Om Shrivastava on 13-05-23
     
     rate = [] 
     for items in order_details : 
