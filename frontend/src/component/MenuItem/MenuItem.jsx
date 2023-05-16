@@ -1523,7 +1523,7 @@ function MenuItem() {
           {/* Modified by ROhankansari - 4/5/23
               Reason - To solve overlap issue with search icon */}
           <span style={{ display: 'flex', padding: '2%', fontSize: '16px',position:"relative",top:"30px" }}>
-            <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>
+            <span style={{ color: '#ffff9f', padding: '0', width: '95%' }}>
               {/* Result not found */}
             </span>
             {/* <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}

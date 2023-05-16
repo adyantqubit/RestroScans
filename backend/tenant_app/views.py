@@ -553,7 +553,8 @@ def orderCreation(tenant, request):
 
         itemsPrice.append(price)
 
-    cartData['sub_total'] = float("{:.2f}".format(sum(itemsPrice)))
+    # cartData['sub_total'] = float("{:.2f}".format(sum(itemsPrice)))
+    cartData['sub_total'] =round(float("{:.2f}".format(sum(itemsPrice))),2)
 
     tax = Setting.objects.first()
 
@@ -568,11 +569,11 @@ def orderCreation(tenant, request):
 
         # added by rohan-14/4/23 to save tax on cgst and scgt
         # cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
-        cartData['cgst'] = float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100))
-        cartData['sgst'] = float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100))
+        cartData['cgst'] =round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+        cartData['sgst'] = round(float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
         # end of addition
         a = (sum(itemsPrice)*(tax.cgst))/100+(sum(itemsPrice)*(tax.sgst))/100
-        cartData['total'] = float("{:.2f}".format((a + sum(itemsPrice))))
+        cartData['total'] = round(float("{:.2f}".format((a + sum(itemsPrice)))),2)
 
     else:
         # cartData['tax'] = 0
@@ -581,7 +582,7 @@ def orderCreation(tenant, request):
         cartData['cgst'] = 0
         cartData['sgst'] = 0
         # end of code
-        cartData['total'] = float("{:.2f}".format((sum(itemsPrice))))
+        cartData['total'] =round( float("{:.2f}".format((sum(itemsPrice)))),2)
 
     orderSerializer = OrderSerializer(data=cartData)
     order_obj = 0
@@ -884,7 +885,7 @@ class updateOrdersAPIView(APIView):
                     item.price_full * cart['quantity']/100)*float(discounted)
 
             itemsPrice.append(price)
-        orderId.sub_total = float("{:.2f}".format((sum(itemsPrice))))
+        orderId.sub_total = round(float("{:.2f}".format((sum(itemsPrice)))),2)
 
         tax = Setting.objects.first()
 
@@ -913,10 +914,10 @@ class updateOrdersAPIView(APIView):
             sgst = (sum(itemsPrice)*(tax.sgst))/100
             a = (sum(itemsPrice)*(cgst))/100 + (sum(itemsPrice)*(sgst))/100
 
-            orderId.cgst = float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100))
-            orderId.sgst = float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100))
+            orderId.cgst = round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+            orderId.sgst =round( float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
 
-            orderId.total = float("{:.2f}".format(orderId.sub_total+orderId.cgst+orderId.sgst))
+            orderId.total = round(float("{:.2f}".format(orderId.sub_total+orderId.cgst+orderId.sgst)),2)
 
             orderId.order_status = "Placed"
 
@@ -937,7 +938,7 @@ class updateOrdersAPIView(APIView):
             # tax.sgst = 0
             orderId.cgst = 0
             orderId.sgst = 0
-            orderId.total = float("{:.2f}".format(sum(itemsPrice)))
+            orderId.total =round( float("{:.2f}".format(sum(itemsPrice))),2)
 
             # End of commented code 16-04-2023
 

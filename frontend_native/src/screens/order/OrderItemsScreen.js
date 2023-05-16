@@ -157,11 +157,10 @@ export default function OrderItemsScreen({ route, navigation }) {
     return total;
   }
   function ExtractDateTime(format) {
-    var d = new Date(format);
-    var date = d.toLocaleDateString();
-    var time = d.toLocaleTimeString();
+    var date = format.substring(0, 10)
+    var time = format.substring(11, 16)
 
-    return { date, time };
+    return { date, time }
   }
   // End of addition
 
@@ -237,18 +236,24 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="inLineContainer">
               <div class="label">Date </div>
               <div class="text">
-              ${new Date(orderDetail.date)
-                .toISOString()
-                .split("T")[0]
-                .split("-")
-                .reverse()
-                .join("/")}
+              <!-- Eddited By Rohan Kansari - 12/5/23
+              Reason - To show payment confirmation time in bill --!>
+              ${ExtractDateTime(orderDetail.payment_confirmation_date_time).date}
+               ${
+                //new Date(orderDetail.date)
+              //   .toISOString()
+              //   .split("T")[0]
+              //   .split("-")
+              //   .reverse()
+              //   .join("/")
+              ``
+            }
               </div>
               <div class="label">Time  </div>
               <div class="text">  ${
-                ExtractDateTime(orderDetail.date).time
+                ExtractDateTime(orderDetail.payment_confirmation_date_time).time
               }</div>
-
+              <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
             <div class="inLineContainer">
               <div class="label">Bill   </div>
@@ -275,28 +280,30 @@ export default function OrderItemsScreen({ route, navigation }) {
           ${itemStr} 
           <hr>
           <div class='CalculationBoxContainer'>
-            <div class="calculationBox">
-              <div class="calculationLine">
+          <div class="calculationBox">
+          ${orderDetail.cgst||orderDetail.sgst? `<div class="calculationLine">
                 <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
                 <div  class="calculationText" >${rupee_sign}${SubtotalOfItems().toFixed(
                   2
                 )}</div>
-              </div>
-              <div class="calculationLine">
-                <div  class="calculationLabel" > CGST (%${(
-                  (orderDetail.cgst / SubtotalOfItems()) *
-                  100
-                ).toFixed(2)}) :</div>
-                <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
-              </div>
-              <div class="calculationLine">
+              </div>`:``}
+
+             ${orderDetail.cgst? `<div class="calculationLine">
+             <div  class="calculationLabel" > CGST (%${(
+               (orderDetail.cgst / SubtotalOfItems()) *
+               100
+             ).toFixed(2)}) :</div>
+             <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+           </div>`:''} 
+             ${orderDetail.sgst? `<div class="calculationLine">
                 <div  class="calculationLabel" > SGST (%${(
                   (orderDetail.sgst / SubtotalOfItems()) *
                   100
                 ).toFixed(2)}) :</div>
                 <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
-              </div>
-              <hr>
+              </div>`:''}
+              
+              ${orderDetail.cgst||orderDetail.sgst?`<hr>`:``}
               <div class="calculationLine">
                 <div  class="calculationLabel" > Total :</div>
                 <div  class="calculationText" >${rupee_sign}${(
@@ -325,7 +332,7 @@ export default function OrderItemsScreen({ route, navigation }) {
           <hr>
           <div class="calculationLine">
             <div class="calculationLabel">
-            ******** THANK YOU VISIT AGAIN *********
+            ****** THANK YOU VISIT AGAIN ******
             </div>
           </div>
 
@@ -457,7 +464,7 @@ export default function OrderItemsScreen({ route, navigation }) {
 }
 .CalculationBoxContainer {
   width: 100%;
-  height: 100px;
+  height: auto;
   display: flex;
   justify-content: flex-end;
 }
@@ -465,7 +472,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   width: 60%;
   margin-right: 4%;
   margin-bottom: 2%;
-  height: 100px;
+  height: auto;
 }
 .calculationLine {
   display: flex;
@@ -891,7 +898,7 @@ export default function OrderItemsScreen({ route, navigation }) {
           <View>
             {/* Modified by Yuvraj Sahu on 14-4-2023
             Reason - to show total price */}
-            <View style={styles.amountRow}>
+            {orderDetail.cgst || orderDetail.sgst? <View style={styles.amountRow}>
               {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
               <Text style={styles.totalPriceLables}>Total Price</Text>
@@ -903,7 +910,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text> */}
               <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total}</Text>
               {/* End of addition by Om shrivastava 08-05-23 */}
-            </View>
+            </View>:null}
             {/* Commented by Yuvraj Sahu on 17-4-2023
             Reason - to remove gst */}
             {/* <View style={styles.amountRow}>

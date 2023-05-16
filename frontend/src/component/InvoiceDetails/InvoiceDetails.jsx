@@ -326,12 +326,12 @@ export default function InvoiceDetails() {
               Reason :- changes in desiging
           */}
           <div className='invoice_second_container'>
-          {orders?.sgst>0&&orders?.sgst>0?<div className='invoice_second_data_container'>
+          {orders?.sgst>0||orders?.sgst>0?<div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">Subtotal : </div>
                {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className="invoice_second_sub_heading">₹ {orders.sub_total}</div> */}
-              <div className="invoice_second_sub_heading"> {rupee_sign} {orders.sub_total}</div>
+              <div className="invoice_second_sub_heading"> {rupee_sign} {orders.sub_total.toFixed(2)}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>:null}
 
@@ -343,7 +343,7 @@ export default function InvoiceDetails() {
                {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className="invoice_second_sub_heading"> ₹ {orders.cgst}</div> */}
-              <div className="invoice_second_sub_heading"> {rupee_sign} {orders.cgst}</div>
+              <div className="invoice_second_sub_heading"> {rupee_sign} {orders.cgst.toFixed(2)}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>:null}
 
@@ -354,7 +354,7 @@ export default function InvoiceDetails() {
               {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className="invoice_second_sub_heading"> ₹ {orders.sgst}</div> */}
-              <div className="invoice_second_sub_heading"> {rupee_sign}  {orders.sgst}</div>
+              <div className="invoice_second_sub_heading"> {rupee_sign}  {orders.sgst.toFixed(2)}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
             </div>:null}
             {/* End of added code on 16-04-2023 */}
@@ -366,7 +366,7 @@ export default function InvoiceDetails() {
               {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className="invoice_second_sub_heading"><b> ₹ {orders.total}</b></div> */}
-              <div className="invoice_second_sub_heading"><b>  {rupee_sign}  {orders.total}</b></div>
+              <div className="invoice_second_sub_heading"><b>  {rupee_sign}  {orders.total.toFixed(2)}</b></div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
 
               {/* End of modified code on 19-04-2023 */}

@@ -197,7 +197,7 @@ const Billing = () => {
                          // Reason : Create the rupee sign globally for using the config file. */}
                         {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>₹{SubtotalOfItems().toFixed(2)}</div></div> */}
                         {/* Modified by Rohan kansari - 14/5/23 - To hide if cgst and sgst */}
-                        {billingData?.detail.cgst>0&&billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>:null}
+                        {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>:null}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                         
                         {/* // Modified and commented by Om Shrivastava on 08-05-23

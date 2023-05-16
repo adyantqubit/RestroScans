@@ -382,8 +382,8 @@
     <div class="tableContents">
       <div class="titleText">{{ item.item_id.name }} ({{ item.serving_size }})</div>
       <div class="quantityText">{{ item.quantity }}</div>
-      <div class="rateText">{{ item.price|divide:item.quantity }}</div>
-      <div class="totalText">{{ item.price }}</div>
+      <div class="rateText">{{ item.price|divide:item.quantity|floatformat:2 }}</div>
+      <div class="totalText">{{ item.price|floatformat:2 }}</div>
     </div>
     {% endfor %}
 
@@ -392,7 +392,8 @@
 
     <div class='CalculationBoxContainer'>
       <div class="calculationBox">
-        <div class="calculationLine">
+        {% if order.cgst or order.sgst %} 
+        <div class="calculationLine">     
           <div class="calculationLabel" style="text-align:right;padding-right:10%"> Sub-Total :</div>
           <!-- Modifed and added by Om on 07-05-23
           Reason :  Show the rupees sign from using another file -->
@@ -401,6 +402,7 @@
           <!-- End of addition by Om on 07-05-23-->
             
         </div>
+        {% endif %}
         {% for settings in restaurant_settings %}
         <div class="calculationLine">
         <!-- if else condition added by Om Shrivastava on 13-05-23 -->
@@ -449,7 +451,7 @@
         {% endfor %}
       </div>
     </div>
-    <hr>
+    {% if order.cgst or order.sgst %} <hr>{% endif %}
     <div class="TotalBoxContainer">
       <!-- Modifed and added by Om on 07-05-23
       Reason :  Show the rupees sign from using another file -->

@@ -184,7 +184,7 @@ const Cart = () => {
               {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
               {/* <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.price*item.quantity}</div> */}
-              <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign}  {item.price*item.quantity}</div>
+              <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign}  {(item.price*item.quantity).toFixed(2)}</div>
               {/* End of addition by Om Shrivastava on 08-05-23 */}
 
               </div>
@@ -202,7 +202,7 @@ const Cart = () => {
         {/* // Modified and commented by Om Shrivastava on 08-05-23
         // Reason : Create the rupee sign globally for using the config file. */}
         {/* <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>₹ {itemsSubtotal()}</div></div> */}
-        <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>{rupee_sign}  {itemsSubtotal()}</div></div>
+        <div className={style.subTotal}><div className={style.label}>Sub total :</div><div className={style.text}>{rupee_sign}  {itemsSubtotal().toFixed(2)}</div></div>
         {/* End of addition by Om Shrivastava on 08-05-23 */}
         
         <div className={style.flex}>
