@@ -158,7 +158,7 @@
 
   .CalculationBoxContainer {
     width: 100%;
-    height: 100px;
+    height: auto;
     display: flex;
     justify-content: flex-end;
   }
@@ -167,7 +167,7 @@
     width: 60%;
     margin-right: 4%;
     margin-bottom: 2%;
-    height: 100px;
+    height: auto;
   }
 
   .calculationLine {
@@ -258,7 +258,14 @@
         </div>
         <div class="text">
           {% comment %} Modified by ROhankansari - 13/5/23 {% endcomment %}
+          <!-- if else condition added by Om Shrivastava 
+          Reason : When Customer name is not show there than show only "---"  -->
+          {% if customer.last_customer_name %}
            {{customer.last_customer_name}}
+           {% else %}
+           ---
+           {% endif %}
+           <!-- End of addition by Om Shrivastava on 17-05-23 -->
            {% comment %} End of modification - ROhankansari - 13/5/23 {% endcomment %}
         </div>
       </div>
@@ -446,7 +453,7 @@
         {% endif %}
         <!-- End of addition by Om on 13-05-23-->
         </div>
-        <hr>
+        {% if order.cgst or order.sgst %} <hr>{% endif %}
         <div class="calculationLine">
           <div class="calculationLabel"> Total :</div>
           <!-- Modifed and added by Om on 07-05-23
@@ -459,7 +466,7 @@
         {% endfor %}
       </div>
     </div>
-    {% if order.cgst or order.sgst %} <hr>{% endif %}
+    <hr>
     <div class="TotalBoxContainer">
       <!-- Modifed and added by Om on 07-05-23
       Reason :  Show the rupees sign from using another file -->

@@ -84,7 +84,10 @@ function MenuItem() {
     setOfferShow([])
 
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
-    // document.getElementById('hide_search').style.display = 'block'
+    // Uncommented by Om Shrivastava on 17-05-23
+    // Reason : When user click the menu than search box is enable
+    document.getElementById('hide_search').style.display = 'block'
+    // End of uncommented by Om Shrivastava on 17-05-23
     // commented by ROhan kansari- 27/4/23
     // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
@@ -121,8 +124,10 @@ function MenuItem() {
 
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
-
-    // document.getElementById('hide_search').style.display = 'none';
+    // Uncommented by Om Shrivastava on 17-05-23
+    // Reason : When user click the menu than search box is enable
+    document.getElementById('hide_search').style.display = 'none';
+    // End of uncommented by Om Shrivastava on 17-05-23
 
     setNewSearch("")
 
@@ -233,7 +238,11 @@ function MenuItem() {
   const divOfferRemove = () => {
     setOfferShow([])
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
-    // document.getElementById('hide_search').style.display = 'block'
+    // Uncommented by Om Shrivastava on 17-05-23
+    // Reason : When user click the menu than search box is enable
+    document.getElementById('hide_search').style.display = 'block'
+    // End of uncommented by Om Shrivastava on 17-05-23
+
     // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
   };
@@ -995,7 +1004,9 @@ function MenuItem() {
         {/* Commented by Rohan kansari - 27/4/23
     Reason- To shift this feature in top header  */}
 
-        <div id="hide_search"
+      {/* Id commented by Om Shrivastava on 17-05-23 because it's not use  */}
+        <div
+        //  id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
           style={{ background: "transparent"}}
         >
@@ -1044,7 +1055,8 @@ function MenuItem() {
 
         {/* End of added code 03-0-2023 */}
 
-        <div className='searchpage_input'>
+        {/* Id and style use by Om Shrivastava on 17-05-23 */}
+        <div className='searchpage_input' id="hide_search" style={{display:'block'}}>
         {/* <Input.Group >
               <Search size='large' 
                 // value={search}
@@ -1350,7 +1362,17 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
-                                      {person.description}
+                                      {/* Added by Om Shrivastava on 17-05-23
+                                      Reason : Add show more show less functionality in search section */}
+                                      {/* {person.description} */}
+                                      <ReactReadMoreReadLess
+                                        charLimit={55}
+                                        readMoreText={"more"}
+                                        readLessText={"less"}
+                                      >
+                                        {person.description && person.description.length > 0 ? person.description : "  "}
+                                      </ReactReadMoreReadLess>
+                                      {/* End of addition by Om Shrivastava on 17-05-23 */}
                                     </span>
                                   </div>
 
@@ -1528,7 +1550,10 @@ function MenuItem() {
         >
           {/* Modified by ROhankansari - 4/5/23
               Reason - To solve overlap issue with search icon */}
-          <span style={{ display: 'flex', padding: '2%', fontSize: '16px',position:"relative",top:"30px" }}>
+              {/* Css changes by Om Shrivastava on 17-05-23 */}
+          <span style={{ display: 'flex', padding: '1%', fontSize: '16px',position:"relative"
+          // ,top:"30px"
+           }}>
             <span style={{ color: '#ffff9f', padding: '0', width: '95%' }}>
               {/* Result not found */}
             </span>
@@ -1536,11 +1561,12 @@ function MenuItem() {
                       onClick=
                       {removeSerchResult}
                     /> */}
-            <img onClick={divOfferRemove} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" />
+                    {/* Image commened by Om on 17-05-23 because its not show inside div */}
+            {/* <img onClick={divOfferRemove} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" /> */}
 
           </span>
-
-          <span className="allcategory_container">
+          {/* Styling added by Om on 17-05-23 */}
+          <span className="allcategory_container" style={{ display:'flex',justifyContent:'space-between'}}>
             <span style={{
               color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
               borderRadius: '6px',
@@ -1552,6 +1578,9 @@ function MenuItem() {
                               padding: '1px 8px', }} className="category_name"
             >{offer_discount}%
             </span> */}
+            {/* Image added by Om on 17-05-23 */}
+            <img onClick={divOfferRemove} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%',marginRight:"2%" }} alt="jhk" />
+
           </span>
           <div style={{
             display: 'flex',

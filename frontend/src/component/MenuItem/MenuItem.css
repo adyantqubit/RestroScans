@@ -344,6 +344,9 @@
 .searchpage_main {
     padding: 1%;
     display: flex;
+    /* Added by Om Shrivastava on 17-05-23 */
+    justify-content: flex-end;
+    /* End of addition by Om Shrivastava on 17-05-23 */
     position: sticky;
     top: 0px;
     min-height: 20px;
@@ -379,6 +382,10 @@
 
     /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
     display: flex;
+    /* Added by Om Shrivastava on 17-05-23 */
+    justify-content: flex-end;
+    padding: 6px 5px 0px 0px;
+    /* End of addition by Om Shrivastava on 17-05-23 */
     /* End of added code 05-04-2023 */
 }
 
@@ -808,7 +815,7 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     /* Added by Om Shrivastava on 15-05-23
     Reason : Add z-index property to fix the bestseller alignment; */
     /* Commented by Om on 17-05-23 */
-    /* z-index: 99999; */ 
+    z-index: 99; 
     /* End of addition by Om Shrivastava on 15-05-23 */
 }
 
@@ -1357,3 +1364,9 @@ a.ant-notification-notice-close {
 }
 
 /* End dof code addition - Rohan knasari - 10/5/23 */
+
+/* Added by Om Shrivastava on 17-05-23 */
+.floating-whatsapp-notification{
+    display: none !important;
+}
+/* End of addition by Om Shrivastava on 17-05-23 */

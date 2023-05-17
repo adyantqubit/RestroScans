@@ -792,7 +792,11 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* Modify by- Suman sahu  On 30/04/2023
                   Reason- show only latest name on the order details */}
               {/* <Text>Name</Text> : {customerDetail.name} */}
-              <Text>Name</Text> : {customerDetail.last_customer_name}
+              {/* Modification and addition by Om Shrivastava on 17-05-23
+              Reason : When customer name is not show than show the "---" */}
+              {/* <Text>Name</Text> : {customerDetail.last_customer_name} */}
+              <Text>Name</Text> : {customerDetail.last_customer_name  !=undefined && customerDetail.last_customer_name  !=null && customerDetail.last_customer_name.length>0 ?customerDetail.last_customer_name:"---" }
+              {/* End of modification and addition by Om Shrivastava on 17-05-23 */}
               {/* End of modification 30/04/2023 */}
             </Text>
             {customerDetail.email && (
