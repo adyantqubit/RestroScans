@@ -141,7 +141,7 @@
   .rateText {
     font-size: 10px;
     width: 30%;
-    padding: 2% 2%;
+    padding: 2% 0% 2% 0%;
     font-weight: 600;
     text-align: end;
     white-space: nowrap;
@@ -150,7 +150,7 @@
   .totalText {
     font-size: 10px;
     width: 30%;
-    padding: 2% 2%;
+    padding: 2% 0% 2% 0%;
     font-weight: 600;
     text-align: end;
     white-space: nowrap;
@@ -382,8 +382,16 @@
     <div class="tableContents">
       <div class="titleText">{{ item.item_id.name }} ({{ item.serving_size }})</div>
       <div class="quantityText">{{ item.quantity }}</div>
+      <!-- Modification and addition by Om Shrivastava on 15-05-23
+      Reason: Need to show the two zeros of rate and quantity -->
+      <!-- <div class="rateText">{{ item.price|divide:item.quantity }}</div> -->
       <div class="rateText">{{ item.price|divide:item.quantity|floatformat:2 }}</div>
+      <!-- End of modification and addition by Om Shrivastava on 15-05-23 -->
+       <!-- Modification and addition by Om Shrivastava on 15-05-23
+      Reason: Need to show the two zeros of rate and quantity -->
+      <!-- <div class="totalText">{{ item.price }}</div> -->
       <div class="totalText">{{ item.price|floatformat:2 }}</div>
+      <!-- End of modification and addition by Om Shrivastava on 15-05-23 -->
     </div>
     {% endfor %}
 

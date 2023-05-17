@@ -301,7 +301,15 @@ Reason - To store App theme on react native app
 class AppTheme(models.Model):
     id = models.AutoField(primary_key=True)
     background_color =models.CharField(max_length=20,null=True,blank=True)
+    # Added by Om shrivastava on 15-05-23
+    # Reason : show the name of background color
+    background_color_label =models.CharField(max_length=20,default='')
+    # End of addition by Om Shrivastava on 15-05-23
     heading_color =models.CharField(max_length=20,null=True,blank=True)
+    # Added by Om shrivastava on 15-05-23
+    # Reason : show the name of background color
+    heading_color_label =models.CharField(max_length=20,default='')
+    # End of addition by Om Shrivastava on 15-05-23
     subheading_color =models.CharField(max_length=20,null=True,blank=True)
     banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
     heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
@@ -311,7 +319,7 @@ class AppTheme(models.Model):
     card_color=models.CharField(max_length=20,null=True,blank=True)
     
     def __str__(self):
-        return "Background Color: "+self.background_color+" | Heading Color: "+self.heading_color
+        return "Background Color: "+self.background_color_label+" | Heading Color: "+self.heading_color_label
 
 """
 End of code addition

@@ -418,7 +418,11 @@ class Setting(models.Model):
     #reason - not wsetting gst and fssai no mandatory
     #gstin=models.CharField(max_length=50,default="",verbose_name="GstIn")
     #fssaino=models.CharField(max_length=50,default="",verbose_name="FSSAI NO")
-    gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GstIn")
+    # Modified and added by Om Shrivastava on 15-05-23
+    # Reason : Captiliase the verbose name of GstIn
+    # gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GstIn")
+    gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GSTIN")
+    # End of modification and addition by Om Shrivastava on 15-05-23
     fssaino=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="FSSAI NO")
     #end of code modification by rohan kansari -on 16/4/23
     # End of added code 08-04-2023
@@ -504,7 +508,11 @@ class CustomerDetail(models.Model):
     last_customer_name = models.CharField(max_length=255, null=True, blank=True)
     # Added by Yuvraj Sahu on 05-05-2023
     # Reason - to save latest email id of customer
-    last_email = models.EmailField(_('email address'), null=True, blank=True)
+    # Modified and added by Om Shrivastava on 15-05-23
+    # Reason : Change the verbose name of email to last email
+    # last_email = models.EmailField(_('email address'), null=True, blank=True)
+    last_email = models.EmailField(_('Last email address'), null=True, blank=True)
+    # End of modification and addition by Om Shrivastava on 15-05-23
     # End of addition by Yuvraj Sahu on 05-05-2023
     
     # End of Commented code 17-04-2023
