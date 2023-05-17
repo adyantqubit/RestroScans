@@ -359,6 +359,9 @@ function MenuItem() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
+    // Added by Om Shrivastava on 17-05-23
+    document.getElementById('hide_search').style.display = 'block';
+    // End of addition by 17-05-023
   };
   const handleOk = () => {
     setIsModalOpen(false);
