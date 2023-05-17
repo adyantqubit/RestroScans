@@ -177,7 +177,7 @@ function ContactUs() {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Name"
+                  placeholder="* Name"
                 />
                 <p id="errName" className="contactus_error_msg"></p>
               </div>
@@ -192,7 +192,7 @@ function ContactUs() {
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="Email"
+                  placeholder="* Email"
                 />
                 <p id="errEmail" className="contactus_error_msg"></p>
               </div>
@@ -207,7 +207,7 @@ function ContactUs() {
                   type="text"
                   name="mobile_number"
                   id="mobile_number"
-                  placeholder="Mobile Number"
+                  placeholder="* Mobile Number"
                 />
                 <p id="errMobileNumber" className="contactus_error_msg"></p>
               </div>
@@ -220,7 +220,7 @@ function ContactUs() {
                 type="text"
                 name="query"
                 id="query"
-                placeholder="Your queries"
+                placeholder="* Your queries"
               />
               <p id="errQuery" className="contactus_error_msg"></p>
             </div>

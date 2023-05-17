@@ -101,7 +101,7 @@ function RestroScans() {
                   className="input_box"
                   type="text"
                   name="owner_name"
-                  placeholder="Owner Name"
+                  placeholder="* Owner Name"
                 />
                 <p id="ownerName" className="restroscans_error_msg"></p>
               </div>
@@ -112,7 +112,7 @@ function RestroScans() {
                   className="input_box"
                   type="text"
                   name="restaurant_name"
-                  placeholder="Restaurant Name"
+                  placeholder="* Restaurant Name"
                 />
                 <p id="restaurant_name" className="restroscans_error_msg"></p>
               </div>
@@ -123,7 +123,7 @@ function RestroScans() {
                   className="input_box"
                   type="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder="* Email"
                 />
                 <p id="email" className="restroscans_error_msg"></p>
               </div>
@@ -134,7 +134,7 @@ function RestroScans() {
                   className="input_box"
                   type="text"
                   name="mobile_number"
-                  placeholder="Mobile Number"
+                  placeholder="* Mobile Number"
                   maxLength={10}
                 />
                 <p id="mobile_number" className="restroscans_error_msg"></p>

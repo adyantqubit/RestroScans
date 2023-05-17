@@ -129,3 +129,19 @@ class RestaurentPatnersSerializer(serializers.ModelSerializer):
 """
 End of code addition 19-04-2023
 """
+
+"""
+Added by - Suman Sahu on 17/05/2023
+Reason - To serialize PricingPlans modals data
+"""
+
+
+class PricingPlansSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PricingPlans
+        fields = "__all__"
+
+
+"""
+End of code addition by- Suman Sahu on 17/05/2023
+"""

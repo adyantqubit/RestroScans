@@ -3,7 +3,7 @@
 
 import React from "react";
 import "./aboutus.css";
-import Scanner from "../images/sss.jpg";
+import Scanner from "../images/scanner4.jpg";
 
 function AboutUs() {
   return (
@@ -141,6 +141,24 @@ function AboutUs() {
               <li>E-Commerce</li>
             </ul>
           </div>
+        </div>
+      </div>
+
+      <div className="success_story_div">
+        <div className="success_story_heading_div">
+          <h2 className="success_story_heading">Success Story</h2>
+        </div>
+        <div className="success_story_content_div">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
+            voluptatum cum impedit eaque! Blanditiis, perferendis reiciendis!
+            Dolores hic adipisci, fugit vero quis cumque, soluta beatae,
+            repellat explicabo ipsa exercitationem molestiae.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
+            voluptatum cum impedit eaque! Blanditiis, perferendis reiciendis!
+            Dolores hic adipisci, fugit vero quis cumque, soluta beatae,
+            repellat explicabo ipsa exercitationem molestiae.
+          </p>
         </div>
       </div>
     </>

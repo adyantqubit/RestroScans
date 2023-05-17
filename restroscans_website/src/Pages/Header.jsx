@@ -15,7 +15,7 @@ import {
   faIndianRupeeSign,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
-import RestroscansLogo from "../images/res1.png";
+import RestroscansLogo from "../images/logo3.png";
 
 function Header({ isOpen, setIsOpen }) {
   // Added by:- Suman sahu  Date:- 07/04/2023
@@ -34,6 +34,19 @@ function Header({ isOpen, setIsOpen }) {
   // End of added code by-Suman sahu 07/04/2023
 
   const navigate = useNavigate();
+
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   var header = document.getElementById("link");
+  //   var btns = header.getElementsByClassName("header_links");
+  //   for (var i = 0; i < btns.length; i++) {
+  //     btns[i].addEventListener("click", function() {
+  //     var current = document.getElementsByClassName("active");
+  //     current[0].className = current[0].className.replace(" active", "");
+  //     this.className += " active";
+  //     });
+  //   }
+  // });
+
 
   return (
     <>
@@ -66,13 +79,13 @@ function Header({ isOpen, setIsOpen }) {
           Get Restroscans
         </button>
 
-        <div className="links_div">
+        <div className="links_div" id="link">
           <div
             className={isOpen == true ? "menu_open_second" : "menu_open_first"}
           >
             <li>
               <FontAwesomeIcon icon={faHouse} className="header_link_icons" />
-              <Link className="header_links" to="/" onClick={menuClose}>
+              <Link className="header_links active" to="/" onClick={menuClose}>
                 Home
               </Link>
             </li>

@@ -1,9 +1,15 @@
+/* Created by:- Suman sahu  Date:- 05/04/2023
+Reason:- Create css for aboutus.jsx */
+
 .Pricing_main_container {
   margin: auto;
   padding-top: 3rem;
-  padding-bottom: 3rem;
   width: 100%;
   display: block;
+  background: url("../images/m1.png");
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .pricing_main_heading {
   font-size: 3rem;
@@ -16,49 +22,110 @@
   color: var(--primary-headingColor);
 }
 .pricings {
-  width:60%;
+  width: 60%;
   height: 70vh;
   justify-content: center;
-  border: 0.1rem solid rgb(132, 129, 129);
+  border: 0.1rem solid rgb(36, 36, 36);
   border-radius: 1rem;
   margin-bottom: 1rem;
-  margin-top: 3rem;
+  margin-top: 1rem;
+  box-shadow: 1px 1px 8px black;
 }
-
-.pricing_contents_div{
+.pricing_contents{
+  display: block;
+}
+.pricing_contents_div {
   padding-top: 3rem;
+  padding-bottom: 20rem;
+  padding: 3rem 5rem 20rem 5rem;
+  height: 100%;
+  /* display: block; */
 }
-.content_left_div{
+.content_left_div {
   float: left;
-  width: 50%;
+  width: 40%;
+  height: 100%;
 }
-.items_logo{
-  width: 50%;
-  height: 50%;
+.pricing_items_logo {
+  width: 100px;
+  height: 100px;
+  margin: auto;
 }
-.items_title{
+.items_title {
   font-size: 24px;
-  font-weight: normal;
-  font-family: "Quicksand";
+  font-weight: bold;
+  font-family: var(--descriptions-textFontFamily);
   color: #373737;
-  line-height: 1.3;
+
 }
-.content_right_div{
+.content_right_div {
   display: flex;
   flex-wrap: wrap;
   float: right;
-  width: 50%;
+  width: 60%;
+  height: 100%;
 }
-.items_description{
+.rowContainer{
+  display: flex;
+  justify-content: space-between;
+}
+.items_description {
   font-size: 1.3rem;
-  height: 4vh;
+  height: 2vh;
   width: fit-content;
-  border: 3px solid rgb(69, 68, 68);
+  border: 1px solid rgb(69, 68, 68);
   border-radius: 5rem;
-  padding: .2rem 4rem;
-  margin: .5rem .5rem;
-  color: rgb(24, 91, 114);
+  padding: 0.4rem 2rem;
+  margin: 0.5rem 0.5rem;
+  color: aliceblue;
   font-weight: 500;
+  font-family: var(--descriptions-textFontFamily);
+  background-image: radial-gradient(circle, #949616 10%, #697206 100%);
+  box-shadow: 1px 1px 4px 1px gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 1200px) {
+  .pricings {
+    width: 80%;
+    height: 70vh;
+  }
+}
+@media (max-width: 1024px) {
+  .pricings {
+    width: 90%;
+    height: 75vh;
+  }
+}
+@media (max-width: 900px) {
+  .pricings {
+    width: 90%;
+    height: 70vh;
+  }
+}
+@media (max-width: 764px) {
+  .pricings {
+    width: 90%;
+  }
+  .pricing_contents_div {
+    padding: 3rem 2rem 20rem 5rem;
+    margin-bottom: 5rem;
+  }
+  .content_left_div {
+    width: 100%;
+  }
+  .content_right_div {
+    width: 100%;
+  }
+  .items_title {
+    margin: 0;
+  }
+}
+@media (max-width: 532px) {
+  .pricing_contents_div {
+    margin-bottom: 10rem;
+  }
 }
 @media (max-width: 500px) {
   .Pricing_main_container {
@@ -70,7 +137,6 @@
   }
   .pricing_main_heading {
     font-size: 3rem;
-    color: rgb(122, 38, 38);
     font-weight: 800;
     text-align: center;
   }
@@ -83,9 +149,30 @@
     margin-bottom: 1rem;
   }
 }
-
+@media (max-width: 475px) {
+  .pricing_contents_div {
+    margin-bottom: 15rem;
+  }
+}
 @media (max-width: 400px) {
   .pricings {
     height: 40vh;
   }
+}
+/* End of created code by-Suman sahu On  05/04/2023 */
+
+.pricing_container{
+display: flex;
+align-items: center;
+width: 70%;
+margin: auto;
+margin-bottom: 1rem;
+}
+.left_pricing_container{
+  width: 40%;
+}
+.right_pricing_container{
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
 }

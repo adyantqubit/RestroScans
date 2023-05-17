@@ -441,5 +441,24 @@ class ContactUsRequest(models.Model):
 
 
 """
-End of code addition 13-04-2023
+End of code addition 14-04-2023
+"""
+
+"""
+Added by - Suman Sahu on 17-05-2023
+Reason - Create for Show pricing plans on home page 
+"""
+
+
+class PricingPlans(models.Model):
+    pricing_logo = models.ImageField(upload_to="images/app_setting/", blank=True, null=True)
+    pricing_title = models.CharField(max_length=50,null=True, blank=True)
+    content = RichTextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.pricing_title
+
+
+"""
+End of code addition by- Suman sahu On 17-05-2023
 """

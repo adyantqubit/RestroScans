@@ -24,30 +24,38 @@ function Gallery() {
 
   return (
     <>
-    <div>
-      <div className="gallary_first_section">
-        <div className="top_image">
-          <div className="gallery_container"></div>
-          <div class="bg_text">
-            {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
+      <div>
+        <div className="gallary_first_section">
+          <div className="top_image">
+            <div className="gallery_container"></div>
+            <div class="bg_text">
+              {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
+            </div>
           </div>
         </div>
-      </div>
 
-      {galleryData != null && galleryData.length > 0 ? (
-        <div className="gallery_img_div">
-          {galleryData.map((item) => (
-            <div>
-              <img
-                src={config.staticBaseURL + item.gallery}
-                className="gallery_images"
-              />
-              <p className="gallery_bottom_text">{item.title}</p>
+        {galleryData != null && galleryData.length > 0 ? (
+          <div className="main">
+            <div className="gallery_img_div_1">
+              {galleryData.map((item) => (
+                <div className="gallery_image_div_2">
+                  <img
+                    src={config.staticBaseURL + item.gallery}
+                    className="gallery_images"
+                  />
+                  <p className="gallery_bottom_text">{item.title}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : null}
-    </div>
+          </div>
+        ) : null}
+
+        {/* <div className="customer_feedback_div">
+          <div className="gallery_heading_div">
+            <h2 className="customer_feedback_heading">Story & Customer Feedback</h2>
+          </div>
+        </div> */}
+      </div>
     </>
   );
 }

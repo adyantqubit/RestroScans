@@ -4,7 +4,9 @@ Reason:- Create css for Header.jsx */
 @import "../root.css";
 
 .header_main_div {
-  background-color: rgb(161, 191, 213);
+  /* background-color: rgb(161, 191, 213); */
+  /* background-image: linear-gradient(89.98deg,rgb(225, 233, 238) .39%,rgb(202, 222, 237) 39%,rgb(161, 191, 213) 99.99%);; */
+  background: white;
   position: fixed;
   z-index: 9999;
   width: 100%;
@@ -15,18 +17,16 @@ Reason:- Create css for Header.jsx */
   float: left;
 }
 .header_restroscans_logo {
-  height: 55px;
-  width: 65px;
+  height: 60px;
+  width: 100px;
 }
 .logo_link {
-  /* line-height: 3.5rem; */
   padding-left: 2rem;
   text-decoration: none;
 }
 .header_restroscan_link {
   font-size: 1.4rem;
   color: black;
-  font-family: sans-serif;
 }
 .links_div {
   line-height: 6vh;
@@ -35,17 +35,23 @@ Reason:- Create css for Header.jsx */
   margin-top: 0.3rem;
 }
 .header_links {
-  font-family: sans-serif;
-  font-size: 1.2rem;
+  font-family: cursive;
+  font-size: 1.3rem;
   color: black;
   font-weight: 500;
   padding: 0.7rem 1.3rem;
   cursor: pointer;
   text-decoration: none;
 }
+/* .active, */
 .header_links:hover {
   border-bottom: 3px solid transparent;
-  border-image: linear-gradient(89.98deg,#a55361 .39%,#427e94 39%,#a55361  99.99%);;
+  border-image: linear-gradient(
+    89.98deg,
+    #a55361 0.39%,
+    #427e94 39%,
+    #a55361 99.99%
+  );
   border-image-slice: 1;
   color: #a24353;
 }
@@ -57,31 +63,21 @@ Reason:- Create css for Header.jsx */
   border: 2px;
   width: 12vw;
   font-size: 1rem;
-  color: rgb(221, 223, 225);
+  color: black;
   font-weight: bold;
   height: 3rem;
   border-radius: 3rem;
-
-  background-image: radial-gradient(
-    circle,
-    rgb(70, 130, 151) 50%,
-    rgb(24, 91, 114) 100%
-  );
+  background-image: radial-gradient(circle, #bdc007 50%, #909e00 100%);
   border-radius: 2rem 0;
   box-shadow: 0px 0px 4px black;
   cursor: pointer;
   margin-right: 3rem;
-  /* margin-top: 0.5rem; */
-  padding-right: 1rem;
+  font-family: var(--primary-buttonFontFamily);
 }
 
 .header_btn:hover {
-  background-image: radial-gradient(
-    circle,
-    rgb(217, 187, 187) 10%,
-    rgb(194, 162, 162) 100%
-  );
-  color: black;
+  background-image: radial-gradient(circle, #a6a90b 10%, #697206 100%);
+  color: white;
 }
 
 .header_menu {
@@ -95,7 +91,6 @@ Reason:- Create css for Header.jsx */
   margin-right: 3rem;
   display: flex;
   list-style: none;
-  /* line-height: 4; */
 }
 #features_link,
 #pricing_link {
@@ -118,23 +113,21 @@ Reason:- Create css for Header.jsx */
 @media (max-width: 1200px) {
   .header_btn {
     height: 2.5rem;
-  }
-  .header_restroscans_logo {
-    height: 9vh;
+    margin-top: 0.3rem;
+    width: auto;
   }
 }
 @media (max-width: 1024px) {
   .logo_link {
     padding-left: 1rem;
   }
-  .header_restroscans_logo {
-    height: 8vh;
-    width: 7vw;
+  .header_links {
+    font-size: 1.2rem;
   }
 }
 @media (max-width: 900px) {
   html {
-    font-size: 80%;
+    font-size: 90%;
   }
   .side_bar_icon {
     font-size: 2rem;
@@ -145,10 +138,6 @@ Reason:- Create css for Header.jsx */
     float: left;
     margin-left: 1rem;
     cursor: pointer;
-  }
-  .header_restroscans_logo {
-    height: 8.5vh;
-    width: 8vw;
   }
   .header_icons {
     display: inline-block;
@@ -161,27 +150,21 @@ Reason:- Create css for Header.jsx */
     /* float: revert; */
     margin-top: 4.8rem;
     justify-content: center;
-    /* background-color: rgb(20, 19, 19); */
-    background-color: rgba(225, 239, 254, 1);
-    box-shadow: 0px 15px 10px -15px #111;  
+    background: white;
+    box-shadow: 0px 15px 10px -15px #111;
   }
-  .links_div:hover{
+  .links_div:hover {
     scroll-behavior: unset;
   }
-  /* .menu_open_second li {
-    margin: 3rem 0;
-  } */
   .menu_open_second {
     top: auto;
     transition: all 0.5s;
     list-style: none;
-    /* height: 60vh; */
   }
   .menu_open_first {
     display: none;
   }
   .header_links {
-    /* color: whitesmoke; */
     font-size: 1.2rem;
     font-family: sans-serif;
   }
@@ -195,31 +178,24 @@ Reason:- Create css for Header.jsx */
     justify-content: center;
     align-items: center;
     border: 2px;
-    width: fit-content;
     font-size: 1rem;
     font-weight: bold;
-    height: 3rem;
+    height: 2.5rem;
     border-radius: 3rem;
 
-    background-image: radial-gradient(
-      circle,
-      rgb(70, 130, 151) 50%,
-      rgb(24, 91, 114) 100%
-    );
+    background-image: radial-gradient(circle, #bdc007 50%, #909e00 100%);
     border-radius: 2rem 0;
     box-shadow: 0px 0px 8px black;
     cursor: pointer;
     margin-right: 5rem;
     margin-top: 1rem;
-    padding-right: 1rem;
-    color: rgb(221, 223, 225);
+    padding: 0 1.5rem;
+    color: black;
+    font-family: var(--primary-buttonFontFamily);
   }
   .header_btn_responsive:hover {
-    background-image: radial-gradient(
-      circle,
-      rgb(183, 111, 111) 10%,
-      rgb(160, 95, 95) 100%
-    );
+    background-image: radial-gradient(circle, #a6a90b 10%, #697206 100%);
+    color: white;
   }
   .header_link_icons {
     display: inline-block;
@@ -232,27 +208,13 @@ Reason:- Create css for Header.jsx */
     height: 2.5rem;
     margin-top: 1rem;
   }
-  .header_restroscans_logo {
-    height: 8vh;
-    width: 8.5vw;
-  }
   .links_div {
     margin-top: 4.5rem;
-  }
-}
-@media (max-width: 600px) {
-  .header_restroscans_logo {
-    height: 8vh;
-    width: 10.5vw;
   }
 }
 @media (max-width: 500px) {
   .header_menu {
     margin-left: 0.5rem;
-  }
-  .header_restroscans_logo {
-    height: 7.5vh;
-    width: 13.5vw;
   }
   .logo_link {
     padding-left: 0;
@@ -271,8 +233,6 @@ Reason:- Create css for Header.jsx */
     height: 2.5rem;
   }
   .links_div {
-    /* width: 27vw; */
-    /* line-height: 3vh; */
     margin-top: 4rem;
   }
   .header_links {
@@ -289,12 +249,7 @@ Reason:- Create css for Header.jsx */
 }
 @media (max-width: 400px) {
   .header_btn_responsive {
-    height: 2rem;
     margin-right: 1rem;
-  }
-  .header_restroscans_logo {
-    height: 7vh;
-    width: 15.5vw;
   }
 }
 @media (max-width: 321px) {
