@@ -215,7 +215,7 @@ const Billing = () => {
                          {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                         
-                        {billingData?.detail.cgst>0&&billingData?.detail.sgst>0?<div className={style.breakLine} style={{width:"98%"}}/>:null}
+                        {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.breakLine} style={{width:"98%"}}/>:null}
                         {/* // Modified and commented by Om Shrivastava on 08-05-23
                          // Reason : Create the rupee sign globally for using the config file. */} 
                         {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>₹{(SubtotalOfItems()+billingData.detail.cgst+billingData.detail.sgst).toFixed(2)}</div></div> */}

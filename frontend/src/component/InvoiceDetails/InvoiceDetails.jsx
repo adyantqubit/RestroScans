@@ -326,7 +326,7 @@ export default function InvoiceDetails() {
               Reason :- changes in desiging
           */}
           <div className='invoice_second_container'>
-          {orders?.sgst>0||orders?.sgst>0?<div className='invoice_second_data_container'>
+          {orders?.cgst>0||orders?.sgst>0?<div className='invoice_second_data_container'>
               <div className="invoice_sub_heading">Subtotal : </div>
                {/* // Modified and commented by Om Shrivastava on 08-05-23
               // Reason : Create the rupee sign globally for using the config file. */}
