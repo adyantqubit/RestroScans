@@ -69,7 +69,7 @@ export default function RestaurantRegistrationScreen({
      */
     // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
     const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
-    alert(result.assets[0].fileSize)
+    // alert(result.assets[0].fileSize)
     /**
      * End of comment by Yuvraj Sahu on 05-05-2023
      */
@@ -211,7 +211,7 @@ export default function RestaurantRegistrationScreen({
     var formData = new FormData();
     if (restaurant_logo != null) {
       const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
-      formData.append("icon", {
+      formData.append("restaurant_logo", {
         uri: restaurant_logo,
         name: restaurant_logo,
         type: `image/${ext}`,
@@ -221,7 +221,7 @@ export default function RestaurantRegistrationScreen({
       const ext = tempPhoto.uri.substring(
         backgroundPhoto.uri.lastIndexOf(".") + 1
       );
-      formData.append("icon", {
+      formData.append("restaurant_background_img", {
         uri: backImage,
         name: backImage,
         type: `image/${ext}`,
