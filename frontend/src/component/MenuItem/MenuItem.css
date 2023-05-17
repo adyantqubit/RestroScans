@@ -804,8 +804,11 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     /* height: 13%; */
     text-align: center;
     align-items: center;
-    z-index:99999;
     /* max-height: 20%; */
+    /* Added by Om Shrivastava on 15-05-23
+    Reason : Add z-index property to fix the bestseller alignment; */
+    z-index: 99999;
+    /* End of addition by Om Shrivastava on 15-05-23 */
 }
 
 

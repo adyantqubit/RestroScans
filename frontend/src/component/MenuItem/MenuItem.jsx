@@ -887,6 +887,12 @@ function MenuItem() {
 
               // Added by Rohan Kansari- 8/5/23
               // Reason - To handle video in banner
+
+              // Added by Om Shrivastava on 15-05-23
+              // Reason : When user change the slide than video is stop automatically
+              onSlideChange={e => { var key= Object.keys(playVideo); setVideo({[key[0]]:false})}}
+              // End of addition by Om Shrivastava on 15-05-23
+              
               onNavigationPrev={e => {var key= Object.keys(playVideo); setVideo({[key[0]]:false}) }}
               onNavigationNext={e => { var key= Object.keys(playVideo); setVideo({[key[0]]:false})}}
               // End of code - Rohan kansari- 8/5/23
