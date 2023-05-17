@@ -807,7 +807,8 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     /* max-height: 20%; */
     /* Added by Om Shrivastava on 15-05-23
     Reason : Add z-index property to fix the bestseller alignment; */
-    z-index: 99999;
+    /* Commented by Om on 17-05-23 */
+    /* z-index: 99999; */ 
     /* End of addition by Om Shrivastava on 15-05-23 */
 }
 
