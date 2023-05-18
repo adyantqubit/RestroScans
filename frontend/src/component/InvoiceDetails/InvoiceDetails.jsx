@@ -258,7 +258,7 @@ export default function InvoiceDetails() {
                      {/* // Modified and commented by Om Shrivastava on 08-05-23
                     // Reason : Create the rupee sign globally for using the config file. */}
                     {/* <span className="invoice_total_rating_sub_heading"> ₹ {items.price}</span> */}
-                    <span className="invoice_total_rating_sub_heading"> {rupee_sign} {items.price}</span>
+                    <span className="invoice_total_rating_sub_heading"> {rupee_sign} {items.price.toFixed(2)}</span>
                     {/* End of addition by Om Shrivastava on 08-05-23 */}
                     {/* End of modified code on 21-04-2023 */}
                   </div>

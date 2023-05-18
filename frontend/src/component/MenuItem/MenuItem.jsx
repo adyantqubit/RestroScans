@@ -1059,7 +1059,14 @@ function MenuItem() {
         {/* End of added code 03-0-2023 */}
 
         {/* Id and style use by Om Shrivastava on 17-05-23 */}
-        <div className='searchpage_input' id="hide_search" style={{display:'block'}}>
+        <div 
+        // Modification and addition by Om Shrivastava on 18-05-23
+        // Reason : When whatsapp detail is not show than use another class name
+        // className='searchpage_input'
+         id="hide_search" style={{display:'block'}}
+        className={whatsApp && whatsApp.whatsapp_number && whatsApp.whatsapp_number !=undefined && whatsApp.whatsapp_number !=null && whatsApp.whatsapp_number.length ? 'searchpage_input' : 'whatsappDataNoneSearchMainDiv'}
+        // End of addition by Om Shrivastava on 18-05-23
+        >
         {/* <Input.Group >
               <Search size='large' 
                 // value={search}
@@ -1071,7 +1078,9 @@ function MenuItem() {
         <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
-                <input className="inputBoxSearch" type="text" id="search_box"
+                <input 
+                className="inputBoxSearch" 
+                type="text" id="search_box"
                 // Modified by Rohan kansari-7/5/23 - To remove . on double space on mobile
                 onChange={e=>setNewSearch(e.target.value.trimStart().replace(". "," ").replace("  ",""))}
                 placeholder='Type here to search' value ={search}/>
@@ -1083,6 +1092,9 @@ function MenuItem() {
 
         {/* Added by- Suman sahu On 05/05/2023 
             reason - add whatsapp chatbot*/}
+        {/* Added by Om Shrivastava on 18-05-23
+        Resason : When whatsapp number is not shown there than this div is not show   */}
+        {whatsApp && whatsApp.whatsapp_number && whatsApp.whatsapp_number !=undefined && whatsApp.whatsapp_number !=null && whatsApp.whatsapp_number.length > 0 ?
         <div>
           <FloatingWhatsApp
           style={{right: -3}}
@@ -1092,6 +1104,8 @@ function MenuItem() {
           // avatar={siteConfig.staticBaseURL + restaurant_logo}
           />
         </div>
+        :null}
+        {/* End of addiition by Om Shrivastava on 18-05-23 */}
 
         {/* End of addition 05/05/2023 */}
 

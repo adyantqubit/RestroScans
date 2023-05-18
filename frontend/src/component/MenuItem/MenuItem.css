@@ -1370,3 +1370,13 @@ a.ant-notification-notice-close {
     display: none !important;
 }
 /* End of addition by Om Shrivastava on 17-05-23 */
+
+/* Added by Om Shrivastava on 17-05-23 */
+/* Reason : When whatsapp number is not add there than this classname is apply */
+.whatsappDataNoneSearchMainDiv{
+    border-radius: 2%;
+    width: 89%;
+    margin: 0 0 0 5%;
+    position: relative;
+}
+/* End of addition by Om Shrivastava on 17-05-23 */

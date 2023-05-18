@@ -225,7 +225,12 @@ const Otppopup = () => {
 
         <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />
 
-        <ResendOTP maxTime={30}  onResendClick={() => {onSignInSubmit()}} className={style.resendBtn} />
+        <ResendOTP 
+        // Added by Om Shrivastava on 18-05-23
+        // Need to change the styling of the button 
+        style={{justifyContent: 'center',flexDirection:'row-reverse',columnGap:'12px'}}
+        // End of addition by Om Shrivastava on 18-05-23
+         maxTime={30}  onResendClick={() => {onSignInSubmit()}} className={style.resendBtn} />
 
         {isLoading?<Spin className={style.spin}/>:<button className={style.submitBtn} style={{background:colors.bannerColor, color: colors.backgroundTheme}}  onClick={onSubmitOTP}>
                Verify
