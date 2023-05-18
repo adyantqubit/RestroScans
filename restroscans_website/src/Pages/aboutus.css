@@ -12,22 +12,28 @@ Reason:- Create css for aboutus.jsx */
 .aboutus_first_section {
   width: 100%;
   background-image: url("../images/scanner2.png");
-  /* background-image: url("../images/scanner2.png"); */
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: 3rem;
+}
+.aboutus_main_heading{
+  font-weight: 800;
+  text-align: center;
+  font-family: var(--primary-headingFontFamily);
+  font-size: var(--primary-textFontSize);
+  color: var(--primary-headingColor);
+  margin-top: 0;
 }
 .aboutus_parent_div {
   padding-top: 4.5rem;
-  width: 80%;
+  width: 70%;
   margin: auto;
   color: black;
 }
 .aboutus_heading_div {
   margin: 0;
-  border-bottom: 1px solid rgb(51, 50, 50);
+  /* border-bottom: 1px solid rgb(51, 50, 50); */
   width: 100%;
 }
 .aboutus_restroscans_heading {
@@ -43,17 +49,22 @@ Reason:- Create css for aboutus.jsx */
 }
 .aboutus_description_div {
   display: flex;
-  padding-top: 2rem;
+  /* padding-top: 2rem; */
   width: 100%;
   margin: auto;
 }
 .description_container {
   width: 80%;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
 }
 .aboutus_adyant {
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
   color: black;
-  width: 90%;
+  width: 100%;
   font-size: var(--descriptions-textFontSize);
   font-family: var(--descriptions-textFontFamily);
 }
@@ -85,6 +96,8 @@ Reason:- Create css for aboutus.jsx */
 }
 .aboutus_adyant_1 {
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
   color: black;
   font-size: var(--descriptions-textFontSize);
   font-family: var(--descriptions-textFontFamily);
@@ -109,6 +122,8 @@ Reason:- Create css for aboutus.jsx */
   overflow: hidden;
   display: flex;
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
 }
 .services_left_div {
   width: 60%;
@@ -126,6 +141,8 @@ Reason:- Create css for aboutus.jsx */
 }
 .aboutus_services_description {
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
   color: black;
   font-size: var(--descriptions-textFontSize);
   font-family: var(--descriptions-textFontFamily);
@@ -134,23 +151,24 @@ Reason:- Create css for aboutus.jsx */
   padding-left: 1.3rem;
 }
 
-.success_story_div{
+.success_story_div {
   height: fit-content;
   margin: auto;
   width: 100%;
   background-repeat: no-repeat;
   overflow: hidden;
   padding-bottom: 2rem;
-
 }
-.success_story_heading{
+.success_story_heading {
   font-size: var(--primary-textFontSize);
   font-family: var(--primary-headingFontFamily);
 }
-.success_story_content_div{
+.success_story_content_div {
   width: 60%;
   margin: auto;
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
   color: black;
   font-size: var(--descriptions-textFontSize);
   font-family: var(--descriptions-textFontFamily);
@@ -159,6 +177,9 @@ Reason:- Create css for aboutus.jsx */
 @media (max-width: 1400px) {
   .Aboutus_main_div {
     padding-bottom: 0;
+  }
+  .aboutus_parent_div{
+    width: 80%;
   }
   .aboutus_adyant {
     width: 100%;
@@ -178,10 +199,10 @@ Reason:- Create css for aboutus.jsx */
     width: 100%;
   }
   .aboutus_first_section {
-    padding-bottom: 11.5rem;
+    padding-bottom: 1rem;
   }
   .aboutus_parent_div {
-    width: 85%;
+    width: 90%;
   }
   .Aboutus_adyant_details_div {
     width: 85%;
@@ -193,16 +214,23 @@ Reason:- Create css for aboutus.jsx */
     width: 90%;
   }
   .aboutus_restroscans_heading {
-    font-size: 3rem;
+    margin-bottom: 0;
   }
   .aboutus_scanner_img {
-    width: 35vw;
+    width: 45vw;
     margin-left: 0;
+  }
+  .aboutus_adyant{
+    width: 100%;
   }
 }
 @media (max-width: 900px) {
+  .aboutus_first_section{
+    padding-bottom: 0;
+  }
   .aboutus_restroscans_heading {
-    width: 100%;
+    width: 38%;
+    margin-top: 0;
   }
   .aboutus_description_div {
     display: block;
@@ -211,7 +239,7 @@ Reason:- Create css for aboutus.jsx */
     width: 100%;
   }
   .aboutus_adyant {
-    width: 100%;
+    width: 90%;
     font-size: 1.3rem;
   }
   .aboutus_scanner_img {
@@ -231,7 +259,7 @@ Reason:- Create css for aboutus.jsx */
 @media (max-width: 768px) {
   .Aboutus_adyant_details_div {
     height: fit-content;
-    padding-bottom: 3rem;
+    padding-bottom: 0;
   }
   .about_adyant_container {
     display: block;
@@ -256,7 +284,7 @@ Reason:- Create css for aboutus.jsx */
   .services_right_div {
     width: 100%;
     padding-left: 0;
-    padding-top: 1rem;
+    padding-top: 0;
   }
   .aboutus_adyant_heading {
     font-weight: bold;
@@ -266,9 +294,13 @@ Reason:- Create css for aboutus.jsx */
   }
   .aboutus_adyant {
     font-size: 1.1rem;
+    width: 95%;
   }
   .aboutus_adyant_1 {
     font-size: 1.1rem;
+  }
+  .success_story_content_div{
+    width: 70%;
   }
 }
 @media (max-width: 600px) {
@@ -284,21 +316,37 @@ Reason:- Create css for aboutus.jsx */
 @media (max-width: 400px) {
   .aboutus_scanner_img {
     height: 30vh;
+    margin: 0;
   }
-  .aboutus_restroscans_heading{
+  .aboutus_main_heading{
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
-  .aboutus_restroscans_adyant_heading{
+  .aboutus_restroscans_heading {
+    font-size: 1.7rem;
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .aboutus_restroscans_adyant_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
-  .success_story_heading{
+  .success_story_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
-  .success_story_content_div{
+  .success_story_content_div {
     width: 85%;
+  }
+  .aboutus_first_section {
+    padding-bottom: 0;
+  }
+/* 
+  .aboutus_adyant{
+    font-family: var(--responsive-descriptions-fontfamily);
+  } */
+  .aboutus_adyant_heading, .aboutus_services_heading{
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
   }
 }
 /* End of created code by-Suman sahu On  05/04/2023 */

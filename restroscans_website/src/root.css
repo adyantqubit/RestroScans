@@ -4,7 +4,8 @@
 */
 
 /* @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital@1&display=swap'); */
- @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,400;1,600&family=Philosopher:ital@1&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,400;1,600&family=Philosopher:ital@1&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital@1&family=Philosopher:ital@1&display=swap');
 
 :root {
   /* ----------Font sizes of all pages */
@@ -21,6 +22,7 @@
   --primary-headingColor: black;
   --primary-headingFontFamily: cursive;
   --responsive-heading-fontfamily: 'Philosopher', sans-serif;
+  --responsive-descriptions-fontfamily: 'Pathway Extreme';
 
   /* ----------Font family of buttons */
   --primary-buttonFontFamily: 'Philosopher', sans-serif;

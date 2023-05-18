@@ -44,11 +44,11 @@ function Gallery() {
       <div style={{ paddingBottom: "2rem" }}>
         <div className="gallary_first_section">
           <div className="top_image">
-            <div className="gallery_container"></div>
+            <div className="gallery_container">
+              <h2 className="gallery_main_heading">Gallery</h2>
+            </div>
             <div class="bg_text">
-              <p className="gallery_text">
-                
-              </p>
+              <p className="gallery_text">(Text)</p>
               {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
             </div>
           </div>

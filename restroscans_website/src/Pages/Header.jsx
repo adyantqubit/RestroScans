@@ -61,7 +61,14 @@ function Header({ isOpen, setIsOpen }) {
         </label>
         <button
           className="header_btn_responsive"
-          onClick={() => navigate("/restroscans")}
+
+          // Modified by - Suman sahu On 19/05/2023
+          // Reason- hide menu drawer when click on "Get Restroscans" button in responsive
+          onClick={() => {
+            navigate("/restroscans");
+            menuClose();
+          }}
+          // End of modification by- Suman sahu on 19/05/2023
         >
           Get Restroscans
         </button>

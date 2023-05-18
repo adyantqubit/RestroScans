@@ -36,6 +36,16 @@ function ContactUs() {
       document.getElementById("errName").innerText = "";
     }
 
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in name input field
+    if (user.name.length > 20) {
+      document.getElementById("errName").innerText = "Name should be below 20 characters";
+      return false;
+    } else {
+      document.getElementById("errName").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
+
     if (user.email === "") {
       document.getElementById("errEmail").innerText = "Please enter your email";
       return false;
@@ -50,6 +60,17 @@ function ContactUs() {
     } else {
       document.getElementById("errMobileNumber").innerText = "";
     }
+
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- show validation when user type characters in mobile number input field 
+    if (!(user.mobile_number.match('/^[0-9]*[.,]?[0-9]*$/.test(user)'))){
+      document.getElementById("errMobileNumber").innerText =
+        "Enter only degits";
+      return false;
+    }else {
+      document.getElementById("errMobileNumber").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
 
     if (user.query === "") {
       document.getElementById("errQuery").innerText = "Please enter your query";
@@ -71,6 +92,13 @@ function ContactUs() {
       });
     }
   };
+
+  // Added by:- Suman sahu  Date:- 19/05/2023
+  // Reason:- When click on cancel button, that fuction will be call
+  const ResetForm = async () => {
+    document.getElementById("form").reset();
+  };
+  // End of added code by- Suman sahu On 19/05/2023
 
   // Added by:- Suman sahu  Date:- 07/04/2023
   // Reason:- When click on logo of adyant, open site of Adyant in a new tab
@@ -208,6 +236,7 @@ function ContactUs() {
                   name="mobile_number"
                   id="mobile_number"
                   placeholder="* Mobile Number"
+                  maxLength={10}
                 />
                 <p id="errMobileNumber" className="contactus_error_msg"></p>
               </div>
@@ -232,7 +261,8 @@ function ContactUs() {
               <button
                 className="contactus_submit_btn"
                 type="button"
-                onClick={() => navigate("/")}
+                // onClick={() => navigate(-1)}
+                onClick={ResetForm}
               >
                 Cancel
               </button>

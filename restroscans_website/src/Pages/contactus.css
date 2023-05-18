@@ -187,6 +187,7 @@ Reason:- Create css for contactus.jsx */
 }
 .contactus_input_box:hover {
   border: 1px solid rgb(23, 92, 92);
+  padding-right: 1rem;
 }
 .query_input_box {
   font-size: 1rem;
@@ -365,7 +366,6 @@ textarea::placeholder {
   }
   .adyant_description_contactus {
     color: black;
-    font-weight: bold;
     margin: auto;
     width: 70%;
     font-size: 1.5rem;
@@ -459,6 +459,7 @@ textarea::placeholder {
 @media (max-width: 400px) {
   .contactus_main_div {
     width: 85vw;
+    height: 60vh;
   }
   .contactus_heading1{
     font-family: var(--responsive-heading-fontfamily);
@@ -477,7 +478,7 @@ textarea::placeholder {
     width: 25vw;
   }
   .contactus_btn_div {
-    margin-top: 4rem;
+    margin-top: 3rem;
   }
   .adyant_info_div {
     width: 80%;

@@ -3,7 +3,7 @@
 
 import React from "react";
 import "./aboutus.css";
-import Scanner from "../images/scanner5.jpg";
+import Scanner from "../images/scanner7.jpg";
 
 function AboutUs() {
   return (
@@ -11,6 +11,8 @@ function AboutUs() {
       <div className="Aboutus_main_div">
         <div className="aboutus_first_section">
           <div className="aboutus_parent_div">
+            <h2 className="aboutus_main_heading">About Us</h2>
+
             <div className="aboutus_heading_div">
               <h2 className="aboutus_restroscans_heading">RestroScans</h2>
             </div>
@@ -28,12 +30,7 @@ function AboutUs() {
                     administrators in handling different aspects of their
                     business. It has a user-friendly and easy-to-use interface
                     that allows users to navigate through the various modules
-                    and functions with ease. The Restroscan application is
-                    created to assist restaurant proprietors and administrators
-                    in handling different aspects of their business. It has a
-                    user-friendly and easy-to-use interface that allows users to
-                    navigate through the various modules and functions with
-                    ease.
+                    and functions with ease.
                   </p>
                 </div>
               </div>
@@ -49,9 +46,9 @@ function AboutUs() {
         </div>
         <div className="about_adyant_container">
           <div className="adyant_details_first_div">
-            <div className="adyant_details_heading_div">
+            {/* <div className="adyant_details_heading_div">
               <h2 className="aboutus_adyant_heading">About Adyant</h2>
-            </div>
+            </div> */}
             <div className="aboutus_adyant_1">
               <p>
                 "Adyant" a word taken from Sanskrit which means from "Beginning
@@ -149,11 +146,11 @@ function AboutUs() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
             voluptatum cum impedit eaque! Blanditiis, perferendis reiciendis!
             Dolores hic adipisci, fugit vero quis cumque, soluta beatae,
-            repellat explicabo ipsa exercitationem molestiae.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-            voluptatum cum impedit eaque! Blanditiis, perferendis reiciendis!
-            Dolores hic adipisci, fugit vero quis cumque, soluta beatae,
-            repellat explicabo ipsa exercitationem molestiae.
+            repellat explicabo ipsa exercitationem molestiae. Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Est voluptatum cum impedit
+            eaque! Blanditiis, perferendis reiciendis! Dolores hic adipisci,
+            fugit vero quis cumque, soluta beatae, repellat explicabo ipsa
+            exercitationem molestiae.
           </p>
         </div>
       </div>

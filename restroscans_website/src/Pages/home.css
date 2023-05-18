@@ -47,6 +47,8 @@ Reason:- Create css for Home.jsx */
   text-align: justify;
   color: black;
   font-family: var(--descriptions-textFontFamily);
+  hyphens: auto;
+  word-spacing: -0.04
 }
 .description_btn_div {
   text-align: center;
@@ -129,6 +131,8 @@ Reason:- Create css for Home.jsx */
   color: black;
   text-align: justify;
   font-family: var(--descriptions-textFontFamily);
+  hyphens: auto;
+  word-spacing: -0.04em;
 }
 
 /* -------------------Features Section--------------------------- */
@@ -312,13 +316,15 @@ Reason:- Create css for Home.jsx */
   font-size: 1.4rem;
   margin: 0;
   /* font-weight: bold; */
-  color: rgb(10, 100, 130);
+  color: #758001;
   font-family: var(--descriptions-textFontFamily);
 }
 .restaurent_address {
   font-size: 1rem;
   justify-content: center;
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
   margin: 0;
   color: rgb(85, 83, 83);
   font-family: var(--descriptions-textFontFamily);
@@ -405,7 +411,7 @@ Reason:- Create css for Home.jsx */
     width: 28vw;
   }
   /* ------------Features Section-------------- */
-  .home_features_section{
+  .home_features_section {
     padding-bottom: 3rem;
   }
   .features_container {
@@ -442,7 +448,7 @@ Reason:- Create css for Home.jsx */
   .description_content_div {
     width: 60%;
   }
-  .restro_description{
+  .restro_description {
     padding-bottom: 2rem;
   }
   /* ------------Benefits Section-------------- */
@@ -574,7 +580,7 @@ Reason:- Create css for Home.jsx */
   }
   /* ---------------Benefits Section-------------- */
   /* ----------------Features Section------------- */
-  .home_features_section{
+  .home_features_section {
     height: 115vh;
   }
   .feature_label {
@@ -654,18 +660,18 @@ Reason:- Create css for Home.jsx */
   .description_btn_div {
     margin-top: 2rem;
   }
-  .description_heading{
+  .description_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
-  .description_content_div{
+  .description_content_div {
     width: 80%;
   }
   /* ---------------Benefits Section-------------- */
   .home_benefits_section {
     padding-bottom: 2rem;
   }
-  .benefits_heading{
+  .benefits_heading {
     font-size: 2rem;
     padding-top: 1rem;
     font-family: var(--responsive-heading-fontfamily);
@@ -678,7 +684,7 @@ Reason:- Create css for Home.jsx */
     height: 155vh;
     padding-left: 0;
   }
-  .features_heading{
+  .features_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
@@ -704,17 +710,17 @@ Reason:- Create css for Home.jsx */
   .home_pricing_section {
     margin-top: 4rem;
   }
-  .pricing_heading{
+  .pricing_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
   /* ---------------Gallery Section-------------- */
-  .gallery_heading{
+  .gallery_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
   /* ---------------Restaurent Section-------------- */
-  .restaurent_heading{
+  .restaurent_heading {
     padding-top: 1rem;
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);

@@ -39,6 +39,16 @@ function RestroScans() {
       document.getElementById("ownerName").innerText = "";
     }
 
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in owner name input field
+    if (owner.owner_name.length > 20) {
+      document.getElementById("ownerName").innerText = "Name should be below 20 characters";
+      return false;
+    } else {
+      document.getElementById("ownerName").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
+
     if (owner.restaurant_name === "") {
       document.getElementById("restaurant_name").innerText =
         "Please enter restaurant name";
@@ -62,6 +72,17 @@ function RestroScans() {
       document.getElementById("mobile_number").innerText = "";
     }
 
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- show validation when user type characters in mobile number input field 
+    if (!(owner.mobile_number.match('/^[0-9]*[.,]?[0-9]*$/.test(user)'))){
+      document.getElementById("mobile_number").innerText =
+        "Enter only degits";
+      return false;
+    }else {
+      document.getElementById("mobile_number").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
+
     const response = await RestaurantRequestPostApi(owner);
     if (response["success"]) {
       document.getElementById("form").reset();
@@ -84,6 +105,13 @@ function RestroScans() {
     }
   };
   // End of added code 13/04/2023
+
+  // Added by:- Suman sahu  Date:- 19/05/2023
+  // Reason:- When click on cancel button, that fuction will be call
+  const ResetForm = async () => {
+    document.getElementById("form").reset();
+  };
+  // End of added code by- Suman sahu On 19/05/2023
   return (
     <>
       <div className="restroscans_container" id="restro">
@@ -148,7 +176,8 @@ function RestroScans() {
               <button
                 className="submit_btn"
                 type="button"
-                onClick={() => navigate(-1)}
+                // onClick={() => navigate(-1)}
+                onClick={ResetForm}
               >
                 Cancel
               </button>
