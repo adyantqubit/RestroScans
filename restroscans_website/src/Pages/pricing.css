@@ -40,9 +40,10 @@ Reason:- Create css for aboutus.jsx */
 }
 .slider_div_pricing{
   height: 80vh;
+  width: 75%;
 }
 .images_pricing{
-  width: 50%;
+  width: 70%;
   height: 80%;
   justify-content: center;
   border-radius: 1rem;
@@ -102,7 +103,7 @@ Reason:- Create css for aboutus.jsx */
   justify-content: center;
 }
 .pricing_plans{
-  background: url("../images/ff2.png");
+  /* background: url("../images/ff2.png"); */
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -114,6 +115,8 @@ Reason:- Create css for aboutus.jsx */
   width: 80%;
   margin: auto;
   margin-bottom: 1rem;
+  background-color: 
+  #e9e8e8;
   }
   .left_pricing_container{
     width: 40%;
@@ -131,6 +134,9 @@ Reason:- Create css for aboutus.jsx */
   .images_pricing{
     width: 65%;
   }
+  .slider_div_pricing{
+    width: 95%;
+  }
 }
 @media (max-width: 1024px) {
   .pricings {
@@ -142,6 +148,9 @@ Reason:- Create css for aboutus.jsx */
   }
   .right_pricing_container{
     width: 70%;
+  }
+  .slider_div_pricing{
+    width: 100%;
   }
 }
 @media (max-width: 900px) {

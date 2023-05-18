@@ -3,7 +3,7 @@
 
 import React from "react";
 import "./aboutus.css";
-import Scanner from "../images/scanner4.jpg";
+import Scanner from "../images/scanner5.jpg";
 
 function AboutUs() {
   return (
@@ -33,11 +33,7 @@ function AboutUs() {
                     in handling different aspects of their business. It has a
                     user-friendly and easy-to-use interface that allows users to
                     navigate through the various modules and functions with
-                    ease. The Restroscan application is created to assist
-                    restaurant proprietors and administrators in handling
-                    different aspects of their business. It has a user-friendly
-                    and easy-to-use interface that allows users to navigate
-                    through the various modules and functions with ease.
+                    ease.
                   </p>
                 </div>
               </div>

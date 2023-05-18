@@ -47,10 +47,7 @@ function Gallery() {
             <div className="gallery_container"></div>
             <div class="bg_text">
               <p className="gallery_text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum
-                nobis quasi vitae, quis eum ratione est nisi? Facilis sint
-                perferendis modi? Ea atque doloremque animi iste esse
-                praesentium at laudantium.
+                
               </p>
               {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
             </div>
