@@ -173,7 +173,7 @@ function ContactUs() {
                   className="contactus_input_icons"
                 />
                 <input
-                  className="contactus_input_box"
+                  class="contactus_input_box"
                   type="text"
                   name="name"
                   id="name"

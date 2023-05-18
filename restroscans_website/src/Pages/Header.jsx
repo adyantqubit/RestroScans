@@ -2,7 +2,7 @@
 // Reason:- Create Header for RestroScans
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import "./header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -34,19 +34,6 @@ function Header({ isOpen, setIsOpen }) {
   // End of added code by-Suman sahu 07/04/2023
 
   const navigate = useNavigate();
-
-  // document.addEventListener('DOMContentLoaded', () => {
-  //   var header = document.getElementById("link");
-  //   var btns = header.getElementsByClassName("header_links");
-  //   for (var i = 0; i < btns.length; i++) {
-  //     btns[i].addEventListener("click", function() {
-  //     var current = document.getElementsByClassName("active");
-  //     current[0].className = current[0].className.replace(" active", "");
-  //     this.className += " active";
-  //     });
-  //   }
-  // });
-
 
   return (
     <>
@@ -85,28 +72,28 @@ function Header({ isOpen, setIsOpen }) {
           >
             <li>
               <FontAwesomeIcon icon={faHouse} className="header_link_icons" />
-              <Link className="header_links active" to="/" onClick={menuClose}>
+              <NavLink className="header_links" to="/" onClick={menuClose}>
                 Home
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faList} className="features_icon" />
-              <Link
+              <NavLink
                 className="header_links"
                 to="/features"
                 id="features_link"
                 onClick={menuClose}
               >
                 Features
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faImage} className="header_link_icons" />
-              <Link className="header_links" to="/gallery" onClick={menuClose}>
+              <NavLink className="header_links" to="/gallery" onClick={menuClose}>
                 Gallery
-              </Link>
+              </NavLink>
             </li>
 
             <li>
@@ -115,32 +102,32 @@ function Header({ isOpen, setIsOpen }) {
                 // className="pricing_icon"
                 className="header_link_icons"
               />
-              <Link
+              <NavLink
                 className="header_links"
                 to="/pricing"
                 // id="pricing_link"
                 onClick={menuClose}
               >
                 Pricing
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faPhone} className="header_link_icons" />
-              <Link
+              <NavLink
                 className="header_links"
                 to="/contactus"
                 onClick={menuClose}
               >
                 Contact Us
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faUser} className="header_link_icons" />
-              <Link className="header_links" to="/aboutus" onClick={menuClose}>
+              <NavLink className="header_links" to="/aboutus" onClick={menuClose}>
                 About Us
-              </Link>
+              </NavLink>
             </li>
           </div>
 

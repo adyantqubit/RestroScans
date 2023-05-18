@@ -1,11 +1,14 @@
 /* Created by:- Suman sahu  Date:- 05/04/2023
 Reason:- Create css for contactus.jsx */
-
+/* #name::placeholder {
+  color: #ff0000;
+  opacity: 1;
+} */
 .contactus_container {
   height: 85vh;
   padding-top: 3rem;
   padding-bottom: 3rem;
-  background-image: url("../images/contact2.avif");
+  background-image: url("../images/contact5.jpg");
   margin: auto;
   width: 100%;
   background-size: cover;
@@ -16,7 +19,7 @@ Reason:- Create css for contactus.jsx */
 }
 /* ------------------About Adyant Section------------- */
 .about_adyant {
-  padding-top: 5rem;
+  padding-top: 4.5rem;
   width: 50%;
 }
 .contactus_heading1 {
@@ -30,7 +33,6 @@ Reason:- Create css for contactus.jsx */
 }
 .adyant_description_contactus {
   color: black;
-  font-weight: bold;
   font-size: var(--descriptions-textFontSize);
   margin: auto;
   width: 65%;
@@ -40,14 +42,12 @@ Reason:- Create css for contactus.jsx */
 }
 .adyant_content1 {
   color: black;
-  font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   font-family: var(--descriptions-textFontFamily);
 }
 .adyant_content2 {
   color: black;
-  font-weight: bold;
   font-size: 1rem;
   margin-top: 0;
   font-family: var(--descriptions-textFontFamily);
@@ -83,7 +83,6 @@ Reason:- Create css for contactus.jsx */
 }
 .india_flag_label {
   color: black;
-  font-weight: bold;
   margin-top: 0.5rem;
   margin-bottom: 0;
   cursor: pointer;
@@ -92,7 +91,6 @@ Reason:- Create css for contactus.jsx */
 }
 .us_flag_label {
   color: black;
-  font-weight: bold;
   margin: 0;
   cursor: pointer;
   font-size: 1rem;
@@ -100,7 +98,6 @@ Reason:- Create css for contactus.jsx */
 }
 .uk_flag_label {
   color: black;
-  font-weight: bold;
   margin: 0;
   cursor: pointer;
   font-size: 1rem;
@@ -108,7 +105,6 @@ Reason:- Create css for contactus.jsx */
 }
 .newzeland_flag_label {
   color: black;
-  font-weight: bold;
   margin: 0;
   cursor: pointer;
   font-size: 1rem;
@@ -136,7 +132,6 @@ Reason:- Create css for contactus.jsx */
 }
 .ady_link_label {
   color: black;
-  font-weight: bold;
   padding: 0 1rem;
   font-size: 1.2rem;
   font-family: sans-serif;
@@ -259,7 +254,7 @@ textarea::placeholder {
 }
 
 .contactus_error_msg {
-  color: rgb(183, 16, 16);
+  color: rgb(207, 0, 0);
   font-size: 1rem;
   margin-top: -0.6rem;
   font-family: var(--descriptions-textFontFamily);
@@ -464,6 +459,9 @@ textarea::placeholder {
 @media (max-width: 400px) {
   .contactus_main_div {
     width: 85vw;
+  }
+  .contactus_heading1{
+    font-family: var(--responsive-heading-fontfamily);
   }
   .ady_link_div {
     width: 50%;

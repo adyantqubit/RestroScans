@@ -425,7 +425,7 @@ class MyGroupAdmin(admin.ModelAdmin):
             return True
     # End of addition
         
-admin.site.register(User, MyUserAdmin)
+# admin.site.register(User, MyUserAdmin)
 
 # Commented by- Suman sahu On 03/05/2023
 # Reason- for hide this model in admin pannel

@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import "./gallery.css";
-import { GalleryDetailsGetApi, OurTopRestaurentGetApi } from "../api/service";
+import { GalleryDetailsGetApi, CustomerFeedbackGetApi } from "../api/service";
 import config from "../api/config";
 import RestroscansLogo from "../images/restroscans_logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments } from "@fortawesome/free-solid-svg-icons";
 
 function Gallery() {
   // Added by:- Suman sahu On 08/04/2023
@@ -22,13 +24,34 @@ function Gallery() {
   };
   // End of added code 08/04/2023
 
+  // Added by:- Suman sahu On 18/05/2023
+  // Reason:- Created for get customer Feedback details
+  const [customerFeedback, setCustomerFeedback] = useState([]);
+  useEffect(() => {
+    getCustomerFeedback();
+  }, []);
+
+  const getCustomerFeedback = async () => {
+    const response = await CustomerFeedbackGetApi();
+    if (response) {
+      setCustomerFeedback(response.customerFeedback);
+    }
+  };
+  // End of added code 18/05/2023
+
   return (
     <>
-      <div>
+      <div style={{ paddingBottom: "2rem" }}>
         <div className="gallary_first_section">
           <div className="top_image">
             <div className="gallery_container"></div>
             <div class="bg_text">
+              <p className="gallery_text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum
+                nobis quasi vitae, quis eum ratione est nisi? Facilis sint
+                perferendis modi? Ea atque doloremque animi iste esse
+                praesentium at laudantium.
+              </p>
               {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
             </div>
           </div>
@@ -50,11 +73,27 @@ function Gallery() {
           </div>
         ) : null}
 
-        {/* <div className="customer_feedback_div">
-          <div className="gallery_heading_div">
-            <h2 className="customer_feedback_heading">Story & Customer Feedback</h2>
+        {customerFeedback != null && customerFeedback.length > 0 ? (
+          <div className="customer_feedback_div">
+            <h2 className="customer_feedback_heading">
+              Customer Story & Feedback
+            </h2>
+            <div className="feedbacks_container">
+              {customerFeedback.map((item) => (
+                <div className="feedbacks">
+                  <div className="feedback_icon_div">
+                    <FontAwesomeIcon icon={faComments} />
+                  </div>
+                  <div>
+                    <p className="feedback_date">{item.date}</p>
+                    <h3 className="feedback_title">{item.title}</h3>
+                    <p className="feedback_description">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div> */}
+        ) : null}
       </div>
     </>
   );

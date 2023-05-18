@@ -250,50 +250,58 @@ function Home() {
         </div>
 
         <div className="pricing_gallery_clients">
-          <div className="home_pricing_section">
+          {/* <div className="home_pricing_section">
             <h2 className="pricing_heading">Pricing</h2>
-            <div>
-              <div>
-                {
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan1}
-                  />
-                }
-                {/* {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan2}
-                  />
-                </div>
-              }
-            </div>
+            {
+              <img
+                className="pricing_images"
+                alt="Price"
+                src={config.staticBaseURL + pricingData.pricing_plan1}
+              />
+            }
+          </div> */}
 
-            <div className="pricing_second_div">
-              {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan3}
-                  />
-                </div>
-              }
-              {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan4}
-                  />
-                </div>
-              } */}
+
+          {pricingData != null && pricingData.length > 0 ? (
+            <div className="pricing_gallery_clients">
+              <div className="home_pricing_section">
+                <h2 className="pricing_heading">Pricing</h2>
+                <Swiper
+                  cssMode={true}
+                  navigation={true}
+                  slidesPerView={1}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  pagination={{ clickable: true }}
+                  mousewheel={true}
+                  keyboard={true}
+                  centeredSlides={true}
+                  modules={[
+                    Autoplay,
+                    Navigation,
+                    Pagination,
+                    Mousewheel,
+                    Keyboard,
+                  ]}
+                  className="pricing_slider_div"
+                >
+                  {pricingData.map((item) => (
+                    <SwiperSlide>
+                      <img
+                        src={config.staticBaseURL + item.pricing_plan1}
+                        className="pricing_images"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
-          </div>
+          ) : null}
+
+
 
           {galleryData != null && galleryData.length > 0 ? (
             <div className="home_gallery_section_1">
@@ -336,7 +344,7 @@ function Home() {
           {restaurentsData != null && restaurentsData.length > 0 ? (
             <div className="home_restaurent_section">
               <h2 className="restaurent_heading">
-                Restaurant connected with us
+                Restaurant's connected with us
               </h2>
               <div className="restaurents_container">
                 {restaurentsData.map((item) => (

@@ -46,7 +46,6 @@ Reason:- Create css for aboutus.jsx */
   padding-top: 2rem;
   width: 100%;
   margin: auto;
-  font-weight: bold;
 }
 .description_container {
   width: 80%;
@@ -285,6 +284,21 @@ Reason:- Create css for aboutus.jsx */
 @media (max-width: 400px) {
   .aboutus_scanner_img {
     height: 30vh;
+  }
+  .aboutus_restroscans_heading{
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .aboutus_restroscans_adyant_heading{
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .success_story_heading{
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .success_story_content_div{
+    width: 85%;
   }
 }
 /* End of created code by-Suman sahu On  05/04/2023 */

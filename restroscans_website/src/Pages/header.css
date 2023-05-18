@@ -43,7 +43,7 @@ Reason:- Create css for Header.jsx */
   cursor: pointer;
   text-decoration: none;
 }
-/* .active, */
+.active,
 .header_links:hover {
   border-bottom: 3px solid transparent;
   border-image: linear-gradient(
@@ -52,7 +52,7 @@ Reason:- Create css for Header.jsx */
     #427e94 39%,
     #a55361 99.99%
   );
-  border-image-slice: 1;
+  /* border-image-slice: 1; */
   color: #a24353;
 }
 
@@ -124,6 +124,12 @@ Reason:- Create css for Header.jsx */
   .header_links {
     font-size: 1.2rem;
   }
+  .header_restroscans_logo{
+    width: 80px;
+  }
+  .header_btn{
+    margin-right: 2rem;
+  }
 }
 @media (max-width: 900px) {
   html {
@@ -148,7 +154,7 @@ Reason:- Create css for Header.jsx */
     z-index: 999;
     width: 100%;
     /* float: revert; */
-    margin-top: 4.8rem;
+    margin-top: 4.4rem;
     justify-content: center;
     background: white;
     box-shadow: 0px 15px 10px -15px #111;
@@ -207,9 +213,6 @@ Reason:- Create css for Header.jsx */
     font-size: 0.8rem;
     height: 2.5rem;
     margin-top: 1rem;
-  }
-  .links_div {
-    margin-top: 4.5rem;
   }
 }
 @media (max-width: 500px) {

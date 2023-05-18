@@ -395,8 +395,8 @@ class WebsiteSettingsAdmin(admin.ModelAdmin):
 
 # End of code addition 09/04/2023
 
-# Added by - Suman Sahu on 09/04/2023
-# Reason - Create table for Show WebsiteSetting Details
+# Added by - Suman Sahu on 17/05/2023
+# Reason - Create table for Show Pricing Plans Details
 
 @admin.register(PricingPlans)
 class PricingPlansAdmin(admin.ModelAdmin):
@@ -416,6 +416,29 @@ class PricingPlansAdmin(admin.ModelAdmin):
             return False
 
 
-# End of code addition 09/04/2023
+# End of code addition by- Suman sahu On 17/05/2023
+
+# Added by - Suman Sahu on 18/05/2023
+# Reason - Create table for Show Customer Feedback Details
+
+@admin.register(CustomerFeedback)
+class CustomerFeedbackAdmin(admin.ModelAdmin):
+
+    list_per_page = 10
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+    def has_module_permission(self, request, view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return True
+        else:
+            return False
+
+
+# End of code addition by- Suman sahu On 18/05/2023
 
 

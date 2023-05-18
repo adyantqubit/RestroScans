@@ -77,3 +77,17 @@ export const PricingPlansDetailGetApi = async () => {
 };
 
 // End of added code 08/04/2023
+
+// Added by:- Suman sahu On 18/05/2023
+// Reason:- Created API for get Customer Feedback details
+
+export const CustomerFeedbackGetApi = async () => {
+  const response = await API.get("get-cutomer-feedback/", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+// End of added code 08/04/2023

@@ -331,11 +331,6 @@ Reason - Create for Show pricing plans on home page
 
 
 class WebsiteSetting(models.Model):
-    # Added by- Suman sahu  On 08/05/2023
-    item_logo1 = models.ImageField(upload_to="images/app_setting/", blank=True, null=True)
-    item_title = models.CharField(max_length=50,null=True, blank=True)
-    # End of addition
-    content = RichTextField(blank=True, null=True)
     pricing_plan1 = models.ImageField(
         upload_to="images/app_setting/", blank=True, null=True
     )
@@ -349,14 +344,13 @@ class WebsiteSetting(models.Model):
     #     upload_to="images/app_setting/", blank=True, null=True
     # )
     title = models.CharField(max_length=30, default="")
-    bottom_text = models.CharField(max_length=30, default="")
 
     def __str__(self):
         return self.title
 
 
 """
-End of code addition
+End of code addition by- Suman sahu On 24/03/2023
 """
 
 
@@ -399,7 +393,7 @@ class GallerySettings(models.Model):
 
 
 """
-End of code addition
+End of code addition by- Suman sahu On 24/03/2023
 """
 
 """-------------------------------------------------------------------
@@ -420,7 +414,7 @@ class GetRestroscansRequest(models.Model):
 
 
 """
-End of code addition 13-04-2023
+End of code addition by- Suman sahu On 13-04-2023
 """
 
 """-------------------------------------------------------------------
@@ -441,7 +435,7 @@ class ContactUsRequest(models.Model):
 
 
 """
-End of code addition 14-04-2023
+End of code addition by- Suman sahu On 14-04-2023
 """
 
 """
@@ -461,4 +455,23 @@ class PricingPlans(models.Model):
 
 """
 End of code addition by- Suman sahu On 17-05-2023
+"""
+
+"""-------------------------------------------------------------------
+Added by - Suman Sahu on 18-05-2023
+Reason - Create for Show Customer Feedback Details
+"""
+
+
+class CustomerFeedback(models.Model):     
+    date = models.DateField(auto_now_add=True,blank=True)
+    title = models.CharField(max_length=30, default="")
+    description =models.TextField()
+
+    def __str__(self):
+        return self.title
+
+
+"""
+End of code addition by- Suman sahu On 18/05/2023
 """
