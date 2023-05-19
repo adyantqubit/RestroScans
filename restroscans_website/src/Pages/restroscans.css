@@ -43,7 +43,7 @@
 }
 .input_box {
   font-size: 1rem;
-  padding: 0 0 0 3rem;
+  padding: 0 1rem 0 3rem;
   margin: 8px 0;
   display: inline-block;
   border: none;
@@ -125,6 +125,12 @@ input::placeholder {
   .restroscans_container {
     padding-top: 4.6rem;
   }
+  .input_box{
+    width: 30vw;
+  }
+  .submit_btn{
+    width: 13vw;
+  }
 }
 @media (max-width: 900px) {
   .restroscans_container {
@@ -172,21 +178,24 @@ input::placeholder {
     margin-top: 0.5rem;
   }
   .input_box {
-    width: 45vw;
+    width: 50vw;
   }
   .btn_div {
     margin-top: 0;
   }
   .submit_btn {
-    width: 19vw;
+    width: 21vw;
   }
 }
 @media (max-width: 500px) {
   .restroscans_main_div {
-    width: 70vw;
+    width: 80vw;
+  }
+  .input_box{
+    width: 60vw;
   }
   .submit_btn {
-    width: 18vw;
+    width: 25vw;
   }
 }
 @media (max-width: 400px) {
@@ -197,9 +206,10 @@ input::placeholder {
     margin-top: 4.5rem;
   }
   .input_box {
-    width: 60vw;
+    width: 70vw;
   }
   .submit_btn {
-    width: 25vw;
+    width: 30vw;
+    margin: 1rem;
   }
 }

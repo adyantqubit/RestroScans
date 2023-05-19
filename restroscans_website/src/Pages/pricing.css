@@ -45,7 +45,7 @@ Reason:- Create css for aboutus.jsx */
   justify-content: center;
   border-radius: 1rem;
   box-shadow: 1px 1px 8px black;
-  zoom: 1;
+  touch-action: none;
 }
 .pricing_contents {
   display: block;
