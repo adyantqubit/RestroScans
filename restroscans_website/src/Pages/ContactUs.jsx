@@ -286,6 +286,7 @@ function ContactUs() {
                 name="query"
                 id="query"
                 placeholder="* Your queries"
+                maxLength={255}
               />
               <p id="errQuery" className="contactus_error_msg"></p>
             </div>

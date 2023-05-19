@@ -452,7 +452,7 @@ class ContactUsRequest(models.Model):
     email = models.EmailField()
     # mobile_number = models.CharField(max_length=15, default="", unique=True)
     mobile_number = models.CharField(max_length=15, default="")
-    query = models.TextField()
+    query = models.TextField(max_length=255)
 
     def __str__(self):
         return self.name
