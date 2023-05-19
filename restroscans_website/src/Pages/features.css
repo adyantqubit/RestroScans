@@ -48,6 +48,7 @@
 .label_feature {
   font-size: 1.2rem;
   color: #383838;
+  font-family: var(--descriptions-textFontFamily);
 }
 .img_div_features {
   width: 30%;
@@ -125,6 +126,9 @@
   .gif_features {
     width: 60vw;
     height: 50vh;
+  }
+  .heading_features{
+    font-family: var(--responsive-heading-fontfamily);
   }
 }
 @media (max-width: 500px) {

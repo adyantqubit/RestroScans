@@ -18,7 +18,7 @@ Reason:- Create css for Header.jsx */
 }
 .header_restroscans_logo {
   height: 60px;
-  width: 100px;
+  width: 150px;
 }
 .logo_link {
   padding-left: 2rem;
@@ -123,12 +123,13 @@ Reason:- Create css for Header.jsx */
   }
   .header_links {
     font-size: 1.2rem;
+    padding: .7rem .9rem;
   }
-  .header_restroscans_logo{
+  /* .header_restroscans_logo{
     width: 80px;
-  }
+  } */
   .header_btn{
-    margin-right: 2rem;
+    margin-right: 1.8rem;
   }
 }
 @media (max-width: 900px) {

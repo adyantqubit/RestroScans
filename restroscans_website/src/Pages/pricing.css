@@ -6,9 +6,9 @@ Reason:- Create css for aboutus.jsx */
   width: 100%;
   display: block;
   height: 100%;
-
+  /* padding-top: 4rem; */
 }
-.pricing_section_1{
+.pricing_section_1 {
   width: 100%;
   background-image: url("../images/pricing1.png");
   height: 100%;
@@ -35,18 +35,19 @@ Reason:- Create css for aboutus.jsx */
   margin-top: 1rem;
   box-shadow: 1px 1px 8px black;
 }
-.slider_div_pricing{
+.slider_div_pricing {
   height: 80vh;
   width: 75%;
 }
-.images_pricing{
+.images_pricing {
   width: 70%;
   height: 80%;
   justify-content: center;
   border-radius: 1rem;
   box-shadow: 1px 1px 8px black;
+  zoom: 1;
 }
-.pricing_contents{
+.pricing_contents {
   display: block;
 }
 .pricing_contents_div {
@@ -78,7 +79,7 @@ Reason:- Create css for aboutus.jsx */
   width: 60%;
   height: 100%;
 }
-.rowContainer{
+.rowContainer {
   display: flex;
   justify-content: space-between;
 }
@@ -99,39 +100,38 @@ Reason:- Create css for aboutus.jsx */
   align-items: center;
   justify-content: center;
 }
-.pricing_plans{
+.pricing_plans {
   /* background: url("../images/ff2.png"); */
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.pricing_container{
+.pricing_container {
   display: flex;
   align-items: center;
   width: 80%;
   margin: auto;
   margin-bottom: 1rem;
-  background-color: 
-  #e9e8e8;
-  }
-  .left_pricing_container{
-    width: 40%;
-  }
-  .right_pricing_container{
-    width: 70%;
-    display: flex;
-    flex-wrap: wrap;
-  }
+  background-color: #e9e8e8;
+}
+.left_pricing_container {
+  width: 40%;
+}
+.right_pricing_container {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+}
 @media (max-width: 1200px) {
   .pricings {
     width: 80%;
     height: 70vh;
   }
-  .images_pricing{
+  .images_pricing {
     width: 65%;
   }
-  .slider_div_pricing{
+  .slider_div_pricing {
     width: 95%;
   }
 }
@@ -140,13 +140,13 @@ Reason:- Create css for aboutus.jsx */
     width: 90%;
     height: 75vh;
   }
-  .left_pricing_container{
+  .left_pricing_container {
     width: 30%;
   }
-  .right_pricing_container{
+  .right_pricing_container {
     width: 70%;
   }
-  .slider_div_pricing{
+  .slider_div_pricing {
     width: 100%;
   }
 }
@@ -155,21 +155,22 @@ Reason:- Create css for aboutus.jsx */
     width: 90%;
     height: 70vh;
   }
-  .pricing_container{
+  .pricing_container {
     width: 90%;
   }
-  .images_pricing{
+  .images_pricing {
     width: 80%;
   }
 }
+
 @media (max-width: 764px) {
   .pricings {
     width: 90%;
   }
-  .slider_div_pricing{
+  .slider_div_pricing {
     height: 70vh;
   }
-  .images_pricing{
+  .images_pricing {
     width: 80%;
     height: 90%;
   }
@@ -186,17 +187,25 @@ Reason:- Create css for aboutus.jsx */
   .items_title {
     margin: 0;
   }
-  .pricing_container{
+  .pricing_container {
     width: 100%;
     display: block;
   }
-  .left_pricing_container{
+  .left_pricing_container {
     width: 100%;
   }
-  .right_pricing_container{
+  .right_pricing_container {
     width: 90%;
     margin: auto;
     justify-content: center;
+  }
+}
+@media (max-width: 600px) {
+  .pricing_main_heading {
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .slider_div_pricing{
+    height: 50vh;
   }
 }
 @media (max-width: 532px) {
@@ -218,7 +227,7 @@ Reason:- Create css for aboutus.jsx */
     text-align: center;
     margin-top: 0;
   }
-  .images_pricing{
+  .images_pricing {
     width: 90%;
     height: 90%;
   }
@@ -240,16 +249,15 @@ Reason:- Create css for aboutus.jsx */
   .pricings {
     height: 40vh;
   }
-  .images_pricing{
+  .images_pricing {
     height: 80%;
   }
-  .pricing_main_heading{
+  .pricing_main_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
-  .slider_div_pricing{
+  .slider_div_pricing {
     height: 50vh;
   }
 }
 /* End of created code by-Suman sahu On  05/04/2023 */
-

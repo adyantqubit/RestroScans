@@ -36,14 +36,12 @@ Reason:- Create css for Footer.jsx */
   bottom: 0;
   display: flex;
   height: 3rem;
-  /* justify-content: center; */
   position: fixed;
   width: 100%;
   z-index: 99999;
   font-size: var(--footer-primary-heading);
   background: var(--footer-backgroundColor);
   margin-top: 2rem;
-  /* background-color: rgb(161, 191, 213); */
   background-color: white;
 }
 .footer_section h5,

@@ -1,7 +1,7 @@
 // created by:- Suman sahu On 14/04/2023
 // reason- create contactus page for restroscans website
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./contactus.css";
 import { ContactUsPostApi } from "../api/service";
 import { message } from "antd";
@@ -20,6 +20,8 @@ import NewzelandFlag from "../images/new.png";
 import { Link, useNavigate } from "react-router-dom";
 
 function ContactUs() {
+  const [number, setNumber] = useState(0);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     var user = {
@@ -39,7 +41,8 @@ function ContactUs() {
     // Added by- Suman sahu On 19/05/2023
     // Reason- for show length validation in name input field
     if (user.name.length > 20) {
-      document.getElementById("errName").innerText = "Name should be below 20 characters";
+      document.getElementById("errName").innerText =
+        "Name should be below 20 characters";
       return false;
     } else {
       document.getElementById("errName").innerText = "";
@@ -60,17 +63,6 @@ function ContactUs() {
     } else {
       document.getElementById("errMobileNumber").innerText = "";
     }
-
-    // Added by- Suman sahu On 19/05/2023
-    // Reason- show validation when user type characters in mobile number input field 
-    if (!(user.mobile_number.match('/^[0-9]*[.,]?[0-9]*$/.test(user)'))){
-      document.getElementById("errMobileNumber").innerText =
-        "Enter only degits";
-      return false;
-    }else {
-      document.getElementById("errMobileNumber").innerText = "";
-    }
-    // End of addition by Suman sahu On 19/05/2023
 
     if (user.query === "") {
       document.getElementById("errQuery").innerText = "Please enter your query";
@@ -112,6 +104,18 @@ function ContactUs() {
   // Reason:- created for nevigate one page to another page
   const navigate = useNavigate();
   // End of added code 30/04/2023
+
+  // Added by- Suman sahu On 19/05/2023
+  // Reason- show validation when user type characters in mobile number input field
+  function validate(evt) {
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  // End of addition by Suman sahu On 19/05/2023
   return (
     <>
       <div className="contactus_container">
@@ -232,9 +236,11 @@ function ContactUs() {
                 />
                 <input
                   className="contactus_input_box"
-                  type="text"
+                  type="number"
+                  onkeypress={(e) => validate(e)}
                   name="mobile_number"
                   id="mobile_number"
+                  // value={number}
                   placeholder="* Mobile Number"
                   maxLength={10}
                 />

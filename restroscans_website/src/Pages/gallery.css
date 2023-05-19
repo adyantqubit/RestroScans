@@ -173,6 +173,9 @@
   .gallery_images {
     height: 25vh;
   }
+  .gallery_main_heading, .customer_feedback_heading{
+    font-family: var(--responsive-heading-fontfamily);
+  }
 }
 
 @media (max-width: 400px) {

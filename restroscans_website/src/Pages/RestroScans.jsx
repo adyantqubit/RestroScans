@@ -42,7 +42,8 @@ function RestroScans() {
     // Added by- Suman sahu On 19/05/2023
     // Reason- for show length validation in owner name input field
     if (owner.owner_name.length > 20) {
-      document.getElementById("ownerName").innerText = "Name should be below 20 characters";
+      document.getElementById("ownerName").innerText =
+        "Name should be below 20 characters";
       return false;
     } else {
       document.getElementById("ownerName").innerText = "";
@@ -71,17 +72,6 @@ function RestroScans() {
     } else {
       document.getElementById("mobile_number").innerText = "";
     }
-
-    // Added by- Suman sahu On 19/05/2023
-    // Reason- show validation when user type characters in mobile number input field 
-    if (!(owner.mobile_number.match('/^[0-9]*[.,]?[0-9]*$/.test(user)'))){
-      document.getElementById("mobile_number").innerText =
-        "Enter only degits";
-      return false;
-    }else {
-      document.getElementById("mobile_number").innerText = "";
-    }
-    // End of addition by Suman sahu On 19/05/2023
 
     const response = await RestaurantRequestPostApi(owner);
     if (response["success"]) {
@@ -112,6 +102,18 @@ function RestroScans() {
     document.getElementById("form").reset();
   };
   // End of added code by- Suman sahu On 19/05/2023
+
+  // Added by- Suman sahu On 19/05/2023
+  // Reason- show validation when user type characters in mobile number input field
+  function validate(evt) {
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  // End of addition by Suman sahu On 19/05/2023
   return (
     <>
       <div className="restroscans_container" id="restro">
@@ -160,7 +162,8 @@ function RestroScans() {
                 <FontAwesomeIcon icon={faPhone} className="input_icons" />
                 <input
                   className="input_box"
-                  type="text"
+                  type="number"
+                  onkeypress={(e) => validate(e)}
                   name="mobile_number"
                   placeholder="* Mobile Number"
                   maxLength={10}

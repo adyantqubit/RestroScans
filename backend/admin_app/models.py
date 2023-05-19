@@ -331,9 +331,18 @@ Reason - Create for Show pricing plans on home page
 
 
 class WebsiteSetting(models.Model):
+
+    # commented & modified by- Suman sahu  On 19/05/2023
+    # reason- to make field mendatory
+    
+    # pricing_plan1 = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True
+    # )
+
     pricing_plan1 = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True
+        upload_to="images/app_setting/", default=""
     )
+
     # pricing_plan2 = models.ImageField(
     #     upload_to="images/app_setting/", blank=True, null=True
     # )
@@ -343,7 +352,11 @@ class WebsiteSetting(models.Model):
     # pricing_plan4 = models.ImageField(
     #     upload_to="images/app_setting/", blank=True, null=True
     # )
-    title = models.CharField(max_length=30, default="")
+
+    # title = models.CharField(max_length=30, default="")
+    title = models.CharField(max_length=30, null=True, blank=True)
+
+    # end of modification by- Suman sahu  On 19/05/2023
 
     def __str__(self):
         return self.title
@@ -384,9 +397,17 @@ class GallerySettings(models.Model):
     # End of commentation - Rohan kansari - 11/5/23
         
         
+    # Commented and modified by Suman sahu On 19/05/2023
+    # reason- for make mendatory image field
+
+    # gallery = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True,validators=[validate_image])
+
     gallery = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True,validators=[validate_image])
+        upload_to="images/app_setting/", default="",validators=[validate_image])
     title = models.CharField(max_length=30, default="")
+
+    # End of code by Suman sahu On 19/05/2023
 
     def __str__(self):
         return self.title
@@ -405,9 +426,11 @@ Reason - To store Restroscans requests
 class GetRestroscansRequest(models.Model):
     id = models.AutoField(primary_key=True)
     restaurant_name = models.CharField(max_length=255, default="")
-    owner_name = models.CharField(max_length=255, default="")
+    owner_name = models.CharField(max_length=20, default="")
     email = models.EmailField()
-    mobile_number = models.CharField(max_length=15, default="", unique=True)
+    # mobile_number = models.CharField(max_length=15, default="", unique=True)
+    mobile_number = models.CharField(max_length=15, default="")
+
 
     def __str__(self):
         return self.restaurant_name
@@ -427,7 +450,8 @@ class ContactUsRequest(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, default="")
     email = models.EmailField()
-    mobile_number = models.CharField(max_length=15, default="", unique=True)
+    # mobile_number = models.CharField(max_length=15, default="", unique=True)
+    mobile_number = models.CharField(max_length=15, default="")
     query = models.TextField()
 
     def __str__(self):
@@ -445,9 +469,19 @@ Reason - Create for Show pricing plans on home page
 
 
 class PricingPlans(models.Model):
-    pricing_logo = models.ImageField(upload_to="images/app_setting/", blank=True, null=True)
-    pricing_title = models.CharField(max_length=50,null=True, blank=True)
-    content = RichTextField(blank=True, null=True)
+
+    # commented & modified by- Suman sahu  On 19/05/2023
+    # reason- to make field mendatory
+
+    # pricing_logo = models.ImageField(upload_to="images/app_setting/", blank=True, null=True)
+    # pricing_title = models.CharField(max_length=50,null=True, blank=True)
+    # content = RichTextField(blank=True, null=True)
+
+    pricing_logo = models.ImageField(upload_to="images/app_setting/", default="")
+    pricing_title = models.CharField(max_length=50,default="")
+    content = RichTextField(default="")
+
+    # end of modification by- Suman sahu  On 19/05/2023
 
     def __str__(self):
         return self.pricing_title

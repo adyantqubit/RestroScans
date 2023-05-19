@@ -15,7 +15,7 @@ import {
   faIndianRupeeSign,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
-import RestroscansLogo from "../images/logo3.png";
+import RestroscansLogo from "../images/restroLogo9.png";
 
 function Header({ isOpen, setIsOpen }) {
   // Added by:- Suman sahu  Date:- 07/04/2023

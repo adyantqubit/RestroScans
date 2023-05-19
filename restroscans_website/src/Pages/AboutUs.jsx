@@ -42,7 +42,7 @@ function AboutUs() {
 
       <div className="Aboutus_adyant_details_div">
         <div className="aboutus_heading_div">
-          <h2 className="aboutus_restroscans_adyant_heading">ADYANT</h2>
+          <h2 className="aboutus_restroscans_adyant_heading">Adyant</h2>
         </div>
         <div className="about_adyant_container">
           <div className="adyant_details_first_div">

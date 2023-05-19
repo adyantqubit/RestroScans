@@ -174,7 +174,7 @@ Reason:- Create css for contactus.jsx */
 }
 .contactus_input_box {
   font-size: 1rem;
-  padding: 0 0 0 3rem;
+  padding: 0 1rem 0 3rem;
   margin: 8px 0;
   display: inline-block;
   border: none;
@@ -188,6 +188,11 @@ Reason:- Create css for contactus.jsx */
 .contactus_input_box:hover {
   border: 1px solid rgb(23, 92, 92);
   padding-right: 1rem;
+}
+
+.contactus_input_box::-webkit-outer-spin-button,
+.contactus_input_box::-webkit-inner-spin-button {
+  display: none;
 }
 .query_input_box {
   font-size: 1rem;
@@ -430,6 +435,9 @@ textarea::placeholder {
   .contactus_submit_btn {
     width: 22vw;
   }
+  .contactus_heading1 {
+    font-family: var(--responsive-heading-fontfamily);
+  }
 }
 @media (max-width: 500px) {
   .contactus_main_div {
@@ -455,14 +463,26 @@ textarea::placeholder {
   .contactus_query_icon {
     bottom: 52px;
   }
+  .india_flag_label,
+  .uk_flag_label,
+  .us_flag_label,
+  .newzeland_flag_label {
+    font-size: 0.8rem;
+  }
 }
 @media (max-width: 400px) {
   .contactus_main_div {
     width: 85vw;
     height: 60vh;
   }
-  .contactus_heading1{
-    font-family: var(--responsive-heading-fontfamily);
+  .contactus_heading1 {
+    font-size: 2rem;
+  }
+  .adyant_content1 {
+    font-size: 1.3rem;
+  }
+  .adyant_content2 {
+    font-size: 1rem;
   }
   .ady_link_div {
     width: 50%;
