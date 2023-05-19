@@ -637,6 +637,12 @@ Reason:- Create css for Home.jsx */
   .book_demo_btn {
     width: 60%;
   }
+  .restro_description{
+    padding-bottom: 0;
+  }
+  .description_btn_div {
+    margin-bottom: 3rem;
+  }
   /* ---------------Benefits Section-------------- */
   .benefits_card_div {
     padding-bottom: 2rem;
@@ -672,7 +678,8 @@ Reason:- Create css for Home.jsx */
   }
   /* ---------------Description Section-------------- */
   .description_btn_div {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
+    margin-bottom: 3rem;
   }
   .description_heading {
     font-size: 2rem;

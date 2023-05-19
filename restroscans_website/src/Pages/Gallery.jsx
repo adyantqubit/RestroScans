@@ -48,7 +48,13 @@ function Gallery() {
               <h2 className="gallery_main_heading">Gallery</h2>
             </div>
             <div class="bg_text">
-              <p className="gallery_text">(Text)</p>
+              <p className="gallery_text">
+                The Restroscan application is created to assist restaurant
+                proprietors and administrators in handling different aspects of
+                their business. It has a user-friendly and easy-to-use interface
+                that allows users to navigate through the various modules and
+                functions with ease.
+              </p>
               {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
             </div>
           </div>

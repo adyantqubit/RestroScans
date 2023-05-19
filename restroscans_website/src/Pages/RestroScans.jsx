@@ -72,6 +72,16 @@ function RestroScans() {
     } else {
       document.getElementById("mobile_number").innerText = "";
     }
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (owner.mobile_number.length > 10) {
+      document.getElementById("mobile_number").innerText =
+        "Pleace enter only 10 digits";
+      return false;
+    } else {
+      document.getElementById("mobile_number").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
 
     const response = await RestaurantRequestPostApi(owner);
     if (response["success"]) {
@@ -100,6 +110,14 @@ function RestroScans() {
   // Reason:- When click on cancel button, that fuction will be call
   const ResetForm = async () => {
     document.getElementById("form").reset();
+    // added by- Suman sahu On 20/05/2023
+    // reset error message after click cancle button
+    var arr=document.getElementsByClassName("restroscans_error_msg");
+    console.log(arr)
+    for(var i=0;i<arr.length;i++){
+      arr[i].innerHTML =""
+    }
+    // end of addition by- Suman sahu On 20/05/2023
   };
   // End of added code by- Suman sahu On 19/05/2023
 

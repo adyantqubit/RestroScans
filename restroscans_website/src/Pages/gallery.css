@@ -152,9 +152,9 @@
   .top_image {
     height: 40vh;
   }
-  .bg_text{
+  /* .bg_text{
     top: 23%;
-  }
+  } */
 }
 @media (max-width: 768px) {
   .gallery_image_div_2 {
@@ -187,7 +187,7 @@
     font-family: var(--responsive-heading-fontfamily);
   }
   .bg_text{
-    top: 18%;
+    top: 23%;
   }
   .gallery_text{
     font-size: .8rem;

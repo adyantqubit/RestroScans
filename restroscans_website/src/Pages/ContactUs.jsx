@@ -63,6 +63,16 @@ function ContactUs() {
     } else {
       document.getElementById("errMobileNumber").innerText = "";
     }
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (user.mobile_number.length > 10) {
+      document.getElementById("errMobileNumber").innerText =
+        "Pleace enter only 10 digits";
+      return false;
+    } else {
+      document.getElementById("errMobileNumber").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
 
     if (user.query === "") {
       document.getElementById("errQuery").innerText = "Please enter your query";
@@ -89,6 +99,14 @@ function ContactUs() {
   // Reason:- When click on cancel button, that fuction will be call
   const ResetForm = async () => {
     document.getElementById("form").reset();
+    // added by- Suman sahu On 20/05/2023
+    // reset error message after click cancle button
+    var arr = document.getElementsByClassName("contactus_error_msg");
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].innerHTML = "";
+    }
+    // end of addition by- Suman sahu On 20/05/2023
   };
   // End of added code by- Suman sahu On 19/05/2023
 
@@ -116,7 +134,7 @@ function ContactUs() {
     return true;
   }
   // End of addition by Suman sahu On 19/05/2023
-  
+
   return (
     <>
       <div className="contactus_container">
