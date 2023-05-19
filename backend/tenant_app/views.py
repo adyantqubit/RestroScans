@@ -64,6 +64,8 @@ class TenantAPIView(APIView):
 
 # added by rohan - 13/4/23
 # reason- to get top 10 best product
+# Modification and commented by Om Shrivastava on 19-05-23
+# Reason : Show only bestseller checkbox option  
 def getBestproduct():
     allItems = OrderItem.objects.all()
     tempSort = []
@@ -90,31 +92,36 @@ def getBestproduct():
     for best in bestProducts:
         bests.append({
             "item":best.id,
-            "rating":5.0
+            # "rating":5.0
         })
     
     sortedData = bests
     # end of code - 16/4/23
-    for item in tempSort:
-        OneProductRating = OrderItem.objects.filter(item_id=item['item'])
-        rating = []
-        for orderItem in OneProductRating:
-            if orderItem.rating is not None:
-                rating.append(float(orderItem.rating))
+    # for item in tempSort:
+    #     OneProductRating = OrderItem.objects.filter(item_id=item['item'])
+    #     rating = []
+    #     for orderItem in OneProductRating:
+    #         if orderItem.rating is not None:
+    #             rating.append(float(orderItem.rating))
 
         # added by rohan - 15/4/23
         # Reason - To solve rating devide by zero issue
-        if rating.__len__() !=0:
-            sortedData.append(
-                {
-                    "item": item['item'].id,
-                    "rating": sum(rating)/float(rating.__len__()),
-                    # "count":rating.__len__()
-                }
-        )
+        # if rating.__len__() !=0:
+        #     sortedData.append(
+        #         {
+        #             "item": item['item'].id,
+        #             "rating": sum(rating)/float(rating.__len__()),
+        #             # "count":rating.__len__()
+        #         }
+        # )
 
-    list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
-    return list[:10]
+    # list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
+    # Modification and addition by Om Shrivastava on 19-05-23
+    # Reason : Show only bestseller checkbox option 
+    # return list[:10]
+    return bests[:10]
+    # End of modification and addition by Om shrivastava on 19-05-23
+# End of modification and commented by Om Shrivastava on 19-05-23
 # end of code 13/4/23
 
 

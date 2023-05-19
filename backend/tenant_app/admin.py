@@ -171,7 +171,7 @@ class ItemAdmin(admin.ModelAdmin):
     # reason- change django default image field character validation message
     form = ItemForm
     # End of addition 07/05/2023
-    list_display=("id","name", "category", "price_full", "price_half",'is_active')
+    list_display=("id","name", "category", "price_full", "price_half",'is_active','best_seller',)
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=("id","name", "category", "price_full", "price_half",'is_active')

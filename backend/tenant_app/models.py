@@ -235,6 +235,19 @@ class Item(models.Model):
     class Meta:
         verbose_name_plural = 'e) Item'
     # End of addition
+
+    # AAdded by Om Shrivastava on 19-05-23
+    # Reason : When best seller number is greater than zero than through a error
+
+    def clean(self):
+        obj = Item.objects.filter(best_seller = True)
+        if (obj.count() >= 10):
+           if self.best_seller is True:
+                raise ValidationError({
+            'best_seller': ValidationError("You have already selected 10 best seller"),
+            }) 
+
+    # End of addition by Om Shrivastava on 19-05-23
 """
 End of code addition
 """
