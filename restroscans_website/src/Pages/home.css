@@ -367,6 +367,9 @@ Reason:- Create css for Home.jsx */
     margin-top: 2rem;
     width: 50%;
   }
+  .description_content_div{
+    width: 50%;
+  }
   /* -------------- Benefits Section------------ */
   .benefits_card {
     width: 25vw;
@@ -498,6 +501,9 @@ Reason:- Create css for Home.jsx */
     padding-bottom: 3rem;
     height: 77vh;
   }
+  .description_content_div{
+    width: 70%;
+  }
   .description_heading {
     margin: auto;
     padding: 0;
@@ -514,7 +520,7 @@ Reason:- Create css for Home.jsx */
   }
   .book_demo_btn {
     height: 3.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
     width: 50%;
   }
   /* ----------Features Section------------- */
@@ -578,7 +584,7 @@ Reason:- Create css for Home.jsx */
 @media (max-width: 600px) {
   /* ------------Description Section-------------- */
   .description_content_div {
-    width: 70%;
+    width: 80%;
   }
   .description_btn_div {
     width: 100%;
@@ -633,6 +639,18 @@ Reason:- Create css for Home.jsx */
   html {
     font-size: 30%;
   }
+  .home_description_section{
+    height: auto;
+  }
+  .description_content_div{
+    padding-top: 0;
+  }
+  .description_btn_div{
+    margin-bottom: 0;
+  }
+  .book_demo_btn{
+    margin-bottom: 0;
+  }
   /* ---------------Description Section-------------- */
   .book_demo_btn {
     width: 60%;
@@ -640,9 +658,7 @@ Reason:- Create css for Home.jsx */
   .restro_description {
     padding-bottom: 0;
   }
-  .description_btn_div {
-    margin-bottom: 3rem;
-  }
+  
   /* ---------------Benefits Section-------------- */
   .benefits_card_div {
     padding-bottom: 2rem;
@@ -677,10 +693,7 @@ Reason:- Create css for Home.jsx */
     font-size: 25%;
   }
   /* ---------------Description Section-------------- */
-  .description_btn_div {
-    /* margin-top: 2rem; */
-    margin-bottom: 3rem;
-  }
+  
   .description_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);

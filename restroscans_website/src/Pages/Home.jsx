@@ -91,15 +91,19 @@ function Home() {
           <div className="description_content_div">
             <h2 className="description_heading">Restroscans</h2>
             <p className="restro_description">
-              The Restroscan application is created to assist restaurant
-              proprietors and administrators in handling different aspects of
-              their business. It has a user-friendly and easy-to-use interface
-              that allows users to navigate through the various modules and
-              functions with ease. The Restroscan application is created to
-              assist restaurant proprietors and administrators in handling
-              different aspects of their business. It has a user-friendly and
-              easy-to-use interface that allows users to navigate through the
-              various modules and functions with ease.
+              Restaurant management software is a comprehensive digital solution
+              designed to streamline and optimize various operational aspects of
+              running a restaurant. It combines multiple tools and features into
+              a unified platform, providing restaurant owners and managers with
+              efficient control over their establishment's day-to-day
+              operations. Here's a description of restaurant management
+              software: Overall, restaurant management software empowers owners
+              and managers to streamline operations, enhance customer
+              experiences, and make informed decisions. By automating repetitive
+              tasks, optimizing resource allocation, and providing valuable
+              insights, it contributes to improved efficiency, reduced costs,
+              and increased profitability in the highly competitive restaurant
+              industry.
             </p>
             <div className="description_btn_div">
               <button
