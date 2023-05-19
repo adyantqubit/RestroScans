@@ -112,10 +112,10 @@ function RestroScans() {
     document.getElementById("form").reset();
     // added by- Suman sahu On 20/05/2023
     // reset error message after click cancle button
-    var arr=document.getElementsByClassName("restroscans_error_msg");
-    console.log(arr)
-    for(var i=0;i<arr.length;i++){
-      arr[i].innerHTML =""
+    var arr = document.getElementsByClassName("restroscans_error_msg");
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].innerHTML = "";
     }
     // end of addition by- Suman sahu On 20/05/2023
   };

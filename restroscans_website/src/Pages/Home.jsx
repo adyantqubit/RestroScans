@@ -260,7 +260,6 @@ function Home() {
             }
           </div> */}
 
-
           {pricingData != null && pricingData.length > 0 ? (
             <div className="pricing_gallery_clients">
               <div className="home_pricing_section">
@@ -299,8 +298,6 @@ function Home() {
               </div>
             </div>
           ) : null}
-
-
 
           {galleryData != null && galleryData.length > 0 ? (
             <div className="home_gallery_section_1">

@@ -97,7 +97,7 @@ function Pricing() {
           </div>
         ) : null}
 
-        {Data != null && Data.length > 0? (
+        {Data != null && Data.length > 0 ? (
           <div>
             <div className="pricing_main_heading">Feature Details</div>
             {Data.map((item) => {

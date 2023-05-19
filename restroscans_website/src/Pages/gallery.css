@@ -14,7 +14,7 @@
   width: 100%;
   display: block;
 }
-.gallery_main_heading{
+.gallery_main_heading {
   padding-top: 5rem;
   margin-top: 0;
   font-weight: 800;
@@ -37,7 +37,7 @@
   align-items: center;
   text-align: justify;
 }
-.gallery_text{
+.gallery_text {
   font-size: var(--descriptions-textFontSize);
   font-family: var(--descriptions-textFontFamily);
   margin: 0;
@@ -88,13 +88,13 @@
   font-family: var(--descriptions-textFontFamily);
 }
 
-.customer_feedback_heading{
+.customer_feedback_heading {
   font-size: var(--primary-textFontSize);
   font-family: var(--primary-headingFontFamily);
   margin-top: 0;
 }
 
-.feedbacks_container{
+.feedbacks_container {
   height: 100%;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -103,13 +103,13 @@
   flex-wrap: wrap;
   justify-content: center;
 }
-.feedbacks{
+.feedbacks {
   width: fit-content;
   margin: 0.5rem 0.5rem;
   border: 1px solid #697206;
   font-family: var(--descriptions-textFontFamily);
   /* background-image: radial-gradient(circle, #949616 10%, #697206 100%); */
-  box-shadow: 1px 1px 4px 1px #697206 ;
+  box-shadow: 1px 1px 4px 1px #697206;
   /* color: aliceblue; */
   font-weight: 500;
   padding: 1rem;
@@ -117,17 +117,17 @@
   display: flex;
   text-align: left;
 }
-.feedback_icon_div{
+.feedback_icon_div {
   padding-right: 1rem;
 }
-.feedback_date{
+.feedback_date {
   float: right;
   margin: 0;
 }
-.feedback_title{
+.feedback_title {
   margin: 0;
 }
-.feedback_description{
+.feedback_description {
   margin: 0;
 }
 
@@ -144,7 +144,7 @@
   .gallery_images {
     height: 25vh;
   }
-  .bg_text{
+  .bg_text {
     width: 60%;
   }
 }
@@ -173,29 +173,30 @@
   .gallery_images {
     height: 25vh;
   }
-  .gallery_main_heading, .customer_feedback_heading{
+  .gallery_main_heading,
+  .customer_feedback_heading {
     font-family: var(--responsive-heading-fontfamily);
   }
 }
 
 @media (max-width: 400px) {
-  .top_image{
+  .top_image {
     height: 30vh;
   }
-  .gallery_main_heading{
+  .gallery_main_heading {
     font-size: 2rem;
     font-family: var(--responsive-heading-fontfamily);
   }
-  .bg_text{
+  .bg_text {
     top: 23%;
   }
-  .gallery_text{
-    font-size: .8rem;
+  .gallery_text {
+    font-size: 0.8rem;
   }
   .gallery_images {
     height: 20vh;
   }
-  .customer_feedback_heading{
+  .customer_feedback_heading {
     font-size: 2rem;
     padding-top: 1rem;
     font-family: var(--responsive-heading-fontfamily);

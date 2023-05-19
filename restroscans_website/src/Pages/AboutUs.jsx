@@ -143,14 +143,11 @@ function AboutUs() {
         </div>
         <div className="success_story_content_div">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-            voluptatum cum impedit eaque! Blanditiis, perferendis reiciendis!
-            Dolores hic adipisci, fugit vero quis cumque, soluta beatae,
-            repellat explicabo ipsa exercitationem molestiae. Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Est voluptatum cum impedit
-            eaque! Blanditiis, perferendis reiciendis! Dolores hic adipisci,
-            fugit vero quis cumque, soluta beatae, repellat explicabo ipsa
-            exercitationem molestiae.
+            The Restroscan application is created to assist restaurant
+            proprietors and administrators in handling different aspects of
+            their business. It has a user-friendly and easy-to-use interface
+            that allows users to navigate through the various modules and
+            functions with ease.
           </p>
         </div>
       </div>

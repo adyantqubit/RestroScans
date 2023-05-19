@@ -260,10 +260,12 @@ Reason:- Create css for aboutus.jsx */
   .aboutus_services_description {
     font-size: 1.2rem;
   }
-  .aboutus_restroscans_heading, .aboutus_restroscans_adyant_heading, .success_story_heading {
+  .aboutus_restroscans_heading,
+  .aboutus_restroscans_adyant_heading,
+  .success_story_heading {
     font-size: 2rem;
   }
-  .aboutus_restroscans_heading{
+  .aboutus_restroscans_heading {
     width: 30%;
   }
 }
@@ -318,19 +320,20 @@ Reason:- Create css for aboutus.jsx */
   .aboutus_scanner_img {
     height: 40vh;
   }
-  .aboutus_restroscans_adyant_heading{
+  .aboutus_restroscans_adyant_heading {
     padding-top: 1rem;
-    font-family: var(--primary-subheading-textFontSize);;
+    font-family: var(--primary-subheading-textFontSize);
   }
   .aboutus_main_heading,
   .aboutus_restroscans_heading,
   .aboutus_restroscans_adyant_heading,
-  .success_story_heading ,
+  .success_story_heading,
   .aboutus_adyant_heading,
-  .aboutus_services_heading{
+  .aboutus_services_heading {
     font-family: var(--responsive-heading-fontfamily);
   }
-  .aboutus_restroscans_heading, .aboutus_restroscans_adyant_heading {
+  .aboutus_restroscans_heading,
+  .aboutus_restroscans_adyant_heading {
     font-size: 1.7rem;
   }
 }

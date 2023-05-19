@@ -109,15 +109,15 @@ h6 {
     position: fixed;
     z-index: 9999;
   }
-  .footer_adyant_logo{
+  .footer_adyant_logo {
     padding-left: 1rem;
   }
   .footer_section_2 h5 {
     left: 30%;
   }
-  .adyant{
+  .adyant {
     padding-right: 1rem;
-    margin-top: .7rem;
+    margin-top: 0.7rem;
   }
   .footer_adyant_logo {
     width: 6.5vw;
@@ -138,7 +138,7 @@ h6 {
   }
   .footer_section_2 h5 {
     left: 20%;
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
 }
 @media (max-width: 400px) {
@@ -150,7 +150,7 @@ h6 {
   }
   .adyant {
     font-size: 0.8rem;
-    margin-top: .8rem;
+    margin-top: 0.8rem;
   }
   .footer_adyant_logo {
     height: 2vh;

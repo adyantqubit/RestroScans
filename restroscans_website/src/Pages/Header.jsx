@@ -61,7 +61,6 @@ function Header({ isOpen, setIsOpen }) {
         </label>
         <button
           className="header_btn_responsive"
-
           // Modified by - Suman sahu On 19/05/2023
           // Reason- hide menu drawer when click on "Get Restroscans" button in responsive
           onClick={() => {
@@ -98,7 +97,11 @@ function Header({ isOpen, setIsOpen }) {
 
             <li>
               <FontAwesomeIcon icon={faImage} className="header_link_icons" />
-              <NavLink className="header_links" to="/gallery" onClick={menuClose}>
+              <NavLink
+                className="header_links"
+                to="/gallery"
+                onClick={menuClose}
+              >
                 Gallery
               </NavLink>
             </li>
@@ -132,7 +135,11 @@ function Header({ isOpen, setIsOpen }) {
 
             <li>
               <FontAwesomeIcon icon={faUser} className="header_link_icons" />
-              <NavLink className="header_links" to="/aboutus" onClick={menuClose}>
+              <NavLink
+                className="header_links"
+                to="/aboutus"
+                onClick={menuClose}
+              >
                 About Us
               </NavLink>
             </li>

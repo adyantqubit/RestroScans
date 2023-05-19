@@ -117,6 +117,8 @@ Reason:- Create css for aboutus.jsx */
 }
 .left_pricing_container {
   width: 40%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .right_pricing_container {
   width: 70%;
@@ -204,7 +206,7 @@ Reason:- Create css for aboutus.jsx */
   .pricing_main_heading {
     font-family: var(--responsive-heading-fontfamily);
   }
-  .slider_div_pricing{
+  .slider_div_pricing {
     height: 50vh;
   }
 }
