@@ -101,6 +101,7 @@ input::placeholder {
   color: rgb(207, 0, 0);
   font-size: 1rem;
   margin-top: -0.6rem;
+  font-weight: 800;
 }
 
 @media (max-width: 1400px) {

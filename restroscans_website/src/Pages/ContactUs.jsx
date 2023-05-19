@@ -40,9 +40,9 @@ function ContactUs() {
 
     // Added by- Suman sahu On 19/05/2023
     // Reason- for show length validation in name input field
-    if (user.name.length > 20) {
+    if (user.name.length > 50) {
       document.getElementById("errName").innerText =
-        "Name should be below 20 characters";
+        "Name should be below 50 characters";
       return false;
     } else {
       document.getElementById("errName").innerText = "";
@@ -63,11 +63,22 @@ function ContactUs() {
     } else {
       document.getElementById("errMobileNumber").innerText = "";
     }
-    // Added by- Suman sahu On 19/05/2023
+    // Added by- Suman sahu On 20/05/2023
     // Reason- for show length validation in mobile number input field
     if (user.mobile_number.length > 10) {
       document.getElementById("errMobileNumber").innerText =
-        "Pleace enter only 10 digits";
+        "Please enter only 10 digits";
+      return false;
+    } else {
+      document.getElementById("errMobileNumber").innerText = "";
+    }
+    // End of addition by Suman sahu On 20/05/2023
+
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (user.mobile_number.length < 10) {
+      document.getElementById("errMobileNumber").innerText =
+        "Please enter atleast 10 digits";
       return false;
     } else {
       document.getElementById("errMobileNumber").innerText = "";

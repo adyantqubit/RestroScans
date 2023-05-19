@@ -41,6 +41,7 @@
   font-size: var(--descriptions-textFontSize);
   font-family: var(--descriptions-textFontFamily);
   margin: 0;
+  hyphens: auto;
 }
 .gallery_logo {
   height: 40vh;

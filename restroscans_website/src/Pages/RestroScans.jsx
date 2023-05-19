@@ -41,9 +41,9 @@ function RestroScans() {
 
     // Added by- Suman sahu On 19/05/2023
     // Reason- for show length validation in owner name input field
-    if (owner.owner_name.length > 20) {
+    if (owner.owner_name.length > 50) {
       document.getElementById("ownerName").innerText =
-        "Name should be below 20 characters";
+        "Name should be below 50 characters";
       return false;
     } else {
       document.getElementById("ownerName").innerText = "";
@@ -76,12 +76,23 @@ function RestroScans() {
     // Reason- for show length validation in mobile number input field
     if (owner.mobile_number.length > 10) {
       document.getElementById("mobile_number").innerText =
-        "Pleace enter only 10 digits";
+        "Please enter only 10 digits";
       return false;
     } else {
       document.getElementById("mobile_number").innerText = "";
     }
     // End of addition by Suman sahu On 19/05/2023
+
+    // Added by- Suman sahu On 20/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (owner.mobile_number.length < 10) {
+      document.getElementById("mobile_number").innerText =
+        "Please enter atleast 10 digits";
+      return false;
+    } else {
+      document.getElementById("mobile_number").innerText = "";
+    }
+    // End of addition by Suman sahu On 20/05/2023
 
     const response = await RestaurantRequestPostApi(owner);
     if (response["success"]) {

@@ -426,7 +426,7 @@ Reason - To store Restroscans requests
 class GetRestroscansRequest(models.Model):
     id = models.AutoField(primary_key=True)
     restaurant_name = models.CharField(max_length=255, default="")
-    owner_name = models.CharField(max_length=20, default="")
+    owner_name = models.CharField(max_length=50, default="")
     email = models.EmailField()
     # mobile_number = models.CharField(max_length=15, default="", unique=True)
     mobile_number = models.CharField(max_length=15, default="")
@@ -448,7 +448,7 @@ Reason - To store Contact Us form
 
 class ContactUsRequest(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20, default="")
+    name = models.CharField(max_length=50, default="")
     email = models.EmailField()
     # mobile_number = models.CharField(max_length=15, default="", unique=True)
     mobile_number = models.CharField(max_length=15, default="")

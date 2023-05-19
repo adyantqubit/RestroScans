@@ -147,7 +147,7 @@ Reason:- Create css for contactus.jsx */
   height: 65vh;
   width: 80%;
   /* background: rgba(210, 224, 238, 0.5); */
-  background: rgb(60 72 84 / 50%);
+  background: rgba(54, 55, 57, 0.5);
   box-shadow: 1px 1px 4px 1px gray;
   margin: auto;
   top: 0;
@@ -209,6 +209,25 @@ Reason:- Create css for contactus.jsx */
   box-shadow: 1px 1px 4px 1px gray;
   resize: none;
   padding-top: 1rem;
+  padding-right: 1rem;
+}
+
+#query::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 3rem;
+  background-color: #f5f5f5;
+  /* display: none; */
+}
+
+#query::-webkit-scrollbar {
+  width: 12px;
+  display: none;
+}
+
+#query::-webkit-scrollbar-thumb {
+  border-radius: 3rem;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
 }
 .query_input_box:hover {
   border: 1px solid rgb(23, 92, 92);
@@ -263,7 +282,8 @@ textarea::placeholder {
   color: rgb(207, 0, 0);
   font-size: 1rem;
   margin-top: -0.6rem;
-  font-family: var(--descriptions-textFontFamily);
+  /* font-family: var(--descriptions-textFontFamily); */
+  font-weight: 800;
 }
 
 @media (max-width: 1400px) {
