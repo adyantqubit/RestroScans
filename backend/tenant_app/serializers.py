@@ -143,7 +143,7 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 # Reason : show the Order
 class OrderSerializer(serializers.ModelSerializer):
     # Added by Rohan Kansari - 25/5/23
-# Reason - Creating other serialzer becuase it is conflicting with current other
+    # Reason - Creating other serialzer becuase it is conflicting with current other
     customer_number = serializers.CharField(source="customer_id.contact_number",allow_null=True,required=False)
     customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
     # end of code- ROhna kansari - 25/5/23

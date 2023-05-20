@@ -156,7 +156,7 @@ const Billing = () => {
                 <div className={style.breakLine} />  
       
                 <div className={style.calculationLine}><div className={style.calculationLabel}>******** THANK YOU VISIT AGAIN *********</div></div>
-                <div className={style.btnContainer}>
+                <div className={style.btnContainer} id="btn">
                     <button className={style.btn} onClick={e=>nav(-1)}>Cancel</button>
                     <button className={style.btn} onClick={e=>window.print()}>Print</button>
                 </div>

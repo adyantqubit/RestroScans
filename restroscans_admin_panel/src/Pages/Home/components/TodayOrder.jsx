@@ -3,7 +3,7 @@ import style from './todayOrder.module.css'
 import { TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Tfoot, PopoverTrigger, IconButton, FocusLock, PopoverArrow, PopoverContent, PopoverCloseButton } from '@chakra-ui/react'
 import { GrFormCheckmark } from 'react-icons/gr'
 import { GiRiceCooker } from "react-icons/gi"
-import { getDashboardData, updateItemStatus, updateOrderAndPaymentStatus } from '../../../Api/services'
+import { getDashboardData, updateAllOrderAPI, updateItemStatus, updateOrderAndPaymentStatus } from '../../../Api/services'
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdKeyboardArrowDown, MdDownloading } from "react-icons/md"
 import { RiErrorWarningLine } from "react-icons/ri"
@@ -51,6 +51,11 @@ const TodayOrder = () => {
     var [orderItemList, setOrderItem] = useState(null)
     var updatedStatus = useRef({ value: [] })
     var [selectedOrder, setSelectedOrder] = useState([])
+
+    // Added by ROhan Kansari - 25/5/23
+    // Reason - To save checked item and update
+    var [checkedItems,setCheckedItem]=useState([])
+    // End of code - 25/5/23
 
     // Billing data
     const [restroDetail, setRestroDetail] = useState(null)
@@ -198,7 +203,10 @@ const TodayOrder = () => {
 
                 <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
                     <div className={style.selectionContainer}>
-                        <button className={style.kotPrint}>Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+                        <button className={style.kotPrint}
+                        // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
+                            onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+                        >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
                     </div>
                     <div className={style.selectionContainer}>
                         <button className={style.billPrint}
@@ -317,8 +325,46 @@ const TodayOrder = () => {
 //     setItemOffset(newOffset);
 //   };
 
+function setCheckedItems(data,checked){
+    if(checked)
+    setCheckedItem([...checkedItems,data])
+    else
+    setCheckedItem(checkedItems.filter(e=>e.id!=data.id))
+}
+
+async function updateAll(){
+
+    const data={
+      order_status: document.getElementById("all_order_status_selected").value,
+      payment_status: document.getElementById("all_payment_status_selected").value,
+      orders:checkedItems
+    }
+    console.log(data)
+    const tenant =JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+
+    await updateAllOrderAPI(tenant,data).then(r=>{
+        Message("Succefully status updated ", "success")
+                    setNewlyPlacedOrders(r.todays_newly_placed_orders);
+                    setPendingOrders(r.todays_pending_orders);
+                    setCompletedOrders(r.todays_completed_orders);
+                    setOrderItem(r.order_item)
+                    var radioInputs = document.querySelectorAll("input")
+                    if (radioInputs[0].checked) {
+                        setSelectedOrder(r.todays_newly_placed_orders)
+                    }
+                    else if (radioInputs[1].checked) {
+                        setSelectedOrder(r.todays_pending_orders)
+                    }
+                    else if (radioInputs[2].checked) {
+                        setSelectedOrder(r.todays_completed_orders)
+                    }
+    })
+}
+
     return (
         <>
+        {/* Added and modified by - ROhan Kansari - 25/5/23
+            Reason - added checkbox and change name of mapped data  */}
             <div className={style.radioGroup}>
                 <input className={style.radioButton} type='radio' id="radio1" name="group" defaultChecked={true} />
                 <label className={style.tabLabel} htmlFor='radio1' onClick={e => setSelectedOrder(newlyPlaced)}>Newly Placed</label>
@@ -333,7 +379,7 @@ const TodayOrder = () => {
                     <div className={style.table}>
                         <div className={style.tableHeading}>
                             <div className={style.column1}>Sno</div>
-                            <div className={style.column2}>Table No </div>
+                            <div className={style.column2}><input className={style.checkbox} type="checkbox" onChange={e=>setCheckedItem(selectedOrder)}/>Table No </div>
                             <div className={style.column8}>Order no</div>
                             <div className={style.column3}>Order Status</div>
                             <div className={style.column4}>Time</div>
@@ -342,9 +388,12 @@ const TodayOrder = () => {
                             <div className={style.column7}>Action</div>
                         </div>
 
-                        {selectedOrder && selectedOrder.length > 0 ? selectedOrder.map((m, i) => (
+                        {selectedOrder && selectedOrder.length > 0 ? selectedOrder.map((data, i) => (
                             <div className={style.row} >
                                 <div className={style.columnData1}>{i + 1}</div>
+                                <div className={style.columnData2} onClick={e => setPopupOrderItem(true)}>
+                                <input className={style.checkbox}  
+                                onChange={e=>setCheckedItems(data,e.target.checked)} type="checkbox"/>
                                 <Popover placement="right"
                                     trigger="click"
                                     onOpenChange={e => {
@@ -352,22 +401,23 @@ const TodayOrder = () => {
                                             selectboxReset()
                                         }
                                     }}
-                                    content={e => orderItemModel(orderItemList?.filter(o => o.order_id == m.order_id), i)}
+                                    content={e => orderItemModel(orderItemList?.filter(o => o.order_id == data.order_id), i)}
                                 >
-                                    <div className={style.columnData2} onClick={e => setPopupOrderItem(true)}>
-                                        {m.table_number}
-                                    </div>
+                                    
+                                        {data.table_number}
+                                  
                                     {/* <button className={style.printBtn} onClick={e => setPopupOpen({ [`${i}`]: true })}>More</button> */}
                                 </Popover>
+                                </div>
 
-                                <div className={style.columnData8}>{m.order_id}</div>
-                                <div className={style.columnData3}>{getStatusBtn(m.order_status)}</div>
-                                <div className={style.columnData4}>{m.date.substring(11, 16)}</div>
-                                <div className={style.columnData5}>{m.total}</div>
-                                <div className={style.columnData6}>{getStatusBtn(m.payment_status)}</div>
+                                <div className={style.columnData8}>{data.order_id}</div>
+                                <div className={style.columnData3}>{getStatusBtn(data.order_status)}</div>
+                                <div className={style.columnData4}>{data.date.substring(11, 16)}</div>
+                                <div className={style.columnData5}>{data.total}</div>
+                                <div className={style.columnData6}>{getStatusBtn(data.payment_status)}</div>
                                 <div className={style.columnData7}>
                                     <Popover placement="left"
-                                        content={e => model(m, i)}
+                                        content={e => model(data, i)}
                                         onOpenChange={e => {
                                             if (!e) {
                                                 selectboxReset()
@@ -384,6 +434,29 @@ const TodayOrder = () => {
                     </div>
 
                 </div>
+            </div>
+            <div className={style.MultiupdateContainer}>
+                <div className={style.updateflexContainer}>
+                    <div className={style.lable} style={{ fontWeight: "500" }}>Order status</div>
+                    <div className={style.selctedContentBox}>
+                        <select id="all_order_status_selected" onChange={e=> document.getElementById("all_order_status_selected").value=e.target.value}>
+                            <option value="Placed" className={style.options}>Placed</option>
+                            <option value="Confirm" className={style.options}>Confirm</option>
+                            <option value="Cooked" className={style.options}>Cooked</option>
+                            <option value="Served" className={style.options}>Served</option>
+                        </select>
+                    </div>
+                </div>
+                <div className={style.updateflexContainer}>
+                    <div className={style.lable} style={{ fontWeight: "500",marginLeft:"20px" }}>Payment status</div>
+                    <div className={style.selctedContentBox}>
+                        <select id="all_payment_status_selected" onChange={e=> document.getElementById("all_payment_status_selected").value=e.target.value}>
+                            <option value="Pending" className={style.options}>Pending</option>
+                            <option value="Completed" className={style.options}>Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div className={style.updateBtn} onClick={e=>updateAll()}>Update All</div>
             </div>
 
             {/* <ReactPaginate

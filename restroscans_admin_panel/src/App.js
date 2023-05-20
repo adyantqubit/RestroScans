@@ -12,6 +12,7 @@ import Billing from './Pages/Billing/Billing';
 import { tokenValidationAPI } from './Api/services';
 import Footer from './Pages/GlobalComponent/Footer';
 import QRCode from './Pages/Home/QRcode';
+import Kot from './Pages/Kot/Kot';
 
 var Message=0;
 var AutoValidateToken=0
@@ -71,7 +72,10 @@ function App() {
       <Route path="/Forget" element={<Forget/>}/> */}
       <Route path="/Dashboard" element={<Dashboard/>} />
       <Route path="/Billing" element={<Billing/>} />
-      <Route path="/QRcode" element={<QRCode/>} />
+      {/* Added by Rohan Kansari - 25/5/23
+          Reason - Kot page added */}
+      <Route path="/kot" element={<Kot/>}/>
+      {/*End of code- Rohan Kansari - 25/5/23  */}
     </Routes>
     <Footer/>
     {/* </Header> */}

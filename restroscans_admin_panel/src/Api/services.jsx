@@ -93,3 +93,18 @@ export const postRestaurantDetail = async (value) => {
     }).catch((err) => console.log(err));
     return response ? response.data : {};
   };
+
+
+  // Added by ROhan Kansari - 25/5/23
+  // Reason - sending all selected order to update in one click
+
+  export const updateAllOrderAPI = async ( tenant,orders) => {
+    const response = await API.post(`/api/v1/${tenant}/all-order-status-update/`, orders, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => console.log(err));
+    return response ? response.data : {};
+  };
+
+  // End of code - Rohan KAnsari - 25/5/23

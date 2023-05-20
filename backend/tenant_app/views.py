@@ -1334,6 +1334,7 @@ class DashboardAPI(APIView):
             "address": tenant.restaurant_name.address
         }
 
+
         # return Response({ "setting": settingserailize.data, "tenant": tenant_detail}, 200)
 
         return Response({
@@ -1367,15 +1368,19 @@ class UpdateOrderPaymentStatus(APIView):
         serializedData = OrderSerializer(orderObj,request.data, partial=True)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
-            orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
-            
+            # Removed by RohanKAnsari - shifted below for latest order Item - 25/5/23
             # Added by - Rohan Kansari- 19/5/23 - 
             # To get updated information of updated order of todays order
-            orderItemSerializer=OrderItemWithOrderIdSerializer(orderItems, many=True)
+            # orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
+            # orderItemSerializer=OrderItemWithOrderIdSerializer(orderItems, many=True)
+            # # Added by Rohan kansari-  
+            
     
             from django.utils.timezone import datetime
             today=datetime.today().date()
-
+            
+            todays_order_item=OrderItem.objects.filter(date__gte=today)
+            todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
             todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
             todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
 
@@ -1386,7 +1391,7 @@ class UpdateOrderPaymentStatus(APIView):
             todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
             todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
-            return Response({"success":"Updated status","order_items":orderItemSerializer.data 
+            return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
                              ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
                              ,"todays_pending_orders":todays_pending_orders_serializer.data
                              ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
@@ -1730,4 +1735,48 @@ class UpdateItemStatus(APIView):
        return Response(serializer.data)                     
 
 
-# End of code - Rohan Kansari - 27/5/23
+# End of code - Rohan Kansari - 22/5/23
+
+# Added by Rohan Kansari - 25/5/23
+# Reason - To update item status 
+
+class UpdateAllOrderStatus(APIView):
+    def post(self, request, tenant):
+        allData=request.data["orders"]
+       
+        for data in allData:
+            print(request.data["order_status"],request.data['payment_status'],data['order_status'],data["payment_status"])
+            data['order_status']=request.data["order_status"]
+            data["payment_status"]=request.data['payment_status']
+            if request.data["order_status"] == "Confirm":
+                OrderItem.objects.filter(order_id__order_id=data['order_id'], item_status="Pending").update(item_status="Confirm")
+            
+            Order.objects.filter(order_id = data['order_id']).update(order_status=data["order_status"],payment_status=data['payment_status'])
+          
+
+
+        from django.utils.timezone import datetime
+        today=datetime.today().date()
+        
+        todays_order_item=OrderItem.objects.filter(date__gte=today)
+        todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+        todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+
+        from django.db.models import Q
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+        todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+        todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+
+        return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
+                            ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
+                            ,"todays_pending_orders":todays_pending_orders_serializer.data
+                            ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
+                
+       
+        return Response(request.data)                     
+
+
+# End of code - Rohan Kansari - 25/5/23

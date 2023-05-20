@@ -192,7 +192,9 @@
     width: 95%;
     margin: 10px auto;
     background-color: black;
-    height: 1px;
+    /* Added by Rohan */
+    height: .5px;
+    border: .5px solid black;
 
 }
 
@@ -332,3 +334,18 @@
     border: 1px solid #185ee0;
 }
 /* End of added code */
+
+/* Added by Rohan -25/5/23*/
+#line{
+    background-color: black;
+    height: .5px;
+    width: 95%;
+    margin: 0 auto;
+    border: .5px solid #9c9c9c;
+}
+@media print{
+    .btn{
+        display: none;
+    }
+  
+}
