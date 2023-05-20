@@ -22,34 +22,79 @@ const Sidebar = () => {
   // Added by Om Shrivastava on 02-06-23
   // Reason : Need to navigate when user click the main div
   const navigateToDashboard = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/Dashboard');
   };
 
   const navigateToBanner = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/BannerOffer');
   };
   const navigateToOrderReport = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/OrderReport');
   };
   const navigateToOrderItemReport = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10);
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/OrderItemReport');
   };
   const navigateToCustomerReport = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10);
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/CustomerReport');
   };
   const navigateToRevenue = () => {
     navigate('/Revenue');
   };
   const navigateToBannerItems = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/BannerOfferItem');
   };
   const navigateToMenu = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/Menu');
   };
   const navigateToCategory = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/Category');
   };
   const navigateToItem = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/item');
   };
   const navigateToSetting = () => {
@@ -59,15 +104,35 @@ const Sidebar = () => {
     navigate('/FooterDescription');
   };
   const navigateToCustomerDetail = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/CustomerDetail');
   };
   const navigateToOrder = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/Order');
   };
   const navigateToOrderItem = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/OrderItem');
   };
   const navigateToPayment = () => {
+    // Added by Rohan Kansari - 23/6/23
+    // Reason - Save default value in localstorage of page index and list per page
+    localStorage.setItem("globalPageIndex",1); 
+    localStorage.setItem("listPerPage",10)
+    // ENd of code - ROhan Kansari - 23/6/23
     navigate('/PaymentMethod');
   };
   const navigateToQR = () => {
@@ -112,7 +177,9 @@ const Sidebar = () => {
             to="/Dashboard"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
           // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -129,7 +196,9 @@ const Sidebar = () => {
             to="/BannerOffer"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+           // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
           // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -163,7 +232,9 @@ const Sidebar = () => {
                 to="/OrderReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
-                onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
                 // End of code - Rohan kansari - 22/6/23
               >
                 Order Report
@@ -184,7 +255,9 @@ const Sidebar = () => {
                 to="/OrderItemReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
-                onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
                 // End of code - Rohan kansari - 22/6/23
               >
                 Order Item Report
@@ -205,7 +278,9 @@ const Sidebar = () => {
                 to="/CustomerReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
-                onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
                 // End of code - Rohan kansari - 22/6/23
               >
                 Customer Report
@@ -239,7 +314,9 @@ const Sidebar = () => {
             to="/BannerOfferItem"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -256,7 +333,9 @@ const Sidebar = () => {
             to="/Menu"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -273,7 +352,9 @@ const Sidebar = () => {
             to="/Category"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+           // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -290,7 +371,9 @@ const Sidebar = () => {
             to="/item"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+           // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -334,7 +417,9 @@ const Sidebar = () => {
             to="/CustomerDetail"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -351,7 +436,9 @@ const Sidebar = () => {
             to="/Order"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+           // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}
@@ -368,7 +455,9 @@ const Sidebar = () => {
             to="/OrderItem"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
           >
             {" "}

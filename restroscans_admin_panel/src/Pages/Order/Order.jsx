@@ -83,9 +83,15 @@ const Order = () => {
 
   useEffect(() => {
     allOrders();
-
+     //Added by ROhan KAnsari - 22/6/23
+    // Reason - to set currentpage to global
+    localStorage.setItem("globalPageIndex", currentPage)
+    
+    // End of code - Rohan Kansari - 22/6/23
   }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
   /**
+   
+
    
    * End of code addition by - Om Shrivastava on 15-06-23
    * Reason - method that will execute when sorting on column is applied or page number is changed.

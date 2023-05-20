@@ -383,8 +383,11 @@
     /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
     display: flex;
     /* Added by Om Shrivastava on 17-05-23 */
-    justify-content: flex-end;
-    padding: 6px 15px 0px 0px;
+    /* Modified by ROhan kansari - 236/23
+       Reason - To set button is start in all page */
+    justify-content: start;
+    padding: 6px 15px 0px 1%;
+    /* ENd of code - Rohan KAnsari - 23/6/23 */
     /* End of addition by Om Shrivastava on 17-05-23 */
     /* End of added code 05-04-2023 */
 }

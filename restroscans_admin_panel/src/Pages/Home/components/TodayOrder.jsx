@@ -50,6 +50,12 @@ function getStatusBtn(status) {
 }
 
 const TodayOrder = () => {
+    
+    // Added by Rohan kansari - 23/6/23
+    // Reason - To set Default selected tab when nothing is selected
+    if (localStorage.getItem("selectedTab") == null)
+        localStorage.setItem("selectedTab", "Newly_placed");
+    //    End of code - Rohan kansari - 23/6/23
 
     const [todaysPendingOrder, setPendingOrders] = useState(null)
     const [todaysCompletedOrder, setCompletedOrders] = useState(null)
@@ -89,11 +95,15 @@ const TodayOrder = () => {
     const nav = useNavigate()
 
     useEffect(() => {
+
         // Added by Om Shrivastava on 02-06-23
         // Reason : Fix the logout issue
-        if(JSON.parse(localStorage.getItem("tenantInfo"))?.tenant_name)
-        // End of addition by Om Shrivastava on 02-06-23
-        BackendCall()
+        if (JSON.parse(localStorage.getItem("tenantInfo"))?.tenant_name)
+            // End of addition by Om Shrivastava on 02-06-23
+            BackendCall()
+
+
+
     }, [])
 
     async function BackendCall() {
@@ -113,7 +123,21 @@ const TodayOrder = () => {
             setGstFsaai(response.setting)
             setRestroDetail(response.tenant)
             setOrderItem(response.order_item)
-            setSelectedOrder(response.todays_newly_placed_orders)
+            // Added by Rohan kansari - 23/6/23 
+            // Reason - To set current selected tab items in useState
+            // setSelectedOrder(response.todays_newly_placed_orders)
+
+            if (localStorage.getItem("selectedTab") == "Newly_placed") {
+                setSelectedOrder(response.todays_newly_placed_orders)
+            }
+            else if (localStorage.getItem("selectedTab") == "Pending") {
+                setSelectedOrder(response.todays_pending_orders)
+            }
+            else if (localStorage.getItem("selectedTab") == "Completed") {
+                setSelectedOrder(response.todays_completed_orders)
+            }
+
+            // End of code - Rohan kansari - 23/6/23
         }
     }
 
@@ -164,28 +188,28 @@ const TodayOrder = () => {
             // reason - fix issue when update order status and payment status in the modal
 
             // if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
-                await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
-                    if (r.success) {
-                        Message("Successfully status updated ", "success")
-                        setNewlyPlacedOrders(r.todays_newly_placed_orders);
-                        setPendingOrders(r.todays_pending_orders);
-                        setCompletedOrders(r.todays_completed_orders);
-                        setOrderItem(r.order_items)
-                        setPopupOpen(!popupOpen)
+            await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
+                if (r.success) {
+                    Message("Successfully status updated ", "success")
+                    setNewlyPlacedOrders(r.todays_newly_placed_orders);
+                    setPendingOrders(r.todays_pending_orders);
+                    setCompletedOrders(r.todays_completed_orders);
+                    setOrderItem(r.order_items)
+                    setPopupOpen(!popupOpen)
 
-                        var radioInputs = document.querySelectorAll("input")
-                        if (radioInputs[0].checked) {
-                            setSelectedOrder(r.todays_newly_placed_orders)
-                        }
-                        else if (radioInputs[1].checked) {
-                            setSelectedOrder(r.todays_pending_orders)
-                        }
-                        else if (radioInputs[2].checked) {
-                            setSelectedOrder(r.todays_completed_orders)
-                        }
-
+                    var radioInputs = document.querySelectorAll("input")
+                    if (radioInputs[0].checked) {
+                        setSelectedOrder(r.todays_newly_placed_orders)
                     }
-                })
+                    else if (radioInputs[1].checked) {
+                        setSelectedOrder(r.todays_pending_orders)
+                    }
+                    else if (radioInputs[2].checked) {
+                        setSelectedOrder(r.todays_completed_orders)
+                    }
+
+                }
+            })
             // }
             // end of commentation - 11/06/2023 by - suman sahu
 
@@ -448,16 +472,32 @@ const TodayOrder = () => {
                     setCheckedItem(checkedItems)
                     uncheckAll()
                     setOrderItem(r.order_items)
-                    var radioInputs = document.querySelectorAll("input")
-                    if (radioInputs[0].checked) {
+                    
+                    // Modified by ROhan kansari - 23/6/23
+                    // Reason - To enhance code and making easy to understand
+                    // completed,pending_order,newly_placed
+                    // var radioInputs = document.querySelectorAll("input")
+                    // if (radioInputs[0].checked) {
+                    //     setSelectedOrder(r.todays_newly_placed_orders)
+                    // }
+                    // else if (radioInputs[1].checked) {
+                    //     setSelectedOrder(r.todays_pending_orders)
+                    // }
+                    // else if (radioInputs[2].checked) {
+                    //     setSelectedOrder(r.todays_completed_orders)
+                    // }
+
+                    if (document.getElementById("newly_placed").checked) {
                         setSelectedOrder(r.todays_newly_placed_orders)
                     }
-                    else if (radioInputs[1].checked) {
+                    else if (document.getElementById("pending_order").checked) {
                         setSelectedOrder(r.todays_pending_orders)
                     }
-                    else if (radioInputs[2].checked) {
+                    else if (document.getElementById("completed").checked) {
                         setSelectedOrder(r.todays_completed_orders)
                     }
+
+                    // End of code - Rohan Kansari - 23/6/23- To enhance the code
                 }
                 else {
                     Message("Something went wrong ! Please Try again later", "warning")
@@ -829,14 +869,27 @@ function printKot(){
             Reason - added checkbox and change name of mapped data  */}
             {/*modified by - ROhan Kansari - 26/5/23
             Reason - Managing checkbox ui  */}
-            <div className={style.radioGroup}>
+
+            {/* Modified by Rohan kansari - 23/6/23
+                Reason - To save selected tab in localstorage and consist admin on same tab in back also */}
+            {/* <div className={style.radioGroup}>
                 <input className={style.radioButton} type='radio' id="radio1" name="group" defaultChecked={true} />
                 <label className={style.tabLabel} htmlFor='radio1' onClick={e => { setSelectedOrder(newlyPlaced); uncheckAll({ fade: false }) }}>Newly Placed</label>
                 <input className={style.radioButton} id='radio2' type='radio' name="group" />
                 <label className={style.tabLabel} htmlFor='radio2' onClick={e => { setSelectedOrder(todaysPendingOrder); uncheckAll({ fade: false }) }}>Pending</label>
                 <input className={style.radioButton} id='radio3' type='radio' name="group" />
                 <label className={style.tabLabel} htmlFor='radio3' onClick={e => { setSelectedOrder(todaysCompletedOrder); uncheckAll({ fade: true }) }}>Completed</label>
+            </div> */}
+
+            <div className={style.radioGroup}>
+                <input className={style.radioButton} type='radio' id="newly_placed" name="group" defaultChecked={localStorage.getItem("selectedTab") == "Newly_placed"} />
+                <label className={style.tabLabel} htmlFor='newly_placed' onClick={e => { setSelectedOrder(newlyPlaced); localStorage.setItem("selectedTab", "Newly_placed"); uncheckAll({ fade: false }) }}>Newly Placed</label>
+                <input className={style.radioButton} id='pending_order' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Pending"} />
+                <label className={style.tabLabel} htmlFor='pending_order' onClick={e => { setSelectedOrder(todaysPendingOrder); localStorage.setItem("selectedTab", "Pending"); uncheckAll({ fade: false }) }}>Pending</label>
+                <input className={style.radioButton} id='completed' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Completed"} />
+                <label className={style.tabLabel} htmlFor='completed' onClick={e => { setSelectedOrder(todaysCompletedOrder); localStorage.setItem("selectedTab", "Completed"); uncheckAll({ fade: true }) }}>Completed</label>
             </div>
+            {/* End of code - ROhan kansari - 23/6/23 */}
 
             <div className={style.container} >
                 <div className={style.TabelContainer}>
