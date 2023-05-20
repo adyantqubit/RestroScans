@@ -133,3 +133,32 @@ export const getTotalRevenueDetails = async (tenantId) => {
   return response ? response.data : {};
 };
 // End of addition by Suman Sahu on 28-5-2023
+
+
+ // Added by ROhan Kansari - 28/5/23
+  // Reason - Sending query to generate report
+
+  export const OrderFilterQueryAPI = async ( tenant,query) => {
+    const response = await API.post(`/api/v1/${tenant}/all-order-report-query/`, query, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => console.log(err));
+    return response ? response.data : {};
+  };
+
+  // End of code - Rohan KAnsari - 28/5/23
+
+    // Added by ROhan Kansari - 28/5/23
+  // Reason - Sending query to generate report
+
+  export const OrderItemFilterQueryAPI = async ( tenant,query) => {
+    const response = await API.post(`/api/v1/${tenant}/all-order-item-report-query/`, query, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => console.log(err));
+    return response ? response.data : {};
+  };
+
+  // End of code - Rohan KAnsari - 28/5/23

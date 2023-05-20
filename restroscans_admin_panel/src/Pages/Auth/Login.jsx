@@ -11,6 +11,9 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import PasswordField from 'password-field'
 
+{/* Modified by Rohan Kansari - 29/5/23 
+Reason - To change all validation messages*/}
+
 
 const Login = () => {
 
@@ -46,9 +49,9 @@ const Login = () => {
         errors = errors.filter(e => Object.keys(e) != "Email")
         setError(errors)
         if (text.length == 0)
-            errors = [...errors, { "Email": "This field should not be blank" }]
+            errors = [...errors, { "Email": "Please enter email" }]
         if (text.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == null)
-            errors = [...errors, { "Email": "This field should contain this format example@gmail.com" }]
+            errors = [...errors, { "Email": "Please enter email in this format example@gmail.com" }]
         setError(errors)
     }
 
@@ -61,9 +64,9 @@ const Login = () => {
         errors = errors.filter(e => Object.keys(e) != "password")
         setError(errors)
         if (text.length == 0)
-            errors = [...errors, { "password": "This field should not be blank" }]
+            errors = [...errors, { "password": "Please enter password" }]
         if (text.length < 8 && text.length != 0)
-            errors = [...errors, { "password": "This field should not be less than 8 characters" }]
+            errors = [...errors, { "password": "Password must be atleast 8 characters" }]
         setError(errors)
 
     }
@@ -81,49 +84,53 @@ const Login = () => {
 
         const inputs =
         {
-            "email": data.get("Email"),
+            "email": data.get("Email").toLowerCase(),
             "password": data.get("Password"),
 
         }
 
-        restaurentAuthentication(inputs).then(async (res) => {
-            if (res.token) {
-                localStorage.removeItem("userData");
-                localStorage.removeItem("token");
-                localStorage.removeItem("tenantInfo");
-                // End of addition
-                // Added by Om shrivastava on 16-4-2023
-                // Reason - to delete previous data datas from securestorage
-                localStorage.removeItem("qrCodeTenant");
-                // End of addition
-                
-                // Removed by Roahn KAnsari - 26/5/23
-                // Reason - Becuase stringify is creating issue when value is undefined
-                localStorage.setItem("token", res.token);
-                localStorage.setItem("refresh_token", res.refreshToken)
-                // End of code -Rohan Kansari 26/5/23
+        if (errors.length == 0)
+            restaurentAuthentication(inputs).then(async (res) => {
+                if (res.token) {
+                    localStorage.removeItem("userData");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("tenantInfo");
+                    // End of addition
+                    // Added by Om shrivastava on 16-4-2023
+                    // Reason - to delete previous data datas from securestorage
+                    localStorage.removeItem("qrCodeTenant");
+                    // End of addition
 
-                localStorage.setItem(
-                    "userData",
-                    JSON.stringify(res.userData[0])
-                );
-                localStorage.setItem(
-                    "tenantInfo",
-                    JSON.stringify(res.tenantInfo)
-                );
-                Message("SuccessFully Logged In", "success")
-                nav("/Dashboard")
-            }
-            else {
-                Message(res.invalid, "error")
-            }
-        }).catch((err) => {
-            Message("Something went wrong! Please try again later.", "error");
-        });
+                    // Removed by Roahn KAnsari - 26/5/23
+                    // Reason - Becuase stringify is creating issue when value is undefined
+                    localStorage.setItem("token", res.token);
+                    localStorage.setItem("refresh_token", res.refreshToken)
+                    // End of code -Rohan Kansari 26/5/23
+
+                    localStorage.setItem(
+                        "userData",
+                        JSON.stringify(res.userData[0])
+                    );
+                    localStorage.setItem(
+                        "tenantInfo",
+                        JSON.stringify(res.tenantInfo)
+                    );
+                    Message("Successfully Logged In", "success")
+                    nav("/Dashboard")
+                }
+                else if(res.notAproved){
+                    Message(res.notAproved, "warning")
+                }
+                else {
+                    Message(res.invalid, "error")
+                }
+            }).catch((err) => {
+                Message("Something went wrong! Please try again later.", "error");
+            });
 
     }
 
-
+{/*End of code -Rohan kansari- 29/5/23  */}
     return (
         <>
 
@@ -156,7 +163,18 @@ const Login = () => {
                             <div className={style.fullInputContainer}>
                                 <label className={style.label} htmlFor='Password'>Password *</label>
                                 {pswrdRef?.current?.value.length > 0 ? <div className={style.eyeContainer}>{paswrdEye ? <AiOutlineEyeInvisible onClick={e => setPswdEyeVisible(!paswrdEye)} /> : <AiOutlineEye onClick={e => setPswdEyeVisible(!paswrdEye)} />}</div> : null}
-                                <input name='Password' type={paswrdEye ? 'password' : 'text'} ref={pswrdRef} id="Password" className={style.inputBox} onChange={e => scheduleTimer(0, validatePassword, e.currentTarget.value)} onBlur={e => validatePassword(e.currentTarget.value)} />
+                                {/* Modified by Rohan Kansari - 29/5/23 
+                                    Reason -To remove copy paste fromn password */}
+                                <input name='Password' type={paswrdEye ? 'password' : 'text'}
+                                    onPaste={(e) => {
+                                        e.preventDefault()
+                                        return false;
+                                    }} onCopy={(e) => {
+                                        e.preventDefault()
+                                        return false;
+                                    }} 
+                                    ref={pswrdRef} id="Password" className={style.inputBox} onChange={e => scheduleTimer(0, validatePassword, e.currentTarget.value)} onBlur={e => validatePassword(e.currentTarget.value)} />
+                                {/*End of code -Rohan Kansari 29/5/23  */}
                                 <label className={style.forgetText}
                                     style={{ justifyContent: errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? "space-between" : "" }}>
                                     {errors.filter(e => Object.keys(e)[0] == "password").length > 0 ?

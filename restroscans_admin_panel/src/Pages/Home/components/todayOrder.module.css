@@ -35,11 +35,9 @@
     /* overflow-y: hidden; */
 }
 
+/* Modified by Rohan kansari - 29/5/23
+   Reason - because root is effecting global css so i declare variable in specific classname*/
 .table{
-
-}
-
-:root{
     --column1-width:5%;
     --column2-width:12%;
     --column3-width:10%;
@@ -49,7 +47,7 @@
     --column7-width:10%;
     --column8-width:10%;
 
-    --column1-min-width:60px;
+    --column1-min-width:80px;
     --column2-min-width:100px;
     --column3-min-width:80px;
     --column4-min-width:80px;
@@ -70,6 +68,8 @@
 
 
 }
+
+/* End of code - ROhan Kansari - 29/5/23 */
 
 .tableHeading{
     background-color:#f7f7f7;
@@ -100,7 +100,7 @@
     font-size: var(--label-font-size);
     height: 100%;
     /* font-family: "Font"; */
-    font-weight: 400;
+    font-weight: 600;
     display: var(--column1-display);
     text-align: center;
     color:var(--label-color);
@@ -113,11 +113,12 @@
     padding: 5px 0;
     height: 100%;
     display: var(--column2-display);
+    font-weight: 600;
 
     font-size: var(--label-font-size);
     text-align: center;
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    /* font-weight: 200; */
     color:var(--label-color);
 }
 .column3{
@@ -129,7 +130,7 @@
     display: var(--column3-display);
 
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    font-weight: 600;
     color:var(--label-color);
 }
 .column4{
@@ -141,7 +142,7 @@
     font-size: var(--label-font-size);
     height: 100%;
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    font-weight: 600;
     color:var(--label-color);
 }
 
@@ -154,7 +155,7 @@
     display: var(--column5-display);
 
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    font-weight: 600;
     color:var(--label-color);
 }
 
@@ -167,7 +168,7 @@
     font-size: var(--label-font-size);
     height: 100%;
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    font-weight: 600;
     color:var(--label-color);
 }
 
@@ -180,7 +181,7 @@
     font-size: var(--label-font-size);
     height: 100%;
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    font-weight: 600;
     color:var(--label-color);
     text-align: center;
 }
@@ -195,7 +196,7 @@
     font-size: var(--label-font-size);
     height: 100%;
     /* font-family: var(--font-faimly); */
-    font-weight: 200;
+    font-weight: 600;
     color:var(--label-color);
 }
 
@@ -316,7 +317,13 @@
     font-family: var(--font-faimly);
     color:black;
     letter-spacing: 1.5px;
+    
+/* Modified by Rohan kansari - 29/5/23
+   Reason - to disable selection of text*/
     text-decoration: underline;
+    -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; 
 }
 
 .statusBtn{
@@ -328,6 +335,11 @@
     min-width: 60px;
     white-space: nowrap;
     display: flex;
+    /* Modified by Rohan kansari - 29/5/23
+   Reason - to disable selection of text*/
+    -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; 
 }
 
 .popupContainer{
@@ -349,9 +361,39 @@
     /* right: 105%; */
     width: 280px;
     /* height: auto; */
+
     border-radius: 10px;
     background-color:#faf5f5;
+    position: relative;
+    left: -33px;
 }
+
+/* Modified by Rohan kansari - 29/5/23
+   Reason - styling itemlist and seting max length to solve overflow issue*/
+
+.itemlist{
+    max-height: 300px;
+    overflow: auto;
+}
+
+.itemlist::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	background-color: transparent;
+}
+
+.itemlist::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: transparent;
+}
+
+.itemlist::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+	border: 1px solid #555555;
+}
+/* End of code - ROhan KAnsari - 29/5/23 */
 
 .customername{
  display: flex;
@@ -388,13 +430,17 @@
   border-bottom-left-radius: 20px;
   padding-left: 10px;
   background-color: #ddd1d1;
+  /* Modified by Rohan kansari - 29/5/23
+   Reason - to disable selection of text*/
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; 
 }
 .btnContainer{
     display: flex;
     width: 100%;
     justify-content: space-between;
     padding: 0 4%;
-    
 }
 
 .selectionContainer{
@@ -459,6 +505,9 @@
     margin-top: 5px;
     background-color: black;
     color: #f2f2f2;
+    -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; 
 }
 
 .visitLink{
@@ -537,7 +586,7 @@
     /* background-color: #e6eef9; */
     display: flex;
 }
-:root {
+.table {
 	--primary-color: #185ee0;
 	--secondary-color: #e6eef9;
 }
@@ -550,10 +599,10 @@
   /* display: flex;   */
   text-align: center;
   width: 33%;
-  padding: 10px 15px;
+  padding: 10px 4px;
   border-bottom:1px solid #185ee0;
   letter-spacing: 1.2px;
-  font-weight: 500;
+  font-weight: 600;
 
 }
 
@@ -580,6 +629,7 @@ input[type="radio"]:checked + .tabLabel {
     display: flex;
     flex-wrap: wrap;
     row-gap: 10px;
+    position: relative;
     
 }
 
@@ -605,12 +655,15 @@ input[type="radio"]:checked + .tabLabel {
  font-size: 14px;
  letter-spacing: 1px;
  cursor: pointer;
+ -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; 
 }
 /* end of code Rohan KAnsari - 25/5/23 
  */
 
 @media screen and (max-width:1120px){
-    :root{
+    .table{
         --column1-width:5%;
         --column2-width:12%;
         --column3-width:10%;
@@ -641,7 +694,7 @@ input[type="radio"]:checked + .tabLabel {
 
 
 @media screen and (max-width:900px){
-    :root{
+    .table{
         --column1-width:5%;
         --column2-width:12%;
         --column3-width:10%;
@@ -671,7 +724,7 @@ input[type="radio"]:checked + .tabLabel {
 }
 
 @media screen and (max-width:770px){
-    :root{
+    .table{
         --column1-width:5%;
         --column2-width:12%;
         --column3-width:10%;
@@ -705,7 +758,7 @@ input[type="radio"]:checked + .tabLabel {
 
 @media screen and (max-width:720px){
 
-    :root{
+    .table{
         --column1-width:5%;
         --column2-width:12%;
         --column3-width:10%;
@@ -748,7 +801,7 @@ input[type="radio"]:checked + .tabLabel {
 
 @media screen and (max-width:610px){
 
-    :root{
+    .table{
         --column1-width:5%;
         --column2-width:12%;
         --column3-width:10%;

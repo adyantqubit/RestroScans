@@ -1,0 +1,26 @@
+
+
+.customerContainer{
+    width: 100%;
+
+}
+
+.filterContainer{
+    width: 96%;
+    margin: 10px 20px;
+    height: 80px;
+    border-radius: 10px;
+    background-color: rgba(220, 220, 220, 1);
+    display: flex;
+    
+}
+
+.tabelContainer{
+    width: 96%;
+    height: 200vh;
+    background-color:rgba(220, 220, 220, 1);
+    margin:20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}

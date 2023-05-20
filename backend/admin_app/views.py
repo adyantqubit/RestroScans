@@ -77,16 +77,20 @@ class RestaurantLoginView(APIView):
         response = Response()
         if not restaurant:
             # raise APIException('Invalid Credentials')
+            # Modified by Rohan kansari- 29/5/23
+            # Reason - TO correct validation message 
             response.data = {
-                'invalid': 'Invailid email'
+                'invalid': 'Invailid email or password'
             }
             return response
         # if not restaurant.check_password(request.data['password']):
         print(check_password(request.data.get('password'), restaurant.password))
         if not check_password(request.data.get('password'), restaurant.password):
             # raise APIException('Invalid Credentials')
+            # Modified by Rohan kansari- 29/5/23
+            # Reason - TO correct validation message 
             response.data = {
-                'invalid': 'Invailid password'
+                'invalid': 'Invailid email or password'
             }
             return response
     

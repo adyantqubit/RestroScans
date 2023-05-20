@@ -14,7 +14,7 @@
     white-space: pre-wrap;
     border-radius: 10px;
     width: 350px !important;
-    z-index: 10;
+    z-index: 9999;
     -webkit-animation: linear infinite;
     -webkit-animation-name: run;
     -webkit-animation-duration: 5s;

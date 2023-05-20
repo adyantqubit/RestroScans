@@ -204,6 +204,7 @@ urlpatterns = [
     path('<str:tenant>/post_reservations/',PostReservationsAPIView.as_view()),
     # End of added code by :- Parineeta Gedam on 26-05-2023
 
+    
     # Added by :- Suman sahu on 27-05-2023
     # Reason : get api for get order report data
     path('<str:tenant>/revenue-order-report/',RevenueOrderReport.as_view()),
@@ -223,5 +224,16 @@ urlpatterns = [
     # Reason : update social media name and links
     path('<str:tenant>/social-links/<int:id>',SocialLinksAPIView.as_view()),
     # End of updating social links
+    
+      # Added by :- Rohan Kansari on 28-05-2023
+    # Reason : post api for order report query data
+    path('<str:tenant>/all-order-report-query/',OrderFilterAPIView.as_view()),
+    # End of added code by :- Rohan Kansari on 28-05-2023
+
+     # Added by :- Rohan Kansari on 28-05-2023
+    # Reason : post api for reservations data
+    path('<str:tenant>/all-order-item-report-query/',OrderItemFilterAPIView.as_view()),
+    # End of added code by :- Rohan Kansari on 28-05-2023
+
 
 ]   

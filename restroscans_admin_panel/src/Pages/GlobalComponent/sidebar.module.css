@@ -1,6 +1,8 @@
 /* Created by- Suman sahu On 24/05/2023
    reason- CSS for sidebar.jsx */
 
+@import "../../App.css";   
+
 .container {
   height: 90vh;
   background-color: var(--sidebar-color);
@@ -14,9 +16,30 @@
   width: 15rem;
   cursor: pointer;
 }
+
+/* Added by Rohan kansari - 26/5/23*/
+
+.Sublinks_div{
+  padding:8px 1.3rem;
+  width: 20rem;
+  padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .link {
   color: white;
+  letter-spacing: .8px;
 }
+
+.sublink{
+  font-size: var(--label-font-size);
+  color: rgb(245, 236, 236);
+  letter-spacing: 1px;
+}
+
+/* End of code -Rohan kansari- 26/5/23 */
+
 .active,
 .links_div:hover {
   background-color: #374151;

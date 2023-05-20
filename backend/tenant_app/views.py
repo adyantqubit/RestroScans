@@ -1365,7 +1365,7 @@ class DashboardAPI(APIView):
 
         # Added by - Ashish Dewangan on 19-04-2023
         # Reason - To show todays new placed orders
-        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
         todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
         # End of code addition by Ashish Dewangan on 19-04-2023
 
@@ -1373,13 +1373,17 @@ class DashboardAPI(APIView):
         # Reason - to not show placed orders on todays pending orders
         #todays_orders=Order.objects.filter(date__gte=today,payment_status='Pending')
         from django.db.models import Q
-        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+        # Modified by Rohan Kansari- 30/5/23
+        # Reason - To get paid payment also in pending list 
+        # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed') ,date__gte=today, payment_status='Pending')
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        # End of code addition - Rohan Kansari - 30/5/23
         todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
         #End of code modification by Ashish Dewangan on 19-04-2023
 
         # Added by - Ashish Dewangan on 19-04-2023
         # Reason - To show todays completed orders
-        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
         # End of code addition by Ashish Dewangan on 19-04-2023
 
@@ -1442,14 +1446,18 @@ class UpdateOrderPaymentStatus(APIView):
             
             todays_order_item=OrderItem.objects.filter(date__gte=today)
             todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
-            todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+            todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
             todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
 
             from django.db.models import Q
-            todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+            # Modified by Rohan Kansari- 30/5/23
+            # Reason - To get paid payment also in pending list 
+            # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+            todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+            # End of code addition - Rohan Kansari - 30/5/23
             todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
 
-            todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+            todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
             todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
             return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
@@ -1833,14 +1841,18 @@ class UpdateAllOrderStatus(APIView):
         
         todays_order_item=OrderItem.objects.filter(date__gte=today)
         todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
-        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
         todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
 
         from django.db.models import Q
-        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+        # Modified by Rohan Kansari- 30/5/23
+        # Reason - To get paid payment also in pending list 
+        # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        # End of code addition - Rohan Kansari - 30/5/23
         todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
 
-        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
         return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
@@ -1849,7 +1861,7 @@ class UpdateAllOrderStatus(APIView):
                             ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
                 
        
-        return Response(request.data)                     
+        # return Response(request.data)                     
 
 
 # End of code - Rohan Kansari - 25/5/23
@@ -2097,3 +2109,75 @@ class SocialLinksAPIView(APIView) :
 """
 End of addition by Yuvraj Sahu on 25-05-2023
 """
+
+
+
+# Added by :- Rohan Kansari
+# Date :- 28-05-2023
+# Reason : API for post for filter query in order report
+
+
+class OrderFilterAPIView(APIView):
+    def post(self, request, tenant):
+        object = Order.objects.filter(
+            date__range=[request.data['dateFrom'], request.data['dateTo']])
+        if (request.data["amountSort"]):
+            object = object.order_by("-total")
+        serialize = OrderSerializer(object, many=True)
+        return Response(serialize.data)
+# End of added code by :- Rohan Kansari on 28-05-2023
+
+
+# Added by :- Rohan Kansari
+# Date :- 28-05-2023
+# Reason : API for post for filter query in order report
+class OrderItemFilterAPIView(APIView):
+    def post(self, request, tenant):
+        from django.db.models import OuterRef, Subquery, Count, Sum, Q, Avg
+        from django.contrib.postgres.search import TrigramSimilarity
+
+        # order_items_half = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm',serving_size='Half').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+        # order_items_full = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm',serving_size='Full').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+
+        duplicate_orderHalf = OrderItem.objects.filter(serving_size='Half').values('item', 'serving_size').annotate(
+            item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
+            cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
+            sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
+            average_rating=Avg('rating')
+        )
+
+        duplicate_orderFull = OrderItem.objects.filter(serving_size='Full').values('item', 'serving_size').annotate(
+            item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
+            cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
+            sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
+            average_rating=Avg('rating')
+        )
+
+        duplicate_orders = duplicate_orderHalf | duplicate_orderFull
+
+        if request.data['itemSort']:
+            duplicate_orders = duplicate_orders.order_by("item")
+
+        if request.data['orderSort']:
+            duplicate_orders = duplicate_orders.order_by("-item_count")
+
+        if request.data['ratingSort']:
+            duplicate_orders = duplicate_orders.order_by("-average_rating")
+
+        if request.data['cancellationSort']:
+            duplicate_orders = duplicate_orders.order_by("-cancellation_count")
+
+        if len(request.data['search']) > 0:
+            duplicate_orders = duplicate_orders.filter(
+                Q(item__icontains=request.data['search']))
+            print(duplicate_orders)
+
+        # if(len(request.data['search'])>0):
+        #    duplicate_orders=duplicate_orders.annotate(similarity=TrigramSimilarity("item", request.data['search']),).filter(similarity__gt=0.3).order_by("-similarity")
+        #    print(duplicate_orders)
+
+        return Response({"item": duplicate_orders})
+# End of added code by :- Rohan Kansari on 28-05-2023
+
+
+

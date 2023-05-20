@@ -5,9 +5,14 @@ import React, { useState } from "react";
 import style from "./sidebar.module.css";
 import { NavLink } from "react-router-dom";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
+  {/* Modified by Rohan Kansari - 26/5/23 
+      Reason -To add sub menu functionality in report menu */}
+  const [ReportSubVisible, setReportSubVisible] = useState(false)
+  {/*End of code -Rohan Kansari 26/5/23  */}
 
   function closeSidebar() {
     setSidebar(false);
@@ -42,12 +47,24 @@ const Sidebar = () => {
           </NavLink>
         </li>
         {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
-        <li className={style.links_div}>
-          <NavLink className={style.link} to="/Report">
-            {" "}
-            Report{" "}
-          </NavLink>
+        <li className={`${style.links_div} ${style.link}`} onClick={e => setReportSubVisible(!ReportSubVisible)}>
+          Report
+          <AiOutlinePlus color="white" />
+
         </li>
+        
+        {ReportSubVisible ?
+          <ul style={{ marginTop: "-10px" }}>
+            <li className={style.Sublinks_div}>
+              <NavLink className={style.sublink} to="/OrderReport">Order Report</NavLink>
+            </li>
+            <li className={style.Sublinks_div}>
+              <NavLink className={style.sublink} to="/OrderItemReport">Order Item Report</NavLink>
+            </li>
+            <li className={style.Sublinks_div}>
+              <NavLink className={style.sublink} to="/CustomerReport">Customer Report</NavLink>
+            </li>
+          </ul> : null}
         {/* End of code - Rohan Kansari - 26/5/23*/}
         {/* Added by Suman - To open revenue page - 27/5/23*/}
         <li className={style.links_div}>

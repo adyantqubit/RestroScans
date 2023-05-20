@@ -34,6 +34,14 @@ function getStatusBtn(status) {
         return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 0.6)" }}>
             <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
         </button>
+    // Added by Rohan Kansari- 30/5/23
+    // Reason to add paid status button also
+    if (status == "Paid")
+        return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 0.6)" }}>
+            <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
+        </button>
+    // End of code - Rohan Kansari - 30/5/23
+
     if (status == "Completed")
         return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,0.6)" }}>
             <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
@@ -54,8 +62,13 @@ const TodayOrder = () => {
 
     // Added by ROhan Kansari - 25/5/23
     // Reason - To save checked item and update
-    var [checkedItems,setCheckedItem]=useState([])
+    var [checkedItems, setCheckedItem] = useState([])
     // End of code - 25/5/23
+
+    {/* Modified by Rohan Kansari - 29/5/23 
+        Reason - To add loading functionality*/}
+    var [isLoading,setLoading]=useState(true)
+    // End of code - ROhan Kansari - 29/5/23
 
     // Billing data
     const [restroDetail, setRestroDetail] = useState(null)
@@ -75,7 +88,8 @@ const TodayOrder = () => {
             // setThisWeeksSummary(response.revenue_details.this_weeks_summary);
             // setThisMonthsSummary(response.revenue_details.this_months_summary);
             // setThisYearsSummary(response.revenue_details.this_years_summary);
-            // console.log(response)
+            console.log(response)
+            setLoading(false)
             setNewlyPlacedOrders(response.todays_newly_placed_orders);
             setPendingOrders(response.todays_pending_orders);
             setCompletedOrders(response.todays_completed_orders);
@@ -123,7 +137,7 @@ const TodayOrder = () => {
             if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
                 await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
                     if (r.success) {
-                        Message("Succefully status updated ", "success")
+                        Message("Successfully status updated ", "success")
                         setNewlyPlacedOrders(r.todays_newly_placed_orders);
                         setPendingOrders(r.todays_pending_orders);
                         setCompletedOrders(r.todays_completed_orders);
@@ -156,11 +170,12 @@ const TodayOrder = () => {
                     selectboxReset()
                     setPopupOpen(false)
                 }}><AiOutlineClose /></button></div>
-                <div className={style.customername}><label className={style.lable}>Customer Number : </label>{m.customer_number}</div>
+                <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
                 <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
                 <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
+                <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
                 <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
-                <div className={style.OrderTime}><label className={style.lable}>Cgst : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>Sgst : </label>{m.sgst}</div>
+                <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
                 <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
                 <div className={style.btnContainer}>
                     <div className={style.selectionContainer}>
@@ -268,22 +283,26 @@ const TodayOrder = () => {
                     setPopupOrderItem(false);
                     resetingSelectbox()
                 }}><AiOutlineClose /></button></div>
-                {filteredOrderItemList?.map((orderItem, i) => (
-                    <div key={i} className={style.itemListContainer}>
-                        <div className={style.title}>{i + 1 + ". "}{orderItem.item}</div>
-                        <div className={style.itemStatusContainer} >
-                            <label className={style.lable}>Item Status</label>
-                            <div className={style.selctedContentBox}>
-                                <select defaultValue={orderItem.item_status} onChange={e => { filteredOrderItemList[i].item_status = e.target.value }} id="payment_status_selected">
-                                    <option className={style.options} value="Pending">Pending</option>
-                                    <option className={style.options} value="Confirm">Confirm</option>
-                                </select>
+                {/* Added by ROhan kansari - 29/5/23
+                    Reason - To add overflow div and set max height of parent 300px */}
+                <div className={style.itemlist}>
+                    {filteredOrderItemList?.map((orderItem, i) => (
+                        <div key={i} className={style.itemListContainer}>
+                            <div className={style.title}>{i + 1 + ". "}{orderItem.item}</div>
+                            <div className={style.itemStatusContainer} >
+                                <label className={style.lable}>Item Status</label>
+                                <div className={style.selctedContentBox}>
+                                    <select defaultValue={orderItem.item_status} onChange={e => { filteredOrderItemList[i].item_status = e.target.value }} id="payment_status_selected">
+                                        <option className={style.options} value="Pending">Pending</option>
+                                        <option className={style.options} value="Confirm">Confirm</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                ))}
-
+                    ))}
+                </div>
+                {/* End of addition - Rohan kansari - 29/5/23 */}
                 <div className={style.itemStatusContainer}>
                     <div className={style.selectionContainer}>
                         <button className={style.btnUpdate} onClick={e => { updateStatus(); }}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
@@ -358,7 +377,7 @@ const TodayOrder = () => {
             await updateAllOrderAPI(tenant, data).then(r => {
 
                 if (r.success) {
-                    Message("Succefully status updated ", "success")
+                    Message("Successfully status updated ", "success")
                     setNewlyPlacedOrders(r.todays_newly_placed_orders);
                     setPendingOrders(r.todays_pending_orders);
                     setCompletedOrders(r.todays_completed_orders);
@@ -409,6 +428,7 @@ const TodayOrder = () => {
             document.getElementById("allupdate").style.background = "unset"
             document.getElementById("allupdate").style.opacity = "unset"
             document.getElementById("allupdate").style.pointerEvents = "unset"
+
         }
 
     }
@@ -439,7 +459,7 @@ const TodayOrder = () => {
 
     return (
         <>
-        {/* Added and modified by - ROhan Kansari - 25/5/23
+            {/* Added and modified by - ROhan Kansari - 25/5/23
             Reason - added checkbox and change name of mapped data  */}
             {/*modified by - ROhan Kansari - 26/5/23
             Reason - Managing checkbox ui  */}
@@ -457,9 +477,9 @@ const TodayOrder = () => {
 
                     <div className={style.table}>
                         <div className={style.tableHeading}>
-                            <div className={style.column1}><input className={style.checkbox} id="ParentCheckbox" type="checkbox" onChange={e => checkAndUncheckAll(e.target.checked)} />Sno</div>
+                            <div className={style.column1}><input className={style.checkbox} id="ParentCheckbox" type="checkbox" onChange={e => checkAndUncheckAll(e.target.checked)} />S.No</div>
                             <div className={style.column2}>Table No </div>
-                            <div className={style.column8}>Order no</div>
+                            <div className={style.column8}>Order No</div>
                             <div className={style.column3}>Order Status</div>
                             <div className={style.column4}>Time</div>
                             <div className={style.column5}>Amount</div>
@@ -511,9 +531,17 @@ const TodayOrder = () => {
                                     </Popover>
                                 </div>
                             </div>
-                        )) : <div className={style.row}>
-                            <div className={style.EmptyText}> No order created yet !</div>
-                        </div>}
+                            // Added by Rohan Kansari - 30/5/23 
+                            // Reason - To set Loading message till data is not get
+                        )) : isLoading ? <div className={style.row}>
+                            <div className={style.EmptyText}> Please wait For Result .....</div>
+                        </div> :
+                            <div className={style.row}>
+                                <div className={style.EmptyText}> No order found !</div>
+                            </div>
+                            // End of code - Rohan KAnsari - 30/5/23
+
+                        }
                     </div>
 
                 </div>
