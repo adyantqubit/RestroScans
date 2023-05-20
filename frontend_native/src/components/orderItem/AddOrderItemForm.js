@@ -1,3 +1,6 @@
+// Added by :-  Parineeta Gedam on 24-05-2023
+// Reason - to desigin and functionality of add order item
+
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Button, Pressable, Alert, Modal, TextInput } from "react-native";
 import { colors, inputs } from "../../Colours/globalColor";
@@ -7,7 +10,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 import { addOrderItemSchema } from "../../validation/ValidationSchema";
-
+import { useIsFocused } from "@react-navigation/native";
 
 
 export default function AddOrderItemForm(orderId) {
@@ -49,6 +52,25 @@ export default function AddOrderItemForm(orderId) {
     // Reason - This is used for set singal price
     const [singalItemprice, setSingalItemprice] = useState(0);
     // End of added code by :- Parineeta Gedam on 24-05-2023
+
+    // Added  by :- Parineeta Gedam on 24-05-2023
+    // Reason - This is used for set singal price
+    var [itemNameRequired, setItemNameRequired] = useState(false);
+    // End of added code by :- Parineeta Gedam on 24-05-2023
+
+    // Added  by :- Parineeta Gedam on 24-05-2023
+    // Reason - This is used for set singal price
+    var [servingSizeRequired, setservingSizeRequired] = useState(false);
+    // End of added code by :- Parineeta Gedam on 24-05-2023
+
+    // Added by :- Parineeta Gedam on 27-05-2023
+  const isFocused = useIsFocused();
+    useEffect(() => {
+        itemNameDropdownRef.current.reset();
+        setItemNameRequired(false);
+        setservingSizeRequired(false);
+    }, [isFocused]);
+    // End of added code by :- Parineeta Gedam on 27-05-2023
 
     // Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - to get item list
@@ -114,24 +136,32 @@ export default function AddOrderItemForm(orderId) {
     //  Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - submit order items 
     const submitOrderItems = async () => {
+
+        // Added by :-  Parineeta Gedam on 26-05-2023
+        // Reason :- for show the validations message
+        if (itemNameRequired == "") {
+            setItemNameRequired(true);
+        }
+        if (servingSizeRequired == ""){
+            setServingSizeSelected(true);
+        }
+        // End of Added by :-  Parineeta Gedam on 26-05-2023
+
         var tenant = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
         var data = {
             order_id: orderId.id,
-            
             item: itemNameSelected,
             item_id: itemIdSelected,
             serving_size: servingSizeSelected,
             quantity: quantitySelected,
             item_status: "Pending",
         }
-        console.log("data", data)
         var response = await postOrderItemsApi(data, tenant);
         if (response.msg) {
             orderId.modalvisibilityFn(false)
         }
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
-
 
     return (
         <View style={styles.centeredView}>
@@ -200,15 +230,17 @@ export default function AddOrderItemForm(orderId) {
                                                 borderWidth: 1,
                                                 borderRadius: 10,
                                                 backgroundColor: "white",
-                                                width: "60%",
-                                                alignSelf: "center",
-                                                marginTop : 5,
+                                                width: 250,
+                                                // alignSelf: "center",
+                                                marginTop: 5,
                                             }}
                                             onSelect={(selectedItemId, index) => {
                                                 setItemIdSelected(selectedItemId.id);
                                                 setQuantitySelected();
                                                 setSingalItemprice(0);
                                                 setPrice(0);
+                                                setItemNameRequired(false);
+
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
                                             buttonTextAfterSelection={(selectedItemName, index) => {
@@ -220,6 +252,16 @@ export default function AddOrderItemForm(orderId) {
                                                 return itemName.name;
                                             }}
                                         />
+                                        {itemNameRequired && (
+                                            <Text
+                                                style={{
+                                                    color: "red",
+                                                    paddingHorizontal: 10,
+                                                }}
+                                            >
+                                                Item Name is required
+                                            </Text>
+                                        )}
                                     </View>
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
@@ -249,15 +291,16 @@ export default function AddOrderItemForm(orderId) {
                                                 borderWidth: 1,
                                                 borderRadius: 10,
                                                 backgroundColor: "white",
-                                                width: "60%",
-                                                alignSelf: "center",
-                                                marginTop : 5,
+                                                width: 250,
+                                                // alignSelf: "center",
+                                                marginTop: 5,
                                             }}
                                             onSelect={(selectedServingSize, index) => {
                                                 setServingSizeSelected(selectedServingSize.value);
                                                 setQuantitySelected();
                                                 setSingalItemprice(0);
                                                 setPrice(0);
+                                                setservingSizeRequired(false);
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
                                             buttonTextAfterSelection={(selectedServingSize, index) => {
@@ -268,6 +311,16 @@ export default function AddOrderItemForm(orderId) {
                                                 return servingSize.value;
                                             }}
                                         />
+                                        {servingSizeRequired && (
+                                            <Text
+                                                style={{
+                                                    color: "red",
+                                                    paddingHorizontal: 10,
+                                                }}
+                                            >
+                                                Serving size is required
+                                            </Text>
+                                        )}
                                     </View>
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
@@ -393,8 +446,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 85,
-        // borderColor : "gray",
-        // borderWidth : 1,
     },
     modalView: {
         margin: 10,
@@ -410,22 +461,17 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        // borderColor : "red",
-        // borderWidth : 1,
+        width: 350,
     },
     modalText: {
         textAlign: 'center',
-        fontSize : 20,
-        fontWeight : "700",
-        // borderColor : "blue",
-        // borderWidth : 1,
+        fontSize: 20,
+        fontWeight: "700",
     },
     formContainer: {
         marginTop: 10,
         paddingRight: 10,
         paddingLeft: 10,
-        // borderColor : "green",
-        // borderWidth : 1,
     },
     textInput: {
         backgroundColor: "white",
@@ -436,7 +482,7 @@ const styles = StyleSheet.create({
         width: 250,
         paddingLeft: 5,
         paddingRight: 5,
-        marginTop : 10,
+        marginTop: 10,
     },
     labels: {
         width: 100,
