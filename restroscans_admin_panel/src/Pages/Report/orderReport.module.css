@@ -244,7 +244,7 @@
     --column1-width:5%;
     --column2-width:12%;
     --column3-width:10%;
-    --column4-width:20%;
+    --column4-width:10%;
     --column5-width:10%;
     --column6-width:10%;
     --column7-width:10%;
@@ -253,7 +253,7 @@
     --column1-min-width:60px;
     --column2-min-width:100px;
     --column3-min-width:80px;
-    --column4-min-width:130px;
+    --column4-min-width:80px;
     --column5-min-width:60px;
     --column6-min-width:120px;
     --column7-min-width:80px;
@@ -541,6 +541,25 @@
     font-weight: 600;
 }
 
+/* Added by ROhan kansari - 29/5/23
+ Reason to show label and manipulate checkbox through it  */
+.sortingLabel{
+    display: flex;
+    justify-content: center;
+}
+
+
+input[type="checkbox"]:checked + .sortingLabel {
+  
+    color: black;
+
+}
+
+.SortIcon{
+    font-size: 18px;
+    margin-right:10px;
+}
+/* ENd of code - ROhan a kansari - 29/5/23 */
 
 @media screen and (max-width:1120px){
     .orderContainer{
@@ -555,7 +574,7 @@
         --column1-min-width:60px;
         --column2-min-width:100px;
         --column3-min-width:80px;
-        --column4-min-width:130px;
+        --column4-min-width:80px;
         --column5-min-width:100px;
         --column6-min-width:120px;
     --column7-min-width:80px;
@@ -585,8 +604,8 @@
     
         --column1-min-width:60px;
         --column2-min-width:100px;
-        --column3-min-width:100px;
-        --column4-min-width:130px;
+        --column3-min-width:60px;
+        --column4-min-width:80px;
         --column5-min-width:100px;
         --column6-min-width:120px;
     --column7-min-width:80px;
@@ -615,7 +634,7 @@
     
         --column1-min-width:60px;
         --column2-min-width:100px;
-        --column3-min-width:100px;
+        --column3-min-width:60px;
         --column4-min-width:130px;
         --column5-min-width:100px;
         --column6-min-width:120px;
@@ -649,11 +668,11 @@
     
         --column1-min-width:60px;
         --column2-min-width:100px;
-        --column3-min-width:100px;
+        --column3-min-width:60px;
         --column4-min-width:130px;
         --column5-min-width:100px;
         --column6-min-width:120px;
-    --column7-min-width:80px;
+    --column7-min-width:130px;
 
         --column1-display:unset;
         --column2-display:unset;
@@ -683,12 +702,13 @@
 
     .orderContainer{
         --column1-width:5%;
-        --column2-width:12%;
+        --column2-width:30%;
         --column3-width:10%;
         --column4-width:10%;
         --column5-width:20%;
         --column6-width:10%;
-    --column7-width:20%;
+    --column7-width:30%;
+    --column8-width:30%;
     
         --column1-min-width:60px;
         --column2-min-width:100px;
@@ -700,12 +720,12 @@
 
         --column1-display:unset;
         --column2-display:unset;
-        --column3-display:unset;
+        --column3-display:none;
         --column4-display:none;
         --column5-display:none;
         --column6-display:none;
     --column7-display:unset;
-    --column8-display:none;
+    --column8-display:unset;
 
     
     }

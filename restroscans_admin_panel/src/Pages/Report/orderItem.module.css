@@ -532,6 +532,7 @@
 
 .sortingLabel{
     display: flex;
+    justify-content: center;
 }
 
 
@@ -582,9 +583,9 @@ input[type="checkbox"]:checked + .sortingLabel {
 @media screen and (max-width:900px){
     .orderContainer{
         --column1-width:5%;
-        --column2-width:12%;
-        --column3-width:10%;
-        --column4-width:10%;
+        --column2-width:30%;
+        --column3-width:30%;
+        --column4-width:30%;
         --column5-width:20%;
         --column6-width:10%;
     --column7-width:10%;
@@ -612,9 +613,9 @@ input[type="checkbox"]:checked + .sortingLabel {
 @media screen and (max-width:770px){
     .orderContainer{
         --column1-width:5%;
-        --column2-width:12%;
-        --column3-width:10%;
-        --column4-width:10%;
+        --column2-width:30%;
+        --column3-width:30%;
+        --column4-width:30%;
         --column5-width:20%;
         --column6-width:10%;
     --column7-width:10%;
@@ -646,9 +647,9 @@ input[type="checkbox"]:checked + .sortingLabel {
 
     .orderContainer{
         --column1-width:5%;
-        --column2-width:12%;
-        --column3-width:10%;
-        --column4-width:10%;
+        --column2-width:30%;
+        --column3-width:30%;
+        --column4-width:30%;
         --column5-width:20%;
         --column6-width:10%;
     --column7-width:10%;
@@ -676,12 +677,12 @@ input[type="checkbox"]:checked + .sortingLabel {
 
 
     .tableHeading{
-        justify-content:space-between;
+        justify-content:space-around;
         gap:10px;
     }
     
     .row{
-        justify-content: space-between;
+        justify-content: space-around;
     }
 }
 
@@ -689,9 +690,9 @@ input[type="checkbox"]:checked + .sortingLabel {
 
     .orderContainer{
         --column1-width:5%;
-        --column2-width:12%;
-        --column3-width:10%;
-        --column4-width:10%;
+        --column2-width:30%;
+        --column3-width:30%;
+        --column4-width:30%;
         --column5-width:20%;
         --column6-width:10%;
     --column7-width:20%;
@@ -717,12 +718,12 @@ input[type="checkbox"]:checked + .sortingLabel {
     }
 
     .tableHeading{
-        justify-content:flex-start;
+        justify-content:space-around;
         gap:10px;
     }
     
     .row{
-        justify-content: flex-start;
+        justify-content: space-around;
         gap: 10px;
     }
 

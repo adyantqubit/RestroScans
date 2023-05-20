@@ -4,7 +4,7 @@ import Header from '../GlobalComponent/Header'
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
-import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose } from 'react-icons/ai';
+import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
 import "./checkbox.scss"
 import { OrderFilterQueryAPI } from '../../Api/services';
 
@@ -196,7 +196,8 @@ const OrderReport = () => {
                             <div className={style.table}>
                                 <div className={style.tableHeading}>
                                     <div className={style.column1}>Sno</div>
-                                    <div className={style.column2}><input type='checkbox' checked={isAmountSort} onChange={e => { isAmountSort=e.target.checked; setAmountSort(e.target.checked); postOrderQuery() }} />Amount</div>
+                                    {/* Added by ROhan kansari - 30/5/23 - To hide checkbox and show label only */}
+                                    <div className={style.column2}><input type='checkbox' name="Amount" id="Amount" style={{display:"none"}} checked={isAmountSort} onChange={e => { isAmountSort=e.target.checked; setAmountSort(e.target.checked); postOrderQuery() }} /><label className={style.sortingLabel} htmlFor='Amount'><AiOutlineSortAscending className={style.SortIcon}/>Amount</label></div>
                                     <div className={style.column8}>Order no</div>
                                     <div className={style.column3}>Tax</div>
                                     <div className={style.column4}>Date</div>
