@@ -354,12 +354,15 @@ class WebsiteSetting(models.Model):
     # )
 
     # title = models.CharField(max_length=30, default="")
-    title = models.CharField(max_length=30, null=True, blank=True)
+
+    # commented by- Suman sahu On 20/05/2023
+    # title = models.CharField(max_length=30, null=True, blank=True)
+    # end of commented code by suman sahu on 20/05/2023
 
     # end of modification by- Suman sahu  On 19/05/2023
 
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.pricing_plan1
 
 
 """
