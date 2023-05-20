@@ -47,7 +47,9 @@ class TenantAPIView(APIView):
         # reason - to save send all subscribe features
         provided_features=[]
         if tenantListSerializer.data['Subscribe_plan'] is not None:
-          plan= Plans.objects.get(id=tenant.Subscribe_plan.id)
+          #Modified by Rohan kansari - 1/7/23
+          #Reason - To point tenant obj of tabel not tenant name only
+          plan= Plans.objects.get(id=tenant_obj.Subscribe_plan.id)
           features=PlannedFeatures.objects.filter(plan_selected=plan)
           for feature in features:
               provided_features.append(feature.feature_selected.feature_name)

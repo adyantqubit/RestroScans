@@ -366,8 +366,10 @@
     height: 73vh;
   }
 
-  .paginationContent{
-    flex-direction: column;
+  /* Modified by ROhan kansari - 1/7/23
+     Reason - To align page list in mobile view also */
+     .paginationContent{
+      flex-direction: row;
     justify-content: space-around;
     gap: 10px;
   }
