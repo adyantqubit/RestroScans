@@ -35,6 +35,11 @@ const Sidebar = () => {
         <li className={style.links_div}>
           <NavLink className={style.link}> Banner/Offer </NavLink>
         </li>
+        {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
+        <li className={style.links_div}>
+          <NavLink className={style.link} to="/Report"> Report </NavLink>
+        </li>
+        {/* End of code - Rohan Kansari - 26/5/23*/}
         <li className={style.links_div}>
           <NavLink className={style.link}> Banner/Offer Items </NavLink>
         </li>

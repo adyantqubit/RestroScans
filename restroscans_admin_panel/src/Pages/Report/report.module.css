@@ -1,0 +1,42 @@
+
+
+.report{
+    width: 100%;
+}
+
+.tabContainer{
+    width: 96%;
+    height: 200px;
+    background-color: antiquewhite;
+    margin:20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+
+.card{
+    min-width:200px ;
+    width: 31%;
+    height: 90%;
+    margin: auto auto;
+    background-color:rgba(220, 220, 220, 1);
+    border-radius: 10px;
+}
+
+.filterContainer{
+    width: 96%;
+    margin: 10px 20px;
+    height: 80px;
+    background-color: rgba(220, 220, 220, 1);
+}
+
+.tabelContainer{
+    width: 96%;
+    height: 200vh;
+    background-color:rgba(220, 220, 220, 1);
+    margin:20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+

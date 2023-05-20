@@ -224,8 +224,8 @@
     display: var(--column2-display);
     text-decoration: underline;
     font-family: "MyFont";
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
     cursor: pointer;
     font-weight: 500;
     letter-spacing: 1.4px;
@@ -572,12 +572,14 @@ input[type="radio"]:checked + .tabLabel {
 
 .MultiupdateContainer{
     width: 96%;
-    height: 50px;
+    min-height: 50px;
     margin: 8px 10px;
     padding: 10px 10px;
     border-radius: 5px;
     border: 1px solid #9c9c9c;
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
     
 }
 
@@ -755,7 +757,7 @@ input[type="radio"]:checked + .tabLabel {
         --column6-width:10%;
     --column7-width:20%;
     
-        --column1-min-width:50px;
+        --column1-min-width:60px;
         --column2-min-width:100px;
         --column3-min-width:80px;
         --column4-min-width:70px;

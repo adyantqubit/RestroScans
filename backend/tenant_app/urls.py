@@ -170,6 +170,10 @@ urlpatterns = [
     path('<str:tenant>/order-item-status/<str:orderID>/',UpdateItemStatus.as_view()),
     # End of addition - ROhan Kansari  22-5-23
 
+     # Added by Rohan Kansari on 22-5-23
+    # Reason : update order and payment status
+    path('<str:tenant>/all-order-status-update/',UpdateAllOrderStatus.as_view()),
+    # End of addition - ROhan Kansari  22-5-23
     # Added by :- Parineeta Gedam on 17-05-2023
     # Reason :- check order confirm
     path('<str:tenant>/check-order-confirm/',CheckOrderConfirmAPIView.as_view()),

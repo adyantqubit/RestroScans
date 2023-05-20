@@ -89,7 +89,9 @@ const TodayOrder = () => {
 
 
     function statusValidation(orderStatus, paymentStatus, m) {
-        if ((orderStatus == "Placed" || orderStatus == "Confirm" || orderStatus == "Cooked") && paymentStatus == "Completed") {
+        // Modified by ROhan Kansari - 26/5/23
+        // Reason - To pass validion message if served is not done done payment want to completed by admin
+        if (orderStatus != "Served" && paymentStatus == "Completed") {
             Message("You can not change the status to completed until this order is severd.", "error")
             return false
         }
@@ -98,6 +100,8 @@ const TodayOrder = () => {
         }
         else
             return true
+
+        //End of code - Rohan Kansari - 26/5/23 
     }
 
 
@@ -123,7 +127,7 @@ const TodayOrder = () => {
                         setNewlyPlacedOrders(r.todays_newly_placed_orders);
                         setPendingOrders(r.todays_pending_orders);
                         setCompletedOrders(r.todays_completed_orders);
-                        setOrderItem(r.order_item)
+                        setOrderItem(r.order_items)
                         setPopupOpen(!popupOpen)
 
                         var radioInputs = document.querySelectorAll("input")
@@ -204,7 +208,7 @@ const TodayOrder = () => {
                 <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
                     <div className={style.selectionContainer}>
                         <button className={style.kotPrint}
-                        // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
+                            // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
                             onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
                         >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
                     </div>
@@ -303,51 +307,65 @@ const TodayOrder = () => {
     }
 
 
-//     // Pagination functionality
-//     // Here we use item offsets; we could also use page offsets
-//   // following the API or data you're working with.
-//   const [itemOffset, setItemOffset] = useState(0);
+    //     // Pagination functionality
+    //     // Here we use item offsets; we could also use page offsets
+    //   // following the API or data you're working with.
+    //   const [itemOffset, setItemOffset] = useState(0);
 
-//   // Simulate fetching selectedOrder from another resources.
-//   // (This could be selectedOrder from props; or selectedOrder loaded in a local state
-//   // from an API endpoint with useEffect and useState)
-//   const endOffset = itemOffset + 2;
-//   console.log(`Loading selectedOrder from ${itemOffset} to ${endOffset}`);
-//   const currentItems = selectedOrder.slice(itemOffset, endOffset);
-//   const pageCount = Math.ceil(selectedOrder.length / 2);
+    //   // Simulate fetching selectedOrder from another resources.
+    //   // (This could be selectedOrder from props; or selectedOrder loaded in a local state
+    //   // from an API endpoint with useEffect and useState)
+    //   const endOffset = itemOffset + 2;
+    //   console.log(`Loading selectedOrder from ${itemOffset} to ${endOffset}`);
+    //   const currentItems = selectedOrder.slice(itemOffset, endOffset);
+    //   const pageCount = Math.ceil(selectedOrder.length / 2);
 
-//   // Invoke when user click to request another page.
-//   const handlePageClick = (event) => {
-//     const newOffset = (event.selected * 2) % selectedOrder.length;
-//     console.log(
-//       `User requested page number ${event.selected}, which is offset ${newOffset}`
-//     );
-//     setItemOffset(newOffset);
-//   };
+    //   // Invoke when user click to request another page.
+    //   const handlePageClick = (event) => {
+    //     const newOffset = (event.selected * 2) % selectedOrder.length;
+    //     console.log(
+    //       `User requested page number ${event.selected}, which is offset ${newOffset}`
+    //     );
+    //     setItemOffset(newOffset);
+    //   };
 
-function setCheckedItems(data,checked){
-    if(checked)
-    setCheckedItem([...checkedItems,data])
-    else
-    setCheckedItem(checkedItems.filter(e=>e.id!=data.id))
-}
+    // Added by ROhan KAnsari - 26/5/23 
+    // Reason - To manage all checkbox in todays order table
 
-async function updateAll(){
+    function setCheckedItems(data, checked) {
 
-    const data={
-      order_status: document.getElementById("all_order_status_selected").value,
-      payment_status: document.getElementById("all_payment_status_selected").value,
-      orders:checkedItems
+        if (checked)
+            setCheckedItem([...checkedItems, data])
+        else
+            setCheckedItem(checkedItems.filter(e => e.id != data.id))
+
+        console.log(checkedItems)
     }
-    console.log(data)
-    const tenant =JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
-    await updateAllOrderAPI(tenant,data).then(r=>{
-        Message("Succefully status updated ", "success")
+    async function updateAll() {
+
+        const data = {
+            order_status: document.getElementById("all_order_status_selected").value,
+            payment_status: document.getElementById("all_payment_status_selected").value,
+            orders: checkedItems
+        }
+
+        console.log(data)
+        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+
+
+        if (checkedItems.length > 0)
+            await updateAllOrderAPI(tenant, data).then(r => {
+
+                if (r.success) {
+                    Message("Succefully status updated ", "success")
                     setNewlyPlacedOrders(r.todays_newly_placed_orders);
                     setPendingOrders(r.todays_pending_orders);
                     setCompletedOrders(r.todays_completed_orders);
-                    setOrderItem(r.order_item)
+                    checkedItems = []
+                    setCheckedItem(checkedItems)
+                    uncheckAll()
+                    setOrderItem(r.order_items)
                     var radioInputs = document.querySelectorAll("input")
                     if (radioInputs[0].checked) {
                         setSelectedOrder(r.todays_newly_placed_orders)
@@ -358,28 +376,89 @@ async function updateAll(){
                     else if (radioInputs[2].checked) {
                         setSelectedOrder(r.todays_completed_orders)
                     }
-    })
-}
+                }
+                else {
+                    Message("Something went wrong ! Please Try again later", "warning")
+                }
+            })
+        else
+            Message("No item is selected to update", "warning")
+    }
+
+    // Added by Rohan Kansari - 26/5/23
+    // Reason - To untick all selected checkbox 
+
+    function uncheckAll(data) {
+        var allCheckboxes = document.querySelectorAll("#checkbox")
+        for (let index = 0; index < allCheckboxes.length; index++) {
+            allCheckboxes[index].checked = false
+        }
+
+        allCheckboxes = document.querySelectorAll("#ParentCheckbox")
+        for (let index = 0; index < allCheckboxes.length; index++) {
+            allCheckboxes[index].checked = false
+        }
+
+        setCheckedItem([])
+
+        if (data?.fade) {
+            document.getElementById("allupdate").style.background = "rgba(128,128,128,.1)"
+            document.getElementById("allupdate").style.opacity = ".6"
+            document.getElementById("allupdate").style.pointerEvents = "none"
+        } else {
+            document.getElementById("allupdate").style.background = "unset"
+            document.getElementById("allupdate").style.opacity = "unset"
+            document.getElementById("allupdate").style.pointerEvents = "unset"
+        }
+
+    }
+
+    function checkAndUncheckAll(value) {
+        // To store all item in checked item if value get false then remove all from checked item
+        if (value) {
+            checkedItems = selectedOrder
+            setCheckedItem(selectedOrder)
+        }
+        else
+            setCheckedItem([])
+
+        if (checkedItems.length > 0) {
+            var allCheckboxes = document.querySelectorAll("#checkbox")
+            for (let index = 0; index < allCheckboxes.length; index++) {
+                allCheckboxes[index].checked = value
+            }
+        }
+        else if (value) {
+            uncheckAll()
+            Message("No item present", "warning")
+        }
+
+    }
+
+    // End of code - ROhan Kansari - 26/5/23
 
     return (
         <>
         {/* Added and modified by - ROhan Kansari - 25/5/23
             Reason - added checkbox and change name of mapped data  */}
+            {/*modified by - ROhan Kansari - 26/5/23
+            Reason - Managing checkbox ui  */}
             <div className={style.radioGroup}>
                 <input className={style.radioButton} type='radio' id="radio1" name="group" defaultChecked={true} />
-                <label className={style.tabLabel} htmlFor='radio1' onClick={e => setSelectedOrder(newlyPlaced)}>Newly Placed</label>
+                <label className={style.tabLabel} htmlFor='radio1' onClick={e => { setSelectedOrder(newlyPlaced); uncheckAll({ fade: false }) }}>Newly Placed</label>
                 <input className={style.radioButton} id='radio2' type='radio' name="group" />
-                <label className={style.tabLabel} htmlFor='radio2' onClick={e => setSelectedOrder(todaysPendingOrder)}>Pending</label>
+                <label className={style.tabLabel} htmlFor='radio2' onClick={e => { setSelectedOrder(todaysPendingOrder); uncheckAll({ fade: false }) }}>Pending</label>
                 <input className={style.radioButton} id='radio3' type='radio' name="group" />
-                <label className={style.tabLabel} htmlFor='radio3' onClick={e => setSelectedOrder(todaysCompletedOrder)}>Completed</label>
+                <label className={style.tabLabel} htmlFor='radio3' onClick={e => { setSelectedOrder(todaysCompletedOrder); uncheckAll({ fade: true }) }}>Completed</label>
             </div>
+
             <div className={style.container} >
                 <div className={style.TabelContainer}>
 
                     <div className={style.table}>
                         <div className={style.tableHeading}>
-                            <div className={style.column1}>Sno</div>
-                            <div className={style.column2}><input className={style.checkbox} type="checkbox" onChange={e=>setCheckedItem(selectedOrder)}/>Table No </div>
+                            <div className={style.column1}><input className={style.checkbox} id="ParentCheckbox" type="checkbox" onChange={e => checkAndUncheckAll(e.target.checked)} />Sno</div>
+                            <div className={style.column2}>Table No </div>
                             <div className={style.column8}>Order no</div>
                             <div className={style.column3}>Order Status</div>
                             <div className={style.column4}>Time</div>
@@ -390,25 +469,29 @@ async function updateAll(){
 
                         {selectedOrder && selectedOrder.length > 0 ? selectedOrder.map((data, i) => (
                             <div className={style.row} >
-                                <div className={style.columnData1}>{i + 1}</div>
-                                <div className={style.columnData2} onClick={e => setPopupOrderItem(true)}>
-                                <input className={style.checkbox}  
-                                onChange={e=>setCheckedItems(data,e.target.checked)} type="checkbox"/>
+                                <div className={style.columnData1}>
+                                    <input className={style.checkbox} id="checkbox"
+                                        onChange={e => setCheckedItems(data, e.target.checked)} type="checkbox" />
+                                    {i + 1}
+                                </div>
+                                {/* <input className={style.checkbox} id="checkbox"
+                                        onChange={e => setCheckedItems(data, e.target.checked)} type="checkbox" /> */}
                                 <Popover placement="right"
-                                    trigger="click"
+                                    content={e => orderItemModel(orderItemList.filter(o => o.order_id == data.order_id), i)}
                                     onOpenChange={e => {
                                         if (!e) {
                                             selectboxReset()
                                         }
                                     }}
-                                    content={e => orderItemModel(orderItemList?.filter(o => o.order_id == data.order_id), i)}
+                                    trigger="click"
                                 >
-                                    
+                                    <div className={style.columnData2} onClick={e => setPopupOrderItem(true)}>
+
                                         {data.table_number}
-                                  
+                                    </div>
+
                                     {/* <button className={style.printBtn} onClick={e => setPopupOpen({ [`${i}`]: true })}>More</button> */}
                                 </Popover>
-                                </div>
 
                                 <div className={style.columnData8}>{data.order_id}</div>
                                 <div className={style.columnData3}>{getStatusBtn(data.order_status)}</div>
@@ -435,11 +518,11 @@ async function updateAll(){
 
                 </div>
             </div>
-            <div className={style.MultiupdateContainer}>
+            <div className={style.MultiupdateContainer} id="allupdate">
                 <div className={style.updateflexContainer}>
-                    <div className={style.lable} style={{ fontWeight: "500" }}>Order status</div>
+                    <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order status</div>
                     <div className={style.selctedContentBox}>
-                        <select id="all_order_status_selected" onChange={e=> document.getElementById("all_order_status_selected").value=e.target.value}>
+                        <select id="all_order_status_selected" onChange={e => document.getElementById("all_order_status_selected").value = e.target.value}>
                             <option value="Placed" className={style.options}>Placed</option>
                             <option value="Confirm" className={style.options}>Confirm</option>
                             <option value="Cooked" className={style.options}>Cooked</option>
@@ -448,15 +531,15 @@ async function updateAll(){
                     </div>
                 </div>
                 <div className={style.updateflexContainer}>
-                    <div className={style.lable} style={{ fontWeight: "500",marginLeft:"20px" }}>Payment status</div>
+                    <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Payment status</div>
                     <div className={style.selctedContentBox}>
-                        <select id="all_payment_status_selected" onChange={e=> document.getElementById("all_payment_status_selected").value=e.target.value}>
+                        <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
                             <option value="Pending" className={style.options}>Pending</option>
                             <option value="Completed" className={style.options}>Completed</option>
                         </select>
                     </div>
                 </div>
-                <div className={style.updateBtn} onClick={e=>updateAll()}>Update All</div>
+                <div className={style.updateBtn} onClick={e => updateAll()}>Update All</div>
             </div>
 
             {/* <ReactPaginate
@@ -469,7 +552,7 @@ async function updateAll(){
                 renderOnZeroPageCount={null}
             /> */}
 
-
+            {/*End of code - ROhan Kansari - 26/5/23*/}
         </>
     )
 }

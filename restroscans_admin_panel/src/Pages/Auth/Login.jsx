@@ -96,8 +96,13 @@ const Login = () => {
                 // Reason - to delete previous data datas from securestorage
                 localStorage.removeItem("qrCodeTenant");
                 // End of addition
-                localStorage.setItem("token", JSON.stringify(res.token));
-                localStorage.setItem("refresh_token", JSON.stringify(res.refreshToken))
+                
+                // Removed by Roahn KAnsari - 26/5/23
+                // Reason - Becuase stringify is creating issue when value is undefined
+                localStorage.setItem("token", res.token);
+                localStorage.setItem("refresh_token", res.refreshToken)
+                // End of code -Rohan Kansari 26/5/23
+
                 localStorage.setItem(
                     "userData",
                     JSON.stringify(res.userData[0])

@@ -8,7 +8,10 @@ const Dashboard = () => {
   return (
     <Header>
       <div className={style.Container}>
-        <CurrentDateNTime />
+        {/* Removed by Rohan KAnsari - 26/5/23
+             Reason - Not needed yet */}
+        {/* <CurrentDateNTime /> */}
+        {/* End of code - 26/5/23 */}
         <TodayOrder />
       </div>
     </Header>
