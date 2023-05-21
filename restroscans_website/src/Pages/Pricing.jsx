@@ -95,11 +95,12 @@ function Pricing() {
               navigation={true}
               slidesPerView={1}
               autoplay={{
-                delay: 2500,
+                delay: 5000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
+                
               }}
-              pagination={{ clickable: true }}
+              pagination={{ clickable: true, el: ".swiper-pagination", }}
               mousewheel={true}
               keyboard={true}
               centeredSlides={true}
@@ -137,7 +138,7 @@ function Pricing() {
                     </div>
                     <div className="right_pricing_container">
                       {item.content.split(",").map((d) => {
-                        return <div className="items_description">{d}</div>;
+                        return <div className="items_description" dangerouslySetInnerHTML={{ __html: d }}></div>;
                       })}
                     </div>
                   </div>
