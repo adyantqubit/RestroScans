@@ -1,4 +1,81 @@
+body{
+  /* overflow: hidden; */
+}
+
+
+/* Added by rohan kansari 
+Reason - To modify ant d default medel and text color - 23/4/24 */
 .ant-message-custom-content .ant-message-success span{
   font-size: 16px !important;
   font-family: "Times New Romans";
 }
+
+
+.ant-notification-notice-with-icon{
+  padding-top: 5px;
+}
+
+:where(.css-dev-only-do-not-override-j0nf2s).ant-notification-notice{
+  padding: 5px 10px !important;
+}
+
+:where(.css-dev-only-do-not-override-j0nf2s).ant-notification-notice .ant-notification-notice-message{
+  color: unset !important;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-family: "Times New Roman";
+
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+
+/* Added by rohankansari -23/4/23
+   Reason - To hide all top title box */
+
+   .ytp-chrome-top{
+    display: none !important;
+   }
+
+   .ytp-title-text{
+    display: none !important;
+   }
+
+
+   .ytp-title-channel{
+    display: none !important;
+   }
+
+   .ytp-title-link {
+    display: none;
+   }
+
+   iframe >#document> .ytp-chrome-top{
+    display:none;
+   } 
+
+   .swiper-button-prev {
+    z-index: 9999;
+   }
+
+   .swiper-button-next{
+    z-index: 8888;
+   }
+
+  
+   /* end of code - rohan kansari - 23/4/23 */
+
+
+   /* Added by Rohankansari - 4/5/23
+     */
+   :where(.css-dev-only-do-not-override-j0nf2s).ant-drawer-top>.ant-drawer-content-wrapper{
+    top:40px !important;
+   }
+
+   :where(.css-dev-only-do-not-override-j0nf2s).ant-rate .ant-rate-star-second {
+    color: rgba(0,0,0,0.2);
+   }
+
+   /* end of code - 4/5/23 - rohan kansari */

@@ -47,4 +47,85 @@ class OtpSerializer(serializers.ModelSerializer):
         fields=["email"]
 """
 End of code addition
-""" 
+"""
+
+"""
+Added by - Suman Sahu on 08/04/2023
+Reason - To serialize WebsiteSetting models data
+"""
+
+
+class PricingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WebsiteSetting
+        fields = "__all__"
+
+
+"""
+End of code addition 08/04/2023
+"""
+
+"""
+Added by - Suman Sahu on 09/04/2023
+Reason - To serialize GallerySetting modals data
+"""
+
+
+class GallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GallerySettings
+        fields = "__all__"
+
+
+"""
+End of code addition 09/04/2023
+"""
+
+"""
+Added by - Suman Sahu on 13-04-2023
+Reason - To serialize GetRestroscansRequest models data
+"""
+
+
+class GetRestroscansRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GetRestroscansRequest
+        fields = "__all__"
+
+
+"""
+End of code addition 13-04-2023
+"""
+
+
+"""
+Added by - Suman Sahu on 14-04-2023
+Reason - To serialize ContactUs models data
+"""
+
+
+class PostContactUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUsRequest
+        fields = "__all__"
+
+
+"""
+End of code addition 14-04-2023
+"""
+
+"""
+Added by - Suman Sahu on 19-04-2023
+Reason - To serialize OurTopPatnersDetails models data
+"""
+
+
+class RestaurentPatnersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RestaurantRequest
+        fields = "__all__"
+
+
+"""
+End of code addition 19-04-2023
+"""

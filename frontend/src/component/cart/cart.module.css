@@ -1,0 +1,488 @@
+/* .headerContainer{
+    width: 100%;
+    height: 6vh;
+    background-color: black;
+} */
+
+.cartContainer{
+    /* background-color: aqua; */
+    max-height: 75%;
+    display: flex;
+    flex-direction: column;
+    /* gap: 15px; */
+    /* row-gap: 15px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.OrdersBtn{
+    width: auto;
+    height: 40px;
+    padding: 4px 10px;
+    border: none;
+    margin-top: 10px;
+    position: relative;
+    font-family: "Times New Roman";
+    font-size: 16px;
+    /* padding-right: 30px; */
+    letter-spacing: 1.4px;
+    border-radius: 10px;
+    font-weight: 500;
+    background-color:transparent;
+    border: 1px solid black;
+}
+
+.titleSpan{
+    padding: 10px 0;
+}
+
+/* Modified by :- Parineeta gedam on 21-04-2023*/
+.title_length{
+    width: 95%;
+    text-align: center;
+}
+/* End of modified code on 21-04-2023 */
+
+.card{
+    position: relative;
+    width:auto;
+    min-height: auto;
+    height: max-content;
+    display: flex;
+    gap:2px;
+    margin: 5px 10px;
+    padding: 5px 5px;
+    box-shadow: 0px 0px 5px #212121;
+    border-radius: 10px;
+}
+
+.cartTitle{
+    font-size: 18px;
+    font-family: "Times New Roman";
+    letter-spacing: 1.7px;
+    font-weight: 600;
+    text-align: center;
+    height: 40px;
+    /* padding: 15px 0; */
+    display: flex;
+    padding: 0 6%;
+    top:0;
+    justify-content: space-between;
+    margin-top: 15px;
+    /* position: sticky; */
+    
+
+}
+
+.imgContainer{
+    width: 22%;
+    height: fit-content;
+    max-height: 100px;
+    padding-top:1%;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.img{
+    width: 70px;
+    height: 70px;
+    min-width: 100%;
+    /* height: 100%; */
+    /* padding-top: 2px;
+    border-radius: 25px; */
+}
+
+.type_img{
+    width: 15px;
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    /* border-radius: 10px; */
+}
+
+.infomation{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap:2px;
+}
+
+
+
+.title{
+    width: 90%;
+    font-size: 13px;
+    /* margin-top: 5px; */
+    /* letter-spacing: 1.7px; */
+    font-family: "Times New Roman";
+    padding: 0px 5px;
+    font-weight: 100;
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete{
+    width: 30px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    color: red;
+}
+
+.label{
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    font-weight: 400;
+}
+
+.price{
+    /* margin-top: 5px; */
+    padding: 0px 5px;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 13px;
+    /* letter-spacing: 1.5px; */
+    font-family: "Times New Roman";
+    font-weight: 300;
+}
+
+.quantityContainer{
+    background-color: #f2f2f2;
+    overflow: hidden;
+    display: flex;
+}
+
+.sign{
+    /* Added by - Rohan kansari - 30/4/23
+       Reason - To align minus plus sign properly */
+    align-self: center;
+    min-width: 10px;
+    /* min-height: 15px; */
+    height: 1px;
+    background-color: black;
+    margin: 0 10px;
+    border-radius: 5px;
+    /* text-align: center; */
+    padding: 0px 0px;
+    /* font-size: 20px; */
+    font-weight: 600;
+}
+
+.signPlus{
+    min-width: 20px;
+    /* min-height: 15px; */
+    background-color: transparent;
+    margin: 0 3px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0px 0px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.quantityText{
+    padding: 5px 0;
+    font-weight: 300;
+}
+
+
+.row1{
+    /* margin-top: 5px; */
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+
+}
+
+.row2{
+    /* margin-top: 5px; */
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+
+}
+
+.serve_size{
+    padding: 0px 5px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    /* letter-spacing: 1.5px; */
+    font-family: "Times New Roman";
+    font-weight: 300;
+}
+
+.btnContainer{
+    width: 100%;
+    min-height: 7vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-self: flex-end;
+    justify-self: flex-end;
+    position: fixed;
+    bottom: 40px;
+    /* gap:20px; */
+    background-color: #fff;
+    padding-top: 5px;
+    /* z-index: 9; */
+}
+
+.subTotal{
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.label{
+    font-size: 18px;
+    font-weight: 500;
+}
+.text{
+ font-size: 18px;
+ font-weight: 600;
+letter-spacing: 3px;
+
+}
+.flex{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.cancleBtn{
+    width: 46%;
+    /* margin: 5px auto; */
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    padding: 5px 0;
+    border-radius: 5px;
+    border: none;
+    /* Commented by :- Parineeta Gedam */
+    /* color: white !important; */
+    /* End of commented code */
+    box-shadow: 0 0 5px #000;
+}
+
+.ProceedBtn{
+    width: 46%;
+    /* margin: 5px auto; */
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    padding: 5px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+}
+
+.removeContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #f2f2f2;
+    opacity: 0.9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 10;
+    top:0;
+    left:0;
+}
+
+.warningText{
+    font-size: 16px;
+    letter-spacing: 1.4px;
+    text-align: center;
+    color: #000;
+    opacity: 1;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    /* margin: auto; */
+    /* display: flex; */
+}
+
+.deleteBtnContainer{
+    margin-top: 10px;
+    width: 95%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    opacity: 1;
+}
+
+.btn{
+    opacity: 1;
+    width: 65px;
+    padding: 0 4px;
+    height: 30px;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    background-color: #212121;
+    margin-right:3px;
+    border: none;
+    border-radius: 5px;
+}
+
+.blankImg{
+    /* margin-top:90px; */
+    /* margin-top:30px; */
+    margin-top: 5%;
+    width: 70%;
+    max-height: 500px;
+}
+
+.blankImgContainer{
+    width: 100%;
+    display: flex;
+    /* justify-content: flex-end; */
+    justify-content: center;
+}
+
+.blankText{
+    margin-top: 10px;
+    text-align: center;
+    /* font-size: 13px; */
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+}
+
+.blankBtnContainer{
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    gap:15px;
+    margin-top: 15px;
+}
+
+.blankBtn{
+    margin-top: 10px;
+    min-width: 80px;
+    min-height: 30px;
+    /* font-size: 13px; */
+    font-size: 14px;
+    letter-spacing: 1.7px;
+    font-family: "Times New Roman";
+    font-weight: 600;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+
+
+/* Added by :- Parineeta Gedam
+    Date :- 16-04-2023
+    Reason :- add order details css
+*/
+/* ----------- table heading css ---------------- */
+.orderDetailsContainer{
+    box-shadow: 0px 0px 5px #212121;
+    width: 95%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(242, 249, 249);
+}
+.cartTableHeadingContainer {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+}
+.cartDataContainer {
+    display: flex;
+    margin-left: 5px;
+    margin-right: auto;
+}
+.orderIdHeadingContainer{
+    width: 30%;
+}
+.tableNoHeadingContainer{
+    width: 38%;
+    text-align: center;
+}
+.cartTableNoHeading{
+    text-align: center;
+}
+.totalHeadingContainer{
+    width: 30%;
+    text-align: center;
+}
+.horizontalLine{
+    width: 98%;
+    border-top: 1px solid black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.cartHeading{
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+    word-break: break-all;
+}
+
+/* End of edded code */
+
+
+/* End of added code 16-04-2023 */
+
+
+/* Added by Rohan kansari -  4/5/23
+   Reason - To design best seller option*/
+.ribbon{
+    width:13px;
+    height: 70px;
+    margin: auto;
+    text-align: center;
+    writing-mode: vertical-rl;
+    text-orientation:sideways;
+    font-weight:500;
+    background-color: greenyellow;
+    font-size: 11px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: black;
+    padding-left: 0px;
+    position: relative;
+    left: -4px;
+
+}
+
+.null_ribbon{
+    width:15px;
+    height: 70px;
+    background-color: transparent;
+}
+
+/* End of code - Rohan Kansari - 4/5/23 */
+
+.blankContainer{
+    width: 100vw;
+    min-height: auto;
+    z-index: 10;
+    padding-bottom: 20px;
+}

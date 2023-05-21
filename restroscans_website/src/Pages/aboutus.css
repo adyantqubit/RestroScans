@@ -1,0 +1,263 @@
+.Aboutus_main_div {
+  height: fit-content;
+  margin: auto;
+  width: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.aboutus_first_section {
+  width: 100%;
+  /* background-image: linear-gradient(
+    to right bottom,
+    rgb(254, 216, 193),
+    rgb(246, 227, 216),
+    rgb(254, 254, 254)
+  ); */
+  background: rgba(109, 140, 172, 0.5);
+  padding-bottom: 10rem;
+}
+.aboutus_parent_div {
+  padding-top: 4.5rem;
+  width: 80%;
+  margin: auto;
+}
+.aboutus_heading_div {
+  margin: 0;
+  /* border-bottom: 1px solid rgb(221, 209, 209); */
+  border-bottom: 1px solid rgb(51, 50, 50);
+  width: 100%;
+}
+.aboutus_restroscans_heading {
+  font-size: var(--primary-textFontSize);
+  width: 14%;
+}
+.aboutus_restroscans_adyant_heading {
+  font-size: var(--primary-textFontSize);
+  width: 10%;
+}
+.aboutus_description_div {
+  display: flex;
+  padding-top: 2rem;
+  width: 100%;
+  margin: auto;
+}
+.description_container {
+  width: 80%;
+}
+.aboutus_adyant {
+  text-align: justify;
+  color: rgb(51, 50, 50);
+  width: 80%;
+  font-size: var(--descriptions-textFontSize);
+}
+
+.aboutus_scanner_img {
+  width: 40%;
+  height: 50vh;
+  border: 0.2px solid rgb(188, 178, 178);
+  border-radius: 100px 5px 5px 100px;
+  margin: 1.5rem 0 0 3rem;
+}
+
+.Aboutus_adyant_details_div {
+  height: fit-content;
+  padding-bottom: 2rem;
+  margin: auto;
+  width: 80%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+}
+.about_adyant_container {
+  display: flex;
+}
+.adyant_details_first_div {
+  width: 60%;
+  padding-right: 6rem;
+}
+.adyant_details_second_div {
+  width: 30%;
+}
+.aboutus_adyant_1 {
+  text-align: justify;
+  color: rgb(51, 50, 50);
+  font-size: var(--descriptions-textFontSize);
+}
+.adyant_details_heading_div {
+  display: flex;
+  margin: auto;
+  width: 100%;
+}
+.aboutus_adyant_heading {
+  font-size: var(--primary-subheading-textFontSize);
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  font-family: sans-serif;
+}
+
+.Aboutus_services_div {
+  height: fit-content;
+  padding-bottom: 2rem;
+  margin: auto;
+  width: 80%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: flex;
+  text-align: justify;
+}
+.services_left_div {
+  width: 60%;
+}
+.services_right_div {
+  width: 40%;
+  padding-left: 8rem;
+  padding-top: 3rem;
+}
+.aboutus_services_heading {
+  font-size: var(--primary-subheading-textFontSize);
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  font-family: sans-serif;
+}
+.aboutus_services_description {
+  text-align: justify;
+  color: rgb(51, 50, 50);
+  font-size: var(--descriptions-textFontSize);
+}
+.lasd {
+  padding-left: 1.3rem;
+}
+
+@media (max-width: 1400px) {
+  .Aboutus_main_div {
+    padding-bottom: 0;
+    /* width: 90%; */
+  }
+  .aboutus_adyant {
+    width: 90%;
+  }
+}
+@media (max-width: 1200px) {
+  .aboutus_scanner_img {
+    width: 35vw;
+    margin-left: 0;
+  }
+  .Aboutus_adyant_details_div {
+    height: fit-content;
+  }
+}
+@media (max-width: 1024px) {
+  .Aboutus_main_div {
+    /* padding-bottom: 0; */
+    width: 100%;
+  }
+  .aboutus_first_section {
+    padding-bottom: 11.5rem;
+  }
+  .aboutus_parent_div {
+    width: 85%;
+  }
+  .Aboutus_adyant_details_div {
+    width: 85%;
+  }
+  .Aboutus_services_div {
+    width: 85%;
+  }
+  .aboutus_adyant {
+    width: 90%;
+  }
+  .aboutus_restroscans_heading {
+    font-size: 3rem;
+  }
+  .aboutus_scanner_img {
+    width: 35vw;
+    margin-left: 0;
+  }
+}
+@media (max-width: 900px) {
+  .aboutus_restroscans_heading {
+    width: 100%;
+  }
+  .aboutus_description_div {
+    display: block;
+  }
+  .description_container {
+    width: 100%;
+  }
+  .aboutus_adyant {
+    width: 100%;
+    font-size: 1.3rem;
+  }
+  .aboutus_scanner_img {
+    width: 70%;
+    height: 50vh;
+    border: 0.2px solid rgb(188, 178, 178);
+    border-radius: 0;
+    margin: 2rem 0 0 0;
+  }
+  .aboutus_adyant_1 {
+    font-size: 1.2rem;
+  }
+  .aboutus_services_description {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 768px) {
+  .Aboutus_adyant_details_div {
+    height: fit-content;
+    padding-bottom: 3rem;
+  }
+  .about_adyant_container {
+    display: block;
+  }
+  .adyant_details_first_div {
+    width: 100%;
+    padding-right: 0;
+  }
+  .adyant_details_second_div {
+    width: 100%;
+  }
+
+  .Aboutus_services_div {
+    display: block;
+  }
+  .services_left_div {
+    width: 100%;
+  }
+  .aboutus_services_description {
+    width: 100%;
+  }
+  .services_right_div {
+    width: 100%;
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+  .aboutus_adyant_heading {
+    font-weight: bold;
+  }
+  .aboutus_services_heading {
+    font-weight: bold;
+  }
+  .aboutus_adyant {
+    font-size: 1.1rem;
+  }
+  .aboutus_adyant_1 {
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 600px) {
+  .aboutus_scanner_img {
+    height: 40vh;
+  }
+}
+@media (max-width: 500px) {
+  .aboutus_scanner_img {
+    width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .aboutus_scanner_img {
+    height: 30vh;
+  }
+}

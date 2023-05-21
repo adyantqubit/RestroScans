@@ -1,7 +1,7 @@
 // Added by Yuvraj Sahu on 16-2-2023
 // Reason - to login restaurant
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -24,18 +24,56 @@ import { loginSchema } from "../validation/ValidationSchema";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../Colours/globalColor";
 import config from "../config/config";
+import { AppStateContext } from "../context/AppStateProvider";
+import { useIsFocused } from "@react-navigation/native";
+import { useRef } from "react";
+import Footer from "../components/Footer/Footer";
 
 export default function LoginScreen({ navigation }) {
   const navigator = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   var [isBtnDisable, setIsBtnDisable] = useState(false);
 
+  //Added by Yuvraj Sahu on 12-4-2023
+  // Re render the page when data save
+  var { render, setRender } = useContext(AppStateContext);
+  // useEffect(() => {}, [render]);
+  // End of addition
+
+  // Added by Yuvraj Sahu on 20-4-2023
+  // Reason - to re render
+  /**
+   * This function is created for re render the screen
+   */
+  const isFocused = useIsFocused();
+  // useEffect(() => {}, [isFocused]);
+  // End of re render
+
+  /**
+   * Added by Yuvraj Sahu on 03-05-2023
+   * Reason - to re-fresh the validation
+   * msg when we come back from another screen
+   */
+  const formRef = useRef(null);
+  /**
+   * End of refreshing validation msg
+   */
+
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get adyant logo and show it background
   const [appSettings, setAppSettings] = useState("");
   useEffect(() => {
     getAppDetails();
-  }, []);
+    /**
+     * Added by Yuvraj Sahu on 03-05-2023
+     * Reason - to re-fresh the validation
+     * msg when we come back from another screen
+     */
+    formRef.current.resetForm({});
+    /**
+     * End of refreshing validation msg
+     */
+  }, [isFocused]);
   const getAppDetails = async () => {
     const response = await getAppSetting();
     setAppSettings(response);
@@ -47,6 +85,16 @@ export default function LoginScreen({ navigation }) {
     restaurentAuthentication(values).then(async (res) => {
       if (res.token) {
         setIsBtnDisable(false);
+        // Added by Yuvraj sahu on 12-4-2023
+        // Reason - to delete previous data datas from securestorage
+        await SecureStore.deleteItemAsync("userData");
+        await SecureStore.deleteItemAsync("token");
+        await SecureStore.deleteItemAsync("tenantInfo");
+        // End of addition
+        // Added by Om shrivastava on 16-4-2023
+        // Reason - to delete previous data datas from securestorage
+        await SecureStore.deleteItemAsync("qrCodeTenant");
+        // End of addition
         await SecureStore.setItemAsync("token", JSON.stringify(res.token));
         await SecureStore.setItemAsync(
           "userData",
@@ -56,17 +104,30 @@ export default function LoginScreen({ navigation }) {
           "tenantInfo",
           JSON.stringify(res.tenantInfo)
         );
+        // Added by Om shrivastava on 16-4-2023
+        // Reason - to set the QR code in securestorage
+        await SecureStore.setItemAsync("qrCodeTenant", res.qrCodeTenant);
+        // End of addition
         navigation.navigate("DrawerScreens");
+        Alert.alert("Logged In Successfully");
+        setRender(!render);
         resetForm({ values: "" });
       }
-      if (res.error) {
-        alert("Please wait for admin approval");
+      if (res.notAproved) {
+        Alert.alert("Please wait for admin approval");
         setIsBtnDisable(false);
       }
       if (res.invalid) {
-        alert("Invaild email and password");
+        Alert.alert("Invaild email or password");
         setIsBtnDisable(false);
       }
+      // Commented by Yuvraj Sahu on 19-4-2023
+      // Reason - to remove error msg in response success
+      // else {
+      //   alert("Something went wrong! Please try again")
+      //   setIsBtnDisable(false);
+      // }
+      // End of removal
     });
   };
 
@@ -110,149 +171,224 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   return (
-    <Formik
-      initialValues={{ email: "", password: "" }}
-      validateOnMount={true}
-      validationSchema={loginSchema}
-      onSubmit={submitLog}
-      style={{ width: "100%", height: "100%" }}
-    >
-      {({
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        values,
-        touched,
-        isValid,
-        errors,
-      }) => (
-        // <ScrollView style={{height: "100%"}}>
-          <ImageBackground
-            source={{ uri: config.imageUrl + appSettings.app_logo }}
-            resizeMode="cover"
-            blurRadius={2}
-            style={{ flex: 1, height: "100%" }}
+    <>
+      <View style={{ flex: 1 }}>
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <Formik
+            /** Added by Yuvraj Sahu on 03-05-2023
+             * Reason - to refresh the validation msg
+             */
+            innerRef={formRef}
+            /** End of refreshing validation msg */
+            initialValues={{ email: "", password: "" }}
+            validateOnMount={true}
+            validationSchema={loginSchema}
+            onSubmit={submitLog}
+            style={{ width: "100%", height: "100%" }}
           >
-            <View style={styles.container}>
-              <View style={{ marginTop: 30 }}>
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Email
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              isValid,
+              errors,
+            }) => (
+              // <ScrollView style={{height: "100%"}}>
+              // Commented by Yuvraj Sahu on 19-4-2023
+              // Reason - to remove background image and ui changes
+              // <ImageBackground
+              //   source={{ uri: config.imageUrl + appSettings.app_logo }}
+              //   resizeMode="cover"
+              //   blurRadius={2}
+              //   style={{ flex: 1, height: "100%" }}
+              // >
+              <View style={styles.container}>
+                {/* Added by Yuvraj Sahu on 20-4-2023
+          Reason - to show description */}
+                <View style={styles.descriptionContainer}>
+                  <Text style={styles.description}>
+                    Please enter your registered email id to continue.
                   </Text>
-
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter your email"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  {errors.email && touched.email && (
-                    <Text style={styles.textdanger}>{errors.email}</Text>
-                  )}
+                  {/* End of addition */}
                 </View>
+                <View style={{ marginTop: 30 }}>
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Email
+                    </Text>
 
-                <View>
-                  <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-                    Password
-                  </Text>
-
-                  <View style={styles.passContainer}>
                     <TextInput
-                      style={styles.inputPassword}
-                      onChangeText={handleChange("password")}
-                      onBlur={handleBlur("password")}
-                      value={values.password}
+                      style={styles.input}
+                      onChangeText={handleChange("email")}
+                      // Added by- Suman sahu  On 24/04/2023
+                      // Reason- show error message when focusout that input box
+                      onBlur={handleBlur("email")}
+                      // End of added code 24/04/2023
+
+                      value={values.email}
                       placeholderTextColor="#A4A4A4"
-                      placeholder="Enter your password"
+                      placeholder="Enter your email"
+                      keyboardType="email-address"
                       autoCapitalize="none"
                       autoCorrect={false}
-                      secureTextEntry={!showPassword}
                     />
-
-                    <TouchableOpacity
-                      onPress={() => setShowPassword(!showPassword)}
-                    >
-                      <Ionicons
-                        name={showPassword ? "eye" : "eye-off"}
-                        size={24}
-                        color="black"
-                        style={styles.passIcon}
-                      />
-                    </TouchableOpacity>
+                    {errors.email && touched.email && (
+                      <Text style={styles.textdanger}>{errors.email}</Text>
+                    )}
                   </View>
 
-                  {errors.password && touched.password && (
-                    <Text style={styles.textdanger}>{errors.password}</Text>
-                  )}
-                </View>
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}>
+                        *{" "}
+                      </Text>
+                      Password
+                    </Text>
 
-                <View style={{ width: "93%" }}>
-                  <Pressable
-                    onPress={forgotPasswordHandler}
-                    style={{ alignSelf: "flex-end" }}
-                  >
-                    <Text style={{ color: "blue" }}>Forgot Password</Text>
-                  </Pressable>
-                </View>
+                    <View style={styles.passContainer}>
+                      <TextInput
+                        style={styles.inputPassword}
+                        onChangeText={handleChange("password")}
+                        // Added by- Suman sahu  On 24/04/2023
+                        // Reason- show error message when focusout that input box
+                        onBlur={handleBlur("password")}
+                        // End of added code 24/04/2023
 
-                <View
-                  style={{
-                    marginBottom: 20,
-                    marginHorizontal: 10,
-                    marginTop: 10,
-                  }}
-                >
-                  <Pressable
-                    onPress={handleSubmit}
-                    disabled={isBtnDisable}
+                        value={values.password}
+                        placeholderTextColor="#A4A4A4"
+                        placeholder="Enter your password"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        secureTextEntry={!showPassword}
+                      />
+
+                      <TouchableOpacity
+                        onPress={() => setShowPassword(!showPassword)}
+                      >
+                        <Ionicons
+                          name={showPassword ? "eye" : "eye-off"}
+                          size={24}
+                          color="black"
+                          style={styles.passIcon}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    {errors.password && touched.password && (
+                      <Text style={styles.textdanger}>{errors.password}</Text>
+                    )}
+                  </View>
+
+                  <View style={{ width: "93%" }}>
+                    <Pressable
+                      onPress={forgotPasswordHandler}
+                      style={{ alignSelf: "flex-end" }}
+                    >
+                      {/* Modified by - Suman sahu On 23/04/2023
+                    Reason - For change color that text */}
+
+                      {/* <Text style={{ color: "#8533ff" }}>Forgot Password?</Text> */}
+                      <Text style={{ color: "blue" }}>Forgot Password?</Text>
+
+                      {/* End of modified code 23/04/2023 */}
+                    </Pressable>
+                  </View>
+
+                  <View
                     style={{
-                      backgroundColor: !isBtnDisable
-                        ? colors.btnColor
-                        : "#E0E0E0",
-                      // height: 40,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: 3,
-                      padding: "3%",
+                      marginBottom: 20,
+                      marginHorizontal: 10,
+                      marginTop: 10,
                     }}
                   >
-                    <Text
+                    <Pressable
+                      onPress={handleSubmit}
+                      disabled={isBtnDisable}
+                      // Modified by- Suman sahu  On 26/04/2023
+                      // Reason - for redesign buttons styles
                       style={{
-                        color: !isBtnDisable ? "white" : "#989898",
-                        fontSize: 16,
-                        fontWeight: "bold",
+                        backgroundColor: !isBtnDisable
+                          ? colors.btnColor
+                          : "#E0E0E0",
+                        height: 30,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        // padding: "3%",
+                        width: "35%",
+                        alignSelf: "center",
+                        marginTop: 20,
                       }}
+                      // End of modified code 26/04/2023
                     >
-                      Login
-                    </Text>
-                  </Pressable>
+                      <Text
+                        style={{
+                          color: !isBtnDisable ? "white" : "#989898",
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Login
+                      </Text>
+                    </Pressable>
+                  </View>
+
+                  {/* Modified by Yuvraj Sahu on 19-4-2023
+              Reason - to remove button and line and also add link */}
+                  {/* <View
+                style={{
+                  borderBottomColor: "black",
+                  borderBottomWidth: 1,
+                  width: "93%",
+                  alignSelf: "center",
+                }}
+              /> */}
+
+                  {/* <Pressable onPress={navRegister} style={styles.registerBtn}>
+                <Text style={styles.registerText}>Register</Text>
+              </Pressable> */}
+
+                  <View
+                    style={{
+                      width: "93%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      marginTop: 10,
+                      alignSelf: "center",
+                    }}
+                  >
+                    <Text>New to Restroscans?</Text>
+                    <Pressable onPress={navRegister}>
+                      {/* Modified by - Suman sahu On 23/04/2023
+                    Reason - For change color that text */}
+
+                      {/* <Text style={{ color: "#8533ff" }}> Sign up</Text> */}
+                      <Text style={{ color: "blue" }}> Sign up</Text>
+
+                      {/* End of modified code 23/04/2023 */}
+                    </Pressable>
+                  </View>
+                  {/* End of removal */}
                 </View>
-
-                <View
-                  style={{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                    width: "93%",
-                    alignSelf: "center",
-                  }}
-                />
-
-                <Pressable onPress={navRegister} style={styles.registerBtn}>
-                  <Text style={styles.registerText}>Register</Text>
-                </Pressable>
               </View>
-            </View>
-          </ImageBackground>
-        // </ScrollView>
-      )}
-    </Formik>
+              // </ImageBackground>
+              // </ScrollView>
+            )}
+          </Formik>
+        </ScrollView>
+        {/* Added by Om on 26-04-23 For showing the footer*/}
+        <>
+          <Footer />
+        </>
+        {/* End of addition */}
+      </View>
+    </>
   );
 }
 
@@ -278,8 +414,13 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     // marginTop: 10,
     fontSize: 16,
-    borderRadius: 3,
+    borderRadius: 10,
     backgroundColor: "white",
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to decrease gap lable and text box and validation
+    marginTop: 5,
+    // marginBottom: 2,
+    // End of addition of yuvraj on 01-05-2023
   },
   passContainer: {
     flexDirection: "row",
@@ -287,8 +428,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 12,
     marginTop: 10,
-    borderRadius: 3,
+    borderRadius: 10,
     backgroundColor: "white",
+    // Added by Yuvraj Sahu on 01-05-2023
+    // Reason - to decrease gap lable and text box and validation
+    marginTop: 5,
+    // End of addition of yuvraj on 01-05-2023
   },
   inputPassword: {
     // paddingTop: 10,
@@ -309,6 +454,7 @@ const styles = StyleSheet.create({
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    marginTop: -10,
   },
   registerBtn: {
     width: "95%",
@@ -324,4 +470,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+  // Added by Yuvraj Sahu on 20-4-2023
+  // Reason - to desig description
+  descriptionContainer: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  description: {
+    // alignSelf: "center",  // Commented by- Suman sahu for alignment that text On 30/04/2023
+    fontSize: 16,
+  },
+  // End of addition
 });

@@ -1,0 +1,177 @@
+/* Added by:- Suman sahu On 07/04/2023
+Reason:- Create css for Footer.jsx */
+
+/* ----------------------------------Footer Section1  --------------------------- */
+.footer_section_1 {
+  text-align: center;
+  display: block;
+  /* background: rgb(217, 187, 187); */
+  background-image: radial-gradient(
+    circle,
+    rgb(101, 136, 147) 50%,
+    rgb(81, 108, 118) 100%
+  );
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+.adyant_address_heading {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgb(27, 27, 27);
+  color: black;
+  margin: 0.5rem 0;
+}
+.adyant_address_label {
+  font-size: 1rem;
+  font-weight: 400;
+  color: black;
+  margin: 0.5rem 0;
+}
+.footer_icon {
+  width: 3vw;
+  height: 3vh;
+  color: black;
+  cursor: pointer;
+}
+
+/* ----------------------------------Footer Section2  --------------------------- */
+.footer_section_2 {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  height: 3rem;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
+  font-size: var(--footer-primary-heading);
+  background: var(--footer-backgroundColor);
+  margin-top: 2rem;
+  background-color: rgba(225, 239, 254, 1);
+}
+.footer_section h5,
+h6 {
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.footer_section_2 h5 {
+  font-size: 1rem;
+  font-weight: normal !important;
+}
+.adyant_footer_link {
+  margin-bottom: 2.5rem;
+}
+.adyant {
+  padding-right: 2rem;
+  position: absolute;
+  right: 0;
+  color: black;
+  font-weight: 500;
+  font-size: var(--footer-secondary-heading);
+}
+
+.footer_adyant_logo {
+  width: 3vw;
+  height: 3vh;
+}
+@media (max-width: 1024px) {
+  .footer_icon {
+    padding: 0 0.5rem;
+  }
+  .footer_adyant_logo {
+    height: 3vh;
+  }
+  .footer_section h6 {
+    margin-top: 0.2rem;
+  }
+}
+@media (max-width: 900px) {
+  .footer_adyant_logo {
+    height: 2.7vh;
+    width: 4.3vw;
+  }
+}
+@media (max-width: 768px) {
+  .footer_section_2 {
+    background-color: rgba(225, 239, 254, 1);
+  }
+  .footer_adyant_logo {
+    width: 4.4vw;
+    height: 2.7vh;
+  }
+}
+@media (max-width: 600px) {
+  /* --------------------Footer Section1  ----------------*/
+
+  /* --------------------Footer Section2  ----------------*/
+  .footer_section_2 {
+    /* align-items: center; */
+    /* bottom: 0; */
+    /* flex-direction: column; */
+    /* height: auto; */
+    /* justify-content: flex-start; */
+    position: fixed;
+    z-index: 9999;
+  }
+
+  .footer_heading {
+    margin: 0.5rem;
+    float: left;
+    width: 50%;
+    padding-left: 1rem;
+  }
+
+  .adyant_footer_link {
+    padding-bottom: 1rem;
+    margin-bottom: 0;
+    text-decoration: none;
+    width: 50%;
+    padding-right: 1rem;
+  }
+
+  .adyant {
+    padding-right: 0;
+    margin-bottom: 0.5rem;
+    position: static;
+    margin: 0;
+    float: right;
+  }
+  .footer_adyant_logo {
+    width: 6vw;
+    height: 2.5vh;
+    padding-top: 0.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .adyant_address_label {
+    font-size: 0.9rem;
+  }
+  .footer_adyant_logo {
+    width: 6.5vw;
+  }
+  .footer_icon {
+    width: 3.5vw;
+    height: 3.5vh;
+  }
+}
+@media (max-width: 400px) {
+  .adyant_address_label {
+    font-size: 0.8rem;
+  }
+  .footer_section_2 h5 {
+    font-size: 0.9rem;
+  }
+  .adyant {
+    font-size: 0.8rem;
+  }
+  .footer_adyant_logo {
+    height: 2vh;
+    width: 7vw;
+  }
+  .footer_icon {
+    width: 4vw;
+    height: 4vh;
+  }
+}
+/* End of added code 07/04/2023 */

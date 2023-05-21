@@ -66,6 +66,7 @@
             {% admin_get_menu as app_list %}
             {% if app_list %}
                 {% for app in app_list %}
+                {% if app.label != 'FCM Django' %}
                     {% if app.has_perms and not app.pinned %}
                     <!-- Modified by Yuvraj Sahu on 31-3-2023
                             Reason - do not show authorization for
@@ -91,24 +92,29 @@
                             <!-- End of comment -->
 
                             {% if app.models %}
+                            
                               <div class="multi-level collapse {% if 'tables-bootstrap-' in segment or app_label == app.label or app.url in request.path|urlencode %} show {% endif %}" role="list" id="submenu-{{ app.app_label }}"  
                                                                                                                                       aria-expanded="{% if app_label == app.label or app.url in request.path|urlencode %}true{% else %}false{% endif %}">
                                     <ul class="flex-column nav">
                                         {% for model in app.models %}
-                                            {% if model.url %}
-                                              <li class="nav-item{% if 'bootstrap-tables' in segment or model.url in request.path|urlencode %} active {% endif %}">
-                                                    <a class="nav-link" href="{{ model.url }}">
-                                                      <span class="sidebar-text">{{ model.label }}</span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li>{{ model.label }}</li>
-                                            {% endif %}
+                                            
+                                                {% if model.url %}
+                                                <li class="nav-item{% if 'bootstrap-tables' in segment or model.url in request.path|urlencode %} active {% endif %}">
+                                                        <a class="nav-link" href="{{ model.url }}">
+                                                        <span class="sidebar-text">{{ model.label }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>{{ model.label }}</li>
+                                                {% endif %}
+                                            
                                         {% endfor %}
                                     </ul>
                                 </div>
+                                
                             {% endif %}
                         </li>
+                    {% endif %}
                     {% endif %}
                 {% endfor %}
             {% endif %}

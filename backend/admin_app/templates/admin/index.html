@@ -1,7 +1,40 @@
 
 {% extends 'admin/index.html' %}
 {% load admintemplates %}
+{% load tz %}
 {% block content %}
+<style >
+    .linkButton{
+        background-color: #c97303;
+        color:#fff;
+        padding:3px;
+        border-radius: 4px;
+    }
+    .linkButton:hover{
+        background-color: #e3a759;
+        color:#fff;
+    }
+    .linkButtonGreen{
+        background-color: #92d050;
+        color:#fff;
+        padding:3px;
+        border-radius: 4px;
+    }
+    .linkButtonGreen:hover{
+        background-color: #7caa4a;
+        color:#fff;
+    }
+    .linkButtonBlue{
+        background-color: #004376;
+        color:#fff;
+        padding:3px;
+        border-radius: 4px;
+    }
+    .linkButtonBlue:hover{
+        background-color: #266da4;
+        color:#fff;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     function fun(){
@@ -10,7 +43,7 @@
         var a = window.open('', '', 'height=800, width=1200');
         a.document.write('<html>');
             
-            a.document.write('<body style="display:flex;flex-direction:column;justify-content:space-around;align-items:space-around;width:100vw;border:1px solid black" >');
+            a.document.write('<body style="display:flex;flex-direction:column;justify-content:space-around;align-items:space-around;width:100vw;" >');
             a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:50vh;">');
                 a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
                 a.document.write(divContents);
@@ -45,7 +78,11 @@
                 {% if data.tenant != "restroscans"  %}
                 <!-- <h1>Restaurant name</h1> -->
                 <img id="qr_image" src='{{data.path}}' width="300px" height="300px" />
-                <h4 style="margin-top: -1.5rem;">Powered by Adyant</h4>
+                <!-- Modification by Om on 14-04-23
+                Reason : Some letters has changed the uppercase -->
+                <h6 style="margin-top: -1.2rem;">Adyant Softtech Pvt Ltd Raipur </h6>
+                <h5 style="margin-top: -1.2rem;">restroscans.com , Scan to see the menu</h5>
+                <!-- End of additon -->
             </div>
             <button class="btn btn-gray-800 d-inline-flex align-items-center me-2 "
                     onclick="fun()">
@@ -67,7 +104,7 @@
         font-weight: 550;">Restaurant Dashboard</h4>
             <!-- Table -->
             
-            <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" style="width: 50%;" >
+            <!-- <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" style="width: 50%;" >
                 <div class="card border-0 shadow">
                     <div class="card-body">
                         <div class="row d-block d-xl-flex align-items-center">
@@ -90,9 +127,28 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-        
+            </div> -->
+
+            <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" style="width: 50%;" >
+                <div class=" d-block d-xl-flex align-items-center">
+                    {%  getActiveMenuList as count %}
+                    <div  style="width:200px;display:flex;flex-direction:column;align-items: center; padding:8px;">
+                        <div class="fw-extrabold mb-2" style="background-color:#92d050;width:150px;height:75px;border-radius:75px 75px 0 0;display: flex;justify-content: center;align-items: center;color:white;font-size: 24px;">{{count.totalCategories}}</div>
+                        <h6 class="fw-extrabold mb-2" style="width:200px;display: flex;justify-content: center;">Total Listed Menus</h6>
+                    </div>
+                    <div   style="width:200px;display:flex;flex-direction:column;align-items: center; padding:8px;">
+                        <div class="fw-extrabold mb-2" style="background-color:#004376;width:150px;height:75px;border-radius:75px 75px 0 0;display: flex;justify-content: center;align-items: center;color:white;font-size: 24px;">{{count.totalSubCategories}}</div>
+                        <h6 class="fw-extrabold mb-2" style="width:200px;display: flex;justify-content: center;">Total Listed Categories</h6>
+                    </div>
+                    <div  style="width:200px;display:flex;flex-direction:column;align-items: center; padding:8px;">
+                        <div class="fw-extrabold mb-2" style="background-color:#92d050;width:150px;height:75px;border-radius:75px 75px 0 0;display: flex;justify-content: center;align-items: center;color:white;font-size: 24px;">{{count.totalItems}}</div>
+                        <h6 class="fw-extrabold mb-2" style="width:200px;display: flex;justify-content: center;">Total Listed Items</h6>
+                    </div>
+                </div>
+          </div>
+
+
+
             <!-- <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" style="width: 50%" >
                 <div class="card border-0 shadow">
                     <div class="card-body">
@@ -129,6 +185,270 @@
         </div>
 
 
+
+<!-- Added by - Ashish Dewangan on 26-04-2023
+     Reason - To show revenue details on dashboard -->
+     {% getTodaysOrders as count %}
+     <div
+     class="row"
+     style="display: flex; justify-content: center; align-items: center"
+   >
+     <h4
+       style="
+         text-align: center;
+         margin-bottom: 1%;
+         font-family: Noe Display;
+         font-size: 20px;
+         vertical-align: baseline;
+         line-height: 30px;
+         letter-spacing: normal;
+         word-spacing: 0px;
+         font-weight: 550;
+       "
+     >
+       Revenue Details
+     </h4>
+     <!-- Table -->
+     <!-- <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" >
+       <div class="card border-0 shadow">
+         <div class="card-body">
+           <div class="row d-block d-xl-flex align-items-center">
+             
+               <div
+                 class="shadow"
+                 style="background-color: rgba(227, 121, 121, 0.7); padding: 8px"
+               >
+                 <h6
+                   class="fw-extrabold mb-2"
+                   style="display: inline-block; width: 100%;text-align: center;"
+                 >
+                   Today's Revenue
+                 </h6>
+                 
+               </div>
+               <div
+                 class="shadow"
+                 style="background-color: rgba(92, 228, 228, 0.688); padding: 8px"
+               >
+                 <h6
+                   class="fw-extrabold mb-2"
+                   style="display: inline-block; width: 60%"
+                 >
+                   Total Orders
+                 </h6>
+                 <h6
+                   class="fw-extrabold mb-2"
+                   style="display: inline-block; width: 30%; text-align: right"
+                 >
+                   {{count.revenue_details.todays_summary.order_count}}
+                 </h6>
+                 
+                 </h6>
+               </div>
+               <div
+                 class="shadow"
+                 style="background-color: rgba(73, 211, 73, 0.8); padding: 8px"
+               >
+                 <h6
+                   class="fw-extrabold mb-2"
+                   style="display: inline-block; width: 60%"
+                 >
+                   Total Revenue
+                 </h6>
+                 <h6
+                   class="fw-extrabold mb-2"
+                   style="display: inline-block; width: 30%; text-align: right"
+                 >
+                 {{count.revenue_details.todays_summary.total_revenue|floatformat:2}}
+                 </h6>
+               </div>
+               <div
+                class="shadow"
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'order_report' 'today'  %}"
+                  class="linkButton"
+                  style="color:white;font-weight: 500;"
+                >
+                View Order Report
+                </a>
+              </div>
+              <div
+                class="shadow"
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'item_report' 'today'  %}"
+                  class="linkButton"
+                  style="color:white;font-weight: 500;"
+                >
+                View Item Report
+                </a>
+              </div>
+             </div>
+         </div>
+       </div>
+     </div> -->
+
+
+
+
+     <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" >
+      <div class="card border-0 shadow">
+        <div class="card-body">
+          <div class="row d-block d-xl-flex align-items-center">
+              <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                  <div style="font-size: 20px;font-weight: bold;">Today's Revenue</div>
+                  <div style="font-size: 14px;">Total Orders</div>
+                  <div style="font-size: 34px;font-weight: bold;">{{count.revenue_details.todays_summary.order_count}}</div>
+                  <div  style="font-size: 14px;">Total Revenue</div>
+                  <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.todays_summary.total_revenue %} ? {{count.revenue_details.todays_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+              </div>
+              <div
+               style=" display:flex;justify-content:center;padding: 8px"
+             >
+               <a href="{% url 'order_report' 'today'  %}"
+                 target="_blank"
+                 class="linkButtonGreen"
+                 style="color:white;font-weight: 500;"
+               >
+               View Order Report
+               </a>
+             </div>
+             <div
+               style=" display:flex;justify-content:center;padding: 8px"
+             >
+               <a href="{% url 'item_report' 'today'  %}"
+                 target="_blank"
+                 class="linkButtonBlue"
+                 style="color:white;font-weight: 500;"
+               >
+               View Item Report
+               </a>
+             </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" >
+        <div class="card border-0 shadow">
+          <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+              <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                <div style="font-size: 20px;font-weight: bold;"> This Week's Revenue</div>
+                <div style="font-size: 14px;">Total Orders</div>
+                <div style="font-size: 34px;font-weight: bold;">{{count.revenue_details.this_weeks_summary.order_count}}</div>
+                <div  style="font-size: 14px;">Total Revenue</div>
+                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_weeks_summary.total_revenue %} ? {{count.revenue_details.this_weeks_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+              </div>
+                <div
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'order_report' 'this_week'  %}"
+                  target="_blank"
+                  class="linkButtonGreen"
+                  style="color:white;font-weight: 500;"
+                >
+                View Order Report
+                </a>
+              </div>
+              <div
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'item_report' 'this_week'  %}"
+                  target="_blank"
+                  class="linkButtonBlue"
+                  style="color:white;font-weight: 500;"
+                >
+                View Item Report
+                </a>
+              </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" >
+        <div class="card border-0 shadow">
+          <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+              <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                <div style="font-size: 20px;font-weight: bold;"> This Months's Revenue</div>
+                <div style="font-size: 14px;">Total Orders</div>
+                <div style="font-size: 34px;font-weight: bold;"> {{count.revenue_details.this_months_summary.order_count}}</div>
+                <div  style="font-size: 14px;">Total Revenue</div>
+                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_months_summary.total_revenue %} ? {{count.revenue_details.this_months_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+              </div>
+              <div
+              style=" display:flex;justify-content:center;padding: 8px"
+            >
+              <a href="{% url 'item_report' 'this_week'  %}"
+                target="_blank"
+                class="linkButtonGreen"
+                style="color:white;font-weight: 500;"
+              >   
+                View Order Report
+              </a>
+            </div>
+              <div
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'item_report' 'this_month'  %}"
+                  target="_blank"
+                  class="linkButtonBlue"
+                  style="color:white;font-weight: 500;"
+                >
+                View Item Report
+                </a>
+              </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-12 col-sm-6 col-xl-3 mb-4 row-3" >
+        <div class="card border-0 shadow">
+          <div class="card-body">
+            <div class="row d-block d-xl-flex align-items-center">
+              
+              <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                <div style="font-size: 20px;font-weight: bold;"> This Years's Revenue</div>
+                <div style="font-size: 14px;">Total Orders</div>
+                <div style="font-size: 34px;font-weight: bold;"> {{count.revenue_details.this_years_summary.order_count}}</div>
+                <div  style="font-size: 14px;">Total Revenue</div>
+                <div style="font-size: 22px;font-weight: bold;color:#92d050;">{% if count.revenue_details.this_years_summary.total_revenue %} ? {{count.revenue_details.this_years_summary.total_revenue|floatformat:2}} {% else %} 0 {% endif %}</div>
+              </div>
+                    
+                <div
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'order_report' 'this_year'  %}"
+                  target="_blank"
+                  class="linkButtonGreen"
+                  style="color:white;font-weight: 500;"
+                >
+                View Order Report
+                </a>
+              </div>
+              <div
+                style=" display:flex;justify-content:center;padding: 8px"
+              >
+                <a href="{% url 'item_report' 'this_year'  %}"
+                  target="_blank"
+                  class="linkButtonBlue"
+                  style="color:white;font-weight: 500;"
+                >
+                View Item Report
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   </div>
+<!-- End of code addition by Ashish Dewangan on 26-04-2023 -->
 
         <!-- <div class="row">
             <div class="col-12 mb-4">
@@ -293,6 +613,288 @@
             </div>
         </div> -->
 
+        <!-- Added by - Ashish Dewangan on 26-04-2023
+             Reason - To show todays orders on dashboard.
+         -->
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h2 class="fs-5 fw-bold mb-0"> Today's New Placed Orders </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr style="background-color:rgba(220, 231, 231, 0.912) ;">
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order Items
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order ID
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Table Number
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order Status
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Payment Status
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Date
+                                    </th>
+                                </tr>
+                                {% getTodaysOrders as todaysOrders %}
+                                {% if todaysOrders %}
+                                    {% if todaysOrders.todays_newly_placed_orders %}
+                                        {% for newly_placed_orders in todaysOrders.todays_newly_placed_orders %}
+                                            <tr>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">View Order</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/orderitem/?order_id__id__exact={{newly_placed_orders.id}}">View Order Items</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{newly_placed_orders.order_id }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{newly_placed_orders.table_number }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.order_status }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.payment_status }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    {% load tz %}
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.date }}</a> 
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                        <td>None available</td>
+                                        </tr>
+                                    {% endif %}
+                                {% else %}
+                                    <tr>
+                                    <td>None available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h2 class="fs-5 fw-bold mb-0"> Today's Pending Orders </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr style="background-color:rgba(220, 231, 231, 0.912) ;">
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order Items
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order ID
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Table Number
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order Status
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Payment Status
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Date
+                                    </th>
+                                    <!-- Added by Om on 04-05-23 for show the kitchen bill in dashboard -->
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Get Kitchen Bill
+                                    </th>
+                                    <!-- End of addition -->
+                                </tr>
+                                {% getTodaysOrders as todaysOrders %}
+                                {% if todaysOrders %}
+                                    {% if todaysOrders.todays_pending_orders %}
+                                        {% for pending_orders in todaysOrders.todays_pending_orders %}
+                                            <tr>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">View Order</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/orderitem/?order_id__id__exact={{pending_orders.id}}">View Order Items</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{pending_orders.order_id }}</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{pending_orders.table_number }}</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.order_status }}</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.payment_status }}</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.date  }}</a>  
+                                                </td>
+                                                <!-- Added by Om on 04-05-23
+                                                Reason : Show the KOT bill  -->
+                                                <td class="fw-bolder text-gray-500">
+                                                {% if  pending_orders.order_status == 'Confirm'  %} 
+                                                    <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' pending_orders.id %} "> Print KOT</a> 
+                                                {% endif %}
+                                                </td>
+                                                <!-- End of the addition -->
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                        <td>None available</td>
+                                        </tr>
+                                    {% endif %}
+                                {% else %}
+                                    <tr>
+                                    <td>None available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h2 class="fs-5 fw-bold mb-0"> Today's Completed Orders </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <tbody>
+                                <tr style="background-color:rgba(220, 231, 231, 0.912) ;">
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order Items
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order ID
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Table Number
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Order Status
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Payment Status
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Date
+                                    </th>
+                                    <!-- Added by Om on 04-05-23 for show the bill in dashboard -->
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Get Bill
+                                    </th>
+                                    <th class="text-gray-900" style="font-weight:800" scope="row">
+                                        Get Kitchen Bill
+                                    </th>
+                                    <!-- End of addition -->
+                                </tr>
+                                {% getTodaysOrders as todaysOrders %}
+                                {% if todaysOrders %}
+                                    {% if todaysOrders.todays_completed_orders %}
+                                        {% for completed_orders in todaysOrders.todays_completed_orders %}
+                                            <tr>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/">View Order</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/orderitem/?order_id__id__exact={{completed_orders.id}}">View Order Items</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{completed_orders.order_id }}</a>  
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{completed_orders.table_number }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/">  {{ completed_orders.order_status }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.payment_status }}</a> 
+                                                </td>
+                                                <td class="fw-bolder text-gray-500">
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.date }}</a> 
+                                                </td>
+                                                <!-- Added by Om on 04-05-23
+                                                Reason : Generate the bill for the user and KOT -->
+                                                <td class="fw-bolder text-gray-500">
+                                                    {% if  completed_orders.order_status == 'Served'  %} 
+                                                        <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_generate_bill' completed_orders.id %} "> Get Bill</a> 
+                                                    {% endif %}
+                                                </td>
+
+                                                <td class="fw-bolder text-gray-500">
+                                                    {% if  completed_orders.order_status == 'Confirm'  %} 
+                                                        <a style = "background-color : green; color: white; padding: 5px 10px;border-radius : 50px"class="button" target = "_blank" href="{% url 'order_kot_generate_bill' completed_orders.id %}"> Print KOT</a> 
+                                                    {% endif %}
+                                                </td>
+                                                <!-- End of addition -->
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                        <td>None available</td>
+                                        </tr>
+                                    {% endif %}
+                                {% else %}
+                                    <tr>
+                                    <td>None available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of code addition by Ashish Dewangan on 26-04-2023 -->
 
 
         {% else %}

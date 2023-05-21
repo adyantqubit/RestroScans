@@ -2,6 +2,8 @@ from pathlib import Path
 
 import django
 from django.utils.encoding import force_str
+from firebase_admin import initialize_app
+from firebase_admin import credentials
 django.utils.encoding.force_text = force_str
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +35,7 @@ SHARED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.auth',
+
 ]
 
 TENANT_APPS = [
@@ -42,6 +45,7 @@ TENANT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.admin',
+ 
 ]
 
 INSTALLED_APPS = [
@@ -61,6 +65,14 @@ INSTALLED_APPS = [
     # Reason - to setup admin template 
     'admin_volt.apps.AdminVoltConfig',
     # End of addition
+
+    'ckeditor',
+    
+    
+    # Added by - Ashish Dewangan on 28-04-2023
+    # Reason - To have fcm functionality
+    "fcm_django",
+    # End of code addition by Ashish Dewangan on 28-04-2023
 ]
 
 """
@@ -214,7 +226,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# Commented and modified by - Ashish Dewangan on 03-05-2023
+# Reason - To change time zone according to India.
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
+# End of code modification by Ashish Dewangan on 03-05-2023
 
 USE_I18N = True
 
@@ -225,8 +241,13 @@ STATIC_URL = '/staticfiles/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Added by Om on 04-05-23
+# Reason : set the GTK path in runtime
 import os
+GTK_FOLDER = r'C:\Program Files\GTK3-Runtime Win64\bin'
+os.environ['PATH'] = GTK_FOLDER + os.pathsep + os.environ.get('PATH', '')
+# End of addition
+
 # Modified by Yuvraj Sahu on 27-3-2023
 # Reason - to set static files path
 STATIC_ROOT = os.path.join(BASE_DIR, 'admin_app/static')
@@ -279,3 +300,25 @@ API_VERSION = "v1/"
 """
 End of code addition
 """
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+
+
+# Added by - Ashish Dewangan on 28-04-2023
+# Reason - To have firebase push notification functionality
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY":"AAAAgOsiroc:APA91bE1B1_2U5YThv_olkTP_b8zvbgLq8dOfjHnkf1Qh9UjKk7DTmMVkYeIaGcCm57AEMIRBPYZGHZgA_CMRyDXSlnHR7mhyVKz-Qn3diaUJNE41CVx7cVFIk7tF1aC1KxswhU0lhCz",
+}
+cred = credentials.Certificate(os.path.join(BASE_DIR, 'backend/credentials.json'))
+initialize_app(cred)
+# End of code addition by Ashish Dewangan on 28-04-2023
+
+
+# Added by - Suman sahu  On 05/05/2023
+# reason - change date & time format on admin side
+DATE_FORMAT = ( ( 'd/m/Y' ))
+DATE_INPUT_FORMATS = ( ('%d/%m/%Y'),)
+DATETIME_FORMAT = (( 'd/m/Y H:i' ))
+DATETIME_INPUT_FORMATS = (('%d/%m/%Y %H:%i'),)
+# End of addition 05/05/2023

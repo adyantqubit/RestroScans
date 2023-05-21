@@ -32,7 +32,9 @@ export default function GlobalColor() {
     };
 
     useEffect(()=>{
-        if(color){
+        // Modiefied By Rohan - 24/4/23
+        // Reason - check if color are not available so don't set any color
+        if(color?.banner_heading_color!=null){
         setColors({
             headingColor: color.heading_color,
             backgroundTheme: color.background_color,
@@ -41,8 +43,14 @@ export default function GlobalColor() {
             headingBackgroundColor:color.heading_bgcolor,
             subheadingBackgroundColor:color.subheading_bgcolor,
             // backgroundTheme:color.length==0 ? color.background_color :'red'
-            allow_half_price:true
+            allow_half_price:color.allow_half_price,
+
+            // Added by Rohankansari - 28/4/23
+            // Reason - To add card color here
+            card_color:color.card_color
+            // End of code
         })}
+        // end of code - 24/4/23
     },[color])
 
     return (

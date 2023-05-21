@@ -1,0 +1,91 @@
+<!-- Created by - Ashish Dewangan on 04-05-2023
+     Reason - To show item report  -->
+{% load admintemplates %}
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Report</title>
+</head>
+<style>
+    .container{
+        border: 2px solid black;
+    }
+    .title{
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .reportTitle{
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .titleContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px;
+        font-weight: bold;
+    }
+    .dataContainer{
+        border-top: 2px solid black;
+        padding:5px;
+        padding-bottom: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+    .titleSection{
+        display: flex;
+        flex-direction: row;
+        border-bottom: 2px solid black;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        font-weight: bold;
+    }
+    .dataSection{
+        display: flex;
+        flex-direction: column;
+        /* padding-top: 5px; */
+    }
+    .dataRow{
+        display: flex;
+        border-bottom: 1px solid black;
+       
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="title">{{ restaurant_details.name}} </div>
+        <div class="reportTitle">{{report_title}}</div>
+        <div class="titleContainer">
+            <div class="subtitle">Total Orders : {{total_orders}}</div>
+            <div class="subtitle">Report Date : {{date|date:'d/m/Y'}}</div>
+        </div>
+        <div class="dataContainer">
+            <div class="titleSection">
+                <div style="width:23%">Date</div>
+                <div style="width:17%">Order Id</div>
+                <div style="width:20%">Sub Total (₹)</div>
+                <div style="width:10%">CGST</div>
+                <div style="width:10%">SGST</div>
+                <div style="width:20%">Total (₹)</div>
+            </div>
+            <div class="dataSection">
+                {% for order in orders %}
+                <div class="dataRow">
+                    <div style="width:23%">{{order.date|date:'d/m/Y H:i'}}</div>
+                    <div style="width:17%">{{order.order_id}}</div>
+                    <div style="width:20%">{{order.sub_total}}</div>
+                    <div style="width:10%">{{order.cgst}}%</div>
+                    <div style="width:10%">{{order.sgst}}%</div>
+                    <div style="width:20%">{{order.total}}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 16px;font-weight: bold;padding-bottom: 10px;">Total Revenue : ₹ {{total_revenue|floatformat:2}}</div>
+    </div>
+    
+</body>

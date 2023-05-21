@@ -1,0 +1,38 @@
+.bill-success-container{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 10%;
+    left: 0;
+    width: 70%;
+    height: 35%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #000;
+    background-color: rgb(242, 224, 204);
+}
+
+.bill_success_btn_container{
+    position: absolute;
+    margin: auto;
+    top: 68%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    font-size: 25px;
+    font-family: "Times New Roman";
+    text-align: center;
+    padding: 5px 0;
+}
+
+.bill_success_btn_heading{
+    text-align: center;
+    letter-spacing: 1.7px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* End of added button css 13-04-2023 --------------------- */
