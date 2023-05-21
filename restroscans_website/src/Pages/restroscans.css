@@ -10,10 +10,10 @@
   background-size: cover;
 }
 .getrestroscans_form {
-  margin-top: 6rem;
+  margin-top: 5rem;
 }
 .restroscans_main_div {
-  height: 60vh;
+  height: fit-content;
   width: 40%;
   background: rgba(54, 55, 57, 0.5);
   box-shadow: 1px 1px 4px 1px gray;
@@ -106,7 +106,7 @@ input::placeholder {
 
 @media (max-width: 1400px) {
   .restroscans_main_div {
-    height: 60vh;
+    height: fit-content;
     width: 50%;
   }
   .input_box {
@@ -162,6 +162,7 @@ input::placeholder {
   }
   .submit_btn {
     width: 17vw;
+    cursor: auto;
   }
 }
 @media (max-width: 600px) {

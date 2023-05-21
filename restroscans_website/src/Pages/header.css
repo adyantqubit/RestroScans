@@ -144,7 +144,7 @@ Reason:- Create css for Header.jsx */
     font-size: 3rem;
     float: left;
     margin-left: 1rem;
-    cursor: pointer;
+    cursor: auto;
   }
   .header_icons {
     display: inline-block;
@@ -193,7 +193,7 @@ Reason:- Create css for Header.jsx */
     background-image: radial-gradient(circle, #bdc007 50%, #909e00 100%);
     border-radius: 2rem 0;
     box-shadow: 0px 0px 8px black;
-    cursor: pointer;
+    cursor: auto;
     margin-right: 5rem;
     margin-top: 1rem;
     padding: 0 1.5rem;
@@ -214,6 +214,12 @@ Reason:- Create css for Header.jsx */
     font-size: 0.8rem;
     height: 2.5rem;
     margin-top: 1rem;
+  }
+  .logo_link{
+    cursor: auto !important;
+  }
+  .restroscans_logo_section{
+    cursor: auto !important;
   }
 }
 @media (max-width: 500px) {
