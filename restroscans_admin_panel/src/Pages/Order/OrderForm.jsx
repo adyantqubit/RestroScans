@@ -41,7 +41,8 @@ const OrderForm = () => {
   const [discountPercentage, setDiscountPercentage] = useState(null);
   /* Added by ROhan kansari - 28/6/23 */
   const [discountprice, setDiscountprice] = useState(null)
-  const [discountReason, setDiscountReason] = useState(null);
+  /* Modified by ROhan kansari - 30/6/23 */
+  const [discountReason, setDiscountReason] = useState("");
   const [applyLoyalityPoint, setApplyLoyalityPoint] = useState(null);
   const [loyalityPointPrice, setLoyalityPointPrice] = useState(null);
   const [loyalityPointStatus, setLoyalityPointStatus] = useState(null);
@@ -460,6 +461,8 @@ const OrderForm = () => {
       if (id != 0) {
         updatedOrderData.append("id", id);
       }
+      // Added by Rohan kansari - 30/6/23 - To update table no. also
+      updatedOrderData.append("table_number", tablenumber);
       updatedOrderData.append("discount_rupees", discountRupee);
       updatedOrderData.append("discount_percentage", discountPercentage);
       updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
@@ -486,7 +489,7 @@ const OrderForm = () => {
   // console.log(discountReason, '55555')
 
   // Added by Rohan kansari - 28/6/23
-  // Reason - To validate filed again
+  // Reason - To validate field again
   useEffect(() => {
     if (discountRupee != null)
       validateOnBlur(
@@ -535,7 +538,9 @@ const OrderForm = () => {
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Order Id</div>
                 <input
-                  className={`${style.textInputBox}`}
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make order id non editable
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
                   type="text"
                   name="order_id"
                   value={orderId}
@@ -564,11 +569,13 @@ const OrderForm = () => {
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Table number</div>
                 <input
-                  className={`${style.textInputBox}`}
+                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   name="table_number"
                   value={tablenumber}
-                  disabled
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  onChange={e => setTablenumber(e.target.value)}
                   // style={{ width: "200px" }}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
@@ -618,6 +625,43 @@ const OrderForm = () => {
                 {validationErrors.order_status}
               </div>
             </div>
+
+            {/* Added by Rohan kansari - 30/6/23
+                Reason - To change location of cancel reason */}
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>Cancel reason</div>
+                <textarea
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  type="text"
+                  name="cancel_reason"
+                  value={cancelReaon}
+                  style={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px" } : { width: "200px", height: "100px", resize: 'none' }}
+                  disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
+                  // onFocus={(e)=>{
+                  //   if(whatsappNumber.length==13)
+                  //     setWhatsappNumber(whatsappNumber.substring(3,13))
+                  // }}
+                  onChange={(e) => {
+                    setCancelReason(e.target.value);
+                    validateOnInput("cancel_reason", e.target.value);
+                  }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("cancel_reason", e.target.value);
+                  // }}
+                  maxLength={255}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationForOrderCancel}
+              </div>
+            </div>
+
+
+
+            {/* End of code - Rohan kansari - 30/6/23 */}
 
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
@@ -706,16 +750,18 @@ const OrderForm = () => {
             </div>
 
 
-            <div className={`${style.inputContainer}`}>
+            {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Cancel reason</div>
                 <textarea
-                  className={`${style.textInputBox}`}
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   name="cancel_reason"
                   value={cancelReaon}
                   style={{ width: "200px", height: "100px", resize: 'none' }}
-                  disabled={paymentStatus == "Completed" || cancelReaon > 0 ? true : false}
+                  disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled"? true : false}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
                   //     setWhatsappNumber(whatsappNumber.substring(3,13))
@@ -733,7 +779,7 @@ const OrderForm = () => {
               <div className={`${style.inputErrorArea}`}>
                 {validationForOrderCancel}
               </div>
-            </div>
+            </div> */}
 
           </div>
 
@@ -780,14 +826,15 @@ const OrderForm = () => {
               </div>
 
             </div>
-            {/* {console.log(orderDetailsObj)} */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
                   Apply loyality point
                 </div>
                 <input
-                  className={loyalityPointStatus == "is used" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={loyalityPointStatus == "is used" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   // type="number"
                   name="apply_loyality_point"
@@ -853,7 +900,10 @@ const OrderForm = () => {
             {/* {validationErrors.amount_for_single_loyality_point} */}
             {/* </div>
               </div> */}
-            <div className={`${style.inputContainer}`}>
+
+            {/* Commented by Rohan kansari - 30/6/23
+                  Reason - To hide loyality status */}
+            {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
                   Loyality point status
@@ -883,8 +933,10 @@ const OrderForm = () => {
               </div>
               <div className={`${style.inputErrorArea}`}>
                 {/* {validationErrors.amount_for_single_loyality_point} */}
-              </div>
-            </div>
+            {/* </div>
+            </div>  */}
+            {/* End of code - Rohan kansari - 30/6/23 */}
+
             {/* <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
@@ -910,7 +962,9 @@ const OrderForm = () => {
                   Discount in (₹)
                 </div>
                 <input
-                  className={`${style.textInputBox}`}
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   name="discount_rupees"
                   style={{ width: "200px" }}
@@ -918,6 +972,11 @@ const OrderForm = () => {
                   disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
 
                   onChange={(e) => {
+                    // Added by Rohan kansari -30/6/23
+                    // Reason - To block minus sign
+                    if(e.target.value.includes("-") && e.target.value.length>1)
+                    e.target.value=0
+                    // End of code - ROhan kansari - 30/6/23
                     setDiscountRupee(e.target.value);
                     setDiscountprice(e.target.value)
                     setDiscountPercentage(0)
@@ -947,13 +1006,20 @@ const OrderForm = () => {
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Discount in (%)</div>
                 <input
-                  className={`${style.textInputBox}`}
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="number"
                   name="discount_percentage"
                   style={{ width: "200px" }}
                   value={discountPercentage}
                   disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
                   onChange={(e) => {
+                    // Added by Rohan kansari -30/6/23
+                    // Reason - To block minus sign
+                    if(e.target.value<0)
+                    e.target.value=0
+                    // End of code - ROhan kansari - 30/6/23
                     setDiscountPercentage(e.target.value);
                     setDiscountRupee(0)
 
@@ -982,11 +1048,13 @@ const OrderForm = () => {
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Discount reason</div>
                 <textarea
-                  className={`${style.textInputBox}`}
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   name="discount_reason"
-                  style={{ width: "200px", height: "100px", resize: 'none' }}
-                  value={discountReason}
+                  style={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? {} : { width: "200px", height: "100px", resize: 'none' }}
+                  value={discountReason == null ? "----" : discountReason}
                   disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
                   onChange={(e) => {
                     setDiscountReason(e.target.value);
@@ -996,7 +1064,6 @@ const OrderForm = () => {
                   //   validateOnBlur("sgst", e.target.value);
                   // }}
                   maxLength={255}
-
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
@@ -1154,7 +1221,7 @@ const OrderForm = () => {
               </div>
             </div>
 
-           
+
 
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
@@ -1287,7 +1354,9 @@ const OrderForm = () => {
         </div>
         {/* End of addition by Om Shrivastava on 22-06-23 */}
 
+
         <div className={style.actionContainer}>
+
           <div
             className={` ${style.backButton}`}
             style={{

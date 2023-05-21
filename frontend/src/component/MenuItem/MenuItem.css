@@ -386,7 +386,7 @@
     /* Modified by ROhan kansari - 236/23
        Reason - To set button is start in all page */
     justify-content: start;
-    padding: 6px 15px 0px 1%;
+    padding: 6px 1% 0px 1%;
     /* ENd of code - Rohan KAnsari - 23/6/23 */
     /* End of addition by Om Shrivastava on 17-05-23 */
     /* End of added code 05-04-2023 */
@@ -1393,6 +1393,8 @@ a.ant-notification-notice-close {
     font-family: "Times New Roman";
     border-radius: 5px;
     border: none;
+     /* added by Rohan kansari - 30/6/23 */
+     max-width: 80px;
     padding: 2px 3px;
     box-shadow: 0 0 3px #000;
     text-align: center;
@@ -1412,6 +1414,8 @@ Reason : Add css for buttpm designing in rating and review button */
     box-shadow: 0 0 3px #000;
     text-align: center;
     width: 25%;
+    /* added by Rohan kansari - 30/6/23 */
+    max-width: 60px;
     margin-left: 5px;
 
     /* added by Suman sahu on 16/06/2023 

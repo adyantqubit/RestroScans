@@ -5,7 +5,8 @@
 
 .container {
   height: 90vh;
-  width: 18%;
+  /* Modified by Rohan */
+  width: 16%;
   background-color: var(--sidebar-color);
   /* background-color: var(--header-sidebar-bg-color); */
 
@@ -109,7 +110,7 @@
 }
 /* Modified by Rohan kansari - 25/6/23 */
 .drawer{
-  width: 18% !important;
+  width: 16% !important;
   background-color: var(--sidebar-color) !important;
 }
 
@@ -154,8 +155,8 @@
 @media screen and (max-width: 767px) {
 
   .drawer{
-    /* max-width: 180px; */
-    width: 50% !important;
+    /* max-width: 200px; */
+    width: 30% !important;
     background-color: var(--sidebar-color) !important;
     height: 80%;
   }
@@ -261,3 +262,28 @@
 /* end of commentation by - Suman sahu on - 17/06/2023 */
 
 /* end of addition by- Suman sahu On 16/05/2023 */
+
+
+@media screen and (max-width: 500px) {
+
+  .drawer{
+    /* max-width: 200px; */
+    width: 50% !important;
+    background-color: var(--sidebar-color) !important;
+    height: 80%;
+  }
+
+
+  }
+
+  @media screen and (max-width:700px) and (orientation: landscape) {
+
+    .drawer{
+      /* max-width: 200px; */
+      width: 50% !important;
+      background-color: var(--sidebar-color) !important;
+      height: 40%;
+    }
+  
+  
+    }

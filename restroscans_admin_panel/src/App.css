@@ -40,6 +40,8 @@
 */
 
 body {
+  -webkit-tap-highlight-color: transparent;
+
   width: 100vw;
   height: 100vw;
   margin: 0;
@@ -219,9 +221,22 @@ Reason : When popup is shown than its overlap in header page */
 
   .EZDrawer__container
 { 
+  height: 87vh !important;
+}
+
+}
+
+/* Added by- Rohan kansari 30/6/2023
+   reason - To set drawer for 500px also */
+@media screen and (max-width: 500px) {
+
+
+  .EZDrawer__container
+{ 
   height: 75vh !important;
 }
 }
+/* End of code- Rohan kansari 30/6/2023
 
 /* Added by- Suman sahu On 24/05/2023
    reason - design logout antd popup button */

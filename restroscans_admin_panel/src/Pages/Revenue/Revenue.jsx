@@ -8,11 +8,11 @@ import { enableHeader } from "../../App";
 
 const Revenue = () => {
   const [data, setData] = useState();
-  const [todaySummary, setTodaySummary] = useState();
-  const [thisWeekSummary, setThisWeekSummary] = useState();
-  const [thisMonthSummary, setThisMonthSummary] = useState();
-  const [thisYearSummary, setThisYearSummary] = useState();
-  const [totalDashboardRevenue, setTotalDashboardRevenue] = useState();
+  const [todaySummary, setTodaySummary] = useState(null);
+  const [thisWeekSummary, setThisWeekSummary] = useState(null);
+  const [thisMonthSummary, setThisMonthSummary] = useState(null);
+  const [thisYearSummary, setThisYearSummary] = useState(null);
+  const [totalDashboardRevenue, setTotalDashboardRevenue] = useState(null);
 
   useEffect(() => {
     // Added By Rohan Kansari - 25/6/23
@@ -123,9 +123,9 @@ const Revenue = () => {
             {todaySummary ? (
               <div className={style.total_revenue}>
                 <FaRupeeSign />
-                {/* Modified by Rohan kansari - 28/6/23
+                {/* Modified by Rohan kansari - 30/6/23
                     Reason - to show float with 2 decimal point */}
-                {todaySummary.total_revenue.toFixed(2)}
+                {todaySummary?.total_revenue?.toFixed(2)}
               </div>
             ) : null}
             <div className={style.btn_div}>
@@ -153,9 +153,9 @@ const Revenue = () => {
             {thisWeekSummary ? (
               <p className={style.total_revenue}>
                 <FaRupeeSign />
-                {/* Modified by Rohan kansari - 28/6/23
+                {/* Modified by Rohan kansari - 30/6/23
                     Reason - to show float with 2 decimal point */}
-                {thisWeekSummary.total_revenue.toFixed(2)}
+                {thisWeekSummary?.total_revenue?.toFixed(2)}
               </p>
             ) : null}
             <div className={style.btn_div}>
@@ -185,9 +185,9 @@ const Revenue = () => {
             {thisMonthSummary ? (
               <p className={style.total_revenue}>
                 <FaRupeeSign />
-                {/* Modified by Rohan kansari - 28/6/23
+                {/* Modified by Rohan kansari - 30/6/23
                     Reason - to show float with 2 decimal point */}
-                {thisMonthSummary.total_revenue.toFixed(2)}
+                {thisMonthSummary?.total_revenue?.toFixed(2)}
               </p>
             ) : null}
             <div className={style.btn_div}>
@@ -215,9 +215,9 @@ const Revenue = () => {
             {thisYearSummary ? (
               <p className={style.total_revenue}>
                 <FaRupeeSign />
-                {/* Modified by Rohan kansari - 28/6/23
+                {/* Modified by Rohan kansari - 30/6/23
                     Reason - to show float with 2 decimal point */}
-                {thisYearSummary.total_revenue.toFixed(2)}
+                {thisYearSummary?.total_revenue?.toFixed(2)}
               </p>
             ) : null}
             <div className={style.btn_div}>

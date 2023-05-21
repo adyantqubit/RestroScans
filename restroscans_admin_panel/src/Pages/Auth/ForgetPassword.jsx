@@ -195,7 +195,7 @@ const Forget = () => {
                 <div className={style.formContent}>
                     <form  onSubmit={Submit} className={style.FormContainer}>
                         <div className={style.heading}>
-                            Forget Password?
+                            Forgot Password?
                         </div>
                         <div className={style.headingLabel}>Enter your details to login your restroscans account</div>
 

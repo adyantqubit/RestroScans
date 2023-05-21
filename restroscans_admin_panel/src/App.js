@@ -265,7 +265,7 @@ function App() {
         Reason : When user has no token than after hit back button than need to show the same login page */}
       	{/* <Route path="/update-order/:id" element={<OrderForm/>} /> */}
       	<Route path="/update-order/:id" element={!tokenExist ? <Navigate to="/Login" /> : <OrderForm/>} />
-        {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
+        {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} 
  
       	{/* End of addition by Om shrivastava on 16-06-23 */}
         

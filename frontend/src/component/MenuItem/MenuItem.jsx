@@ -1204,13 +1204,15 @@ function MenuItem() {
         {/* Added by Om Shrivastava on 18-05-23
         Resason : When whatsapp number is not shown there than this div is not show   */}
         {whatsApp && whatsApp.whatsapp_number && whatsApp.whatsapp_number !=undefined && whatsApp.whatsapp_number !=null && whatsApp.whatsapp_number.length > 0 ?
-        <div>
+      //  Added by Rohan kansari - 30/6/23
+      // Reason - To set whatsapp icon in the end
+       <div style={{display:"flex",marginLeft:"auto"}}>
           <FloatingWhatsApp
           // commented and modified by - Suman sahu on 16/06/2023
           // reason - fix padding issue (Because of addition of reservation button, whatsapp icon is pushed to right corner and haft image is cut.)
           
           // style={{right: -3}}
-          style={{right: 5}}
+          style={{right: 5,display:"flex",marginLeft:"auto"}}
           // end of modification by - Suman sahu on 16/06/2023
           
           // Added by Om Shrivastava on 19-05-23

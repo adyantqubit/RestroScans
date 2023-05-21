@@ -34,6 +34,10 @@ const Sidebar = ({sidebar, setSidebar}) => {
     localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
 
+    // Added by ROhan kansari - 30/6/23
+    localStorage.setItem("selectedTab","Newly_placed")
+    // End of code - Rohan kansari - 30/6/23
+    
     // Added by Rohan Kansari - 25/6/23
     // Reason - close drawer when you are mobile view
     if (windowSize.innerWidth < 800)

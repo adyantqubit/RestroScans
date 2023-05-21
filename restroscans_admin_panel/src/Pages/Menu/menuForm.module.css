@@ -225,7 +225,7 @@
    reason - adjust page according to sidebar, header and footer in the responsive*/
   @media screen and (max-width: 768px) {
   .container {
-    height: 80vh;
+    height: 70vh;
   }
 }
 /* end of code by - suman sahu on 17/06/2023 */

@@ -21,6 +21,8 @@ const Header = (props) => {
   // Added by Rohan Kansari - 25/6/23
   // Reason - To manage sidebar from header
   const [sidebar, setSidebar] = useState(true);
+  // Added by Rohan Kansari - 30/6/23
+  const [logoutPopup,setLogoutpopup]=useState(false)
 
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ const Header = (props) => {
     Message("Successfully logged out", "warning");
     // End of modification by Om Shrivastava on 02-06-23
   };
-  const cancel = (e) => { };
+  const cancel = (e) => { setLogoutpopup(false)};
 
 
 
@@ -151,27 +153,24 @@ const Header = (props) => {
         </div>
 
         {/* 3rd button section */}
-        <div className={style.btn_div}>
+        {/* Modified by ROhan kansari - 30/6/23
+            Reason -   */}
+        <div className={style.btn_div} onClick={e=>setLogoutpopup(!logoutPopup)}>
           <ul className={style.logout_btn_div}>
             <li>
               {/* <button className={style.logout} onClick={confirm}>Logout</button> */}
               <Popconfirm
                 className={style.logout_popup}
                 title="Are you sure you want to logout?"
+                open={logoutPopup}
                 onConfirm={confirm}
                 onCancel={cancel}
                 cancelText="Cancel"
                 okText="Ok"
               >
-                {/* Modification and addition by Om Shrivastava on 29-06-23
-                Reasson : when user click the logout than page is blank, I fix this issue */}
-                {/* <a href="#" className={style.logout}>
-                  Logout
-                </a> */}
-                <div className={style.logout}>
+                <div className={style.logout} >
                   Logout
                 </div>
-                {/* End of addition and modifiacation by Om Shrivastava on 29-06-23 */}
               </Popconfirm>
             </li>
           </ul>
@@ -185,8 +184,10 @@ const Header = (props) => {
           </div>
         </div>
       </nav>
-
-      <div className={style.content_and_sideBar}>
+      
+      {/* Modified by Rohan kansari - 30/6/23
+          Reason - To close menu on outside of header click*/}
+      <div className={style.content_and_sideBar} onClick={e=>{setLogoutpopup(false);setMenuOpen(false);}}>
         <Sidebar sidebar={sidebar} setSidebar={setSidebar}/>
         {/* Added by ROhan kansari - 25/6/24
             Reason - adding div because facing issue on managing all content page so now we manage from one place  */}

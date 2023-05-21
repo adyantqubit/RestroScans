@@ -13,46 +13,74 @@ import { useNavigate } from 'react-router-dom'
 // import ReactPaginate from 'react-paginate';
 
 
+// Modified by Rohan kansari - 29/6/23
+// Reason - To remove icons 
 function getStatusBtn(status) {
     if (status == "Placed")
-        return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 0.6)" }}>
-            <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
-        </button>
+        // return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 0.6)" }}>
+        //     <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 1)" }}>
+        <span>{status}</span> 
+    </button>
     if (status == "Confirm")
-        return <button className={style.statusBtn} style={{ background: "rgba(225, 252, 126, 0.6)" }}>
-            <span>{status}</span> <MdDownloading style={{ margin: "2px 0" }} />
+        // return <button className={style.statusBtn} style={{ background: "rgba(225, 252, 126, 1)" }}>
+        //     <span>{status}</span> <MdDownloading style={{ margin: "2px 0" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(225, 252, 126, 1)" }}>
+            <span>{status}</span>
         </button>
     if (status == "Cooked")
-        return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 0.6)" }}>
-            <span>{status}</span> <GiRiceCooker style={{ margin: "2px 0" }} />
-        </button>
+        // return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 1)" }}>
+        //     <span>{status}</span> <GiRiceCooker style={{ margin: "2px 0" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 1)" }}>
+        <span>{status}</span>
+    </button>
     if (status == "Served")
-        return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,0.6)" }}>
-            <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
+        // return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,1)" }}>
+        //     <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,1)" }}>
+            <span>{status}</span> 
         </button>
     if (status == "Pending")
-        return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 0.6)" }}>
-            <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
+        // return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 1)" }}>
+        //     <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 1)" }}>
+            <span>{status}</span>
         </button>
     // Added by Rohan Kansari- 30/5/23
     // Reason to add paid status button also
     if (status == "Paid")
-        return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 0.6)" }}>
-            <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
+        // return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 1)" }}>
+        //     <span>{status}</span> <RiErrorWarningLine style={{ margin: "4px 2px" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(115, 222, 255, 1)" }}>
+            <span>{status}</span> 
         </button>
     // End of code - Rohan Kansari - 30/5/23
 
     if (status == "Completed")
-        return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,0.6)" }}>
-            <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
+        // return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,1)" }}>
+        //     <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(144, 238, 144,1)" }}>
+            <span>{status}</span> 
         </button>
-    // Addded by Rohan kansari - 26/6/23
+    // Addded by Rohan kansari - 21/6/23
     // Reason - to add one more buton
     if (status == "Cancelled")
-        return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 0.6)" }}>
-            <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
+        // return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 1)" }}>
+        //     <span>{status}</span> <GrFormCheckmark style={{ margin: "2px 0" }} />
+        // </button>
+        return <button className={style.statusBtn} style={{ background: "rgba(255, 206, 115, 1)" }}>
+            <span>{status}</span> 
         </button>
 }
+
+// End of code - Rohan kansari - 29/6/23
 
 const TodayOrder = () => {
 
@@ -179,7 +207,7 @@ const TodayOrder = () => {
             return false;
         }
         else if (m.order.order_status == "Confirm" && (orderStatus == "Served")) {
-            Message(`Please first change order status confirm to ${orderStatus}`, "error")
+            Message(`You cant change order status confirm to ${orderStatus}`, "error")
             return false;
         }
         else if (m.order.order_status == "Cooked" && (orderStatus == "Confirm" || orderStatus == "Placed")) {
@@ -190,8 +218,8 @@ const TodayOrder = () => {
             Message(`You cant change order status cooked to ${orderStatus}`, "error")
             return false;
         }
-        else if (m.order.order_status == "Cancelled" && (orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked" || orderStatus == "Served")) {
-            Message(`You cant change order status cooked to ${orderStatus}`, "error")
+        else if (m.order.order_status == "Cancelled" && (orderStatus == "Pending" || orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked" || orderStatus == "Served")) {
+            Message(`You cant change order status cancel to ${orderStatus}`, "error")
             return false;
         }
         else if (m.order.payment_status == "Completed" && (paymentStatus == "Pending")) {
@@ -564,7 +592,6 @@ const TodayOrder = () => {
             orders: checkedItems
         }
 
-        console.log(data)
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
 
@@ -1155,7 +1182,11 @@ const TodayOrder = () => {
 
                     <div className={style.popupItemContainer}>
                         <div className={style.itemlist}>
-                            {orderItemList?.map((orderItem, i) => {
+                            {/* Addd by Rohan kansari - 30/6/23 
+                                Reason - To display always sorted value */}
+                            {/* {orderItemList?.map((orderItem, i) => { */}
+                            {orderItemList?.sort((a,b)=>a.id<b.id).map((orderItem, i) => {
+                            // End of code - Rohan kansari - 30/6/23
 
                                 if (orderItem.order_id == openModalNumOrderItem.order_id && popupOrderItem) {
                                     if (selectedItemArr.current.items.length == 0)

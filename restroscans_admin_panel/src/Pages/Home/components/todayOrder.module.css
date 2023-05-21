@@ -226,7 +226,8 @@
     font-size: var(--label-font-size);
     text-align: center;
     display: var(--column2-display);
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    color: blue;
     font-family: "MyFont";
     /* display: flex;
     justify-content: center; */
@@ -318,7 +319,7 @@
     color: var(--primary-bg-color);
     background-color:#f7f7f7;
     font-family: var(--font-faimly);
-    color:black;
+    color: blue;
     letter-spacing: 1.5px;
     
 /* Modified by Rohan kansari - 29/5/23
@@ -822,7 +823,7 @@ input[type="radio"]:checked + .tabLabel {
         --column6-width:10%;
     --column7-width:10%;
     
-        --column1-min-width:60px;
+        --column1-min-width:80px;
         --column2-min-width:100px;
         --column3-min-width:80px;
         --column4-min-width:80px;
@@ -859,7 +860,7 @@ input[type="radio"]:checked + .tabLabel {
         --column6-width:10%;
     --column7-width:10%;
     
-        --column1-min-width:60px;
+        --column1-min-width:80px;
         --column2-min-width:100px;
         --column3-min-width:100px;
         --column4-min-width:100px;
@@ -946,7 +947,7 @@ input[type="radio"]:checked + .tabLabel {
         --column6-width:10%;
     --column7-width:10%;
     
-        --column1-min-width:60px;
+        --column1-min-width:80px;
         --column2-min-width:100px;
         --column3-min-width:100px;
         --column4-min-width:70px;

@@ -53,6 +53,11 @@
     background-color: #e6f0f0;
     padding: 10px;
     border-radius: 5px;
+    /* added by Rohan kansari - 30/6/23
+       Reason - To show proper gapping between columns */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     box-shadow:
       var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
 }
@@ -267,7 +272,7 @@ Reason : When payment status is completed or orderstatus is cancelled so this bu
    reason - adjust page according to sidebar, header and footer in the responsive*/
 @media screen and (max-width: 768px) {
   .container {
-    height: 80vh;
+    height: 70vh;
   }
 }
 /* end of code by - suman sahu on 17/06/2023 */
