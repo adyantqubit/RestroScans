@@ -29,7 +29,7 @@ function elementRemover(specificIndex, list) {
 
 
 const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSeller }) => {
-    const { colors, cart, setCart,restaurant_name } = useContext(GlobalContext)
+    const { colors, cart, setCart,restaurant_name,rupee_sign } = useContext(GlobalContext)
     // const [messageApi, contextHolder] = message.useMessage();
     var [quantityhalf, setQuantityHalf] = useState(0)
     var [quantityFull, setQuantityFull] = useState(0)
@@ -62,6 +62,8 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
     // reason - this will add ,delete and increase quantity of an item this item will hit on submit button 
     function AddItemToCart() {
         var cartTemp = cart
+
+        var historyCart=JSON.parse(localStorage.getItem("cart"))
 
         if (quantityFull > 0) {
             // For full price is increase by one or already present in item with any quantity
@@ -130,8 +132,17 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
         }
 
         // after all updation updated cart value is set to localstorage and close the popup container
-        localStorage.setItem("cart", JSON.stringify(cartTemp))
-        setDetailPopupVisiblity(!isDetailPopupOpen)
+
+        // Added by Rohan kansari-6/5/23
+        // Reason - show validation message if any changes is not their
+        if(JSON.stringify(historyCart) == JSON.stringify(cartTemp)){
+            notify("Please add quantity","error")
+        }else{
+            localStorage.setItem("cart", JSON.stringify(cartTemp))
+            setDetailPopupVisiblity(!isDetailPopupOpen)
+        }
+        // End of addition - Rohan kansari-6/5/23 
+        
     }
 
     // created by rohan - 9/4/23
@@ -155,6 +166,7 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
 
         }
     }
+
 
 
 
@@ -224,9 +236,31 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
 
  
 
-    function notify(msg) {
+    function notify(msg,error) {
 
-        
+        //  Added by Rohan kansari - 6/5/23
+        // Reason - to show error messge if no updation is shown
+            if(error=="error"){
+                api.warning({
+              
+                    message: `${msg} `,
+                  //   description: <Context.Consumer>{({ name }) => `Hello, ${name}!`}</Context.Consumer>,
+                  RadiusUprightOutlined,
+                  duration:3,
+                  style:{
+                      top:"25px",
+                      background:colors.subheadingBackgroundColor,
+                      color:colors.subHeadingColor
+                  },
+      
+                  // Added by Rohan kansari - 23/4/23
+                  //Reason - To fixed notification show only one time 
+                    key: 1,
+                  // end of code
+                  })
+            }
+            else
+            // ENd of code - Rohan kansari - 6/5/23
             api.success({
               
               message: `${msg} `,
@@ -297,7 +331,12 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
                                 <div>
                                     <div className={style.row1}>
                                         <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Full </div>
-                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_full_price}</div>
+                                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                        // Reason : Create the rupee sign globally for using the config file. */}
+                                        {/* <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_full_price}</div> */}
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign} {item.discounted_full_price}</div>
+                                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                        
                                     </div>
 
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>
@@ -330,7 +369,12 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
                                 <div>
                                     <div className={style.row1}>
                                         <div className={style.serve_size} style={{ color: colors.subHeadingColor }}>Half </div>
-                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_half_price}</div>
+                                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                        // Reason : Create the rupee sign globally for using the config file. */}
+                                        {/* <div className={style.price} style={{ color: colors.subHeadingColor }}>₹ {item.discounted_half_price}</div> */}
+                                        <div className={style.price} style={{ color: colors.subHeadingColor }}>{rupee_sign} {item.discounted_half_price}</div>
+                                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </div>
 
                                     <div className={style.row2} style={{ color: colors.subHeadingColor }}>

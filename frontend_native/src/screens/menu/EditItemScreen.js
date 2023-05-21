@@ -25,7 +25,7 @@ import {
   saveItemApi,
   updateItemApi,
 } from "../../api/Services";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -135,21 +135,33 @@ export default function EditItemScreen({ route, navigation }) {
       base64: true,
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to img not upload if img size is bigger
+     */
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */ if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      if (!result.canceled) {
         setFileSizeError(false);
+        setImage(result.assets[0].uri);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
       }
-      // End of addition 29-04-2023
     }
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
   };
 
   const handleRegister = (formValues) => {
@@ -701,7 +713,15 @@ export default function EditItemScreen({ route, navigation }) {
                     return <AntDesign name="down" size={14} color="black" />;
                   }}
                   buttonStyle={{
-                    height: 41,
+                    /**
+                     * Added by yuvraj Sahu on 05-05-2023
+                     * Reason - to set hright of input box
+                     */
+                    // height: 41,
+                    height: inputs.inputBoxHeight,
+                    /**
+                     * End of set input box height by yuvraj Sahu on 05-05-2023
+                     */
                     borderColor: "black",
                     borderWidth: 1,
                     borderRadius: 10,
@@ -777,7 +797,15 @@ export default function EditItemScreen({ route, navigation }) {
                     return <AntDesign name="down" size={14} color="black" />;
                   }}
                   buttonStyle={{
-                    height: 41,
+                    /**
+                     * Added by yuvraj Sahu on 05-05-2023
+                     * Reason - to set hright of input box
+                     */
+                    // height: 41,
+                    height: inputs.inputBoxHeight,
+                    /**
+                     * End of set input box height by yuvraj Sahu on 05-05-2023
+                     */
                     borderColor: "black",
                     borderWidth: 1,
                     borderRadius: 10,
@@ -1050,7 +1078,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 41,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
@@ -1061,6 +1097,14 @@ const styles = StyleSheet.create({
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",

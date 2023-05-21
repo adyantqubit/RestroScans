@@ -12,11 +12,13 @@
 }
 
 .inLineContainer {
-    min-width: 100%;
+    /* Modified by ROhankansari - 10/5/23 */
+    width: 95%;
     min-height: 10px;
-    margin: 4px 4px;
+    margin: 4px auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap:2px;
 }
 
 
@@ -42,9 +44,10 @@
 
 
 .column1{
-    min-width:48%;
+    min-width:50%;
     display: flex;
 }
+
 .label {
     min-width: 45%;
     /* max-width: 45%; */
@@ -57,6 +60,21 @@
     display: flex;
 
     /* text-align: ; */
+}
+
+/* Added by ROhanKAnsari - 11/5/23 */
+.label1{
+    /* modified by Rohankansari - 14/5/23 */
+    /* Reason - To Give less space between label and text */
+    min-width: 32%;
+    /* max-width: 45%; */
+    /* width: inherit; */
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: 700;
+    text-align: start;
+    white-space: nowrap;
+    display: flex;
 }
 
 .text {
@@ -180,7 +198,7 @@
 
 .CalculationBoxContainer {
     width: 100%;
-    height: 100px;
+    height: auto;
     display: flex;
     justify-content: flex-end;
     /* padding-right: 4%; */
@@ -190,7 +208,7 @@
     width: 60%;
     margin-right: 2%;   
     margin-bottom: 2%;
-    height: 100px;
+    height: auto;
 }
 
 .TotalBox{
@@ -206,7 +224,7 @@
     /* background-color: black; */
     padding: 2% 2%;
     font-weight: 600;
-    width: 100%;
+    width: 60%;
     white-space: nowrap;
     display: flex;
 }
@@ -214,7 +232,7 @@
 /* End of code - 4/5/23 -Rohan Kansari */
 
 .calculationText {
-    width: 50%;
+    width: 40%;
     text-align: end;
     font-size: 12px;
     white-space: nowrap;
@@ -283,5 +301,6 @@
     font-family: 'Times New Roman';
     padding: 5px 0px 5px 0px;
     border: none;
+    border-radius: 6px;
 }
 /* End of added code */

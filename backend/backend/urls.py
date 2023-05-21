@@ -8,7 +8,7 @@ from admin_app.views import GalleryDetailsAPI
 from admin_app.views import GetRestroscansRequestAPI
 from admin_app.views import ContactUsAPI
 from admin_app.views import RestaurentPatnersDetailsAPI
-
+from admin_app.views import PricingPlansAPI, CustomerFeedbackAPI
 """---------------------------------------------------------------
 Commented and modified by - Ashish Dewangan on 08-02-2023
 Reason - To specify urls
@@ -52,6 +52,20 @@ urlpatterns = [
         RestaurentPatnersDetailsAPI.as_view(),
     ),
     # End of added code 19/04/2023
+    #  Added by:- Suman sahu  On 17/05/2023
+    #  Reason:- Created Url for get pricing plans details
+    path(
+        "site/get-pricing-plans-details/",
+        PricingPlansAPI.as_view(),
+    ),
+    # End of added code 17/05/2023
+    #  Added by:- Suman sahu  On 18/05/2023
+    #  Reason:- Created Url for get Customer Feedback details
+    path(
+        "site/get-cutomer-feedback/",
+        CustomerFeedbackAPI.as_view(),
+    ),
+    # End of added code 18/05/2023
     path("admin/", admin.site.urls),
     path("admin_app/", include("admin_app.urls")),
     path("api/v1/", include("tenant_app.urls")),

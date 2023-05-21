@@ -50,7 +50,11 @@ export default function BillSuccess() {
         }
         else {
             message.error({
-                content: "In Progress",
+                // Modfication and addition by Om Shrivastava on 17-05-23
+                // Reason : Change the confirmation message
+                // content: "In Progress",
+                content: "Please wait for confirmation",
+                // End of mofication and addition by Om Shrivastava on 17-05-23
                 key: 1,
                 icon: <CheckCircleOutlined />,
                 style: {

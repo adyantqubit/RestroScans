@@ -57,6 +57,10 @@ const Otppopup = () => {
   
     
     const onSignInSubmit = () => {
+
+      // Added by Rohan kansari - 6/5/23
+      // Reason - To reset blank otp value on sending otp
+      setOTP("")
       
       const phoneNumber = "+91" + state.state.contact_number
       firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
@@ -124,11 +128,19 @@ const Otppopup = () => {
         RadiusUprightOutlined,
         duration:3,
         style:{
-            top:"5vh",
+          // Modified by ROhan - 7/5/23
+            // Reason- to centeralized message box
+            top:"8vh",
             background:colors.subheadingBackgroundColor,
             color:colors.subHeadingColor,
-            width:"80vw",
+            width: "max-content",
+            right: "0px",
+            left: "0px",
+            position: "fixed",
+            minHeight: "50px",
+            margin:"auto",
             fontFamily:"Times New Roman"
+            // End of code - 7/5/23
         },
           key: 1,
         
@@ -141,11 +153,19 @@ const Otppopup = () => {
           RadiusUprightOutlined,
           duration:3,
           style:{
-              top:"5vh",
+            // Modified by ROhan - 7/5/23
+            // Reason- to centeralized message box
+              top:"8vh",
               background:colors.subheadingBackgroundColor,
               color:colors.subHeadingColor,
-              width:"80vw",
+              width: "max-content",
+              right: "0px",
+              left: "0px",
+              position: "fixed",
+              minHeight: "50px",
+              margin:"auto",
               fontFamily:"Times New Roman"
+              // End of code - 7/5/23
           },
             key: 1,
           
@@ -205,7 +225,12 @@ const Otppopup = () => {
 
         <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />
 
-        <ResendOTP maxTime={30}  onResendClick={() => {onSignInSubmit()}} className={style.resendBtn} />
+        <ResendOTP 
+        // Added by Om Shrivastava on 18-05-23
+        // Need to change the styling of the button 
+        style={{justifyContent: 'center',flexDirection:'row-reverse',columnGap:'12px'}}
+        // End of addition by Om Shrivastava on 18-05-23
+         maxTime={30}  onResendClick={() => {onSignInSubmit()}} className={style.resendBtn} />
 
         {isLoading?<Spin className={style.spin}/>:<button className={style.submitBtn} style={{background:colors.bannerColor, color: colors.backgroundTheme}}  onClick={onSubmitOTP}>
                Verify

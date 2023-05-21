@@ -48,6 +48,15 @@ export default function AddOfferScreen() {
   const [uploadedFileName, setUploadedFileName] = useState("");
   var [isImgRequired, setImgRequired] = useState(false);
 
+  /**
+   * Added by Yuvraj Sahu on 06-05-2023
+   * Reason - to video link validation
+   */
+  var [isVideoError, setIsVideoError] = useState(false);
+  /**
+   * End of addition by Yuvraj Sahu on 06-05-2023
+   */
+
   var { render, setRender } = useContext(AppStateContext);
 
   /* This is add for show image limit validation msg */
@@ -63,22 +72,35 @@ export default function AddOfferScreen() {
       quality: 1,
       base64: true,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-      setImgRequired(false);
-
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to img not upload if img size is bigger
+     */
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */
+    if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      if (!result.canceled) {
         setFileSizeError(false);
+        setImage(result.assets[0].uri);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
+        setImgRequired(false);
       }
-      // End of addition 29-04-2023
     }
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
   };
 
   /**
@@ -106,6 +128,8 @@ export default function AddOfferScreen() {
     formRef.current.resetForm({});
     setIsShowVideo(false);
     setFileSizeError(false);
+    setIsVideoError(false);
+    setImgRequired(false);
     /**
      * End of refreshing validation msg
      */
@@ -142,6 +166,17 @@ export default function AddOfferScreen() {
     //     type: `image/${ext}`,
     // });
 
+    /**
+     * Added by Yuvraj Sahu on 06-05-2023
+     * Reason - to video link validation
+     */
+    if (isShowVideo && formValues.video_link == "") {
+      setIsVideoError(true);
+    }
+    /**
+     * End of addition by Yuvraj Sahu on 06-05-2023
+     */
+
     if (icon != null) {
       const ext = tempPhoto.uri.substring(tempPhoto.uri.lastIndexOf(".") + 1);
       formData.append("offer_image", {
@@ -170,7 +205,7 @@ export default function AddOfferScreen() {
 
     // Modify by- Suman sahu  On 29/04/2023
     // Reason- add condition for image field when user upload image above 200kb form not saved
-    if (icon != null && isFileSizeError == false) {
+    if (icon != null && isFileSizeError == false && isVideoError == false) {
       saveAllOffer(formData, tenant).then((response) => {
         if (response.msg) {
           Alert.alert(response.msg);
@@ -434,7 +469,7 @@ export default function AddOfferScreen() {
               <View>
                 <View>
                   <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    <Text style={{ color: "red", fontWeight: "650" }}> * </Text>
                     Offer name
                   </Text>
                   <TextInput
@@ -483,6 +518,7 @@ export default function AddOfferScreen() {
                   <TextInput
                     style={styles.input}
                     onChangeText={handleChange("video_link")}
+                    onChange={() => setIsVideoError(false)}
                     onBlur={handleBlur("video_link")}
                     value={values.video_link}
                     placeholderTextColor="#A4A4A4"
@@ -493,6 +529,11 @@ export default function AddOfferScreen() {
 
                   {errors.video_link && touched.video_link && (
                     <Text style={styles.textdanger}>{errors.video_link}</Text>
+                  )}
+                  {isVideoError && (
+                    <Text style={styles.textdanger}>
+                      Please enter video link
+                    </Text>
                   )}
                 </View>
 
@@ -613,7 +654,10 @@ export default function AddOfferScreen() {
                   />
                   <Pressable onPress={() => setIsShowVideo(!isShowVideo)}>
                     <Text style={styles.showVideoLable}>
-                      Show video hide image
+                      {/* Modified by yuvraj Sahu on 05-05-2023
+                      Reason - to change the video checkbox lable */}
+                      Show video
+                      {/* End of Modification by Yuvraj Sahu on 05-05-2023 */}
                     </Text>
                   </Pressable>
                 </View>
@@ -621,7 +665,11 @@ export default function AddOfferScreen() {
 
                 <View style={styles.btns}>
                   <Pressable
-                    onPress={handleSubmit}
+                    onPress={() => {
+                      isShowVideo && values.video_link == ""
+                        ? setIsVideoError(true)
+                        : handleSubmit();
+                    }}
                     disabled={isDisable}
                     style={{
                       // backgroundColor: isDisable ? "grey" : colors.btnColor,
@@ -660,6 +708,14 @@ export default function AddOfferScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    /**
+     * Added and modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give gap from top of the form
+     */
+    paddingTop: 10,
+    /**
+     * End of addition by Yuvraj Sahu on 05-05-2023
+     */
     flex: 1,
     height: "100%",
     paddingHorizontal: 10,
@@ -672,16 +728,39 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: 45,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginTop: 0,
+    /**
+     * End of addition by Yuvraj Sahu on 05-05-2023
+     */
     fontSize: 16,
     borderRadius: 10,
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",

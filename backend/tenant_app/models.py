@@ -5,6 +5,7 @@ from admin_app.models import *
 from django.db.models import Avg
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from django.core.validators import validate_image_file_extension
 
 # Create your models here.
 
@@ -16,8 +17,8 @@ Reason - To store details of menu
  # added by rohan kansari - 20/4/23
 # reason- To add validation on image , admin not able to add image more than 200kb
 # Modiefied by rohan - 21/4/23 - to Handel image resave error
-def validate_image(fieldfile_obj):
-# #    try: 
+def validate_image(fieldfile_obj): 
+# #    try:      
     try:
         filesize = fieldfile_obj.file.size
         megabyte_limit = 200
@@ -29,11 +30,13 @@ def validate_image(fieldfile_obj):
        print(filesize)
        megabyte_limit = 200
        if filesize > megabyte_limit*1024:
-        raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+        # Changes by Rohan Kansari- 11/5/23 - Change validation message    
+        raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
       except:
         return     
     if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+            # Changes by Rohan Kansari- 11/5/23 - Change validation message
+            raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
    
     
 #    except: 
@@ -54,7 +57,11 @@ class Menu(models.Model):
     name=models.CharField(max_length=30,default='',verbose_name='Menu name')
     # End of code modification
     
-    icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image])
+    # modifi by- Suman sahu  On 07/05/2023
+    # reason- change django default image field character validation message
+    icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image, validate_image_file_extension])
+    # End of addition 07/05/2023
+
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -86,29 +93,36 @@ class Category(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied by rohan - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
    
     # end of code - rohan - 20/4/23
     
     menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
     name=models.CharField(max_length=30,default='',verbose_name='Category name')
-    icon=models.ImageField(upload_to='images/category/',null=True,blank=True,validators=[validate_image])
+
+    # Modified by- Suman sahu  On 07/05/2023
+    # reason - change field name & change image default validation message
+    icon=models.ImageField( verbose_name="image",upload_to='images/category/',null=True,blank=True,validators=[validate_image, validate_image_file_extension])
+    # end of modification 07/05/2023
+
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
     is_active=models.BooleanField(default=False)
@@ -141,23 +155,25 @@ class Item(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
         
     category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='',verbose_name="Category name")
@@ -179,7 +195,12 @@ class Item(models.Model):
 	# end of code modification- by Rohan kansari - on 16/4/23
 	 # Added by Yuvraj Sahu on 24-3-2023
     # Reason - add icon field
-    icon=models.ImageField(upload_to='images/item/', null=True,validators=[validate_image])
+
+    # modified by- Suman sahu  On 07/05/2023
+    # reason - change field name & change django image default validation message
+    icon=models.ImageField( verbose_name="image", upload_to='images/item/', null=True,validators=[validate_image, validate_image_file_extension])
+    # End of modification 07/05/2023
+
     # End of addition
     # Added by Yuvraj Sahu on 27-3-2-23
     # Reason - to give active and inactive
@@ -214,6 +235,19 @@ class Item(models.Model):
     class Meta:
         verbose_name_plural = 'e) Item'
     # End of addition
+
+    # AAdded by Om Shrivastava on 19-05-23
+    # Reason : When best seller number is greater than zero than through a error
+
+    def clean(self):
+        obj = Item.objects.filter(best_seller = True)
+        if (obj.count() >= 10):
+           if self.best_seller is True:
+                raise ValidationError({
+            'best_seller': ValidationError("You have already selected 10 best seller"),
+            }) 
+
+    # End of addition by Om Shrivastava on 19-05-23
 """
 End of code addition
 """
@@ -226,23 +260,25 @@ class Offer(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
     
     id = models.AutoField(primary_key=True)
@@ -251,21 +287,36 @@ class Offer(models.Model):
     offer_name=models.CharField(max_length=40, verbose_name="Banner/Offer name") 
     # Commented and modified by Yuvraj Sahu on 30-4-2023
     # Reason - to save decimal value in discount
-    # discount = models.IntegerField(validators=[MinValueValidator(0),
-    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
-    discount = models.DecimalField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
+
+    # Commented and modified by Suman Sahu on 10-05-2023
+    # Reason - to remove decimal value in discount
+    discount = models.IntegerField(validators=[MinValueValidator(0),
+                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    # discount = models.DecimalField(validators=[MinValueValidator(0),
+    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
+    # End of modification by Suman sahu 10/05/2023
+    
     # End of modification
     # Added (null = True) by Om on 13-04-23
     # Reason : For update the offer banner image
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,validators=[validate_image])
+    
+    # modifi by- Suman sahu  On 07/05/2023
+    # reason- change django default image field character validation message
+    # Modified Rohan Kansari - 13/5/23 - TO allow blank true
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,blank=True,validators=[validate_image, validate_image_file_extension])
+    # End of modification 07/05/2023
+    
     # End of addition
     description=models.TextField(null=True,blank=True)
     
     # Added by Rohan Kansari- 23/4/23
     # Reason - Adding video column for Banner and allow to give permission
     video_link=models.CharField(max_length=500,blank=True,null=True)
-    show_video_Hide_Image=models.BooleanField(default=False)
+
+    # modified by - Suman sahu On 07/05/2023
+    show_video_Hide_Image=models.BooleanField( verbose_name="Show Video",default=False)
+     #End of modification - 07/05/2023
+
     #End of code - RohanKansari - 23/4/23
     
     def __str__(self):
@@ -275,10 +326,28 @@ class Offer(models.Model):
         verbose_name = "Banner/Offer"
         verbose_name_plural = 'a) Banner/Offer'
 
+    # Added by ROhan kansari - 11/5/23
+    #  Reason - To validate video showing if video link field is blank then dont allow to check show video 
+    def clean(self):
+        if self.video_link is None:
+           if self.show_video_Hide_Image is True:
+                raise ValidationError({
+            'show_video_Hide_Image': ValidationError("Please enter video link"),
+            }) 
+        # Modified Rohan Kansari - 13/5/23 - To allow img blank true and if video and image both null then raise error message  
+        if self.video_link is None and bool(self.offer_image) is False:   
+           raise ValidationError({
+            'offer_image': ValidationError("This field is required if you are not entered video link"),
+            }) 
+    #End of code - Rohan kansari - 11/5/23    
+          
+
 class OfferItem(models.Model):
     id = models.AutoField(primary_key=True)
     offer_name=models.ForeignKey(Offer,verbose_name="Banner/Offer Name",related_name='offer_id',on_delete=models.CASCADE)
-    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True)
+    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True ,
+                                # Added by Rohan Kansari - 11/5/23 - To correct validation message
+                                error_messages ={"unique":"This item is already exists."})
     
     def __str__(self):
         return "Offer for Items"
@@ -362,7 +431,11 @@ class Setting(models.Model):
     #reason - not wsetting gst and fssai no mandatory
     #gstin=models.CharField(max_length=50,default="",verbose_name="GstIn")
     #fssaino=models.CharField(max_length=50,default="",verbose_name="FSSAI NO")
-    gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GstIn")
+    # Modified and added by Om Shrivastava on 15-05-23
+    # Reason : Captiliase the verbose name of GstIn
+    # gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GstIn")
+    gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GSTIN")
+    # End of modification and addition by Om Shrivastava on 15-05-23
     fssaino=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="FSSAI NO")
     #end of code modification by rohan kansari -on 16/4/23
     # End of added code 08-04-2023
@@ -446,6 +519,14 @@ class CustomerDetail(models.Model):
     # Reason :- latest name show 
 
     last_customer_name = models.CharField(max_length=255, null=True, blank=True)
+    # Added by Yuvraj Sahu on 05-05-2023
+    # Reason - to save latest email id of customer
+    # Modified and added by Om Shrivastava on 15-05-23
+    # Reason : Change the verbose name of email to last email
+    # last_email = models.EmailField(_('email address'), null=True, blank=True)
+    last_email = models.EmailField(_('Last email address'), null=True, blank=True)
+    # End of modification and addition by Om Shrivastava on 15-05-23
+    # End of addition by Yuvraj Sahu on 05-05-2023
     
     # End of Commented code 17-04-2023
 
@@ -506,11 +587,19 @@ class Order(models.Model):
     # end of code 14/4/23
     order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="Placed")
     payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
-    date = models.DateTimeField(auto_now_add=True)
+    # Modified and commented by Om Shrivastava on 11-05-23
+    # Reason : Change the name of date field in this modal
+    # date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
+    # End of modified and commented by Om Shrivastava on 11-05-23
     payment_mode = models.CharField(max_length=100,null=True,blank=True)
     # Added By Rohan Kansari - 4/5/23
     # Reason - To save overall review
     review=models.TextField(null=True,blank=True)
+
+    # Added by Rohan kansari - 10/5/23
+    # Reason - To save payment confirmation date and time 
+    payment_confirmation_date_time=models.CharField(max_length=50,null=True,blank=True)
 
     def __str__(self):
         return f"{self.order_id}"
@@ -524,8 +613,21 @@ class Order(models.Model):
     def save(self, *args, **kwargs ):
         if self.order_status == "Confirm" :
            OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
+        # Added by Rohan kansari- 10/5/23
+        if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
+            from datetime import datetime
+            self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M') 
         super().save( *args, **kwargs)
+
+
     # End of addition
+
+    # Removed BY rohan kansari - 11/5/23 
+    # Reason - directly assigning string date in organize way
+    # def __unicode__(self):
+    #     return "%s" % (self.payment_confirmation_date_time.strftime('%m/%d/%Y %H:%M %p'))
+
+    
 
 
 """
@@ -563,7 +665,11 @@ class OrderItem(models.Model):
     price = models.FloatField(default=0)
     rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
     review = models.TextField(null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
+    # Modified and commented by Om Shrivastava on 11-05-23
+    # Reason : Change the name of date field in this modal
+    # date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
+    # End of modification and addition by Om Shrivastava on 11-05-23
 
     # Modified by :- Parineeta Gedam 17-04-2023
     item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")
@@ -574,12 +680,30 @@ class OrderItem(models.Model):
     # def __str__(self):
     #     return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
     def __str__(self):
-        return f"  order ID: {self.order_id} | Item Name : {self.item} | Size : {self.serving_size} | Quantity : {self.quantity} | Price : {self.price} "
+        # Commented and modified by Om shrivastava on 06-05-23
+        # Reason : To change the return statement inside the orderitem table
+        # return f"  order ID: {self.order_id} | Item Name : {self.item} | Size : {self.serving_size} | Quantity : {self.quantity} | Price : {self.price} "
+        return 'Order item' 
+        #End of code modification by Om shrivastava on 06-05-23
     #End of code modification by Ashish Dewangan on 24-04-2023
 
     class Meta:
         verbose_name = "Order Item"
         verbose_name_plural = 'j) Order Item'
+
+    # Added by Suman Sahu on 07-05-2023
+    # Reason - to update order status based on item status
+    def save(self, *args, **kwargs ):
+        if self.item_status == "Confirm" :
+            orderItemObj = OrderItem.objects.filter(order_id = self.order_id)
+            obj = orderItemObj.filter(item_status = "Pending").count()
+            if obj == 1:
+                orderObj = Order.objects.get(order_id = self.order_id)
+                orderObj.order_status="Confirm"
+                orderObj.save()
+        super().save( *args, **kwargs)
+    # End of addition 07/05/2023
+
 
 """
 End of added code 06-04-2023
@@ -591,25 +715,32 @@ Reason - To store scanner
 class PaymentMethod(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
-    def validate_image(fieldfile_obj):
-       try: 
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-        if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        else:
-            return True
-       except: 
-           import os # new
-           from pathlib import Path
-           filesize=os.path.getsize(fieldfile_obj.file.name)
-           print(filesize)
-           megabyte_limit = 200
-           if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
     
-    scanner = models.ImageField(upload_to='scanner/', null=True)
+    # modifi by- Suman sahu  On 07/05/2023
+    # reason- change django default image field character validation message
+    scanner = models.ImageField(upload_to='scanner/', null=True,
+              validators=[validate_image_file_extension])
+    # End of modification 07/05/2023
 
     # Added by :- Parineeta Gedam
     # Date :- 15-04-2023
@@ -631,10 +762,18 @@ class PaymentMethod(models.Model):
 
     class Meta:
         verbose_name = "Payment Method"
-        verbose_name_plural = 'j) Payment Method'
+        # Modified and added by Om Shrivastava on 10-05-23
+        # Reason : Correct the arrangement in payment method 
+        # verbose_name_plural = 'j) Payment Method'
+        verbose_name_plural = 'k) Payment Method'
+        # End of addition by Om Shrivastava on 10-05-23
 
     def __str__(self):
-        return f"{self.scanner}"
+        # Modified and added by Om on 06-06-23
+        # Reason : Show the appropriate return in payment method modal
+        # return f"{self.scanner}"
+        return 'Payment details' 
+        # End of addition by Om on 06-05-23
 
 """
 End of added code 11-04-2023

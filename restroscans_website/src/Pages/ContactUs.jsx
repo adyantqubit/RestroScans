@@ -1,6 +1,7 @@
-// Added by:- Suman sahu On 14/04/2023
+// created by:- Suman sahu On 14/04/2023
+// reason- create contactus page for restroscans website
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./contactus.css";
 import { ContactUsPostApi } from "../api/service";
 import { message } from "antd";
@@ -19,6 +20,8 @@ import NewzelandFlag from "../images/new.png";
 import { Link, useNavigate } from "react-router-dom";
 
 function ContactUs() {
+  const [number, setNumber] = useState(0);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     var user = {
@@ -35,6 +38,17 @@ function ContactUs() {
       document.getElementById("errName").innerText = "";
     }
 
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in name input field
+    if (user.name.length > 50) {
+      document.getElementById("errName").innerText =
+        "Name should be below 50 characters";
+      return false;
+    } else {
+      document.getElementById("errName").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
+
     if (user.email === "") {
       document.getElementById("errEmail").innerText = "Please enter your email";
       return false;
@@ -49,6 +63,27 @@ function ContactUs() {
     } else {
       document.getElementById("errMobileNumber").innerText = "";
     }
+    // Added by- Suman sahu On 20/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (user.mobile_number.length > 10) {
+      document.getElementById("errMobileNumber").innerText =
+        "Please enter only 10 digits";
+      return false;
+    } else {
+      document.getElementById("errMobileNumber").innerText = "";
+    }
+    // End of addition by Suman sahu On 20/05/2023
+
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (user.mobile_number.length < 10) {
+      document.getElementById("errMobileNumber").innerText =
+        "Please enter atleast 10 digits";
+      return false;
+    } else {
+      document.getElementById("errMobileNumber").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
 
     if (user.query === "") {
       document.getElementById("errQuery").innerText = "Please enter your query";
@@ -71,6 +106,21 @@ function ContactUs() {
     }
   };
 
+  // Added by:- Suman sahu  Date:- 19/05/2023
+  // Reason:- When click on cancel button, that fuction will be call
+  const ResetForm = async () => {
+    document.getElementById("form").reset();
+    // added by- Suman sahu On 20/05/2023
+    // reset error message after click cancle button
+    var arr = document.getElementsByClassName("contactus_error_msg");
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].innerHTML = "";
+    }
+    // end of addition by- Suman sahu On 20/05/2023
+  };
+  // End of added code by- Suman sahu On 19/05/2023
+
   // Added by:- Suman sahu  Date:- 07/04/2023
   // Reason:- When click on logo of adyant, open site of Adyant in a new tab
 
@@ -83,6 +133,19 @@ function ContactUs() {
   // Reason:- created for nevigate one page to another page
   const navigate = useNavigate();
   // End of added code 30/04/2023
+
+  // Added by- Suman sahu On 19/05/2023
+  // Reason- show validation when user type characters in mobile number input field
+  function validate(evt) {
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  // End of addition by Suman sahu On 19/05/2023
+
   return (
     <>
       <div className="contactus_container">
@@ -172,11 +235,11 @@ function ContactUs() {
                   className="contactus_input_icons"
                 />
                 <input
-                  className="contactus_input_box"
+                  class="contactus_input_box"
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Name"
+                  placeholder="* Name"
                 />
                 <p id="errName" className="contactus_error_msg"></p>
               </div>
@@ -191,7 +254,7 @@ function ContactUs() {
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="Email"
+                  placeholder="* Email"
                 />
                 <p id="errEmail" className="contactus_error_msg"></p>
               </div>
@@ -203,10 +266,13 @@ function ContactUs() {
                 />
                 <input
                   className="contactus_input_box"
-                  type="text"
+                  type="number"
+                  onkeypress={(e) => validate(e)}
                   name="mobile_number"
                   id="mobile_number"
-                  placeholder="Mobile Number"
+                  // value={number}
+                  placeholder="* Mobile Number"
+                  maxLength={10}
                 />
                 <p id="errMobileNumber" className="contactus_error_msg"></p>
               </div>
@@ -219,7 +285,8 @@ function ContactUs() {
                 type="text"
                 name="query"
                 id="query"
-                placeholder="Your queries"
+                placeholder="* Your queries"
+                maxLength={255}
               />
               <p id="errQuery" className="contactus_error_msg"></p>
             </div>
@@ -231,7 +298,8 @@ function ContactUs() {
               <button
                 className="contactus_submit_btn"
                 type="button"
-                onClick={() => navigate("/")}
+                // onClick={() => navigate(-1)}
+                onClick={ResetForm}
               >
                 Cancel
               </button>
@@ -244,4 +312,4 @@ function ContactUs() {
 }
 
 export default ContactUs;
-/* End of added code 05/04/2023 */
+/* End of created code by - Suman sahu 05/04/2023 */

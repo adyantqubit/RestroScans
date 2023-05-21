@@ -3,13 +3,19 @@
 
 import React, { useEffect, useState } from "react";
 import "./pricing.css";
-import { PricingPlansGetApi } from "../api/service";
+import { PricingPlansGetApi, PricingPlansDetailGetApi } from "../api/service";
 import config from "../api/config";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 
 function Pricing() {
   // Added by:- Suman sahu On 15/04/2023
-  // Reason:- Created for get Pricing plans details
-  const [pricingData, setPricingData] = useState([]);
+  // Reason:- Created for get Pricing Image
+  const [pricingData, setPricingData] = useState(null);
+
   useEffect(() => {
     getPricingPlans();
   }, []);
@@ -21,53 +27,101 @@ function Pricing() {
     }
   };
   // console.log(pricingData);
-  // End of added code 15/04/2023
+  // End of added code by- Suman sahu On 15/04/2023
+
+  // Added by:- Suman sahu On 17/05/2023
+  // Reason:- Created for get Pricing plans details
+  const [Data, setData] = useState(null);
+  const [cont, setCont] = useState([]);
+  useEffect(() => {
+    if (!Data) {
+      getPricingDetails();
+    } else {
+      var contentArr = [];
+      for (var i = 0; i < Data.length; i++) {
+        contentArr.push(Data[i].content.split(","));
+      }
+      setCont(contentArr);
+    }
+  }, [Data]);
+
+  const getPricingDetails = async () => {
+    const response = await PricingPlansDetailGetApi();
+    if (response) {
+      setData(response.pricingPlansData);
+    }
+  };
+  // End of added code by- Suman sahu On 15/04/2023
 
   return (
     <>
       <div className="Pricing_main_container">
-        <h2 className="pricing_main_heading">Pricing</h2>
+        {/* {
+          <div>
+            <img
+              className="pricings"
+              alt="Price"
+              src={config.staticBaseURL + pricingData?.pricing_plan1}
+            />
+           
+          </div>
+        } */}
+        {pricingData != null && pricingData.length > 0 ? (
+          <div className="pricing_section_1">
+            <h2 className="pricing_main_heading">Pricing</h2>
+            <Swiper
+              cssMode={true}
+              navigation={true}
+              slidesPerView={1}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{ clickable: true }}
+              mousewheel={true}
+              keyboard={true}
+              centeredSlides={true}
+              modules={[Autoplay, Navigation, Pagination, Mousewheel, Keyboard]}
+              className="slider_div_pricing"
+            >
+              {pricingData.map((item) => (
+                <SwiperSlide>
+                  <img
+                    src={config.staticBaseURL + item.pricing_plan1}
+                    className="images_pricing"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        ) : null}
 
-        <div>
-          {
-            <div>
-              {/* <div dangerouslySetInnerHTML={{ __html: pricingData.content }} /> */}
-
-              <img
-                className="pricings"
-                alt="Price"
-                src={config.staticBaseURL + pricingData.pricing_plan1}
-              />
-            </div>
-          }
-          {/* {
-            <div className="pricings_img_div">
-              <img
-                className="pricings"
-                alt="Price11"
-                src={config.staticBaseURL + pricingData.pricing_plan2}
-              />
-            </div>
-          }
-          {
-            <div className="pricings_img_div">
-              <img
-                className="pricings"
-                alt="Price"
-                src={config.staticBaseURL + pricingData.pricing_plan3}
-              />
-            </div>
-          }
-          {
-            <div className="pricings_img_div">
-              <img
-                className="pricings"
-                alt="Price"
-                src={config.staticBaseURL + pricingData.pricing_plan4}
-              />
-            </div>
-          } */}
-        </div>
+        {Data != null && Data.length > 0 ? (
+          <div>
+            <div className="pricing_main_heading">Feature Details</div>
+            {Data.map((item) => {
+              return (
+                <div className="pricing_plans">
+                  <div class="pricing_container">
+                    <div className="left_pricing_container">
+                      <img
+                        className="pricing_items_logo"
+                        src={config.staticBaseURL + item?.pricing_logo}
+                      />
+                      <div className="items_title">{item.pricing_title}</div>
+                    </div>
+                    <div className="right_pricing_container">
+                      {item.content.split(",").map((d) => {
+                        return <div className="items_description">{d}</div>;
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     </>
   );

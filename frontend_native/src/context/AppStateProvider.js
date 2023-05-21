@@ -11,6 +11,11 @@ export const AppStateProvider = ({ children }) => {
   // Reason : Get the item listing data
   var [offerItemId, setOfferItemId] = useState([]);
 
+    // Added by Om Shrivastava on 08-05-23
+    // Reason : Create the rupee sign globally.
+    var [rupee_sign,setRupee_sign]=useState('₹')
+    // End of addition by Om on 08-05-23
+
   // useEffect(()=>{
   //   getSettingData();
   // },[])
@@ -68,6 +73,8 @@ export const AppStateProvider = ({ children }) => {
         getSettingData,
         offerItemId,
         setOfferItemId,
+        rupee_sign,setRupee_sign
+
       }}
     >
       {/* End of addition */}

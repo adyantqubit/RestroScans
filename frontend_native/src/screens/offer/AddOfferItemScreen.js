@@ -18,7 +18,7 @@ import {
   getMenuList,
   saveAllOfferItems,
 } from "../../api/Services";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useContext } from "react";
 import { AppStateContext } from "../../context/AppStateProvider";
@@ -101,6 +101,21 @@ export default function AddOfferItemScreen() {
     /**
      * End of refreshing dropdown
      */
+    /**
+     * Added by yuvraj Sahu on 06-05-2023
+     * Reason - to reset dropdown when we come back same screen
+     */
+    setMenuList("");
+    setOfferSelect("");
+    setIsOfferNameError(false);
+     /**
+      * Added by Yuvraj Sahu on 07-05-2023
+      * Reason - to give validation msg 
+      */
+    setIsOfferItemError(false);
+    /**
+     * End of addition by Yuvraj Sahu on 06-05-2023
+     */
   }, [isFocused]);
   // End of show menu list
 
@@ -108,7 +123,11 @@ export default function AddOfferItemScreen() {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getAllOfferList(JSON.parse(tenantInfo).tenant_name);
     if (response.offerBanner) {
-      capitals = setData(
+      /**
+       * Removed by Yuvraj Sahu on 05-05-2023
+       * Reason - to remove error
+       */
+      setData(
         response.offerBanner.map(function (obj) {
           obj["key"] = obj["id"]; // Assign new key
           obj["value"] = obj["offer_name"]; // Rename key
@@ -127,7 +146,11 @@ export default function AddOfferItemScreen() {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
     const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
     if (response.itemList) {
-      capitals = setMenuData(
+      /**
+       * Removed by Yuvraj Sahu on 05-05-2023
+       * Reason - to remove error
+       */
+      setMenuData(
         response.itemList.map(function (obj) {
           obj["key"] = obj["id"]; // Assign new key
           obj["value"] = obj["name"]; // Rename key
@@ -158,40 +181,97 @@ export default function AddOfferItemScreen() {
     setTenant(JSON.parse(tenantInfo).tenant_name);
   };
 
+  /**
+   * Added by Yuvraj Sahu on 06-05-2023
+   * Reason - to show the validation msg if offer not select
+   */
+  var [isOfferNameError, setIsOfferNameError] = useState(false);
+  /**
+   * End of addition by Yuvraj Sahu on 06-0-5-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 07-05-2023
+   * Reason - to show the validation msg if offer item not select
+   */
+  var [isOfferItemError, setIsOfferItemError] = useState(false);
+  /**
+   * End of addition by Yuvraj Sahu on 06-0-5-2023
+   */
+
   // Post the data in this method
   const handleRegister = async (formValues) => {
-    setIsDisable(true);
+    if (offerSelect == "") {
+      setIsOfferNameError(true);
+      /**
+      * Added by Yuvraj Sahu on 07-05-2023
+      * Reason - to give validation msg 
+      */
+      setIsOfferItemError(true);
+      /**
+      * End of addition by Yuvraj Sahu on 07-05-2023
+      */
+    } else {
+      setIsDisable(true);
+    }
     var formData = new FormData();
 
     formData.append("offer_name", offerSelect);
     formData.append("item_name", menuList);
 
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    saveAllOfferItems(formData, JSON.parse(tenantInfo).tenant_name).then(
-      (response) => {
-        if (response.msg) {
-          Alert.alert(response.msg);
-          setRender(!render);
-          setIsDisable(false);
-          // Added by Yuvraj Sahu on 30-4-2023
-          // Reason - to clear dropdown when save data
-          bannerDropdownRef.current.reset();
-          itemDropdownRef.current.reset();
-          // End of addition
+    /**
+    * Added by Yuvraj Sahu on 07-05-2023
+    * Resson - to make mandatory
+    */
+    if (offerSelect != "" && menuList != "") {
+      setIsOfferNameError(false);
+      setIsOfferItemError(false);
+      saveAllOfferItems(formData, JSON.parse(tenantInfo).tenant_name).then(
+        (response) => {
+          if (response.msg) {
+            Alert.alert(response.msg);
+            /**
+             * Added and commeted by Yuvraj Sahu on 07-05-2023
+             * Reason - to clear dropdown value and re-render
+             */
+            setMenuList("");
+            setOfferSelect("");
+            // setRender(!render);
+            /**
+             * End of addition by Yuvraj Sahu on 07-05-2023
+             */
+            setIsDisable(false);
+            // Added by Yuvraj Sahu on 30-4-2023
+            // Reason - to clear dropdown when save data
+            bannerDropdownRef.current.reset();
+            itemDropdownRef.current.reset();
+            // End of addition
 
-          // navigate('login')
+            // navigate('login')
+          }
+          // Modified by Om on 14-04-23
+          // Reason : response.error not work proper, so this part I put on else condition
+          else {
+            // if (response.error) {
+            //     alert(response.error)
+            Alert.alert("Banner/Offer with this item name already exists");
+            //  End of addition
+            setIsDisable(false);
+          }
         }
-        // Modified by Om on 14-04-23
-        // Reason : response.error not work proper, so this part I put on else condition
-        else {
-          // if (response.error) {
-          //     alert(response.error)
-          Alert.alert("Banner/Offer with this item name already exists");
-          //  End of addition
-          setIsDisable(false);
-        }
-      }
-    );
+      );
+    } else {
+      setIsOfferNameError(true);
+      /**
+      * Added by Yuvraj Sahu on 07-05-2023
+      * Reason - to give validation msg 
+      */
+      setIsOfferItemError(true);
+      /**
+      * End of addition by Yuvraj Sahu on 07-05-2023
+      */
+    }
   };
 
   const {
@@ -213,7 +293,9 @@ export default function AddOfferItemScreen() {
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* End of addition - button click */}
         <View style={styles.container}>
-          <Text style={{ marginTop: 5 }}>Banner/Offer name</Text>
+          <Text style={styles.labels}>
+            <Text style={{ color: "red" }}>* </Text>Banner/Offer name
+          </Text>
 
           {/* Commented and modified by Yuvraj Sahu on 24-4-2023
           Reason - to change dropdown */}
@@ -248,7 +330,15 @@ export default function AddOfferItemScreen() {
               return <AntDesign name="down" size={14} color="black" />;
             }}
             buttonStyle={{
-              height: 41,
+              /**
+               * Added by yuvraj Sahu on 05-05-2023
+               * Reason - to set hright of input box
+               */
+              // height: 41,
+              height: inputs.inputBoxHeight,
+              /**
+               * End of set input box height by yuvraj Sahu on 05-05-2023
+               */
               borderColor: "black",
               borderWidth: 1,
               borderRadius: 10,
@@ -259,6 +349,7 @@ export default function AddOfferItemScreen() {
             }}
             onSelect={(selectedItem, index) => {
               setOfferSelect(selectedItem.key);
+              setIsOfferNameError(false);
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem.value;
@@ -267,11 +358,17 @@ export default function AddOfferItemScreen() {
               return item.value;
             }}
           />
+          {isOfferNameError && (
+            <Text style={styles.textdanger}>Offer name is required!</Text>
+          )}
 
           <View style={{ marginTop: 5 }}>
             <Text style={styles.labels}>
-              {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}
-              Item name
+              {/* <Text style={{ color: "red", fontWeight: "650" }}>* </Text> */}{" "}
+              {/* Added by Yuvraj Sahu on 07-05-2023
+              Reason - to give mandatory  */}
+              <Text style={{ color: "red" }}>* </Text>Item name
+              {/* End of addtion by Yuvraj Sahu on 07-05-2023 */}
             </Text>
 
             {/* Added and commented by Yuvraj Sahu on 24-4-2023
@@ -308,7 +405,15 @@ export default function AddOfferItemScreen() {
                 return <AntDesign name="down" size={14} color="black" />;
               }}
               buttonStyle={{
-                height: 41,
+                /**
+                 * Added by yuvraj Sahu on 05-05-2023
+                 * Reason - to set hright of input box
+                 */
+                // height: 41,
+                height: inputs.inputBoxHeight,
+                /**
+                 * End of set input box height by yuvraj Sahu on 05-05-2023
+                 */
                 borderColor: "black",
                 borderWidth: 1,
                 borderRadius: 10,
@@ -319,6 +424,12 @@ export default function AddOfferItemScreen() {
               }}
               onSelect={(selectedItem, index) => {
                 setMenuList(selectedItem.key);
+                {/*
+      Added by Yuvraj Sahu on 07-05-2023
+      Reason - to give validation msg 
+      */}
+                setIsOfferItemError(false);
+                {/* End of remove validation*/}
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem.value;
@@ -327,6 +438,12 @@ export default function AddOfferItemScreen() {
                 return item.value;
               }}
             />
+            {/* Added by Yuvraj Sahu on 07-05-2023
+            Reason - to add offer item validation msg */}
+            {isOfferItemError && (
+              <Text style={styles.textdanger}>Item name is required!</Text>
+            )}
+            {/* End of addition by yuvraj Sahu on 07-05-2023 */}
             {/* End of addition */}
           </View>
 
@@ -372,6 +489,14 @@ export default function AddOfferItemScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    /**
+     * Added and modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give gap from top of the form
+     */
+    paddingTop: 10,
+    /**
+     * End of addition by Yuvraj Sahu on 05-05-2023
+     */
     flex: 1,
     height: "100%",
     paddingHorizontal: 10,
@@ -384,7 +509,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 40,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: 45,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
@@ -394,11 +527,20 @@ const styles = StyleSheet.create({
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",
     marginBottom: 10,
     paddingHorizontal: 10,
+    marginTop: -5,
   },
   dropdownText: {
     fontSize: 14,

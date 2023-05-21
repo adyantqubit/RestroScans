@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import "./gallery.css";
-import { GalleryDetailsGetApi, OurTopRestaurentGetApi } from "../api/service";
+import { GalleryDetailsGetApi, CustomerFeedbackGetApi } from "../api/service";
 import config from "../api/config";
 import RestroscansLogo from "../images/restroscans_logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments } from "@fortawesome/free-solid-svg-icons";
 
 function Gallery() {
   // Added by:- Suman sahu On 08/04/2023
@@ -22,30 +24,80 @@ function Gallery() {
   };
   // End of added code 08/04/2023
 
+  // Added by:- Suman sahu On 18/05/2023
+  // Reason:- Created for get customer Feedback details
+  const [customerFeedback, setCustomerFeedback] = useState([]);
+  useEffect(() => {
+    getCustomerFeedback();
+  }, []);
+
+  const getCustomerFeedback = async () => {
+    const response = await CustomerFeedbackGetApi();
+    if (response) {
+      setCustomerFeedback(response.customerFeedback);
+    }
+  };
+  // End of added code 18/05/2023
+
   return (
     <>
-      <div className="gallary_first_section">
-        <div className="top_image">
-          <div className="gallery_container"></div>
-          <div class="bg_text">
-            <img src={RestroscansLogo} className="gallery_logo" />
+      <div style={{ paddingBottom: "2rem" }}>
+        <div className="gallary_first_section">
+          <div className="top_image">
+            <div className="gallery_container">
+              <h2 className="gallery_main_heading">Gallery</h2>
+            </div>
+            <div class="bg_text">
+              <p className="gallery_text">
+                The Restroscan application is created to assist restaurant
+                proprietors and administrators in handling different aspects of
+                their business. It has a user-friendly and easy-to-use interface
+                that allows users to navigate through the various modules and
+                functions with ease.
+              </p>
+              {/* <img src={RestroscansLogo} className="gallery_logo" /> */}
+            </div>
           </div>
         </div>
-      </div>
 
-      {galleryData != null && galleryData.length > 0 ? (
-        <div className="gallery_img_div">
-          {galleryData.map((item) => (
-            <div>
-              <img
-                src={config.staticBaseURL + item.gallery}
-                className="gallery_images"
-              />
-              <p className="restaurent_title">{item.title}</p>
+        {galleryData != null && galleryData.length > 0 ? (
+          <div className="main">
+            <div className="gallery_img_div_1">
+              {galleryData.map((item) => (
+                <div className="gallery_image_div_2">
+                  <img
+                    src={config.staticBaseURL + item.gallery}
+                    className="gallery_images"
+                  />
+                  <p className="gallery_bottom_text">{item.title}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : null}
+          </div>
+        ) : null}
+
+        {customerFeedback != null && customerFeedback.length > 0 ? (
+          <div className="customer_feedback_div">
+            <h2 className="customer_feedback_heading">
+              Customer Story & Feedback
+            </h2>
+            <div className="feedbacks_container">
+              {customerFeedback.map((item) => (
+                <div className="feedbacks">
+                  <div className="feedback_icon_div">
+                    <FontAwesomeIcon icon={faComments} />
+                  </div>
+                  <div>
+                    <p className="feedback_date">{item.date}</p>
+                    <h3 className="feedback_title">{item.title}</h3>
+                    <p className="feedback_description">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
     </>
   );
 }

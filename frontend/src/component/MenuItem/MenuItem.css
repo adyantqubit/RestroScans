@@ -104,7 +104,7 @@
     padding: 0;
     margin: 0;
     flex-direction: column;
-    width: 75%;
+    width: 73%;
     display: flex;
     flex-direction: column;
     /* gap:5px; */
@@ -165,6 +165,10 @@
     width: 70px;
     height: 70px;
     /* height: 2%; */
+    /* added by Rohan kansari - 8/5/23 */
+    position: relative ;
+    right: 2px;
+    left: -2px;
     margin: 0 0 0 auto;
 }
 
@@ -175,12 +179,14 @@
 
 .showimg_div {
     flex-direction: row;
-    width: 20%;
+    width: 22%;
     /* margin: 0 auto; */
     display: flex;
     /* added by rohan-13/4/23 */
     position: relative;
     overflow: hidden;
+    /* added by Rohan kansari - 8/5/23 */
+    padding-right: 4px;
 }
 
 /* added by rohan -13/4/23 */
@@ -191,12 +197,16 @@
     background-color: greenyellow;
     font-size: 11px;
     color: black;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    /* added by Rohan kansari - 8/5/23 */
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     color: black;
     padding-left: 0px;
-    position: relative;
-    left: -3px;
+    position: absolute;
+    left: -2px;
+
+    /* Modified by ROhan KAnsari - 12/5/23 */
+    z-index: 2;
     /* letter-spacing: 1px; */
     /* padding: 0 2px; */
 
@@ -209,7 +219,7 @@
     /* position: absolute;
     top: 5px;
     left: -10px; */
-    /* transform: rotateY(0deg) rotate(180deg); */
+    transform: rotateY(0deg) rotate(180deg);
     ;
 }
 
@@ -334,6 +344,9 @@
 .searchpage_main {
     padding: 1%;
     display: flex;
+    /* Added by Om Shrivastava on 17-05-23 */
+    /* justify-content: flex-end; */
+    /* End of addition by Om Shrivastava on 17-05-23 */
     position: sticky;
     top: 0px;
     min-height: 20px;
@@ -369,6 +382,10 @@
 
     /* Added by :- Parineeta Gedam Date :- 05-04-2023*/
     display: flex;
+    /* Added by Om Shrivastava on 17-05-23 */
+    justify-content: flex-end;
+    padding: 6px 15px 0px 0px;
+    /* End of addition by Om Shrivastava on 17-05-23 */
     /* End of added code 05-04-2023 */
 }
 
@@ -639,7 +656,8 @@
 }
 
 .searchpage_content {
-    /* height: 45%; */
+    width: 98%;
+    margin: 0 auto;
     height: auto;
     overflow: auto;
     display: block !important;
@@ -722,27 +740,47 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     min-height:22vh;
 } */
 .container {
-    position: relative;
+    /* added by Rohan kansari - 8/5/23 */
+    position: static;
     overflow: hidden;
     width: 100%;
+    top:0;
+    left:0;
+    right: 0;
+    padding: 0 10vw;
+    background-color: #000;
+    left: 0;
+    z-index: 0;
     /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
 
+/* Removed and created by Rohan kansari- 8/5/23  */
+.iframeContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 15%;
+  
+  z-index: 9;
+  background-color: transparent;
+}
 
-.responsive-iframe {
-    position: absolute;
-    top: -8px;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
+/* Removed and created by Rohan kansari- 8/5/23  */
+#iframe{
+    width: 70%;
+    position:relative;
+    /* z-index: -1; */
+    /* z-index: 0; */
 }
 
 .offer_maindiv {
     color: white;
     display: block;
+    width: 98%;
     /* height: 50%; */
+    margin: 1% 1%;
     overflow: auto;
 }
 
@@ -774,6 +812,11 @@ span.swiper-pagination-bullet swiper-pagination-bullet-active {
     text-align: center;
     align-items: center;
     /* max-height: 20%; */
+    /* Added by Om Shrivastava on 15-05-23
+    Reason : Add z-index property to fix the bestseller alignment; */
+    /* Commented by Om on 17-05-23 */
+    z-index: 99; 
+    /* End of addition by Om Shrivastava on 15-05-23 */
 }
 
 
@@ -1291,3 +1334,49 @@ a.ant-notification-notice-close {
     height: 25px !important;
 }
 /* End of addition 05/05/2023 */
+
+
+/* Added by Rohan kansari - 10/5/23
+   Reason - To design play pause btn */
+.pauseBtn{    
+    width: 70px;
+    height: auto;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right:0;
+    left:0;
+    margin: auto;
+    color:red;
+
+}
+
+.centerBtn{
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right:0;
+    left:0;
+    margin: auto;
+}
+
+/* End dof code addition - Rohan knasari - 10/5/23 */
+
+/* Added by Om Shrivastava on 17-05-23 */
+.floating-whatsapp-notification{
+    display: none !important;
+}
+/* End of addition by Om Shrivastava on 17-05-23 */
+
+/* Added by Om Shrivastava on 17-05-23 */
+/* Reason : When whatsapp number is not add there than this classname is apply */
+.whatsappDataNoneSearchMainDiv{
+    border-radius: 2%;
+    width: 89%;
+    margin: 0 0 0 5%;
+    position: relative;
+}
+/* End of addition by Om Shrivastava on 17-05-23 */

@@ -1,4 +1,4 @@
-/* Added by:- Suman sahu On 05/04/2023
+/* Created by:- Suman sahu On 05/04/2023
 Reason:- Create css for Home.jsx */
 
 /* ------------------- Main Section--------------------------- */
@@ -13,86 +13,84 @@ Reason:- Create css for Home.jsx */
 
 /* ------------------- Description Section--------------------------- */
 .home_description_section {
-  background-color: rgba(225, 239, 254, 1);
-  /* background-image: url("contact.jpg"); */
-  background-size: 100rem 80rem;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 80%, 0 100%);
+  background: url("../images/bg5.jpg");
+  /* clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 80%, 0 100%); */
   height: fit-content;
   width: 100%;
   margin: auto;
   overflow: hidden;
   background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
-  padding-top: 2rem;
-  padding-bottom: 13rem;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
 }
-.description_left_img_div {
-  width: 50%;
+.description_content_div {
+  width: 40%;
+  padding-top: 7rem;
 }
-.scanner_img {
-  height: 55vh;
-  width: 30vw;
-  margin-top: 3rem;
-  /* margin-left: 8rem; */
-  border-radius: 1rem;
-}
-.description_right_content_div {
-  width: 50%;
-  /* margin-left: 4rem; */
-}
-.restro_heading {
+.description_heading {
   font-size: var(--primary-textFontSize);
   margin-bottom: 2rem;
   margin-top: 3rem;
   display: flex;
-  font-family: sans-serif;
-  color: rgb(122, 38, 38);
+  font-family: var(--primary-headingFontFamily);
+  color: black;
   text-align: center;
 }
 .restro_description {
-  width: 80%;
+  width: 100%;
+  /* background-color: rgba(255,255,255,.3); */
+  /* font-weight: bold; */
   font-size: var(--descriptions-textFontSize);
   justify-content: center;
   text-align: justify;
-  color: rgb(73, 72, 72);
+  color: black;
+  font-family: var(--descriptions-textFontFamily);
+  hyphens: auto;
+  word-spacing: -0.04;
 }
 .description_btn_div {
   text-align: center;
-  width: 30vw;
+  /* width: 30vw; */
 }
 .book_demo_btn {
   border: 1px;
   font-size: 1.3rem;
   font-weight: bold;
-  width: 50%;
+  width: 40%;
   height: 3rem;
-  background-image: radial-gradient(
-    circle,
-    rgb(70, 130, 151) 50%,
-    rgb(24, 91, 114) 100%
-  );
+  background-image: radial-gradient(#bdc007 50%, #909e00 100%);
   cursor: pointer;
-  margin-top: 2.5rem;
-  float: left;
+  /* margin-top: 2.5rem; */
+  /* float: left; */
   box-shadow: 0px 0px 4px black;
-  color: rgb(221, 223, 225);
+  color: black;
+  font-family: var(--primary-buttonFontFamily);
 }
 .book_demo_btn:hover {
-  background-image: radial-gradient(
-    circle,
-    rgb(217, 187, 187) 10%,
-    rgb(194, 162, 162) 100%
-  );
-  color: black;
+  background-image: radial-gradient(circle, #bdc007 50%, #909e00 100%);
+  color: white;
 }
 
 /* ------------------- Benifits Section--------------------------- */
+.home_benefits_section {
+  /* background-image: url('../images/bg5.jpg'); */
+  /* background-color: #f2f2f2;; */
+  background: url("../images/bg3.jpg");
+  /* height: 90vh; */
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .benefits_heading {
   margin: 0;
   margin-bottom: 1rem;
-  font-family: sans-serif;
+  font-family: var(--primary-headingFontFamily);
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  color: white;
   text-align: center;
 }
 .benefits_card_div {
@@ -110,7 +108,9 @@ Reason:- Create css for Home.jsx */
 .benefits_card {
   width: 20vw;
   min-height: 30vh;
-  background: rgb(254, 244, 244, 0.3);
+  /* background: rgb(254, 244, 244, 0.3); */
+  background: #f2f2f2;
+  /* background-color: rgba(194, 192, 192, 0.3);; */
   margin: 2rem;
   box-shadow: 1px 1px 4px 1px grey;
   border-radius: 3.5rem 0;
@@ -120,19 +120,31 @@ Reason:- Create css for Home.jsx */
   align-items: center;
   margin: 0;
   padding: 0.7rem 0;
-  color: rgb(10, 100, 130);
-  margin-top: 0.8rem;
+  background-color: rgb(148 112 112);
+  border-radius: 3.5rem 0 0 0;
+  font-family: var(--descriptions-textFontFamily);
+  background-image: radial-gradient(circle, #bdc007 10%, #909e00 100%);
+  color: black;
 }
 .card_description {
   padding: 0 1.5rem;
-  color: rgb(85, 83, 83);
+  margin-top: 1.5rem;
+  color: black;
   text-align: justify;
+  font-family: var(--descriptions-textFontFamily);
+  hyphens: auto;
+  word-spacing: -0.04em;
 }
 
 /* -------------------Features Section--------------------------- */
 .home_features_section {
   display: block;
-  /* margin-left: 8rem; */
+  background: url("../images/ff2.png");
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .features_container {
   padding-left: 4rem;
@@ -147,8 +159,10 @@ Reason:- Create css for Home.jsx */
 }
 .features_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
+  margin-top: 0;
 }
 .feature_label_first_div {
   width: 55%;
@@ -175,8 +189,10 @@ Reason:- Create css for Home.jsx */
 }
 .feature_label {
   font-size: 1.2rem;
-  color: #383838;
+  color: black;
+  /* font-weight: bold; */
   padding-top: 0.3rem;
+  font-family: var(--descriptions-textFontFamily);
 }
 .features_img_div {
   width: 30%;
@@ -192,52 +208,52 @@ Reason:- Create css for Home.jsx */
 }
 
 /* -------------------Pricing Plans Section--------------------------- */
+.pricing_gallery_clients {
+  width: 100%;
+  margin: auto;
+  /* background: url("../images/hp3.png"); */
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .home_pricing_section {
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
 .pricing_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
-  /* font-weight: 800; */
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
+  margin-top: 0;
 }
-.pricing_plans_container {
-  display: flex;
-  justify-content: center;
-}
-.pricing_first_div {
-  display: flex;
-  width: 50%;
-}
-.pricing_second_div {
-  display: flex;
-  width: 50%;
-}
-.pricing_img_div {
-  width: 100%;
-  text-align: center;
+.pricing_slider_div {
+  height: 70vh;
 }
 .pricing_images {
-  width:65%;
-  height: 50%;
+  width: 90vh;
+  height: 65vh;
   justify-content: center;
-  border: 0.1rem solid rgb(132, 129, 129);
   border-radius: 1rem;
   margin-bottom: 2rem;
+  box-shadow: 1px 1px 8px black;
 }
 
 /* -------------------Gallery Details Section--------------------------- */
+.home_gallery_section_1 {
+  width: 100%;
+  background-color: #f0ebe9;
+}
 .home_gallery_section {
   width: 95%;
   margin: auto;
 }
 .gallery_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
-  /* font-weight: 800; */
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
-  /* margin: auto; */
   margin-top: 0;
 }
 .galary_slider_images {
@@ -250,7 +266,7 @@ Reason:- Create css for Home.jsx */
   height: 55vh;
   margin-bottom: 5rem;
 }
-.swiper-horizontal{
+.swiper-horizontal {
   margin-bottom: 2rem;
 }
 .swiper-wrapper {
@@ -262,14 +278,17 @@ Reason:- Create css for Home.jsx */
 /* -------------------Patners Details Section--------------------------- */
 .home_restaurent_section {
   margin: auto;
-  width: 98%;
+  width: 100%;
   display: block;
   height: fit-content;
   padding-bottom: 3rem;
+  /* background-color: #f0ebe9; */
 }
 .restaurent_heading {
   font-size: var(--primary-textFontSize);
-  color: rgb(122, 38, 38);
+  /* color: rgb(122, 38, 38); */
+  color: var(--primary-headingColor);
+  font-family: var(--primary-headingFontFamily);
   text-align: center;
   margin-top: 0;
 }
@@ -293,32 +312,25 @@ Reason:- Create css for Home.jsx */
   border-radius: 10rem;
   justify-content: center;
   border: 0.2px solid none;
-  /* margin-top: 1rem; */
 }
 .restaurent_title {
-  font-size: 1rem;
+  font-size: 1.4rem;
   margin: 0;
-  font-weight: bold;
-  color: rgb(10, 100, 130);
+  /* font-weight: bold; */
+  color: #758001;
+  font-family: var(--descriptions-textFontFamily);
 }
 .restaurent_address {
   font-size: 1rem;
   justify-content: center;
   text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.04;
   margin: 0;
   color: rgb(85, 83, 83);
+  font-family: var(--descriptions-textFontFamily);
 }
 @media (max-width: 1400px) {
-  .home_description_section {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 80%, 0 100%);
-  }
-  /* -------------- Description Section------------ */
-  .restro_description {
-    width: 40vw;
-  }
-  .scanner_img {
-    height: 50vh;
-  }
   /* -------------- Features Section------------ */
   .features_container {
     padding-left: 0;
@@ -331,16 +343,13 @@ Reason:- Create css for Home.jsx */
     width: 75%;
   }
   /* -------------- Pricing Section------------ */
-  .pricing_images{
-    width:65%;
-    height: 50%;
+  .pricing_images {
+    /* width: 65%;
+    height: 50%; */
     margin-bottom: 0;
   }
-  
+
   /* -------------- Gallery Section------------ */
-  .gallery_heading{
-    margin-top: 2rem;
-  }
   .gallery_slider_div {
     height: 50vh;
     margin-bottom: 5rem;
@@ -349,30 +358,17 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 45vh;
   }
-  .swiper-horizontal{
+  .swiper-horizontal {
     margin-bottom: 3rem;
   }
 }
 @media (max-width: 1200px) {
-  .home_description_section {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 80%, 0 100%);
-  }
-  /* -------------- Description Section------------ */
-  .scanner_img {
-    height: 60vh;
-    width: 40vw;
-    margin-left: 6rem;
-  }
-  .description_right_content_div {
-    margin-left: 4rem;
-  }
-  .restro_description {
-    width: 40vw;
-    margin: 0;
-  }
   .book_demo_btn {
     margin-top: 2rem;
-    width: 60%;
+    width: 50%;
+  }
+  .description_content_div{
+    width: 50%;
   }
   /* -------------- Benefits Section------------ */
   .benefits_card {
@@ -381,9 +377,6 @@ Reason:- Create css for Home.jsx */
   }
   .benefits_card h3 {
     font-size: 1rem;
-  }
-  .description_btn_div {
-    width: 40vw;
   }
   /* -------------- Features Section------------ */
   .features_gif {
@@ -397,30 +390,22 @@ Reason:- Create css for Home.jsx */
     margin-left: 5rem;
   }
   /* -------------- Pricing Section------------ */
-  .pricing_images {
-    width:70%;
+  /* .pricing_images {
+    width: 70%;
     height: 60%;
-  }
+  } */
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
     margin-bottom: 5rem;
   }
-  .swiper-horizontal{
+  .swiper-horizontal {
     margin-bottom: 2rem;
   }
 }
 @media (max-width: 1024px) {
-  html {
-    font-size: 85%;
-  }
   /* ------------Description Section-------------- */
-
-  .scanner_img {
-    margin-left: 5rem;
-    height: 55vh;
-  }
-  .restro_description {
-    margin-bottom: 3.5rem;
+  .description_content_div {
+    width: 50%;
   }
   .book_demo_btn {
     margin-top: 0;
@@ -430,19 +415,22 @@ Reason:- Create css for Home.jsx */
     width: 28vw;
   }
   /* ------------Features Section-------------- */
-  .features_container{
+  .home_features_section {
+    padding-bottom: 3rem;
+  }
+  .features_container {
     height: 45vh;
   }
   .features_img_div {
     height: 90%;
   }
-  .features_gif{
+  .features_gif {
     height: 100%;
   }
   /* ------------Pricing Section-------------- */
-  .pricing_images {
+  /* .pricing_images {
     width: 90%;
-  }
+  } */
   /* ------------Gallery Section-------------- */
   .home_gallery_section {
     width: 100%;
@@ -455,22 +443,17 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 30vh;
   }
-  .swiper-horizontal{
+  .swiper-horizontal {
     margin-bottom: 1rem;
   }
-  
 }
 @media (max-width: 900px) {
-  html {
-    font-size: 60%;
-  }
   /* ------------Description Section-------------- */
-
-  .scanner_img {
-    height: 45vh;
+  .description_content_div {
+    width: 60%;
   }
-  .book_demo_btn {
-    width: 70%;
+  .restro_description {
+    padding-bottom: 2rem;
   }
   /* ------------Benefits Section-------------- */
   .card_description {
@@ -480,20 +463,17 @@ Reason:- Create css for Home.jsx */
   .feature_label_first_div {
     margin-left: 0;
   }
-  .features_container{
+  .features_container {
     height: 40vh;
   }
-  .features_img_div{
+  .features_img_div {
     height: 100%;
   }
-  .features_gif{
+  .features_gif {
     height: 100%;
     width: 21vw;
   }
-  /* ------------Pricing Section-------------- */
-  .pricing_images {
-    height: 60vh;
-  }
+
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
     height: 40vh;
@@ -503,10 +483,9 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 30vh;
   }
-  .swiper-horizontal{
-    margin-bottom: 1rem;
+  .swiper-horizontal {
+    margin-bottom: 0;
   }
-  
 }
 @media (max-width: 768px) {
   html {
@@ -514,64 +493,41 @@ Reason:- Create css for Home.jsx */
   }
   .home_main_div {
     width: 100%;
-    /* padding-top: 0; */
   }
   /* ------------Description Section-------------- */
   .home_description_section {
-    flex-direction: column-reverse;
+    background: url("../images/res1.png");
     padding-top: 3rem;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%);
     padding-bottom: 3rem;
+    height: 77vh;
   }
-  .restro_heading {
+  .description_content_div{
+    width: 70%;
+  }
+  .description_heading {
     margin: auto;
     padding: 0;
     justify-content: center;
     padding-bottom: 1.5rem;
   }
-  .description_left_img_div {
-    margin: 0;
-    /* padding: 0 0 2rem 0; */
-    width: 100%;
-    text-align: center;
-  }
-  .scanner_img {
-    padding: 0;
-    height: 50vh;
-    width: 60%;
-    margin: auto;
-  }
-  .description_right_content_div {
-    width: 85%;
-    text-align: center;
-    margin: auto;
-    height: fit-content;
-  }
+  @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Pathway+Extreme:ital@1&display=swap");
   .restro_description {
-    width: 100%;
-    margin-bottom: 2rem;
+    font-family: "Pathway Extreme", sans-serif;
   }
   .description_btn_div {
-    width: 30%;
     text-align: center;
     margin: auto;
   }
   .book_demo_btn {
-    width: 100%;
     height: 3.5rem;
-    margin-bottom: 2rem;
-  }
-  /* ------------Benefits Section-------------- */
-  .home_benefits_section {
-    margin-top: 1rem;
-  }
-  .benefits_heading{
-    margin-top: 2rem;
+    margin-bottom: 5rem;
+    width: 50%;
   }
   /* ----------Features Section------------- */
   .home_features_section {
-    height: 100vh;
+    height: 110vh;
     margin-left: 0;
+    padding-bottom: 1rem;
   }
   .features_heading_div {
     padding: 1rem 0;
@@ -609,12 +565,12 @@ Reason:- Create css for Home.jsx */
   }
   /* ------------Pricing Section-------------- */
   .home_pricing_section {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     width: 100%;
   }
-  .pricing_images {
+  /* .pricing_images {
     height: 60vh;
-  }
+  } */
   /* ----------Gallery Section------------- */
   .gallery_slider_div {
     height: 30vh;
@@ -626,18 +582,18 @@ Reason:- Create css for Home.jsx */
   }
 }
 @media (max-width: 600px) {
-  html {
-    font-size: 40%;
-  }
   /* ------------Description Section-------------- */
-  .description_btn_div {
-    width: 45%;
+  .description_content_div {
+    width: 80%;
   }
-  .scanner_img {
-    height: 40vh;
+  .description_btn_div {
+    width: 100%;
   }
   /* ---------------Benefits Section-------------- */
   /* ----------------Features Section------------- */
+  .home_features_section {
+    height: 115vh;
+  }
   .feature_label {
     font-size: 1rem;
   }
@@ -646,9 +602,9 @@ Reason:- Create css for Home.jsx */
     height: 60vh;
   }
   /* ----------------Pricing Section-------------- */
-  .home_pricing_section{
+  /* .home_pricing_section {
     margin-top: 4rem;
-  }
+  } */
   .pricing_plans_container {
     display: block;
   }
@@ -660,7 +616,7 @@ Reason:- Create css for Home.jsx */
   }
   .pricing_images {
     margin-bottom: 0;
-    height: 70vh;
+    /* height: 70vh; */
   }
   /* --------------Gallery Section---------------- */
   .galary_slider_images {
@@ -669,18 +625,40 @@ Reason:- Create css for Home.jsx */
   .restaurents {
     width: 22vw;
   }
+
+  .description_heading,
+  .benefits_heading,
+  .features_heading,
+  .pricing_heading,
+  .gallery_heading,
+  .restaurent_heading {
+    font-family: var(--responsive-heading-fontfamily);
+  }
 }
 @media (max-width: 500px) {
   html {
     font-size: 30%;
   }
-  .description_btn_div {
-    width: 48%;
+  .home_description_section{
+    height: auto;
   }
-  .scanner_img {
-    width: 80%;
-    height: 45vh;
+  .description_content_div{
+    padding-top: 0;
   }
+  .description_btn_div{
+    margin-bottom: 0;
+  }
+  .book_demo_btn{
+    margin-bottom: 0;
+  }
+  /* ---------------Description Section-------------- */
+  .book_demo_btn {
+    width: 60%;
+  }
+  .restro_description {
+    padding-bottom: 0;
+  }
+  
   /* ---------------Benefits Section-------------- */
   .benefits_card_div {
     padding-bottom: 2rem;
@@ -689,6 +667,7 @@ Reason:- Create css for Home.jsx */
     width: 60vw;
     min-height: 25vh;
     margin: auto;
+    margin-bottom: 2rem;
   }
   .upper_div {
     display: block;
@@ -714,20 +693,22 @@ Reason:- Create css for Home.jsx */
     font-size: 25%;
   }
   /* ---------------Description Section-------------- */
-  .restro_description {
-    width: 100%;
-    margin: auto;
+  
+  .description_heading {
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
   }
-  .scanner_img {
-    height: 40vh;
-  }
-  .description_btn_div {
-    margin-top: 2rem;
-    width: 55%;
+  .description_content_div {
+    width: 80%;
   }
   /* ---------------Benefits Section-------------- */
   .home_benefits_section {
     padding-bottom: 2rem;
+  }
+  .benefits_heading {
+    font-size: 2rem;
+    padding-top: 1rem;
+    font-family: var(--responsive-heading-fontfamily);
   }
   .benefits_card {
     width: 75%;
@@ -736,6 +717,10 @@ Reason:- Create css for Home.jsx */
   .home_features_section {
     height: 155vh;
     padding-left: 0;
+  }
+  .features_heading {
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
   }
   .feature_lists_div {
     display: block;
@@ -759,9 +744,17 @@ Reason:- Create css for Home.jsx */
   .home_pricing_section {
     margin-top: 4rem;
   }
-  .pricing_images {
-    width: 45vw;
-    height: 33vh;
+  .pricing_heading {
+    font-size: 2rem;
+  }
+  /* ---------------Gallery Section-------------- */
+  .gallery_heading {
+    font-size: 2rem;
+  }
+  /* ---------------Restaurent Section-------------- */
+  .restaurent_heading {
+    padding-top: 1rem;
+    font-size: 2rem;
   }
 }
 @media (max-width: 320px) {
@@ -779,9 +772,9 @@ Reason:- Create css for Home.jsx */
     width: 100%;
   }
   .pricing_images {
-    width: 70vw;
-    height: 40vh;
+    /* width: 70vw;
+    height: 40vh; */
     margin-bottom: 1rem;
   }
 }
-/* End of added code 05/04/2023 */
+/* End of Created code by-Suman sahu On  05/04/2023 */

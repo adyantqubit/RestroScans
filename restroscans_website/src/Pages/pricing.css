@@ -1,23 +1,219 @@
+/* Created by:- Suman sahu  Date:- 05/04/2023
+Reason:- Create css for aboutus.jsx */
+
 .Pricing_main_container {
   margin: auto;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
   width: 100%;
   display: block;
+  height: 100%;
+  /* padding-top: 4rem; */
+}
+.pricing_section_1 {
+  width: 100%;
+  background-image: url("../images/pricing1.png");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 4.5rem;
 }
 .pricing_main_heading {
-  font-size: 3rem;
-  color: rgb(122, 38, 38);
   font-weight: 800;
   text-align: center;
+  margin-bottom: 1rem;
+  font-family: var(--primary-headingFontFamily);
+  font-size: var(--primary-textFontSize);
+  color: var(--primary-headingColor);
 }
 .pricings {
-  width: 80%;
-  height: 40%;
+  width: 60%;
+  height: 70vh;
   justify-content: center;
-  border: 0.1rem solid rgb(132, 129, 129);
+  border: 0.1rem solid rgb(36, 36, 36);
   border-radius: 1rem;
   margin-bottom: 1rem;
+  margin-top: 1rem;
+  box-shadow: 1px 1px 8px black;
+}
+.slider_div_pricing {
+  height: 80vh;
+  width: 75%;
+}
+.images_pricing {
+  width: 70%;
+  height: 80%;
+  justify-content: center;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 8px black;
+  touch-action: none;
+}
+.pricing_contents {
+  display: block;
+}
+.pricing_contents_div {
+  padding-top: 3rem;
+  padding-bottom: 20rem;
+  padding: 3rem 5rem 20rem 5rem;
+  height: 100%;
+}
+.content_left_div {
+  float: left;
+  width: 40%;
+  height: 100%;
+}
+.pricing_items_logo {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+}
+.items_title {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: var(--descriptions-textFontFamily);
+  color: #373737;
+}
+.content_right_div {
+  display: flex;
+  flex-wrap: wrap;
+  float: right;
+  width: 60%;
+  height: 100%;
+}
+.rowContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.items_description {
+  font-size: 1.3rem;
+  height: fit-content;
+  width: fit-content;
+  border: 1px solid rgb(69, 68, 68);
+  border-radius: 5rem;
+  padding: 0.2rem 2rem;
+  margin: 0.5rem 0.5rem;
+  color: aliceblue;
+  font-weight: 500;
+  font-family: var(--descriptions-textFontFamily);
+  background-image: radial-gradient(circle, #949616 10%, #697206 100%);
+  box-shadow: 1px 1px 4px 1px gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pricing_plans {
+  /* background: url("../images/ff2.png"); */
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.pricing_container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 1rem;
+  background-color: #e9e8e8;
+}
+.left_pricing_container {
+  width: 40%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.right_pricing_container {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 1200px) {
+  .pricings {
+    width: 80%;
+    height: 70vh;
+  }
+  .images_pricing {
+    width: 65%;
+  }
+  .slider_div_pricing {
+    width: 95%;
+  }
+}
+@media (max-width: 1024px) {
+  .pricings {
+    width: 90%;
+    height: 75vh;
+  }
+  .left_pricing_container {
+    width: 30%;
+  }
+  .right_pricing_container {
+    width: 70%;
+  }
+  .slider_div_pricing {
+    width: 100%;
+  }
+}
+@media (max-width: 900px) {
+  .pricings {
+    width: 90%;
+    height: 70vh;
+  }
+  .pricing_container {
+    width: 90%;
+  }
+  .images_pricing {
+    width: 80%;
+  }
+}
+
+@media (max-width: 764px) {
+  .pricings {
+    width: 90%;
+  }
+  .slider_div_pricing {
+    height: 70vh;
+  }
+  .images_pricing {
+    width: 80%;
+    height: 90%;
+  }
+  .pricing_contents_div {
+    padding: 3rem 2rem 20rem 5rem;
+    margin-bottom: 5rem;
+  }
+  .content_left_div {
+    width: 100%;
+  }
+  .content_right_div {
+    width: 100%;
+  }
+  .items_title {
+    margin: 0;
+  }
+  .pricing_container {
+    width: 100%;
+    display: block;
+  }
+  .left_pricing_container {
+    width: 100%;
+  }
+  .right_pricing_container {
+    width: 90%;
+    margin: auto;
+    justify-content: center;
+  }
+}
+@media (max-width: 600px) {
+  .pricing_main_heading {
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .slider_div_pricing {
+    height: 50vh;
+  }
+}
+@media (max-width: 532px) {
+  .pricing_contents_div {
+    margin-bottom: 10rem;
+  }
 }
 @media (max-width: 500px) {
   .Pricing_main_container {
@@ -29,9 +225,13 @@
   }
   .pricing_main_heading {
     font-size: 3rem;
-    color: rgb(122, 38, 38);
     font-weight: 800;
     text-align: center;
+    margin-top: 0;
+  }
+  .images_pricing {
+    width: 90%;
+    height: 90%;
   }
   .pricings {
     width: 90%;
@@ -42,9 +242,24 @@
     margin-bottom: 1rem;
   }
 }
-
+@media (max-width: 475px) {
+  .pricing_contents_div {
+    margin-bottom: 15rem;
+  }
+}
 @media (max-width: 400px) {
   .pricings {
     height: 40vh;
   }
+  .images_pricing {
+    height: 80%;
+  }
+  .pricing_main_heading {
+    font-size: 2rem;
+    font-family: var(--responsive-heading-fontfamily);
+  }
+  .slider_div_pricing {
+    height: 50vh;
+  }
 }
+/* End of created code by-Suman sahu On  05/04/2023 */

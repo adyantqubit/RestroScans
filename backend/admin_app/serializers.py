@@ -62,7 +62,7 @@ class PricingSerializer(serializers.ModelSerializer):
 
 
 """
-End of code addition 08/04/2023
+End of code addition by- Suman sahu on 08/04/2023
 """
 
 """
@@ -78,7 +78,7 @@ class GallerySerializer(serializers.ModelSerializer):
 
 
 """
-End of code addition 09/04/2023
+End of code addition by- Suman sahu on 09/04/2023
 """
 
 """
@@ -94,7 +94,7 @@ class GetRestroscansRequestSerializer(serializers.ModelSerializer):
 
 
 """
-End of code addition 13-04-2023
+End of code addition by- Suman sahu on 13-04-2023
 """
 
 
@@ -111,7 +111,7 @@ class PostContactUsSerializer(serializers.ModelSerializer):
 
 
 """
-End of code addition 14-04-2023
+End of code addition by- Suman sahu on 14-04-2023
 """
 
 """
@@ -127,5 +127,37 @@ class RestaurentPatnersSerializer(serializers.ModelSerializer):
 
 
 """
-End of code addition 19-04-2023
+End of code addition by- Suman sahu on 19-04-2023
+"""
+
+"""
+Added by - Suman Sahu on 17/05/2023
+Reason - To serialize PricingPlans modals data
+"""
+
+
+class PricingPlansSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PricingPlans
+        fields = "__all__"
+
+
+"""
+End of code addition by- Suman Sahu on 17/05/2023
+"""
+
+"""
+Added by - Suman Sahu on 18/05/2023
+Reason - To serialize CustomerFeedback modals data
+"""
+
+
+class CustomerFeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerFeedback
+        fields = "__all__"
+
+
+"""
+End of code addition by- Suman Sahu on 18/05/2023
 """

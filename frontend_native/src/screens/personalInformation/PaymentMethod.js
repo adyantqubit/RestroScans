@@ -22,9 +22,10 @@ import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 import { getPaymentMethodApi, savePaymentMethodApi } from "../../api/Services";
 import config from "../../config/config";
+import Footer from "../../components/Footer/Footer";
 
 export default function PaymentMethod() {
   const isFocused = useIsFocused();
@@ -144,22 +145,37 @@ export default function PaymentMethod() {
       quality: 1,
       base64: true,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-      setImgRequired(false);
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to img not upload if img size is bigger
+     */
+    // Added by Suman Sahu on 30-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */
 
-      // Added by Suman Sahu on 30-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
+    alert(fileSize);
+    if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      if (!result.canceled) {
         setFileSizeError(false);
+        setImage(result.assets[0].uri);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
+        setImgRequired(false);
       }
-      // End of addition 30-04-2023
     }
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
   };
 
   const handleRegister = async (values, { resetForm }) => {
@@ -213,7 +229,7 @@ export default function PaymentMethod() {
   };
 
   return (
-    <View>
+    <>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.container}>
           <Formik
@@ -413,7 +429,12 @@ export default function PaymentMethod() {
           </Formik>
         </View>
       </ScrollView>
-    </View>
+      {/* Added by Yuvraj Sahu on 05-05-23 For showing the footer*/}
+      {/* <> */}
+      <Footer />
+      {/* </> */}
+      {/* End of addition */}
+    </>
   );
 }
 
@@ -426,7 +447,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   input: {
-    height: 41,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,

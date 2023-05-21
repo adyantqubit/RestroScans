@@ -13,6 +13,7 @@ from weasyprint import HTML,CSS
 from io import BytesIO
 import subprocess
 import os
+from tenant_app.forms import *
 
 
 # Register your models here.
@@ -42,7 +43,15 @@ Reason - To register apps on admin panel and specify what rights public admin(pr
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display=("id","categories_list","name",'is_active')
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = MenuForm
+    # End of addition 07/05/2023
+    # Modified and commented by Om on 06-05-23
+    # Reason : Fix the alignment in menulist in admin panel
+    # list_display=("id","categories_list","name",'is_active')
+    list_display=("id","name","categories_list",'is_active')
+    # End of addition by Om on 06-05-23
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links = ("id","name",'is_active')
@@ -71,8 +80,13 @@ class MenuAdmin(admin.ModelAdmin):
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
         return True    
+    # Modification and addition by Om Shrivastava on 14-05-23
+    # Reason : Remove the delete field  
+    # def has_delete_permission(self, request, obj=None) :
+    #     return True 
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False 
+    # End of modification and addition by Om Shrivastava on 14-05-23   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -89,7 +103,17 @@ class MenuAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display=("id","item_list","name", "menu",'is_active')
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = CategoryForm
+    # End of addition 07/05/2023
+
+    # Modified and commented by Om Shrivastava on 10-05-23
+    # Reason : Fix the alignment in categorylist in admin panel
+    # list_display=("id","item_list","name", "menu",'is_active')
+    list_display=("id","name", "menu","item_list",'is_active')
+    # End of addition by Om Shrivastava on 10/05/2023
+
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=("id","name", "menu",'is_active')
@@ -118,9 +142,14 @@ class CategoryAdmin(admin.ModelAdmin):
     # End of comment and code modification by Om shrivastava on 13-04-23
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
-        return True    
+        return True 
+    # Modification and addition by Om Shrivastava on 14-05-23
+    # Reason : Remove the delete field  
+    # def has_delete_permission(self, request, obj=None) :
+    #     return True 
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False 
+    # End of modification and addition by Om Shrivastava on 14-05-23  
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -138,7 +167,11 @@ class CategoryAdmin(admin.ModelAdmin):
         
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display=("id","name", "category", "price_full", "price_half",'is_active')
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = ItemForm
+    # End of addition 07/05/2023
+    list_display=("id","name", "category", "price_full", "price_half",'is_active','best_seller',)
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=("id","name", "category", "price_full", "price_half",'is_active')
@@ -157,7 +190,8 @@ class ItemAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None) :
         return True    
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        # Modified by Rohan kansari - 10/5/23
+        return False   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -177,6 +211,10 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = OfferForm
+    # End of addition 07/05/2023
     list_display=("id","offer_name", "discount")
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -188,6 +226,11 @@ class OfferAdmin(admin.ModelAdmin):
     # search_fields=("name","offer_name")
     search_fields=["offer_name",]
     # End of comment and code modification by Om shrivastava on 13-04-23
+ 
+    # Added by ROhan kansari - 11/5/23
+    # Reason - To remove this column from table
+    exclude=("description",)
+    # ENd of code - 11/5/23
 
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
@@ -273,9 +316,14 @@ class SettingAdmin(admin.ModelAdmin):
     # End of addition
     list_per_page=10
     def has_change_permission(self, request, obj=None) :
-        return True    
+        return True
+    # Modification and addition by Om Shrivastava on 14-05-23
+    # Reason : Remove the delete field    
+    # def has_delete_permission(self, request, obj=None) :
+    #     return True  
     def has_delete_permission(self, request, obj=None) :
-        return True   
+        return False 
+    # End of modification and addition by Om Shrivastava on 14-05-23   
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -293,6 +341,13 @@ class SettingAdmin(admin.ModelAdmin):
         form = super(SettingAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['cgst'].widget.attrs['style'] = 'width: 13em;'
         form.base_fields['sgst'].widget.attrs['style'] = 'width: 13em;'
+        # Added by Om Shrivastava on 14-05-23
+        # Reason : To Remove the edit and add icon 
+        field = form.base_fields["app_theme"]
+        field.widget.can_add_related = False
+        field.widget.can_change_related = False
+        field.widget.can_delete_related = False
+        # End of addition by Om Shrivastava on 14-05-23
         return form
     # End of addition on :- 24-04-2023
 
@@ -370,7 +425,7 @@ class MyGroupAdmin(admin.ModelAdmin):
             return True
     # End of addition
         
-admin.site.register(User, MyUserAdmin)
+# admin.site.register(User, MyUserAdmin)
 
 # Commented by- Suman sahu On 03/05/2023
 # Reason- for hide this model in admin pannel
@@ -629,8 +684,22 @@ class OrderItemAdmin(admin.ModelAdmin):
     # Added by :- Parineeta Gedam on 17-04-2023
     # readonly_fields=['order_id','item']
     # End of added code on 17-04-2023
-    readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
+    # Remove by ROhankansari - 11/5/23
+    # Reason - requirement is to hide this field if already we have name so dont show id
+    # readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
+    readonly_fields=['order_id','item', 'serving_size','quantity','price','date']
+    # End of code- ROhankansari -11/5/23
     #End of code modification by Ashish Dewagnan on 24-04-2023
+
+    # Added by ROhan kansari - 11/5/23
+    # Reason - To remove this column from table
+    exclude=("item_id",)
+    # ENd of code - 11/5/23
+
+    #Added by Rohan Kansari - 11/5/23
+    # Reason -To solve ordering issue of table
+    fields=('order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # End of code - 11/5/23 -Rohan Kansari
 
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
@@ -692,6 +761,10 @@ Added by :- Parineeta Gedam Date - 06-04-2023
 Reason- Register Order Item.
 """
 class PaymentMethodAdmin(admin.ModelAdmin):
+    # Added by- Suman sahu On 07/05/2023
+    # reason- change django default image field character validation message
+    form = PaymentMethodForm
+    # End of addition 07/05/2023
     list_display = ['id','scanner','name','contact_number']
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row

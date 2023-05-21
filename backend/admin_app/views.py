@@ -218,16 +218,15 @@ Added by:- Suman sahu  on 08/04/2023
 Reason:- Created API for get Pricing images
 """
 
-
 class PricingImageAPI(APIView):
     def get(self, request):
-        pricingData = WebsiteSetting.objects.all().last()
-        pricingSerializer = PricingSerializer(pricingData)
+        # pricingData = WebsiteSetting.objects.all().last()
+        pricingData = WebsiteSetting.objects.all()
+        pricingSerializer = PricingSerializer(pricingData, many=True)
         return Response({"pricingData": pricingSerializer.data})
 
-
 """
-End of code addition 08/04/2023
+End of code addition by- Suman sahu on 08/04/2023
 """
 
 """
@@ -235,23 +234,20 @@ Added by:- Suman sahu  on 09/04/2023
 Reason:- Created API for Gallery Details
 """
 
-
 class GalleryDetailsAPI(APIView):
     def get(self, request):
         galleryData = GallerySettings.objects.all()
         gallerySerializer = GallerySerializer(galleryData, many=True)
         return Response({"galleryData": gallerySerializer.data})
 
-
 """
-End of code addition 09/04/2023
+End of code addition by- Suman sahu on 09/04/2023
 """
 
 """
 Added by:- Suman sahu  on 13/04/2023
 Reason:- Created API for post Restroscans requests 
 """
-
 
 class GetRestroscansRequestAPI(APIView):
     def post(self, request, format=None):
@@ -265,16 +261,14 @@ class GetRestroscansRequestAPI(APIView):
         except Exception as e:
             return Response({"msg": "Error"})
 
-
 """
-End of code addition 13/04/2023
+End of code addition by- Suman sahu on 13/04/2023
 """
 
 """
 Added by:- Suman sahu  on 14/04/2023
 Reason:- Created API for post "Contact Us" form
 """
-
 
 class ContactUsAPI(APIView):
     def post(self, request, format=None):
@@ -288,16 +282,14 @@ class ContactUsAPI(APIView):
         except Exception as e:
             return Response({"msg": "Error"})
 
-
 """
-End of code addition 14/04/2023
+End of code addition by- Suman sahu on 14/04/2023
 """
 
 """
 Added by:- Suman sahu  on 19/04/2023
 Reason:- Created API for get our top Retaurents details
 """
-
 
 class RestaurentPatnersDetailsAPI(APIView):
     def get(self, request):
@@ -307,7 +299,36 @@ class RestaurentPatnersDetailsAPI(APIView):
         )
         return Response({"restaurentsData": restaurentsSerializer.data})
 
+"""
+End of code addition by- Suman sahu on 19/04/2023
+"""
 
 """
-End of code addition 19/04/2023
+Added by:- Suman sahu  on 17/05/2023
+Reason:- Created API for Pricing Plans Details
+"""
+
+class PricingPlansAPI(APIView):
+    def get(self, request):
+        pricingData = PricingPlans.objects.all()
+        pricingPlansSerializer = PricingPlansSerializer(pricingData, many=True)
+        return Response({"pricingPlansData": pricingPlansSerializer.data})
+
+"""
+End of code addition by- Suman sahu on 17/05/2023
+"""
+
+"""
+Added by:- Suman sahu  on 18/05/2023
+Reason:- Created API for Customer Feedback Details
+"""
+
+class CustomerFeedbackAPI(APIView):
+    def get(self, request):
+        customerFeedbackData = CustomerFeedback.objects.all()
+        customerFeedbackSerializer = CustomerFeedbackSerializer(customerFeedbackData, many=True)
+        return Response({"customerFeedback": customerFeedbackSerializer.data})
+
+"""
+End of code addition by- Suman sahu on 18/05/2023
 """

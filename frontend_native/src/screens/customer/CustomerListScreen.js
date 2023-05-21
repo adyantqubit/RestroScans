@@ -85,7 +85,11 @@ export default function CustomerListScreen({ route, navigation }) {
                       : "--"}
                   </Text>
                   <Text style={styles.customerLable}>
-                    Email : {customer.email ? customer.email : "--"}
+                    {/* Added and modified by yuvraj Sahu on 05-05-2023
+                    Reason - to get latest email  */}
+                    {/* Email : {customer.email ? customer.email : "--"} */}
+                    Email : {customer.last_email ? customer.last_email : "--"}
+                    {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
                   </Text>
                   <Text style={styles.customerLable}>
                     Contact number : {customer.contact_number}

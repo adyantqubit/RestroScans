@@ -6,6 +6,10 @@ const passwordRegExp = /^((?!.*[\s])(?=.*[A-Z])(?=.*\d).{8,15})/;
 export const loginSchema = yup.object().shape({
   email: yup
     .string()
+    // added by - Suman sahu  On 10/05/2023
+    // reason - add trim method for trim white space in email input
+    .trim()
+    // End of addition 10/05/2023
     .email("Please enter valid email!")
     .required("Email address is required!"),
   password: yup
@@ -21,6 +25,10 @@ export const loginSchema = yup.object().shape({
 export const emailSchema = yup.object().shape({
   email: yup
     .string()
+    // added by - Suman sahu  On 10/05/2023
+    // reason - add trim method for trim white space in email input
+    .trim()
+    // End of addition 10/05/2023
     .email("Please enter valid email!")
     .required("Email address is required!"),
 });
@@ -105,7 +113,10 @@ export const registrationSchema = yup.object().shape({
     .required("Restaurant name is required!")
     .matches(/^(?!\s+$).*/, "Restaurant name cannot contain only blankspaces!"),
 
-  email: yup.string().email("Email is invalid!").required("Email is required!"),
+    // modify by - Suman sahu  On 10/05/2023
+    // reason - add trim method for trim white space in email input
+    email: yup.string().trim().email("Email is invalid!").required("Email is required!"),
+    // end of modification 10/05/2023
 
   // Commented by:- Suman sahu  On 24/04/2023
 
@@ -257,20 +268,36 @@ export const addItemSchema = yup.object().shape({
 export const addOfferSchema = yup.object().shape({
   offer_name: yup
     .string()
-    .required("Item name is required!")
+    .required("Offer name is required!")
     .max(
       40,
-      ({ max }) => `Offer name should no be more than ${max} characters`
+      ({ max }) => `Offer name should not be more than ${max} characters`
     ),
   video_link: yup
     .string()
+    /**
+     * Added by Yuvraj Sahu on 08-05-2023
+     * Reason - to validate video url
+     */
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      "Enter correct url!"
+    )
     .max(
       500,
-      ({ max }) => `Video link should no be more than ${max} characters`
+      ({ max }) => `Video link should not be more than ${max} characters`
     ),
   discount: yup
-    .number()
-    .max(100, ({ max }) => `Discount should not be more than ${max}`),
+    // Added and modified by Yuvraj Sahu on 05-05-2023
+    // Reason to not allow decimal value
+    // .number("Offer name should be number")
+    .string()
+    // .max(100, ({ max }) => `Discount should not be more than ${max}`)
+    .matches(
+      /^[0-9]{1,2}$/g,
+      "Discount should not be more than 100 and decimal value"
+    ),
+  // end of addition by yuvraj Sahu on 05-05-2023
 });
 // End of addition
 

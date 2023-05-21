@@ -1,8 +1,8 @@
-// Added by:- Suman sahu  Date:- 05/04/2023
+// Created by:- Suman sahu  Date:- 05/04/2023
 // Reason:- Create Header for RestroScans
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import "./header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,7 +15,7 @@ import {
   faIndianRupeeSign,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
-import RestroscansLogo from "../images/restroscans_logo.png";
+import RestroscansLogo from "../images/restroLogo9.png";
 
 function Header({ isOpen, setIsOpen }) {
   // Added by:- Suman sahu  Date:- 07/04/2023
@@ -24,14 +24,14 @@ function Header({ isOpen, setIsOpen }) {
   const openSiteOfAdyant = (url) => {
     window.open(url, "_blank", "noreferrer");
   };
-  // End of added code
+  // End of added code by-Suman sahu On 07/04/2023
 
   // Added by :- Suman sahu On 07/04/2023
   // Reason:- In responsive, click on any link after that header menu should be close
   function menuClose() {
     setIsOpen(false);
   }
-  // End of added code 07/04/2023
+  // End of added code by-Suman sahu 07/04/2023
 
   const navigate = useNavigate();
 
@@ -61,72 +61,87 @@ function Header({ isOpen, setIsOpen }) {
         </label>
         <button
           className="header_btn_responsive"
-          onClick={() => navigate("/restroscans")}
+          // Modified by - Suman sahu On 19/05/2023
+          // Reason- hide menu drawer when click on "Get Restroscans" button in responsive
+          onClick={() => {
+            navigate("/restroscans");
+            menuClose();
+          }}
+          // End of modification by- Suman sahu on 19/05/2023
         >
           Get Restroscans
         </button>
 
-        <div className="links_div">
+        <div className="links_div" id="link">
           <div
             className={isOpen == true ? "menu_open_second" : "menu_open_first"}
           >
             <li>
               <FontAwesomeIcon icon={faHouse} className="header_link_icons" />
-              <Link className="header_links" to="/" onClick={menuClose}>
+              <NavLink className="header_links" to="/" onClick={menuClose}>
                 Home
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faList} className="features_icon" />
-              <Link
+              <NavLink
                 className="header_links"
                 to="/features"
                 id="features_link"
                 onClick={menuClose}
               >
                 Features
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faImage} className="header_link_icons" />
-              <Link className="header_links" to="/gallery" onClick={menuClose}>
+              <NavLink
+                className="header_links"
+                to="/gallery"
+                onClick={menuClose}
+              >
                 Gallery
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon
                 icon={faIndianRupeeSign}
-                className="pricing_icon"
+                // className="pricing_icon"
+                className="header_link_icons"
               />
-              <Link
+              <NavLink
                 className="header_links"
                 to="/pricing"
-                id="pricing_link"
+                // id="pricing_link"
                 onClick={menuClose}
               >
                 Pricing
-              </Link>
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faPhone} className="header_link_icons" />
-              <Link
+              <NavLink
                 className="header_links"
                 to="/contactus"
                 onClick={menuClose}
               >
-                Contact US
-              </Link>
+                Contact Us
+              </NavLink>
             </li>
 
             <li>
               <FontAwesomeIcon icon={faUser} className="header_link_icons" />
-              <Link className="header_links" to="/aboutus" onClick={menuClose}>
-                About US
-              </Link>
+              <NavLink
+                className="header_links"
+                to="/aboutus"
+                onClick={menuClose}
+              >
+                About Us
+              </NavLink>
             </li>
           </div>
 
@@ -143,4 +158,4 @@ function Header({ isOpen, setIsOpen }) {
 }
 
 export default Header;
-/* End of added code 05/04/2023 */
+/* End of created code by-Suman sahu On  05/04/2023 */

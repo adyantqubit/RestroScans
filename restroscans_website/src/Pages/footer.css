@@ -5,27 +5,23 @@ Reason:- Create css for Footer.jsx */
 .footer_section_1 {
   text-align: center;
   display: block;
-  /* background: rgb(217, 187, 187); */
-  background-image: radial-gradient(
-    circle,
-    rgb(101, 136, 147) 50%,
-    rgb(81, 108, 118) 100%
-  );
+  background-color: #acb17f;
   padding-top: 1rem;
   padding-bottom: 4rem;
 }
 .adyant_address_heading {
   font-size: 1.3rem;
   font-weight: 600;
-  color: rgb(27, 27, 27);
   color: black;
   margin: 0.5rem 0;
+  font-family: var(--descriptions-textFontFamily);
 }
 .adyant_address_label {
   font-size: 1rem;
   font-weight: 400;
   color: black;
   margin: 0.5rem 0;
+  font-family: var(--descriptions-textFontFamily);
 }
 .footer_icon {
   width: 3vw;
@@ -40,23 +36,27 @@ Reason:- Create css for Footer.jsx */
   bottom: 0;
   display: flex;
   height: 3rem;
-  justify-content: center;
   position: fixed;
   width: 100%;
   z-index: 99999;
   font-size: var(--footer-primary-heading);
   background: var(--footer-backgroundColor);
   margin-top: 2rem;
-  background-color: rgba(225, 239, 254, 1);
+  background-color: white;
 }
 .footer_section h5,
 h6 {
   font-weight: 500;
   margin-top: 0.5rem;
+  color: rgb(27, 27, 27);
+  font-family: var(--descriptions-textFontFamily);
 }
 .footer_section_2 h5 {
   font-size: 1rem;
   font-weight: normal !important;
+  font-family: var(--descriptions-textFontFamily);
+  position: absolute;
+  left: 45%;
 }
 .adyant_footer_link {
   margin-bottom: 2.5rem;
@@ -71,8 +71,9 @@ h6 {
 }
 
 .footer_adyant_logo {
-  width: 3vw;
-  height: 3vh;
+  width: 3.5vw;
+  height: 3.5vh;
+  padding-left: 2rem;
 }
 @media (max-width: 1024px) {
   .footer_icon {
@@ -90,11 +91,11 @@ h6 {
     height: 2.7vh;
     width: 4.3vw;
   }
+  .footer_section_2 h5 {
+    left: 35%;
+  }
 }
 @media (max-width: 768px) {
-  .footer_section_2 {
-    background-color: rgba(225, 239, 254, 1);
-  }
   .footer_adyant_logo {
     width: 4.4vw;
     height: 2.7vh;
@@ -105,41 +106,22 @@ h6 {
 
   /* --------------------Footer Section2  ----------------*/
   .footer_section_2 {
-    /* align-items: center; */
-    /* bottom: 0; */
-    /* flex-direction: column; */
-    /* height: auto; */
-    /* justify-content: flex-start; */
     position: fixed;
     z-index: 9999;
   }
-
-  .footer_heading {
-    margin: 0.5rem;
-    float: left;
-    width: 50%;
+  .footer_adyant_logo {
     padding-left: 1rem;
   }
-
-  .adyant_footer_link {
-    padding-bottom: 1rem;
-    margin-bottom: 0;
-    text-decoration: none;
-    width: 50%;
-    padding-right: 1rem;
+  .footer_section_2 h5 {
+    left: 30%;
   }
-
   .adyant {
-    padding-right: 0;
-    margin-bottom: 0.5rem;
-    position: static;
-    margin: 0;
-    float: right;
+    padding-right: 1rem;
+    margin-top: 0.7rem;
   }
   .footer_adyant_logo {
-    width: 6vw;
+    width: 6.5vw;
     height: 2.5vh;
-    padding-top: 0.5rem;
   }
 }
 
@@ -154,16 +136,21 @@ h6 {
     width: 3.5vw;
     height: 3.5vh;
   }
+  .footer_section_2 h5 {
+    left: 20%;
+    font-size: 0.9rem;
+  }
 }
 @media (max-width: 400px) {
   .adyant_address_label {
     font-size: 0.8rem;
   }
   .footer_section_2 h5 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
   .adyant {
     font-size: 0.8rem;
+    margin-top: 0.8rem;
   }
   .footer_adyant_logo {
     height: 2vh;

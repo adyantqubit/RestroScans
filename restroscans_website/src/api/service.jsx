@@ -63,3 +63,31 @@ export const OurTopRestaurentGetApi = async () => {
 };
 
 // End of added code 19/04/2023
+
+// Added by:- Suman sahu On 17/05/2023
+// Reason:- Created API for get Pricing plans details
+
+export const PricingPlansDetailGetApi = async () => {
+  const response = await API.get("get-pricing-plans-details/", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+// End of added code 08/04/2023
+
+// Added by:- Suman sahu On 18/05/2023
+// Reason:- Created API for get Customer Feedback details
+
+export const CustomerFeedbackGetApi = async () => {
+  const response = await API.get("get-cutomer-feedback/", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+// End of added code 08/04/2023

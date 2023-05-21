@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./home.css";
-import Scanner from "../images/viewMenu.webp";
+// import Scanner from "../images/homeScannerImage.jpg";
 import Table from "../images/table.png";
 import Onlinemenu from "../images/onlinemenu.png";
 import InAppOrdering from "../images/inappOrdering.png";
@@ -85,21 +85,25 @@ function Home() {
     <>
       <div className="home_main_div">
         <div className="home_description_section">
-          <div className="description_left_img_div">
+          {/* <div className="description_left_img_div">
             <img src={Scanner} className="scanner_img" alt="scanner" />
-          </div>
-          <div className="description_right_content_div">
-            <h2 className="restro_heading">Restroscans</h2>
+          </div> */}
+          <div className="description_content_div">
+            <h2 className="description_heading">Restroscans</h2>
             <p className="restro_description">
-              The Restroscan application is created to assist restaurant
-              proprietors and administrators in handling different aspects of
-              their business. It has a user-friendly and easy-to-use interface
-              that allows users to navigate through the various modules and
-              functions with ease. The Restroscan application is created to
-              assist restaurant proprietors and administrators in handling
-              different aspects of their business. It has a user-friendly and
-              easy-to-use interface that allows users to navigate through the
-              various modules and functions with ease.
+              Restaurant management software is a comprehensive digital solution
+              designed to streamline and optimize various operational aspects of
+              running a restaurant. It combines multiple tools and features into
+              a unified platform, providing restaurant owners and managers with
+              efficient control over their establishment's day-to-day
+              operations. Here's a description of restaurant management
+              software: Overall, restaurant management software empowers owners
+              and managers to streamline operations, enhance customer
+              experiences, and make informed decisions. By automating repetitive
+              tasks, optimizing resource allocation, and providing valuable
+              insights, it contributes to improved efficiency, reduced costs,
+              and increased profitability in the highly competitive restaurant
+              industry.
             </p>
             <div className="description_btn_div">
               <button
@@ -248,98 +252,114 @@ function Home() {
           </div>
         </div>
 
-        <div className="home_pricing_section">
-          <h2 className="pricing_heading">Pricing</h2>
-          <div>
-            <div>
-              {
-                <img
-                  className="pricing_images"
-                  alt="Price"
-                  src={config.staticBaseURL + pricingData.pricing_plan1}
-                
-                />
-              }
-              {/* {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan2}
-                  />
-                </div>
-              }
-            </div>
+        <div className="pricing_gallery_clients">
+          {/* <div className="home_pricing_section">
+            <h2 className="pricing_heading">Pricing</h2>
+            {
+              <img
+                className="pricing_images"
+                alt="Price"
+                src={config.staticBaseURL + pricingData.pricing_plan1}
+              />
+            }
+          </div> */}
 
-            <div className="pricing_second_div">
-              {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan3}
-                  />
-                </div>
-              }
-              {
-                <div className="pricing_img_div">
-                  <img
-                    className="pricing_images"
-                    alt="Price"
-                    src={config.staticBaseURL + pricingData.pricing_plan4}
-                  />
-                </div>
-              } */}
+          {pricingData != null && pricingData.length > 0 ? (
+            <div className="pricing_gallery_clients">
+              <div className="home_pricing_section">
+                <h2 className="pricing_heading">Pricing</h2>
+                <Swiper
+                  cssMode={true}
+                  navigation={true}
+                  slidesPerView={1}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  pagination={{ clickable: true }}
+                  mousewheel={true}
+                  keyboard={true}
+                  centeredSlides={true}
+                  modules={[
+                    Autoplay,
+                    Navigation,
+                    Pagination,
+                    Mousewheel,
+                    Keyboard,
+                  ]}
+                  className="pricing_slider_div"
+                >
+                  {pricingData.map((item) => (
+                    <SwiperSlide>
+                      <img
+                        src={config.staticBaseURL + item.pricing_plan1}
+                        className="pricing_images"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
             </div>
-          </div>
+          ) : null}
+
+          {galleryData != null && galleryData.length > 0 ? (
+            <div className="home_gallery_section_1">
+              <div className="home_gallery_section">
+                <h2 className="gallery_heading">Gallery</h2>
+                <Swiper
+                  cssMode={true}
+                  navigation={true}
+                  slidesPerView={3}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  pagination={{ clickable: true }}
+                  mousewheel={true}
+                  keyboard={true}
+                  modules={[
+                    Autoplay,
+                    Navigation,
+                    Pagination,
+                    Mousewheel,
+                    Keyboard,
+                  ]}
+                  className="gallery_slider_div"
+                >
+                  {galleryData.map((item) => (
+                    <SwiperSlide>
+                      <img
+                        src={config.staticBaseURL + item.gallery}
+                        className="galary_slider_images"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          ) : null}
+
+          {restaurentsData != null && restaurentsData.length > 0 ? (
+            <div className="home_restaurent_section">
+              <h2 className="restaurent_heading">
+                Restaurant's connected with us
+              </h2>
+              <div className="restaurents_container">
+                {restaurentsData.map((item) => (
+                  <div className="restaurents">
+                    <img
+                      className="restaurent_logo"
+                      src={config.staticBaseURL + item.restaurant_logo}
+                    />
+                    <p className="restaurent_title">{item.restaurant_name}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
-
-        {galleryData != null && galleryData.length > 0 ? (
-          <div className="home_gallery_section">
-            <h2 className="gallery_heading">Gallery</h2>
-            <Swiper
-              cssMode={true}
-              navigation={true}
-              slidesPerView={3}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              pagination={{ clickable: true }}
-              mousewheel={true}
-              keyboard={true}
-              modules={[Autoplay, Navigation, Pagination, Mousewheel, Keyboard]}
-              className="gallery_slider_div"
-            >
-              {galleryData.map((item) => (
-                <SwiperSlide>
-                  <img
-                    src={config.staticBaseURL + item.gallery}
-                    className="galary_slider_images"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        ) : null}
-
-        {restaurentsData != null && restaurentsData.length > 0 ? (
-          <div className="home_restaurent_section">
-            <h2 className="restaurent_heading">Restaurant connected with us</h2>
-            <div className="restaurents_container">
-              {restaurentsData.map((item) => (
-                <div className="restaurents">
-                  <img
-                    className="restaurent_logo"
-                    src={config.staticBaseURL + item.restaurant_logo}
-                  />
-                  <p className="restaurent_title">{item.restaurant_name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
       </div>
     </>
   );

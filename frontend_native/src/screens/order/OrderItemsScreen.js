@@ -20,7 +20,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function OrderItemsScreen({ route, navigation }) {
-  var { render, setRender, settings } = useContext(AppStateContext); //Need to use settings, for GST number.
+  var { render, setRender, settings,rupee_sign } = useContext(AppStateContext); //Need to use settings, for GST number.
   const isFocused = useIsFocused();
   /* Get the order id using params */
   // Added and modified by Yuvraj Sahu on 17-4-2023
@@ -157,11 +157,10 @@ export default function OrderItemsScreen({ route, navigation }) {
     return total;
   }
   function ExtractDateTime(format) {
-    var d = new Date(format);
-    var date = d.toLocaleDateString();
-    var time = d.toLocaleTimeString();
+    var date = format.substring(0, 10)
+    var time = format.substring(11, 16)
 
-    return { date, time };
+    return { date, time }
   }
   // End of addition
 
@@ -228,20 +227,33 @@ export default function OrderItemsScreen({ route, navigation }) {
             <hr>
 
             <div class="inLineContainer">
+              <div class="label">Name   </div>
+              <div class="text">  ${customerDetail.last_customer_name}</div>
+              <div class="label">Contact   </div>
+              <div class="text">  ${customerDetail.contact_number}</div>
+            </div>
+            
+            <div class="inLineContainer">
               <div class="label">Date </div>
               <div class="text">
-              ${new Date(orderDetail.date)
-                .toISOString()
-                .split("T")[0]
-                .split("-")
-                .reverse()
-                .join("/")}
+              <!-- Eddited By Rohan Kansari - 12/5/23
+              Reason - To show payment confirmation time in bill --!>
+              ${ExtractDateTime(orderDetail.payment_confirmation_date_time).date}
+               ${
+                //new Date(orderDetail.date)
+              //   .toISOString()
+              //   .split("T")[0]
+              //   .split("-")
+              //   .reverse()
+              //   .join("/")
+              ``
+            }
               </div>
               <div class="label">Time  </div>
               <div class="text">  ${
-                ExtractDateTime(orderDetail.date).time
+                ExtractDateTime(orderDetail.payment_confirmation_date_time).time
               }</div>
-
+              <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
             <div class="inLineContainer">
               <div class="label">Bill   </div>
@@ -255,45 +267,46 @@ export default function OrderItemsScreen({ route, navigation }) {
          
             <div class="inLineContainer">
               <div class="label">Payment   </div>
-              <div class="text">  ${orderDetail.payment_mode}</div>
-              <div class="label">Status   </div>
-              <div class="text">  ${orderDetail.payment_status}</div>
+              <div class="text" style= "margin-right:53%">  ${orderDetail.payment_mode}</div>
+              
             </div>
             <div class="tableHeader">
               <div class="titleHeading"> Item Name   </div>
               <div class="quantityHeading">Qty</div>
-              <div class="rateHeading">     Rate(₹) </div>
-              <div class="totalHeading"> Amt(₹)</div>
+              <div class="rateHeading">     Rate(${rupee_sign}) </div>
+              <div class="totalHeading"> Amt(${rupee_sign})</div>
             </div>
             
           ${itemStr} 
           <hr>
           <div class='CalculationBoxContainer'>
-            <div class="calculationBox">
-              <div class="calculationLine">
+          <div class="calculationBox">
+          ${orderDetail.cgst||orderDetail.sgst? `<div class="calculationLine">
                 <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
-                <div  class="calculationText" >₹${SubtotalOfItems().toFixed(
+                <div  class="calculationText" >${rupee_sign}${SubtotalOfItems().toFixed(
                   2
                 )}</div>
-              </div>
-              <div class="calculationLine">
-                <div  class="calculationLabel" > CGST (%${(
-                  (orderDetail.cgst / SubtotalOfItems()) *
-                  100
-                ).toFixed(2)}) :</div>
-                <div  class="calculationText" >₹${orderDetail.cgst}  </div>
-              </div>
-              <div class="calculationLine">
+              </div>`:``}
+
+             ${orderDetail.cgst? `<div class="calculationLine">
+             <div  class="calculationLabel" > CGST (%${(
+               (orderDetail.cgst / SubtotalOfItems()) *
+               100
+             ).toFixed(2)}) :</div>
+             <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+           </div>`:''} 
+             ${orderDetail.sgst? `<div class="calculationLine">
                 <div  class="calculationLabel" > SGST (%${(
                   (orderDetail.sgst / SubtotalOfItems()) *
                   100
                 ).toFixed(2)}) :</div>
-                <div  class="calculationText" >₹${orderDetail.sgst} </div>
-              </div>
-              <hr>
+                <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+              </div>`:''}
+              
+              ${orderDetail.cgst||orderDetail.sgst?`<hr>`:``}
               <div class="calculationLine">
                 <div  class="calculationLabel" > Total :</div>
-                <div  class="calculationText" >₹${(
+                <div  class="calculationText" >${rupee_sign}${(
                   SubtotalOfItems() +
                   orderDetail.cgst +
                   orderDetail.sgst
@@ -308,7 +321,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   <div class="TotalLabel">Total </div>
                   <div class="TotalLabel">: </div>
 
-                  <div class="grandTotalText">₹${(
+                  <div class="grandTotalText">${rupee_sign}${(
                     SubtotalOfItems() +
                     orderDetail.cgst +
                     orderDetail.sgst
@@ -451,7 +464,7 @@ export default function OrderItemsScreen({ route, navigation }) {
 }
 .CalculationBoxContainer {
   width: 100%;
-  height: 100px;
+  height: auto;
   display: flex;
   justify-content: flex-end;
 }
@@ -459,7 +472,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   width: 60%;
   margin-right: 4%;
   margin-bottom: 2%;
-  height: 100px;
+  height: auto;
 }
 .calculationLine {
   display: flex;
@@ -751,6 +764,15 @@ export default function OrderItemsScreen({ route, navigation }) {
     }
   };
 
+  /**
+   * Added by Yuvraj Sahu on 07-05-2023
+   * Reason - to add date in order detail
+   */
+  const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
+  /**
+   * End of addition by yuvraj Sahu on 07-05-2023
+   */
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -770,17 +792,51 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* Modify by- Suman sahu  On 30/04/2023
                   Reason- show only latest name on the order details */}
               {/* <Text>Name</Text> : {customerDetail.name} */}
-              <Text>Name</Text> : {customerDetail.last_customer_name}
+              {/* Modification and addition by Om Shrivastava on 17-05-23
+              Reason : When customer name is not show than show the "---" */}
+              {/* <Text>Name</Text> : {customerDetail.last_customer_name} */}
+              <Text>Name</Text> : {customerDetail.last_customer_name  !=undefined && customerDetail.last_customer_name  !=null && customerDetail.last_customer_name.length>0 ?customerDetail.last_customer_name:"---" }
+              {/* End of modification and addition by Om Shrivastava on 17-05-23 */}
               {/* End of modification 30/04/2023 */}
             </Text>
             {customerDetail.email && (
               <Text style={{ marginTop: 5 }}>
-                <Text>Email</Text> : {customerDetail.email}
+                {/* Added and modified by yuvraj Sahu on 05-05-2023
+                Reason - to get latest email  */}
+                {/* <Text>Email</Text> : {customerDetail.email} */}
+                <Text>Email</Text> : {customerDetail.last_email}
+                {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
               </Text>
             )}
             <Text style={{ marginTop: 5 }}>
               <Text>Phone</Text> : {customerDetail.contact_number}
             </Text>
+            {/* Added by Yuvraj Sahu on 07-05-2023
+            Reason - to add date and time */}
+            <Text style={{ marginTop: 5 }}>
+              <Text>Date</Text> :{""}
+              {dt}
+              {/* {new Date(orderDetail.date)
+                .toISOString()
+                .split("T")[0]
+                .split("-")
+                .reverse()
+                .join("/")} */}
+            </Text>
+            <Text style={{ marginTop: 5 }}>
+              <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
+            </Text>
+            {/* Addition by Om Shrivastava on 13-05-23
+            Reason : Show the all over restaurant review   */}
+              {orderDetail.review && (
+            <Text style={{ marginTop: 5 }}>
+                
+                      <Text>Review : {orderDetail.review}</Text>
+            </Text>
+
+                    )}
+            {/* End of addition by Om Shrivastava on 13-05-23 */}
+            {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
           </View>
           {orderItems.length > 0 ? (
             <>
@@ -792,7 +848,12 @@ export default function OrderItemsScreen({ route, navigation }) {
                 <Text style={styles.itemStatusContainer}>Status</Text>
                 {/* End of code addition by Ashish on 19-04-2023 */}
                 {/* Add rupees icon by Om on 26-04-23  */}
-                <Text style={styles.costContainer}>Cost(₹)</Text>
+                {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+                {/* <Text style={styles.costContainer}>Cost(₹)</Text> */}
+                <Text style={styles.costContainer}>Cost({rupee_sign})</Text>
+                {/* End of addition by Om on 08-05-23 */}
+
               </View>
               {orderItems.map((orderItem, id) => (
                 <View key={id} style={styles.tableContainer}>
@@ -802,7 +863,11 @@ export default function OrderItemsScreen({ route, navigation }) {
                     </Text>
                     {orderItem.rating && (
                       <Text>
-                        Rating : {orderItem.rating}{" "}
+                        {/* Commeted and modified by Yuvraj Sahu on 05-05-2023
+                        Reason - to remove lable rating */}
+                        {/* Rating : {orderItem.rating}{" "} */}
+                        {orderItem.rating}{" "}
+                        {/* End of commented by Yuvraj Sahu on 05-05-2023 */}
                         <FontAwesome name="star" size={13} color="black" />
                       </Text>
                     )}
@@ -832,39 +897,98 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Text>No data</Text>
           )}
           {/* Modified by Yuvraj Sahu on 11-4-2023
-        Reason - to design order detail */}
+          Reason - to design order detail */}
           <View style={styles.totalBorder} />
           <View>
             {/* Modified by Yuvraj Sahu on 14-4-2023
-          Reason - to show total price */}
-            <View style={styles.amountRow}>
-              <Text>Total Price :</Text>
-              <Text>₹ {orderDetail.sub_total}</Text>
-            </View>
+            Reason - to show total price */}
+            {orderDetail.cgst || orderDetail.sgst? <View style={styles.amountRow}>
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text style={styles.totalPriceLables}>Total Price</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total}</Text>
+              {/* End of addition by Om shrivastava 08-05-23 */}
+            </View>:null}
             {/* Commented by Yuvraj Sahu on 17-4-2023
-          Reason - to remove gst */}
+            Reason - to remove gst */}
             {/* <View style={styles.amountRow}>
             <Text>GST :</Text>
             <Text>{orderDetail.tax}</Text>
-          </View> */}
+            </View> */}
             {/* End of removal */}
             {/* Added by Yuvraj Sahu on 17-4-2023
-          Reason - to add cgst and sgst */}
+            Reason - to add cgst and sgst */}
+            {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
+            {orderDetail.cgst ? <> 
             <View style={styles.amountRow}>
-              <Text>CGST :</Text>
-              <Text>₹ {orderDetail.cgst}</Text>
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text style={styles.totalPriceLables}>CGST</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text> */}
+              
+              <Text style={styles.totalPrices}>{rupee_sign} {orderDetail.cgst}</Text>
+              {/* End of addition by Om Shrivastava on 08-05-23    */}
+              
             </View>
+            </>:null}
+            {/* End of addition by Om shrivastava on 13-05-23 */}
+
+            {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
+            {orderDetail.sgst ? <>
             <View style={styles.amountRow}>
-              <Text>SGST :</Text>
-              <Text>₹ {orderDetail.sgst}</Text>
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text style={styles.totalPriceLables}>SGST</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.sgst}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sgst}</Text>
+              {/* End of addition by Om Shrivastava on 08-05-23    */}
+
             </View>
+            </>:null}
+            {/* End of addition by Om shrivastava on 13-05-23 */}
+
             {/* End of addition */}
             <View style={styles.amountRow}>
               {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
-              <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+              {/* <Text style={{ fontWeight: "bold", fontSize: 15 }}>
                 Grand Total :
+              </Text> */}
+              {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  textAlign: "right",
+                  width: "50%",
+                }}
+              >
+                Grand Total
               </Text>
-              <Text>₹ {orderDetail.total}</Text>
+              <Text>:</Text>
+              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+              
+              {/* // Added by Om Shrivastava on 08-05-23
+                // Reason : Create the rupee sign globally for use the context file */}
+              {/* <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text> */}
+              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total}</Text>
+              {/* End of addition by Om Shrivastava on 08-05-23    */}
             </View>
           </View>
         </View>
@@ -916,7 +1040,13 @@ export default function OrderItemsScreen({ route, navigation }) {
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
-                rowStyle={{ height: 41 }}
+                /** Added by Yuvraj Sahu on 07-05-2023
+                 * Reson - to give hieght in dropdown
+                 */
+                rowStyle={{ height: 30 }}
+                /**
+                 * End of addition by Yuvraj Sahu on 07-05-2023
+                 */
                 selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
                 dropdownStyle={{
                   borderRadius: 10,
@@ -927,14 +1057,20 @@ export default function OrderItemsScreen({ route, navigation }) {
                   return <AntDesign name="down" size={14} color="black" />;
                 }}
                 buttonStyle={{
-                  height: 41,
+                  /** Added by Yuvraj Sahu on 07-05-2023
+                   * Reson - to give hieght in dropdown
+                   */
+                  height: 30,
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
                   backgroundColor: "white",
                   width: "40%",
                   alignSelf: "center",
-                  marginBottom: 10,
+                  // marginBottom: 10,
+                  /**
+                   * End of addition by Yuvraj Sahu on 07-05-2023
+                   */
                 }}
                 onSelect={(selectedOrderStatus, index) => {
                   setOrderStatus(selectedOrderStatus.value);
@@ -952,7 +1088,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             </View>
 
             {/* Modified by Om on 20-04-23
-        Reason : When order status is served than this payment status is work */}
+            Reason : When order status is served than this payment status is work */}
             {/* {orderDetail.order_status == "Served" ? (
             <> */}
             <View style={styles.orderStatusContainer}>
@@ -997,7 +1133,13 @@ export default function OrderItemsScreen({ route, navigation }) {
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
-                rowStyle={{ height: 41 }}
+                /** Added by Yuvraj Sahu on 07-05-2023
+                 * Reson - to give hieght in dropdown
+                 */
+                rowStyle={{ height: 30 }}
+                /**
+                 * End of addition by Yuvraj Sahu on 07-05-2023
+                 */
                 selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
                 dropdownStyle={{
                   borderRadius: 10,
@@ -1008,14 +1150,20 @@ export default function OrderItemsScreen({ route, navigation }) {
                   return <AntDesign name="down" size={14} color="black" />;
                 }}
                 buttonStyle={{
-                  height: 41,
+                  /** Added by Yuvraj Sahu on 07-05-2023
+                   * Reson - to give hieght in dropdown
+                   */
+                  height: 30,
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
                   backgroundColor: "white",
                   width: "40%",
                   alignSelf: "center",
-                  marginBottom: 10,
+                  // marginBottom: 10,
+                  /**
+                   * End of addition by Yuvraj Sahu on 07-05-2023
+                   */
                 }}
                 onSelect={(selectedPaymentStatus, index) => {
                   setPaymentStatus(selectedPaymentStatus.value);
@@ -1031,7 +1179,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
             {/* </>
-          ) : null} */}
+            ) : null} */}
             {/* End of modification */}
           </View>
         </View>
@@ -1191,7 +1339,16 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingLeft: 10,
   },
-  statusContainer: {},
+  /**
+   * Added by Yuvraj Sahu on 07-05-2023
+   * Reason - to reduce gap between status lables and dropdown box
+   */
+  statusContainer: {
+    paddingHorizontal: 30,
+  },
+  /**
+   * End of addition  by Yuvraj Sahu on 07-05-2023
+   */
   orderStatusContainer: {
     display: "flex",
     flexDirection: "row",
@@ -1199,6 +1356,13 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingRight: 10,
     paddingLeft: 10,
+    /**
+     * Added by Yuvraj Sahu on 07-05-2023
+     */
+    alignItems: "center",
+    /**
+     * End of addition by yuvraj Sahu on 07-05-2023
+     */
     // backgroundColor: "white",
     borderRadius: 5,
     padding: 5,
@@ -1253,4 +1417,19 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   // End of table design
+  /**
+   * Added by yuvraj Sahu on 06-05-2023
+   * Reason - to design total price content
+   */
+  totalPriceLables: {
+    width: "50%",
+    textAlign: "right",
+  },
+  totalPrices: {
+    width: "20%",
+    textAlign: "right",
+  },
+  /**
+   * End of addition by Yuvraj Sahu on 06-05-2023
+   */
 });

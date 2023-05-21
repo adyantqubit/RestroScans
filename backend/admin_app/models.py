@@ -6,6 +6,31 @@ from ckeditor.fields import RichTextField
 #Added by Rohan Kansari- 16/4/23
 # Reason - To add plan Subcribtion feature where all feature is allow according to plan
 
+# Added by Rohan Kansari - 11/5/23
+# Reason - To set global image validate function
+def validate_image(fieldfile_obj):
+    # #    try: 
+    try:
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 200
+    except:
+      try:  
+       import os # new
+       from pathlib import Path
+       filesize=os.path.getsize(fieldfile_obj.file.name)
+       print(filesize)
+       megabyte_limit = 200
+       if filesize > megabyte_limit*1024:
+        # Changes by Rohan Kansari- 11/5/23 - Change validation message    
+        raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
+      except:
+        return     
+    if filesize > megabyte_limit*1024:
+            # Changes by Rohan Kansari- 11/5/23 - Change validation message
+            raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
+    # ENd of code - 11/5/23 - Rohan Kansari
+
+
 # In this model, we 
 class Plans(models.Model):
     plan_name=models.CharField(max_length=50,default="")
@@ -56,23 +81,25 @@ class RestaurantRequest(models.Model):
      # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
     # end of code - rohan - 20/4/23
     
     id = models.AutoField(primary_key=True)
@@ -227,23 +254,25 @@ class AppSetting(models.Model):
     # added by rohan kansari - 20/4/23
     # reason- To add validation on image , admin not able to add image more than 200kb
     # Modiefied - 21/4/23 - to Handel image resave error
-     def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+     # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
      # end of code - rohan - 20/4/23
      app_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
      adyant_logo=models.ImageField(upload_to='images/app_setting/',blank=True,null=True,validators=[validate_image])
@@ -276,7 +305,15 @@ Reason - To store App theme on react native app
 class AppTheme(models.Model):
     id = models.AutoField(primary_key=True)
     background_color =models.CharField(max_length=20,null=True,blank=True)
+    # Added by Om shrivastava on 15-05-23
+    # Reason : show the name of background color
+    background_color_label =models.CharField(max_length=20,default='')
+    # End of addition by Om Shrivastava on 15-05-23
     heading_color =models.CharField(max_length=20,null=True,blank=True)
+    # Added by Om shrivastava on 15-05-23
+    # Reason : show the name of background color
+    heading_color_label =models.CharField(max_length=20,default='')
+    # End of addition by Om Shrivastava on 15-05-23
     subheading_color =models.CharField(max_length=20,null=True,blank=True)
     banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
     heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
@@ -286,7 +323,7 @@ class AppTheme(models.Model):
     card_color=models.CharField(max_length=20,null=True,blank=True)
     
     def __str__(self):
-        return "Background Color: "+self.background_color+" | Heading Color: "+self.heading_color
+        return "Background Color: "+self.background_color_label+" | Heading Color: "+self.heading_color_label
 
 """
 End of code addition
@@ -298,10 +335,18 @@ Reason - Create for Show pricing plans on home page
 
 
 class WebsiteSetting(models.Model):
-    content = RichTextField(blank=True, null=True)
+
+    # commented & modified by- Suman sahu  On 19/05/2023
+    # reason- to make field mendatory
+    
+    # pricing_plan1 = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True
+    # )
+
     pricing_plan1 = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True
+        upload_to="images/app_setting/", default=""
     )
+
     # pricing_plan2 = models.ImageField(
     #     upload_to="images/app_setting/", blank=True, null=True
     # )
@@ -311,15 +356,21 @@ class WebsiteSetting(models.Model):
     # pricing_plan4 = models.ImageField(
     #     upload_to="images/app_setting/", blank=True, null=True
     # )
-    title = models.CharField(max_length=30, default="")
-    bottom_text = models.CharField(max_length=30, default="")
 
-    def __str__(self):
-        return self.title
+    # title = models.CharField(max_length=30, default="")
+
+    # commented by- Suman sahu On 20/05/2023
+    # title = models.CharField(max_length=30, null=True, blank=True)
+    # end of commented code by suman sahu on 20/05/2023
+
+    # end of modification by- Suman sahu  On 19/05/2023
+
+    # def __str__(self):
+    #     return self.pricing_plan1
 
 
 """
-End of code addition
+End of code addition by- Suman sahu On 24/03/2023
 """
 
 
@@ -332,35 +383,45 @@ Reason - Create for Show Gallery Details on home page
 class GallerySettings(models.Model):
     
      # Modiefied by rohan - 21/4/23 - to Handel image resave error
-    def validate_image(fieldfile_obj):
-      try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-      except:
-        try:  
-            import os # new
-            from pathlib import Path
-            filesize=os.path.getsize(fieldfile_obj.file.name)
-            print(filesize)
-            megabyte_limit = 200
-            if filesize > megabyte_limit*1024:
-                raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-        except:
-                return     
-      if filesize > megabyte_limit*1024:
-            raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # Commented by Rohan kansari- 11/5/23 - define it globally
+    # def validate_image(fieldfile_obj):
+    #   try:
+    #     filesize = fieldfile_obj.file.size
+    #     megabyte_limit = 200
+    #   except:
+    #     try:  
+    #         import os # new
+    #         from pathlib import Path
+    #         filesize=os.path.getsize(fieldfile_obj.file.name)
+    #         print(filesize)
+    #         megabyte_limit = 200
+    #         if filesize > megabyte_limit*1024:
+    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    #     except:
+    #             return     
+    #   if filesize > megabyte_limit*1024:
+    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
+    # End of commentation - Rohan kansari - 11/5/23
         
         
+    # Commented and modified by Suman sahu On 19/05/2023
+    # reason- for make mendatory image field
+
+    # gallery = models.ImageField(
+    #     upload_to="images/app_setting/", blank=True, null=True,validators=[validate_image])
+
     gallery = models.ImageField(
-        upload_to="images/app_setting/", blank=True, null=True,validators=[validate_image])
+        upload_to="images/app_setting/", default="",validators=[validate_image])
     title = models.CharField(max_length=30, default="")
+
+    # End of code by Suman sahu On 19/05/2023
 
     def __str__(self):
         return self.title
 
 
 """
-End of code addition
+End of code addition by- Suman sahu On 24/03/2023
 """
 
 """-------------------------------------------------------------------
@@ -372,16 +433,18 @@ Reason - To store Restroscans requests
 class GetRestroscansRequest(models.Model):
     id = models.AutoField(primary_key=True)
     restaurant_name = models.CharField(max_length=255, default="")
-    owner_name = models.CharField(max_length=255, default="")
+    owner_name = models.CharField(max_length=50, default="")
     email = models.EmailField()
-    mobile_number = models.CharField(max_length=15, default="", unique=True)
+    # mobile_number = models.CharField(max_length=15, default="", unique=True)
+    mobile_number = models.CharField(max_length=15, default="")
+
 
     def __str__(self):
         return self.restaurant_name
 
 
 """
-End of code addition 13-04-2023
+End of code addition by- Suman sahu On 13-04-2023
 """
 
 """-------------------------------------------------------------------
@@ -392,15 +455,64 @@ Reason - To store Contact Us form
 
 class ContactUsRequest(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20, default="")
+    name = models.CharField(max_length=50, default="")
     email = models.EmailField()
-    mobile_number = models.CharField(max_length=15, default="", unique=True)
-    query = models.TextField()
+    # mobile_number = models.CharField(max_length=15, default="", unique=True)
+    mobile_number = models.CharField(max_length=15, default="")
+    query = models.TextField(max_length=255)
 
     def __str__(self):
         return self.name
 
 
 """
-End of code addition 13-04-2023
+End of code addition by- Suman sahu On 14-04-2023
+"""
+
+"""
+Added by - Suman Sahu on 17-05-2023
+Reason - Create for Show pricing plans on home page 
+"""
+
+
+class PricingPlans(models.Model):
+
+    # commented & modified by- Suman sahu  On 19/05/2023
+    # reason- to make field mendatory
+
+    # pricing_logo = models.ImageField(upload_to="images/app_setting/", blank=True, null=True)
+    # pricing_title = models.CharField(max_length=50,null=True, blank=True)
+    # content = RichTextField(blank=True, null=True)
+
+    pricing_logo = models.ImageField(upload_to="images/app_setting/", default="")
+    pricing_title = models.CharField(max_length=50,default="")
+    content = RichTextField(default="")
+
+    # end of modification by- Suman sahu  On 19/05/2023
+
+    def __str__(self):
+        return self.pricing_title
+
+
+"""
+End of code addition by- Suman sahu On 17-05-2023
+"""
+
+"""-------------------------------------------------------------------
+Added by - Suman Sahu on 18-05-2023
+Reason - Create for Show Customer Feedback Details
+"""
+
+
+class CustomerFeedback(models.Model):     
+    date = models.DateField(auto_now_add=True,blank=True)
+    title = models.CharField(max_length=30, default="")
+    description =models.TextField()
+
+    def __str__(self):
+        return self.title
+
+
+"""
+End of code addition by- Suman sahu On 18/05/2023
 """

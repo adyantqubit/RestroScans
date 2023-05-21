@@ -39,6 +39,17 @@ function RestroScans() {
       document.getElementById("ownerName").innerText = "";
     }
 
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in owner name input field
+    if (owner.owner_name.length > 50) {
+      document.getElementById("ownerName").innerText =
+        "Name should be below 50 characters";
+      return false;
+    } else {
+      document.getElementById("ownerName").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
+
     if (owner.restaurant_name === "") {
       document.getElementById("restaurant_name").innerText =
         "Please enter restaurant name";
@@ -61,6 +72,27 @@ function RestroScans() {
     } else {
       document.getElementById("mobile_number").innerText = "";
     }
+    // Added by- Suman sahu On 19/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (owner.mobile_number.length > 10) {
+      document.getElementById("mobile_number").innerText =
+        "Please enter only 10 digits";
+      return false;
+    } else {
+      document.getElementById("mobile_number").innerText = "";
+    }
+    // End of addition by Suman sahu On 19/05/2023
+
+    // Added by- Suman sahu On 20/05/2023
+    // Reason- for show length validation in mobile number input field
+    if (owner.mobile_number.length < 10) {
+      document.getElementById("mobile_number").innerText =
+        "Please enter atleast 10 digits";
+      return false;
+    } else {
+      document.getElementById("mobile_number").innerText = "";
+    }
+    // End of addition by Suman sahu On 20/05/2023
 
     const response = await RestaurantRequestPostApi(owner);
     if (response["success"]) {
@@ -84,6 +116,33 @@ function RestroScans() {
     }
   };
   // End of added code 13/04/2023
+
+  // Added by:- Suman sahu  Date:- 19/05/2023
+  // Reason:- When click on cancel button, that fuction will be call
+  const ResetForm = async () => {
+    document.getElementById("form").reset();
+    // added by- Suman sahu On 20/05/2023
+    // reset error message after click cancle button
+    var arr = document.getElementsByClassName("restroscans_error_msg");
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].innerHTML = "";
+    }
+    // end of addition by- Suman sahu On 20/05/2023
+  };
+  // End of added code by- Suman sahu On 19/05/2023
+
+  // Added by- Suman sahu On 19/05/2023
+  // Reason- show validation when user type characters in mobile number input field
+  function validate(evt) {
+    evt = evt ? evt : window.event;
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  // End of addition by Suman sahu On 19/05/2023
   return (
     <>
       <div className="restroscans_container" id="restro">
@@ -101,7 +160,7 @@ function RestroScans() {
                   className="input_box"
                   type="text"
                   name="owner_name"
-                  placeholder="Owner Name"
+                  placeholder="* Owner Name"
                 />
                 <p id="ownerName" className="restroscans_error_msg"></p>
               </div>
@@ -112,7 +171,7 @@ function RestroScans() {
                   className="input_box"
                   type="text"
                   name="restaurant_name"
-                  placeholder="Restaurant Name"
+                  placeholder="* Restaurant Name"
                 />
                 <p id="restaurant_name" className="restroscans_error_msg"></p>
               </div>
@@ -123,7 +182,7 @@ function RestroScans() {
                   className="input_box"
                   type="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder="* Email"
                 />
                 <p id="email" className="restroscans_error_msg"></p>
               </div>
@@ -132,9 +191,10 @@ function RestroScans() {
                 <FontAwesomeIcon icon={faPhone} className="input_icons" />
                 <input
                   className="input_box"
-                  type="text"
+                  type="number"
+                  onkeypress={(e) => validate(e)}
                   name="mobile_number"
-                  placeholder="Mobile Number"
+                  placeholder="* Mobile Number"
                   maxLength={10}
                 />
                 <p id="mobile_number" className="restroscans_error_msg"></p>
@@ -148,7 +208,8 @@ function RestroScans() {
               <button
                 className="submit_btn"
                 type="button"
-                onClick={() => navigate(-1)}
+                // onClick={() => navigate(-1)}
+                onClick={ResetForm}
               >
                 Cancel
               </button>

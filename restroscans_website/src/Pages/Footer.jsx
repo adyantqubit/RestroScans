@@ -13,6 +13,7 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import Adyant from "../images/adyant.png";
+import Adyant1 from "../images/adyant1.png";
 
 const Footer = () => {
   // Added by:- Suman sahu  Date:- 07/04/2023
@@ -87,13 +88,15 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer_section_2">
+          <img src={Adyant1} className="footer_adyant_logo" />
           <h5 className="footer_heading">Copyright © 2023 restroscans</h5>
           <Link
             className="adyant_footer_link"
             onClick={() => opeenSiteOfAdyant("https://adyant.co.in/")}
           >
             <h6 className="adyant">
-              Powered by <img src={Adyant} className="footer_adyant_logo" />
+              Powered by Adyant
+              {/* <img src={Adyant} className="footer_adyant_logo" /> */}
             </h6>
           </Link>
         </div>

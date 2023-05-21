@@ -8,6 +8,7 @@ import datetime
 from django.utils.timezone import timedelta
 from django.db.models.functions import TruncMonth
 from django.db.models import Sum
+from backend.config import * 
 
 register = template.Library()
 
@@ -149,15 +150,26 @@ def getTodaysOrders(context):
     revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
     summary["total_revenue"]=revenue["total__sum"]
     data["this_years_summary"]=summary
-
-    todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+    # Modified and added by Om on 06-05-23
+    # Reason : Arrange the date than show in descending order
+    # todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+    todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by('-date')
+    # End of addition by Om on 06-05-23
     todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
 
     from django.db.models import Q
-    todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+    # Modified and added by Om on 06-05-23
+    # Reason : Arrange the date than show in descending order
+    # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+    todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending').order_by('-date')
+    # End of addition by Om on 06-05-23
     todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
 
-    todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+    # Modified and added by Om on 06-05-23
+    # Reason : Arrange the date than show in descending order
+    # todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+    todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by('-date')
+    # End of addition by Om on 06-05-23
     todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
     from django.conf import settings
@@ -170,7 +182,11 @@ def getTodaysOrders(context):
         "todays_newly_placed_orders":todays_newly_placed_orders,
         "todays_completed_orders":todays_completed_orders,
         "request":request,
-        "http_method":http_method
+        "http_method":http_method,
+        # Added by Om Shrivastava on 07-05-23
+        # Reason : Show the rupees sign from using another file
+        'rupee_symbol':rupee_sign,
+        # End of addition
     }
 
 # End of code addition by Ashish Dewangan on 26-04-2023
@@ -185,3 +201,24 @@ def divide(value, arg):
     except (ValueError, ZeroDivisionError):
         return None
 # End of addition
+
+# Added by - Om Shrivastava on 11-05-2023
+# Reason - Create multiply method than use in receipt.html file.
+   
+@register.filter
+def multiply(qty, unit_price, *args, **kwargs):
+    # you would need to do any localization of the result here
+    return qty * unit_price
+# End of addition by Om Shrivastava 
+
+
+# Added by ROhankansari -12/5/23
+# Reason - TO split string
+@register.filter(name='split')
+def split(value, key):
+    """
+        Returns the value turned into a list.
+    """
+    return value.split(key)
+
+# End of code Rohan kansari- 12/5/23

@@ -89,7 +89,12 @@ export default function RatingAndReview() {
                         <>
                             <div className='rating_review_data_container' id={"order" + items.id} key={index}>
                                 <div className='rating_data_container'>
-                                    <div className='orderitem_name'>{items.item}</div>
+                                    {/* Commented and modified by Ashish Dewangan on 21-05-2023
+                                    Reason - To show half and full price on rating and review */}
+                                    {/* <div className='orderitem_name'>{items.item }</div> */}
+                                    <div className='orderitem_name'>{items.item } ({items.serving_size})</div>
+                                    {/* End of code modification by Ashish Dewangan on 21-05-2023 to show half and
+                                    full price on rating and review*/}
                                     <div className='rating_container' id={"order" + items.id + "rating"} name="rating" >
                                         <Rate name="rating" onChange={e => getRatingValue(items.id, e)} />
                                         <input name="rating" id={"order" + items.id + "rating"} style={{ display: "none" }} />

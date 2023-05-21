@@ -16,6 +16,7 @@ from admin_app.models import RestaurantRequest
 import datetime
 from django.utils.timezone import timedelta
 # from django.utils.timezone import datetime
+from backend.config import * 
 
 """
 Added by - Ashish Dewangan on 08-02-2023
@@ -63,6 +64,8 @@ class TenantAPIView(APIView):
 
 # added by rohan - 13/4/23
 # reason- to get top 10 best product
+# Modification and commented by Om Shrivastava on 19-05-23
+# Reason : Show only bestseller checkbox option  
 def getBestproduct():
     allItems = OrderItem.objects.all()
     tempSort = []
@@ -89,31 +92,36 @@ def getBestproduct():
     for best in bestProducts:
         bests.append({
             "item":best.id,
-            "rating":5.0
+            # "rating":5.0
         })
     
     sortedData = bests
     # end of code - 16/4/23
-    for item in tempSort:
-        OneProductRating = OrderItem.objects.filter(item_id=item['item'])
-        rating = []
-        for orderItem in OneProductRating:
-            if orderItem.rating is not None:
-                rating.append(float(orderItem.rating))
+    # for item in tempSort:
+    #     OneProductRating = OrderItem.objects.filter(item_id=item['item'])
+    #     rating = []
+    #     for orderItem in OneProductRating:
+    #         if orderItem.rating is not None:
+    #             rating.append(float(orderItem.rating))
 
         # added by rohan - 15/4/23
         # Reason - To solve rating devide by zero issue
-        if rating.__len__() !=0:
-            sortedData.append(
-                {
-                    "item": item['item'].id,
-                    "rating": sum(rating)/float(rating.__len__()),
-                    # "count":rating.__len__()
-                }
-        )
+        # if rating.__len__() !=0:
+        #     sortedData.append(
+        #         {
+        #             "item": item['item'].id,
+        #             "rating": sum(rating)/float(rating.__len__()),
+        #             # "count":rating.__len__()
+        #         }
+        # )
 
-    list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
-    return list[:10]
+    # list = sorted(sortedData, key=lambda k: k['rating'], reverse=True)
+    # Modification and addition by Om Shrivastava on 19-05-23
+    # Reason : Show only bestseller checkbox option 
+    # return list[:10]
+    return bests[:10]
+    # End of modification and addition by Om shrivastava on 19-05-23
+# End of modification and commented by Om Shrivastava on 19-05-23
 # end of code 13/4/23
 
 
@@ -391,7 +399,11 @@ class OfferItemsAPIView(APIView):
             return Response({"msg": "Banner/Offer Item Added Successfully"}, status=status.HTTP_201_CREATED)
         # Modification by Om on 14-04-23
         # Reason : Chagne the error method
-        return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        # Added by Yuvraj Sahu on 07-05-2023
+        # Reason - to remove bad request error 
+        # return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_200_OK)
+        # End of addition by Yuvraj Sahu on 07-05-2023
         # End of moodification
     # End of addition
 
@@ -531,7 +543,10 @@ def orderCreation(tenant, request):
         item = Item.objects.get(id=cart['id'])
         discounted = 0
         if allOffer.filter(item_name=item).count() > 0:
-            discounted = allOffer.get(item_name=item).offer_name.discount
+            # Modified by Rohan Kansari - 11/5/23
+            # Reason - If discount is none then do nothing
+            if allOffer.get(item_name=item).offer_name.discount is not None:
+               discounted = allOffer.get(item_name=item).offer_name.discount
         if (cart['serve_size'] == "Half Plate"):
             # Added by Rohan kansari -  1/5/23
             # Reason - becuase discount is throwing issue if discount is not in float
@@ -545,7 +560,8 @@ def orderCreation(tenant, request):
 
         itemsPrice.append(price)
 
-    cartData['sub_total'] = float("{:.2f}".format(sum(itemsPrice)))
+    # cartData['sub_total'] = float("{:.2f}".format(sum(itemsPrice)))
+    cartData['sub_total'] =round(float("{:.2f}".format(sum(itemsPrice))),2)
 
     tax = Setting.objects.first()
 
@@ -560,11 +576,11 @@ def orderCreation(tenant, request):
 
         # added by rohan-14/4/23 to save tax on cgst and scgt
         # cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
-        cartData['cgst'] = float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100))
-        cartData['sgst'] = float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100))
+        cartData['cgst'] =round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+        cartData['sgst'] = round(float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
         # end of addition
         a = (sum(itemsPrice)*(tax.cgst))/100+(sum(itemsPrice)*(tax.sgst))/100
-        cartData['total'] = float("{:.2f}".format((a + sum(itemsPrice))))
+        cartData['total'] = round(float("{:.2f}".format((a + sum(itemsPrice)))),2)
 
     else:
         # cartData['tax'] = 0
@@ -573,7 +589,7 @@ def orderCreation(tenant, request):
         cartData['cgst'] = 0
         cartData['sgst'] = 0
         # end of code
-        cartData['total'] = float("{:.2f}".format((sum(itemsPrice))))
+        cartData['total'] =round( float("{:.2f}".format((sum(itemsPrice)))),2)
 
     orderSerializer = OrderSerializer(data=cartData)
     order_obj = 0
@@ -601,7 +617,10 @@ def orderItemsCreation(request, order_obj):
         item = Item.objects.get(id=cart['id'])
         discounted = 0
         if allOffer.filter(item_name=item).count() > 0:
-            discounted = allOffer.get(item_name=item).offer_name.discount
+            # Modified by Rohan Kansari - 11/5/23
+            # Reason - If discount is none then do nothing
+            if allOffer.get(item_name=item).offer_name.discount is not None:
+               discounted = allOffer.get(item_name=item).offer_name.discount
         cartData["item_id"] = item.id
         cartData['order_id'] = order_obj.id
         cartData['item'] = cart['name']
@@ -755,6 +774,10 @@ class PostCustomerDetailsAPIView(APIView):
 
             # Modified by :- Parineeta Gedam
             customerDetails.last_customer_name = request.data['name']
+            # Added by Yuvraj Sahu on 05-05-2023
+            # Reason - to save latest email id of customer
+            customerDetails.last_email = request.data['email']
+            # End of addition by Yuvraj Sahu on 05-05-2023
             customerDetails.save()
             # End of added code 17-04-2023
 
@@ -851,7 +874,10 @@ class updateOrdersAPIView(APIView):
             item = Item.objects.get(id=cart['item_id'])
             discounted = 0
             if allOffer.filter(item_name=item).count() > 0:
-                discounted = allOffer.get(item_name=item).offer_name.discount
+                # Modified by Rohan Kansari - 11/5/23
+                # Reason - If discount is none then do nothing
+                if allOffer.get(item_name=item).offer_name.discount is not None:
+                   discounted = allOffer.get(item_name=item).offer_name.discount
                 # Modified by:-  parineeta- 24/4/23
                 # Reason - We changed half plate to half string so, this if matching condition occurs  
             if (cart['serving_size'] == "Half"):
@@ -866,7 +892,7 @@ class updateOrdersAPIView(APIView):
                     item.price_full * cart['quantity']/100)*float(discounted)
 
             itemsPrice.append(price)
-        orderId.sub_total = float("{:.2f}".format((sum(itemsPrice))))
+        orderId.sub_total = round(float("{:.2f}".format((sum(itemsPrice)))),2)
 
         tax = Setting.objects.first()
 
@@ -895,10 +921,10 @@ class updateOrdersAPIView(APIView):
             sgst = (sum(itemsPrice)*(tax.sgst))/100
             a = (sum(itemsPrice)*(cgst))/100 + (sum(itemsPrice)*(sgst))/100
 
-            orderId.cgst = float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100))
-            orderId.sgst = float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100))
+            orderId.cgst = round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+            orderId.sgst =round( float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
 
-            orderId.total = float("{:.2f}".format(orderId.sub_total+orderId.cgst+orderId.sgst))
+            orderId.total = round(float("{:.2f}".format(orderId.sub_total+orderId.cgst+orderId.sgst)),2)
 
             orderId.order_status = "Placed"
 
@@ -919,7 +945,7 @@ class updateOrdersAPIView(APIView):
             # tax.sgst = 0
             orderId.cgst = 0
             orderId.sgst = 0
-            orderId.total = float("{:.2f}".format(sum(itemsPrice)))
+            orderId.total =round( float("{:.2f}".format(sum(itemsPrice))),2)
 
             # End of commented code 16-04-2023
 
@@ -1399,12 +1425,20 @@ def generate_pdf_view(request, pk):
     tenant = Tenant.objects.get(tenant_name=schemaName)
     restaurant_details = {
         "name": tenant.restaurant_name.restaurant_name,
-        "address": tenant.restaurant_name.address
+        "address": tenant.restaurant_name.address,
+        # Added by Om on 07-05-23
+        # Reason : Show the rupee sign which comes from config.py file
+        "rupee_symbol":rupee_sign
+        # End of the code by Om on 07-05-23
     }
     restaurant_settings = Setting.objects.all().values()
     
     order = Order.objects.get(id=pk)
-    order_details = OrderItem.objects.filter(order_id = order)
+    # Modification and addition by Om Shrivastava on 13-05-23
+    # Reason : Show the order by their id
+    # order_details = OrderItem.objects.filter(order_id = order)
+    order_details = OrderItem.objects.filter(order_id = order).order_by('id')
+    # End of commented and addition by Om Shrivastava on 13-05-23
     
     rate = [] 
     for items in order_details : 
@@ -1423,12 +1457,17 @@ def generate_pdf_view(request, pk):
     #     sgst = subtotal * (gst_items['sgst'])
         
     total_amount = order.total    
+
+    # Added by ROhanKansari - 12/5/23 - To pass customer detail also
+    customer=CustomerDetail.objects.get(id=order.customer_id.id)
+    customerSearializer=CustomerDetailSerializer(customer)
+    
     
     template = get_template('admin/receipt.html')
-    html_string = template.render({'restaurant_settings': restaurant_settings,'restaurant_details': restaurant_details, 'order': order, 'order_items': order_details,"sub_total" : subtotal,
+    html_string = template.render({'restaurant_settings': restaurant_settings,"customer":customerSearializer.data,'restaurant_details': restaurant_details, 'order': order, 'order_items': order_details,"sub_total" : subtotal,
                                 #    'cgst' : cgst,'sgst':sgst,
                                     'total_amount': total_amount,"rate" : rate})
-
+    # End of code - ROhankansari - 12/5/23
     html = HTML(string=html_string)
     result = io.BytesIO()
     html.write_pdf(result, stylesheets=[CSS(string='@page {  size: 3.5in 8in; margin: 0; }')])
@@ -1457,7 +1496,7 @@ def generate_pdf_kot_view(request, pk):
     restaurant_settings = Setting.objects.all().values()
     
     order = Order.objects.get(id=pk)
-    order_details = OrderItem.objects.filter(order_id = order)
+    order_details = OrderItem.objects.filter(order_id = order).order_by('id')
     
     rate = [] 
     for items in order_details : 
@@ -1504,7 +1543,11 @@ def order_report(request,report_period):
     tenant = Tenant.objects.get(tenant_name=schemaName)
     restaurant_details = {
         "name": tenant.restaurant_name.restaurant_name,
-        "address": tenant.restaurant_name.address
+        "address": tenant.restaurant_name.address,
+        # Added by Om on 07-05-23
+        # Reason : Show the rupee sign which comes from config.py file
+        "rupee_symbol":rupee_sign
+        # End of the code by Om on 07-05-23
     }
 
     today=datetime.date.today()
@@ -1545,7 +1588,7 @@ def order_report(request,report_period):
     
     html = HTML(string=html_string)
     result = io.BytesIO()
-    html.write_pdf(result, stylesheets=[CSS(string='')])
+    html.write_pdf(result, stylesheets=[CSS(string='@page {    size: A4; margin: 2rem;  }')])
     result.seek(0)
 
     response = HttpResponse( result,content_type='application/pdf')
@@ -1573,7 +1616,11 @@ def item_report(request,report_period):
     tenant = Tenant.objects.get(tenant_name=schemaName)
     restaurant_details = {
         "name": tenant.restaurant_name.restaurant_name,
-        "address": tenant.restaurant_name.address
+        "address": tenant.restaurant_name.address,
+        # Added by Om on 07-05-23
+        # Reason : Show the rupee sign which comes from config.py file
+        "rupee_symbol":rupee_sign
+        # End of the code by Om on 07-05-23
     }
 
     today=datetime.date.today()
@@ -1614,7 +1661,8 @@ def item_report(request,report_period):
     
     html = HTML(string=html_string)
     result = io.BytesIO()
-    html.write_pdf(result, stylesheets=[CSS(string='')])
+
+    html.write_pdf(result, stylesheets=[CSS(string='@page {    size: A4; margin: 2rem;  }')])
     result.seek(0)
 
     response = HttpResponse( result,content_type='application/pdf')

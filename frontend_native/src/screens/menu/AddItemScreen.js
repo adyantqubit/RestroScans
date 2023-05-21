@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { getMenuList, saveCategoryApi, saveItemApi } from "../../api/Services";
-import { colors } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -181,6 +181,10 @@ export default function AddItemScreen() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
+      /**
+       * Modified by yuvraj Sahu on 05-05-2023
+       * Reason - to img not upload if img size is bigger
+       */
       // Modified by Yuvraj Sahu on 28-4-2023
       // Reason - to add same width and height on image
       aspect: [4, 4],
@@ -188,20 +192,29 @@ export default function AddItemScreen() {
       base64: true,
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setUploadedFileName(result.assets[0].fileName);
-      setTempPhoto(result.assets[0]);
-      setImgRequired(false);
-      // Added by Suman Sahu on 29-4-2023
-      // Reason - to show validation msg image filed when user upload image above 200kb
-      const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
-      if (fileSize > 200000) {
-        setFileSizeError(true);
-      } else {
+    // Added by Suman Sahu on 29-4-2023
+    // Reason - to show validation msg image filed when user upload image above 200kb
+    /**
+     * Commeted and Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to give image size validation
+     */
+    // const fileSize = result.assets[0].base64.length * (3 / 4) - 2;
+    const fileSize = (result.assets[0].base64.length + 2 * 4) / 3;
+    /**
+     * End of comment by Yuvraj Sahu on 05-05-2023
+     */ if (fileSize > 200000) {
+      setFileSizeError(true);
+    } else {
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        setUploadedFileName(result.assets[0].fileName);
+        setTempPhoto(result.assets[0]);
+        setImgRequired(false);
         setFileSizeError(false);
       }
-      // End of addition 29-04-2023
+      /**
+       * End of modification by Yuvraj Sahu on 05-05-2023
+       */
     }
   };
 
@@ -669,7 +682,7 @@ export default function AddItemScreen() {
               // <ScrollView style={styles.container}>
               <View>
                 <Text style={styles.labels}>
-                  <Text style={{ color: "red" }}>*</Text>Select Category
+                  <Text style={{ color: "red" }}>* </Text>Select Category
                 </Text>
                 <SelectDropdown
                   data={categories}
@@ -691,7 +704,15 @@ export default function AddItemScreen() {
                     return <AntDesign name="down" size={14} color="black" />;
                   }}
                   buttonStyle={{
-                    height: 41,
+                    /**
+                     * Added by yuvraj Sahu on 05-05-2023
+                     * Reason - to set hright of input box
+                     */
+                    // height: 41,
+                    height: inputs.inputBoxHeight,
+                    /**
+                     * End of set input box height by yuvraj Sahu on 05-05-2023
+                     */
                     borderColor: "black",
                     borderWidth: 1,
                     borderRadius: 10,
@@ -725,7 +746,7 @@ export default function AddItemScreen() {
 
                 <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}>
-                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    <Text style={{ color: "red", fontWeight: "650" }}> * </Text>
                     Item name
                   </Text>
                   <TextInput
@@ -745,7 +766,7 @@ export default function AddItemScreen() {
                 </View>
 
                 <Text style={styles.labels}>
-                  <Text style={{ color: "red" }}>*</Text>Select Item Type
+                  <Text style={{ color: "red" }}>* </Text>Select Item Type
                 </Text>
                 <SelectDropdown
                   // Added by Yuvraj Sahu on 28-4-2023
@@ -771,7 +792,15 @@ export default function AddItemScreen() {
                     return <AntDesign name="down" size={14} color="black" />;
                   }}
                   buttonStyle={{
-                    height: 41,
+                    /**
+                     * Added by yuvraj Sahu on 05-05-2023
+                     * Reason - to set hright of input box
+                     */
+                    // height: 41,
+                    height: inputs.inputBoxHeight,
+                    /**
+                     * End of set input box height by yuvraj Sahu on 05-05-2023
+                     */
                     borderColor: "black",
                     borderWidth: 1,
                     borderRadius: 10,
@@ -1047,7 +1076,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 41,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,
@@ -1057,6 +1094,14 @@ const styles = StyleSheet.create({
   },
   labels: {
     paddingHorizontal: 10,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to gap lable and input box
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by yuvraj Sahu on 05-05-2023
+     */
   },
   textdanger: {
     color: "#dc3545",

@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { getSettingApi, saveSettingApi } from "../api/Services";
-import { colors } from "../Colours/globalColor";
+import { colors, inputs } from "../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 import { AppStateContext } from "../context/AppStateProvider";
 import Checkbox from "expo-checkbox";
@@ -933,7 +933,15 @@ export default function SettingScreen({ navigation }) {
                       return <AntDesign name="down" size={14} color="black" />;
                     }}
                     buttonStyle={{
-                      height: 41,
+                      /**
+                       * Added by yuvraj Sahu on 05-05-2023
+                       * Reason - to set hright of input box
+                       */
+                      // height: 41,
+                      height: inputs.inputBoxHeight,
+                      /**
+                       * End of set input box height by yuvraj Sahu on 05-05-2023
+                       */
                       borderColor: "black",
                       borderWidth: 1,
                       borderRadius: 10,
@@ -1168,7 +1176,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    height: 41,
+    /**
+     * Modified by yuvraj Sahu on 05-05-2023
+     * Reason - to increase height due to scroll issue
+     */
+    // height: 41,
+    height: inputs.inputBoxHeight,
+    /**
+     * End of modification by Yuvraj Sahu on 05-05-2023
+     */
     margin: 12,
     borderWidth: 1,
     padding: 10,

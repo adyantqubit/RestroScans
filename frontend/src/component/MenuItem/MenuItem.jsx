@@ -14,6 +14,7 @@ import 'flipping-pages/dist/style.css';
 import { GlobalContext } from "../../context/Context";
 import { useContext } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
+import ReactPlayer from 'react-player'
 import noOfferItem from "../../images/offer_default.jpg"
 import nodataImg from '../../images/not_offer.png'
 import noOfferImg from "../../images/offer_default.jpg"
@@ -24,7 +25,7 @@ import nonVegIcon from '../../images/nonveg_icon.png'
 import landscapeMode from '../../images/landscape.png'
 import { MdRoomService, MdOutlineKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { GoSearch } from "react-icons/go";
-import {BsBoxArrowUpLeft} from "react-icons/bs";
+import {IoLogoYoutube} from "react-icons/io";
 import offer_comming_soon_img from '../../images/offer_comming_soon_img.jpg';
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
@@ -54,9 +55,11 @@ function MenuItem() {
   TenantValidate()
   // end of code - rohan kansari -17/4/23
   var { searchedValue,
-    setSearchedValue, colors, cart, subscribePlan } = useContext(GlobalContext);
+    setSearchedValue, colors, cart, subscribePlan,rupee_sign } = useContext(GlobalContext);
 
-  console.log("----------------------subscribePlan", subscribePlan)
+    // Added by Rohankansari - 8/5/23
+    const videoRef = useRef(null);
+
   const [menuList, setmenuList] = useState([]); // Our menu set in this variable
   const [categoryList, setCategoryList] = useState([]); // Our Category set in this variable
   const [itemList, setItemList] = useState([]); // Our Item set in this variable
@@ -81,7 +84,10 @@ function MenuItem() {
     setOfferShow([])
 
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
-    // document.getElementById('hide_search').style.display = 'block'
+    // Uncommented by Om Shrivastava on 17-05-23
+    // Reason : When user click the menu than search box is enable
+    document.getElementById('hide_search').style.display = 'block'
+    // End of uncommented by Om Shrivastava on 17-05-23
     // commented by ROhan kansari- 27/4/23
     // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
@@ -118,8 +124,10 @@ function MenuItem() {
 
   const onOfferShow = (item) => {
     setOfferShow(offerList.filter((show) => show.offer_name == item))
-
-    // document.getElementById('hide_search').style.display = 'none';
+    // Uncommented by Om Shrivastava on 17-05-23
+    // Reason : When user click the menu than search box is enable
+    document.getElementById('hide_search').style.display = 'none';
+    // End of uncommented by Om Shrivastava on 17-05-23
 
     setNewSearch("")
 
@@ -153,6 +161,8 @@ function MenuItem() {
   useEffect(() => {
     getMenu(tenantt);
     getOffer(tenantt);
+    // Added by Rohan kansari- 8/5/23 - To save video targeting node
+    setVidRef(document.querySelector(".react-player"));
     // getRestroName(tenantt)
   }, []);
 
@@ -228,7 +238,11 @@ function MenuItem() {
   const divOfferRemove = () => {
     setOfferShow([])
     // Modified by :- Parineeta Gedam Date :- 05-04-2023
-    // document.getElementById('hide_search').style.display = 'block'
+    // Uncommented by Om Shrivastava on 17-05-23
+    // Reason : When user click the menu than search box is enable
+    document.getElementById('hide_search').style.display = 'block'
+    // End of uncommented by Om Shrivastava on 17-05-23
+
     // document.getElementById('hide_search').style.display = 'flex'
     // End of added code 05-04-2023
   };
@@ -345,6 +359,9 @@ function MenuItem() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
+    // Added by Om Shrivastava on 17-05-23
+    document.getElementById('hide_search').style.display = 'block';
+    // End of addition by 17-05-023
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -661,35 +678,43 @@ function MenuItem() {
 
   // Added by ROhanakansari - 30/4/23
   // Reason- TO stop youtube video on prev and next button click of slider
-  var stopAllYouTubeVideos = () => { 
-    var iframes = document.getElementsByClassName('iframe');
-    for (var i=0;i<iframes.length;i++){
-      var temp=iframes[i].src
-      iframes[i].src=temp
-    }  
-  }
-  
+  // Removed by Rohan Kansari - 8//5/23 
+  // Reason - Becuase no longer in use , video functionality is changed
+  // var stopAllYouTubeVideos = () => {
+    // var iframes = document.getElementsByClassName('iframe');
+    // for (var i=0;i<iframes.length;i++){
+    //   var temp=iframes[i].src
+    //   iframes[i].src=temp
+    // }  
+  // }
+
   // End of code- ROhankansari 
 
   // Added by Rohan kansari- 3/5/23
   // Reaon - to hide menu drawer in 6 second if its open
- 
-  useEffect(()=>{
-    var interval;
-   if(menuListVisible){
-    document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh" 
-    document.getElementById("category_container").className="category_container"
-   interval=setTimeout(()=>{
-     setmenuListVisiblity(false)
-   },6000)
-  }
-   else{
-    document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh" 
-    document.getElementById("category_container").className+=" newHieght"
-    window.clearTimeout(interval)
-   }
-  },[menuListVisible])
+  // Modified by Rohankansari - 8/5/23
+  // Reason - To save id of timeout in ref and clear it on new thread generation
+  var interval=useRef({render:null});
+  useEffect(() => {
+    
+    if (menuListVisible) {
+      if(interval.current.render)window.clearTimeout(interval.current.render);
+      document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh"
+      document.getElementById("category_container").className = "category_container"
+      interval.current.render = setTimeout(() => {
+        setmenuListVisiblity(false)
+        console.log("-------------------hit timeout")
+      }, 6000)
+    }
+    else {
+      document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh"
+      document.getElementById("category_container").className += " newHieght"
+      window.clearTimeout(interval.current.render)
+    }
 
+    
+  }, [menuListVisible])
+   // end of code by Rohan kansari - 8/5/23
   // End of code- 3/5/23
   
   // Added by - Suman sahu  On 05/05/2023
@@ -708,6 +733,18 @@ function MenuItem() {
     }
   };
   // End of addition 05/05/2023
+
+
+  // Added by Rohan Kansari- 8/5/23
+  // Reason - To handle video in banner
+  const [playVideo, setVideo] = useState({})
+  const [vidRef, setVidRef] = useState(null);
+  function setVideoPlayingToggle(id){
+
+    var key=`video${id}`
+    setVideo({ [key]:!playVideo[`video${id}`]})
+  }
+  // End of code - 8/5/23
 
   return (
     <>
@@ -860,9 +897,18 @@ function MenuItem() {
               // , Mousewheel, Keyboard]}
               className="mySwiper"
 
-              onNavigationPrev={e=>{stopAllYouTubeVideos()}}
-              onNavigationNext={e=>{stopAllYouTubeVideos()}}
+              // Added by Rohan Kansari- 8/5/23
+              // Reason - To handle video in banner
+
+              // Added by Om Shrivastava on 15-05-23
+              // Reason : When user change the slide than video is stop automatically
+              onSlideChange={e => { var key= Object.keys(playVideo); setVideo({[key[0]]:false})}}
+              // End of addition by Om Shrivastava on 15-05-23
               
+              onNavigationPrev={e => {var key= Object.keys(playVideo); setVideo({[key[0]]:false}) }}
+              onNavigationNext={e => { var key= Object.keys(playVideo); setVideo({[key[0]]:false})}}
+              // End of code - Rohan kansari- 8/5/23
+
             >
 
               {offerBanner.map((item, id) => (
@@ -927,7 +973,14 @@ function MenuItem() {
 
                           }}/> */}
                           {/* End of code - ROhan kansari - 28/4/23 */}
-                          <iframe width="100%" height="100%" className="iframe" src={`${item.video_link}?controls=0&rel=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"/>
+                          {/* // Added by Rohan Kansari- 8/5/23
+                            // Reason - To handle video in banner */}
+                            {/* Modified by - Rohan kansari - 10/5/23
+                                Reason - to show play pause button  */}
+                          <div className="iframeContainer" onClick={e => { setVideoPlayingToggle(id)}}>{!playVideo[`video${id}`]?<><div className="centerBtn"/> <IoLogoYoutube className="pauseBtn"/></>:null}</div>
+                          <ReactPlayer ref={vidRef}  className="react-player" height="24vh" width="80vw" url={`${item.video_link}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`} playing={playVideo[`video${id}`]} /> 
+                          {/* End of code - Rohan kansari - 8/5/23 */}
+                          {/* <iframe  src="https://www.youtube.com/embed/j55IlDRHQ8w?mute=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>                          </div> */}
                         </div>
                     }
 
@@ -954,7 +1007,9 @@ function MenuItem() {
         {/* Commented by Rohan kansari - 27/4/23
     Reason- To shift this feature in top header  */}
 
-        <div id="hide_search"
+      {/* Id commented by Om Shrivastava on 17-05-23 because it's not use  */}
+        <div
+        //  id="hide_search"
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
           style={{ background: "transparent"}}
         >
@@ -1003,7 +1058,15 @@ function MenuItem() {
 
         {/* End of added code 03-0-2023 */}
 
-        <div className='searchpage_input'>
+        {/* Id and style use by Om Shrivastava on 17-05-23 */}
+        <div 
+        // Modification and addition by Om Shrivastava on 18-05-23
+        // Reason : When whatsapp detail is not show than use another class name
+        // className='searchpage_input'
+         id="hide_search" style={{display:'block'}}
+        className={whatsApp && whatsApp.whatsapp_number && whatsApp.whatsapp_number !=undefined && whatsApp.whatsapp_number !=null && whatsApp.whatsapp_number.length ? 'searchpage_input' : 'whatsappDataNoneSearchMainDiv'}
+        // End of addition by Om Shrivastava on 18-05-23
+        >
         {/* <Input.Group >
               <Search size='large' 
                 // value={search}
@@ -1015,15 +1078,23 @@ function MenuItem() {
         <GoSearch className="searchIcon" style={{ backgroundColor: colors.bannerColor, color: colors.backgroundTheme }} onClick={e => setSearchVisiblity(!searchVisible)} />
             {searchVisible ?
               <>
-                <input className="inputBoxSearch" type="text" id="search_box" onChange={e => { setNewSearch(e.target.value.trimStart()); }} placeholder='Type here to search' />
+                <input 
+                className="inputBoxSearch" 
+                type="text" id="search_box"
+                // Modified by Rohan kansari-7/5/23 - To remove . on double space on mobile
+                onChange={e=>setNewSearch(e.target.value.trimStart().replace(". "," ").replace("  ",""))}
+                placeholder='Type here to search' value ={search}/>
                 <AiOutlineClose className="closeIcon" onClick={e => setSearchVisiblity(!searchVisible)} />
               </>
               : null}
-        {/*End of Code */}
+        {/*End of Code */}   
         </div>
 
         {/* Added by- Suman sahu On 05/05/2023 
             reason - add whatsapp chatbot*/}
+        {/* Added by Om Shrivastava on 18-05-23
+        Resason : When whatsapp number is not shown there than this div is not show   */}
+        {whatsApp && whatsApp.whatsapp_number && whatsApp.whatsapp_number !=undefined && whatsApp.whatsapp_number !=null && whatsApp.whatsapp_number.length > 0 ?
         <div>
           <FloatingWhatsApp
           style={{right: -3}}
@@ -1033,6 +1104,8 @@ function MenuItem() {
           // avatar={siteConfig.staticBaseURL + restaurant_logo}
           />
         </div>
+        :null}
+        {/* End of addiition by Om Shrivastava on 18-05-23 */}
 
         {/* End of addition 05/05/2023 */}
 
@@ -1178,14 +1251,17 @@ function MenuItem() {
                           return <div className="cardItem"  style={{background:colors.card_color,padding:"6px 0"}}>
                             {/* end of code - ROhan kansari - 28/4/23 */}
                             <div className="showimg_div" >
+                               {/* added by rohan- 8/5/23 - for best seller shown */}
+                            {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                            {/* end of addition rohan- 8/5/23 */}
                               <img src={siteConfig.siteURL + person.icon}
                                 className="menu_img"
                               />
                               
                             </div>
                             {/* added by rohan- 13/4/23 - for best seller shown */}
-                            {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
-                              {/* end of addition - 13/4/23 */}
+                            {/* {bestProducts?.filter(b => b.item == person.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
+                            {/* end of addition - 13/4/23 */}
 
                             {/* <div className="price_item_description_div"> */}
                             {/* <div className="price_description_container" > */}
@@ -1203,14 +1279,27 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {person.price_full ? <strike>₹ {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {person.price_full ? <strike> ₹ {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {person.price_full ? <strike>{rupee_sign}  {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {person.price_full>0 ? <strike>{rupee_sign}  {person.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {person.price_half ? <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {person.price_half ? <strike> ₹ {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {person.price_half ? <strike>{rupee_sign}  {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {person.price_half>0 ? <strike>{rupee_sign}  {person.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4> : null}
                                   </div>
 
@@ -1220,7 +1309,12 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {searchSectionFullPrice(person) > 0 ? <>₹ {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {searchSectionFullPrice(person) > 0 ? <>₹ {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                      {searchSectionFullPrice(person) > 0 ? <>{rupee_sign} {searchSectionFullPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
@@ -1228,7 +1322,12 @@ function MenuItem() {
                                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                         className="allitems_price"
                                       >
-                                        {searchSectionHalfPrice(person) > 0 ? <> ₹ {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                        {/* Modified and commented by Om Shrivastava on 08-05-23
+                                      Reason : Create the rupee sign globally for using the config file. */}
+                                        {/* {searchSectionHalfPrice(person) > 0 ? <> ₹ {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                        {searchSectionHalfPrice(person) > 0 ? <> {rupee_sign} {searchSectionHalfPrice(person)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                      
                                       </h4> : null}
                                   </div>
 
@@ -1280,7 +1379,17 @@ function MenuItem() {
                                           style={{
                                             color: colors.bannerColor
                                           }} />Add</button> : null}
-                                      {person.description}
+                                      {/* Added by Om Shrivastava on 17-05-23
+                                      Reason : Add show more show less functionality in search section */}
+                                      {/* {person.description} */}
+                                      <ReactReadMoreReadLess
+                                        charLimit={55}
+                                        readMoreText={"more"}
+                                        readLessText={"less"}
+                                      >
+                                        {person.description && person.description.length > 0 ? person.description : "  "}
+                                      </ReactReadMoreReadLess>
+                                      {/* End of addition by Om Shrivastava on 17-05-23 */}
                                     </span>
                                   </div>
 
@@ -1317,13 +1426,31 @@ function MenuItem() {
                                     >{person.name}</h4>
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file.
+                                    // >{person.price_full ? '₹' + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    // Modification and addition by Om Shrivastava on 12-05-23
+                                    // Reason : Show the 'object object' than I need to remove this bug
+                                    // >{person.price_full ? {rupee_sign} + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    >{person.price_full ? rupee_sign + person.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      {/* End of modifiacation and addition by Om Shrivastava on 12-05-23 */}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                   
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ?
                                       <h4 style={{ color: colors.subHeadingColor }}
                                         className="allitems_price"
-                                      >{person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                        // Modified and commented by Om Shrivastava on 08-05-23
+                                        // Reason : Create the rupee sign globally for using the config file.
+                                      // >{person.price_half ? '₹' + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      // >{person.price_half ? {rupee_sign} + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      // Modification and addition by Om Shrivastava on 12-05-23
+                                      // Reason : Show the 'object object' than I need to remove this bug
+                                      >{person.price_half ? rupee_sign + person.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      {/* End of modifiacation and addition by Om Shrivastava on 12-05-23 */}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                  
                                   </div>
                                   <div className="description_div" style={{ display: 'flex' }}>
 
@@ -1440,19 +1567,23 @@ function MenuItem() {
         >
           {/* Modified by ROhankansari - 4/5/23
               Reason - To solve overlap issue with search icon */}
-          <span style={{ display: 'flex', padding: '2%', fontSize: '16px',position:"relative",top:"30px" }}>
-            <span style={{ color: '#ffff9f', padding: '0', width: '90%' }}>
+              {/* Css changes by Om Shrivastava on 17-05-23 */}
+          <span style={{ display: 'flex', padding: '1%', fontSize: '16px',position:"relative"
+          // ,top:"30px"
+           }}>
+            <span style={{ color: '#ffff9f', padding: '0', width: '95%' }}>
               {/* Result not found */}
             </span>
             {/* <CloseOutlined id="toggle" style={{ color: 'black', backgroundColor: 'white', padding: '1%', }}
                       onClick=
                       {removeSerchResult}
                     /> */}
-            <img onClick={divOfferRemove} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" />
+                    {/* Image commened by Om on 17-05-23 because its not show inside div */}
+            {/* <img onClick={divOfferRemove} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%' }} alt="jhk" /> */}
 
           </span>
-
-          <span className="allcategory_container">
+          {/* Styling added by Om on 17-05-23 */}
+          <span className="allcategory_container" style={{ display:'flex',justifyContent:'space-between'}}>
             <span style={{
               color: colors.headingColor, backgroundColor: colors.subheadingBackgroundColor,
               borderRadius: '6px',
@@ -1464,6 +1595,9 @@ function MenuItem() {
                               padding: '1px 8px', }} className="category_name"
             >{offer_discount}%
             </span> */}
+            {/* Image added by Om on 17-05-23 */}
+            <img onClick={divOfferRemove} src={crossKnifeImg} style={{ height: '3.5vh', borderRadius: '100%',marginRight:"2%" }} alt="jhk" />
+
           </span>
           <div style={{
             display: 'flex',
@@ -1489,15 +1623,18 @@ function MenuItem() {
                 <div className="cardItem" style={{background:colors.card_color,padding:"6px 0"}} >
                   {/* end of code - ROhan kansari - 28/4/23 */}
                   <div className="showimg_div" >
-                    {console.log(totalFullPrice(showdata))}
+                    {/* added by rohan- 8/5/23 - for best seller shown */}
+                  {/* Modified by Rohan Kansari - 13/5/23 to solve offer page best seller */}
+                  {bestProducts?.filter(b => b.item == showdata.item_id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                  {/* end of addition rohan- 8/5/23 */}
                     <img src={siteConfig.siteURL + showdata.item_image}
                       className="menu_img"
                     />
                   </div>
                   {/* added by rohan- 13/4/23 - for best seller shown */}
 
-                  {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
-                    {/* end of addition - 13/4/23 */}
+                  {/* {bestProducts?.filter(b => b.item == showdata.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
+                  {/* end of addition - 13/4/23 */}
                   <div className="price_item_description_div">
                     <div className="price_description_container" >
                       <h4 style={{ color: colors.subHeadingColor }}
@@ -1506,14 +1643,28 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        {showdata.item_fullprice ? <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                        // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {showdata.item_fullprice ? <strike> ₹ {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                        {/* {showdata.item_fullprice ? <strike>{rupee_sign} {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {showdata.item_fullprice>0 ? <strike>{rupee_sign} {showdata.item_fullprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                         className="allitems_price"
                       >
-                        {showdata.item_halfprice ? <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                         // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {showdata.item_halfprice ? <strike> ₹ {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                        {/* {showdata.item_halfprice ? <strike>{rupee_sign} {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                        {showdata.item_halfprice>0 ? <strike>{rupee_sign} {showdata.item_halfprice}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4> : null}
                     </div>
 
@@ -1523,14 +1674,24 @@ function MenuItem() {
                       <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        {totalFullPrice(showdata) > 0 ? <>₹ {totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                        // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {totalFullPrice(showdata) > 0 ? <>₹ {totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                        {totalFullPrice(showdata) > 0 ? <>{rupee_sign}{totalFullPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4>
                       {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                       {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                         className="allitems_price"
                       >
-                        {totalHalfPrice(showdata) > 0 ? <> ₹ {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* // Modified and commented by Om Shrivastava on 08-05-23
+                        // Reason : Create the rupee sign globally for using the config file. */}
+                        {/* {totalHalfPrice(showdata) > 0 ? <> ₹ {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                        {totalHalfPrice(showdata) > 0 ? <> {rupee_sign} {totalHalfPrice(showdata)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                        {/* End of addition by Om Shrivastava on 08-05-23 */}
+                      
                       </h4> : null}
                     </div>
 
@@ -1751,16 +1912,18 @@ function MenuItem() {
                           return <div className="cardItem" style={{background:colors.card_color,padding:"6px 0"}}>
                             {/* end of code - ROhan kansari - 28/4/23 */}
                             <div className="showimg_div" >
-
+                            {/* added by rohan- 8/5/23 - for best seller shown */}
+                            {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
+                            {/* end of addition rohan- 8/5/23 */} 
                               <img src={siteConfig.siteURL + m.icon}
                                 className="menu_img"
                               />
-                              
+
 
                             </div>
-                            {/* added by rohan- 13/4/23 - for best seller shown */}
-                            {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>}
-                              {/* end of addition - 13/4/23 */}
+                          {/* added by rohan- 13/4/23 - for best seller shown */}
+                            {/* {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
+                            {/* end of addition - 13/4/23 */} 
 
                             {(offerList.filter((data) => parseInt(data.item_id) === m.id)).length > 0 ?
                               <>
@@ -1772,14 +1935,28 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {m.price_full ? <strike>₹ {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {m.price_full ? <strike>₹ {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {m.price_full ? <strike>{rupee_sign} {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {m.price_full>0 ? <strike>{rupee_sign} {m.price_full}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4>
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
                                     >
-                                      {m.price_half ? <strike>₹ {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {m.price_half ? <strike>₹ {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {/* Modified by Rohan kansari - 12/5/23 - To check if zero is there then show dash not stike over through */}
+                                      {/* {m.price_half ? <strike>{rupee_sign} {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>} */}
+                                      {m.price_half>0 ? <strike>{rupee_sign} {m.price_half}</strike> : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4> : null}
                                   </div>
 
@@ -1789,12 +1966,21 @@ function MenuItem() {
                                     <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {mainSectionFullPrice(m) > 0 ? <> ₹ {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {mainSectionFullPrice(m) > 0 ? <> ₹ {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                      {mainSectionFullPrice(m) > 0 ? <> {rupee_sign} {mainSectionFullPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     </h4>
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor, padding: '0', margin: '0' }}
                                       className="allitems_price"
                                     >
-                                      {mainSectionHalfPrice(m) > 0 ? <> ₹ {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                      {/* // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file. */}
+                                      {/* {mainSectionHalfPrice(m) > 0 ? <> ₹ {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>} */}
+                                      {mainSectionHalfPrice(m) > 0 ? <> {rupee_sign} {mainSectionHalfPrice(m)}</> : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
+                                    
                                     </h4> : null}
                                   </div>
 
@@ -1885,12 +2071,22 @@ function MenuItem() {
                                     >{m.name}</h4>
                                     <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file.
+                                    // >{m.price_full ? '₹' + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                    >{m.price_full ?  rupee_sign + m.price_full : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4>
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                    
                                     {/* added by rohan- 6/4/23 reason- to add functionality of half price shown */}
 
                                     {colors.allow_half_price ? <h4 style={{ color: colors.subHeadingColor }}
                                       className="allitems_price"
-                                    >{m.price_half ? '₹' + m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      // Modified and commented by Om Shrivastava on 08-05-23
+                                      // Reason : Create the rupee sign globally for using the config file.
+                                    // >{m.price_half ? '₹' + m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                    >{m.price_half ?  rupee_sign+ m.price_half : <>&nbsp;&nbsp;&nbsp;<span> --- </span></>}</h4> : null}
+                                      {/* End of addition by Om Shrivastava on 08-05-23 */}
+                                  
                                   </div>
                                   <div className="description_div" style={{ display: 'flex', }}>
                                     {/* <h3 className="description_content" style={{ color: colors.bannerColor }}>{m.description}</h3> */}
@@ -1990,17 +2186,30 @@ function MenuItem() {
             Reason - To toggle menu card container */}
         {/*Commented on - 3/5/23 - ROhan Kansari / to commente hidding method and hidding through height
           {menuListVisible ? */}
-          <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
-            <div className="drawerBtn" onClick={e => { setmenuListVisiblity(!menuListVisible); 
-              }} style={{ backgroundColor: colors.bannerColor }}>
-                {menuListVisible?
-                <MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} />:
-                <MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }}/>}
-                </div>
-            {/* <div className="footer_btn_container" >
+        <div className="main_footer_container" style={{ backgroundColor: colors.subheadingBackgroundColor }}>
+          <div className="drawerBtn" onClick={e => {
+            setmenuListVisiblity(!menuListVisible);
+          }} style={{ backgroundColor: colors.bannerColor }}>
+            {menuListVisible ?
+              <MdOutlineKeyboardArrowDown color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} /> :
+              <MdOutlineKeyboardArrowUp color="white" className="arrow_toggle" style={{ color: colors.backgroundTheme }} />}
+          </div>
+          {/* <div className="footer_btn_container" >
               <button style={{ backgroundColor: colors.bannerColor }} className="button-32" onClick={back}><LeftOutlined style={{ color: 'white' }} /><span> </span></button>
             </div> */}
-            <div className="category_container" id="category_container">
+            {/* Added by Rohna kansari-7/5/23 
+                Reason- To keep list open on touch */}
+          {/*Modified by Rohan kansari - 8/5/23 
+             Reason - To clear and genrate new timeout for menu drawer closing  */}
+          <div className="category_container" id="category_container"
+            onTouchMove={e => {      if(interval.current.render)window.clearTimeout(interval.current.render);              console.log("clear------------------- ")}}
+            onTouchEnd={e => { console.log("--------- ",interval.current.render )
+            if(interval.current.render)window.clearTimeout(interval.current.render);
+
+            interval.current.render = setTimeout(() => {
+              setmenuListVisiblity(false)
+            },6000)} }>
+              {/* Ne dof code -rohankansari - 7/5/23 */}
               {menuList.map((data, id) => (
                 <div id={id} className='all-menu'
                   onClick={ 
