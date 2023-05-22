@@ -91,16 +91,15 @@ function Pricing() {
           <div className="pricing_section_1">
             <h2 className="pricing_main_heading">Pricing</h2>
             <Swiper
-              cssMode={true}
               navigation={true}
-              slidesPerView={1}
+              // slidesPerView={1}
               autoplay={{
                 delay: 5000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
                 
               }}
-              pagination={{ clickable: true, el: ".swiper-pagination", }}
+              pagination={{ clickable: true}}
               mousewheel={true}
               keyboard={true}
               centeredSlides={true}
@@ -151,7 +150,6 @@ function Pricing() {
 
       {flteredPricingData != null && flteredPricingData.length > 0 ? (
         <Modal
-          title="Basic Modal"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}

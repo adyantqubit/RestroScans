@@ -232,6 +232,7 @@ Reason:- Create css for Home.jsx */
 }
 .pricing_slider_div {
   height: 70vh;
+  width: 70%;
 }
 .pricing_images {
   width: 90vh;
@@ -394,10 +395,9 @@ Reason:- Create css for Home.jsx */
     margin-left: 5rem;
   }
   /* -------------- Pricing Section------------ */
-  /* .pricing_images {
-    width: 70%;
-    height: 60%;
-  } */
+  .pricing_slider_div {
+    width: 80%;
+  }*/
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
     margin-bottom: 5rem;
@@ -453,6 +453,9 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 30vh;
   }
+  .pricing_slider_div {
+    width: 100%;
+  }
   .swiper-horizontal {
     margin-bottom: 1rem;
   }
@@ -483,6 +486,7 @@ Reason:- Create css for Home.jsx */
     height: 100%;
     width: 21vw;
   }
+
 
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
