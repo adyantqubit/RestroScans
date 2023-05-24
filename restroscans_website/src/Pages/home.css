@@ -22,9 +22,10 @@ Reason:- Create css for Home.jsx */
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
-  height: 90vh;
+  height: fit-content;
   align-items: center;
   justify-content: center;
+  padding-bottom: 10rem;
 }
 .description_content_div {
   width: 40%;
@@ -141,7 +142,7 @@ Reason:- Create css for Home.jsx */
   display: block;
   background: url("../images/ff2.png");
   width: 100%;
-  height: 100%;
+  height:fit-content;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -150,7 +151,7 @@ Reason:- Create css for Home.jsx */
   padding-left: 4rem;
   display: flex;
   width: 85%;
-  height: 50vh;
+  /* height: 50vh; */
   margin-left: 8rem;
 }
 .feature_lists_div {
@@ -166,12 +167,12 @@ Reason:- Create css for Home.jsx */
 }
 .feature_label_first_div {
   width: 55%;
-  height: 60%;
+  /* height: 60%; */
   margin-left: 2rem;
 }
 .feature_label_second_div {
   width: 55%;
-  height: 60%;
+  /* height: 60%; */
   margin-left: 2rem;
 }
 .features {
@@ -198,12 +199,13 @@ Reason:- Create css for Home.jsx */
   width: 30%;
   background-repeat: no-repeat;
   overflow: hidden;
+  height: 60vh;
 }
 .features_gif {
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 90%;
+  height: 50vh;
   width: 15vw;
 }
 
@@ -230,6 +232,7 @@ Reason:- Create css for Home.jsx */
 }
 .pricing_slider_div {
   height: 70vh;
+  width: 70%;
 }
 .pricing_images {
   width: 90vh;
@@ -293,32 +296,34 @@ Reason:- Create css for Home.jsx */
   margin-top: 0;
 }
 .restaurents_container {
+  margin: auto;
+}
+.restaurents_img_container{
+  width: 90%;
   height: 100%;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  border: 2px solid none;
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
 }
 .restaurents {
-  width: 13vw;
-  margin: 0.5rem 0.5rem;
-  /* border: 1px solid rgb(204, 196, 196); */
-  padding: 1rem;
+  width: 14%;
+  height: 20%;
+  flex-wrap: wrap;
+  padding-bottom: 2rem;
 }
 .restaurent_logo {
-  width: 4rem;
-  height: 4rem;
+  width: 6rem;
+  height: 5rem;
   border-radius: 10rem;
   justify-content: center;
   border: 0.2px solid none;
+  
 }
 .restaurent_title {
-  font-size: 1.4rem;
-  margin: 0;
-  /* font-weight: bold; */
+  font-size: 1.2rem;
   color: #758001;
   font-family: var(--descriptions-textFontFamily);
+  margin: auto;
 }
 .restaurent_address {
   font-size: 1rem;
@@ -390,16 +395,21 @@ Reason:- Create css for Home.jsx */
     margin-left: 5rem;
   }
   /* -------------- Pricing Section------------ */
-  /* .pricing_images {
-    width: 70%;
-    height: 60%;
-  } */
+  .pricing_slider_div {
+    width: 80%;
+  }*/
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
     margin-bottom: 5rem;
   }
   .swiper-horizontal {
     margin-bottom: 2rem;
+  }
+  .restaurents_img_container{
+    width: 100%;
+  }
+  .restaurents{
+    width: 20%;
   }
 }
 @media (max-width: 1024px) {
@@ -443,6 +453,9 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 30vh;
   }
+  .pricing_slider_div {
+    width: 100%;
+  }
   .swiper-horizontal {
     margin-bottom: 1rem;
   }
@@ -474,6 +487,7 @@ Reason:- Create css for Home.jsx */
     width: 21vw;
   }
 
+
   /* ------------Gallery Section-------------- */
   .gallery_slider_div {
     height: 40vh;
@@ -485,6 +499,9 @@ Reason:- Create css for Home.jsx */
   }
   .swiper-horizontal {
     margin-bottom: 0;
+  }
+  .restaurents{
+    width: 25%;
   }
 }
 @media (max-width: 768px) {
@@ -522,6 +539,7 @@ Reason:- Create css for Home.jsx */
     height: 3.5rem;
     margin-bottom: 5rem;
     width: 50%;
+    cursor: auto;
   }
   /* ----------Features Section------------- */
   .home_features_section {
@@ -580,6 +598,10 @@ Reason:- Create css for Home.jsx */
     width: 35vw;
     height: 20vh;
   }
+  .restaurent_logo{
+    width: 5rem;
+    height: 4rem;
+  }
 }
 @media (max-width: 600px) {
   /* ------------Description Section-------------- */
@@ -622,9 +644,6 @@ Reason:- Create css for Home.jsx */
   .galary_slider_images {
     width: 35vw;
   }
-  .restaurents {
-    width: 22vw;
-  }
 
   .description_heading,
   .benefits_heading,
@@ -633,6 +652,9 @@ Reason:- Create css for Home.jsx */
   .gallery_heading,
   .restaurent_heading {
     font-family: var(--responsive-heading-fontfamily);
+  }
+  .restaurents{
+    width: 33.3%;
   }
 }
 @media (max-width: 500px) {
@@ -756,6 +778,9 @@ Reason:- Create css for Home.jsx */
     padding-top: 1rem;
     font-size: 2rem;
   }
+  /* .restaurents{
+    width: 50%;
+  } */
 }
 @media (max-width: 320px) {
   html {

@@ -140,11 +140,11 @@ Reason:- Create css for contactus.jsx */
 }
 /* ------------------ContactUs Form Section------------- */
 .contactus_form {
-  padding-top: 5rem;
+  padding-top: 4.5rem;
   width: 50%;
 }
 .contactus_main_div {
-  height: 65vh;
+  height: fit-content;
   width: 80%;
   /* background: rgba(210, 224, 238, 0.5); */
   background: rgba(54, 55, 57, 0.5);
@@ -155,7 +155,7 @@ Reason:- Create css for contactus.jsx */
   left: 0;
   bottom: 10%;
   border-radius: 1rem;
-  padding-bottom: 1.5rem;
+  /* padding-bottom: 1.5rem; */
 }
 .contactus_heading {
   font-size: var(--primary-textFontSize);
@@ -291,7 +291,7 @@ textarea::placeholder {
     height: 83.5vh;
   }
   .contactus_main_div {
-    height: 65vh;
+    height: fit-content;
     width: 80%;
   }
   .contactus_input_box {
@@ -420,6 +420,7 @@ textarea::placeholder {
   }
   .contactus_submit_btn {
     width: 17vw;
+    cursor: auto;
   }
   .contactus_form {
     padding-top: 0;
@@ -518,7 +519,7 @@ textarea::placeholder {
     width: 25vw;
   }
   .contactus_btn_div {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
   }
   .adyant_info_div {
     width: 80%;

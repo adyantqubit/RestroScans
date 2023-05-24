@@ -347,15 +347,17 @@ function Home() {
                 Restaurant's connected with us
               </h2>
               <div className="restaurents_container">
-                {restaurentsData.map((item) => (
-                  <div className="restaurents">
-                    <img
-                      className="restaurent_logo"
-                      src={config.staticBaseURL + item.restaurant_logo}
-                    />
-                    <p className="restaurent_title">{item.restaurant_name}</p>
-                  </div>
-                ))}
+                <div className="restaurents_img_container">
+                  {restaurentsData.map((item) => (
+                    <div className="restaurents">
+                      <img
+                        className="restaurent_logo"
+                        src={config.staticBaseURL + item.restaurant_logo}
+                      />
+                      <p className="restaurent_title">{item.restaurant_name}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ) : null}

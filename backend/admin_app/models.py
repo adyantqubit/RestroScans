@@ -486,7 +486,11 @@ class PricingPlans(models.Model):
 
     pricing_logo = models.ImageField(upload_to="images/app_setting/", default="")
     pricing_title = models.CharField(max_length=50,default="")
-    content = RichTextField(default="")
+    
+    # commented and modified by - Suman sahu On 22/05/2023
+    # content = RichTextField(default="")
+    content = RichTextField(default="<div></div>")
+    # end of modification by suman sahu On 22/05/2023
 
     # end of modification by- Suman sahu  On 19/05/2023
 

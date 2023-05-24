@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
+import { Modal } from "antd";
 
 function Pricing() {
   // Added by:- Suman sahu On 15/04/2023
@@ -22,6 +23,7 @@ function Pricing() {
 
   const getPricingPlans = async () => {
     const response = await PricingPlansGetApi();
+
     if (response) {
       setPricingData(response.pricingData);
     }
@@ -33,6 +35,7 @@ function Pricing() {
   // Reason:- Created for get Pricing plans details
   const [Data, setData] = useState(null);
   const [cont, setCont] = useState([]);
+
   useEffect(() => {
     if (!Data) {
       getPricingDetails();
@@ -53,6 +56,24 @@ function Pricing() {
   };
   // End of added code by- Suman sahu On 15/04/2023
 
+  // Added by - Suman sahu On 21/05/2023
+  // reason - open model when click on pricing images
+  var [flteredPricingData, setFilteredPricingData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = (e) => {
+    setIsModalOpen(true);
+    var filterData = pricingData.filter((dt)=>dt.id == e)
+    setFilteredPricingData(filterData)
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  // End of commented code by - Suman sahu On 21/05/2023
+
   return (
     <>
       <div className="Pricing_main_container">
@@ -70,15 +91,15 @@ function Pricing() {
           <div className="pricing_section_1">
             <h2 className="pricing_main_heading">Pricing</h2>
             <Swiper
-              cssMode={true}
               navigation={true}
-              slidesPerView={1}
+              // slidesPerView={1}
               autoplay={{
-                delay: 2500,
+                delay: 5000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
+                
               }}
-              pagination={{ clickable: true }}
+              pagination={{ clickable: true}}
               mousewheel={true}
               keyboard={true}
               centeredSlides={true}
@@ -90,6 +111,9 @@ function Pricing() {
                   <img
                     src={config.staticBaseURL + item.pricing_plan1}
                     className="images_pricing"
+                    onClick={(e) => {
+                      showModal(item.id);
+                    }}
                   />
                 </SwiperSlide>
               ))}
@@ -113,7 +137,7 @@ function Pricing() {
                     </div>
                     <div className="right_pricing_container">
                       {item.content.split(",").map((d) => {
-                        return <div className="items_description">{d}</div>;
+                        return <div className="items_description" dangerouslySetInnerHTML={{ __html: d }}></div>;
                       })}
                     </div>
                   </div>
@@ -123,6 +147,22 @@ function Pricing() {
           </div>
         ) : null}
       </div>
+
+      {flteredPricingData != null && flteredPricingData.length > 0 ? (
+        <Modal
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={null}
+        >
+          {flteredPricingData.map((item) => (
+            <img
+              src={config.staticBaseURL + item.pricing_plan1}
+              className="modal_pricing_images"
+            />
+          ))}
+        </Modal>
+      ) : null}
     </>
   );
 }
