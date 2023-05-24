@@ -10,6 +10,8 @@ import Dashboard from './Pages/Home/Dashboard';
 import Header from './Pages/GlobalComponent/Header';
 import Billing from './Pages/Billing/Billing';
 import { tokenValidationAPI } from './Api/services';
+import Footer from './Pages/GlobalComponent/Footer';
+import QRCode from './Pages/Home/QRcode';
 
 var Message=0;
 var AutoValidateToken=0
@@ -69,7 +71,9 @@ function App() {
       <Route path="/Forget" element={<Forget/>}/> */}
       <Route path="/Dashboard" element={<Dashboard/>} />
       <Route path="/Billing" element={<Billing/>} />
+      <Route path="/QRcode" element={<QRCode/>} />
     </Routes>
+    <Footer/>
     {/* </Header> */}
     </>
   );

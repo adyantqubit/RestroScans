@@ -1,0 +1,103 @@
+/* Added by:- Suman sahu On 21/05/2023
+Reason:- Create css for Footer.jsx */
+
+.footer_container {
+  align-items: center;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  height: 4.5vh;
+  z-index: 99999;
+  background-color: gainsboro;
+}
+.footer_main_section {
+  align-items: center;
+  display: flex;
+  height: 3rem;
+  width: 100%;
+}
+
+/* ------------------------ Footer icons section ------------------------ */
+.footer_icons_section {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  height: 4.5vh;
+}
+.facebook,
+.google,
+.twitter,
+.instagram,
+.youtube {
+  width: 24px;
+  height: 23px;
+  color: black;
+  cursor: pointer;
+  border: 1px solid none;
+  border-radius: 5rem;
+  margin: 0 1rem;
+}
+
+/* ------------------------ Footer text section ------------------------ */
+
+.footer_left_text {
+  padding-left: 2rem;
+  position: absolute;
+  color: black;
+  font-weight: 500;
+}
+.adyant_footer_link {
+  margin-bottom: 2.5rem;
+}
+.footer_right_text {
+  padding-right: 2rem;
+  position: absolute;
+  right: 0;
+  color: black;
+  font-weight: 500;
+}
+@media (max-width: 1080px) {
+  .footer_main_section h6 {
+    font-size: 1.4rem;
+  }
+}
+@media (max-width: 768px) {
+  .footer_container {
+    height: 11vh;
+  }
+  .footer_main_section {
+    display: block;
+    padding: 0;
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer_left_text,
+  .footer_right_text {
+    position: initial;
+    padding: 0;
+    margin: auto;
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 500px) {
+  .footer_container {
+    height: 9vh;
+  }
+  .facebook,
+  .google,
+  .twitter,
+  .instagram,
+  .youtube {
+    width: 20px;
+    height: 20px;
+    margin: 0 0.5rem;
+  }
+  .footer_main_section h6 {
+    font-size: 1rem;
+  }
+}
+/* End of added code 21/05/2023 */

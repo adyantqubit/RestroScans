@@ -152,3 +152,24 @@ body{
       --label-font-size:14px;
     }
   }
+
+/* Added by- Suman sahu On 24/05/2023
+   reason - design logout antd popup button */
+.ant-popconfirm .ant-popconfirm-inner-content {
+  background-color: #374151;
+  padding: 1rem;
+}
+.ant-popover .ant-popover-arrow:before {
+  background-color: #374151;
+}
+.ant-popconfirm .ant-popconfirm-message-title {
+  color: white;
+}
+.ant-popconfirm .ant-popconfirm-message >.ant-popconfirm-message-icon .anticon {
+  display: none;
+}
+.ant-btn-primary {
+  background-color: var(--highlight-color);
+  color: var(--primary-bg-color);
+}
+/* end of addition by- Suman sahu On 24/05/2023 */

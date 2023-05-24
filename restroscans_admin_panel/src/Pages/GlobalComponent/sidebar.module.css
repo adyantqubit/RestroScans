@@ -1,16 +1,69 @@
+/* Created by- Suman sahu On 24/05/2023
+   reason- CSS for sidebar.jsx */
 
-
-.container{
-    width: 25%;
-    height: 90vh;
-    background-color: gainsboro;
-    /* background-image: url(../../assets/bg.jpg); */
-    position: sticky;
-    top:10vh;
+.container {
+  height: 90vh;
+  background-color: #1f2937;
+  /* background-image: url(../../assets/bg.jpg); */
+  position: sticky;
+  top: 9vh;
+}
+.links_div {
+  padding: 1.3rem;
+  width: 20rem;
+}
+.link {
+  color: white;
+}
+.active,
+.links_div:hover {
+  background-color: #374151;
+}
+.sidebar_open_div,
+.sidebar_close_div {
+  display: none;
 }
 
-@media screen and (max-width:720px) {
-    .container{
-        display: none;
-    }
+@media screen and (max-width: 768px) {
+  .container {
+    width: 5%;
+    height: 100%;
+    margin-top: 9vh;
+    margin-bottom: 11vh;
+    background-color: white;
+    display: flex;
+  }
+  .sidebar_open_div {
+    font-size: 3rem;
+    display: flex;
+  }
+  .sidebar_close_div {
+    font-size: 3rem;
+    display: flex;
+  }
+  .open_sidebar {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background: #1f2937;
+    font-size: 1.5rem;
+  }
+  .svg-inline--fa {
+    margin: auto !important;
+  }
+  .close_sidebar {
+    display: none;
+  }
+  .hide_sidebar_openarrow {
+    display: none;
+  }
+  .hide_sidebar_closearrow {
+    display: none;
+  }
+  .links_div {
+    padding: 0.9rem;
+    width: 20rem;
+  }
 }
+/* end of creation code by- Suman sahu On 24/05/2023 */

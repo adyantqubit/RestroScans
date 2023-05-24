@@ -2,6 +2,6 @@
 
 .Container{
     width: 100%;
-    min-height: 100vh;
-    
+    margin-top: 9vh;
+    height: 90vh;
 }
