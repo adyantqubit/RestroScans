@@ -21,19 +21,21 @@ import RatingAndReview from "./component/RatingAndReviewPage/RatingAndReview";
 import secureLocalStorage from "react-secure-storage";
 import Otppopup from "./component/CustomerDetails/Otppopup";
 
-import { getFCMToken } from './firebase';
+import { getFCMToken,onMessageListener } from './firebase';
 import { useEffect } from "react";
 import { Modal } from 'antd';
 
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
-
+  
   // Added by Om on 30-04-23
   // Reason : Connectivity with backend to firebase than UI
   
   var seperatedWords =  window.location.pathname.split('/') // Find the path of tenant name
   var tenant = seperatedWords[1]
+
   useEffect(()=>{
+
     /**
      * Added by - Om shrivastava on 01-05-2023
      * Reason - To store tenant name
@@ -48,26 +50,53 @@ function App() {
     //Reason - To delete old token from localstorage when user reloads the page
     localStorage.removeItem("fcmToken")
     //End of code addition by Ashish dewanan on 30-04-2023
-    // if (Notification.permission === 'granted') {
-    //   getFCMToken()
-    // }else{
-    //   // showModal()
-    //   var getPermission=Notification.requestPermission();
-    //   if(getPermission)
-    //     getFCMToken();
-    // }
+    if (Notification.permission === 'granted') {
+      getFCMToken()
+    }else{
+      // showModal()
+      var getPermission=Notification.requestPermission();
+      if(getPermission)
+        getFCMToken();
+    }
+
   },[])
   
-  // function requestBrowserPermission(){
-  //   Notification.requestPermission()
-  //   .then(function() {
-  //     console.log('Notification permission granted.');
-  //     getFCMToken()
-  //   })
-  //   .catch(function(err) {
-  //     console.log('Unable to get permission to notify.', err);
-  //   });
-  // }
+  function requestBrowserPermission(){
+    Notification.requestPermission()
+    .then(function() {
+      console.log('Notification permission granted.');
+      getFCMToken()
+    })
+    .catch(function(err) {
+      console.log('Unable to get permission to notify.', err);
+    });
+  }
+
+
+  /**
+   * Added by - Ashish Dewangan on 19-05-2023
+   * Reason - To receive latest order details from push notification
+   */
+  navigator.serviceWorker.onmessage = (event) => {
+    var updatedOrderData = JSON.parse(event.data.data.order)[0];
+    console.log('message from sw',updatedOrderData.fields);
+    updateOrderOnUI(updatedOrderData);
+  // window.location='/invoice'
+  }
+  /**
+   * End of code addition by Ashish Dewangan on 19-05-2023 for receiving push notification
+   */
+
+  /**
+   * Added by - Ashish Dewangan on 19-05-2023
+   * Reason - To take action according to new order status
+   */
+  const updateOrderOnUI=(updatedOrderData)=>{
+    
+  }
+  /**
+   * End of code addition by Ashish Dewangan on 19-05-2023 to taking action for new order status
+   */
 
   return (
     <BrowserRouter>
