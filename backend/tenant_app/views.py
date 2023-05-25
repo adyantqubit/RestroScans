@@ -1322,14 +1322,31 @@ class DashboardAPI(APIView):
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
         # End of code addition by Ashish Dewangan on 19-04-2023
 
+        # Added by Rohan kansari-  
+        todays_order_item=OrderItem.objects.all().filter(date__gte=today)
+        todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
+
+        settingserailize = SettingSaveSerializer(Setting.objects.last())
+        from admin_app.models import Tenant, RestaurantRequest
+        tenant = Tenant.objects.get(tenant_name=tenant)
+        tenant_detail = {
+            "name": tenant.restaurant_name.restaurant_name,
+            "address": tenant.restaurant_name.address
+        }
+
+        # return Response({ "setting": settingserailize.data, "tenant": tenant_detail}, 200)
+
         return Response({
             "todays_pending_orders":todays_pending_orders_serializer.data,
             "revenue_details":data,
-            
+            "order_item":todays_order_item_serializer.data,
             # Added by - Ashish Dewangan on 19-04-2023
             # Reason - To show todays new orders
             "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
             # End of code addition
+
+            "setting": settingserailize.data, 
+            "tenant": tenant_detail,
 
             # Added by - Ashish Dewangan on 19-04-2023
             # Reason - To show todays new orders
@@ -1351,8 +1368,29 @@ class UpdateOrderPaymentStatus(APIView):
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
             orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
-            orderItemSerializer=OrderItemSerializer(orderItems, many=True)
-            return Response({"success":"Updated status","order_items":orderItemSerializer.data},status=status.HTTP_201_CREATED)
+            
+            # Added by - Rohan Kansari- 19/5/23 - 
+            # To get updated information of updated order of todays order
+            orderItemSerializer=OrderItemWithOrderIdSerializer(orderItems, many=True)
+    
+            from django.utils.timezone import datetime
+            today=datetime.today().date()
+
+            todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed')
+            todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+
+            from django.db.models import Q
+            todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+            todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+
+            todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed')
+            todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+
+            return Response({"success":"Updated status","order_items":orderItemSerializer.data 
+                             ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
+                             ,"todays_pending_orders":todays_pending_orders_serializer.data
+                             ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
+            # End of code - Rohan Kansari - 19/5/23
         return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition
 
@@ -1496,7 +1534,7 @@ def generate_pdf_kot_view(request, pk):
     restaurant_settings = Setting.objects.all().values()
     
     order = Order.objects.get(id=pk)
-    order_details = OrderItem.objects.filter(order_id = order).order_by('id')
+    order_details = OrderItem.objects.filter(order_id = order)
     
     rate = [] 
     for items in order_details : 
@@ -1670,3 +1708,26 @@ def item_report(request,report_period):
 
     return response
 # End of code addition by Ashish Dewangan on 04-05-2023
+
+
+# Added by Rohan Kansari - 22/5/23
+# Reason - To update item status 
+
+class UpdateItemStatus(APIView):
+    def put(self, request, tenant, orderID):
+       orderObj = Order.objects.get(order_id = orderID)
+       print(request.data)
+    #    orderItem=OrderItem.objects.filter(order_id=orderObj.id)
+       for i,data in enumerate(request.data):
+            OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
+        #   print(orderItem[i].item_status,data['item_status'])
+        #   orderItem[i].item_status=data['item_status']
+        #   orderItem[i].save()
+        #   print(orderItem[i].item_status)
+       
+       orderItem=OrderItem.objects.filter(order_id=orderObj.id)
+       serializer=OrderItemSerializer(orderItem,many=True)
+       return Response(serializer.data)                     
+
+
+# End of code - Rohan Kansari - 27/5/23

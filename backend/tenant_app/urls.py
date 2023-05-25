@@ -165,4 +165,9 @@ urlpatterns = [
     path('admin/tenant_app/item_report/<report_period>', item_report, name='item_report'),
     # End of code addition by Ashish Dewangan on 04-05-2023
 
+    # Added by Rohan Kansari on 22-5-23
+    # Reason : update order and payment status
+    path('<str:tenant>/order-item-status/<str:orderID>/',UpdateItemStatus.as_view()),
+    # End of addition - ROhan Kansari  22-5-23
+
 ]   

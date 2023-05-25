@@ -38,4 +38,10 @@ urlpatterns = [
     # path('moreshop/app-settings/', AppSettingAPI.as_view()),
     path(f'{settings.DOMAIN_NAME}/app-settings/', AppSettingAPI.as_view()),
 
+
+    # Added by Rohan Kansari - 23/5/23
+    # Reason - To validate token in each call
+    path(f'{settings.DOMAIN_NAME}/validate-token/',ValidateToken.as_view())
+    # End of Code - Rohan Kansari - 23/5/23
+
 ]  

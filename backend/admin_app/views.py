@@ -112,6 +112,10 @@ class RestaurantLoginView(APIView):
        
         response.data = {
             'token': access_token,
+            # Added by ROhanKansari - 22/5/23
+            # Reason - To also get access token
+            'refreshToken': refresh_token,
+            # End of code - 22/5/23
             'userData': [RestaurantRequest.objects.filter(email=request.data.get('email')).values()[0]],
             # Added by Yuvraj Sahu on 25-3-2023
             # Reason - to get tenant data
@@ -332,3 +336,20 @@ class CustomerFeedbackAPI(APIView):
 """
 End of code addition by- Suman sahu on 18/05/2023
 """
+
+class ValidateToken(APIView):
+    def post(self,request):
+        try:
+         user=decode_refresh_token(request.data['refresh'])
+         access=create_access_token(user)
+         refresh=create_refresh_token(user)
+         tokens={
+             "access_token":access,
+             "refresh_token":refresh
+         }
+         return Response(tokens)
+        except:
+            return Response(False)
+
+
+       

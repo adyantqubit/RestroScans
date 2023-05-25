@@ -1,0 +1,16 @@
+
+
+.container{
+    width: 25%;
+    height: 90vh;
+    background-color: gainsboro;
+    /* background-image: url(../../assets/bg.jpg); */
+    position: sticky;
+    top:10vh;
+}
+
+@media screen and (max-width:720px) {
+    .container{
+        display: none;
+    }
+}

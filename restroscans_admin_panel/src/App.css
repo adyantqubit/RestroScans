@@ -1,0 +1,154 @@
+
+
+@font-face {
+  font-family: "Font";
+  src: url("./assets/font/Carlito-Regular.ttf") format("opentype");
+}
+
+:root{
+  --secondary-bg-color:#f9f9f9;
+  --primary-bg-color:#fff;
+  --highlight-color:#1F51FF;
+  --label-font-size:15px;
+  --heading-font-size:24px;
+  --subHeading-font-size:14px;
+  --font-faimly:"Font";
+  --label-color: #7c7c7c;
+}
+
+body{
+  width: 100vw;
+  height: 100vw;
+  margin: 0;
+  padding: 0;
+  display: unset;
+  font-family: "Font";
+  background-color: var(--primary-bg-color);
+  /* letter-spacing: 1.2px; */
+  font-size: 16px;
+}
+
+/* Added by Rohan Kansari - 14/5/23 
+   Reason- Input box drop file css changes  */
+   .DYXVr {
+    position: relative;
+    display: flex;
+    margin-top: 5px;
+    -webkit-box-align: center;
+    align-items: center;
+    min-width: unset !important;
+    max-width: unset !important;
+    height: unset !important;
+    border: 2px dashed rgb(6, 88, 194);
+    padding: 0 10px !important;
+    border-radius: 5px;
+    cursor: pointer;
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+}
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-popover .ant-popover-inner{
+  padding: 0 !important;
+}
+
+   /* End of code Rohan Kansari- 14/5/23 */
+
+
+   .css-xumdn4{
+   border: none !important;
+   font-family: "Font";
+   letter-spacing: 1.3px;
+   max-width: 20%;
+   word-break: break-all;
+   }
+
+   .css-1zts0j {
+    font-family: "Font";
+    margin-top: 10px !important;
+   background-color: rgb(241, 237, 237);
+   }
+
+   .hide{
+    width: 18px !important;
+    height: 18px !important;
+    right: 5px  !important;
+   }
+
+   div >hr{
+    display: none;
+   }
+
+   #pot {
+    /* bottom: 15%; */
+    /* max-width: 250px; */
+    position: absolute;
+    -webkit-animation: linear infinite;
+    -webkit-animation-name: run;
+    -webkit-animation-duration: 5s;
+  }
+  @-webkit-keyframes run {
+    0% {
+      left: 0;
+    }
+    50% { 
+      left: calc(100% - 100px); 
+     }
+    100% {
+      left: 0;     
+    }
+  }
+
+  
+/* .box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */
+
+.box select {
+  background-color: transparent;
+  color: var(--label-color);
+  padding: 3px;
+  width: 100%;
+  border-radius: 5px;
+  /* border: none; */
+  font-size:var(--label-font-size);
+  /* box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); */
+  /* -webkit-appearance: button; */
+  /* appearance: button; */
+  outline: none;
+}
+
+/* .box::before {
+  content: "\f13a";
+  font-family: FontAwesome;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  font-size: 28px;
+  line-height: 45px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+} */
+
+.box:hover::before {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.box select option {
+  padding: 30px;
+}
+
+
+  @media  screen and (max-width:767px) {
+    :root{
+      --heading-font-size:20px;
+      --label-font-size:14px;
+    }
+  }

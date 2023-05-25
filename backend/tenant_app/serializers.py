@@ -142,6 +142,11 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 # Added by Parineeta Gedam on 06-04-2023
 # Reason : show the Order
 class OrderSerializer(serializers.ModelSerializer):
+    # Added by Rohan Kansari - 25/5/23
+# Reason - Creating other serialzer becuase it is conflicting with current other
+    customer_number = serializers.CharField(source="customer_id.contact_number",allow_null=True,required=False)
+    customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
+    # end of code- ROhna kansari - 25/5/23
     class Meta:
         model = Order
         fields = '__all__'
@@ -167,6 +172,15 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = '__all__'
+
+# Added by Rohan Kansari - 25/5/23
+# Reason - Creating other serialzer becuase it is conflicting with current other
+class OrderItemWithOrderIdSerializer(serializers.ModelSerializer):
+    order_id = serializers.CharField(source="order_id.order_id",allow_null=True,required=False)
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+#End of code - ROhanKAnsari - 25/5/23 
 # End of added code 06-04-2023
 
 
