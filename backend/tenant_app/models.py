@@ -290,8 +290,15 @@ class Offer(models.Model):
 
     # Commented and modified by Suman Sahu on 10-05-2023
     # Reason - to remove decimal value in discount
-    discount = models.IntegerField(validators=[MinValueValidator(0),
+
+    # Modification and addition by Om Shrivastava on 24-05-23
+    # Reason : Fix the discount value
+    # discount = models.IntegerField(validators=[MinValueValidator(0),
+    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    discount = models.IntegerField(validators=[MinValueValidator(1),
                                        MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    # End of addition by Om Shrivastava on 24-05-23
+
     # discount = models.DecimalField(validators=[MinValueValidator(0),
     #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
     # End of modification by Suman sahu 10/05/2023

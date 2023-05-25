@@ -55,7 +55,7 @@ function MenuItem() {
   TenantValidate()
   // end of code - rohan kansari -17/4/23
   var { searchedValue,
-    setSearchedValue, colors, cart, subscribePlan,rupee_sign } = useContext(GlobalContext);
+    setSearchedValue, colors, cart, subscribePlan,rupee_sign,tenantDetails } = useContext(GlobalContext);
 
     // Added by Rohankansari - 8/5/23
     const videoRef = useRef(null);
@@ -696,8 +696,10 @@ function MenuItem() {
   // Reason - To save id of timeout in ref and clear it on new thread generation
   var interval=useRef({render:null});
   useEffect(() => {
-    
-    if (menuListVisible) {
+    // When data is not coming than show the loader added by Om Shrivastava on 19-05-23
+    if(!isLoader)
+    // End of addition by Om Shrivastava on 19-05-23
+    if (menuListVisible ) {
       if(interval.current.render)window.clearTimeout(interval.current.render);
       document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "73vh"
       document.getElementById("category_container").className = "category_container"
@@ -748,7 +750,10 @@ function MenuItem() {
 
   return (
     <>
-      {/* {isLoader == true ? <Loader /> : */}
+    {/* Added by Om Shrivastava on 19-05-23
+    Reason : To show the loader  when the data is not coming*/}
+      {isLoader == true ? <Loader /> :
+      <>
           {/* Added By Rohan Kansari- 28/4/23
             Reason - initialize popup page for video her*/}
           {videoVisible?<div className="video_container">
@@ -756,6 +761,8 @@ function MenuItem() {
              <iframe style ={{display: "block" ,border: "none",height:"50vh" , width: "100%",float:"left" ,marginLeft:"0px"}} src="https://www.youtube.com/embed/dm2RHGYRtas"  border='0' width='620' height='465'  marginheight='0' marginwidth='0' frameborder='0'  title="YouTube video player" allow="autoplay; encrypted-media" id="Overlayvideo" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
             </div>:null}
         {/*End of code - 28/4/23 - Rohan Kansari  */}
+      {/* {isLoader == true ? <Loader /> : */}
+
       <div className='menu_maindiv'
       id="menu_maindiv"
         style={{ backgroundColor: colors.backgroundTheme }}
@@ -1098,10 +1105,16 @@ function MenuItem() {
         <div>
           <FloatingWhatsApp
           style={{right: -3}}
+          // Added by Om Shrivastava on 19-05-23
+          chatboxStyle={{bottom:'180px'}}
+          // End of additon by Om Shrivastava on 19-05-23
           buttonStyle={{width: 25, height: 25, position: "initial"}}
           phoneNumber={whatsApp.whatsapp_number}
-          accountName={restaurant_name}
-          // avatar={siteConfig.staticBaseURL + restaurant_logo}
+          // Modification and added by Om Shrivastava on 19-05-23
+          // accountName={restaurant_name}
+          accountName={restaurant_name.toUpperCase()}
+          // End of modification and additon by Om Shrivastava on 19-05-23
+          avatar={siteConfig.siteURL + tenantDetails.restaurant_logo}
           />
         </div>
         :null}
@@ -1268,7 +1281,13 @@ function MenuItem() {
                             {/* <h4 style={{ color: colors.subHeadingColor }}
                                     className="allitems_name"
                                   >{person.name}</h4> */}
-                            {(offerList.filter((data) => parseInt(data.item_id) === person.id)).length > 0 ?
+
+                            {/* Modification and addition by Om Shrivastava on 24-05-23
+                            Reason : When offer is null than Show price can not be strike through */}
+                            {/* {(offerList.filter((data) => parseInt(data.item_id) === person.id)).length > 0  */}
+                              {(offerList.filter((data) => parseInt(data.item_id) === person.id 
+                                && data.item_discount != undefined && data.item_discount !=null )).length > 0 ?
+                            // End of addition and modifiacation by Om Shrivastava on 24-05-23
                               <>
 
                                 <div className="price_item_description_div">
@@ -1925,7 +1944,12 @@ function MenuItem() {
                             {/* {bestProducts?.filter(b => b.item == m.id).length > 0 ? <div className="ribbon">Best Seller</div> : <div className="null_ribbon"></div>} */}
                             {/* end of addition - 13/4/23 */} 
 
-                            {(offerList.filter((data) => parseInt(data.item_id) === m.id)).length > 0 ?
+                            {/* Modification and addition by Om Shrivastava on 24-05-23
+                            Reason : When offer is null than Show price can not be strike through */}
+                            {/* {(offerList.filter((data) => parseInt(data.item_id) === m.id  */}
+                            {(offerList.filter((data) => parseInt(data.item_id) === m.id 
+                            && data.item_discount != undefined && data.item_discount !=null )).length > 0 ?
+                            // End of addition and modifiacation by Om Shrivastava on 24-05-23
                               <>
                                 <div className="price_item_description_div">
                                   <div className="price_description_container" >
@@ -2276,8 +2300,10 @@ function MenuItem() {
 
       {/* } */}
 
-
-
+      
+</>
+}
+{/* End of addition by Om Shrivastava on 19-05-23 */}
     </>
   );
 

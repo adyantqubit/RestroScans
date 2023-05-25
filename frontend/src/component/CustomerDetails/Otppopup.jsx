@@ -101,7 +101,11 @@ const Otppopup = () => {
         // ...
       }).catch((error) => {
        setLoading(false)
-        notify(" OTP dosen't match. Please try again","error")
+        //  Modification and added by Om Shrivastava on 19-05-23
+        //  Reason : Need to change the OTP message
+        // notify(" OTP dosen't match. Please try again","error")
+        notify(" OTP is expired ","error")
+        // End of addition by Om Shrivastava on 19-05-23
         // User couldn't sign in (bad verification code?)
         // ...
       });
