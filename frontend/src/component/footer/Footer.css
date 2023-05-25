@@ -7,6 +7,10 @@
    width: 100%;
    z-index: 9999;
    display: flex;
+   /* Added by Om Shrivastava on 25-05-23
+   Reason : When user cannot enter the footer content than need to remove transperency bug. */
+   background-color: white;
+   /* End of addition by Om Shrivastava on 25-05-23 */
 }
 
 .powered_text{

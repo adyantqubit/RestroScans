@@ -51,7 +51,7 @@ export default function GlobalColor() {
 
             // Added by Rohankansari - 28/4/23
             // Reason - To add card color here
-            card_color:color.card_color
+            card_color:color.card_color,
             // End of code
         }}
         
@@ -59,8 +59,15 @@ export default function GlobalColor() {
         // Added by Rohan Kansari - 7/5/23
         // Reason - To decouple half price with color , 
         // issue was if no theme was selected then update allow_half_price is not getting
-        colors['allow_half_price']=color?.allow_half_price
-        setColors(colors)
+        // Modification and added by Om Shrivastava on 24-05-23
+        // Reason : When first tenant create than show the half price
+        // colors['allow_half_price']=color?.allow_half_price
+        // setColors(colors)
+        if(color && typeof color.allow_half_price!= "undefined"){
+            colors['allow_half_price']=color.allow_half_price
+            setColors(colors)
+            }
+        // End of modification and aded by Om Shrivastava on 24-05-23
         // end of code - Rohan Kansari - 7/5/23
         // end of code - 24/4/23
     },[color])

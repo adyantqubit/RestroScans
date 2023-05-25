@@ -1534,7 +1534,7 @@ def generate_pdf_kot_view(request, pk):
     restaurant_settings = Setting.objects.all().values()
     
     order = Order.objects.get(id=pk)
-    order_details = OrderItem.objects.filter(order_id = order)
+    order_details = OrderItem.objects.filter(order_id = order).order_by('id')
     
     rate = [] 
     for items in order_details : 

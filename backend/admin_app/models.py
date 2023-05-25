@@ -414,7 +414,15 @@ class GallerySettings(models.Model):
 
     def __str__(self):
         return self.title
+    
+    # Added by Om shrivastava on 25-05-23
+    # Reason : Need to correct the spelling
 
+    class Meta:
+        verbose_name = "Gallery settings"
+        verbose_name_plural = 'Gallery settings'
+
+    # End of addition by Om Shrivastava on 25-05-23
 
 """
 End of code addition by- Suman sahu On 24/03/2023
@@ -493,6 +501,13 @@ class PricingPlans(models.Model):
     def __str__(self):
         return self.pricing_title
 
+    # Added by Om shrivastava on 25-05-23
+    # Reason : Need to correct the spelling
+
+    class Meta:
+        verbose_name_plural = 'Pricing plans'
+
+    # End of addtion by Om Shrivastava on 25-05-23
 
 """
 End of code addition by- Suman sahu On 17-05-2023
