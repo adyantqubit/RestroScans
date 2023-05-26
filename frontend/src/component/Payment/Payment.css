@@ -7,18 +7,29 @@
     width: 100%;
 }
 
-.payment_heading {
-    text-align: center;
-    font-size: 20px;
+/* Commented by :-  Parineeta Gedam on 21-05-2023  
+reason :- changes in ui  */
+/* .payment_heading { */
+    /* text-align: center;
+    font-size: 20px; */
     /* font-weight: 600; */
-    font-family: 'Times New Roman', Times, serif;
+    /* font-family: 'Times New Roman', Times, serif; */
     /* added by:- Parineeta */
 
     /* Modified by Rohan kansari - 27/4/23
        Reason - To align all thing in center not only option div*/
     /* margin-top: 17%; */
-    margin-top: 35%
     /* end of code - Rohan kansari - 27/4/23 */
+/* } */
+ /* End of commented code by :- Parineeta gedam on 21-05-2023 */
+
+
+ .payment_heading { 
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+    margin-top: 5%;
 }
 
 
@@ -77,15 +88,18 @@
 
 /* ---------- Button css --------------- */
 /* Modified by :- Parineeta on 15-04-2023 */
-.payment_btn_container {
+/* Commented by :- Parineeta Gedam on 21-05-2023 */
+/* .payment_btn_container {
     margin-left: auto;
     margin-right: auto;
-    /* width: 40%; */
-    /* font-size: 25px; */
+    width: 40%;
+    font-size: 25px;
     font-family: "Times New Roman";
     text-align: center;
     padding: 5px 0;
+    modified by :- Parineeta Gedam on 21-05-2023
     width: 25%;
+    width: 50%;
     margin-top: 5%;
 }
 
@@ -96,9 +110,40 @@
     font-weight: 600;
     font-family: 'Times New Roman';
     font-size: 16px;
+    modified by :- Parineeta Gedam on 21-05-2023
+    margin-bottom: 35px;
+} */
+/* Commented by Parineeta gedam on 21-05-2023  */
 
+/* ---------- Button css --------------- */
+.payment_btn_container {
+   display: flex;
+   justify-content: space-around;
+   margin-bottom: 50px;
+   margin-top: 25px;
 }
 
+.payment_btn_pay {
+   font-size: 16px;
+   letter-spacing: 1.7px;
+   font-family: "Times New Roman";
+   border-radius: 5px;
+   border: none;
+   box-shadow: 0 0 5px #000;
+   text-align: center;
+   width: 46%;
+}
+
+.payment_btn_get_bill{
+   width: 46%;
+   font-size: 16px;
+   letter-spacing: 1px;
+   font-family: "Times New Roman";
+   padding: 5px 0;
+   border-radius: 5px;
+   border: none;
+   box-shadow: 0 0 5px #000;
+}
 /* End of added button css --------------------- */
 
 

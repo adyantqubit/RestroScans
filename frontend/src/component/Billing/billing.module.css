@@ -198,17 +198,20 @@
 
 .CalculationBoxContainer {
     width: 100%;
-    height: auto;
+    /* modified by :- Parineeta Gedam on 10-05-2023 */
+    min-height: 100px;
     display: flex;
     justify-content: flex-end;
     /* padding-right: 4%; */
 }
 
 .calculationBox {
-    width: 60%;
+	  /* modified by :- Parineeta Gedam on 10-05-2023 */
+    width: 70%;
     margin-right: 2%;   
     margin-bottom: 2%;
-    height: auto;
+    /* commented by :- Parineeta Gedam on 10-05-2023 */
+    /* height: 100px; */
 }
 
 .TotalBox{
@@ -259,7 +262,6 @@
 .TotalLabel{
     font-size: 17px;
     width: 20%;
-    /* background-color: black; */
     padding: 2% 4%;
     font-weight: 700;
     width: 100%;
@@ -271,7 +273,6 @@
     font-size: 17px;
     width: 80%;
     text-align: end;
-    /* background-color: black; */
     padding: 2% 4%;
     font-weight: 700;
     width: 100%;

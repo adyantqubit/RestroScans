@@ -563,33 +563,35 @@ def orderCreation(tenant, request):
     # cartData['sub_total'] = float("{:.2f}".format(sum(itemsPrice)))
     cartData['sub_total'] =round(float("{:.2f}".format(sum(itemsPrice))),2)
 
-    tax = Setting.objects.first()
+    # Commented by :- Parineeta Gedam on 24-05-2023 
+    # tax = Setting.objects.first()
 
-    if tax is not None:
+    # if tax is not None:
 
-        # Modified by :- Parineeta Gedam
-        if tax.sgst is None:
-            tax.sgst = 0
-        if tax.cgst is None:
-            tax.cgst = 0
-        # End of modified code
+    #     # Modified by :- Parineeta Gedam
+    #     if tax.sgst is None:
+    #         tax.sgst = 0
+    #     if tax.cgst is None:
+    #         tax.cgst = 0
+    #     # End of modified code
 
-        # added by rohan-14/4/23 to save tax on cgst and scgt
-        # cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
-        cartData['cgst'] =round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
-        cartData['sgst'] = round(float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
-        # end of addition
-        a = (sum(itemsPrice)*(tax.cgst))/100+(sum(itemsPrice)*(tax.sgst))/100
-        cartData['total'] = round(float("{:.2f}".format((a + sum(itemsPrice)))),2)
+    #     # added by rohan-14/4/23 to save tax on cgst and scgt
+    #     # cartData['tax'] = (sum(itemsPrice)*(tax.tax))/100
+    #     cartData['cgst'] =round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+    #     cartData['sgst'] = round(float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
+    #     # end of addition
+    #     gst = cartData['cgst']+cartData['sgst']
+    #     cartData['total'] = round(float("{:.2f}".format((gst + sum(itemsPrice)))),2)
 
-    else:
-        # cartData['tax'] = 0
-        # added by rohan -14/4/23
-        # reason- to remove tax field with cgst and sgst no.
-        cartData['cgst'] = 0
-        cartData['sgst'] = 0
-        # end of code
-        cartData['total'] =round( float("{:.2f}".format((sum(itemsPrice)))),2)
+    # else:
+    #     # cartData['tax'] = 0
+    #     # added by rohan -14/4/23
+    #     # reason- to remove tax field with cgst and sgst no.
+    #     cartData['cgst'] = 0
+    #     cartData['sgst'] = 0
+    #     # end of code
+    #     cartData['total'] =round( float("{:.2f}".format((sum(itemsPrice)))),2)
+    # End of commented code 
 
     orderSerializer = OrderSerializer(data=cartData)
     order_obj = 0
@@ -598,7 +600,7 @@ def orderCreation(tenant, request):
         order_obj = orderSerializer.save()
 
     return {"order_obj": order_obj, "orderSerializer": orderSerializer}
-    # End of added code 06-04-2023
+    # End of added code 06-04-2023 by :- Parineeta Gedam on 24-05-2023 
 
 # Added by :- Parineeta Gedam
 # Date :- 06-04-2023
@@ -676,11 +678,12 @@ def orderItemsCreation(request, order_obj):
 # modified by :- Parineeta gedam on 15-04-2023
 
 
-def responseDataCreation(order, orderItems, cutomer):
+def responseDataCreation(order, orderItems, cutomer, setting):
     return {
         "customer": CustomerDetailSerializer(cutomer).data,
         "order_details": order,
-        "order_items": orderItems
+        "order_items": orderItems,
+        "setting_data" : setting,
     }
 # End of added code 06-04-2023
 
@@ -802,8 +805,15 @@ class PostCustomerDetailsAPIView(APIView):
         orderItem = orderItemsCreation(request, order_obj)
         orderItemSerializer = orderItem['orderItemSerializer']
 
+        # Added by :- Parineeta Gedam on 17-05-2023 reason :- show cgst and sgst in ui
+        settingSerializer = SettingSaveSerializer(Setting.objects.last())
+
+        # Modified by :- Parineeta Gedam on 17-05-2023 
+        # data = responseDataCreation(orderSerializer.data, orderItemSerializer.data, CustomerDetail.objects.get(
+        #     contact_number=request.data['contact_number']) )
         data = responseDataCreation(orderSerializer.data, orderItemSerializer.data, CustomerDetail.objects.get(
-            contact_number=request.data['contact_number']))
+            contact_number=request.data['contact_number']), settingSerializer.data )
+        # End of Modified code by :- Parineeta Gedam on 17-05-2023
 
         return Response({"msg": "Saved Successfully", "data": data}, status=status.HTTP_201_CREATED)
     # except:
@@ -869,88 +879,111 @@ class updateOrdersAPIView(APIView):
         itemsPrice = []
         allOffer = OfferItem.objects.all()
 
+        # Modified by :- Parineeta Gedam on 24-05-2023 
+        updatedOrderValues=dict()
         # loop to getting offered or non offered price to get subtotal
         for cart in orderItemList.data:
-            item = Item.objects.get(id=cart['item_id'])
-            discounted = 0
-            if allOffer.filter(item_name=item).count() > 0:
-                # Modified by Rohan Kansari - 11/5/23
-                # Reason - If discount is none then do nothing
-                if allOffer.get(item_name=item).offer_name.discount is not None:
-                   discounted = allOffer.get(item_name=item).offer_name.discount
-                # Modified by:-  parineeta- 24/4/23
-                # Reason - We changed half plate to half string so, this if matching condition occurs  
-            if (cart['serving_size'] == "Half"):
-                 # Added by Rohan kansari -  1/5/23
-            # Reason - becuase discount is throwing issue if discount is not in float
-                price = float(item.price_half)*float(cart['quantity']) - float(
-                    item.price_half * cart['quantity']/100)*float(discounted)
-            else:
-                 # Added by Rohan kansari -  1/5/23
-            # Reason - becuase discount is throwing issue if discount is not in float
-                price = float(item.price_full)*float(cart['quantity']) - float(
-                    item.price_full * cart['quantity']/100)*float(discounted)
+            if(cart['item_status'] != "Cancelled"):
+                item = Item.objects.get(id=cart['item_id'])
+                discounted = 0
+                if allOffer.filter(item_name=item).count() > 0:
+                    # Modified by Rohan Kansari - 11/5/23
+                    # Reason - If discount is none then do nothing
+                    if allOffer.get(item_name=item).offer_name.discount is not None:
+                        discounted = allOffer.get(item_name=item).offer_name.discount
+                    # Modified by:-  parineeta- 24/4/23
+                    # Reason - We changed half plate to half string so, this if matching condition occurs  
+                if (cart['serving_size'] == "Half"):
+                    # Added by Rohan kansari -  1/5/23
+                # Reason - becuase discount is throwing issue if discount is not in float
+                    price = float(item.price_half)*float(cart['quantity']) - float(
+                        item.price_half * cart['quantity']/100)*float(discounted)
+                else:
+                    # Added by Rohan kansari -  1/5/23
+                # Reason - becuase discount is throwing issue if discount is not in float
+                    price = float(item.price_full)*float(cart['quantity']) - float(
+                        item.price_full * cart['quantity']/100)*float(discounted)
 
-            itemsPrice.append(price)
-        orderId.sub_total = round(float("{:.2f}".format((sum(itemsPrice)))),2)
+                itemsPrice.append(price)
+        # orderId.sub_total = round(float("{:.2f}".format((sum(itemsPrice)))),2)
+        updatedOrderValues['sub_total']=round(float("{:.2f}".format((sum(itemsPrice)))),2)
+        # tax = Setting.objects.first()
 
-        tax = Setting.objects.first()
+        # if tax is not None:
+        #     # commented by :- Parineeta Gedam on 16-04-2023
+        #     # reason :- to save tax on cgst and scgt
 
-        if tax is not None:
-            # commented by :- Parineeta Gedam on 16-04-2023
-            # reason :- to save tax on cgst and scgt
+        #     # orderId.tax= (sum(itemsPrice)*(tax.tax))/100
+        #     # a = (sum(itemsPrice)*(tax.tax))/100
+        #     # orderId.total = a + sum(itemsPrice)
 
-            # orderId.tax= (sum(itemsPrice)*(tax.tax))/100
-            # a = (sum(itemsPrice)*(tax.tax))/100
-            # orderId.total = a + sum(itemsPrice)
+        #     # End of commented code 16-04-2023
 
-            # End of commented code 16-04-2023
+        #     # added by :- Parineeta Gedam on 16-04-2023
+        #     # reason :- to save tax on cgst and scgt
 
-            # added by :- Parineeta Gedam on 16-04-2023
-            # reason :- to save tax on cgst and scgt
+        #     # Modified by :- Parineeta Gedam
+        #     if tax.sgst is None:
+        #         tax.sgst = 0
+        #     if tax.cgst is None:
+        #         tax.cgst = 0
+        #     # End of modified code
 
-            # Modified by :- Parineeta Gedam
-            if tax.sgst is None:
-                tax.sgst = 0
-            if tax.cgst is None:
-                tax.cgst = 0
-        # End of modified code
+        #     # modified by :- Parineeta Gedam
+        #     cgst = (sum(itemsPrice)*(tax.cgst))/100
+        #     sgst = (sum(itemsPrice)*(tax.sgst))/100
+        #     a = (sum(itemsPrice)*(cgst))/100 + (sum(itemsPrice)*(sgst))/100
 
-            # modified by :- Parineeta Gedam
-            cgst = (sum(itemsPrice)*(tax.cgst))/100
-            sgst = (sum(itemsPrice)*(tax.sgst))/100
-            a = (sum(itemsPrice)*(cgst))/100 + (sum(itemsPrice)*(sgst))/100
+        #     # orderId.cgst = round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+        #     # orderId.sgst =round( float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
+        #     # orderId.total = round(float("{:.2f}".format(orderId.sub_total+orderId.cgst+orderId.sgst)),2)
 
-            orderId.cgst = round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
-            orderId.sgst =round( float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
+        #     # orderId.order_status = "Placed"
 
-            orderId.total = round(float("{:.2f}".format(orderId.sub_total+orderId.cgst+orderId.sgst)),2)
+        #     updatedOrderValues['cgst'] = round(float("{:.2f}".format((sum(itemsPrice)*(tax.cgst))/100)),2)
+        #     updatedOrderValues['sgst'] =round( float("{:.2f}".format((sum(itemsPrice)*(tax.sgst))/100)),2)
+        #     updatedOrderValues['total'] = round(float("{:.2f}".format( updatedOrderValues['sub_total']+updatedOrderValues['cgst']+updatedOrderValues['sgst'])),2)
+        #     updatedOrderValues['final_amount'] = round(float("{:.2f}".format( updatedOrderValues['sub_total']+updatedOrderValues['cgst']+updatedOrderValues['sgst'])),2)
+        #     print("total===================",updatedOrderValues['total'])
+        #     print("final_amount===================",updatedOrderValues['final_amount'])
+        #     updatedOrderValues['order_status'] = "Placed"
+        #     # End of commented code 16-04-2023
 
-            orderId.order_status = "Placed"
+        # else:
+        #     # commented by :- Parineeta Gedam on 16-04-2023
+        #     # reason :- to save tax on cgst and scgt
+        #     # orderId.tax = 0
+        #     # orderId.total = sum(itemsPrice)
+        #     # End of commented code 16-04-2023
 
-            # End of commented code 16-04-2023
+        #     # added by :- Parineeta Gedam on 16-04-2023
+        #     # reason :- to save tax on cgst and scgt
 
-        else:
-            # commented by :- Parineeta Gedam on 16-04-2023
-            # reason :- to save tax on cgst and scgt
-            # orderId.tax = 0
-            # orderId.total = sum(itemsPrice)
-            # End of commented code 16-04-2023
+        #     # Modified by :- Parineeta Gedam
+        #     # tax.cgst = 0
+        #     # tax.sgst = 0
+        #     # orderId.cgst = 0
+        #     # orderId.sgst = 0
+        #     # orderId.total =round( float("{:.2f}".format(sum(itemsPrice))),2)
 
-            # added by :- Parineeta Gedam on 16-04-2023
-            # reason :- to save tax on cgst and scgt
+        #     updatedOrderValues['cgst'] = 0
+        #     updatedOrderValues['sgst'] = 0
+        #     updatedOrderValues['total'] =round( float("{:.2f}".format(sum(itemsPrice))),2)
+        #     updatedOrderValues['finl_amount'] =round( float("{:.2f}".format(sum(itemsPrice))),2)
+        #     # End of commented code 16-04-2023
 
-            # Modified by :- Parineeta Gedam
-            # tax.cgst = 0
-            # tax.sgst = 0
-            orderId.cgst = 0
-            orderId.sgst = 0
-            orderId.total =round( float("{:.2f}".format(sum(itemsPrice))),2)
-
-            # End of commented code 16-04-2023
-
-        orderId.save()
-        orderserializer = OrderSerializer(orderId)
+        # # commented by :- Parineeta Gedam on 19-05-2023
+        # # orderId.save()
+        updatedOrderValues['order_status'] = "Placed"
+        orderserializer = OrderSerializer(orderId,data=updatedOrderValues,partial=True)
+        try:
+            if orderserializer.is_valid(raise_exception=True):
+                orderserializer.save()
+        except Exception as e:
+            print("error----------------------------------------",e)
+        # updatedOrder = Order.objects.filter(order_id=request.data['order']).update(sub_total=orderId.sub_total, cgst=orderId.cgst, sgst=orderId.sgst, total=orderId.total, final_amount=orderId.total)
+        # orderserializer = Order.objects.filter(order_id=request.data['order']).values()[0]  
+        # End of commented by :- Parineeta Gedam on 19-05-2023
 
         return Response({"orderItemSerializer": orderItemList.data, "order": orderserializer.data})
 # End of added code 10-04-2023
@@ -993,11 +1026,19 @@ class getOrderItemsAPI(APIView):
         orderItemsSerializer=OrderItemSerializer(itemObjs, many=True)
         customerSerializer=CustomerDetailSerializer(customerDetail)
         OrderSerializers = AllOrderSerializer(order)
+
+        # Added by :- Parineeta Gedam on 25-05-2023 reason :- show cgst and sgst in ui
+        settingSerializer = SettingSaveSerializer(Setting.objects.last())
+        # End of Added code by :- Parineeta Gedam on 25-05-2023
+
         return Response ({
             "msg":"success",
             "orderItems": orderItemsSerializer.data,
             "customerDetail": customerSerializer.data,
-            "orderDetail": OrderSerializers.data
+            "orderDetail": OrderSerializers.data,
+        # Added by :- Parineeta Gedam on 25-05-2023 reason :- show cgst and sgst in ui
+            "settingData" : settingSerializer.data,
+        # End of Added code by :- Parineeta Gedam on 25-05-2023
             })
 # End of getting order items
 """
@@ -1112,9 +1153,13 @@ class updatePaymentModeAPIView(APIView):
 
     def put(self, request, tenant):
 
-        orderObj = Order.objects.get(order_id=request.data['order_id'])
-        orderObj.payment_mode = request.data['payment_mode']
-        orderObj.save()
+        orderObj = Order.objects.filter(order_id=request.data['order_id'])
+        # Modified by :- Parineeta Gedam on 24-05-2023
+        # orderObj.payment_mode = request.data['payment_mode']
+        paymentMode = request.data['payment_mode']
+        paymentStatus = "Paid"
+        orderObj.update(payment_mode = paymentMode, payment_status = paymentStatus)
+        # End of modified code by :- Parineeta Gedam on 24-05-2023
         return Response({"msg": "success"}, 200)
 
 
@@ -1274,30 +1319,46 @@ class DashboardAPI(APIView):
         summary=dict()
         totalOrders = Order.objects.filter(date__gte=today).count()
         summary["order_count"]=totalOrders
-        revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
-        summary["total_revenue"]=revenue["total__sum"]
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
+        # summary["total_revenue"]=revenue["total__sum"]
+        revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("final_amount"))
+        summary["total_revenue"]=revenue["final_amount__sum"]
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         data["todays_summary"]=summary
 
         summary=dict()
         totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
         summary["order_count"]=totalOrders
-        revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
-        summary["total_revenue"]=revenue["total__sum"]
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
+        # summary["total_revenue"]=revenue["total__sum"]
+        revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("final_amount"))
+        summary["total_revenue"]=revenue["final_amount__sum"]
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         data["this_weeks_summary"]=summary
 
         summary=dict()
         totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
         summary["order_count"]=totalOrders
-        revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
-        summary["total_revenue"]=revenue["total__sum"]
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
+        # summary["total_revenue"]=revenue["total__sum"]
+        revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("final_amount"))
+        summary["total_revenue"]=revenue["final_amount__sum"]
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         data["this_months_summary"]=summary
 
 
         summary=dict()
         totalOrders = Order.objects.filter(date__year=thisYear).count()
         summary["order_count"]=totalOrders
-        revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
-        summary["total_revenue"]=revenue["total__sum"]
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
+        # summary["total_revenue"]=revenue["total__sum"]
+        revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("final_amount"))
+        summary["total_revenue"]=revenue["final_amount__sum"]
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         data["this_years_summary"]=summary
 
         #End of code modification on 15-04-2023
@@ -1603,22 +1664,34 @@ def order_report(request,report_period):
     if(report_period=='this_year'):
         report_title="This Year's Order Report"
         orders = Order.objects.filter(date__year=thisYear,payment_status='Completed').order_by('date')
-        total_revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum('total'))
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # total_revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum('total'))
+        total_revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum('final_amount'))
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         total_orders=Order.objects.filter(date__year=thisYear,payment_status='Completed').count()
     if(report_period=='this_month'):
         report_title="This Month's Order Report"
         orders = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').order_by('date')
-        total_revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum('total'))
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # total_revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum('total'))
+        total_revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum('final_amount'))
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         total_orders=Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').count()
     if(report_period=='this_week'):
         report_title="This Week's Order Report"
         orders = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').order_by('date')
-        total_revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum('total'))
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # total_revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum('total'))
+        total_revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum('final_amount'))
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         total_orders=Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').count()        
     if(report_period=='today'):
         report_title="Today's Order Report"
         orders = Order.objects.filter(date__gte=today,payment_status='Completed').order_by('date')
-        total_revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum('total'))
+        # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+        # total_revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum('total'))
+        total_revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum('final_amount'))
+        # End of modified code by :- Parineeta Gedam on 12-05-2023
         total_orders=Order.objects.filter(date__gte=today,payment_status='Completed').count() 
     template = get_template('admin/order_report.html')
     html_string = template.render({'restaurant_details':restaurant_details,
@@ -1626,7 +1699,7 @@ def order_report(request,report_period):
                                    'date':datetime.date.today(),
                                    'total_orders':total_orders,
                                    'orders': orders,
-                                   'total_revenue':total_revenue["total__sum"],
+                                   'total_revenue':total_revenue["final_amount__sum"],
                                    })
     
     html = HTML(string=html_string)
@@ -1780,3 +1853,129 @@ class UpdateAllOrderStatus(APIView):
 
 
 # End of code - Rohan Kansari - 25/5/23
+
+# Added by :- Parineeta Gedam
+# Date :- 17-04-2023
+# Reason : check order confirm
+class CheckOrderConfirmAPIView(APIView):
+    def post(self, request, tenant):
+        orderObj = Order.objects.get(order_id=request.data['order_id'])
+        serializer = OrderSerializer(orderObj)
+        return Response({"order": serializer.data}, 200)
+# End of code addition by Parineeta Gedam on 17-04-2023
+
+# Added by :- Parineeta Gedam
+# Date :- 16-05-2023
+# Reason : API for update the orders
+
+class DeleteOrderItemsAPIView(APIView):
+    def put(self, request, tenant):
+        orderItemId  = OrderItem.objects.get(id = request.data['orderItem'])
+        orderId = Order.objects.get(order_id=request.data['order'])
+        orderItemId.item_status = "Cancelled"
+        orderItemId.save()
+
+        orderItemsObj = OrderItem.objects.filter(order_id=orderId.id)
+        orderItemserializer = OrderItemSerializer(orderItemsObj, many=True)
+       
+        orderItemOrderId = OrderItem.objects.filter(order_id=orderId.id)
+
+        itemsPrice = []
+        for orderItem in orderItemOrderId :
+            if(orderItem.item_status != "Cancelled"):
+                price = orderItem.price
+                itemsPrice.append(price)
+        updatedOrderValues=dict()
+
+        updatedOrderValues['sub_total'] = round(float("{:.2f}".format((sum(itemsPrice)))),2)
+        orderSerializer=OrderSerializer(orderId,data=updatedOrderValues,partial=True)
+        try:
+            if orderSerializer.is_valid(raise_exception=True):
+                orderSerializer.save()
+        except Exception as e:
+            print("Exception occured on deleteOrderAPI",e)               
+        return Response({"orderItem":orderItemserializer.data, "order":orderSerializer.data})
+        
+# Added by :- Parineeta Gedam
+# Date :- 17-05-2023
+# Reason : API for update the orders
+
+class PostUpdateOrderItemsAPIView(APIView):
+    def put(self, request, tenant):
+        orderId = Order.objects.get(order_id=request.data['orders'])
+        orderItemId = OrderItem.objects.filter(order_id=orderId.id)
+        order = request.data['order']
+
+        cartItem = []
+        if(order['order_status'] == "Placed") : 
+            for cart in request.data['orderItems']:
+                if(cart['item_status'] != "Cancelled") : 
+                    print("cart", cart)
+                    orderItem = OrderItem.objects.get(id=cart['id'])
+                    orderItem.quantity=cart['quantity']
+                    orderItem.price=cart['price']
+                    orderItem.save()
+                    cartItem.append(orderItem)
+            orderItemSerializer = OrderItemSerializer(cartItem, many=True)
+
+        orderData  = Order.objects.filter(order_id = request.data['orders']).update(
+            sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
+            cgst = round( float("{:.2f}".format(order['cgst'])),2), 
+            sgst = round( float("{:.2f}".format(order['sgst'])),2), 
+            total = round( float("{:.2f}".format(order['total'])),2),
+            final_amount = round( float("{:.2f}".format(order['total'])),2),
+            cancelled_by="Customer")
+        
+        orderObject = Order.objects.filter(order_id = request.data['orders']).values()[0]
+        return Response({"orderItem":orderItemSerializer.data, "order":orderObject})
+
+# End of added code by :- Parineeta Gedam on 17-05-2023
+
+# Added by :- Parineeta Gedam
+# Date :- 22-05-2023
+# Reason : API for get the order items and order
+
+class GetOrderItemsAndOrderAPIView(APIView):
+    def post(self, request, tenant):
+        orderId = Order.objects.get(order_id=request.data['order'])
+        orderSerializer = OrderSerializer(orderId)
+        orderItemId = OrderItem.objects.filter(order_id=orderId.id)
+        orderItemsSerializer = OrderItemSerializer(orderItemId, many=True)
+        return Response({"orderItem":orderItemsSerializer.data, "order": orderSerializer.data})
+    
+# End of added code by :- Parineeta Gedam on 22-05-2023
+
+
+# Added by :- Parineeta Gedam
+# Date :- 17-05-2023
+# Reason : API for Add order items used in react native
+
+class AddOrderItemsAPIView(APIView):
+    def post(self, request, tenant):
+        print("request", request.data)
+        OrderItem(
+            order_id = Order.objects.get(id = request.data["order_id"]),
+            item = request.data["item"],
+            item_id = Item.objects.get(id = request.data["item_id"]),
+            serving_size = request.data["serving_size"],
+            quantity = request.data["quantity"],
+            item_status = request.data["item_status"]
+        ).save()
+        # orderId = Order.objects.get(order_id)
+        return Response({"msg":"success"})
+# End of added code by :- Parineeta Gedam on 17-05-2023
+
+
+# Added by :- Parineeta Gedam
+# Date :- 26-05-2023
+# Reason : API for post the reservations data
+class PostReservationsAPIView(APIView):
+    def post(self, request, tenant):
+        print("request", request.data)
+        print(request.data)
+        # ReservationsSerializedData = ReservationsSerializer(data=request.data)
+        # if ReservationsSerializedData.is_valid():
+        #     ReservationsSerializedData.save()
+        return Response({"msg":"success"})
+# End of added code by :- Parineeta Gedam on 17-05-2023
+

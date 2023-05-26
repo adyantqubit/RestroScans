@@ -73,30 +73,50 @@
             <div class="subtitle" >Total Orders : {{total_orders}}</div>
         </div>
         <div class="dataContainer">
-            <div class="titleSection" >
+            <div class="titleSection">
+                <!-- Modified by :- Parineeta Gedam on 11-05-2023
+                    Reason :- changes in desiging and calculations
+                -->
                 <!-- Modified and added by Om on 11-05-23
                 Reason : Change the date filed name -->
                 <!-- <div class="inlineColumn" style="width:20%;">Date</div> -->
-                <div class="inlineColumn" style="width:20%;">Date & Time</div>
+                <div class="inlineColumn" style="width:18%;">Date & Time</div>
                 <!-- End of addition by Om shrivastava on 11-05-23 -->
-
-                <div class="inlineColumn" style="width:15%;">Order Id</div>
+                <div class="inlineColumn" style="width:11%;">Order Id</div>
                 <!-- Modified and added by Om on 07-05-23
                 Reason : Show the rupee sign from using global file -->
                 <!-- <div class="inlineColumn" style="width:20%;">Sub Total (₹)</div> -->
-                <div class="inlineColumn" style="width:20%;">Sub Total ({{restaurant_details.rupee_symbol}})</div>
+                <div class="inlineColumn" style="width:14%;">Sub Total ({{restaurant_details.rupee_symbol}})</div>
                 <!-- End of addition by Om shrivastava on 07-05-23 -->
 
-                <div class="inlineColumn" style="width:10%;">CGST</div>
-                <div class="inlineColumn" style="width:10%;">SGST</div>
+                <!-- Added by :- Parineeta Gedam on 11-05-2023 
+                Reason :- to show discount
+                -->
+                <div class="inlineColumn" style="width:11%;">Discount</div>
+                <div class="inlineColumn" style="width:11%;">Total</div>
+                <!-- End of added code on 11-05-2023 -->
+
+                <div class="inlineColumn" style="width:7%;">CGST</div>
+                <div class="inlineColumn" style="width:7%;">SGST</div>
                 <!-- Modified and added by Om on 07-05-23
                 Reason : Show the rupee sign from using global file -->
                 <!-- <div class="inlineColumn" style="width:20%;">Total (₹)</div> -->
-                <div class="inlineColumn" style="width:20%;">Total ({{restaurant_details.rupee_symbol}})</div>
+                <!-- Modified by :- Parineeta Gedam on 11-05-2023 
+                    Reason :- to show grand total after discount
+                -->
+                <!-- <div class="inlineColumn" style="width:20%;">Total ({{restaurant_details.rupee_symbol}})</div> -->
+                <div class="inlineColumn" style="width:16%">Grand Total ({{restaurant_details.rupee_symbol}})</div>
+                <!-- End of added code by Parineeta gedam on 11-05-2023 -->
+
                 <!-- End of addition by Om shrivastava on 07-05-23 -->
 
             </div>
-            <div class="dataSection">
+            <!-- End of added code by :- Parineeeta Gedam 0n 11-05-2023  -->
+
+             <!-- Commented by :- Parineeta Gedam on 11-05-2023
+                Reason :- re-calculations when apply discount
+            -->
+            <!-- <div class="dataSection">
                 {% for order in orders %}
                 <div class="dataRow">
                     <div class="inlineColumn" style="width:20%;">{{order.date|date:'d/m/Y H:i'}}</div>
@@ -107,9 +127,36 @@
                     <div class="inlineColumn" style="width:20%;">{{order.total}}</div>
                 </div>
                 {% endfor %}
+            </div> -->
+            <!-- End of commented code by :- Parineeta Gedam on 11-05-2023 -->
+
+
+            <!-- Modified by :- Parineeta Gedam on 11-05-2023
+                Reason :- re-calculations when apply discount
+            -->
+            <div class="dataSection">
+                {% for order in orders %}
+                <div class="dataRow">
+                    <div class="inlineColumn" style="width:18%;">{{order.date|date:'d/m/Y H:i'}}</div>
+                    <div class="inlineColumn" style="width:11%;">{{order.order_id}}</div>
+
+                    <div class="inlineColumn" style="width:14%;">{{order.sub_total|floatformat:2}}</div>
+                    {% if order.discount_type == "Discount in (₹)" %}
+                    <div class="inlineColumn" style="width:11%;">{{order.manual_discount|floatformat:2}} ({{restaurant_details.rupee_symbol}})</div>
+                    {% else %}
+                    <div class="inlineColumn" style="width:11%;">{{order.manual_discount|floatformat:2}}  (%)</div>
+                    {% endif %}
+                    <div class="inlineColumn" style="width:11%;">{{order.total|floatformat:2}}</div>
+                    <div class="inlineColumn" style="width:7%;">{{order.cgst|floatformat:2}}</div>
+                    <div class="inlineColumn" style="width:7%;">{{order.sgst|floatformat:2}}</div>
+                    <div class="inlineColumn" style="width:16%;">{{order.final_amount|floatformat:2}}</div>
+
+                </div>
+                {% endfor %}
             </div>
-            
-            
+            <!-- End of added code by :- Parineeta Gedam on 11-05-2023 -->
+
+
         </div>
         <!-- Modified and added by Om on 07-05-23
          Reason : Show the rupee sign from using global file -->

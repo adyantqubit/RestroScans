@@ -13,8 +13,8 @@ import siteConfig from "../../config/config";
 import './Scan.css';
 import { CheckCircleOutlined } from '@ant-design/icons';
 
-export default function Scan() {
-
+export default function Scan(handleOk) {
+  
   // get colors from context 
   var { colors } = useContext(GlobalContext);
 
@@ -93,23 +93,25 @@ export default function Scan() {
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
     if (response.msg) {
-      // Commented by :- Parineeta Gedam
-      // Date :- 14-04-2023
-      // Reason :- dont'show success msg
-      // message.success({
-      //   content: "Payment done successfully",
-      //   key: 1,
-      //   icon: <CheckCircleOutlined />,
-      //   style: {
-      //     marginTop: '5vh',
-      //     fontSize: "16px",
-      //     letterSpacing: "1.3px",
-      //     fontFamily: "Times News Roman",
-      //     color: colors.headingColor,
-      //   },
-      // });
-      // End of commented code 14-04-2023
-      navigate("/bill-success");
+    //   // Commented by :- Parineeta Gedam
+    //   // Date :- 14-04-2023
+    //   // Reason :- dont'show success msg
+    //   // message.success({
+    //   //   content: "Payment done successfully",
+    //   //   key: 1,
+    //   //   icon: <CheckCircleOutlined />,
+    //   //   style: {
+    //   //     marginTop: '5vh',
+    //   //     fontSize: "16px",
+    //   //     letterSpacing: "1.3px",
+    //   //     fontFamily: "Times News Roman",
+    //   //     color: colors.headingColor,
+    //   //   },
+    //   // });
+    //   // End of commented code 14-04-2023
+      // navigate("/bill-success");
+      handleOk.handleOk()
+      // navigate("/invoice");
     }
     else {
       message.error({

@@ -451,6 +451,11 @@ class CustomerDetailAdmin(admin.ModelAdmin):
     list_per_page=10
     # End of code addition
 
+    # Added by :- Parineeta Gedam on 12-05-2023
+    # Reason :- all field should be read only.
+    readonly_fields=['id','name','email', 'contact_number','last_customer_name','last_email']
+    # End of added code by :- Parineeta Gedam on 12-05-2023 
+
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():
             return False
@@ -503,7 +508,15 @@ class OrderAdmin(admin.ModelAdmin):
     #             'total','order_status','payment_status','date']
     list_display = ['view_order','order_items','order_id','customer_detail', 'table_number', 'sub_total',
                     # 'tax',
-                    'total','order_status','payment_status','date' ,
+                      
+                    #Added by:- Parineeta Gedam on 07-05-23 
+                    # 'total',
+                    "manual_discount",
+                    'total',
+                    "final_amount",
+                    # End of Code Addition
+                    
+                    'order_status','payment_status','date' ,
                     #Added by Om on 30-05-23 
                     #Adding a generate_pdf button
                     # 'generate_order',
@@ -596,7 +609,13 @@ class OrderAdmin(admin.ModelAdmin):
                     # Reason - Not needed yet
                     #  'pax','dshr','capt','sess'
                     # End of code- 29/4/23
-                     'cgst','sgst','total']
+                     'cgst','sgst','total',
+
+                    #Added by:- Parineeta Gedam on 12-05-23 for read only field
+                    'review',
+                    # 'final_amount',
+                    # End of Code Addition
+                    ]
     # End of added code on 17-04-2023
 
    
@@ -627,6 +646,19 @@ class OrderAdmin(admin.ModelAdmin):
         form.base_fields['payment_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_mode'].widget.attrs['style'] = 'width: 15em;'
 
+        # Added by :- Parineeta Gedam on 06-05-2023
+        # Reason :- to design form
+        form.base_fields['manual_discount'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['final_amount'].widget.attrs['style'] = 'width: 15em;'
+        # End of added code on 06-05-2023
+
+        # Added by :- Parineeta Gedam on 13-05-2023
+        # Reason :- to design form
+        form.base_fields['cancelled_by'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['cancel_reason'].widget.attrs['style'] = 'width: 15em;'
+
+        # End of added code on 06-05-2023
+
         # Commented by - Ashish Dewangan on 24-04-2023
         # reason - not used anymore
         # form.base_fields['dshr'].widget.attrs['style'] = 'width: 15em;'
@@ -636,6 +668,12 @@ class OrderAdmin(admin.ModelAdmin):
         # End of comment
         return form
     # End of addition on :- 24-04-2023
+
+    # Added by :- Parineeta Gedam on 10-05-2023
+    # Reason :- to design radio options for discount type
+    radio_fields = {'discount_type': admin.VERTICAL}
+    # End of addition on :- 10-05-2023
+
 
 admin.site.register(Order, OrderAdmin)
 
@@ -664,13 +702,17 @@ class OrderItemAdmin(admin.ModelAdmin):
         else:
             return super(OrderItemAdmin, self).response_change(request, obj)
     # End of code addition by Ashish Dewangan 03-05-2023
+    # list_display = ['view_order_item','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
     list_display = ['view_order_item','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date']
+
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     # Commented and modified by - Ashish Dewangan on 30-05-2023
     # Reason - To add button
     # list_display_links=('id','item_id','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # list_display_links=('view_order_item','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
     list_display_links=('view_order_item','order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+
     # End of code modification by Ashish Dewangan on 03-05-2023
     # End of code addition
 
@@ -687,18 +729,29 @@ class OrderItemAdmin(admin.ModelAdmin):
     # Remove by ROhankansari - 11/5/23
     # Reason - requirement is to hide this field if already we have name so dont show id
     # readonly_fields=['item_id','order_id','item', 'serving_size','quantity','price','date']
-    readonly_fields=['order_id','item', 'serving_size','quantity','price','date']
+
+    # Modified by :- Parineeta Gedam on 18-05-2023
+    # readonly_fields=['order_id','item', 'serving_size','quantity','price','date']
+    readonly_fields=['price','date']
+    # End of modified code by :- Parineeta Gedam on 18-05-2023
+
     # End of code- ROhankansari -11/5/23
     #End of code modification by Ashish Dewagnan on 24-04-2023
 
     # Added by ROhan kansari - 11/5/23
     # Reason - To remove this column from table
-    exclude=("item_id",)
+    # commented by :- Parineeta Gedam on 19-05-2023
+    # reason :- to show item_id 
+    # exclude=("item_id",)
     # ENd of code - 11/5/23
 
     #Added by Rohan Kansari - 11/5/23
     # Reason -To solve ordering issue of table
-    fields=('order_id','item', 'serving_size','quantity','price','item_status','rating','review','date')
+    # fields=('order_id','item', 'serving_size','quantity','price','item_status','rating','review','date', 'cancel_reason')
+    # Modified by :- Parineeta Gedam on 21-05-2023
+    fields=('order_id','item','item_id','serving_size','quantity','price','item_status','rating','review','date', 'cancel_reason')
+    # End of modified code by :- Parineeta Gedam on 21-05-2023
+
     # End of code - 11/5/23 -Rohan Kansari
 
     def has_module_permission(self, request,view=None):
@@ -731,7 +784,9 @@ class OrderItemAdmin(admin.ModelAdmin):
     # Added by :- Ashish Dewangan on 26-04-2023
     # Reason - To disallow admin to create OrderItems
     def has_add_permission(self, request, obj=None) :
-        return False
+        # return False
+        return True
+
     # End of code addition by Ashish Dewangan on 26-04-2023
 
     # Added by :-  Parineeta Gedam on :- 24-04-2023
@@ -748,6 +803,15 @@ class OrderItemAdmin(admin.ModelAdmin):
         form.base_fields['rating'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['review'].widget.attrs['style'] = 'width: 20em;  height:5em;'
         form.base_fields['item_status'].widget.attrs['style'] = 'width: 15em;'
+
+        # Added by :- Parineeta Gedam on 19-05-2023
+        form.base_fields['order_id'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['item'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['item_id'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['serving_size'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['cancel_reason'].widget.attrs['style'] = 'width: 20em;  height:5em;'
+        # End of added code by :- Parineeta Gedam on 19-05-2023
+
         return form
     # End of addition on :- 24-04-2023
     
@@ -775,6 +839,19 @@ class PaymentMethodAdmin(admin.ModelAdmin):
             return False
         else:
             return True
+        
+    # Added by :- Parineeta Gedam on 12-05-2023
+    # Reason - to add only one time
+    def has_add_permission(self, request):
+        return not PaymentMethod.objects.exists()
+    # End of eddition
+
+    # Added by :- Parineeta Gedam on 12-05-2023
+    # Reason - can not delete
+    def has_delete_permission(self, request, obj=None) :
+        return False
+    # End of Added code on 20-04-2023
+
 admin.site.register(PaymentMethod, PaymentMethodAdmin)
 
 """

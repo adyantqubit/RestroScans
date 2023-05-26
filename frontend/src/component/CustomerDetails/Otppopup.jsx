@@ -188,14 +188,18 @@ const Otppopup = () => {
         secureLocalStorage.setItem("customer_details",state.state)
         secureLocalStorage.setItem("order", response.data.order_details)
         secureLocalStorage.setItem("orderItem", response.data.order_items)
-  
+
+        // Added by :- Parineeta Gedam on 17-05-2023
+        secureLocalStorage.setItem("setting_data", response.data.setting_data)
+        // End of added code by :- Parineeta Gedam on 17-05-2023
+
         // Added by :- Parineeta Gedam
         // Date :- 14-04-2023
         // Reason :- remove cart data from local storage
   
         localStorage.removeItem('cart');
         setCart([])
-        navigate("/invoice")
+        navigate("/order")
     }
 
   }

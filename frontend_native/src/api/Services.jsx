@@ -473,3 +473,39 @@ export const getAllCustomerApi = async (tenant) => {
 /**
  * End of getting all orders
  */
+
+// Added by Parineeta Gedam  on 24-05-2023
+// Reason - to post added order items
+
+export const postOrderItemsApi = async (data, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/add_order_items/`, data, {
+    headers: {
+      // "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of added code by Parineeta Gedam on 24-05-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 25-05-2023
+// Reason :- Post API for delete orders
+export const deleteOrderItemApi = async(tenantId,deleteOrderItem) => {
+  const response = await API.put(`/api/v1/${tenantId}/delete_order_items/`,deleteOrderItem,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by :- Parineeta Gedam on 25-05-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 22-05-2023
+// Reason :- Post API for update orders
+export const postUpdateOrderItemsApi = async(tenantId,updateOrderItems) => {
+  const response = await API.put(`/api/v1/${tenantId}/update_order_items/`,updateOrderItems,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by :- Parineeta Gedam on 22-05-2023

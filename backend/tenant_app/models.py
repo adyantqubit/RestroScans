@@ -6,6 +6,10 @@ from django.db.models import Avg
 from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.core.validators import validate_image_file_extension
+from django import forms
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 
@@ -558,13 +562,26 @@ ORDER_STATUS = (
     ("Confirm", "Confirm"),
     ("Cooked", "Cooked"),
     ("Served", "Served"),
+    # Added by :- Parineeta Gedam on 13-05-2023
+    ("Cancelled", "Cancelled"),
+    # End of Added code by :- Parineeta Gedam on 13-05-2023
 )
 
 PAYMENT_STATUS = (
     ("Pending", "Pending"),
     ("Completed", "Completed"),
+    # Added by :- Parineeta Gedam on 21-05-2023
+    ("Paid", "Paid"),
+    # End of Added code by :- Parineeta Gedam on 21-05-2023
 )
 # End of modified code on 17-04-2023
+
+# Added by :- Parineeta Gedam on 13-05-2023
+CANCELLED_BY = (
+    ("Customer", "Customer"),
+    ("Admin", "Admin"),
+)
+# End of added code by :- Parineeta Gedam on 13-05-2023
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
@@ -600,6 +617,15 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
     # End of modified and commented by Om Shrivastava on 11-05-23
     payment_mode = models.CharField(max_length=100,null=True,blank=True)
+
+    # Added By :- Parineeta Gedam Date :- 06-05-2023
+    # Reason - to add discount type manual discount and final amount
+    CHOICES = [('Discount in (?)','Discount in (?)'),('Discount in (%)','Discount in (%)')]
+    discount_type=models.CharField(max_length=255, choices=CHOICES, default="Discount in (?)")
+    manual_discount = models.FloatField(default=0.0, null=True, blank=True, verbose_name='Discount')
+    final_amount = models.FloatField(default=0.0, null=True, blank=True)
+    # End of added code date :- 06-05-2023
+
     # Added By Rohan Kansari - 4/5/23
     # Reason - To save overall review
     review=models.TextField(null=True,blank=True)
@@ -607,6 +633,26 @@ class Order(models.Model):
     # Added by Rohan kansari - 10/5/23
     # Reason - To save payment confirmation date and time 
     payment_confirmation_date_time=models.CharField(max_length=50,null=True,blank=True)
+
+    # Added by :- Parineeta Gedam on 13-05-2023 
+    # Reason :- for order cancel
+    cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
+    cancel_reason = models.TextField(null=True,blank=True)
+    # End of added code by :- Parineeta Gedam on 13-05-2023
+
+    # Added by :- Parineeta Gedam on 10-05-2023
+    # Reason :- to check if discount type in (%) is should not be more then 100
+    def clean(self) : 
+        if self.discount_type == "Discount in (%)" and self.manual_discount > 100 :
+            raise ValidationError({"manual_discount" : "Discount should not be more than 100"})
+        
+        # Added by :- Parineeta Gedam on 13-05-2023
+        # reason :- if order status = cancelled then show the validations msg in cancel reason. 
+        if self.order_status == "Cancelled" :
+            raise ValidationError({"cancel_reason" : "Please give the cancel reason"})
+        # End of added code on 13-05-2023
+
+    # End of added code on 10-05-2023
 
     def __str__(self):
         return f"{self.order_id}"
@@ -624,9 +670,65 @@ class Order(models.Model):
         if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
             from datetime import datetime
             self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M') 
+        #super().save( *args, **kwargs)
+
+        # Added by :- Parineeta Gedam on 06-05-2023
+        # Reason :- to update payment status, manual discont and final amount
+        try :
+            orderUpdate = Order.objects.get(order_id=self.order_id)
+            orderUpdate.sub_total = self.sub_total
+            orderUpdate.cgst=self.cgst
+            orderUpdate.sgst = self.sgst
+            orderUpdate.total = self.sub_total + self.cgst + self.sgst
+            print("manual_discount ===========",self.manual_discount)
+
+            if self.manual_discount:
+                total = 0
+                if self.discount_type == "Discount in (?)" :
+                    total =  self.sub_total - self.manual_discount
+                else :
+                    total = self.sub_total - (self.sub_total * self.manual_discount / 100)
+                print("total=====", total)
+                orderUpdate.total = float("{:.2f}".format(total))
+                print("orderUpdate.total ", orderUpdate.total )
+                
+                tax = Setting.objects.first()
+                if tax is not None:
+                    if tax.sgst is None:
+                        tax.sgst = 0
+                    if tax.cgst is None:
+                        tax.cgst = 0
+                    cgst = ( orderUpdate.total*(tax.cgst)/100)
+                    self.cgst = round(float("{:.2f}".format(cgst)),2)
+                    sgst = ( orderUpdate.total*(tax.sgst)/100)
+                    self.sgst = round(float("{:.2f}".format(sgst)),2)
+                    self.total= round(float("{:.2f}".format( orderUpdate.total)),2)
+                    self.final_amount = round(float("{:.2f}".format( orderUpdate.total + cgst + sgst)),2)
+                    print("cgst", self.cgst)
+                    print("sgst", self.sgst)
+                    print("total", orderUpdate.total)
+                    print("self.final_amount",self.final_amount)
+            else:
+                tax = Setting.objects.first()
+                if tax is not None:
+                    if tax.sgst is None:
+                        tax.sgst = 0
+                    if tax.cgst is None:
+                        tax.cgst = 0
+                    cgst = ( orderUpdate.sub_total*(tax.cgst)/100)
+                    self.cgst = round(float("{:.2f}".format(cgst)),2)
+                    sgst = ( orderUpdate.sub_total*(tax.sgst)/100)
+                    self.sgst = round(float("{:.2f}".format(sgst)),2)
+                    self.total= round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
+                    self.final_amount = round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
+                    print("save method -------- cgst", self.cgst)
+                    print("sgst", self.sgst)
+                    print("total", self.total)
+        except Exception as e:
+            print("Exception in save method of order - ",e)
+        # End of added code on 06-05-2023
+
         super().save( *args, **kwargs)
-
-
     # End of addition
 
     # Removed BY rohan kansari - 11/5/23 
@@ -654,6 +756,16 @@ ITEM_STATUS = (
     # ("Completed", "Completed"),
     ("Confirm", "Confirm"),
     # End of code modification by Ashish Dewangan on 19-04-2023 
+
+    # Added by :- Parineeta Gedam on 13-05-2023
+    ("Cancelled", "Cancelled"),
+    # End of added code by :- Parineeta Gedam 
+)
+
+# Added by :- Parineeta Gedam on 19-05-2023
+SERVING_SIZE = (
+    ("Half", "Half"),
+    ("Full", "Full"),
 )
 
 class OrderItem(models.Model):
@@ -667,7 +779,12 @@ class OrderItem(models.Model):
     item = models.CharField(max_length=255,verbose_name='Item name')
     # End of code modification by Ashish Dewangan on 03-05-2023
 
-    serving_size = models.CharField(max_length=255)
+    # Modified by :- Parineeta Gedam on 19-05-2023 
+    # Reason :- add choice field 
+    # serving_size = models.CharField(max_length=255,)
+    serving_size = models.CharField(max_length=255,choices=SERVING_SIZE)
+    # End of modified code on 19-05-2023
+
     quantity = models.IntegerField(default=0)
     price = models.FloatField(default=0)
     rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
@@ -681,6 +798,11 @@ class OrderItem(models.Model):
     # Modified by :- Parineeta Gedam 17-04-2023
     item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")
     # End of modified code 17-04-2023
+
+    # Added by :- Parineeta Gedam on 18-05-2023 
+    # Reason :- for order cancel
+    cancel_reason = models.TextField(null=True,blank=True)
+    # End of added code by :- Parineeta Gedam on 18-05-2023
 
     # Commented and modified by - Ashish Dewangan on 24-04-2023
     # Reason - To show details of each order item properly 
@@ -708,10 +830,64 @@ class OrderItem(models.Model):
                 orderObj = Order.objects.get(order_id = self.order_id)
                 orderObj.order_status="Confirm"
                 orderObj.save()
+
+        # Added by :- Parineeta Gedam on 18-05-2023
+        # Reason :- If admin increase or decrese the qunatity of any item then again re-calculations for price and in order table for sub_total, cgst, sgst, total, final amount. 
+
+        allOffer = OfferItem.objects.all()
+        discounted = 0
+        if allOffer.filter(item_name=self.item_id).count() > 0:
+            if allOffer.get(item_name=self.item_id).offer_name.discount is not None:
+               discounted = allOffer.get(item_name=self.item_id).offer_name.discount
+        if (self.serving_size == "Half"):
+            price = float(self.item_id.price_half)*float(self.quantity) - float(
+                float(self.item_id.price_half) * float(self.quantity) /100)* float(discounted)
+        else:
+            price = float(self.item_id.price_full)*float(self.quantity)-float(
+                float(self.item_id.price_full) * float(self.quantity) /100)*float(discounted)
+            
+        self.price = price
+        # super().save( *args, **kwargs)
+
+        # End of added code by :- Parineeta Gedam on 18-05-2023
         super().save( *args, **kwargs)
     # End of addition 07/05/2023
 
+    # Added by :- Parineeta Gedam on 18-05-2023
+    # reason :- if item status = cancelled then show the validations msg in cancel reason.
+    def clean(self) : 
+        if self.item_status == "Cancelled" and self.cancel_reason is None :
+            raise ValidationError({"cancel_reason" : "Please give the cancel reason"})
+    # End of added code on 18-05-2023
 
+# Added by:- Parineeta Gedam on :- 21-05-2023
+# reason :- If admin increase or decrese the qunatity of any item then again re-calculations for price and in order table for sub_total, cgst, sgst, total, final amount.  
+
+@receiver(post_save, sender=OrderItem)
+def my_handler(sender,instance, **kwargs, ):
+    orderItemObject = OrderItem.objects.filter(order_id = instance.order_id)
+    itemsPrice = []
+    for cart in orderItemObject:
+        if(cart.item_status != "Cancelled") :
+            price = cart.price
+            itemsPrice.append(price)
+    order = Order.objects.get(order_id = instance.order_id)
+    subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+    order.sub_total=subTotal
+    order.save()
+    # tax = Setting.objects.first()
+    # if tax is not None:
+    #     if tax.sgst is None:
+    #         tax.sgst = 0
+    #     if tax.cgst is None:
+    #         tax.cgst = 0
+    #     cgst = round(float("{:.2f}".format(subTotal*(tax.cgst)/100)),2)
+    #     sgst = round(float("{:.2f}".format(subTotal*(tax.sgst)/100)),2)
+    #     total = round(float("{:.2f}".format(subTotal + cgst + sgst)),2)
+    #     finalAmount = round(float("{:.2f}".format(subTotal + cgst + sgst)),2)
+    # orderId.update(sub_total = subTotal, cgst = cgst, sgst=sgst, total = total, final_amount = finalAmount)
+# End of added code by :- Parineeta Gedam on 21-05-2023
+   
 """
 End of added code 06-04-2023
 """

@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable, Alert, Modal } from "react-native";
 import React from "react";
 import {
   getOrderItemsApi,
-  updateOrderAndPaymentStatus,
+  updateOrderAndPaymentStatus, deleteOrderItemApi, postUpdateOrderItemsApi,
 } from "../../api/Services";
 import { useState } from "react";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { useContext } from "react";
 import { AppStateContext } from "../../context/AppStateProvider";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { SelectList } from "react-native-dropdown-select-list";
 import { colors } from "../../Colours/globalColor";
 import * as Print from "expo-print";
@@ -18,6 +18,10 @@ import Footer from "../../components/Footer/Footer";
 import { FontAwesome } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import { Feather } from '@expo/vector-icons';
+import AddOrderItemForm from "../../components/orderItem/AddOrderItemForm";
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender, settings,rupee_sign } = useContext(AppStateContext); //Need to use settings, for GST number.
@@ -27,6 +31,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   // Reason - to get order id in from router
   const { id, orderID } = route.params;
   // End of modification
+
+  // Added by Parineeta Date : 24-05-2023
+  // Reason : Add serial no in invoice
+  var i = 1;
+  // end of code by Parineeta Date : 24-05-2023
 
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to call function when page is render
@@ -73,6 +82,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   const [paymentStatusSelected, setPaymentStatus] = React.useState("");
   // End of payment status set
 
+  // Added by :- Parineeta Gedam on 25-05-2023
+  // Reason - to get and map setting data
+  const [settingData, setSettingData] = useState("");
+  // End of payment status set
+
   // Added by Yuvraj Sahu on 14-4-2023
   // Reason - to store order status data
   {
@@ -86,6 +100,10 @@ export default function OrderItemsScreen({ route, navigation }) {
     { key: "Confirm", value: "Confirm" },
     { key: "Cooked", value: "Cooked" },
     { key: "Served", value: "Served" },
+
+    // Added by :- Parineeta Gedam on 13-05-2023 
+    { key: "Cancelled", value: "Cancelled" },
+    // End of added code by :- Parineeta gedam on 13-05-2023
   ];
   // End of modification
   // End of addition
@@ -127,9 +145,28 @@ export default function OrderItemsScreen({ route, navigation }) {
       /**
        * End of addition by yuvraj Sahu on 04-05-2023
        */
-      // End of addition
+
+      // Added by :- Parineeta Gedam on 08-05-2023
+      // Reason - to set discount amount (manual discount)
+      setDiscountAmount("" + response.orderDetail.manual_discount)
+      setDiscountType(response.orderDetail.discount_type)
+      // End of added code by :- Parineeta Gedam on 08-05-2023
+
+      // Added by :- Parineeta Gedam on 25-05-2023
+      // Reason - get cgst sgst
+      setSettingData(response.settingData)
+      // End of added code by :- Parineeta Gedam on 25-05-2023
     }
   };
+
+  // alert("asfdf"+JSON.stringify(orderDetail))
+
+  // Added by :- Parineeta Gedam on 24-05-2023 
+  // reason :- for model open 
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // End of added code by :- PArineeta Gedam on 24-05-2023
 
   /**
    * Added by - Ashish Dewangan on 19-04-2023
@@ -209,6 +246,61 @@ export default function OrderItemsScreen({ route, navigation }) {
                 </div>`;
     }
 
+    // Added by :- Parineeta Gedam on 11-05-2023
+    // Reason :- calculations by discount type
+    var discountCalculations = '';
+    if (orderDetail.manual_discount > 0) {
+      if (orderDetail.discount_type == "Discount in (₹)") {
+        discountCalculations = `<div class="calculationLine">
+        <div  class="calculationLabel">
+        <div style= "width:98%">Discount</div>
+        <div>:</div></div>
+        <div  class="calculationText" >${rupee_sign} ${orderDetail.manual_discount.toFixed(2)}</div>
+      </div>`
+      }
+      else {
+        discountCalculations = `<div class="calculationLine">
+        <div  class="calculationLabel">
+        <div style= "width:98%">Discount</div>
+        <div>(${orderDetail.manual_discount.toFixed(2)}%):</div></div>
+        <div  class="calculationText" >${rupee_sign}${((orderDetail.sub_total / 100) * orderDetail.manual_discount).toFixed(2)}</div>
+      </div>`
+      }
+      discountCalculations = discountCalculations + `<div class="calculationLine">
+        <div  class="calculationLabel"> 
+        <div style= "width:98%">Total</div>
+        <div>:</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}</div>
+      </div>
+      <div class="calculationLine">
+        <div  class="calculationLabel" > 
+        <div style= "width:98%">CGST</div>
+        <div> (%${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+      </div>
+      <div class="calculationLine">
+        <div  class="calculationLabel" > 
+        <div style= "width:98%">SGST</div>
+        <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+      </div>`
+    }
+    else {
+      discountCalculations = `<div class="calculationLine">
+      <div  class="calculationLabel" > 
+      <div style= "width:98%">CGST</div>
+      <div>(%${((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
+      <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+      </div>
+      <div class="calculationLine">
+      <div  class="calculationLabel" > 
+      <div style= "width:98%">SGST</div>
+      <div>(%${((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
+      <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+    </div>`
+    }
+    // End of added code on 11-05-2023
+
     str = `<div class="billingContainer">
             <div class="inLineContainer" >
               <div class="Hotellabel"  style="text-align:center;"> ${restaurantName}</div>
@@ -250,9 +342,8 @@ export default function OrderItemsScreen({ route, navigation }) {
             }
               </div>
               <div class="label">Time  </div>
-              <div class="text">  ${
-                ExtractDateTime(orderDetail.payment_confirmation_date_time).time
-              }</div>
+              <div class="text">  ${"ExtractDateTime(orderDetail.payment_confirmation_date_time).time"
+      }</div>
               <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
             <div class="inLineContainer">
@@ -305,12 +396,10 @@ export default function OrderItemsScreen({ route, navigation }) {
               
               ${orderDetail.cgst||orderDetail.sgst?`<hr>`:``}
               <div class="calculationLine">
-                <div  class="calculationLabel" > Total :</div>
-                <div  class="calculationText" >${rupee_sign}${(
-                  SubtotalOfItems() +
-                  orderDetail.cgst +
-                  orderDetail.sgst
-                ).toFixed(2)}</div>
+                <div  class="calculationLabel"> 
+                <div style= "width:98%">Grand Total</div>
+                <div>:</div></div>
+                <div  class="calculationText" >${rupee_sign}${(orderDetail.final_amount.toFixed(2))}</div>
               </div>
             </div>
           </div> 
@@ -320,12 +409,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                 <div class="calculationLine">
                   <div class="TotalLabel">Total </div>
                   <div class="TotalLabel">: </div>
-
-                  <div class="grandTotalText">${rupee_sign}${(
-                    SubtotalOfItems() +
-                    orderDetail.cgst +
-                    orderDetail.sgst
-                  ).toFixed(2)}</div>
+                  <div class="grandTotalText">${rupee_sign}${(orderDetail.final_amount.toFixed(2))}
+                  </div>
                 </div>
             </div>
           </div>
@@ -464,28 +549,27 @@ export default function OrderItemsScreen({ route, navigation }) {
 }
 .CalculationBoxContainer {
   width: 100%;
-  height: auto;
+  min-height: 100px;
   display: flex;
   justify-content: flex-end;
 }
 .calculationBox {
-  width: 60%;
+  width: 75%;
   margin-right: 4%;
   margin-bottom: 2%;
-  height: auto;
 }
 .calculationLine {
   display: flex;
   justify-content: space-between;
 }
 .calculationLabel {
-  font-size: 10px;
+  font-size: 12px;
   width: 20%;
-  padding: 2% 4%;
+  padding: 2% 2%;
   font-weight: 600;
   width: 100%;
   white-space: nowrap;
-  text-align:center
+  display: flex;
 }
 .calculationText {
   width: 50%;
@@ -513,7 +597,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   font-size: 17px;
   width: 20%;
   padding: 2% 4%;
-  font-weight: 800;
+  // font-weight: 800;
   width: 100%;
   letter-spacing: 2px;
 }
@@ -541,7 +625,48 @@ export default function OrderItemsScreen({ route, navigation }) {
     }
   };
   // End of addition
+
+  // Added by :- Parineeta Gedam on :- 08-05-2023
+  // reason :- This react hooks is used to show the error msg if discount amount in (%) is greater then 100.
+  var [discountAmountErrorMsg, setDiscountAmountErrorMsg] = useState(false);
+  // End of added code on 08-05-2023
+
+  // Added by :- Parineeta Gedam on :- 08-05-2023
+  // reason :- This react hooks is used to set discount amount
+  var [discountAmount, setDiscountAmount] = useState(0);
+  // End of added code on 08-05-2023
+
+  // Added by :- Parineeta Gedam on :- 08-05-2023
+  // reason :- This react hooks is used to set discount type
+  var [discountType, setDiscountType] = useState("Discount in (₹)");
+  // End of added code on 08-05-2023
+
+  // Added by :- Parineeta Gedam on 10-05-2023
+  // Reason :- on discount amount box show the error message.
+  const discountHandleChange = (e) => {
+    setDiscountAmount(e)
+    if (discountType == "Discount in (%)") {
+      if (e > 100) {
+        setDiscountAmountErrorMsg(true)
+      }
+      else {
+        setDiscountAmountErrorMsg(false)
+      }
+    }
+  }
+  // End of added code on 10-05-2023
+
+  // Added by :- Parineeta Gedam on 10-05-2023
+  // Reason :- on discount amount box show the error message.
+  var [isShowCancel, setShowCancel] = useState(false);
+  // End of added code on 10-05-2023
+
   const handleUpdate = async () => {
+
+    // Added by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
+    submitUpdateOrderItem()
+    // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
+
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
@@ -549,6 +674,12 @@ export default function OrderItemsScreen({ route, navigation }) {
     var status = {
       order_status: orderStatusSelected,
       payment_status: paymentStatusSelected,
+
+      // Added by :- Parineeta Gedam on :- 08-05-2023 
+      // Reason :- update the manual discount
+      discount_type: discountType,
+      manual_discount: discountAmount,
+      // End of added code on 08-05-2023
     };
     var restaurantName = JSON.parse(
       await SecureStore.getItemAsync("userData")
@@ -586,7 +717,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                orderDetail.date
              ).toLocaleDateString("en-GB")}</div>
             <div class="label">Time</div>
-            <div class="text">: ${ExtractDateTime(orderDetail.date).time}</div>
+            <div class="text">: ${"ExtractDateTime(orderDetail.date).time"}</div>
 
           </div>
           <div class="inLineContainer">
@@ -737,31 +868,40 @@ export default function OrderItemsScreen({ route, navigation }) {
     </html>
     `;
     // End of addition
-    if (orderStatusSelected == "Confirm") {
+
+    // Modified by :- Parineeta Gedam on 10-05-2023 
+    // reason :- check order status and discount amount conditions
+    if (orderStatusSelected == "Confirm" && discountAmountErrorMsg == false) {
       printDoc();
     }
+    // End of added code by :- Parineeta Gedam on 10-05-2023
+
     /**
      * End of code addition by Ashish Dewangan on 19-04-2023
      */
 
-    var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
-    if (response.success) {
-      /**
-       * Added by - Ashish Dewangan on 19-04-2023
-       * Reason - To set latest status of items inside the order
-       */
-      setOrderItems(response.order_items);
-      Alert.alert("Order Updated");
+    // Modified by :- Parineeta Gedam on 10-05-2023 
+    if (discountAmountErrorMsg == false) {
+      var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
+      if (response.success) {
+        /**
+         * Added by - Ashish Dewangan on 19-04-2023
+         * Reason - To set latest status of items inside the order
+         */
+        setOrderItems(response.order_items);
+        Alert.alert("Order Updated");
 
-      // Added by Om on 21-04-23
-      // Reason : Navigate the home page
-      navigation.pop();
-      // End of addition
+        // Added by Om on 21-04-23
+        // Reason : Navigate the home page
+        navigation.pop();
+        // End of addition
 
-      /**
-       * End of code addition by Ashish Dewangan on 19-04-2023
-       */
+        /**
+         * End of code addition by Ashish Dewangan on 19-04-2023
+         */
+      }
     }
+    // End of modifications code by :- Parineeta Gedam on 10-05-2023 
   };
 
   /**
@@ -772,6 +912,115 @@ export default function OrderItemsScreen({ route, navigation }) {
   /**
    * End of addition by yuvraj Sahu on 07-05-2023
    */
+
+  // Added by :- Parineeta Gedam on 25-05-2023
+  // Reason :- admin can decrease the quantity of items.
+  function decreamentQuantiy(items) {
+    const index = orderItems.indexOf(items);
+    const allOrderItem = orderItems;
+    var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
+    if (allOrderItem[index].quantity != 1) {
+      var updateQuantity = allOrderItem[index].quantity -= 1;
+      var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
+      var newSubTotal = 0.0;
+      for (var i = 0; i < allOrderItem.length; i++) {
+        if (allOrderItem[i].item_status != "Cancelled") {
+          newSubTotal += allOrderItem[i].price;
+        }
+      }
+      orderDetail.sub_total = newSubTotal
+      var cgst = ((orderDetail.sub_total * settingData.cgst) / 100)
+      orderDetail.cgst = cgst
+      orderDetail.sgst = (orderDetail.sub_total * settingData.sgst) / 100
+      var a = (orderDetail.sub_total * settingData.cgst) / 100 + (orderDetail.sub_total * settingData.sgst) / 100
+      orderDetail.total = a + orderDetail.sub_total
+    }
+    else {
+      Alert.alert("Qunatity can't be less then 1");
+    }
+    setOrderItems([...allOrderItem])
+  }
+  // End of added code by :- Parineeta Gedam on 25-05-2023
+
+ // Added by :- Parineeta Gedam on 25-05-2023
+  // Reason :- admin can increase the quantity of items.
+  function increamentQuantiy(items) {
+    const index = orderItems.indexOf(items);
+    const allOrderItem = orderItems;
+    var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
+    var updateQuantity = allOrderItem[index].quantity += 1;
+    var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
+    var newSubTotal = 0.0;
+    for (var i = 0; i < allOrderItem.length; i++) {
+      if (allOrderItem[i].item_status != "Cancelled") {
+        newSubTotal += allOrderItem[i].price;
+      }
+    }
+    orderDetail.sub_total = newSubTotal
+    orderDetail.cgst = (newSubTotal * settingData.cgst) / 100
+    orderDetail.sgst = (newSubTotal * settingData.sgst) / 100
+    var a = (newSubTotal * settingData.cgst) / 100 + (newSubTotal * settingData.sgst) / 100
+    orderDetail.total = a + newSubTotal
+    setOrderItems([...allOrderItem])
+  }
+  // End of added code by :- Parineeta Gedam on 25-05-2023
+
+  // Added by :- Parineeta Gedam on 25-05-2023
+  // Reason :- delete the order items
+  function deleteOrderItemPermission(orderItem) {
+    Alert.alert("Confirmation", "Are you sure you want to delete this item?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          handleRemoveOrderItem(orderItem.id);
+        },
+      },
+    ]);
+  }
+
+  const handleRemoveOrderItem = async (id) => {
+    var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+    const data = {
+      order: orderDetail.order_id,
+      orderItem: id,
+      tenant: tenantName
+    }
+    const response = await deleteOrderItemApi(tenantName, data);
+    console.log("response", response)
+    if (response.orderItem) {
+      setOrderItems(response.orderItem)
+      setOrderDetail(response.order)
+      if (orderItems.filter(dt => dt.item_status == "Pending").length == 1) {
+        Navigator.navigate('/OrdersScreen')
+      }
+    }
+  };
+  // End of added code by :- Parineeta Gedam on 25-05-2023
+
+  // Added by :- Parineeta Gedam on 25-05-2023
+  // Reason :- update the order item
+
+  const submitUpdateOrderItem = async () => {
+    var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+    const updateOrderItems = {
+      orders: orderDetail.order_id,
+      orderItems: orderItems,
+      tenant: tenantName,
+      order: orderDetail,
+    };
+    const response = await postUpdateOrderItemsApi(tenantName, updateOrderItems);
+    console.log("res", response)
+    if (response) {
+      setOrderItems(response.orderItem)
+      setOrderDetail(response.order)
+    }
+  }
+  // End of added code by :- Parineeta Gedam on 14-05-2023
+
 
   return (
     <>
@@ -824,7 +1073,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 .join("/")} */}
             </Text>
             <Text style={{ marginTop: 5 }}>
-              <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
+              <Text>Time</Text> :{"ExtractDateTime(orderDetail.date).time"}
             </Text>
             {/* Addition by Om Shrivastava on 13-05-23
             Reason : Show the all over restaurant review   */}
@@ -837,16 +1086,64 @@ export default function OrderItemsScreen({ route, navigation }) {
                     )}
             {/* End of addition by Om Shrivastava on 13-05-23 */}
             {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
+
+            {/* Added by :- Parineeta Gedam on 24-05-2023 
+                reason :- Add button, when click on button then open a model for add new order item. 
+            */}
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+            >
+              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} />
+            </Modal>
+            <View style={styles.addOrderItemBtn}>
+              <Pressable
+                onPress={() => setModalVisible(true)}
+                style={{
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "flex-end",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "45%",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  <Feather name="plus-circle" size={17} color="white" /> Add Order Item
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* End of added code by Parineeta Gedam on 24-05-2023 */}
           </View>
           {orderItems.length > 0 ? (
             <>
               <View style={styles.itemHeadingContainer}>
+                {/* Added by :- Parineeta Gedam on 24-05-2023 
+                    reason :-  add serial no
+                */}
+                <Text style={styles.sNoContainer}>S.no</Text>
+                {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
+
                 <Text style={styles.itemContainer}>Item</Text>
                 <Text style={styles.qtyContainer}>Qty</Text>
+
+                {/* Commented by :- Parineeta Gedam on 25-05-2023 reason :- not now show status */}
                 {/* Added by - Ashish Dewangan on 19-04-2023
                   Reason - To show item status */}
-                <Text style={styles.itemStatusContainer}>Status</Text>
+                {/* <Text style={styles.itemStatusContainer}>Status</Text> */}
                 {/* End of code addition by Ashish on 19-04-2023 */}
+                {/* End of added code by Parineeta Gedam on 25-05-2023 */}
+
+
                 {/* Add rupees icon by Om on 26-04-23  */}
                 {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
@@ -854,43 +1151,115 @@ export default function OrderItemsScreen({ route, navigation }) {
                 <Text style={styles.costContainer}>Cost({rupee_sign})</Text>
                 {/* End of addition by Om on 08-05-23 */}
 
+                {/* Added by :- Parineeta Gedam on 24-05-2023 
+                    reason :-  add Action
+                */}
+                <Text style={styles.actionContainer}>Action</Text>
+                {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
+
               </View>
               {orderItems.map((orderItem, id) => (
-                <View key={id} style={styles.tableContainer}>
-                  <View style={styles.itemContainer}>
-                    <Text>
-                      {orderItem.item} ({orderItem.serving_size})
-                    </Text>
-                    {orderItem.rating && (
-                      <Text>
-                        {/* Commeted and modified by Yuvraj Sahu on 05-05-2023
-                        Reason - to remove lable rating */}
-                        {/* Rating : {orderItem.rating}{" "} */}
-                        {orderItem.rating}{" "}
-                        {/* End of commented by Yuvraj Sahu on 05-05-2023 */}
-                        <FontAwesome name="star" size={13} color="black" />
-                      </Text>
-                    )}
-                    {orderItem.review && (
-                      <Text>Review : {orderItem.review}</Text>
-                    )}
-                  </View>
-                  <Text style={styles.qtyContainer}>{orderItem.quantity}</Text>
-                  {/* Added by - Ashish Dewangan on 19-04-2023
+                <>
+                  {/* Modified by :- Parineeta Gedam on 25-05-2023 */}
+                  {orderItem.item_status == "Cancelled" ? null :
+                    <>
+                      <View key={id} style={styles.tableContainer}>
+                         {/* Added by :- Parineeta Gedam on 24-05-2023 
+                              reason :-  add serial no
+                          */}
+                        <Text style={styles.sNoDataContainer}>{i++}</Text>
+                        {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
+
+                        <View style={styles.itemContainer}>
+                          <Text>
+                            {orderItem.item} ({orderItem.serving_size})
+                          </Text>
+                          {orderItem.rating && (
+                            <Text>
+                              {/* Commeted and modified by Yuvraj Sahu on 05-05-2023
+                              Reason - to remove lable rating */}
+                              {/* Rating : {orderItem.rating}{" "} */}
+                              {orderItem.rating}{" "}
+                              {/* End of commented by Yuvraj Sahu on 05-05-2023 */}
+                              <FontAwesome name="star" size={13} color="black" />
+                            </Text>
+                          )}
+                          {orderItem.review && (
+                            <Text>Review : {orderItem.review}</Text>
+                          )}
+                        </View>
+
+                        {/* Commented by :- Parineeta Gedam on 14-05-2023 
+                        reason :- for updations change the functionality
+                      */}
+                        {/* <Text style={styles.qtyContainer}>{orderItem.quantity}</Text> */}
+                        {/* End of commented code by :- Parineeta Gedam on 14-05-2023 */}
+
+                        {/* Added by :- Parineeta Gedam on 14-05-2023 
+                        reason :- for updations change the functionality [increment and decrement the qunatity]
+                      */}
+                        {orderItem.item_status == "Confirm" ?
+                          <View style={styles.qtyParentContainer}>
+                            <Text style={styles.qtyDecrementDisable}>-</Text>
+                            <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
+                            <Text style={styles.qtyIncrementDisable}>+</Text>
+                          </View>
+                          : <View style={styles.qtyParentContainer}>
+                            <Pressable
+                              onPress={(e) => decreamentQuantiy(orderItem)}
+                              >
+                              <Text style={styles.qtyDecrementContainer}>-</Text>
+                            </Pressable>
+                            <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
+                            <Pressable
+                              onPress={(e) => increamentQuantiy(orderItem)}
+                              >
+                              <Text style={styles.qtyIncrementContainer}>+</Text>
+                            </Pressable>
+
+                          </View>}
+
+                        {/* End of commented code by :- Parineeta Gedam on 14-05-2023 */}
+
+                        {/* Commented by :- Parineeta Gedam on 25-05-2023 reason :- not now show status */}
+                        {/* Added by - Ashish Dewangan on 19-04-2023
                   Reason - To show item status */}
-                  <Text style={styles.itemStatusContainer}>
+                        {/* <Text style={styles.itemStatusContainer}>
                     {orderItem.item_status}
-                  </Text>
-                  {/* End of code addition by Ashish on 19-04-2023 */}
-                  <Text style={styles.costContainer}>
-                    {/* Added by om - 24/4/23
+                  </Text> */}
+                        {/* End of code addition by Ashish on 19-04-2023 */}
+                        {/* End of added code by Parineeta Gedam on 25-05-2023 */}
+
+                        <Text style={styles.costContainer}>
+                          {/* Added by om - 24/4/23
                       Reason - To fixed subtotal calculation */}
-                    {/* ₹ {orderItem.quantity * orderItem.price} */}
-                    {/* ₹  removed by Om on 26-04-23 */}
-                    {orderItem.price}
-                    {/* End of code - om - 24/4/23 */}
-                  </Text>
-                </View>
+                          {/* ₹ {orderItem.quantity * orderItem.price} */}
+                          {/* ₹  removed by Om on 26-04-23 */}
+                          {/* MOdified by :- Parineeta Gedam on 25-05-2023 */}
+                          {orderItem.price.toFixed(2)}
+                          {/* End of modifications code by :- Parineeta Gedam on 25-05-2023 */}
+                          {/* End of code - om - 24/4/23 */}
+                        </Text>
+
+                        {/* Added by :- Parineeta gedam on 25-05-2023 
+                      Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
+                    */}
+                        {orderItem.item_status == "Confirm" ?
+                          <>
+                            <Text style={styles.actionContainer}>
+                              <MaterialIcons name="cancel" size={24} color="grey"/>
+                            </Text>
+                          </> : <>
+                            <Text style={styles.actionContainer}>
+                              <Pressable onPress={(e) => deleteOrderItemPermission(orderItem)}>
+                                <MaterialIcons name="cancel" size={24} color="red"/>
+                              </Pressable>
+                            </Text>
+                          </>}
+                        {/* End of added code by Parineeta Gedam on 25-05-2023 */}
+                      </View>
+                    </>}
+                </>
               ))}
             </>
           ) : (
@@ -922,6 +1291,58 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Text>{orderDetail.tax}</Text>
             </View> */}
             {/* End of removal */}
+
+            {/* Added by :- Parineeta Gedam on 08-05-2023
+                Reason :- to show manual discount and final amount
+              */}
+            <View style={styles.amountRow}>
+              <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
+                <Text style={styles.totalPriceLables}>Discount</Text>
+                <RadioButtonGroup
+                  containerStyle={{ marginBottom: 10 }}
+                  selected={discountType}
+                  onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
+                  radioBackground={colors.btnColor}
+                  size={15}
+                >
+                  <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (₹)" label="Discount in (₹)" />
+                  <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (%)" label="Discount in (%)" />
+                </RadioButtonGroup>
+              </View>
+              <Text>:</Text>
+              <View style={{ width: "20%" }}>
+                <TextInput style={styles.discoutAmount}
+                  numeric
+                  keyboardType={'numeric'}
+                  value={discountAmount}
+                  onChangeText={(e) => discountHandleChange(e)} />
+                {discountAmountErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
+                }
+              </View>
+            </View>
+            {/* End of added code by :- Parineeta Gedam on 08-05-2023 */}
+
+            {/* Added by :- Parineeta Gedam on 10-05-2023 */}
+            {orderDetail.manual_discount > 0 &&
+              <View style={styles.amountRow}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 15,
+                    textAlign: "right",
+                    width: "50%",
+                  }}
+                >
+                  Total
+                </Text>
+                <Text>:</Text>
+                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total.toFixed(2)}</Text>
+              </View>
+            }
+            {/* End of added code by :- Parineeta Gedam on 10-05-2023 */}
+
+
             {/* Added by Yuvraj Sahu on 17-4-2023
             Reason - to add cgst and sgst */}
             {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
@@ -970,8 +1391,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                 Grand Total :
               </Text> */}
               {/* Modified by Yuvraj Sahu on 06-05-2023
-              Reason - to design total price area */}
-              <Text
+              Reason - to design total price area
+              // Commented by :- Parineeta Gedam on 10-05-2023
+              */}
+              {/* <Text
                 style={{
                   fontWeight: "bold",
                   fontSize: 15,
@@ -983,13 +1406,37 @@ export default function OrderItemsScreen({ route, navigation }) {
               </Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
-              
+              {/* End of commented code on 10-05-2023 */}
+
               {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
               {/* <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text> */}
-              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total}</Text>
+              {/* <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total}</Text> */}
               {/* End of addition by Om Shrivastava on 08-05-23    */}
             </View>
+
+            {orderDetail.manual_discount > 0 ?
+              <View style={styles.amountRow}>
+                <Text style={{
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  textAlign: "right",
+                  width: "50%",
+                }}>Grand Total</Text>
+                <Text>:</Text>
+                <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text>
+              </View>
+              : <View style={styles.amountRow}>
+                <Text style={{
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  textAlign: "right",
+                  width: "50%",
+                }}>Grand Total</Text>
+                <Text>:</Text>
+                <Text style={styles.totalPrices}>₹{orderDetail.total}</Text>
+              </View>}
+            {/* End of addition */}
           </View>
         </View>
         <View style={styles.statusContainer}>
@@ -1183,6 +1630,35 @@ export default function OrderItemsScreen({ route, navigation }) {
             {/* End of modification */}
           </View>
         </View>
+
+        {/* Added by :- Parineeta gedam on 13-05-2023 
+            Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
+        */}
+
+        {/* {orderDetail.order_status == "Cancelled"}
+        <View style={styles.statusContainer}>
+          <View style={{ marginTop: 10 }}>
+            <View style={styles.orderStatusContainer}>
+              <Text style={{ fontWeight: "bold" }}>Cancel reason</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.CancelReasonContainer}>
+          <View style={styles.textAreaContainer} >
+            <TextInput
+              style={styles.textArea}
+              placeholder="Please write cancel reason"
+              placeholderTextColor="black"
+              multiline={true}
+            />
+          </View>
+        </View> */}
+
+
+        {/* End of added code by :- Parineeta gedam on 13-05-2023 */}
+
+
         <View>
           {/* <Button title="Save"/> */}
           {/* Modification by Om on 26-04-23
@@ -1311,7 +1787,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    padding: 10,
+    // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
+    // padding: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingLeft: 2,
+    paddingRight: 5,
+    // End of added code by :- Parineeta Gedam on 24-04-202
     justifyContent: "space-between",
   },
   itemHeadingContainer: {
@@ -1321,7 +1803,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 10,
+    // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
+    // padding: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingLeft: 2,
+    paddingRight: 5,
+    // End of added code by :- Parineeta Gedam on 24-04-202
     marginTop: 20,
   },
   totalBorder: {
@@ -1383,15 +1871,92 @@ const styles = StyleSheet.create({
   },
   // End of modification 30/04/2023
   // End of addition
-  // Added by Yuvraj Sahu on 17-4-2023
+
+  // Added by by :- Parineeta Gedam on 24-05-2023
   // Reason - to design table
-  itemContainer: {
-    width: "45%",
+
+  sNoContainer: {
+    width: "10%",
   },
-  qtyContainer: {
+  sNoDataContainer: {
     width: "10%",
     textAlign: "center",
   },
+
+  actionContainer: {
+    width: "15%",
+    textAlign: "center",
+  },
+
+  /* End of added code by :- Parineeta Gedam on 24-05-2023 */
+
+  // Added by Yuvraj Sahu on 17-4-2023
+  // Reason - to design table
+  itemContainer: {
+    // Modified by :- Parineeta Gedam on 25-05-2023 reason :- changes in desiging. 
+    // width: "45%",
+    width: "35%",
+    // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- changes in desiging. 
+  },
+  qtyContainer: {
+    width: "20%",
+    textAlign: "center",
+  },
+
+  /* Added by :- Parineeta Gedam on 24-05-2023 
+      reason :-  designig 
+               */
+  qtyParentContainer: {
+    display: "flex",
+    flexDirection: "row",
+    width: "20%",
+    height : "50%",
+  },
+  qtyDecrementContainer: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    textAlign: "center",
+    borderColor : "green",
+    borderWidth : 2,
+    fontWeight : "900"
+  },
+  qtyDataContainer: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    textAlign: "center",
+
+  },
+  qtyIncrementContainer: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    textAlign: "center",
+    borderColor : "green",
+    borderWidth : 2,
+    fontWeight : "900"
+  },
+
+  qtyDecrementDisable: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    textAlign: "center",
+    borderColor : "grey",
+    borderWidth : 1,
+    fontWeight : "900"
+  },
+  qtyIncrementDisable: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    textAlign: "center",
+    borderColor : "grey",
+    borderWidth : 1,
+    fontWeight : "900"
+  },
+  // End of added code by :- Parineeta Gedam on 24-05-2023
   /**
    * Added by - Ashish Dewangan on 19-04-2023
    * Reason - To have css style for item status
@@ -1404,7 +1969,7 @@ const styles = StyleSheet.create({
    * End of code addition by Ashish Dewangan on 19-04-2023
    */
   costContainer: {
-    width: "25%",
+    width: "20%",
     display: "flex",
     textAlign: "right",
   },
@@ -1432,4 +1997,52 @@ const styles = StyleSheet.create({
   /**
    * End of addition by Yuvraj Sahu on 06-05-2023
    */
+
+  /**
+    * Added by :- Parineeta Gedam on 11-05-2023
+    * Reason - to design discount amount content
+    */
+  discoutAmount: {
+    backgroundColor: "white",
+    borderRadius: 5,
+    borderWidth: 1,
+    paddingHorizontal: 5,
+    height: 25
+  },
+
+  /**
+     * End of addition by Parineeta Gedam on 11-05-2023
+     */
+
+  /**
+    * Added by :- Parineeta Gedam on 11-05-2023
+    * Reason - to design cancel reason
+    */
+
+  CancelReasonContainer: {
+    paddingHorizontal: 43,
+  },
+  textAreaContainer: {
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 1,
+    paddingRight: 10,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  textArea: {
+    height: 50,
+    justifyContent: "flex-start",
+  },
+  /**
+     * End of addition by Parineeta Gedam on 11-05-2023
+     */
+
+  // Added by - Parineeta Gedam On 24/05/2023
+  // Reason- design add order items button
+  addOrderItemBtn: {
+    marginBottom: 2,
+    marginHorizontal: 10,
+    marginTop: 15,
+  },
 });

@@ -171,3 +171,60 @@ export const postFCMToken = async(data,tenantId) => {
 /**
  * End of code addition by Ashish Dewangan of FCM token on 30-04-2023
  */
+
+
+// Added by :- Parineeta Gedam
+// Date :- 22-05-2023
+// Reason :- Post API for update orders
+export const postUpdateOrderItems = async(tenantId,updateOrderItems) => {
+  const response = await API.put(`/${tenantId}/update_order_items/`,updateOrderItems,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by :- Parineeta Gedam on 22-05-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 16-05-2023
+// Reason :- Post API for update orders
+export const deleteOrderItems = async(tenantId,deleteOrderItem) => {
+  const response = await API.put(`/${tenantId}/delete_order_items/`,deleteOrderItem,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by :- Parineeta Gedam on 14-05-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 06-04-2023
+// Reason :- Post API for customer details and orders.
+export const CheckOrderConfirmAPI = async(order,tenantId) => {
+  const response = await API.post(`/${tenantId}/check-order-confirm/`,order,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 006-04-2023
+
+// Added by :- Parineeta Gedam
+// Date :- 22-05-2023
+// Reason :- Post API for customer details and orders.
+export const getOrderItemsAndOrderAPI = async(data,tenantId) => {
+  const response = await API.post(`/${tenantId}/get_order_items_and_order/`,data,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 006-04-2023
+
+
+// Added by :- Parineeta Gedam
+// Date :- 22-05-2023
+// Reason :- Post API for reservations data
+export const postReservationsAPI = async(data,tenantId) => {
+  const response = await API.post(`/${tenantId}/post_reservations/`,data,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code 006-04-2023

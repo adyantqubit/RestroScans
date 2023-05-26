@@ -3,7 +3,7 @@ Date :- 07-04-2023
 Reason :- Invoice css */
 
 /* Heading css */
-.invoice_heading_container {
+.inv_heading_container {
     width: 100%;
     font-size: 18px;
     font-family: "Times New Roman";
@@ -13,32 +13,31 @@ Reason :- Invoice css */
     padding: 5px 0;
 }
 
-.invoice_heading {
+.inv_heading {
     text-align: center;
     margin-bottom: 0px;
     font-family: 'Times New Roman', Times, serif;
 }
 
-/* invoice parent container cc */
-.invoice_parent_container {
+.inv_parent_container {
     padding: 0px 10px 0px 10px;
 }
 
 
 /* ----------- For Details ------------------- */
-.invoice_Details_container {
+.inv_Details_container {
     width: 100%;
     transition: 0.3s;
     border-radius: 5px;
 }
 
-.invoice_details_1 {
+.inv_details_1 {
     display: flex;
     width: 100%;
     margin-top: 5px;
 }
 
-.invoice_details_heading {
+.inv_details_heading {
     width: 40%;
     word-wrap: break-word;
     font-size: 14px;
@@ -46,14 +45,14 @@ Reason :- Invoice css */
     /* font-weight: 600; */
 }
 
-.invoice_details_colon {
+.inv_details_colon {
     width: 2%;
     font-size: 14px;
     /* font-weight: 600; */
     font-family: 'Times New Roman', Times, serif;
 }
 
-.invoice_details_value {
+.inv_details_value {
     margin-left: 7px;
     width: 53%;
     font-size: 14px;
@@ -64,7 +63,7 @@ Reason :- Invoice css */
 /* End of edded code */
 
 /* ----------- Horizoantal line css ---------------- */
-.invoice_horizontal_line{
+.inv_horizontal_line{
     width: 100%;
     border-top: 1.5px solid black;
     margin-top: 0px;
@@ -74,33 +73,33 @@ Reason :- Invoice css */
 
 
 /* ----------- table heading css ---------------- */
-.invoice_table_heading_container {
+.inv_table_heading_container {
     width: 100%;
     margin-top: 5px;
 }
-.invoice_table_sub_heading{
+.inv_table_sub_heading{
     font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 550;
 }
-.invoice_serial_no_container{
+.inv_serial_no_container{
     width: 12%;
     word-wrap: break-word;
     text-align: center;
 }
-.invoice_serial_no_sub_heading{
+.inv_serial_no_sub_heading{
     font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 550;
 }
-.invoice_serial_no_second_sub_heading{
+.inv_serial_no_second_sub_heading{
     font-size: 12px;
     font-family: 'Times New Roman', Times, serif;
 }
-.invoice_total_price_container{
+.inv_total_price_container{
     float: right;
 }
-.invoice_total_price_container .invoice_table_price_sub_heading{
+.inv_total_price_container .inv_table_price_sub_heading{
     font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 550;
@@ -109,63 +108,64 @@ Reason :- Invoice css */
 /* End of edded code */
 
 /* ------------ Table container css ------------------- */
-.invoice_cart_container {
+.inv_cart_container {
     width: 100%;
     margin-bottom: 2px;
     /* padding: 5px; */
 }
 
-.invoice_data_container {
+.inv_data_container {
     display: flex;
     /* padding: 2px; */
     width: 100%;
     /* margin-top: 5px; */
 }
 
-.invoice_item_container {
+.inv_item_container {
     width: 50%;
     word-wrap: break-word;
     margin-left: 5px;
     text-align: center;
 }
 
-.invoice_qty_container {
+.inv_qty_container {
     width: 10%;
     word-wrap: break-word;
     margin-left: 5px;
     text-align: center;
 }
 
-.invoice_total_price_container {
+.inv_total_price_container {
     width: 30%;
-    float: left;
+    float: right;
     word-wrap: break-word;
     margin-top: 5px;
     margin-right: 5px
 }
 
-.invoice_child_container{
+.inv_child_container{
     margin-top: 1px;
 }
 /*  total container css  */
 
-.invoice__second_sub_heading{
+.inv__second_sub_heading{
     font-size: 12px;
     font-family: 'Times New Roman', Times, serif;
 
 }
-.invoice_qunatity_sub_heading{
+.inv_qunatity_sub_heading{
     font-size: 12px;
     font-family: 'Times New Roman', Times, serif;
 }
 
-.invoice_total_rating_sub_heading{
+.inv_total_rating_sub_heading{
     font-size: 12px;
     font-family: 'Times New Roman', Times, serif;
+    float: right;
 }
 
 /* Modified by :- Parineeta */
-.invoice_sub_heading {
+.inv_sub_heading {
     width: 65%;
     font-size: 14px;
     /* font-weight: 600; */
@@ -173,7 +173,7 @@ Reason :- Invoice css */
     text-align: right;
 }
 
-.invoice_second_sub_heading {
+.inv_second_sub_heading {
     width: 35%;
     font-size: 14px;
     font-weight: 500;
@@ -184,13 +184,13 @@ Reason :- Invoice css */
 
 /* End of Modified code */
 
-.invoice_second_container {
+.inv_second_container {
     width: 100%;
     margin-top: 5px;
     /* padding: 5px; */
 }
 
-.invoice_second_data_container {
+.inv_second_data_container {
     width: 100%;
     padding: 2px 0px 2px 0px;
     display: flex;
@@ -198,39 +198,15 @@ Reason :- Invoice css */
 
 /* End of added css */
 
-/* ------ Review Container ------------ */
-
-/* Commented by :- Parineeta Gedam
-    Date :- 14-04-2023
-    reason :- In invoice not show the rating and review 
-*/
-/* .invoice_review_container{
-    display: flex;
-    width: 100%;
-    margin-top: 5px;
-}
-.invoice_review_label{
-    width: 20%;
-    font-family: 'Times New Roman';
-    font-weight: 550;
-}
-.invoice_review_input{
-    width: 50%;
-    height: 10%;
-} */
-/*  */
-/* End of added code */
-
-
 /* ---------- Button css --------------- */
-.invoice_btn_container {
+.inv_btn_container {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
     margin-top: 25px;
 }
 
-.invoice_btn_heading {
+.inv_btn_heading {
     font-size: 16px;
     letter-spacing: 1.7px;
     font-family: "Times New Roman";
@@ -242,7 +218,7 @@ Reason :- Invoice css */
 
 /* End of added button css --------------------- */
 
-.invoice_total_price_container .invoice_total_rating_sub_heading {
+.inv_total_price_container .invoice_total_rating_sub_heading {
     float: right;
     word-wrap: break-all;
     font-size: 12px;
@@ -250,7 +226,7 @@ Reason :- Invoice css */
     /* margin-top: 5px; */
 }
 
-.invoice_second_data_container .invoice_second_sub_heading {
+.inv_second_data_container .invoice_second_sub_heading {
     float: right;
     word-wrap: break-all;
     /* margin-right: 5px; */
@@ -259,7 +235,7 @@ Reason :- Invoice css */
 
 /* End of added code 13-04-2023 */
 
-.order_details_container {
+.inv_details_container {
     max-height: 100vh;
     overflow: auto;
 }

@@ -66,25 +66,35 @@ const Cart = () => {
       cart: cart,
       orders:orders.order_id,
       orderItem : orderItem,
+      order: orders,
     };
     var tenantName = localStorage.getItem("tenantName")
     const response = await updateOrdersApi(tenantName, cartData);
     if (response) {
-
-      // Modified by :- Parineeta
-      secureLocalStorage.removeItem('order');
-      secureLocalStorage.removeItem('orderItem');
-      // end of code
-      
-      secureLocalStorage.setItem("order", response.order)
-      secureLocalStorage.setItem("orderItem", response.orderItemSerializer)
-      // Added by rohan-22/4/23
-      // reason - To remove cart item on response
-      localStorage.removeItem('cart'); 
-      setCart([]);
-      // end of code - rohan - 22//4/23
+       // Modified by :- Parineeta Gedam on 17-05-2023
+        if(secureLocalStorage.getItem("order") && secureLocalStorage.getItem("orderItem")){
+          secureLocalStorage.removeItem('order');
+          secureLocalStorage.removeItem('orderItem');
+          secureLocalStorage.setItem("order", response.order)
+          secureLocalStorage.setItem("orderItem", response.orderItemSerializer)
+          // End of modifications code by :- Parineeta Gedam on 17-05-2023
+          
+          // Added by rohan-22/4/23
+          // reason - To remove cart item on response
+          localStorage.removeItem('cart'); 
+          setCart([]);
+          // end of code - rohan - 22//4/23
+        }
+        else{
+          secureLocalStorage.setItem("order", response.order)
+          secureLocalStorage.setItem("orderItem", response.orderItemSerializer)
+        }
     }
-    navigate('/invoice')
+    // Modified by :- Parineeta Gedam on 17-05-2023
+    // Reason :- Change the component name
+    // navigate('/invoice')
+    navigate('/order')
+    // End of modifications code by :- Parineeta Gedam on 17-05-2023
   };
 
   {/* End of added code 06-04-2023 */ }
@@ -273,9 +283,24 @@ function BlankPage() {
   */}
 
   var orders = secureLocalStorage.getItem('order');
+  var [orderItems, setOrderItem] = useState([])
 
+  // Modified by :- Parineeta Gedam on 21-05-2023
+
+  useEffect(() => {
+
+    // window.onpopstate = () => { if(allow_pop){localStorage.removeItem('cart'); setCart([]);}}
+    setOrderItem(secureLocalStorage.getItem('orderItem'));
+    // setOrders(secureLocalStorage.getItem('order'))
+
+  }, [])
+ 
+  // End of added code by Parineeta Gedam on 21-05-2023
+  console.log("item", orderItems)
   const goToOrderDetails = () => {
-   nav('/invoice')
+  //  nav('/invoice')
+   nav('/order')
+
   };
 
   {/* End of added code 06-04-2023 */ }
@@ -312,9 +337,11 @@ function BlankPage() {
         </div>
       </div>
 
+        {/* Modified by :- Parineeta Gedam on 21-05-2023 */}
+      {orderItems && orderItems.filter(dt=>dt.item_status == "Pending").length > 0 ? 
+      <>
       { orders ? 
       <>
-
         <div className={style.blankText} style={{ color: colors.subHeadingColor,marginTop:"25px" }}>
         Please tap to see your current order
         </div>
@@ -352,6 +379,9 @@ function BlankPage() {
       </div>
       </>
       : null }
+      </>
+      :null }
+      {/* End of modifications code by Parineeta Gedam on 21-05-2023  */}
     </div>
   )
 }

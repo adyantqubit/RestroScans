@@ -9,7 +9,6 @@ import Cart from "./component/cart/Cart";
 import { FaClipboardList } from "react-icons/fa"
 import { useContext,useState } from "react";
 import { GlobalContext } from "./context/Context";
-import InvoiceDetails from "./component/InvoiceDetails/InvoiceDetails";
 import Payment from "./component/Payment/Payment";
 import Billing from "./component/Billing/Billing";
 import BillSuccess from "./component/BillSuccess/BillSuccess";
@@ -24,18 +23,18 @@ import Otppopup from "./component/CustomerDetails/Otppopup";
 import { getFCMToken,onMessageListener } from './firebase';
 import { useEffect } from "react";
 import { Modal } from 'antd';
+import OrderDetails from "./component/OrderDetails/OrderDetails";
+import InvoiceDetail from "./component/InvoiceDetailPage/InvoiceDetail";
 
 function App() {
   const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
-  
+
   // Added by Om on 30-04-23
   // Reason : Connectivity with backend to firebase than UI
   
   var seperatedWords =  window.location.pathname.split('/') // Find the path of tenant name
   var tenant = seperatedWords[1]
-
   useEffect(()=>{
-
     /**
      * Added by - Om shrivastava on 01-05-2023
      * Reason - To store tenant name
@@ -58,7 +57,6 @@ function App() {
       if(getPermission)
         getFCMToken();
     }
-
   },[])
   
   function requestBrowserPermission(){
@@ -71,7 +69,6 @@ function App() {
       console.log('Unable to get permission to notify.', err);
     });
   }
-
 
   /**
    * Added by - Ashish Dewangan on 19-05-2023
@@ -140,7 +137,8 @@ function App() {
               Reason : show the invoice, payment, and bill success page.
           */}
 
-          <Route exact path="/invoice" element={<InvoiceDetails />} />
+          {/* <Route exact path="/invoice" element={<InvoiceDetails />} /> */}
+          <Route exact path="/order" element={<OrderDetails />} />
           <Route exact path="/payment" element={<Payment />} />
 
           {/* End of added code */}
@@ -151,6 +149,13 @@ function App() {
           */}
           <Route exact path="/bill-success" element={<BillSuccess />} />
           {/* <Route exact path="/billing" element={<Billing2 />} /> */}
+          {/* End of added code */}
+
+           {/* Added by :- Parineeta Gedam
+              Date :- 17-05-2023
+              Reason : show the order confirmations page
+          */}
+          <Route exact path="/invoice" element={<InvoiceDetail />} />
           {/* End of added code */}
 
           {/* Added by :- Parineeta Gedam

@@ -3,7 +3,7 @@ import { Radio, Space, Button, Modal, message } from "antd";
 import { GlobalContext } from "../../context/Context";
 import secureLocalStorage from "react-secure-storage";
 import './Payment.css';
-import { updatePaymentModeApi } from '../../api/Services';
+import { updatePaymentModeApi,postCheckPaymentStatus } from '../../api/Services';
 import { useNavigate } from "react-router-dom";
 import Scanner from '../Scanner/Scan';
 import cashPayment from "../../images/cashPayment.png";
@@ -97,41 +97,87 @@ export default function Payment() {
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
     if (response.msg) {
-      // Commented by :- Parineeta Gedam
-      // Date :- 14-04-2023
-      // Reason :- dont'show success msg
-      // message.success({
-      //   content: "Payment done successfully",
-      //   key: 1,
-      //   icon: <CheckCircleOutlined />,
-      //   style: {
-      //     marginTop: '5vh',
-      //     fontSize: "16px",
-      //     letterSpacing: "1.3px",
-      //     fontFamily: "Times News Roman",
-      //     color: colors.headingColor,
-      //   },
-      // });
-      // End of commented code 14-04-2023
-      navigate("/bill-success");
+      console.log("res", response)
+    //   // Commented by :- Parineeta Gedam
+    //   // Date :- 14-04-2023
+    //   // Reason :- dont'show success msg
+    //   // message.success({
+    //   //   content: "Payment done successfully",
+    //   //   key: 1,
+    //   //   icon: <CheckCircleOutlined />,
+    //   //   style: {
+    //   //     marginTop: '5vh',
+    //   //     fontSize: "16px",
+    //   //     letterSpacing: "1.3px",
+    //   //     fontFamily: "Times News Roman",
+    //   //     color: colors.headingColor,
+    //   //   },
+    //   // });
+    //   // End of commented code 14-04-2023
+    //   navigate("/bill-success");
     }
-    else {
-      message.error({
-        content: "Please try again",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
-    }
+    // else {
+    //   message.error({
+    //     content: "Please try again",
+    //     key: 1,
+    //     icon: <CheckCircleOutlined />,
+    //     style: {
+    //       marginTop: '5vh',
+    //       fontSize: "16px",
+    //       letterSpacing: "1.3px",
+    //       fontFamily: "Times News Roman",
+    //       color: colors.headingColor,
+    //     },
+    //   });
+    // }
   }
   // End of added code 10-04-2023
 
+    // Added by :- Parineeta Gedam
+    // Date :- 21-05-2023
+    // Reason :- check payment status 
+
+    const [order, setOrder] = useState([]);
+
+    const checkPaymentStatus = async () => {
+        var tenantName = localStorage.getItem("tenantName")
+        const order = {
+            order_id: orders.order_id,
+        }
+        const response = await postCheckPaymentStatus(order, tenantName);
+        console.log("response", response)
+        setOrder(response)
+        if (response.order.payment_status == "Completed") {
+            if (response.order) {
+                console.log("==============")
+                navigate("/billing");
+                // added by rohan -14/4/23
+                // reason- To save updated order detail
+                secureLocalStorage.setItem('order',response.order)
+                secureLocalStorage.setItem('invoice_detail',response)
+                // end of code
+            }
+        }
+        else {
+            message.error({
+                // Modfication and addition by Om Shrivastava on 17-05-23
+                // Reason : Change the confirmation message
+                // content: "In Progress",
+                content: "Please wait for confirmation",
+                // End of mofication and addition by Om Shrivastava on 17-05-23
+                key: 1,
+                icon: <CheckCircleOutlined />,
+                style: {
+                    marginTop: '5vh',
+                    fontSize: "16px",
+                    letterSpacing: "1.3px",
+                    fontFamily: "Times News Roman",
+                    color: colors.headingColor,
+                },
+            });
+        }
+    }
+    // End of added code by :- Parineeta Gedam  Date :- 21-05-2023
 
   return (
     <>
@@ -230,7 +276,14 @@ export default function Payment() {
           </Space>
         </Radio.Group>
       </div>
-      <div className='payment_btn_container'>
+
+      {/* Commented by :- Parineeta Gedam on 21-05-2023 
+          reason :- don't show this button 
+      */}
+      {/* Commented by :- Parineeta Gedam on 21-05-2023 
+          reason :-changes in ui 
+      */}
+      {/* <div className='payment_btn_container'>
         <Button
           id="signBtn"
           type="primary"
@@ -248,8 +301,29 @@ export default function Payment() {
         >
           Pay
         </Button>
-      </div>
+      </div> */}
       {/* End of added code 15-04-2023 */}
+      {/* End of added code by Parineeta gedam 21-05-2023 */}
+
+       {/* Added by :- Parineeta Gedam on 21-05-2023
+            reason :- changes in ui
+        */}
+          <div className='payment_btn_container'>
+              <button className='payment_btn_pay' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
+                onClick={(e) => submitPaymentMode()}
+              >
+                Proceed to pay </button>
+              {/* {order.payment_status == "Completed" ?  */}
+
+              <button className='payment_btn_get_bill' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
+                onClick={(e) => checkPaymentStatus()}>Get Bill</button>
+                {/* : 
+                <button className='payment_btn_get_bill' style={{ background: "grey", color: colors.backgroundTheme }}
+                >Get Bill</button>} */}
+            </div>
+
+        {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}
+
 
       <div>
         <Modal
@@ -257,7 +331,7 @@ export default function Payment() {
           visible={isModalOpen}
           onCancel={handleCancel}
         >
-          <Scanner />
+          <Scanner handleOk={handleOk} />
         </Modal>
       </div>
 

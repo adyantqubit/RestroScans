@@ -1,0 +1,380 @@
+/* Added by :- Parineeta Gedam
+Date :- 07-04-2023   
+Reason :- Invoice css */
+
+/* Modifications by :- Parineeta Gedam
+Date :- 17-05-2023   
+Reason :- Invoice css */
+
+/* Heading css */
+.invoice_heading_container {
+    width: 100%;
+    font-size: 18px;
+    font-family: "Times New Roman";
+    letter-spacing: 1.7px;
+    font-weight: 600;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.invoice_heading {
+    text-align: center;
+    margin-bottom: 0px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* invoice parent container cc */
+.invoice_parent_container {
+    padding: 0px 10px 0px 10px;
+}
+
+
+/* ----------- For Details ------------------- */
+.invoice_Details_container {
+    width: 100%;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.invoice_details_1 {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.invoice_details_heading {
+    width: 40%;
+    word-wrap: break-word;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    /* font-weight: 600; */
+}
+
+.invoice_details_colon {
+    width: 2%;
+    font-size: 14px;
+    /* font-weight: 600; */
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.invoice_details_value {
+    margin-left: 7px;
+    width: 53%;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    /* font-weight: 600; */
+    word-wrap: break-word;
+}
+/* End of edded code */
+
+/* ----------- Horizoantal line css ---------------- */
+.invoice_horizontal_line{
+    width: 100%;
+    border-top: 1.5px solid black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+/* End of edded code */
+
+
+/* ----------- table heading css ---------------- */
+.invoice_table_heading_container {
+    width: 100%;
+    margin-top: 5px;
+}
+.invoice_table_sub_heading{
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+}
+.invoice_serial_no_container{
+    width: 12%;
+    word-wrap: break-word;
+    text-align: center;
+}
+.invoice_serial_no_sub_heading{
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+}
+.invoice_serial_no_second_sub_heading{
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.invoice_total_price_container {
+    float: right;
+}
+
+.invoice_total_price_container .invoice_table_price_sub_heading {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+    float: right;
+}
+
+/* Added by :- Parineeta Gedam on 14-05-2023
+    reason :- css for edit and delete */
+
+.invoice_action_container {
+    float: right;
+    width: 20%;
+    word-wrap: break-word;
+    margin-top: 5px;
+}
+
+.invoice_action_container .invoice_action_sub_heading {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+    float: right;
+}
+
+.invoice_action_container .invoice_delete_action {
+    /* color: red; */
+    font-size: 16px;
+    float: right;
+    margin-right: 15px;
+}
+
+/* End of edded code by :- Parineeta Gedam on 14-05-2023 */
+
+/* ------------ Table container css ------------------- */
+.invoice_cart_container {
+    width: 100%;
+    margin-bottom: 2px;
+    /* padding: 5px; */
+}
+
+.invoice_data_container {
+    display: flex;
+    /* padding: 2px; */
+    width: 100%;
+    /* margin-top: 5px; */
+}
+
+.invoice_item_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    /* width: 50%; */
+    width: 45%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.invoice_qty_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    /* width: 10%; */
+    width: 20%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.invoice_total_price_container {
+    /* modified by :- Parineeta Gedam on 14-05-2023 */
+    /* width: 30%; */
+    width: 25%;
+    float: left;
+    word-wrap: break-word;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.invoice_child_container {
+    margin-top: 1px;
+}
+/*  total container css  */
+
+.invoice__second_sub_heading {
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+.invoice_qunatity_sub_heading {
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Added by :- Parineeta Gedam on 14-05-2023 
+    reason :- css for increment and decrement 
+*/
+.invoice_qty_data_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    /* width: 10%; */
+    width: 20%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+    display: flex;
+    margin-top: 2px;
+}
+
+.invoice_decrement_btn {
+    border: 1px solid #9c9c9c;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    /* font-size: 20px; */
+    /* background-color: rgb(191, 245, 191); */
+}
+
+.invoice_qunatity_sub_heading {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    /* border: 1px solid #9c9c9c; */
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    border-radius: 5px;
+    
+}
+
+.invoice_increment_btn {
+    border: 1px solid #9c9c9c;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    /* background-color: rgb(191, 245, 191); */
+
+}
+
+/* End of added code by :- Parineeta Gedam on 14-05-2023 */
+
+
+.invoice_total_rating_sub_heading {
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Modified by :- Parineeta */
+.invoice_sub_heading {
+    width: 65%;
+    font-size: 14px;
+    /* font-weight: 600; */
+    font-family: 'Times New Roman', Times, serif;
+    text-align: right;
+}
+
+.invoice_second_sub_heading {
+    width: 35%;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+    margin-right: 5px;
+    text-align: right;
+}
+
+/* End of Modified code */
+
+.invoice_second_container {
+    /* modified by :- Parineeta Gedam on 14-05-2023 */
+    /* width: 100%; */
+    width: 85%;
+    margin-top: 5px;
+    /* padding: 5px; */
+}
+
+.invoice_second_data_container {
+    width: 100%;
+    padding: 2px 0px 2px 0px;
+    display: flex;
+}
+
+/* End of added css */
+
+/* ------ Review Container ------------ */
+
+/* Commented by :- Parineeta Gedam
+    Date :- 14-04-2023
+    reason :- In invoice not show the rating and review 
+*/
+/* .invoice_review_container{
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+.invoice_review_label{
+    width: 20%;
+    font-family: 'Times New Roman';
+    font-weight: 550;
+}
+.invoice_review_input{
+    width: 50%;
+    height: 10%;
+} */
+/*  */
+/* End of added code */
+
+
+/* ---------- Button css --------------- */
+.invoice_btn_container {
+     /* Modified by :- Parineeta Gedam on 14-05-2023  */
+
+    /* margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 25px; */
+
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    margin-top: 25px;
+
+    /* End of modifications code by :- Parineeta Gedam on 14-05-2023 */
+}
+
+.invoice_btn_heading {
+    font-size: 16px;
+    letter-spacing: 1.7px;
+    font-family: "Times New Roman";
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+    text-align: center;
+     /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    width: 46%;
+}
+
+/* Added by :- Parineeta Gedam on 14-05-2023  */
+.invoice_btn_update_order{
+    width: 46%;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    padding: 5px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+}
+/* End of Added code by :- Parineeta Gedam on 14-05-2023 */
+
+/* End of added button css --------------------- */
+
+.invoice_total_price_container .invoice_total_rating_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    font-size: 12px;
+    font-family: 'Times New Roman';
+    /* margin-top: 5px; */
+}
+
+.invoice_second_data_container .invoice_second_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    /* margin-right: 5px; */
+}
+
+
+/* End of added code 13-04-2023 */
+
+.order_details_container {
+    max-height: 100vh;
+    overflow: auto;
+}
+.order_spin{
+    margin: 0% 50%;
+}
+/* End of modifications by :- Parineeta Gedam on 17-05-2023 */

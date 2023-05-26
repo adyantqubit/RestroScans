@@ -165,14 +165,35 @@ urlpatterns = [
     path('admin/tenant_app/item_report/<report_period>', item_report, name='item_report'),
     # End of code addition by Ashish Dewangan on 04-05-2023
 
-    # Added by Rohan Kansari on 22-5-23
-    # Reason : update order and payment status
-    path('<str:tenant>/order-item-status/<str:orderID>/',UpdateItemStatus.as_view()),
-    # End of addition - ROhan Kansari  22-5-23
+    # Added by :- Parineeta Gedam on 17-05-2023
+    # Reason :- check order confirm
+    path('<str:tenant>/check-order-confirm/',CheckOrderConfirmAPIView.as_view()),
+    # End of added code 17-05-2023
 
-     # Added by Rohan Kansari on 22-5-23
-    # Reason : update order and payment status
-    path('<str:tenant>/all-order-status-update/',UpdateAllOrderStatus.as_view()),
-    # End of addition - ROhan Kansari  22-5-23
+    # Added by :- Parineeta Gedam on 16-05-2023
+    # Reason : post operation perform for update orders
+    path('<str:tenant>/delete_order_items/',DeleteOrderItemsAPIView.as_view()),
+    # End of added code 16-05-2023
+
+
+    # Added by :- Parineeta Gedam on 14-05-2023
+    # Reason : post operation perform for update orders
+    path('<str:tenant>/update_order_items/',PostUpdateOrderItemsAPIView.as_view()),
+    # End of added code 14-05-2023
+
+    # Added by :- Parineeta Gedam on 22-05-2023
+    # Reason : get order items and orders 
+    path('<str:tenant>/get_order_items_and_order/',GetOrderItemsAndOrderAPIView.as_view()),
+    # End of added code 22-05-2023
+
+    # Added by :- Parineeta Gedam on 24-05-2023
+    # Reason : post(add) order items used in react native
+    path('<str:tenant>/add_order_items/',AddOrderItemsAPIView.as_view()),
+    # End of added code 24-04-2023
+
+    # Added by :- Parineeta Gedam on 26-05-2023
+    # Reason : post api for reservations data
+    path('<str:tenant>/post_reservations/',PostReservationsAPIView.as_view()),
+    # End of added code 26-05-2023
 
 ]   
