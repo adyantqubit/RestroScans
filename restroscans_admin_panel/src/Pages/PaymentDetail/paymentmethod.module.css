@@ -1,0 +1,9 @@
+.Container{
+    width: 95%;
+    height: 90vh;
+    overflow: scroll;
+    text-align: center;
+}
+.heading{
+    font-size: 3rem;
+}

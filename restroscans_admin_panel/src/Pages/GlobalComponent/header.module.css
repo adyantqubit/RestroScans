@@ -13,10 +13,10 @@
 .content_and_sideBar {
   width: 100%;
   display: flex;
-  /* padding-top: 9vh; */
+  padding-top: 9vh;
 }
 
-* {
+.header_container {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -40,7 +40,7 @@ li {
   display: grid;
   position: fixed;
   z-index: 9999;
-  grid-template-columns: 6rem 1fr 2fr 1fr 0;
+  grid-template-columns: 2rem 4fr 4fr 1fr 2rem;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
   /* background: #b2d8e4; */

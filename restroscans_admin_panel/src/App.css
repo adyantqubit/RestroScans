@@ -14,6 +14,7 @@
   --subHeading-font-size:14px;
   --font-faimly:"Font";
   --label-color: #7c7c7c;
+  --sidebar-color: #1f2937;
 }
 
 body{
@@ -156,11 +157,11 @@ body{
 /* Added by- Suman sahu On 24/05/2023
    reason - design logout antd popup button */
 .ant-popconfirm .ant-popconfirm-inner-content {
-  background-color: #374151;
+  background-color: var(--sidebar-color);
   padding: 1rem;
 }
 .ant-popover .ant-popover-arrow:before {
-  background-color: #374151;
+  background-color: var(--sidebar-color);
 }
 .ant-popconfirm .ant-popconfirm-message-title {
   color: white;
@@ -173,3 +174,8 @@ body{
   color: var(--primary-bg-color);
 }
 /* end of addition by- Suman sahu On 24/05/2023 */
+
+/* .ant-popconfirm .ant-popconfirm-inner-content{
+  position: fixed;
+  z-index: 9999;
+} */

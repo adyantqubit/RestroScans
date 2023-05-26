@@ -14,6 +14,17 @@ import Footer from './Pages/GlobalComponent/Footer';
 import QRCode from './Pages/Home/QRcode';
 import Kot from './Pages/Kot/Kot';
 import Report from './Pages/Report/Report';
+import BannerOffer from "./Pages/BannerOffer/BannerOffer";
+import BannerOfferItem from "./Pages/BannerOffer/BannerOfferItem";
+import Menu from "./Pages/Menu/menu";
+import Category from "./Pages/Menu/Category";
+import Item from "./Pages/Menu/Item";
+import Setting from "./Pages/Home/Setting";
+import FooterDescription from "./Pages/Home/FooterDescription";
+import CustomerDetail from "./Pages/CustomerDetail/CustomerDetail";
+import Order from "./Pages/Order/Order";
+import OrderItem from "./Pages/Order/OrderItem";
+import PaymentMethod from "./Pages/PaymentDetail/PaymentMethod";
 
 var Message=0;
 var AutoValidateToken=0
@@ -85,9 +96,27 @@ function App() {
           Reason - Report page added */}
       <Route path="/Report" element={<Report/>}/>
       {/*End of code- Rohan Kansari - 26/5/23  */}
-    </Routes>
-    <Footer/>
-    {/* </Header> */}
+
+        {/* added by - Suman sahu On 25/05/2023 */}
+        <Route path="/QRcode" element={<QRCode />} />
+        {/* end of addition by - Suman sahu On 25/05/2023 */}
+
+        {/* added by - Suman sahu On 26/05/2023 */}
+        <Route path="/BannerOffer" element={<BannerOffer />} />
+        <Route path="/BannerOfferItem" element={<BannerOfferItem />} />
+        <Route path="/Menu" element={<Menu />} />
+        <Route path="/Category" element={<Category />} />
+        <Route path="/Item" element={<Item />} />
+        <Route path="/Setting" element={<Setting />} />
+        <Route path="/FooterDescription" element={<FooterDescription />} />
+        <Route path="/CustomerDetail" element={<CustomerDetail />} />
+        <Route path="/Order" element={<Order />} />
+        <Route path="/OrderItem" element={<OrderItem />} />
+        <Route path="/PaymentMethod" element={<PaymentMethod />} />
+        {/* end of addition by - Suman sahu On 26/05/2023 */}
+      </Routes>
+      {/* <Footer /> */}
+      {/* </Header> */}
     </>
   );
 }

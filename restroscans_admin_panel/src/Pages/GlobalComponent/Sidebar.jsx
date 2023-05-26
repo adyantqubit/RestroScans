@@ -33,7 +33,7 @@ const Sidebar = () => {
           <NavLink className={style.link} to="/Dashboard"> Dashboard </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Banner/Offer </NavLink>
+          <NavLink className={style.link} to="/BannerOffer"> Banner/Offer </NavLink>
         </li>
         {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
         <li className={style.links_div}>
@@ -41,34 +41,34 @@ const Sidebar = () => {
         </li>
         {/* End of code - Rohan Kansari - 26/5/23*/}
         <li className={style.links_div}>
-          <NavLink className={style.link}> Banner/Offer Items </NavLink>
+          <NavLink className={style.link} to="/BannerOfferItem"> Banner/Offer Items </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Menu </NavLink>
+          <NavLink className={style.link} to="/Menu"> Menu </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Category </NavLink>
+          <NavLink className={style.link} to="/Category"> Category </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Item </NavLink>
+          <NavLink className={style.link} to="/item"> Item </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Setting </NavLink>
+          <NavLink className={style.link} to="/Setting"> Setting </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Footer Description </NavLink>
+          <NavLink className={style.link} to="/FooterDescription"> Footer Description </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Customer Detail </NavLink>
+          <NavLink className={style.link} to="/CustomerDetail"> Customer Detail </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Order </NavLink>
+          <NavLink className={style.link} to="/Order"> Order </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Order Item </NavLink>
+          <NavLink className={style.link} to="/OrderItem"> Order Item </NavLink>
         </li>
         <li className={style.links_div}>
-          <NavLink className={style.link}> Payment Method </NavLink>
+          <NavLink className={style.link} to="/PaymentMethod"> Payment Method </NavLink>
         </li>
         <li className={style.links_div}>
           <NavLink className={style.link} to="/QRcode"> QR Code </NavLink>

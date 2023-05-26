@@ -12,6 +12,7 @@ import { MdSupport } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { Popconfirm, message } from "antd";
+import Footer from "./Footer";
 
 const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,7 +30,7 @@ const Header = (props) => {
   const cancel = (e) => {};
   return (
     <>
-      <nav className={style.header_container}>
+      <nav className={style.header_container} id="header">
         {/* 1st logo part  */}
         <div className={style.logo_div}>
           <Link to="/Dashboard" className={style.logo_link}>
@@ -72,6 +73,16 @@ const Header = (props) => {
             <li className={style.logout_link_div}>
               <RiLogoutBoxFill className={style.icons} />
               <NavLink className={style.link}>Logout</NavLink>
+              {/* <Popconfirm
+                className={style.link}
+                title="Are you sure you want to logout?"
+                onConfirm={confirm}
+                onCancel={cancel}
+                cancelText="Cancel"
+                okText="Ok"
+              >
+                Logout
+              </Popconfirm> */}
             </li>
           </ul>
         </div>
@@ -108,6 +119,7 @@ const Header = (props) => {
       <div className={style.content_and_sideBar}>
         <Sidebar />
         {props.children}
+        <Footer />
       </div>
     </>
   );
