@@ -6,11 +6,12 @@
   background-color: var(--sidebar-color);
   /* background-image: url(../../assets/bg.jpg); */
   position: sticky;
-  /* overflow: scroll; */
+  overflow: scroll;
 }
 .links_div {
   padding: .8rem;
-  width: 20rem;
+  padding-bottom: 4.5vh;
+  width: 15rem;
   cursor: pointer;
 }
 .link {
@@ -34,6 +35,7 @@
     /* margin-bottom: 11vh; */
     background-color: white;
     display: flex;
+    overflow: inherit;
   }
   .sidebar_open_div {
     font-size: 3rem;
@@ -44,7 +46,7 @@
     display: flex;
   }
   .open_sidebar {
-    height: 80vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     color: white;
@@ -64,8 +66,11 @@
     display: none;
   }
   .links_div {
-    padding: 0.9rem;
-    width: 20rem;
+    padding: 0.1rem;
+    width: 15rem;
+  }
+  .link{
+    font-size: 1rem;
   }
 }
 /* end of creation code by- Suman sahu On 24/05/2023 */

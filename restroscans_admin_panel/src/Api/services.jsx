@@ -121,3 +121,15 @@ export const getOrderReport = async (tenantId) => {
   return response ? response.data : {};
 };
 // End of code - Suman sahu - 27/5/23
+
+// Added by Suman sahu - 28/5/23
+// Reason - API for get total menu, item and category details
+export const getTotalRevenueDetails = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/total-revenue-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Suman Sahu on 28-5-2023

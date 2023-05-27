@@ -8,42 +8,181 @@
   align-items: center;
 }
 .heading {
-  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1%;
+  font-size: 29px;
+  vertical-align: baseline;
+  line-height: 30px;
+  letter-spacing: normal;
+  word-spacing: 0px;
+  font-weight: 550;
+  margin-top: 1.5rem;
 }
-.revenue_main_section{
+.Restaurant_dashboard_section {
   display: flex;
+  width: 55%;
+  margin: auto;
 }
-.primary_heading{
-  font-size: 1.3rem;
+.dashboard_container {
+  margin: auto;
+  padding: 2rem;
+}
+.dashboard_upper_div1,
+.dashboard_upper_div2,
+.dashboard_upper_div3 {
+  width: 150px;
+  height: 75px;
+  border-radius: 75px 75px 0 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700 !important;
+}
+.dashboard_upper_div1,
+.dashboard_upper_div3 {
+  background-color: var(--primary-box-bg-color);
+}
+.dashboard_upper_div2 {
+  background-color: var(--secondary-box-bg-color);
+}
+.dashboard_lower_div {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+}
+.custom_container {
+  display: flex;
+  width: fit-content;
+  margin: auto;
+}
+.revenue_main_section {
+  display: flex;
+  width: 100%;
+}
+.revenue_first_div,
+.revenue_second_div {
+  display: flex;
+  width: 100%;
+}
+.primary_heading {
+  font-size: 20px;
   font-weight: bold;
 }
-.revenue_container{
+.order_count {
+  font-size: 34px;
+  font-weight: bold;
+}
+.total_revenue {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  display: flex;
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--primary-box-bg-color);
+}
+.custom_label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-right: 2rem;
+}
+/* .start_date{
+  
+} */
+.revenue_container {
   margin-bottom: 3rem;
   width: 100%;
-  background-color: #f4e6d3;
+  background-color: var(--primary-bg-color);
   height: 40vh;
   margin: 1rem;
   box-shadow: 1px 1px 4px 1px grey;
-  padding: 2rem;
+  padding: 1.25rem 1.25rem;
 }
 .btn_div {
   height: 30px;
-  padding: 1.5rem 0;
+  padding: 8px;
   color: var(--primary-bg-color);
   outline: none;
   font-size: 14px;
   letter-spacing: 1px;
   cursor: pointer;
+  margin: 1rem 0;
 }
 .order_report_btn {
-  /* width: 15%; */
-  padding: 4px 8px;
-  border-radius: 5px;
-  background-color: rgb(88, 146, 88);
+  font-size: 1.2rem;
+  padding: 3px;
+  border-radius: 4px;
+  background-color: var(--primary-box-bg-color);
+  color: white;
+  font-weight: 500;
 }
 .item_report_btn {
-  /* width: 15%; */
-  padding: 4px 8px;
-  border-radius: 5px;
-  background-color: rgb(88, 146, 88);
+  font-size: 1.2rem;
+  padding: 3px;
+  border-radius: 4px;
+  background-color: var(--secondary-box-bg-color);
+  color: white;
+  font-weight: 500;
+}
+
+@media (max-width: 1400px) {
+  .Restaurant_dashboard_section {
+    width: 75%;
+  }
+}
+@media (max-width: 1200px) {
+  .Restaurant_dashboard_section {
+    width: 90%;
+  }
+  .revenue_main_section {
+    display: block;
+    padding-bottom: 2rem;
+  }
+  .revenue_first_div,
+  .revenue_second_div {
+    width: 90%;
+    margin: auto;
+  }
+  .revenue_container {
+    height: auto;
+  }
+}
+@media (max-width: 900px) {
+  .Restaurant_dashboard_section {
+    display: block;
+  }
+  .dashboard_container {
+    padding: 1rem;
+  }
+}
+@media (max-width: 780px) {
+  .revenue_first_div,
+  .revenue_second_div {
+    width: 100%;
+  }
+  .revenue_main_section {
+    padding-bottom: 5rem;
+  }
+}
+@media (max-width: 600px) {
+  .revenue_first_div,
+  .revenue_second_div {
+    display: block;
+  }
+  .revenue_container {
+    width: auto;
+  }
+  .custom_container {
+    display: block;
+  }
+}
+@media (max-width: 400px) {
+  .start_date, .end_date{
+    font-size: 1rem;
+  }
 }

@@ -72,8 +72,8 @@ const Header = (props) => {
             </li>
             <li className={style.logout_link_div}>
               <RiLogoutBoxFill className={style.icons} />
-              <NavLink className={style.link}>Logout</NavLink>
-              {/* <Popconfirm
+              {/* <NavLink className={style.link}>Logout</NavLink> */}
+              <Popconfirm
                 className={style.link}
                 title="Are you sure you want to logout?"
                 onConfirm={confirm}
@@ -82,7 +82,7 @@ const Header = (props) => {
                 okText="Ok"
               >
                 Logout
-              </Popconfirm> */}
+              </Popconfirm>
             </li>
           </ul>
         </div>

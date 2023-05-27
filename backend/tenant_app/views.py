@@ -2028,5 +2028,22 @@ class RevenueOrderReport(APIView):
            
             return Response({
                 "revenue_details":data,
+                "date":today,
             })
 # End of added code by :- Suman sahu on 27-05-2023
+
+# Added by Suman Sahu on 28-5-2023
+# Reason - create api for get total menu, item and category details
+class GetTotalRevenueDetails(APIView):
+    def get(self,request, tenant):
+        setdata = dict()
+        totalCategories = Menu.objects.all().count()
+        totalSubCategories = Category.objects.all().count()
+        totalItems = Item.objects.all().count()
+        setdata['totalCategories']= totalCategories
+        setdata['totalSubCategories']= totalSubCategories
+        setdata['totalItems']= totalItems
+        return Response({
+                "revenue_details":setdata,
+            })
+# End of addition by Suman Sahu on 28-5-2023

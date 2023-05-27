@@ -1,23 +1,23 @@
-
-
 @font-face {
   font-family: "Font";
   src: url("./assets/font/Carlito-Regular.ttf") format("opentype");
 }
 
-:root{
-  --secondary-bg-color:#f9f9f9;
-  --primary-bg-color:#fff;
-  --highlight-color:#1F51FF;
-  --label-font-size:15px;
-  --heading-font-size:24px;
-  --subHeading-font-size:14px;
-  --font-faimly:"Font";
+:root {
+  --secondary-bg-color: #f9f9f9;
+  --primary-bg-color: #fff;
+  --highlight-color: #1f51ff;
+  --label-font-size: 15px;
+  --heading-font-size: 24px;
+  --subHeading-font-size: 14px;
+  --font-faimly: "Font";
   --label-color: #7c7c7c;
   --sidebar-color: #1f2937;
+  --primary-box-bg-color: #92d050;
+  --secondary-box-bg-color: #004376;
 }
 
-body{
+body {
   width: 100vw;
   height: 100vw;
   margin: 0;
@@ -31,75 +31,73 @@ body{
 
 /* Added by Rohan Kansari - 14/5/23 
    Reason- Input box drop file css changes  */
-   .DYXVr {
-    position: relative;
-    display: flex;
-    margin-top: 5px;
-    -webkit-box-align: center;
-    align-items: center;
-    min-width: unset !important;
-    max-width: unset !important;
-    height: unset !important;
-    border: 2px dashed rgb(6, 88, 194);
-    padding: 0 10px !important;
-    border-radius: 5px;
-    cursor: pointer;
-    -webkit-box-flex: 0;
-    flex-grow: 0;
+.DYXVr {
+  position: relative;
+  display: flex;
+  margin-top: 5px;
+  -webkit-box-align: center;
+  align-items: center;
+  min-width: unset !important;
+  max-width: unset !important;
+  height: unset !important;
+  border: 2px dashed rgb(6, 88, 194);
+  padding: 0 10px !important;
+  border-radius: 5px;
+  cursor: pointer;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
 }
 
-:where(.css-dev-only-do-not-override-15rg2km).ant-popover .ant-popover-inner{
+:where(.css-dev-only-do-not-override-15rg2km).ant-popover .ant-popover-inner {
   padding: 0 !important;
 }
 
-   /* End of code Rohan Kansari- 14/5/23 */
+/* End of code Rohan Kansari- 14/5/23 */
 
+.css-xumdn4 {
+  border: none !important;
+  font-family: "Font";
+  letter-spacing: 1.3px;
+  max-width: 20%;
+  word-break: break-all;
+}
 
-   .css-xumdn4{
-   border: none !important;
-   font-family: "Font";
-   letter-spacing: 1.3px;
-   max-width: 20%;
-   word-break: break-all;
-   }
+.css-1zts0j {
+  font-family: "Font";
+  margin-top: 10px !important;
+  background-color: rgb(241, 237, 237);
+}
 
-   .css-1zts0j {
-    font-family: "Font";
-    margin-top: 10px !important;
-   background-color: rgb(241, 237, 237);
-   }
+.hide {
+  width: 18px !important;
+  height: 18px !important;
+  right: 5px !important;
+}
 
-   .hide{
-    width: 18px !important;
-    height: 18px !important;
-    right: 5px  !important;
-   }
+div > hr {
+  display: none;
+}
 
-   div >hr{
-    display: none;
-   }
-
-   #pot {
-    /* bottom: 15%; */
-    /* max-width: 250px; */
-    position: absolute;
-    -webkit-animation: linear infinite;
-    -webkit-animation-name: run;
-    -webkit-animation-duration: 5s;
+#pot {
+  /* bottom: 15%; */
+  /* max-width: 250px; */
+  position: absolute;
+  -webkit-animation: linear infinite;
+  -webkit-animation-name: run;
+  -webkit-animation-duration: 5s;
+}
+@-webkit-keyframes run {
+  0% {
+    left: 0;
   }
-  @-webkit-keyframes run {
-    0% {
-      left: 0;
-    }
-    50% { 
-      left: calc(100% - 100px); 
-     }
-    100% {
-      left: 0;     
-    }
+  50% {
+    left: calc(100% - 100px);
   }
+  100% {
+    left: 0;
+  }
+}
 
-  
 /* .box {
   position: absolute;
   top: 50%;
@@ -114,7 +112,7 @@ body{
   width: 100%;
   border-radius: 5px;
   /* border: none; */
-  font-size:var(--label-font-size);
+  font-size: var(--label-font-size);
   /* box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); */
   /* -webkit-appearance: button; */
   /* appearance: button; */
@@ -145,14 +143,17 @@ body{
 .box select option {
   padding: 30px;
 }
-
-
-  @media  screen and (max-width:767px) {
-    :root{
-      --heading-font-size:20px;
-      --label-font-size:14px;
-    }
+@media screen and (max-width: 798px) {
+  .ant-popconfirm .ant-popconfirm-inner-content {
+    margin-top: 8rem !important;
   }
+}
+@media screen and (max-width: 767px) {
+  :root {
+    --heading-font-size: 20px;
+    --label-font-size: 14px;
+  }
+}
 
 /* Added by- Suman sahu On 24/05/2023
    reason - design logout antd popup button */
@@ -166,7 +167,10 @@ body{
 .ant-popconfirm .ant-popconfirm-message-title {
   color: white;
 }
-.ant-popconfirm .ant-popconfirm-message >.ant-popconfirm-message-icon .anticon {
+.ant-popconfirm
+  .ant-popconfirm-message
+  > .ant-popconfirm-message-icon
+  .anticon {
   display: none;
 }
 .ant-btn-primary {

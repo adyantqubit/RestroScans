@@ -26,6 +26,9 @@ Reason:- Create css for Footer.jsx */
   margin: auto;
   height: 4.5vh;
 }
+.footer_icons_section a{
+  height: 4.5vh;
+}
 .facebook,
 .google,
 .twitter,
@@ -58,11 +61,11 @@ Reason:- Create css for Footer.jsx */
   color: black;
   font-weight: 500;
 }
-@media (max-width: 1080px) {
+/* @media (max-width: 1080px) {
   .footer_main_section h6 {
     font-size: 1.4rem;
   }
-}
+} */
 @media (max-width: 768px) {
   .footer_container {
     height: 11vh;
@@ -80,7 +83,10 @@ Reason:- Create css for Footer.jsx */
     position: initial;
     padding: 0;
     margin: auto;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
+  }
+  .footer_icons_section a{
+    height: auto;
   }
 }
 @media (max-width: 500px) {
@@ -96,8 +102,8 @@ Reason:- Create css for Footer.jsx */
     height: 20px;
     margin: 0 0.5rem;
   }
-  .footer_main_section h6 {
+  /* .footer_main_section h6 {
     font-size: 1rem;
-  }
+  } */
 }
 /* End of added code 21/05/2023 */
