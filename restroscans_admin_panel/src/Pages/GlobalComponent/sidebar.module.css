@@ -6,11 +6,11 @@
   background-color: var(--sidebar-color);
   /* background-image: url(../../assets/bg.jpg); */
   position: sticky;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 .links_div {
   padding: .8rem;
-  width: 15rem;
+  width: 20rem;
   cursor: pointer;
 }
 .link {

@@ -56,7 +56,7 @@ const Header = (props) => {
             <li className={style.links_div}>
               <IoMdSettings className={style.icons} />
               <NavLink className={style.link} to="/setting">
-                setting
+                Setting
               </NavLink>
             </li>
             <li className={style.links_div}>
