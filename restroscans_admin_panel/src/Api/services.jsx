@@ -108,3 +108,16 @@ export const postRestaurantDetail = async (value) => {
   };
 
   // End of code - Rohan KAnsari - 25/5/23
+  
+  
+// Added by Suman sahu - 27/5/23
+// Reason - API for get the order report
+export const getOrderReport = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/revenue-order-report/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of code - Suman sahu - 27/5/23

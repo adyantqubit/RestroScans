@@ -11,7 +11,7 @@
   overflow: scroll;
 }
 .restaurent_name {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
   text-transform: uppercase;
   padding: 0.5rem 0;
@@ -20,9 +20,9 @@
   margin: auto;
   width: fit-content;
 }
-.bottom_text {
+/* .bottom_text {
   padding-top: 0.5rem;
-}
+} */
 .print_qr_btn {
   font-size: 1.8rem;
   border: 1px solid none;

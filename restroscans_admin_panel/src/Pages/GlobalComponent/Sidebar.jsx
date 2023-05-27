@@ -40,6 +40,11 @@ const Sidebar = () => {
           <NavLink className={style.link} to="/Report"> Report </NavLink>
         </li>
         {/* End of code - Rohan Kansari - 26/5/23*/}
+        {/* Added by Suman - To open revenue page - 27/5/23*/}
+        <li className={style.links_div}>
+          <NavLink className={style.link} to="/Revenue"> Revenue </NavLink>
+        </li>
+        {/* End of code - Suman Sahu - 27/5/23*/}
         <li className={style.links_div}>
           <NavLink className={style.link} to="/BannerOfferItem"> Banner/Offer Items </NavLink>
         </li>

@@ -1,0 +1,49 @@
+.Container {
+  width: 95%;
+  height: 90vh;
+  text-align: center;
+  overflow: scroll;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+.heading {
+  font-size: 3rem;
+}
+.revenue_main_section{
+  display: flex;
+}
+.primary_heading{
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.revenue_container{
+  margin-bottom: 3rem;
+  width: 100%;
+  background-color: #f4e6d3;
+  height: 40vh;
+  margin: 1rem;
+  box-shadow: 1px 1px 4px 1px grey;
+  padding: 2rem;
+}
+.btn_div {
+  height: 30px;
+  padding: 1.5rem 0;
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.order_report_btn {
+  /* width: 15%; */
+  padding: 4px 8px;
+  border-radius: 5px;
+  background-color: rgb(88, 146, 88);
+}
+.item_report_btn {
+  /* width: 15%; */
+  padding: 4px 8px;
+  border-radius: 5px;
+  background-color: rgb(88, 146, 88);
+}

@@ -25,6 +25,7 @@ import CustomerDetail from "./Pages/CustomerDetail/CustomerDetail";
 import Order from "./Pages/Order/Order";
 import OrderItem from "./Pages/Order/OrderItem";
 import PaymentMethod from "./Pages/PaymentDetail/PaymentMethod";
+import Revenue from "./Pages/Revenue/Revenue";
 
 var Message=0;
 var AutoValidateToken=0
@@ -114,6 +115,8 @@ function App() {
         <Route path="/OrderItem" element={<OrderItem />} />
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* end of addition by - Suman sahu On 26/05/2023 */}
+
+        <Route path="/Revenue" element={<Revenue />} />
       </Routes>
       {/* <Footer /> */}
       {/* </Header> */}

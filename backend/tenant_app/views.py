@@ -1979,3 +1979,54 @@ class PostReservationsAPIView(APIView):
         return Response({"msg":"success"})
 # End of added code by :- Parineeta Gedam on 17-05-2023
 
+
+# Added by :- Suman sahu
+# Date :- 27-05-2023
+# Reason : API for get the order report
+class RevenueOrderReport(APIView):
+    def get(self,request, tenant):
+            from django.utils.timezone import timedelta
+            from django.utils.timezone import datetime
+            from django.db.models import Sum
+
+            today=datetime.today().date()
+            weekDay=today.weekday()
+            startOfTheWeek=today - timedelta(days=weekDay)
+            dayOfMonth=today.day
+            startOfTheMonth=today - timedelta(days=(dayOfMonth-1))
+            thisYear=today.year
+
+            data=dict()
+
+            summary=dict()
+            totalOrders = Order.objects.filter(date__gte=today).count()
+            summary["order_count"]=totalOrders
+            revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
+            summary["total_revenue"]=revenue["total__sum"]
+            data["todays_summary"]=summary
+
+            summary=dict()
+            totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
+            summary["order_count"]=totalOrders
+            revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
+            summary["total_revenue"]=revenue["total__sum"]
+            data["this_weeks_summary"]=summary
+
+            summary=dict()
+            totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
+            summary["order_count"]=totalOrders
+            revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
+            summary["total_revenue"]=revenue["total__sum"]
+            data["this_months_summary"]=summary
+
+            summary=dict()
+            totalOrders = Order.objects.filter(date__year=thisYear).count()
+            summary["order_count"]=totalOrders
+            revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
+            summary["total_revenue"]=revenue["total__sum"]
+            data["this_years_summary"]=summary
+           
+            return Response({
+                "revenue_details":data,
+            })
+# End of added code by :- Suman sahu on 27-05-2023
