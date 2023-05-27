@@ -305,24 +305,23 @@ export default function Payment() {
       {/* End of added code 15-04-2023 */}
       {/* End of added code by Parineeta gedam 21-05-2023 */}
 
-       {/* Added by :- Parineeta Gedam on 21-05-2023
+      {/* Added by :- Parineeta Gedam on 21-05-2023
             reason :- changes in ui
         */}
-          <div className='payment_btn_container'>
-              <button className='payment_btn_pay' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
-                onClick={(e) => submitPaymentMode()}
-              >
-                Proceed to pay </button>
-              {/* {order.payment_status == "Completed" ?  */}
+      <div className='payment_btn_container'>
+        <button className='payment_btn_pay' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
+          onClick={(e) => submitPaymentMode()}
+        >
+          Proceed to pay </button>
+        {order.payment_status == "Completed" ?
+          <button className='payment_btn_get_bill' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
+            onClick={(e) => checkPaymentStatus()}>Get Bill</button>
+          :
+          <button className='payment_btn_get_bill' style={{ background: "grey", color: colors.backgroundTheme }}
+          >Get Bill</button>}
+      </div>
 
-              <button className='payment_btn_get_bill' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
-                onClick={(e) => checkPaymentStatus()}>Get Bill</button>
-                {/* : 
-                <button className='payment_btn_get_bill' style={{ background: "grey", color: colors.backgroundTheme }}
-                >Get Bill</button>} */}
-            </div>
-
-        {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}
+      {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}
 
 
       <div>

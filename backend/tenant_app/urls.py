@@ -173,31 +173,31 @@ urlpatterns = [
     # Added by :- Parineeta Gedam on 17-05-2023
     # Reason :- check order confirm
     path('<str:tenant>/check-order-confirm/',CheckOrderConfirmAPIView.as_view()),
-    # End of added code 17-05-2023
+    # End of added code  by :- Parineeta Gedam on 17-05-2023
 
     # Added by :- Parineeta Gedam on 16-05-2023
     # Reason : post operation perform for update orders
     path('<str:tenant>/delete_order_items/',DeleteOrderItemsAPIView.as_view()),
-    # End of added code 16-05-2023
+    # End of added code  by :- Parineeta Gedam on 16-05-2023
 
     # Added by :- Parineeta Gedam on 14-05-2023
     # Reason : post operation perform for update orders
     path('<str:tenant>/update_order_items/',PostUpdateOrderItemsAPIView.as_view()),
-    # End of added code 14-05-2023
+    # End of added code  by :- Parineeta Gedam on 14-05-2023
 
     # Added by :- Parineeta Gedam on 22-05-2023
     # Reason : get order items and orders 
     path('<str:tenant>/get_order_items_and_order/',GetOrderItemsAndOrderAPIView.as_view()),
-    # End of added code 22-05-2023
+    # End of added code  by :- Parineeta Gedam on 22-05-2023
 
     # Added by :- Parineeta Gedam on 24-05-2023
     # Reason : post(add) order items used in react native
     path('<str:tenant>/add_order_items/',AddOrderItemsAPIView.as_view()),
-    # End of added code 24-04-2023
+    # End of added code  by :- Parineeta Gedam on 24-04-2023
 
     # Added by :- Parineeta Gedam on 26-05-2023
     # Reason : post api for reservations data
     path('<str:tenant>/post_reservations/',PostReservationsAPIView.as_view()),
-    # End of added code 26-05-2023
+    # End of added code by :- Parineeta Gedam on 26-05-2023
 
 ]   
