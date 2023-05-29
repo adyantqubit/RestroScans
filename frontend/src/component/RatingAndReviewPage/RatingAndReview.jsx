@@ -5,6 +5,7 @@ import { Rate, Button } from 'antd';
 import secureLocalStorage from "react-secure-storage";
 import { updateRatingAndReviewApi } from '../../api/Services';
 import { useNavigate } from "react-router-dom";
+import SocialLinks from '../social_links/SocialLinks';
 
 export default function RatingAndReview() {
 
@@ -122,6 +123,12 @@ export default function RatingAndReview() {
                 <button className='rating_review_done_heading' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}  onClick={(e) => updateInvoiceData()}> Done </button>
                 </div>
             </div>
+            {/* Added by Yuvraj Sahu on 26-05-2023
+                Reason - to give social link */}
+            <div style={{position: "fixed", bottom: 0, height: "60px", width: "100%", background:colors.backgroundTheme}}>
+          <SocialLinks />
+      </div>
+      {/* End of addition by Yuvraj Sahu on 26-05-2023 */}
         </>
     )
 }

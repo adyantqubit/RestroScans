@@ -228,3 +228,17 @@ export const postReservationsAPI = async(data,tenantId) => {
   return response ? response.data: {}
 }
 // End of added code 006-04-2023
+
+/**
+ * Added by - Yuvraj Sahu on 25-05-2023
+ * Reason - To get social links from backend
+ */
+export const getSocialLinks = async(tenantId) => {
+  const response = await API.get(`/${tenantId}/social-links/`,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+/**
+ * End of code getting social links by Yuvraj Sahu on 25-05-2023
+ */

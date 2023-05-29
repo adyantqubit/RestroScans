@@ -12,6 +12,7 @@ import { GlobalContext } from "../../context/Context";
 import GlobalColor from '../Colors/GlobalColor'
 import Loader from "../Loader/Loader";
 import { TenantValidate } from "../Validators/ConfirmTenant";
+import SocialLinks from "../social_links/SocialLinks";
 
 function Cover() {
   var { tenantName, tenantDetails,setTenantName,restaurant_name, setRestaurant_name,subscribePlan,setSubscribePlan } = useContext(GlobalContext);
@@ -118,6 +119,11 @@ function Cover() {
                   }</b>
               </span>
             </div>
+            {/* Added by Yuvraj Sahu on 25-05-2023
+               Reason - to give social median link */}
+          <SocialLinks />
+          {/* End of addition by 
+              Yuvraj Sahu on 25-05-2023 */}
           </div> : null}
         </div>
       }

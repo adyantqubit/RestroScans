@@ -29,7 +29,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PrintQRScreen from "../screens/PrintQRScreen";
 import CustomerListScreen from "../screens/customer/CustomerListScreen";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
+import SocialLinkScreen from "../screens/socialMedia/SocialLinkScreen";
+import { Feather } from "@expo/vector-icons";
+import SocialMediaNavigation from "./SocialMediaNavigation";
 
 
 export default function DrawerNavigation({ navigation }) {
@@ -308,8 +311,9 @@ export default function DrawerNavigation({ navigation }) {
           title: "Print QR",
           // Added by Yuvraj Sahu on 16-4-2023
           // Reason - to add icon in drawer
-          drawerIcon: (config) => 
-          <MaterialIcons name="local-print-shop" size={24} color="black" />,
+          drawerIcon: (config) => (
+            <MaterialIcons name="local-print-shop" size={24} color="black" />
+          ),
           // end of addition
         }}
       />
@@ -324,11 +328,26 @@ export default function DrawerNavigation({ navigation }) {
           drawerLabel: "Payment Method",
           title: "Payment Method",
           drawerIcon: (config) => (
-            <FontAwesome5 name="comments-dollar" size={24} color="black" />
+            <Icon name="upload" size={20} color="black" />
           ),
         }}
       />
       {/* End of adding payment method */}
+
+      {/* Added by Yuvraj Sahu on 27-05-2023
+        Reason - to define route for navigation on social media link */}
+      <Drawer.Screen
+        name="SocialMediaNavigation"
+        component={SocialMediaNavigation}
+        options={{
+          drawerLabel: "Social Media Screen",
+          title: "Social Link Screen",
+          drawerIcon: (config) => (
+            <Feather name="external-link" size={20} color="black" />
+          ),
+        }}
+      />
+      {/* End of adding social media link */}
 
       {/* End of addition */}
     </Drawer.Navigator>

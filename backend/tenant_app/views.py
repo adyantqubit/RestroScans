@@ -2047,3 +2047,53 @@ class GetTotalRevenueDetails(APIView):
                 "revenue_details":setdata,
             })
 # End of addition by Suman Sahu on 28-5-2023
+
+
+"""
+Added by Yuvraj Sahu on 25-05-2023
+Reason - to get social links
+"""
+"""
+This method is used for get social media name and links
+"""
+class SocialLinksAPIView(APIView) :
+    def get(self, request, tenant):
+        socialObjs = SocialLinks.objects.all()
+        serialized=SocialLinksSerializer(socialObjs, many=True)
+        return Response({
+            "msg":"success",
+            "social":serialized.data,
+            })
+    
+    def post(self,request,tenant):
+        print(request.data)
+        socialObjs = SocialLinks.objects.all()
+        serializedData = SocialLinksSerializer(data=request.data)
+        serialized=SocialLinksSerializer(socialObjs, many=True)
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg": "Saved Successfully", "SocialLinkObjs" : serialized.data}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Added by Yuvraj Sahu on 27-05-2023
+    # Reason - to update and delete social media
+    def put(self, request, tenant, id):
+        socialLinkObj = SocialLinks.objects.get(id=id)
+        serializedData = SocialLinksSerializer(socialLinkObj, request.data)
+        if serializedData.is_valid(raise_exception=True) :
+            serializedData.save()
+            return Response ({"message":"Updated Successfully", "data":serializedData.data}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request,tenant, id):
+        socialLinkObj = SocialLinks.objects.get(id=id)
+        if socialLinkObj :
+            socialLinkObj.delete()
+            socialObjs = SocialLinks.objects.all()
+            serialized=SocialLinksSerializer(socialObjs, many=True)
+            return Response({"msg": "Deleted Successfully", "socialData" : serialized.data}, status=status.HTTP_201_CREATED)
+        return Response({"error": "error"}, status=404)
+    # End of addition by Yuvraj Sahu on 27-05-2023
+"""
+End of addition by Yuvraj Sahu on 25-05-2023
+"""

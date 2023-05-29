@@ -319,3 +319,20 @@ export const addPaymentMethodSchema = yup.object().shape({
     ),
 });
 // End of addition
+
+
+// Added by yuvraj Sahu on 26-05-2023
+// Reason - to validate add social media
+export const addSocialMedia = yup.object().shape({
+  social_media_name: yup
+    .string()
+    .max(255, ({ max }) => `Social media name should no be more than ${max} characters`),
+    social_media_link: yup
+    .string()
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      "Enter correct url!"
+    )
+    .required("Social media link is required!")
+});
+// End of addition by Yuvraj Sahu on 26-05-2023

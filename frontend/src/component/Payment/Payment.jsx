@@ -313,12 +313,12 @@ export default function Payment() {
           onClick={(e) => submitPaymentMode()}
         >
           Proceed to pay </button>
-        {order.payment_status == "Completed" ?
+        {/* {order.payment_status == "Completed" ? */}
           <button className='payment_btn_get_bill' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
             onClick={(e) => checkPaymentStatus()}>Get Bill</button>
-          :
+          {/* :
           <button className='payment_btn_get_bill' style={{ background: "grey", color: colors.backgroundTheme }}
-          >Get Bill</button>}
+          >Get Bill</button>} */}
       </div>
 
       {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}

@@ -865,3 +865,33 @@ End of added code 06-04-2023
 # class FcmNotificationAdmin(admin.ModelAdmin):
 #     list_display = ("id",)
 # End of code addition
+
+
+
+"""
+Added by Yuvraj Sahu on 25-05-2023
+Reason - to register Social Links table
+"""
+@admin.register(SocialLinks)
+class SocialLinksAdmin(admin.ModelAdmin):
+    list_display=("id","social_media_name")
+    list_display_links = ("id","social_media_name")
+    def get_queryset(self, request):
+        self.request = request
+        return super().get_queryset(request)
+    search_fields=["social_media_name","id"]
+    list_per_page=10
+    def has_change_permission(self, request, obj=None) :
+        return True
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(SocialLinksAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['social_media_name'].widget.attrs['style'] = 'width: 20em;'
+        return form
+"""
+End of addition by yuvraj Sahu on 25-05-2023
+"""

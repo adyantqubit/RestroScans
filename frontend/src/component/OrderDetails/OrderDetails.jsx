@@ -16,6 +16,7 @@ import secureLocalStorage from "react-secure-storage";
 import { updateRatingAndReviewApi, postUpdateOrderItems, deleteOrderItems, CheckOrderConfirmAPI,getOrderItemsAndOrderAPI } from '../../api/Services';
 import { CloseCircleOutlined,InfoCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import Spinner from '../../Spinner/Spinner';
+import SocialLinks from '../social_links/SocialLinks';
 
 
 
@@ -718,7 +719,12 @@ export default function OrderDetails() {
 
             {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}
           </div>
-
+		{/* Added by Yuvraj Sahu on 26-05-2023
+          Reason - to show social media */}
+      		<div style={{position: "fixed", bottom: 0, height: "60px", width: "100%", background:colors.backgroundTheme}}>
+          <SocialLinks />
+      </div>
+      {/* End of addition by Yuvraj Sahu on 26-05-2023 */}
         </>
       )}
     </>

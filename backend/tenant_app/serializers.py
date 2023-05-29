@@ -207,3 +207,12 @@ class FcmNotificationSerializer(serializers.ModelSerializer):
         model = FcmNotification
         fields = '__all__'
 # End of added code 06-04-2023
+
+
+# Added by Yuvraj Sahu on 25-05-23
+# Reason : To serialize the social links table data
+class SocialLinksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialLinks
+        fields = '__all__'
+# End of addition

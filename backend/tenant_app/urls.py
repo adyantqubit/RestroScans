@@ -214,4 +214,14 @@ urlpatterns = [
     path('<str:tenant>/total-revenue-details/',GetTotalRevenueDetails.as_view()),
     # End of added code by :- Suman sahu on 28-05-2023
 
+    # Added by Yuvraj Sahu on 25-05-23
+    # Reason : get social media name and links
+    path('<str:tenant>/social-links/',SocialLinksAPIView.as_view()),
+    # End of getting social links
+
+    # Added by Yuvraj Sahu on 27-05-23
+    # Reason : update social media name and links
+    path('<str:tenant>/social-links/<int:id>',SocialLinksAPIView.as_view()),
+    # End of updating social links
+
 ]   

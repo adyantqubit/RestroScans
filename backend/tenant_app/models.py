@@ -969,3 +969,22 @@ class FcmNotification(AbstractFCMDevice):
     name=models.CharField(max_length=20,default='')
     phone_number=models.CharField(max_length=10,default='')
 # End of code addition by Ashish Dewangan on 28-04-2023
+
+
+"""
+Added by Yuvraj Sahu on 25-05-2023
+Reason - to save social links
+"""
+class SocialLinks(models.Model):
+    social_media_name = models.CharField(max_length=255, blank=True, null=True)
+    social_media_link = models.TextField(blank=True, null=True)
+    social_media_icon = models.ImageField(upload_to='social/', blank=True, null=True, 
+              validators=[validate_image_file_extension])
+    class Meta:
+        verbose_name = "Social Link"
+        verbose_name_plural = 'M) Social Links'
+    def __str__(self):
+        return 'Social Link'
+"""
+End of addition by yuvraj Sahu on 25-05-2023
+"""
