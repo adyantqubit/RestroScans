@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
             name='GallerySettings',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('gallery', models.ImageField(blank=True, null=True, upload_to='images/app_setting/', validators=[admin_app.models.GallerySettings.validate_image])),
+                ('gallery', models.ImageField(blank=True, null=True, upload_to='images/app_setting/', validators=[admin_app.models.validate_image])),
                 ('title', models.CharField(default='', max_length=30)),
             ],
         ),
@@ -96,22 +96,22 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='appsetting',
             name='adyant_logo',
-            field=models.ImageField(blank=True, null=True, upload_to='images/app_setting/', validators=[admin_app.models.AppSetting.validate_image]),
+            field=models.ImageField(blank=True, null=True, upload_to='images/app_setting/', validators=[admin_app.models.validate_image]),
         ),
         migrations.AlterField(
             model_name='appsetting',
             name='app_logo',
-            field=models.ImageField(blank=True, null=True, upload_to='images/app_setting/', validators=[admin_app.models.AppSetting.validate_image]),
+            field=models.ImageField(blank=True, null=True, upload_to='images/app_setting/', validators=[admin_app.models.validate_image]),
         ),
         migrations.AlterField(
             model_name='restaurantrequest',
             name='restaurant_background_img',
-            field=models.ImageField(blank=True, null=True, upload_to='images/tenantBackgroundImage/', validators=[admin_app.models.RestaurantRequest.validate_image]),
+            field=models.ImageField(blank=True, null=True, upload_to='images/tenantBackgroundImage/', validators=[admin_app.models.validate_image]),
         ),
         migrations.AlterField(
             model_name='restaurantrequest',
             name='restaurant_logo',
-            field=models.ImageField(blank=True, null=True, upload_to='images/tenantRequest/', validators=[admin_app.models.RestaurantRequest.validate_image]),
+            field=models.ImageField(blank=True, null=True, upload_to='images/tenantRequest/', validators=[admin_app.models.validate_image]),
         ),
         migrations.CreateModel(
             name='PlannedFeatures',

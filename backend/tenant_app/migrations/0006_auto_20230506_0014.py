@@ -142,12 +142,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='icon',
-            field=models.ImageField(blank=True, null=True, upload_to='images/category/', validators=[tenant_app.models.Category.validate_image]),
+            field=models.ImageField(blank=True, null=True, upload_to='images/category/', validators=[tenant_app.models.validate_image]),
         ),
         migrations.AlterField(
             model_name='item',
             name='icon',
-            field=models.ImageField(null=True, upload_to='images/item/', validators=[tenant_app.models.Item.validate_image]),
+            field=models.ImageField(null=True, upload_to='images/item/', validators=[tenant_app.models.validate_image]),
         ),
         migrations.AlterField(
             model_name='item',
@@ -172,7 +172,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='offer',
             name='offer_image',
-            field=models.ImageField(null=True, upload_to='images/offer/', validators=[tenant_app.models.Offer.validate_image], verbose_name='Banner/Offer image'),
+            field=models.ImageField(null=True, upload_to='images/offer/', validators=[tenant_app.models.validate_image], verbose_name='Banner/Offer image'),
         ),
         migrations.AlterField(
             model_name='offer',
