@@ -31,12 +31,28 @@ import Revenue from "./Pages/Revenue/Revenue";
 
 var Message=0;
 var AutoValidateToken=0
+var tokenRecheck=0
 function App() {
   const [isSuccessfull,setSuccessfull]=useState(false)
   // set all message type in smaller character
   const [notificationType,setNotification]=useState("success")
   const [notificationText,setNotificationText]=useState("SuccessFully")
+  // Added by Om Shrivastava on 03-06-23
+  // Reason : Fix the logout issue
+  const [tokenExist,setTokenExist]=useState(true)
 
+  tokenRecheck = ()=>{
+    if (localStorage.getItem('token')){
+      setTokenExist(true)
+      console.log('token exist')
+    }
+    else{
+      setTokenExist(false)
+      console.log('not exist')
+    }
+
+  }
+// End of addition by Om Shrivastava on 02-06-23
   
   Message= (text,type)=> {
     setNotificationText(text)
@@ -85,35 +101,35 @@ function App() {
       {/* Modified by Rohan KAnsari - 29/5/23
         Reason - To validate token in all page  */}
       <Routes>
-        <Route path='/Registration' element={localStorage.getItem('token') ? <Navigate to="/Dashboard" /> : <Registration />} />
-        <Route path="/Login" element={localStorage.getItem('token') ? <Navigate to="/Dashboard" /> : <Login />} />
-        <Route path="/Forget" element={localStorage.getItem('token') ? <Navigate to="/Dashboard" /> : <Forget />} />
+        <Route path='/Registration' element={tokenExist ? <Navigate to="/Dashboard" /> : <Registration />} />
+        <Route path="/Login" element={tokenExist ? <Navigate to="/Dashboard" /> : <Login />} />
+        <Route path="/Forget" element={tokenExist ? <Navigate to="/Dashboard" /> : <Forget />} />
       </Routes>
       {/* <Header> */}
       <Routes>
         {/* <Route path='/Registration' element={<Registration/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/Forget" element={<Forget/>}/> */}
-        <Route path="/Dashboard" element={!localStorage.getItem('token') ? <Navigate to="/Login" /> : <Dashboard />} />
-        <Route path="/Billing" element={!localStorage.getItem('token') ? <Navigate to="/Login" /> : <Billing />} />
+        <Route path="/Dashboard" element={!tokenExist ? <Navigate to="/Login" /> : <Dashboard />} />
+        <Route path="/Billing" element={!tokenExist ? <Navigate to="/Login" /> : <Billing />} />
         {/* Added by Rohan Kansari - 25/5/23
           Reason - Kot page added */}
-        <Route path="/kot" element={!localStorage.getItem('token') ? <Navigate to="/Login" /> : <Kot />} />
+        <Route path="/kot" element={!tokenExist ? <Navigate to="/Login" /> : <Kot />} />
         {/*End of code- Rohan Kansari - 25/5/23  */}
 
         {/* Added by Rohan Kansari - 26/5/23
           Reason - Report page added */}
-        <Route path="/OrderReport" element={!localStorage.getItem('token') ? <Navigate to="/Login" /> : <OrderReport />} />
+        <Route path="/OrderReport" element={!tokenExist ? <Navigate to="/Login" /> : <OrderReport />} />
         {/*End of code- Rohan Kansari - 26/5/23  */}
 
         {/* Added by Rohan Kansari - 26/5/23
           Reason - Report page added */}
-        <Route path="/OrderItemReport" element={!localStorage.getItem('token') ? <Navigate to="/Login" /> : <OrderItemReport />} />
+        <Route path="/OrderItemReport" element={!tokenExist ? <Navigate to="/Login" /> : <OrderItemReport />} />
         {/*End of code- Rohan Kansari - 26/5/23  */}
 
         {/* Added by Rohan Kansari - 26/5/23
           Reason - Report page added */}
-        <Route path="/CustomerReport" element={!localStorage.getItem('token') ? <Navigate to="/Login" /> : <CustomerReport />} />
+        <Route path="/CustomerReport" element={!tokenExist ? <Navigate to="/Login" /> : <CustomerReport />} />
         {/*End of code- Rohan Kansari - 26/5/23  */}
         {/* End of code Modification - Rohan Kansari - 29/5/23 */}
 
@@ -145,5 +161,5 @@ function App() {
 
 export default App;
 
-export { Message, AutoValidateToken }
+export { Message, AutoValidateToken,tokenRecheck }
 

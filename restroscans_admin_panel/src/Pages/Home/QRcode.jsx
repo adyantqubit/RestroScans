@@ -41,35 +41,41 @@ const QRcode = () => {
     
     var a = window.open('', '', 'height=800, width=1200');
     a.document.write('<html>');
-        
+        // Some modification and changes by Om Shrivastava on 02-6-23
         a.document.write('<body style="display:flex;flex-direction:column;justify-content:space-around;align-items:space-around;width:100vw;" >');
-        a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:50vh;">');
+        a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:40vh;">');
             a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
-            a.document.write("<img src='"+qrImage+"'>");
-            a.document.write(bottomContents); 
+            a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
+            a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
         a.document.write('</div>');
 
         a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
-            a.document.write("<img src='"+qrImage+"'>");
-            a.document.write(bottomContents); 
+            a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
+
+            a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
+ 
             a.document.write('</div>');
         a.document.write('</div>');
 
-        a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:50vh;">');
+        a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:40vh;">');
             a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
-            a.document.write("<img src='"+qrImage+"'>");
-            a.document.write(bottomContents); 
+            a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
+
+            a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
+ 
         a.document.write('</div>');
-            
         a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
-            a.document.write("<img src='"+qrImage+"'>");
-            a.document.write(bottomContents); 
+                       a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
+
+                       a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
+
             a.document.write('</div>');
         a.document.write('</div>');
+        //  End of addition by Om Shrivastava on 02-06-23   
 
         a.document.write('</body></html>');
         a.document.close();

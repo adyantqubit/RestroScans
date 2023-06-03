@@ -76,6 +76,10 @@ const TodayOrder = () => {
     const nav = useNavigate()
 
     useEffect(() => {
+        // Added by Om Shrivastava on 02-06-23
+        // Reason : Fix the logout issue
+        if(JSON.parse(localStorage.getItem("tenantInfo"))?.tenant_name)
+        // End of addition by Om Shrivastava on 02-06-23
         BackendCall()
     }, [])
 

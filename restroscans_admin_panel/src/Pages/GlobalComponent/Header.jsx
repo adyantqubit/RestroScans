@@ -13,6 +13,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { Popconfirm, message } from "antd";
 import Footer from "./Footer";
+import { Message, tokenRecheck } from "../../App";
 
 const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,8 +25,14 @@ const Header = (props) => {
   };
 
   const confirm = (props) => {
-    localStorage.clear();
+    // Modification and addition by Om Shrivastava on 02-06-23
+    // Reason : Fix the logout issue
+    localStorage.removeItem("token")
     navigate("/login");
+    localStorage.clear();
+    tokenRecheck()
+    Message("Successfully Logged out", "warning")
+    // End of modification by Om Shrivastava on 02-06-23
   };
   const cancel = (e) => {};
   return (

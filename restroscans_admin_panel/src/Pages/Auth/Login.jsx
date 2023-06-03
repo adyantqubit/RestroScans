@@ -4,7 +4,7 @@ import image from "../../assets/registerbg.jpg"
 import { postRestaurantDetail, restaurentAuthentication } from '../../Api/services';
 import { Alert, AlertIcon } from '@chakra-ui/react'
 import { json, useNavigate } from "react-router-dom";
-import { Message } from '../../App';
+import { Message, tokenRecheck } from '../../App';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 
 // import NiceInputPassword from 'react-nice-input-password';
@@ -116,6 +116,10 @@ const Login = () => {
                         JSON.stringify(res.tenantInfo)
                     );
                     Message("Successfully Logged In", "success")
+                    // Added by Om Shrivastava on 03-06-23
+                    // Reason : Need to fix the logout issue
+                    tokenRecheck()
+                    // End of addition by Om Shrivastava on 03-06-23
                     nav("/Dashboard")
                 }
                 else if(res.notAproved){
