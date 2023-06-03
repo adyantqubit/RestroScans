@@ -235,5 +235,8 @@ urlpatterns = [
     path('<str:tenant>/all-order-item-report-query/',OrderItemFilterAPIView.as_view()),
     # End of added code by :- Rohan Kansari on 28-05-2023
 
-
+    # Added by - Ashish Dewangan on 02-06-2023
+    # Reason - To get Setting details by id
+    path('<str:tenant>/app-theme-by-id/<int:settingId>',AppThemeByIdAPI.as_view()),
+    # End of code addition by Ashish Dewangan. reason - To get Setting details by id
 ]   

@@ -1045,6 +1045,29 @@ class getOrderItemsAPI(APIView):
 End of getting all orders
 """
 
+    
+# Added by - Ashish Dewangan on 02-06-2023
+# Reason - API to get setting by id
+
+class AppThemeByIdAPI(APIView):
+    def get(self,request,tenant,settingId):
+        setting=Setting.objects.get(id=settingId)
+        theme=AppTheme.objects.all()
+        themeSerializer=AppThemeSerializer(theme,many=True)
+        data=dict()
+        
+        if setting:
+            settingSerializer=SettingSerializer(setting)
+            data["setting"]=settingSerializer.data
+        else:
+            data["setting"]={}  
+        if theme:
+            themeSerializer=AppThemeSerializer(theme,many=True)
+            data["themeOptions"]=themeSerializer.data
+        else:
+            data["themeOptions"]=[] 
+        return Response({"msg":"success","setting":data["setting"],"themeOptions":data["themeOptions"]})
+# End of code addition by - Ashish Dewangan on 02-06-2023. Reason - to get setting data by id    
 
 # Added by Om shrivastava on 6-4-2023
 # Reason - to get and post the app theme,
@@ -1097,8 +1120,17 @@ class AppThemeAPI(APIView):
     #     return Response({"msg":"success"},200)
     def post(self,request,tenant):
         if "id" in request.data :
-            obj = Setting.objects.get(id=request.data["id"])
-            serial = SettingSaveSerializer(obj, data=request.data)
+
+            # Commented and modified by - Ashish Dewangan on 02-06-2023
+            # Reason - exception was not being handled when empty id was coming
+            # obj = Setting.objects.get(id=request.data["id"])
+            # serial = SettingSaveSerializer(obj, data=request.data)
+            try:
+                obj = Setting.objects.get(id=request.data["id"])
+                serial = SettingSaveSerializer(obj, data=request.data)
+            except Exception as e:
+                serial = SettingSaveSerializer(data=request.data)
+            # End of code modification by - Ashish Dewangan. Reason - exception handling        
         else :
             serial = SettingSaveSerializer(data=request.data)
         if serial.is_valid():

@@ -21,13 +21,14 @@ import BannerOfferItem from "./Pages/BannerOffer/BannerOfferItem";
 import Menu from "./Pages/Menu/menu";
 import Category from "./Pages/Menu/Category";
 import Item from "./Pages/Menu/Item";
-import Setting from "./Pages/Home/Setting";
 import FooterDescription from "./Pages/Home/FooterDescription";
 import CustomerDetail from "./Pages/CustomerDetail/CustomerDetail";
 import Order from "./Pages/Order/Order";
 import OrderItem from "./Pages/Order/OrderItem";
 import PaymentMethod from "./Pages/PaymentDetail/PaymentMethod";
 import Revenue from "./Pages/Revenue/Revenue";
+import Setting from './Pages/Setting/Setting';
+import SettingForm from './Pages/Setting/SettingForm';
 
 var Message=0;
 var AutoValidateToken=0
@@ -143,7 +144,12 @@ function App() {
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Item" element={<Item />} />
-        <Route path="/Setting" element={<Setting />} />
+        <Route path="/Setting" element={<Setting/>} />
+        {/* Added by - Ashish Dewangan on 02-06-2023
+        Reason - To have route for setting form */}
+        <Route path="/SettingForm" element={ <SettingForm/>  }/>
+        {/* End of code addition by - Ashish Dewangan on 02-06-2023
+        Reason - To have route for setting form */}
         <Route path="/FooterDescription" element={<FooterDescription />} />
         <Route path="/CustomerDetail" element={<CustomerDetail />} />
         <Route path="/Order" element={<Order />} />

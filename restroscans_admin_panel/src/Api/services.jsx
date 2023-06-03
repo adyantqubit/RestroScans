@@ -162,3 +162,45 @@ export const getTotalRevenueDetails = async (tenantId) => {
   };
 
   // End of code - Rohan KAnsari - 28/5/23
+
+/**
+ * Added by - Ashish Dewangan on 01-06-2023
+ * Reason - To get Setting data of tenant.
+ */
+export const getSettingsDetails = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/app-theme/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const getSettingsDetailsById = async (settingId,tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/app-theme-by-id/${settingId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Ashish Dewangan on 01-06-2023. Reason - to get setting data 
+ * */ 
+
+/**
+ * Added by - Ashish Dewangan on 02-06-2023
+ * Reason - To save settings
+ */
+
+export const postSettingsDetails = async (values, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/app-theme/`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Ashish Dewangan on 02-06-2023. Reason - To save settings
+ */
