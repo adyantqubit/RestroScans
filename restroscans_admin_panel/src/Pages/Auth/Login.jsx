@@ -179,6 +179,15 @@ const Login = () => {
                                     }} 
                                     ref={pswrdRef} id="Password" className={style.inputBox} onChange={e => scheduleTimer(0, validatePassword, e.currentTarget.value)} onBlur={e => validatePassword(e.currentTarget.value)} />
                                 {/*End of code -Rohan Kansari 29/5/23  */}
+
+                                {/* Added by Om Shrivastava on 03-06-23
+                                Reason : Redesign the forgot password */}
+                                <div>
+                                <div style={{textAlign:'right',color:'blue',whiteSpace: "nowrap",fontSize:'12px',padding:'0',margin:'0',cursor:'pointer'}} onClick={e => nav("/Forget")}>
+                               Forgot password?
+                                </div>
+                                </div>
+                                {/* End of addition by Om Shrivastava on 03-06-23 */}
                                 <label className={style.forgetText}
                                     style={{ justifyContent: errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? "space-between" : "" }}>
                                     {errors.filter(e => Object.keys(e)[0] == "password").length > 0 ?
@@ -187,7 +196,10 @@ const Login = () => {
                                         </span>
                                         :
                                         null}
-                                    <span style={{ whiteSpace: "nowrap" }} onClick={e => nav("/Forget")}>Forget Password?</span>
+                                        {/* Commented by Om Shrivastava on 03-06-23
+                                        Reason :Redesign the Forgot password  */}
+                                    {/* <span style={{ whiteSpace: "nowrap" }} onClick={e => nav("/Forget")}>Forget Password?</span> */}
+                                {/* End of addition by Om Shrivastava on 03-06-23 */}
                                 </label>
                                 {/* {errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? <span className={style.errorText}>{errors.filter(e => Object.keys(e)[0] == "password")[0].password}</span> : null} */}
                             </div>

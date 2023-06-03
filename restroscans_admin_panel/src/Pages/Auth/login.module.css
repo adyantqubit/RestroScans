@@ -229,4 +229,14 @@
     .formContent{
         width: 90%;
     }
+/* Added by Om Shrivastava on 03-06-23
+Reson : Fix the alignment of login page */
+.FormContainer{
+    width: 88%;
+    height: auto;
+    margin: auto;
+    margin-top:10%;
+    margin-bottom: 1%;
+}
+/* End of addition by Om Shrivastava on 03-06-23 */
 }

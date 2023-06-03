@@ -188,6 +188,11 @@
 
     .FormContainer{
         margin-top: 10%;
+        /* Added by Om Shrivastava on 03-06-23 
+        Reason : Need to increase the div size of input button*/
+        width: 85%;
+        margin-bottom: 2%;
+        /* End of addition by Om Shrivastava on 03-06-23 */
     }
    .formContent{
 
@@ -233,5 +238,9 @@
 @media screen and (max-width:720px){
     .formContent{
         width: 90%;
+        /* Added by Om on 02-06-23
+        Reason : Need to center the Forget password main div in responsive */
+        margin-bottom: 18%;
+        /* End of addition by Om Shrivastava on 02-06-23 */
     }
 }

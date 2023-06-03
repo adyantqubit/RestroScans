@@ -133,8 +133,11 @@ const Registration = () => {
         setError(errors)
         if (text.length == 0)
             errors=[...errors, { "confirm_password": "Please confirm your password" }]
-        if (text.length < 8 && text.length != 0)
-            errors=[...errors, { "confirm_password": "Confirm Password must be atleast 8 characters" }]
+        // Commented by Om Shrivastava on 03-06-23
+        // Reason : According to requirements not need to show confirm password validation message    
+        // if (text.length < 8 && text.length != 0)
+        //     errors=[...errors, { "confirm_password": "Confirm Password must be atleast 8 characters" }]
+        // End of addition by Om Shrivastava on 02-06-23
         if(document.getElementById("Password").value != text)    
             errors=[...errors, { "confirm_password": "Password and Confirm Password should be same" }]
 

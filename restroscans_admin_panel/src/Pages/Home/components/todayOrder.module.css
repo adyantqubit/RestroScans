@@ -629,8 +629,10 @@ input[type="radio"]:checked + .tabLabel {
     display: flex;
     flex-wrap: wrap;
     row-gap: 10px;
-    position: relative;
-    
+    /* Commented by Om Shrivastava on 03-06-23
+    Reason : When sidebar is open than its overlap the order update module */
+    /* position: relative; */
+    /* End of addition by Om Shrivastava on 03-06-23 */
 }
 
 .updateflexContainer{

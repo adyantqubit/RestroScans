@@ -50,6 +50,11 @@ Reason:- Create css for Footer.jsx */
   position: absolute;
   color: black;
   font-weight: 500;
+  /* Modication and addition by Om Shrivastava on 03-06-23
+    Reason : fix the footer alignment issue */
+    margin-bottom: 1rem;
+/* End of addition by Om Shrivastava on 03-06-23 */
+
 }
 .adyant_footer_link {
   margin-bottom: 2.5rem;
@@ -91,7 +96,11 @@ Reason:- Create css for Footer.jsx */
 }
 @media (max-width: 500px) {
   .footer_container {
-    height: 9vh;
+    /* Modication and addition by Om Shrivastava on 03-06-23
+    Reason : fix the footer alignment issue */
+    /* height: 9vh; */
+    height: 11vh;
+/* End of addition by Om Shrivastava on 03-06-23 */
   }
   .facebook,
   .google,

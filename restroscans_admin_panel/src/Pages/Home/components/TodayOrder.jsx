@@ -425,8 +425,12 @@ const TodayOrder = () => {
         setCheckedItem([])
 
         if (data?.fade) {
-            document.getElementById("allupdate").style.background = "rgba(128,128,128,.1)"
-            document.getElementById("allupdate").style.opacity = ".6"
+            // Modification and addition by Om Shrivastava on 03-06-23
+            // Reason : Fix the overlap issue
+            // document.getElementById("allupdate").style.background = "rgba(128,128,128,.1)"
+            document.getElementById("allupdate").style.background = "rgb(232,232,232)"
+            // document.getElementById("allupdate").style.opacity = ".6"
+            // End of addition by Om Shrivastava on 03-06-23
             document.getElementById("allupdate").style.pointerEvents = "none"
         } else {
             document.getElementById("allupdate").style.background = "unset"

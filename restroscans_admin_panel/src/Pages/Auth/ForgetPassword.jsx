@@ -87,8 +87,8 @@ const Forget = () => {
         setError(errors)
         if (text.length == 0)
             errors=[...errors, { "confirm_password": "Please Confirm Your Password" }]
-        if (text.length < 8 && text.length != 0)
-            errors=[...errors, { "confirm_password": "Confirm password should not be less than 8 characters" }]
+        // if (text.length < 8 && text.length != 0)
+        //     errors=[...errors, { "confirm_password": "Confirm password should not be less than 8 characters" }]
         if(document.getElementById("Password").value != text)    
             errors=[...errors, { "confirm_password": "Password and Confirm Password should be same" }]
 
@@ -156,6 +156,11 @@ const Forget = () => {
             console.log(res)
             if (res.msg) {
               Message("Successfully Reset your password","success")
+            //   Added by Om Shrivastava on 03-06-23
+            //   Reason : When user success the reset the password than its navigate in login page
+            nav("/Login")
+            // End of addition by Om shrivastava on 03-06-23
+              
             } else {
                 Message("Something went wrong","warning")
             }
