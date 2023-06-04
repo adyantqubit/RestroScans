@@ -182,11 +182,11 @@ const Login = () => {
 
                                 {/* Added by Om Shrivastava on 03-06-23
                                 Reason : Redesign the forgot password */}
-                                <div>
+                                {/* <div>
                                 <div style={{textAlign:'right',color:'blue',whiteSpace: "nowrap",fontSize:'12px',padding:'0',margin:'0',cursor:'pointer'}} onClick={e => nav("/Forget")}>
                                Forgot password?
                                 </div>
-                                </div>
+                                </div> */}
                                 {/* End of addition by Om Shrivastava on 03-06-23 */}
                                 <label className={style.forgetText}
                                     style={{ justifyContent: errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? "space-between" : "" }}>
@@ -198,7 +198,7 @@ const Login = () => {
                                         null}
                                         {/* Commented by Om Shrivastava on 03-06-23
                                         Reason :Redesign the Forgot password  */}
-                                    {/* <span style={{ whiteSpace: "nowrap" }} onClick={e => nav("/Forget")}>Forget Password?</span> */}
+                                    <span style={{ whiteSpace: "nowrap",textAlign:'right',color:'blue',whiteSpace: "nowrap",fontSize:'12px',padding:'0',margin:'0',cursor:'pointer' }} onClick={e => nav("/Forget")}>Forget Password?</span>
                                 {/* End of addition by Om Shrivastava on 03-06-23 */}
                                 </label>
                                 {/* {errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? <span className={style.errorText}>{errors.filter(e => Object.keys(e)[0] == "password")[0].password}</span> : null} */}

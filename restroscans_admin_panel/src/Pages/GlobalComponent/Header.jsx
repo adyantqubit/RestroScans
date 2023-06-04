@@ -31,7 +31,7 @@ const Header = (props) => {
     navigate("/login");
     localStorage.clear();
     tokenRecheck()
-    Message("Successfully Logged out", "warning")
+    Message("Successfully logged out", "warning")
     // End of modification by Om Shrivastava on 02-06-23
   };
   const cancel = (e) => {};

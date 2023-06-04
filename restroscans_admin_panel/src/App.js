@@ -4,7 +4,7 @@ import Registration from './Pages/Auth/Registration';
 import Login from './Pages/Auth/Login';
 import Forget from './Pages/Auth/ForgetPassword';
 import style from "./app.module.css"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, AlertIcon } from '@chakra-ui/react'
 import Dashboard from './Pages/Home/Dashboard';
 import Header from './Pages/GlobalComponent/Header';
@@ -40,20 +40,28 @@ function App() {
   const [notificationText,setNotificationText]=useState("SuccessFully")
   // Added by Om Shrivastava on 03-06-23
   // Reason : Fix the logout issue
-  const [tokenExist,setTokenExist]=useState(true)
+  const [tokenExist,setTokenExist]=useState(false)  // I change this statement true to false in 04-06-23
+
+// Added by Om Shrivastava on 04-06-23
+// Reason : When we refresh the page than dashboard is shown
+  useEffect(()=>{
+   tokenRecheck()
+  },[])
+  // End of addition by Om Shrivastava on 04-06-23
 
   tokenRecheck = ()=>{
     if (localStorage.getItem('token')){
       setTokenExist(true)
-      console.log('token exist')
+      // console.log('token exist')
     }
     else{
       setTokenExist(false)
-      console.log('not exist')
+      // console.log('not exist')
     }
 
   }
 // End of addition by Om Shrivastava on 02-06-23
+
   
   Message= (text,type)=> {
     setNotificationText(text)
@@ -75,9 +83,11 @@ function App() {
       if(r){
         localStorage.setItem("token",r.access_token)
         localStorage.setItem("refresh_token",r.refresh_token)
+        tokenRecheck()
       }
       else{
         localStorage.clear()
+        tokenRecheck()
         window.location="/Login"
         Message("Unathenticate ! please login again")
       }
