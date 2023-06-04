@@ -9,7 +9,7 @@ from django.core.validators import validate_image_file_extension
 from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+import math  
 
 # Create your models here.
 
@@ -510,6 +510,11 @@ class CustomerDetail(models.Model):
 
     email = models.EmailField(_('email address'), null=True, blank=True) 
 
+    # Added by Om Shrivastava on 26-05-23
+    # Reason : Need to show the Loyality points
+    loyality_points = models.IntegerField(default=0, null=True,blank=True) 
+    # End of addition by Om Shrivastava on 26-05-23
+
     # Commented by :- Parineeta Gedam
     # Date :- 14-04-2023
     # Reason :- remove the cantact_number validations unique = True 
@@ -590,6 +595,13 @@ CANCELLED_BY = (
 )
 # End of added code by :- Parineeta Gedam on 13-05-2023
 
+# Added by :- Parineeta Gedam on 13-05-2023
+LOYALITY_STATUS = (
+    ("is used", "is used"),
+    ("not used", "not used"),
+)
+# End of added code by :- Parineeta Gedam on 13-05-2023
+
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.CharField(max_length=255)
@@ -647,6 +659,17 @@ class Order(models.Model):
     cancel_reason = models.TextField(null=True,blank=True)
     # End of added code by :- Parineeta Gedam on 13-05-2023
 
+    # Added by :- Om shrivastava on 26-05-23 
+    # Reason :- for apply the loyality points
+    apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,)
+    loyality_point_price = models.IntegerField(null=True,blank=True)
+    # End of added code by :- Om shrivastava on 26-05-23
+
+    # Added by :- Om shrivastava on 29-05-23 
+    # Reason :- for check the loyality points status
+    loyality_point_status = models.CharField(max_length=100,choices=LOYALITY_STATUS,default="not used",null=True,blank=True)
+    # End of added code by :- Om shrivastava on 26-05-23
+
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100
     def clean(self) : 
@@ -659,6 +682,12 @@ class Order(models.Model):
             raise ValidationError({"cancel_reason" : "Please give the cancel reason"})
         # End of added code on 13-05-2023
 
+        # # Added by Om Shrivastava on 28-05-23
+        # # Reason : Need to apply some condition for calculation the loyality point
+        if int(self.customer_id.loyality_points) < int(self.apply_loyality_point) :
+            raise ValidationError({'apply_loyality_point': "Please enter below the customer loyality point."})
+        # End of addition by Om shrivastava on 28-05-23
+        
     # End of added code on 10-05-2023
 
     def __str__(self):
@@ -679,6 +708,39 @@ class Order(models.Model):
             self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M') 
         #super().save( *args, **kwargs)
 
+
+        # # Added by Om Shrivastava on 28-05-23
+        # # Reason : Need to apply some condition for calculation the loyality point
+
+        setting_data=Setting.objects.first()
+        if setting_data.allow_loyality_points is True :
+            if self.payment_status == 'Pending':
+                if self.apply_loyality_point == 0:
+                    pass
+                else:
+                    if self.loyality_point_status=='is used':
+                        oldLoyality=Order.objects.get(order_id=self.order_id)
+                        self.apply_loyality_point=oldLoyality.apply_loyality_point
+
+                    else:
+                        self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
+                        user_contact = self.customer_id.contact_number
+                        CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point)
+                        self.loyality_point_status='is used'
+            
+            if self.payment_status=='Paid':
+                oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
+                self.apply_loyality_point=oldLoyalityPoint.apply_loyality_point 
+
+            if self.payment_status == 'Completed':
+                oldPoint=Order.objects.get(order_id=self.order_id)
+                self.apply_loyality_point=oldPoint.apply_loyality_point
+                get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
+                print('loyality_point-------------------------->',get_loyality)
+                user_no= self.customer_id.contact_number
+                CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
+        #  End of addition by Om Shrivastava on 28-05-23 
+        
         # Added by :- Parineeta Gedam on 06-05-2023
         # Reason :- to update payment status, manual discont and final amount
         try :
@@ -692,7 +754,12 @@ class Order(models.Model):
             if self.manual_discount:
                 total = 0
                 if self.discount_type == "Discount in (?)" :
-                    total =  self.sub_total - self.manual_discount
+                    # Modification and addition by Om Shrivastava on 30-05-23
+                    # Reason : Show the loyality point calculation
+                    # total =  self.sub_total - self.manual_discount
+                    total =  self.sub_total - self.manual_discount - self.loyality_point_price
+                    # End of addition and modification by Om Shrivastava on 30-05-23
+
                 else :
                     total = self.sub_total - (self.sub_total * self.manual_discount / 100)
                 print("total=====", total)
@@ -722,6 +789,7 @@ class Order(models.Model):
                         tax.sgst = 0
                     if tax.cgst is None:
                         tax.cgst = 0
+                    
                     cgst = ( orderUpdate.sub_total*(tax.cgst)/100)
                     self.cgst = round(float("{:.2f}".format(cgst)),2)
                     sgst = ( orderUpdate.sub_total*(tax.sgst)/100)
@@ -731,6 +799,21 @@ class Order(models.Model):
                     print("save method -------- cgst", self.cgst)
                     print("sgst", self.sgst)
                     print("total", self.total)
+
+                    # # Added by Om Shrivastava on 28-05-23
+                    # # Reason : Need to apply some condition for calculation the loyality point
+                    if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
+                        # print(self.sub_total,'22222222')
+                        self.total = self.sub_total - self.loyality_point_price
+                        # print(round(float("{:.2f}".format(self.total)),2))
+                        cgst = ( self.total*(tax.cgst)/100)
+                        self.cgst = round(float("{:.2f}".format(cgst)),2)
+                        sgst = ( self.total*(tax.sgst)/100)
+                        self.sgst = round(float("{:.2f}".format(sgst)),2)
+                        self.final_amount = round(float("{:.2f}".format( self.total + cgst + sgst)),2)
+                    #  End of addition by Om Shrivastava on 28-05-23 
+
+
         except Exception as e:
             print("Exception in save method of order - ",e)
         # End of added code on 06-05-2023

@@ -341,6 +341,11 @@ class SettingAdmin(admin.ModelAdmin):
         form = super(SettingAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['cgst'].widget.attrs['style'] = 'width: 13em;'
         form.base_fields['sgst'].widget.attrs['style'] = 'width: 13em;'
+        # Added by Om Shrivastava on 27-05-23
+        # Reason : Fix the form designing of some settings fields
+        form.base_fields['per_loyality_point_value'].widget.attrs['style'] = 'width: 13em;'
+        form.base_fields['amount_for_single_loyality_point'].widget.attrs['style'] = 'width: 13em;'
+        # End of addition by Om Shrivastava on 27-05-23
         # Added by Om Shrivastava on 14-05-23
         # Reason : To Remove the edit and add icon 
         field = form.base_fields["app_theme"]
@@ -440,7 +445,11 @@ Added by :-  Parineeta Gedam Date - 06-04-2023
 Reason- Register Customer Detail table.
 """
 class CustomerDetailAdmin(admin.ModelAdmin):
-    list_display = ['id','name','email','contact_number']
+    # Modification and addition by Om Shrivastava on 27-05-23
+    # Reason : For show the loyality points 
+    # list_display = ['id','name','email','contact_number']
+    list_display = ['id','name','email','contact_number','loyality_points']
+    # End of additionn by Om Shrivastava on 27-05-23
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=('id','name','email','contact_number')
@@ -453,7 +462,11 @@ class CustomerDetailAdmin(admin.ModelAdmin):
 
     # Added by :- Parineeta Gedam on 12-05-2023
     # Reason :- all field should be read only.
-    readonly_fields=['id','name','email', 'contact_number','last_customer_name','last_email']
+    # Modification and addition by Om Shrivastava on 27-05-23
+    # Reason : For show the loyality points 
+    # readonly_fields=['id','name','email', 'contact_number','last_customer_name','last_email']
+    readonly_fields=['id','name','email', 'contact_number','last_customer_name','last_email','loyality_points']
+    # End of additionn by Om Shrivastava on 27-05-23
     # End of added code by :- Parineeta Gedam on 12-05-2023 
 
     def has_module_permission(self, request,view=None):
@@ -614,7 +627,11 @@ class OrderAdmin(admin.ModelAdmin):
                     #Added by:- Parineeta Gedam on 12-05-23 for read only field
                     'review',
                     # 'final_amount',
-                    # End of Code Addition
+                    # End of Code Addition,
+                    # Added by Om Shrivastava on 27-05-23
+                    # Reason : This field show only read only
+                    'loyality_point_price','loyality_point_status',
+                    # End of addition by Om Shrivastava on 27-05-23
                     ]
     # End of added code on 17-04-2023
 
@@ -645,6 +662,10 @@ class OrderAdmin(admin.ModelAdmin):
         form.base_fields['order_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_status'].widget.attrs['style'] = 'width: 15em;'
         form.base_fields['payment_mode'].widget.attrs['style'] = 'width: 15em;'
+        # # Added by :- Om Shrivastava on 29-05-2023
+        # # Reason :- to design form
+        # form.base_fields['loyality_point_status'].widget.attrs['style'] = 'width: 15em;'
+        # # End of added code on 06-05-2023
 
         # Added by :- Parineeta Gedam on 06-05-2023
         # Reason :- to design form
@@ -658,6 +679,11 @@ class OrderAdmin(admin.ModelAdmin):
         form.base_fields['cancel_reason'].widget.attrs['style'] = 'width: 15em;'
 
         # End of added code on 06-05-2023
+
+        # Added by :- Om Shrivastava on 27-05-2023
+        # Reason :- to design the apply_loyality_point and loyality_point_price fields in order item section.
+        form.base_fields['apply_loyality_point'].widget.attrs['style'] = 'width: 15em;'
+        # End of addition and modification code on 27-05-2023
 
         # Commented by - Ashish Dewangan on 24-04-2023
         # reason - not used anymore
