@@ -3,7 +3,7 @@
  * Reason - to show all social links and save new social media
  */
 
-import { View, Text, Pressable, Alert } from "react-native";
+import { View, Text, Pressable, Alert, ScrollView } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Formik } from "formik";
 import { addSocialMedia } from "../../validation/ValidationSchema";
@@ -183,6 +183,7 @@ export default function SocialLinkScreen({ navigation }) {
 
   return (
     <View>
+      <ScrollView keyboardShouldPersistTaps="handled">
       <Formik
         innerRef={formRef}
         initialValues={{
@@ -403,6 +404,7 @@ export default function SocialLinkScreen({ navigation }) {
           )}
         </View>
       </View>
+      </ScrollView>
       {/* End getting all social media by Yuvraj Sahu on 28-05-2023 */}
     </View>
   );

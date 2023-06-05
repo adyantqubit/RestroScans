@@ -59,14 +59,20 @@ export default function CategoryListScreen({ route, navigation }) {
   const [isMenuChecked, setMenuChecked] = useState(false);
   // End of set active
 
-  // Added by Yuvraj Sahu on 7-4-2023
-  // Reason - to get all menu, category and item and rerender page
-  var { render, setRender } = useContext(AppStateContext);
-
   var [menuObject, setMenuObject] = useState({});
   //  var menuObject = menuObj
   var [categoryObject, setCategoryObject] = useState([]);
   var [itemObject, setItemObject] = useState([""]);
+
+  /**
+   * Added by Yuvraj Sahu on 22-05-2023
+   * Reason - to set searched objects and search keyword
+   */
+  var [seeCategories, setSeeCategories] = useState([]);
+  var [search, setSearch] = useState("");
+  /**
+   * End of addition by Yuvraj Sahu on 21-05-2023
+   */
 
   // Added by Yuvraj Sahu on 26-4-2023
   // Reason - to set selcted menu
@@ -89,11 +95,47 @@ export default function CategoryListScreen({ route, navigation }) {
       var menuChecked = selectedMenu.is_active;
       setMenuChecked(menuChecked);
       setCategoryObject(filteredCategory);
+      /**
+       * Added by Yuvraj Sahu on 22-05-2023
+       * Reason - to set value for search
+       */
+      setSeeCategories(filteredCategory);
+      /**
+       * End of addition by Yuvraj Sahu on 21-05-2023
+       */
       setSelectedMenu(selectedMenu);
       setMenuObject(selectedMenu);
       // End of modification
     }
   };
+
+  /**
+   * Added by Yuvraj Sahu on 21-05-2023
+   * Reason - to search menu using name wise
+   */
+  const handleSearch = (searchKey) => {
+    // Commeted and modified by Yuvraj Sahu on 04-06-2023
+    // Reason - to trim searched word from start and end
+    // var splitedWord = searchKey.trimStart().replace(".", " ").split(" ");
+    var splitedWord = searchKey.trim().replace(".", " ").split(" ");
+    // End of trimming word by Yuvraj Sahu on 04-06-2023
+    var sapratedWord = splitedWord.reverse().join().replace(",", " ");
+    setSearch(searchKey.replace(".", " "));
+    if (searchKey == "") {
+      setSeeCategories(categoryObject);
+    } else {
+      var searchedMenus = categoryObject.filter(
+        (dt) =>
+          dt.name.toLowerCase().includes(searchKey.toLowerCase()) || // search by word (left-right)
+          dt.name.toLowerCase().includes(sapratedWord.toLowerCase()) || // search word with space and reverse
+          splitedWord.includes(dt.name.toLowerCase()) // search for multiple object
+      );
+      setSeeCategories(searchedMenus);
+    }
+  };
+  /**
+   * End of addition by Yuvraj Sahu on 21-05-2023
+   */
 
   useEffect(() => {
     // setMenuObject()
@@ -111,6 +153,14 @@ export default function CategoryListScreen({ route, navigation }) {
     setSelectedMenu({ name: "" });
     setImage(null);
     // End of addition
+    /**
+     * Added by Yuvraj Sahu on 22-05-2023
+     * Reason - to clear the state
+     */
+    setSearch("");
+    /**
+     * End of addition by Yuvraj Sahu on 22-05-2023
+     */
     getAllmenus();
   }, [isFocused]);
   // end of modification
@@ -626,14 +676,35 @@ export default function CategoryListScreen({ route, navigation }) {
 
           {/* ---------------------- Category lists ------------------------------ */}
           <View style={styles.categoryContainer}>
+            {/* Added by Yuvraj Sahu on 22-05-2023
+                Reason - to give search functionality */}
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                onChangeText={(e) => handleSearch(e)}
+                value={search}
+                placeholderTextColor="#A4A4A4"
+                placeholder="Search"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+            {/* End given search functionality by Yuvraj Sahu on 22-05-2023 */}
+
             <Text style={styles.categoryLable}>
               Categories inside {menuObject.name}
             </Text>
             {/* Added by Yuvraj Sahu on 28-4-2023
             Reason - to show no category availbale if data not present  */}
-            {categoryObject.length > 0 ? (
+            {/* Commeted and modified by Yuvraj Sahu on 04-06-2023
+            Reason - to show searched data */}
+            {/* {categoryObject.length > 0 ? ( */}
+            {seeCategories.length > 0 ? (
               <>
-                {categoryObject.map((categoryData, id) => (
+                {/* Commeted and modified by Yuvraj Sahu on 04-06-2023
+            Reason - to show searched data */}
+                {/* {categoryObject.map((categoryData, id) => ( */}
+                {seeCategories.map((categoryData, id) => (
                   <Pressable
                     key={id}
                     style={styles.categoryListContainer}
@@ -833,4 +904,26 @@ const styles = StyleSheet.create({
   activeLable: {
     marginLeft: 10,
   },
+
+  /**
+   * Modified by yuvraj Sahu on 21-05-2023
+   * Reason - to design search field
+   */
+  searchInput: {
+    height: inputs.inputBoxHeight,
+    margin: 12,
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    marginTop: 0,
+    fontSize: 16,
+    borderRadius: 25,
+    // width: "50%"
+  },
+  searchContainer: {
+    marginTop: 10,
+    width: "100%",
+  },
+  /**
+   * End of addition by yuvraj Sahu on 21-05-2023
+   */
 });

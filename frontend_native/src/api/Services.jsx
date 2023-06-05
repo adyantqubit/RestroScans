@@ -539,7 +539,7 @@ export const getSocialMediaApi = async (tenant) => {
 
 
 // Added by Yuvraj Sahu on 28-05-2023
-// Reason - to save social media
+// Reason - to delete social media
 export const deteleSocialMediaApi = async (tenant, id) => {
   const response = await API.delete(`/api/v1/${tenant}/social-links/${id}`, {
     headers: {

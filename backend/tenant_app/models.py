@@ -1067,8 +1067,11 @@ Reason - to save social links
 """
 class SocialLinks(models.Model):
     social_media_name = models.CharField(max_length=255, blank=True, null=True)
-    social_media_link = models.TextField(blank=True, null=True)
-    social_media_icon = models.ImageField(upload_to='social/', blank=True, null=True, 
+    # Modified by Yuvraj Sahu on 04-06-2023
+    # Reason - to make mandatory
+    social_media_link = models.TextField(default="")
+    social_media_icon = models.ImageField(upload_to='social/', default="",
+    # End of addition by Yuvraj Sahu on 04-06-2023
               validators=[validate_image_file_extension])
     class Meta:
         verbose_name = "Social Link"

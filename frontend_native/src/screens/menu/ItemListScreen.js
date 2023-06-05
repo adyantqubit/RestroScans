@@ -34,6 +34,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { Formik } from "formik";
 import { addCategorySchema } from "../../validation/ValidationSchema";
+import { Feather } from "@expo/vector-icons";
 
 export default function ItemListScreen({ route, navigation }) {
   const isFocused = useIsFocused();
@@ -121,6 +122,16 @@ export default function ItemListScreen({ route, navigation }) {
   var [categoryValue, setCategoryValue] = useState({});
   // End of set category
 
+  /**
+   * Added by Yuvraj Sahu on 22-05-2023
+   * Reason - to set searched objects and search keyword
+   */
+  var [seeItems, setSeeItems] = useState([]);
+  var [search, setSearch] = useState("");
+  /**
+   * End of addition by Yuvraj Sahu on 21-05-2023
+   */
+
   const getAllmenus = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -132,6 +143,14 @@ export default function ItemListScreen({ route, navigation }) {
         (dt) => dt.category_id == categoryID
       );
       setItemObjects(itemList);
+      /**
+       * Added by Yuvraj Sahu on 22-05-2023
+       * Reason - to set value for search
+       */
+      setSeeItems(itemList);
+      /**
+       * End of addition by Yuvraj Sahu on 21-05-2023
+       */
       var menuList = response.menuList.filter((e) => e.is_active == true);
       setMenuDatas(menuList);
       var selectedMenu = response.menuList.filter((e) => e.id == menuID)[0];
@@ -148,6 +167,34 @@ export default function ItemListScreen({ route, navigation }) {
     }
   };
   // end of getting menus
+
+  /**
+   * Added by Yuvraj Sahu on 21-05-2023
+   * Reason - to search menu using name wise
+   */
+  const handleSearch = (searchKey) => {
+    setSearch(searchKey.replace(".", " "));
+    // Commeted and modified by Yuvraj Sahu on 04-06-2023
+    // Reason - to trim searched word from start and end
+    // var splitedWord = searchKey.trimStart().replace(".", " ").split(" ");
+    var splitedWord = searchKey.trim().replace(".", " ").split(" ");
+    // End of trimming word by Yuvraj Sahu on 04-06-2023
+    var sapratedWord = splitedWord.reverse().join().replace(",", " ");
+    if (searchKey == "") {
+      setSeeItems(itemObjects);
+    } else {
+      var searchedMenus = itemObjects.filter(
+        (dt) =>
+          dt.name.toLowerCase().includes(searchKey.toLowerCase()) || // search by word (left-right)
+          dt.name.toLowerCase().includes(sapratedWord.toLowerCase()) || // search word with space and reverse
+          splitedWord.includes(dt.name.toLowerCase()) // search for multiple object
+      );
+      setSeeItems(searchedMenus);
+    }
+  };
+  /**
+   * End of addition by Yuvraj Sahu on 21-05-2023
+   */
 
   /* This is add for show image limit validation msg */
   var [isFileSizeError, setFileSizeError] = useState(false);
@@ -389,8 +436,100 @@ export default function ItemListScreen({ route, navigation }) {
     // getTenant()
     setCategoryValue({ name: "" });
     setImage(null);
+    /**
+     * Added by Yuvraj Sahu on 22-05-2023
+     * Reason - to clear the state
+     */
+    setSearch("");
+    /**
+     * End of addition by Yuvraj Sahu on 22-05-2023
+     */
+    /**
+     * Added by Yuvraj Sahu on 24-05-2023
+     * Reason - to reset the dropdown when come backe same screen
+     */
+    /**
+     * End of clearing dropdown value by Yuvraj Sahu on 24-05-2023
+     */
     getAllmenus();
   }, [isFocused]);
+
+  /**
+   * Added by Yuvraj Sahu on 03-06-2023
+   * Reason - to set item name sorting value
+   */
+  var [itemNameSortVal, setItemNameSortVal] = useState("");
+  /**
+   * End of addition by Yuvraj Sahu on 03-06-2023
+   */
+  /**
+   * Added by Yuvraj Sahu on 03-06-2023
+   * Reason - to set item name (asc or desc) send
+   * props for sorting functionality
+   */
+  const handleSetItemName = () => {
+    if (itemNameSortVal == "") {
+      setItemNameSortVal("ascending");
+      handleItemNameSort("ascending");
+    }
+    if (itemNameSortVal == "ascending") {
+      setItemNameSortVal("descending");
+      handleItemNameSort("descending");
+    }
+    if (itemNameSortVal == "descending") {
+      setItemNameSortVal("");
+      handleItemNameSort("remove sort");
+    }
+  };
+  /**
+   * End of setting item name by Yuvraj Sahu on 03-06-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 03-06-2023
+   * Reason - to sort data according to item name
+   */
+  const handleItemNameSort = (sort) => {
+    if (sort == "ascending") {
+      var latest = seeItems.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          return -1;
+        }
+        if (a.name.toLowerCase() > a.name.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+      setSeeItems(latest);
+    }
+    if (sort == "descending") {
+      var latest = seeItems.sort((a, b) => {
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return -1;
+        }
+        if (a.name.toLowerCase() < a.name.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+      setSeeItems(latest);
+    }
+    if (sort == "remove sort") {
+      var latest = seeItems.sort((a, b) => {
+        if (a.id > b.id) {
+          return -1;
+        }
+        if (a.id < a.id) {
+          return 1;
+        }
+        return 0;
+      });
+      setSeeItems(latest);
+    }
+  };
+  /**
+   * End of sorting from name by Yuvraj Sahu on 03-06-2023
+   */
 
   return (
     <>
@@ -648,38 +787,94 @@ export default function ItemListScreen({ route, navigation }) {
           </Formik>
           {/* ------------------------------- List of items ------------------------------------ */}
           <View style={styles.categoryContainer}>
+            {/* Added by Yuvraj Sahu on 22-05-2023
+                Reason - to give search functionality */}
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                onChangeText={(e) => handleSearch(e)}
+                value={search}
+                placeholderTextColor="#A4A4A4"
+                placeholder="Search"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+            {/* End given search functionality by Yuvraj Sahu on 22-05-2023 */}
+
             <Text style={styles.categoryLable}>
               Items inside {categoryValue.name}
             </Text>
             {/* Added by Yuvraj Sahu on 28-4-2023
             Reason - to show no item available if no data present */}
-            {itemObjects.length > 0 ? (
-              <>
-                {itemObjects.map((dt, id) => (
+
+            {/* Added and modified by yuvraj Sahu on 02-06-2023
+            Reason - to Show item in tabular format and give heading */}
+            {seeItems.length > 0 ? (
+              // Added by Yuvraj Sahu on 02-06-2023
+              // Reason - to add table heading
+              <View style={styles.tableContainer}>
+                <View style={styles.tableHeading}>
+                  <Text style={styles.tableCol1}>Image</Text>
+                  <Pressable
+                    onPress={handleSetItemName}
+                    style={styles.tableCol2}
+                  >
+                    <Text style={styles.tableCol2Text}>
+                      Item name{itemNameSortVal == "" && "??"}
+                      {itemNameSortVal == "ascending" && "?"}
+                      {itemNameSortVal == "descending" && "?"}
+                    </Text>
+                  </Pressable>
+                  <Text style={styles.tableCol3}>Detail</Text>
+                </View>
+                {/* End of addition by Yuvraj Sahu on 02-06-2023 */}
+                {seeItems.map((dt, id) => (
                   <Pressable
                     key={id}
                     style={styles.categoryListContainer}
-                    onPress={(e) => handleEditItem(dt.id)}
+                    // commeted by Yuvraj Sahu on 02-06-2023
+                    // Reason - to remove press functionality
+                    // onPress={(e) => handleEditItem(dt.id)}
+                    // End of commet by Yuvraj Sahu on 02-06-2023
                   >
                     <Image
                       source={{
                         uri: config.staticBaseURL + dt.icon,
                       }}
-                      style={styles.menuIcon}
+                      style={styles.tableData1}
                     />
-                    <Text>{dt.name}</Text>
-                    <Icon name="edit" size={20} color="black" />
+                    <Text style={styles.tableData2}>{dt.name}</Text>
+                    {/* Modified by Yuvraj Sahu on 02-06-2023
+                    Reason - to change the icon */}
+                    {/* <Icon name="edit" size={20} color="black" style={{width: "10%", borderWidth: 1}}/> */}
+                    <Pressable
+                      onPress={(e) => handleEditItem(dt.id)}
+                      style={styles.tableData3}
+                    >
+                      <Feather
+                        name="arrow-right-circle"
+                        size={20}
+                        color="blue"
+                        style={{ textAlign: "center" }}
+                      />
+                      {/* End of addition by Yuvraj Sahu on 02-06-2023 */}
+                    </Pressable>
                   </Pressable>
                 ))}
-              </>
+              </View>
             ) : (
               <View
-                style={{
-                  height: 200,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
-                }}
+                // Commeted and modified by Yuvraj Sahu on 04-06-2023
+                // Reason - to apply external css
+                // style={{
+                //   height: 200,
+                //   alignItems: "center",
+                //   justifyContent: "center",
+                //   alignSelf: "center",
+                // }}
+                style={styles.noItemContainer}
+                // End of modification by Yuvraj Sahu on 04-06-2023
               >
                 <Text>No item Available</Text>
               </View>
@@ -703,6 +898,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "#fff",
     paddingTop: 15,
+    /**
+     * Added by Yuvraj Sahu on 02-06-2023
+     * Reason - to give bottom space or margin
+     */
+    marginBottom: 30,
+    /**
+     * End of addition by yuvraj Sahu on 02-06-2023
+     */
   },
   labels: {
     paddingHorizontal: 10,
@@ -746,25 +949,58 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffebcc",
     alignItems: "center",
     borderRadius: 10,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
+    // Modified by Yuvraj Sahu on 02-06-2023
+    // Reason - to remove extra paddings
+    // paddingHorizontal: 10,
+    // marginHorizontal: 10,
+    padding: 10,
+    marginHorizontal: 5,
+    // End of addition by Yuvraj Sahu on 02-06-2023
   },
-  menuIcon: {
-    height: 50,
-    width: 70,
+  tableData1: {
+    /**
+     * Commeted and modified by Yuvraj Sahu on 02-06-2023
+     * Reason - to reduce image size
+     */
+    // height: 50,
+    // width: 70,
+    height: 40,
+    width: "20%",
+    /**
+     * End of addition by Yuvraj Sahu on 02-06-2023
+     */
     borderRadius: 5,
   },
   categoryListContainer: {
     display: "flex",
     flexDirection: "row",
-    marginTop: 5,
+    /**
+     * Commeted and modified by Yuvraj Sahu on 02-06-2023
+     * Reason - to design tabular format
+     */
+    // marginTop: 5,
+    // borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: "grey",
+    /**
+     * End of addition by Yuvraj Sahu on 02-06-2023
+     */
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 5,
+    /**
+     * Modified and added by Yuvraj Sahu on 02-06-2023
+     * Reason - to show tabular format
+     */
+    // marginBottom: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    /**
+     * End of addition by Yuvraj Sahu on 02-06-2023
+     */
     backgroundColor: "white",
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    // borderRadius: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     width: "100%",
     // marginVertical: 10,
     // shadowColor: "#171717",
@@ -775,6 +1011,14 @@ const styles = StyleSheet.create({
   categoryLable: {
     fontSize: 18,
     fontWeight: "bold",
+    /**
+     * Added by Yuvraj Sahu on 02-06-2023
+     * Reason - to give more space in heading
+     */
+    marginBottom: 5,
+    /**
+     * End of addition by Yuvraj Sahu on 02--6-2023
+     */
   },
   activeStatus: {
     display: "flex",
@@ -786,4 +1030,77 @@ const styles = StyleSheet.create({
   activeLable: {
     marginLeft: 10,
   },
+  /**
+   * Modified by yuvraj Sahu on 21-05-2023
+   * Reason - to design search field
+   */
+  searchInput: {
+    height: inputs.inputBoxHeight,
+    margin: 12,
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    marginTop: 0,
+    fontSize: 16,
+    borderRadius: 25,
+    // width: "50%"
+  },
+  searchContainer: {
+    marginTop: 10,
+    width: "100%",
+  },
+  /**
+   * End of addition by yuvraj Sahu on 21-05-2023
+   */
+
+  /**
+   * -------------------- Item list table design -----------------------
+   */
+  /**
+   * Added by Yuvraj Sahu on 03-06-2023
+   * Reason - to design item list table
+   */
+  tableContainer: {
+    borderWidth: 1,
+    width: "100%",
+    borderRadius: 5,
+  },
+  tableHeading: {
+    minHeight: 40,
+    backgroundColor: "white",
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5,
+    alignItems: "center",
+  },
+  tableCol1: {
+    fontWeight: "bold",
+    width: "20%",
+    textAlign: "center",
+  },
+  tableCol2: { width: "60%" },
+  tableCol2Text: {
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  tableCol3: {
+    fontWeight: "bold",
+    width: "20%",
+    textAlign: "center",
+  },
+  tableData2: {
+    width: "60%",
+    paddingHorizontal: 5,
+    textAlign: "center",
+  },
+  tableData3: { width: "20%" },
+  noItemContainer: {
+    height: 200,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  /**
+   * End of designing of table
+   */
 });
