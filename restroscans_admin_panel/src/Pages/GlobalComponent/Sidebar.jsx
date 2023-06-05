@@ -52,7 +52,7 @@ const Sidebar = () => {
     navigate('/item');
   };
   const navigateToSetting = () => {
-    navigate('/Setting');
+    navigate('/SettingForm');
   };
   const navigateToFooter = () => {
     navigate('/FooterDescription');
@@ -155,7 +155,7 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToSetting}>
-          <NavLink className={style.link} to="/Setting">
+          <NavLink className={style.link} to="/SettingForm">
             {" "}
             Setting{" "}
           </NavLink>
