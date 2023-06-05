@@ -154,7 +154,12 @@ function App() {
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Item" element={<Item />} />
-        <Route path="/Setting" element={<Setting/>} />
+        {/* Commented by - Ashish Dewangan on 04-06-2023
+        Reason - No need to display setting list because we can have only one setting */}
+        {/* <Route path="/Setting" element={<Setting/>} /> */}
+        {/* End of comment - Ashish Dewangan on 04-06-2023
+        Reason - No need to display setting list because we can have only one setting */}
+        
         {/* Added by - Ashish Dewangan on 02-06-2023
         Reason - To have route for setting form */}
         <Route path="/SettingForm" element={ <SettingForm/>  }/>

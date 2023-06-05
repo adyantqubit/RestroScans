@@ -11,20 +11,22 @@
 
 .container {
   width: 100%;
-  overflow: scroll;
   background-color: #e7f1f1;
   margin-bottom: 50px;
 }
 
+.titleContainer{
+  display: flex;
+  justify-content: center;
+}
+
 .pageTitle {
   font-size: 20px;
-  text-align: center;
-  margin: auto 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   font-weight: bold;
+  text-align: center;
 }
-
 .settingSection {
   min-height: auto;
   background-color: transparent;
@@ -38,12 +40,16 @@
   width: fit-content;
   margin: auto auto;
   padding: 20px 80px;
-  /* margin-bottom: 10vh; */
 }
 
-.formContainer {
+.sectionInsideForm{
+    margin-top: 30px;
+    background-color: #e6f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow:
+      var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
 }
-
 .inputContainer {
   display: flex;
   flex-direction: column;
@@ -56,12 +62,12 @@
 }
 
 .inputLabel {
-  width: 300px;
+  width: 250px;
   font-weight: bold;
 }
 
 .textInputBox {
-  width: 300px;
+  width: 200px;
   border: 1px solid black;
   margin-top: 5px;
   border-radius: 5px;
@@ -70,8 +76,8 @@
 }
 
 .inputErrorArea {
-  margin-left: 300px;
-  width: 300px;
+  margin-left: 250px;
+  width: 200px;
   color: red;
 }
 
@@ -82,28 +88,53 @@
   justify-content: center;
 }
 
-.primaryButton {
+.backButton {
+  background-color: #1f2937;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.backButton:hover {
+  cursor: pointer;
+  background-color:#62686c;
+}
+
+.cancelButton {
+  /* background-color: #585a5b; */
+  background-color: #797b7c;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.cancelButton:hover {
+  cursor: pointer;
+  background-color:#a7b4bd;
+}
+
+.proceedButton {
   background-color: #51c14b;
   color: white;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 20px;
   transition: all 0.3s;
+  font-size: 18px;
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
 }
-.primaryButton:hover {
+.proceedButton:hover {
   cursor: pointer;
   background-color: #1f871b;
-}
-.secondaryButton {
-  background-color: red;
-  color: white;
-  border-radius: 5px;
-  padding: 5px 10px;
-  margin-left: 10px;
-  transition: all 0.3s;
-}
-.secondaryButton:hover {
-  cursor: pointer;
-  background-color: rgb(202, 19, 19);
 }
 
 @media screen and (max-width: 4000px) {
@@ -138,11 +169,11 @@
     width: 250px;
   }
   .textInputBox {
-    width: 250px;
+    width: 200px;
   }
   .inputErrorArea {
     margin-left: 250px;
-    width: 250px;
+    width: 200px;
   }
 }
 
@@ -162,11 +193,11 @@
     width: 300px;
   }
   .textInputBox {
-    width: 300px;
+    width: 200px;
   }
   .inputErrorArea {
     margin-left: 300px;
-    width: 300px;
+    width: 200px;
   }
 }
 
@@ -184,11 +215,11 @@
     width: 250px;
   }
   .textInputBox {
-    width: 250px;
+    width: 200px;
   }
   .inputErrorArea {
     margin-left: 250px;
-    width: 250px;
+    width: 200px;
   }
 }
 
@@ -212,6 +243,7 @@
   .inputErrorArea {
     margin-left: 0px;
     width: 100%;
+    margin-right: 0px;
   }
 }
 
@@ -250,6 +282,11 @@
     align-self: flex-start;
     width: 100%;
   }
+  .proceedButton,.cancelButton,.backButton{
+    width:90px;
+    font-size: 17px;
+    padding:3px 3px;
+  }
 }
 @media screen and (max-width: 400px) {
   .container {
@@ -267,5 +304,10 @@
   .textInputBox {
     align-self: flex-start;
     width: 100%;
+  }
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 90%;
+    margin-right: 0px;
   }
 }

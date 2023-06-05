@@ -9,12 +9,13 @@ import Header from "../GlobalComponent/Header";
 import { getSettingsDetails } from "../../Api/services";
 import { useNavigate } from "react-router-dom";
 import { MdCancel, MdCheckCircle } from "react-icons/md";
+import Loader from "../GlobalComponent/Loader";
 
 const Setting = () => {
   const [settingData, setSettingData] = useState(null);
   const [appTheme, setAppTheme] = useState(null);
   const navigate = useNavigate();
-
+  const [showLoader,setShowLoader]=useState(true)
   /**
    * Added by - Ashish Dewangan on 01-06-2023
    * Reason - method that will execute when page loads. this method will call setting data api
@@ -32,6 +33,7 @@ const Setting = () => {
    * Reason - created api to get existing setting data
    */
   const getSettingData = async () => {
+    setShowLoader(true)
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getSettingsDetails(tenant);
     setSettingData(response.setting);
@@ -39,6 +41,7 @@ const Setting = () => {
       return option.id == response.setting.app_theme;
     });
     setAppTheme(selectedAppTheme[0]);
+    setShowLoader(false)
   };
   /**
    * End of code addition by - Ashish Dewangan on 01-06-2023
@@ -60,6 +63,12 @@ const Setting = () => {
   return (
     <Header>
       <div className={style.container}>
+
+        {showLoader?
+        
+        <Loader/>
+        :
+        <>
         <div className={`${style.pageTitleContainer}`}>
           <div className={style.pageTitle}>Settings</div>
           {settingData == null ? (
@@ -134,6 +143,12 @@ const Setting = () => {
             </div>
           </div>
         </div>
+                  </>
+        }
+
+        
+
+
       </div>
     </Header>
   );

@@ -3,21 +3,15 @@
  * Reason - created form to get user input for his setting details
  */
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import style from "./settingForm.module.css";
 import Header from "../GlobalComponent/Header";
-import {
-  getSettingsDetails,
-  getSettingsDetailsById,
-  postSettingsDetails,
-} from "../../Api/services";
+import { getSettingsDetails, postSettingsDetails } from "../../Api/services";
 import { Message } from "../../App";
 import { useNavigate } from "react-router-dom";
 
 function SettingForm() {
   const navigate = useNavigate();
-
-  const location = useLocation();
+  const [settingData, setSettingData] = useState({});
   const [settingId, setSettingId] = useState(null);
   const [themeList, setThemeList] = useState([]);
   const [appTheme, setAppTheme] = useState(null);
@@ -47,70 +41,51 @@ function SettingForm() {
 
   /**
    * Added by - Ashish Dewangan on 02-06-2023
-   * Reason - method that will execute when page loads and then call api depending on setting id passed by previous page.
-   * if id is found then it will get existing data for that id, otherwise will get only list of themes
+   * Reason - method that will execute when page loads and then call api
    */
   useEffect(() => {
-    if (location.state.id != null) {
-      setSettingId(location.state.id);
-      getSettingDataBySettingId();
-    } else {
-      getSettingData();
-    }
+    getSettingData();
   }, []);
   /**
    * End of code addition by - Ashish Dewangan on 02-06-2023
-   * Reason - method that will execute when page loads and then call api depending on setting id passed by previous page.
-   * if id is found then it will get existing data for that id, otherwise will get only list of themes
+   * Reason - method that will execute when page loads and then call api
    */
 
   /**
    * Added by - Ashish Dewangan on 02-06-2023
-   * Reason - created api to get existing setting data
-   */
-  const getSettingDataBySettingId = async () => {
-    const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-    const response = await getSettingsDetailsById(location.state.id, tenant);
-    setThemeList(response.themeOptions);
-    setCgst(response.setting.cgst);
-    setSgst(response.setting.sgst);
-    setGstin(response.setting.gstin);
-    setFssaiNumber(response.setting.fssaino);
-    setAllowHalfPrice(response.setting.allow_half_price);
-    setAllowLoyalityPoints(response.setting.allow_loyality_points);
-    setPerLoyalityPointValue(response.setting.per_loyality_point_value);
-    setAmountForSingleLoyalityPoint(
-      response.setting.amount_for_single_loyality_point
-    );
-    setWhatsappNumber(response.setting.whatsapp_number);
-    setAppTheme(response.setting.app_theme);
-  };
-  /**
-   * End of code additon by - Ashish Dewangan on 02-06-2023
-   * Reason - created api to get existing setting data
-   */
-
-  /**
-   * Added by - Ashish Dewangan on 02-06-2023
-   * Reason - created api that will get list of themes if existing setting is not found. So that that themes list
-   * can be shown on drop down
+   * Reason - created api that will get setting data
    */
   const getSettingData = async () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getSettingsDetails(tenant);
+    if (response.setting) {
+      setSettingData(response.setting);
+      setSettingId(response.setting.id);
+      setCgst(response.setting.cgst);
+      setSgst(response.setting.sgst);
+      setGstin(response.setting.gstin);
+      setFssaiNumber(response.setting.fssaino);
+      setAllowHalfPrice(response.setting.allow_half_price);
+      setAllowLoyalityPoints(response.setting.allow_loyality_points);
+      setPerLoyalityPointValue(response.setting.per_loyality_point_value);
+      setAmountForSingleLoyalityPoint(
+        response.setting.amount_for_single_loyality_point
+      );
+      setWhatsappNumber(response.setting.whatsapp_number);
+      setAppTheme(response.setting.app_theme);
+    }
     setThemeList(response.themeOptions);
   };
   /**
    * End of code addition by - Ashish Dewangan on 02-06-2023
-   * Reason - created api that will get list of themes if existing setting is not found. So that that themes list
-   * can be shown on drop down
+   * Reason - created api that will get setting data
    */
 
   /**
-   * Added by - Ashish Dewangan on 02-06-2023
-   * Reason - method to validate inputs before sending them to backend
+   * Added by - Ashish Dewangan on 04-06-2023
+   * Reason -  method to validate inputs when input is focused out
    */
-  const validateInput = (inputName, value) => {
+  const validateOnBlur = (inputName, value) => {
     if (inputName == "cgst") {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
@@ -297,8 +272,124 @@ function SettingForm() {
     }
   };
   /**
+   * End of code addition by - Ashish Dewangan on 04-06-2023
+   * Reason -  method to validate inputs when input is focused out
+   */
+
+  /**
+   * Added by - Ashish Dewangan on 02-06-2023
+   * Reason - method to validate inputs when user is entering some data
+   */
+  const validateOnInput = (inputName, value) => {
+    if (inputName == "cgst") {
+      if (value.toString().length > 0) {
+        if (isNaN(value)) {
+          const error = {
+            cgst: "CGST must be a number",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        } else {
+          const error = {
+            cgst: "",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        }
+      } else {
+        const error = {
+          cgst: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+
+    if (inputName == "sgst") {
+      if (value.toString().length > 0) {
+        if (isNaN(value)) {
+          const error = {
+            sgst: "SGST must be a number",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        } else {
+          const error = {
+            sgst: "",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        }
+      } else {
+        const error = {
+          sgst: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+
+    if (inputName == "per_loyality_point_value") {
+      if (value.toString().length > 0) {
+        if (isNaN(value)) {
+          const error = {
+            per_loyality_point_value: "Value for this field must be a number",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        } else {
+          const error = {
+            per_loyality_point_value: "",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        }
+      } else {
+        const error = {
+          per_loyality_point_value: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+
+    if (inputName == "amount_for_single_loyality_point") {
+      if (value.toString().length > 0) {
+        if (isNaN(value)) {
+          const error = {
+            amount_for_single_loyality_point:
+              "Value for this field must be a number",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        } else {
+          const error = {
+            amount_for_single_loyality_point: "",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        }
+      } else {
+        const error = {
+          amount_for_single_loyality_point: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+
+    if (inputName == "whatsapp_number") {
+      if (value.toString().length > 0) {
+        if (isNaN(value)) {
+          const error = {
+            whatsapp_number: "Whatsapp number must be digits only",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        } else {
+          const error = {
+            whatsapp_number: "",
+          };
+          setValidationErrors({ ...validationErrors, ...error });
+        }
+      } else {
+        const error = {
+          whatsapp_number: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+  };
+  /**
    * End of code addition by - Ashish Dewangan on 02-06-2023
-   * Reason - method to validate inputs before sending them to backend
+   * Reason -  method to validate inputs when user is entering some data
    */
 
   /**
@@ -358,265 +449,370 @@ function SettingForm() {
       } else {
         Message("Something went wrong", "error");
       }
-      navigate("/Setting");
+      navigate("/Dashboard");
     } else {
       Message("Please provide valid input", "info");
     }
   };
+  
   /**
    * End of code addition by - Ashish Dewangan on 02-06-2023
    * Reason - created api to save settings. After saving the setting it will redirect to setting page.
    */
 
+  /**
+   * Added by - Ashish Dewangan on 04-06-2023
+   * Reason - Method to reset settings form
+   */
+  const resetSettingsForm = (event) => {
+    setCgst(settingData.cgst ? settingData.cgst : "");
+    setSgst(settingData.sgst ? settingData.sgst : "");
+    setGstin(settingData.gstin ? settingData.gstin : "");
+    setFssaiNumber(settingData.fssaino ? settingData.fssaino : "");
+    setAllowHalfPrice(
+      settingData.allow_half_price ? settingData.allow_half_price : ""
+    );
+    setAllowLoyalityPoints(
+      settingData.allow_loyality_points ? settingData.allow_loyality_points : ""
+    );
+    setPerLoyalityPointValue(
+      settingData.per_loyality_point_value
+        ? settingData.per_loyality_point_value
+        : ""
+    );
+    setAmountForSingleLoyalityPoint(
+      settingData.amount_for_single_loyality_point
+        ? settingData.amount_for_single_loyality_point
+        : ""
+    );
+    setWhatsappNumber(
+      settingData.whatsapp_number ? settingData.whatsapp_number : null
+    );
+    setAppTheme(settingData.app_theme ? settingData.app_theme : "");
+
+    const error = {
+      cgst: "",
+      sgst: "",
+      gstin: "",
+      fssaino: "",
+      allow_half_price: "",
+      allow_loyality_points: "",
+      per_loyality_point_value: "",
+      amount_for_single_loyality_point: "",
+      whatsapp_number: "",
+    };
+    setValidationErrors({ ...validationErrors, ...error });
+  };
+  /**
+   * End of code addition by - Ashish Dewangan on 04-06-2023.
+   * Reason - To reset settings form
+   */
+
   return (
     <Header>
       <div className={style.container}>
-        <div className={style.pageTitle}>Settings</div>
-        <div className={style.settingSection}>
+        <div className={style.titleContainer}>
+          {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
+          <div className={style.pageTitle}>Settings</div>
+        </div>
+        <form className={style.settingSection}>
           <div className={style.formContainer}>
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>CGST (%)</div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="cgst"
-                  style={{ width: "100px" }}
-                  value={cgst}
-                  onChange={(e) => {
-                    setCgst(e.target.value);
-                    validateInput("cgst", e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.cgst}
-              </div>
-            </div>
-
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>SGST (%)</div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="sgst"
-                  style={{ width: "100px" }}
-                  value={sgst}
-                  onChange={(e) => {
-                    setSgst(e.target.value);
-                    validateInput("sgst", e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.sgst}
-              </div>
-            </div>
-
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>GSTIN</div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="gstin"
-                  style={{ width: "200px" }}
-                  value={gstin}
-                  maxLength={15}
-                  onChange={(e) => {
-                    setGstin(e.target.value);
-                    validateInput("gstin", e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.gstin}
-              </div>
-            </div>
-
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>FSSAI Number</div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="fssaino"
-                  style={{ width: "200px" }}
-                  value={fssaiNumber}
-                  maxLength={14}
-                  onChange={(e) => {
-                    setFssaiNumber(e.target.value);
-                    validateInput("fssaino", e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.fssaino}
-              </div>
-            </div>
-
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>Allow Half Price</div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="checkbox"
-                  name="allow_half_price"
-                  style={{ width: "auto" }}
-                  checked={allowHalfPrice}
-                  onChange={(e) => {
-                    setAllowHalfPrice(e.target.checked);
-                    validateInput("allow_half_price", e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.allow_half_price}
-              </div>
-            </div>
-
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
-                  Allow Loyality Points
+            <div className={`${style.sectionInsideForm}`}>
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>App Theme</div>
+                  <select
+                    className={`${style.textInputBox}`}
+                    name="app_theme"
+                    style={{ width: "200px" }}
+                    onChange={(e) => {
+                      setAppTheme(e.target.value);
+                      validateOnInput("app_theme", e.target.value);
+                    }}
+                  >
+                    {themeList.map((data, index) => {
+                      return (
+                        <option
+                          key={index}
+                          name={data.id}
+                          selected={data.id == appTheme}
+                          value={data.id}
+                        >
+                          {data?.background_color_label} ,{" "}
+                          {data.heading_color_label}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="checkbox"
-                  name="allow_loyality_points"
-                  style={{ width: "auto" }}
-                  checked={allowLoyalityPoints}
-                  onChange={(e) => {
-                    setAllowLoyalityPoints(e.target.checked);
-                    validateInput("allow_loyality_points", e.target.value);
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.allow_loyality_points}
-              </div>
-            </div>
-
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
-                  Value Of Single Loyality Point (Rs.)
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.app_theme}
                 </div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="per_loyality_point_value"
-                  style={{ width: "100px" }}
-                  value={perLoyalityPointValue}
-                  onChange={(e) => {
-                    setPerLoyalityPointValue(e.target.value);
-                    validateInput("per_loyality_point_value", e.target.value);
-                  }}
-                />
               </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.per_loyality_point_value}
-              </div>
-            </div>
 
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
-                  Loyality Point Calculation Amount (Rs.)
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>WhatsApp Number</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="whatsapp_number"
+                    value={whatsappNumber}
+                    style={{ width: "200px" }}
+                    onChange={(e) => {
+                      setWhatsappNumber(e.target.value);
+                      validateOnInput("whatsapp_number", e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur("whatsapp_number", e.target.value);
+                    }}
+                    maxLength={10}
+                  />
                 </div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="amount_for_single_loyality_point"
-                  style={{ width: "100px" }}
-                  value={amountForSingleLoyalityPoint}
-                  onChange={(e) => {
-                    setAmountForSingleLoyalityPoint(e.target.value);
-                    validateInput(
-                      "amount_for_single_loyality_point",
-                      e.target.value
-                    );
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.amount_for_single_loyality_point}
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.whatsapp_number}
+                </div>
               </div>
             </div>
 
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>App Theme</div>
-                <select
-                  className={`${style.textInputBox}`}
-                  name="app_theme"
-                  onChange={(e) => {
-                    setAppTheme(e.target.value);
-                    validateInput("app_theme", e.target.value);
-                  }}
-                >
-                  {themeList.map((data, index) => {
-                    return (
-                      <option
-                        key={index}
-                        name={data.id}
-                        selected={data.id == appTheme}
-                        value={data.id}
-                      >
-                        {data?.background_color_label} ,{" "}
-                        {data.heading_color_label}
-                      </option>
-                    );
-                  })}
-                </select>
+            <div className={`${style.sectionInsideForm}`}>
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>
+                    Allow Loyality Points
+                  </div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="checkbox"
+                    name="allow_loyality_points"
+                    style={{ width: "18px", height: "18px" }}
+                    checked={allowLoyalityPoints}
+                    onChange={(e) => {
+                      setAllowLoyalityPoints(e.target.checked);
+                      validateOnInput("allow_loyality_points", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.allow_loyality_points}
+                </div>
               </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.app_theme}
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>
+                    Value Of Single Loyality Point (Rs.)
+                  </div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="per_loyality_point_value"
+                    style={{ width: "100px" }}
+                    value={perLoyalityPointValue}
+                    onChange={(e) => {
+                      setPerLoyalityPointValue(e.target.value);
+                      validateOnInput(
+                        "per_loyality_point_value",
+                        e.target.value
+                      );
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur(
+                        "per_loyality_point_value",
+                        e.target.value
+                      );
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.per_loyality_point_value}
+                </div>
+              </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>
+                    Loyality Point Calculation Amount (Rs.)
+                  </div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="amount_for_single_loyality_point"
+                    style={{ width: "100px" }}
+                    value={amountForSingleLoyalityPoint}
+                    onChange={(e) => {
+                      setAmountForSingleLoyalityPoint(e.target.value);
+                      validateOnInput(
+                        "amount_for_single_loyality_point",
+                        e.target.value
+                      );
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur(
+                        "amount_for_single_loyality_point",
+                        e.target.value
+                      );
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.amount_for_single_loyality_point}
+                </div>
               </div>
             </div>
 
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>WhatsApp Number</div>
-                <input
-                  className={`${style.textInputBox}`}
-                  type="text"
-                  name="whatsapp_number"
-                  value={whatsappNumber}
-                  onChange={(e) => {
-                    setWhatsappNumber(e.target.value);
-                    validateInput("whatsapp_number", e.target.value);
-                  }}
-                  maxLength={10}
-                />
+            <div className={`${style.sectionInsideForm}`}>
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>Allow Half Price</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="checkbox"
+                    name="allow_half_price"
+                    style={{ width: "18px", height: "18px" }}
+                    checked={allowHalfPrice}
+                    onChange={(e) => {
+                      setAllowHalfPrice(e.target.checked);
+                      validateOnInput("allow_half_price", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.allow_half_price}
+                </div>
               </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.whatsapp_number}
+            </div>
+
+            <div className={`${style.sectionInsideForm}`}>
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>CGST (%)</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="cgst"
+                    style={{ width: "100px" }}
+                    value={cgst}
+                    onChange={(e) => {
+                      setCgst(e.target.value);
+                      validateOnInput("cgst", e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur("cgst", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.cgst}
+                </div>
+              </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>SGST (%)</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="sgst"
+                    style={{ width: "100px" }}
+                    value={sgst}
+                    onChange={(e) => {
+                      setSgst(e.target.value);
+                      validateOnInput("sgst", e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur("sgst", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.sgst}
+                </div>
+              </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>GSTIN</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="gstin"
+                    style={{ width: "200px" }}
+                    value={gstin}
+                    maxLength={15}
+                    onChange={(e) => {
+                      setGstin(e.target.value);
+                      validateOnInput("gstin", e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur("gstin", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.gstin}
+                </div>
+              </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>FSSAI Number</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="fssaino"
+                    style={{ width: "200px" }}
+                    value={fssaiNumber}
+                    maxLength={14}
+                    onChange={(e) => {
+                      setFssaiNumber(e.target.value);
+                      validateOnInput("fssaino", e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur("fssaino", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.fssaino}
+                </div>
               </div>
             </div>
           </div>
+
           <div className={style.actionContainer}>
             <div
-              className={` ${style.primaryButton}`}
+              className={` ${style.backButton}`}
+              style={{
+                marginRight: "10px",
+              }}
+              onClick={(e) => {
+                navigate("/Dashboard");
+              }}
+            >
+              Back
+            </div>
+
+            <div
+              className={` ${style.cancelButton}`}
+              style={{
+                marginRight: "10px",
+              }}
+              onClick={(e) => {
+                resetSettingsForm();
+              }}
+            >
+              Cancel
+            </div>
+
+            <div
+              className={` ${style.proceedButton}`}
               onClick={() => saveSettings()}
-              style={{ padding: "5px 20px", marginTop: "10px" }}
             >
               Save
             </div>
-            {/* Commented by - Ashish Dewangan on 02-06-2023
-            Reason - COmmented because delete button is not required for settings  */}
-            {/* {settingId != null ? (
-              <div
-                className={` ${style.secondaryButton}`}
-                onClick={() => deleteSettings()}
-              >
-                Delete
-              </div>
-            ) : null} */}
-            {/* End of comment on 02-06-2023*/}
           </div>
-        </div>
+        </form>
       </div>
     </Header>
   );
