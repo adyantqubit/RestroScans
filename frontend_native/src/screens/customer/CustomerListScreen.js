@@ -283,9 +283,9 @@ export default function CustomerListScreen({ route, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  Name{nameSortVal == "" && "??"}
-                  {nameSortVal == "ascending" && "?"}
-                  {nameSortVal == "descending" && "?"}
+                  Name{nameSortVal == "" && "↓↑"}
+                  {nameSortVal == "ascending" && "↑"}
+                  {nameSortVal == "descending" && "↓"}
                 </Text>
               </Pressable>
               <Pressable style={styles.tableColHeading4}>

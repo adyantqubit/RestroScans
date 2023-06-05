@@ -546,9 +546,9 @@ export default function OrderListScreen({ route, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  Table No.{tableNoSort == "" && "??"}
-                  {tableNoSort == "ascending" && "?"}
-                  {tableNoSort == "descending" && "?"}
+                  Table No.{tableNoSort == "" && "↓↑"}
+                  {tableNoSort == "ascending" && "↑"}
+                  {tableNoSort == "descending" && "↓"}
                 </Text>
               </Pressable>
               <Pressable

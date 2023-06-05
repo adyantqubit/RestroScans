@@ -821,9 +821,9 @@ export default function ItemListScreen({ route, navigation }) {
                     style={styles.tableCol2}
                   >
                     <Text style={styles.tableCol2Text}>
-                      Item name{itemNameSortVal == "" && "??"}
-                      {itemNameSortVal == "ascending" && "?"}
-                      {itemNameSortVal == "descending" && "?"}
+                      Item name{itemNameSortVal == "" && "↓↑"}
+                      {itemNameSortVal == "ascending" && "↑"}
+                      {itemNameSortVal == "descending" && "↓"}
                     </Text>
                   </Pressable>
                   <Text style={styles.tableCol3}>Detail</Text>
