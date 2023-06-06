@@ -1925,7 +1925,7 @@ class UpdateAllOrderStatus(APIView):
 
 # Added by :- Parineeta Gedam
 # Date :- 17-04-2023
-# Reason : check order confirm
+# Reason : check order confirm used in react js
 class CheckOrderConfirmAPIView(APIView):
     def post(self, request, tenant):
         orderObj = Order.objects.get(order_id=request.data['order_id'])
@@ -1935,7 +1935,7 @@ class CheckOrderConfirmAPIView(APIView):
 
 # Added by :- Parineeta Gedam
 # Date :- 16-05-2023
-# Reason : API for update the orders
+# Reason : API for update the orders used in react js and native
 
 class DeleteOrderItemsAPIView(APIView):
     def put(self, request, tenant):
@@ -1983,6 +1983,7 @@ class PostUpdateOrderItemsAPIView(APIView):
                     orderItem = OrderItem.objects.get(id=cart['id'])
                     orderItem.quantity=cart['quantity']
                     orderItem.price=cart['price']
+                    orderItem.item_status = cart['item_status']
                     orderItem.save()
                     cartItem.append(orderItem)
             orderItemSerializer = OrderItemSerializer(cartItem, many=True)
@@ -2002,7 +2003,7 @@ class PostUpdateOrderItemsAPIView(APIView):
 
 # Added by :- Parineeta Gedam
 # Date :- 22-05-2023
-# Reason : API for get the order items and order
+# Reason : API for get the order items and order used in react js
 
 class GetOrderItemsAndOrderAPIView(APIView):
     def post(self, request, tenant):
@@ -2021,7 +2022,6 @@ class GetOrderItemsAndOrderAPIView(APIView):
 
 class AddOrderItemsAPIView(APIView):
     def post(self, request, tenant):
-        print("request", request.data)
         OrderItem(
             order_id = Order.objects.get(id = request.data["order_id"]),
             item = request.data["item"],
@@ -2030,22 +2030,13 @@ class AddOrderItemsAPIView(APIView):
             quantity = request.data["quantity"],
             item_status = request.data["item_status"]
         ).save()
-        # orderId = Order.objects.get(order_id)
-        return Response({"msg":"success"})
-# End of added code by :- Parineeta Gedam on 17-05-2023
+        orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
+        orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
+        order = Order.objects.get(order_id = request.data["order_order_id"])
+        order.order_status = "Placed"
+        OrderSerializers = AllOrderSerializer(order)
 
-
-# Added by :- Parineeta Gedam
-# Date :- 26-05-2023
-# Reason : API for post the reservations data
-class PostReservationsAPIView(APIView):
-    def post(self, request, tenant):
-        print("request", request.data)
-        print(request.data)
-        # ReservationsSerializedData = ReservationsSerializer(data=request.data)
-        # if ReservationsSerializedData.is_valid():
-        #     ReservationsSerializedData.save()
-        return Response({"msg":"success"})
+        return Response({"msg":"success", "orderItems":orderItemsSerializer.data,"order":OrderSerializers.data})
 # End of added code by :- Parineeta Gedam on 17-05-2023
 
 
@@ -2312,3 +2303,64 @@ class CustomerAPI(APIView):
 # Reason - API to get list of customers 
 
 
+# Added by :- Parineeta Gedam
+# Date :- 01-06-2023
+# Reason : API for post the reservations data for react js (Customer ui)
+class PostReservationAPIView(APIView):
+    def post(self, request, tenant, *args,**kwargs):
+        ReservationsSerializedData = ReservationSerializer(data=request.data)
+        if ReservationsSerializedData.is_valid():
+            ReservationsSerializedData.save()
+        return Response({"msg": "success","reservation":ReservationsSerializedData.data})
+# End of added code by :- Parineeta Gedam on 01-06-2023
+
+# Added by :- Parineeta Gedam
+# Date :- 26-05-2023
+# Reason : API for get the reservations data
+class GetReservationsAPIView(APIView):
+    def get(self, request, tenant):
+        reservationList = Reservation.objects.all()
+        reservationSerializer = ReservationSerializer(reservationList, many=True)
+        return Response({"msg": "success", "reservationList": reservationSerializer.data})
+# End of added code by :- Parineeta Gedam on 26-05-2023
+
+# Added by :- Parineeta Gedam
+# Date :- 28-05-2023
+# Reason : API for get the billing data
+class GetBillingDataAPIView(APIView):
+    def post(self, request, tenant):
+        order = Order.objects.filter(
+            customer_id__contact_number=request.data['contact_number']).latest('date')
+        orderSerializedData = OrderSerializer(order)
+        orderItem = OrderItem.objects.filter(order_id__order_id=order.order_id)
+        orderItemSerializedData = OrderItemSerializer(orderItem, many=True)
+        settingserailize = SettingSaveSerializer(Setting.objects.last())
+        from admin_app.models import Tenant, RestaurantRequest
+        tenant = Tenant.objects.get(tenant_name=tenant)
+        tenant_detail = {
+            "name": tenant.restaurant_name.restaurant_name,
+            "address": tenant.restaurant_name.address
+        }
+        return Response({"msg":"success", "order": orderSerializedData.data, "orderItem": orderItemSerializedData.data, "setting": settingserailize.data, "tenant": tenant_detail})
+# End of added code by :- Parineeta Gedam on 26-05-2023
+
+# Added by Parineeta Gedam on 04-06-2023
+# Reason - to update the reservation 
+class UpdateReservationAPI(APIView):
+    def post(self,request,tenant):
+        if "id" in request.data :
+            try:
+                obj = Reservation.objects.get(id=request.data["id"])
+                serial = ReservationSerializer(obj, data=request.data)
+            except Exception as e:
+                serial = ReservationSerializer(data=request.data)
+        else :
+            serial = ReservationSerializer(data=request.data)
+        if serial.is_valid():
+            serial.save()
+            return Response({
+                "msg": "Saved Successfully",
+                "reservationData": serial.data,
+            }, status=status.HTTP_201_CREATED)
+        return Response({"msg": "Not Saved"}, status=status.HTTP_200_OK)
+# End of addition code by Parineeta Gedam on 04-06-2023

@@ -921,3 +921,37 @@ class SocialLinksAdmin(admin.ModelAdmin):
 """
 End of addition by yuvraj Sahu on 25-05-2023
 """
+
+"""
+Added by :- Parineeta Gedam Date - 01-06-2023
+Reason- Register reservation table.
+"""
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ['id','name','email','contact_number','number_of_person','table_number','reservation_status',]
+
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+        
+    # def has_add_permission(self, request):
+    #     return not Reservation.objects.exists()
+
+    def has_delete_permission(self, request, obj=None) :
+        return False
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(ReservationAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['reservation_status'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['date'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['time'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['table_number'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['special_instructions'].widget.attrs['style'] = 'width: 20em;  height:5em;'
+        return form
+
+admin.site.register(Reservation, ReservationAdmin)
+
+"""
+End of added code by :- Parineeta Gedam Date - 01-06-2023
+"""

@@ -216,3 +216,11 @@ class SocialLinksSerializer(serializers.ModelSerializer):
         model = SocialLinks
         fields = '__all__'
 # End of addition
+
+# Added by :- Parineeta Gedam Date - 01-06-2023
+# Reason : To have serializer for Reservation
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+# End of added code by :- Parineeta Gedam Date 01-06-2023

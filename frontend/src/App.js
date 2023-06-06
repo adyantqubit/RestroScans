@@ -25,16 +25,21 @@ import { useEffect } from "react";
 import { Modal } from 'antd';
 import OrderDetails from "./component/OrderDetails/OrderDetails";
 import InvoiceDetail from "./component/InvoiceDetailPage/InvoiceDetail";
+import { CheckCircleOutlined } from '@ant-design/icons';
+import { message } from "antd";
 
 function App() {
-  const { colors, restaurant_name, subscribePlan } = useContext(GlobalContext)
+  const { colors, restaurant_name, subscribePlan, orderItems, setOrderItem, orders, setOrders } = useContext(GlobalContext)
+
+  // For navigations
+  // const navigate = useNavigate();
 
   // Added by Om on 30-04-23
   // Reason : Connectivity with backend to firebase than UI
-  
-  var seperatedWords =  window.location.pathname.split('/') // Find the path of tenant name
+
+  var seperatedWords = window.location.pathname.split('/') // Find the path of tenant name
   var tenant = seperatedWords[1]
-  useEffect(()=>{
+  useEffect(() => {
     /**
      * Added by - Om shrivastava on 01-05-2023
      * Reason - To store tenant name
@@ -76,20 +81,166 @@ function App() {
    */
   navigator.serviceWorker.onmessage = (event) => {
     var updatedOrderData = JSON.parse(event.data.data.order)[0];
-    console.log('message from sw',updatedOrderData.fields);
-    updateOrderOnUI(updatedOrderData);
-  // window.location='/invoice'
+    var updatedOrderItemsData = JSON.parse(event.data.data.orderItem);
+    console.log('message from sw order', (updatedOrderData.fields));
+    console.log('message from sw order Item', updatedOrderItemsData);
+    var orderItemsField = []
+    updatedOrderItemsData.forEach((data) => {
+      orderItemsField.push(data.fields)
+    })
+    updateOrderOnUI(updatedOrderData, orderItemsField);
   }
+
+
+
+
   /**
    * End of code addition by Ashish Dewangan on 19-05-2023 for receiving push notification
    */
+
+  const [isLoading, setLoading] = useState(false)
 
   /**
    * Added by - Ashish Dewangan on 19-05-2023
    * Reason - To take action according to new order status
    */
-  const updateOrderOnUI=(updatedOrderData)=>{
+  const updateOrderOnUI = (updatedOrderData, orderItemsField) => {
+    // Added by :- Parineeta Gedam on 25-05-2023
+    // Reason :- update using push notification. 
+    if (updatedOrderData.fields.order_status == "Confirm") {
+      console.log("Served", updatedOrderData.fields.order_status)
+      message.success({
+        content: "Order Confirm",
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
+    }
+
+    if (updatedOrderData.fields.order_status == "Served") {
+      console.log("Served", updatedOrderData.fields.order_status)
+      message.success({
+        content: "Order served",
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
+    }
+
+    if (updatedOrderData.fields.order_status == "Cooked") {
+      console.log("Cooked", updatedOrderData.fields.order_status)
+      message.success({
+        content: "Order Cooked",
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
+    }
     
+    if (updatedOrderData.fields.payment_status == "Completed") {
+      message.success({
+        content: "Your payment is completed, please get your bill",
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
+    }
+    if (updatedOrderData.order_status == "Cancelled") {
+      message.error({
+        content: "Order cancelled",
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
+      secureLocalStorage.removeItem('order');
+      secureLocalStorage.removeItem('orderItem');
+      window.location = `/menu-item`
+    }
+
+    // for (var i = 0; orderItemsField.length > 0; i++) {
+    //   console.log("==========", orderItemsField[i].item_status)
+    //   if (orderItemsField[i].item_status == "Confirm") {
+    //     console.log("8888888888888")
+    //     message.error({
+    //       content: "order item confirm",
+    //       key: 1,
+    //       icon: <CheckCircleOutlined />,
+    //       style: {
+    //         marginTop: '5vh',
+    //         fontSize: "16px",
+    //         letterSpacing: "1.3px",
+    //         fontFamily: "Times News Roman",
+    //         color: colors.headingColor,
+    //       },
+    //     });
+    //   }
+    // }
+
+    // for (var i = 0; orderItemsField.length > 0; i++) {
+    //   console.log("==========")
+    //   if (orderItemsField[i].item_status == "Cancelled") {
+    //     console.log("8888888888888")
+    //     message.error({
+    //       content: "order item cancelled",
+    //       key: 1,
+    //       icon: <CheckCircleOutlined />,
+    //       style: {
+    //         marginTop: '5vh',
+    //         fontSize: "16px",
+    //         letterSpacing: "1.3px",
+    //         fontFamily: "Times News Roman",
+    //         color: colors.headingColor,
+    //       },
+    //     });
+    //   }
+    // }
+    setLoading(true);
+    if (secureLocalStorage.getItem("order") && secureLocalStorage.getItem("orderItem")) {
+      secureLocalStorage.removeItem('order');
+      secureLocalStorage.removeItem('orderItem');
+      secureLocalStorage.setItem("order", updatedOrderData.fields)
+      secureLocalStorage.setItem("orderItem", orderItemsField)
+      setOrders(secureLocalStorage.getItem("order"))
+      setOrderItem(secureLocalStorage.getItem("orderItem"))
+    }
+    else {
+      secureLocalStorage.setItem("order", updatedOrderData.fields)
+      secureLocalStorage.setItem("orderItem", orderItemsField)
+      setOrders(secureLocalStorage.getItem("order"))
+      setOrderItem(secureLocalStorage.getItem("orderItem"))
+    }
+    setLoading(false);
+    // End of modifications code by :- Parineeta Gedam on 17-05-2023
   }
   /**
    * End of code addition by Ashish Dewangan on 19-05-2023 to taking action for new order status
@@ -128,8 +279,8 @@ function App() {
         <Routes>
           <Route exact path="/*" element={<Cover />} />
           <Route exact path="/menu-item" element={<MenuItem />} />
-          <Route exact path="/cart" element={subscribePlan?.includes("order")?<Cart />:<Navigate to="/menu-item"/>} />
-          <Route exact path="/billing" element={<Billing/>} />
+          <Route exact path="/cart" element={subscribePlan?.includes("order") ? <Cart /> : <Navigate to="/menu-item" />} />
+          <Route exact path="/billing" element={<Billing />} />
           {/* <Route exact path="/<str:tenant>/tenant-details/" element={<Cover />} /> */}
 
           {/* Added by :- Parineeta Gedam
@@ -151,7 +302,7 @@ function App() {
           {/* <Route exact path="/billing" element={<Billing2 />} /> */}
           {/* End of added code */}
 
-           {/* Added by :- Parineeta Gedam
+          {/* Added by :- Parineeta Gedam
               Date :- 17-05-2023
               Reason : show the order confirmations page
           */}
@@ -162,12 +313,14 @@ function App() {
               Date :- 24-04-2023
               Reason : show the rating and review page.
           */}
-          <Route exact path="/rating-review" element={secureLocalStorage.getItem("order")?<RatingAndReview/>:<Navigate to="/menu-item"/>} />
+          {/* <Route exact path="/rating-review" element={secureLocalStorage.getItem("order") ? <RatingAndReview /> : <Navigate to="/menu-item" />} /> */}
+          <Route exact path="/rating-review" element={<RatingAndReview />} />
+
           {/* <Route exact path="/billing" element={<Billing2 />} /> */}
           {/* End of added code */}
 
           {/* Added by - Rohan knasari - 26/4/23 */}
-           <Route path="/Verification" element={secureLocalStorage.getItem('order')?<Navigate to="/cart"/>:<Otppopup/>}/>
+          <Route path="/Verification" element={secureLocalStorage.getItem('order') ? <Navigate to="/cart" /> : <Otppopup />} />
           {/* End of addition - 26/4/23 - ROhan */}
 
         </Routes>

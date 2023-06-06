@@ -3,7 +3,7 @@ import { Radio, Space, Button, Modal, message } from "antd";
 import { GlobalContext } from "../../context/Context";
 import secureLocalStorage from "react-secure-storage";
 import './Payment.css';
-import { updatePaymentModeApi,postCheckPaymentStatus } from '../../api/Services';
+import { updatePaymentModeApi, postCheckPaymentStatus } from '../../api/Services';
 import { useNavigate } from "react-router-dom";
 import Scanner from '../Scanner/Scan';
 import cashPayment from "../../images/cashPayment.png";
@@ -14,10 +14,10 @@ import { CheckCircleOutlined } from '@ant-design/icons';
 export default function Payment() {
 
   // get colors from context 
-  var { colors } = useContext(GlobalContext);
+  var { colors,  orders, setOrders, } = useContext(GlobalContext);
 
   // get data from local stroage
-  var orders = secureLocalStorage.getItem('order');
+  // var orders = secureLocalStorage.getItem('order');
 
   // for navigations
   const navigate = useNavigate();
@@ -98,23 +98,23 @@ export default function Payment() {
     const response = await updatePaymentModeApi(tenantName, order);
     if (response.msg) {
       console.log("res", response)
-    //   // Commented by :- Parineeta Gedam
-    //   // Date :- 14-04-2023
-    //   // Reason :- dont'show success msg
-    //   // message.success({
-    //   //   content: "Payment done successfully",
-    //   //   key: 1,
-    //   //   icon: <CheckCircleOutlined />,
-    //   //   style: {
-    //   //     marginTop: '5vh',
-    //   //     fontSize: "16px",
-    //   //     letterSpacing: "1.3px",
-    //   //     fontFamily: "Times News Roman",
-    //   //     color: colors.headingColor,
-    //   //   },
-    //   // });
-    //   // End of commented code 14-04-2023
-    //   navigate("/bill-success");
+      //   // Commented by :- Parineeta Gedam
+      //   // Date :- 14-04-2023
+      //   // Reason :- dont'show success msg
+        message.success({
+          content: "Payment Done Successfully",
+          key: 1,
+          icon: <CheckCircleOutlined />,
+          style: {
+            marginTop: '5vh',
+            fontSize: "16px",
+            letterSpacing: "1.3px",
+            fontFamily: "Times News Roman",
+            color: colors.headingColor,
+          },
+        });
+      //   // End of commented code 14-04-2023
+      //   navigate("/bill-success");
     }
     // else {
     //   message.error({
@@ -133,51 +133,63 @@ export default function Payment() {
   }
   // End of added code 10-04-2023
 
-    // Added by :- Parineeta Gedam
-    // Date :- 21-05-2023
-    // Reason :- check payment status 
+  // Added by :- Parineeta Gedam
+  // Date :- 21-05-2023
+  // Reason :- check payment status 
 
-    const [order, setOrder] = useState([]);
+  // const [order, setOrder] = useState([]);
 
-    const checkPaymentStatus = async () => {
-        var tenantName = localStorage.getItem("tenantName")
-        const order = {
-            order_id: orders.order_id,
-        }
-        const response = await postCheckPaymentStatus(order, tenantName);
-        console.log("response", response)
-        setOrder(response)
-        if (response.order.payment_status == "Completed") {
-            if (response.order) {
-                console.log("==============")
-                navigate("/billing");
-                // added by rohan -14/4/23
-                // reason- To save updated order detail
-                secureLocalStorage.setItem('order',response.order)
-                secureLocalStorage.setItem('invoice_detail',response)
-                // end of code
-            }
-        }
-        else {
-            message.error({
-                // Modfication and addition by Om Shrivastava on 17-05-23
-                // Reason : Change the confirmation message
-                // content: "In Progress",
-                content: "Please wait for confirmation",
-                // End of mofication and addition by Om Shrivastava on 17-05-23
-                key: 1,
-                icon: <CheckCircleOutlined />,
-                style: {
-                    marginTop: '5vh',
-                    fontSize: "16px",
-                    letterSpacing: "1.3px",
-                    fontFamily: "Times News Roman",
-                    color: colors.headingColor,
-                },
-            });
-        }
+  const checkPaymentStatus = async () => {
+    var tenantName = localStorage.getItem("tenantName")
+    const order = {
+      order_id: orders.order_id,
     }
-    // End of added code by :- Parineeta Gedam  Date :- 21-05-2023
+    const response = await postCheckPaymentStatus(order, tenantName);
+    console.log("response", response)
+    setOrders(response)
+    if (response.order.payment_status == "Completed") {
+      if (response.order) {
+        navigate("/billing");
+        // Commented by :- Parineeta Gedam on 28-05-2023
+        // added by rohan -14/4/23
+        // reason- To save updated order detail
+        // secureLocalStorage.setItem('order', response.order)
+        // secureLocalStorage.setItem('invoice_detail', response)
+        // end of code
+        // End of commented code by PArineeta Gedam on 28-05-2023
+
+        // Added by :- Parineeta Gedam 
+        // Date :- 28-05-2023
+        // Reason :- remove the data from local stroage
+        secureLocalStorage.removeItem('order')
+        secureLocalStorage.removeItem('orderItem')
+        secureLocalStorage.removeItem('setting_data')
+        secureLocalStorage.removeItem('invoice_detail')
+        // End of added code by :- Parineeta Gedam on 28-05-2023
+      }
+    }
+    else {
+      message.error({
+        // Modfication and addition by Om Shrivastava on 17-05-23
+        // Reason : Change the confirmation message
+        // content: "In Progress",
+        content: "Please wait for confirmation",
+        // End of mofication and addition by Om Shrivastava on 17-05-23
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
+    }
+  }
+  // End of added code by :- Parineeta Gedam  Date :- 21-05-2023
+
+  
 
   return (
     <>
@@ -313,12 +325,12 @@ export default function Payment() {
           onClick={(e) => submitPaymentMode()}
         >
           Proceed to pay </button>
-        {/* {order.payment_status == "Completed" ? */}
+        {orders.payment_status == "Completed" ?
           <button className='payment_btn_get_bill' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
             onClick={(e) => checkPaymentStatus()}>Get Bill</button>
-          {/* :
+           :
           <button className='payment_btn_get_bill' style={{ background: "grey", color: colors.backgroundTheme }}
-          >Get Bill</button>} */}
+          >Get Bill</button>} 
       </div>
 
       {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}

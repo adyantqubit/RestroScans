@@ -186,9 +186,15 @@
               
               {% for item in order_items %}
               <div class="tableContents ">
+                <!-- Modified by Parineeta Gedam on 01-06-2023 
+                    reason :- to not show the cancelled item
+                -->
+                {% if item.item_status != "Cancelled" %}
                  <div class="quantityText"> {{ forloop.counter }} </div>
                 <div class="titleText">{{ item.item_id.name }} ({{ item.serving_size }})</div>
                 <div class="rateText">{{ item.quantity }}</div>
+              {% endif %}
+                <!-- End of modified code by Parineeta Gedam on 01-06-2023 -->
               </div>
 
               

@@ -24,249 +24,288 @@ import AddOrderItemForm from "../../components/orderItem/AddOrderItemForm";
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function OrderItemsScreen({ route, navigation }) {
-  var { render, setRender, settings,rupee_sign } = useContext(AppStateContext); //Need to use settings, for GST number.
-  const isFocused = useIsFocused();
-  /* Get the order id using params */
-  // Added and modified by Yuvraj Sahu on 17-4-2023
-  // Reason - to get order id in from router
-  const { id, orderID } = route.params;
-  // End of modification
-
-  // Added by Parineeta Date : 24-05-2023
-  // Reason : Add serial no in invoice
-  var i = 1;
-  // end of code by Parineeta Date : 24-05-2023
-
-  // Added by Yuvraj Sahu on 9-4-2023
-  // Reason - to call function when page is render
-  // This function is used for calling function when first time page render
-  useEffect(() => {
-    getOrderItems();
-  }, [isFocused]);
-  // End of addition
-
-  // Added by Yuvraj Sahu on 9-4-2023
-  // Reason - to set all order
-  // This react hooks is used to set order items
-  // Which is used for map and showing data to user
-  var [orderItems, setOrderItems] = useState([]);
-  // End of setting orders
-
-  // Added by Yuvraj Sahu on 9-4-2023
-  // Reason - to set customer detail
-  // This react hooks is used to set customer detail
-  // Which is used for map and showing data to user
-  var [customerDetail, setCustomerDetail] = useState([]);
-  // End of set customer detail
-
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to order detail
-  // This react hooks is used to set order detail
-  // Which is used for map and showing data for tax calculation
-  var [orderDetail, setOrderDetail] = useState([]);
-  // End of setting orders
-
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to set order status selection
-  {
-    /* This is used for set order status selcted data */
-  }
-  const [orderStatusSelected, setOrderStatus] = React.useState("");
-  // End of order status set
-
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to set payment status selection
-  {
-    /* This is used for set order status selcted data */
-  }
-  const [paymentStatusSelected, setPaymentStatus] = React.useState("");
-  // End of payment status set
-
-  // Added by :- Parineeta Gedam on 25-05-2023
-  // Reason - to get and map setting data
-  const [settingData, setSettingData] = useState("");
-  // End of payment status set
-
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to store order status data
-  {
-    /* This is array holds order status data */
-  }
-  // Modified by Yuvraj Sahu on 18-4-2023
-  // Reason - to change status name
-  var d = orderDetail.order_status;
-  var orderStatusData = [
-    { key: "Placed", value: "Placed" },
-    { key: "Confirm", value: "Confirm" },
-    { key: "Cooked", value: "Cooked" },
-    { key: "Served", value: "Served" },
-
-    // Added by :- Parineeta Gedam on 13-05-2023 
-    { key: "Cancelled", value: "Cancelled" },
-    // End of added code by :- Parineeta gedam on 13-05-2023
-  ];
-  // End of modification
-  // End of addition
-
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to store payment status data
-  {
-    /* This is array holds payment status data */
-  }
-  var paymentStatusData = [
-    { key: "Pending", value: "Pending" },
-    { key: "Completed", value: "Completed" },
-  ];
-  // End of addition
-
-  // Added by Yuvraj Sahu on 9-4-2023
-  // Reason - to get orders
-  // This function is created for getting all orders
-  const getOrderItems = async () => {
-    var tenant = JSON.parse(
-      await SecureStore.getItemAsync("tenantInfo")
-    ).tenant_name;
-    // Modified by Yuvraj Sahu on 18-4-2023
-    // Reason - to change order ir to id
-    var response = await getOrderItemsApi(tenant, id);
+    var { render, setRender, settings, rupee_sign } = useContext(AppStateContext); //Need to use settings, for GST number.
+    const isFocused = useIsFocused();
+    /* Get the order id using params */
+    // Added and modified by Yuvraj Sahu on 17-4-2023
+    // Reason - to get order id in from router
+    const { id, orderID } = route.params;
     // End of modification
-    if (response.msg) {
-      setOrderItems(response.orderItems);
-      setCustomerDetail(response.customerDetail);
-      // Added by Yuvraj Sahu on 14-4-2023
-      // Reason - to set order detail in state
-      setOrderDetail(response.orderDetail);
-      /**
-       * Added by Yuvraj Sahu on 04-05-2023
-       * Reason - to set default value in dropdown
-       */
-      setOrderStatus(response.orderDetail.order_status);
-      setPaymentStatus(response.orderDetail.payment_status);
-      /**
-       * End of addition by yuvraj Sahu on 04-05-2023
-       */
 
-      // Added by :- Parineeta Gedam on 08-05-2023
-      // Reason - to set discount amount (manual discount)
-      setDiscountAmount("" + response.orderDetail.manual_discount)
-      setDiscountType(response.orderDetail.discount_type)
-      // End of added code by :- Parineeta Gedam on 08-05-2023
+    // Added by Parineeta Date : 24-05-2023
+    // Reason : Add serial no in invoice
+    var i = 1;
+    // end of code by Parineeta Date : 24-05-2023
 
-      // Added by :- Parineeta Gedam on 25-05-2023
-      // Reason - get cgst sgst
-      setSettingData(response.settingData)
-      // End of added code by :- Parineeta Gedam on 25-05-2023
+    // Added by Yuvraj Sahu on 9-4-2023
+    // Reason - to call function when page is render
+    // This function is used for calling function when first time page render
+    useEffect(() => {
+        getOrderItems();
+    }, [isFocused]);
+    // End of addition
+
+    useEffect(() => {
+        getOrderItems();
+    }, [modalVisible]);
+
+    // Added by Yuvraj Sahu on 9-4-2023
+    // Reason - to set all order
+    // This react hooks is used to set order items
+    // Which is used for map and showing data to user
+    var [orderItems, setOrderItems] = useState([]);
+    // End of setting orders
+
+    // Added by Yuvraj Sahu on 9-4-2023
+    // Reason - to set customer detail
+    // This react hooks is used to set customer detail
+    // Which is used for map and showing data to user
+    var [customerDetail, setCustomerDetail] = useState([]);
+    // End of set customer detail
+
+    // Added by Yuvraj Sahu on 14-4-2023
+    // Reason - to order detail
+    // This react hooks is used to set order detail
+    // Which is used for map and showing data for tax calculation
+    var [orderDetail, setOrderDetail] = useState([]);
+    // End of setting orders
+
+    // Added by Yuvraj Sahu on 14-4-2023
+    // Reason - to set order status selection
+    {
+        /* This is used for set order status selcted data */
     }
-  };
+    const [orderStatusSelected, setOrderStatus] = React.useState("");
+    // End of order status set
 
-  // alert("asfdf"+JSON.stringify(orderDetail))
+    // Added by Yuvraj Sahu on 14-4-2023
+    // Reason - to set payment status selection
+    {
+        /* This is used for set order status selcted data */
+    }
+    const [paymentStatusSelected, setPaymentStatus] = React.useState("");
+    // End of payment status set
 
-  // Added by :- Parineeta Gedam on 24-05-2023 
-  // reason :- for model open 
+    // Added by :- Parineeta Gedam on 25-05-2023
+    // Reason - to get and map setting data
+    const [settingData, setSettingData] = useState("");
+    // End of payment status set
 
-  const [modalVisible, setModalVisible] = useState(false);
+    // Added by :- Parineeta Gedam on 05-06-2023
+    // Reason - to get and map all reason
+    const [allResponseOrderItem, setAllResponseOrderItem] = useState("");
+    const [allResponseOrder, setAllResponseOrder] = useState("");
 
-  // End of added code by :- PArineeta Gedam on 24-05-2023
+    // End of payment status set
 
-  /**
-   * Added by - Ashish Dewangan on 19-04-2023
-   * Reason - To print order items for kitchen whenever order status is changed by admin to confirm
-   */
-  var str = "";
-  var html = "";
+    // Added by Yuvraj Sahu on 14-4-2023
+    // Reason - to store order status data
+    {
+        /* This is array holds order status data */
+    }
+    // Modified by Yuvraj Sahu on 18-4-2023
+    // Reason - to change status name
+    var d = orderDetail.order_status;
+    var orderStatusData = [
+        { key: "Placed", value: "Placed" },
+        { key: "Confirm", value: "Confirm" },
+        { key: "Cooked", value: "Cooked" },
+        { key: "Served", value: "Served" },
 
-  const printDoc = async () => {
-    await Print.printAsync({
-      html,
-    });
-  };
-  /**
-   * End of code addition by Ashish Dewangan on 19-04-2023
-   */
+        // Added by :- Parineeta Gedam on 13-05-2023 
+        { key: "Cancelled", value: "Cancelled" },
+        // End of added code by :- Parineeta gedam on 13-05-2023
+    ];
+    // End of modification
+    // End of addition
 
-  // Added by Om on 23-04-23
-  // Reason : Show the subtotal and current order date
-  function SubtotalOfItems() {
-    var total = 0;
-    orderItems.filter((o) => {
-      total += o.price;
-    });
-    return total;
-  }
-  function ExtractDateTime(format) {
-    var date = format.substring(0, 10)
-    var time = format.substring(11, 16)
+    // Added by Yuvraj Sahu on 14-4-2023
+    // Reason - to store payment status data
+    {
+        /* This is array holds payment status data */
+    }
+    var paymentStatusData = [
+        { key: "Pending", value: "Pending" },
+        { key: "Completed", value: "Completed" },
+        // Added by :- Parineeta Gedam on 30-05-2023 
+        { key: "Paid", value: "Paid" },
+    ];
+    // End of addition
 
-    return { date, time }
-  }
-  // End of addition
+    // Added by Parineeta Gedam on 03-06-2023
+    // Reason - to set item status 
+    var ItemStatusData = [
+        { key: "Pending", value: "Pending" },
+        { key: "Confirm", value: "Confirm" },
+        { key: "Cancelled", value: "Cancelled" },
+    ];
+    // End of addition code by Parineeta Gedam on 03-06-2023
 
-  // Added by Yuvraj Sahu on 17-4-2023
-  // Reason - to update order and payment status
-  {
+    // Added by Yuvraj Sahu on 9-4-2023
+    // Reason - to get orders
+    // This function is created for getting all orders
+    const getOrderItems = async () => {
+        var tenant = JSON.parse(
+            await SecureStore.getItemAsync("tenantInfo")
+        ).tenant_name;
+        // Modified by Yuvraj Sahu on 18-4-2023
+        // Reason - to change order ir to id
+        var response = await getOrderItemsApi(tenant, id);
+        // End of modification
+        if (response.msg) {
+            setOrderItems(response.orderItems);
+            setCustomerDetail(response.customerDetail);
+            // Added by Yuvraj Sahu on 14-4-2023
+            // Reason - to set order detail in state
+            setOrderDetail(response.orderDetail);
+            /**
+             * Added by Yuvraj Sahu on 04-05-2023
+             * Reason - to set default value in dropdown
+             */
+            setOrderStatus(response.orderDetail.order_status);
+            setPaymentStatus(response.orderDetail.payment_status);
+            /**
+             * End of addition by yuvraj Sahu on 04-05-2023
+             */
+
+            // Added by :- Parineeta Gedam on 08-05-2023
+            // Reason - to set discount amount (manual discount)
+            setDiscountAmount("" + response.orderDetail.manual_discount)
+            setDiscountType(response.orderDetail.discount_type)
+            // End of added code by :- Parineeta Gedam on 08-05-2023
+
+            // Added by :- Parineeta Gedam on 03-06-2023
+            // Reason - to set discount amount (manual discount)
+            // setDiscountAmountRupees("" + response.orderDetail.discount_amount_rupees)
+            // setDiscountAmountPercentage(response.orderDetail.discount_amount_percentage)
+            // End of added code by :- Parineeta Gedam on 08-05-2023
+
+            // Added by :- Parineeta Gedam on 25-05-2023
+            // Reason - get cgst sgst
+            setSettingData(response.settingData)
+            // End of added code by :- Parineeta Gedam on 25-05-2023
+
+            // Added by :- Parineeta Gedam on 
+            // Reason - 
+            setAllResponseOrderItem(response.orderItems)
+            setAllResponseOrder(response.orderDetail)
+
+            // End of added code by :- Parineeta Gedam on 
+
+        }
+    };
+
+    // Added by :- Parineeta Gedam on 24-05-2023 
+    // reason :- for model open 
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    // End of added code by :- PArineeta Gedam on 24-05-2023
+
     /**
-     * This method is created for API calling to update the order and payment status
+     * Added by - Ashish Dewangan on 19-04-2023
+     * Reason - To print order items for kitchen whenever order status is changed by admin to confirm
      */
-  }
-  // Added by Om on 23-04-23
-  // Reason : To perform the print functionality of native site
-  const printBill = async () => {
-    var tenant = JSON.parse(
-      await SecureStore.getItemAsync("tenantInfo")
-    ).tenant_name;
+    var str = "";
+    var html = "";
 
-    var restaurantName = JSON.parse(
-      await SecureStore.getItemAsync("userData")
-    ).restaurant_name;
-    var restaurantAddress = JSON.parse(
-      await SecureStore.getItemAsync("userData")
-    ).address;
+    const printDoc = async () => {
+        await Print.printAsync({
+            html,
+        });
+    };
+    /**
+     * End of code addition by Ashish Dewangan on 19-04-2023
+     */
 
-    // var status = {
-    //   order_status: orderStatusSelected,
-    //   payment_status: paymentStatusSelected,
-    // };
-    var itemStr = "";
-    for (var i = 0; i < orderItems.length; i++) {
-      // if () {
-      itemStr =
-        itemStr +
-        `<div class="tableContents ">
-                  <div class="titleText">${orderItems[i].item} (${
-          orderItems[i].serving_size
-        })</div>
+    // Added by Om on 23-04-23
+    // Reason : Show the subtotal and current order date
+
+    // Modified by :- Parineeta Gedam on 29-05-2023
+    function SubtotalOfItems() {
+        var total = 0;
+        orderItems.filter((o) => {
+            if (o.item_status != "Cancelled") {
+                total += o.price;
+            }
+        });
+        return total;
+    }
+    // End of Modified code by :- Parineeta Gedam on 29-05-2023
+    function ExtractDateTime(format) {
+        var date = format.substring(0, 10)
+        var time = format.substring(11, 16)
+
+        return { date, time }
+    }
+    // End of addition
+
+    // Added by Yuvraj Sahu on 17-4-2023
+    // Reason - to update order and payment status
+    {
+        /**
+         * This method is created for API calling to update the order and payment status
+         */
+    }
+    // Added by Om on 23-04-23
+    // Reason : To perform the print functionality of native site
+    const printBill = async () => {
+        var tenant = JSON.parse(
+            await SecureStore.getItemAsync("tenantInfo")
+        ).tenant_name;
+
+        var restaurantName = JSON.parse(
+            await SecureStore.getItemAsync("userData")
+        ).restaurant_name;
+        var restaurantAddress = JSON.parse(
+            await SecureStore.getItemAsync("userData")
+        ).address;
+
+        // var status = {
+        //   order_status: orderStatusSelected,
+        //   payment_status: paymentStatusSelected,
+        // };
+        var itemStr = "";
+        for (var i = 0; i < orderItems.length; i++) {
+            if (orderItems[i].item_status != "Cancelled") {
+                itemStr =
+                    itemStr +
+                    `<div class="tableContents ">
+                  <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+                    })</div>
                   <div class="quantityText">${orderItems[i].quantity}</div>
                   <div class="rateText">${(
-                    orderItems[i].price / orderItems[i].quantity
-                  ).toFixed(2)}</div>
+                        orderItems[i].price / orderItems[i].quantity
+                    ).toFixed(2)}</div>
                   <div class="totalText"> ${orderItems[i].price.toFixed(
-                    2
-                  )}</div>
+                        2
+                    )}</div>
 
                 </div>`;
-    }
+            }
+        }
 
-    // Added by :- Parineeta Gedam on 11-05-2023
-    // Reason :- calculations by discount type
-    var discountCalculations = '';
-    if (orderDetail.manual_discount > 0) {
-      if (orderDetail.discount_type == "Discount in (₹)") {
-        discountCalculations = `<div class="calculationLine">
+        // Added by :- Parineeta Gedam on 11-05-2023
+        // Reason :- calculations by discount type
+        var discountCalculations = '';
+        if (orderDetail.manual_discount > 0) {
+            if (orderDetail.discount_type == "Discount in (₹)") {
+                discountCalculations = `<div class="calculationLine">
         <div  class="calculationLabel">
         <div style= "width:98%">Discount</div>
         <div>:</div></div>
-        <div  class="calculationText" >${rupee_sign} ${orderDetail.manual_discount.toFixed(2)}</div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.manual_discount.toFixed(2)}</div>
       </div>`
-      }
-      else {
-        discountCalculations = `<div class="calculationLine">
+            }
+            else {
+                discountCalculations = `<div class="calculationLine">
         <div  class="calculationLabel">
         <div style= "width:98%">Discount</div>
         <div>(${orderDetail.manual_discount.toFixed(2)}%):</div></div>
         <div  class="calculationText" >${rupee_sign}${((orderDetail.sub_total / 100) * orderDetail.manual_discount).toFixed(2)}</div>
       </div>`
-      }
-      discountCalculations = discountCalculations + `<div class="calculationLine">
+            }
+            discountCalculations = discountCalculations + `<div class="calculationLine">
         <div  class="calculationLabel"> 
         <div style= "width:98%">Total</div>
         <div>:</div></div>
@@ -284,9 +323,9 @@ export default function OrderItemsScreen({ route, navigation }) {
         <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
         <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
       </div>`
-    }
-    else {
-      discountCalculations = `<div class="calculationLine">
+        }
+        else {
+            discountCalculations = `<div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">CGST</div>
       <div>(%${((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
@@ -298,10 +337,10 @@ export default function OrderItemsScreen({ route, navigation }) {
       <div>(%${((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
       <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
     </div>`
-    }
-    // End of added code on 11-05-2023
+        }
+        // End of added code on 11-05-2023
 
-    str = `<div class="billingContainer">
+        str = `<div class="billingContainer">
             <div class="inLineContainer" >
               <div class="Hotellabel"  style="text-align:center;"> ${restaurantName}</div>
             </div>
@@ -312,9 +351,8 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="centerLabel">GSTIN :- ${settings.setting.gstin}</div>
             </div>
             <div class="inLineContainer">
-              <div class="centerLabel">FSSAI NO :- ${
-                settings.setting.fssaino
-              }</div>
+              <div class="centerLabel">FSSAI NO :- ${settings.setting.fssaino
+            }</div>
             </div>
             <hr>
 
@@ -332,27 +370,26 @@ export default function OrderItemsScreen({ route, navigation }) {
               Reason - To show payment confirmation time in bill --!>
               ${ExtractDateTime(orderDetail.payment_confirmation_date_time).date}
                ${
-                //new Date(orderDetail.date)
-              //   .toISOString()
-              //   .split("T")[0]
-              //   .split("-")
-              //   .reverse()
-              //   .join("/")
-              ``
+            //new Date(orderDetail.date)
+            //   .toISOString()
+            //   .split("T")[0]
+            //   .split("-")
+            //   .reverse()
+            //   .join("/")
+            ``
             }
               </div>
               <div class="label">Time  </div>
               <div class="text">  ${"ExtractDateTime(orderDetail.payment_confirmation_date_time).time"
-      }</div>
+            }</div>
               <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
             <div class="inLineContainer">
               <div class="label">Bill   </div>
               <div class="text"> ${orderDetail.order_id}</div>
               <div class="label">Table </div>
-              <div class="text">  ${
-                !orderDetail.table_number ? "N/A" : orderDetail.table_number
-              }</div>
+              <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
+            }</div>
               
             </div>
          
@@ -368,33 +405,22 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="totalHeading"> Amt(${rupee_sign})</div>
             </div>
             
-          ${itemStr} 
+            ${itemStr} 
           <hr>
           <div class='CalculationBoxContainer'>
           <div class="calculationBox">
-          ${orderDetail.cgst||orderDetail.sgst? `<div class="calculationLine">
-                <div  class="calculationLabel" style= "text-align:right"> Sub -Total :</div>
+          ${orderDetail.cgst || orderDetail.sgst ? `<div class="calculationLine">
+                <div  class="calculationLabel"> 
+                <div style= "width:98%">Sub-Total</div>
+                <div>:</div></div>
                 <div  class="calculationText" >${rupee_sign}${SubtotalOfItems().toFixed(
-                  2
-                )}</div>
-              </div>`:``}
+                2
+            )}</div>
+              </div>`: ``}
 
-             ${orderDetail.cgst? `<div class="calculationLine">
-             <div  class="calculationLabel" > CGST (%${(
-               (orderDetail.cgst / SubtotalOfItems()) *
-               100
-             ).toFixed(2)}) :</div>
-             <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
-           </div>`:''} 
-             ${orderDetail.sgst? `<div class="calculationLine">
-                <div  class="calculationLabel" > SGST (%${(
-                  (orderDetail.sgst / SubtotalOfItems()) *
-                  100
-                ).toFixed(2)}) :</div>
-                <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
-              </div>`:''}
+              ${discountCalculations}
               
-              ${orderDetail.cgst||orderDetail.sgst?`<hr>`:``}
+              ${orderDetail.cgst || orderDetail.sgst ? `<hr>` : ``}
               <div class="calculationLine">
                 <div  class="calculationLabel"> 
                 <div style= "width:98%">Grand Total</div>
@@ -423,9 +449,9 @@ export default function OrderItemsScreen({ route, navigation }) {
 
     </div>`;
 
-    str = str + `</div>`;
+        str = str + `</div>`;
 
-    html = `
+        html = `
     <html>
     <head>
 <style>
@@ -620,93 +646,139 @@ export default function OrderItemsScreen({ route, navigation }) {
       </body>
     </html>
     `;
-    if (orderStatusSelected == "Served") {
-      printDoc();
-    }
-  };
-  // End of addition
-
-  // Added by :- Parineeta Gedam on :- 08-05-2023
-  // reason :- This react hooks is used to show the error msg if discount amount in (%) is greater then 100.
-  var [discountAmountErrorMsg, setDiscountAmountErrorMsg] = useState(false);
-  // End of added code on 08-05-2023
-
-  // Added by :- Parineeta Gedam on :- 08-05-2023
-  // reason :- This react hooks is used to set discount amount
-  var [discountAmount, setDiscountAmount] = useState(0);
-  // End of added code on 08-05-2023
-
-  // Added by :- Parineeta Gedam on :- 08-05-2023
-  // reason :- This react hooks is used to set discount type
-  var [discountType, setDiscountType] = useState("Discount in (₹)");
-  // End of added code on 08-05-2023
-
-  // Added by :- Parineeta Gedam on 10-05-2023
-  // Reason :- on discount amount box show the error message.
-  const discountHandleChange = (e) => {
-    setDiscountAmount(e)
-    if (discountType == "Discount in (%)") {
-      if (e > 100) {
-        setDiscountAmountErrorMsg(true)
-      }
-      else {
-        setDiscountAmountErrorMsg(false)
-      }
-    }
-  }
-  // End of added code on 10-05-2023
-
-  // Added by :- Parineeta Gedam on 10-05-2023
-  // Reason :- on discount amount box show the error message.
-  var [isShowCancel, setShowCancel] = useState(false);
-  // End of added code on 10-05-2023
-
-  const handleUpdate = async () => {
-
-    // Added by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
-    submitUpdateOrderItem()
-    // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
-
-    var tenant = JSON.parse(
-      await SecureStore.getItemAsync("tenantInfo")
-    ).tenant_name;
-
-    var status = {
-      order_status: orderStatusSelected,
-      payment_status: paymentStatusSelected,
-
-      // Added by :- Parineeta Gedam on :- 08-05-2023 
-      // Reason :- update the manual discount
-      discount_type: discountType,
-      manual_discount: discountAmount,
-      // End of added code on 08-05-2023
+        if (orderStatusSelected == "Served") {
+            printDoc();
+        }
     };
-    var restaurantName = JSON.parse(
-      await SecureStore.getItemAsync("userData")
-    ).restaurant_name;
+    // End of addition
 
-    var orderItem = "";
-    var SNumberIncreasing = 1;
-    for (var i = 0; i < orderItems.length; i++) {
-      if (orderItems[i].item_status == "Pending") {
-        orderItem =
-          orderItem +
-          `<div class="tableContents ">
+    // Added by :- Parineeta Gedam on :- 08-05-2023
+    // Modified by :- Parineeta Gedam on :- 03-06-2023
+    // reason :- This react hooks is used to show the error msg if discount amount in (%) is greater then 100.
+    var [discountAmountErrorMsg, setDiscountAmountErrorMsg] = useState(false);
+    // var [discountAmountPercentageErrorMsg, setDiscountAmountPercentageErrorMsg] = useState(false);
+    // End of added code on 08-05-2023
+    // End of modified code by PArineeta Gedam on 03-06-2023
+
+    // Modified by :- Parineeta Gedam on :- 03-06-2023
+    // reason :- This react hooks is used to show the error msg if discount amount in rupees is greater then 100.
+    // var [discountAmountErrorMsg, setDiscountAmountErrorMsg] = useState(false);
+    // var [discountAmountRupeesErrorMsg, setDiscountAmountRupeesErrorMsg] = useState(false);
+    // End of added code on 08-05-2023
+    // End of modified code by PArineeta Gedam on 03-06-2023
+
+    // Added by :- Parineeta Gedam on :- 08-05-2023
+    // Modified by :- Parineeta Gedam on :- 03-06-2023
+    // reason :- This react hooks is used to set discount amount in rupees
+    var [discountAmount, setDiscountAmount] = useState(0);
+    // var [discountAmountRupees, setDiscountAmountRupees] = useState(0);
+    // End of added code by :- Parineeta Gedam on :- 03-06-2023
+
+    // Added by :- Parineeta Gedam on :- 08-05-2023
+    // reason :- This react hooks is used to set discount amount in precentage
+    // var [discountAmountPercentage, setDiscountAmountPercentage] = useState(0);
+    // End of added code on 08-05-2023
+
+    // Added by :- Parineeta Gedam on :- 08-05-2023
+    // reason :- This react hooks is used to set discount type
+    var [discountType, setDiscountType] = useState("Discount in (₹)");
+    // End of added code on 08-05-2023
+
+    // Commented by :- Parineeta Gedam on 03-06-2023
+    // Added by :- Parineeta Gedam on 10-05-2023
+    // Reason :- on discount amount box show the error message.
+    const discountHandleChange = (e) => {
+        setDiscountAmount(e)
+        if (discountType == "Discount in (%)") {
+            if (e > 100) {
+                setDiscountAmountErrorMsg(true)
+            }
+            else {
+                setDiscountAmountErrorMsg(false)
+            }
+        }
+    }
+    // End of added code on 10-05-2023
+    // End of commented code by PArineeta Gedam on 03-06-2023
+
+
+    // Added by :- Parineeta Gedam on 03-06-2023
+    // Reason :- on discount amount show in rupees
+    // const handleChangeDiscountAmountRupees = (e) => {
+    //   setDiscountAmountRupees(e)
+    //     if (e > orderDetail.sub_total) {
+    //       setDiscountAmountRupeesErrorMsg(true)
+    //     }
+    //     else {
+    //       setDiscountAmountRupeesErrorMsg(false)
+    //     }
+    // }
+    // End of added code by Parineeta Gedam on 03-06-2023
+
+    // Added by :- Parineeta Gedam on 03-06-2023
+    // Reason :- on discount amount show in percentage
+    // const handleChangeDiscountAmountPercentage = (e) => {
+    //   setDiscountAmountPercentage(e)
+    //     if (e > 100) {
+    //       setDiscountAmountPercentageErrorMsg(true)
+    //     }
+    //     else {
+    //       setDiscountAmountPercentageErrorMsg(false)
+    //   }
+    // }
+    // End of added code on 10-05-2023
+
+    // Added by :- Parineeta Gedam on 10-05-2023
+    // Reason :- on discount amount box show the error message.
+    var [isShowCancel, setShowCancel] = useState(false);
+    // End of added code on 10-05-2023
+
+    const handleUpdate = async () => {
+
+        // Added by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
+        submitUpdateOrderItem()
+        // updateItemStatus()
+        // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
+
+        var tenant = JSON.parse(
+            await SecureStore.getItemAsync("tenantInfo")
+        ).tenant_name;
+
+        var status = {
+            order_status: orderStatusSelected,
+            payment_status: paymentStatusSelected,
+
+            // Added by :- Parineeta Gedam on :- 08-05-2023 
+            // Reason :- update the manual discount
+            discount_type: discountType,
+            manual_discount: discountAmount,
+            // End of added code on 08-05-2023
+        };
+        var restaurantName = JSON.parse(
+            await SecureStore.getItemAsync("userData")
+        ).restaurant_name;
+
+        var orderItem = "";
+        var SNumberIncreasing = 1;
+        for (var i = 0; i < orderItems.length; i++) {
+            if (orderItems[i].item_status == "Pending") {
+                orderItem =
+                    orderItem +
+                    `<div class="tableContents ">
               <div class="quantityText">${SNumberIncreasing++}</div>
-              <div class="titleText">${orderItems[i].item} (${
-            orderItems[i].serving_size
-          })</div>
+              <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+                    })</div>
               <div class="rateText">${orderItems[i].quantity}</div>
             </div>`;
-      }
-    }
-    /**
-     * Added by - Ashish Dewangan on 19-04-2023
-     * Reason - To print pending order items for kitchen whenever order status is changed by admin to confirm
-     */
-    // Modification by Om on 23-04-23
-    // Reason : Need to proper designing
-    str = `<div class="billingContainer">
+            }
+        }
+        /**
+         * Added by - Ashish Dewangan on 19-04-2023
+         * Reason - To print pending order items for kitchen whenever order status is changed by admin to confirm
+         */
+        // Modification by Om on 23-04-23
+        // Reason : Need to proper designing
+        str = `<div class="billingContainer">
             <div class="inLineContainer" >
               <div class="Hotellabel"  style="text-align:center;"> ${restaurantName}</div>
             </div>
@@ -714,8 +786,8 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="inLineContainer">
             <div class="label">Date</div>
              <div class="text">: ${new Date(
-               orderDetail.date
-             ).toLocaleDateString("en-GB")}</div>
+            orderDetail.date
+        ).toLocaleDateString("en-GB")}</div>
             <div class="label">Time</div>
             <div class="text">: ${"ExtractDateTime(orderDetail.date).time"}</div>
 
@@ -724,8 +796,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="label">Order id</div>
             <div class="text">: ${orderDetail.order_id}</div>
             <div class="label">Table</div>
-            <div class="text">: ${
-              !orderDetail.table_number ? "N/A" : orderDetail.table_number
+            <div class="text">: ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
             }</div>
             
           </div>
@@ -737,8 +808,8 @@ export default function OrderItemsScreen({ route, navigation }) {
             ${orderItem} 
     </div>`;
 
-    str = str + `</div>`;
-    html = `
+        str = str + `</div>`;
+        html = `
     <html>
     <head>
     <style>
@@ -867,534 +938,685 @@ export default function OrderItemsScreen({ route, navigation }) {
       </body>
     </html>
     `;
-    // End of addition
-
-    // Modified by :- Parineeta Gedam on 10-05-2023 
-    // reason :- check order status and discount amount conditions
-    if (orderStatusSelected == "Confirm" && discountAmountErrorMsg == false) {
-      printDoc();
-    }
-    // End of added code by :- Parineeta Gedam on 10-05-2023
-
-    /**
-     * End of code addition by Ashish Dewangan on 19-04-2023
-     */
-
-    // Modified by :- Parineeta Gedam on 10-05-2023 
-    if (discountAmountErrorMsg == false) {
-      var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
-      if (response.success) {
-        /**
-         * Added by - Ashish Dewangan on 19-04-2023
-         * Reason - To set latest status of items inside the order
-         */
-        setOrderItems(response.order_items);
-        Alert.alert("Order Updated");
-
-        // Added by Om on 21-04-23
-        // Reason : Navigate the home page
-        navigation.pop();
         // End of addition
+
+        // Modified by :- Parineeta Gedam on 10-05-2023 
+        // reason :- check order status and discount amount conditions
+        if (orderStatusSelected == "Confirm" && discountAmountErrorMsg == false) {
+            printDoc();
+        }
+        // End of added code by :- Parineeta Gedam on 10-05-2023
 
         /**
          * End of code addition by Ashish Dewangan on 19-04-2023
          */
-      }
-    }
-    // End of modifications code by :- Parineeta Gedam on 10-05-2023 
-  };
 
-  /**
-   * Added by Yuvraj Sahu on 07-05-2023
-   * Reason - to add date in order detail
-   */
-  const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
-  /**
-   * End of addition by yuvraj Sahu on 07-05-2023
-   */
+        // Modified by :- Parineeta Gedam on 10-05-2023 
+        if (discountAmountErrorMsg == false) {
+            // if (discountAmountPercentageErrorMsg == false && discountAmountRupeesErrorMsg == false ) {
+            var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
+            if (response.success) {
+                /**
+                 * Added by - Ashish Dewangan on 19-04-2023
+                 * Reason - To set latest status of items inside the order
+                 */
+                setOrderItems(response.order_items);
+                Alert.alert("Order Updated");
 
-  // Added by :- Parineeta Gedam on 25-05-2023
-  // Reason :- admin can decrease the quantity of items.
-  function decreamentQuantiy(items) {
-    const index = orderItems.indexOf(items);
-    const allOrderItem = orderItems;
-    var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
-    if (allOrderItem[index].quantity != 1) {
-      var updateQuantity = allOrderItem[index].quantity -= 1;
-      var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
-      var newSubTotal = 0.0;
-      for (var i = 0; i < allOrderItem.length; i++) {
-        if (allOrderItem[i].item_status != "Cancelled") {
-          newSubTotal += allOrderItem[i].price;
+                // Added by Om on 21-04-23
+                // Reason : Navigate the home page
+                navigation.pop();
+                // End of addition
+
+                /**
+                 * End of code addition by Ashish Dewangan on 19-04-2023
+                 */
+            }
         }
-      }
-      orderDetail.sub_total = newSubTotal
-      var cgst = ((orderDetail.sub_total * settingData.cgst) / 100)
-      orderDetail.cgst = cgst
-      orderDetail.sgst = (orderDetail.sub_total * settingData.sgst) / 100
-      var a = (orderDetail.sub_total * settingData.cgst) / 100 + (orderDetail.sub_total * settingData.sgst) / 100
-      orderDetail.total = a + orderDetail.sub_total
-    }
-    else {
-      Alert.alert("Qunatity can't be less then 1");
-    }
-    setOrderItems([...allOrderItem])
-  }
-  // End of added code by :- Parineeta Gedam on 25-05-2023
-
- // Added by :- Parineeta Gedam on 25-05-2023
-  // Reason :- admin can increase the quantity of items.
-  function increamentQuantiy(items) {
-    const index = orderItems.indexOf(items);
-    const allOrderItem = orderItems;
-    var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
-    var updateQuantity = allOrderItem[index].quantity += 1;
-    var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
-    var newSubTotal = 0.0;
-    for (var i = 0; i < allOrderItem.length; i++) {
-      if (allOrderItem[i].item_status != "Cancelled") {
-        newSubTotal += allOrderItem[i].price;
-      }
-    }
-    orderDetail.sub_total = newSubTotal
-    orderDetail.cgst = (newSubTotal * settingData.cgst) / 100
-    orderDetail.sgst = (newSubTotal * settingData.sgst) / 100
-    var a = (newSubTotal * settingData.cgst) / 100 + (newSubTotal * settingData.sgst) / 100
-    orderDetail.total = a + newSubTotal
-    setOrderItems([...allOrderItem])
-  }
-  // End of added code by :- Parineeta Gedam on 25-05-2023
-
-  // Added by :- Parineeta Gedam on 25-05-2023
-  // Reason :- delete the order items
-  function deleteOrderItemPermission(orderItem) {
-    Alert.alert("Confirmation", "Are you sure you want to delete this item?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          handleRemoveOrderItem(orderItem.id);
-        },
-      },
-    ]);
-  }
-
-  const handleRemoveOrderItem = async (id) => {
-    var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
-    const data = {
-      order: orderDetail.order_id,
-      orderItem: id,
-      tenant: tenantName
-    }
-    const response = await deleteOrderItemApi(tenantName, data);
-    console.log("response", response)
-    if (response.orderItem) {
-      setOrderItems(response.orderItem)
-      setOrderDetail(response.order)
-      if (orderItems.filter(dt => dt.item_status == "Pending").length == 1) {
-        Navigator.navigate('/OrdersScreen')
-      }
-    }
-  };
-  // End of added code by :- Parineeta Gedam on 25-05-2023
-
-  // Added by :- Parineeta Gedam on 25-05-2023
-  // Reason :- update the order item
-
-  const submitUpdateOrderItem = async () => {
-    var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
-    const updateOrderItems = {
-      orders: orderDetail.order_id,
-      orderItems: orderItems,
-      tenant: tenantName,
-      order: orderDetail,
+        // End of modifications code by :- Parineeta Gedam on 10-05-2023 
     };
-    const response = await postUpdateOrderItemsApi(tenantName, updateOrderItems);
-    console.log("res", response)
-    if (response) {
-      setOrderItems(response.orderItem)
-      setOrderDetail(response.order)
+
+    /**
+     * Added by Yuvraj Sahu on 07-05-2023
+     * Reason - to add date in order detail
+     */
+    const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
+    /**
+     * End of addition by yuvraj Sahu on 07-05-2023
+     */
+
+    // Added by :- Parineeta Gedam on 25-05-2023
+    // Reason :- admin can decrease the quantity of items.
+    function decreamentQuantiy(items) {
+        const index = orderItems.indexOf(items);
+        const allOrderItem = orderItems;
+        var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
+        if (allOrderItem[index].quantity != 1) {
+            var updateQuantity = allOrderItem[index].quantity -= 1;
+            var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
+            var newSubTotal = 0.0;
+            for (var i = 0; i < allOrderItem.length; i++) {
+                if (allOrderItem[i].item_status != "Cancelled") {
+                    newSubTotal += allOrderItem[i].price;
+                }
+            }
+            orderDetail.sub_total = newSubTotal
+            var cgst = ((orderDetail.sub_total * settingData.cgst) / 100)
+            orderDetail.cgst = cgst
+            orderDetail.sgst = (orderDetail.sub_total * settingData.sgst) / 100
+            var a = (orderDetail.sub_total * settingData.cgst) / 100 + (orderDetail.sub_total * settingData.sgst) / 100
+            orderDetail.total = a + orderDetail.sub_total
+        }
+        else {
+            Alert.alert("Qunatity can't be less then 1");
+        }
+        setOrderItems([...allOrderItem])
     }
-  }
-  // End of added code by :- Parineeta Gedam on 14-05-2023
+    // End of added code by :- Parineeta Gedam on 25-05-2023
 
+    // Added by :- Parineeta Gedam on 25-05-2023
+    // Reason :- admin can increase the quantity of items.
+    function increamentQuantiy(items) {
+        const index = orderItems.indexOf(items);
+        const allOrderItem = orderItems;
+        var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
+        var updateQuantity = allOrderItem[index].quantity += 1;
+        var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
+        var newSubTotal = 0.0;
+        for (var i = 0; i < allOrderItem.length; i++) {
+            if (allOrderItem[i].item_status != "Cancelled") {
+                newSubTotal += allOrderItem[i].price;
+            }
+        }
+        orderDetail.sub_total = newSubTotal
+        orderDetail.cgst = (newSubTotal * settingData.cgst) / 100
+        orderDetail.sgst = (newSubTotal * settingData.sgst) / 100
+        var a = (newSubTotal * settingData.cgst) / 100 + (newSubTotal * settingData.sgst) / 100
+        orderDetail.total = a + newSubTotal
+        setOrderItems([...allOrderItem])
+    }
+    // End of added code by :- Parineeta Gedam on 25-05-2023
 
-  return (
-    <>
-      {/* Added byYuvraj Sahu on 27-4-2023
+   
+
+    // Added by :- Parineeta Gedam on 25-05-2023
+    // Reason :- delete the order items
+    function deleteOrderItemPermission(orderItem) {
+        Alert.alert("Confirmation", "Are you sure you want to delete this item?", [
+            {
+                text: "Cancel",
+                style: "cancel",
+            },
+            {
+                text: "OK",
+                onPress: () => {
+                    handleRemoveOrderItem(orderItem.id);
+                },
+            },
+        ]);
+    }
+
+    const handleRemoveOrderItem = async (id) => {
+        var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+        const data = {
+            order: orderDetail.order_id,
+            orderItem: id,
+            tenant: tenantName,
+        }
+        const response = await deleteOrderItemApi(tenantName, data);
+        if (response.orderItem) {
+            setOrderItems(response.orderItem)
+            setOrderDetail(response.order)
+            setItemStatus("")
+            if (orderItems.filter(dt => dt.item_status == "Pending").length == 1) {
+                Navigator.navigate('/OrdersScreen')
+            }
+        }
+    };
+    // End of added code by :- Parineeta Gedam on 25-05-2023
+
+     // Added by :- Parineeta Gedam on 03-06-2023
+    // Reason :- admin can change the item status
+
+    // Added by :- Parineeta Gedam on 05-06-2023
+    // Reason - to get and map Item status
+    const [itemStatusSelected, setItemStatus] = useState([]);
+    // End of payment status set
+
+    function updateItemStatus(index, itemStatus) {
+        // console.log("items", items)
+        // console.log("itemStatus", itemStatus)
+        // const index = orderItems.indexOf(items);
+        // const allOrderItem = orderItems;
+        // var a = allOrderItem[index].item_status = itemStatus;
+        // setOrderItems(allOrderItem)
+
+        var allOrderItems = allResponseOrderItem
+        var a = allOrderItems[index].item_status = itemStatus;
+        setAllResponseOrderItem(allOrderItems)
+        // alert("asdfdf"+ JSON.stringify(orderItems))
+
+    //     var data = [
+    //         {id : index, item_status : itemStatus}
+    //     ]
+    //    alert("data", data)
+    //    itemStatusSelected.push(data)
+    }
+
+    // End of added code by :- Parineeta Gedam on 03-06-2023
+
+    // Added by :- Parineeta Gedam on 25-05-2023
+    // Reason :- update the order item
+
+    const submitUpdateOrderItem = async () => {
+
+        // orderItems.forEach((e) => {
+
+        // })
+       
+        var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+        const updateOrderItems = {
+            orders: orderDetail.order_id,
+            orderItems: orderItems,
+            tenant: tenantName,
+            order: orderDetail,
+        };
+        // console.log("sub========", updateOrderItems)
+        const response = await postUpdateOrderItemsApi(tenantName, updateOrderItems);
+        // console.log("res+++++++++++", response)
+        if (response) {
+            setOrderItems(response.orderItem)
+            setOrderDetail(response.order)
+        }
+    }
+    // End of added code by :- Parineeta Gedam on 14-05-2023
+
+    return (
+        <>
+            {/* Added byYuvraj Sahu on 27-4-2023
     Reason - to click at one time on button when cursor stays on input */}
-      <ScrollView keyboardShouldPersistTaps="handled">
-        {/* End of addition - button click */}
-        <View style={{ padding: 10 }}>
-          <View>
-            <Text style={{ marginTop: 5 }}>
-              <Text>Order ID</Text> : {orderDetail.order_id}
-            </Text>
-            <Text style={{ marginTop: 5 }}>
-              <Text>Table No.</Text> : {orderDetail.table_number}
-            </Text>
+            <ScrollView keyboardShouldPersistTaps="handled">
+                {/* End of addition - button click */}
+                <View style={{ padding: 10 }}>
+                    <View>
+                        <Text style={{ marginTop: 5 }}>
+                            <Text>Order ID</Text> : {orderDetail.order_id}
+                        </Text>
+                        <Text style={{ marginTop: 5 }}>
+                            <Text>Table No.</Text> : {orderDetail.table_number}
+                        </Text>
 
-            <Text style={{ marginTop: 5 }}>
-              {/* Modify by- Suman sahu  On 30/04/2023
+                        <Text style={{ marginTop: 5 }}>
+                            {/* Modify by- Suman sahu  On 30/04/2023
                   Reason- show only latest name on the order details */}
-              {/* <Text>Name</Text> : {customerDetail.name} */}
-              {/* Modification and addition by Om Shrivastava on 17-05-23
+                            {/* <Text>Name</Text> : {customerDetail.name} */}
+                            {/* Modification and addition by Om Shrivastava on 17-05-23
               Reason : When customer name is not show than show the "---" */}
-              {/* <Text>Name</Text> : {customerDetail.last_customer_name} */}
-              <Text>Name</Text> : {customerDetail.last_customer_name  !=undefined && customerDetail.last_customer_name  !=null && customerDetail.last_customer_name.length>0 ?customerDetail.last_customer_name:"---" }
-              {/* End of modification and addition by Om Shrivastava on 17-05-23 */}
-              {/* End of modification 30/04/2023 */}
-            </Text>
-            {customerDetail.email && (
-              <Text style={{ marginTop: 5 }}>
-                {/* Added and modified by yuvraj Sahu on 05-05-2023
+                            {/* <Text>Name</Text> : {customerDetail.last_customer_name} */}
+                            <Text>Name</Text> : {customerDetail.last_customer_name != undefined && customerDetail.last_customer_name != null && customerDetail.last_customer_name.length > 0 ? customerDetail.last_customer_name : "---"}
+                            {/* End of modification and addition by Om Shrivastava on 17-05-23 */}
+                            {/* End of modification 30/04/2023 */}
+                        </Text>
+                        {customerDetail.email && (
+                            <Text style={{ marginTop: 5 }}>
+                                {/* Added and modified by yuvraj Sahu on 05-05-2023
                 Reason - to get latest email  */}
-                {/* <Text>Email</Text> : {customerDetail.email} */}
-                <Text>Email</Text> : {customerDetail.last_email}
-                {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
-              </Text>
-            )}
-            <Text style={{ marginTop: 5 }}>
-              <Text>Phone</Text> : {customerDetail.contact_number}
-            </Text>
-            {/* Added by Yuvraj Sahu on 07-05-2023
+                                {/* <Text>Email</Text> : {customerDetail.email} */}
+                                <Text>Email</Text> : {customerDetail.last_email}
+                                {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
+                            </Text>
+                        )}
+                        <Text style={{ marginTop: 5 }}>
+                            <Text>Phone</Text> : {customerDetail.contact_number}
+                        </Text>
+                        {/* Added by Yuvraj Sahu on 07-05-2023
             Reason - to add date and time */}
-            <Text style={{ marginTop: 5 }}>
-              <Text>Date</Text> :{""}
-              {dt}
-              {/* {new Date(orderDetail.date)
+                        <Text style={{ marginTop: 5 }}>
+                            <Text>Date</Text> :{""}
+                            {dt}
+                            {/* {new Date(orderDetail.date)
                 .toISOString()
                 .split("T")[0]
                 .split("-")
                 .reverse()
                 .join("/")} */}
-            </Text>
-            <Text style={{ marginTop: 5 }}>
-              <Text>Time</Text> :{"ExtractDateTime(orderDetail.date).time"}
-            </Text>
-            {/* Addition by Om Shrivastava on 13-05-23
+                        </Text>
+                        <Text style={{ marginTop: 5 }}>
+                            <Text>Time</Text> :{"ExtractDateTime(orderDetail.date).time"}
+                        </Text>
+                        {/* Addition by Om Shrivastava on 13-05-23
             Reason : Show the all over restaurant review   */}
-              {orderDetail.review && (
-            <Text style={{ marginTop: 5 }}>
-                
-                      <Text>Review : {orderDetail.review}</Text>
-            </Text>
+                        {orderDetail.review && (
+                            <Text style={{ marginTop: 5 }}>
 
-                    )}
-            {/* End of addition by Om Shrivastava on 13-05-23 */}
-            {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
+                                <Text>Review : {orderDetail.review}</Text>
+                            </Text>
 
-            {/* Added by :- Parineeta Gedam on 24-05-2023 
+                        )}
+                        {/* End of addition by Om Shrivastava on 13-05-23 */}
+                        {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
+
+                        {/* Added by :- Parineeta Gedam on 24-05-2023 
                 reason :- Add button, when click on button then open a model for add new order item. 
             */}
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-            >
-              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} />
-            </Modal>
-            <View style={styles.addOrderItemBtn}>
-              <Pressable
-                onPress={() => setModalVisible(true)}
-                style={{
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignSelf: "flex-end",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "45%",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  <Feather name="plus-circle" size={17} color="white" /> Add Order Item
-                </Text>
-              </Pressable>
-            </View>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}
+                        >
+                            <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} />
+                        </Modal>
 
-            {/* End of added code by Parineeta Gedam on 24-05-2023 */}
-          </View>
-          {orderItems.length > 0 ? (
-            <>
-              <View style={styles.itemHeadingContainer}>
-                {/* Added by :- Parineeta Gedam on 24-05-2023 
+                        {orderDetail.payment_status == "Completed" ?
+                            null
+                            : <View style={styles.addOrderItemBtn}>
+                                <Pressable
+                                    onPress={() => setModalVisible(true)}
+                                    style={{
+                                        backgroundColor: colors.btnColor,
+                                        height: 30,
+                                        alignSelf: "flex-end",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        borderRadius: 10,
+                                        width: "45%",
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                            fontSize: 16,
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        <Feather name="plus-circle" size={17} color="white" /> Add More Item
+                                    </Text>
+                                </Pressable>
+                            </View>}
+
+
+                        {/* End of added code by Parineeta Gedam on 24-05-2023 */}
+                    </View>
+                    {orderItems.length > 0 ? (
+                        <>
+                            <View style={styles.itemHeadingContainer}>
+                                {/* Added by :- Parineeta Gedam on 24-05-2023 
                     reason :-  add serial no
                 */}
-                <Text style={styles.sNoContainer}>S.no</Text>
-                {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
+                                <Text style={styles.sNoContainer}>#</Text>
+                                {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
 
-                <Text style={styles.itemContainer}>Item</Text>
-                <Text style={styles.qtyContainer}>Qty</Text>
+                                <Text style={styles.itemContainer}>Item</Text>
+                                <Text style={styles.qtyContainer}>Qty</Text>
 
-                {/* Commented by :- Parineeta Gedam on 25-05-2023 reason :- not now show status */}
-                {/* Added by - Ashish Dewangan on 19-04-2023
+                                {/* Commented by :- Parineeta Gedam on 25-05-2023 reason :- not now show status */}
+                                {/* Added by - Ashish Dewangan on 19-04-2023
                   Reason - To show item status */}
-                {/* <Text style={styles.itemStatusContainer}>Status</Text> */}
-                {/* End of code addition by Ashish on 19-04-2023 */}
-                {/* End of added code by Parineeta Gedam on 25-05-2023 */}
+                                {/* <Text style={styles.itemStatusContainer}>Status</Text> */}
+                                {/* End of code addition by Ashish on 19-04-2023 */}
+                                {/* End of added code by Parineeta Gedam on 25-05-2023 */}
 
 
-                {/* Add rupees icon by Om on 26-04-23  */}
-                {/* // Added by Om Shrivastava on 08-05-23
+                                {/* Add rupees icon by Om on 26-04-23  */}
+                                {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
-                {/* <Text style={styles.costContainer}>Cost(₹)</Text> */}
-                <Text style={styles.costContainer}>Cost({rupee_sign})</Text>
-                {/* End of addition by Om on 08-05-23 */}
+                                {/* <Text style={styles.costContainer}>Cost(₹)</Text> */}
+                                <Text style={styles.costContainer}>Cost({rupee_sign})</Text>
+                                {/* End of addition by Om on 08-05-23 */}
 
-                {/* Added by :- Parineeta Gedam on 24-05-2023 
+                                {/* Added by :- Parineeta Gedam on 24-05-2023 
                     reason :-  add Action
                 */}
-                <Text style={styles.actionContainer}>Action</Text>
-                {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
+                                <Text style={styles.actionContainer}>Action</Text>
+                                {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
 
-              </View>
-              {orderItems.map((orderItem, id) => (
-                <>
-                  {/* Modified by :- Parineeta Gedam on 25-05-2023 */}
-                  {orderItem.item_status == "Cancelled" ? null :
-                    <>
-                      <View key={id} style={styles.tableContainer}>
-                         {/* Added by :- Parineeta Gedam on 24-05-2023 
+                            </View>
+                            {orderItems.map((orderItem, index) => (
+                                <View key={index}>
+
+                                    {/* Modified by :- Parineeta Gedam on 25-05-2023 */}
+                                    {/* {orderItem.item_status == "Cancelled" ? null : */}
+                                    <>
+                                        <View style={styles.tableContainer}>
+                                            {/* Added by :- Parineeta Gedam on 24-05-2023 
                               reason :-  add serial no
                           */}
-                        <Text style={styles.sNoDataContainer}>{i++}</Text>
-                        {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
+                                            <Text style={styles.sNoDataContainer}>{i++}</Text>
+                                            {/* End of added code by :- Parineeta Gedam on 24-05-2023 */}
 
-                        <View style={styles.itemContainer}>
-                          <Text>
-                            {orderItem.item} ({orderItem.serving_size})
-                          </Text>
-                          {orderItem.rating && (
-                            <Text>
-                              {/* Commeted and modified by Yuvraj Sahu on 05-05-2023
+                                            <View style={styles.itemContainer}>
+                                                <Text>
+                                                    {orderItem.item} ({orderItem.serving_size})
+                                                </Text>
+                                                {orderItem.rating && (
+                                                    <Text>
+                                                        {/* Commeted and modified by Yuvraj Sahu on 05-05-2023
                               Reason - to remove lable rating */}
-                              {/* Rating : {orderItem.rating}{" "} */}
-                              {orderItem.rating}{" "}
-                              {/* End of commented by Yuvraj Sahu on 05-05-2023 */}
-                              <FontAwesome name="star" size={13} color="black" />
-                            </Text>
-                          )}
-                          {orderItem.review && (
-                            <Text>Review : {orderItem.review}</Text>
-                          )}
-                        </View>
+                                                        {/* Rating : {orderItem.rating}{" "} */}
+                                                        {orderItem.rating}{" "}
+                                                        {/* End of commented by Yuvraj Sahu on 05-05-2023 */}
+                                                        <FontAwesome name="star" size={13} color="black" />
+                                                    </Text>
+                                                )}
+                                                {orderItem.review && (
+                                                    <Text>Review : {orderItem.review}</Text>
+                                                )}
+                                            </View>
 
-                        {/* Commented by :- Parineeta Gedam on 14-05-2023 
+                                            {/* Commented by :- Parineeta Gedam on 14-05-2023 
                         reason :- for updations change the functionality
                       */}
-                        {/* <Text style={styles.qtyContainer}>{orderItem.quantity}</Text> */}
-                        {/* End of commented code by :- Parineeta Gedam on 14-05-2023 */}
+                                            {/* <Text style={styles.qtyContainer}>{orderItem.quantity}</Text> */}
+                                            {/* End of commented code by :- Parineeta Gedam on 14-05-2023 */}
 
-                        {/* Added by :- Parineeta Gedam on 14-05-2023 
+                                            {/* Added by :- Parineeta Gedam on 14-05-2023 
                         reason :- for updations change the functionality [increment and decrement the qunatity]
                       */}
-                        {orderItem.item_status == "Confirm" ?
-                          <View style={styles.qtyParentContainer}>
-                            <Text style={styles.qtyDecrementDisable}>-</Text>
-                            <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
-                            <Text style={styles.qtyIncrementDisable}>+</Text>
-                          </View>
-                          : <View style={styles.qtyParentContainer}>
-                            <Pressable
-                              onPress={(e) => decreamentQuantiy(orderItem)}
-                              >
-                              <Text style={styles.qtyDecrementContainer}>-</Text>
-                            </Pressable>
-                            <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
-                            <Pressable
-                              onPress={(e) => increamentQuantiy(orderItem)}
-                              >
-                              <Text style={styles.qtyIncrementContainer}>+</Text>
-                            </Pressable>
+                                            {
+                                                // orderItem.item_status == "Confirm" ||
+                                                    orderItem.item_status == "Cancelled" ?
+                                                    <View style={styles.qtyParentContainer}>
+                                                        <Text style={styles.qtyDecrementDisable}>-</Text>
+                                                        <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
+                                                        <Text style={styles.qtyIncrementDisable}>+</Text>
+                                                    </View>
+                                                    : <View style={styles.qtyParentContainer}>
+                                                        <Pressable
+                                                            onPress={(e) => {
+                                                                // setDecrement(true); 
+                                                                decreamentQuantiy(orderItem)
+                                                                // handleUpdatedData(orderItem)
+                                                            }}
+                                                        >
+                                                            <Text style={styles.qtyDecrementContainer}>-</Text>
+                                                        </Pressable>
+                                                        <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
+                                                        <Pressable
+                                                            onPress={(e) => increamentQuantiy(orderItem)}
+                                                        >
+                                                            <Text style={styles.qtyIncrementContainer}>+</Text>
+                                                        </Pressable>
 
-                          </View>}
+                                                    </View>}
 
-                        {/* End of commented code by :- Parineeta Gedam on 14-05-2023 */}
+                                            {/* End of commented code by :- Parineeta Gedam on 14-05-2023 */}
 
-                        {/* Commented by :- Parineeta Gedam on 25-05-2023 reason :- not now show status */}
-                        {/* Added by - Ashish Dewangan on 19-04-2023
-                  Reason - To show item status */}
-                        {/* <Text style={styles.itemStatusContainer}>
-                    {orderItem.item_status}
-                  </Text> */}
-                        {/* End of code addition by Ashish on 19-04-2023 */}
-                        {/* End of added code by Parineeta Gedam on 25-05-2023 */}
+                                            {/* Commented by :- Parineeta Gedam on 25-05-2023 reason :- not now show status */}
+                                            {/* Added by - Ashish Dewangan on 19-04-2023
+                        Reason - To show item status */}
+                                            {/* <Text style={styles.itemStatusContainer}>
+                        {orderItem.item_status}
+                       </Text> */}
+                                            {/* End of code addition by Ashish on 19-04-2023 */}
+                                            {/* End of added code by Parineeta Gedam on 25-05-2023 */}
 
-                        <Text style={styles.costContainer}>
-                          {/* Added by om - 24/4/23
+                                            <Text style={styles.costContainer}>
+                                                {/* Added by om - 24/4/23
                       Reason - To fixed subtotal calculation */}
-                          {/* ₹ {orderItem.quantity * orderItem.price} */}
-                          {/* ₹  removed by Om on 26-04-23 */}
-                          {/* MOdified by :- Parineeta Gedam on 25-05-2023 */}
-                          {orderItem.price.toFixed(2)}
-                          {/* End of modifications code by :- Parineeta Gedam on 25-05-2023 */}
-                          {/* End of code - om - 24/4/23 */}
-                        </Text>
+                                                {/* ₹ {orderItem.quantity * orderItem.price} */}
+                                                {/* ₹  removed by Om on 26-04-23 */}
+                                                {/* MOdified by :- Parineeta Gedam on 25-05-2023 */}
+                                                {orderItem.price.toFixed(2)}
+                                                {/* End of modifications code by :- Parineeta Gedam on 25-05-2023 */}
+                                                {/* End of code - om - 24/4/23 */}
+                                            </Text>
 
-                        {/* Added by :- Parineeta gedam on 25-05-2023 
+                                            {/* Added by :- Parineeta gedam on 25-05-2023 
                       Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
                     */}
-                        {orderItem.item_status == "Confirm" ?
+                                            {/* Commented by :- Parineeta gedam on 03-05-2023 
+                      Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
+                    */}
+                                            {/* {orderItem.item_status == "Confirm" || orderItem.item_status == "Cancelled" ?
                           <>
                             <Text style={styles.actionContainer}>
-                              <MaterialIcons name="cancel" size={24} color="grey"/>
+                              <MaterialIcons name="cancel" size={22} color="grey"/>
                             </Text>
                           </> : <>
                             <Text style={styles.actionContainer}>
                               <Pressable onPress={(e) => deleteOrderItemPermission(orderItem)}>
-                                <MaterialIcons name="cancel" size={24} color="red"/>
+                                <MaterialIcons name="cancel" size={22} color="red"/>
                               </Pressable>
                             </Text>
-                          </>}
-                        {/* End of added code by Parineeta Gedam on 25-05-2023 */}
-                      </View>
-                    </>}
-                </>
-              ))}
-            </>
-          ) : (
-            <Text>No data</Text>
-          )}
-          {/* Modified by Yuvraj Sahu on 11-4-2023
-          Reason - to design order detail */}
-          <View style={styles.totalBorder} />
-          <View>
-            {/* Modified by Yuvraj Sahu on 14-4-2023
-            Reason - to show total price */}
-            {orderDetail.cgst || orderDetail.sgst? <View style={styles.amountRow}>
-              {/* Modified by Yuvraj Sahu on 06-05-2023
-              Reason - to design total price area */}
-              <Text style={styles.totalPriceLables}>Total Price</Text>
-              <Text>:</Text>
-              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+                          </>} */}
+                                            {/* End of added code by Parineeta Gedam on 25-05-2023 */}
+                                            {/* End of commented code by Parineeta Gedam on 01-06-2023 */}
 
-              {/* // Added by Om Shrivastava on 08-05-23
+                                            {/* Added by :- Parineeta gedam on 01-06-2023 
+                      Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
+                    */}
+                                            <View style={styles.actionContainer}>
+                                                {
+                                                // orderItem.item_status == "Confirm" || 
+                                                orderItem.item_status == "Cancelled" ?
+                                                // {allResponseOrderItem.filter(e => e.id == orderItem.id)[0].item_status == "Confirm" || orderItems.filter(e => e.id == orderItem.id)[0].item_status == "Cancelled" ?
+                                                    <><Text style={styles.actionDataContainer}>{orderItem.item_status}</Text></>
+                                                    : <SelectDropdown
+                                                        data={ItemStatusData}
+                                                        defaultValue={
+                                                            ItemStatusData.filter((e) => {
+                                                                return e.value == orderItem.item_status;
+                                                            })[0]
+                                                        }
+                                                        dropdownOverlayColor="rgba(0,0,0,0)"
+                                                        buttonTextStyle={{ fontSize: 14 }}
+                                                        rowTextStyle={{ fontSize: 14 }}
+                                                        rowStyle={{ height: 30 }}
+                                                        selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                                                        dropdownStyle={{
+                                                            borderRadius: 10,
+                                                            backgroundColor: "white",
+                                                            borderWidth: 1,
+                                                        }}
+                                                        renderDropdownIcon={() => {
+                                                            return <AntDesign name="down" size={12} color="black" />;
+                                                        }}
+                                                        buttonStyle={{
+                                                            height: 20,
+                                                            borderColor: "black",
+                                                            borderWidth: 1,
+                                                            borderRadius: 10,
+                                                            backgroundColor: "white",
+                                                            width: "100%",
+                                                            // alignSelf: "center",
+                                                        }}
+                                                        onSelect={(selectedItemStatus) => {
+                                                            setItemStatus(selectedItemStatus.value);
+                                                            selectedItemStatus.value == "Cancelled" ? deleteOrderItemPermission(orderItem) : null
+                                                            selectedItemStatus.value == "Confirm" ? updateItemStatus(index, selectedItemStatus.value) : null
+
+                                                        }}
+                                                        buttonTextAfterSelection={(selectedItemStatus, index) => {
+                                                            return selectedItemStatus.value;
+                                                        }}
+                                                        rowTextForSelection={(itemStatus, index) => {
+                                                            return itemStatus.value;
+                                                        }}
+                                                    />}
+                                            </View>
+                                        </View>
+                                    </>
+                                    {/* }  */}
+                                </View>
+                            ))}
+                        </>
+                    ) : (
+                        <Text>No data</Text>
+                    )}
+                    {/* Modified by Yuvraj Sahu on 11-4-2023
+          Reason - to design order detail */}
+                    <View style={styles.totalBorder} />
+                    <View>
+                        {/* Modified by Yuvraj Sahu on 14-4-2023
+            Reason - to show total price */}
+                        {orderDetail.cgst || orderDetail.sgst ?
+                            <View style={styles.amountRow}>
+                                {/* Modified by Yuvraj Sahu on 06-05-2023
+              Reason - to design total price area */}
+                                <Text style={styles.totalPriceLables}>Total Price</Text>
+                                <Text>:</Text>
+                                {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+
+                                {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
-              {/* <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text> */}
-              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total}</Text>
-              {/* End of addition by Om shrivastava 08-05-23 */}
-            </View>:null}
-            {/* Commented by Yuvraj Sahu on 17-4-2023
+                                {/* <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text> */}
+                                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total.toFixed(2)}</Text>
+                                {/* End of addition by Om shrivastava 08-05-23 */}
+                            </View> : null}
+                        {/* Commented by Yuvraj Sahu on 17-4-2023
             Reason - to remove gst */}
-            {/* <View style={styles.amountRow}>
+                        {/* <View style={styles.amountRow}>
             <Text>GST :</Text>
             <Text>{orderDetail.tax}</Text>
             </View> */}
-            {/* End of removal */}
+                        {/* End of removal */}
 
-            {/* Added by :- Parineeta Gedam on 08-05-2023
+
+                        {/* Commented by :- Parineeta Gedam on 03-06-2023
                 Reason :- to show manual discount and final amount
               */}
-            <View style={styles.amountRow}>
-              <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
-                <Text style={styles.totalPriceLables}>Discount</Text>
-                <RadioButtonGroup
-                  containerStyle={{ marginBottom: 10 }}
-                  selected={discountType}
-                  onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
-                  radioBackground={colors.btnColor}
-                  size={15}
-                >
-                  <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (₹)" label="Discount in (₹)" />
-                  <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (%)" label="Discount in (%)" />
-                </RadioButtonGroup>
+                        {/* Added by :- Parineeta Gedam on 08-05-2023
+                Reason :- to show manual discount and final amount
+              */}
+                        <View style={styles.amountRow}>
+                            <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
+                                <Text style={styles.totalPriceLables}>Discount</Text>
+                                <RadioButtonGroup
+                                    containerStyle={{ marginBottom: 10 }}
+                                    selected={discountType}
+                                    onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
+                                    radioBackground={colors.btnColor}
+                                    size={15}
+                                >
+                                    <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (₹)" label="Discount in (₹)" />
+                                    <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (%)" label="Discount in (%)" />
+                                </RadioButtonGroup>
+                            </View>
+                            <Text>:</Text>
+                            <View style={{ width: "20%" }}>
+                                <TextInput style={styles.discoutAmount}
+                                    numeric
+                                    keyboardType={'numeric'}
+                                    value={discountAmount}
+                                    onChangeText={(e) => discountHandleChange(e)} />
+                                {discountAmountErrorMsg &&
+                                    <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
+                                }
+                            </View>
+                        </View>
+                        {/* End of added code by :- Parineeta Gedam on 08-05-2023 */}
+                        {/* End of commented code by Parineeta Gedam on 03-06-2023 */}
+
+                        {/* Added by :- Parineeta Gedam on 03-06-2023
+                Reason :- to show discount
+              */}
+                        {/* <View style={styles.amountRow}>
+              <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end"}}>
+                <Text style={styles.totalPriceLables}>Discount in (₹)</Text>
               </View>
               <Text>:</Text>
               <View style={{ width: "20%" }}>
                 <TextInput style={styles.discoutAmount}
                   numeric
                   keyboardType={'numeric'}
-                  value={discountAmount}
-                  onChangeText={(e) => discountHandleChange(e)} />
-                {discountAmountErrorMsg &&
-                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
+                  value={discountAmountRupees}
+                  onChangeText={(e) => handleChangeDiscountAmountRupees(e)} />
+                {discountAmountRupeesErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than total</Text>
                 }
               </View>
             </View>
-            {/* End of added code by :- Parineeta Gedam on 08-05-2023 */}
-
-            {/* Added by :- Parineeta Gedam on 10-05-2023 */}
-            {orderDetail.manual_discount > 0 &&
-              <View style={styles.amountRow}>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    textAlign: "right",
-                    width: "50%",
-                  }}
-                >
-                  Total
-                </Text>
-                <Text>:</Text>
-                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total.toFixed(2)}</Text>
+            <View style={styles.amountRow}>
+              <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
+                <Text style={styles.totalPriceLables}>Discount in (%)</Text>
               </View>
-            }
-            {/* End of added code by :- Parineeta Gedam on 10-05-2023 */}
+              <Text>:</Text>
+              <View style={{ width: "20%" }}>
+                <TextInput style={styles.discoutAmount}
+                  numeric
+                  keyboardType={'numeric'}
+                  value={discountAmountPercentage}
+                  onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
+                {discountAmountPercentageErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
+                }
+              </View>
+            </View> */}
+                        {/* End of added code by :- Parineeta Gedam on 08-05-2023 */}
 
 
-            {/* Added by Yuvraj Sahu on 17-4-2023
+                        {/* Added by :- Parineeta Gedam on 10-05-2023 */}
+                        {orderDetail.manual_discount > 0 &&
+                            <View style={styles.amountRow}>
+                                <Text
+                                    style={{
+                                        fontWeight: "bold",
+                                        fontSize: 15,
+                                        textAlign: "right",
+                                        width: "50%",
+                                    }}
+                                >
+                                    Total
+                                </Text>
+                                <Text>:</Text>
+                                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total.toFixed(2)}</Text>
+                            </View>
+                        }
+                        {/* End of added code by :- Parineeta Gedam on 10-05-2023 */}
+
+
+                        {/* Added by Yuvraj Sahu on 17-4-2023
             Reason - to add cgst and sgst */}
-            {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
-            {orderDetail.cgst ? <> 
-            <View style={styles.amountRow}>
-              {/* Modified by Yuvraj Sahu on 06-05-2023
+                        {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
+                        {orderDetail.cgst ? <>
+                            <View style={styles.amountRow}>
+                                {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
-              <Text style={styles.totalPriceLables}>CGST</Text>
-              <Text>:</Text>
-              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+                                <Text style={styles.totalPriceLables}>CGST</Text>
+                                <Text>:</Text>
+                                {/* End of designing by yuvraj Sahu on 06-05-2023 */}
 
-              {/* // Added by Om Shrivastava on 08-05-23
+                                {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
-              {/* <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text> */}
-              
-              <Text style={styles.totalPrices}>{rupee_sign} {orderDetail.cgst}</Text>
-              {/* End of addition by Om Shrivastava on 08-05-23    */}
-              
-            </View>
-            </>:null}
-            {/* End of addition by Om shrivastava on 13-05-23 */}
+                                {/* <Text style={styles.totalPrices}>₹ {orderDetail.cgst}</Text> */}
 
-            {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
-            {orderDetail.sgst ? <>
-            <View style={styles.amountRow}>
-              {/* Modified by Yuvraj Sahu on 06-05-2023
+                                <Text style={styles.totalPrices}>{rupee_sign} {orderDetail.cgst.toFixed(2)}</Text>
+                                {/* End of addition by Om Shrivastava on 08-05-23    */}
+
+                            </View>
+                        </> : null}
+                        {/* End of addition by Om shrivastava on 13-05-23 */}
+
+                        {/* If no cgst apply than its div is not show, added by Om Shrivastava on 13-05-23 */}
+                        {orderDetail.sgst ? <>
+                            <View style={styles.amountRow}>
+                                {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
-              <Text style={styles.totalPriceLables}>SGST</Text>
-              <Text>:</Text>
-              {/* End of designing by yuvraj Sahu on 06-05-2023 */}
+                                <Text style={styles.totalPriceLables}>SGST</Text>
+                                <Text>:</Text>
+                                {/* End of designing by yuvraj Sahu on 06-05-2023 */}
 
-              {/* // Added by Om Shrivastava on 08-05-23
+                                {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
-              {/* <Text style={styles.totalPrices}>₹ {orderDetail.sgst}</Text> */}
-              <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sgst}</Text>
-              {/* End of addition by Om Shrivastava on 08-05-23    */}
+                                {/* <Text style={styles.totalPrices}>₹ {orderDetail.sgst}</Text> */}
+                                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sgst.toFixed(2)}</Text>
+                                {/* End of addition by Om Shrivastava on 08-05-23    */}
 
-            </View>
-            </>:null}
-            {/* End of addition by Om shrivastava on 13-05-23 */}
+                            </View>
+                        </> : null}
+                        {/* End of addition by Om shrivastava on 13-05-23 */}
 
-            {/* End of addition */}
-            <View style={styles.amountRow}>
-              {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
-              {/* <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+                        {/* End of addition */}
+                        <View style={styles.amountRow}>
+                            {/* Style added by Om on 26-04-23 for bold the grand total and increas the font size*/}
+                            {/* <Text style={{ fontWeight: "bold", fontSize: 15 }}>
                 Grand Total :
               </Text> */}
-              {/* Modified by Yuvraj Sahu on 06-05-2023
+                            {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area
               // Commented by :- Parineeta Gedam on 10-05-2023
               */}
-              {/* <Text
+                            {/* <Text
                 style={{
                   fontWeight: "bold",
                   fontSize: 15,
@@ -1406,48 +1628,49 @@ export default function OrderItemsScreen({ route, navigation }) {
               </Text>
               <Text>:</Text>
               {/* End of designing by yuvraj Sahu on 06-05-2023 */}
-              {/* End of commented code on 10-05-2023 */}
+                            {/* End of commented code on 10-05-2023 */}
 
-              {/* // Added by Om Shrivastava on 08-05-23
+                            {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
-              {/* <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text> */}
-              {/* <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total}</Text> */}
-              {/* End of addition by Om Shrivastava on 08-05-23    */}
-            </View>
+                            {/* <Text style={styles.totalPrices}>₹ {orderDetail.total}</Text> */}
+                            {/* <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.total}</Text> */}
+                            {/* End of addition by Om Shrivastava on 08-05-23    */}
+                        </View>
 
-            {orderDetail.manual_discount > 0 ?
-              <View style={styles.amountRow}>
-                <Text style={{
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  textAlign: "right",
-                  width: "50%",
-                }}>Grand Total</Text>
-                <Text>:</Text>
-                <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text>
-              </View>
-              : <View style={styles.amountRow}>
-                <Text style={{
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  textAlign: "right",
-                  width: "50%",
-                }}>Grand Total</Text>
-                <Text>:</Text>
-                <Text style={styles.totalPrices}>₹{orderDetail.total}</Text>
-              </View>}
-            {/* End of addition */}
-          </View>
-        </View>
-        <View style={styles.statusContainer}>
-          <View style={{ marginTop: 20 }}>
-            <View style={styles.orderStatusContainer}>
-              {/* Font weight apply by Om on 27-04-23 */}
-              <Text style={{ fontWeight: "bold" }}>Order status</Text>
+                        {orderDetail.manual_discount > 0 ?
+                            <View style={styles.amountRow}>
+                                <Text style={{
+                                    fontWeight: "bold",
+                                    fontSize: 15,
+                                    textAlign: "right",
+                                    width: "50%",
+                                }}>Grand Total</Text>
+                                <Text>:</Text>
+                                <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text>
+                            </View>
+                            : <View style={styles.amountRow}>
+                                <Text style={{
+                                    fontWeight: "bold",
+                                    fontSize: 15,
+                                    textAlign: "right",
+                                    width: "50%",
+                                }}>Grand Total</Text>
+                                <Text>:</Text>
+                                {/* {alert(orderDetail.total)} */}
+                                <Text style={styles.totalPrices}>₹{orderDetail.total}</Text>
+                            </View>}
+                        {/* End of addition */}
+                    </View>
+                </View>
+                <View style={styles.statusContainer}>
+                    <View style={{ marginTop: 20 }}>
+                        <View style={styles.orderStatusContainer}>
+                            {/* Font weight apply by Om on 27-04-23 */}
+                            <Text style={{ fontWeight: "bold" }}>Order status</Text>
 
-              {/* Commeted and added by Yuvraj Sahu on 04-05-2023
+                            {/* Commeted and added by Yuvraj Sahu on 04-05-2023
               Reason - to change the dropdown library */}
-              {/* <SelectList
+                            {/* <SelectList
                 setSelected={setOrderStatus}
                 data={orderStatusData}
                 search={false}
@@ -1476,75 +1699,75 @@ export default function OrderItemsScreen({ route, navigation }) {
                   value: orderDetail.order_status,
                 }}
               /> */}
+                            
+                            <SelectDropdown
+                                defaultValue={
+                                    orderStatusData.filter((e) => {
+                                        return e.value == orderDetail.order_status;
+                                    })[0]
+                                }
+                                data={orderStatusData}
+                                dropdownOverlayColor="rgba(0,0,0,0)"
+                                buttonTextStyle={{ fontSize: 16 }}
+                                rowTextStyle={{ fontSize: 16 }}
+                                /** Added by Yuvraj Sahu on 07-05-2023
+                                 * Reson - to give hieght in dropdown
+                                 */
+                                rowStyle={{ height: 30 }}
+                                /**
+                                 * End of addition by Yuvraj Sahu on 07-05-2023
+                                 */
+                                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                                dropdownStyle={{
+                                    borderRadius: 10,
+                                    backgroundColor: "white",
+                                    borderWidth: 1,
+                                }}
+                                renderDropdownIcon={() => {
+                                    return <AntDesign name="down" size={14} color="black" />;
+                                }}
+                                buttonStyle={{
+                                    /** Added by Yuvraj Sahu on 07-05-2023
+                                     * Reson - to give hieght in dropdown
+                                     */
+                                    height: 30,
+                                    borderColor: "black",
+                                    borderWidth: 1,
+                                    borderRadius: 10,
+                                    backgroundColor: "white",
+                                    width: "40%",
+                                    alignSelf: "center",
+                                    // marginBottom: 10,
+                                    /**
+                                     * End of addition by Yuvraj Sahu on 07-05-2023
+                                     */
+                                }}
+                                onSelect={(selectedOrderStatus, index) => {
+                                    setOrderStatus(selectedOrderStatus.value);
+                                    // setOrderStatusChange(selectedOrderStatus.value)
+                                }}
+                                buttonTextAfterSelection={(selectedOrderStatus, index) => {
+                                    // return selectedOrderStatus.value;
+                                    return orderStatusSelected;
+                                }}
+                                rowTextForSelection={(order, index) => {
+                                    return order.value;
+                                }}
+                            />
+                            {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
+                        </View>
 
-              <SelectDropdown
-                defaultValue={
-                  orderStatusData.filter((e) => {
-                    return e.value == orderDetail.order_status;
-                  })[0]
-                }
-                data={orderStatusData}
-                dropdownOverlayColor="rgba(0,0,0,0)"
-                buttonTextStyle={{ fontSize: 16 }}
-                rowTextStyle={{ fontSize: 16 }}
-                /** Added by Yuvraj Sahu on 07-05-2023
-                 * Reson - to give hieght in dropdown
-                 */
-                rowStyle={{ height: 30 }}
-                /**
-                 * End of addition by Yuvraj Sahu on 07-05-2023
-                 */
-                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
-                dropdownStyle={{
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  borderWidth: 1,
-                }}
-                renderDropdownIcon={() => {
-                  return <AntDesign name="down" size={14} color="black" />;
-                }}
-                buttonStyle={{
-                  /** Added by Yuvraj Sahu on 07-05-2023
-                   * Reson - to give hieght in dropdown
-                   */
-                  height: 30,
-                  borderColor: "black",
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  width: "40%",
-                  alignSelf: "center",
-                  // marginBottom: 10,
-                  /**
-                   * End of addition by Yuvraj Sahu on 07-05-2023
-                   */
-                }}
-                onSelect={(selectedOrderStatus, index) => {
-                  setOrderStatus(selectedOrderStatus.value);
-                  // setOrderStatusChange(selectedOrderStatus.value)
-                }}
-                buttonTextAfterSelection={(selectedOrderStatus, index) => {
-                  // return selectedOrderStatus.value;
-                  return orderStatusSelected;
-                }}
-                rowTextForSelection={(order, index) => {
-                  return order.value;
-                }}
-              />
-              {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
-            </View>
-
-            {/* Modified by Om on 20-04-23
+                        {/* Modified by Om on 20-04-23
             Reason : When order status is served than this payment status is work */}
-            {/* {orderDetail.order_status == "Served" ? (
+                        {/* {orderDetail.order_status == "Served" ? (
             <> */}
-            <View style={styles.orderStatusContainer}>
-              {/* Font weight apply by Om on 27-04-23 */}
-              <Text style={{ fontWeight: "bold" }}>Payment status</Text>
+                        <View style={styles.orderStatusContainer}>
+                            {/* Font weight apply by Om on 27-04-23 */}
+                            <Text style={{ fontWeight: "bold" }}>Payment status</Text>
 
-              {/* Commeted and added by Yuvraj Sahu on 04-05-2023
+                            {/* Commeted and added by Yuvraj Sahu on 04-05-2023
               Reason - to change the dropdown library */}
-              {/* <SelectList
+                            {/* <SelectList
                 setSelected={setPaymentStatus}
                 data={paymentStatusData}
                 search={false}
@@ -1570,72 +1793,72 @@ export default function OrderItemsScreen({ route, navigation }) {
                 }}
               /> */}
 
-              <SelectDropdown
-                defaultValue={
-                  paymentStatusData.filter((e) => {
-                    return e.value == orderDetail.payment_status;
-                  })[0]
-                }
-                data={paymentStatusData}
-                dropdownOverlayColor="rgba(0,0,0,0)"
-                buttonTextStyle={{ fontSize: 16 }}
-                rowTextStyle={{ fontSize: 16 }}
-                /** Added by Yuvraj Sahu on 07-05-2023
-                 * Reson - to give hieght in dropdown
-                 */
-                rowStyle={{ height: 30 }}
-                /**
-                 * End of addition by Yuvraj Sahu on 07-05-2023
-                 */
-                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
-                dropdownStyle={{
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  borderWidth: 1,
-                }}
-                renderDropdownIcon={() => {
-                  return <AntDesign name="down" size={14} color="black" />;
-                }}
-                buttonStyle={{
-                  /** Added by Yuvraj Sahu on 07-05-2023
-                   * Reson - to give hieght in dropdown
-                   */
-                  height: 30,
-                  borderColor: "black",
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  width: "40%",
-                  alignSelf: "center",
-                  // marginBottom: 10,
-                  /**
-                   * End of addition by Yuvraj Sahu on 07-05-2023
-                   */
-                }}
-                onSelect={(selectedPaymentStatus, index) => {
-                  setPaymentStatus(selectedPaymentStatus.value);
-                }}
-                buttonTextAfterSelection={(selectedPaymentStatus, index) => {
-                  return paymentStatusSelected;
-                  // return selectedPaymentStatus.value
-                }}
-                rowTextForSelection={(order, index) => {
-                  return order.value;
-                }}
-              />
-              {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
-            </View>
-            {/* </>
+                            <SelectDropdown
+                                defaultValue={
+                                    paymentStatusData.filter((e) => {
+                                        return e.value == orderDetail.payment_status;
+                                    })[0]
+                                }
+                                data={paymentStatusData}
+                                dropdownOverlayColor="rgba(0,0,0,0)"
+                                buttonTextStyle={{ fontSize: 16 }}
+                                rowTextStyle={{ fontSize: 16 }}
+                                /** Added by Yuvraj Sahu on 07-05-2023
+                                 * Reson - to give hieght in dropdown
+                                 */
+                                rowStyle={{ height: 30 }}
+                                /**
+                                 * End of addition by Yuvraj Sahu on 07-05-2023
+                                 */
+                                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                                dropdownStyle={{
+                                    borderRadius: 10,
+                                    backgroundColor: "white",
+                                    borderWidth: 1,
+                                }}
+                                renderDropdownIcon={() => {
+                                    return <AntDesign name="down" size={14} color="black" />;
+                                }}
+                                buttonStyle={{
+                                    /** Added by Yuvraj Sahu on 07-05-2023
+                                     * Reson - to give hieght in dropdown
+                                     */
+                                    height: 30,
+                                    borderColor: "black",
+                                    borderWidth: 1,
+                                    borderRadius: 10,
+                                    backgroundColor: "white",
+                                    width: "40%",
+                                    alignSelf: "center",
+                                    // marginBottom: 10,
+                                    /**
+                                     * End of addition by Yuvraj Sahu on 07-05-2023
+                                     */
+                                }}
+                                onSelect={(selectedPaymentStatus, index) => {
+                                    setPaymentStatus(selectedPaymentStatus.value);
+                                }}
+                                buttonTextAfterSelection={(selectedPaymentStatus, index) => {
+                                    return paymentStatusSelected;
+                                    // return selectedPaymentStatus.value
+                                }}
+                                rowTextForSelection={(order, index) => {
+                                    return order.value;
+                                }}
+                            />
+                            {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
+                        </View>
+                        {/* </>
             ) : null} */}
-            {/* End of modification */}
-          </View>
-        </View>
+                        {/* End of modification */}
+                    </View>
+                </View>
 
-        {/* Added by :- Parineeta gedam on 13-05-2023 
+                {/* Added by :- Parineeta gedam on 13-05-2023 
             Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
         */}
 
-        {/* {orderDetail.order_status == "Cancelled"}
+                {/* {orderDetail.order_status == "Cancelled"}
         <View style={styles.statusContainer}>
           <View style={{ marginTop: 10 }}>
             <View style={styles.orderStatusContainer}>
@@ -1656,96 +1879,96 @@ export default function OrderItemsScreen({ route, navigation }) {
         </View> */}
 
 
-        {/* End of added code by :- Parineeta gedam on 13-05-2023 */}
+                {/* End of added code by :- Parineeta gedam on 13-05-2023 */}
 
 
-        <View>
-          {/* <Button title="Save"/> */}
-          {/* Modification by Om on 26-04-23
+                <View>
+                    {/* <Button title="Save"/> */}
+                    {/* Modification by Om on 26-04-23
         Reason : Fix the button designin  */}
-          {orderDetail.order_status == "Served" &&
-          orderDetail.payment_status == "Completed" ? (
-            <View style={styles.mainButtonDiv}>
-              <Pressable
-                onPress={handleUpdate}
-                // disabled={isDisable}
-                style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "35%",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Update
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={printBill}
-                style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "35%",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {/* Content changes by Om on 27-04-23 */}
-                  Print bill
-                </Text>
-              </Pressable>
-            </View>
-          ) : (
-            <View style={styles.btns}>
-              <Pressable
-                onPress={handleUpdate}
-                // disabled={isDisable}
-                style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "35%",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Update
-                </Text>
-              </Pressable>
-            </View>
-          )}
-        </View>
-        {/* Added by Om  on 21-04-23
+                    {orderDetail.order_status == "Served" &&
+                        orderDetail.payment_status == "Completed" ? (
+                        <View style={styles.mainButtonDiv}>
+                            <Pressable
+                                onPress={handleUpdate}
+                                // disabled={isDisable}
+                                style={{
+                                    // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                                    backgroundColor: colors.btnColor,
+                                    height: 30,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: 10,
+                                    width: "35%",
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        color: "white",
+                                        fontSize: 16,
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Update
+                                </Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={printBill}
+                                style={{
+                                    // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                                    backgroundColor: colors.btnColor,
+                                    height: 30,
+                                    alignSelf: "center",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: 10,
+                                    width: "35%",
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        color: "white",
+                                        fontSize: 16,
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    {/* Content changes by Om on 27-04-23 */}
+                                    Print bill
+                                </Text>
+                            </Pressable>
+                        </View>
+                    ) : (
+                        <View style={styles.btns}>
+                            <Pressable
+                                onPress={handleUpdate}
+                                // disabled={isDisable}
+                                style={{
+                                    // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                                    backgroundColor: colors.btnColor,
+                                    height: 30,
+                                    alignSelf: "center",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: 10,
+                                    width: "35%",
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        color: "white",
+                                        fontSize: 16,
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Update
+                                </Text>
+                            </Pressable>
+                        </View>
+                    )}
+                </View>
+                {/* Added by Om  on 21-04-23
       Reason : When order status is served than payent status is completed functionality */}
-        {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
+                {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
         <>
           <View style={styles.btns}>
             <Pressable
@@ -1771,278 +1994,280 @@ export default function OrderItemsScreen({ route, navigation }) {
           </View>
         </>
       ) : null} */}
-        {/* End of the addition */}
-      </ScrollView>
-      {/* Added by Om on 18-04-23 For showing the footer*/}
-      <>
-        <Footer />
-      </>
-      {/* End of addition */}
-    </>
-  );
+                {/* End of the addition */}
+            </ScrollView>
+            {/* Added by Om on 18-04-23 For showing the footer*/}
+            <>
+                <Footer />
+            </>
+            {/* End of addition */}
+        </>
+    );
 }
 
 const styles = StyleSheet.create({
-  tableContainer: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
-    // padding: 10,
-    paddingBottom: 10,
-    paddingTop: 10,
-    paddingLeft: 2,
-    paddingRight: 5,
-    // End of added code by :- Parineeta Gedam on 24-04-202
-    justifyContent: "space-between",
-  },
-  itemHeadingContainer: {
-    borderWidth: 1,
-    borderRightColor: "white",
-    borderLeftColor: "white",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
-    // padding: 10,
-    paddingBottom: 10,
-    paddingTop: 10,
-    paddingLeft: 2,
-    paddingRight: 5,
-    // End of added code by :- Parineeta Gedam on 24-04-202
-    marginTop: 20,
-  },
-  totalBorder: {
-    borderBottomColor: "black",
-    borderWidth: 0.5,
-    marginTop: 10,
-  },
-  // Added by Yuvraj Sahu on 14-4-2023
-  // Reason - to design
-  amountRow: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-    paddingRight: 10,
-    paddingLeft: 10,
-  },
-  /**
-   * Added by Yuvraj Sahu on 07-05-2023
-   * Reason - to reduce gap between status lables and dropdown box
-   */
-  statusContainer: {
-    paddingHorizontal: 30,
-  },
-  /**
-   * End of addition  by Yuvraj Sahu on 07-05-2023
-   */
-  orderStatusContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 5,
-    paddingRight: 10,
-    paddingLeft: 10,
+    tableContainer: {
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
+        // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
+        // padding: 10,
+        paddingBottom: 10,
+        paddingTop: 10,
+        paddingLeft: 2,
+        paddingRight: 5,
+        // End of added code by :- Parineeta Gedam on 24-04-202
+        justifyContent: "space-between",
+    },
+    itemHeadingContainer: {
+        borderWidth: 1,
+        borderRightColor: "white",
+        borderLeftColor: "white",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
+        // padding: 10,
+        paddingBottom: 10,
+        paddingTop: 10,
+        paddingLeft: 2,
+        paddingRight: 5,
+        // End of added code by :- Parineeta Gedam on 24-04-202
+        marginTop: 20,
+    },
+    totalBorder: {
+        borderBottomColor: "black",
+        borderWidth: 0.5,
+        marginTop: 10,
+    },
+    // Added by Yuvraj Sahu on 14-4-2023
+    // Reason - to design
+    amountRow: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
+    },
     /**
      * Added by Yuvraj Sahu on 07-05-2023
+     * Reason - to reduce gap between status lables and dropdown box
      */
-    alignItems: "center",
+    statusContainer: {
+        paddingHorizontal: 30,
+    },
     /**
-     * End of addition by yuvraj Sahu on 07-05-2023
+     * End of addition  by Yuvraj Sahu on 07-05-2023
      */
-    // backgroundColor: "white",
-    borderRadius: 5,
-    padding: 5,
-    // marginTop: 20
-  },
-  btns: {
-    // Modified by - Suman sahu  On 30/04/2023
-    // Reason- fix and redesign button
+    orderStatusContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        margin: 5,
+        paddingRight: 10,
+        paddingLeft: 10,
+        /**
+         * Added by Yuvraj Sahu on 07-05-2023
+         */
+        alignItems: "center",
+        /**
+         * End of addition by yuvraj Sahu on 07-05-2023
+         */
+        // backgroundColor: "white",
+        borderRadius: 5,
+        padding: 5,
+        // marginTop: 20
+    },
+    btns: {
+        // Modified by - Suman sahu  On 30/04/2023
+        // Reason- fix and redesign button
 
-    // width: 150,
-    // alignSelf: "center",
-    // marginTop: 10,
-    // marginBottom: 12, // Added by Om on 26-04-23 for apply the padding above the button
+        // width: 150,
+        // alignSelf: "center",
+        // marginTop: 10,
+        // marginBottom: 12, // Added by Om on 26-04-23 for apply the padding above the button
 
-    marginBottom: 30,
-    marginHorizontal: 10,
-    marginTop: 15,
-  },
-  // End of modification 30/04/2023
-  // End of addition
+        marginBottom: 30,
+        marginHorizontal: 10,
+        marginTop: 15,
+    },
+    // End of modification 30/04/2023
+    // End of addition
 
-  // Added by by :- Parineeta Gedam on 24-05-2023
-  // Reason - to design table
+    // Added by by :- Parineeta Gedam on 24-05-2023
+    // Reason - to design table
 
-  sNoContainer: {
-    width: "10%",
-  },
-  sNoDataContainer: {
-    width: "10%",
-    textAlign: "center",
-  },
+    sNoContainer: {
+        width: "6%",
+    },
+    sNoDataContainer: {
+        width: "6%",
+    },
+    actionContainer: {
+        width: "22%",
+        textAlign: "right",
+    },
+    actionDataContainer: {
+        width: "100%",
+        textAlign: "right",
+    },
 
-  actionContainer: {
-    width: "15%",
-    textAlign: "center",
-  },
+    /* End of added code by :- Parineeta Gedam on 24-05-2023 */
 
-  /* End of added code by :- Parineeta Gedam on 24-05-2023 */
+    // Added by Yuvraj Sahu on 17-4-2023
+    // Reason - to design table
+    itemContainer: {
+        // Modified by :- Parineeta Gedam on 25-05-2023 reason :- changes in desiging. 
+        // width: "45%",
+        width: "30%",
+        // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- changes in desiging. 
+    },
+    qtyContainer: {
+        width: "20%",
+        textAlign: "center",
+    },
 
-  // Added by Yuvraj Sahu on 17-4-2023
-  // Reason - to design table
-  itemContainer: {
-    // Modified by :- Parineeta Gedam on 25-05-2023 reason :- changes in desiging. 
-    // width: "45%",
-    width: "35%",
-    // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- changes in desiging. 
-  },
-  qtyContainer: {
-    width: "20%",
-    textAlign: "center",
-  },
+    /* Added by :- Parineeta Gedam on 24-05-2023 
+        reason :-  designig 
+                 */
+    qtyParentContainer: {
+        display: "flex",
+        flexDirection: "row",
+        width: "18%",
+        height: "50%",
+    },
+    qtyDecrementContainer: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        textAlign: "center",
+        borderColor: "green",
+        borderWidth: 2,
+        fontWeight: "900"
+    },
+    qtyDataContainer: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        textAlign: "center",
 
-  /* Added by :- Parineeta Gedam on 24-05-2023 
-      reason :-  designig 
-               */
-  qtyParentContainer: {
-    display: "flex",
-    flexDirection: "row",
-    width: "20%",
-    height : "50%",
-  },
-  qtyDecrementContainer: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    textAlign: "center",
-    borderColor : "green",
-    borderWidth : 2,
-    fontWeight : "900"
-  },
-  qtyDataContainer: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    textAlign: "center",
+    },
+    qtyIncrementContainer: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        textAlign: "center",
+        borderColor: "green",
+        borderWidth: 2,
+        fontWeight: "900"
+    },
 
-  },
-  qtyIncrementContainer: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    textAlign: "center",
-    borderColor : "green",
-    borderWidth : 2,
-    fontWeight : "900"
-  },
-
-  qtyDecrementDisable: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    textAlign: "center",
-    borderColor : "grey",
-    borderWidth : 1,
-    fontWeight : "900"
-  },
-  qtyIncrementDisable: {
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    textAlign: "center",
-    borderColor : "grey",
-    borderWidth : 1,
-    fontWeight : "900"
-  },
-  // End of added code by :- Parineeta Gedam on 24-05-2023
-  /**
-   * Added by - Ashish Dewangan on 19-04-2023
-   * Reason - To have css style for item status
-   */
-  itemStatusContainer: {
-    width: "20%",
-    textAlign: "center",
-  },
-  /**
-   * End of code addition by Ashish Dewangan on 19-04-2023
-   */
-  costContainer: {
-    width: "20%",
-    display: "flex",
-    textAlign: "right",
-  },
-  // Added by Om on 26-04-23
-  // Reason : Fix the button designing
-  mainButtonDiv: {
-    alignSelf: "center",
-    marginTop: 10,
-    flexDirection: "row",
-    marginBottom: 12,
-  },
-  // End of table design
-  /**
-   * Added by yuvraj Sahu on 06-05-2023
-   * Reason - to design total price content
-   */
-  totalPriceLables: {
-    width: "50%",
-    textAlign: "right",
-  },
-  totalPrices: {
-    width: "20%",
-    textAlign: "right",
-  },
-  /**
-   * End of addition by Yuvraj Sahu on 06-05-2023
-   */
-
-  /**
-    * Added by :- Parineeta Gedam on 11-05-2023
-    * Reason - to design discount amount content
-    */
-  discoutAmount: {
-    backgroundColor: "white",
-    borderRadius: 5,
-    borderWidth: 1,
-    paddingHorizontal: 5,
-    height: 25
-  },
-
-  /**
-     * End of addition by Parineeta Gedam on 11-05-2023
+    qtyDecrementDisable: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        textAlign: "center",
+        borderColor: "grey",
+        borderWidth: 1,
+        fontWeight: "900"
+    },
+    qtyIncrementDisable: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        textAlign: "center",
+        borderColor: "grey",
+        borderWidth: 1,
+        fontWeight: "900"
+    },
+    // End of added code by :- Parineeta Gedam on 24-05-2023
+    /**
+     * Added by - Ashish Dewangan on 19-04-2023
+     * Reason - To have css style for item status
      */
-
-  /**
-    * Added by :- Parineeta Gedam on 11-05-2023
-    * Reason - to design cancel reason
-    */
-
-  CancelReasonContainer: {
-    paddingHorizontal: 43,
-  },
-  textAreaContainer: {
-    backgroundColor: "white",
-    borderColor: "black",
-    borderWidth: 1,
-    paddingRight: 10,
-    paddingLeft: 10,
-    borderRadius: 5,
-  },
-  textArea: {
-    height: 50,
-    justifyContent: "flex-start",
-  },
-  /**
-     * End of addition by Parineeta Gedam on 11-05-2023
+    itemStatusContainer: {
+        width: "20%",
+        textAlign: "center",
+    },
+    /**
+     * End of code addition by Ashish Dewangan on 19-04-2023
+     */
+    costContainer: {
+        width: "18%",
+        display: "flex",
+        textAlign: "right",
+    },
+    // Added by Om on 26-04-23
+    // Reason : Fix the button designing
+    mainButtonDiv: {
+        alignSelf: "center",
+        marginTop: 10,
+        flexDirection: "row",
+        marginBottom: 12,
+    },
+    // End of table design
+    /**
+     * Added by yuvraj Sahu on 06-05-2023
+     * Reason - to design total price content
+     */
+    totalPriceLables: {
+        width: "50%",
+        textAlign: "right",
+    },
+    totalPrices: {
+        width: "20%",
+        textAlign: "right",
+    },
+    /**
+     * End of addition by Yuvraj Sahu on 06-05-2023
      */
 
-  // Added by - Parineeta Gedam On 24/05/2023
-  // Reason- design add order items button
-  addOrderItemBtn: {
-    marginBottom: 2,
-    marginHorizontal: 10,
-    marginTop: 15,
-  },
+    /**
+      * Added by :- Parineeta Gedam on 11-05-2023
+      * Reason - to design discount amount content
+      */
+    discoutAmount: {
+        backgroundColor: "white",
+        borderRadius: 5,
+        borderWidth: 1,
+        paddingHorizontal: 5,
+        height: 25
+    },
+
+    /**
+       * End of addition by Parineeta Gedam on 11-05-2023
+       */
+
+    /**
+      * Added by :- Parineeta Gedam on 11-05-2023
+      * Reason - to design cancel reason
+      */
+
+    CancelReasonContainer: {
+        paddingHorizontal: 43,
+    },
+    textAreaContainer: {
+        backgroundColor: "white",
+        borderColor: "black",
+        borderWidth: 1,
+        paddingRight: 10,
+        paddingLeft: 10,
+        borderRadius: 5,
+    },
+    textArea: {
+        height: 50,
+        justifyContent: "flex-start",
+    },
+    /**
+       * End of addition by Parineeta Gedam on 11-05-2023
+       */
+
+    // Added by - Parineeta Gedam On 24/05/2023
+    // Reason- design add order items button
+    addOrderItemBtn: {
+        marginBottom: 2,
+        marginHorizontal: 10,
+        marginTop: 15,
+    },
 });

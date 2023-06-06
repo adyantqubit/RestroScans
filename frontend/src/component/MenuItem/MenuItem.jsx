@@ -47,6 +47,7 @@ import { GrFormAdd } from "react-icons/gr";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { TenantValidate } from "../Validators/ConfirmTenant";
 import secureLocalStorage from "react-secure-storage";
+import ReservationForm from "../Reservation/ReservationForm";
 
 function MenuItem() {
 
@@ -748,6 +749,25 @@ function MenuItem() {
   }
   // End of code - 8/5/23
 
+
+ {/* Added by :- Parineeta Gedam
+      Date :- 01-06-2023
+      Reason :- Open Model for customer details.
+  */}
+
+  const [isModalOpenn, setIsModalOpenn] = useState(false);
+  const showModall = () => {
+    setIsModalOpenn(true);
+  };
+  const handleOkk = () => {
+    setIsModalOpenn(false);
+  };
+  const handleCancell = () => {
+    setIsModalOpenn(false);
+  };
+
+  {/* End of added code 01-06-2023 */ }
+
   return (
     <>
     {/* Added by Om Shrivastava on 19-05-23
@@ -858,9 +878,6 @@ function MenuItem() {
                 <MdRoomService style={{ fontSize: "30px", color: colors.bannerColor }} />
               </Link>
             </div> : null}
-
-
-
         </div>
         {/* end of heading - Rohan kansari - 27/4/23 */}
 
@@ -1020,6 +1037,18 @@ function MenuItem() {
           className={offerShow.length > 0 ? 'searchpage_notshow' : 'searchpage_main'}
           style={{ background: "transparent"}}
         >
+
+        {/* Added by :- Parineeta Gedam on 01-06-2023
+              reason :- add reservations button
+          */}
+          {searchVisible == false &&
+            <button className="reservation_btn" style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={showModall}>
+              Reservation
+            </button>
+          }
+          {isModalOpenn &&
+            <ReservationForm isModalOpenn={isModalOpenn} handleCancell={handleCancell} />}
+          {/* End of added code by :- Parineeta Gedam on 01-06-2023 */}
 
         {/* Added by :- Parineeta Gedam
               Date :- 03-04-2023

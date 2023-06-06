@@ -4,7 +4,7 @@ import './RatingAndReview.css';
 import { Rate, Button } from 'antd';
 import secureLocalStorage from "react-secure-storage";
 import { updateRatingAndReviewApi } from '../../api/Services';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SocialLinks from '../social_links/SocialLinks';
 
 export default function RatingAndReview() {
@@ -35,26 +35,33 @@ export default function RatingAndReview() {
     // Date: - 11 - 04 - 2023
     // reason: - update the rating and review
 
+    // Modified by :- Parineeta Gedam on 29-05-2023
+    // reason :- check item status cancelled conditions
+
     const updateInvoiceData = async () => {
 
         var orderData = [];
         for (var i = 0; i < orderItems.length; i++) {
+            if (orderItems[i] != "Cancelled") {
+                var data = {
+                    id: orderItems[i].id,
+                    rating: document.getElementById("order" + orderItems[i].id + "rating") != null ? document.getElementById("order" + orderItems[i].id + "rating").value : "" ,
+                    review: document.getElementById("order" + orderItems[i].id + "review") != null ? document.getElementById("order" + orderItems[i].id + "review").value : "",
+                };
+                orderData.push(data);
+            }
 
-            var data = {
-                id: orderItems[i].id,
-                rating: document.getElementById("order" + orderItems[i].id + "rating").value,
-                review: document.getElementById("order" + orderItems[i].id + "review").value,
-            };
-            orderData.push(data);
         }
+
+    // End of added code by PArineeta Gedam on 29-05-2023
 
         // Added by ROhan kansari - 4/5/23
         // Reason - Sending overall review 
 
-        const postingData={
-            ItemRateReview:orderData,
-            overallReview:document.getElementsByClassName("text_area")[0].value,
-            order_id:secureLocalStorage.getItem("order").order_id
+        const postingData = {
+            ItemRateReview: orderData,
+            overallReview: document.getElementsByClassName("text_area")[0].value,
+            order_id: secureLocalStorage.getItem("order").order_id
         }
         const response = await updateRatingAndReviewApi(tenantName, postingData);
         // End of code - 4/5/23 - Rohan Kansari
@@ -86,14 +93,15 @@ export default function RatingAndReview() {
                     {/* Commented by Rohan Kansari - 5/5/23
                         Reason - To remove duplicates in */}
                     {/* {removeDuplicates(orderItems).map((items, index) => ( */}
-                        {orderItems.map((items, index) => (
+                    {orderItems.map((items, index) => (
                         <>
+                            {items.item_status == "Cancelled" ? null :
                             <div className='rating_review_data_container' id={"order" + items.id} key={index}>
                                 <div className='rating_data_container'>
                                     {/* Commented and modified by Ashish Dewangan on 21-05-2023
                                     Reason - To show half and full price on rating and review */}
                                     {/* <div className='orderitem_name'>{items.item }</div> */}
-                                    <div className='orderitem_name'>{items.item } ({items.serving_size})</div>
+                                    <div className='orderitem_name'>{items.item} ({items.serving_size})</div>
                                     {/* End of code modification by Ashish Dewangan on 21-05-2023 to show half and
                                     full price on rating and review*/}
                                     <div className='rating_container' id={"order" + items.id + "rating"} name="rating" >
@@ -106,6 +114,7 @@ export default function RatingAndReview() {
                                     <input className='review_input_box' name="review" id={"order" + items.id + "review"} maxLength={255} />
                                 </div>
                             </div>
+                           } 
                         </>
                     ))}
                 </div>

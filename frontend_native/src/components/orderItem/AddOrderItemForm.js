@@ -1,7 +1,7 @@
 // Added by :-  Parineeta Gedam on 24-05-2023
 // Reason - to desigin and functionality of add order item
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, StyleSheet, Button, Pressable, Alert, Modal, TextInput } from "react-native";
 import { colors, inputs } from "../../Colours/globalColor";
 import { getAllMenuList, postOrderItemsApi, getAllOfferList } from "../../api/Services";
@@ -14,6 +14,8 @@ import { useIsFocused } from "@react-navigation/native";
 
 
 export default function AddOrderItemForm(orderId) {
+
+    const formRef = useRef(null);
 
     // Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - to change Serving size
@@ -30,7 +32,7 @@ export default function AddOrderItemForm(orderId) {
 
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set item id selcted data
-    const [itemIdSelected, setItemIdSelected] = useState("");
+    const [itemIdSelected, setItemIdSelected] = useState();
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
     // Added  by :- Parineeta Gedam on 24-05-2023
@@ -54,19 +56,19 @@ export default function AddOrderItemForm(orderId) {
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
     // Added  by :- Parineeta Gedam on 24-05-2023
-    // Reason - This is used for set singal price
+    // Reason - This is used for set item name error msg
     var [itemNameRequired, setItemNameRequired] = useState(false);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
     // Added  by :- Parineeta Gedam on 24-05-2023
-    // Reason - This is used for set singal price
+    // Reason - This is used for set serving size error msg
     var [servingSizeRequired, setservingSizeRequired] = useState(false);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
     // Added by :- Parineeta Gedam on 27-05-2023
-  const isFocused = useIsFocused();
+    const isFocused = useIsFocused();
     useEffect(() => {
-        itemNameDropdownRef.current.reset();
+        // itemNameDropdownRef.current.reset();
         setItemNameRequired(false);
         setservingSizeRequired(false);
     }, [isFocused]);
@@ -114,11 +116,14 @@ export default function AddOrderItemForm(orderId) {
 
     //  Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - calculations for when user add order items 
-    // alert("itemName"+ JSON.stringify( itemList))
+
+    const calc = (dt) => {
+        formRef.current.handleChange("quantity")(dt)
+        setQuantitySelected(dt)
+        handleCalculations(dt)
+    }
     const handleCalculations = (qty) => {
-        setQuantitySelected(qty)
         var itemName = itemList.filter((item) => item.id == itemIdSelected)[0]
-        //    var offer = bannerList.filter((offer) => offer.id == itemIdSelected)
         if (servingSizeSelected == "Half") {
             setSingalItemprice(itemName.price_half)
             var price = (itemName.price_half * qty)
@@ -132,33 +137,36 @@ export default function AddOrderItemForm(orderId) {
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
-
     //  Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - submit order items 
     const submitOrderItems = async () => {
-
         // Added by :-  Parineeta Gedam on 26-05-2023
         // Reason :- for show the validations message
-        if (itemNameRequired == "") {
+        if (itemIdSelected == null) {
             setItemNameRequired(true);
         }
-        if (servingSizeRequired == ""){
-            setServingSizeSelected(true);
+        if (servingSizeSelected == "") {
+            setservingSizeRequired(true);
         }
         // End of Added by :-  Parineeta Gedam on 26-05-2023
-
         var tenant = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
         var data = {
             order_id: orderId.id,
+            order_order_id: orderId.orderId,
             item: itemNameSelected,
             item_id: itemIdSelected,
             serving_size: servingSizeSelected,
             quantity: quantitySelected,
             item_status: "Pending",
         }
-        var response = await postOrderItemsApi(data, tenant);
-        if (response.msg) {
-            orderId.modalvisibilityFn(false)
+        if (servingSizeRequired == false && itemNameRequired == false) {
+            var response = await postOrderItemsApi(data, tenant);
+            if (response.msg) {
+                orderId.setOrderItems(response.orderItems);
+                orderId.setOrderDetail(response.order);
+                alert("Success")
+                orderId.modalvisibilityFn(false)
+            }
         }
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
@@ -166,13 +174,14 @@ export default function AddOrderItemForm(orderId) {
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-                <Text style={styles.modalText}>Please Add Order Item</Text>
+                <Text style={styles.modalText}>Please Add More Item</Text>
                 <View>
                     <Formik
-                        initialValues={{ email: "" }}
+                        initialValues={{ order_id: orderId.orderId, quantity: "" }}
                         validateOnMount={true}
-                        // validationSchema={addOrderItemSchema}
+                        validationSchema={addOrderItemSchema}
                         onSubmit={submitOrderItems}
+                        innerRef={formRef}
                     >
                         {({
                             handleChange,
@@ -198,7 +207,7 @@ export default function AddOrderItemForm(orderId) {
                                             autoCorrect={false}
                                             numeric
                                             keyboardType={'numeric'}
-                                            value={orderId.orderId}
+                                            value={values.order_id}
                                             editable={false}
                                         />
                                     </View>
@@ -236,7 +245,7 @@ export default function AddOrderItemForm(orderId) {
                                             }}
                                             onSelect={(selectedItemId, index) => {
                                                 setItemIdSelected(selectedItemId.id);
-                                                setQuantitySelected();
+                                                setQuantitySelected(0);
                                                 setSingalItemprice(0);
                                                 setPrice(0);
                                                 setItemNameRequired(false);
@@ -297,7 +306,7 @@ export default function AddOrderItemForm(orderId) {
                                             }}
                                             onSelect={(selectedServingSize, index) => {
                                                 setServingSizeSelected(selectedServingSize.value);
-                                                setQuantitySelected();
+                                                setQuantitySelected(0);
                                                 setSingalItemprice(0);
                                                 setPrice(0);
                                                 setservingSizeRequired(false);
@@ -331,19 +340,27 @@ export default function AddOrderItemForm(orderId) {
                                         </Text>
                                         <TextInput
                                             style={styles.textInput}
+                                            onChangeText={e => calc(e)}
+                                            onBlur={handleBlur("quantity")}
+                                            value={values.quantity}
+                                            // value={quantitySelected}
+                                            placeholderTextColor="#A4A4A4"
+                                            placeholder="Enter quantity"
                                             autoCapitalize="none"
                                             autoCorrect={false}
-                                            numeric
-                                            keyboardType={'numeric'}
-                                            onChangeText={(e) => handleCalculations(e)}
+                                            keyboardType="number-pad"
+                                        // onChange={() => {setQuantitySelected(values.quantity); handleCalculations(values.quantity)}}
                                         />
+                                        {errors.quantity && touched.quantity && (
+                                            <Text style={styles.textdanger}>{errors.quantity}</Text>
+                                        )}
                                     </View>
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
                                             <Text style={{ color: "red", fontWeight: "650" }}>
                                                 {" "}
                                             </Text>
-                                            Singal Price
+                                            Item Price
                                         </Text>
                                         <TextInput
                                             style={styles.textInput}
@@ -369,6 +386,7 @@ export default function AddOrderItemForm(orderId) {
                                             numeric
                                             keyboardType={'numeric'}
                                             editable={false}
+                                            // value={""+values.price}
                                             value={"" + price}
                                         />
                                     </View>
@@ -445,7 +463,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 85,
+        // marginTop: 85,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        // opacity:1.0,
+
     },
     modalView: {
         margin: 10,
@@ -462,6 +483,8 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         width: 350,
+        opacity: 1,
+
     },
     modalText: {
         textAlign: 'center',
@@ -486,5 +509,9 @@ const styles = StyleSheet.create({
     },
     labels: {
         width: 100,
+    },
+    textdanger: {
+        color: "#dc3545",
+        paddingHorizontal: 10,
     },
 });

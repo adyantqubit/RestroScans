@@ -199,10 +199,10 @@ urlpatterns = [
     path('<str:tenant>/add_order_items/',AddOrderItemsAPIView.as_view()),
     # End of added code  by :- Parineeta Gedam on 24-04-2023
 
-    # Added by :- Parineeta Gedam on 26-05-2023
+    # Added by :- Parineeta Gedam on 01-06-2023
     # Reason : post api for reservations data
-    path('<str:tenant>/post_reservations/',PostReservationsAPIView.as_view()),
-    # End of added code by :- Parineeta Gedam on 26-05-2023
+    path('<str:tenant>/post_reservations/',PostReservationAPIView.as_view()),
+    # End of added code by :- Parineeta Gedam on 01-06-2023
 
     
     # Added by :- Suman sahu on 27-05-2023
@@ -254,4 +254,20 @@ urlpatterns = [
     path('<str:tenant>/customer-list/',CustomerAPI.as_view()),
     # End of code addition by - Ashish Dewangan on 05-06-2023
     # Reason : To get list of customers. 
+
+    # Added by :- Parineeta Gedam on 26-05-2023
+    # Reason : get api for reservations data
+    path('<str:tenant>/get_reservations_list/',GetReservationsAPIView.as_view()),
+    # End of added code by :- Parineeta Gedam on 26-05-2023
+
+    # Added by :- Parineeta Gedam on 26-05-2023
+    # Reason : get api for reservations list
+    path('<str:tenant>/get_billing_data/',GetBillingDataAPIView.as_view()),
+    # End of added code by :- Parineeta Gedam on 26-05-2023
+
+    # Added by Parineeta Gedam on 04-06-23
+    # Reason : update the reservation data used in react native
+    path('<str:tenant>/update-reservation/',UpdateReservationAPI.as_view()),
+    # End of addition
+
 ]   

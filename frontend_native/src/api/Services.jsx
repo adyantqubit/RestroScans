@@ -562,3 +562,27 @@ export const updateSocialMediaApi = async (value, tenant, id) => {
   return response ? response.data : {};
 };
 // End of addition by Yuvraj Sahu on 28-05-2023
+
+// Added by Parineeta Gedam on 26-05-2023
+// Reason - to get restaurant menu list
+export const getReservationListApi = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/get_reservations_list/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of added code by Parineeta Gedam on 26-05-2023
+
+// Added by Parineeta Gedam on 04-06-2023
+// Reason - to update reservation data
+export const updateReservationApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/update-reservation/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving setting

@@ -204,7 +204,7 @@ export const CheckOrderConfirmAPI = async(order,tenantId) => {
       err => console.log(err))
   return response ? response.data: {}
 }
-// End of added code 006-04-2023
+// End of added code 06-04-2023
 
 // Added by :- Parineeta Gedam
 // Date :- 22-05-2023
@@ -215,11 +215,11 @@ export const getOrderItemsAndOrderAPI = async(data,tenantId) => {
       err => console.log(err))
   return response ? response.data: {}
 }
-// End of added code 006-04-2023
+// End of added code by :- Parineeta Gedam 22-05-2023
 
 
 // Added by :- Parineeta Gedam
-// Date :- 22-05-2023
+// Date :- 01-06-2023
 // Reason :- Post API for reservations data
 export const postReservationsAPI = async(data,tenantId) => {
   const response = await API.post(`/${tenantId}/post_reservations/`,data,
@@ -227,7 +227,7 @@ export const postReservationsAPI = async(data,tenantId) => {
       err => console.log(err))
   return response ? response.data: {}
 }
-// End of added code 006-04-2023
+// End of added code by :- Parineeta Gedam 01-06-2023
 
 /**
  * Added by - Yuvraj Sahu on 25-05-2023
@@ -242,3 +242,15 @@ export const getSocialLinks = async(tenantId) => {
 /**
  * End of code getting social links by Yuvraj Sahu on 25-05-2023
  */
+
+
+// Added by :- Parineeta Gedam
+// Date :- 26-05-2023
+// Reason :- Post API for reservations data
+export const getBillingDataAPI = async(data,tenantId) => {
+  const response = await API.post(`/${tenantId}/get_billing_data/`,data,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by :- Parineeta Gedam 26-05-2023

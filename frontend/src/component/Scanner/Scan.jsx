@@ -96,18 +96,18 @@ export default function Scan(handleOk) {
     //   // Commented by :- Parineeta Gedam
     //   // Date :- 14-04-2023
     //   // Reason :- dont'show success msg
-    //   // message.success({
-    //   //   content: "Payment done successfully",
-    //   //   key: 1,
-    //   //   icon: <CheckCircleOutlined />,
-    //   //   style: {
-    //   //     marginTop: '5vh',
-    //   //     fontSize: "16px",
-    //   //     letterSpacing: "1.3px",
-    //   //     fontFamily: "Times News Roman",
-    //   //     color: colors.headingColor,
-    //   //   },
-    //   // });
+      message.success({
+        content: "Payment Done Successfully",
+        key: 1,
+        icon: <CheckCircleOutlined />,
+        style: {
+          marginTop: '5vh',
+          fontSize: "16px",
+          letterSpacing: "1.3px",
+          fontFamily: "Times News Roman",
+          color: colors.headingColor,
+        },
+      });
     //   // End of commented code 14-04-2023
       // navigate("/bill-success");
       handleOk.handleOk()

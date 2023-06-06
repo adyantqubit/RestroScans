@@ -338,7 +338,7 @@ function BlankPage() {
       </div>
 
         {/* Modified by :- Parineeta Gedam on 21-05-2023 */}
-      {orderItems && orderItems.filter(dt=>dt.item_status == "Pending").length > 0 ? 
+      {orderItems && orderItems.filter(dt=>dt.item_status == "Pending" || dt.item_status == "Confirm").length > 0 ? 
       <>
       { orders ? 
       <>

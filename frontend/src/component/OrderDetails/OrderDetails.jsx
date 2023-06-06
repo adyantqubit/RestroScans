@@ -25,7 +25,7 @@ export default function OrderDetails() {
   const [api, contextHolder] =notification.useNotification()
 
   // get colors from context 
-  var { colors, setCart, rupee_sign } = useContext(GlobalContext);
+  var { colors, setCart, rupee_sign,setOrderItem,orderItems,setOrders,orders } = useContext(GlobalContext);
 
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
@@ -39,14 +39,14 @@ export default function OrderDetails() {
   // Reason :- get order items from local stroage and map the data.
 
   // modified by :- Parineeta gedam on 15-04-2023
-  var [orderItems, setOrderItem] = useState([])
+  // var [orderItems, setOrderItem] = useState([])
   // var [orders, setOrders] = useState([])
 
   useEffect(() => {
     getOrderItemsAndOrder()
 
     // window.onpopstate = () => { if(allow_pop){localStorage.removeItem('cart'); setCart([]);}}
-    setOrderItem(secureLocalStorage.getItem('orderItem'))
+    // setOrderItem(secureLocalStorage.getItem('orderItem'))
     // setOrders(secureLocalStorage.getItem('order'))
 
   }, [])
@@ -56,7 +56,7 @@ export default function OrderDetails() {
   // Date :- 09-04-2023
   // Reason :- get data from local stroage
 
-  var orders = secureLocalStorage.getItem('order');
+  // var orders = secureLocalStorage.getItem('order');
   var orderItem = secureLocalStorage.getItem('orderItem');
   var invoiceDetail = secureLocalStorage.getItem('invoice_detail');
   var customerDetail = secureLocalStorage.getItem('customer_details');
@@ -66,9 +66,9 @@ export default function OrderDetails() {
   var settingData = secureLocalStorage.getItem('setting_data');
   // End of added code by :- Parineeta Gedam on 17-05-2023
 
-    // Added by :- Parineeta Gedam
+  // Added by :- Parineeta Gedam
   // Date :- 22-05-2023
-  // Reason :- get data from local stroage
+  // Reason :- get order and order item
 
   const getOrderItemsAndOrder = async () => {
     var tenantName = localStorage.getItem("tenantName")
@@ -85,10 +85,13 @@ export default function OrderDetails() {
         secureLocalStorage.setItem("order", response.order)
         secureLocalStorage.setItem("orderItem", response.orderItem)
         setOrderItem(secureLocalStorage.getItem("orderItem"))
+        setOrders(secureLocalStorage.getItem("order"))
       }
       else{
         secureLocalStorage.setItem("order", response.order)
         secureLocalStorage.setItem("orderItem", response.orderItem)
+        setOrderItem(secureLocalStorage.getItem("orderItem"))
+        setOrders(secureLocalStorage.getItem("order"))
       }
       setLoading(false);
   }
@@ -302,6 +305,7 @@ export default function OrderDetails() {
           },
         });
     }
+    getOrderItemsAndOrder()
   };
   // End of added code by :- Parineeta Gedam on 15-05-2023
 
@@ -713,8 +717,11 @@ export default function OrderDetails() {
                 onClick={(e) => submitUpdateOrders()}
               >
                 Update Order</button>
+                {orders.order_status == "Served" ? 
               <button className='invoice_btn_heading' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
                 onClick={(e) => checkOrderConfirm()} >Get Invoice</button>
+                : <button className='invoice_btn_heading' style={{ background: "grey", color: colors.backgroundTheme }}
+               >Get Invoice</button>}
             </div>
 
             {/* End of added code by :- Parineeta Gedam on 14-05-2023*/}

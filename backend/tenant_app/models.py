@@ -1,3 +1,4 @@
+from fcm_django.models import AbstractFCMDevice
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -677,9 +678,10 @@ class Order(models.Model):
             raise ValidationError({"manual_discount" : "Discount should not be more than 100"})
         
         # Added by :- Parineeta Gedam on 13-05-2023
-        # reason :- if order status = cancelled then show the validations msg in cancel reason. 
-        if self.order_status == "Cancelled" :
-            raise ValidationError({"cancel_reason" : "Please give the cancel reason"})
+        # reason :- if order status = cancelled then show the validations msg in cancel reason.
+        if self.order_status == "Cancelled" and self.cancel_reason is None:
+            raise ValidationError(
+                {"cancel_reason": "Please give the cancel reason"})
         # End of added code on 13-05-2023
 
         # # Added by Om Shrivastava on 28-05-23
@@ -762,26 +764,22 @@ class Order(models.Model):
 
                 else :
                     total = self.sub_total - (self.sub_total * self.manual_discount / 100)
-                print("total=====", total)
                 orderUpdate.total = float("{:.2f}".format(total))
-                print("orderUpdate.total ", orderUpdate.total )
-                
+
                 tax = Setting.objects.first()
                 if tax is not None:
                     if tax.sgst is None:
                         tax.sgst = 0
                     if tax.cgst is None:
                         tax.cgst = 0
-                    cgst = ( orderUpdate.total*(tax.cgst)/100)
-                    self.cgst = round(float("{:.2f}".format(cgst)),2)
-                    sgst = ( orderUpdate.total*(tax.sgst)/100)
-                    self.sgst = round(float("{:.2f}".format(sgst)),2)
-                    self.total= round(float("{:.2f}".format( orderUpdate.total)),2)
-                    self.final_amount = round(float("{:.2f}".format( orderUpdate.total + cgst + sgst)),2)
-                    print("cgst", self.cgst)
-                    print("sgst", self.sgst)
-                    print("total", orderUpdate.total)
-                    print("self.final_amount",self.final_amount)
+                    cgst = (orderUpdate.total*(tax.cgst)/100)
+                    self.cgst = round(float("{:.2f}".format(cgst)), 2)
+                    sgst = (orderUpdate.total*(tax.sgst)/100)
+                    self.sgst = round(float("{:.2f}".format(sgst)), 2)
+                    self.total = round(
+                        float("{:.2f}".format(orderUpdate.total)), 2)
+                    self.final_amount = round(
+                        float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
             else:
                 tax = Setting.objects.first()
                 if tax is not None:
@@ -826,8 +824,13 @@ class Order(models.Model):
     # def __unicode__(self):
     #     return "%s" % (self.payment_confirmation_date_time.strftime('%m/%d/%Y %H:%M %p'))
 
-    
-
+# Added by :- Parineeta Gedam on 29-05-2023
+# reason :- admin can cancel order before payment is completed.
+    def clean(self):
+        if self.payment_status == "Completed" and self.order_status == "Cancelled":
+            raise ValidationError(
+                {"payment_status": "Payment is completed you can not cancel the order"})
+# End of added code by Parineeta Gedam on 29-05-2023
 
 """
 End of added code 06-04-2023
@@ -858,6 +861,17 @@ SERVING_SIZE = (
     ("Full", "Full"),
 )
 
+# Added by :- Parineeta Gedam on 28-05-2023
+# Reason :- check quantity validations
+def validate_qunatity(value):
+    if value is not None:
+        if (value <= 0):
+            raise ValidationError("Qunatity can't be less the one")
+        else:
+            return value
+# End of added code by :- Parineeta gedam on 28-05-2023
+
+
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
@@ -875,7 +889,10 @@ class OrderItem(models.Model):
     serving_size = models.CharField(max_length=255,choices=SERVING_SIZE)
     # End of modified code on 19-05-2023
 
-    quantity = models.IntegerField(default=0)
+    # Modified by :- PArineeta Gedam on 29-05-2023
+    # quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=0, validators=[validate_qunatity,])
+
     price = models.FloatField(default=0)
     rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
     review = models.TextField(null=True, blank=True)
@@ -950,34 +967,26 @@ class OrderItem(models.Model):
             raise ValidationError({"cancel_reason" : "Please give the cancel reason"})
     # End of added code on 18-05-2023
 
+# Commented by :- Parineeta Gedam on :- 26-05-2023
 # Added by:- Parineeta Gedam on :- 21-05-2023
-# reason :- If admin increase or decrese the qunatity of any item then again re-calculations for price and in order table for sub_total, cgst, sgst, total, final amount.  
+# reason :- If admin increase or decrese the qunatity of any item then again re-calculations for price and in order table for sub_total, cgst, sgst, total, final amount.
 
-@receiver(post_save, sender=OrderItem)
-def my_handler(sender,instance, **kwargs, ):
-    orderItemObject = OrderItem.objects.filter(order_id = instance.order_id)
-    itemsPrice = []
-    for cart in orderItemObject:
-        if(cart.item_status != "Cancelled") :
-            price = cart.price
-            itemsPrice.append(price)
-    order = Order.objects.get(order_id = instance.order_id)
-    subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
-    order.sub_total=subTotal
-    order.save()
-    # tax = Setting.objects.first()
-    # if tax is not None:
-    #     if tax.sgst is None:
-    #         tax.sgst = 0
-    #     if tax.cgst is None:
-    #         tax.cgst = 0
-    #     cgst = round(float("{:.2f}".format(subTotal*(tax.cgst)/100)),2)
-    #     sgst = round(float("{:.2f}".format(subTotal*(tax.sgst)/100)),2)
-    #     total = round(float("{:.2f}".format(subTotal + cgst + sgst)),2)
-    #     finalAmount = round(float("{:.2f}".format(subTotal + cgst + sgst)),2)
-    # orderId.update(sub_total = subTotal, cgst = cgst, sgst=sgst, total = total, final_amount = finalAmount)
+# @receiver(post_save, sender=OrderItem)
+# def my_handler(sender,instance, **kwargs, ):
+#     orderItemObject = OrderItem.objects.filter(order_id = instance.order_id)
+#     itemsPrice = []
+#     for cart in orderItemObject:
+#         if(cart.item_status != "Cancelled") :
+#             price = cart.price
+#             itemsPrice.append(price)
+#     order = Order.objects.get(order_id = instance.order_id)
+#     subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+#     order.sub_total=subTotal
+#     order.save()
 # End of added code by :- Parineeta Gedam on 21-05-2023
-   
+# End of Commented code by :- Parineeta Gedam on 26-05-2023
+
+
 """
 End of added code 06-04-2023
 """
@@ -1080,4 +1089,82 @@ class SocialLinks(models.Model):
         return 'Social Link'
 """
 End of addition by yuvraj Sahu on 25-05-2023
+"""
+
+
+"""
+Added by - Parineeta Gedam on 01-06-2023
+Reason - To store reservations request 
+"""
+RESERVATION_STATUS = (
+    ("Pending", "Pending"),
+    ("Confirm", "Confirm"),
+)
+
+def validate_mobile_number(contact_number):
+    if len(contact_number) > 10:
+        raise ValidationError("Contact number cannot be more than 10 digits")
+
+class Reservation(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(_('email address'), null=True, blank=True) 
+    contact_number = models.CharField(max_length=10, validators=[validate_mobile_number])
+    number_of_person = models.CharField(max_length=255, null=True, blank=True)
+    special_instructions = models.TextField(null=True, blank=True)
+    date = models.DateField(auto_now_add=False, blank=True, null=True, verbose_name='Date')
+    time = models.TimeField(auto_now_add=False, blank=True,null=True)
+    table_number = models.CharField(max_length=255, null=True, blank=True)
+    reservation_status = models.CharField(max_length=100, choices=RESERVATION_STATUS, default="Pending")
+
+    class Meta:
+        verbose_name = "Reservation"
+        verbose_name_plural = 'L) Reservation'
+
+    def __str__(self):
+        return f"{self.name}"
+
+    # Added by Parineeta Gedam on 01-06-2023
+    # Reason - to send email
+    def save(self, *args, **kwargs ):
+        if self.reservation_status == "Confirm" :
+            if self.email is not None :
+                from django.db import connection
+                from admin_app.models import Tenant
+                table_number = 0
+                if self.table_number is not None :
+                    table_number = self.table_number
+                else :
+                    table_number = "- - -"
+
+                tenant = Tenant.objects.get(tenant_name=connection.schema_name)
+                # subject = 'Reservation confirmation detail '
+                # message = f'Hello {self.name},\n\nWe are please to inform that your booking has been Confirmed.\n\n Your booking details : \n Guest Name : {self.name}\n Number of Guest : {self.number_of_person}\n Table Number : {table_number}\n Date : {self.date.strftime("%d-%m-%y")} \n Time : {self.time} \n\n Regarding : \n {tenant.restaurant_name.restaurant_name}\n {tenant.restaurant_name.mobile_number}\n {tenant.restaurant_name.address}\n\nWe are delighted to serve you,\nHope you will enjoy your visit !!\n\n Thanking you..!!'
+                # email_from = settings.EMAIL_HOST
+                # send_mail(subject,message,email_from, [self.email])
+
+
+                from django.core.mail import send_mail
+                from django.conf import settings
+                import smtplib
+                from email.mime.multipart import MIMEMultipart
+                from email.mime.text import MIMEText
+
+                msg = MIMEMultipart()
+                msg.set_unixfrom('author')
+                msg['From'] = 'sales@adyant.co.in'
+                msg['To'] = self.email
+                msg['Subject'] = 'Reservation confirmation detail '
+                message = f'Hello {self.name},\n\nWe are please to inform that your booking has been Confirmed.\n\n Your booking details : \n Guest Name : {self.name}\n Number of Guest : {self.number_of_person}\n Table Number : {table_number}\n Date : {self.date.strftime("%d-%m-%y")} \n Time : {self.time} \n\n Regarding : \n {tenant.restaurant_name.restaurant_name}\n {tenant.restaurant_name.mobile_number}\n {tenant.restaurant_name.address}\n\nWe are delighted to serve you,\nHope you will enjoy your visit !!\n\n Thanking you..!!'
+
+                msg.attach(MIMEText(message))
+
+                mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+                mailserver.ehlo()
+                mailserver.login('sales@adyant.co.in', 'Adyant@0122')
+                response = mailserver.sendmail('sales@adyant.co.in',self.email,msg.as_string())
+                mailserver.quit()
+        super().save( *args, **kwargs)
+"""
+End of added code by - Parineeta Gedam on 01-06-2023
 """

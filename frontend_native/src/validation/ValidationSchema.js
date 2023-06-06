@@ -336,3 +336,24 @@ export const addSocialMedia = yup.object().shape({
     .required("Social media link is required!")
 });
 // End of addition by Yuvraj Sahu on 26-05-2023
+
+// Added by Parineeta Gedam  on 25-04-2023
+// Reason - to validate qunatity
+export const addOrderItemSchema = yup.object().shape({
+  quantity: yup.string().required("plaese enter quantity"),
+  price: yup.string()
+});
+ // end of addition code by Parineeta Gedam  on 25-04-2023
+
+// Added by Parineeta Gedam  on 25-04-2023
+// Reason - to validate qunatity
+export const updateReservationSchema = yup.object().shape({
+  name: yup.string().required("plaese enter name"),
+  email: yup.string().trim().email("Please enter valid email!").required("Email address is required!"),
+  contact_number: yup.string().min(10, ({ min }) => `Contact number must be ${min} digits!`).max(10, ({ max }) => `Contact number must be ${max} digits!`).required("Contact Number is required!"),
+  number_of_person: yup.string(),
+  special_instructions:yup.string().required("plaese enter special instructions"),
+  table_number : yup.string().required("plaese enter table number")
+});
+ // end of addition code by Parineeta Gedam  on 25-04-2023
+// End of addition

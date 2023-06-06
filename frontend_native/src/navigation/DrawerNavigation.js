@@ -29,7 +29,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PrintQRScreen from "../screens/PrintQRScreen";
 import CustomerListScreen from "../screens/customer/CustomerListScreen";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons';
+import ReservationList from "../components/reservation/ReservationList";
+import ReservationNavigation from "./ReservationNavigation";
 import SocialLinkScreen from "../screens/socialMedia/SocialLinkScreen";
 import { Feather } from "@expo/vector-icons";
 import SocialMediaNavigation from "./SocialMediaNavigation";
@@ -285,6 +287,21 @@ export default function DrawerNavigation({ navigation }) {
       />
       {/* End of navigation */}
       {/* End of addition */}
+
+       {/* Added by Parineeta Gedam on 26-05-2023
+        Reason - to define route for navigation on reservations */}
+      <Drawer.Screen
+        name="ReservationNavigation"
+        component={ReservationNavigation}
+        options={{
+          drawerLabel: "Reaservation",
+          title: "Reaservation",
+          drawerIcon: (config) => (
+            <FontAwesome5 name="comments-dollar" size={24} color="black" />
+          ),
+        }}
+      />
+      {/* End of added code by Parineeta Gedam on 26-05-2023 */}
 
       {/* Added by Yuvraj Sahu on 01-05-2023
       Reason - to show customer list navigation */}

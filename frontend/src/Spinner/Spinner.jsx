@@ -4,7 +4,7 @@
 
 import { Space, Spin } from "antd";
 import "./Spinner.css";
-import adyant from "../images/adyant.jpeg";
+import adyant from "../images/restroAdyant.png";
 
 const Spinner = () => {
   return (

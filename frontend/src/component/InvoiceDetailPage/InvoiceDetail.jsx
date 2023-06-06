@@ -14,7 +14,7 @@ import Payment from '../Payment/Payment';
 export default function InvoiceDetail() {
 
   // get colors from context 
-  var { colors, setCart, rupee_sign } = useContext(GlobalContext);
+  var { colors, setCart, rupee_sign, setOrderItem, orderItems, setOrders, orders } = useContext(GlobalContext);
 
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
@@ -25,38 +25,41 @@ export default function InvoiceDetail() {
   // Date :- 9-04-2023
   // Reason :- get order items from local stroage and map the data.
 
-  const [orderItems, setOrderItem] = useState([])
-  useEffect(() => {
-    setOrderItem(secureLocalStorage.getItem('orderItem'))
-  }, [])
+  // const [orderItems, setOrderItem] = useState([])
+  // useEffect(() => {
+  //   setOrderItem(secureLocalStorage.getItem('orderItem'))
+  // }, [])
   // End of added code 09-04-2023
 
   // Added by :- Parineeta Gedam
   // Date :- 09-04-2023
   // Reason :- get data from local stroage
 
-  var orders = secureLocalStorage.getItem('order');
-  var orderItem = secureLocalStorage.getItem('orderItem');
-  var invoiceDetail = secureLocalStorage.getItem('invoice_detail');
+  // var orders = secureLocalStorage.getItem('order');
+  // var orderItem = secureLocalStorage.getItem('orderItem');
+  // var invoiceDetail = secureLocalStorage.getItem('invoice_detail');
   var customerDetail = secureLocalStorage.getItem('customer_details');
-  var tenantName = localStorage.getItem("tenantName");
+  // var tenantName = localStorage.getItem("tenantName");
 
   // Added by :- Parineeta Gedam
   // Date :- 14-04-2023
   // Reason :- Navigate to the payment page.  
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const updateInvoiceData = async () => {
-    navigate("/payment");
-  }
-
+  // const updateInvoiceData = async () => {
+  //   navigate("/payment");
+  // }
+  // 
   // End of added code 14-04-2023
+
+
+
 
   return (
     <>
       <div className='inv_details_container' style={{ background: colors.backgroundTheme }}>
-        <div className='inv_heading_container' style={{ color: colors.headingColor }}>Order Details
+        <div className='inv_heading_container' style={{ color: colors.headingColor }}>Invoice Details
         </div>
 
         <div className='inv_parent_container'>
@@ -122,29 +125,35 @@ export default function InvoiceDetail() {
           <div className='inv_child_container'>
             {orderItems.map((items, index) => (
               <>
-                <div className='inv_cart_container' id={"order" + items.id} key={index}
-                  style={{
-                    background:
-                      index % 2 === 0
-                        ? "#EAE5E3"
-                        : "white"
-                  }}
-                >
-                  <div className='inv_data_container'>
-                    <div className='inv_serial_no_container'>
-                      <span className='inv_serial_no_second_sub_heading'>{i++}</span>
+                {/* Modified by :- Parineeta Gedam on  */}
+                {items.item_status == "Cancelled" ? null :
+                  <>
+                    <div className='inv_cart_container' id={"order" + items.id} key={index}
+                      style={{
+                        background:
+                          index % 2 === 0
+                            ? "#EAE5E3"
+                            : "white"
+                      }}
+                    >
+                      <div className='inv_data_container'>
+                        <div className='inv_serial_no_container'>
+                          <span className='inv_serial_no_second_sub_heading'>{i++}</span>
+                        </div>
+                        <div className='inv_item_container'>
+                          <span className='inv__second_sub_heading'>{items.item}&nbsp;({items.serving_size})</span>
+                        </div>
+                        <div className='inv_qty_container'>
+                          <span className="inv_qunatity_sub_heading">{items.quantity}</span>
+                        </div>
+                        <div className='inv_total_price_container'>
+                          <span className="inv_total_rating_sub_heading"> {rupee_sign} {items.price.toFixed(2)}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className='inv_item_container'>
-                      <span className='inv__second_sub_heading'>{items.item}&nbsp;({items.serving_size})</span>
-                    </div>
-                    <div className='inv_qty_container'>
-                      <span className="inv_qunatity_sub_heading">{items.quantity}</span>
-                    </div>
-                    <div className='inv_total_price_container'>
-                      <span className="inv_total_rating_sub_heading"> {rupee_sign} {items.price.toFixed(2)}</span>
-                    </div>
-                  </div>
-                </div>
+                  </>
+
+                }
               </>
             ))}
 
@@ -235,11 +244,11 @@ export default function InvoiceDetail() {
         {/* Added by :- Parineeta Gedam on 21-05-2023 
         reason:- changes in ui, here show the payment method */}
 
-        <Payment/>
+        <Payment />
 
         {/* End of added code by :- Parineeta Gedam on 21-05-2023 */}
 
-         {/* Added by :- Parineeta Gedam on 21-05-2023 
+        {/* Added by :- Parineeta Gedam on 21-05-2023 
           reason :- don't show this button 
       */}
         {/* <div className='inv_btn_container'>
