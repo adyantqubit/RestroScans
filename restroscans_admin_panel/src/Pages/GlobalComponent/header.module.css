@@ -44,9 +44,16 @@ li {
   /* Modified by Rohan Kansari - 29/5/23*/
   z-index: 999;
   grid-template-columns: 2rem 4fr 4fr 1fr 2rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  /* Modified by Ashish Dewangan on 07-06-2023
+  Reason - Shadow was making dull effect on other elements */
+  
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px; */
+    border-bottom: 1px solid grey;
   /* background: #b2d8e4; */
+  /* End of code modification by Ashish Dewangan on 07-06-2023
+  Reason - Shadow was making dull effect on other elements */
+  
 }
 
 .logo_div {

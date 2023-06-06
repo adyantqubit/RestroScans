@@ -440,16 +440,59 @@ function SettingForm() {
           ? whatsappNumber.toString().length == 10
             ? "+91" + whatsappNumber
             : whatsappNumber
-          : null,
+            /**
+             * Modified by - Ashish Dewangan on 05-06-2023
+             * Reason - To save empty string rather than null
+             */
+            // : null,
+          : "",
+          /**
+           * End of code Modification by - Ashish Dewangan on 05-06-2023
+           * Reason - To save empty string rather than null
+           */
       };
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await postSettingsDetails(updatedSettingsData, tenant);
       if (response.msg) {
         Message("Settings saved successfully.", "success");
+        /**
+         * Added by - Ashish Dewangan on 05-06-2023
+         * Reason - To rerender the page based on response
+         */
+        if (response.setting) {
+          setSettingData(response.setting);
+          setSettingId(response.setting.id);
+          setCgst(response.setting.cgst);
+          setSgst(response.setting.sgst);
+          setGstin(response.setting.gstin);
+          setFssaiNumber(response.setting.fssaino);
+          setAllowHalfPrice(response.setting.allow_half_price);
+          setAllowLoyalityPoints(response.setting.allow_loyality_points);
+          setPerLoyalityPointValue(response.setting.per_loyality_point_value);
+          setAmountForSingleLoyalityPoint(
+            response.setting.amount_for_single_loyality_point
+          );
+          setWhatsappNumber(response.setting.whatsapp_number);
+          setAppTheme(response.setting.app_theme);
+        }
+        setThemeList(response.themeOptions);
+        /**
+         * End of code addition by - Ashish Dewangan on 05-06-2023
+         * Reason - To rerender the page based on response
+         */
+        
       } else {
         Message("Something went wrong", "error");
       }
-      navigate("/Dashboard");
+      /**
+       * Commented by - Ashish Dewangan on 05-06-2023
+       * Reason - No need to redirect to dashboard
+       */
+      //  navigate('/Dashboard')
+      /**
+       * End of comment by  - Ashish Dewangan on 05-06-2023
+       * Reason - No need to redirect to dashboard
+       */
     } else {
       Message("Please provide valid input", "info");
     }

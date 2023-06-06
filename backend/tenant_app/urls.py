@@ -242,4 +242,16 @@ urlpatterns = [
     # path('<str:tenant>/app-theme-by-id/<int:settingId>',AppThemeByIdAPI.as_view()),
     # End of code addition by Ashish Dewangan. reason - To get Setting details by id
     # End of comment by - Ashish Dewangan
+
+    # Added by Dewangan on 05-06-23
+    # Reason : To get count of customers.
+    path('<str:tenant>/customers-count/',CustomerAPI.as_view()),
+    # End of code addition by - Ashish Dewangan on 05-06-2023
+    # Reason : To get count of customers. 
+
+    # Added by Dewangan on 05-06-23
+    # Reason : To get list of customers.
+    path('<str:tenant>/customer-list/',CustomerAPI.as_view()),
+    # End of code addition by - Ashish Dewangan on 05-06-2023
+    # Reason : To get list of customers. 
 ]   

@@ -1136,10 +1136,34 @@ class AppThemeAPI(APIView):
             serial = SettingSaveSerializer(data=request.data)
         if serial.is_valid():
             serial.save()
-            return Response({
-                "msg": "Saved Successfully",
-                "settingsetdata": serial.data,
-            }, status=status.HTTP_201_CREATED)
+
+            # Added by - Ashish Dewangan on 05-06-2023
+            # Reason - To send latest response
+            setting=Setting.objects.last()
+            theme=AppTheme.objects.all()
+            themeSerializer=AppThemeSerializer(theme,many=True)
+            data=dict()
+            
+            if setting:
+                settingSerializer=SettingSerializer(setting)
+                data["setting"]=settingSerializer.data
+            else:
+                data["setting"]={}  
+
+            if theme:
+                themeSerializer=AppThemeSerializer(theme,many=True)
+                data["themeOptions"]=themeSerializer.data
+            else:
+                data["themeOptions"]=[] 
+
+            return Response({"msg":"success","setting":data["setting"],"themeOptions":data["themeOptions"]})
+            # End of code addition by - Ashish Dewangan on 05-06-2023
+            # Reason - To send latest response
+
+            # return Response({
+            #     "msg": "Saved Successfully",
+            #     "settingsetdata": serial.data,
+            # }, status=status.HTTP_201_CREATED)
         return Response({"error": serial.errors}, status=status.HTTP_400_BAD_REQUEST)
     # End of modification
 # End of addition
@@ -2212,5 +2236,79 @@ class OrderItemFilterAPIView(APIView):
         return Response({"item": duplicate_orders})
 # End of added code by :- Rohan Kansari on 28-05-2023
 
+
+# Added by Ashish Dewangan on 05-06-2023
+# Reason - API for CRUD operation on customer
+class CustomerAPI(APIView):
+    
+    # Added by Ashish Dewangan on 05-06-2023
+    # Reason - To get count of cutomers
+    def get(self,request,tenant):
+         cutomersCount=CustomerDetail.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "cutomersCount":cutomersCount,
+        })
+    # End of code addition by - Ashish Dewangan on 05-06-2023
+    # Reason - To get count of customers
+    
+    # Added by - Ashish Dewangan on 05-06-2023
+    # Reason - To get list of customers using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        customerList=[]
+        
+        if columnToSort == "last_customer_name" and columnSortingOrder=="ascending":
+            customerList = CustomerDetail.objects.all().order_by('last_customer_name')
+        if columnToSort == "last_customer_name" and columnSortingOrder=="descending":
+            customerList = CustomerDetail.objects.all().order_by('-last_customer_name')
+        if columnToSort == "last_customer_name" and columnSortingOrder=="":
+            customerList = CustomerDetail.objects.all()
+        
+        if columnToSort == "last_email" and columnSortingOrder=="ascending":
+            customerList=CustomerDetail.objects.all().order_by('last_email')
+        if columnToSort == "last_email" and columnSortingOrder=="descending":
+            customerList = CustomerDetail.objects.all().order_by('-last_email')
+        if columnToSort == "last_email" and columnSortingOrder=="":
+            customerList=CustomerDetail.objects.all()
+
+        if columnToSort == "contact_number" and columnSortingOrder=="ascending":
+            customerList=CustomerDetail.objects.all().order_by('contact_number')
+        if columnToSort == "contact_number" and columnSortingOrder=="descending":
+            customerList = CustomerDetail.objects.all().order_by('-contact_number')            
+        if columnToSort == "contact_number" and columnSortingOrder=="":
+            customerList=CustomerDetail.objects.all()
+
+        if columnToSort == "loyality_points" and columnSortingOrder=="ascending":
+            customerList = CustomerDetail.objects.all().order_by('loyality_points')
+        if columnToSort == "loyality_points" and columnSortingOrder=="descending":
+            customerList = CustomerDetail.objects.all().order_by('-loyality_points')
+        if columnToSort == "loyality_points" and columnSortingOrder=="":
+            customerList=CustomerDetail.objects.all()
+        
+        if columnToSort == "":
+            customerList = CustomerDetail.objects.all()
+
+        from django.core.paginator import Paginator
+
+        paginator = Paginator(customerList, listPerPage)
+        filteredCutomerList = paginator.page(currentPage)
+
+        customerDetailSerializer = CustomerDetailSerializer(filteredCutomerList, many =True)
+        return Response({
+            "msg":"success",
+            "customerList":customerDetailSerializer.data,
+        })
+    # End of code addition by - Ashish Dewangan on 05-06-2023
+    # Reason - To get list of customers using backend pagination
+    
+# End of code addition by - Ashish Dewangan on 05-06-2023
+# Reason - API to get list of customers 
 
 

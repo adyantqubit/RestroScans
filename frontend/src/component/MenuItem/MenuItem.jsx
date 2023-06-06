@@ -706,7 +706,7 @@ function MenuItem() {
       interval.current.render = setTimeout(() => {
         setmenuListVisiblity(false)
         console.log("-------------------hit timeout")
-      }, 6000)
+      }, 20000)
     }
     else {
       document.getElementsByClassName("menu_maindiv")[0].style.maxHeight = "88vh"
@@ -2232,7 +2232,7 @@ function MenuItem() {
 
             interval.current.render = setTimeout(() => {
               setmenuListVisiblity(false)
-            },6000)} }>
+            },20000)} }>
               {/* Ne dof code -rohankansari - 7/5/23 */}
               {menuList.map((data, id) => (
                 <div id={id} className='all-menu'

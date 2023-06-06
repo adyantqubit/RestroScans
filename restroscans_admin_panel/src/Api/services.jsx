@@ -177,14 +177,14 @@ export const getSettingsDetails = async (tenantId) => {
 };
 
 /**
- * End of code addition by Ashish Dewangan on 01-06-2023. Reason - to get setting data 
+ * End of code addition by Ashish Dewangan on 01-06-2023.
+ * Reason - to get setting data 
  * */ 
 
 /**
  * Added by - Ashish Dewangan on 02-06-2023
  * Reason - To save settings
  */
-
 export const postSettingsDetails = async (values, tenant) => {
   const response = await API.post(`/api/v1/${tenant}/app-theme/`, values, {
     headers: {
@@ -194,15 +194,16 @@ export const postSettingsDetails = async (values, tenant) => {
   return response ? response.data : {};
 };
 /**
- * End of code addition by - Ashish Dewangan on 02-06-2023. Reason - To save settings
+ * End of code addition by - Ashish Dewangan on 02-06-2023.
+ * Reason - To save settings
  */
 
 /**
- * Added by - Ashish Dewangan on 03-06-2023
- * Reason - To get customer list of tenant.
+ * Added by - Ashish Dewangan on 05-06-2023
+ * Reason - To get customer count
  */
-export const getCustomerList = async (tenant) => {
-  const response = await API.get(`api/v1/${tenant}/all-customers/`, {
+export const getCutomersCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/customers-count/`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -210,5 +211,34 @@ export const getCustomerList = async (tenant) => {
   return response ? response.data : {};
 };
 /**
- * End of code addition by Ashish Dewangan on 03-06-2023. Reason - To get customer list of tenant.
+ * Ent of code adition by - Ashish Dewangan on 05-06-2023
+ * Reason - To get customer count
+ */
+
+/**
+ * Added by - Ashish Dewangan on 03-06-2023
+ * Reason - To get customer list of tenant.
+ */
+ 
+ /**
+ * Modified by - Ashish Dewangan on 07-06-2023
+ * Reason - to send criteria to backend based on which data will be retrieved.
+ */
+//export const getCustomerList = async (tenant) => {
+//  const response = await API.get(`api/v1/${tenant}/all-customers/`, { 
+export const getCustomerList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/customer-list/`, filteringCriteria,{
+/**
+ * Modified by - Ashish Dewangan on 07-06-2023
+ * Reason - to send criteria to backend based on which data will be retrieved.
+ */  
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Ashish Dewangan on 03-06-2023.
+ * Reason - To get customer list of tenant.
  */ 
