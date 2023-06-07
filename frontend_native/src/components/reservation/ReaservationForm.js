@@ -10,49 +10,51 @@ import {
   ScrollView,
   Pressable,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { updateReservationApi } from "../../api/Services";
 import { colors, inputs } from "../../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 import Footer from "../../components/Footer/Footer";
 import { Formik } from "formik";
-import { addItemSchema } from "../../validation/ValidationSchema";
+import { addItemSchema, updateReservationSchema } from "../../validation/ValidationSchema";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from '@expo/vector-icons';
 
 export default function ReaservationForm({ route, navigation }) {
 
   const isFocused = useIsFocused();
   const formRef = useRef(null);
 
-  // Added by Yuvraj Sahu on 27-4-2023
-  // Reason - to set default value for setting
-  // var [defaultValue, setDefaultValue] = useState({});
-  // End of addition
-
-  /**
-   * Added by Yuvraj Sahu on 03-05-2023
-   * Reason - to re-fresh the validation
-   * msg when we come back from another screen
-   */
-  const settingDropdownRef = useRef({});
-  /**
-   * End of refreshing validation msg
-   */
-
-
   // Added by Parineeta Gedam on 30-5-2023
   // Reason - to get order id in from router
   const { object } = route.params;
   // End of modification
 
-  // alert(object.name)
+  // Added by :- Parineeta Gedam on 07-06-2023
+  const [tempDate, setTempDate] = useState(new Date());
+  const [maxdate, setMaxDate] = useState(new Date());
+  // convert date string to date format #mohendra sahu
+  function convert(str) {
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    var date = [date.getFullYear(), mnth, day].join("-")
+    formRef.current.handleChange("date")(date)
+  }
+
+  function convertTime(str) {
+    var time = new Date(str).toLocaleTimeString()
+    formRef.current.handleChange("time")(time)
+  }
+  // End of added code by PArineeta Gedam on 07-06-2023
 
 
   useEffect(() => {
-    // setDefaultValue({dt});
     setReservationStatusSelected(object.id != "add new data" ? object.reservation_status : "")
   }, [isFocused])
 
@@ -66,9 +68,7 @@ export default function ReaservationForm({ route, navigation }) {
 
   var [reservationStatusSelected, setReservationStatusSelected] = useState("");
   var [reservationStatusErrorMsg, setReservationStatusErrorMsg] = useState(false);
-
-
-  // End of modification
+  // End of modification by :- Parineeta Gedam on 30-05-2023
 
   // Added by Parineeta gedam on 30-05-2023
   // Reason - to get reservations data
@@ -109,10 +109,9 @@ export default function ReaservationForm({ route, navigation }) {
         <View style={styles.container}>
           <Formik
             initialValues={object.id != "add new data" ? object : { name: "", email: "", contact_number: "", number_of_person: "", special_instructions: "", date: "", time: "", table_number: "", reservation_status: "" }}
-            // innerRef={formRef}
+            innerRef={formRef}
             enableReinitialize={true}
-            // initialValues={defaultValue}
-            // validationSchema={settingSchema}
+            validationSchema={updateReservationSchema}
             onSubmit={updateReservation}
           >
             {({
@@ -137,6 +136,7 @@ export default function ReaservationForm({ route, navigation }) {
                     placeholder="Enter name"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    editable={object.id != "add new data" ? false : true}
                   />
                   {errors.name && touched.name && (
                     <Text style={styles.textdanger}>{errors.name}</Text>
@@ -156,6 +156,7 @@ export default function ReaservationForm({ route, navigation }) {
                     placeholder="Enter email"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    editable={object.id != "add new data" ? false : true}
                   />
                   {errors.email && touched.email && (
                     <Text style={styles.textdanger}>{errors.email}</Text>
@@ -175,6 +176,7 @@ export default function ReaservationForm({ route, navigation }) {
                     placeholder="Enter contact number"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    editable={object.id != "add new data" ? false : true}
                   />
                   {errors.contact_number && touched.contact_number && (
                     <Text style={styles.textdanger}>{errors.contact_number}</Text>
@@ -195,6 +197,7 @@ export default function ReaservationForm({ route, navigation }) {
                     keyboardType="number-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    editable={object.id != "add new data" ? false : true}
                   />
                   {errors.number_of_person && touched.number_of_person && (
                     <Text style={styles.textdanger}>{errors.number_of_person}</Text>
@@ -215,6 +218,7 @@ export default function ReaservationForm({ route, navigation }) {
                     keyboardType="number-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    editable={object.id != "add new data" ? false : true}
                   />
                   {errors.special_instructions && touched.special_instructions && (
                     <Text style={styles.textdanger}>{errors.special_instructions}</Text>
@@ -225,7 +229,44 @@ export default function ReaservationForm({ route, navigation }) {
                   <Text style={styles.labels}>
                     <Text style={{ color: "red" }}>* </Text>Date
                   </Text>
-                  <TextInput
+                  <View>
+                    <Pressable style={[styles.input, styles.datePickerContainer]}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter date"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      disabled={object.id != "add new data" ? false : true}
+                    >
+                      <Text>{values.date ? values.date.split("-").reverse().join("/") : "Enter date"}</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          DateTimePickerAndroid.open({
+                            value: values.date ? new Date(values.date) : new Date(),
+                            onChange: (event, selectedDate) => {
+                              handleChange("date", convert(selectedDate));
+                            },
+                            mode: "date",
+                            is24Hour: true,
+                            minimumDate: maxdate,
+                            placeholder: "Enter date",
+                          });
+                        }}
+                      >
+                        <Ionicons
+                          name="calendar"
+                          size={15}
+                          color="black"
+                          style={styles.passIcon}
+                        />
+                      </TouchableOpacity>
+                    </Pressable>
+                    {errors.date && touched.date && (
+                    <Text style={styles.textdanger}>{errors.date}</Text>
+                  )}
+                  </View>
+
+                  {/* Commented by Parineeta Gedam on 07-06-2023 */}
+                  {/* <TextInput
                     style={styles.input}
                     onChangeText={handleChange("date")}
                     onBlur={handleBlur("date")}
@@ -234,14 +275,15 @@ export default function ReaservationForm({ route, navigation }) {
                     placeholder="Enter date"
                     autoCapitalize="none"
                     autoCorrect={false}
-                  />
-                  {/* <RNDateTimePicker maximumDate={new Date(2030, 10, 20)} /> */}
-                  {errors.date && touched.date && (
+                  /> */}
+                  {/* {errors.date && touched.date && (
                     <Text style={styles.textdanger}>{errors.date}</Text>
-                  )}
+                  )} */}
+                  {/* End of Commented by Parineeta Gedam on 07-06-2023 */}
                 </View>
 
-                <View style={{ marginTop: 10 }}>
+                {/* Commented code by Parineeta Gedam on 07-06-2023   */}
+                {/* <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}>
                     <Text style={{ color: "red" }}>* </Text>Time
                   </Text>
@@ -258,7 +300,47 @@ export default function ReaservationForm({ route, navigation }) {
                   {errors.time && touched.time && (
                     <Text style={styles.textdanger}>{errors.time}</Text>
                   )}
+                </View> */}
+                {/* Commented code by Parineeta Gedam on 07-06-2023   */}
+
+
+                {/* Added by :- Parineeta Gedam on 07-06-2023 */}
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.labels}>
+                    <Text style={{ color: "red" }}>* </Text>Time
+                  </Text>
+                  <View>
+                    <Pressable style={[styles.input, styles.datePickerContainer]}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter time"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      disabled={object.id != "add new data" ? false : true}
+
+                      >
+                      <Text>{values.time ? values.time : "Enter time"}</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          DateTimePickerAndroid.open({
+                            value: values.time ? new Date(values.time) : new Date(),
+                            onChange: (event, selectedDate) => {
+                              handleChange("time", convertTime(selectedDate));
+                            },
+                            mode: "time",
+                            is24Hour: true,
+                            placeholder: "Enter time",
+                          });
+                        }}
+                      >
+                        <Feather name="clock" size={13} color="black" style={styles.passIcon} />
+                      </TouchableOpacity>
+                    </Pressable>
+                    {errors.time && touched.time && (
+                      <Text style={styles.textdanger}>{errors.time}</Text>
+                    )}
+                  </View>
                 </View>
+                {/* End of added code by Parineeta Gedam on 07-06-2023 */}
 
                 <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}><Text style={{ color: "red" }}>* </Text>Table Number</Text>
@@ -273,8 +355,8 @@ export default function ReaservationForm({ route, navigation }) {
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
-                  {errors.price_half && touched.price_half && (
-                    <Text style={styles.textdanger}>{errors.price_half}</Text>
+                  {errors.table_number && touched.table_number && (
+                    <Text style={styles.textdanger}>{errors.table_number}</Text>
                   )}
                 </View>
 
@@ -283,9 +365,7 @@ export default function ReaservationForm({ route, navigation }) {
                 </Text>
                 <SelectDropdown
                   data={reservationStatus}
-                  // defaultButtonText={object.id!="add new data" ? reservationStatusSelected : ""}
-                  defaultValueByIndex={object.id!="add new data" ? (object.reservation_status == "Pending" ? 0 : 1) : 0}
-                  // ref={categoryDropdownRef}
+                  defaultValueByIndex={object.id != "add new data" ? (object.reservation_status == "Pending" ? 0 : 1) : 0}
                   dropdownOverlayColor="rgba(0,0,0,0)"
                   buttonTextStyle={{ fontSize: 16 }}
                   rowTextStyle={{ fontSize: 16 }}
@@ -416,6 +496,16 @@ const styles = StyleSheet.create({
      * End of addition by yuvraj Sahu on 05-05-2023
      */
   },
+
+  // Parineeta
+  datePickerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  // End
+
+
   textdanger: {
     color: "#dc3545",
     marginBottom: 10,

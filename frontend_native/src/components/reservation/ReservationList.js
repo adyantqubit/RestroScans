@@ -404,6 +404,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
     },
     reservation_heading:{
+        marginTop:5,
         fontSize:16,
         textAlign:"center",
         fontWeight:"500",
