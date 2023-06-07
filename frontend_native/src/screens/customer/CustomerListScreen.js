@@ -288,7 +288,9 @@ export default function CustomerListScreen({ route, navigation }) {
                   {nameSortVal == "descending" && "↓"}
                 </Text>
               </Pressable>
-              <Pressable style={styles.tableColHeading4}>
+                {/* Modification and addition by Om Shrivastava on 07-06-23
+                Reason : Need to remove the email and show loyality point */}
+              {/* <Pressable style={styles.tableColHeading4}>
                 <Text
                   style={{
                     fontWeight: "bold",
@@ -297,7 +299,19 @@ export default function CustomerListScreen({ route, navigation }) {
                 >
                   Email
                 </Text>
+              </Pressable> */}
+              <Pressable style={styles.tableColHeading4}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Loyality point
+                </Text>
               </Pressable>
+            {/* End of modification and addition by Om Shrivastava on 07-06-23 */}
+              
             </View>
 
             {seeCustomers.map((order, id) => (
@@ -307,9 +321,15 @@ export default function CustomerListScreen({ route, navigation }) {
                 <Text style={styles.td3}>
                   {order.last_customer_name ? order.last_customer_name : "-"}
                 </Text>
-                <Text style={styles.td4}>
+                {/* Modification and addition by Om Shrivastava on 07-06-23
+                Reason : Need to remove the email and show loyality point */}
+                {/* <Text style={styles.td4}>
                   {order.last_email ? order.last_email : "-"}
+                </Text> */}
+                <Text style={styles.td4}>
+                  {order.loyality_points}
                 </Text>
+                {/* End of modification and addition by Om Shrivastava on 07-06-23 */}
               </View>
             ))}
           </View>
@@ -437,12 +457,12 @@ const styles = StyleSheet.create({
     width: "30%",
   },
   tableColHeading3: {
-    width: "25%",
+    width: "35%",
     fontWeight: "bold",
     textAlign: "center",
   },
   tableColHeading4: {
-    width: "35%",
+    width: "25%",
     fontWeight: "bold",
   },
   tdContainer: {
@@ -465,11 +485,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   td3: {
-    width: "25%",
+    width: "35%",
     textAlign: "center",
   },
   td4: {
-    width: "35%",
+    width: "25%",
     textAlign: "center",
   },
   /**

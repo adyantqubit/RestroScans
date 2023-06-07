@@ -62,6 +62,7 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Which is used for map and showing data to user
     var [customerDetail, setCustomerDetail] = useState([]);
     // End of set customer detail
+    var[loyalityPoint,setLoyalityAmount]=useState()
 
     // Added by Yuvraj Sahu on 14-4-2023
     // Reason - to order detail
