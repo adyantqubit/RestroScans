@@ -732,10 +732,22 @@ export default function OrderItemsScreen({ route, navigation }) {
             }
         }
     }
+    
+    // Added by Om Shrivastava on 07-06-23
+    // Reason : When admin want to change the loyality point than its change
     const loyalityHandleChange = (e) => {
       setLoyalityAmount(e)
-     
+      // if (discountType == "Discount in (%)") {
+      //   if (e > 100) {
+      //     setDiscountAmountErrorMsg(true)
+      //   }
+      //   else {
+      //     setDiscountAmountErrorMsg(false)
+      //   }
+      // }
     }
+    // End of addition by Om Shrivastava on 07-06-23
+
     // End of added code on 10-05-2023
     // End of commented code by PArineeta Gedam on 03-06-2023
 
@@ -791,6 +803,12 @@ export default function OrderItemsScreen({ route, navigation }) {
             discount_type: discountType,
             manual_discount: discountAmount,
             // End of added code on 08-05-2023
+
+            // Added by Om Shrivastava on 07-06-23
+            // Reason : Save the loyality point through the native
+            apply_loyality_point: loyalityPoint,
+            // End of addition by Om Shrivastava on 07-06-23
+
         };
         var restaurantName = JSON.parse(
             await SecureStore.getItemAsync("userData")
