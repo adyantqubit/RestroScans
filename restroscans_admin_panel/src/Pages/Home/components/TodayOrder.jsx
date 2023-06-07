@@ -312,7 +312,7 @@ const TodayOrder = () => {
                         <button className={style.btnUpdate} onClick={e => { updateStatus(); }}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
                     </div>
                     <div className={style.selectionContainer}>
-                        <button className={style.btnUpdate} onClick={e => { setPopupOrderItem(false); resetingSelectbox() }}>Cancel</button>
+                        <button className={style.btnUpdate} onClick={e => {  resetingSelectbox(); setPopupOrderItem(false); }}>Cancel</button>
                     </div>
                 </div>
             </div>
@@ -506,9 +506,17 @@ const TodayOrder = () => {
                                         onChange={e => setCheckedItems(data, e.target.checked)} type="checkbox" /> */}
                                 <Popover placement="right"
                                     content={e => orderItemModel(orderItemList.filter(o => o.order_id == data.order_id), i)}
+                                    // Added by Om Shrivastava on 05-06-23
+                                    // Reason : Fix the arrow issue when we click cancel button
+                                    open={popupOrderItem}
+                                    // End of addition by Om Shrivastava on 05-06-23
                                     onOpenChange={e => {
                                         if (!e) {
                                             selectboxReset()
+                                            // Added by Om Shrivastava on 05-06-23
+                                            // Reason : Fix the arrow issue when we click cancel button
+                                            setPopupOrderItem(!popupOrderItem)
+                                            // End of addition by Om Shrivastava on 05-06-23
                                         }
                                     }}
                                     trigger="click"
@@ -529,9 +537,18 @@ const TodayOrder = () => {
                                 <div className={style.columnData7}>
                                     <Popover placement="left"
                                         content={e => model(data, i)}
+                                        // Added by Om Shrivastava on 05-06-23
+                                        // Reason : Fix the arrow issue when we click cancel button
+                                        open={popupOpen}
+                                        // End of addition by Om Shrivastava on 05-06-23
                                         onOpenChange={e => {
                                             if (!e) {
                                                 selectboxReset()
+                                                // Added by Om Shrivastava on 05-06-23
+                                                // Reason : Fix the arrow issue when we click cancel button
+                                                // setPopupOrderItem(!popupOrderItem)
+                                                setPopupOpen(!popupOpen)
+                                                // End of addition by Om Shrivastava on 05-06-23
                                             }
                                         }}
                                         trigger='click'>

@@ -173,6 +173,12 @@ export default function OrderItemsScreen({ route, navigation }) {
             setDiscountAmount("" + response.orderDetail.manual_discount)
             setDiscountType(response.orderDetail.discount_type)
             // End of added code by :- Parineeta Gedam on 08-05-2023
+            
+            // Added by :- Om Shrivastava on 05-06-23
+	      // Reason - to set loyality point value
+	      setLoyalityAmount("" + response.orderDetail.apply_loyality_point)
+	      // setDiscountType(response.orderDetail.discount_type)
+	      // End of added code by :- Parineeta Gedam on 08-05-2023
 
             // Added by :- Parineeta Gedam on 03-06-2023
             // Reason - to set discount amount (manual discount)
@@ -323,24 +329,48 @@ export default function OrderItemsScreen({ route, navigation }) {
         <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
         <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
       </div>`
-        }
-        else {
-            discountCalculations = `<div class="calculationLine">
+    }
+    else {
+      discountCalculations =  
+      // Added by Om Shrivastava on 06-06-23
+      // Reason : Show the loyality point price in bill section
+      `
+     ${orderDetail.loyality_point_price>0 && orderDetail.loyality_point_price!=null ?
+      
+      `<div class="calculationLine">
+      <div  class="calculationLabel" > 
+      <div style= "width:98%">Loyality Price</div>
+      <div>:</div></div>
+      <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price} </div>
+    </div>
+    
+
+    <hr>
+    <div class="calculationLine">
+    <div  class="calculationLabel" > 
+    <div style= "width:98%">Total</div>
+    <div>:</div></div>
+    <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}  </div>
+    </div>`
+
+    :``}
+
+      <div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">CGST</div>
       <div>(%${((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
-      <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+      <div  class="calculationText" >${rupee_sign}${orderDetail.cgst.toFixed(2)}  </div>
       </div>
       <div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">SGST</div>
       <div>(%${((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
-      <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+      <div  class="calculationText" >${rupee_sign}${orderDetail.sgst.toFixed(2)} </div>
     </div>`
-        }
-        // End of added code on 11-05-2023
+    }
+    // End of added code on 11-05-2023
 
-        str = `<div class="billingContainer">
+    str = `<div class="billingContainer">
             <div class="inLineContainer" >
               <div class="Hotellabel"  style="text-align:center;"> ${restaurantName}</div>
             </div>
@@ -352,7 +382,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             </div>
             <div class="inLineContainer">
               <div class="centerLabel">FSSAI NO :- ${settings.setting.fssaino
-            }</div>
+      }</div>
             </div>
             <hr>
 
@@ -370,18 +400,18 @@ export default function OrderItemsScreen({ route, navigation }) {
               Reason - To show payment confirmation time in bill --!>
               ${ExtractDateTime(orderDetail.payment_confirmation_date_time).date}
                ${
-            //new Date(orderDetail.date)
-            //   .toISOString()
-            //   .split("T")[0]
-            //   .split("-")
-            //   .reverse()
-            //   .join("/")
-            ``
-            }
+      //new Date(orderDetail.date)
+      //   .toISOString()
+      //   .split("T")[0]
+      //   .split("-")
+      //   .reverse()
+      //   .join("/")
+      ``
+      }
               </div>
               <div class="label">Time  </div>
               <div class="text">  ${"ExtractDateTime(orderDetail.payment_confirmation_date_time).time"
-            }</div>
+      }</div>
               <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
             <div class="inLineContainer">
@@ -389,7 +419,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="text"> ${orderDetail.order_id}</div>
               <div class="label">Table </div>
               <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
-            }</div>
+      }</div>
               
             </div>
          
@@ -409,13 +439,14 @@ export default function OrderItemsScreen({ route, navigation }) {
           <hr>
           <div class='CalculationBoxContainer'>
           <div class="calculationBox">
-          ${orderDetail.cgst || orderDetail.sgst ? `<div class="calculationLine">
+          ${orderDetail.cgst || orderDetail.sgst || orderDetail.loyality_point_price>0? `<div class="calculationLine">
+          
                 <div  class="calculationLabel"> 
                 <div style= "width:98%">Sub-Total</div>
                 <div>:</div></div>
                 <div  class="calculationText" >${rupee_sign}${SubtotalOfItems().toFixed(
-                2
-            )}</div>
+        2
+      )}</div>
               </div>`: ``}
 
               ${discountCalculations}
@@ -423,7 +454,7 @@ export default function OrderItemsScreen({ route, navigation }) {
               ${orderDetail.cgst || orderDetail.sgst ? `<hr>` : ``}
               <div class="calculationLine">
                 <div  class="calculationLabel"> 
-                <div style= "width:98%">Grand Total</div>
+                <div style= "width:98%">Total</div>
                 <div>:</div></div>
                 <div  class="calculationText" >${rupee_sign}${(orderDetail.final_amount.toFixed(2))}</div>
               </div>
@@ -449,9 +480,9 @@ export default function OrderItemsScreen({ route, navigation }) {
 
     </div>`;
 
-        str = str + `</div>`;
+    str = str + `</div>`;
 
-        html = `
+    html = `
     <html>
     <head>
 <style>
@@ -1478,34 +1509,89 @@ export default function OrderItemsScreen({ route, navigation }) {
                         {/* Added by :- Parineeta Gedam on 08-05-2023
                 Reason :- to show manual discount and final amount
               */}
-                        <View style={styles.amountRow}>
-                            <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
-                                <Text style={styles.totalPriceLables}>Discount</Text>
-                                <RadioButtonGroup
-                                    containerStyle={{ marginBottom: 10 }}
-                                    selected={discountType}
-                                    onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
-                                    radioBackground={colors.btnColor}
-                                    size={15}
-                                >
-                                    <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (₹)" label="Discount in (₹)" />
-                                    <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (%)" label="Discount in (%)" />
-                                </RadioButtonGroup>
-                            </View>
-                            <Text>:</Text>
-                            <View style={{ width: "20%" }}>
-                                <TextInput style={styles.discoutAmount}
-                                    numeric
-                                    keyboardType={'numeric'}
-                                    value={discountAmount}
-                                    onChangeText={(e) => discountHandleChange(e)} />
-                                {discountAmountErrorMsg &&
-                                    <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
-                                }
-                            </View>
-                        </View>
-                        {/* End of added code by :- Parineeta Gedam on 08-05-2023 */}
-                        {/* End of commented code by Parineeta Gedam on 03-06-2023 */}
+            <View style={styles.amountRow}>
+              <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
+                <Text style={styles.totalPriceLables}>Discount</Text>
+                <RadioButtonGroup
+                  containerStyle={{ marginBottom: 10 }}
+                  selected={discountType}
+                  onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
+                  radioBackground={colors.btnColor}
+                  size={15}
+                >
+                  <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (₹)" label="Discount in (₹)" />
+                  <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (%)" label="Discount in (%)" />
+                </RadioButtonGroup>
+              </View>
+              <Text>:</Text>
+              <View style={{ width: "20%" }}>
+                <TextInput style={styles.discoutAmount}
+                  numeric
+                  keyboardType={'numeric'}
+                  value={discountAmount}
+                  onChangeText={(e) => discountHandleChange(e)} />
+                {discountAmountErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
+                }
+              </View>
+            </View>
+            
+
+            
+            {/* Added by Om Shrivastava on 05-06-23
+            Reason : Add the loyality point price field and loyality point value */}
+            <View style={styles.amountRow}>
+              <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
+                <Text >Apply loyality point</Text>
+              </View>
+              <Text>:</Text>
+              <View style={{ width: "20%" }}>
+                <TextInput style={styles.discoutAmount}
+                  numeric
+                  keyboardType={'numeric'}
+                  value={loyalityPoint}
+                  onChangeText={(e) => loyalityHandleChange(e)} />
+                {/* {discountAmountErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
+                } */}
+              </View>
+            </View>
+
+            {orderDetail.loyality_point_price ? <>
+              <View style={styles.amountRow}>
+                
+                <Text style={styles.totalPriceLables}>Loyality Point price</Text>
+                <Text>:</Text>
+               
+                <Text style={styles.totalPrices}>{rupee_sign}
+                 {orderDetail.loyality_point_price}
+                 </Text>
+
+              </View>
+            </> : null}
+            {orderDetail.loyality_point_price && orderDetail.payment_status == "Completed" ? <>
+            <View style={{flexDirection: 'row', alignItems: 'center',paddingTop:12}}>
+            <View style={{flex: 1, height: 1.2, backgroundColor: 'black'}} />
+            </View>
+            </> 
+            : null}
+            {orderDetail.loyality_point_price && orderDetail.payment_status == "Completed" ? <>
+              <View style={styles.amountRow}>
+               
+                <Text style={styles.totalPriceLables}>Total</Text>
+                <Text>:</Text>
+               
+                <Text style={styles.totalPrices}>{rupee_sign}
+                 {orderDetail.total.toFixed(2)}
+                 </Text>
+              </View>
+            </> : null}
+           
+
+            {/* End of addition by Om Shrivastava on 05-06-23 */}
+
+            {/* End of added code by :- Parineeta Gedam on 08-05-2023 */}
+            {/* End of commented code by Parineeta Gedam on 03-06-2023 */}
 
                         {/* Added by :- Parineeta Gedam on 03-06-2023
                 Reason :- to show discount
@@ -1657,9 +1743,13 @@ export default function OrderItemsScreen({ route, navigation }) {
                                 }}>Grand Total</Text>
                                 <Text>:</Text>
                                 {/* {alert(orderDetail.total)} */}
-                                <Text style={styles.totalPrices}>₹{orderDetail.total}</Text>
-                            </View>}
-                        {/* End of addition */}
+                {/* Modification and addition by Om Shrivastava on 07-06-23
+                Reason : Shwo the final amount, not total */}
+                {/* <Text style={styles.totalPrices}>₹{orderDetail.total}</Text> */}
+                <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text>
+                {/* End of additon by Om Shrivastava on 07-06-23 */}
+              </View>}
+            {/* End of addition */}
                     </View>
                 </View>
                 <View style={styles.statusContainer}>

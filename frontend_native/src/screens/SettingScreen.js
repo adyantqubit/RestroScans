@@ -35,6 +35,11 @@ export default function SettingScreen({ navigation }) {
   var [themeList, setThemeList] = useState([]);
   var [allowHalfPrice, setAllowHalfPrice] = useState(false);
 
+  // Added by Om Shrivastava on 05-06-23
+  // Reason : Save the loyality point field in setting table
+  var [allowLoyalityPoint, setAllowLoyalityPoint]=useState(false)
+  // End of addition by Om Shrivastava on 05-06-23
+
   // Added by Yuvraj Sahu on 27-4-2023
   // Reason - to set default value for setting
   var [defaultValue, setDefaultValue] = useState({});
@@ -55,7 +60,9 @@ export default function SettingScreen({ navigation }) {
     getSettingData();
     // Added by Yuvraj Sahu on 27-4-2023
     // Reason - to clear default value for setting
-    setDefaultValue({ cgst: "", sgst: "", gstin: "", fssaino: "" });
+    // setDefaultValue({ cgst: "", sgst: "", gstin: "", fssaino: "" });
+    setDefaultValue({ cgst: "", sgst: "", gstin: "", fssaino: "",per_loyality_point_value:"",amount_for_single_loyality_point:"" });
+
     // End of addition
     /**
      * Added by Yuvraj Sahu on 03-05-2023
@@ -72,6 +79,12 @@ export default function SettingScreen({ navigation }) {
     /**
      * End of refresh validation msg
      */
+
+    // Added by Om Shrivastava on 05-06-23
+    // Reason : Save the loyality point field in setting table
+    // setAllowLoyalityPoint(true);
+    // End of addition by Om Shrivastava on 05-06-23
+
   }, [isFocused]);
 
   // Added by Yuvraj Sahu on 13-4-2023
@@ -95,6 +108,11 @@ export default function SettingScreen({ navigation }) {
         setSettings(response.setting);
         setThemeOption(response.themeOptions);
         setAllowHalfPrice(settings.allow_half_price);
+        
+        // Added by Om Shrivastava on 05-06-23
+        // Reason : Save the loyality point field in setting table
+        setAllowLoyalityPoint(settings.allow_loyality_points);
+        // End of addition by Om Shrivastava on 05-06-23
 
         // Added by Yuvraj Sahu on 27-4-2023
         // Reason - to set default value from setting
@@ -107,6 +125,9 @@ export default function SettingScreen({ navigation }) {
             response.setting.fssaino != undefined
               ? response.setting.fssaino
               : "",
+          per_loyality_point_value: response.setting.per_loyality_point_value != undefined ? response.setting.per_loyality_point_value : "",
+          amount_for_single_loyality_point: response.setting.amount_for_single_loyality_point != undefined ? response.setting.amount_for_single_loyality_point : "",
+          
         });
         // End of addition
       }
@@ -227,6 +248,11 @@ export default function SettingScreen({ navigation }) {
     setSettingBtnDisable(true);
     settings != undefined && (values["id"] = settings.id);
     values["allow_half_price"] = allowHalfPrice;
+    // Added by Om Shrivastava on 05-06-23
+    // Reason : Save the loyality point field in setting table
+    values["allow_loyality_points"] = allowLoyalityPoint;
+    // End of addition by Om Shrivastava on 05-06-23
+    
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
@@ -1101,6 +1127,72 @@ export default function SettingScreen({ navigation }) {
                       <Text style={styles.activeLable}>Allow half price</Text>
                     </Pressable>
                   </View>
+
+                  {/* Added by Om Shrivastava on 04-06-23
+                  Reason : Add some fields in setting table */}
+
+                  <View style={{display: "flex",
+                    flexDirection: "row",
+                    width: "93%",
+                    alignSelf: "center",
+                    marginTop: 15}}>
+                    <Checkbox
+                      value={allowLoyalityPoint}
+                      onValueChange={setAllowLoyalityPoint}
+                      color={allowLoyalityPoint ? "#4630EB" : undefined}
+                    />
+                    <Pressable
+                      onPress={() => setAllowLoyalityPoint(!allowLoyalityPoint)}
+                    >
+                      <Text style={styles.activeLable}>Apply Loyality points</Text>
+                    </Pressable>
+                  </View>
+
+                  <View style={{marginTop:12}}>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      Value of single loyality point(Rs.)
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("per_loyality_point_value")}
+                      onBlur={handleBlur("per_loyality_point_value")}
+                      value={"" + values.per_loyality_point_value}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter single loyality point (Rs.)"
+                      keyboardType="number-pad"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {errors.per_loyality_point_value && touched.per_loyality_point_value && (
+                      <Text style={styles.textdanger}>{errors.per_loyality_point_value}</Text>
+                    )}
+                  </View>
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      Loyality point calculation amount(Rs.)
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={handleChange("amount_for_single_loyality_point")}
+                      onBlur={handleBlur("amount_for_single_loyality_point")}
+                      value={"" + values.amount_for_single_loyality_point}
+                      placeholderTextColor="#A4A4A4"
+                      placeholder="Enter calculation amount(Rs.)"
+                      keyboardType="number-pad"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {errors.amount_for_single_loyality_point && touched.amount_for_single_loyality_point && (
+                      <Text style={styles.textdanger}>{errors.amount_for_single_loyality_point}</Text>
+                    )}
+                  </View>
+
+
+                  {/* End of addition by Om Shrivastava on 04-06-23 */}
 
                   <View
                     style={{

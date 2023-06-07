@@ -307,7 +307,7 @@ class SettingAdmin(admin.ModelAdmin):
     
     #added by rohan - 14/4/23
     #reson- to remove tax from setting and added cgst and sgst 
-    list_display=("id","app_theme", "cgst","sgst","allow_half_price")
+    list_display=("id","app_theme", "cgst","sgst","allow_half_price","allow_loyality_points")
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links=("id","app_theme", "cgst","sgst","allow_half_price")

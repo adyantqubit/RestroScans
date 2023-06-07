@@ -228,6 +228,19 @@ export const settingSchema = yup.object().shape({
   /**
    * End of addition by Yuvraj Sahu on 04-05-2023
    */
+
+  // * Added by Om Shrivastava on 05-06-23
+  //  * Reason - Add validation for loyality point price and amount
+  per_loyality_point_value: yup
+    .number()
+    .min(1, ({ min }) => `Per loyality point should not be less than 0`),
+  
+    amount_for_single_loyality_point: yup
+    .number()
+    .min(1, ({ min }) => `Amount for single loyality point should not be less than 0`),
+  /**
+   * End of addition by Om Shrivastava on 05-06-23
+   */
 });
 
 // Added by yuvraj Sahu on 22-04-2023

@@ -461,8 +461,8 @@ class Setting(models.Model):
     # Added by - Om shrivastava On 26/05/2023
     # Reason - Check the loyality point is apply or not
     allow_loyality_points=models.BooleanField(default=False)
-    per_loyality_point_value=models.IntegerField(null=True,blank=True,verbose_name='Per loyality point value (in ?)')
-    amount_for_single_loyality_point=models.IntegerField(null=True,blank=True)
+    per_loyality_point_value=models.IntegerField(null=True,blank=True,verbose_name='Value of single loyality point(Rs.)')
+    amount_for_single_loyality_point=models.IntegerField(null=True,blank=True,verbose_name='Loyality point calculation amount(Rs.)')
     # End of addition 26-05-23
 
     def __str__(self):

@@ -199,7 +199,9 @@
 .CalculationBoxContainer {
     width: 100%;
     /* modified by :- Parineeta Gedam on 10-05-2023 */
-    min-height: 100px;
+    /* min-height: 100px; */
+    min-height: auto;
+
     display: flex;
     justify-content: flex-end;
     /* padding-right: 4%; */
