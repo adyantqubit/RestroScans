@@ -62,7 +62,6 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Which is used for map and showing data to user
     var [customerDetail, setCustomerDetail] = useState([]);
     // End of set customer detail
-    var[loyalityPoint,setLoyalityAmount]=useState()
 
     // Added by Yuvraj Sahu on 14-4-2023
     // Reason - to order detail
@@ -716,6 +715,9 @@ export default function OrderItemsScreen({ route, navigation }) {
     var [discountType, setDiscountType] = useState("Discount in (₹)");
     // End of added code on 08-05-2023
 
+  var [loyalityPoint, setLoyalityAmount] = useState(0);
+
+
     // Commented by :- Parineeta Gedam on 03-06-2023
     // Added by :- Parineeta Gedam on 10-05-2023
     // Reason :- on discount amount box show the error message.
@@ -729,6 +731,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                 setDiscountAmountErrorMsg(false)
             }
         }
+    }
+    const loyalityHandleChange = (e) => {
+      setLoyalityAmount(e)
+     
     }
     // End of added code on 10-05-2023
     // End of commented code by PArineeta Gedam on 03-06-2023
@@ -1551,13 +1557,26 @@ export default function OrderItemsScreen({ route, navigation }) {
                   numeric
                   keyboardType={'numeric'}
                   value={loyalityPoint}
+                  // editable={loyalityPoint&& loyalityPoint !=undefined && loyalityPoint !=null && loyalityPoint.length>0 ? false:true}
+                  // editable={loyalityPoint !=undefined && loyalityPoint !=null && loyalityPoint.length>1 ? false:true}
+                  
                   onChangeText={(e) => loyalityHandleChange(e)} />
                 {/* {discountAmountErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
                 } */}
               </View>
             </View>
+              <View style={styles.amountRow}>
+                
+                <Text style={styles.totalPriceLables}>Customer loyality point</Text>
+                <Text>:</Text>
+               
+                <Text style={styles.totalPrices}>
+                 {customerDetail.loyality_points}
+                 
+                 </Text>
 
+              </View>
             {orderDetail.loyality_point_price ? <>
               <View style={styles.amountRow}>
                 
