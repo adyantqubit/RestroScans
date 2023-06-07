@@ -221,7 +221,7 @@ export const getCutomersCount = async (tenantId) => {
  */
  
  /**
- * Modified by - Ashish Dewangan on 07-06-2023
+ * Modified by - Ashish Dewangan on 06-06-2023
  * Reason - to send criteria to backend based on which data will be retrieved.
  */
 //export const getCustomerList = async (tenant) => {
@@ -229,7 +229,7 @@ export const getCutomersCount = async (tenantId) => {
 export const getCustomerList = async (tenant,filteringCriteria) => {
   const response = await API.post(`api/v1/${tenant}/customer-list/`, filteringCriteria,{
 /**
- * Modified by - Ashish Dewangan on 07-06-2023
+ * Modified by - Ashish Dewangan on 06-06-2023
  * Reason - to send criteria to backend based on which data will be retrieved.
  */  
     headers: {

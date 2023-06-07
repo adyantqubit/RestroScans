@@ -8,17 +8,22 @@ import style from "./customerDetail.module.css";
 import Header from "../GlobalComponent/Header";
 import { Pagination } from "antd";
 import { getCutomersCount, getCustomerList } from "../../Api/services";
+import {
+  BsSortAlphaDownAlt,
+  BsSortAlphaDown,
+  BsSortNumericDownAlt,
+  BsSortNumericDown,
+} from "react-icons/bs";
 
 const CustomerDetail = () => {
   const [backendCustomersCount, setBackendCustomersCount] = useState(0);
   const [customerList, setCustomerList] = useState([]);
   const [listPerPage, setListPerPage] = useState(10);
 
-  const [callBackend, setCallBackend] = useState(true);
-
-  const [columnToSort, setColumnToSort] = useState("");
-  const [columnSortingOrder, setColumnSortingOrder] = useState("");
-  var currentPage = 1;
+  const [columnToSort, setColumnToSort] = useState("contact_number");
+  const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
+  const [showSortingIcon, setShowSortingIcon] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   /**
    * Added by - Ashish Dewangan on 03-06-2023
@@ -28,9 +33,24 @@ const CustomerDetail = () => {
     getCountOfCutomers();
     getListOfCustomers();
   }, []);
+
   /**
    * End of code addition by - Ashish Dewangan on 03-06-2023
    * Reason - method that will execute when page loads. this method will call cutomer list api
+   */
+
+  /**
+   * Added by - Ashish Dewangan on 03-06-2023
+   * Reason - method that will execute when sorting on column is applied or page number is changed.
+   *  this method will call customer list api
+   */
+  useEffect(() => {
+    getListOfCustomers();
+  }, [columnToSort, columnSortingOrder, currentPage]);
+  /**
+   * End of code addition by - Ashish Dewangan on 03-06-2023
+   * Reason - method that will execute when sorting on column is applied or page number is changed.
+   *  this method will call customer list api
    */
 
   /**
@@ -52,7 +72,6 @@ const CustomerDetail = () => {
    * Reason - created api to get list of customers
    */
   const getListOfCustomers = async () => {
-    
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const paginationDetails = {
       currentPage: currentPage,
@@ -73,45 +92,35 @@ const CustomerDetail = () => {
 
   /**
    * Added by - Ashish Dewangan on 05-06-2023
-   * Reason - Method that will execute When user changes page number.
-   * When page number is changed then record of that particular page will be retrievied form backend
+   * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const handlePageChange = async (pageNumber) => {
-    currentPage = pageNumber;
-    getListOfCustomers();
+    setCurrentPage(pageNumber);
   };
   /**
    * End of code addition by - Ashish Dewangan on 05-06-2023
-   * Reason - Method that will execute When user changes page number.
-   * When page number is changed then record of that particular page will be retrievied form backend
+   * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
 
-  const sortCustomerList = async (columnName) => {
-    setCallBackend(false);
+  /**
+   * Added by - Ashish Dewangan on 06-06-2023
+   * Reason - Method that will set sorting criteria
+   */
+  const sortCustomerList = (columnName) => {
     if (columnToSort == columnName) {
-      if (columnSortingOrder == "") {
-        setColumnSortingOrder("ascending");
-        setCallBackend(true);
+      if (columnSortingOrder == "ascending") {
+        setColumnSortingOrder("descending");
       } else {
-        if (columnSortingOrder == "ascending") {
-          setColumnSortingOrder("descending");
-          setCallBackend(true);
-        } else {
-          setColumnSortingOrder("");
-          setCallBackend(true);
-        }
+        setColumnSortingOrder("ascending");
       }
-    } else {
-      setColumnSortingOrder("ascending");
-      setCallBackend(true);
     }
-
     setColumnToSort(columnName);
-
-    if (callBackend === true) {
-      getListOfCustomers();
-    }
   };
+  /**
+   * End of code addition by - Ashish Dewangan on 06-06-2023
+   * Reason - Method that will set sorting criteria
+   */
+
   return (
     <Header>
       <div className={style.container}>
@@ -125,39 +134,140 @@ const CustomerDetail = () => {
                 <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
-                    sortCustomerList("last_customer_name");
-                  }}
-                >
-                  {" "}
-                  Name{" "}
-                </div>
-                <div
-                  className={style.commonColumnTitle}
-                  onClick={(e) => {
-                    sortCustomerList("last_email");
-                  }}
-                >
-                  {" "}
-                  Email{" "}
-                </div>
-                <div
-                  className={style.commonColumnTitle}
-                  onClick={(e) => {
+                    setShowSortingIcon(false);
                     sortCustomerList("contact_number");
                   }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "contact_number") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "contact_number") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
                 >
-                  {" "}
                   Contact Number{" "}
+                  {columnToSort == "contact_number" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "contact_number" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "contact_number" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
                 </div>
                 <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
+                    setShowSortingIcon(false);
                     sortCustomerList("loyality_points");
                   }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "loyality_points") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "loyality_points") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
                 >
-                  {" "}
-                  Loyality Points
+                  Loyality Points{" "}
+                  {columnToSort == "loyality_points" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "loyality_points" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "loyality_points" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
                 </div>
+                <div
+                  className={style.commonColumnTitle}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("last_customer_name");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "last_customer_name") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "last_customer_name") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                >
+                  Name{" "}
+                  {columnToSort == "last_customer_name" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "last_customer_name" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "last_customer_name" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                </div>
+                {/* Commented by - Ashish Dewangan on 07-06-2023
+                Reason - Displaying email is not required */}
+                {/* <div
+                  className={style.commonColumnTitle}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("last_email");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "last_email") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "last_email") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  style={{ width: "300px" }}
+                >
+                  Email{" "}
+                  {columnToSort == "last_email" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "last_email" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "last_email" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                </div> */}
+                {/* End of comment by - Ashish Dewangan on 07-06-2023
+                Reason - Displaying email is not required */}
               </div>
               <div
                 className={style.tableDataContainer}
@@ -171,28 +281,30 @@ const CustomerDetail = () => {
                       <div
                         className={style.tableData}
                         style={{
-                          backgroundColor: "white",
                           padding: "2px",
                           marginTop: "2px",
-                          // borderRadius: "8px",
                           marginBottom:
                             customerList.length == index + 1 ? "2px" : "0px",
-                          boxShadow:
-                            "var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25))",
                         }}
                       >
-                        <div className={style.commonColumnData}>
-                          {customerDetails.last_customer_name}
-                        </div>
-                        <div className={style.commonColumnData}>
-                          {customerDetails.last_email}
-                        </div>
                         <div className={style.commonColumnData}>
                           {customerDetails.contact_number}
                         </div>
                         <div className={style.commonColumnData}>
                           {customerDetails.loyality_points}
                         </div>
+                        <div className={style.commonColumnData}>
+                          {customerDetails.last_customer_name}
+                        </div>
+                        {/* Commented by - Ashish Dewangan on 07-06-2023
+                        Reason - Displaying email is not required */}
+                        {/* <div
+                          className={style.commonColumnData}
+                        >
+                          {customerDetails.last_email}
+                        </div> */}
+                        {/* End of comment by - Ashish Dewangan on 07-06-2023
+                        Reason - Displaying email is not required */}
                       </div>
                     );
                   })
@@ -204,14 +316,7 @@ const CustomerDetail = () => {
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-        >
+        <div className={style.paginationContainer}>
           {customerList && customerList.length > 0 ? (
             <Pagination
               defaultCurrent={1}

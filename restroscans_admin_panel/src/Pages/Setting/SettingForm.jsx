@@ -529,7 +529,7 @@ function SettingForm() {
         : ""
     );
     setWhatsappNumber(
-      settingData.whatsapp_number ? settingData.whatsapp_number : null
+      settingData.whatsapp_number ? settingData.whatsapp_number : ""
     );
     setAppTheme(settingData.app_theme ? settingData.app_theme : "");
 
@@ -845,7 +845,7 @@ function SettingForm() {
                 resetSettingsForm();
               }}
             >
-              Cancel
+              Clear
             </div>
 
             <div
