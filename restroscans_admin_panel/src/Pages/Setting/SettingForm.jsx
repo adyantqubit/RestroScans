@@ -602,6 +602,10 @@ function SettingForm() {
                     name="whatsapp_number"
                     value={whatsappNumber}
                     style={{ width: "200px" }}
+                    onFocus={(e)=>{
+                      if(whatsappNumber.length==13)
+                        setWhatsappNumber(whatsappNumber.substring(3,13))
+                    }}
                     onChange={(e) => {
                       setWhatsappNumber(e.target.value);
                       validateOnInput("whatsapp_number", e.target.value);
@@ -843,6 +847,7 @@ function SettingForm() {
               }}
               onClick={(e) => {
                 resetSettingsForm();
+                window.scrollTo(0, 0);
               }}
             >
               Clear
@@ -850,7 +855,8 @@ function SettingForm() {
 
             <div
               className={` ${style.proceedButton}`}
-              onClick={() => saveSettings()}
+              onClick={() =>{ saveSettings(); window.scrollTo(0, 0);}}
+              
             >
               Save
             </div>
