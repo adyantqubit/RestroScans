@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     addBtnContainer: {
         width: 50,
         height: 50,
-        backgroundColor: "#25d366",
+        backgroundColor: "orange",
         color: "#FFF",
         borderRadius: 50,
         fontSize: 30,

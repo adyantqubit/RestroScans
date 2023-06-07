@@ -351,7 +351,7 @@ export default function ReaservationForm({ route, navigation }) {
                     value={values.table_number}
                     placeholderTextColor="#A4A4A4"
                     placeholder="Enter table number"
-                    keyboardType="number-pad"
+                    // keyboardType="number-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
                   />

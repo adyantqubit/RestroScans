@@ -638,11 +638,22 @@ class Order(models.Model):
     # End of modified and commented by Om Shrivastava on 11-05-23
     payment_mode = models.CharField(max_length=100,null=True,blank=True)
 
+    # Commented by :- Parineeta Gedam on 07-06-2023
     # Added By :- Parineeta Gedam Date :- 06-05-2023
     # Reason - to add discount type manual discount and final amount
-    CHOICES = [('Discount in (?)','Discount in (?)'),('Discount in (%)','Discount in (%)')]
-    discount_type=models.CharField(max_length=255, choices=CHOICES, default="Discount in (?)")
-    manual_discount = models.FloatField(default=0.0, null=True, blank=True, verbose_name='Discount')
+    # CHOICES = [('Discount in (?)', 'Discount in (?)'),
+    #            ('Discount in (%)', 'Discount in (%)')]
+    # discount_type = models.CharField(max_length=255, choices=CHOICES, default="Discount in (?)")
+    # manual_discount = models.FloatField(default=0.0, null=True, blank=True, verbose_name='Discount')
+    # End of commented code by PArineeta Gedam on 03-06-2023
+    # End of commented code by PArineeta Gedam on 07-06-2023
+
+    # Added By :- Parineeta Gedam Date :- 06-05-2023
+    # Reason - to add discount in (?) and discount in (%)
+    discount_rupees = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (?)")
+    discount_percentage = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (%)")
+    # End of commented code by Parineeta Gedam on 03-06-2023
+
     final_amount = models.FloatField(default=0.0, null=True, blank=True)
     # End of added code date :- 06-05-2023
 
@@ -673,10 +684,21 @@ class Order(models.Model):
 
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100
-    def clean(self) : 
-        if self.discount_type == "Discount in (%)" and self.manual_discount > 100 :
-            raise ValidationError({"manual_discount" : "Discount should not be more than 100"})
-        
+    def clean(self):
+
+        # Commented code by Parineeta Gedam on 07-06-2023
+        # if self.discount_type == "Discount in (%)" and self.manual_discount > 100:
+        #     raise ValidationError(
+        #         {"manual_discount": "Discount should not be more than 100"})
+        # End of commented code by PArineeta Gedam on 03-06-2023
+
+        # Added code by Parineeta Gedam on 07-06-2023
+        # if self.discount_amount_percentage == "Discount in (%)" > 100:
+        #     raise ValidationError(
+        #         {"manual_discount": "Discount should not be more than 100"})
+        # End of Added code by PArineeta Gedam on 07-06-2023
+
+
         # Added by :- Parineeta Gedam on 13-05-2023
         # reason :- if order status = cancelled then show the validations msg in cancel reason.
         if self.order_status == "Cancelled" and self.cancel_reason is None:
@@ -745,27 +767,98 @@ class Order(models.Model):
         
         # Added by :- Parineeta Gedam on 06-05-2023
         # Reason :- to update payment status, manual discont and final amount
+        # try :
+        #     orderUpdate = Order.objects.get(order_id=self.order_id)
+        #     orderUpdate.sub_total = self.sub_total
+        #     orderUpdate.cgst=self.cgst
+        #     orderUpdate.sgst = self.sgst
+        #     orderUpdate.total = self.sub_total + self.cgst + self.sgst
+
+             # if self.discount_amount_rupees :
+            #     total = self.sub_total - self.discount_amount_rupees
+            #     self.discount_amount_percentage = total
+            # else :
+            #     total = self.sub_total - (self.sub_total * self.discount_amount_percentage / 100)
+            # orderUpdate.total = float("{:.2f}".format(total))
+
+            # Commented by :- Parineeta Gedam on 07-06-2023
+            # Reason :- change the flow of discount 
+
+            # if self.manual_discount:
+            #     total = 0
+            #     if self.discount_type == "Discount in (?)":
+            #         # Modification and addition by Om Shrivastava on 30-05-23
+            #         # Reason : Show the loyality point calculation
+            #         # total =  self.sub_total - self.manual_discount
+            #         total =  self.sub_total - self.manual_discount - self.loyality_point_price
+            #         # End of addition and modification by Om Shrivastava on 30-05-23
+
+            #     else :
+            #         total = self.sub_total - (self.sub_total * self.manual_discount / 100)
+            #     orderUpdate.total = float("{:.2f}".format(total))
+
+            #     tax = Setting.objects.first()
+            #     if tax is not None:
+            #         if tax.sgst is None:
+            #             tax.sgst = 0
+            #         if tax.cgst is None:
+            #             tax.cgst = 0
+            #         cgst = (orderUpdate.total*(tax.cgst)/100)
+            #         self.cgst = round(float("{:.2f}".format(cgst)), 2)
+            #         sgst = (orderUpdate.total*(tax.sgst)/100)
+            #         self.sgst = round(float("{:.2f}".format(sgst)), 2)
+            #         self.total = round(
+            #             float("{:.2f}".format(orderUpdate.total)), 2)
+            #         self.final_amount = round(
+            #             float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
+            # else:
+            #     tax = Setting.objects.first()
+            #     if tax is not None:
+            #         if tax.sgst is None:
+            #             tax.sgst = 0
+            #         if tax.cgst is None:
+            #             tax.cgst = 0
+                    
+            #         cgst = ( orderUpdate.sub_total*(tax.cgst)/100)
+            #         self.cgst = round(float("{:.2f}".format(cgst)),2)
+            #         sgst = ( orderUpdate.sub_total*(tax.sgst)/100)
+            #         self.sgst = round(float("{:.2f}".format(sgst)),2)
+            #         self.total= round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
+            #         self.final_amount = round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
+            #         print("save method -------- cgst", self.cgst)
+            #         print("sgst", self.sgst)
+            #         print("total", self.total)
+
+            #         # # Added by Om Shrivastava on 28-05-23
+            #         # # Reason : Need to apply some condition for calculation the loyality point
+            #         if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
+            #             # print(self.sub_total,'22222222')
+            #             self.total = self.sub_total - self.loyality_point_price
+            #             # print(round(float("{:.2f}".format(self.total)),2))
+            #             cgst = ( self.total*(tax.cgst)/100)
+            #             self.cgst = round(float("{:.2f}".format(cgst)),2)
+            #             sgst = ( self.total*(tax.sgst)/100)
+            #             self.sgst = round(float("{:.2f}".format(sgst)),2)
+            #             self.final_amount = round(float("{:.2f}".format( self.total + cgst + sgst)),2)
+            #         #  End of addition by Om Shrivastava on 28-05-23 
+            # End of commented code by :- PArineeta Gedam on 07-06-2023
+
+            # Added by :- Parineeta Gedam on 07-06-2023
+            # Reason :- change the flow of discount 
+
         try :
             orderUpdate = Order.objects.get(order_id=self.order_id)
             orderUpdate.sub_total = self.sub_total
             orderUpdate.cgst=self.cgst
             orderUpdate.sgst = self.sgst
             orderUpdate.total = self.sub_total + self.cgst + self.sgst
-            print("manual_discount ===========",self.manual_discount)
 
-            if self.manual_discount:
-                total = 0
-                if self.discount_type == "Discount in (?)" :
-                    # Modification and addition by Om Shrivastava on 30-05-23
-                    # Reason : Show the loyality point calculation
-                    # total =  self.sub_total - self.manual_discount
-                    total =  self.sub_total - self.manual_discount - self.loyality_point_price
-                    # End of addition and modification by Om Shrivastava on 30-05-23
-
-                else :
-                    total = self.sub_total - (self.sub_total * self.manual_discount / 100)
+            if self.discount_rupees:
+                total = 0  
+                percentage = (self.discount_rupees / self.sub_total) * 100
+                self.discount_percentage = round(float("{:.2f}".format(percentage)), 2)
+                total =  self.sub_total - self.discount_rupees - self.loyality_point_price
                 orderUpdate.total = float("{:.2f}".format(total))
-
                 tax = Setting.objects.first()
                 if tax is not None:
                     if tax.sgst is None:
@@ -776,11 +869,26 @@ class Order(models.Model):
                     self.cgst = round(float("{:.2f}".format(cgst)), 2)
                     sgst = (orderUpdate.total*(tax.sgst)/100)
                     self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                    self.total = round(
-                        float("{:.2f}".format(orderUpdate.total)), 2)
-                    self.final_amount = round(
-                        float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
-            else:
+                    self.total = round(float("{:.2f}".format(orderUpdate.total)), 2)
+                    self.final_amount = round(float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
+            elif self.discount_percentage :
+                total = 0  
+                self.discount_rupees = (self.sub_total / 100) * self.discount_percentage
+                total =  self.sub_total - self.discount_rupees - self.loyality_point_price
+                orderUpdate.total = float("{:.2f}".format(total))
+                tax = Setting.objects.first()
+                if tax is not None:
+                    if tax.sgst is None:
+                        tax.sgst = 0
+                    if tax.cgst is None:
+                        tax.cgst = 0
+                    cgst = (orderUpdate.total*(tax.cgst)/100)
+                    self.cgst = round(float("{:.2f}".format(cgst)), 2)
+                    sgst = (orderUpdate.total*(tax.sgst)/100)
+                    self.sgst = round(float("{:.2f}".format(sgst)), 2)
+                    self.total = round(float("{:.2f}".format(orderUpdate.total)), 2)
+                    self.final_amount = round(float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
+            else : 
                 tax = Setting.objects.first()
                 if tax is not None:
                     if tax.sgst is None:
@@ -810,7 +918,7 @@ class Order(models.Model):
                         self.sgst = round(float("{:.2f}".format(sgst)),2)
                         self.final_amount = round(float("{:.2f}".format( self.total + cgst + sgst)),2)
                     #  End of addition by Om Shrivastava on 28-05-23 
-
+            # End of Added code by :- Parineeta Gedam on 07-06-2023
 
         except Exception as e:
             print("Exception in save method of order - ",e)

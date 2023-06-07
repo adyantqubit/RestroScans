@@ -519,24 +519,36 @@ class OrderAdmin(admin.ModelAdmin):
     # list_display = ['id','order_items','order_id','get_customer', 'table_number', 'sub_total',
     #             # 'tax',
     #             'total','order_status','payment_status','date']
-    list_display = ['view_order','order_items','order_id','customer_detail', 'table_number', 'sub_total',
+
+    # Commented by :- PArineeta Gedam on 07-06-2023
+    # list_display = ['view_order','order_items','order_id','customer_detail', 'table_number', 'sub_total',
                     # 'tax',
                       
                     #Added by:- Parineeta Gedam on 07-05-23 
                     # 'total',
-                    "manual_discount",
-                    'total',
-                    "final_amount",
+                    # "manual_discount",
+                    # 'total',
+                    # "final_amount",
                     # End of Code Addition
                     
-                    'order_status','payment_status','date' ,
+                    # 'order_status','payment_status','date' ,
                     #Added by Om on 30-05-23 
                     #Adding a generate_pdf button
                     # 'generate_order',
-                    "get_bill",
-                    "get_kitchen_bill"
+                    # "get_bill",
+                    # "get_kitchen_bill"
                     # End of Code Addition
-                    ]
+                    # ]
+    # End of commented code by :- Parineeta Gedam on 07-06-2023
+
+    # Added by :- PArineeta Gedam on 07-06-2023
+    # reason :- show the list
+    list_display = ['view_order','order_items','order_id','customer_detail', 'table_number', 'sub_total', 'discount_rupees',
+                    'discount_percentage','total',"final_amount",'order_status','payment_status','date' ,"get_bill","get_kitchen_bill",]
+     
+    # End of commented code by :- Parineeta Gedam on 07-06-2023
+
+
     # end of code
     # End of code modification by - Ashish Dewangan on 03-05-2023
     
@@ -669,7 +681,15 @@ class OrderAdmin(admin.ModelAdmin):
 
         # Added by :- Parineeta Gedam on 06-05-2023
         # Reason :- to design form
-        form.base_fields['manual_discount'].widget.attrs['style'] = 'width: 15em;'
+        # Commented by :- Parineeta Gedam on 07-06-2023
+        # form.base_fields['manual_discount'].widget.attrs['style'] = 'width: 15em;'
+        # End of commented code by :- Parineeta Gedam on 07-05-2023
+
+        # Added by :- Parineeta Gedam on 07-06-2023
+        form.base_fields['discount_rupees'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['discount_percentage'].widget.attrs['style'] = 'width: 15em;'
+        # End of Added code by :- Parineeta Gedam on 07-05-2023
+
         form.base_fields['final_amount'].widget.attrs['style'] = 'width: 15em;'
         # End of added code on 06-05-2023
 
@@ -695,10 +715,14 @@ class OrderAdmin(admin.ModelAdmin):
         return form
     # End of addition on :- 24-04-2023
 
+
+    # Commented by :- Parineeta Gedam on 07-06-2023
+    # Reason :- to design radio options for discount type
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to design radio options for discount type
-    radio_fields = {'discount_type': admin.VERTICAL}
+    # radio_fields = {'discount_type': admin.VERTICAL}
     # End of addition on :- 10-05-2023
+    # End of commented code by 07-06-2023
 
 
 admin.site.register(Order, OrderAdmin)

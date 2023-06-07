@@ -417,119 +417,62 @@
 
     <hr>
 
-    <!-- Commented by :- Parineeta Gedam on 11-05-2023
-        reason :- re-calculations for discount
-  -->
-    <!-- <div class='CalculationBoxContainer'>
-      <div class="calculationBox">
-        <div class="calculationLine">
-          <div class="calculationLabel" style="text-align:right;padding-right:10%"> Sub-Total :</div> -->
-    <!-- Modifed and added by Om on 07-05-23
-          Reason :  Show the rupees sign from using another file -->
-    <!-- <div class="calculationText">₹{{ sub_total|floatformat:2 }}</div> -->
-    <!-- <div class="calculationText">{{restaurant_details.rupee_symbol}}{{ sub_total|floatformat:2 }}</div> -->
-    <!-- End of addition by Om on 07-05-23-->
+      <!-- Added by :- PArineeta Gedam on 07-06-2023
+            Reason :- change the flow of discount
+      -->
 
-    <!-- </div>
-        {% for settings in restaurant_settings %}
-        <div class="calculationLine">
-        <!-- if else condition added by Om Shrivastava on 13-05-23 -->
-    <!--{% if order.cgst %}-->
-    <!-- Modification and added by Om Shrivastava on 11-05-23
-          Reason : When CGST is none than need to show 0%  -->
-    <!-- <div class="calculationLabel"> CGST ({{ settings.cgst }}%) :</div> -->
-    <!--<div class="calculationLabel"> CGST ({% if order.cgst %}{{ order.cgst|divide:sub_total |multiply:100 |floatformat:2 }}{% else %}0{% endif %}%) :</div> -->
-    <!-- End of addition by Om Shrivastava on 11-05-23  -->
-
-    <!-- Modifed and added by Om on 07-05-23
-          Reason :  Show the rupees sign from using another file -->
-    <!-- <div class="calculationText">₹{{order.sgst|floatformat:2}} </div> -->
-    <!-- <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.sgst|floatformat:2}} </div> -->
-    <!-- End of addition by Om on 07-05-23-->
-    <!-- {% endif %}-->
-    <!-- End of addition by Om Shrivastava on 13-05-23 -->
-
-    <!-- </div>
-        <hr>
-        <div class="calculationLine">
-          <div class="calculationLabel"> Total :</div> -->
-    <!-- Modifed and added by Om on 07-05-23
-          Reason :  Show the rupees sign from using another file -->
-    <!-- <div class="calculationText">₹{{total_amount|floatformat:2}}</div> -->
-    <!-- <div class="calculationText">{{restaurant_details.rupee_symbol}}{{total_amount|floatformat:2}}</div> -->
-    <!-- End of addition by Om on 07-05-23-->
-
-    <!-- </div>
-        {% endfor %}
-      </div>
-    </div> -->
-
-    <!-- End of commented code on 11-05-2023 -->
-
-    <!-- Modified by :- Parineeta Gedam on 11-05-2023
-          Reason :- re- calculations for discount
-    -->
-    <div class='CalculationBoxContainer'>
-      <div class="calculationBox">
-        {% if order.manual_discount > 0 %}
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:98%">Sub-Total</div>
-            <div>:</div>
+      <div class='CalculationBoxContainer'>
+        <div class="calculationBox">
+          {% if order.discount_rupees > 0 %}
+          <div class="calculationLine">
+            <div class="calculationLabel">
+              <div style="width:98%">Sub-Total</div>
+              <div>:</div>
+            </div>
+            <div class="calculationText">{{restaurant_details.rupee_symbol}}{{ sub_total|floatformat:2 }}</div>
           </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{ sub_total|floatformat:2 }}</div>
-        </div>
 
-        {% if order.discount_type == "Discount in (₹)" %}
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:98%">Discount</div>
-            <div>:</div>
+          <div class="calculationLine">
+            <div class="calculationLabel">
+              <div style="width:98%">Discount</div>
+              <div>:</div>
+            </div>
+            <div class="calculationText">{{restaurant_details.rupee_symbol}}{{ order.discount_rupees|floatformat:2 }}
+            </div>
           </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{ order.manual_discount|floatformat:2 }}
+        
+          <div class="calculationLine">
+            <div class="calculationLabel">
+              <div style="width:98%">Total</div>
+              <div>:</div>
+            </div>
+            <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.total|floatformat:2}}</div>
+          </div>
+
+          <div class="calculationLine">
+            <div class="calculationLabel">
+              <div style="width:60%">CGST </div>
+              <div>({{ order.cgst | divide:order.total | multiply:100 |floatformat:2 }}%):</div>
+            </div>
+            <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.cgst|floatformat:2}} </div>
+          </div>
+
+          <div class="calculationLine">
+            <div class="calculationLabel">
+              <div style="width:60%">SGST </div>
+              <div>({{ order.sgst | divide:order.total | multiply:100 |floatformat:2 }}%):</div>
+            </div>
+            <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.sgst|floatformat:2}} </div>
+          </div>
+          <hr>
+          <div class="calculationLine">
+            <div class="calculationLabel">
+              <div style="width:98%">Grand Total</div>
+              <div>:</div>
+            </div>
+            <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.final_amount|floatformat:2}}</div>
           </div>
         </div>
-        {% else %}
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:60%">Discount</div>
-            <div>({{order.manual_discount|floatformat:2 }}%):</div>
-          </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.sub_total | divide:100 |
-            multiply:order.manual_discount |floatformat:2}}</div>
-        </div>
-        {% endif %}
-
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:98%">Total</div>
-            <div>:</div>
-          </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.total|floatformat:2}}</div>
-        </div>
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:60%">CGST </div>
-            <div>({{ order.cgst | divide:order.total | multiply:100 |floatformat:2 }}%):</div>
-          </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.cgst|floatformat:2}} </div>
-        </div>
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:60%">SGST </div>
-            <div>({{ order.sgst | divide:order.total | multiply:100 |floatformat:2 }}%):</div>
-          </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.sgst|floatformat:2}} </div>
-        </div>
-        <hr>
-        <div class="calculationLine">
-          <div class="calculationLabel">
-            <div style="width:98%">Grand Total</div>
-            <div>:</div>
-          </div>
-          <div class="calculationText">{{restaurant_details.rupee_symbol}}{{order.final_amount|floatformat:2}}</div>
-        </div>
-      </div>
 
       {% else %}
 

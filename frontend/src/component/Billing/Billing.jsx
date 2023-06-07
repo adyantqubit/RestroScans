@@ -271,11 +271,12 @@ const Billing = () => {
 
                 {/* End of commented code on 10-05-2023 */}
 
-
+                
+                {/* Commented by :- PArineeta Gedam on 07-06-2023 reason :- change the flow of discount */}
                 {/* Added by :- Parineeta Gedam on 10-05-2023 
                     reason :- for re-calculations
                 */}
-                <div className={style.CalculationBoxContainer}>
+                {/* <div className={style.CalculationBoxContainer}>
                     <div className={style.calculationBox}>
                         {billingData.detail.manual_discount > 0 ?
                             <>
@@ -292,6 +293,49 @@ const Billing = () => {
                                 <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Grant Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
                             </>
                             :
+                            <> */}
+                                {/* Modification and addition by Om Shrivastava on 06-06-23
+                                Reason : When Loyality point added then show the user */}
+                                {/* {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>:null} */}
+                                {/* {billingData?.detail.cgst>0||billingData?.detail.sgst>0||billingData?.detail.loyality_point_price>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>:null} */}
+                                {/* End of addition by Om Shrivastava on 06-06-23 */}
+
+                                {/* Added by Om Shrivastava on 06-06-23
+                                Reason : When Loyality point added then show the user */}
+                                {/* {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
+                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.breakLine} style={{width:"98%",margin:'7px auto'}}/>:null}
+                                {billingData?.detail.loyality_point_price>0&& billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null} */}
+                                {/* End of addition by Om Shrivastava on 06-06-23 */}
+
+                                {/* {billingData?.detail.cgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>:null}
+                                {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
+                                {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.breakLine} style={{width:"98%"}}/>:null}
+
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
+                            </> */}
+                        {/* } */}
+                    {/* </div> */}
+                {/* </div> */}
+                {/* End of added code on 10-05-2023 */}
+                {/* End of commented code by Parineeta Gedam on 07-06-2023 reason :- change the flow of discount */}
+
+                {/* Added by :- Parineeta Gedam on 07-06-2023 
+                    reason :- for re-calculations and change the flow of discount
+                */}
+                <div className={style.CalculationBoxContainer}>
+                    <div className={style.calculationBox}>
+                        {billingData.detail.discount_rupees > 0 ?
+                            <>
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Discount</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.discount_rupees.toFixed(2)}</div></div>
+                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>CGST</div><div>({(billingData.detail.cgst / billingData.detail.total * 100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>SGST</div><div>({(billingData.detail.sgst / billingData.detail.total * 100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>
+                                <div className={style.breakLine} style={{ width: "98%" }} />
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Grant Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
+                            </>
+                            :
                             <>
                                 {/* Modification and addition by Om Shrivastava on 06-06-23
                                 Reason : When Loyality point added then show the user */}
@@ -300,14 +344,14 @@ const Billing = () => {
                                 {/* End of addition by Om Shrivastava on 06-06-23 */}
 
                                 {/* Added by Om Shrivastava on 06-06-23
-                                Reason : When Loyality point added then show the user */}
+                                Reason : When Loyality point added then show the user  */}
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.breakLine} style={{width:"98%",margin:'7px auto'}}/>:null}
-                                {billingData?.detail.loyality_point_price>0&& billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null}
+                                {billingData?.detail.loyality_point_price>0&& billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null} 
                                 {/* End of addition by Om Shrivastava on 06-06-23 */}
 
-                                {billingData?.detail.cgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>:null}
-                                {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
+                                {billingData?.detail.cgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/billingData.detail.sub_total*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>:null}
+                                {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/billingData.detail.sub_total*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
                                 {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.breakLine} style={{width:"98%"}}/>:null}
 
                                 <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
@@ -315,7 +359,7 @@ const Billing = () => {
                         }
                     </div>
                 </div>
-                {/* End of added code on 10-05-2023 */}
+                {/* End of added code by Parineeta Gedam on 07-06-2023 reason :- change the flow of discount*/}
 
                 <div className={style.breakLine} />
                 <div className={style.TotalBoxContainer} >
