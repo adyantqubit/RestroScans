@@ -673,7 +673,7 @@ class Order(models.Model):
 
     # Added by :- Om shrivastava on 26-05-23 
     # Reason :- for apply the loyality points
-    apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,)
+    apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,validators=[MinValueValidator(0)],)
     # loyality_point_price = models.IntegerField(null=True,blank=True)
     loyality_point_price = models.FloatField(default=0.0,null=True,blank=True)
 
@@ -710,8 +710,12 @@ class Order(models.Model):
 
         # # Added by Om Shrivastava on 28-05-23
         # # Reason : Need to apply some condition for calculation the loyality point
-        if self.customer_id.loyality_points < self.apply_loyality_point:
-            raise ValidationError({'apply_loyality_point': "Please enter below the customer loyality point."})
+        # Commented by Om shrivastava on 08-06-23
+        # Reason : It not show in this section
+        # if self.customer_id.loyality_points < self.apply_loyality_point:
+        #     raise ValidationError(
+        #         {'apply_loyality_point': "Please enter below the customer loyality point."})
+        # End of commented code on 08-06-23
         # End of addition by Om shrivastava on 28-05-23
         
     # End of added code on 10-05-2023
@@ -946,6 +950,20 @@ class Order(models.Model):
             raise ValidationError(
                 {"payment_status": "Payment is completed you can not cancel the order"})
 # End of added code by Parineeta Gedam on 29-05-2023
+
+    # Added by :- Om shrivastava on 08-06-23
+    # reason :- if user can enter the max loyality point in admin panel than through the validation error
+    def clean(self) : 
+        if int(self.customer_id.loyality_points) < int(self.apply_loyality_point):
+            raise ValidationError(
+                {'apply_loyality_point': "Please enter below the customer loyality point."})
+    
+
+    def clean(self) : 
+        if self.apply_loyality_point is None:
+            raise ValidationError(
+                {'apply_loyality_point': "Please enter lotality point"})
+    # End of added code on 18-05-2023
 
 """
 End of added code 06-04-2023
