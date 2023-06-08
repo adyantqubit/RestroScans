@@ -508,14 +508,14 @@ const TodayOrder = () => {
                                     content={e => orderItemModel(orderItemList.filter(o => o.order_id == data.order_id), i)}
                                     // Added by Om Shrivastava on 05-06-23
                                     // Reason : Fix the arrow issue when we click cancel button
-                                    open={popupOrderItem}
+                                    // open={popupOrderItem}
                                     // End of addition by Om Shrivastava on 05-06-23
                                     onOpenChange={e => {
                                         if (!e) {
                                             selectboxReset()
                                             // Added by Om Shrivastava on 05-06-23
                                             // Reason : Fix the arrow issue when we click cancel button
-                                            setPopupOrderItem(!popupOrderItem)
+                                            // setPopupOrderItem(!popupOrderItem)
                                             // End of addition by Om Shrivastava on 05-06-23
                                         }
                                     }}
@@ -539,7 +539,7 @@ const TodayOrder = () => {
                                         content={e => model(data, i)}
                                         // Added by Om Shrivastava on 05-06-23
                                         // Reason : Fix the arrow issue when we click cancel button
-                                        open={popupOpen}
+                                        // open={popupOpen}
                                         // End of addition by Om Shrivastava on 05-06-23
                                         onOpenChange={e => {
                                             if (!e) {
@@ -547,7 +547,7 @@ const TodayOrder = () => {
                                                 // Added by Om Shrivastava on 05-06-23
                                                 // Reason : Fix the arrow issue when we click cancel button
                                                 // setPopupOrderItem(!popupOrderItem)
-                                                setPopupOpen(!popupOpen)
+                                                // setPopupOpen(!popupOpen)
                                                 // End of addition by Om Shrivastava on 05-06-23
                                             }
                                         }}
