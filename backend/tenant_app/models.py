@@ -708,7 +708,7 @@ class Order(models.Model):
 
         # # Added by Om Shrivastava on 28-05-23
         # # Reason : Need to apply some condition for calculation the loyality point
-        if int(self.customer_id.loyality_points) < int(self.apply_loyality_point) :
+        if self.customer_id.loyality_points < self.apply_loyality_point:
             raise ValidationError({'apply_loyality_point': "Please enter below the customer loyality point."})
         # End of addition by Om shrivastava on 28-05-23
         
