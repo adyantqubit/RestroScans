@@ -764,6 +764,11 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   var [loyalityPoint, setLoyalityAmount] = useState(0);
 
+  // Added by Om Shrivastava on 08-06-23
+  // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
+  var[loyalityErrorMsg,setLoyalityErrorMsg] = useState(false)
+  // End of addition by Om Shrivastava on 08-06-23
+
   // Added by :- Parineeta Gedam on :- 07-06-2023
   // reason :- This react hooks is used to set discount amount in precentage
   var [discountPercentage, setDiscountPercentage] = useState(0);
@@ -792,18 +797,16 @@ export default function OrderItemsScreen({ route, navigation }) {
   // End of commented code by PArineeta Gedam on 07-06-2023
 
   // Added by Om Shrivastava on 07-06-23
-    // Reason : When admin want to change the loyality point than its change
+  // Reason : When admin want to change the loyality point than its change
     const loyalityHandleChange = (e) => {
       setLoyalityAmount(e)
-      // if (discountType == "Discount in (%)") {
-      //   if (e > 100) {
-      //     setDiscountAmountErrorMsg(true)
-      //   }
-      //   else {
-      //     setDiscountAmountErrorMsg(false)
-      //   }
-      // }
-    }
+        if (e > customerDetail.loyality_points) {
+          setLoyalityErrorMsg(true)
+        }
+        else {
+          setLoyalityErrorMsg(false)
+        }
+      }
     // End of addition by Om Shrivastava on 07-06-23
 
 
@@ -1068,7 +1071,11 @@ export default function OrderItemsScreen({ route, navigation }) {
     // reason :- check order status and discount amount conditions
     // Modified by :- Parineeta Gedam on 07-06-2023 
 
-    if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false) {
+    // Added by Om Shrivastava on 08-06-23
+    // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
+    // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false ) {
+    if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
+    //  End of addition by Om Shrivastava on 08-06-23 
       printDoc();
     }
     // End of added code by :- Parineeta Gedam on 10-05-2023
@@ -1080,7 +1087,11 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Modified by :- Parineeta Gedam on 10-05-2023 
     // Modified by :- Parineeta Gedam on 07-06-2023 
 
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false) {
+    // Added by Om Shrivastava on 08-06-23
+    // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
+    // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false) {
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false) {
+    // End of addition by Om Shrivastava on 08-06-23
       var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
       if (response.success) {
         /**
@@ -1691,9 +1702,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                   keyboardType={'numeric'}
                   value={loyalityPoint}
                   onChangeText={(e) => loyalityHandleChange(e)} />
-                {/* {discountAmountErrorMsg &&
-                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
-                } */}
+                {loyalityErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Please enter below the customer loyality point</Text>
+                }
               </View>
             </View>
 

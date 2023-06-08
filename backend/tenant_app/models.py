@@ -959,10 +959,10 @@ class Order(models.Model):
                 {'apply_loyality_point': "Please enter below the customer loyality point."})
     
 
-    def clean(self) : 
-        if self.apply_loyality_point is None:
-            raise ValidationError(
-                {'apply_loyality_point': "Please enter lotality point"})
+    # def clean(self) : 
+    #     if self.apply_loyality_point is None:
+    #         raise ValidationError(
+    #             {'apply_loyality_point': "Please enter lotality point"})
     # End of added code on 18-05-2023
 
 """
