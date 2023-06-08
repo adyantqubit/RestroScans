@@ -674,7 +674,9 @@ class Order(models.Model):
     # Added by :- Om shrivastava on 26-05-23 
     # Reason :- for apply the loyality points
     apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,)
-    loyality_point_price = models.IntegerField(null=True,blank=True)
+    # loyality_point_price = models.IntegerField(null=True,blank=True)
+    loyality_point_price = models.FloatField(default=0.0,null=True,blank=True)
+
     # End of added code by :- Om shrivastava on 26-05-23
 
     # Added by :- Om shrivastava on 29-05-23 
@@ -747,7 +749,12 @@ class Order(models.Model):
                         self.apply_loyality_point=oldLoyality.apply_loyality_point
 
                     else:
-                        self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
+                        # Added by Om Shrivastava on 08-06-23
+                        # Reason : Save the loyality point in float value 
+                        # self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
+                        self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
+                        # End of addition by Om Shrivastava on 08-06-23
+
                         user_contact = self.customer_id.contact_number
                         CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point)
                         self.loyality_point_status='is used'
