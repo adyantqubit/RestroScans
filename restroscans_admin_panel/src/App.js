@@ -67,7 +67,7 @@ function App() {
     setNotificationText(text)
     setNotification(type)
     setSuccessfull(true)
-    setTimeout(()=>{setSuccessfull(false)},5000)
+    setTimeout(()=>{setSuccessfull(false)},3000)
   }
 
   // Modified by By - Rohan KAnsari - 26/5/23
