@@ -113,10 +113,14 @@ export const registrationSchema = yup.object().shape({
     .required("Restaurant name is required!")
     .matches(/^(?!\s+$).*/, "Restaurant name cannot contain only blankspaces!"),
 
-    // modify by - Suman sahu  On 10/05/2023
-    // reason - add trim method for trim white space in email input
-    email: yup.string().trim().email("Email is invalid!").required("Email is required!"),
-    // end of modification 10/05/2023
+  // modify by - Suman sahu  On 10/05/2023
+  // reason - add trim method for trim white space in email input
+  email: yup
+    .string()
+    .trim()
+    .email("Email is invalid!")
+    .required("Email is required!"),
+  // end of modification 10/05/2023
 
   // Commented by:- Suman sahu  On 24/04/2023
 
@@ -339,14 +343,20 @@ export const addPaymentMethodSchema = yup.object().shape({
 export const addSocialMedia = yup.object().shape({
   social_media_name: yup
     .string()
-    .max(255, ({ max }) => `Social media name should no be more than ${max} characters`),
-    social_media_link: yup
+    .max(
+      255,
+      ({ max }) => `Social media name should no be more than ${max} characters`
+    ),
+  social_media_link: yup
     .string()
-    .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-      "Enter correct url!"
-    )
-    .required("Social media link is required!")
+    // Commeted by Yuvraj Sahu on 07-05-2023
+    // Reason - to remove validation message from link
+    // .matches(
+    //   /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    //   "Enter correct url!"
+    // )
+    // End of commet by Yuvraj Sahu on 07-06-2023
+    .required("Social media link is required!"),
 });
 // End of addition by Yuvraj Sahu on 26-05-2023
 

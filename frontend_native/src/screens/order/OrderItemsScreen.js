@@ -238,12 +238,32 @@ export default function OrderItemsScreen({ route, navigation }) {
     return total;
   }
   // End of Modified code by :- Parineeta Gedam on 29-05-2023
-  function ExtractDateTime(format) {
-    var date = format.substring(0, 10)
-    var time = format.substring(11, 16)
 
-    return { date, time }
+  /**
+   * Commeted and modified by Yuvraj Sahu on 09-06-2023
+   * Reason - to change date time formate
+   */
+  /**
+   * Commeted and added by Yuvraj Sahu on 09-06-2023
+   * Reason - to change the date time format bill, customer detail
+   */
+  // function ExtractDateTime(format) {
+  //   var date = format.substring(0, 10)
+  //   var time = format.substring(11, 16)
+  //   return { date, time }
+  // }
+  function ExtractDateTime(format) {
+    var d = new Date(format);
+    var time = d.toLocaleTimeString();
+    var date = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/")
+    return { time, date };
   }
+  /**
+   * End of change date time formate by Yuvraj Sahu on 09-06-2023
+   */
+  /**
+   * End of modification date time formate by Yuvraj Sahu on 09-06-2023
+   */
   // End of addition
 
   // Added by Yuvraj Sahu on 17-4-2023
@@ -455,19 +475,12 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="text">
               <!-- Eddited By Rohan Kansari - 12/5/23
               Reason - To show payment confirmation time in bill --!>
-              ${ExtractDateTime(orderDetail.payment_confirmation_date_time).date}
-               ${
-      //new Date(orderDetail.date)
-      //   .toISOString()
-      //   .split("T")[0]
-      //   .split("-")
-      //   .reverse()
-      //   .join("/")
-      ``
-      }
+              ${
+                ExtractDateTime(orderDetail.payment_confirmation_date_time).date
+              }
               </div>
               <div class="label">Time  </div>
-              <div class="text">  ${"ExtractDateTime(orderDetail.payment_confirmation_date_time).time"
+              <div class="text">  ${ExtractDateTime(orderDetail.payment_confirmation_date_time).time
       }</div>
               <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
@@ -912,11 +925,9 @@ export default function OrderItemsScreen({ route, navigation }) {
             <hr>
             <div class="inLineContainer">
             <div class="label">Date</div>
-             <div class="text">: ${new Date(
-      orderDetail.date
-    ).toLocaleDateString("en-GB")}</div>
+             <div class="text">: ${ExtractDateTime(orderDetail.date).date}</div>
             <div class="label">Time</div>
-            <div class="text">: ${"ExtractDateTime(orderDetail.date).time"}</div>
+            <div class="text">: ${ExtractDateTime(orderDetail.date).time}</div>
 
           </div>
           <div class="inLineContainer">
@@ -1118,7 +1129,14 @@ export default function OrderItemsScreen({ route, navigation }) {
    * Added by Yuvraj Sahu on 07-05-2023
    * Reason - to add date in order detail
    */
-  const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
+  /**
+   * Commeted by Yuvraj Sahu on 09-06-2023
+   * Reason - to send date in extracteddatetime function
+   */
+  // const dt = `${orderDetail.date}`.split("T")[0].split("-").reverse().join("/");
+  /**
+   * End of commet by Yuvraj Sahu on 09-06-2023
+   */
   /**
    * End of addition by yuvraj Sahu on 07-05-2023
    */
@@ -1319,7 +1337,11 @@ export default function OrderItemsScreen({ route, navigation }) {
             Reason - to add date and time */}
             <Text style={{ marginTop: 5 }}>
               <Text>Date</Text> :{""}
-              {dt}
+              {/* Commeted and added by Yuvraj Sahu on 09-06-2023
+              Reason - to change date format */}
+              {/* {dt} */}
+              {ExtractDateTime(orderDetail.date).date}
+              {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
               {/* {new Date(orderDetail.date)
                 .toISOString()
                 .split("T")[0]
@@ -1328,7 +1350,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 .join("/")} */}
             </Text>
             <Text style={{ marginTop: 5 }}>
-              <Text>Time</Text> :{"ExtractDateTime(orderDetail.date).time"}
+              <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
             </Text>
             {/* Addition by Om Shrivastava on 13-05-23
             Reason : Show the all over restaurant review   */}

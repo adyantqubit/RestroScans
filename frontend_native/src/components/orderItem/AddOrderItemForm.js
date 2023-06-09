@@ -249,12 +249,13 @@ export default function AddOrderItemForm(orderId) {
                                                 setSingalItemprice(0);
                                                 setPrice(0);
                                                 setItemNameRequired(false);
+                                                setItemNameSelected(selectedItemId.name)
 
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
                                             buttonTextAfterSelection={(selectedItemName, index) => {
                                                 // return selectedServingSize.value;
-                                                setItemNameSelected(selectedItemName.name)
+                                                // setItemNameSelected(selectedItemName.name)
                                                 return selectedItemName.name;
                                             }}
                                             rowTextForSelection={(itemName, index) => {

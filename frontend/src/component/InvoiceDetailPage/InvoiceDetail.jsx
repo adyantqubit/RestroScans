@@ -54,6 +54,20 @@ export default function InvoiceDetail() {
   // End of added code 14-04-2023
 
 
+  /**
+   * Added by Yuvraj Sahu on 09-06-2023
+   * Reason - to change date format
+   */
+  function ExtractDateTime(format) {
+    var d = new Date(format);
+    // var time = d.toLocaleTimeString();
+    var time = d.toLocaleTimeString('en-US', {hour12: false})
+    var date = `${orders.date}`.split("T")[0].split("-").reverse().join("/")
+    return { time, date };
+  }
+  /**
+   * End of changing date format by Yuvraj Sahu on 09-06-2023
+   */
 
 
   return (
@@ -92,12 +106,20 @@ export default function InvoiceDetail() {
             <div className='inv_details_1'>
               <span className='inv_details_heading'>Date </span>
               <span className='inv_details_colon'>: </span>
-              <span className='inv_details_value'>{new Date(orders.date).toLocaleDateString()}</span>
+              {/* Commeted and modified by Yuvraj Sahu on 09-06-2023
+              Reason - to change the date format */}
+              {/* <span className='inv_details_value'>{new Date(orders.date).toLocaleDateString()}</span> */}
+              <span className='inv_details_value'>{ExtractDateTime(orders.date).date}</span>
+              {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
             </div>
             <div className='inv_details_1'>
               <span className='inv_details_heading'>Time </span>
               <span className='inv_details_colon'>: </span>
-              <span className='inv_details_value'>{new Date(orders.date).toLocaleTimeString()}</span>
+              {/* Commeted and modified by Yuvraj Sahu on 09-06-2023
+              Reason - to change the time format */}
+              {/* <span className='inv_details_value'>{new Date(orders.date).toLocaleTimeString()}</span> */}
+              <span className='inv_details_value'>{ExtractDateTime(orders.date).time}</span>
+              {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
             </div>
           </div>
 
