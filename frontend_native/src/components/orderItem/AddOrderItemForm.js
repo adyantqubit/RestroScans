@@ -164,7 +164,8 @@ export default function AddOrderItemForm(orderId) {
             if (response.msg) {
                 orderId.setOrderItems(response.orderItems);
                 orderId.setOrderDetail(response.order);
-                alert("Success")
+                orderId.setOrderStatus(response.order.order_status)
+                Alert.alert("Item added successfully");
                 orderId.modalvisibilityFn(false)
             }
         }
@@ -361,7 +362,8 @@ export default function AddOrderItemForm(orderId) {
                                             <Text style={{ color: "red", fontWeight: "650" }}>
                                                 {" "}
                                             </Text>
-                                            Item Price
+                                            {/* Item Price */}
+                                            Price
                                         </Text>
                                         <TextInput
                                             style={styles.textInput}
@@ -378,7 +380,8 @@ export default function AddOrderItemForm(orderId) {
                                             <Text style={{ color: "red", fontWeight: "650" }}>
                                                 {" "}
                                             </Text>
-                                            Price
+                                            {/* Price */}
+                                            Total Price
                                         </Text>
                                         <TextInput
                                             style={styles.textInput}

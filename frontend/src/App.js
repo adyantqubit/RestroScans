@@ -126,7 +126,7 @@ function App() {
     if (updatedOrderData.fields.order_status == "Served") {
       console.log("Served", updatedOrderData.fields.order_status)
       message.success({
-        content: "Order served",
+        content: "Order Served",
         key: 1,
         icon: <CheckCircleOutlined />,
         style: {

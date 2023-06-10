@@ -76,7 +76,6 @@ export default function OrderDetails() {
       order:orders.order_id,
     };
     const response = await getOrderItemsAndOrderAPI(data, tenantName);
-    console.log("res", response)
     if (response) {
     setLoading(true);
       if(secureLocalStorage.getItem("order") && secureLocalStorage.getItem("orderItem")){
@@ -345,8 +344,6 @@ export default function OrderDetails() {
       });
     }
   }
-
-
   // End of added code by :- Parineeta Gedam on 17-05-2023
 
   /**

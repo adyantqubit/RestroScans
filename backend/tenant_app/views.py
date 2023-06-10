@@ -1976,17 +1976,17 @@ class PostUpdateOrderItemsAPIView(APIView):
         order = request.data['order']
 
         cartItem = []
-        if(order['order_status'] == "Placed") : 
-            for cart in request.data['orderItems']:
-                if(cart['item_status'] != "Cancelled") : 
-                    print("cart", cart)
-                    orderItem = OrderItem.objects.get(id=cart['id'])
-                    orderItem.quantity=cart['quantity']
-                    orderItem.price=cart['price']
-                    orderItem.item_status = cart['item_status']
-                    orderItem.save()
-                    cartItem.append(orderItem)
-            orderItemSerializer = OrderItemSerializer(cartItem, many=True)
+        # if(order['order_status'] == "Placed") : 
+        for cart in request.data['orderItems']:
+            if(cart['item_status'] != "Cancelled") : 
+                print("cart", cart)
+                orderItem = OrderItem.objects.get(id=cart['id'])
+                orderItem.quantity=cart['quantity']
+                orderItem.price=cart['price']
+                orderItem.item_status = cart['item_status']
+                orderItem.save()
+                cartItem.append(orderItem)
+        orderItemSerializer = OrderItemSerializer(cartItem, many=True)
 
         orderData  = Order.objects.filter(order_id = request.data['orders']).update(
             sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
