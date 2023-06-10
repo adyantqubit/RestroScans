@@ -142,8 +142,8 @@ export default function SocialMediaList() {
                 </div>
                 <div className={style.tableColumn5}>
                   <Popconfirm
-                    title="Delete the social media"
-                    description="Are you sure you want to delete"
+                    title="Are you sure you want to delete"
+                    // description="Are you sure you want to delete"
                     onConfirm={() => confirm(data.id)}
                     onCancel={cancel}
                     okText="Yes"

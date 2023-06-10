@@ -448,8 +448,8 @@ function SocialMediaForm(props) {
             Reason - to delete the social media */}
             {id != 0 && (
               <Popconfirm
-                title="Delete the social media"
-                description="Are you sure you want to delete"
+                title="Are you sure you want to delete"
+                // description="Are you sure you want to delete"
                 onConfirm={() => confirm(id)}
                 onCancel={cancel}
                 okText="Yes"
