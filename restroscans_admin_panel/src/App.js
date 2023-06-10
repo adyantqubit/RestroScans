@@ -104,7 +104,12 @@ function App() {
   return (
     <>
       {isSuccessfull ?
-        <Alert status={notificationType} className={`${style.label} ${style.alert}`} id="pot" >
+        <Alert
+        // Added by Om Shrivastava on 09-06-23
+        // Reson : Need to fix the width of alert
+        maxW="350px"
+        // End of addition by Om shrivastava on 09-06-23
+        status={notificationType} className={`${style.label} ${style.alert}`} id="pot">
           <AlertIcon />
           {notificationText}
         </Alert> : null}

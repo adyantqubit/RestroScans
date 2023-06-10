@@ -199,14 +199,32 @@ Reason : When popup is shown than its overlap in header page */
 /* Added by Om Shrivastava on 09-06-23
 Reason : When popup is shown than its overlap in header page */
 
-@media screen and (max-width: 1100px) {
+/* @media screen and (max-width: 800px) {
   #pot{
      margin-top: 2%;
+  }
+}@media screen and (max-width: 1100px) {
+  ant-btn-primary{
+     margin-top: 2%;
+  }
+}@media screen and (max-width: 1100px) {
+  ant-btn-confirm{
+     margin-top: 2%;
+  }
+}@media screen and (max-width: 600px) {
+  #pot{
+     margin-top: 2%;
+  }
+} */
+
+@media screen and (max-width: 1100px) {
+  #pot{
+     margin-top: 1.5%;
   }
 }
 @media screen and (max-width: 820px) {
   #pot{
-     margin-top: 6%;
+     margin-top: 2%;
   }
 }
 @media screen and (max-width: 420px) {
