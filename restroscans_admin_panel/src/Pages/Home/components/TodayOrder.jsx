@@ -256,7 +256,11 @@ const TodayOrder = () => {
                 var newOrderItemList = []
                 r.filter(e => {
                     updatedStatus.current.value.push(e.item_status);
-                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
+                    // Modification and addition by Om Shrivastava on 10-06-23
+                    // Reason : When we updatae the item status than its not working properly than I fix this bug
+                    // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
+                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o=>o.id == e.id)]
+                    // End of addition by Om Shrivastava on 10-06-23
                 })
 
                 setOrderItem(newOrderItemList)

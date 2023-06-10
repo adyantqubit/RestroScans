@@ -461,8 +461,9 @@ class Setting(models.Model):
     # Added by - Om shrivastava On 26/05/2023
     # Reason - Check the loyality point is apply or not
     allow_loyality_points=models.BooleanField(default=False)
-    per_loyality_point_value=models.IntegerField(null=True,blank=True,verbose_name='Value of single loyality point(Rs.)')
-    amount_for_single_loyality_point=models.IntegerField(null=True,blank=True,verbose_name='Loyality point calculation amount(Rs.)')
+    # Add default field by Om Shrivastava on 10-06-23 
+    per_loyality_point_value=models.IntegerField(default=0,null=True,blank=True ,verbose_name='Value of single loyality point(Rs.)')
+    amount_for_single_loyality_point=models.IntegerField(default=0,null=True,blank=True, verbose_name='Loyality point calculation amount(Rs.)')
     # End of addition 26-05-23
 
     def __str__(self):
@@ -743,37 +744,45 @@ class Order(models.Model):
         # # Reason : Need to apply some condition for calculation the loyality point
 
         setting_data=Setting.objects.first()
-        if setting_data.allow_loyality_points is True :
-            if self.payment_status == 'Pending':
-                if self.apply_loyality_point == 0:
-                    pass
-                else:
-                    if self.loyality_point_status=='is used':
-                        oldLoyality=Order.objects.get(order_id=self.order_id)
-                        self.apply_loyality_point=oldLoyality.apply_loyality_point
-
+        # Modification and addition by Om Shrivastava on 10-06-23
+        # Reason : When setting data is none than no need to show this calculations
+        # if setting_data.allow_loyality_points is True :
+        if setting_data is not None:   
+            if setting_data.allow_loyality_points is True :
+                if self.payment_status == 'Pending':
+                    if self.apply_loyality_point == 0:
+                        pass
                     else:
-                        # Added by Om Shrivastava on 08-06-23
-                        # Reason : Save the loyality point in float value 
-                        # self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
-                        self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
-                        # End of addition by Om Shrivastava on 08-06-23
+                        if self.loyality_point_status=='is used':
+                            oldLoyality=Order.objects.get(order_id=self.order_id)
+                            self.apply_loyality_point=oldLoyality.apply_loyality_point
 
-                        user_contact = self.customer_id.contact_number
-                        CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point)
-                        self.loyality_point_status='is used'
-            
-            if self.payment_status=='Paid':
-                oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
-                self.apply_loyality_point=oldLoyalityPoint.apply_loyality_point 
+                        else:
+                            # Added by Om Shrivastava on 08-06-23
+                            # Reason : Save the loyality point in float value 
+                            # self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
+                            self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
+                            # End of addition by Om Shrivastava on 08-06-23
 
-            if self.payment_status == 'Completed':
-                oldPoint=Order.objects.get(order_id=self.order_id)
-                self.apply_loyality_point=oldPoint.apply_loyality_point
-                get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
-                print('loyality_point-------------------------->',get_loyality)
-                user_no= self.customer_id.contact_number
-                CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
+                            user_contact = self.customer_id.contact_number
+                            CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point)
+                            self.loyality_point_status='is used'
+                
+                if self.payment_status=='Paid':
+                    oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
+                    self.apply_loyality_point=oldLoyalityPoint.apply_loyality_point 
+
+                if self.payment_status == 'Completed':
+                    oldPoint=Order.objects.get(order_id=self.order_id)
+                    self.apply_loyality_point=oldPoint.apply_loyality_point
+                    get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
+                    print('loyality_point-------------------------->',get_loyality)
+                    user_no= self.customer_id.contact_number
+                    CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
+        else:   
+            pass
+        # End of addition by Om shrivastava on 10-06-23
+        
         #  End of addition by Om Shrivastava on 28-05-23 
         
         # Added by :- Parineeta Gedam on 06-05-2023
