@@ -77,7 +77,11 @@ const Billing = () => {
         var d = new Date(format);
         // Modified by rohankansari - 10/5/23 - extracting date
         var date = format.substring(0, 10)
-        var time = format.substring(11, 16)
+        // Modified by Yuvraj Sahu on 09-06-2023
+        // Reason - to change date and time format
+        // var time = format.substring(11, 16)
+        var time = format.substring(11, 19)
+        // end of changing date time format by Yuvraj Sahu on 09-06-2023
 
         return { date, time }
     }

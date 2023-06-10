@@ -242,3 +242,56 @@ export const getCustomerList = async (tenant,filteringCriteria) => {
  * End of code addition by Ashish Dewangan on 03-06-2023.
  * Reason - To get customer list of tenant.
  */ 
+
+
+// ------------------------------- Social media APIs --------------------------- //
+// Added by Yuvraj Sahu on 29-05-2023
+// Reason - to save social media
+export const saveSocialMediaApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/social-links/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Yuvraj Sahu on 29-05-2023
+
+
+// Added by Yuvraj Sahu on 29-05-2023
+// Reason - to get all social media
+export const getSocialMediaApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/social-links/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Yuvraj Sahu on 29-05-2023
+
+
+// Added by Yuvraj Sahu on 29-05-2023
+// Reason - to delete social media
+export const deteleSocialMediaApi = async (tenant, id) => {
+  const response = await API.delete(`/api/v1/${tenant}/social-links/${id}`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Yuvraj Sahu on 29-05-2023
+
+
+// Added by Yuvraj Sahu on 29-05-2023
+// Reason - to update social media
+export const updateSocialMediaApi = async (value, tenant, id) => {
+  const response = await API.put(`/api/v1/${tenant}/social-links/${id}`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Yuvraj Sahu on 29-05-2023

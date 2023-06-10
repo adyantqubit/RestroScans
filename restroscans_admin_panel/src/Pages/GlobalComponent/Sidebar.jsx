@@ -196,6 +196,12 @@ const Sidebar = () => {
             QR Code{" "}
           </NavLink>
         </li>
+        {/* Added by Yuvraj Sahu on 29-05-2023
+        	Reason - to add sidebar link for social media  */}
+        <li className={style.links_div}>
+          <NavLink className={style.link} to="/social-media"> Social media </NavLink>
+        </li>
+        {/* End of addition social media by yuvraj Sahu on 29-05-2023 */}
       </ul>
 
       <div className={style.sidebar_close_div}>

@@ -736,7 +736,11 @@ class Order(models.Model):
         # Added by Rohan kansari- 10/5/23
         if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
             from datetime import datetime
-            self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M') 
+            # Modified by Yuvraj Sahu on 09-06-2023
+            # Reason - to change date time format
+            # self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M')
+            self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
+            # End of addition by Yuvraj Sahu on 09-06-2023
         #super().save( *args, **kwargs)
 
 

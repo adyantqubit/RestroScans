@@ -29,6 +29,9 @@ import PaymentMethod from "./Pages/PaymentDetail/PaymentMethod";
 import Revenue from "./Pages/Revenue/Revenue";
 import Setting from './Pages/Setting/Setting';
 import SettingForm from './Pages/Setting/SettingForm';
+import SocialMediaList from './Pages/socialMedia/SocialMediaList';
+import AddSocialMedia from './Pages/socialMedia/AddSocialMedia';
+import SocialMediaForm from './Pages/socialMedia/SocialMediaForm';
 
 var Message=0;
 var AutoValidateToken=0
@@ -178,6 +181,21 @@ function App() {
         {/* end of addition by - Suman sahu On 26/05/2023 */}
 
         <Route path="/Revenue" element={<Revenue />} />
+
+        {/* Added by Yuvraj Sahu on 29-05-2023
+      	Reason - to define route of social media page */}
+      	<Route path="/social-media" element={<SocialMediaList/>} />
+      	{/* End of addition by Yuvraj Sahu on 29-05-2023 */}
+
+        {/* Added by Yuvraj Sahu on 29-05-2023
+      	Reason - to define route of add social media page */}
+      	<Route path="/add-social-media" element={<SocialMediaForm/>} />
+      	{/* End of addition by Yuvraj Sahu on 29-05-2023 */}
+
+        {/* Added by Yuvraj Sahu on 07-06-2023
+      	Reason - to define route of update social media page */}
+      	<Route path="/update-social-media/:id" element={<SocialMediaForm/>} />
+      	{/* End of addition by Yuvraj Sahu on 07-06-2023 */}
       </Routes>
       {/* <Footer /> */}
       {/* </Header> */}

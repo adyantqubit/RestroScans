@@ -2126,9 +2126,15 @@ class SocialLinksAPIView(APIView) :
             })
     
     def post(self,request,tenant):
-        print(request.data)
+    # Added by Yuvraj Sahu on 07-06-2023
+    # Reason - to update and also save social media in same api
+        if "id" in request.data :
+            obj = SocialLinks.objects.get(id=request.data["id"])
+            serializedData = SocialLinksSerializer(obj, data=request.data)
+        else :
+            serializedData = SocialLinksSerializer(data=request.data)
+    # End of addition by Yuvraj Sahu on 07-06-2023
         socialObjs = SocialLinks.objects.all()
-        serializedData = SocialLinksSerializer(data=request.data)
         serialized=SocialLinksSerializer(socialObjs, many=True)
         if serializedData.is_valid():
             serializedData.save()
