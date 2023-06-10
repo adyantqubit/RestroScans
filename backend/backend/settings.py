@@ -322,3 +322,45 @@ DATE_INPUT_FORMATS = ( ('%d/%m/%Y'),)
 DATETIME_FORMAT = (( 'd/m/Y H:i' ))
 DATETIME_INPUT_FORMATS = (('%d/%m/%Y %H:%i'),)
 # End of addition 05/05/2023
+
+# Added by - Ashish Dewangan on 10-06-2023
+# Reason - To have logging functionality
+import logging.config
+LOGGING_CONFIG=logging.config.dictConfig({
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {asctime} {module} {lineno:d} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "DjangoLogsHandler": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename":  "./logs/django_logs.log",
+            "formatter": "simple",
+        },
+        "CustomLogsHandler": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename":  "./logs/custom_logs.log",
+            "formatter": "simple",
+        },
+    },
+    "loggers":{
+        "django": {
+            "handlers": ["DjangoLogsHandler"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "custom_logger": {
+            "handlers": ["CustomLogsHandler"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    }
+})
+# End of code addition by - Ashish Dewangan on 10-06-2023
+# Reason - To have logging functionality
