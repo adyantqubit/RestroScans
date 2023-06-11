@@ -4,15 +4,19 @@
 @import "../../App.css";   
 
 .container {
-  height: 90vh;
+  /* height: 90vh; */
+  height: 100vh;
+
   background-color: var(--sidebar-color);
+  /* background-color: var(--header-sidebar-bg-color); */
+
   /* background-image: url(../../assets/bg.jpg); */
   position: sticky;
   overflow: scroll;
 }
 .links_div {
-  padding: .8rem;
-  padding-bottom: 4.5vh;
+  padding: .8rem 0 0 .8rem;
+  padding-bottom: 2vh;
   width: 15rem;
   cursor: pointer;
 }
@@ -28,8 +32,11 @@
 }
 
 .link {
+  font-size: 1.2rem;
   color: white;
-  letter-spacing: .8px;
+  /* letter-spacing: .8px; */
+  /* font-family: var(--primary-fontFamily); */
+  /* font-weight: bold; */
 }
 
 .sublink{
@@ -50,9 +57,12 @@
   display: none;
 }
 
+.close_sidebar{
+  padding-bottom: 2rem;
+}
 @media screen and (max-width: 768px) {
   .container {
-    width: 5%;
+    width: 0;
 
     /* Modification and addition by Om Shrivastava on 04-06-23
     Reason : Fix scrollbar height in mobile view */
@@ -63,13 +73,15 @@
 
     /* margin-top: 9vh; */
     /* margin-bottom: 11vh; */
-    background-color: white;
+    /* background-color: white; */
     display: flex;
     overflow: inherit;
   }
   .sidebar_open_div {
     font-size: 3rem;
     display: flex;
+    position: fixed;
+    z-index: 999;
   }
   .sidebar_close_div {
     font-size: 3rem;
@@ -81,6 +93,7 @@
     flex-direction: column;
     color: white;
     background: var(--sidebar-color);
+    /* background-color: var(--header-sidebar-bg-color); */
     font-size: 1.5rem;
   }
   .svg-inline--fa {
@@ -98,8 +111,8 @@
   .links_div {
     /* padding: 0.1rem; */
     /* padding: 0.2rem; */
-padding: 0.3%;
-    width: 15rem;
+    padding: 0.3%;
+    width: 10rem;
   }
   .link{
     font-size: 1rem;

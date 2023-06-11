@@ -2,11 +2,11 @@
    reason- CSS for QRcode.jsx */
 
 .Container {
-  width: 95%;
+  width: 100%;
   text-align: center;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 100vh;
   margin: auto;
   overflow: scroll;
 }

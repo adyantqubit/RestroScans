@@ -155,8 +155,11 @@ Reason : When popup is shown than its overlap in header page */
   padding: 30px;
 }
 @media screen and (max-width: 798px) {
-  .ant-popconfirm .ant-popconfirm-inner-content {
+  /* .ant-popconfirm .ant-popconfirm-inner-content {
     margin-top: 8rem !important;
+  } */
+  .css-dev-only-do-not-override-12jzuas .ant-popover .ant-popover-inner {
+    padding: 0 !important;
   }
 }
 @media screen and (max-width: 767px) {
@@ -188,13 +191,17 @@ Reason : When popup is shown than its overlap in header page */
   background-color: var(--highlight-color);
   color: var(--primary-bg-color);
 }
+.css-dev-only-do-not-override-12jzuas.ant-popconfirm .ant-popconfirm-message .ant-popconfirm-title:only-child{
+  color: white !important;
+}
 /* end of addition by- Suman sahu On 24/05/2023 */
 
-/* .ant-popconfirm .ant-popconfirm-inner-content{
-  position: fixed;
-  z-index: 9999;
-} */
-
+/* added by - Suman sahu On 09/06/2023
+   reason - decrease padding of the antd modal */
+.ant-modal .ant-modal-content {
+  padding: 10px 10px !important;
+}
+/* end of addition On 09/06/2023 */
 
 
 :where(.css-dev-only-do-not-override-15rg2km).ant-popover .ant-popover-inner{
@@ -238,3 +245,21 @@ Reason : When popup is shown than its overlap in header page */
   }
 }
   /* End of addition by Om Shrivastava on 09-06-23 */
+
+/* added by - Suman sahu On 09/06/2023
+   reason - remove the blue reflection of links and button in the mobile view */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+/* end of addition 09/06/2023 */
+
+/* added by - Suman sahu On 11/06/2023
+   reason - for hide cross button in the Modal on dashboard */
+.anticon svg {
+  color: transparent;
+}
+/* end of addition 11/06/2023 */

@@ -27,11 +27,11 @@ const Header = (props) => {
   const confirm = (props) => {
     // Modification and addition by Om Shrivastava on 02-06-23
     // Reason : Fix the logout issue
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     navigate("/login");
     localStorage.clear();
-    tokenRecheck()
-    Message("Successfully logged out", "warning")
+    tokenRecheck();
+    Message("Successfully logged out", "warning");
     // End of modification by Om Shrivastava on 02-06-23
   };
   const cancel = (e) => {};
@@ -49,36 +49,35 @@ const Header = (props) => {
         <div className={menuOpen ? style.mobile_menu_link : style.menu_link}>
           <ul>
             <li className={style.links_div}>
-              <FaHome className={style.icons} />
               <NavLink className={style.link} to="/Dashboard">
+                <FaHome className={style.icons} />
                 Home
               </NavLink>
             </li>
             <li className={style.links_div}>
-              <FaBell className={style.icons} id="link" />
               <NavLink className={style.link} to="/notification">
+                <FaBell className={style.icons} id="link" />
                 Notification
               </NavLink>
             </li>
             <li className={style.links_div}>
-              <IoMdSettings className={style.icons} />
               <NavLink className={style.link} to="/setting">
+                <IoMdSettings className={style.icons} />
                 Setting
               </NavLink>
             </li>
             <li className={style.links_div}>
-              <MdSupport className={style.icons} />
               <NavLink
                 className={style.link}
                 onClick={() =>
                   linkOpen("https://adyant.co.in/contact-us-india-1")
                 }
               >
+                <MdSupport className={style.icons} />
                 Support
               </NavLink>
             </li>
             <li className={style.logout_link_div}>
-              <RiLogoutBoxFill className={style.icons} />
               {/* <NavLink className={style.link}>Logout</NavLink> */}
               <Popconfirm
                 className={style.link}
@@ -88,6 +87,7 @@ const Header = (props) => {
                 cancelText="Cancel"
                 okText="Ok"
               >
+              <RiLogoutBoxFill className={style.icons} />
                 Logout
               </Popconfirm>
             </li>

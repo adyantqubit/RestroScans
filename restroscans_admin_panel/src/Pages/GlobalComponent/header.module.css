@@ -21,8 +21,9 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Jost", sans-serif;
-    /* Modified by Rohan Kansari - 29/5/23*/
+  /* Modified by Rohan Kansari - 29/5/23*/
   background-color: white;
+  /* background-color: var(--header-sidebar-bg-color); */
 }
 /* html {
   font-size: 62.5%;
@@ -38,6 +39,7 @@ li {
 
 .header_container {
   width: 100%;
+  top: 0;
   height: 9vh;
   display: grid;
   position: fixed;
@@ -46,14 +48,13 @@ li {
   grid-template-columns: 2rem 4fr 4fr 1fr 2rem;
   /* Modified by Ashish Dewangan on 07-06-2023
   Reason - Shadow was making dull effect on other elements */
-  
+
   /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px; */
-    border-bottom: 1px solid grey;
+  border-bottom: 1px solid grey;
   /* background: #b2d8e4; */
   /* End of code modification by Ashish Dewangan on 07-06-2023
   Reason - Shadow was making dull effect on other elements */
-  
 }
 
 .logo_div {
@@ -103,29 +104,41 @@ li {
 
 .menu_link ul li a {
   text-transform: capitalize;
-  color: rgba(0, 0, 3, 0.8);
+  color: black;
   transition: 0.5s;
 }
 
 .menu_link ul li:hover > a {
   transform-origin: left;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   transition: 0.5s;
-  color: #32bccb;
+  /* color: #32bccb; */
+  background-color: black;
+  color: white;
+  border-radius: 0.2rem;
+}
+.icons {
+  margin-top: 0.3rem;
+  margin-right: 0.5rem;
 }
 .active {
   color: #32bccb;
 }
-.icons:hover {
+/* .icons:hover {
   color: #32bccb;
-}
+} */
 
 .links_div {
   display: contents;
 }
 .link {
-  padding-right: 3rem;
-  padding-left: .8rem;
+  margin-right: 2.5rem;
+  /* margin-left: 0.5rem; */
+  /* font-family: var(--primary-fontFamily); */
+  /* font-family: sans-serif; */
+  /* font-weight: 600; */
+  padding: 0 0.5rem 0.2rem 0.5rem;
+  display: flex;
 }
 
 .btn_div .hamburger_menu {
@@ -134,16 +147,25 @@ li {
 
 .logout {
   /* font-size: 1.8rem; */
-  border: 1px solid none;
-  padding: 0.5rem 2rem;
+  border: 2px solid var(--highlight-color);
+  padding: 0.4rem 2rem;
+  /* padding-top: .2rem; */
   border-radius: 3rem;
   background-color: var(--highlight-color);
+  /* background-color: var(--primary-btn-color); */
+  box-shadow: 2px 2px 8px rgb(90, 89, 89);
+
   color: var(--primary-bg-color);
+  /* color: black; */
+  /* font-family: var(--primary-fontFamily); */
+  /* font-weight: 600; */
 }
 .logout:hover {
   background-color: var(--primary-bg-color);
   border: 2px solid var(--highlight-color);
   color: var(--highlight-color);
+  /* color: white;
+  background-color: #b16142; */
   cursor: pointer;
 }
 
@@ -156,27 +178,23 @@ li {
     grid-template-columns: 1rem 3fr 3fr 1fr 1rem;
   }
 
-  /* .logo_div,
-  .menu_link ul,
-  .btn_div ul {
-    height: 8rem;
-  } */
-  /* .link {
-    font-size: 1.5rem;
-    padding-right: 4rem;
-    padding-left: 1rem;
-  } */
   .menu_link ul {
     padding-left: 0;
   }
   .link {
-    font-size: .9rem;
-    padding-right: 2.5rem;
+    font-size: 1.1rem;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   .link {
-    font-size: .9rem;
+    font-size: 1rem;
+    margin-right: 2rem;
+  }
+}
+@media (max-width: 950px) {
+  .link {
+    font-size: 1rem;
+    margin-right: 1.5rem;
   }
 }
 @media (max-width: 798px) {
@@ -191,19 +209,18 @@ li {
     display: none;
   }
 
-  /* .logo_div,
-  .btn_div ul {
-    height: 7rem;
-  } */
-
   .mobile_menu_link {
     grid-column: 2/4;
     position: relative;
     z-index: 99;
+    color: black;
   }
 
   .mobile_menu_link {
     background-color: white;
+    /* background-color: var(--header-sidebar-bg-color); */
+    box-shadow: 4px 4px 8px rgb(64, 63, 63);
+
     height: fit-content;
     display: grid;
     grid-column: 1/6;
@@ -213,8 +230,6 @@ li {
     margin: auto;
     float: right;
     width: 100%;
-    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px; */
   }
   .links_div {
     display: flex;
@@ -268,48 +283,64 @@ li {
   .header_container {
     grid-template-columns: 1rem 2fr 1fr 1fr 1rem;
   }
-
-  /* .logo_div,
-  .btn_div ul {
-    height: 6rem;
-  } */
-
-  .btn_div {
-    /* height: 6rem; */
-    display: flex;
-    justify-self: end;
-    align-items: center;
-  }
-
-  .btn_div .hamburger_menu {
-    display: block;
-    font-size: 2.5rem;
-  }
 }
 @media (max-width: 520px) {
   .header_container {
     grid-template-columns: 1rem 4fr 1fr 1fr 1rem;
   }
 
-  /* .logo_div,
-  .btn_div ul {
-    height: 6rem;
-  } */
-
   .logo_div h2 {
     font-size: 2rem;
   }
 
   .btn_div {
-    /* height: 6rem; */
     display: flex;
     justify-self: end;
     align-items: center;
   }
+}
+/* end of creation code by- Suman sahu On 22/05/2023 */
 
+/* Added by - Suman sahu On 09/06/2023 
+   reason - make responsive in the landscap mode*/
+
+@media only screen and (max-width: 1400px) and (max-height: 500px) and (orientation: landscape) {
+  .header_container {
+    height: 14vh;
+  }
+  .content_and_sideBar {
+    padding-top: 14vh;
+  }
+  .menu_link ul, .btn_div ul{
+    height: 14vh;
+  }
+}
+
+@media only screen and (max-width: 1080px) and (max-height: 500px) and (orientation: landscape) {
+  .header_container {
+    height: 13vh;
+  }
+  .content_and_sideBar {
+    padding-top: 13vh;
+  }
+  .menu_link ul, .btn_div ul{
+    height: 13vh;
+  }
+}
+
+@media only screen and (max-width: 740px) and (max-height: 500px) and (orientation: landscape) {
+  .header_container {
+    height: 13vh;
+  }
+  .content_and_sideBar {
+    padding-top: 13vh;
+  }
+  .mobile_menu_link{
+    padding-left: 0;
+  }
   .btn_div .hamburger_menu {
     display: block;
     font-size: 2.5rem;
   }
 }
-/* end of creation code by- Suman sahu On 22/05/2023 */
+/* end of addition by- Suman sahu On 09/06/2023 */

@@ -25,7 +25,7 @@ const Revenue = () => {
       JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
     );
     if (response) {
-      console.log("+++++++++++++++++++++++", response);
+      // console.log("+++++++++++++++++++++++", response);
       setData(response)
       setTodaySummary(response.revenue_details.todays_summary);
       setThisWeekSummary(response.revenue_details.this_weeks_summary);
