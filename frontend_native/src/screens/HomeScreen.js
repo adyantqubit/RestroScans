@@ -80,7 +80,10 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     authNavigate();
-    getSettingData();
+    // Commeted by Yuvraj Sahu on 11-06-2023
+    // Reason - to remove setting api for remove warning on bottom
+    // getSettingData();
+    // End of comment
     getQRCode(); // Added by Om on 16-04-23 for show set the method in useeffect
   }, [isFocused]);
 
@@ -95,8 +98,17 @@ export default function HomeScreen({ navigation }) {
   // Added by Om on 16-04-23
   // Reason : For set the QR code data in scanner variable
   const getQRCode = async () => {
-    var qrCode = await SecureStore.getItemAsync("qrCodeTenant");
-    setScanner(qrCode);
+    /**
+     * Added by Yuvraj Sahu on 11-06-2023
+     * Reason - to remove error msg
+     */
+    if ((await SecureStore.getItemAsync("userData")) != null) {
+      var qrCode = await SecureStore.getItemAsync("qrCodeTenant");
+      setScanner(qrCode);
+    }
+    /**
+     * End of modification by yuvraj Sahu on 11-06-2023
+     */
   };
   // End of addition
 
@@ -105,7 +117,11 @@ export default function HomeScreen({ navigation }) {
      * Added by Yuvraj Sahu on 04-05-2023
      * Reason - to remove error bottom of the app when we logged out
      */
-    // if ((await SecureStore.getItemAsync("userData")) != null) {
+    /**
+     * Added by Yuvraj Sahu on 11-06-2023
+     * Reason - to remove error bottom of the app when we logged out
+     */
+    if ((await SecureStore.getItemAsync("userData")) != null) {
       var tenant = JSON.parse(
         await SecureStore.getItemAsync("tenantInfo")
       ).tenant_name;
@@ -135,8 +151,11 @@ export default function HomeScreen({ navigation }) {
         /**
          * End of code addition by Ashish Dewangan on 19-04-2023
          */
-      // }
+      }
     }
+    /**
+     * End of removing error by Yuvraj Sahu on 11-06-2023
+     */
     /**
      * End of addition by Yuvraj Sahu on 04-05-2023
      */

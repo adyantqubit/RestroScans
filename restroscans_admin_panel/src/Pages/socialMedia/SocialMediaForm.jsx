@@ -341,7 +341,10 @@ function SocialMediaForm(props) {
                     style={{ width: "200px" }}
                     // value={gstin}
                     value={socialMediaName}
-                    maxLength={15}
+                    // Commeted by Yuvraj Sahu on 11-06-2023
+                    // Reason - to set max length of social media name
+                    maxLength={255}
+                    // End of addition by Yuvraj Sahu on 11-06-2023
                     onChange={(e) => {
                       setSocialMediaName(e.target.value);
                       validateOnInput("social_media_name", e.target.value);
@@ -358,7 +361,7 @@ function SocialMediaForm(props) {
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Social media link</div>
+                  <div className={`${style.inputLabel}`}>Social media link *</div>
                   <input
                     className={`${style.textInputBox}`}
                     type="text"

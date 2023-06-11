@@ -9,12 +9,49 @@ import { useNavigation, CommonActions } from "@react-navigation/native";
 import AddMenuScreen from "../screens/menu/AddMenuScreen";
 import AddCategoryScreen from "../screens/menu/AddCategoryScreen";
 import AddItemScreen from "../screens/menu/AddItemScreen";
+// import { CommonActions } from "@react-navigation/native";
+
 const Tab = createMaterialTopTabNavigator();
 
-export function AddMenuNavigation() {
+export function AddMenuNavigation({ navigation }) {
+  /**
+   * Added by Yuvraj Sahu on 11-06-2023
+   * Reason - to render the screen
+   */
+  const isFocused = useIsFocused();
+  /**
+   * End of addition by Yuvraj Sahu on 11-06-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 11-06-2023
+   * Reason - to clear the navigation when
+   * come back to same drawer screen
+   */
+  useEffect(() => {
+    // if (isFocused == false) {
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [{ name: "AddMenu" }],
+    //   })
+    // );
+    // }
+  }, [isFocused]);
+  /**
+   * End of clearing navigation by Yuvraj Sahu on 11-06-2023
+   */
+
   return (
-    <Tab.Navigator initialRouteName="Menu">
-      <Tab.Screen name="Add Menu" component={AddMenuScreen} />
+    <Tab.Navigator initialRouteName="AddMenu">
+      {/* Modified by Yuvraj Sahu on 11-06-2023
+      Reason - to change navigation */}
+      <Tab.Screen
+        name="AddMenu"
+        options={{ title: "Add Menu" }}
+        component={AddMenuScreen}
+      />
+      {/* End of modification by Yuvraj Sahu on 11-06-2023 */}
       <Tab.Screen name="Add Category" component={AddCategoryScreen} />
       <Tab.Screen name="Add Item" component={AddItemScreen} />
     </Tab.Navigator>

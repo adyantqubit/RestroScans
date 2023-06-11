@@ -561,9 +561,9 @@ export default function OrderListScreen({ route, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  orderID{orderIdSort == "" && "??"}
-                  {orderIdSort == "ascending" && "?"}
-                  {orderIdSort == "descending" && "?"}
+                  orderID{orderIdSort == "" && "↓↑"}
+                  {orderIdSort == "ascending" && "↑"}
+                  {orderIdSort == "descending" && "↓"}
                 </Text>
               </Pressable>
               <Pressable
@@ -576,9 +576,9 @@ export default function OrderListScreen({ route, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  Order Status{orderStatusSortVal == "" && "??"}
-                  {orderStatusSortVal == "ascending" && "?"}
-                  {orderStatusSortVal == "descending" && "?"}
+                  Order Status{orderStatusSortVal == "" && "↓↑"}
+                  {orderStatusSortVal == "ascending" && "↑"}
+                  {orderStatusSortVal == "descending" && "↓"}
                 </Text>
               </Pressable>
               <Pressable
@@ -591,9 +591,9 @@ export default function OrderListScreen({ route, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  Payment Status{paymentStatusSortVal == "" && "??"}
-                  {paymentStatusSortVal == "ascending" && "?"}
-                  {paymentStatusSortVal == "descending" && "?"}
+                  Payment Status{paymentStatusSortVal == "" && "↓↑"}
+                  {paymentStatusSortVal == "ascending" && "↑"}
+                  {paymentStatusSortVal == "descending" && "↓"}
                 </Text>
               </Pressable>
             </View>

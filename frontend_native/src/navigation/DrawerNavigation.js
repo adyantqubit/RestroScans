@@ -46,9 +46,12 @@ export default function DrawerNavigation({ navigation }) {
   var { render, setRender, getSettingData } = useContext(AppStateContext);
 
   React.useEffect(() => {
-    getTenant();
+  	// Modified by yuvraj Sahu on 11-06-2023
+  	// Reason - to remove warning from bottom
+    // getTenant();
     authNavigate();
-    getSettingData();
+    // getSettingData();
+    // End of modification by Yuvraj Sahu on 11-06-2023
   }, [isFocused]); // Added by Om on 18-04-23 For helped the rerender issue
 
   var getTenant = async () => {

@@ -118,7 +118,10 @@ export default function LoginScreen({ navigation }) {
         // End of addition
         navigation.navigate("DrawerScreens");
         Alert.alert("Logged In Successfully");
-        setRender(!render);
+        // Commeted by Yuvraj Sahu on 11-06-2023
+        // Reason - to remove warning showing in bottom side of login screen
+        // setRender(!render);
+        // End of comment by Yuvraj Sahu on 11-06-2023
         resetForm({ values: "" });
       }
       if (res.notAproved) {

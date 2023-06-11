@@ -8,9 +8,43 @@ import { colors } from "../Colours/globalColor";
 import OfferItemsScreen from "../screens/offer/OfferItemsScreen";
 
 import OfferScreen from "../screens/offer/OfferScreen";
+import { CommonActions, useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
 
-const OfferNavigation = () => {
+// Modified by yuvraj Sahu on 11-06-2023
+// Reason - to clear the validation
+const OfferNavigation = ({ navigation }) => {
+  // End of addition by yuvraj Sahu on 11-06-2023
   const Stack = createNativeStackNavigator();
+
+  /**
+   * Added by Yuvraj Sahu on 11-06-2023
+   * Reason - to render the screen
+   */
+  const isFocused = useIsFocused();
+  /**
+   * End of addition by Yuvraj Sahu on 11-06-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 11-06-2023
+   * Reason - to clear the navigation when
+   * come back to same drawer screen
+   */
+  useEffect(() => {
+    // if (isFocused == false) {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: "OfferScreen" }],
+      })
+    );
+    // }
+  }, [isFocused]);
+  /**
+   * End of clearing navigation by Yuvraj Sahu on 11-06-2023
+   */
+
   return (
     <>
       <Stack.Navigator
@@ -36,7 +70,6 @@ const OfferNavigation = () => {
           options={{ title: "Banner/Offer details", headerShown: true }}
           component={OfferItemsScreen}
         />
-
       </Stack.Navigator>
     </>
   );
