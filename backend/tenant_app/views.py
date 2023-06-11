@@ -1976,6 +1976,11 @@ class PostUpdateOrderItemsAPIView(APIView):
         order = request.data['order']
 
         cartItem = []
+
+        # Modified by :- Parineeta Gedam on 10-06-2023 
+        # Ticket no :- 298
+        # reason :- In native side, in order details page,  if we click on update button then show the value error for solving this modified that code. 
+        
         # if(order['order_status'] == "Placed") : 
         for cart in request.data['orderItems']:
             if(cart['item_status'] != "Cancelled") : 
@@ -1987,13 +1992,16 @@ class PostUpdateOrderItemsAPIView(APIView):
                 orderItem.save()
                 cartItem.append(orderItem)
         orderItemSerializer = OrderItemSerializer(cartItem, many=True)
+        
+        # End of Modified code by Parineeta Gedam on 10-06-2023
 
         orderData  = Order.objects.filter(order_id = request.data['orders']).update(
             sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
             cgst = round( float("{:.2f}".format(order['cgst'])),2), 
             sgst = round( float("{:.2f}".format(order['sgst'])),2), 
             total = round( float("{:.2f}".format(order['total'])),2),
-            final_amount = round( float("{:.2f}".format(order['total'])),2),
+            # final_amount = round( float("{:.2f}".format(order['total'])),2),
+            final_amount = round( float("{:.2f}".format(order['final_amount'])),2),
             cancelled_by="Customer")
         
         orderObject = Order.objects.filter(order_id = request.data['orders']).values()[0]

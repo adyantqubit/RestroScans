@@ -843,7 +843,7 @@ export default function OrderItemsScreen({ route, navigation }) {
   const handleChangeDiscountAmountPercentage = (e) => {
     setDiscountPercentage(e)
     var discountRupees = (orderDetail.sub_total / 100) * e
-    setDiscountRupees("" + discountRupees)
+    setDiscountRupees("" + discountRupees.toFixed(2))
       if (e > 100) {
         setDiscountPercentageErrorMsg(true)
       }
@@ -862,7 +862,6 @@ export default function OrderItemsScreen({ route, navigation }) {
 
     // Added by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
     submitUpdateOrderItem()
-    // updateItemStatus()
     // End of added code by :- Parineeta Gedam on 25-05-2023 reason :- update the order items
 
     var tenant = JSON.parse(
@@ -1372,10 +1371,10 @@ export default function OrderItemsScreen({ route, navigation }) {
               transparent={true}
               visible={modalVisible}
             >
-              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} />
+              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} setOrderStatus={setOrderStatus} />
             </Modal>
 
-            {orderDetail.payment_status == "Completed" ?
+            {orderDetail.payment_status == "Completed" || orderDetail.payment_status == "Paid" || orderDetail.order_status == "Cancelled" ?
               null
               : <View style={styles.addOrderItemBtn}>
                 <Pressable
@@ -1481,7 +1480,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                         reason :- for updations change the functionality [increment and decrement the qunatity]
                       */}
                       {
-                        // orderItem.item_status == "Confirm" ||
+                          // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
+                        // orderItem.item_status == "Confirm" 
+                        orderDetail.payment_status == "Completed" ||
                         orderItem.item_status == "Cancelled" ?
                           <View style={styles.qtyParentContainer}>
                             <Text style={styles.qtyDecrementDisable}>-</Text>
@@ -1555,8 +1556,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                     */}
                       <View style={styles.actionContainer}>
                         {
+                          // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
                           // orderItem.item_status == "Confirm" || 
-                          orderItem.item_status == "Cancelled" ?
+                          orderItem.item_status == "Cancelled" || orderDetail.payment_status == "Completed" ?
                             // {allResponseOrderItem.filter(e => e.id == orderItem.id)[0].item_status == "Confirm" || orderItems.filter(e => e.id == orderItem.id)[0].item_status == "Cancelled" ?
                             <><Text style={styles.actionDataContainer}>{orderItem.item_status}</Text></>
                             : <SelectDropdown
@@ -1683,14 +1685,21 @@ export default function OrderItemsScreen({ route, navigation }) {
               </View>
               <Text>:</Text>
               <View style={{ width: "20%" }}>
+                {/* Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
+                    reason :- if payment is completed then disable that fields
+                */}
                 <TextInput style={styles.discoutAmount}
                   numeric
                   keyboardType={'numeric'}
                   value={discountRupees}
+                  // Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid then admin can not add discount T.no :- 307  
+                  editable = {orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
+                  // End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountRupees(e)} />
-                {discountRupeesErrorMsg &&
-                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than total</Text>
+                  {discountRupeesErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than total price</Text>
                 }
+                {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
               </View>
             </View>
             <View style={styles.amountRow}>
@@ -1699,14 +1708,21 @@ export default function OrderItemsScreen({ route, navigation }) {
               </View>
               <Text>:</Text>
               <View style={{ width: "20%" }}>
+                 {/* Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
+                    reason :- if payment is completed then disable that fields
+                */}
                 <TextInput style={styles.discoutAmount}
                   numeric
                   keyboardType={'numeric'}
                   value={discountPercentage}
+                  // Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid and order status is cancelled then admin can not add discount T.no :- 307  
+                  editable = {orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
+                  // End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
                 {discountPercentageErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
                 }
+                {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
               </View>
             </View>
             {/* End of added code by :- Parineeta Gedam on 07-06-2023 */}
@@ -1950,6 +1966,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
+                // Modified by :- PArineeta gEdam on 08-06-2023
+                disabled = {orderDetail.payment_status == "Completed" ? true : false }
+                // End of modified code on 08-06-2023
+
                 /** Added by Yuvraj Sahu on 07-05-2023
                  * Reson - to give hieght in dropdown
                  */
@@ -1974,7 +1994,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
-                  backgroundColor: "white",
+                  backgroundColor: orderDetail.payment_status == "Completed" ? "#EAE5E3" : "white",
                   width: "40%",
                   alignSelf: "center",
                   // marginBottom: 10,

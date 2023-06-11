@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, StyleSheet, Button, Pressable, Alert, Modal, TextInput } from "react-native";
 import { colors, inputs } from "../../Colours/globalColor";
-import { getAllMenuList, postOrderItemsApi, getAllOfferList } from "../../api/Services";
+import { getAllMenuList, postOrderItemsApi, getAllOfferList,getSettingApi } from "../../api/Services";
 import { Formik } from "formik";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,15 +15,45 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default function AddOrderItemForm(orderId) {
 
-    const formRef = useRef(null);
+    // Added by :- Parineeta Gedam on 09-06-2023
+    // reason :- get setting data\
 
-    // Added by :-  Parineeta Gedam on 24-05-2023
-    // Reason - to change Serving size
-    var servingSizeData = [
+    useEffect(() => {
+        getSettingData()
+    }, [])
+
+    // Added by :-  Parineeta Gedam on 11-05-2023
+    // Reason - to change get settings data 
+
+    // Added by :- Parineeta Gedam on 11-06-2023
+    // Reason :- to set and show half and full  
+    var [servingSizeData, setServingSizeData] = useState([
         { key: "Half", value: "Half" },
-        { key: "Full", value: "Full" },
-    ];
-    // End of added code by :- Parineeta Gedam on 24-05-2023
+        { key: "Full", value: "Full" }
+    ])
+    // End of added code by :- Parineeta Gedam on 11-06-2023
+    
+    var [settings, setSettings] = useState({});
+    var [allowHalfPrice, setAllowHalfPrice] = useState(false);
+    const getSettingData = async () => {
+        if (await SecureStore.getItemAsync("tenantInfo")) {
+          var tenant = JSON.parse(
+            await SecureStore.getItemAsync("tenantInfo")
+          ).tenant_name;
+          var response = await getSettingApi(tenant);
+          if (response) {
+            setSettings(response.setting);
+            setAllowHalfPrice(response.setting.allow_half_price);
+            if (response.setting.allow_half_price == false) {
+                var rm = servingSizeData.slice(1);
+                setServingSizeData(rm)
+            }
+          }
+        }
+      };
+    // End of added code by :- Parineeta Gedam 09-06-2023
+
+    const formRef = useRef(null);
 
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set item name selcted data
@@ -32,7 +62,7 @@ export default function AddOrderItemForm(orderId) {
 
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set item id selcted data
-    const [itemIdSelected, setItemIdSelected] = useState();
+    const [itemIdSelected, setItemIdSelected] = useState(0);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
     // Added  by :- Parineeta Gedam on 24-05-2023
@@ -42,7 +72,7 @@ export default function AddOrderItemForm(orderId) {
 
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set quantity
-    const [quantitySelected, setQuantitySelected] = useState("");
+    const [quantitySelected, setQuantitySelected] = useState(0);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
     // Added  by :- Parineeta Gedam on 24-05-2023
@@ -71,14 +101,17 @@ export default function AddOrderItemForm(orderId) {
         // itemNameDropdownRef.current.reset();
         setItemNameRequired(false);
         setservingSizeRequired(false);
+        // Modified by :- Parineeta gedam 
+        getAllMenus();
     }, [isFocused]);
     // End of added code by :- Parineeta Gedam on 27-05-2023
 
+    // Commented by :- Parineeta Gedam on 11-06-2023
     // Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - to get item list
-    useEffect(() => {
-        getAllMenus();
-    }, []);
+    // useEffect(() => {
+    //     getAllMenus();
+    // }, []);
 
     var [itemList, setItemList] = useState([]);
 
@@ -127,12 +160,12 @@ export default function AddOrderItemForm(orderId) {
         if (servingSizeSelected == "Half") {
             setSingalItemprice(itemName.price_half)
             var price = (itemName.price_half * qty)
-            setPrice(price)
+            setPrice(price.toFixed(2))
         }
         if (servingSizeSelected == "Full") {
             setSingalItemprice(itemName.price_full)
             var price = (itemName.price_full * qty)
-            setPrice(price)
+            setPrice(price.toFixed(2))
         }
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
@@ -247,11 +280,11 @@ export default function AddOrderItemForm(orderId) {
                                             onSelect={(selectedItemId, index) => {
                                                 setItemIdSelected(selectedItemId.id);
                                                 setQuantitySelected(0);
+                                                values.quantity = 0
                                                 setSingalItemprice(0);
                                                 setPrice(0);
                                                 setItemNameRequired(false);
                                                 setItemNameSelected(selectedItemId.name)
-
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
                                             buttonTextAfterSelection={(selectedItemName, index) => {
@@ -311,6 +344,7 @@ export default function AddOrderItemForm(orderId) {
                                                 setQuantitySelected(0);
                                                 setSingalItemprice(0);
                                                 setPrice(0);
+                                                values.quantity = 0
                                                 setservingSizeRequired(false);
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
@@ -321,6 +355,10 @@ export default function AddOrderItemForm(orderId) {
                                             rowTextForSelection={(servingSize, index) => {
                                                 return servingSize.value;
                                             }}
+                                            // disabledIndexs={[0]}
+                                            // renderCustomizedRowChild={(d, i)=>{
+                                            //     return d
+                                            // }}
                                         />
                                         {servingSizeRequired && (
                                             <Text

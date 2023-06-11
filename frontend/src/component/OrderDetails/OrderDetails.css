@@ -378,3 +378,47 @@ Reason :- Invoice css */
     margin: 0% 50%;
 }
 /* End of modifications by :- Parineeta Gedam on 17-05-2023 */
+
+/* added by :- Parineeta Gedam on 09-06-2023
+    reason :- show the discount
+*/
+.order-calculation-box-ontainer {
+    width: 85%;
+    min-height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.order-calculation-box {
+  width: 70%;
+  margin-right: 2%;   
+  margin-bottom: 2%;
+}
+.order-calculation-line {
+    display: flex;
+    justify-content: space-between;
+}
+.order-calculation-label {
+    font-size: 14px;
+    width: 20%;
+    padding: 2% 2%;
+    width: 60%;
+    white-space: nowrap;
+    display: flex;
+    font-family: 'Times New Roman', Times, serif;
+}
+.order-calculation-text {
+    width: 40%;
+    text-align: end;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 2% 0 0 4%;
+    font-family: 'Times New Roman', Times, serif;
+}
+.order-break-line {
+    width: 95%;
+    margin: 10px auto;
+    background-color: black;
+    height: 1px;
+}
+
+/* End of added code by :- PArineeta Gedam  */

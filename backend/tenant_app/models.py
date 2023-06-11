@@ -604,6 +604,26 @@ LOYALITY_STATUS = (
 )
 # End of added code by :- Parineeta Gedam on 13-05-2023
 
+# Added by :- Parineeta Gedam on 11-06-2023
+# Reason :- discount Rupees validations
+def validate_discount_rupees(value):
+    if value is not None:
+        if (value < 0):
+            raise ValidationError("Discount can't be less the zero")
+        else:
+            return value
+# End of added code by :- Parineeta Gedam on 11-06-2023
+
+# Added by :- Parineeta Gedam on 11-06-2023
+# Reason :- discount Percentages validations
+def validate_discount_precentage(value):
+    if value is not None:
+        if (value < 0):
+            raise ValidationError("Discount can't be less the zero")
+        else:
+            return value
+# End of added code by :- Parineeta Gedam on 11-06-2023
+
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.CharField(max_length=255)
@@ -649,11 +669,14 @@ class Order(models.Model):
     # End of commented code by PArineeta Gedam on 03-06-2023
     # End of commented code by PArineeta Gedam on 07-06-2023
 
+    # Modified by :- Parineeta Gedam on 11-06-2023 reason :- validation for discount 
     # Added By :- Parineeta Gedam Date :- 06-05-2023
     # Reason - to add discount in (?) and discount in (%)
-    discount_rupees = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (?)")
-    discount_percentage = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (%)")
+    discount_rupees = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (?)", validators=[validate_discount_rupees])
+    discount_percentage = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (%)", validators=[validate_discount_precentage])
     # End of commented code by Parineeta Gedam on 03-06-2023
+    # End of Modified code by Parineeta Gedam on 11-06-2023
+
 
     final_amount = models.FloatField(default=0.0, null=True, blank=True)
     # End of added code date :- 06-05-2023
@@ -695,19 +718,81 @@ class Order(models.Model):
         #         {"manual_discount": "Discount should not be more than 100"})
         # End of commented code by PArineeta Gedam on 03-06-2023
 
-        # Added code by Parineeta Gedam on 07-06-2023
-        # if self.discount_amount_percentage == "Discount in (%)" > 100:
-        #     raise ValidationError(
-        #         {"manual_discount": "Discount should not be more than 100"})
-        # End of Added code by PArineeta Gedam on 07-06-2023
+        # Added by :- Parineeta Gedam on 29-05-2023
+        # reason :- admin can cancel order before payment is completed.
+        if self.payment_status == "Completed" and self.order_status == "Cancelled":
+            raise ValidationError(
+                {"payment_status": "Order is cancelled"})
+        # End of added code by Parineeta Gedam on 29-05-2023
 
+        # Added by :- Parineeta Gedam on 10-06-2023
+        # reason :- admin can cancel order before payment is completed.
+        if self.payment_status == "Paid" and self.order_status == "Cancelled":
+            raise ValidationError(
+                {"payment_status": "Order is cancelled"})
+        # End of added code by Parineeta Gedam on 10-06-2023
 
+        # Modified by :- Parineeta Gedam on 10-06-2023
         # Added by :- Parineeta Gedam on 13-05-2023
         # reason :- if order status = cancelled then show the validations msg in cancel reason.
-        if self.order_status == "Cancelled" and self.cancel_reason is None:
+        if self.order_status == "Cancelled" and (self.cancel_reason is None or len(self.cancel_reason)==0):
             raise ValidationError(
                 {"cancel_reason": "Please give the cancel reason"})
         # End of added code on 13-05-2023
+
+        # Added by :- Parineeta Gedam on 10-06-2023
+        # reason :- admin can add discount only, when payment status is not completed or paid.
+         
+        if self.payment_status == "Completed" and self.discount_rupees is None and self.discount_percentage is None or self.payment_status == "Paid" and self.discount_rupees is None and self.discount_percentage is None :
+            if self.discount_rupees :
+                raise ValidationError(
+                    {"discount_rupees": "Payment is completed you can not add the discount"})
+            
+        if self.payment_status == "Completed" and self.discount_percentage is None and self.discount_rupees is None or self.payment_status == "Paid" and self.discount_rupees is None and self.discount_percentage is None :
+            if self.discount_percentage : 
+                raise ValidationError(
+                    {"discount_percentage": "Payment is completed you can not add the discount"})
+            
+        if self.payment_status == "Paid" and self.discount_rupees > 0 :
+            if self.discount_rupees : 
+                raise ValidationError(
+                    {"discount_rupees": "Payment is completed you can not add the discount"})
+            
+        if self.payment_status == "Paid" and self.discount_percentage == 0 :
+            if self.discount_percentage : 
+                raise ValidationError(
+                    {"discount_percentage": "Payment is completed you can not add the discount"})
+        
+        if self.payment_status == "Completed" and self.discount_rupees == 0 :
+            if self.discount_rupees : 
+                raise ValidationError(
+                    {"discount_rupees": "Payment is completed you can not add the discount"})
+            
+        if self.payment_status == "Completed" and self.discount_percentage == 0 :
+            if self.discount_percentage : 
+                raise ValidationError(
+                    {"discount_percentage": "Payment is completeddddddddd you can not add the discount"})
+            
+        if self.order_status == "Cancelled" and self.discount_rupees == 0 :
+            if self.discount_rupees : 
+                raise ValidationError(
+                    {"discount_rupees": "Order cancelled you can not add the discount"})
+            
+        if self.order_status == "Cancelled" and self.discount_percentage == 0 :
+            if self.discount_percentage : 
+                raise ValidationError(
+                    {"discount_percentage": "Order cancelled you can not add the discount"})
+            
+        # End of added code by Parineeta Gedam on 10-06-2023
+
+        # Added by :- Parineeta Gedam on 10-06-2023
+        # reason :- admin can add discount only, when payment status is not completed or paid.
+        # if self.payment_status == "Completed" or self.payment_status == "Paid" :
+        #     if self.discount_percentage : 
+        #         raise ValidationError(
+        #         {"discount_percentage": "Payment is completed you can not add the discount"})
+        # End of added code by Parineeta Gedam on 10-06-2023
+
 
         # # Added by Om Shrivastava on 28-05-23
         # # Reason : Need to apply some condition for calculation the loyality point
@@ -956,21 +1041,25 @@ class Order(models.Model):
     # def __unicode__(self):
     #     return "%s" % (self.payment_confirmation_date_time.strftime('%m/%d/%Y %H:%M %p'))
 
+# Commented by :- PArineeta GEdam on 10-06-2023
+# reason :- in this model we already create a clean method, so again we can not create the same method and that condition call in top.
 # Added by :- Parineeta Gedam on 29-05-2023
 # reason :- admin can cancel order before payment is completed.
-    def clean(self):
-        if self.payment_status == "Completed" and self.order_status == "Cancelled":
-            raise ValidationError(
-                {"payment_status": "Payment is completed you can not cancel the order"})
+    # def clean(self):
+    #     if self.payment_status == "Completed" and self.order_status == "Cancelled":
+    #         raise ValidationError(
+    #             {"payment_status": "Payment is completed you can not cancel the order"})
 # End of added code by Parineeta Gedam on 29-05-2023
+
 
     # Added by :- Om shrivastava on 08-06-23
     # reason :- if user can enter the max loyality point in admin panel than through the validation error
-    def clean(self) : 
-        if int(self.customer_id.loyality_points) < int(self.apply_loyality_point):
-            raise ValidationError(
-                {'apply_loyality_point': "Please enter below the customer loyality point."})
-    
+    # def clean(self) : 
+    #     if int(self.customer_id.loyality_points) < int(self.apply_loyality_point):
+    #         raise ValidationError(
+    #             {'apply_loyality_point': "Please enter below the customer loyality point."})
+# End of commented code by :- Parineeta Gedam on 10-06-2023 
+
 
     # def clean(self) : 
     #     if self.apply_loyality_point is None:

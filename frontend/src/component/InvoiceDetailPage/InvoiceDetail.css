@@ -239,3 +239,47 @@ Reason :- Invoice css */
     max-height: 100vh;
     overflow: auto;
 }
+
+/* added by :- Parineeta Gedam on 09-06-2023
+    reason :- show the discount
+*/
+.CalculationBoxContainer {
+    width: 100%;
+    min-height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.calculationBox {
+  width: 70%;
+  margin-right: 2%;   
+  margin-bottom: 2%;
+}
+.calculationLine {
+    display: flex;
+    justify-content: space-between;
+}
+.calculationLabel {
+    font-size: 14px;
+    width: 20%;
+    padding: 2% 2%;
+    width: 60%;
+    white-space: nowrap;
+    display: flex;
+    font-family: 'Times New Roman', Times, serif;
+}
+.calculationText {
+    width: 40%;
+    text-align: end;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 2% 0 0 4%;
+    font-family: 'Times New Roman', Times, serif;
+}
+.breakLine {
+    width: 95%;
+    margin: 10px auto;
+    background-color: black;
+    height: 1px;
+}
+
+/* End of added code by :- PArineeta Gedam  */
