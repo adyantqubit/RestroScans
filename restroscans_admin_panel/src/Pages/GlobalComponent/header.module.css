@@ -314,6 +314,9 @@ li {
   .menu_link ul, .btn_div ul{
     height: 14vh;
   }
+  .btn_div{
+    height: 13vh;
+  }
 }
 
 @media only screen and (max-width: 1080px) and (max-height: 500px) and (orientation: landscape) {
@@ -324,6 +327,9 @@ li {
     padding-top: 13vh;
   }
   .menu_link ul, .btn_div ul{
+    height: 13vh;
+  }
+  .btn_div{
     height: 13vh;
   }
 }
@@ -341,6 +347,9 @@ li {
   .btn_div .hamburger_menu {
     display: block;
     font-size: 2.5rem;
+  }
+  .btn_div{
+    height: 13vh;
   }
 }
 /* end of addition by- Suman sahu On 09/06/2023 */
