@@ -338,14 +338,18 @@ LOGGING_CONFIG=logging.config.dictConfig({
     "handlers": {
         "DjangoLogsHandler": {
             "level": "DEBUG",
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename":  "./logs/django_logs.log",
+            'maxBytes': 1024 * 1024 * 1,  # 1MB
+            'backupCount': 3,
             "formatter": "simple",
         },
         "CustomLogsHandler": {
             "level": "DEBUG",
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename":  "./logs/custom_logs.log",
+            'maxBytes': 1024 * 1024 * 1,  # 1MB
+            'backupCount': 3,
             "formatter": "simple",
         },
     },
