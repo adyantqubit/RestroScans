@@ -198,7 +198,8 @@ const Login = () => {
                                         null}
                                         {/* Commented by Om Shrivastava on 03-06-23
                                         Reason :Redesign the Forgot password  */}
-                                    <span style={{ whiteSpace: "nowrap",textAlign:'right',color:'blue',whiteSpace: "nowrap",fontSize:'12px',padding:'0',margin:'0',cursor:'pointer' }} onClick={e => nav("/Forget")}>Forget Password?</span>
+                                    {/* Add classname and remove some style properties by Om Shrivastava on 11-06-23 */}
+                                    <span className='forget_content' style={{fontSize:"12px"}} onClick={e => nav("/Forget")}>Forget Password?</span>
                                 {/* End of addition by Om Shrivastava on 03-06-23 */}
                                 </label>
                                 {/* {errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? <span className={style.errorText}>{errors.filter(e => Object.keys(e)[0] == "password")[0].password}</span> : null} */}

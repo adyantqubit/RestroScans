@@ -149,11 +149,19 @@
     margin-top: 10px;
     text-align: center;
     margin-bottom: 100px;
+     /* Added by Om Shrivastava on 11-06-23
+    Reson : Add font size in registration label*/
+    font-size: var(--label-font-size);
+    /* End of addition by Om Shrivastava on 11-06-23 */
 }
 
 .highlightCreate{
     color: blue;
     cursor: pointer;
+     /* Added by Om Shrivastava on 03-06-23
+    Reson : Add font size in Login section*/
+    font-size: var( --content-small-size);
+    /* End of addition by Om Shrivastava on 11-06-23 */
 }
 
 .eyeContainer{

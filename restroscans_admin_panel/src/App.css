@@ -15,6 +15,11 @@
   --sidebar-color: #1f2937;
   --primary-box-bg-color: #92d050;
   --secondary-box-bg-color: #004376;
+  /* Added by Om Shrivastava on 11-06-23 
+  Reason : Show in create account in login page*/
+  --content-small-size:12px;
+  /* End of addition by Om Shrivastava on 11-06-23  */
+
 }
 
 body {
