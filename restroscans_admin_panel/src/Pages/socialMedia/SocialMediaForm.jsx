@@ -287,18 +287,33 @@ function SocialMediaForm(props) {
    * Reason - to delete the social media data
    */
   const confirm = async (e) => {
-    console.log(e);
     var tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     var response = await deteleSocialMediaApi(tenant, e);
     if (response.msg) {
-      message.success(response.msg);
+      /**
+       * Commeted by Yuvraj Sahu on 10-06-2023
+       * Reason - to remove success message
+       */
+      // message.success(response.msg);
+      Message("Social media deleted successfully.", "success");
+      /**
+       * End of addition by Yuvraj Sahu on 10-06-2023
+       */
       navigate("/social-media");
       // setAllSocialMedia(response.socialData)
+    } else {
+      Message("Something went wrong", "error");
     }
   };
   const cancel = (e) => {
-    console.log(e);
-    message.error("not delete");
+    /**
+     * Commeted by Yuvraj Sahu on 10-06-2023
+     * Reason - to remove success message
+     */
+    // message.error("not delete");
+    /**
+     * End of addition by Yuvraj Sahu on 10-06-2023
+     */
   };
   /**
    * End of delete social media data by Yuvraj Sahu on 10-06-2023

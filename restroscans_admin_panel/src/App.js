@@ -30,7 +30,6 @@ import Revenue from "./Pages/Revenue/Revenue";
 import Setting from './Pages/Setting/Setting';
 import SettingForm from './Pages/Setting/SettingForm';
 import SocialMediaList from './Pages/socialMedia/SocialMediaList';
-import AddSocialMedia from './Pages/socialMedia/AddSocialMedia';
 import SocialMediaForm from './Pages/socialMedia/SocialMediaForm';
 
 var Message=0;

@@ -9,6 +9,8 @@ import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import { Button, message, Popconfirm } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
+import { Message } from "../../App";
+
 
 export default function SocialMediaList() {
   const navigate = useNavigate();
@@ -76,9 +78,29 @@ export default function SocialMediaList() {
     var response = await deteleSocialMediaApi(tenant, e);
     if (response.msg) {
       // message.success(response.msg);
+      /**
+       * Added by Yuvraj Sahu on 10-06-2023
+       * Reason - to give success message
+       */
+      Message("Social media deleted successfully.", "success");
+      /**
+       * End of addition by Yuvraj Sahu 10-06-2023
+       */
       setAllSocialMedia(response.socialData);
+    } else {
+    /**
+     * Added by Yuvraj Sahu on 10-06-2023
+     * Reason - to give error message
+     */
+      Message("Something went wrong", "error");
     }
+    /**
+     * End of addition by Yuvraj Sahu 10-06-2023
+     */
   };
+  /**
+   * End of addition by Yuvraj Sahu 10-06-2023
+   */
   const cancel = (e) => {
     // message.error("not delete");
   };
