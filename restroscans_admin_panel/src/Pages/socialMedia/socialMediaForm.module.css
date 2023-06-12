@@ -81,6 +81,13 @@
   color: red;
 }
 
+/* Added by Yiuvraj Sahu on 12-06-2023
+    Reason - to give red color error message */
+.inputImageErrorArea{
+  color: red;
+}
+/* End of addition by Yuvraj Sahu on 12-06-2023 */
+
 .actionContainer {
   display: flex;
   width: 100%;
@@ -229,7 +236,10 @@ Reason - to design upload field button */
   }
   .settingSection {
     padding: 20px 20px;
-    /* margin-bottom: 11vh; */
+    /* Added by Yiuvraj Sahu on 12-06-2023
+    Reason - to give space to bottom */
+    margin-bottom: 10vh;
+    /* End of addition by Yuvraj Sahu on 12-06-2023 */
   }
   .inputLabel {
     width: 300px;

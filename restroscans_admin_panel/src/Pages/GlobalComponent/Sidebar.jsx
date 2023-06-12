@@ -73,6 +73,17 @@ const Sidebar = () => {
     navigate('/QRcode');
   };
   // End of addition by Om Shrivastava on 02-06-23
+  /**
+   * Added by Yuvraj Sahu on 12-06-2023
+   * Reason - to navigate social media page
+   */
+  const navigateToSocialList = () => {
+    navigate("/social-media");
+  };
+  /**
+   * End of addition by yuvraj Sahu on 12-06-2023
+   */
+
   return (
     <div className={style.container}>
       <div className={style.sidebar_open_div}>
@@ -198,8 +209,14 @@ const Sidebar = () => {
         </li>
         {/* Added by Yuvraj Sahu on 29-05-2023
         	Reason - to add sidebar link for social media  */}
-        <li className={style.links_div}>
-          <NavLink className={style.link} to="/social-media"> Social media </NavLink>
+        {/* Modified by Yuvraj Sahu on 12-06-2023
+        	Reason - to navigate after clicking box  */}
+        <li className={style.links_div} onClick={navigateToSocialList}>
+          {/* End of modification by Yuvraj Sahu on 12-06-2023 */}
+          <NavLink className={style.link} to="/social-media">
+            {" "}
+            Social Media{" "}
+          </NavLink>
         </li>
         {/* End of addition social media by yuvraj Sahu on 29-05-2023 */}
       </ul>

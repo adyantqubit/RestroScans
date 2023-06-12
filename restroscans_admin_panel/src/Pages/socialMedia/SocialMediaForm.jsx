@@ -33,7 +33,14 @@ function SocialMediaForm(props) {
    */
 
   // const [settingData, setSettingData] = useState({});
-  const [socialMediaObj, setSocialMediaObj] = useState(null);
+  /**
+  * Modified by Yuvraj Sahu on 12-06-2023
+  * Reason - to set empty object
+  */
+  const [socialMediaObj, setSocialMediaObj] = useState({});
+  /**
+  *End of addition by Yuvraj Sahu on 12-06-2023
+  */
   const [themeList, setThemeList] = useState([]);
   // const [appTheme, setAppTheme] = useState(null);
   const [socialMediaName, setSocialMediaName] = useState(null);
@@ -52,6 +59,14 @@ function SocialMediaForm(props) {
     // app_theme: "",
     social_media_name: "",
     social_media_link: "",
+    /**
+    * Added by Yuvraj Sahu on 12-06-2023
+    * Reason - to show error message for icon
+    */
+    social_media_icon: "",
+    /**
+    * End of addition by Yuvraj Sahu on 12-06-2023
+    */
   });
 
   /**
@@ -127,7 +142,14 @@ function SocialMediaForm(props) {
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          social_media_name: "Social link is required!",
+        /**
+        * Added by Yuvraj Sahu on 12-06-2023
+        * Reason - to remove error message in social media name
+        */
+          social_media_link: "Social media link is required!",
+          /**
+          * End of addition by Yuvraj Sahu on 12-06-2023
+          */
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -167,6 +189,28 @@ function SocialMediaForm(props) {
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
+    /**
+        * Added by Yuvraj Sahu on 12-06-2023
+        * Reason - to remove error message in social media icon
+        */
+    if (inputName == "social_media_link" && value == "social_media_icon") {
+      if (img != null && socialMediaLink != null) {
+        const error = {
+          social_media_icon: "",
+          social_media_link: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          social_media_icon: "Social media icon is required!",
+          social_media_link: "Social media link is required!",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+    /**
+    * End of code addition by - Yuvraj Sahu on 12-06-2023
+    */
   };
   /**
    * End of code addition by - Yuvraj Sahu on 07-06-2023
@@ -178,7 +222,14 @@ function SocialMediaForm(props) {
    * Reason - created api to save social media. After saving the social media it will redirect to social media page.
    */
   const [img, setImg] = useState(null);
-  const saveSettings = async () => {
+  /**
+  * Modified by Yuvraj Sahu on 12-06-2023
+  *Reason - to change name aof api
+  */
+  const saveSocialMedia = async () => {
+  /**
+  * End of modification by Yuvraj Sahu on 12-06-2023
+  */
     var allowDataPost = false;
     var socialMediaNameValue =
       document.getElementsByName("social_media_name")[0].value;
@@ -187,7 +238,18 @@ function SocialMediaForm(props) {
       document.getElementsByName("social_media_link")[0].value;
 
     validateOnInput("social_media_name", socialMediaNameValue);
-    validateOnInput("social_media_link", socialMediaLinkValue);
+    /**
+    * Added by Yuvraj Sahu on 12-06-2023
+    * Reason - to show error message for social media validation
+    */
+    if (!socialMediaLinkValue && img == null) {
+      validateOnInput("social_media_link", "social_media_icon");
+    } else {
+      validateOnInput("social_media_link", socialMediaLinkValue);
+    }
+    /**
+    * End of addition by Yuvraj Sahu on 12-06-2023
+    */
 
     if (id != 0) {
       if (socialMediaLinkValue == "") {
@@ -235,7 +297,14 @@ function SocialMediaForm(props) {
       }
       navigate("/Dashboard");
     } else {
-      Message("Please provide valid input", "info");
+    /**
+    * Commeted by Yuvraj Sahu on 12-06-2023
+    * Reason - to remove message
+    */
+      // Message("Please provide valid input", "info");
+     /**
+     *End of comment
+     */
     }
   };
 
@@ -248,9 +317,21 @@ function SocialMediaForm(props) {
    * Added by - Yuvraj Sahu on 07-06-2023
    * Reason - Method to reset social media form
    */
-  const resetSettingsForm = (event) => {
-    // setSocialMediaName(settingData.social_media_name ? settingData.social_media_name : "");
-    // setSocialMediaName(settingData.social_media_name ? settingData.social_media_name : "");
+   /**
+     * Uncommeted and added and modified by Yuvraj Sahu on 12-06-2023
+     * Reason - to reset the form
+     */
+  const resetSocialMediaForm = (event) => {
+    setSocialMediaName(
+      socialMediaObj.social_media_name ? socialMediaObj.social_media_name : ""
+    );
+    setSocialMediaLink(
+      socialMediaObj.social_media_link ? socialMediaObj.social_media_link : ""
+    );
+    setImg(null);
+    /**
+     * end of comment by yuvraj Sahu on 12-06-2023
+     */
     const error = {
       social_media_name: "",
       social_media_link: "",
@@ -266,6 +347,16 @@ function SocialMediaForm(props) {
 
   function validateLogo(text) {
     console.log(text);
+    /** Added by Yuvraj Sahu on 12-06-2023
+    * Reason - to show error message
+    */
+    const error = {
+      social_media_icon: "",
+    };
+    setValidationErrors({ ...validationErrors, ...error });
+    /**
+    * End of addition by Yiuvraj Sahu on 12-06-2023
+    */
     if (imageUrl == "") {
       errors = errors.filter((e) => Object.keys(e) != "social_media_icon");
       setError(errors);
@@ -361,7 +452,9 @@ function SocialMediaForm(props) {
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Social media link *</div>
+                  <div className={`${style.inputLabel}`}>
+                    Social media link *
+                  </div>
                   <input
                     className={`${style.textInputBox}`}
                     type="text"
@@ -417,7 +510,9 @@ function SocialMediaForm(props) {
                   handleChange={validateLogo}
                   classes={style.DYXVr}
                 />
-                {errors.filter((e) => Object.keys(e)[0] == "social_media_icon")
+                {/* Commeted and added by Yuvraj Sahu on 12-06-2023
+                   Reason - to show image validation message */}
+                {/* {errors.filter((e) => Object.keys(e)[0] == "social_media_icon")
                   .length > 0 ? (
                   <span className={style.errorText}>
                     {
@@ -426,7 +521,11 @@ function SocialMediaForm(props) {
                       )[0].social_media_icon
                     }
                   </span>
-                ) : null}
+                ) : null} */}
+                <div className={`${style.inputImageErrorArea}`}>
+                  {validationErrors.social_media_icon}
+                </div>
+                {/* End of addition by Yuvraj Sahu on 12-06-2023 */}
               </div>
             </div>
           </div>
@@ -449,16 +548,19 @@ function SocialMediaForm(props) {
               style={{
                 marginRight: "10px",
               }}
+              // Modification by Yuvraj Sahu on 12-06-2023
+              // Reason - to change the lable and rename
               onClick={(e) => {
-                resetSettingsForm();
+                resetSocialMediaForm();
               }}
             >
-              Cancel
+              Clear
             </div>
 
             <div
               className={` ${style.proceedButton}`}
-              onClick={() => saveSettings()}
+              onClick={() => saveSocialMedia()}
+              // End of addition by yuvraj Sahu on 12-06-2023
             >
               Save
             </div>

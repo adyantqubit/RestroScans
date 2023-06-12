@@ -27,6 +27,10 @@ export default function SocialMediaList() {
    * Function calling when page render
    */
   useEffect(() => {
+    // Added by Yuvraj Sahu on 12-06-2023
+    // Reason - to open page from top
+    window.scrollTo(0, 0)
+    // End of additionm by Yuvraj Sahu on 12-06-2023
     getSocialMedias();
   }, []);
   /**
@@ -121,7 +125,7 @@ export default function SocialMediaList() {
         <div className={style.TabelContainer}>
           {/* <div className={style.table}> */}
           <div className={style.tableColumnHeading}>
-            <div className={style.tableColumn1}>Sno</div>
+            <div className={style.tableColumn1}>S.No</div>
             {/* <div className={style.tableColumn2}>ID </div> */}
             <div className={style.tableColumn3}>Social Media Name</div>
             <div className={style.tableColumn4}>Social Media Link</div>

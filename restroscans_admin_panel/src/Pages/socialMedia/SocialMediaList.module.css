@@ -490,8 +490,11 @@
     color: #185ee0;
 }
 .socialIcon{
-    width: 50px;
-    height: 50px;
+    /* Modified by Yuvraj Sahu on 12-06-2023
+    Reason - to change image size */
+    width: 30px;
+    height: 30px;
+    /* End of modification by Yuvraj Sahu on 12-06-2023 */
     border-radius: 10px;
     display: flex;
     margin: 2px auto 2px auto;
@@ -509,21 +512,24 @@
 
 @media screen and (max-width:770px){
     .socialIcon{
-        width: 30px;
-        height: 30px;
+        /* Modified by Yuvraj Sahu on 12-06-2023
+        Reason - to change image size */
+        width: 25px;
+        height: 25px;
+        /* End of modification by Yuvraj Sahu on 12-06-2023 */
         /* margin: auto; */
         margin-top: auto;
         margin-bottom: auto;
         border-radius: 3px;
     }
     .tableColumn1{
-        width: 20%;
+        width: 15%;
     }
-    .tableColumn2{
+    /* .tableColumn2{
         display: none;
-    }
+    } */
     .tableColumn3{
-        width: 40%;
+        width: 35%;
     }
     .tableColumn4{
         display: none;
@@ -541,7 +547,10 @@
         padding: 5px;
     }
     .container{
-        padding: 20px 10px 0vh 10px;
+        /* Modified by Yuvraj Sahu on 12-06-2023
+        Reason - to give more space in list */
+        padding: 20px 10px 19vh 10px;
+        /* End of modification by yuvraj Sahu on 12-06-2023 */
     }
 }
 /* ------------------------------------------- End 10-06-2023 ------------------------------- */
