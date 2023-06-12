@@ -36,11 +36,29 @@ const QRcode = () => {
 
   function PrintQR(){
     var topContents = document.getElementById("restaurent_name").innerHTML;
-    var qrImage = document.getElementById("qr").toDataURL();
+    
+    // Commented and modified by - Ashish Dewangan on 12-06-2023
+    // Reason - To convert canvas's svg image to jpg format
+    // var qrImage = document.getElementById("qr").toDataURL();
+    var qrImage = document.getElementById("qr").toDataURL('image/jpg');
+    // Commented and modified by - Ashish Dewangan on 12-06-2023
+    // Reason - To convert canvas's svg image to jpg format
+
     var bottomContents = document.getElementById("qr_bottom_text").innerHTML;
     
     var a = window.open('', '', 'height=800, width=1200');
-    a.document.write('<html>');
+      a.document.write('<html>');
+
+        // Added by - Ashish Dewangan on 12-06-2023
+        // Reason - Added style to document, so that extra unnecessary content on header and footer will not be printed
+        a.document.write('<head>');
+            a.document.write('<style>');
+                a.document.write('@media print{@page{margin:0;}}');  
+            a.document.write('</style>');
+        a.document.write('</head>');
+        // End of code addition by - Ashish Dewangan on 12-06-2023
+        // Reason - Added style to document, so that extra unnecessary content on header and footer will not be printed
+
         // Some modification and changes by Om Shrivastava on 02-6-23
         a.document.write('<body style="display:flex;flex-direction:column;justify-content:space-around;align-items:space-around;width:100vw;" >');
         a.document.write('<div style="display:flex;flex-direction:row;align-items:center;width:100vw;height:40vh;">');
@@ -53,9 +71,7 @@ const QRcode = () => {
         a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
             a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
-
             a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
- 
             a.document.write('</div>');
         a.document.write('</div>');
 
@@ -63,23 +79,32 @@ const QRcode = () => {
             a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
             a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
-
             a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
- 
         a.document.write('</div>');
+
         a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
-                       a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
-
-                       a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
-
+            a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
+            a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
             a.document.write('</div>');
         a.document.write('</div>');
         //  End of addition by Om Shrivastava on 02-06-23   
 
         a.document.write('</body></html>');
-        a.document.close();
-        a.print();
+
+        // Commented and modified by - Ashish Dewangan on 12-06-2023
+        // Reason - To print only when the document is loaded
+        // a.document.close();
+        // a.print();
+        a.document.addEventListener('load', function() {
+          a.focus();
+          a.print();
+          a.document.close();
+          a.close();            
+      }, true);
+        // End of code modification by - Ashish Dewangan on 12-06-2023
+        // Reason - To print only when the document is loaded
+
 }
   // end of addition by - Suman sahu On 25/05/2023
 
