@@ -644,6 +644,10 @@ class OrderAdmin(admin.ModelAdmin):
                     # Reason : This field show only read only
                     'loyality_point_price','loyality_point_status',
                     # End of addition by Om Shrivastava on 27-05-23
+                    # Added by Yuvraj Sahu on 12-06-2023
+                    # Reason - to make readable loyality point calculated
+                    'loyality_point_calculated'
+                    # End of addition by yuvraj Sahu on 12-06-2023
                     ]
     # End of added code on 17-04-2023
 

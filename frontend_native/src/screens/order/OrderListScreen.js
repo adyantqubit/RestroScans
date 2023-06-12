@@ -561,7 +561,7 @@ export default function OrderListScreen({ route, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  orderID{orderIdSort == "" && "↓↑"}
+                  OrderID{orderIdSort == "" && "↓↑"}
                   {orderIdSort == "ascending" && "↑"}
                   {orderIdSort == "descending" && "↓"}
                 </Text>

@@ -711,6 +711,11 @@ class Order(models.Model):
     loyality_point_status = models.CharField(max_length=100,choices=LOYALITY_STATUS,default="not used",null=True,blank=True)
     # End of added code by :- Om shrivastava on 26-05-23
 
+    # Added by Yuvraj Sahu on 12-06-2023
+    # reason - to add new field for check loyality point calculated or not
+    loyality_point_calculated = models.BooleanField(default=False)
+    # End of addition by yuvraj Sahu on 12-06-2023
+
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100
     def clean(self):
@@ -864,7 +869,12 @@ class Order(models.Model):
                     oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
                     self.apply_loyality_point=oldLoyalityPoint.apply_loyality_point 
 
-                if self.payment_status == 'Completed':
+                # Commented and Added by Yuvraj Sahu on 12-06-2023
+                # Reason - to not calculate when loyality point calculated
+                # if self.payment_status == 'Completed':
+                if self.payment_status == 'Completed' and self.loyality_point_calculated == False:
+                    self.loyality_point_calculated = True
+                    # End of Comment and modification by Yuvraj Sahu on 12-06-2023
                     oldPoint=Order.objects.get(order_id=self.order_id)
                     self.apply_loyality_point=oldPoint.apply_loyality_point
                     get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
