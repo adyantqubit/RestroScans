@@ -119,7 +119,8 @@ export default function ReservationForm({ isModalOpenn, handleCancell }) {
                         <Input allowClear />
                     </Form.Item>
 
-                    <Form.Item
+                    {/* Commented by :- Parineeta Gedam on 12-06-2023 reason :- chnage the validations of contact number */}
+                    {/* <Form.Item
                         name="contact_number"
                         label={<div className="labelContainer"><span>Contact Number &nbsp;</span></div>}
                         rules={[
@@ -152,8 +153,52 @@ export default function ReservationForm({ isModalOpenn, handleCancell }) {
                     >
                         <Input maxLength={10}
                         />
-                    </Form.Item>
+                    </Form.Item> */}
+                    {/* End of commented code by PArineeta Gedam on 12-06-2023 */}
 
+                    {/* Added by :- Parineeta Gedam on 12-06-2023 reason :- contact number validations  */}
+                    
+                     <Form.Item
+                        name="contact_number"
+                        label={<div className="labelContainer"><span>Contact Number &nbsp;</span></div>}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please enter your contact number",
+                            },
+                            () => ({
+                                validator(_, value) {
+                                    if (!value) {
+                                        return Promise.reject();
+                                    }
+                                    if (isNaN(value)) {
+                                        return Promise.reject("Contact number has to be in digits.");
+                                    }
+                                    if (value.length < 10) {
+                                        return Promise.reject(
+                                            "Contact number should be in 10 digits"
+                                        );
+                                    }
+                                    if (value.length > 10) {
+                                        return Promise.reject(
+                                            "Contact number can't be more than 10 digits"
+                                        );
+                                    }
+                                    if (value) {
+                                        if (/^[0-9]*[.,]?[0-9]*$/.test(value)) {
+                                          return Promise.resolve();
+                                        }
+                                          return Promise.reject(new Error("Contact number has to be in digits"));
+                                      }  
+                                    return Promise.resolve();
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input maxLength={10}
+                        />
+                    </Form.Item>
+                    {/* End of added code by :- PArineeta Gedam on 12-06-2023 */}
                     <Form.Item
                         name="number_of_person"
                         label={<div className="labelContainer"><span>Number of Person &nbsp;</span></div>}

@@ -283,7 +283,7 @@ export default function OrderDetails() {
       //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
     } else {
       message.warning({
-        content: "Qunatity can't be less then 1",
+        content: "Quantity can't be less than 1",
         key: 1,
         className: "custom-class",
         style: {

@@ -127,8 +127,9 @@ export default function OrderItemsScreen({ route, navigation }) {
   var paymentStatusData = [
     { key: "Pending", value: "Pending" },
     { key: "Completed", value: "Completed" },
+    // Commented by :- PArineeta Gedam on 12-06-2023 reason :- not show the paid option for admin 
     // Added by :- Parineeta Gedam on 30-05-2023 
-    { key: "Paid", value: "Paid" },
+    // { key: "Paid", value: "Paid" },
   ];
   // End of addition
 
@@ -311,7 +312,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       }
     }
 
-    
+
     var discountCalculations = '';
     // Commented by :- Parineeta Gedam on 07-06-2023 reason :- change the flow of discount
     // Added by :- Parineeta Gedam on 11-05-2023
@@ -1155,15 +1156,40 @@ export default function OrderItemsScreen({ route, navigation }) {
           newSubTotal += allOrderItem[i].price;
         }
       }
-      orderDetail.sub_total = newSubTotal
-      var cgst = ((orderDetail.sub_total * settingData.cgst) / 100)
-      orderDetail.cgst = cgst
-      orderDetail.sgst = (orderDetail.sub_total * settingData.sgst) / 100
-      var a = (orderDetail.sub_total * settingData.cgst) / 100 + (orderDetail.sub_total * settingData.sgst) / 100
-      orderDetail.total = a + orderDetail.sub_total
+      // Commented by :- PArineeta Gedam on 12-06-2023 reason :- add discount functionality
+      // orderDetail.sub_total = newSubTotal
+      // var cgst = ((orderDetail.sub_total * settingData.cgst) / 100)
+      // orderDetail.cgst = cgst
+      // orderDetail.sgst = (orderDetail.sub_total * settingData.sgst) / 100
+      // var a = (orderDetail.sub_total * settingData.cgst) / 100 + (orderDetail.sub_total * settingData.sgst) / 100
+      // orderDetail.total = a + orderDetail.sub_total
+      // End of commented code by Parineeta Gedam on 12-06-2023
+
+      // Added and modified by :- Parineeta Gedam on 10-06-2023
+      // reason :- add discount functionality
+      // Ticket no :- 307
+      if (orderDetail.discount_rupees) {
+        orderDetail.sub_total = newSubTotal;
+        var total = newSubTotal - orderDetail.discount_rupees;
+        orderDetail.total = total;
+        orderDetail.cgst = (total * settingData.cgst) / 100;
+        orderDetail.sgst = (total * settingData.sgst) / 100;
+        var a =
+          (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+        orderDetail.final_amount = a + newSubTotal;
+      } else {
+        orderDetail.sub_total = newSubTotal;
+        orderDetail.cgst = (newSubTotal * settingData.cgst) / 100;
+        orderDetail.sgst = (newSubTotal * settingData.sgst) / 100;
+        var a =
+          (newSubTotal * settingData.cgst) / 100 +
+          (newSubTotal * settingData.sgst) / 100;
+        orderDetail.final_amount = a + newSubTotal;
+      }
+      //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
     }
     else {
-      Alert.alert("Qunatity can't be less then 1");
+      Alert.alert("Quantity can't be less than 1");
     }
     setOrderItems([...allOrderItem])
   }
@@ -1183,11 +1209,36 @@ export default function OrderItemsScreen({ route, navigation }) {
         newSubTotal += allOrderItem[i].price;
       }
     }
-    orderDetail.sub_total = newSubTotal
-    orderDetail.cgst = (newSubTotal * settingData.cgst) / 100
-    orderDetail.sgst = (newSubTotal * settingData.sgst) / 100
-    var a = (newSubTotal * settingData.cgst) / 100 + (newSubTotal * settingData.sgst) / 100
-    orderDetail.total = a + newSubTotal
+    // Commented by :- PArineeta Gedam on 12-06-2023 reason :- add discount functionality
+    // orderDetail.sub_total = newSubTotal
+    // orderDetail.cgst = (newSubTotal * settingData.cgst) / 100
+    // orderDetail.sgst = (newSubTotal * settingData.sgst) / 100
+    // var a = (newSubTotal * settingData.cgst) / 100 + (newSubTotal * settingData.sgst) / 100
+    // orderDetail.total = a + newSubTotal
+    // End of commented code by Parineeta Gedam on 12-06-2023
+
+    // Added and modified by :- Parineeta Gedam on 10-06-2023
+    // reason :- add discount functionality
+    // Ticket no :- 307
+    if (orderDetail.discount_rupees) {
+      orderDetail.sub_total = newSubTotal;
+      var total = newSubTotal - orderDetail.discount_rupees;
+      orderDetail.total = total;
+      orderDetail.cgst = (total * settingData.cgst) / 100;
+      orderDetail.sgst = (total * settingData.sgst) / 100;
+      var a =
+        (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+      orderDetail.final_amount = a + newSubTotal;
+    } else {
+      orderDetail.sub_total = newSubTotal;
+      orderDetail.cgst = (newSubTotal * settingData.cgst) / 100;
+      orderDetail.sgst = (newSubTotal * settingData.sgst) / 100;
+      var a =
+        (newSubTotal * settingData.cgst) / 100 +
+        (newSubTotal * settingData.sgst) / 100;
+      orderDetail.final_amount = a + newSubTotal;
+    }
+    //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
     setOrderItems([...allOrderItem])
   }
   // End of added code by :- Parineeta Gedam on 25-05-2023
@@ -1681,7 +1732,10 @@ export default function OrderItemsScreen({ route, navigation }) {
               */}
             <View style={styles.amountRow}>
               <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
-                <Text style={styles.totalPriceLables}>Discount in (₹)</Text>
+                {/* Modified by :- Parineeta Gedam on 12-06-2023 reason :- changes in desiging */}
+                {/* <Text style={styles.totalPriceLables}>Discount in (₹)</Text> */}
+                <Text>Discount in (₹)</Text>
+                {/* End of added code by :- PArineeta Gedam on 12-06-2023 */}
               </View>
               <Text>:</Text>
               <View style={{ width: "20%" }}>
@@ -1693,10 +1747,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                   keyboardType={'numeric'}
                   value={discountRupees}
                   // Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid then admin can not add discount T.no :- 307  
-                  editable = {orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
+                  editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
                   // End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountRupees(e)} />
-                  {discountRupeesErrorMsg &&
+                {discountRupeesErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than total price</Text>
                 }
                 {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
@@ -1704,11 +1758,15 @@ export default function OrderItemsScreen({ route, navigation }) {
             </View>
             <View style={styles.amountRow}>
               <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
-                <Text style={styles.totalPriceLables}>Discount in (%)</Text>
+                {/* Modified by :- Parineeta Gedam on 12-06-2023 reason :- changes in desiging */}
+                {/* <Text style={styles.totalPriceLables}>Discount in (%)</Text> */}
+                <Text>Discount in (%)</Text>
+                {/* End of added code by :- PArineeta Gedam on 12-06-2023 */}
+                
               </View>
               <Text>:</Text>
               <View style={{ width: "20%" }}>
-                 {/* Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
+                {/* Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
                     reason :- if payment is completed then disable that fields
                 */}
                 <TextInput style={styles.discoutAmount}
@@ -1716,7 +1774,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   keyboardType={'numeric'}
                   value={discountPercentage}
                   // Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid and order status is cancelled then admin can not add discount T.no :- 307  
-                  editable = {orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
+                  editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
                   // End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
                 {discountPercentageErrorMsg &&
@@ -1898,7 +1956,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                   width: "50%",
                 }}>Grand Total</Text>
                 <Text>:</Text>
-                <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text>
+                {/* Modified by :- Parineeta gedam on 12-06-2023 reason :- remove the hardcode of rupees sign */}
+                {/* <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text> */}
+                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.final_amount}</Text>
               </View>
               : <View style={styles.amountRow}>
                 <Text style={{
@@ -1912,7 +1972,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                 {/* Modification and addition by Om Shrivastava on 07-06-23
                 Reason : Shwo the final amount, not total */}
                 {/* <Text style={styles.totalPrices}>₹{orderDetail.total}</Text> */}
-                <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text>
+                {/* Modified by :- Parineeta gedam on 12-06-2023 reason :- remove the hardcode of rupees sign */}
+                {/* <Text style={styles.totalPrices}>₹{orderDetail.final_amount}</Text> */}
+                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.final_amount}</Text>
                 {/* End of additon by Om Shrivastava on 07-06-23 */}
               </View>}
             {/* End of addition */}
@@ -2059,6 +2121,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                     return e.value == orderDetail.payment_status;
                   })[0]
                 }
+                // Added by :- PArineeta Gedam on 12-06-2023 reason :- admin can not select paid option
+                defaultButtonText={orderDetail.payment_status == "Pending" && (orderDetail.payment_mode=="Cash" || orderDetail.payment_mode=="Scanner") ? "Paid" : "Paid"}
+                // End of added code by :- Parineeta Gedam on 12-06-2023 
                 data={paymentStatusData}
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
@@ -2067,6 +2132,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                  * Reson - to give hieght in dropdown
                  */
                 rowStyle={{ height: 30 }}
+
                 /**
                  * End of addition by Yuvraj Sahu on 07-05-2023
                  */

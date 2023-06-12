@@ -125,30 +125,43 @@ def getTodaysOrders(context):
     summary=dict()
     totalOrders = Order.objects.filter(date__gte=today).count()
     summary["order_count"]=totalOrders
-    revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
-    summary["total_revenue"]=revenue["total__sum"]
+    # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+    # revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
+    revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("final_amount"))
+    summary["total_revenue"]=revenue["final_amount__sum"]
+    # End of modified code by :- Parineeta Gedam on 12-05-2023
     data["todays_summary"]=summary
 
     summary=dict()
     totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
     summary["order_count"]=totalOrders
-    revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
-    summary["total_revenue"]=revenue["total__sum"]
+    # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+    # revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
+    revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("final_amount"))
+    summary["total_revenue"]=revenue["final_amount__sum"]
+    # End of modified code by :- Parineeta Gedam on 12-05-2023
     data["this_weeks_summary"]=summary
 
     summary=dict()
     totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
     summary["order_count"]=totalOrders
-    revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
-    summary["total_revenue"]=revenue["total__sum"]
+    # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+    # revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
+    revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("final_amount"))
+    summary["total_revenue"]=revenue["final_amount__sum"]
+    # End of modified code by :- Parineeta Gedam on 12-05-2023
     data["this_months_summary"]=summary
 
 
     summary=dict()
     totalOrders = Order.objects.filter(date__year=thisYear).count()
     summary["order_count"]=totalOrders
-    revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
-    summary["total_revenue"]=revenue["total__sum"]
+    # Modified by :- Parineeta Gedam on 12-05-2023 reason :- for re-calculations after add discount
+    # revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
+    revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("final_amount"))
+    summary["total_revenue"]=revenue["final_amount__sum"]
+    # End of modified code by :- Parineeta Gedam on 12-05-2023
+
     data["this_years_summary"]=summary
     # Modified and added by Om on 06-05-23
     # Reason : Arrange the date than show in descending order

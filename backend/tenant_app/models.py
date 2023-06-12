@@ -584,9 +584,12 @@ ORDER_STATUS = (
 PAYMENT_STATUS = (
     ("Pending", "Pending"),
     ("Completed", "Completed"),
+    # Commented by :- PArineeta Gedam on 12-06-2023 reason :- not show the paid option for admin.
     # Added by :- Parineeta Gedam on 21-05-2023
-    ("Paid", "Paid"),
+    # ("Paid", "Paid"),
     # End of Added code by :- Parineeta Gedam on 21-05-2023
+    # End of Commented by :- Parineeta Gedam on 12-06-2023
+
 )
 # End of modified code on 17-04-2023
 
