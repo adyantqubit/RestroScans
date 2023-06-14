@@ -683,6 +683,11 @@ class Order(models.Model):
     # End of commented code by Parineeta Gedam on 03-06-2023
     # End of Modified code by Parineeta Gedam on 11-06-2023
 
+    # Added by Yuvraj Sahu on 14-06-2023
+    # Reason - to add discount reason
+    discount_reason = models.TextField(default="", blank=True)
+    # End of addition by Yuvraj Sahu on 14-06-2023
+
 
     final_amount = models.FloatField(default=0.0, null=True, blank=True)
     # End of added code date :- 06-05-2023

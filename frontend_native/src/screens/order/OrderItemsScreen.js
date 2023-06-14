@@ -166,6 +166,11 @@ export default function OrderItemsScreen({ route, navigation }) {
       setOrderStatus(response.orderDetail.order_status);
       setPaymentStatus(response.orderDetail.payment_status);
       /**
+       * Added by Yuvraj Sahu on 14-06-2023
+       * Reason - to
+       */
+      setDiscountReason(response.orderDetail.discount_reason);
+      /**
        * End of addition by yuvraj Sahu on 04-05-2023
        */
 
@@ -892,6 +897,11 @@ export default function OrderItemsScreen({ route, navigation }) {
       // Reason : Save the loyality point through the native
       apply_loyality_point: loyalityPoint,
       // End of addition by Om Shrivastava on 07-06-23
+
+      // Added by Yuvraj Sahu on 14-06-23
+      // Reason : Save the discount reason
+      discount_reason: discountReason,
+      // End of addition by Yuvraj Sahu on 14-06-2023
     };
 
     var restaurantName = JSON.parse(
@@ -1345,6 +1355,18 @@ export default function OrderItemsScreen({ route, navigation }) {
   }
   // End of added code by :- Parineeta Gedam on 14-05-2023
 
+  /**
+   * Added by Yuvraj Sahu on 14-06-2023
+   * Reason - to save and show discount reason
+   */
+  var [discountReason, setDiscountReason] = useState("");
+  const handleDiscountReason = (reason) => {
+    setDiscountReason(reason);
+  };
+  /**
+   * End of addition by Yuvraj Sahu on 14-06-2023
+   */
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -1783,6 +1805,38 @@ export default function OrderItemsScreen({ route, navigation }) {
                 {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
               </View>
             </View>
+
+            {/* Added by Yuvraj Sahu on 14-06-2023
+            Reason - to save and show discount reason */}
+            {/* ---------------------------------------------------------------------------------------------- */}
+            <View
+              style={[
+                styles.discountReasonContainer,
+                { opacity: discountRupees > 0 ? 1 : 0.3 },
+              ]}
+            >
+              <View style={styles.discountReasonSpace}>
+                <Text>Discount reason</Text>
+                <TextInput
+                  style={styles.discountReasonInput}
+                  value={discountRupees <= 0 ? "" : discountReason}
+                  onChangeText={(txt) => handleDiscountReason(txt)}
+                  multiline={true}
+                  editable={
+                    orderDetail.payment_status == "Paid" ||
+                    orderDetail.payment_status == "Completed" ||
+                    (orderDetail.order_status == "Cancelled" &&
+                      discountRupees > 0)
+                      ? false
+                      : discountRupees > 0
+                      ? true
+                      : false
+                  }
+                />
+              </View>
+            </View>
+            {/* End of addition by Yuvraj Sahu on 14-06-2023 */}
+
             {/* End of added code by :- Parineeta Gedam on 07-06-2023 */}
 
             {/* Added by Om Shrivastava on 05-06-23
@@ -2596,4 +2650,27 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 15,
   },
+
+  /**
+   * Added by Yuvraj Sahu on 14-06-2023
+   * Reason - to design a discount reason conainer
+   */
+  discountReasonInput: {
+    width: "100%",
+    borderWidth: 1,
+    minHeight: 50,
+    alignSelf: "flex-end",
+    borderRadius: 5,
+    backgroundColor: "white",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  discountReasonContainer: {
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  discountReasonSpace: { width: "80%", alignSelf: "flex-end" },
+  /**
+   * End of addition by Yuvraj Sahu on 14-06-2023
+   */
 });
