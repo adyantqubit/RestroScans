@@ -1,13 +1,13 @@
 // import "./MenuItem.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { getBestProducts, getmenuList, getofferDetails, gettenantList, getThemeChanges } from "../../api/Services";
+import { getBestProducts, getmenuList, getofferDetails, gettenantList, getThemeChanges,postRatingReview } from "../../api/Services";
 import siteConfig from "../../config/config";
 import './MenuItem.css'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Input, Button, Modal, notification, Drawer } from 'antd';
-import { CloseOutlined, LeftOutlined, RightOutlined, } from '@ant-design/icons'
+import { Input, Button, Modal, notification,Drawer, Form, message, Rate, } from 'antd';
+import { CloseOutlined, LeftOutlined, RightOutlined, CheckCircleOutlined, FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons'
 import Footer from "../footer/Footer";
 import { FlippingPages } from 'flipping-pages';
 import 'flipping-pages/dist/style.css';
@@ -50,6 +50,8 @@ import secureLocalStorage from "react-secure-storage";
 import ReservationForm from "../Reservation/ReservationForm";
 
 function MenuItem() {
+
+  const [form] = Form.useForm();
 
   // added by rohan - 17/4/23
   // reason- To validate user is in same tenant of not
@@ -768,6 +770,64 @@ function MenuItem() {
 
   {/* End of added code 01-06-2023 */ }
 
+  {/* Added by Om Shrivastava on 14-06-23
+ Reason: When user apply rating than show rating and review */}
+ const [isRatingModal, setIsRatingModal] = useState(false);
+ const handleRatingOk = () => {
+   setIsRatingModal(false);
+ };
+ const handleRatingCancel = () => {
+   setIsRatingModal(false);
+   form.resetFields()
+ };
+
+ const showRatingModal = () => {
+   setIsRatingModal(true);
+ };
+ const customIcons = {
+   1: <FrownOutlined />,
+   2: <FrownOutlined />,
+   3: <MehOutlined />,
+   4: <SmileOutlined />,
+   5: <SmileOutlined />,
+ };
+ const { TextArea } = Input;
+ const [value, setValue] = useState(3);
+ const onChange = (e) => {
+   console.log('radio checked', e.target.value);
+   setValue(e.target.value);
+ };
+ // End of addition by Om Shrivastava on 01-06-23
+
+ // Added by Om Shrivastava on 01-06-23
+ // Reason : When display the rating and review
+
+ const handleFormSubmit = async (formdata) => {
+   var saveRatingData = {
+     rating: value,
+     review: formdata.review,
+   };
+   var tenantName = localStorage.getItem("tenantName")
+   const response = await postRatingReview(saveRatingData, tenantName);
+   if (response.msg) {
+     message.success({
+       content: "Thankyou for your feedback",
+       key: 1,
+       icon: <CheckCircleOutlined />,
+       style: {
+         marginTop: '5vh',
+         fontSize: "16px",
+         letterSpacing: "1.3px",
+         fontFamily: "Times News Roman",
+         color: colors.headingColor,
+       },
+     });
+   }
+   handleRatingCancel()
+   form.resetFields()
+ };
+ // End of addition by Om Shrivastava on 14-06-23
+
   return (
     <>
     {/* Added by Om Shrivastava on 19-05-23
@@ -1050,6 +1110,16 @@ function MenuItem() {
             <ReservationForm isModalOpenn={isModalOpenn} handleCancell={handleCancell} />}
           {/* End of added code by :- Parineeta Gedam on 01-06-2023 */}
 
+          {/* Added by Om Shrivastava on 14-06-23
+                Reason : Show the rating and review for the all over user */}
+          {searchVisible == false &&
+            <button className="rate_us_btn" style={{ background: "Yellow", color: "black" }} onClick={showRatingModal}>
+              Rate Us
+            </button>
+          }
+
+          {/* <FontAwesomeIcon icon={faStar}  onClick={showRatingModal}/> */}
+          {/* End of addition by Om Shrivastava on 14-06-23 */}
         {/* Added by :- Parineeta Gedam
               Date :- 03-04-2023
               Reason :- for drawer
@@ -2328,7 +2398,88 @@ function MenuItem() {
       </div>
 
       {/* } */}
+      {/* Added by Om Shrivastava on 14-06-23
+ Reason: When user apply rating than show rating and review */}
+      <>
+        <Modal style={{ padding: '0% !important' }} footer={null} open={isRatingModal} onOk={handleRatingOk} onCancel={handleRatingCancel}>
+          <div className='rating_review_heading' style={{ marginTop: '2%' }}></div>
 
+          <Form
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 40 }}
+            onFinish={handleFormSubmit}
+            form={form}
+            scrollToFirstError
+            name="comment"
+          >
+            <div
+            // style={{border:'2px solid black'}}
+            >
+              <Form.Item
+                name='rating'
+                label='Rating'
+                // value={1}
+                // defaultValue={1}
+                // rules={[
+                //     {
+                //         defaultValue:1,
+                //         required: true,
+                //         message: 'Enter Your rate',
+                //     },
+                // ]}
+                style={{
+                  marginBottom: '10px'
+                }}
+              >
+                <div
+                // style={{border:"2px solid green"}}
+                >
+                  <Rate allowHalf defaultValue={3} onChange={setValue} />
+                  {/* <Rate allowHalf character={({ index }) => customIcons[index + 1]} defaultValue={1} onChange={setValue} /> */}
+                </div>
+              </Form.Item>
+            </div>
+
+            <Form.Item
+              name='review'
+              label='Review'
+              rules={[
+                {
+                  required: false,
+                  message: 'Please enter your review',
+                },
+              ]}
+              style={{
+                marginBottom: '10px'
+              }}
+            >
+              <TextArea maxLength={255} />
+            </Form.Item>
+
+            <Form.Item>
+              <div className='rating_review_maindiv'>
+                <Button
+                  // type="primary"
+                  // htmlType="submit"
+                  className="skip_btn"
+                  onClick={handleRatingCancel}
+                  style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
+                >
+                  Skip
+                </Button>
+
+                <Button htmlType='submit'
+                  className="done-btn"
+                  style={{ background: colors.bannerColor, color: colors.backgroundTheme, }}
+                >
+                  Sent
+                </Button>
+              </div>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
+      {/* End of addition by Om Shrivastava on 01-06-23 */}
       
 </>
 }

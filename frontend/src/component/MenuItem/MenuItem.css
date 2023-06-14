@@ -1396,3 +1396,47 @@ a.ant-notification-notice-close {
   }
 
 /* End of added code by Parineeta Gedam on 04-06-2023 */
+
+ /* Added by Om Shrivastava on 14-06-23
+Reason : Add css for buttpm designing in rating and review button */
+
+.rate_us_btn{
+    font-size: 12px;
+    font-family: "Times New Roman";
+    border-radius: 5px;
+    border: none;
+    padding: 2px 3px;
+    box-shadow: 0 0 3px #000;
+    text-align: center;
+    width: 25%;
+    margin-left: 5px;
+}
+
+.rating_review_maindiv{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.skip_btn {
+    width: 23%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    padding: 3px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+  }
+  
+  .done-btn {
+    width: 23%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    padding: 3px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
+  }
+/* End of addition by Om Shrivastava on 14-06-23 */

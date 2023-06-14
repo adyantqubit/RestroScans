@@ -2510,3 +2510,17 @@ class MenuAPI(APIView):
     
 # End of code addition by - Ashish Dewangan on 12-06-2023
 # Reason - API to get list of menu 
+
+# Added by Om Shrivastava on 14-06-23
+# Reason: When user apply rating than show rating and review
+class RatingReviewAPI(APIView):
+    def post(self,request,tenant):
+        print(request.data)
+        serializedData = RatingReviewSerializer(data=request.data)
+     
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+# End of addition by Om Shrivastava on 14-06-23

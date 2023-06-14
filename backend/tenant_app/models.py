@@ -1454,3 +1454,17 @@ class Reservation(models.Model):
 """
 End of added code by - Parineeta Gedam on 01-06-2023
 """
+# Added by Om Shrivastava on 14-06-23
+# Reason: When user apply rating than show rating and review
+class RatingReview(models.Model):
+    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    review = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Rating and Review"
+        verbose_name_plural = 'n) Rating and Review'
+
+    def __str__(self):
+        return 'Rating & Review' 
+
+# End of addition by Om Shrivastava on 14-06-23

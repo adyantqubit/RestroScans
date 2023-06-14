@@ -983,3 +983,23 @@ admin.site.register(Reservation, ReservationAdmin)
 """
 End of added code by :- Parineeta Gedam Date - 01-06-2023
 """
+
+# Added by Om Shrivastava on 14-06-23
+# Reason: When user apply rating than show rating and review
+class RatingReviewAdmin(admin.ModelAdmin):
+    list_display = ['rating','review',]
+    # list_display_links=('id','scanner','name','contact_number')
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(RatingReviewAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['rating'].widget.attrs['style'] = 'width: 15em;'
+        form.base_fields['review'].widget.attrs['style'] = 'width: 20em;  height:5em;'
+        return form
+    
+    def has_module_permission(self, request,view=None):
+        if request.tenant.schema_name == get_public_schema_name():
+            return False
+        else:
+            return True
+   
+admin.site.register(RatingReview, RatingReviewAdmin)
+# End of addition by Om Shrivastava on 14-06-23

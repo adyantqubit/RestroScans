@@ -223,4 +223,12 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = '__all__'
-# End of added code by :- Parineeta Gedam Date 01-06-2023
+# End of added code by :- Parineeta Gedam Date 14-06-2023
+
+# Added by Om Shrivastava on 01-06-23
+# Reason: When user apply rating than show rating and review
+class RatingReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=RatingReview
+        fields='__all__'
+# End of addition by Om Shrivastava on 14-06-23

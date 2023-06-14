@@ -282,4 +282,9 @@ urlpatterns = [
     # End of code addition by - Ashish Dewangan on 12-06-2023
     # Reason : To get list of menu. 
 
+    # Added by Om Shrivastava on 14-06-23
+    # Reason: When user apply rating than show rating and review
+    path('<str:tenant>/rating-review/',RatingReviewAPI.as_view()),
+    # End of addition by Om Shrivastava on 14-06-23
+
 ]   

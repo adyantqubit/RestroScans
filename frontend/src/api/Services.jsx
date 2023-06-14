@@ -254,3 +254,13 @@ export const getBillingDataAPI = async(data,tenantId) => {
   return response ? response.data: {}
 }
 // End of added code by :- Parineeta Gedam 26-05-2023
+
+//  Added by - Om Shrivastava on 14-06-2023
+//  Reason - To send Rating and review from UI site 
+export const postRatingReview = async(formdata,tenantId) => {
+  const response = await API.post(`/${tenantId}/rating-review/`,formdata,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of addition by Om Shrivastava on 14-06-23
