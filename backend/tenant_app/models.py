@@ -798,6 +798,31 @@ class Order(models.Model):
             if self.discount_percentage : 
                 raise ValidationError(
                     {"discount_percentage": "Order cancelled you can not add the discount"})
+        
+        # Added by Om Shrivastava on 14-06-23
+        # Reason : When payment status is complete or order status is cancelled than user cannot apply the loyality point
+        if self.payment_status == "Completed" :
+            if self.apply_loyality_point : 
+                raise ValidationError(
+                    {"apply_loyality_point": "Payment status is completed you can not add the loyality point"})
+        
+        if self.order_status == "Cancelled" :
+            if self.apply_loyality_point : 
+                raise ValidationError(
+                    {"apply_loyality_point": "Order status is cancelled you can not add the loyality point"})
+            
+        if int(self.customer_id.loyality_points) < int(self.apply_loyality_point):
+            if self.apply_loyality_point : 
+                raise ValidationError(
+                    {'apply_loyality_point': "Please enter below the customer loyality point."})
+            
+        # if self.sub_total < self.loyality_point_price:
+        #     if self.apply_loyality_point : 
+        #         raise ValidationError(
+        #             # {'apply_loyality_point': "Please choose less loyality point because your discounted loyality amount is greater than total"})
+        #             {'apply_loyality_point': "Loyality point should not greater than sub total, please reduce the loyality point"})
+
+        # End of addition by Om Shrivastava on 14-06-23
             
         # End of added code by Parineeta Gedam on 10-06-2023
 
@@ -1038,7 +1063,12 @@ class Order(models.Model):
 
                     # # Added by Om Shrivastava on 28-05-23
                     # # Reason : Need to apply some condition for calculation the loyality point
-                    if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
+
+                    # Modification and addition by Om Shrivastava on 14-06-23
+                    # Reason : Show all calculation in pending case
+                    # if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
+                    if self.payment_status == 'Pending' and self.loyality_point_status=='is used':
+                    # End of addition by Om Shrivastava on 14-06-23    
                         # print(self.sub_total,'22222222')
                         self.total = self.sub_total - self.loyality_point_price
                         # print(round(float("{:.2f}".format(self.total)),2))

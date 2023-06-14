@@ -364,6 +364,22 @@ export default function InvoiceDetail() {
                             {orders.discount_rupees.toFixed(2)}
                           </div>
                         </div>
+                        {/* Addition by Om Shrivastava on 14-06-23
+                        Reason : Show the loyality price in invoice details page */}
+                        {orders.loyality_point_price > 0 ?(
+                            <>
+                              <div className="order-calculation-line">
+                                <div className="order-calculation-label">
+                                  <div style={{ width: "98%" }}>Loyality point price</div>
+                                  <div>:</div>{" "}
+                                </div>{" "}
+                                <div className="order-calculation-text">
+                                  {rupee_sign}
+                                  {orders.loyality_point_price.toFixed(2)}
+                                </div>
+                              </div>
+                            </>):null}
+                        {/* End of addition by Om Shrivastava on 14-06-23 */}
                         <div className="calculationLine">
                           <div className="calculationLabel">
                             <div style={{ width: "98%" }}>Total</div>
@@ -432,6 +448,9 @@ export default function InvoiceDetail() {
                     ) : (
                       <>
                         {orders?.cgst > 0 || orders?.sgst > 0 ? (
+                          // Modification and addition by Om Shrivastava on 14-06-23
+                          // Reason : Save the loayality point price in order details page
+                          <>
                           <div className="calculationLine">
                             <div className="calculationLabel">
                               <div style={{ width: "98%" }}>Sub-Total</div>
@@ -442,7 +461,34 @@ export default function InvoiceDetail() {
                               {orders.sub_total.toFixed(2)}
                             </div>
                           </div>
+
+                          {orders.loyality_point_price > 0 ?(
+                            <>
+                              <div className="order-calculation-line">
+                                <div className="order-calculation-label">
+                                  <div style={{ width: "98%" }}>Loyality point price</div>
+                                  <div>:</div>{" "}
+                                </div>{" "}
+                                <div className="order-calculation-text">
+                                  {rupee_sign}
+                                  {orders.loyality_point_price.toFixed(2)}
+                                </div>
+                              </div>
+                              <div className="order-calculation-line">
+                                <div className="order-calculation-label">
+                                  <div style={{ width: "98%" }}>Total</div>
+                                  <div>:</div>{" "}
+                                </div>{" "}
+                                <div className="order-calculation-text">
+                                  {rupee_sign}
+                                  {orders.total.toFixed(2)}
+                                </div>
+                              </div>
+                            </>):null}
+                          </>
                         ) : null}
+
+                        {/* End of addition and modification by Om Shrivastava on 14-06-23 */}
 
                         {orders?.cgst > 0 ? (
                           <div className="calculationLine">
