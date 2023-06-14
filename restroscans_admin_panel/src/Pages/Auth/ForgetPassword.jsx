@@ -54,9 +54,10 @@ const Forget = () => {
         errors = errors.filter(e => Object.keys(e) != "Email")
         setError(errors)
         if (text.length == 0)
-            errors=[...errors, { "Email": "Please enter email" }]
+        // All words start with capital letter applied by Om Shrivastava on 14-06-23
+            errors=[...errors, { "Email": "Please enter Email" }]
         if (text.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == null)
-            errors=[...errors, { "Email": "Please enter email in this format example@gmail.com" }]
+            errors=[...errors, { "Email": "Please enter Email in this format example@gmail.com" }]
         setError(errors)    
     }
    

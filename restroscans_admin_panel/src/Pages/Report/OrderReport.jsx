@@ -202,6 +202,10 @@ const OrderReport = () => {
                                     <div className={style.column3}>Tax</div>
                                     <div className={style.column4}>Date</div>
                                     <div className={style.column5}>Discount</div>
+                                      {/* Added by Om Shrivastava on 14-06-23
+                                    Reason : Show the loyality point in report page */}
+                                    <div className={style.column8}>Loyality discount(rs.)</div>
+                                    {/* End of addition by Om Shrivastava on 14-06-23 */}
                                     <div className={style.column6}>Payment Status</div>
                                     <div className={style.column7}>Customer</div>
                                 </div>
@@ -216,6 +220,10 @@ const OrderReport = () => {
                                             <div className={style.columnData3}>{item.cgst + item.sgst}</div>
                                             <div className={style.columnData4}>{new Date(item.date).toLocaleDateString() }</div>
                                             <div className={style.columnData5}>{item.manual_discount}</div>
+                                            {/* Added by Om Shrivastava on 14-06-23
+                                            Reason : Show the loyality point in report page */}
+                                            <div className={style.columnData8}>{item.loyality_point_price}</div>
+                                            {/* End of addition by Om Shrivastava on 14-06-23 */}
                                             <div className={style.columnData6}>{item.payment_status}</div>
                                             <div className={style.columnData7}>
                                                 <button className={style.printBtn} >{item.customer_number}</button>
