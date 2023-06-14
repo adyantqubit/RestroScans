@@ -31,14 +31,21 @@ const OrderNavigation = ({ navigation }) => {
    * come back to same drawer screen
    */
   useEffect(() => {
-    // if (isFocused == false) {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: "OrdersScreen" }],
-      })
-    );
-    // }
+    /**
+     * Added by Yuvraj Sahu on 14-06-2023
+     * Reason - to fix navigation
+     */
+    if (isFocused == false) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: "OrdersScreen" }],
+        })
+      );
+    }
+    /**
+     * End of addition by Yuvraj Sahu on 14-06-2023
+     */
   }, [isFocused]);
   /**
    * End of clearing navigation by Yuvraj Sahu on 11-06-2023

@@ -49,6 +49,11 @@ export default function EditItemScreen({ route, navigation }) {
 
   var { render, setRender } = useContext(AppStateContext);
 
+   // Added by Yuvraj Sahu on 24-4-2023
+  // Reason - to add best seller
+  const [isBestSeller, setBestSeller] = useState(false);
+  // End of addition
+
   // added by Yuvraj Sahu on 6-4-2023
   // Reason - to check checkbox
   // Modified by Yuvraj Sahu on 26-4-2023
@@ -196,6 +201,11 @@ export default function EditItemScreen({ route, navigation }) {
     formData.append("item_type", itemTypeSelected);
     // End of addition
 
+    // Added by Yuvraj Sahu on 14-06-2023
+    // Reason - to save best seller
+    formData.append("best_seller", isBestSeller);
+    // End of addition by Yuvraj Sahu on 14-06-2023
+
     // console.log('formData------'+JSON.stringify(formData))
     if (isFileSizeError == false) {
       updateItemApi(formData, tenant, itemID).then((response) => {
@@ -310,6 +320,12 @@ export default function EditItemScreen({ route, navigation }) {
       )[0];
       var setItemType = selectedItemValue.item_type;
       setItemValue(setItemType);
+
+      // Added by Yuvraj Sahu on 14-06-2023
+      // Reason - to set default best seller item
+      var setBestSellerItem = selectedItemValue.best_seller;
+      setBestSeller(setBestSellerItem);
+      // End of addition by Yuvraj Sahu on 14-06-2023
 
       // Added by Yuvraj Sahu on 26-4-2023
       // Reason - to set filtered data
@@ -1015,6 +1031,21 @@ export default function EditItemScreen({ route, navigation }) {
                     <Text style={styles.activeLable}>Item available</Text>
                   </Pressable>
                 </View>
+
+                {/* Added by Yuvraj Sahu on 24-4-2023
+                Reason - to add best seller  */}
+                <View style={styles.activeStatus}>
+                  <Checkbox
+                    value={isBestSeller}
+                    onValueChange={setBestSeller}
+                    color={isBestSeller ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setBestSeller(!isBestSeller)}>
+                    <Text style={styles.activeLable}>Best seller</Text>
+                  </Pressable>
+                </View>
+                {/* End of addition */}
+
                 <View
                   style={{
                     marginBottom: 30,

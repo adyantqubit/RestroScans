@@ -27,7 +27,10 @@ export const AppStateProvider = ({ children }) => {
   // -------------- This function is used to getting app configuaration -------------
   var [settings, setSettings] = useState([]);
   const getSettingData = async () => {
-    if (await SecureStore.getItemAsync("tenantInfo")) {
+  	// Modified by Yuvraj Sahu on 12-06-2023
+  	// Reason - to remove warning
+    if (await SecureStore.getItemAsync("tenantInfo").tenant_name != null) {
+    // End of amodification by Yuvraj Sahu on 12-06-2023
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;

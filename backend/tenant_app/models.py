@@ -244,13 +244,16 @@ class Item(models.Model):
     # AAdded by Om Shrivastava on 19-05-23
     # Reason : When best seller number is greater than zero than through a error
 
-    def clean(self):
-        obj = Item.objects.filter(best_seller = True)
-        if (obj.count() >= 10):
-           if self.best_seller is True:
-                raise ValidationError({
-            'best_seller': ValidationError("You have already selected 10 best seller"),
-            }) 
+    # Commeted by Yuvraj Sahu on 14-06-2023
+    # Reason - admin can add more 10 best seller item
+    # def clean(self):
+    #     obj = Item.objects.filter(best_seller = True)
+    #     if (obj.count() >= 10):
+    #        if self.best_seller is True:
+    #             raise ValidationError({
+    #         'best_seller': ValidationError("You have already selected 10 best seller"),
+    #         })
+    # End of commet by Yuvraj Sahu on 14-06-2023
 
     # End of addition by Om Shrivastava on 19-05-23
 """
