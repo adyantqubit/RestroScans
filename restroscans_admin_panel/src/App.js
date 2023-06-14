@@ -18,7 +18,11 @@ import OrderItemReport from './Pages/Report/OrderItemReport';
 import CustomerReport from './Pages/Report/CustomerReport';
 import BannerOffer from "./Pages/BannerOffer/BannerOffer";
 import BannerOfferItem from "./Pages/BannerOffer/BannerOfferItem";
-import Menu from "./Pages/Menu/menu";
+// Commented and modified by - Ashish Dewangan on 14-06-2023
+// Reason - To have naming convention
+// import Menu from "./Pages/Menu/menu";
+import Menu from "./Pages/Menu/Menu";
+// End of code modification by - Ashish Dewangan on 14-06-2023
 import Category from "./Pages/Menu/Category";
 import Item from "./Pages/Menu/Item";
 import FooterDescription from "./Pages/Home/FooterDescription";

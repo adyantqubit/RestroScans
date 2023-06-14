@@ -295,3 +295,39 @@ export const updateSocialMediaApi = async (value, tenant, id) => {
   return response ? response.data : {};
 };
 // End of addition by Yuvraj Sahu on 29-05-2023
+
+
+
+/**
+ * Added by - Ashish Dewangan on 12-06-2023
+ * Reason - To get menu count
+ */
+export const getMenuCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/menu-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * Ent of code adition by - Ashish Dewangan on 12-06-2023
+ * Reason - To get menu count
+ */
+
+/**
+ * Added by - Ashish Dewangan on 12-06-2023
+ * Reason - To get menu list of tenant.
+ */
+export const getMenuList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/menu-list-v2/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Ashish Dewangan on 12-06-2023.
+ * Reason - To get menu list of tenant.
+ */ 

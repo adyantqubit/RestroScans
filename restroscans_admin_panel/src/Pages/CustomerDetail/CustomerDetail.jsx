@@ -15,6 +15,8 @@ import {
   BsSortNumericDown,
 } from "react-icons/bs";
 
+import { Input, Space } from "antd";
+
 const CustomerDetail = () => {
   const [backendCustomersCount, setBackendCustomersCount] = useState(0);
   const [customerList, setCustomerList] = useState([]);
@@ -24,6 +26,17 @@ const CustomerDetail = () => {
   const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
   const [showSortingIcon, setShowSortingIcon] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+
+  /**
+   * Added by - Ashish Dewangan on 14-06-2023
+   * Reason - To have search functionality
+   */
+  const [searchText, setSearchText] = useState("");
+  const { Search } = Input;
+  /**
+   * End of code addition by - Ashish Dewangan on 14-06-2023
+   * Reason - To have search functionality
+   */
 
   /**
    * Added by - Ashish Dewangan on 03-06-2023
@@ -46,7 +59,19 @@ const CustomerDetail = () => {
    */
   useEffect(() => {
     getListOfCustomers();
-  }, [columnToSort, columnSortingOrder, currentPage]);
+  
+  
+  /**
+   * Commented and modified by - Ashish Dewangan on 14-06-2023
+   * Reason - To reflect changes when seach text is changed
+   */
+  // }, [columnToSort, columnSortingOrder, currentPage]);  
+  }, [columnToSort, columnSortingOrder, currentPage,searchText]);
+  /**
+   * End of code modification by - Ashish Dewangan on 14-06-2023
+   * Reason - To reflect changes when seach text is changed
+   */
+
   /**
    * End of code addition by - Ashish Dewangan on 03-06-2023
    * Reason - method that will execute when sorting on column is applied or page number is changed.
@@ -81,9 +106,27 @@ const CustomerDetail = () => {
       paginationDetails: paginationDetails,
       columnToSort: columnToSort,
       columnSortingOrder: columnSortingOrder,
+      /**
+       * Added by - Ashish Dewangan on 14-06-2023
+       * Reason - To send search data on backend
+       */
+      searchText:searchText,
+      /**
+       * End of code addition by - Ashish Dewangan on 14-06-2023
+       * Reason - To send search data on backend
+       */
     };
     const response = await getCustomerList(tenant, filteringCriteria);
     setCustomerList(response.customerList);
+    /**
+     * Added by - Ashish Dewangan on 14-06-2023
+     * Reason - To recalculate page numbers
+     */
+    setBackendCustomersCount(response.customerListCount)
+    /**
+     * End of code addition by - Ashish Dewangan on 14-06-2023
+     * Reason - To recalculate page numbers
+     */
   };
   /**
    * End of code addition by - Ashish Dewangan on 03-06-2023
@@ -127,9 +170,36 @@ const CustomerDetail = () => {
         <div className={`${style.pageTitleContainer}`}>
           <div className={style.pageTitle}>Customer List</div>
         </div>
+
         <div className={style.customerListSection}>
           <div className={style.tableContainer}>
             <div className={style.table}>
+
+              {/* Added by - Ashish Dewangan on 14-06-2023
+              Reason - To have search functionality */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "white",
+                  padding: "4px",
+                }}
+              >
+                <Search
+                  placeholder="input search text"
+                  allowClear
+                  enterButton
+                  // onChange={(e)=>{e.target.value.length>=3 && setSearchText(e.target.value);}}
+                  onSearch={(value)=>{setCurrentPage(1); setSearchText(value); }}
+                  style={{
+                    width: "60%",
+                  }}
+                />
+              </div>
+              {/* End of code addition by - Ashish Dewangan on 14-06-2023
+              Reason - To have search functionality */}
+
               <div className={style.tableHeadingContainer}>
                 <div
                   className={style.commonColumnTitle}
@@ -279,6 +349,7 @@ const CustomerDetail = () => {
                   customerList.map((customerDetails, index) => {
                     return (
                       <div
+                      key={index}
                         className={style.tableData}
                         style={{
                           padding: "2px",
@@ -309,7 +380,12 @@ const CustomerDetail = () => {
                     );
                   })
                 ) : (
-                  <div style={{ textAlign: "center" }}>Please Add Settings</div>
+                  // Commented and modified by - Ashish Dewangan on 14-06-2023
+                  // Reason - To change message when search record is not found
+                  // <div style={{ textAlign: "center" }}>Please Add Settings</div>
+                  <div style={{ textAlign: "center" }}>No records found!</div>
+                  // End of code modification by - Ashish Dewangan on 14-06-2023
+                  // Reason - To change message when search record is not found
                 )}
               </div>
             </div>
@@ -320,6 +396,15 @@ const CustomerDetail = () => {
           {customerList && customerList.length > 0 ? (
             <Pagination
               defaultCurrent={1}
+              /**
+               * Added by - Ashish Dewangan on 14-06-2023
+               * Reason - To set current selected page number
+               */
+              current={currentPage}
+              /**
+               * End of code addition by - Ashish Dewagnan on 14-06-2023
+               * Reason - To set current selected page number
+               */
               total={backendCustomersCount}
               defaultPageSize={listPerPage}
               onChange={handlePageChange}

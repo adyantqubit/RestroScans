@@ -18,6 +18,10 @@ from django.utils.timezone import timedelta
 # from django.utils.timezone import datetime
 from backend.config import * 
 
+from django.db.models import Q
+import logging
+from django.core.paginator import Paginator
+
 """
 Added by - Ashish Dewangan on 08-02-2023
 Reason - To get menu
@@ -2263,44 +2267,104 @@ class CustomerAPI(APIView):
         paginationDetails=request.data['paginationDetails']
         columnToSort=request.data['columnToSort']
         columnSortingOrder=request.data['columnSortingOrder']
-
         currentPage=paginationDetails['currentPage']
         listPerPage=paginationDetails['listPerPage']
 
+        # Commented and modified by - Ashish Dewangan on 14-06-2023
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
         customerList=[]
-        
-        if columnToSort == "last_customer_name" and columnSortingOrder=="ascending":
-            customerList = CustomerDetail.objects.all().order_by('last_customer_name')
-        if columnToSort == "last_customer_name" and columnSortingOrder=="descending":
-            customerList = CustomerDetail.objects.all().order_by('-last_customer_name')
-        if columnToSort == "last_customer_name" and columnSortingOrder=="":
-            customerList = CustomerDetail.objects.all()
-        
-        if columnToSort == "last_email" and columnSortingOrder=="ascending":
-            customerList=CustomerDetail.objects.all().order_by('last_email')
-        if columnToSort == "last_email" and columnSortingOrder=="descending":
-            customerList = CustomerDetail.objects.all().order_by('-last_email')
-        if columnToSort == "last_email" and columnSortingOrder=="":
-            customerList=CustomerDetail.objects.all()
 
-        if columnToSort == "contact_number" and columnSortingOrder=="ascending":
-            customerList=CustomerDetail.objects.all().order_by('contact_number')
-        if columnToSort == "contact_number" and columnSortingOrder=="descending":
-            customerList = CustomerDetail.objects.all().order_by('-contact_number')            
-        if columnToSort == "contact_number" and columnSortingOrder=="":
-            customerList=CustomerDetail.objects.all()
-
-        if columnToSort == "loyality_points" and columnSortingOrder=="ascending":
-            customerList = CustomerDetail.objects.all().order_by('loyality_points')
-        if columnToSort == "loyality_points" and columnSortingOrder=="descending":
-            customerList = CustomerDetail.objects.all().order_by('-loyality_points')
-        if columnToSort == "loyality_points" and columnSortingOrder=="":
-            customerList=CustomerDetail.objects.all()
-        
         if columnToSort == "":
             customerList = CustomerDetail.objects.all()
 
-        from django.core.paginator import Paginator
+        if searchText:
+            customerList=CustomerDetail.objects.filter(Q(last_customer_name__icontains=searchText) | 
+                                                    #    Q(last_email__icontains=searchText) |
+                                                       Q(contact_number__icontains=searchText) |
+                                                       Q(loyality_points__icontains=searchText))
+        else:
+            customerList = CustomerDetail.objects.all()    
+
+        # if columnToSort == "last_customer_name" and columnSortingOrder=="ascending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('last_customer_name')
+        #     else:    
+        #         customerList = CustomerDetail.objects.all().order_by('last_customer_name')
+        # if columnToSort == "last_customer_name" and columnSortingOrder=="descending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('-last_customer_name')
+        #     else:    
+        #         customerList = CustomerDetail.objects.all().order_by('-last_customer_name')
+        # if columnToSort == "last_customer_name" and columnSortingOrder=="":
+        #     customerList = CustomerDetail.objects.all()
+        
+
+        # if columnToSort == "last_email" and columnSortingOrder=="ascending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('last_email')
+        #     else:    
+        #         customerList=CustomerDetail.objects.all().order_by('last_email')
+        # if columnToSort == "last_email" and columnSortingOrder=="descending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('-last_email')
+        #     else:    
+        #         customerList = CustomerDetail.objects.all().order_by('-last_email')
+        # if columnToSort == "last_email" and columnSortingOrder=="":
+        #     customerList=CustomerDetail.objects.all()
+
+
+        # if columnToSort == "contact_number" and columnSortingOrder=="ascending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('contact_number')
+        #     else:    
+        #         customerList=CustomerDetail.objects.all().order_by('contact_number')
+        # if columnToSort == "contact_number" and columnSortingOrder=="descending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('-contact_number')
+        #     else:    
+        #         customerList=CustomerDetail.objects.all().order_by('-contact_number')
+        # if columnToSort == "contact_number" and columnSortingOrder=="":
+        #     customerList=CustomerDetail.objects.all()
+
+
+        # if columnToSort == "loyality_points" and columnSortingOrder=="ascending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('loyality_points')
+        #     else:    
+        #         customerList=CustomerDetail.objects.all().order_by('loyality_points')
+        # if columnToSort == "loyality_points" and columnSortingOrder=="descending":
+        #     if len(customerList) > 0:
+        #         customerList = customerList.order_by('-loyality_points')
+        #     else:    
+        #         customerList=CustomerDetail.objects.all().order_by('-loyality_points')
+        # if columnToSort == "loyality_points" and columnSortingOrder=="":
+        #     customerList=CustomerDetail.objects.all()
+        
+        if columnToSort == "last_customer_name" and columnSortingOrder=="ascending":
+            customerList = customerList.order_by('last_customer_name')
+        if columnToSort == "last_customer_name" and columnSortingOrder=="descending":
+            customerList = customerList.order_by('-last_customer_name')
+
+        # if columnToSort == "last_email" and columnSortingOrder=="ascending":
+        #     customerList = customerList.order_by('last_email')
+        # if columnToSort == "last_email" and columnSortingOrder=="descending":
+        #     customerList = customerList.order_by('-last_email')
+
+        if columnToSort == "contact_number" and columnSortingOrder=="ascending":
+            customerList = customerList.order_by('contact_number')
+        if columnToSort == "contact_number" and columnSortingOrder=="descending":
+            customerList = customerList.order_by('-contact_number')
+
+        if columnToSort == "loyality_points" and columnSortingOrder=="ascending":
+            customerList = customerList.order_by('loyality_points')
+        if columnToSort == "loyality_points" and columnSortingOrder=="descending":
+            customerList = customerList.order_by('-loyality_points')
+
+        customerListCount=customerList.count()
+
+        # from django.core.paginator import Paginator
 
         paginator = Paginator(customerList, listPerPage)
         filteredCutomerList = paginator.page(currentPage)
@@ -2309,7 +2373,12 @@ class CustomerAPI(APIView):
         return Response({
             "msg":"success",
             "customerList":customerDetailSerializer.data,
+            "customerListCount":customerListCount,
         })
+        # End of code modification by - Ashish Dewangan on 14-06-2023
+        # Reason - To enhance and add basic search functionality
+
+
     # End of code addition by - Ashish Dewangan on 05-06-2023
     # Reason - To get list of customers using backend pagination
     
@@ -2378,3 +2447,66 @@ class UpdateReservationAPI(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response({"msg": "Not Saved"}, status=status.HTTP_200_OK)
 # End of addition code by Parineeta Gedam on 04-06-2023
+
+
+
+
+# Added by Ashish Dewangan on 12-06-2023
+# Reason - API for CRUD operation on menu
+class MenuAPI(APIView):
+    
+    # Added by Ashish Dewangan on 12-06-2023
+    # Reason - To get count of menu
+    def get(self,request,tenant):
+         menuCount=Menu.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "menuCount":menuCount,
+        })
+    # End of code addition by - Ashish Dewangan on 12-06-2023
+    # Reason - To get count of menu
+    
+    # Added by - Ashish Dewangan on 12-06-2023
+    # Reason - To get list of menu using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        menuList=[]
+        
+        if columnToSort == "name" and columnSortingOrder=="ascending":
+            menuList = Menu.objects.all().order_by('name')
+        if columnToSort == "name" and columnSortingOrder=="descending":
+            menuList = Menu.objects.all().order_by('-name')
+        if columnToSort == "name" and columnSortingOrder=="":
+            menuList = Menu.objects.all()
+        
+        if columnToSort == "is_active" and columnSortingOrder=="ascending":
+            menuList=Menu.objects.all().order_by('is_active')
+        if columnToSort == "is_active" and columnSortingOrder=="descending":
+            menuList = Menu.objects.all().order_by('-is_active')
+        if columnToSort == "is_active" and columnSortingOrder=="":
+            menuList=Menu.objects.all()
+
+        if columnToSort == "":
+            menuList = Menu.objects.all()
+
+        from django.core.paginator import Paginator
+
+        paginator = Paginator(menuList, listPerPage)
+        filteredMenuList = paginator.page(currentPage)
+
+        menuListSerializer = MenuListSerializer(filteredMenuList, many =True)
+        return Response({
+            "msg":"success",
+            "menuList":menuListSerializer.data,
+        })
+    # End of code addition by - Ashish Dewangan on 12-06-2023
+    # Reason - To get list of menu using backend pagination
+    
+# End of code addition by - Ashish Dewangan on 12-06-2023
+# Reason - API to get list of menu 

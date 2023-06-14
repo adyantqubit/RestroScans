@@ -270,4 +270,16 @@ urlpatterns = [
     path('<str:tenant>/update-reservation/',UpdateReservationAPI.as_view()),
     # End of addition
 
+    # Added by Dewangan on 12-06-23
+    # Reason : To get count of menu.
+    path('<str:tenant>/menu-count/',MenuAPI.as_view()),
+    # End of code addition by - Ashish Dewangan on 12-06-2023
+    # Reason : To get count of menu. 
+
+    # Added by Dewangan on 12-06-23
+    # Reason : To get list of menu.
+    path('<str:tenant>/menu-list-v2/',MenuAPI.as_view()),
+    # End of code addition by - Ashish Dewangan on 12-06-2023
+    # Reason : To get list of menu. 
+
 ]   
