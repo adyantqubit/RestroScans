@@ -787,7 +787,7 @@ class Order(models.Model):
         if self.payment_status == "Completed" and self.discount_percentage == 0 :
             if self.discount_percentage : 
                 raise ValidationError(
-                    {"discount_percentage": "Payment is completeddddddddd you can not add the discount"})
+                    {"discount_percentage": "Payment is completed you can not add the discount"})
             
         if self.order_status == "Cancelled" and self.discount_rupees == 0 :
             if self.discount_rupees : 

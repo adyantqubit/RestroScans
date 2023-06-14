@@ -171,7 +171,7 @@ function App() {
     }
     if (updatedOrderData.order_status == "Cancelled") {
       message.error({
-        content: "Order cancelled",
+        content: "Order Cancelled",
         key: 1,
         icon: <CheckCircleOutlined />,
         style: {
