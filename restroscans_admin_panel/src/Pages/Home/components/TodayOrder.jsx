@@ -7,7 +7,7 @@ import { getDashboardData, updateAllOrderAPI, updateItemStatus, updateOrderAndPa
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdKeyboardArrowDown, MdDownloading } from "react-icons/md"
 import { RiErrorWarningLine } from "react-icons/ri"
-import { Popover } from 'antd'
+import { Popover, Modal } from 'antd'
 import { Message } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 // import ReactPaginate from 'react-paginate';
@@ -60,6 +60,19 @@ const TodayOrder = () => {
     var updatedStatus = useRef({ value: [] })
     var [selectedOrder, setSelectedOrder] = useState([])
 
+    var selectedOrdersItemIndex=0;
+    // Added by Suman sahu - 11/6/23
+    // Reason - To open selected items in the modal of table no. data in the dashboard
+    var selectedItemArr=[]
+    const [openModalNumOrderItem,setOpenModalNumOrderItem]=useState({})
+    // End of code - 11/6/23 by - suman sahu
+
+    // Added by Suman sahu - 11/6/23
+    // Reason - To open selected orders in the modal of more button in the action of dashboard
+    var selectedOrderCopy={}
+    const [openPopupModalOpen,setOpenPopupModalOpen]=useState({})
+    // End of code - 11/6/23 by - suman sahu
+
     // Added by ROhan Kansari - 25/5/23
     // Reason - To save checked item and update
     var [checkedItems, setCheckedItem] = useState([])
@@ -92,7 +105,7 @@ const TodayOrder = () => {
             // setThisWeeksSummary(response.revenue_details.this_weeks_summary);
             // setThisMonthsSummary(response.revenue_details.this_months_summary);
             // setThisYearsSummary(response.revenue_details.this_years_summary);
-            console.log(response)
+            // console.log(response)
             setLoading(false)
             setNewlyPlacedOrders(response.todays_newly_placed_orders);
             setPendingOrders(response.todays_pending_orders);
@@ -101,7 +114,6 @@ const TodayOrder = () => {
             setRestroDetail(response.tenant)
             setOrderItem(response.order_item)
             setSelectedOrder(response.todays_newly_placed_orders)
-
         }
     }
 
@@ -123,14 +135,24 @@ const TodayOrder = () => {
     }
 
 
+    // added by - Suman sahu On 11/06/2023
+    // reason - for close modal when click on cross icon or outside click on modal
+
+    const closePopupOpen = () => {
+        setPopupOpen(false);
+    };
+    // end of addition - 11/06/2023 by - suman sahu
 
     function model(m, i) {
         var paymentStatus = m.payment_status
         var orderStatus = m.order_status
+        // added by - suman sahu on 11/06/2023
+        // reason - for call that function in the antd modal
+        updateStatus();
+        // end of addition 11/06/2023 by - suman sahu
 
 
         async function updateStatus() {
-
             const status = {
                 order_status: orderStatus,
                 payment_status: paymentStatus,
@@ -138,7 +160,10 @@ const TodayOrder = () => {
 
             const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
 
-            if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
+            // commented by - suman sahu on 11/06/2023
+            // reason - fix issue when update order status and payment status in the modal
+
+            // if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
                 await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
                     if (r.success) {
                         Message("Successfully status updated ", "success")
@@ -161,92 +186,110 @@ const TodayOrder = () => {
 
                     }
                 })
-            }
+            // }
+            // end of commentation - 11/06/2023 by - suman sahu
 
         }
-        if (popupOpen)
-            return <div className={style.popupContainer}
-                onLoad={e => {
-                    console.log(document.getElementById("order_status_selected").selected)
-                    console.log(document.getElementById("payment_status_selected").selected)
-                }}>
-                <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
-                    selectboxReset()
-                    setPopupOpen(false)
-                }}><AiOutlineClose /></button></div>
-                <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
-                <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
-                <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
-                <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
-                <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
-                <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
-                <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
-                <div className={style.btnContainer}>
-                    <div className={style.selectionContainer}>
-                        <label className={style.lable}>Order Status</label>
-                        <div className={style.selctedContentBox}>
-                            <select defaultValue={orderStatus} onChange={e => orderStatus = e.target.value} id="order_status_selected">
-                                <option value="Placed" className={style.options}>Placed</option>
-                                <option value="Confirm" className={style.options}>Confirm</option>
-                                <option value="Cooked" className={style.options}>Cooked</option>
-                                <option value="Served" className={style.options}>Served</option>
-                            </select>
-                        </div>
-                        {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
 
-                    </div>
-                    <div className={style.selectionContainer}>
-                        <label className={style.lable}>Payment Status</label>
-                        <div className={style.selctedContentBox}>
-                            <select defaultValue={paymentStatus} onChange={e => paymentStatus = e.target.value} id="payment_status_selected">
-                                <option className={style.options} value="Pending">Pending</option>
-                                <option className={style.options} value="Completed">Completed</option>
-                            </select>
-                        </div>
-                        {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
-                    </div>
-                </div>
-                <div className={style.btnContainer}>
-                    <div className={style.selectionContainer}>
-                        <button className={style.btnUpdate} onClick={e => updateStatus()}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-                    </div>
-                    <div className={style.selectionContainer}>
-                        <button className={style.btnUpdate} onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}>Cancel</button>
-                    </div>
-                </div>
+    // commented by - suman sahu on 11/06/2023
+    // reason - change that popup to antd modal (when click on more button in the action of dashbord)
 
-                <div className={style.btnContainer}>
-                    <div className={style.selectionContainer} style={{ textAlign: "center" }}>
-                        <div className={style.visitLink}>See Order</div>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-                    </div>
-                    <div className={style.selectionContainer}>
-                        <span className={style.visitLink}>See Order Item</span>
-                    </div>
-                </div>
+    //     if (popupOpen)
+    //         return <div className={style.popupContainer}
+    //             onLoad={e => {
+    //                 console.log(document.getElementById("order_status_selected").selected)
+    //                 console.log(document.getElementById("payment_status_selected").selected)
+    //             }}>
+    //             <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
+    //                 selectboxReset()
+    //                 setPopupOpen(false)
+    //             }}><AiOutlineClose /></button></div>
+    //             <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
+    //             <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
+    //             <div className={style.btnContainer}>
+    //                 <div className={style.selectionContainer}>
+    //                     <label className={style.lable}>Order Status</label>
+    //                     <div className={style.selctedContentBox}>
+    //                         <select defaultValue={orderStatus} onChange={e => orderStatus = e.target.value} id="order_status_selected">
+    //                             <option value="Placed" className={style.options}>Placed</option>
+    //                             <option value="Confirm" className={style.options}>Confirm</option>
+    //                             <option value="Cooked" className={style.options}>Cooked</option>
+    //                             <option value="Served" className={style.options}>Served</option>
+    //                         </select>
+    //                     </div>
+    //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
 
-                <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
-                    <div className={style.selectionContainer}>
-                        <button className={style.kotPrint}
-                            // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
-                            onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
-                        >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-                    </div>
-                    <div className={style.selectionContainer}>
-                        <button className={style.billPrint}
-                            style={m.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
-                            onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
-                        >Print</button>
-                    </div>
-                </div>
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <label className={style.lable}>Payment Status</label>
+    //                     <div className={style.selctedContentBox}>
+    //                         <select defaultValue={paymentStatus} onChange={e => paymentStatus = e.target.value} id="payment_status_selected">
+    //                             <option className={style.options} value="Pending">Pending</option>
+    //                             <option className={style.options} value="Completed">Completed</option>
+    //                         </select>
+    //                     </div>
+    //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
+    //                 </div>
+    //             </div>
+    //             <div className={style.btnContainer}>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.btnUpdate} onClick={e => updateStatus()}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.btnUpdate} onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}>Cancel</button>
+    //                 </div>
+    //             </div>
 
-            </div>
+    //             <div className={style.btnContainer}>
+    //                 <div className={style.selectionContainer} style={{ textAlign: "center" }}>
+    //                     <div className={style.visitLink}>See Order</div>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <span className={style.visitLink}>See Order Item</span>
+    //                 </div>
+    //             </div>
+
+    //             <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.kotPrint}
+    //                         // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
+    //                         onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+    //                     >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.billPrint}
+    //                         style={m.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
+    //                         onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+    //                     >Print</button>
+    //                 </div>
+    //             </div>
+
+    //         </div>
     }
 
+    // end of commentation code on 11/06/2023 by - suman sahu
+
+
+    // added by - Suman sahu On 10/06/2023
+    // reason - for close modal when click on cross icon or outside click on that modal
+
+    const closeModalOrderItem = () => {
+        setPopupOrderItem(false);
+    };
+    // end of addition by suman sahu on 10/06/2023
 
     function orderItemModel(filteredOrderItemList, i) {
         updatedStatus.current.value = []
         filteredOrderItemList?.filter(e => updatedStatus.current.value.push(e.item_status))
-
+        // added by - suman sahu on 10/06/2023
+        // reason - for call that function in the antd modal
+        updateStatus();
+        // end of addition by - suman sahu on 10/06/2023
 
         async function updateStatus() {
 
@@ -256,11 +299,7 @@ const TodayOrder = () => {
                 var newOrderItemList = []
                 r.filter(e => {
                     updatedStatus.current.value.push(e.item_status);
-                    // Modification and addition by Om Shrivastava on 10-06-23
-                    // Reason : When we updatae the item status than its not working properly than I fix this bug
-                    // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
-                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o=>o.id == e.id)]
-                    // End of addition by Om Shrivastava on 10-06-23
+                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
                 })
 
                 setOrderItem(newOrderItemList)
@@ -273,55 +312,62 @@ const TodayOrder = () => {
             setPopupOrderItem(null)
         }
 
-        function resetingSelectbox() {
-            // This is to reseting the all value of select box on closing without updating
-            var option = document.querySelectorAll("select option");
-            for (var i = 0; i < option.length; i++) {
-                option[i].selected = option[i].defaultSelected;
-                if (filteredOrderItemList[i])
-                    filteredOrderItemList[i].item_status = updatedStatus.current.value[i];
-            }
+        // commented by - suman sahu On 10/06/2023
+        // reason - change that popup to antd modal (when click on table no. data in the dashbord)
 
-            // Reseting end code
-        }
+        // function resetingSelectbox() {
+        //     // This is to reseting the all value of select box on closing without updating
+        //     var option = document.querySelectorAll("select option");
+        //     for (var i = 0; i < option.length; i++) {
+        //         option[i].selected = option[i].defaultSelected;
+        //         if (filteredOrderItemList[i])
+        //             filteredOrderItemList[i].item_status = updatedStatus.current.value[i];
+        //     }
 
-        if (popupOrderItem)
-            return <div className={style.popupItemContainer}>
-                <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
-                    setPopupOrderItem(false);
-                    resetingSelectbox()
-                }}><AiOutlineClose /></button></div>
-                {/* Added by ROhan kansari - 29/5/23
-                    Reason - To add overflow div and set max height of parent 300px */}
-                <div className={style.itemlist}>
-                    {filteredOrderItemList?.map((orderItem, i) => (
-                        <div key={i} className={style.itemListContainer}>
-                            <div className={style.title}>{i + 1 + ". "}{orderItem.item}</div>
-                            <div className={style.itemStatusContainer} >
-                                <label className={style.lable}>Item Status</label>
-                                <div className={style.selctedContentBox}>
-                                    <select defaultValue={orderItem.item_status} onChange={e => { filteredOrderItemList[i].item_status = e.target.value }} id="payment_status_selected">
-                                        <option className={style.options} value="Pending">Pending</option>
-                                        <option className={style.options} value="Confirm">Confirm</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+        //     // Reseting end code
+        // }
 
-                    ))}
-                </div>
-                {/* End of addition - Rohan kansari - 29/5/23 */}
-                <div className={style.itemStatusContainer}>
-                    <div className={style.selectionContainer}>
-                        <button className={style.btnUpdate} onClick={e => { updateStatus(); }}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-                    </div>
-                    <div className={style.selectionContainer}>
-                        <button className={style.btnUpdate} onClick={e => {  resetingSelectbox(); setPopupOrderItem(false); }}>Cancel</button>
-                    </div>
-                </div>
-            </div>
+        // if (popupOrderItem)
+        //     return <div className={style.popupItemContainer}>
+        //         <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
+        //             setPopupOrderItem(false);
+        //             resetingSelectbox()
+        //         }}><AiOutlineClose /></button></div>
+        //         Added by ROhan kansari - 29/5/23
+        //             Reason - To add overflow div and set max height of parent 300px
+        //         <div className={style.itemlist}>
+        //             {filteredOrderItemList?.map((orderItem, i) => (
+        //                 <div key={i} className={style.itemListContainer}>
+        //                     <div className={style.title}>{i + 1 + ". "}{orderItem.item}</div>
+        //                     <div className={style.itemStatusContainer} >
+        //                         <label className={style.lable}>Item Status</label>
+        //                         <div className={style.selctedContentBox}>
+        //                             <select defaultValue={orderItem.item_status} onChange={e => { filteredOrderItemList[i].item_status = e.target.value }} id="payment_status_selected">
+        //                                 <option className={style.options} value="Pending">Pending</option>
+        //                                 <option className={style.options} value="Confirm">Confirm</option>
+        //                             </select>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+
+        //             ))}
+        //         </div>
+        //         End of addition - Rohan kansari - 29/5/23
+        //         <div className={style.itemStatusContainer}>
+        //             <div className={style.selectionContainer}>
+        //                 <button className={style.btnUpdate} onClick={e => { updateStatus(); }}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+        //             </div>
+        //             <div className={style.selectionContainer}>
+        //                 <button className={style.btnUpdate} onClick={e => {  resetingSelectbox(); setPopupOrderItem(false); }}>Cancel</button>
+        //             </div>
+        //         </div>
+        //     </div>
+
+        // end of commentation on 10/06/2023 by suman sahu
+
     }
 
+    // end of modification code on 10/06/2023
 
     function selectboxReset() {
         // This is to reseting the all value of select box on closing without updating
@@ -469,6 +515,7 @@ const TodayOrder = () => {
 
     // End of code - ROhan Kansari - 26/5/23
 
+
     return (
         <>
             {/* Added and modified by - ROhan Kansari - 25/5/23
@@ -508,19 +555,23 @@ const TodayOrder = () => {
                                 </div>
                                 {/* <input className={style.checkbox} id="checkbox"
                                         onChange={e => setCheckedItems(data, e.target.checked)} type="checkbox" /> */}
-                                <Popover placement="right"
+
+                                {/* // Commented and modification by - Suman sahu On 10/06/2023
+                                    // reason - change that popup to antd modal */}
+
+                                {/* <Popover placement="right"
                                     content={e => orderItemModel(orderItemList.filter(o => o.order_id == data.order_id), i)}
-                                    // Added by Om Shrivastava on 05-06-23
-                                    // Reason : Fix the arrow issue when we click cancel button
-                                    // open={popupOrderItem}
-                                    // End of addition by Om Shrivastava on 05-06-23
+                                    Added by Om Shrivastava on 05-06-23
+                                    Reason : Fix the arrow issue when we click cancel button
+                                    open={popupOrderItem}
+                                    End of addition by Om Shrivastava on 05-06-23
                                     onOpenChange={e => {
                                         if (!e) {
                                             selectboxReset()
-                                            // Added by Om Shrivastava on 05-06-23
-                                            // Reason : Fix the arrow issue when we click cancel button
-                                            // setPopupOrderItem(!popupOrderItem)
-                                            // End of addition by Om Shrivastava on 05-06-23
+                                            Added by Om Shrivastava on 05-06-23
+                                            Reason : Fix the arrow issue when we click cancel button
+                                            setPopupOrderItem(!popupOrderItem)
+                                            End of addition by Om Shrivastava on 05-06-23
                                         }
                                     }}
                                     trigger="click"
@@ -530,8 +581,11 @@ const TodayOrder = () => {
                                         {data.table_number}
                                     </div>
 
-                                    {/* <button className={style.printBtn} onClick={e => setPopupOpen({ [`${i}`]: true })}>More</button> */}
-                                </Popover>
+                                    <button className={style.printBtn} onClick={e => setPopupOpen({ [`${i}`]: true })}>More</button>
+                                </Popover> */}
+
+                                <div className={style.columnData2} onClick={e =>{ setOpenModalNumOrderItem(data);setPopupOrderItem(true)}} >{data.table_number}</div>
+                                {/* end of modification on 10/06/2023 */}
 
                                 <div className={style.columnData8}>{data.order_id}</div>
                                 <div className={style.columnData3}>{getStatusBtn(data.order_status)}</div>
@@ -539,7 +593,9 @@ const TodayOrder = () => {
                                 <div className={style.columnData5}>{data.total}</div>
                                 <div className={style.columnData6}>{getStatusBtn(data.payment_status)}</div>
                                 <div className={style.columnData7}>
-                                    <Popover placement="left"
+                                {/* // Commented and modification by - Suman sahu On 12/06/2023
+                                    // reason - change that popup to antd modal */}
+                                    <Popover placement="left" 
                                         content={e => model(data, i)}
                                         // Added by Om Shrivastava on 05-06-23
                                         // Reason : Fix the arrow issue when we click cancel button
@@ -556,8 +612,11 @@ const TodayOrder = () => {
                                             }
                                         }}
                                         trigger='click'>
-                                        <button className={style.printBtn} onClick={e => setPopupOpen(true)}>More</button>
+                                        {/* <button className={style.printBtn} onClick={e => setPopupOpen(true)}>More</button> */}
                                     </Popover>
+
+                                    <div className={style.columnData7} onClick={e =>{ setOpenPopupModalOpen(data); setPopupOpen(true)}}><button className={style.printBtn}>More</button></div>
+                                {/* end of modification on 12/06/2023 */}
                                 </div>
                             </div>
                             // Added by Rohan Kansari - 30/5/23 
@@ -597,6 +656,165 @@ const TodayOrder = () => {
                     </div>
                 </div>
                 <div className={style.updateBtn} onClick={e => updateAll()}>Update All</div>
+
+                {/* added by - suman sahu on 10/06/2023
+                    reason - change the popup when click the data of table no. in the dashbord */}
+
+                <Modal open={popupOrderItem} onCancel={closeModalOrderItem}  footer={null} className={style.modalContainer}>
+                    <div className={style.popupItemContainer}>
+                        <div className={style.itemlist}>
+                            {orderItemList?.map((orderItem, i) => {
+                                
+                                if(orderItem.order_id==openModalNumOrderItem.order_id){
+                                    
+                                    {selectedItemArr.push(orderItem) }
+                                    return <div key={i} className={style.itemListContainer}>
+                                        <div className={style.title}>
+                                        {orderItem.item}
+                                        </div>
+                                        <div className={style.itemStatusContainer} >
+                                            <label className={style.lable}>serving_size</label>
+                                            <div className={style.quantityContainer}>{orderItem.serving_size}</div>
+                                        </div>
+                                        <div className={style.itemStatusContainer} >
+                                            <label className={style.lable}>Quantity</label>
+                                            <div className={style.quantityContainer}>{orderItem.quantity}</div>
+                                        </div>
+                                        <div className={style.itemStatusContainer} >
+                                            <label className={style.lable}>Item Status</label>
+                                            <div className={style.selctedContentBox}>
+                                                <select 
+                                                defaultValue={orderItem.item_status}
+                                                onChange={e => { selectedItemArr.forEach((item)=>{
+                                                    if(item.id==orderItem.id){
+                                                        item.item_status=e.target.value
+                                                    }
+                                                }) }} 
+                                                id="payment_status_selected">
+                                                    <option className={style.options} value="Pending">Pending</option>
+                                                    <option className={style.options} value="Confirm">Confirm</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            })}
+                        </div>
+                    </div>
+                    <div className={style.btnContainer}>
+                        <div className={style.selectionContainer}>
+                            <button className={style.btnUpdate} 
+                            onClick={e => { orderItemModel(selectedItemArr); }}
+                            >Update</button>                                    
+                        </div>
+                        <div className={style.selectionContainer}>
+                            <button className={style.btnUpdate} 
+                            onClick={e => { setPopupOrderItem(false);}}
+                            >Cancel</button>
+                        </div>
+                    </div>
+                </Modal>
+                {/* end of addition by - suman sahu on 10/06/2023 */}
+
+                {/* added by - suman sahu on 11/06/2023
+                    reason - change the popup when click the data of action in the dashbord */}
+
+                <Modal open={popupOpen} onCancel={closePopupOpen} footer={null} className={style.modalContainer} >
+                    <div className={style.popupContainer}
+                        onLoad={e => {
+                            console.log(document.getElementById("order_status_selected").selected)
+                            console.log(document.getElementById("payment_status_selected").selected)
+                        }}>
+                           
+                      
+                        {selectedOrder?.map((orderItem, i) => {
+
+                            if(orderItem.order_id==openPopupModalOpen.order_id){
+                                selectedOrderCopy["order_id"]=openPopupModalOpen.order_id
+                                selectedOrderCopy["order_status"]=openPopupModalOpen.order_status
+                                selectedOrderCopy["payment_status"]=openPopupModalOpen.payment_status
+                                return <>
+                                    <div className={style.customername}><label className={style.lable}>Contact Number : {orderItem.customer_number}</label></div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Table No : {orderItem.table_number}</label></div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{orderItem.date.substring(0, 10).split('-').reverse().join("/") + ' ' + orderItem.date.substring(11, 16)}</div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{orderItem.payment_mode}</div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{orderItem.sub_total}</div>
+                                    <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{orderItem.cgst}<label className={style.lable}>SGST : </label>{orderItem.sgst}</div>
+                                    <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {orderItem.total} </label></div>
+                                
+                        
+                                <div className={style.btnContainer}>
+                                    <div className={style.selectionContainer}>
+                                        <label className={style.lable}>Order Status</label>
+                                        <div className={style.selctedContentBox}>
+                                            <select 
+                                            defaultValue={orderItem.order_status} 
+                                            onChange={e => { selectedOrderCopy["order_status"] = e.target.value }} 
+                                            >
+                                                <option value="Placed" className={style.options}>Placed</option>
+                                                <option value="Confirm" className={style.options}>Confirm</option>
+                                                <option value="Cooked" className={style.options}>Cooked</option>
+                                                <option value="Served" className={style.options}>Served</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className={style.selectionContainer}>
+                                        <label className={style.lable}>Payment Status</label>
+                                        <div className={style.selctedContentBox}>
+                                            <select 
+                                            defaultValue={orderItem.payment_status} 
+                                            onChange={e => { selectedOrderCopy["payment_status"] = e.target.value }} 
+                                            >
+                                                <option className={style.options} value="Pending">Pending</option>
+                                                <option className={style.options} value="Completed">Completed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                            }
+                        })}
+                        <div className={style.btnContainer}>
+                            <div className={style.selectionContainer}>
+                                <button className={style.btnUpdate} 
+                                onClick={e => { model(selectedOrderCopy); }}
+                                >Update</button>                                    
+                            </div>
+                            <div className={style.selectionContainer}>
+                                <button className={style.btnUpdate} 
+                                onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}
+                                >Cancel</button>
+                            </div>
+                        </div>
+
+                        <div className={style.btnContainer}>
+                            <div className={style.selectionContainer} style={{ textAlign: "center" }}>
+                                <div className={style.visitLink}>See Order</div>                                    
+                            </div>
+                            <div className={style.selectionContainer}>
+                                <span className={style.visitLink}>See Order Item</span>
+                            </div>
+                        </div>
+
+                        <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
+                            <div className={style.selectionContainer}>
+                                <button className={style.kotPrint}
+                                    onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openPopupModalOpen, "orderItem": orderItemList.filter((o) => { return o.order_id == openPopupModalOpen.order_id }) } })}
+                                >Print KOT</button>                                   
+                            </div>
+                            <div className={style.selectionContainer}>
+                                <button className={style.billPrint}
+                                    style={openPopupModalOpen.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
+                                    onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openPopupModalOpen, "orderItem": orderItemList.filter((o) => { return o.order_id == openPopupModalOpen.order_id }) } })}
+                                >Print</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </Modal>
+                {/* end of addition by - suman sahu on 10/06/2023 */}
+
             </div>
 
             {/* <ReactPaginate
