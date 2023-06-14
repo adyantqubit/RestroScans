@@ -124,7 +124,10 @@
     color: red;
     cursor: pointer;
     /* border: 2px solid green; */
-    width: 100%;
+
+    /* width: 100%; */
+    width: 60%;
+
 }
 
 .alert{
@@ -209,13 +212,14 @@ cursor: pointer;
         margin-top: 10%;
     }
    .formContent{
-
+    /* height: 100px; 
+    width : auto */
     background-color: var(--primary-bg-color);
     width: 60%;
     height: auto;
     border-radius: 20px;
     margin: auto;
-
+   
    }
 
    .BackgroundImageContainer{

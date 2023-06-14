@@ -80,7 +80,11 @@ class RestaurantLoginView(APIView):
             # Modified by Rohan kansari- 29/5/23
             # Reason - TO correct validation message 
             response.data = {
-                'invalid': 'Invailid email or password'
+                # Modification and addition by Om Shrivastava on 12-06-23
+                # Reason : Need to correct validation message
+                # 'invalid': 'Invailid email or password'
+                'invalid': 'Invalid Email or Invalid Password'
+                # End of addition and modification by Om Shrivatava on 12-06-23
             }
             return response
         # if not restaurant.check_password(request.data['password']):
@@ -90,7 +94,11 @@ class RestaurantLoginView(APIView):
             # Modified by Rohan kansari- 29/5/23
             # Reason - TO correct validation message 
             response.data = {
-                'invalid': 'Invailid email or password'
+                # Modification and addition by Om Shrivastava on 12-06-23
+                # Reason : Need to correct validation message
+                # 'invalid': 'Invailid email or password'
+                'invalid': 'Invalid Email or Invalid Password'
+                # End of addition and modification by Om Shrivatava on 12-06-23
             }
             return response
     

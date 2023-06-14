@@ -199,7 +199,13 @@ const Login = () => {
                                         {/* Commented by Om Shrivastava on 03-06-23
                                         Reason :Redesign the Forgot password  */}
                                     {/* Add classname and remove some style properties by Om Shrivastava on 11-06-23 */}
-                                    <span className='forget_content' style={{fontSize:"12px"}} onClick={e => nav("/Forget")}>Forget Password?</span>
+                                    <span className='forget_content' style={{fontSize:"12px"}} onClick={e => nav("/Forget")}>
+                                        {/* Modifcation and addition by Om Shrivastava on 12-06-23
+                                        Reason : Fix the bug 139 : Need to change the spelling of Forget password */}
+                                        {/* Forget Password? */}
+                                        Forgot Password?
+                                        {/* End of addition by Om Shrivastava on 12-06-23 */}
+                                        </span>
                                 {/* End of addition by Om Shrivastava on 03-06-23 */}
                                 </label>
                                 {/* {errors.filter(e => Object.keys(e)[0] == "password").length > 0 ? <span className={style.errorText}>{errors.filter(e => Object.keys(e)[0] == "password")[0].password}</span> : null} */}
