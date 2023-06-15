@@ -371,14 +371,14 @@ export const addOrderItemSchema = yup.object().shape({
 // Added by Parineeta Gedam  on 25-04-2023
 // Reason - to validate qunatity
 export const updateReservationSchema = yup.object().shape({
-  name: yup.string().required("plaese enter name"),
+  name: yup.string().required("Please enter name"),
   email: yup.string().trim().email("Please enter valid email!").required("Email address is required!"),
   contact_number: yup.string().min(10, ({ min }) => `Contact number must be ${min} digits!`).max(10, ({ max }) => `Contact number must be ${max} digits!`).required("Contact Number is required!"),
-  number_of_person: yup.string().required("plaese enter number of person"),
-  special_instructions:yup.string().required("plaese enter special instructions"),
-  table_number : yup.string().required("plaese enter table number"),
-  date : yup.string().required("plaese enter date"),
-  time : yup.string().required("plaese enter time"),
+  number_of_person: yup.string().required("Please enter number of person"),
+  special_instructions:yup.string().required("Please enter special instructions"),
+  table_number : yup.string().required("Please enter table number"),
+  date : yup.string().required("Please enter date"),
+  time : yup.string().required("Please enter time"),
 
 });
  // end of addition code by Parineeta Gedam  on 25-04-2023

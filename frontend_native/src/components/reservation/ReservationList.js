@@ -58,7 +58,8 @@ export default function ReservationList({ route, navigation }) {
     return (
         <>
             <ScrollView keyboardShouldPersistTaps="handled">
-                <Text style={styles.reservation_heading} >Tab to click</Text>
+                {/* <Text style={styles.reservation_heading} >Tab to click</Text> */}
+                <Text style={styles.reservation_heading} >Please tap on row</Text>
                 {reservationList.length > 0 ? (
                     <View style={styles.orderTableContainer}>
                         <View style={styles.orderHeadingContainer}>

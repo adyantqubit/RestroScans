@@ -1057,10 +1057,7 @@ class Order(models.Model):
                     self.sgst = round(float("{:.2f}".format(sgst)),2)
                     self.total= round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
                     self.final_amount = round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
-                    print("save method -------- cgst", self.cgst)
-                    print("sgst", self.sgst)
-                    print("total", self.total)
-
+                  
                     # # Added by Om Shrivastava on 28-05-23
                     # # Reason : Need to apply some condition for calculation the loyality point
 
