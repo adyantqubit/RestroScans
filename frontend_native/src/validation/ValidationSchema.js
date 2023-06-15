@@ -323,16 +323,16 @@ export const addOfferSchema = yup.object().shape({
 export const addPaymentMethodSchema = yup.object().shape({
   name: yup
     .string()
-    .max(255, ({ max }) => `Name should no be more than ${max} characters`),
+    .max(255, ({ max }) => `Name should not be more than ${max} characters`),
   contact_number: yup
     .string()
     .max(
       10,
-      ({ max }) => `contact number should no be more than ${max} characters`
+      ({ max }) => `Contact number should not be more than ${max} characters`
     )
     .min(
       10,
-      ({ min }) => `contact number should no be less than ${min} characters`
+      ({ min }) => `Contact number should not be less than ${min} characters`
     ),
 });
 // End of addition
