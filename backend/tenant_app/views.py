@@ -853,6 +853,10 @@ class updateRatingAndReviewAPIView(APIView):
         try: 
             order=Order.objects.get(order_id=request.data['order_id'])
             order.review=request.data['overallReview']
+            # Added by Yuvraj Sahu on 15-06-2023
+            # Reason - to save overall rating
+            order.rating=request.data['overallRating']
+            # End of addition by Yuvraj Sahu on 15-06-2023
             order.save()
         except:
             pass    

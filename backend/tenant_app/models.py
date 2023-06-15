@@ -696,6 +696,11 @@ class Order(models.Model):
     # Reason - To save overall review
     review=models.TextField(null=True,blank=True)
 
+    # Added by Yuvraj Sahu on 15-06-2023
+    # Reason - to add overall rating
+    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    # End of addition by Yuvraj Sahu on 15-06-2023
+
     # Added by Rohan kansari - 10/5/23
     # Reason - To save payment confirmation date and time 
     payment_confirmation_date_time=models.CharField(max_length=50,null=True,blank=True)

@@ -12,6 +12,10 @@
     /* justify-content: center; */
     /* End of addition by Yuvraj Sahu on 04-06-2023 */
     align-items: center;
+    /* Added by Yuvraj Sahu on 15-06-2023
+    Reason - to give padding in social media */
+    padding-top: 5px;
+    /* End of addition by Yuvraj Sahu on 15-06-2023 */
 }
 
 .iconContainer{

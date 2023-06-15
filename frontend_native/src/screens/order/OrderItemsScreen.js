@@ -1434,6 +1434,16 @@ export default function OrderItemsScreen({ route, navigation }) {
 
             )}
             {/* End of addition by Om Shrivastava on 13-05-23 */}
+
+            {/* Addition by Yuvraj Sahu on 15-06-2023
+            Reason : Show the all over restaurant rating   */}
+            {orderDetail.rating && (
+              <Text style={{ marginTop: 5 }}>
+                <Text>Rating : {orderDetail.rating}  <FontAwesome name="star" size={13} color="black" /></Text>
+              </Text>
+            )}
+            {/* End of addition by Yuvraj Sahu on 15-06-2023 */}
+
             {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
 
             {/* Added by :- Parineeta Gedam on 24-05-2023 
