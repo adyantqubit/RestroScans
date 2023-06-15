@@ -92,6 +92,16 @@ const Menu = () => {
     };
     const response = await getMenuList(tenant, filteringCriteria);
     setMenuList(response.menuList);
+
+    /**
+     * Added by - Ashish Dewangan on 14-06-2023
+     * Reason - To recalculate page numbers
+     */
+    setBackendMenuCount(response.menuListCount)
+    /**
+     * End of code addition by - Ashish Dewangan on 14-06-2023
+     * Reason - To recalculate page numbers
+     */
   };
   /**
    * End of code addition by - Ashish Dewangan on 12-06-2023
@@ -129,6 +139,18 @@ const Menu = () => {
    * Reason - Method that will set sorting criteria
    */
 
+  /**
+   * Added by - Ashish Dewangan on 14-06-2023
+   * Reason - Method that will open edit menu form of selected menu
+   */
+  const openMenuDetails=(id)=>{
+    alert(id)
+  }
+  /**
+   * Added by - Ashish Dewangan on 14-06-2023
+   * Reason - Method that will open edit menu form of selected menu
+   */
+
   return (
     <Header>
       <div className={style.container}>
@@ -153,7 +175,16 @@ const Menu = () => {
                   allowClear
                   enterButton
                   // onChange={(e)=>{e.target.value.length>=3 && setSearchText(e.target.value);}}
-                  onSearch={(value)=>{value.length>=3 && setSearchText(value);}}
+                  /**
+                   * Commented and modified by - Ashish Dewangan on 14-06-2023
+                   * Reason - To set selected page to 1 when we search something
+                   */
+                  // onSearch={(value)=>{value.length>=3 && setSearchText(value);}}
+                  onSearch={(value)=>{setCurrentPage(1); setSearchText(value);}}
+                  /**
+                   * End of code modification by - Ashish Dewangan on 14-06-2023
+                   * Reason - To set selected page to 1 when we search something
+                   */
                   style={{
                     width: "60%",
                   }}
@@ -239,6 +270,11 @@ const Menu = () => {
                     />
                   )}
                 </div>
+                  {/* Added by - Ashish Dewangan on 14-06-2023
+                    Reason - To add view button */}
+                <div className={style.commonColumnTitle}> Action </div>
+                {/* End of code addition by - Ashish Dewangan on 14-06-2023
+                    Reason - T add view button */}
               </div>
 
               <div
@@ -276,6 +312,22 @@ const Menu = () => {
                         <MdCancel className={style.noIcon} />
                         </div>
                       )}
+
+                    {/* Added by - Ashish Dewangan on 14-06-2023
+                    Reason - To add view button */}
+                    <div
+                      className={`${style.commonColumnData}`}
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <div
+                        className={` ${style.primaryButton}`}
+                        onClick={() => openMenuDetails(menuDetails.id)}
+                      >
+                        View
+                      </div>
+                    </div>
+                    {/* End of code addition by - Ashish Dewangan on 14-06-2023
+                    Reason - T add view button */}
                       
                       </div>
                     );
@@ -293,6 +345,15 @@ const Menu = () => {
           {menuList && menuList.length > 0 ? (
             <Pagination
               defaultCurrent={1}
+              /**
+               * Added by - Ashish Dewangan on 14-06-2023
+               * Reason - To set current selected page number
+               */
+              current={currentPage}
+              /**
+               * End of code addition by - Ashish Dewagnan on 14-06-2023
+               * Reason - To set current selected page number
+               */
               total={backendMenuCount}
               defaultPageSize={listPerPage}
               onChange={handlePageChange}

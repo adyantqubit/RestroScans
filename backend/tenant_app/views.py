@@ -2472,30 +2472,51 @@ class MenuAPI(APIView):
         paginationDetails=request.data['paginationDetails']
         columnToSort=request.data['columnToSort']
         columnSortingOrder=request.data['columnSortingOrder']
-
         currentPage=paginationDetails['currentPage']
         listPerPage=paginationDetails['listPerPage']
 
+        # Commented and modified by - Ashish Dewangan on 14-06-2023
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
         menuList=[]
-        
-        if columnToSort == "name" and columnSortingOrder=="ascending":
-            menuList = Menu.objects.all().order_by('name')
-        if columnToSort == "name" and columnSortingOrder=="descending":
-            menuList = Menu.objects.all().order_by('-name')
-        if columnToSort == "name" and columnSortingOrder=="":
-            menuList = Menu.objects.all()
-        
-        if columnToSort == "is_active" and columnSortingOrder=="ascending":
-            menuList=Menu.objects.all().order_by('is_active')
-        if columnToSort == "is_active" and columnSortingOrder=="descending":
-            menuList = Menu.objects.all().order_by('-is_active')
-        if columnToSort == "is_active" and columnSortingOrder=="":
-            menuList=Menu.objects.all()
 
         if columnToSort == "":
             menuList = Menu.objects.all()
 
-        from django.core.paginator import Paginator
+        if searchText:
+            menuList=Menu.objects.filter(Q(name__icontains=searchText) )
+        else:
+            menuList = Menu.objects.all()        
+        
+        # if columnToSort == "name" and columnSortingOrder=="ascending":
+        #     menuList = Menu.objects.all().order_by('name')
+        # if columnToSort == "name" and columnSortingOrder=="descending":
+        #     menuList = Menu.objects.all().order_by('-name')
+        # if columnToSort == "name" and columnSortingOrder=="":
+        #     menuList = Menu.objects.all()
+        
+        # if columnToSort == "is_active" and columnSortingOrder=="ascending":
+        #     menuList=Menu.objects.all().order_by('is_active')
+        # if columnToSort == "is_active" and columnSortingOrder=="descending":
+        #     menuList = Menu.objects.all().order_by('-is_active')
+        # if columnToSort == "is_active" and columnSortingOrder=="":
+        #     menuList=Menu.objects.all()
+
+        if columnToSort == "name" and columnSortingOrder=="ascending":
+            menuList = menuList.order_by('name')
+        if columnToSort == "name" and columnSortingOrder=="descending":
+            menuList = menuList.order_by('-name')
+        
+        
+        if columnToSort == "is_active" and columnSortingOrder=="ascending":
+            menuList = menuList.order_by('is_active')
+        if columnToSort == "is_active" and columnSortingOrder=="descending":
+            menuList = menuList.order_by('-is_active')
+        
+        menuListCount=menuList.count()
+
+        # from django.core.paginator import Paginator
 
         paginator = Paginator(menuList, listPerPage)
         filteredMenuList = paginator.page(currentPage)
@@ -2504,7 +2525,11 @@ class MenuAPI(APIView):
         return Response({
             "msg":"success",
             "menuList":menuListSerializer.data,
+            "menuListCount":menuListCount,
         })
+        # End of code modification by - Ashish Dewangan on 14-06-2023
+        # Reason - To enhance and add basic search functionality
+        
     # End of code addition by - Ashish Dewangan on 12-06-2023
     # Reason - To get list of menu using backend pagination
     

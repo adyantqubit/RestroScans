@@ -162,56 +162,99 @@
 
 @media screen and (max-width: 4000px) {
   .container {
-    --common-column-width: 300px;
-    --common-column-min-width: 300px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 300px;
+    --common-column-min-width: 300px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+    
     --common-column-display: unset;
   }
 }
 
 @media screen and (max-width: 1150px) {
   .container {
-    --common-column-width: 270px;
-    --common-column-min-width: 270px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 270px;
+    --common-column-min-width: 270px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 }
 
 @media screen and (max-width: 1050px) {
   .container {
-    --common-column-width: 220px;
-    --common-column-min-width: 220px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 220px;
+    --common-column-min-width: 220px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 }
 
 @media screen and (max-width: 900px) {
   .container {
-    --common-column-width: 200px;
-    --common-column-min-width: 200px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 200px;
+    --common-column-min-width: 200px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 }
 
 @media screen and (max-width: 850px) {
   .container {
-    --common-column-width: 190px;
-    --common-column-min-width: 190px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 190px;
+    --common-column-min-width: 190px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 }
 
 @media screen and (max-width: 770px) {
   .container {
-    --common-column-width: 180px;
-    --common-column-min-width: 180px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 180px;
+    --common-column-min-width: 180px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 }
 
 @media screen and (max-width: 720px) {
   .container {
-    --common-column-width: 170px;
-    --common-column-min-width: 170px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 170px;
+    --common-column-min-width: 170px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 
@@ -227,8 +270,14 @@
 
 @media screen and (max-width: 600px) {
   .container {
-    --common-column-width: 120px;
-    --common-column-min-width: 120px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 120px;
+    --common-column-min-width: 120px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 
@@ -246,8 +295,14 @@
 }
 @media screen and (max-width: 500px) {
   .container {
-    --common-column-width: 80px;
-    --common-column-min-width: 80px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 80px;
+    --common-column-min-width: 80px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 
@@ -261,8 +316,14 @@
 }
 @media screen and (max-width: 430px) {
   .container {
-    --common-column-width: 100px;
-    --common-column-min-width: 100px;
+    /* commented and modified by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
+  	/* --common-column-width: 100px;
+    --common-column-min-width: 100px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Ashish Dewangan on 14-06-2023
+       Reason - To make width responsive */
     --common-column-display: unset;
   }
 
