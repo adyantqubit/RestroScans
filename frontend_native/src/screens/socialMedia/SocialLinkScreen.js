@@ -184,226 +184,232 @@ export default function SocialLinkScreen({ navigation }) {
   return (
     <View>
       <ScrollView keyboardShouldPersistTaps="handled">
-      <Formik
-        innerRef={formRef}
-        initialValues={{
-          social_media_name: "",
-          social_media_link: "",
-        }}
-        validationSchema={addSocialMedia}
-        onSubmit={handleRegister}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          touched,
-          errors,
-        }) => (
-          <View>
-            <View style={{ marginTop: 10 }}>
-              <Text style={styles.labels}> Social media name</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("social_media_name")}
-                onBlur={handleBlur("social_media_name")}
-                value={values.social_media_name}
-                placeholderTextColor="#A4A4A4"
-                placeholder="Enter Social media name"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              {errors.social_media_name && touched.social_media_name && (
-                <Text style={styles.textdanger}>
-                  {errors.social_media_name}
+        <Formik
+          innerRef={formRef}
+          initialValues={{
+            social_media_name: "",
+            social_media_link: "",
+          }}
+          validationSchema={addSocialMedia}
+          onSubmit={handleRegister}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            touched,
+            errors,
+          }) => (
+            <View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.labels}> Social media name</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("social_media_name")}
+                  onBlur={handleBlur("social_media_name")}
+                  value={values.social_media_name}
+                  placeholderTextColor="#A4A4A4"
+                  placeholder="Enter Social media name"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                {errors.social_media_name && touched.social_media_name && (
+                  <Text style={styles.textdanger}>
+                    {errors.social_media_name}
+                  </Text>
+                )}
+              </View>
+
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.labels}>
+                  <Text style={{ color: "red", fontWeight: "650" }}> * </Text>
+                  Social media link
                 </Text>
-              )}
-            </View>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("social_media_link")}
+                  onBlur={handleBlur("social_media_link")}
+                  value={values.social_media_link}
+                  placeholderTextColor="#A4A4A4"
+                  placeholder="https://example.com"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                {errors.social_media_link && touched.social_media_link && (
+                  <Text style={styles.textdanger}>
+                    {errors.social_media_link}
+                  </Text>
+                )}
+              </View>
 
-            <View style={{ marginTop: 10 }}>
-              <Text style={styles.labels}>
-                <Text style={{ color: "red", fontWeight: "650" }}> * </Text>
-                Social media link
-              </Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("social_media_link")}
-                onBlur={handleBlur("social_media_link")}
-                value={values.social_media_link}
-                placeholderTextColor="#A4A4A4"
-                placeholder="https://example.com"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              {errors.social_media_link && touched.social_media_link && (
-                <Text style={styles.textdanger}>
-                  {errors.social_media_link}
-                </Text>
-              )}
-            </View>
-
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "93%",
-                alignSelf: "center",
-                marginTop: 5,
-                marginBottom: 5,
-              }}
-            >
-              <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
-              <Text>Upload icon</Text>
-            </View>
-
-            <View
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 3,
-                width: "93%",
-                alignSelf: "center",
-                flexDirection: "row-reverse",
-                justifyContent: "space-around",
-              }}
-            >
-              <Pressable
-                onPress={pickImage}
+              <View
                 style={{
-                  backgroundColor: "#d5d5d5",
-                  width: 50,
-                  padding: 5,
-                  borderRadius: 5,
-                  height: 40,
                   display: "flex",
                   flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Icon name="upload" size={20} color="black" />
-              </Pressable>
-              {icon && (
-                <Image
-                  source={{ uri: icon }}
-                  style={{ width: 50, height: 40, borderRadius: 5 }}
-                />
-              )}
-            </View>
-
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                alignSelf: "center",
-                justifyContent: "center",
-                marginTop: 5,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 12,
-                }}
-              >
-                Please upload image below 200kb
-              </Text>
-            </View>
-
-            {isImgRequired && (
-              <Text style={{ color: "red", marginLeft: 100 }}>
-                Social media icon is required!
-              </Text>
-            )}
-
-            {isFileSizeError && (
-              <Text style={{ color: "red", marginLeft: 70 }}>
-                Please upload image below 200kb
-              </Text>
-            )}
-
-            <View
-              style={{
-                marginBottom: 30,
-                marginHorizontal: 10,
-                marginTop: 10,
-              }}
-            >
-              <Pressable
-                onPress={(e) => {
-                  handleSubmit();
-                }}
-                disabled={isSaveBtnDisable}
-                style={{
-                  backgroundColor: isSaveBtnDisable
-                    ? "#E0E0E0"
-                    : colors.btnColor,
-                  height: 30,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "35%",
+                  width: "93%",
                   alignSelf: "center",
+                  marginTop: 5,
+                  marginBottom: 5,
+                }}
+              >
+                <Text style={{ color: "red", fontWeight: "650" }}>* </Text>
+                <Text>Upload icon</Text>
+              </View>
+
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 3,
+                  width: "93%",
+                  alignSelf: "center",
+                  flexDirection: "row-reverse",
+                  justifyContent: "space-around",
+                }}
+              >
+                <Pressable
+                  onPress={pickImage}
+                  style={{
+                    backgroundColor: "#d5d5d5",
+                    width: 50,
+                    padding: 5,
+                    borderRadius: 5,
+                    height: 40,
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Icon name="upload" size={20} color="black" />
+                </Pressable>
+                {icon && (
+                  <Image
+                    source={{ uri: icon }}
+                    style={{ width: 50, height: 40, borderRadius: 5 }}
+                  />
+                )}
+              </View>
+
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  marginTop: 5,
                 }}
               >
                 <Text
                   style={{
-                    color: isSaveBtnDisable ? "#989898" : colors.white,
-                    fontSize: 16,
-                    fontWeight: "bold",
+                    fontSize: 12,
                   }}
                 >
-                  Save
+                  Please upload image below 200kb
                 </Text>
-              </Pressable>
-            </View>
-          </View>
-        )}
-      </Formik>
+              </View>
 
-      {/* Added by Yuvraj Sahu on 28-05-2023
-      Reason - to get all social media */}
-      <View>
-        {/* <SocialMediaList socialLinks={socialLinkObjs} savedMsg={socialLinkObjs}/> */}
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryLable}>Saved Social media</Text>
-          {socialLinks.length > 0 ? (
-            <>
-              {socialLinks.map((socialLink, id) => (
+              {isImgRequired && (
+                <Text style={{ color: "red", marginLeft: 100 }}>
+                  Social media icon is required!
+                </Text>
+              )}
+
+              {isFileSizeError && (
+                <Text style={{ color: "red", marginLeft: 70 }}>
+                  Please upload image below 200kb
+                </Text>
+              )}
+
+              <View
+                style={{
+                  marginBottom: 30,
+                  marginHorizontal: 10,
+                  marginTop: 10,
+                }}
+              >
                 <Pressable
-                  key={id}
-                  style={styles.categoryListContainer}
-                  onPress={(e) => handleNavigation(socialLink.id, socialLink)}
+                  onPress={(e) => {
+                    handleSubmit();
+                  }}
+                  disabled={isSaveBtnDisable}
+                  style={{
+                    backgroundColor: isSaveBtnDisable
+                      ? "#E0E0E0"
+                      : colors.btnColor,
+                    height: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 10,
+                    width: "35%",
+                    alignSelf: "center",
+                  }}
                 >
-                  <Image
-                    source={{
-                      uri: config.staticBaseURL + socialLink.social_media_icon,
+                  <Text
+                    style={{
+                      color: isSaveBtnDisable ? "#989898" : colors.white,
+                      fontSize: 16,
+                      fontWeight: "bold",
                     }}
-                    style={styles.menuIcon}
-                  />
-                  <Text>{socialLink.social_media_name}</Text>
-                  <Pressable onPress={(e) => deletePermission(socialLink.id)}>
-                    <MaterialIcons name="delete" size={24} color="red" />
-                  </Pressable>
+                  >
+                    Save
+                  </Text>
                 </Pressable>
-              ))}
-            </>
-          ) : (
-            <View
-              style={{
-                height: 200,
-                alignItems: "center",
-                justifyContent: "center",
-                alignSelf: "center",
-              }}
-            >
-              <Text>No social media saved here</Text>
+              </View>
             </View>
           )}
+        </Formik>
+
+        {/* Added by Yuvraj Sahu on 28-05-2023
+      Reason - to get all social media */}
+        <View>
+          {/* <SocialMediaList socialLinks={socialLinkObjs} savedMsg={socialLinkObjs}/> */}
+          <View style={styles.categoryContainer}>
+            <Text style={styles.categoryLable}>Saved Social media</Text>
+            {socialLinks.length > 0 ? (
+              <>
+                {socialLinks.map((socialLink, id) => (
+                  <Pressable
+                    key={id}
+                    style={styles.socialMediaListContainer}
+                    onPress={(e) => handleNavigation(socialLink.id, socialLink)}
+                  >
+                    <Image
+                      source={{
+                        uri:
+                          config.staticBaseURL + socialLink.social_media_icon,
+                      }}
+                      style={styles.socialMediaIcon}
+                    />
+                    <Text style={styles.socialMediaName}>
+                      {socialLink.social_media_name}
+                    </Text>
+                    <Pressable
+                      onPress={(e) => deletePermission(socialLink.id)}
+                      style={styles.socialMediaDeleteButton}
+                    >
+                      <MaterialIcons name="delete" size={24} color="red" />
+                    </Pressable>
+                  </Pressable>
+                ))}
+              </>
+            ) : (
+              <View
+                style={{
+                  height: 200,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <Text>No social media saved here</Text>
+              </View>
+            )}
+          </View>
         </View>
-      </View>
       </ScrollView>
       {/* End getting all social media by Yuvraj Sahu on 28-05-2023 */}
     </View>
@@ -529,7 +535,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  categoryListContainer: {
+  /**
+   * Added and modified by Yuvraj Sahu on 14-06-2023
+   * Reason - to change name and add some design in social media list
+   */
+  socialMediaListContainer: {
     display: "flex",
     flexDirection: "row",
     marginTop: 5,
@@ -547,10 +557,17 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
 
-  menuIcon: {
+  socialMediaIcon: {
     height: 30,
-    width: 30,
+    width: "10%",
     borderRadius: 5,
   },
+
+  socialMediaName: { width: "70%", textAlign: "center" },
+
+  socialMediaDeleteButton: { width: "10%" },
+  /**
+   * End of addition by Yuvraj Sahu on 14-06-2023
+   */
   // =============================
 });

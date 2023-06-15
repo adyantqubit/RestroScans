@@ -42,11 +42,19 @@ export default function SocialLinks() {
   return (
     <>
       {socialObjs.length > 0 && (
-        <div className={style.SocialLinksContaner}>
+        // Modified by Yuvraj Sahu on 14-06-2023
+        // Reason - to align center social media icons
+        <div
+          className={style.SocialLinksContaner}
+          style={{
+            justifyContent: socialObjs.length <= 7 ? "center" : "unset",
+          }}
+        >
+          {/* End of addition by Yuvraj Sahu on 14-06-2023 */}
           {socialObjs.map((socialData, index) => (
             <div id={index} className={style.iconContainer}>
               <a href={socialData.social_media_link} target="_blank">
-              {/* <a href="https://adyant.co.in/" target='_blank'> */}
+                {/* <a href="https://adyant.co.in/" target='_blank'> */}
                 <img
                   src={config.staticBaseURL + socialData.social_media_icon}
                   alt="social link"
