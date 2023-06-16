@@ -304,6 +304,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderLeftWidth: 1,
         borderTopWidth: 1,
+        marginBottom : 75,
     },
     orderHeadingContainer: {
         minHeight: 45,

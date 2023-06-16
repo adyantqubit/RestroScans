@@ -291,20 +291,23 @@ export default function DrawerNavigation({ navigation }) {
       {/* End of navigation */}
       {/* End of addition */}
 
+       {/* Modified by :- Parineeta Gedam on 16-06-2023 */}
        {/* Added by Parineeta Gedam on 26-05-2023
         Reason - to define route for navigation on reservations */}
       <Drawer.Screen
         name="ReservationNavigation"
         component={ReservationNavigation}
         options={{
-          drawerLabel: "Reaservation",
-          title: "Reaservation",
+          drawerLabel: "Table Reservation",
+          title: "Table Reservation",
           drawerIcon: (config) => (
-            <FontAwesome5 name="comments-dollar" size={24} color="black" />
+            <FontAwesome5 name="comments-dollar" size={20} color="black" />
           ),
         }}
       />
       {/* End of added code by Parineeta Gedam on 26-05-2023 */}
+      {/* End of modified code by :- Parineeta Gedam on 16-06-2023 */}
+
 
       {/* Added by Yuvraj Sahu on 01-05-2023
       Reason - to show customer list navigation */}

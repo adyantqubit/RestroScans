@@ -169,7 +169,7 @@ function App() {
         },
       });
     }
-    if (updatedOrderData.order_status == "Cancelled") {
+    if (updatedOrderData.fields.order_status == "Cancelled") {
       message.error({
         content: "Order Cancelled",
         key: 1,

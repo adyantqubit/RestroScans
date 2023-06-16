@@ -677,9 +677,15 @@ class Order(models.Model):
 
     # Modified by :- Parineeta Gedam on 11-06-2023 reason :- validation for discount 
     # Added By :- Parineeta Gedam Date :- 06-05-2023
-    # Reason - to add discount in (?) and discount in (%)
-    discount_rupees = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (₹)", validators=[validate_discount_rupees])
-    discount_percentage = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (%)", validators=[validate_discount_precentage])
+    # Reason - to add discount in (₹) and discount in (%)
+
+    # Modified by :- Parineeta Gedam on 16-06-2023 reason :- remove the null = true conditions
+    # discount_rupees = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (₹)", validators=[validate_discount_rupees])
+    # discount_percentage = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (%)", validators=[validate_discount_precentage])
+    discount_rupees = models.FloatField(default=0.0,blank=True, verbose_name="Discount in (₹)", validators=[validate_discount_rupees])
+    discount_percentage = models.FloatField(default=0.0,blank=True, verbose_name="Discount in (%)", validators=[validate_discount_precentage])
+    # End of modified code by :- Parineeta Gedam on 16-06-2023 reason :- remove the null = true conditions
+    
     # End of commented code by Parineeta Gedam on 03-06-2023
     # End of Modified code by Parineeta Gedam on 11-06-2023
 

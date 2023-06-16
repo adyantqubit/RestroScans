@@ -63,12 +63,13 @@ const ReservationNavigation = ({ navigation }) => {
           options={{ title: "ReservationList", headerShown: false }}
           component={ReservationList}
         />
-
+       {/* Modified by :- Parineeta Gedam on 16-06-2023 */}
         <Stack.Screen
           name="ReaservationForm"
-          options={{ title: "ReaservationForm", headerBackVisible: true }}
+          options={{ title: "Table Reservation Form", headerBackVisible: true }}
           component={ReaservationForm}
         />
+        {/* End of modified code by :- Parineeta Gedam on 16-06-2023 */}
       </Stack.Navigator>
     </>
   );

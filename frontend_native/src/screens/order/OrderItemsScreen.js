@@ -204,6 +204,15 @@ export default function OrderItemsScreen({ route, navigation }) {
 
       // End of added code by :- Parineeta Gedam on 
 
+       /**
+       * Added by Parineeta Gedam on 13-05-2023
+       * Reason - to set order cancel reason
+       */
+       setOrderCancelReason(response.orderDetail.cancel_reason);
+       /**
+        * End of addition by Parineeta Gedam on 13-05-2023
+        */
+
     }
   };
 
@@ -902,6 +911,11 @@ export default function OrderItemsScreen({ route, navigation }) {
       // Reason : Save the discount reason
       discount_reason: discountReason,
       // End of addition by Yuvraj Sahu on 14-06-2023
+
+      // Added by Parineeta Gedam on 13-05-23
+      // Reason : Save the order cancel reason
+      cancel_reason: orderCancelReason,
+      // End of addition by Parineeta Gedam on 13-05-23
     };
 
     var restaurantName = JSON.parse(
@@ -1367,6 +1381,18 @@ export default function OrderItemsScreen({ route, navigation }) {
    * End of addition by Yuvraj Sahu on 14-06-2023
    */
 
+  /**
+   * Added by Parineeta Gedam on 13-05-2023
+   * Reason - to save and show order cancel reason
+   */
+  var [orderCancelReason, setOrderCancelReason] = useState("");
+  const handleOrderCancelReason = (reason) => {
+    setOrderCancelReason(reason);
+  };
+  /**
+   * End of addition by Parineeta Gedam on 13-05-2023
+   */
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -1566,7 +1592,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                           // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
                         // orderItem.item_status == "Confirm" 
                         orderDetail.payment_status == "Completed" ||
-                        orderItem.item_status == "Cancelled" ?
+                        orderItem.item_status == "Cancelled" || orderDetail.order_status == "Cancelled" ?
                           <View style={styles.qtyParentContainer}>
                             <Text style={styles.qtyDecrementDisable}>-</Text>
                             <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
@@ -1641,7 +1667,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                         {
                           // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
                           // orderItem.item_status == "Confirm" || 
-                          orderItem.item_status == "Cancelled" || orderDetail.payment_status == "Completed" ?
+                          orderItem.item_status == "Cancelled" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled"?
                             // {allResponseOrderItem.filter(e => e.id == orderItem.id)[0].item_status == "Confirm" || orderItems.filter(e => e.id == orderItem.id)[0].item_status == "Cancelled" ?
                             <><Text style={styles.actionDataContainer}>{orderItem.item_status}</Text></>
                             : <SelectDropdown
@@ -1706,7 +1732,8 @@ export default function OrderItemsScreen({ route, navigation }) {
               <View style={styles.amountRow}>
                 {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
-                <Text style={styles.totalPriceLables}>Total Price</Text>
+                {/* <Text style={styles.totalPriceLables}>Total Price</Text> */}
+                <Text style={styles.totalPriceLables}>Sub-Total</Text>
                 <Text>:</Text>
                 {/* End of designing by yuvraj Sahu on 06-05-2023 */}
 
@@ -2142,6 +2169,43 @@ export default function OrderItemsScreen({ route, navigation }) {
               />
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
+
+            {/* Added by Parineeta Gedam on 13-05-2023
+            Reason - to save and show order cancel reason */}
+            {/* ---------------------------------------------------------------------------------------------- */}
+           {orderStatusSelected == "Cancelled" ? 
+           <>
+          <View >
+            <View>
+              <View style={styles.orderStatusContainer}>
+                <Text style={{ fontWeight: "bold" }}>Order cancel reason</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.CancelReasonContainer}>
+            <View style={styles.textAreaContainer} >
+              <TextInput
+                style={styles.textArea}
+                value={orderCancelReason}
+                onChangeText={(txt) => handleOrderCancelReason(txt)}
+                placeholder="Please enter cancel reason"
+                placeholderTextColor="black"
+                multiline={true}
+                editable = {
+                  orderDetail.order_status == "Cancelled" ? false : true
+                }
+              />
+            </View>
+          </View>
+          </>
+          :null }
+            {/* End of addition by Parineeta Gedam on 13-05-2023 */}
+
+
+
+
+
 
             {/* Modified by Om on 20-04-23
             Reason : When order status is served than this payment status is work */}
@@ -2635,7 +2699,7 @@ const styles = StyleSheet.create({
     */
 
   CancelReasonContainer: {
-    paddingHorizontal: 43,
+    paddingHorizontal: 12,
   },
   textAreaContainer: {
     backgroundColor: "white",

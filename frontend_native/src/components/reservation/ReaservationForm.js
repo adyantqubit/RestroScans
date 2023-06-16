@@ -60,7 +60,7 @@ export default function ReaservationForm({ route, navigation }) {
 
 
   useEffect(() => {
-    setReservationStatusSelected(object.id != "add new data" ? object.reservation_status : "")
+    setReservationStatusSelected(object.id != "add new data" ? object.reservation_status : "Pending")
   }, [isFocused])
 
 
@@ -71,7 +71,7 @@ export default function ReaservationForm({ route, navigation }) {
     { key: "Confirm", value: "Confirm" },
   ];
 
-  var [reservationStatusSelected, setReservationStatusSelected] = useState("");
+  var [reservationStatusSelected, setReservationStatusSelected] = useState("Pending");
   var [reservationStatusErrorMsg, setReservationStatusErrorMsg] = useState(false);
   // End of modification by :- Parineeta Gedam on 30-05-2023
 
@@ -79,7 +79,6 @@ export default function ReaservationForm({ route, navigation }) {
   // Reason - to get reservations data
 
   const updateReservation = async (values, { resetForm }) => {
-
     // Added by :- PArineeta Gedam on 15-06-2023
     // Reason :- set button disable
     setReservationBtnDisable(true);
@@ -151,7 +150,7 @@ export default function ReaservationForm({ route, navigation }) {
                     onBlur={handleBlur("name")}
                     value={values.name}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter name"
+                    placeholder="Please enter name"
                     autoCapitalize="none"
                     autoCorrect={false}
                     editable={object.id != "add new data" ? false : true}
@@ -171,7 +170,7 @@ export default function ReaservationForm({ route, navigation }) {
                     onBlur={handleBlur("email")}
                     value={values.email}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter email"
+                    placeholder="Please enter email"
                     autoCapitalize="none"
                     autoCorrect={false}
                     editable={object.id != "add new data" ? false : true}
@@ -191,7 +190,7 @@ export default function ReaservationForm({ route, navigation }) {
                     onBlur={handleBlur("contact_number")}
                     value={values.contact_number}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter contact number"
+                    placeholder="Please enter contact number"
                     autoCapitalize="none"
                     autoCorrect={false}
                     editable={object.id != "add new data" ? false : true}
@@ -211,7 +210,7 @@ export default function ReaservationForm({ route, navigation }) {
                     onBlur={handleBlur("number_of_person")}
                     value={values.number_of_person}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter number of person"
+                    placeholder="Please enter number of person"
                     keyboardType="number-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -224,23 +223,27 @@ export default function ReaservationForm({ route, navigation }) {
 
                 <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}>
-                    <Text style={{ color: "red" }}>* </Text>Special Instructions
+                    {/* <Text style={{ color: "red" }}>* </Text>Special Instructions */}
+                    <Text style={{ color: "red" }}>  </Text>Special Instructions
                   </Text>
                   <TextInput
-                    style={styles.input}
+                    style={styles.instructionsInput}
                     onChangeText={handleChange("special_instructions")}
                     onBlur={handleBlur("special_instructions")}
                     value={values.special_instructions}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter Total hour"
-                    keyboardType="number-pad"
+                    placeholder="Please enter instructions"
+                    // keyboardType="number-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
                     editable={object.id != "add new data" ? false : true}
+                    multiline
                   />
-                  {errors.special_instructions && touched.special_instructions && (
+                  {/* Commented by :- Parineeta Gedam on 16-06-2023 reason :- remove the mandatory */}
+                  {/* {errors.special_instructions && touched.special_instructions && (
                     <Text style={styles.textdanger}>{errors.special_instructions}</Text>
-                  )}
+                  )} */}
+                  {/* End of commented code by :- by :- Parineeta Gedam on 16-06-2023 reason :- remove the mandatory */}
                 </View>
 
                 <View style={{ marginTop: 10 }}>
@@ -250,13 +253,14 @@ export default function ReaservationForm({ route, navigation }) {
                   <View>
                     <Pressable style={[styles.input, styles.datePickerContainer]}
                       placeholderTextColor="#A4A4A4"
-                      placeholder="Enter date"
+                      placeholder="Please enter date"
                       autoCapitalize="none"
                       autoCorrect={false}
                       disabled={object.id != "add new data" ? false : true}
                     >
-                      <Text>{values.date ? values.date.split("-").reverse().join("/") : "Enter date"}</Text>
+                      <Text style = {{color : (object.id)!= "add new data" ? "grey" : "black"}}>{values.date ? values.date.split("-").reverse().join("/") : "Please enter date"}</Text>
                       <TouchableOpacity
+                       disabled={object.id != "add new data" ? true : false}
                         onPress={() => {
                           DateTimePickerAndroid.open({
                             value: values.date ? new Date(values.date) : new Date(),
@@ -266,14 +270,14 @@ export default function ReaservationForm({ route, navigation }) {
                             mode: "date",
                             is24Hour: true,
                             minimumDate: maxdate,
-                            placeholder: "Enter date",
+                            placeholder: "Please enter date",
                           });
                         }}
                       >
                         <Ionicons
                           name="calendar"
                           size={15}
-                          color="black"
+                          color={(object.id)!= "add new data" ? "grey" : "black"}
                           style={styles.passIcon}
                         />
                       </TouchableOpacity>
@@ -330,14 +334,14 @@ export default function ReaservationForm({ route, navigation }) {
                   <View>
                     <Pressable style={[styles.input, styles.datePickerContainer]}
                       placeholderTextColor="#A4A4A4"
-                      placeholder="Enter time"
+                      placeholder="Please enter time"
                       autoCapitalize="none"
                       autoCorrect={false}
                       disabled={object.id != "add new data" ? false : true}
-
                       >
-                      <Text>{values.time ? values.time : "Enter time"}</Text>
+                      <Text style = {{color : (object.id)!= "add new data" ? "grey" : "black"}}>{values.time ? values.time : "Please enter time"}</Text>
                       <TouchableOpacity
+                      disabled={object.id != "add new data" ? true : false}
                         onPress={() => {
                           DateTimePickerAndroid.open({
                             value: values.time ? new Date(values.time) : new Date(),
@@ -346,11 +350,14 @@ export default function ReaservationForm({ route, navigation }) {
                             },
                             mode: "time",
                             is24Hour: true,
-                            placeholder: "Enter time",
+                            placeholder: "Please enter time",
                           });
                         }}
                       >
-                        <Feather name="clock" size={13} color="black" style={styles.passIcon} />
+                        {/* Modified by :- PArineeta Gedam on 16-06-2023 */}
+                        {/* <Feather name="clock" size={13} color="black" style={styles.passIcon} /> */}
+                        <Feather name="clock" size={13} color={(object.id)!= "add new data" ? "grey" : "black"} style={styles.passIcon}  />
+                        {/* End of modified code by :- Parineeta Gedam on 16-06-2023 */}
                       </TouchableOpacity>
                     </Pressable>
                     {errors.time && touched.time && (
@@ -368,7 +375,7 @@ export default function ReaservationForm({ route, navigation }) {
                     onBlur={handleBlur("table_number")}
                     value={values.table_number}
                     placeholderTextColor="#A4A4A4"
-                    placeholder="Enter table number"
+                    placeholder="Please enter table number"
                     // keyboardType="number-pad"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -419,7 +426,7 @@ export default function ReaservationForm({ route, navigation }) {
                     return status.value;
                   }}
                 />
-                {reservationStatusErrorMsg && (
+                {/* {reservationStatusErrorMsg && (
                   <Text
                     style={{
                       color: "red",
@@ -428,7 +435,7 @@ export default function ReaservationForm({ route, navigation }) {
                   >
                     Reservation status is required
                   </Text>
-                )}
+                )} */}
 
                 <View
                   style={{
@@ -615,6 +622,16 @@ const styles = StyleSheet.create({
   },
   activeLable: {
     marginLeft: 10,
+  },
+  instructionsInput: {
+    // height: inputs.inputBoxHeight,
+    minHeight :inputs.inputBoxHeight, 
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 0,
+    fontSize: 16,
+    borderRadius: 10,
   },
 });
 

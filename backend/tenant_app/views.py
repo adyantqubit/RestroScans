@@ -2406,7 +2406,14 @@ class PostReservationAPIView(APIView):
 # Reason : API for get the reservations data
 class GetReservationsAPIView(APIView):
     def get(self, request, tenant):
-        reservationList = Reservation.objects.all()
+
+        # Modified by :- Parineeta Gedam on 16-06-2023 
+        # reason :- In reservation table newly request should be displayed at top in table.
+
+        # reservationList = Reservation.objects.all()
+        reservationList = Reservation.objects.all().order_by('-id')
+        
+        # End of modified code  by :- Parineeta Gedam on 16-06-2023 reason :- In reservation table newly request should be displayed at top in table.
         reservationSerializer = ReservationSerializer(reservationList, many=True)
         return Response({"msg": "success", "reservationList": reservationSerializer.data})
 # End of added code by :- Parineeta Gedam on 26-05-2023
