@@ -673,7 +673,7 @@ const TodayOrder = () => {
                                         {orderItem.item}
                                         </div>
                                         <div className={style.itemStatusContainer} >
-                                            <label className={style.lable}>serving_size</label>
+                                            <label className={style.lable}>Serving Size</label>
                                             <div className={style.quantityContainer}>{orderItem.serving_size}</div>
                                         </div>
                                         <div className={style.itemStatusContainer} >
@@ -739,7 +739,12 @@ const TodayOrder = () => {
                                     <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{orderItem.date.substring(0, 10).split('-').reverse().join("/") + ' ' + orderItem.date.substring(11, 16)}</div>
                                     <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{orderItem.payment_mode}</div>
                                     <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{orderItem.sub_total}</div>
-                                    <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{orderItem.cgst}<label className={style.lable}>SGST : </label>{orderItem.sgst}</div>
+
+                                    {/* commented and modified by - Suman sahu on 16/06/2023 
+                                        reason - take 2 decimal values in CGST and SGST */}
+                                    <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{orderItem.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{orderItem.sgst}</div>
+                                    {/* <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{(orderItem.cgst).toFixed(2)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{(orderItem.sgst).toFixed(2)}</div> */}
+                                    {/* end of modification by - Suman sahu on 16/06/2023 */}
                                     <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {orderItem.total} </label></div>
                                 
                         

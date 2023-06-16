@@ -12,7 +12,13 @@
 .container {
   width: 100%;
   background-color: #e7f1f1;
-  margin-bottom: 50px;
+
+  /* commented and modified by - Suman sahu On - 16/06/2023 
+     reason - for handle overflow */
+  /* margin-bottom: 50px; */
+  height: 86.5vh;
+  overflow: scroll;
+  /* end of code - 16/06/2023 */
 }
 
 .titleContainer{

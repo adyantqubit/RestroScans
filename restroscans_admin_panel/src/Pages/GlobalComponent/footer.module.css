@@ -95,6 +95,26 @@ Reason:- Create css for Footer.jsx */
     height: auto;
   }
 }
+/* Added by - Suman sahu On 16/06/2023 */
+@media (max-width: 702px) {
+  .footer_container {
+    height: 11vh;
+  }
+  .facebook,
+  .google,
+  .twitter,
+  .instagram,
+  .youtube {
+    width: 21px;
+    height: 21px;
+    margin: 0 0.5rem;
+  }
+  .footer_left_text,
+  .footer_right_text {
+    font-size: 0.8rem;
+  }
+}
+/* end of addition by - Suman sahu - 16/06/2023 */
 @media (max-width: 500px) {
   .footer_container {
     /* Modication and addition by Om Shrivastava on 03-06-23

@@ -2,6 +2,11 @@
 
 .customerContainer{
     width: 100%;
+    /* added by - Suman sahu On - 16/06/2023 
+    reason - for handle overflow */
+    height: 86.5vh;
+    overflow: scroll;
+    /* end of code - 16/06/2023 */
 
 }
 

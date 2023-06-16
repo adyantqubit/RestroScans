@@ -568,20 +568,24 @@
     color: #f2f2f2;
     letter-spacing: 1.6px;
 }
-
+/* added by - Suman sahu on - 14/06/2023 */
 .itemListContainer{
     display: flex;
     width: 100%;
 }
+/* end of addition on - 14/06/2023 */
 .title{
     /* added by - Suman sahu on - 14/06/2023 */
     display: flex;
-    width: 45vw;
+    width: 50vw;
     /* end of addition on - 14/06/2023 */
     font-size: var(--label-font-size);
     padding: 0 10px;
     font-size: 600;
     letter-spacing: 1.7px;
+    /* added by - Suman sahu on - 16/06/2023 */
+    font-weight: 600;
+    /* end of addition on - 16/06/2023 */
 }
 
 .EmptyText{
@@ -614,7 +618,11 @@
     /* end of modification - 14/06/2023 */
 
     justify-content: space-between;
-    padding: 0 10px 10px 29px;
+
+    /* commented and modified by - Suman sahu on - 16/06/2023 */
+    /* padding: 0 10px 10px 29px; */
+    padding: 0 10px 10px 10px;
+    /* end of modification - 16/06/2023 */
 
 }
 

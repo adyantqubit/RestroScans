@@ -6,6 +6,7 @@ import style from "./sidebar.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
+import {FaCaretDown} from "react-icons/fa"
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -116,7 +117,11 @@ const Sidebar = () => {
         {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
         <li className={`${style.links_div} ${style.link}`} onClick={e => setReportSubVisible(!ReportSubVisible)}>
           Report
-          <AiOutlinePlus color="white" />
+          {/* commented and modified by - Suman sahu on 15/06/2023 
+              reason - for change icon*/}
+          {/* <AiOutlinePlus color="white" /> */}
+          <FaCaretDown className={style.dropdown_icon}/>
+          {/* end of modification by suman sahu on 15/06/2023 */}
 
         </li>
         
@@ -223,6 +228,9 @@ const Sidebar = () => {
 
       <div className={style.sidebar_close_div}>
         <FaCaretLeft
+        // added by - suman sahu on 16/06/2023
+          style={{height:"6vh"}}
+        // end of addition by - suman sahu on 16/06/2023
           onClick={closeSidebar}
           className={
             sidebar == true
