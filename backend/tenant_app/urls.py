@@ -282,6 +282,16 @@ urlpatterns = [
     # End of code addition by - Ashish Dewangan on 12-06-2023
     # Reason : To get list of menu. 
 
+    # Added by - Ashish Dewangan on 15-06-2023
+    # Reason - To get menu details by id
+    path('<str:tenant>/menu-details/<int:menuId>',MenuDetailsAPI.as_view()),
+    # End of code addition by Ashish Dewangan. reason - To get menu details by id
+
+    # Added by - Ashish Dewangan on 16-06-2023
+    # Reason - To save menu details
+    path('<str:tenant>/menu-details/',MenuDetailsAPI.as_view()),
+    # End of code addition by Ashish Dewangan. reason - To save menu details
+
     # Added by Om Shrivastava on 14-06-23
     # Reason: When user apply rating than show rating and review
     path('<str:tenant>/rating-review/',RatingReviewAPI.as_view()),

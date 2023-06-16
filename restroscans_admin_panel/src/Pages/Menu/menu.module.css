@@ -95,14 +95,24 @@
   padding: 5px 0px;
   height: 100%;
   display: var(--common-column-display);
-  font-weight: 600;
+  font-weight: normal;
   font-size: 14px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+/** 
+  Added by - Ashish Dewangan on 16-06-2023
+  Reason - To add styling for searchbox
+*/
+.searchBox{
+    width: 60%;
+}
+/** 
+  End of code addition by - Ashish Dewangan on 16-06-2023
+  Reason - To add styling for searchbox
+*/
 .menuImage{
     width:45px;
     height:45px;
@@ -179,6 +189,7 @@
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+
 }
 
 @media screen and (max-width: 1250px) {
@@ -189,6 +200,17 @@
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  /** 
+  Added by - Ashish Dewangan on 16-06-2023
+  Reason - To add styling for searchbox
+*/
+  .searchBox{
+    width: 100%;
+}
+/** 
+  End of code addition by - Ashish Dewangan on 16-06-2023
+  Reason - To add styling for searchbox
+*/
 }
 
 @media screen and (max-width: 1150px) {
@@ -259,6 +281,7 @@
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+
 }
 
 @media screen and (max-width: 720px) {

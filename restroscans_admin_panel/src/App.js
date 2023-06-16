@@ -36,6 +36,7 @@ import SettingForm from './Pages/Setting/SettingForm';
 import SocialMediaList from './Pages/socialMedia/SocialMediaList';
 import SocialMediaForm from './Pages/socialMedia/SocialMediaForm';
 import OrderForm from './Pages/Order/OrderForm'
+import MenuForm from './Pages/Menu/MenuForm';
 
 var Message=0;
 var AutoValidateToken=0
@@ -164,6 +165,12 @@ function App() {
         <Route path="/BannerOffer" element={<BannerOffer />} />
         <Route path="/BannerOfferItem" element={<BannerOfferItem />} />
         <Route path="/Menu" element={<Menu />} />
+        {/* Added by - Ashish Dewangan on 15-06-2023
+        Reason - Added route for menu form page */}
+        <Route path="/MenuForm" element={<MenuForm />} />
+        {/* End of code addition by - Ashish Dewangan on 15-06-2023
+        Reason - Added route for menu form page */}
+        {/*  */}
         <Route path="/Category" element={<Category />} />
         <Route path="/Item" element={<Item />} />
         {/* Commented by - Ashish Dewangan on 04-06-2023

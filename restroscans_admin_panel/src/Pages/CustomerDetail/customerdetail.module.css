@@ -58,6 +58,14 @@
   padding: 3px;
 }
 
+  /* Added by - Ashish Dewangan on 15-06-2023
+  Reason - To have styling for search box */
+.searchBox{
+  width:60%;
+}
+  /* End of code addition by - Ashish Dewangan on 15-06-2023
+  Reason - To have styling for search box */
+
 .tableDataContainer {
   width: 100%;
   display: flex;
@@ -95,7 +103,7 @@
   padding: 5px 0px;
   height: 100%;
   display: var(--common-column-display);
-  font-weight: 600;
+  font-weight: normal;
   font-size: 14px;
   text-align: center;
   display: flex;
@@ -187,6 +195,13 @@
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  /* Added by - Ashish Dewangan on 15-06-2023
+  Reason - To have styling for search box */
+  .searchBox{
+    width:100%;
+  }
+  /* End of code addition by - Ashish Dewangan on 15-06-2023
+  Reason - To have styling for search box */
 }
 
 @media screen and (max-width: 1050px) {

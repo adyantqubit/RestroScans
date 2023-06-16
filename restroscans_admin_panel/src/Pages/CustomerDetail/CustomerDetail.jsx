@@ -192,9 +192,18 @@ const CustomerDetail = () => {
                   enterButton
                   // onChange={(e)=>{e.target.value.length>=3 && setSearchText(e.target.value);}}
                   onSearch={(value)=>{setCurrentPage(1); setSearchText(value); }}
-                  style={{
-                    width: "60%",
-                  }}
+                  /**
+                   * Commented and modified by - Ashish Dewangan on 15-06-2023
+                   * Reason - To move styling of searchbox to css file
+                   */
+                  // style={{
+                  //   width: "60%",
+                  // }}
+                  className={style.searchBox}
+                  /**
+                   * End of code modification by - Ashish Dewangan on 15-06-2023
+                   * Reason - To move styling of searchbox to css file
+                   */
                 />
               </div>
               {/* End of code addition by - Ashish Dewangan on 14-06-2023

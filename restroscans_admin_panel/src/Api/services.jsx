@@ -358,3 +358,39 @@ export const getOrdersApi = async (tenant,filteringCriteria) => {
  * End of code addition by - Om Shrivastava on 15-06-2023
  * Reason - To get order list of tenant
  */ 
+
+
+/**
+ * Added by - Ashish Dewangan on 15-06-2023
+ * Reason - To get menu data by id.
+ */
+export const getMenuDetails = async (tenantId,menuId) => {
+  const response = await API.get(`/api/v1/${tenantId}/menu-details/${menuId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+/**
+ * End of code addition by Ashish Dewangan on 15-06-2023
+ * Reason -  To get menu data by id.
+ * */ 
+
+/**
+ * Added by - Ashish Dewangan on 16-06-2023
+ * Reason - To save menu details
+ */
+export const postMenuDetails = async (tenant,values) => {
+  const response = await API.post(`/api/v1/${tenant}/menu-details/`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Ashish Dewangan on 16-06-2023.
+ * Reason - To save menu details
+ */

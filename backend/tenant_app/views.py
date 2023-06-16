@@ -2547,6 +2547,43 @@ class MenuAPI(APIView):
 # End of code addition by - Ashish Dewangan on 12-06-2023
 # Reason - API to get list of menu 
 
+# Added by - Ashish Dewangan on 14-06-2023
+# Reason - API to get setting by id
+class MenuDetailsAPI(APIView):
+    logger=logging.getLogger("custom_logger")
+    def get(self,request,tenant,menuId):
+        self.logger.info(request.data)
+        if menuId:
+            menu=Menu.objects.get(id=menuId)
+        else:
+            menu= None
+
+        if menu:
+            menuSerializer=MenuListSerializer(menu)
+            menuData=menuSerializer.data
+        else:
+            menuData={}  
+       
+        return Response({"msg":"success","menu":menuData})
+    
+    # Added by - Ashish Dewangan on 16-06-2023
+    # Reason - To save menu details
+    def post(self,request,tenant):
+        if "id" in request.data :
+            obj = Menu.objects.get(id=request.data["id"])
+            menuListSerializer = MenuListSerializer(obj, data=request.data,partial=True)
+        else :
+            menuListSerializer = MenuListSerializer(data=request.data)
+
+        if menuListSerializer.is_valid():
+            menuListSerializer.save()
+            return Response({"msg": "Saved Successfully" }, status=status.HTTP_201_CREATED)
+        return Response({"error": menuListSerializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of code addition by - Ashish Dewangan on 16-06-2023
+    # Reason - To save menu details
+    
+# End of code addition by - Ashish Dewangan on 14-06-2023. Reason - to get setting data by id    
+
 # Added by Om Shrivastava on 14-06-23
 # Reason: When user apply rating than show rating and review
 class RatingReviewAPI(APIView):

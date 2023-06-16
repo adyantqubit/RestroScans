@@ -46,7 +46,16 @@ const QRcode = () => {
 
     var bottomContents = document.getElementById("qr_bottom_text").innerHTML;
     
-    var a = window.open('', '', 'height=800, width=1200');
+    /**
+     * Commented and modified by - Ashish Dewangan on 16-06-2023
+     * Reason - To hide background content from print window
+     */
+    // var a = window.open('', '', 'height=800, width=1200');
+    var a = window.open('', '', 'height=600, width=1000');
+     /**
+     * End of code modification by - Ashish Dewangan on 16-06-2023
+     * Reason - To hide background content from print window
+     */
       a.document.write('<html>');
 
         // Added by - Ashish Dewangan on 12-06-2023
@@ -66,9 +75,9 @@ const QRcode = () => {
             a.document.write("<h1>"+topContents+"</h1>");    
             a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
             a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
-        a.document.write('</div>');
+            a.document.write('</div>');
 
-        a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
+            a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
             a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
             a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
@@ -80,9 +89,9 @@ const QRcode = () => {
             a.document.write("<h1>"+topContents+"</h1>");    
             a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
             a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 
-        a.document.write('</div>');
+            a.document.write('</div>');
 
-        a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
+            a.document.write('<div style="display:flex;flex-direction:column;align-items:center;width:50vw;" >');
             a.document.write("<h1>"+topContents+"</h1>");    
             a.document.write("<img style='width: 330px;height:330px;margin-top:-20px; margin-bottom:-20px;' src="+qrImage+">");
             a.document.write("<div style='display:'flex';flex-direction:column;align-items:center;justify-content:center;'><div style='padding-top:17px;font-size:13px;text-align:center'>Adyant Softtech Pvt Ltd Raipur</div><div>restroscans.com , Scan to see the menu</div></div>"); 

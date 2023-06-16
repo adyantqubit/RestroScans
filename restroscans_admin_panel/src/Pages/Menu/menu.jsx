@@ -8,6 +8,7 @@ import style from "./menu.module.css";
 import Header from "../GlobalComponent/Header";
 import { Pagination } from "antd";
 import { getMenuCount, getMenuList } from "../../Api/services";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   BsSortAlphaDownAlt,
   BsSortAlphaDown,
@@ -32,6 +33,17 @@ const Menu = () => {
   const [searchText, setSearchText] = useState("");
 
   const { Search } = Input;
+
+  /**
+   * Added by - Ashish Dewangan on 16-06-2023
+   * Reason - To add navigation feature on this page
+   */
+  const navigate=useNavigate();
+  /**
+   * End of code addition by - Ashish Dewangan on 16-06-2023
+   * Reason - To add navigation feature on this page
+   */
+
   /**
    * Added by - Ashish Dewangan on 12-06-2023
    * Reason - method that will execute when page loads. this method will call menu list api
@@ -53,7 +65,7 @@ const Menu = () => {
    */
   useEffect(() => {
     getListOfMenu();
-  }, [columnToSort, columnSortingOrder, currentPage,searchText]);
+  }, [columnToSort, columnSortingOrder, currentPage, searchText]);
   /**
    * End of code addition by - Ashish Dewangan on 12-06-2023
    * Reason - method that will execute when sorting on column is applied or page number is changed.
@@ -88,7 +100,7 @@ const Menu = () => {
       paginationDetails: paginationDetails,
       columnToSort: columnToSort,
       columnSortingOrder: columnSortingOrder,
-      searchText:searchText,
+      searchText: searchText,
     };
     const response = await getMenuList(tenant, filteringCriteria);
     setMenuList(response.menuList);
@@ -97,7 +109,7 @@ const Menu = () => {
      * Added by - Ashish Dewangan on 14-06-2023
      * Reason - To recalculate page numbers
      */
-    setBackendMenuCount(response.menuListCount)
+    setBackendMenuCount(response.menuListCount);
     /**
      * End of code addition by - Ashish Dewangan on 14-06-2023
      * Reason - To recalculate page numbers
@@ -143,9 +155,17 @@ const Menu = () => {
    * Added by - Ashish Dewangan on 14-06-2023
    * Reason - Method that will open edit menu form of selected menu
    */
-  const openMenuDetails=(id)=>{
-    alert(id)
-  }
+  const openMenuDetails = (id) => {
+    /**
+     * Added by - Ashish Dewangan on 16-06-2023
+     * Reason - To navigate to menu form
+     */
+    navigate("/MenuForm", { state: { id: id } });
+    /**
+     * End of code addition by - Ashish Dewangan on 16-06-2023
+     * Reason - To navigate to menu form
+     */
+  };
   /**
    * Added by - Ashish Dewangan on 14-06-2023
    * Reason - Method that will open edit menu form of selected menu
@@ -168,6 +188,7 @@ const Menu = () => {
                   alignItems: "center",
                   backgroundColor: "white",
                   padding: "4px",
+                  width: "100%",
                 }}
               >
                 <Search
@@ -180,23 +201,44 @@ const Menu = () => {
                    * Reason - To set selected page to 1 when we search something
                    */
                   // onSearch={(value)=>{value.length>=3 && setSearchText(value);}}
-                  onSearch={(value)=>{setCurrentPage(1); setSearchText(value);}}
+                  onSearch={(value) => {
+                    setCurrentPage(1);
+                    setSearchText(value);
+                  }}
                   /**
                    * End of code modification by - Ashish Dewangan on 14-06-2023
                    * Reason - To set selected page to 1 when we search something
                    */
-                  style={{
-                    width: "60%",
-                  }}
-                />
-              </div>
-              <div className={style.tableHeadingContainer}>
 
-              <div
-                  className={style.commonColumnTitle}
-                >
-                  Icon{" "}
-                </div>
+                  /**
+                   * Commented and modified by - Ashish Dewangan on 16-06-2023
+                   * Reason - To move styling to css page
+                   */
+                  // style={{
+                  //   width: "60%",
+                  // }}
+                  className={style.searchBox}
+                  /**
+                   * End of code modification by - Ashish Dewangan on 16-06-2023
+                   * Reason - To move styling to css page
+                   */
+                />
+                
+                {/* Added by - Ashish Dewangan on 1-06-2023
+                Reason - Added a button to create new menu */}
+                  <div
+                    className={`${style.primaryButton}`}
+                    onClick={() => openMenuDetails()}
+                    style={{ marginLeft: "10px",minWidth:"100px",textAlign:"center" }}
+                  >
+                    Add Menu
+                  </div>
+               {/* End of code addition by - Ashish Dewangan on 1-06-2023
+                Reason - Added a button to create new menu */}
+              </div>
+
+              <div className={style.tableHeadingContainer}>
+                <div className={style.commonColumnTitle}>Icon </div>
 
                 <div
                   className={style.commonColumnTitle}
@@ -232,8 +274,6 @@ const Menu = () => {
                   )}
                 </div>
 
-               
-
                 <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
@@ -254,23 +294,17 @@ const Menu = () => {
                   Is Available{" "}
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "ascending" && (
-                      <MdCancel className={style.sortingIcon} 
-                     
-                      />
+                      <MdCancel className={style.sortingIcon} />
                     )}
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "descending" && (
-                      <MdCheckCircle className={style.sortingIcon} 
-                      />
+                      <MdCheckCircle className={style.sortingIcon} />
                     )}
                   {columnToSort != "is_active" && showSortingIcon && (
-                    <MdCancel
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                    <MdCancel color="grey" className={style.sortingIcon} />
                   )}
                 </div>
-                  {/* Added by - Ashish Dewangan on 14-06-2023
+                {/* Added by - Ashish Dewangan on 14-06-2023
                     Reason - To add view button */}
                 <div className={style.commonColumnTitle}> Action </div>
                 {/* End of code addition by - Ashish Dewangan on 14-06-2023
@@ -287,7 +321,7 @@ const Menu = () => {
                   menuList.map((menuDetails, index) => {
                     return (
                       <div
-                      key={index}
+                        key={index}
                         className={style.tableData}
                         style={{
                           padding: "2px",
@@ -297,38 +331,40 @@ const Menu = () => {
                         }}
                       >
                         <div className={style.commonColumnData}>
-                          <img className={style.menuImage}  src={config.staticBaseURL+menuDetails.icon} />
+                          <img
+                            className={style.menuImage}
+                            src={config.staticBaseURL + menuDetails.icon}
+                          />
                         </div>
                         <div className={style.commonColumnData}>
                           {menuDetails.name}
                         </div>
-                        
+
                         {menuDetails.is_active == true ? (
                           <div className={style.commonColumnData}>
-                        <MdCheckCircle className={style.yesIcon} />
-                        </div>
-                      ) : (
-                        <div className={style.commonColumnData}>
-                        <MdCancel className={style.noIcon} />
-                        </div>
-                      )}
+                            <MdCheckCircle className={style.yesIcon} />
+                          </div>
+                        ) : (
+                          <div className={style.commonColumnData}>
+                            <MdCancel className={style.noIcon} />
+                          </div>
+                        )}
 
-                    {/* Added by - Ashish Dewangan on 14-06-2023
+                        {/* Added by - Ashish Dewangan on 14-06-2023
                     Reason - To add view button */}
-                    <div
-                      className={`${style.commonColumnData}`}
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <div
-                        className={` ${style.primaryButton}`}
-                        onClick={() => openMenuDetails(menuDetails.id)}
-                      >
-                        View
-                      </div>
-                    </div>
-                    {/* End of code addition by - Ashish Dewangan on 14-06-2023
+                        <div
+                          className={`${style.commonColumnData}`}
+                          style={{ display: "flex", justifyContent: "center" }}
+                        >
+                          <div
+                            className={` ${style.primaryButton}`}
+                            onClick={() => openMenuDetails(menuDetails.id)}
+                          >
+                            View
+                          </div>
+                        </div>
+                        {/* End of code addition by - Ashish Dewangan on 14-06-2023
                     Reason - T add view button */}
-                      
                       </div>
                     );
                   })
@@ -336,7 +372,6 @@ const Menu = () => {
                   <div style={{ textAlign: "center" }}>No records found!</div>
                 )}
               </div>
-
             </div>
           </div>
         </div>
