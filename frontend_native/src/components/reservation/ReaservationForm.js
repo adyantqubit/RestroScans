@@ -27,6 +27,11 @@ import { Feather } from '@expo/vector-icons';
 
 export default function ReaservationForm({ route, navigation }) {
 
+  // Added by :- Parineeta Gedam on 15-06-2023 
+  // Reason :- after submit button will be disable 
+  var [reservationBtnDisable, setReservationBtnDisable] = useState(false);
+  // End of added code by :- Parineeta Gedam on 15-06-2023
+
   const isFocused = useIsFocused();
   const formRef = useRef(null);
 
@@ -74,6 +79,11 @@ export default function ReaservationForm({ route, navigation }) {
   // Reason - to get reservations data
 
   const updateReservation = async (values, { resetForm }) => {
+
+    // Added by :- PArineeta Gedam on 15-06-2023
+    // Reason :- set button disable
+    setReservationBtnDisable(true);
+    // End of added code by :- Parineeta Gedam on 15-06-2023 
     object.id != "add new data" && (values["id"] = object.id);
     values["reservation_status"] = reservationStatusSelected;
     var tenant = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
@@ -84,17 +94,25 @@ export default function ReaservationForm({ route, navigation }) {
       updateReservationApi(values, tenant).then(async (res) => {
         if (res.msg) {
           Alert.alert(res.msg);
+          // Modified by :- Parineeta Gedam 
           // setSettingBtnDisable(false);
+          setReservationBtnDisable(true);
+          // End of modified code by :- Parineeta Gedam on 15-06-2023 
           resetForm({ values: "" });
           navigation.navigate("ReservationListScreen")
-
         } else {
           Alert.alert("Something went wrong");
+          // Modified by :- Parineeta Gedam 
           // setSettingBtnDisable(false);
+          setReservationBtnDisable(true);
+          // End of modified code by :- Parineeta Gedam on 15-06-2023 
         }
         if (res.error) {
           Alert.alert(res.error);
+          // Modified by :- Parineeta Gedam 
           // setSettingBtnDisable(false);
+          setReservationBtnDisable(true);
+          // End of modified code by :- Parineeta Gedam on 15-06-2023 
         }
       });
     }
@@ -421,8 +439,18 @@ export default function ReaservationForm({ route, navigation }) {
                 >
                   <Pressable
                     onPress={handleSubmit}
+                    // Added by :- Parineeta Gedam on 15-06-2023
+                    // Reason :- to btn disable
+                    disabled={reservationBtnDisable}
+                    // End of added code by :- PArineeta Gedam on 15-06-2023
                     style={{
-                      backgroundColor: colors.btnColor,
+                      // Modified by :- Parineeta Gedam on 15-06-2023
+                      // Reason :- to btn disable
+                      // backgroundColor: colors.btnColor,
+                      backgroundColor: reservationBtnDisable
+                      ? "#E0E0E0"
+                      : colors.btnColor,
+                      // End of added code by :- Parineeta Gedam on 15-06-2023
                       height: 30,
                       alignItems: "center",
                       justifyContent: "center",
@@ -433,7 +461,13 @@ export default function ReaservationForm({ route, navigation }) {
                   >
                     <Text
                       style={{
-                        color: colors.white,
+                        // Modified by :- Parineeta Gedam on 15-06-2023
+                      // Reason :- to btn disable
+                      // backgroundColor: colors.btnColor,
+                      // color: colors.white,
+                      color: reservationBtnDisable ? "#989898" : colors.white,
+                      // End of added code by :- Parineeta Gedam on 15-06-2023
+                   
                         fontSize: 16,
                         fontWeight: "bold",
                       }}

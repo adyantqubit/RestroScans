@@ -6,6 +6,7 @@ import secureLocalStorage from "react-secure-storage";
 import { updateRatingAndReviewApi } from '../../api/Services';
 import { useLocation, useNavigate } from "react-router-dom";
 import SocialLinks from '../social_links/SocialLinks';
+import { useState } from 'react';
 
 export default function RatingAndReview() {
 
@@ -21,6 +22,15 @@ export default function RatingAndReview() {
 
     var orderItems = secureLocalStorage.getItem('orderItem');
     var tenantName = localStorage.getItem("tenantName");
+
+    /**
+     * Added by Yuvraj Sahu on 15-06-2023
+     * Reason - to set overall rating
+     */
+    var [overallRating, setOverallRating] = useState()
+    /**
+     * End of addition by Yuvraj Sahu on 15-06-2023
+     */
 
     // End of added code 24-04-2023 
 
@@ -61,6 +71,14 @@ export default function RatingAndReview() {
         const postingData = {
             ItemRateReview: orderData,
             overallReview: document.getElementsByClassName("text_area")[0].value,
+            /**
+             * Added by Yuvraj Sahu on 15-06-2023
+             * Reason - to save overall rating in backend
+             */
+            overallRating: overallRating,
+            /**
+             * End of addition by Yuvraj Sahu on 15-06-2023
+             */
             order_id: secureLocalStorage.getItem("order").order_id
         }
         const response = await updateRatingAndReviewApi(tenantName, postingData);
@@ -119,6 +137,15 @@ export default function RatingAndReview() {
                     ))}
                 </div>
 
+                {/* Added by Yuvraj Sahu on 15-06-2023 
+                    Reason- To save overall rating */}
+                <div className='Overall_container'>
+                    <div className='review_label' style={{width:"80%"}}>Give Overall Rating</div>
+                    {/* <textarea className='text_area'></textarea> */}
+                    <Rate name="rating" onChange={e => setOverallRating(e)} />
+                </div>
+                {/* End of addition by Yuvraj Sahu on 15-06-2023  */}
+
                 {/* Added by Rohan Kansari - 4/5/23 
                     Reason- To add one text area for overall review */}
                 <div className='Overall_container'>
@@ -126,6 +153,7 @@ export default function RatingAndReview() {
                     <textarea className='text_area'></textarea>
                 </div>
                 {/* End of code- 4/5/23 - Rohan  */}
+
                 <div className='rating_review_btn_container'>
                 <button className='rating_review_skip_btn' style={{ background: colors.bannerColor, color: colors.backgroundTheme }} 
                 onClick={(e) => navigations()}> Skip </button>
@@ -134,7 +162,10 @@ export default function RatingAndReview() {
             </div>
             {/* Added by Yuvraj Sahu on 26-05-2023
                 Reason - to give social link */}
-            <div style={{position: "fixed", bottom: 0, height: "60px", width: "100%", background:colors.backgroundTheme}}>
+                {/* Modified by Yuvraj Sahu on 15-06-2023
+                Reason - to give more space for social media */}
+            <div style={{position: "fixed", bottom: 5, height: "65px", width: "100%", background:colors.backgroundTheme}}>
+                {/* End of addition by yuvraj Sahu on 15-06-2023 */}
           <SocialLinks />
       </div>
       {/* End of addition by Yuvraj Sahu on 26-05-2023 */}

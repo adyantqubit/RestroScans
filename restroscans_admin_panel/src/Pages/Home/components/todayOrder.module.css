@@ -347,7 +347,12 @@
     /* top:10%; */
     z-index: 2;
     /* right: 105%; */
-    width: 280px;
+
+    /* commented and modified by - Suman sahu On 11-06-2023 */
+    /* width: 280px; */
+    width: 100%;
+    /* end of code - 11-06-2023 */
+    
     height: auto;
     border-radius: 10px;
     background-color:#faf5f5;
@@ -359,13 +364,18 @@
     /* top:10%; */
     z-index: 2;
     /* right: 105%; */
-    width: 280px;
+
+    /* commented and modified by - Suman sahu On 11-06-2023 */
+    /* width: 280px; */
+    width: 100%;
+    /* end of code - 11-06-2023 */
+
     /* height: auto; */
 
     border-radius: 10px;
     background-color:#faf5f5;
     position: relative;
-    left: -33px;
+    /* left: -33px; */
 }
 
 /* Modified by Rohan kansari - 29/5/23
@@ -374,6 +384,8 @@
 .itemlist{
     max-height: 300px;
     overflow: auto;
+    /* added by - suman sahu on - 14/06/2023*/
+    padding-top: 1.5rem;
 }
 
 .itemlist::-webkit-scrollbar-track
@@ -417,6 +429,10 @@
 .lable{
     font-size: var(--label-font-size);
     color: var(--label-color);
+    /* added by - Suman sahu on 14/06/2023*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .closeContainer{
@@ -446,6 +462,16 @@
 .selectionContainer{
     width: 48%;
 }
+
+/* added by - Suman sahu On 12/06/2023 
+   reason - designing quantity data in the modal */
+.quantityContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+/* end of addition - 12/06/2023 */
 
 .selctedContentBox{
     display: flex;
@@ -543,7 +569,15 @@
     letter-spacing: 1.6px;
 }
 
+.itemListContainer{
+    display: flex;
+    width: 100%;
+}
 .title{
+    /* added by - Suman sahu on - 14/06/2023 */
+    display: flex;
+    width: 45vw;
+    /* end of addition on - 14/06/2023 */
     font-size: var(--label-font-size);
     padding: 0 10px;
     font-size: 600;
@@ -572,7 +606,13 @@
 }
 
 .itemStatusContainer{
-    display:flex;
+    /* commented and modified by - Suman sahu on - 14/06/2023 */
+    /* display:flex; */
+    display: block;
+    width: 35vw;
+    float: right;
+    /* end of modification - 14/06/2023 */
+
     justify-content: space-between;
     padding: 0 10px 10px 29px;
 
@@ -664,6 +704,17 @@ input[type="radio"]:checked + .tabLabel {
 /* end of code Rohan KAnsari - 25/5/23 
  */
 
+/* added by - suman sahu on 15/06/2023 */
+ .modalContainer{
+    margin-left: 39%;
+}
+@media screen and (max-width:1400px){
+.modalContainer{
+    margin-left: 36%;
+}   
+}
+/* end of addition - 15/06/2023 */
+
 @media screen and (max-width:1120px){
     .table{
         --column1-width:5%;
@@ -692,6 +743,12 @@ input[type="radio"]:checked + .tabLabel {
 
     
     }
+
+    /* added by - suman sahu on 15/06/2023 */
+    .modalContainer{
+        margin-left: 34%;
+    }   
+    /* end of addition - 15/06/2023 */
 }
 
 
@@ -723,7 +780,30 @@ input[type="radio"]:checked + .tabLabel {
 
     
     }
+
+    /* added by - suman sahu on 15/06/2023 */
+    .modalContainer{
+        margin-left: 32%;
+    }   
+    /* end of addition - 15/06/2023 */
 }
+/* added by - suman sahu on 15/06/2023 */
+@media screen and (max-width:850px){
+    .modalContainer{
+        margin-left: 30%;
+    } 
+}
+@media screen and (max-width:800px){
+    .modalContainer{
+        margin-left: 29%;
+    } 
+}
+@media screen and (max-width:768px){
+    .modalContainer{
+        margin: auto;
+    } 
+}
+/* end of addition - 15/06/2023 */
 
 @media screen and (max-width:770px){
     .table{
@@ -843,6 +923,25 @@ input[type="radio"]:checked + .tabLabel {
     }
 
     .popupItemContainer{
-        width: 200px;
+        /* commented and modified by - Suman sahu On 11-06-2023 */
+        /* width: 200px; */
+        width: 100%;
+        /* end of code - 11-06-2023 */
     }
 }
+
+/* added by - Suman sahu On 15-06-2023 */
+@media screen and (max-width:500px){
+.title{
+    width: auto;
+}
+.itemListContainer{
+    display: block;
+}
+.itemStatusContainer{
+    display: flex;
+    width: auto;
+    float: revert;
+}
+}
+/* end of code - 15-06-2023 */

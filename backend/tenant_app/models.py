@@ -696,6 +696,11 @@ class Order(models.Model):
     # Reason - To save overall review
     review=models.TextField(null=True,blank=True)
 
+    # Added by Yuvraj Sahu on 15-06-2023
+    # Reason - to add overall rating
+    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    # End of addition by Yuvraj Sahu on 15-06-2023
+
     # Added by Rohan kansari - 10/5/23
     # Reason - To save payment confirmation date and time 
     payment_confirmation_date_time=models.CharField(max_length=50,null=True,blank=True)
@@ -1057,10 +1062,7 @@ class Order(models.Model):
                     self.sgst = round(float("{:.2f}".format(sgst)),2)
                     self.total= round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
                     self.final_amount = round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
-                    print("save method -------- cgst", self.cgst)
-                    print("sgst", self.sgst)
-                    print("total", self.total)
-
+                  
                     # # Added by Om Shrivastava on 28-05-23
                     # # Reason : Need to apply some condition for calculation the loyality point
 

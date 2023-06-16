@@ -1129,8 +1129,15 @@ export default function OrderDetails() {
           <div
             style={{
               position: "fixed",
-              bottom: 0,
-              height: "60px",
+              /**
+               * Modified by Yuvraj Sahu on 15-06-2023
+               * Reason - to give more space for social media
+               */
+              bottom: 5,
+              height: "65px",
+              /**
+               * End of modification by Yuvraj Sahu on 15-06-2023
+               */
               width: "100%",
               background: colors.backgroundTheme,
             }}
