@@ -331,3 +331,30 @@ export const getMenuList = async (tenant,filteringCriteria) => {
  * End of code addition by - Ashish Dewangan on 12-06-2023.
  * Reason - To get menu list of tenant.
  */ 
+
+/**
+ * Added by - Om Shrivastava on 15-06-2023
+ * Reason - To get order list of tenant.
+ */
+export const getOrderCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/order-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const getOrdersApi = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/order-list-v2/`, filteringCriteria, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response.data,'++++++++++++++++++++++')
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Om Shrivastava on 15-06-2023
+ * Reason - To get order list of tenant
+ */ 

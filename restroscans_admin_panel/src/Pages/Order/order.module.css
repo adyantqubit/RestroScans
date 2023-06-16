@@ -1,9 +1,376 @@
-.Container{
-    width: 100%;
-    height: 90vh;
-    text-align: center;
-    overflow: scroll;
+/**
+* Added by - Om Shrivastava on 15-06-23
+* Reason - Create to have styling details of menu details page
+*/
+@import "../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../assets/font/Carlito-Bold.ttf") format("opentype");
 }
-.heading{
-    font-size: 3rem;
+
+.container {
+  width: 100%;
+  overflow: auto;
+  background-color: white;
+  margin-bottom: 9vh;
+}
+
+.pageTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto 10px;
+  margin-top: 10px;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orderListSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tableContainer {
+  width: 100%;
+  padding: 4px;
+  background-color: #efefef;
+}
+
+.tableHeadingContainer {
+  background-color: white;
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #cad0d0;
+  font-family: "MyFont";
+  padding: 3px;
+}
+
+.tableDataContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: white;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 3px;
+}
+.tableData {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+}
+
+.commonColumnTitle {
+  width: var(--common-column-width);
+  /* width: 8%; */
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-size: 18px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commonColumnData {
+  width: var(--common-column-width);
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.smallColumnWidth{
+    width: var(--common-column-small-width) ;
+    min-width: var(--common-column-small-min-width);
+}
+.mediumColoumnWidth{
+    width: var(--common-column-medium-width) ;
+    min-width: var(--common-column-medium-min-width);
+}
+
+.menuImage{
+    width:45px;
+    height:45px;
+    border-radius: 5px;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.primaryButton {
+  background-color: #51c14b;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: all 0.3s;
+  width: fit-content;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: #1f871b;
+}
+
+.secondaryButton {
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  background-color: rgb(202, 19, 19);
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yesIcon {
+  color: green;
+  width: 20px;
+  height: 20px;
+}
+
+.noIcon {
+  color: red;
+  width: 20px;
+  height: 20px;
+}
+
+.sortingIcon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (max-width: 4000px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 300px;
+    --common-column-min-width: 300px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+
+    --common-column-small-width : 15%;
+    --common-column-small-min-width : 100px;
+
+    --common-column-medium-width : 25%;
+    --common-column-medium-min-width : 180px;
+
+    --common-column-large-width : 12%;
+    --common-column-large-min-width : 120px;
+
+
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .container {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 270px;
+    --common-column-min-width: 270px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 220px;
+    --common-column-min-width: 220px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 200px;
+    --common-column-min-width: 200px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 190px;
+    --common-column-min-width: 190px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 180px;
+    --common-column-min-width: 180px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 170px;
+    --common-column-min-width: 170px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 120px;
+    --common-column-min-width: 120px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 80px;
+    --common-column-min-width: 80px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+}
+@media screen and (max-width: 430px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 100px;
+    --common-column-min-width: 100px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+  .commonColumnTitle {
+    flex-direction: column;
+  }
 }

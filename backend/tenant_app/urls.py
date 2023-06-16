@@ -287,4 +287,16 @@ urlpatterns = [
     path('<str:tenant>/rating-review/',RatingReviewAPI.as_view()),
     # End of addition by Om Shrivastava on 14-06-23
 
+    # Added by Om Shrivastava on 15-06-23
+    # Reason : To get count of order 
+    path('<str:tenant>/order-count/',OrderAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 15-06-23
+    # Reason : To get count of order 
+
+    # Added by Om Shrivastava on 15-06-23
+    # Reason : To get list of order.
+    path('<str:tenant>/order-list-v2/',OrderAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 15-06-23
+    # Reason : To get list of order.
+
 ]   

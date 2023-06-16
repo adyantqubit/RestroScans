@@ -2549,3 +2549,110 @@ class RatingReviewAPI(APIView):
         return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 # End of addition by Om Shrivastava on 14-06-23
+
+# Added by Om Shrivastava on 15-06-23
+# Reason - API for CRUD operation on order
+class OrderAPI(APIView):
+
+    # Added by Om Shrivastava on 15-06-23
+    # Reason - To get count of order
+    def get(self,request,tenant):
+         orderCount=Order.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "orderCount":orderCount,
+        })
+    # End of code addition by - Om Shrivastava on 15-06-23
+    # Reason - To get count of order
+    
+    # Added by - Om Shrivastava on 15-06-23
+    # Reason - To get list of order using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Commented and modified by - Ashish Dewangan on 14-06-2023
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        orderList=[]
+
+        if columnToSort == "":
+            orderList = Order.objects.all()
+
+        if searchText:
+            orderList=Order.objects.filter(Q(table_number__icontains=searchText) | 
+                                                       Q(order_id__icontains=searchText) |
+                                                       Q(order_status__icontains=searchText) |
+                                                       Q(payment_status__icontains=searchText))
+        else:
+            orderList = Order.objects.all()        
+        
+        # if columnToSort == "name" and columnSortingOrder=="ascending":
+        #     orderList = Order.objects.all().order_by('name')
+        # if columnToSort == "name" and columnSortingOrder=="descending":
+        #     orderList = Order.objects.all().order_by('-name')
+        # if columnToSort == "name" and columnSortingOrder=="":
+        #     orderList = Order.objects.all()
+        
+        # if columnToSort == "is_active" and columnSortingOrder=="ascending":
+        #     orderList=Order.objects.all().order_by('is_active')
+        # if columnToSort == "is_active" and columnSortingOrder=="descending":
+        #     orderList = Order.objects.all().order_by('-is_active')
+        # if columnToSort == "is_active" and columnSortingOrder=="":
+        #     orderList=Order.objects.all()
+
+        if columnToSort == "order_id" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('order_id')
+        if columnToSort == "order_id" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-order_id')
+        
+        if columnToSort == "table_number" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('table_number')
+        if columnToSort == "table_number" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-table_number')
+        
+        if columnToSort == "order_status" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('order_status')
+        if columnToSort == "order_status" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-order_status')
+
+        if columnToSort == "payment_status" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('payment_status')
+        if columnToSort == "payment_status" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-payment_status')
+
+        if columnToSort == "payment_mode" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('payment_mode')
+        if columnToSort == "payment_mode" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-payment_mode')
+
+        if columnToSort == "date" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('date')
+        if columnToSort == "date" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-date')
+
+        orderListCount=orderList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(orderList, listPerPage)
+        filteredOrderList = paginator.page(currentPage)
+
+        orderListSerializer = AllOrderSerializer(filteredOrderList, many =True)
+        return Response({
+            "msg":"success",
+            "orderList":orderListSerializer.data,
+            "orderListCount":orderListCount,
+        })
+        # End of code modification by - Ashish Dewangan on 14-06-2023
+        # Reason - To enhance and add basic search functionality
+        
+    # End of code addition by - Om Shrivastava on 15-06-23
+    # Reason - To get list of Order using backend pagination
+    
+# End of code addition by - Om Shrivastava on 15-06-23
+# Reason - API to get list of Order 
