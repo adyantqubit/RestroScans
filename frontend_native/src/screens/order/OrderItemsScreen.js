@@ -1886,6 +1886,12 @@ export default function OrderItemsScreen({ route, navigation }) {
               <View style={{ width: "20%" }}>
                 <TextInput style={styles.discoutAmount}
                   numeric
+                  // Added by :- Om shrivastava on 16-06-23 reason :- if payment is completed or paid then admin can not add loyality point  
+                  editable={
+                   orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ||
+                   loyalityPoint > 0
+                  ? false : true}
+                  // End of added code by :- Om shrivastava on 16-06-23
                   keyboardType={'numeric'}
                   value={loyalityPoint}
                   onChangeText={(e) => loyalityHandleChange(e)} />

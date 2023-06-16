@@ -35,6 +35,7 @@ import Setting from './Pages/Setting/Setting';
 import SettingForm from './Pages/Setting/SettingForm';
 import SocialMediaList from './Pages/socialMedia/SocialMediaList';
 import SocialMediaForm from './Pages/socialMedia/SocialMediaForm';
+import OrderForm from './Pages/Order/OrderForm'
 
 var Message=0;
 var AutoValidateToken=0
@@ -199,6 +200,11 @@ function App() {
       	Reason - to define route of update social media page */}
       	<Route path="/update-social-media/:id" element={<SocialMediaForm/>} />
       	{/* End of addition by Yuvraj Sahu on 07-06-2023 */}
+
+         {/* Added by Om shrivastava on 16-06-23
+      	Reason - to define route of update order details*/}
+      	<Route path="/update-order/:id" element={<OrderForm/>} />
+      	{/* End of addition by Om shrivastava on 16-06-23 */}
       </Routes>
       {/* <Footer /> */}
       {/* </Header> */}

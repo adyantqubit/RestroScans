@@ -19,8 +19,12 @@ import { MdCancel, MdCheckCircle } from "react-icons/md";
 
 import { Input, Space } from "antd";
 import config from "../../Api/config";
+import { useNavigate } from "react-router-dom";
 
 const Order = () => {
+
+  const navigate = useNavigate();
+
   const [backendOrderCount, setOrderCount] = useState(0);
 
   var [orders, setOrders] = useState([]);
@@ -28,7 +32,10 @@ const Order = () => {
   const [listPerPage, setListPerPage] = useState(10);
 
   const [columnToSort, setColumnToSort] = useState("order_id");
-  const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
+
+  // const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
+  const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
+
   const [showSortingIcon, setShowSortingIcon] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState("");
@@ -141,10 +148,10 @@ const Order = () => {
 
   const sortOrderId = (columnName) => {
     if (columnToSort == columnName) {
-      if (columnSortingOrder == "ascending") {
-        setColumnSortingOrder("descending");
-      } else {
+      if (columnSortingOrder == "descending") {
         setColumnSortingOrder("ascending");
+      } else {
+        setColumnSortingOrder("descending");
       }
     }
     setColumnToSort(columnName);
@@ -214,6 +221,7 @@ const Order = () => {
 
                 <div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                 
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortOrderId("order_id");
@@ -318,9 +326,43 @@ const Order = () => {
 
                 <div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
+                  // Added by Om Shrivatava on 16-06-23
+                  // Reason : Apply sorting through the payment status
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderId("payment_status");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "payment_status") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "payment_status") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // End of addition by Om Shrivastava on 16-06-23
                 >
                   Payment status
+                  {/* // Added by Om Shrivatava on 16-06-23
+                  // Reason : Apply sorting through the payment status */}
+                  {columnToSort == "payment_status" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "payment_status" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "payment_status" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  {/* // End of addition by Om Shrivastava on 16-06-23 */}
+
                 </div><div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
 
@@ -328,15 +370,75 @@ const Order = () => {
                   Final amount
                 </div><div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
+                  // Added by Om Shrivatava on 16-06-23
+                  // Reason : Apply sorting through the payment mode
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderId("payment_mode");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "payment_mode") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "payment_mode") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // End of addition by Om Shrivastava on 16-06-23
                 >
                   Payment mode
+                  {/* // Added by Om Shrivatava on 16-06-23
+                  // Reason : Apply sorting through the payment status */}
+                  {columnToSort == "payment_mode" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "payment_mode" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "payment_mode" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  {/* // End of addition by Om Shrivastava on 16-06-23 */}
                 </div>
                 <div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderId("date");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "date") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "date") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
                 >
                   Date
+                  {columnToSort == "date" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "date" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "date" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
                 </div>
                 <div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
@@ -373,6 +475,12 @@ const Order = () => {
                         </div>
                         <div
                           className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                          style={{color:'#185ee0',cursor:'pointer'}}
+                          onClick={() => {
+                            navigate(`/update-order/${orderDetail.id}`, {
+                              state: { id: orderDetail.id },
+                             });
+                          }}
                         >
                           {orderDetail.order_id}
                         </div>
