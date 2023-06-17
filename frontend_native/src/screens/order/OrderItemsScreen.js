@@ -1450,6 +1450,22 @@ export default function OrderItemsScreen({ route, navigation }) {
             <Text style={{ marginTop: 5 }}>
               <Text>Time</Text> :{ExtractDateTime(orderDetail.date).time}
             </Text>
+
+            {/* Addition by Om Shrivastava on 16-06-23
+            Reason : Show the payment mode*/}
+               {orderDetail.payment_mode!=null ?
+               <Text style={{ marginTop: 5 }}>
+
+               <Text>Payment mode : {orderDetail.payment_mode}</Text>
+             </Text>
+               :
+               <Text style={{ marginTop: 5 }}>
+
+               <Text>Payment mode : ----</Text>
+             </Text>
+               }
+            {/* End of addition by Om Shrivastava on 16-06-23 */}
+
             {/* Addition by Om Shrivastava on 13-05-23
             Reason : Show the all over restaurant review   */}
             {orderDetail.review && (
