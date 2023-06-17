@@ -13,7 +13,10 @@
     background-color:transparent;
     /* border-radius: 10px; */
     /* margin: 0 10px; */
-    padding: 20px 10px 5vh 10px;
+    /* Modified by Yuvraj Sahu on 16-06-2023
+    Reason - to give padding on bottom side */
+    padding: 20px 10px 10vh 10px;
+    /* End of addition by Yuvraj Sahu on 16-06-2023 */
     background-color: #e7f1f1;
     /* background-color: #f8fafd; */
 
@@ -472,10 +475,18 @@
 .tableColumn3{
     width: 25%;
     text-align: center;
+    /* Added by Yuvraj Sahu on 16-06-2023
+    Reason - to align social media list */
+    word-break: break-all;
+    /* End of addition by Yuvraj Sahu on 16-06-2023 */
 }
 .tableColumn4{
     width: 35%;
     text-align: center;
+    /* Added by Yuvraj Sahu on 16-06-2023
+    Reason - to align social media list */
+    word-break: break-all;
+    /* End of addition by Yuvraj Sahu on 16-06-2023 */
 }
 .tableColumn5{
     width: 15%;

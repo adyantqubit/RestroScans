@@ -74,7 +74,7 @@ function SocialMediaForm(props) {
    * Reason - method that will execute when page loads and then call api
    */
   useEffect(() => {
-    getSettingData();
+    getSocialMediaData();
   }, []);
   /**
    * End of code addition by - Yuvraj Sahu on 02-06-2023
@@ -85,7 +85,7 @@ function SocialMediaForm(props) {
    * Added by - Yuvraj Sahu on 02-06-2023
    * Reason - created api that will get social media data
    */
-  const getSettingData = async () => {
+  const getSocialMediaData = async () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getSocialMediaApi(tenant);
     if (response.msg) {
@@ -208,6 +208,27 @@ function SocialMediaForm(props) {
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
+
+    /**
+     * Added by Yuvraj Sahu on 16-06-2023
+     * Reason - to validate icon
+     */
+    if (inputName == "social_media_icon") {
+      if (img != null) {
+        const error = {
+          social_media_icon: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          social_media_icon: "Social media icon is required!",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+    /**
+     * End of addition by Yuvraj Sahu on 16-06-2023
+     */
     /**
     * End of code addition by - Yuvraj Sahu on 12-06-2023
     */
@@ -244,9 +265,15 @@ function SocialMediaForm(props) {
     */
     if (!socialMediaLinkValue && img == null) {
       validateOnInput("social_media_link", "social_media_icon");
-    } else {
+    }
+    else {
+    if (img == null && imageUrl == ""){
+      validateOnInput("social_media_icon", img);
+    }
+    else {
       validateOnInput("social_media_link", socialMediaLinkValue);
     }
+  }
     /**
     * End of addition by Yuvraj Sahu on 12-06-2023
     */
@@ -346,7 +373,6 @@ function SocialMediaForm(props) {
   var [errors, setError] = useState([]);
 
   function validateLogo(text) {
-    console.log(text);
     /** Added by Yuvraj Sahu on 12-06-2023
     * Reason - to show error message
     */
@@ -361,7 +387,6 @@ function SocialMediaForm(props) {
       errors = errors.filter((e) => Object.keys(e) != "social_media_icon");
       setError(errors);
     }
-    // console.log(text)
     if (text.size > 1024 * 200)
       setError([
         ...errors,

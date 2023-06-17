@@ -415,3 +415,39 @@ export const saveOrderDetailsApi = async (value, tenant) => {
   return response ? response.data : {};
 };
 // End of addition by Om Shrivastava on 16-06-23
+
+
+/**
+ * Added by - Yuvraj Sahu on 16-06-2023
+ * Reason - To get category count
+ */
+export const getCategoryCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/category-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * Ent of code adition by - Yuvraj Sahu on 16-06-2023
+ * Reason - To get category count
+ */
+
+
+/**
+ * Added by - Yuvraj Sahu on 16-06-2023
+ * Reason - To get category list of tenant.
+ */
+export const getCategoryList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/category-list-v2/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Yuvraj Sahu on 16-06-2023.
+ * Reason - To get category list of tenant.
+ */ 

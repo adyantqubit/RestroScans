@@ -291,6 +291,18 @@ urlpatterns = [
     # Reason - To save menu details
     path('<str:tenant>/menu-details/',MenuDetailsAPI.as_view()),
     # End of code addition by Ashish Dewangan. reason - To save menu details
+    
+    # Added by Yuvraj Sahu on 16-06-23
+    # Reason : To get count of category.
+    path('<str:tenant>/category-count/',CategoryAPI.as_view()),
+    # End of code addition by - Yuvraj Sahu on 16-06-2023
+    # Reason : To get count of category.  
+
+    # Added by Yuvraj Sahu on 16-06-23
+    # Reason : To get list of category.
+    path('<str:tenant>/category-list-v2/',CategoryAPI.as_view()),
+    # End of code addition by - Yuvraj Sahu on 16-06-2023
+    # Reason : To get list of category. 
 
     # Added by Om Shrivastava on 14-06-23
     # Reason: When user apply rating than show rating and review

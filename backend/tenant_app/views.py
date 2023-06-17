@@ -123,7 +123,11 @@ def getBestproduct():
     # Modification and addition by Om Shrivastava on 19-05-23
     # Reason : Show only bestseller checkbox option 
     # return list[:10]
-    return bests[:10]
+    # Added and modified by Yuvraj Sahu on 16-06-2023
+    # Reason - to show all best seller items and remove best 10 item
+    return bests
+    # return bests[:10]
+    # End of addition by Yuvraj Sahu on 16-06-2023
     # End of modification and addition by Om shrivastava on 19-05-23
 # End of modification and commented by Om Shrivastava on 19-05-23
 # end of code 13/4/23
@@ -2741,3 +2745,73 @@ class OrderDetailAPIView(APIView) :
 """
 End of addition by Om shrivastava on 16-06-23
 """
+
+# Added by Yuvraj Sahu on 16-06-2023
+# Reason - API for CRUD operation on category
+class CategoryAPI(APIView):
+    # Added by Yuvraj Sahu on 16-06-2023
+    # Reason - To get count of category
+    def get(self,request,tenant):
+         categoryCount=Category.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "categoryCount":categoryCount,
+        })
+    # End of code addition by - Yuvraj Sahu on 16-06-2023
+    # Reason - To get count of category
+    
+    # Added by - Yuvraj Sahu on 16-06-2023
+    # Reason - To get list of category using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Commented and modified by - Yuvraj Sahu on 16-06-2023
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        categoryList=[]
+
+        if columnToSort == "":
+            categoryList = Category.objects.all()
+
+        if searchText:
+            categoryList=Category.objects.filter(Q(name__icontains=searchText) )
+        else:
+            categoryList = Category.objects.all()        
+
+        if columnToSort == "name" and columnSortingOrder=="ascending":
+            categoryList = categoryList.order_by('name')
+        if columnToSort == "name" and columnSortingOrder=="descending":
+            categoryList = categoryList.order_by('-name')
+        
+        
+        if columnToSort == "is_active" and columnSortingOrder=="ascending":
+            categoryList = categoryList.order_by('is_active')
+        if columnToSort == "is_active" and columnSortingOrder=="descending":
+            categoryList = categoryList.order_by('-is_active')
+        
+        categoryListCount=categoryList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(categoryList, listPerPage)
+        filteredCategoryList = paginator.page(currentPage)
+
+        categoryListSerializer = CategoryListSerializer(filteredCategoryList, many =True)
+        return Response({
+            "msg":"success",
+            "categoryList":categoryListSerializer.data,
+            "categoryListCount":categoryListCount,
+        })
+        # End of code modification by - Yuvraj Sahu on 16-06-2023
+        # Reason - To enhance and add basic search functionality
+        
+    # End of code addition by - Yuvraj Sahu on 16-06-2023
+    # Reason - To get list of category using backend pagination
+    
+# End of code addition by - Yuvraj Sahu on 16-06-2023
+# Reason - API to get list of category 
