@@ -12,7 +12,9 @@
 .container {
   width: 100%;
   background-color: #e7f1f1;
-  margin-bottom: 50px;
+  /* commented by - Suman sahu on 17/06/2023 */
+  /* margin-bottom: 50px; */
+  /* end of commentation by - suman sahu on 17/06/2023 */
   height: 86.5vh;
   overflow: scroll;
 }
@@ -202,6 +204,15 @@
     width: 200px;
   }
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
 
 @media screen and (max-width: 720px) {
   .container {

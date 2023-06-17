@@ -12,11 +12,12 @@
   /* background-image: url(../../assets/bg.jpg); */
   position: sticky;
   overflow: scroll;
+  z-index: 99;
 }
 .links_div {
   /* modified by - Suman sahu on 15/06/2023 */
   /* padding: .8rem 0 0 .8rem; */
-  padding: 0.2rem 0 0 0.8rem;
+  /* padding: 0.2rem 0 0 0.8rem; */
   display: flex;
   /* end of modification - 15/06/2023 */
 
@@ -41,6 +42,10 @@
 .link {
   font-size: 1.2rem;
   color: white;
+  /* added by - Suman sahu on - 17/06/2023 */
+  padding-left: .8rem;
+  /* end of addition by - Suman sahu on - 17/06/2023 */
+
   /* letter-spacing: .8px; */
   /* font-family: var(--primary-fontFamily); */
   /* font-weight: bold; */
@@ -57,15 +62,39 @@
   font-size: var(--label-font-size);
   color: rgb(245, 236, 236);
   letter-spacing: 1px;
+
+  /* added by - Suman sahu on - 17/06/2023 */
+  padding-left: .8rem;
+  /* end of addition by - Suman sahu on - 17/06/2023 */
 }
 
 /* End of code -Rohan kansari- 26/5/23 */
 
-.active,
-.links_div:hover,
-.Sublinks_div:hover {
+/* added by - Suman sahu on - 17/06/2023 */
+.active{
   background-color: #374151;
-  border-left: 3px solid var(--highlight-color);
+  color: white;
+  padding: 0.2rem 0 0.6rem 0.8rem;
+  display: flex;
+  width: 15rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+/* end of addition by - Suman sahu on - 17/06/2023 */
+
+/* commented by - Suman sahu on - 17/06/2023 */
+/* .active, */
+/* end of commentation by - Suman sahu on - 17/06/2023 */
+
+.links_div:hover,
+/* added by - Suman sahu on - 15/06/2023 */
+.Sublinks_div:hover
+/* end of addition by - Suman sahu on - 15/06/2023 */ {
+  background-color: #374151;
+
+  /* commented by - Suman sahu on - 17/06/2023 */
+  /* border-left: 3px solid var(--highlight-color); */
+  /* end of commentation by - Suman sahu on - 17/06/2023 */
 }
 .sidebar_open_div,
 .sidebar_close_div {
@@ -122,6 +151,12 @@
     background: var(--sidebar-color);
     /* background-color: var(--header-sidebar-bg-color); */
     font-size: 1.5rem;
+
+    /* added by - Suman sahu on 16/06/2023 
+       reason - for manage sidebar height in responsive */
+    height: 80vh;
+    overflow: scroll;
+    /* end of addition by - Suman sahu on - 16/06/2023 */
   }
   .svg-inline--fa {
     margin: auto !important;
@@ -137,7 +172,9 @@
   }
   .links_div {
     /* padding: 0.1rem; */
-    padding: 0.3rem;
+    /* commented by - Suman sahu on - 17/06/2023 */
+    /* padding: 0.3rem; */
+    /* end of commentation by - Suman sahu on - 17/06/2023 */
     /* padding: 0.3%; */
     width: 10rem;
   }
@@ -151,7 +188,9 @@
 /* end of creation code by- Suman sahu On 24/05/2023 */
 
 /* added by - suman sahu on 16/06/2023 */
-@media only screen and (max-width: 768px) and (min-width: 400px) and (orientation: landscape) {
+
+/* commented by - suman sahu on 17/06/2023 */
+/* @media only screen and (max-width: 768px) and (min-width: 400px) and (orientation: landscape) {
   .container{
     height: 84vh;
     background-color: var(--sidebar-color);
@@ -159,5 +198,7 @@
   .sidebar_close_div{
     color: white;
   }
-}
-/* end of creation code by- Suman sahu On 24/05/2023 */
+} */
+/* end of commentation by - Suman sahu on - 17/06/2023 */
+
+/* end of addition by- Suman sahu On 16/05/2023 */

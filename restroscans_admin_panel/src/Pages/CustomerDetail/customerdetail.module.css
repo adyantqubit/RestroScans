@@ -11,9 +11,15 @@
 
 .container {
   width: 100%;
-  overflow: auto;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  height: 86.5vh;
+  /* overflow: auto; */
+  overflow: scroll;
   background-color: white;
-  margin-bottom: 9vh;
+  /* margin-bottom: 9vh; */
+  /* end of code by - suman sahu on 17/06/2023 */
+
 }
 
 .pageTitleContainer {
@@ -259,6 +265,15 @@
     --common-column-display: unset;
   }
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+   @media screen and (max-width: 768px) {
+    .Container {
+      height: 80vh;
+    }
+  }
+/* end of code by - suman sahu on 17/06/2023 */
 
 @media screen and (max-width: 720px) {
   .container {

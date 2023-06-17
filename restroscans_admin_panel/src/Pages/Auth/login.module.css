@@ -320,6 +320,21 @@ Reson : Fix the alignment of login page */
         gap: 0;
     }
 }
+/* added by - Suman sahu on 17/06/2023 */
+@media only screen and (max-width: 720px) and (max-height: 346px) and (orientation: landscape) {
+    .BackgroundImageContainer{
+        width: 100%;
+    }
+    .formContent{
+        width: 80%;
+        border-radius: 0;
+        background-color: transparent;
+    }
+    .FormContainer{
+        width: 50%;
+    }
+}
+/* end of addition by - Suman sahu on 17/06/2023 */
 @media only screen and (max-width: 720px) and (max-height: 300px) and (orientation: landscape) {
     .BackgroundImageContainer{
         width: 100%;

@@ -4,7 +4,12 @@
   /* width: 95%;*/
   width: 100%;
   /* end of modification on 09/06/2023 */
-  height: 90vh; 
+
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* height: 90vh; */
+  height: 86.5vh;
+  /* end of code by - suman sahu on 17/06/2023 */
   text-align: center;
   overflow: scroll;
   display: block;
@@ -173,6 +178,15 @@
     padding-bottom: 5rem;
   }
 }
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
+
 @media (max-width: 600px) {
   .revenue_first_div,
   .revenue_second_div {

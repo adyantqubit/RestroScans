@@ -6,7 +6,11 @@
   text-align: center;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* height: 90vh; */
+  height: 86.5vh;
+  /* end of code by - suman sahu on 17/06/2023 */
   margin: auto;
   overflow: scroll;
 }
@@ -21,7 +25,6 @@
   width: fit-content;
 }
 .bottom_text {
-  
   /* padding-top: 0;
   margin: 0; */
 }
@@ -40,3 +43,12 @@
   cursor: pointer;
 }
 /* end of creation code by- Suman sahu On 25/05/2023 */
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */

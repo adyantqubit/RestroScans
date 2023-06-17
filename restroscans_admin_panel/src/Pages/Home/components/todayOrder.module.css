@@ -428,11 +428,19 @@
 
 .lable{
     font-size: var(--label-font-size);
-    color: var(--label-color);
+
+    /* commented by - Suman sahu on - 17/06/2023 */
+    /* color: var(--label-color); */
+    /* end of commentation by - Suman sahu on - 17/06/2023 */
+
     /* added by - Suman sahu on 14/06/2023*/
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* added by - Suman sahu on 17/06/2023 */
+    font-weight: 600;
+    /* end of addition by - suman sahu on 17/06/2023 */
 }
 
 .closeContainer{
@@ -572,6 +580,7 @@
 .itemListContainer{
     display: flex;
     width: 100%;
+    background-color:#faf5f5;
 }
 /* end of addition on - 14/06/2023 */
 .title{

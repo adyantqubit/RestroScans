@@ -20,6 +20,12 @@
     background-color: #e7f1f1;
     /* background-color: #f8fafd; */
 
+    /* added by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+    height: 86.5vh;
+    overflow: scroll;
+    /* end of code by - suman sahu on 17/06/2023 */
+
 }
 
 .heading{
@@ -843,6 +849,15 @@ input[type="radio"]:checked + .tabLabel {
 
 
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+    .Container {
+        height: 80vh;
+    }
+}
+/* end of code by - suman sahu on 17/06/2023 */
 
 
 @media screen and (max-width:720px){

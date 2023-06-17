@@ -12,8 +12,13 @@
 
 .container {
   width: 100%;
-  max-height: 90vh;
-  overflow: auto;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* height: 90vh; 
+     overflow: auto;*/
+  height: 86.5vh;
+  overflow: scroll;
+  /* end of code by - suman sahu on 17/06/2023 */
   background-color: #e7f1f1;
 }
 
@@ -174,6 +179,15 @@
     --common-column-display: unset;
   }
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
 
 @media screen and (max-width: 720px) {
   .container {

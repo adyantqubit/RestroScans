@@ -121,9 +121,12 @@ li {
   margin-top: 0.3rem;
   margin-right: 0.5rem;
 }
-.active {
+/* commented by - suman sahu on - 09/06/2023 */
+/* .active {
   color: #32bccb;
-}
+} */
+/* end ofcommentation by - suman sahu on - 09/06/2023 */
+
 /* .icons:hover {
   color: #32bccb;
 } */

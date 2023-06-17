@@ -60,18 +60,18 @@ const TodayOrder = () => {
     var updatedStatus = useRef({ value: [] })
     var [selectedOrder, setSelectedOrder] = useState([])
 
-    var selectedOrdersItemIndex=0;
-    // Added by Suman sahu - 11/6/23
+    // var selectedOrdersItemIndex=0;
+    // Added by Suman sahu - 11/06/2023
     // Reason - To open selected items in the modal of table no. data in the dashboard
     var selectedItemArr=[]
     const [openModalNumOrderItem,setOpenModalNumOrderItem]=useState({})
-    // End of code - 11/6/23 by - suman sahu
+    // End of code - 11/06/2023 by - Suman sahu
 
-    // Added by Suman sahu - 11/6/23
+    // Added by Suman sahu - 11/06/2023
     // Reason - To open selected orders in the modal of more button in the action of dashboard
     var selectedOrderCopy={}
-    const [openPopupModalOpen,setOpenPopupModalOpen]=useState({})
-    // End of code - 11/6/23 by - suman sahu
+    const [openActionPopupModal,setOpenActionPopupModal]=useState({})
+    // End of code - 11/06/2023 by - suman sahu
 
     // Added by ROhan Kansari - 25/5/23
     // Reason - To save checked item and update
@@ -478,7 +478,15 @@ const TodayOrder = () => {
             // Modification and addition by Om Shrivastava on 03-06-23
             // Reason : Fix the overlap issue
             // document.getElementById("allupdate").style.background = "rgba(128,128,128,.1)"
-            document.getElementById("allupdate").style.background = "rgb(232,232,232)"
+
+            // commented and added by - Suman sahu on - 17/06/2023
+            // reason - for hide order status and payment status when click on completed option on the dashboard
+
+            // document.getElementById("allupdate").style.background = "rgb(232,232,232)"
+            document.getElementById("allupdate").style.display = "none"
+
+            // end of addition by - Suman sahu on - 17/06/2023
+
             // document.getElementById("allupdate").style.opacity = ".6"
             // End of addition by Om Shrivastava on 03-06-23
             document.getElementById("allupdate").style.pointerEvents = "none"
@@ -486,6 +494,11 @@ const TodayOrder = () => {
             document.getElementById("allupdate").style.background = "unset"
             document.getElementById("allupdate").style.opacity = "unset"
             document.getElementById("allupdate").style.pointerEvents = "unset"
+
+            // commented and added by - Suman sahu on - 17/06/2023
+            // reason - for reset order status and payment status when click on completed option then click on Newly placed and Pending on the dashboard
+            document.getElementById("allupdate").style.display = "flex"
+            // end of addition by - Suman sahu on - 17/06/2023
 
         }
 
@@ -615,7 +628,7 @@ const TodayOrder = () => {
                                         {/* <button className={style.printBtn} onClick={e => setPopupOpen(true)}>More</button> */}
                                     </Popover>
 
-                                    <div className={style.columnData7} onClick={e =>{ setOpenPopupModalOpen(data); setPopupOpen(true)}}><button className={style.printBtn}>More</button></div>
+                                    <div className={style.columnData7} onClick={e =>{ setOpenActionPopupModal(data); setPopupOpen(true)}}><button className={style.printBtn}>More</button></div>
                                 {/* end of modification on 12/06/2023 */}
                                 </div>
                             </div>
@@ -668,7 +681,17 @@ const TodayOrder = () => {
                                 if(orderItem.order_id==openModalNumOrderItem.order_id){
                                     
                                     {selectedItemArr.push(orderItem) }
-                                    return <div key={i} className={style.itemListContainer}>
+                                    return <div key={i} className={style.itemListContainer}
+                                    // added by - Suman sahu on - 17/06/2023
+                                    style={{
+                                        marginTop: "5px",
+                                        background:
+                                          i % 2 === 0
+                                            ? " rgb(234, 229, 227) "
+                                            : " #faf5f5 ",
+                                      }}
+                                    //   end of addition by - Suman sahu on - 17/06/2023
+                                      >
                                         <div className={style.title}>
                                         {orderItem.item}
                                         </div>
@@ -685,11 +708,14 @@ const TodayOrder = () => {
                                             <div className={style.selctedContentBox}>
                                                 <select 
                                                 defaultValue={orderItem.item_status}
+                                                // added by - Suman sahu on - 14/06/2023
+                                                // reason - to save item status and render that value on select box after updating
                                                 onChange={e => { selectedItemArr.forEach((item)=>{
                                                     if(item.id==orderItem.id){
                                                         item.item_status=e.target.value
                                                     }
                                                 }) }} 
+                                                // end of addition by - Suman sahu on - 14/06/2023
                                                 id="payment_status_selected">
                                                     <option className={style.options} value="Pending">Pending</option>
                                                     <option className={style.options} value="Confirm">Confirm</option>
@@ -729,24 +755,39 @@ const TodayOrder = () => {
                       
                         {selectedOrder?.map((orderItem, i) => {
 
-                            if(orderItem.order_id==openPopupModalOpen.order_id){
-                                selectedOrderCopy["order_id"]=openPopupModalOpen.order_id
-                                selectedOrderCopy["order_status"]=openPopupModalOpen.order_status
-                                selectedOrderCopy["payment_status"]=openPopupModalOpen.payment_status
+                            if(orderItem.order_id==openActionPopupModal.order_id){
+                                selectedOrderCopy["order_id"]=openActionPopupModal.order_id
+                                // added by - Suman sahu on - 14/06/2023
+                                // reason - to save order status & payment status and render that value on select box after updating
+                                selectedOrderCopy["order_status"]=openActionPopupModal.order_status
+                                selectedOrderCopy["payment_status"]=openActionPopupModal.payment_status
+                                {/* end of addition by - Suman sahu on 14/06/2023 */}
+
                                 return <>
-                                    <div className={style.customername}><label className={style.lable}>Contact Number : {orderItem.customer_number}</label></div>
-                                    <div className={style.OrderTime}><label className={style.lable}>Table No : {orderItem.table_number}</label></div>
-                                    <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{orderItem.date.substring(0, 10).split('-').reverse().join("/") + ' ' + orderItem.date.substring(11, 16)}</div>
-                                    <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{orderItem.payment_mode}</div>
-                                    <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{orderItem.sub_total}</div>
+                                {/* modified by - Suman sahu on 17/06/2023 */}
+                                    <div className={style.customername}><label className={style.lable}>Contact Number : &nbsp;</label>{orderItem.customer_number}</div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Table No : &nbsp;</label>{orderItem.table_number}</div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Date & Time : &nbsp;</label>{orderItem.date.substring(0, 10).split('-').reverse().join("/") + ' ' + orderItem.date.substring(11, 16)}</div>
+                                    <div className={style.OrderTime}><label className={style.lable}>Payment Mode : &nbsp;</label>{orderItem.payment_mode}</div>
+                                    {/* commented and modified by - Suman sahu on 17/06/2023 
+                                        reason - take 2 decimal values in subtotal */}
+                                    {/* <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{orderItem.sub_total}</div> */}
+                                    <div className={style.OrderTime}><label className={style.lable}>Subtotal : &nbsp;</label>{(orderItem.sub_total).toFixed(2)}</div>
+                                    {/* end of modification by - Suman sahu on 17/06/2023 */}
 
                                     {/* commented and modified by - Suman sahu on 16/06/2023 
                                         reason - take 2 decimal values in CGST and SGST */}
-                                    <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{orderItem.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{orderItem.sgst}</div>
-                                    {/* <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{(orderItem.cgst).toFixed(2)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{(orderItem.sgst).toFixed(2)}</div> */}
+                                    {/* <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{orderItem.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{orderItem.sgst}</div> */}
+                                    <div className={style.OrderTime}><label className={style.lable}>CGST : &nbsp;</label>{(orderItem.cgst).toFixed(2)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : &nbsp;</label>{(orderItem.sgst).toFixed(2)}</div>
                                     {/* end of modification by - Suman sahu on 16/06/2023 */}
-                                    <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {orderItem.total} </label></div>
-                                
+
+                                    {/* commented and modified by - Suman sahu on 17/06/2023 
+                                        reason - take 2 decimal values in total */}
+                                    {/* <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {orderItem.total} </label></div> */}
+                                    <div className={style.OrderTime}><label className={style.Highlightlable}>Total : &nbsp; {(orderItem.total).toFixed(2)} </label></div>
+                                    {/* end of modification by - Suman sahu on 17/06/2023 */}
+
+                                {/* end of modification by - suman sahu on - 17/06/2023 */}
                         
                                 <div className={style.btnContainer}>
                                     <div className={style.selectionContainer}>
@@ -802,23 +843,25 @@ const TodayOrder = () => {
                             </div>
                         </div>
 
+                        {/* added by - Suman sahu on - 11/06/2023 */}
                         <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
                             <div className={style.selectionContainer}>
                                 <button className={style.kotPrint}
-                                    onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openPopupModalOpen, "orderItem": orderItemList.filter((o) => { return o.order_id == openPopupModalOpen.order_id }) } })}
+                                    onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}
                                 >Print KOT</button>                                   
                             </div>
                             <div className={style.selectionContainer}>
                                 <button className={style.billPrint}
-                                    style={openPopupModalOpen.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
-                                    onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openPopupModalOpen, "orderItem": orderItemList.filter((o) => { return o.order_id == openPopupModalOpen.order_id }) } })}
+                                    style={openActionPopupModal.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
+                                    onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}
                                 >Print</button>
                             </div>
                         </div>
+                        {/* end of addition by - Suman sahu on - 11/06/2023 */}
 
                     </div>
                 </Modal>
-                {/* end of addition by - suman sahu on 10/06/2023 */}
+                {/* end of addition by - suman sahu on 11/06/2023 */}
 
             </div>
 

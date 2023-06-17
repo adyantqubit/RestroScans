@@ -13,7 +13,12 @@
   width: 100%;
   /* overflow: auto; */
   background-color: white;
-  margin-bottom: 9vh;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* margin-bottom: 9vh; */
+  height: 86.5vh;
+  /* end of code by - suman sahu on 17/06/2023 */
+  
 }
 
 .pageTitleContainer {
@@ -261,6 +266,15 @@
     --common-column-display: unset;
   }
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
 
 @media screen and (max-width: 720px) {
   .container {

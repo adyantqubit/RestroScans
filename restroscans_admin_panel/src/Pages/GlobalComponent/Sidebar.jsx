@@ -103,111 +103,251 @@ const Sidebar = () => {
         className={sidebar == true ? style.open_sidebar : style.close_sidebar}
       >
         <li className={style.links_div} onClick={navigateToDashboard}>
-          <NavLink className={style.link} to="/Dashboard">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/Dashboard"
+          >
             {" "}
             Dashboard{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToBanner}>
-          <NavLink className={style.link} to="/BannerOffer">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/BannerOffer"
+          >
             {" "}
             Banner/Offer{" "}
           </NavLink>
         </li>
         {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
-        <li className={`${style.links_div} ${style.link}`} onClick={e => setReportSubVisible(!ReportSubVisible)}>
+        <li
+          className={`${style.links_div} ${style.link}`}
+          onClick={(e) => setReportSubVisible(!ReportSubVisible)}
+        >
           Report
           {/* commented and modified by - Suman sahu on 15/06/2023 
               reason - for change icon*/}
           {/* <AiOutlinePlus color="white" /> */}
-          <FaCaretDown className={style.dropdown_icon}/>
+          <FaCaretDown className={style.dropdown_icon} />
           {/* end of modification by suman sahu on 15/06/2023 */}
-
         </li>
-        
-        {ReportSubVisible ?
+
+        {ReportSubVisible ? (
           <ul style={{ marginTop: "-10px" }}>
             <li className={style.Sublinks_div} onClick={navigateToOrderReport}>
-              <NavLink className={style.sublink} to="/OrderReport">Order Report</NavLink>
+              <NavLink
+                // commented and modified by - Suman sahu on - 17/06/2023
+                // reason- for design active link
+                // className={style.sublink}
+                className={({ isActive }) =>
+                  isActive ? style.active : style.sublink
+                }
+                // end of modification by - Suman sahu on - 17/06/2023
+                to="/OrderReport"
+              >
+                Order Report
+              </NavLink>
             </li>
-            <li className={style.Sublinks_div} onClick={navigateToOrderItemReport}>
-              <NavLink className={style.sublink} to="/OrderItemReport">Order Item Report</NavLink>
+            <li
+              className={style.Sublinks_div}
+              onClick={navigateToOrderItemReport}
+            >
+              <NavLink
+                // commented and modified by - Suman sahu on - 17/06/2023
+                // reason- for design active link
+                // className={style.sublink}
+                className={({ isActive }) =>
+                  isActive ? style.active : style.sublink
+                }
+                // end of modification by - Suman sahu on - 17/06/2023
+                to="/OrderItemReport"
+              >
+                Order Item Report
+              </NavLink>
             </li>
-            <li className={style.Sublinks_div} onClick={navigateToCustomerReport}>
-              <NavLink className={style.sublink} to="/CustomerReport">Customer Report</NavLink>
+            <li
+              className={style.Sublinks_div}
+              onClick={navigateToCustomerReport}
+            >
+              <NavLink
+                // commented and modified by - Suman sahu on - 17/06/2023
+                // reason- for design active link
+                // className={style.sublink}
+                className={({ isActive }) =>
+                  isActive ? style.active : style.sublink
+                }
+                // end of modification by - Suman sahu on - 17/06/2023
+                to="/CustomerReport"
+              >
+                Customer Report
+              </NavLink>
             </li>
-          </ul> : null}
+          </ul>
+        ) : null}
         {/* End of code - Rohan Kansari - 26/5/23*/}
         {/* Added by Suman - To open revenue page - 27/5/23*/}
         <li className={style.links_div} onClick={navigateToRevenue}>
-          <NavLink className={style.link} to="/Revenue">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/Revenue"
+          >
             {" "}
             Revenue{" "}
           </NavLink>
         </li>
         {/* End of code - Suman Sahu - 27/5/23*/}
         <li className={style.links_div} onClick={navigateToBannerItems}>
-          <NavLink className={style.link} to="/BannerOfferItem">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/BannerOfferItem"
+          >
             {" "}
             Banner/Offer Items{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToMenu}>
-          <NavLink className={style.link} to="/Menu">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/Menu"
+          >
             {" "}
             Menu{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToCategory}>
-          <NavLink className={style.link} to="/Category">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/Category"
+          >
             {" "}
             Category{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToItem}>
-          <NavLink className={style.link} to="/item">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/item"
+          >
             {" "}
             Item{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToSetting}>
-          <NavLink className={style.link} to="/SettingForm">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/SettingForm"
+          >
             {" "}
             Setting{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToFooter}>
-          <NavLink className={style.link} to="/FooterDescription">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/FooterDescription"
+          >
             {" "}
             Footer Description{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToCustomerDetail}>
-          <NavLink className={style.link} to="/CustomerDetail">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/CustomerDetail"
+          >
             {" "}
             Customer Detail{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToOrder}>
-          <NavLink className={style.link} to="/Order">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/Order"
+          >
             {" "}
             Order{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToOrderItem}>
-          <NavLink className={style.link} to="/OrderItem">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/OrderItem"
+          >
             {" "}
             Order Item{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToPayment}>
-          <NavLink className={style.link} to="/PaymentMethod">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/PaymentMethod"
+          >
             {" "}
             Payment Method{" "}
           </NavLink>
         </li>
         <li className={style.links_div} onClick={navigateToQR}>
-          <NavLink className={style.link} to="/QRcode">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/QRcode"
+          >
             {" "}
             QR Code{" "}
           </NavLink>
@@ -218,7 +358,14 @@ const Sidebar = () => {
         	Reason - to navigate after clicking box  */}
         <li className={style.links_div} onClick={navigateToSocialList}>
           {/* End of modification by Yuvraj Sahu on 12-06-2023 */}
-          <NavLink className={style.link} to="/social-media">
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/social-media"
+          >
             {" "}
             Social Media{" "}
           </NavLink>
@@ -228,9 +375,9 @@ const Sidebar = () => {
 
       <div className={style.sidebar_close_div}>
         <FaCaretLeft
-        // added by - suman sahu on 16/06/2023
-          style={{height:"6vh"}}
-        // end of addition by - suman sahu on 16/06/2023
+          // added by - suman sahu on 16/06/2023
+          style={{ height: "6vh" }}
+          // end of addition by - suman sahu on 16/06/2023
           onClick={closeSidebar}
           className={
             sidebar == true

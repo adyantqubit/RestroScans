@@ -12,7 +12,12 @@
 .container {
   width: 100%;
   background-color: #e7f1f1;
-  margin-bottom: 50px;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* margin-bottom: 50px; */
+  overflow: scroll;
+  height: 86.5vh;
+  /* end of code by - suman sahu on 17/06/2023 */
 }
 
 .titleContainer{
@@ -215,6 +220,15 @@
     width: 200px;
   }
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+  @media screen and (max-width: 768px) {
+  .Container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
 
 @media screen and (max-width: 720px) {
   .container {

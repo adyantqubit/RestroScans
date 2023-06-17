@@ -24,7 +24,10 @@ Reason:- Create css for Footer.jsx */
   align-items: center;
   justify-content: center;
   margin: auto;
+
+  /* commented by - Suman sahu on 14/06/2023 */
   /* height: 4.5vh; */
+  /* end of commentation by - Suman sahu on 14/06/2023 */
 }
 .footer_icons_section a {
   height: 4.5vh;
@@ -94,8 +97,24 @@ Reason:- Create css for Footer.jsx */
   .footer_icons_section a {
     height: auto;
   }
+
+  /* added by - Suman sahu on - 14/06/2023 */
+  .facebook,
+  .google,
+  .twitter,
+  .instagram,
+  .youtube {
+    width: 21px;
+    height: 21px;
+    margin: 0 0.5rem;
+  }
+  .footer_left_text,
+  .footer_right_text {
+    font-size: 0.8rem;
+  }
+  /* and of addition by - Suman sahu on - 14/06/2023 */
 }
-/* Added by - Suman sahu On 16/06/2023 */
+/* Added by - Suman sahu On 14/06/2023 */
 @media (max-width: 702px) {
   .footer_container {
     height: 11vh;
@@ -114,7 +133,7 @@ Reason:- Create css for Footer.jsx */
     font-size: 0.8rem;
   }
 }
-/* end of addition by - Suman sahu - 16/06/2023 */
+/* end of addition by - Suman sahu - 14/06/2023 */
 @media (max-width: 500px) {
   .footer_container {
     /* Modication and addition by Om Shrivastava on 03-06-23
@@ -260,7 +279,7 @@ Reason:- Create css for Footer.jsx */
   }
 }
 
-@media only screen and (max-width: 768px) and (max-height: 750px) and (min-height: 500px) and (orientation: landscape) {
+@media only screen and (max-width: 768px) and (max-height: 700px) and (min-height: 500px) and (orientation: landscape) {
   .footer_container {
     height: 5vh;
   }

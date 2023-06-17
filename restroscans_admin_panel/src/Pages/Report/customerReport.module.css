@@ -29,3 +29,12 @@
     flex-wrap: wrap;
     gap:10px;
 }
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+    .customerContainer {
+        height: 80vh;
+    }
+}
+/* end of code by - suman sahu on 17/06/2023 */
