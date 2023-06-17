@@ -354,7 +354,9 @@ const Billing = () => {
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.breakLine} style={{width:"98%",margin:'7px auto'}}/>:null}
                                 {/* Modification by Om Shrivastava on 10-06-23 Reason : When cgst or sgst show than this total is enable */}
-                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null} 
+
+                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                                {billingData?.detail.cgst>0 || billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null} 
                                 {/* End of addition by Om Shrivastava on 06-06-23 */}
                                 
                                 {/* Modified by Om on 08-06-23 */}

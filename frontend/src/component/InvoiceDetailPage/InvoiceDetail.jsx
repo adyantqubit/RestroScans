@@ -447,7 +447,8 @@ export default function InvoiceDetail() {
                       </>
                     ) : (
                       <>
-                        {orders?.cgst > 0 || orders?.sgst > 0 ? (
+                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                        {orders?.cgst > 0 || orders?.sgst > 0 || orders.loyality_point_price>0? (
                           // Modification and addition by Om Shrivastava on 14-06-23
                           // Reason : Save the loayality point price in order details page
                           <>
@@ -474,6 +475,8 @@ export default function InvoiceDetail() {
                                   {orders.loyality_point_price.toFixed(2)}
                                 </div>
                               </div>
+                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                              {orders?.cgst > 0 || orders?.sgst > 0  ?
                               <div className="order-calculation-line">
                                 <div className="order-calculation-label">
                                   <div style={{ width: "98%" }}>Total</div>
@@ -484,6 +487,7 @@ export default function InvoiceDetail() {
                                   {orders.total.toFixed(2)}
                                 </div>
                               </div>
+                              :null}
                             </>):null}
                           </>
                         ) : null}
