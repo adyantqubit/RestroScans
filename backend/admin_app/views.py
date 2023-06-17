@@ -83,7 +83,7 @@ class RestaurantLoginView(APIView):
                 # Modification and addition by Om Shrivastava on 12-06-23
                 # Reason : Need to correct validation message
                 # 'invalid': 'Invailid email or password'
-                'invalid': 'Invalid Email or Invalid Password'
+                'invalid': 'Invalid Email or Password'
                 # End of addition and modification by Om Shrivatava on 12-06-23
             }
             return response
@@ -97,7 +97,7 @@ class RestaurantLoginView(APIView):
                 # Modification and addition by Om Shrivastava on 12-06-23
                 # Reason : Need to correct validation message
                 # 'invalid': 'Invailid email or password'
-                'invalid': 'Invalid Email or Invalid Password'
+                'invalid': 'Invalid Email or Password'
                 # End of addition and modification by Om Shrivatava on 12-06-23
             }
             return response
