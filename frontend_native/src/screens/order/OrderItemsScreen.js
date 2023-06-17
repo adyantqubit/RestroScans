@@ -2442,7 +2442,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 // Modified by :- Parineeta Gedam on 17-06-2023
                 // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
                 // onPress={handleUpdate}
-                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate}
+                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate()}
                 // End of modified code by :- Parineeta Gedam on 17-06-2023  reason :-  when admin select the order status = "cancelled" then show the confirmation message.
                 // disabled={isDisable}
                 style={{
