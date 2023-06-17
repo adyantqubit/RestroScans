@@ -100,7 +100,16 @@ const Menu = () => {
       paginationDetails: paginationDetails,
       columnToSort: columnToSort,
       columnSortingOrder: columnSortingOrder,
-      searchText: searchText,
+      /**
+       * Commented and modified by - Ashish Dewangan on 17-06-2023
+       * Reason - To trim search text before sending it to backend
+       */
+      // searchText: searchText,
+      searchText: searchText.trim(),
+      /**
+       * End of code modification and modified by - Ashish Dewangan on 17-06-2023
+       * Reason - To trim search text before sending it to backend
+       */
     };
     const response = await getMenuList(tenant, filteringCriteria);
     setMenuList(response.menuList);
@@ -192,9 +201,19 @@ const Menu = () => {
                 }}
               >
                 <Search
-                  placeholder="input search text"
+                /**
+                 * Commented and modified by - Ashish Dewangan on 17-06-2023
+                 * Reason - To change placeholder of search box
+                 */
+                  // placeholder="input search text"
+                  placeholder="Search menu name"
+                   /**
+                 * End of code modification by - Ashish Dewangan on 17-06-2023
+                 * Reason - To change placeholder of search box
+                 */
                   allowClear
                   enterButton
+                  
                   // onChange={(e)=>{e.target.value.length>=3 && setSearchText(e.target.value);}}
                   /**
                    * Commented and modified by - Ashish Dewangan on 14-06-2023
@@ -240,7 +259,9 @@ const Menu = () => {
               <div className={style.tableHeadingContainer}>
                 <div className={style.commonColumnTitle}>Icon </div>
 
-                <div
+                {/* Commented and modified by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+                {/* <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -257,7 +278,7 @@ const Menu = () => {
                     }
                   }}
                 >
-                  Name{" "}
+                  Name{" "} 
                   {columnToSort == "name" &&
                     columnSortingOrder == "ascending" && (
                       <BsSortAlphaDown className={style.sortingIcon} />
@@ -272,9 +293,61 @@ const Menu = () => {
                       className={style.sortingIcon}
                     />
                   )}
-                </div>
+                  </div>
+                  */}
 
-                <div
+                 <div
+                  className={style.commonColumnTitle}>
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortMenuList("name");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "name") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "name") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>Name{" "}</span>
+                  <span   onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortMenuList("name");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "name") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "name") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                  {columnToSort == "name" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "name" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "name" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </span>
+                </div>
+                 {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+
+                {/* Commented and modified by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+                {/* <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -304,12 +377,58 @@ const Menu = () => {
                     <MdCancel color="grey" className={style.sortingIcon} />
                   )}
                 </div>
-                {/* Added by - Ashish Dewangan on 14-06-2023
-                    Reason - To add view button */}
                 <div className={style.commonColumnTitle}> Action </div>
-                {/* End of code addition by - Ashish Dewangan on 14-06-2023
-                    Reason - T add view button */}
+              </div> */}
+                <div
+                  className={style.commonColumnTitle}
+                >
+                  <span onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortMenuList("is_active");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "is_active") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "is_active") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>Is Available{" "}</span>
+                  <span onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortMenuList("is_active");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "is_active") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "is_active") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                  {columnToSort == "is_active" &&
+                    columnSortingOrder == "ascending" && (
+                      <MdCancel className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "is_active" &&
+                    columnSortingOrder == "descending" && (
+                      <MdCheckCircle className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "is_active" && showSortingIcon && (
+                    <MdCancel color="grey" className={style.sortingIcon} />
+                  )}
+                  </span>
+                </div>
+
+                <div className={style.commonColumnTitle}> Action </div>
+                
               </div>
+              {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
 
               <div
                 className={style.tableDataContainer}
@@ -392,6 +511,7 @@ const Menu = () => {
               total={backendMenuCount}
               defaultPageSize={listPerPage}
               onChange={handlePageChange}
+              simple 
             />
           ) : null}
         </div>

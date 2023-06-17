@@ -21,12 +21,31 @@ function MenuForm() {
   const [selectedImageName, setSelectedImageName] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const [validationErrors, setValidationErrors] = useState({
-    name: "",
-    icon: "",
-    is_active: "",
-  });
+  /**
+   * Commented by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+  // const [validationErrors, setValidationErrors] = useState({
+  //   name: "",
+  //   icon: "",
+  //   is_active: "",
+  // });
+   /**
+   * End of comment by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
 
+  /**
+   * Added by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+  const [nameError,setNameError]=useState("")
+  const [iconError,setIconError]=useState("")
+  /**
+   * End of code addition by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+   
   /**
    * Added by - Ashish Dewangan on 15-06-2023
    * Reason - method that will execute when page loads and then call api
@@ -82,7 +101,21 @@ function MenuForm() {
    * Added by - Ashish Dewangan on 16-06-2023
    * Reason - method to validate inputs when user is entering some data
    */
-  const validateOnInput = (inputName, value) => {};
+  const validateOnInput = (inputName, value) => {
+    /**
+     * Added by - Ashish Dewangan on 17-06-2023
+     * Reason - added validation for name
+     */
+    if(inputName=="name"){
+      if(value!= null || value!=undefined || value.trim()!=""){
+        setNameError("")
+      }
+    }
+     /**
+     * End of code addition by - Ashish Dewangan on 17-06-2023
+     * Reason - added validation for name
+     */
+  };
   /**
    * End of code addition by - Ashish Dewangan on 16-06-2023
    * Reason -  method to validate input when user is entering some data
@@ -93,26 +126,45 @@ function MenuForm() {
    * Reason - method to validate image when user is entering some data
    */
   const validateOnFileInput = (inputName, value) => {
+  /**
+   * Commented and modified by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+    // if (inputName == "icon") {
+    //   if (value != null && value != undefined) {
+    //     if (value.size / 1024 > 200) {
+    //       const error = {
+    //         icon: "File size must be below 200 KB",
+    //       };
+    //       setValidationErrors({ ...validationErrors, ...error });
+    //     } else {
+    //       const error = {
+    //         icon: "",
+    //       };
+    //       setValidationErrors({ ...validationErrors, ...error });
+    //     }
+    //   } else {
+    //     const error = {
+    //       icon: "",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   }
+    // }
     if (inputName == "icon") {
       if (value != null && value != undefined) {
         if (value.size / 1024 > 200) {
-          const error = {
-            icon: "File size must be below 200 KB",
-          };
-          setValidationErrors({ ...validationErrors, ...error });
+          setIconError("File size must be below 200 KB")
         } else {
-          const error = {
-            icon: "",
-          };
-          setValidationErrors({ ...validationErrors, ...error });
+         setIconError("")
         }
       } else {
-        const error = {
-          icon: "",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
+        setIconError("")
       }
     }
+  /**
+   * Commented and modified by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
   };
   /**
    * End of code addition by - Ashish Dewangan on 16-06-2023
@@ -126,23 +178,59 @@ function MenuForm() {
   const saveMenu = async () => {
     var allowDataPost = false;
 
+    /**
+   * Commented and modified by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+    // if (name == null || name == undefined || name.trim() == "") {
+    //   allowDataPost = false;
+    // } else {
+    //   if (menuId == null || menuId == undefined) {
+    //     if (selectedImage == null || selectedImage == undefined) {
+    //       allowDataPost = false;
+    //     } else {
+    //       allowDataPost = true;
+    //     }
+    //   } else {
+    //     allowDataPost = true;
+    //   }
+    // }
+
+    // if (validationErrors.icon != "" || validationErrors.name != "") {
+    //   allowDataPost = false;
+    // }
+  
+
     if (name == null || name == undefined || name.trim() == "") {
-      allowDataPost = false;
+      setNameError("Please enter menu name")
     } else {
-      if (menuId == null || menuId == undefined) {
-        if (selectedImage == null || selectedImage == undefined) {
-          allowDataPost = false;
-        } else {
-          allowDataPost = true;
-        }
+      setNameError("")
+    }
+
+    if (menuId == null || menuId == undefined) {
+      if (selectedImage == null || selectedImage == undefined) {
+        setIconError("Please select image")
       } else {
+        setIconError("")
+      }
+    } else {
+      setIconError("")
+    }
+    
+    if(name == null || name == undefined || name.trim() == "" ||
+     ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined) )){
+      allowDataPost=false
+    }else{
+      if (nameError != "" || iconError != "") {
+        allowDataPost = false;
+      }else{
         allowDataPost = true;
       }
     }
-
-    if (validationErrors.icon != "" || validationErrors.name != "") {
-      allowDataPost = false;
-    }
+      /**
+   * Commented and modified by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
 
     if (allowDataPost) {
       
@@ -150,7 +238,7 @@ function MenuForm() {
       if (menuId) {
         updatedMenuData.append("id", menuId);
       }
-      updatedMenuData.append("name", name);
+      updatedMenuData.append("name", name.trim());
       if (selectedImage != null || selectedImage != undefined) {
         updatedMenuData.append("icon", selectedImage);
       }
@@ -164,9 +252,19 @@ function MenuForm() {
       } else {
         Message("Something went wrong", "error");
       }
-    } else {
-      Message("Please provide values for all mendatory fields", "info");
-    }
+    } 
+     /**
+   * Commented by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+    // else {
+    //   Message("Please provide values for all mandatory fields", "info");
+    // }
+     /**
+   * End of code comment  by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+
 
     /**
      * End of code addition by - Ashish Dewangan on 16-06-2023
@@ -183,15 +281,35 @@ function MenuForm() {
     setIcon(menuData.icon ? menuData.icon : "");
     setIsActive(menuData.is_active ? menuData.is_active : true);
     setSelectedImageName(null);
+    /**
+     * Added by - Ashish Dewangan on 17-06-2023
+     * Reason - To clear selected icon
+     */
+    setSelectedImage(null);
+    /**
+     * End of code addition by - Ashish Dewangan on 17-06-2023
+     * Reason - To clear selected icon
+     */
     document.getElementById("icon").value = "";
 
-    const error = {
-      name: "",
-      icon: "",
-      is_active: "",
-    };
-    setValidationErrors({ ...validationErrors, ...error });
+    /**
+   * Commented and modified by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
+    // const error = {
+    //   name: "",
+    //   icon: "",
+    //   is_active: "",
+    // };
+    // setValidationErrors({ ...validationErrors, ...error });
+
+   setIconError("")
+   setNameError("")
   };
+  /**
+   * End of code modification by - Ashish dewangan on 17-06-2023
+   * Reason - To handle validation differently
+   */
   /**
    * End of code addition by - Ashish Dewangan on 15-06-2023
    * Reason - To reset menu form
@@ -225,7 +343,12 @@ function MenuForm() {
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.name}
+                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                {/* {validationErrors.name} */}
+                  {nameError}
+                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
                 </div>
               </div>
 
@@ -247,7 +370,12 @@ function MenuForm() {
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.is_active}
+                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                  {/* {validationErrors.is_active} */}
+                  {""}
+                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
                 </div>
               </div>
 
@@ -291,13 +419,20 @@ function MenuForm() {
                         setSelectedImage(e.target.files[0]);
                         validateOnFileInput("icon", e.target.files[0]);
                       }
-                      // else{setSelectedImageName(null)}
+                      else{
+                        setSelectedImageName(null);
+                        setSelectedImage(null)}
                     }}
                   />
                 </div>
 
                 <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.icon}
+                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                  {/* {validationErrors.icon} */}
+                  {iconError}
+                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
                 </div>
               </div>
             </div>

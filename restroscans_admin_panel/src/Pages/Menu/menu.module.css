@@ -286,6 +286,7 @@
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+}
 
 /* added by suman sahu on 17/06/2023 
    reason - adjust page according to sidebar, header and footer in the responsive*/

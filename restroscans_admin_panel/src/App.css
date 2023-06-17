@@ -22,6 +22,21 @@
 
 }
 
+/* 
+  Added by - Ashish Dewangan on 17-06-2023
+  Reason - To change color of antd search box button
+*/
+.ant-input-search >.ant-input-group >.ant-input-group-addon:last-child .ant-input-search-button{
+  background-color: #1677ff;
+}
+.ant-input-search >.ant-input-group >.ant-input-group-addon:last-child .ant-input-search-button:hover{
+  background-color: #1f51ff;
+}
+/* 
+  End of code addition by - Ashish Dewangan on 17-06-2023
+  Reason - To change color of antd search box button
+*/
+
 body {
   width: 100vw;
   height: 100vw;

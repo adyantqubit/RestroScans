@@ -329,8 +329,8 @@
        Reason - To make width responsive */
   	/* --common-column-width: 80px;
     --common-column-min-width: 80px; */
-    --common-column-width: 25vw;
-    --common-column-min-width: 25vw;
+    --common-column-width: 30vw;
+    --common-column-min-width: 30vw;
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
     --common-column-display: unset;
@@ -350,8 +350,8 @@
        Reason - To make width responsive */
   	/* --common-column-width: 100px;
     --common-column-min-width: 100px; */
-    --common-column-width: 25vw;
-    --common-column-min-width: 25vw;
+    --common-column-width: 30vw;
+    --common-column-min-width: 30vw;
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
     --common-column-display: unset;

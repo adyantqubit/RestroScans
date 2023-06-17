@@ -110,7 +110,16 @@ const CustomerDetail = () => {
        * Added by - Ashish Dewangan on 14-06-2023
        * Reason - To send search data on backend
        */
-      searchText:searchText,
+      /**
+       * Commented and modified by - Ashish Dewangan on 17-06-2023
+       * Reason - To trim search text before sending it to backend
+       */
+      // searchText: searchText,
+      searchText: searchText.trim(),
+      /**
+       * End of code modification and modified by - Ashish Dewangan on 17-06-2023
+       * Reason - To trim search text before sending it to backend
+       */
       /**
        * End of code addition by - Ashish Dewangan on 14-06-2023
        * Reason - To send search data on backend
@@ -187,7 +196,16 @@ const CustomerDetail = () => {
                 }}
               >
                 <Search
-                  placeholder="input search text"
+                /**
+                 * Commented and modified by - Ashish Dewangan on 17-06-2023
+                 * Reason - To change placeholder of search box
+                 */
+                  // placeholder="input search text"
+                  placeholder="Search by - Contact number, Loyality point, Customer name"
+                   /**
+                 * End of code modification by - Ashish Dewangan on 17-06-2023
+                 * Reason - To change placeholder of search box
+                 */
                   allowClear
                   enterButton
                   // onChange={(e)=>{e.target.value.length>=3 && setSearchText(e.target.value);}}
@@ -210,7 +228,10 @@ const CustomerDetail = () => {
               Reason - To have search functionality */}
 
               <div className={style.tableHeadingContainer}>
-                <div
+
+               {/* Commented and modified by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+                {/* <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -242,8 +263,61 @@ const CustomerDetail = () => {
                       className={style.sortingIcon}
                     />
                   )}
-                </div>
+                </div> */}
                 <div
+                  className={style.commonColumnTitle}
+                 
+                >
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("contact_number");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "contact_number") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "contact_number") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>Contact Number{" "}</span>
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("contact_number");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "contact_number") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "contact_number") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                  {columnToSort == "contact_number" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "contact_number" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "contact_number" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </span>
+                </div>
+               {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+                
+                 {/* Commented and modified by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+                {/* <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -275,8 +349,61 @@ const CustomerDetail = () => {
                       className={style.sortingIcon}
                     />
                   )}
+                </div> */}
+                  <div
+                  className={style.commonColumnTitle}
+                 
+                >
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("loyality_points");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "loyality_points") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "loyality_points") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>Loyality Points{" "}</span>
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("loyality_points");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "loyality_points") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "loyality_points") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                  {columnToSort == "loyality_points" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "loyality_points" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "loyality_points" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </span>
                 </div>
-                <div
+                 {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}    
+
+                 {/* Commented and modified by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+                {/* <div
                   className={style.commonColumnTitle}
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -308,7 +435,58 @@ const CustomerDetail = () => {
                       className={style.sortingIcon}
                     />
                   )}
+                </div> */}
+                <div
+                  className={style.commonColumnTitle}
+                 
+                >
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("last_customer_name");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "last_customer_name") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "last_customer_name") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>Name{" "}</span>
+                  <span  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerList("last_customer_name");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "last_customer_name") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "last_customer_name") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                  {columnToSort == "last_customer_name" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "last_customer_name" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "last_customer_name" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </span>
                 </div>
+                 {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                Reason - To sort only when we click on label */}
+
                 {/* Commented by - Ashish Dewangan on 07-06-2023
                 Reason - Displaying email is not required */}
                 {/* <div
@@ -417,6 +595,7 @@ const CustomerDetail = () => {
               total={backendCustomersCount}
               defaultPageSize={listPerPage}
               onChange={handlePageChange}
+              simple
             />
           ) : null}
         </div>
