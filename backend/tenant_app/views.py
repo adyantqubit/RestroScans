@@ -1168,7 +1168,7 @@ class AppThemeAPI(APIView):
             else:
                 data["themeOptions"]=[] 
 
-            return Response({"msg":"success","setting":data["setting"],"themeOptions":data["themeOptions"]})
+            return Response({"msg":"Updated successfully","setting":data["setting"],"themeOptions":data["themeOptions"]})
             # End of code addition by - Ashish Dewangan on 05-06-2023
             # Reason - To send latest response
 
