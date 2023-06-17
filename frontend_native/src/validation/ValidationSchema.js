@@ -375,7 +375,9 @@ export const updateReservationSchema = yup.object().shape({
   email: yup.string().trim().email("Please enter valid email!").required("Email address is required!"),
   contact_number: yup.string().min(10, ({ min }) => `Contact number must be ${min} digits!`).max(10, ({ max }) => `Contact number must be ${max} digits!`).required("Contact Number is required!"),
   number_of_person: yup.string().required("Please enter number of person"),
-  special_instructions:yup.string().required("Please enter special instructions"),
+  /* Commented by :- Parineeta Gedam on 16-06-2023 reason :- remove the mandatory */
+  // special_instructions:yup.string().required("Please enter special instructions"),
+  /* End of commented code by :- by :- Parineeta Gedam on 16-06-2023 reason :- remove the mandatory */
   table_number : yup.string().required("Please enter table number"),
   date : yup.string().required("Please enter date"),
   time : yup.string().required("Please enter time"),

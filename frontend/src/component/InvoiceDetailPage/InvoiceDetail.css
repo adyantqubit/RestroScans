@@ -250,7 +250,9 @@ Reason :- Invoice css */
     justify-content: flex-end;
 }
 .calculationBox {
+    /* Modified by :- Parineeta Gedam on 16-06-2023 reason :- Customer UI - Invoice detail page>> Need to arrange the alignment of subtotal, cgst, sgst, total.  */
   /* width: 70%; */
+  /* End of modified code by :- Parineeta Gedam on 16-06-2023 */
   width: 55%;
   margin-right: 2%;   
   margin-bottom: 2%;

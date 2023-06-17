@@ -1014,7 +1014,7 @@ class Order(models.Model):
             # End of commented code by :- PArineeta Gedam on 07-06-2023
 
             # Added by :- Parineeta Gedam on 07-06-2023
-            # Reason :- change the flow of discount 
+            # Reason :- change the flow of calculations because admin can add discount. 
 
         try :
             orderUpdate = Order.objects.get(order_id=self.order_id)

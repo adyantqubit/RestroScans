@@ -223,8 +223,10 @@ export default function ReaservationForm({ route, navigation }) {
 
                 <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}>
+                    {/* Modified by :- Parineeta Gedam on 16-06-2023 reason :- Remove mandatory from special instruction. */}
                     {/* <Text style={{ color: "red" }}>* </Text>Special Instructions */}
                     <Text style={{ color: "red" }}>  </Text>Special Instructions
+                    {/* End of modified code by :- Parineeta Gedam on 16-06-2023 reason :- Remove mandatory from special instruction.  */}
                   </Text>
                   <TextInput
                     style={styles.instructionsInput}

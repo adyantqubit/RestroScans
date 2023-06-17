@@ -184,12 +184,16 @@ export default function ReservationForm({ isModalOpenn, handleCancell }) {
                                             "Contact number can't be more than 10 digits"
                                         );
                                     }
+                                    // Added by :- Parineeta Gedam on 12-06-2023 
+                                    // Ticket No :- 174
+                                    // Reason :- To validate contact number ( When user enter 9 digits mobile number and enter space then it is consider as 10th digit)
                                     if (value) {
                                         if (/^[0-9]*[.,]?[0-9]*$/.test(value)) {
                                           return Promise.resolve();
                                         }
                                           return Promise.reject(new Error("Contact number has to be in digits"));
                                       }  
+                                    // End of added code by :- Parineeta Gedam on 12-06-2023 
                                     return Promise.resolve();
                                 },
                             }),

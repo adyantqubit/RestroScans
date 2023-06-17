@@ -130,6 +130,7 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Commented by :- PArineeta Gedam on 12-06-2023 reason :- not show the paid option for admin 
     // Added by :- Parineeta Gedam on 30-05-2023 
     // { key: "Paid", value: "Paid" },
+    // End of commented code by :- PArineeta Gedam on 12-06-2023 reason :- not show the paid option for admin 
   ];
   // End of addition
 
@@ -1127,6 +1128,7 @@ export default function OrderItemsScreen({ route, navigation }) {
     // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false) {
     if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false) {
     // End of addition by Om Shrivastava on 08-06-23
+
       var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
       if (response.success) {
         /**
@@ -1392,6 +1394,27 @@ export default function OrderItemsScreen({ route, navigation }) {
   /**
    * End of addition by Parineeta Gedam on 13-05-2023
    */
+
+  // Added by :- Parineeta Gedam on 17-06-2023
+  // reason :- show confirmations message when admin select the cancel 
+
+  function orderCancelPermission() {
+    console.log("asdfdjsafbjbf", )
+    Alert.alert("Confirmation", "Are you sure you want to cancel this order?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          handleUpdate();
+        },
+      },
+    ]);
+  }
+
+  // End of added code by :- Parineeta Gedam on 17-06-2023 reason :- show confirmations message when admin select the cancel
 
   return (
     <>
@@ -2416,7 +2439,11 @@ export default function OrderItemsScreen({ route, navigation }) {
           ) : (
             <View style={styles.btns}>
               <Pressable
-                onPress={handleUpdate}
+                // Modified by :- Parineeta Gedam on 17-06-2023
+                // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
+                // onPress={handleUpdate}
+                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate}
+                // End of modified code by :- Parineeta Gedam on 17-06-2023  reason :-  when admin select the order status = "cancelled" then show the confirmation message.
                 // disabled={isDisable}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,

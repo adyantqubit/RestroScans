@@ -43,11 +43,14 @@ export default function AddOrderItemForm(orderId) {
           var response = await getSettingApi(tenant);
           if (response) {
             setSettings(response.setting);
+            // Added by :- Parineeta Gedam on 11-06-2023
+            // reason :- when admin not select half then show serving size only "Full"
             setAllowHalfPrice(response.setting.allow_half_price);
             if (response.setting.allow_half_price == false) {
                 var rm = servingSizeData.slice(1);
                 setServingSizeData(rm)
             }
+            // End of Added by :- Parineeta Gedam on 11-06-2023 reason :- when admin not select half then show serving size only "Full"
           }
         }
       };

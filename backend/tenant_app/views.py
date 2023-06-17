@@ -1499,6 +1499,11 @@ class UpdateOrderPaymentStatus(APIView):
         orderObj = Order.objects.get(order_id = orderID)
         if request.data["order_status"] == "Confirm" :
             OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Confirm")
+		 # Added by :- Parineeta Gedam on 17-06-2023
+        # Reason :- if order cancel by admin then in cancelled by field save the Admin
+        if request.data["order_status"] == "Cancelled":
+            orderObj.cancelled_by = "Admin"
+        # End of added code by :- Parineeta Gedam on 17-06-2023
         serializedData = OrderSerializer(orderObj,request.data, partial=True)
         if serializedData.is_valid(raise_exception=True):
             serializedData.save()
