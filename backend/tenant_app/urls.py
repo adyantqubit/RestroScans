@@ -309,4 +309,13 @@ urlpatterns = [
     # End of code addition by - Om Shrivastava on 15-06-23
     # Reason : To get list of order.
 
+    # Added by Om Shrivastava on 16-06-23
+    # Reason : get order details
+    path('<str:tenant>/order-details/',OrderDetailAPIView.as_view()),
+    # End of getting social links
+
+    # Added by Om Shrivastava on 16-06-23
+    # Reason : update order details
+    path('<str:tenant>/order-details/<int:id>',OrderDetailAPIView.as_view()),
+    # End of updating social links
 ]   

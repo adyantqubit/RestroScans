@@ -394,3 +394,24 @@ export const postMenuDetails = async (tenant,values) => {
  * End of code addition by - Ashish Dewangan on 16-06-2023.
  * Reason - To save menu details
  */
+
+// Added by Om Shrivastava on 16-06-23
+// Reason - to get all social media
+export const getOrderDetailsApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/order-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const saveOrderDetailsApi = async (value, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/order-details/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Om Shrivastava on 16-06-23

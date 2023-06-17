@@ -2704,3 +2704,40 @@ class OrderAPI(APIView):
     
 # End of code addition by - Om Shrivastava on 15-06-23
 # Reason - API to get list of Order 
+
+"""
+Added by Om Shrivastava on 16-06-23 
+Reason - to get and update the order details in form section in admin js
+"""
+class OrderDetailAPIView(APIView) :
+    def get(self, request, tenant):
+        orderObjs = Order.objects.all()
+        serialized=AllOrderSerializer(orderObjs, many=True)
+
+        # order_status = dict(Order.fields['order_status'].choices)[order_status]
+       
+        return Response({
+            "msg":"success",
+            "orderData":serialized.data,
+            # "dropDown":order_status,
+            })
+    
+    def post(self,request,tenant):
+    # Added by Om Shrivastava on 16-06-23
+    # Reason - to update and also save order details in same api
+        if "id" in request.data :
+            obj = Order.objects.get(id=request.data["id"])
+            serializedData = AllOrderSerializer(obj, data=request.data)
+        else :
+            serializedData = AllOrderSerializer(data=request.data)
+    # End of addition by Om Shrivastava on 16-06-23
+        orderObjs = Order.objects.all()
+        serialized=AllOrderSerializer(orderObjs, many=True)
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg": "Saved Successfully", "orderDetailsObj" : serialized.data}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+"""
+End of addition by Om shrivastava on 16-06-23
+"""

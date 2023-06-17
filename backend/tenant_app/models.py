@@ -719,7 +719,11 @@ class Order(models.Model):
 
     # Added by :- Om shrivastava on 26-05-23 
     # Reason :- for apply the loyality points
-    apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,validators=[MinValueValidator(0)],)
+    # Modification and addition by Om Shrivastava on 17-06-23
+    # Reason : Need to remove the null condition 
+    # apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,validators=[MinValueValidator(0)],)
+    apply_loyality_point = models.IntegerField(default=0,blank=True,validators=[MinValueValidator(0)],)
+    # End of addition and modification by Om Shrivastava on 17-06-23
     # loyality_point_price = models.IntegerField(null=True,blank=True)
     loyality_point_price = models.FloatField(default=0.0,null=True,blank=True)
 
