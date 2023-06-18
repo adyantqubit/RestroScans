@@ -105,12 +105,36 @@ const QRcode = () => {
         // Reason - To print only when the document is loaded
         // a.document.close();
         // a.print();
-        a.document.addEventListener('load', function() {
-          a.focus();
-          a.print();
-          a.document.close();
-          a.close();            
-      }, true);
+        /**
+         * Commented and modified by - Ashish Dewangan on 18-06-2023
+         * Reason - Fix issue that caused print page not showing up on mobile browser
+         */
+      //   a.document.addEventListener('load', function() {
+      //     a.focus();
+      //     a.print();
+      //     a.document.close();
+      //     a.close();            
+      // }, true);
+        if(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i)){
+          a.document.addEventListener('load', function() {
+            a.focus();
+            a.document.close();
+            a.print();
+        }, true);
+      
+        }else{
+          a.document.addEventListener('load', function() {
+            a.focus();
+            a.document.close();
+            a.print();
+            a.close();  
+        }, true);
+        /**
+         * End of code modification by - Ashish Dewangan on 18-06-2023
+         * Reason - Fix issue that caused print page not showing up on mobile browser
+         */
+         
+        }
         // End of code modification by - Ashish Dewangan on 12-06-2023
         // Reason - To print only when the document is loaded
 
