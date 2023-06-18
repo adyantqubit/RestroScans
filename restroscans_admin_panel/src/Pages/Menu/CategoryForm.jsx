@@ -5,7 +5,13 @@
 import { useEffect, useState } from "react";
 import style from "./categoryForm.module.css";
 import Header from "../GlobalComponent/Header";
-import { getMenuDetails, postMenuDetails, getCategoryDetails, postCategoryDetails, getMenusAPI } from "../../Api/services";
+import {
+  getMenuDetails,
+  postMenuDetails,
+  getCategoryDetails,
+  postCategoryDetails,
+  getMenusAPI,
+} from "../../Api/services";
 import { Message } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
@@ -22,8 +28,6 @@ function CategoryForm() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [menuList, setMenuList] = useState([]);
   const [menu, setMenu] = useState(null);
-
-  
 
   const [validationErrors, setValidationErrors] = useState({
     name: "",
@@ -47,7 +51,7 @@ function CategoryForm() {
     if (categoryId) {
       getCategoryData();
     } else {
-        getMenus()
+      getMenus();
     }
   }, [categoryId]);
   /**
@@ -83,7 +87,7 @@ function CategoryForm() {
       setName(response.category.name);
       setIcon(response.category.icon);
       setIsActive(response.category.is_active);
-      setMenu(response.category.menu)
+      setMenu(response.category.menu);
       setMenuList(response.menus);
     }
   };
@@ -106,7 +110,37 @@ function CategoryForm() {
    * Added by - Yuvraj Sahu on 17-06-2023
    * Reason - method to validate inputs when user is entering some data
    */
-  const validateOnInput = (inputName, value) => {};
+  const validateOnInput = (inputName, value) => {
+    if (inputName == "name") {
+      if (name != null){
+      const error = {
+        name: "",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
+    }
+    else {
+      const error = {
+        name: "Please enter category name",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
+    }
+    }
+
+    if (inputName == "menu") {
+      if (value){
+      const error = {
+        menu: "",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
+    }
+    else {
+      const error = {
+        menu: "Please enter select menu name",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
+    }
+    }
+  };
   /**
    * End of code addition by - Yuvraj Sahu on 17-06-2023
    * Reason -  method to validate input when user is entering some data
@@ -150,7 +184,34 @@ function CategoryForm() {
   const saveCategory = async () => {
     var allowDataPost = false;
 
-    if (name == null || name == undefined || name.trim() == "" || menu == null) {
+    if (name == null && menu == null) {
+      const error = {
+        name: "Please enter category name",
+        menu: "Please enter select menu name",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
+    } else {
+      if (name == null) {
+        const error = {
+          name: "Please enter category name",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+
+      if (menu == null) {
+        const error = {
+          menu: "Please enter menu name",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+
+    if (
+      name == null ||
+      name == undefined ||
+      name.trim() == "" ||
+      menu == null
+    ) {
       allowDataPost = false;
     } else {
       if (categoryId == null || categoryId == undefined) {
@@ -164,12 +225,15 @@ function CategoryForm() {
       }
     }
 
-    if (validationErrors.icon != "" || validationErrors.name != "" || validationErrors.menu != "") {
+    if (
+      validationErrors.icon != "" ||
+      validationErrors.name != "" ||
+      validationErrors.menu != ""
+    ) {
       allowDataPost = false;
     }
 
     if (allowDataPost) {
-      
       const updatedCategoryData = new FormData();
       if (categoryId) {
         updatedCategoryData.append("id", categoryId);
@@ -190,7 +254,7 @@ function CategoryForm() {
         Message("Something went wrong", "error");
       }
     } else {
-      Message("Please provide values for all mendatory fields", "info");
+      // Message("Please provide values for all mendatory fields", "info");
     }
 
     /**
@@ -208,8 +272,8 @@ function CategoryForm() {
     setIcon(categoryData.icon ? categoryData.icon : "");
     setIsActive(categoryData.is_active ? categoryData.is_active : true);
     setSelectedImageName(null);
-    setSelectedImage(null)
-    setMenu(categoryData.menu_name ? categoryData.menu_name : null)
+    setSelectedImage(null);
+    setMenu(categoryData.menu_name ? categoryData.menu_name : null);
     document.getElementById("icon").value = "";
 
     const error = {
@@ -258,7 +322,7 @@ function CategoryForm() {
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
+                  <div className={`${style.inputLabel}`}>
                     <span className={style.mendatoryField}>* </span>Menu name
                   </div>
                   <select
@@ -266,10 +330,11 @@ function CategoryForm() {
                     name="menu"
                     style={{ width: "200px" }}
                     onChange={(e) => {
-                        setMenu(e.target.value);
-                    //   validateOnInput("app_theme", e.target.value);
+                      setMenu(e.target.value);
+                        validateOnInput("menu", e.target.value);
                     }}
                   >
+                    <option disabled selected value> select menu </option>
                     {menuList.map((data, index) => {
                       return (
                         <option
@@ -278,7 +343,7 @@ function CategoryForm() {
                           selected={data.id == menu}
                           value={data.id}
                         >
-                            {data.name}
+                          {data.name}
                           {/* {data?.background_color_label} ,{" "}
                           {data.heading_color_label} */}
                         </option>
