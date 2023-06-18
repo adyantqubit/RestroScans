@@ -713,7 +713,11 @@ class Order(models.Model):
 
     # Added by :- Parineeta Gedam on 13-05-2023 
     # Reason :- for order cancel
-    cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
+    # Modification and addition by Om Shrivastava on 18-06-23
+    # Reason : Remove the default field 
+    # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
+    cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,null=True,blank=True)
+    # End of addition by Om Shrivastava on 18-06-23
     cancel_reason = models.TextField(null=True,blank=True)
     # End of added code by :- Parineeta Gedam on 13-05-2023
 

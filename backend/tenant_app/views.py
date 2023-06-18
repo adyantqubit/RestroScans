@@ -2739,17 +2739,18 @@ class OrderDetailAPIView(APIView) :
     # Reason - to update and also save order details in same api
         if "id" in request.data :
             obj = Order.objects.get(id=request.data["id"])
-            serializedData = AllOrderSerializer(obj, data=request.data)
+            # Some namme changes by Om Shrivastava on 18-06-23
+            orderDetailSerailizer = AllOrderSerializer(obj, data=request.data,partial=True)
         else :
-            serializedData = AllOrderSerializer(data=request.data)
+            orderDetailSerailizer = AllOrderSerializer(data=request.data)
     # End of addition by Om Shrivastava on 16-06-23
-        orderObjs = Order.objects.all()
-        serialized=AllOrderSerializer(orderObjs, many=True)
-        if serializedData.is_valid():
-            serializedData.save()
-            return Response({"msg": "Saved Successfully", "orderDetailsObj" : serialized.data}, status=status.HTTP_201_CREATED)
-        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
+        # orderObjs = Order.objects.all()
+        # serialized=AllOrderSerializer(orderObjs, many=True)
+        if orderDetailSerailizer.is_valid():
+            orderDetailSerailizer.save()
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": orderDetailSerailizer.errors}, status=status.HTTP_400_BAD_REQUEST)
+   
 """
 End of addition by Om shrivastava on 16-06-23
 """

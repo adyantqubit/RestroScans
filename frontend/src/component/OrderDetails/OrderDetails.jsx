@@ -847,7 +847,7 @@ export default function OrderDetails() {
                             <>
                               <div className="order-calculation-line">
                                 <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Loyality point price</div>
+                                  <div style={{ width: "98%" }}>Loyality price</div>
                                   <div>:</div>{" "}
                                 </div>{" "}
                                 <div className="order-calculation-text">
@@ -952,7 +952,7 @@ export default function OrderDetails() {
                             <>
                               <div className="order-calculation-line">
                                 <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Loyality point price</div>
+                                  <div style={{ width: "98%" }}>Loyality price</div>
                                   <div>:</div>{" "}
                                 </div>{" "}
                                 <div className="order-calculation-text">
