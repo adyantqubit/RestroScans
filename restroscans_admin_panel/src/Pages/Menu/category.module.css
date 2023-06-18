@@ -17,6 +17,7 @@
      reason - adjust page according to sidebar, header and footer in the full screen*/
   /* margin-bottom: 9vh; */
   height: 86.5vh;
+  overflow: scroll;
   /* end of code by - suman sahu on 17/06/2023 */
   
 }
@@ -270,7 +271,7 @@
 /* added by suman sahu on 17/06/2023 
    reason - adjust page according to sidebar, header and footer in the responsive*/
 @media screen and (max-width: 768px) {
-  .Container {
+  .container {
     height: 80vh;
   }
 }
