@@ -154,6 +154,7 @@ export default function SocialMediaList() {
                       state: { id: data.id },
                     });
                   }}
+                  style={{wordBreak: "break-word"}}
                 >
                   {data.social_media_name}
                 </div>

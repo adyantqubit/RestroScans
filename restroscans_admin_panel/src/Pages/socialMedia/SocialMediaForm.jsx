@@ -373,28 +373,41 @@ function SocialMediaForm(props) {
   var [errors, setError] = useState([]);
 
   function validateLogo(text) {
+    /**
+     * Added and modified by Yuvraj Sahu on 18-06-2023
+     * Reason - to add validation when upload big size image
+     */
     /** Added by Yuvraj Sahu on 12-06-2023
     * Reason - to show error message
     */
-    const error = {
-      social_media_icon: "",
-    };
-    setValidationErrors({ ...validationErrors, ...error });
     /**
     * End of addition by Yiuvraj Sahu on 12-06-2023
     */
-    if (imageUrl == "") {
-      errors = errors.filter((e) => Object.keys(e) != "social_media_icon");
-      setError(errors);
+    // if (imageUrl == "") {
+    //   errors = errors.filter((e) => Object.keys(e) != "social_media_icon");
+    //   setError(errors);
+    // }
+    errors = errors.filter(e => Object.keys(e) != "logo")
+    if (text.size > 1024 * 200){
+      // setError([
+      //   ...errors,
+      //   { social_media_icon: "Image should be less than 200KB" },
+      // ]);
+      const error = {
+        social_media_icon: "Image should be less than 200KB",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
     }
-    if (text.size > 1024 * 200)
-      setError([
-        ...errors,
-        { social_media_icon: "Image should be less than 200KB" },
-      ]);
     else {
       setImg(text);
+      const error = {
+        social_media_icon: "",
+      };
+      setValidationErrors({ ...validationErrors, ...error });
     }
+    /**
+     * End of addition by Yuvraj Sahu on 18-06-2023
+     */
   }
 
   // --------------- delete confirm ------------------
@@ -455,7 +468,7 @@ function SocialMediaForm(props) {
             <div className={`${style.sectionInsideForm}`}>
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Social media name</div>
+                  <div className={`${style.inputLabel}`}>&nbsp;&nbsp;Social media name</div>
                   <input
                     className={`${style.textInputBox}`}
                     type="text"
@@ -485,7 +498,7 @@ function SocialMediaForm(props) {
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
-                    Social media link *
+                  <span style={{color: "red"}}>*</span> Social media link
                   </div>
                   <input
                     className={`${style.textInputBox}`}
@@ -511,7 +524,7 @@ function SocialMediaForm(props) {
 
               <div className={style.fullInputContainer}>
                 <label htmlFor="Name" className={`${style.inputLabel}`}>
-                  Social media icon *
+                  <span style={{color: "red"}}>*</span> Social media icon
                 </label>
                 {id != 0 && (
                   <div className={style.defaultImageContainer}>
@@ -556,6 +569,7 @@ function SocialMediaForm(props) {
                 ) : null} */}
                 <div className={`${style.inputImageErrorArea}`}>
                   {validationErrors.social_media_icon}
+                  {/* {errors.social_media_icon} */}
                 </div>
                 {/* End of addition by Yuvraj Sahu on 12-06-2023 */}
               </div>

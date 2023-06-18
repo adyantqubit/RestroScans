@@ -483,7 +483,8 @@
     text-align: center;
     /* Added by Yuvraj Sahu on 16-06-2023
     Reason - to align social media list */
-    word-break: break-all;
+    /* word-break: break-all; */
+    /* word-break: break-all; */
     /* End of addition by Yuvraj Sahu on 16-06-2023 */
 }
 .tableColumn4{
