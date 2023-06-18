@@ -406,7 +406,7 @@ export const getOrderDetailsApi = async (tenant) => {
   return response ? response.data : {};
 };
 
-export const saveOrderDetailsApi = async (value, tenant) => {
+export const saveOrderDetailsApi = async (tenant,value) => {
   const response = await API.post(`/api/v1/${tenant}/order-details/`, value, {
     headers: {
       "Content-Type": "multipart/form-data",

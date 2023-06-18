@@ -104,11 +104,20 @@ const Order = () => {
       paginationDetails: paginationDetails,
       columnToSort: columnToSort,
       columnSortingOrder: columnSortingOrder,
-      searchText: searchText,
+      /**
+       * Commented and modified by - Om Shrivastava on 18-06-23
+       * Reason - To trim search text before sending it to backend
+       */
+      // searchText: searchText,
+      searchText: searchText.trim(),
+      /**
+       * End of code modification and modified by - Om Shrivastava on 18-06-23
+       * Reason - To trim search text before sending it to backend
+       */
     };
     var response = await getOrdersApi(tenant, filteringCriteria);
     setOrders(response.orderList);
-    console.log(orders)
+    // console.log(orders)
 
     /**
      * Added by - Om Shrivastava on 15-06-23
@@ -187,7 +196,7 @@ const Order = () => {
           <div className={style.pageTitle}>Order</div>
         </div>
         
-        <div className={style.orderListSection} style={{ border: '2px solid black' }}>
+        <div className={style.orderListSection} >
           <div className={style.tableContainer}>
             <div className={style.table}>
             <div
