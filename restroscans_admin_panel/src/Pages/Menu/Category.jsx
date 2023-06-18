@@ -204,7 +204,7 @@ const Category = () => {
                 }}
               >
                 <Search
-                  placeholder="input search text"
+                  placeholder="Search by name and menu name"
                   allowClear
                   enterButton
                   onSearch={(value) => {
