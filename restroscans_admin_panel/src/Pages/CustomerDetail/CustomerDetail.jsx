@@ -281,7 +281,8 @@ const CustomerDetail = () => {
                     if (columnToSort != "contact_number") {
                       setShowSortingIcon(false);
                     }
-                  }}>Contact Number{" "}</span>
+                  }} 
+                  style={{wordBreak:"break-word"}}>Contact Number{" "}</span>
                   <span  onClick={(e) => {
                     setShowSortingIcon(false);
                     sortCustomerList("contact_number");
@@ -367,7 +368,8 @@ const CustomerDetail = () => {
                     if (columnToSort != "loyality_points") {
                       setShowSortingIcon(false);
                     }
-                  }}>Loyality Points{" "}</span>
+                  }}
+                  style={{wordBreak:"break-word"}}>Loyality Points{" "}</span>
                   <span  onClick={(e) => {
                     setShowSortingIcon(false);
                     sortCustomerList("loyality_points");
@@ -453,7 +455,8 @@ const CustomerDetail = () => {
                     if (columnToSort != "last_customer_name") {
                       setShowSortingIcon(false);
                     }
-                  }}>Name{" "}</span>
+                  }}
+                  style={{wordBreak:"break-word"}}>Name{" "}</span>
                   <span  onClick={(e) => {
                     setShowSortingIcon(false);
                     sortCustomerList("last_customer_name");

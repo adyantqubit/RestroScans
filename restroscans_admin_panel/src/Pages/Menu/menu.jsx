@@ -311,7 +311,8 @@ const Menu = () => {
                     if (columnToSort != "name") {
                       setShowSortingIcon(false);
                     }
-                  }}>Name{" "}</span>
+                  }}
+                  style={{wordBreak:"break-word"}}>Name{" "}</span>
                   <span   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortMenuList("name");
@@ -395,7 +396,7 @@ const Menu = () => {
                     if (columnToSort != "is_active") {
                       setShowSortingIcon(false);
                     }
-                  }}>Is Available{" "}</span>
+                  }} style={{wordBreak:"break-word"}}>Is Available{" "}</span>
                   <span onClick={(e) => {
                     setShowSortingIcon(false);
                     sortMenuList("is_active");
@@ -455,7 +456,7 @@ const Menu = () => {
                             src={config.staticBaseURL + menuDetails.icon}
                           />
                         </div>
-                        <div className={style.commonColumnData}>
+                        <div className={style.commonColumnData} style={{wordBreak:"break-word"}}>
                           {menuDetails.name}
                         </div>
 

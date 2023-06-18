@@ -299,7 +299,16 @@ const TodayOrder = () => {
                 var newOrderItemList = []
                 r.filter(e => {
                     updatedStatus.current.value.push(e.item_status);
-                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
+                    /**
+                     * Commented and modified by - Ashish Dewangan on 18-06-2023
+                     * Reason - Fixed issue where when we change item status then some items were not appearing on modal
+                     */
+                    // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
+                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o=>o.id==e.id)]
+                    /**
+                     * End of code modifciation by - Ashish Dewangan on 18-06-2023
+                     * Reason - Fixed issue where when we change item status then some items were not appearing on modal
+                     */
                 })
 
                 setOrderItem(newOrderItemList)

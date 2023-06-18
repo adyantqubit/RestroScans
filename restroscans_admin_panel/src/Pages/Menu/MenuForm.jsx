@@ -324,60 +324,6 @@ function MenuForm() {
         <form className={style.menuSection}>
           <div className={style.formContainer}>
             <div className={`${style.sectionInsideForm}`}>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    <span className={style.mendatoryField}>* </span>Name
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="name"
-                    value={name}
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      setName(e.target.value.toString());
-                      validateOnInput("name", e.target.value.toString());
-                    }}
-                    maxLength={30}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                {/* {validationErrors.name} */}
-                  {nameError}
-                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    <span className={style.optionalField}>* </span>Is Available
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="checkbox"
-                    name="is_available"
-                    style={{ width: "18px", height: "18px" }}
-                    checked={isActive}
-                    onChange={(e) => {
-                      setIsActive(e.target.checked);
-                      validateOnInput("is_available", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                  {/* {validationErrors.is_active} */}
-                  {""}
-                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                </div>
-              </div>
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
@@ -435,6 +381,64 @@ function MenuForm() {
                   Reason - To handle validation differently */}
                 </div>
               </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>
+                    <span className={style.mendatoryField}>* </span>Name
+                  </div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="name"
+                    value={name}
+                    style={{ width: "200px" }}
+                    onChange={(e) => {
+                      setName(e.target.value.toString());
+                      validateOnInput("name", e.target.value.toString());
+                    }}
+                    maxLength={30}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                {/* {validationErrors.name} */}
+                  {nameError}
+                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                </div>
+              </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>
+                    <span className={style.optionalField}>* </span>Is Available
+                  </div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="checkbox"
+                    name="is_available"
+                    style={{ width: "18px", height: "18px" }}
+                    checked={isActive}
+                    onChange={(e) => {
+                      setIsActive(e.target.checked);
+                      validateOnInput("is_available", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                  {/* {validationErrors.is_active} */}
+                  {""}
+                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                </div>
+              </div>
+
+            
+              
             </div>
           </div>
 
