@@ -100,7 +100,42 @@ function CategoryForm() {
    * Added by - Yuvraj Sahu on 17-06-2023
    * Reason -  method to validate inputs when input is focused out
    */
-  const validateOnBlur = (inputName, value) => {};
+  /**
+   * Added by Yuvraj Sahu on 18-06-2023
+   * Reason - to validate input when we go back input 
+   */
+  const validateOnBlur = (inputName, value) => {
+    if (inputName == "name") {
+      if (name != null || value) {
+        const error = {
+          name: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          name: "Please enter category name",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+
+    if (inputName == "menu") {
+      if (value) {
+        const error = {
+          menu: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          menu: "Please enter select menu name",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+  };
+  /**
+   * End of addition by Yuvraj Sahu on 18-06-2023
+   */
   /**
    * End of code addition by - Yuvraj Sahu on 17-06-2023
    * Reason -  method to validate inputs when input is focused out
@@ -112,33 +147,31 @@ function CategoryForm() {
    */
   const validateOnInput = (inputName, value) => {
     if (inputName == "name") {
-      if (name != null){
-      const error = {
-        name: "",
-      };
-      setValidationErrors({ ...validationErrors, ...error });
-    }
-    else {
-      const error = {
-        name: "Please enter category name",
-      };
-      setValidationErrors({ ...validationErrors, ...error });
-    }
+      if (name != null || value) {
+        const error = {
+          name: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          name: "Please enter category name",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
     }
 
     if (inputName == "menu") {
-      if (value){
-      const error = {
-        menu: "",
-      };
-      setValidationErrors({ ...validationErrors, ...error });
-    }
-    else {
-      const error = {
-        menu: "Please enter select menu name",
-      };
-      setValidationErrors({ ...validationErrors, ...error });
-    }
+      if (value) {
+        const error = {
+          menu: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          menu: "Please enter select menu name",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
     }
   };
   /**
@@ -273,7 +306,17 @@ function CategoryForm() {
     setIsActive(categoryData.is_active ? categoryData.is_active : true);
     setSelectedImageName(null);
     setSelectedImage(null);
-    setMenu(categoryData.menu_name ? categoryData.menu_name : null);
+    /**
+     * Modification by Yuvraj Sahu on 18-06-2023
+     * Reason - to set default value of menu
+     */
+    setMenu(categoryData.menu ? categoryData.menu : null);
+    if (!categoryData.menu) {
+      document.getElementById("menuDropdown").selectedIndex = 0;
+    }
+    /**
+     * End of addition by Yuvraj Sahu on 18-06-2023
+     */
     document.getElementById("icon").value = "";
 
     const error = {
@@ -312,6 +355,10 @@ function CategoryForm() {
                       setName(e.target.value.toString());
                       validateOnInput("name", e.target.value.toString());
                     }}
+                    // Added by Yuvraj Sahu on 18-06-2023
+                    // Reason - to validate input go out side
+                    onBlur={(e) => validateOnBlur("name", e.target.value.toString())}
+                    // End of addition by Yuvraj Sahu on 18-06-2023
                     maxLength={30}
                   />
                 </div>
@@ -326,15 +373,22 @@ function CategoryForm() {
                     <span className={style.mendatoryField}>* </span>Menu name
                   </div>
                   <select
+                  // Added by Yuvraj Sahu on 18-06-2023
+                  // Reason - to give id for reset dropdown
+                    id="menuDropdown"
+                  // End of addition by Yuvraj Sahu on 18-06-2023
                     className={`${style.textInputBox}`}
                     name="menu"
                     style={{ width: "200px" }}
                     onChange={(e) => {
                       setMenu(e.target.value);
-                        validateOnInput("menu", e.target.value);
+                      validateOnInput("menu", e.target.value);
                     }}
                   >
-                    <option disabled selected value> select menu </option>
+                    <option disabled selected value>
+                      {" "}
+                      select menu{" "}
+                    </option>
                     {menuList.map((data, index) => {
                       return (
                         <option
@@ -381,7 +435,10 @@ function CategoryForm() {
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
-                    <span className={style.mendatoryField}>* </span>Icon
+                    {/* Modified by Yuvraj Sahu on 18-06-2023
+                    Reason - to remove mandatory */}
+                    <span className={style.mendatoryField}></span>&nbsp;&nbsp; Icon
+                    {/* End of modification by Yuvraj Sahu on 18-06-2023 */}
                   </div>
                   <div className={style.categoryImageContainer}>
                     {selectedImageName ? (
