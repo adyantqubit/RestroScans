@@ -164,6 +164,14 @@ export default function SocialMediaList() {
                   <img
                     src={config.staticBaseURL + data.social_media_icon}
                     className={style.socialIcon}
+                    // Added by Yuvraj Sahu on 17-06-2023
+                    // Reason - to navigate when we click icon
+                    onClick={() => {
+                      navigate(`/update-social-media/${data.id}`, {
+                        state: { id: data.id },
+                      });
+                    }}
+                    // End of addition by Yuvraj Sahu on 17-06-2023
                   />
                 </div>
                 <div className={style.tableColumn5}>

@@ -917,16 +917,15 @@ class Order(models.Model):
                     oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
                     self.apply_loyality_point=oldLoyalityPoint.apply_loyality_point 
 
-                # Commented and Added by Yuvraj Sahu on 12-06-2023
+                # Commented and Added by Yuvraj Sahu on 15-06-2023
                 # Reason - to not calculate when loyality point calculated
                 # if self.payment_status == 'Completed':
                 if self.payment_status == 'Completed' and self.loyality_point_calculated == False:
                     self.loyality_point_calculated = True
-                    # End of Comment and modification by Yuvraj Sahu on 12-06-2023
+                    # End of Comment and modification by Yuvraj Sahu on 15-06-2023
                     oldPoint=Order.objects.get(order_id=self.order_id)
                     self.apply_loyality_point=oldPoint.apply_loyality_point
                     get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
-                    print('loyality_point-------------------------->',get_loyality)
                     user_no= self.customer_id.contact_number
                     CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
         else:   

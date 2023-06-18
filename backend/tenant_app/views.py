@@ -840,10 +840,13 @@ class updateRatingAndReviewAPIView(APIView):
         orderList = request.data['ItemRateReview']
         for order in orderList:
             orderObj = OrderItem.objects.get(id=order['id'])
+            # Added by Yuvraj Sahu on 15-06-2023
+            # Reason - to save rating in order table
             if 'rating' in order:
                 orderObj.rating = order['rating']
             else:
                 pass
+            # End of addition by Yuvraj Sahu on 15-06-2023
 
             if order['review'] == "":
                 orderObj.review = "-"
@@ -2784,7 +2787,10 @@ class CategoryAPI(APIView):
             categoryList = Category.objects.all()
 
         if searchText:
-            categoryList=Category.objects.filter(Q(name__icontains=searchText) )
+            # Modified by Yuvraj Sahu on 17-06-2023
+            # Reason - to search by category name and menu name 
+            categoryList=Category.objects.filter(Q(name__icontains=searchText) | Q(menu__name__icontains=searchText) )
+            # End of addition by Yuvraj Sahu on 18-06-2023
         else:
             categoryList = Category.objects.all()        
 
@@ -2792,6 +2798,14 @@ class CategoryAPI(APIView):
             categoryList = categoryList.order_by('name')
         if columnToSort == "name" and columnSortingOrder=="descending":
             categoryList = categoryList.order_by('-name')
+
+        # Addde by Yuvraj Sahu on 17-06-2023
+        # Reason - to sort data with menu name
+        if columnToSort == "menu" and columnSortingOrder=="ascending":
+            categoryList = Category.objects.all().order_by('menu__name')     
+        if columnToSort == "menu" and columnSortingOrder=="descending":
+            categoryList = Category.objects.all().order_by('-menu__name')     
+        # End of addition by Yuvraj Sahu on 17-06-2023
         
         
         if columnToSort == "is_active" and columnSortingOrder=="ascending":
@@ -2820,3 +2834,47 @@ class CategoryAPI(APIView):
     
 # End of code addition by - Yuvraj Sahu on 16-06-2023
 # Reason - API to get list of category 
+
+
+# Added by - Yuvraj Sahu on 17-06-2023
+# Reason - API to get category by id
+class CategoryDetailsAPI(APIView):
+    logger=logging.getLogger("custom_logger")
+    def get(self,request,tenant,categoryId):
+        self.logger.info(request.data)
+        if categoryId:
+            category=Category.objects.get(id=categoryId)
+        else:
+            category= None
+        if category:
+            categorySerializer=CategoryListSerializer(category)
+            categoryData=categorySerializer.data
+        else:
+            categoryData={}  
+        menus = Menu.objects.all()
+        menuSerializer = MenuListSerializer(menus, many=True)
+        return Response({"msg":"success","category":categoryData, "menus":menuSerializer.data})
+    # Added by - Yuvraj Sahu on 17-06-2023
+    # Reason - To save category details
+    def post(self,request,tenant):
+        if "id" in request.data :
+            obj = Category.objects.get(id=request.data["id"])
+            categorySaveSerializer = CategorySaveSerializer(obj, data=request.data,partial=True)
+        else :
+            categorySaveSerializer = CategorySaveSerializer(data=request.data)
+        if categorySaveSerializer.is_valid():
+            categorySaveSerializer.save()
+            return Response({"msg": "Saved Successfully" }, status=status.HTTP_201_CREATED)
+        return Response({"error": categorySaveSerializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of code addition by - Yuvraj Sahu on 17-06-2023
+    # Reason - To save category details
+
+# Added by Yuvraj Sahu on 17-06-2023
+# Reason - to get all menu from database
+class GetMenusAPI(APIView):
+    def get(self,request,tenant):
+        menuList=Menu.objects.all().order_by('name')
+        var = menuList.filter(is_active = True) 
+        menuListSerializer = MenuListSerializer(var, many =True)
+        return Response({"msg":"success", "menus":menuListSerializer.data})
+# End of addition by Yuvraj Sahu on 17-06-2023

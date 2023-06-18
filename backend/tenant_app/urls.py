@@ -302,7 +302,22 @@ urlpatterns = [
     # Reason : To get list of category.
     path('<str:tenant>/category-list-v2/',CategoryAPI.as_view()),
     # End of code addition by - Yuvraj Sahu on 16-06-2023
-    # Reason : To get list of category. 
+    # Reason : To get list of category.
+
+    # Added by - Yuvraj Sahu on 17-06-2023
+    # Reason - To get category details by id
+    path('<str:tenant>/category-details/<int:categoryId>',CategoryDetailsAPI.as_view()),
+    # End of code addition by Yuvraj sahu. reason - To get category details by id
+
+    # Added by - Yuvraj Sahu on 17-06-2023
+    # Reason - To save category details
+    path('<str:tenant>/category-details/',CategoryDetailsAPI.as_view()),
+    # End of code addition by Yuvraj Sahu. reason - To save category details
+
+    # Added by Yuvraj Sahu on 17-06-23
+    # Reason : get menus details
+    path('<str:tenant>/get-menus/',GetMenusAPI.as_view()),
+    # End of getting menus
 
     # Added by Om Shrivastava on 14-06-23
     # Reason: When user apply rating than show rating and review

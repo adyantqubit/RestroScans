@@ -24,6 +24,8 @@ import { MdCancel, MdCheckCircle } from "react-icons/md";
 
 import { Input, Space } from "antd";
 import config from "../../Api/config";
+import { useNavigate } from "react-router-dom";
+import defaultIcon from "../../../src/images/no-category.jpg"
 
 const Category = () => {
   const [backendCategoryCount, setBackendCategoryCount] = useState(0);
@@ -37,6 +39,17 @@ const Category = () => {
   const [searchText, setSearchText] = useState("");
 
   const { Search } = Input;
+
+  /**
+   * Added by - Yuvraj Sahu on 17-06-2023
+   * Reason - To add navigation feature on this page
+   */
+  const navigate = useNavigate();
+  /**
+   * End of code addition by - Yuvraj Sahu on 17-06-2023
+   * Reason - To add navigation feature on this page
+   */
+
   /**
    * Added by - Yuvraj Sahu on 16-06-2023
    * Reason - method that will execute when page loads. this method will call category list api
@@ -103,7 +116,6 @@ const Category = () => {
     //   searchText: ""
     //   }
     const response = await getCategoryList(tenant, filteringCriteria);
-    console.log(response, "ooooooooooooooooooooooooooo");
     setCategoryList(response.categoryList);
 
     /**
@@ -157,7 +169,15 @@ const Category = () => {
    * Reason - Method that will open edit menu form of selected category
    */
   const openCategoryDetails = (id) => {
-    alert(id);
+    /**
+     * Added by - Yuvraj Sahu on 17-06-2023
+     * Reason - To navigate to category form
+     */
+    navigate("/CategoryForm", { state: { id: id } });
+    /**
+     * End of code addition by - Yuvraj Sahu on 17-06-2023
+     * Reason - To navigate to category form
+     */
   };
   /**
    * Added by - Yuvraj Sahu on 16-06-2023
@@ -195,6 +215,17 @@ const Category = () => {
                     width: "60%",
                   }}
                 />
+                <div
+                  className={`${style.primaryButton}`}
+                  onClick={() => openCategoryDetails()}
+                  style={{
+                    marginLeft: "10px",
+                    minWidth: "100px",
+                    textAlign: "center",
+                  }}
+                >
+                  Add Category
+                </div>
               </div>
               <div className={style.tableHeadingContainer}>
                 <div className={style.commonColumnTitle}>Icon </div>
@@ -235,8 +266,42 @@ const Category = () => {
 
                 <div
                   className={style.commonColumnTitle}
+                  // Added by Yuvraj Sahu on 17-06-2023
+                  // Reason - to sort data menu name
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortMenuList("menu");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "menu") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "menu") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // End of addition by Yuvraj Sahu on 18-06-2023
                 >
                   Menu name
+                  {/* Added by Yuvraj Sahu on 17-06-2023
+                  Reason - to sort data with menu name */}
+                  {columnToSort == "menu" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "menu" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "menu" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  {/* End of addition by Yuvraj Sahu on 17-06-2023 */}
                 </div>
 
                 <div
@@ -293,8 +358,8 @@ const Category = () => {
                       >
                         <div className={style.commonColumnData}>
                           <img
-                            className={style.menuImage}
-                            src={config.staticBaseURL + categoryDetails.icon}
+                            className={style.categoryImage}
+                            src={categoryDetails.icon ? config.staticBaseURL + categoryDetails.icon : defaultIcon}
                           />
                         </div>
                         <div className={style.commonColumnData}>
@@ -320,7 +385,9 @@ const Category = () => {
                         >
                           <div
                             className={` ${style.primaryButton}`}
-                            onClick={() => openCategoryDetails(categoryDetails.id)}
+                            onClick={() =>
+                              openCategoryDetails(categoryDetails.id)
+                            }
                           >
                             View
                           </div>

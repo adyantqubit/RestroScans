@@ -451,3 +451,57 @@ export const getCategoryList = async (tenant,filteringCriteria) => {
  * End of code addition by - Yuvraj Sahu on 16-06-2023.
  * Reason - To get category list of tenant.
  */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 17-06-2023
+ * Reason - To get category data by id.
+ */
+export const getCategoryDetails = async (tenantId,categoryId) => {
+  const response = await API.get(`/api/v1/${tenantId}/category-details/${categoryId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Yuvraj Sahu on 17-06-2023
+ * Reason -  To get category data by id.
+ * */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 17-06-2023
+ * Reason - To get all menu from database.
+ */
+export const getMenusAPI = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/get-menus/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Yuvraj Sahu on 17-06-2023
+ * Reason -  To get menus.
+ * */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 17-06-2023
+ * Reason - To save category details
+ */
+export const postCategoryDetails = async (tenant,values) => {
+  const response = await API.post(`/api/v1/${tenant}/category-details/`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Yuvraj Sahu on 17-06-2023.
+ * Reason - To save category details
+ */

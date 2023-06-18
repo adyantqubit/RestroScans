@@ -37,6 +37,7 @@ import SocialMediaList from './Pages/socialMedia/SocialMediaList';
 import SocialMediaForm from './Pages/socialMedia/SocialMediaForm';
 import OrderForm from './Pages/Order/OrderForm'
 import MenuForm from './Pages/Menu/MenuForm';
+import CategoryForm from './Pages/Menu/CategoryForm';
 
 var Message=0;
 var AutoValidateToken=0
@@ -172,6 +173,11 @@ function App() {
         Reason - Added route for menu form page */}
         {/*  */}
         <Route path="/Category" element={<Category />} />
+        {/* Added by - Yuvraj Sahu on 17-06-2023
+        Reason - Added route for category form page */}
+        <Route path="/CategoryForm" element={<CategoryForm />} />
+        {/* End of code addition by - Yuvraj Sahu on 17-06-2023
+        Reason - Added route for menu form page */}
         <Route path="/Item" element={<Item />} />
         {/* Commented by - Ashish Dewangan on 04-06-2023
         Reason - No need to display setting list because we can have only one setting */}

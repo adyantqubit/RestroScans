@@ -318,7 +318,7 @@ function SocialMediaForm(props) {
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await saveSocialMediaApi(formData, tenant);
       if (response.msg) {
-        Message("Social media saved successfully.", "success");
+        Message("Social link saved successfully.", "success");
       } else {
         Message("Something went wrong", "error");
       }
@@ -399,38 +399,45 @@ function SocialMediaForm(props) {
 
   // --------------- delete confirm ------------------
   /**
+   * Commeted by Yuvraj Sahu on 17-06-2023
+   * Reason - to remove delete functionality
+   */
+  /**
    * Added by Yuvraj Sahu on 10-06-2023
    * Reason - to delete the social media data
    */
-  const confirm = async (e) => {
-    var tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-    var response = await deteleSocialMediaApi(tenant, e);
-    if (response.msg) {
-      /**
-       * Commeted by Yuvraj Sahu on 10-06-2023
-       * Reason - to remove success message
-       */
-      // message.success(response.msg);
-      Message("Social media deleted successfully.", "success");
-      /**
-       * End of addition by Yuvraj Sahu on 10-06-2023
-       */
-      navigate("/social-media");
-      // setAllSocialMedia(response.socialData)
-    } else {
-      Message("Something went wrong", "error");
-    }
-  };
-  const cancel = (e) => {
-    /**
-     * Commeted by Yuvraj Sahu on 10-06-2023
-     * Reason - to remove success message
-     */
-    // message.error("not delete");
-    /**
-     * End of addition by Yuvraj Sahu on 10-06-2023
-     */
-  };
+  // const confirm = async (e) => {
+  //   var tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+  //   var response = await deteleSocialMediaApi(tenant, e);
+  //   if (response.msg) {
+  //     /**
+  //      * Commeted by Yuvraj Sahu on 10-06-2023
+  //      * Reason - to remove success message
+  //      */
+  //     // message.success(response.msg);
+  //     Message("Social media deleted successfully.", "success");
+  //     /**
+  //      * End of addition by Yuvraj Sahu on 10-06-2023
+  //      */
+  //     navigate("/social-media");
+  //     // setAllSocialMedia(response.socialData)
+  //   } else {
+  //     Message("Something went wrong", "error");
+  //   }
+  // };
+  // const cancel = (e) => {
+  //   /**
+  //    * Commeted by Yuvraj Sahu on 10-06-2023
+  //    * Reason - to remove success message
+  //    */
+  //   // message.error("not delete");
+  //   /**
+  //    * End of addition by Yuvraj Sahu on 10-06-2023
+  //    */
+  // };
+  /**
+   * End of addition by Yuvraj Sahu on 17-06-2023
+   */
   /**
    * End of delete social media data by Yuvraj Sahu on 10-06-2023
    */
@@ -591,7 +598,9 @@ function SocialMediaForm(props) {
             </div>
             {/* Added by Yuvraj Sahu on 10-06-2023
             Reason - to delete the social media */}
-            {id != 0 && (
+            {/* Commeted by Yuvraj Sahu on 17-06-2023
+            Reason - to remove delete button */}
+            {/* {id != 0 && (
               <Popconfirm
                 title="Are you sure you want to delete"
                 // description="Are you sure you want to delete"
@@ -600,10 +609,10 @@ function SocialMediaForm(props) {
                 okText="Yes"
                 cancelText="No"
               >
-                {/* <Button danger>Delete</Button> */}
                 <div className={`${style.deleteButton}`}>Delete</div>
               </Popconfirm>
-            )}
+            )} */}
+                {/* End of addition by Yuvraj Sahu on 17-06-2023 */}
             {/* End of addition by Yuvraj Sahu on 10-06-2023 */}
           </div>
         </form>
