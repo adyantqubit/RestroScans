@@ -2540,13 +2540,10 @@ export default function OrderItemsScreen({ route, navigation }) {
             </View>
           ) : (
             <>
-             {/*  */}
-             <View style={styles.btns}>
+             {/* Added by :- Parineeta Gedam on 19-06-2023 reason :- reset the data */}
+             <View style={styles.mainButtonDiv}>
               <Pressable
-                onPress={(e) =>{ setOrderStatus("Placed");getOrderItems()
-                  // alert("abcgd"+JSON.stringify(originalResponseOrderItem))
-                  // // setOrderDetail(originalResponseOrder);
-                  // setOrderItems(originalResponseOrderItem)
+                onPress={(e) =>{getOrderItems()
                 }}
                 style={{
                   backgroundColor: colors.btnColor,
@@ -2568,10 +2565,11 @@ export default function OrderItemsScreen({ route, navigation }) {
                   Reset
                 </Text>
               </Pressable>
-            </View>
+            {/* </View> */}
 
-            {/*  */}
-            <View style={styles.btns}>
+            {/*End of Added code  by :- Parineeta Gedam on 19-06-2023 reason :- reset the data */}
+
+            {/* <View style={styles.btns}> */}
               <Pressable
                 // Modified by :- Parineeta Gedam on 17-06-2023
                 // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
