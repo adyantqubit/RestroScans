@@ -263,11 +263,27 @@ export default function OrderItemsScreen({ route, navigation }) {
    * Commeted and added by Yuvraj Sahu on 09-06-2023
    * Reason - to change the date time format bill, customer detail
    */
-  // function ExtractDateTime(format) {
-  //   var date = format.substring(0, 10)
-  //   var time = format.substring(11, 16)
-  //   return { date, time }
-  // }
+  /**
+   * modified by Yuvraj Sahu on 18-06-2023
+   * Reason - to not display time in bill page
+   */
+  // -------------------------------------- payment completed ------------------
+  /**
+   * Modified by Yuvraj Sahu on 18-06-2023
+   * Reason - to show date on bill
+   */
+  function BillDateTime(format) {
+    var date = format.substring(0, 10)
+    var time = format.substring(11, 19)
+    return { date, time }
+  }
+  /**
+   * End of modification by Yuvraj Sahu on 18-06-2023
+   */
+  /**
+   * End of addition by Yuvraj Sahu on 18-06-2023
+   */
+
   function ExtractDateTime(format) {
     var d = new Date(format);
     var time = d.toLocaleTimeString();
@@ -471,10 +487,10 @@ export default function OrderItemsScreen({ route, navigation }) {
               <div class="centerLabel">${restaurantAddress} </div>
             </div>
             <div class="inLineContainer">
-              <div class="centerLabel">GSTIN :- ${settings.setting.gstin}</div>
+              <div class="centerLabel">GSTIN :- ${settingData.gstin}</div>
             </div>
             <div class="inLineContainer">
-              <div class="centerLabel">FSSAI NO :- ${settings.setting.fssaino
+              <div class="centerLabel">FSSAI NO :- ${settingData.fssaino
       }</div>
             </div>
             <hr>
@@ -492,11 +508,11 @@ export default function OrderItemsScreen({ route, navigation }) {
               <!-- Eddited By Rohan Kansari - 12/5/23
               Reason - To show payment confirmation time in bill --!>
               ${
-                ExtractDateTime(orderDetail.payment_confirmation_date_time).date
+                BillDateTime(orderDetail.payment_confirmation_date_time).date
               }
               </div>
               <div class="label">Time  </div>
-              <div class="text">  ${ExtractDateTime(orderDetail.payment_confirmation_date_time).time
+              <div class="text">  ${BillDateTime(orderDetail.payment_confirmation_date_time).time
       }</div>
               <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>

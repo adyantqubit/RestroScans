@@ -121,6 +121,10 @@
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 20px;
+  /* Added by Yuvraj Sahu on 18-06-2023
+  Reason - to give more space for show pagination */
+  padding-bottom: 50px;
+  /* End of addition by Yuvraj Sahu on 18-06-2023 */
 }
 
 .primaryButton {
@@ -266,6 +270,13 @@
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+
+  /* Added by Yuvraj Sahu on 18-06-2023
+  Reason - to give more space for show pagination */
+  .paginationContainer{
+    padding-bottom: 100px;
+  }
+  /* End of addition by Yuvraj Sahu on 18-06-2023 */
 }
 
 /* added by suman sahu on 17/06/2023 

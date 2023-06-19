@@ -24,22 +24,37 @@ export function AddMenuNavigation({ navigation }) {
    */
 
   /**
-   * Added by Yuvraj Sahu on 11-06-2023
+   * Added by Yuvraj Sahu on 18-06-2023
    * Reason - to clear the navigation when
    * come back to same drawer screen
    */
   useEffect(() => {
-    // if (isFocused == false) {
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [{ name: "AddMenu" }],
-    //   })
-    // );
-    // }
+    if (isFocused == true) {
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 0,
+      //     routes: [{ name: "AddMenu" }],
+      //   })
+      // );
+      navigation.navigate("AddMenu");
+    }
+
+    // const unsubscribe = navigation.addListener('blur', () => {
+    //   // Prevent default behavior
+    //   // e.preventDefault();
+
+    //   // Do something manually
+    //   // ...
+    //   navigation.navigate("AddMenu")
+    // });
+    // return unsubscribe;
   }, [isFocused]);
+  
   /**
    * End of clearing navigation by Yuvraj Sahu on 11-06-2023
+   */
+  /**
+   * End of modification by Yuvraj Sahu on 18-06-2023
    */
 
   return (

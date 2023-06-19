@@ -106,7 +106,14 @@ const Category = () => {
       paginationDetails: paginationDetails,
       columnToSort: columnToSort,
       columnSortingOrder: columnSortingOrder,
-      searchText: searchText,
+      /**
+       * Modified by Yuvraj Sahu on 18-06-2023
+       * Reason - to trim searching text
+       */
+      searchText: searchText.trim(),
+      /**
+       * End of addition by Yuvraj Sahu on 18-06-2023
+       */
     };
     // const filteringCriteria ={
     //   columnSortingOrder: "ascending",
@@ -134,7 +141,7 @@ const Category = () => {
    */
 
   /**
-   * Added by - Ashish Dewangan on 12-06-2023
+   * Added by - Yuvraj Sahu on 16-06-2023
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const handlePageChange = async (pageNumber) => {
@@ -362,7 +369,10 @@ const Category = () => {
                             src={categoryDetails.icon ? config.staticBaseURL + categoryDetails.icon : defaultIcon}
                           />
                         </div>
-                        <div className={style.commonColumnData}>
+                        {/* Modified by Yuvraj Sahu on 18-06-2023
+                        Reason - to arrange the word */}
+                        <div className={style.commonColumnData} style={{wordBreak: "break-word"}}>
+                          {/* End of modification by Yuvraj Sahu on 18-06-2023 */}
                           {categoryDetails.name}
                         </div>
 
@@ -408,12 +418,12 @@ const Category = () => {
             <Pagination
               defaultCurrent={1}
               /**
-               * Added by - Ashish Dewangan on 14-06-2023
+               * Added by - Yuvraj Sahu on 16-06-2023
                * Reason - To set current selected page number
                */
               current={currentPage}
               /**
-               * End of code addition by - Ashish Dewagnan on 14-06-2023
+               * End of code addition by - Yuvraj Sahu on 16-06-2023
                * Reason - To set current selected page number
                */
               total={backendCategoryCount}
