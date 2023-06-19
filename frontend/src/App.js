@@ -67,11 +67,11 @@ function App() {
   function requestBrowserPermission(){
     Notification.requestPermission()
     .then(function() {
-      console.log('Notification permission granted.');
+      // console.log('Notification permission granted.');
       getFCMToken()
     })
     .catch(function(err) {
-      console.log('Unable to get permission to notify.', err);
+      // console.log('Unable to get permission to notify.', err);
     });
   }
 
@@ -82,8 +82,8 @@ function App() {
   navigator.serviceWorker.onmessage = (event) => {
     var updatedOrderData = JSON.parse(event.data.data.order)[0];
     var updatedOrderItemsData = JSON.parse(event.data.data.orderItem);
-    console.log('message from sw order', (updatedOrderData.fields));
-    console.log('message from sw order Item', updatedOrderItemsData);
+    // console.log('message from sw order', (updatedOrderData.fields));
+    // console.log('message from sw order Item', updatedOrderItemsData);
     var orderItemsField = []
     updatedOrderItemsData.forEach((data) => {
       orderItemsField.push(data.fields)
@@ -108,7 +108,6 @@ function App() {
     // Added by :- Parineeta Gedam on 25-05-2023
     // Reason :- update using push notification. 
     if (updatedOrderData.fields.order_status == "Confirm") {
-      console.log("Served", updatedOrderData.fields.order_status)
       message.success({
         content: "Order Confirm",
         key: 1,
@@ -123,52 +122,67 @@ function App() {
       });
     }
 
-    if (updatedOrderData.fields.order_status == "Served") {
-      console.log("Served", updatedOrderData.fields.order_status)
-      message.success({
-        content: "Order Served",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
-    }
+    // Commented by :- Parineeta Gedam on 15-06-2023 
+    // reason :- not show this message on UI side
 
-    if (updatedOrderData.fields.order_status == "Cooked") {
-      console.log("Cooked", updatedOrderData.fields.order_status)
-      message.success({
-        content: "Order Cooked",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
-    }
+    // if (updatedOrderData.fields.order_status == "Served") {
+    //   console.log("Served", updatedOrderData.fields.order_status)
+    //   message.success({
+    //     content: "Order Served",
+    //     key: 1,
+    //     icon: <CheckCircleOutlined />,
+    //     style: {
+    //       marginTop: '5vh',
+    //       fontSize: "16px",
+    //       letterSpacing: "1.3px",
+    //       fontFamily: "Times News Roman",
+    //       color: colors.headingColor,
+    //     },
+    //   });
+    // }
+
+    // if (updatedOrderData.fields.order_status == "Cooked") {
+    //   console.log("Cooked", updatedOrderData.fields.order_status)
+    //   message.success({
+    //     content: "Order Cooked",
+    //     key: 1,
+    //     icon: <CheckCircleOutlined />,
+    //     style: {
+    //       marginTop: '5vh',
+    //       fontSize: "16px",
+    //       letterSpacing: "1.3px",
+    //       fontFamily: "Times News Roman",
+    //       color: colors.headingColor,
+    //     },
+    //   });
+    // }
+
+    // End of commented code by :- Parineeta gedam on 15-06-2023 
     
-    if (updatedOrderData.fields.payment_status == "Completed") {
-      message.success({
-        content: "Your payment is completed, please get your bill",
-        key: 1,
-        icon: <CheckCircleOutlined />,
-        style: {
-          marginTop: '5vh',
-          fontSize: "16px",
-          letterSpacing: "1.3px",
-          fontFamily: "Times News Roman",
-          color: colors.headingColor,
-        },
-      });
+    // Modified by :- Parineeta Gedam on 15-06-2023 
+    // reason :- only once, show the payment complete message 
+
+    // if(setPayment == false){
+      if (updatedOrderData.fields.payment_status == "Completed") {
+        message.success({
+          content: "Your payment is completed, please get your bill",
+          key: 1,
+          icon: <CheckCircleOutlined />,
+          style: {
+            marginTop: '5vh',
+            fontSize: "16px",
+            letterSpacing: "1.3px",
+            fontFamily: "Times News Roman",
+            color: colors.headingColor,
+          },
+        });
+      // }
+      // setPayment(true);
     }
+    // End of added code by :- Parineeta Gedam on 15-06-2023 reason :- only once, show the payment complete message 
+    
+    // Added by :- Parineeta Gedam on 15-06-2023
+    // reason :- only once, show the order cancel message 
     if (updatedOrderData.fields.order_status == "Cancelled") {
       message.error({
         content: "Order Cancelled",
@@ -186,6 +200,8 @@ function App() {
       secureLocalStorage.removeItem('orderItem');
       window.location = `/menu-item`
     }
+    // End of added code by :- Parineeta Gedam on 15-06-2023 reason :- only once, show the order cancel message 
+
 
     // for (var i = 0; orderItemsField.length > 0; i++) {
     //   console.log("==========", orderItemsField[i].item_status)

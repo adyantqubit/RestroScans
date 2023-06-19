@@ -888,6 +888,13 @@ class Order(models.Model):
             # End of addition by Yuvraj Sahu on 09-06-2023
         #super().save( *args, **kwargs)
 
+        # Added by :- Parineeta Gedam on 10-06-2023
+        # Reaspon :- if order status is cancelled then all item status is also cancel
+        if self.order_status == "Cancelled" :
+           OrderItem.objects.filter(order_id__order_id=self.order_id).update(item_status="Cancelled")
+        # End of Added code by :- Parineeta Gedam on 10-06-2023
+
+
 
         # # Added by Om Shrivastava on 28-05-23
         # # Reason : Need to apply some condition for calculation the loyality point

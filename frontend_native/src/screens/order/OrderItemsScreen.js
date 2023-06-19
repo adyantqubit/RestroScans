@@ -2240,7 +2240,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 rowTextStyle={{ fontSize: 16 }}
                 // Modified by :- Parineeta gedam on 18-06-2023 reasson :- if order status is cancelled then dropdown will be disable
                 // Modified by :- PArineeta gEdam on 08-06-2023
-                disabled={orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? true : false}
+                disabled={orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" || orderDetail.payment_status == "Paid" ? true : false}
                 // End of modified code on 08-06-2023
                 // End of modified code on 18-06-2023 reasson :- if order status is cancelled then dropdown will be disable
 
@@ -2270,7 +2270,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderWidth: 1,
                   borderRadius: 10,
                   // MOdified by :- PArineeta GEdam on 18-06-2023 reason :- disable 
-                  backgroundColor: orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? "#EAE5E3" : "white",
+                  backgroundColor: orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" || orderDetail.payment_status == "Paid" ? "#EAE5E3" : "white",
                   // End  MOdified by :- PArineeta GEdam on 18-06-2023 reason :- disable 
 
                   width: "40%",
@@ -2546,7 +2546,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                 onPress={(e) =>{getOrderItems()
                 }}
                 style={{
-                  backgroundColor: colors.btnColor,
+                // Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then reset button will be disable 
+                // backgroundColor: colors.btnColor,
+                backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
+                // End of Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then update button will be disable 
                   height: 30,
                   alignSelf: "center",
                   alignItems: "center",
@@ -2554,6 +2557,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderRadius: 10,
                   width: "35%",
                 }}
+                // Added by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
+                disabled={orderDetail.order_status == "Cancelled" ? true : false}
+                // End of Added code by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
+
               >
                 <Text
                   style={{
