@@ -161,6 +161,10 @@ class AllOrderSerializer(serializers.ModelSerializer):
     # Reason - to get updated customer name
     last_customer_name = serializers.CharField(source="customer_id.last_customer_name")
     # End of addition by yuvraj Sahu on 04-05-2023
+    # Added by Om Shrivastava on 18-06-23
+    # Reason - to get loyality points of customer
+    customer_loyality_point = serializers.IntegerField(source="customer_id.loyality_points")
+    # End of addition by Om Shrivastava on 18-06-23
     class Meta:
         model = Order
         fields = '__all__'

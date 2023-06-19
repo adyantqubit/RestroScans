@@ -225,7 +225,7 @@ const Order = () => {
                 <div
                   className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
                 >
-                  SNo{" "}
+                  S.No{" "}
                 </div>
 
                 <div
@@ -480,7 +480,7 @@ const Order = () => {
                           className={`${style.commonColumnData} ${style.smallColumnWidth}`}
                         >
 
-                          {index + 1}.
+                          {index+1}
                         </div>
                         <div
                           className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
@@ -558,7 +558,7 @@ const Order = () => {
               defaultCurrent={1}
 
               current={currentPage}
-
+              simple
               total={backendOrderCount}
               defaultPageSize={listPerPage}
               onChange={handlePageChange}
