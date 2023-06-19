@@ -91,12 +91,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   const [settingData, setSettingData] = useState("");
   // End of payment status set
 
-  // Added by :- Parineeta Gedam on 05-06-2023
-  // Reason - to get and map all reason
-  const [allResponseOrderItem, setAllResponseOrderItem] = useState("");
-  const [allResponseOrder, setAllResponseOrder] = useState("");
-
-  // End of payment status set
+  // Added by :- Parineeta Gedam on 18-06-2023
+  // Reason - set origin response
+  const [originalResponseOrderItem, setOriginalResponseOrderItem] = useState([]);
+  const [originalResponseOrder, setOriginalResponseOrder] = useState({});
+  // End of code by :- Parineeta Gedam on 18-06-2023 Reason - set origin response
 
   // Added by Yuvraj Sahu on 14-4-2023
   // Reason - to store order status data
@@ -198,21 +197,22 @@ export default function OrderItemsScreen({ route, navigation }) {
       setSettingData(response.settingData)
       // End of added code by :- Parineeta Gedam on 25-05-2023
 
-      // Added by :- Parineeta Gedam on 
-      // Reason - 
-      setAllResponseOrderItem(response.orderItems)
-      setAllResponseOrder(response.orderDetail)
+      // Added and modified code by :- Parineeta Gedam on 18-06-2023 
+      // Reason - set origin response
+      // setAllResponseOrderItem(response.orderItems)
+      // setAllResponseOrder(response.orderDetail)
+      setOriginalResponseOrderItem(response.orderItems)
+      setOriginalResponseOrder(response.orderDetail)
+      // End of added code by :- Parineeta Gedam on on 18-06-2023 Reason - set origin response
 
-      // End of added code by :- Parineeta Gedam on 
-
-       /**
-       * Added by Parineeta Gedam on 13-05-2023
-       * Reason - to set order cancel reason
+      /**
+      * Added by Parineeta Gedam on 13-05-2023
+      * Reason - to set order cancel reason
+      */
+      setOrderCancelReason(response.orderDetail.cancel_reason);
+      /**
+       * End of addition by Parineeta Gedam on 13-05-2023
        */
-       setOrderCancelReason(response.orderDetail.cancel_reason);
-       /**
-        * End of addition by Parineeta Gedam on 13-05-2023
-        */
 
     }
   };
@@ -824,6 +824,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   var [discountType, setDiscountType] = useState("Discount in (₹)");
   // End of added code on 08-05-2023
 
+  // Added by :- Parineeta Gedam on :- 18-06-2023
+  // reason :- this hooks used for show the cancel reason error msg
+  var [orderCancelReasonErrorMsg, setOrderCancelReasonErrorMsg] = useState(false);
+  // End of added code by :- Parineeta Gedam on :- 18-06-2023
+
   // Commented by :- Parineeta Gedam on 07-06-2023
   // Added by :- Parineeta Gedam on 10-05-2023
   // Reason :- on discount amount box show the error message.
@@ -1126,8 +1131,13 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Added by Om Shrivastava on 08-06-23
     // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
     // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false ) {
-    if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
-    //  End of addition by Om Shrivastava on 08-06-23 
+
+    // Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
+    // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
+    if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && orderCancelReasonErrorMsg == false) {
+      // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
+
+      //  End of addition by Om Shrivastava on 08-06-23 
       printDoc();
     }
     // End of added code by :- Parineeta Gedam on 10-05-2023
@@ -1142,8 +1152,13 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Added by Om Shrivastava on 08-06-23
     // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
     // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false) {
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false) {
-    // End of addition by Om Shrivastava on 08-06-23
+
+    // Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
+    // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false) {
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && orderCancelReasonErrorMsg == false) {
+      // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
+
+      // End of addition by Om Shrivastava on 08-06-23
 
       var response = await updateOrderAndPaymentStatus(tenant, status, orderID);
       if (response.success) {
@@ -1198,7 +1213,7 @@ export default function OrderItemsScreen({ route, navigation }) {
           newSubTotal += allOrderItem[i].price;
         }
       }
-      // Commented by :- PArineeta Gedam on 12-06-2023 reason :- add discount functionality
+      // Commented by :- PArineeta Gedam on 12-06-2023 reason :-
       // orderDetail.sub_total = newSubTotal
       // var cgst = ((orderDetail.sub_total * settingData.cgst) / 100)
       // orderDetail.cgst = cgst
@@ -1207,33 +1222,60 @@ export default function OrderItemsScreen({ route, navigation }) {
       // orderDetail.total = a + orderDetail.sub_total
       // End of commented code by Parineeta Gedam on 12-06-2023
 
+      // commented by :- Parineeta Gedam on 18-06-2023 reason :- for code optimizations
       // Added and modified by :- Parineeta Gedam on 10-06-2023
       // reason :- add discount functionality
       // Ticket no :- 307
-      if (orderDetail.discount_rupees) {
-        orderDetail.sub_total = newSubTotal;
-        var total = newSubTotal - orderDetail.discount_rupees;
-        orderDetail.total = total;
-        orderDetail.cgst = (total * settingData.cgst) / 100;
-        orderDetail.sgst = (total * settingData.sgst) / 100;
+      // if (orderDetail.discount_rupees) {
+      //   orderDetail.sub_total = newSubTotal;
+      //   var total = newSubTotal - orderDetail.discount_rupees;
+      //   orderDetail.total = total;
+      //   orderDetail.cgst = (total * settingData.cgst) / 100;
+      //   orderDetail.sgst = (total * settingData.sgst) / 100;
+      //   var a =
+      //     (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+      //   orderDetail.final_amount = a + newSubTotal;
+      // } else {
+      //   orderDetail.sub_total = newSubTotal;
+      //   orderDetail.cgst = (newSubTotal * settingData.cgst) / 100;
+      //   orderDetail.sgst = (newSubTotal * settingData.sgst) / 100;
+      //   var a =
+      //     (newSubTotal * settingData.cgst) / 100 +
+      //     (newSubTotal * settingData.sgst) / 100;
+      //   orderDetail.final_amount = a + newSubTotal;
+      // }
+      //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
+      // End of commented code by Parineeta Gedam on 18-06-2023 Ticket no :- 307 reason :- for code optimizations
+
+
+      // Added  by :- Parineeta Gedam on 18-06-2023
+      // reason :- add discount functionality and for code optimizations
+      var copyOrder = orderDetail
+      if (copyOrder.discount_rupees) {
+        copyOrder.sub_total = newSubTotal;
+        var total = newSubTotal - copyOrder.discount_rupees;
+        copyOrder.total = total;
+        copyOrder.cgst = (total * settingData.cgst) / 100;
+        copyOrder.sgst = (total * settingData.sgst) / 100;
         var a =
           (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-        orderDetail.final_amount = a + newSubTotal;
+        copyOrder.final_amount = a + newSubTotal;
       } else {
-        orderDetail.sub_total = newSubTotal;
-        orderDetail.cgst = (newSubTotal * settingData.cgst) / 100;
-        orderDetail.sgst = (newSubTotal * settingData.sgst) / 100;
+        copyOrder.sub_total = newSubTotal;
+        copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
+        copyOrder.sgst = (newSubTotal * settingData.sgst) / 100;
         var a =
           (newSubTotal * settingData.cgst) / 100 +
           (newSubTotal * settingData.sgst) / 100;
-        orderDetail.final_amount = a + newSubTotal;
+        copyOrder.final_amount = a + newSubTotal;
       }
-      //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
     }
     else {
       Alert.alert("Quantity can't be less than 1");
     }
     setOrderItems([...allOrderItem])
+    setOrderDetail(copyOrder)
+    // End of added code by :- Parineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
   }
   // End of added code by :- Parineeta Gedam on 25-05-2023
 
@@ -1259,33 +1301,57 @@ export default function OrderItemsScreen({ route, navigation }) {
     // orderDetail.total = a + newSubTotal
     // End of commented code by Parineeta Gedam on 12-06-2023
 
+    // Commented code by :- Parineeta Gedam on 18-06-2023 reason :- add discount functionality
     // Added and modified by :- Parineeta Gedam on 10-06-2023
     // reason :- add discount functionality
     // Ticket no :- 307
-    if (orderDetail.discount_rupees) {
-      orderDetail.sub_total = newSubTotal;
-      var total = newSubTotal - orderDetail.discount_rupees;
-      orderDetail.total = total;
-      orderDetail.cgst = (total * settingData.cgst) / 100;
-      orderDetail.sgst = (total * settingData.sgst) / 100;
-      var a =
-        (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-      orderDetail.final_amount = a + newSubTotal;
-    } else {
-      orderDetail.sub_total = newSubTotal;
-      orderDetail.cgst = (newSubTotal * settingData.cgst) / 100;
-      orderDetail.sgst = (newSubTotal * settingData.sgst) / 100;
-      var a =
-        (newSubTotal * settingData.cgst) / 100 +
-        (newSubTotal * settingData.sgst) / 100;
-      orderDetail.final_amount = a + newSubTotal;
-    }
+    // if (orderDetail.discount_rupees) {
+    //   orderDetail.sub_total = newSubTotal;
+    //   var total = newSubTotal - orderDetail.discount_rupees;
+    //   orderDetail.total = total;
+    //   orderDetail.cgst = (total * settingData.cgst) / 100;
+    //   orderDetail.sgst = (total * settingData.sgst) / 100;
+    //   var a =
+    //     (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+    //   orderDetail.final_amount = a + newSubTotal;
+    // } else {
+    //   orderDetail.sub_total = newSubTotal;
+    //   orderDetail.cgst = (newSubTotal * settingData.cgst) / 100;
+    //   orderDetail.sgst = (newSubTotal * settingData.sgst) / 100;
+    //   var a =
+    //     (newSubTotal * settingData.cgst) / 100 +
+    //     (newSubTotal * settingData.sgst) / 100;
+    //   orderDetail.final_amount = a + newSubTotal;
+    // }
     //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
+    //  End of commented code by Parineeta Gedam on 18-06-2023 Ticket no :- 307
+
+    // Added  by :- Parineeta Gedam on 18-06-2023
+    // reason :- add discount functionality and for code optimizations
+      var copyOrder = orderDetail
+      if (copyOrder.discount_rupees) {
+          copyOrder.sub_total = newSubTotal;
+          var total = newSubTotal - copyOrder.discount_rupees;
+          copyOrder.total = total;
+          copyOrder.cgst = (total * settingData.cgst) / 100;
+          copyOrder.sgst = (total * settingData.sgst) / 100;
+          var a =
+            (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+          copyOrder.final_amount = a + newSubTotal;
+        } else {
+          copyOrder.sub_total = newSubTotal;
+          copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
+          copyOrder.sgst = (newSubTotal * settingData.sgst) / 100;
+          var a =
+            (newSubTotal * settingData.cgst) / 100 +
+            (newSubTotal * settingData.sgst) / 100;
+          copyOrder.final_amount = a + newSubTotal;
+        }
     setOrderItems([...allOrderItem])
+    setOrderDetail(copyOrder)
+  // End of added code by :- PArineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
   }
   // End of added code by :- Parineeta Gedam on 25-05-2023
-
-
 
   // Added by :- Parineeta Gedam on 25-05-2023
   // Reason :- delete the order items
@@ -1331,32 +1397,13 @@ export default function OrderItemsScreen({ route, navigation }) {
   const [itemStatusSelected, setItemStatus] = useState([]);
   // End of payment status set
 
-  function updateItemStatus(index, itemStatus) {
-    // console.log("items", items)
-    // console.log("itemStatus", itemStatus)
-    // const index = orderItems.indexOf(items);
-    // const allOrderItem = orderItems;
-    // var a = allOrderItem[index].item_status = itemStatus;
-    // setOrderItems(allOrderItem)
-
-    // var allOrderItems = allResponseOrderItem
-    // var a = allOrderItems[index].item_status = itemStatus;
-    // setAllResponseOrderItem(allOrderItems)
-    // alert("asdfdf"+ JSON.stringify(orderItems))
-
-        var newStatus = {  id : index, item_status : itemStatus}
-        var statusArray=[]
-    //    alert("data", data)
-      itemStatusSelected.forEach((data)=>{
-        if (data.id!=index){
-          statusArray.push(newStatus)
-        }else{
-
-        }
-      })
-
-       setItemStatus(...itemStatusSelected,statusArray)
-
+  function updateItemStatus(items, itemStatus) {
+    // Modified code by :- Parineeta Gedam on 18-06-2023 reason :- update item status
+    const index = orderItems.indexOf(items);
+    const allOrderItem = orderItems;
+    var a = allOrderItem[index].item_status = itemStatus;
+    setOrderItems([...allOrderItem])
+    // End of modified code by :- Parineeta Gedam on 18-06-2023 reason :- update item status
   }
 
   // End of added code by :- Parineeta Gedam on 03-06-2023
@@ -1366,10 +1413,6 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   const submitUpdateOrderItem = async () => {
 
-    // orderItems.forEach((e) => {
-
-    // })
-
     var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
     const updateOrderItems = {
       orders: orderDetail.order_id,
@@ -1377,9 +1420,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       tenant: tenantName,
       order: orderDetail,
     };
-    // console.log("sub========", updateOrderItems)
     const response = await postUpdateOrderItemsApi(tenantName, updateOrderItems);
-    // console.log("res+++++++++++", response)
     if (response) {
       setOrderItems(response.orderItem)
       setOrderDetail(response.order)
@@ -1406,31 +1447,43 @@ export default function OrderItemsScreen({ route, navigation }) {
   var [orderCancelReason, setOrderCancelReason] = useState("");
   const handleOrderCancelReason = (reason) => {
     setOrderCancelReason(reason);
+    // Added by :- Parineeta GEdam on 18-06-2023 reason :- order cancel reason box validations message should be false
+    setOrderCancelReasonErrorMsg(false)
+    // End of Added by :- Parineeta GEdam on 18-06-2023
   };
   /**
    * End of addition by Parineeta Gedam on 13-05-2023
    */
 
+
+  // MOdified by :- Parineeta Gedam on 18-06-2023
+  // reason :- show validations message when admin not enter any cancel reason 
+
   // Added by :- Parineeta Gedam on 17-06-2023
   // reason :- show confirmations message when admin select the cancel 
 
   function orderCancelPermission() {
-    console.log("asdfdjsafbjbf", )
-    Alert.alert("Confirmation", "Are you sure you want to cancel this order?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          handleUpdate();
+    if (orderCancelReason == "" || orderCancelReason == null) {
+      setOrderCancelReasonErrorMsg(true)
+    }
+    else {
+      Alert.alert("Confirmation", "Are you sure you want to cancel this order?", [
+        {
+          text: "Cancel",
+          style: "cancel",
         },
-      },
-    ]);
+        {
+          text: "OK",
+          onPress: () => {
+            handleUpdate();
+          },
+        },
+      ]);
+    }
   }
 
   // End of added code by :- Parineeta Gedam on 17-06-2023 reason :- show confirmations message when admin select the cancel
+  // End of Modified by :- Parineeta Gedam on 18-06-2023 reason :- show validations message when admin not enter any cancel reason 
 
   return (
     <>
@@ -1644,10 +1697,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                         reason :- for updations change the functionality [increment and decrement the qunatity]
                       */}
                       {
-                          // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
-                        // orderItem.item_status == "Confirm" 
+                        // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
+                        orderItem.item_status == "Confirm" ||
                         orderDetail.payment_status == "Completed" ||
-                        orderItem.item_status == "Cancelled" || orderDetail.order_status == "Cancelled" ?
+                          orderItem.item_status == "Cancelled" || orderDetail.order_status == "Cancelled" ?
                           <View style={styles.qtyParentContainer}>
                             <Text style={styles.qtyDecrementDisable}>-</Text>
                             <Text style={styles.qtyDataContainer}>{orderItem.quantity}</Text>
@@ -1721,8 +1774,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                       <View style={styles.actionContainer}>
                         {
                           // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
-                          // orderItem.item_status == "Confirm" || 
-                          orderItem.item_status == "Cancelled" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled"?
+                          orderItem.item_status == "Confirm" || 
+                          orderItem.item_status == "Cancelled" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ?
                             // {allResponseOrderItem.filter(e => e.id == orderItem.id)[0].item_status == "Confirm" || orderItems.filter(e => e.id == orderItem.id)[0].item_status == "Cancelled" ?
                             <><Text style={styles.actionDataContainer}>{orderItem.item_status}</Text></>
                             : <SelectDropdown
@@ -1757,7 +1810,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                               onSelect={(selectedItemStatus) => {
                                 setItemStatus(selectedItemStatus.value);
                                 selectedItemStatus.value == "Cancelled" ? deleteOrderItemPermission(orderItem) : null
-                                selectedItemStatus.value == "Confirm" ? updateItemStatus(index, selectedItemStatus.value) : null
+                                selectedItemStatus.value == "Confirm" ? updateItemStatus(orderItem, selectedItemStatus.value) : null
 
                               }}
                               buttonTextAfterSelection={(selectedItemStatus, index) => {
@@ -1876,7 +1929,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 {/* <Text style={styles.totalPriceLables}>Discount in (%)</Text> */}
                 <Text>Discount in (%)</Text>
                 {/* End of added code by :- PArineeta Gedam on 12-06-2023 */}
-                
+
               </View>
               <Text>:</Text>
               <View style={{ width: "20%" }}>
@@ -1916,13 +1969,13 @@ export default function OrderItemsScreen({ route, navigation }) {
                   multiline={true}
                   editable={
                     orderDetail.payment_status == "Paid" ||
-                    orderDetail.payment_status == "Completed" ||
-                    (orderDetail.order_status == "Cancelled" &&
-                      discountRupees > 0)
+                      orderDetail.payment_status == "Completed" ||
+                      (orderDetail.order_status == "Cancelled" &&
+                        discountRupees > 0)
                       ? false
                       : discountRupees > 0
-                      ? true
-                      : false
+                        ? true
+                        : false
                   }
                 />
               </View>
@@ -1943,9 +1996,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                   numeric
                   // Added by :- Om shrivastava on 16-06-23 reason :- if payment is completed or paid then admin can not add loyality point  
                   editable={
-                   orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ||
-                   loyalityPoint > 0
-                  ? false : true}
+                    orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ||
+                      loyalityPoint > 0
+                      ? false : true}
                   // End of added code by :- Om shrivastava on 16-06-23
                   keyboardType={'numeric'}
                   value={loyalityPoint}
@@ -2171,18 +2224,26 @@ export default function OrderItemsScreen({ route, navigation }) {
               /> */}
 
               <SelectDropdown
-                defaultValue={
-                  orderStatusData.filter((e) => {
-                    return e.value == orderDetail.order_status;
-                  })[0]
-                }
+
+                // Commented and modified by :- Parineeta Gedam on 18-06-2023 reason :-once when admin select the dropdown value then update the dropdown and highlight that value 
+                // defaultValue={
+                //   orderStatusData.filter((e) => {
+                //     return e.value == orderDetail.order_status;
+                //   })[0]
+                // }
+                defaultValueByIndex={orderDetail.order_status == "Placed" ? 0 : orderDetail.order_status == "Confirm" ? 1 : orderDetail.order_status == "Cooked" ? 2 : orderDetail.order_status == "Served" ? 3 : orderDetail.order_status == "Cancelled" ? 4 : null}
+                // End of Commented and modified by :- Parineeta Gedam on 18-06-2023 reason :-once when admin select the dropdown value then update the dropdown and highlight that value
+                
                 data={orderStatusData}
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
+                // Modified by :- Parineeta gedam on 18-06-2023 reasson :- if order status is cancelled then dropdown will be disable
                 // Modified by :- PArineeta gEdam on 08-06-2023
-                disabled = {orderDetail.payment_status == "Completed" ? true : false }
+                disabled={orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? true : false}
                 // End of modified code on 08-06-2023
+                // End of modified code on 18-06-2023 reasson :- if order status is cancelled then dropdown will be disable
+
 
                 /** Added by Yuvraj Sahu on 07-05-2023
                  * Reson - to give hieght in dropdown
@@ -2208,7 +2269,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
-                  backgroundColor: orderDetail.payment_status == "Completed" ? "#EAE5E3" : "white",
+                  // MOdified by :- PArineeta GEdam on 18-06-2023 reason :- disable 
+                  backgroundColor: orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? "#EAE5E3" : "white",
+                  // End  MOdified by :- PArineeta GEdam on 18-06-2023 reason :- disable 
+
                   width: "40%",
                   alignSelf: "center",
                   // marginBottom: 10,
@@ -2221,8 +2285,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                   // setOrderStatusChange(selectedOrderStatus.value)
                 }}
                 buttonTextAfterSelection={(selectedOrderStatus, index) => {
-                  // return selectedOrderStatus.value;
-                  return orderStatusSelected;
+                  return selectedOrderStatus.value;
+                  // return orderStatusSelected;
                 }}
                 rowTextForSelection={(order, index) => {
                   return order.value;
@@ -2234,33 +2298,38 @@ export default function OrderItemsScreen({ route, navigation }) {
             {/* Added by Parineeta Gedam on 13-05-2023
             Reason - to save and show order cancel reason */}
             {/* ---------------------------------------------------------------------------------------------- */}
-           {orderStatusSelected == "Cancelled" ? 
-           <>
-          <View >
-            <View>
-              <View style={styles.orderStatusContainer}>
-                <Text style={{ fontWeight: "bold" }}>Order cancel reason</Text>
-              </View>
-            </View>
-          </View>
+            {orderStatusSelected == "Cancelled" ?
+              <>
+                <View >
+                  <View>
+                    <View style={styles.orderStatusContainer}>
+                      <Text style={{ fontWeight: "bold" }}>Order cancel reason</Text>
+                    </View>
+                  </View>
+                </View>
 
-          <View style={styles.CancelReasonContainer}>
-            <View style={styles.textAreaContainer} >
-              <TextInput
-                style={styles.textArea}
-                value={orderCancelReason}
-                onChangeText={(txt) => handleOrderCancelReason(txt)}
-                placeholder="Please enter cancel reason"
-                placeholderTextColor="black"
-                multiline={true}
-                editable = {
-                  orderDetail.order_status == "Cancelled" ? false : true
-                }
-              />
-            </View>
-          </View>
-          </>
-          :null }
+                <View style={styles.CancelReasonContainer}>
+                  <View style={styles.textAreaContainer} >
+                    <TextInput
+                      style={styles.textArea}
+                      value={orderCancelReason}
+                      onChangeText={(txt) => handleOrderCancelReason(txt)}
+                      placeholder="Please enter cancel reason"
+                      placeholderTextColor="black"
+                      multiline={true}
+                      editable={
+                        orderDetail.order_status == "Cancelled" ? false : true
+                      }
+                    />
+                  </View>
+                  {/* Added by :- Parineeta Gedam on 18-06-2023 reason :- show validations message */}
+                  {orderCancelReasonErrorMsg &&
+                    <Text style={{ color: "red", fontSize: 10 }}>Please enter order cancel reason</Text>
+                  }
+                  {/* End of Added by :- Parineeta Gedam on 18-06-2023 reason :- show validations message */}
+                </View>
+              </>
+              : null}
             {/* End of addition by Parineeta Gedam on 13-05-2023 */}
 
 
@@ -2305,14 +2374,26 @@ export default function OrderItemsScreen({ route, navigation }) {
               /> */}
 
               <SelectDropdown
-                defaultValue={
-                  paymentStatusData.filter((e) => {
-                    return e.value == orderDetail.payment_status;
-                  })[0]
-                }
+
+                // Commented and modified by :- Parineeta Gedam on 18-06-2023 reason :-once when admin select the dropdown value then update the dropdown and highlight that value 
+
+                // defaultValue={
+                //   paymentStatusData.filter((e) => {
+                //     return e.value == orderDetail.payment_status;
+                //   })[0]
+                // }
+                defaultValueByIndex={orderDetail.payment_status == "Pending" ? 0 : orderDetail.payment_status == "Completed" ? 1 : null}
+                //End of Commented and modified by :- Parineeta Gedam on 18-06-2023 reason :-once when admin select the dropdown value then update the dropdown and highlight that value 
+
+
                 // Added by :- PArineeta Gedam on 12-06-2023 reason :- admin can not select paid option
-                defaultButtonText={orderDetail.payment_status == "Pending" && (orderDetail.payment_mode=="Cash" || orderDetail.payment_mode=="Scanner") ? "Paid" : "Paid"}
+                defaultButtonText={orderDetail.payment_status == "Pending" && (orderDetail.payment_mode == "Cash" || orderDetail.payment_mode == "Scanner") ? "Paid" : "Paid"}
                 // End of added code by :- Parineeta Gedam on 12-06-2023 
+
+                // Added and Modified by :- Parineeta gedam on 18-06-2023 reason :- if order status is cancelled then payment will be disable
+                disabled={orderDetail.order_status == "Cancelled" ? true : false}
+                // End of modified code by :- Parineeta gedam  on 18-06-2023
+
                 data={paymentStatusData}
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
@@ -2342,7 +2423,12 @@ export default function OrderItemsScreen({ route, navigation }) {
                   borderColor: "black",
                   borderWidth: 1,
                   borderRadius: 10,
+
+                  // Commented and modified code by :- PArineeta Gedam on 18-06-2023 reason :- if order status is cancelled then payment will be disable
                   backgroundColor: "white",
+                  backgroundColor: orderDetail.order_status == "Cancelled" ? "#EAE5E3" : "white",
+                  // End of Commented and modified code by :- PArineeta Gedam on 18-06-2023 reason :- if order status is cancelled then payment will be disable
+
                   width: "40%",
                   alignSelf: "center",
                   // marginBottom: 10,
@@ -2354,8 +2440,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                   setPaymentStatus(selectedPaymentStatus.value);
                 }}
                 buttonTextAfterSelection={(selectedPaymentStatus, index) => {
-                  return paymentStatusSelected;
-                  // return selectedPaymentStatus.value
+                  // return paymentStatusSelected;
+                  return selectedPaymentStatus.value
                 }}
                 rowTextForSelection={(order, index) => {
                   return order.value;
@@ -2453,16 +2539,16 @@ export default function OrderItemsScreen({ route, navigation }) {
               </Pressable>
             </View>
           ) : (
-            <View style={styles.btns}>
+            <>
+             {/*  */}
+             <View style={styles.btns}>
               <Pressable
-                // Modified by :- Parineeta Gedam on 17-06-2023
-                // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
-                // onPress={handleUpdate}
-                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate()}
-                // End of modified code by :- Parineeta Gedam on 17-06-2023  reason :-  when admin select the order status = "cancelled" then show the confirmation message.
-                // disabled={isDisable}
+                onPress={(e) =>{ setOrderStatus("Placed");getOrderItems()
+                  // alert("abcgd"+JSON.stringify(originalResponseOrderItem))
+                  // // setOrderDetail(originalResponseOrder);
+                  // setOrderItems(originalResponseOrderItem)
+                }}
                 style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   backgroundColor: colors.btnColor,
                   height: 30,
                   alignSelf: "center",
@@ -2479,10 +2565,49 @@ export default function OrderItemsScreen({ route, navigation }) {
                     fontWeight: "bold",
                   }}
                 >
+                  Reset
+                </Text>
+              </Pressable>
+            </View>
+
+            {/*  */}
+            <View style={styles.btns}>
+              <Pressable
+                // Modified by :- Parineeta Gedam on 17-06-2023
+                // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
+                // onPress={handleUpdate}
+                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate()}
+                // End of modified code by :- Parineeta Gedam on 17-06-2023  reason :-  when admin select the order status = "cancelled" then show the confirmation message.
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+
+                  // Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
+                  // backgroundColor: colors.btnColor,
+                  backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
+                  // End of Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
+
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
+                disabled={orderDetail.order_status == "Cancelled" ? true : false}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
                   Update
                 </Text>
               </Pressable>
             </View>
+            </>
           )}
         </View>
         {/* Added by Om  on 21-04-23
