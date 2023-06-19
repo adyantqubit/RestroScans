@@ -5,23 +5,23 @@ import { Message } from "../../App";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-    getOrderDetailsApi,
-    saveOrderDetailsApi,
-  } from "../../Api/services";
+  getOrderDetailsApi,
+  saveOrderDetailsApi,
+} from "../../Api/services";
 import { useState } from "react";
 
 const OrderForm = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    /**
-     * Added by Om Shrivastava on 16-06-23
-     * Reason - to recieve id for update Order details
-     */
-    const { state } = useLocation();
-    const { id } = state; // Read values passed on state
-    /**
-     * End of addition by Om Shrivastava on 16-06-23
-     */
+  /**
+   * Added by Om Shrivastava on 16-06-23
+   * Reason - to recieve id for update Order details
+   */
+  const { state } = useLocation();
+  const { id } = state; // Read values passed on state
+  /**
+   * End of addition by Om Shrivastava on 16-06-23
+   */
   const [orderDetailsObj, setorderDetailsObj] = useState({});
 
   const [tablenumber, setTablenumber] = useState(null);
@@ -57,25 +57,22 @@ const OrderForm = () => {
     discount_rupees: "",
     discount_percentage: "",
     apply_loyality_point: "",
-    order_status:"",
-    payment_status:"",
-    cancelled_by:"",
+    order_status: "",
+    payment_status: "",
+    cancelled_by: "",
     // cancel_reason:"",
-    discount_reason:""
+    discount_reason: ""
   });
-  const [validationForOrderCancel, setValidationForOrderCancel] = useState({
-    cancel_reason:"",
-
-  })
-// End of addition by Om Shrivastava on 18-06-23
+  const [validationForOrderCancel, setValidationForOrderCancel] = useState("")
+  // End of addition by Om Shrivastava on 18-06-23
 
   useEffect(() => {
     getOrderDetail();
   }, []);
-      /**
-   * Added by - Om Shrivastava on 16-06-23
-   * Reason - created api that will get Order details data
-   */
+  /**
+* Added by - Om Shrivastava on 16-06-23
+* Reason - created api that will get Order details data
+*/
   const getOrderDetail = async () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getOrderDetailsApi(tenant);
@@ -133,7 +130,7 @@ const OrderForm = () => {
     if (inputName == "apply_loyality_point") {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
-          if (value < 0  || customerLoyalitypoint < value) {
+          if (value < 0 || customerLoyalitypoint < value) {
             const error = {
               apply_loyality_point: "Loyality point must be greater than 0 and below the customer loyality point.",
             };
@@ -161,7 +158,7 @@ const OrderForm = () => {
     if (inputName == "discount_rupees") {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
-          if (value < 0  || finalAmount < value) {
+          if (value < 0 || finalAmount < value) {
             const error = {
               discount_rupees: "Discount must be greater than or equal to 0 and below the grand total.",
             };
@@ -215,22 +212,20 @@ const OrderForm = () => {
     }
 
     if (inputName == "cancel_reason") {
-      if (orderStatus=="Cancelled" && value.length < 0  ) {
+      if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
         const error = {
-          cancel_reason: "Please enter cancel reason",
+          cancel_reason: "Please enter cancel reason"
         };
         setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
-        // console.log("if part")
-        
-      } else {
+      }
+      else {
         const error = {
           cancel_reason: "",
         };
         setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
-        // console.log("else part")
       }
     }
-    
+
   };
   /**
    * End of code addition by - Om Shrivastava on 18-06-23
@@ -346,43 +341,53 @@ const OrderForm = () => {
   };
 
   const saveOrder = async () => {
-    
+
     var allowDataPost = false;
 
-    if (validationErrors.apply_loyality_point == ""  ) {
+    if (validationErrors.apply_loyality_point == "") {
       allowDataPost = true;
     }
-    else{
-      // console.log("else part")
-      allowDataPost=false
+    else {
+      allowDataPost = false
     }
 
-    if (validationErrors.discount_rupees == ""  ) {
+    if (validationErrors.discount_rupees == "") {
       allowDataPost = true;
     }
-    else{
-      // console.log("else part")
-      allowDataPost=false
+    else {
+      allowDataPost = false
     }
 
-    if (validationErrors.discount_percentage == ""  ) {
+    if (validationErrors.discount_percentage == "") {
       allowDataPost = true;
     }
-    else{
-      // console.log("else part")
-      allowDataPost=false
+    else {
+      allowDataPost = false
     }
 
-    if (validationForOrderCancel.cancel_reason == "" && orderStatus=="Cancelled" ) {
-        allowDataPost = true;
-      }
-      else{
-        // console.log("yyyyyyyyyyy")
-        allowDataPost=false
-      }
+    // if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
+    //   allowDataPost = true;
+
+    //   const error = {
+    //     cancel_reason: "Please enter cancel reason"
+    //   };
+    //   setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
+
+    //   console.log('if part')
+    // }
+    // else {
+    //   allowDataPost = false
+
+    //   const error = {
+    //     cancel_reason: "",
+    //   };
+    //   setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
+    //   console.log('else')
+    // }
+
 
     if (allowDataPost) {
-      
+
       const updatedOrderData = new FormData();
       if (id != 0) {
         updatedOrderData.append("id", id);
@@ -397,7 +402,6 @@ const OrderForm = () => {
       updatedOrderData.append("discount_reason", discountReason);
 
 
-
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await saveOrderDetailsApi(tenant, updatedOrderData);
       if (response.msg) {
@@ -406,11 +410,13 @@ const OrderForm = () => {
       } else {
         Message("Something went wrong", "error");
       }
-    } 
+    }
     else {
       Message("Please provide values for all mendatory fields", "info");
     }
-    };
+  };
+  console.log(discountReason, '55555')
+
 
   return (
     <Header>
@@ -422,7 +428,7 @@ const OrderForm = () => {
         <form className={style.settingSection}>
           <div className={style.formContainer}>
             <div className={`${style.sectionInsideForm}`}>
-            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>Order Id</div>
                   <input
@@ -494,15 +500,15 @@ const OrderForm = () => {
 
                     onChange={(e) => {
                       setOrderStatus(e.target.value);
-                    //   validateOnInput("app_theme", e.target.value);
+                      //   validateOnInput("app_theme", e.target.value);
                     }}
                   >
-                    <option value="Placed" selected={orderStatus=="Placed" ? true : false}>Placed</option>
-                    <option value="Confirm" selected={orderStatus=="Confirm" ? true : false}>Confirm</option>
-                    <option value="Cooked" selected={orderStatus=="Cooked" ? true : false}>Cooked</option>
-                    <option value="Served" selected={orderStatus=="Served" ? true : false} >Served</option>
-                    <option value="Cancelled" selected={orderStatus=="Cancelled" ? true : false} >Cancelled</option>
-                    
+                    <option value="Placed" selected={orderStatus == "Placed" ? true : false}>Placed</option>
+                    <option value="Confirm" selected={orderStatus == "Confirm" ? true : false}>Confirm</option>
+                    <option value="Cooked" selected={orderStatus == "Cooked" ? true : false}>Cooked</option>
+                    <option value="Served" selected={orderStatus == "Served" ? true : false} >Served</option>
+                    <option value="Cancelled" selected={orderStatus == "Cancelled" ? true : false} >Cancelled</option>
+
                   </select>
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -523,8 +529,8 @@ const OrderForm = () => {
                       // validateOnInput("app_theme", e.target.value);
                     }}
                   >
-                    <option value="Pending" selected={paymentStatus=="Pending" ? true : false}>Pending</option>
-                    <option value="Completed" selected={paymentStatus=="Completed" ? true : false}>Completed</option>
+                    <option value="Pending" selected={paymentStatus == "Pending" ? true : false}>Pending</option>
+                    <option value="Completed" selected={paymentStatus == "Completed" ? true : false}>Completed</option>
 
                   </select>
                 </div>
@@ -539,7 +545,7 @@ const OrderForm = () => {
                     className={`${style.textInputBox}`}
                     type="text"
                     name="payment_mode"
-                    value={paymentMode && paymentMode ? paymentMode :'----'}
+                    value={paymentMode && paymentMode ? paymentMode : '----'}
                     disabled
 
                     // style={{ width: "200px" }}
@@ -573,10 +579,10 @@ const OrderForm = () => {
                       // validateOnInput("app_theme", e.target.value);
                     }}
                   >
-                     <option value="" selected={cancelledBy==null ? true : false}>---</option>
-                     <option value="Customer" selected={cancelledBy=="Customer" ? true : false}>Customer</option>
-                    <option value="Admin" selected={cancelledBy=="Admin" ? true : false}>Admin</option>
-                   
+                    <option value="" selected={cancelledBy == null ? true : false}>---</option>
+                    <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
+                    <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
+
                   </select>
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -593,7 +599,9 @@ const OrderForm = () => {
                     type="text"
                     name="cancel_reason"
                     value={cancelReaon}
-                    style={{ width: "200px",height:"200px",resize:'none' }}
+                    style={{ width: "200px", height: "200px", resize: 'none' }}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || cancelReaon > 0 ? true : false}
+
                     // onFocus={(e)=>{
                     //   if(whatsappNumber.length==13)
                     //     setWhatsappNumber(whatsappNumber.substring(3,13))
@@ -602,9 +610,9 @@ const OrderForm = () => {
                       setCancelReason(e.target.value);
                       // validateOnInput("whatsapp_number", e.target.value);
                     }}
-                    onBlur={(e) => {
-                      validateOnBlur("cancel_reason", e.target.value);
-                    }}
+                    // onBlur={(e) => {
+                    //   validateOnBlur("cancel_reason", e.target.value);
+                    // }}
                     maxLength={255}
                   />
                 </div>
@@ -616,9 +624,9 @@ const OrderForm = () => {
             </div>
 
             <div className={`${style.sectionInsideForm}`}>
-              
 
-              
+
+
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
@@ -631,8 +639,8 @@ const OrderForm = () => {
                     name="discount_rupees"
                     style={{ width: "100px" }}
                     value={discountRupee}
-                    disabled={paymentStatus=="Completed" || orderStatus=="Cancelled" ?true:false}
-                    
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+
                     onChange={(e) => {
                       setDiscountRupee(e.target.value);
                       // validateOnInput(
@@ -661,7 +669,7 @@ const OrderForm = () => {
                     name="discount_percentage"
                     style={{ width: "100px" }}
                     value={discountPercentage}
-                    disabled={paymentStatus=="Completed" || orderStatus=="Cancelled" ?true:false}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
                     onChange={(e) => {
                       setDiscountPercentage(e.target.value);
                       // validateOnInput("cgst", e.target.value);
@@ -672,7 +680,7 @@ const OrderForm = () => {
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
-                {validationErrors.discount_percentage}
+                  {validationErrors.discount_percentage}
                 </div>
               </div>
 
@@ -683,8 +691,9 @@ const OrderForm = () => {
                     className={`${style.textInputBox}`}
                     type="text"
                     name="discount_reason"
-                    style={{ width: "200px",height:"200px",resize:'none' }}
+                    style={{ width: "200px", height: "200px", resize: 'none' }}
                     value={discountReason}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
                     onChange={(e) => {
                       setDiscountReason(e.target.value);
                       // validateOnInput("sgst", e.target.value);
@@ -704,7 +713,7 @@ const OrderForm = () => {
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
-                   Customer loyality point
+                    Customer loyality point
                   </div>
                   <input
                     className={`${style.textInputBox}`}
@@ -720,12 +729,12 @@ const OrderForm = () => {
                       //   e.target.value
                       // );
                     }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur(
-                    //     "amount_for_single_loyality_point",
-                    //     e.target.value
-                    //   );
-                    // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur(
+                  //     "amount_for_single_loyality_point",
+                  //     e.target.value
+                  //   );
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -737,7 +746,7 @@ const OrderForm = () => {
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
-                   Apply loyality point
+                    Apply loyality point
                   </div>
                   <input
                     className={`${style.textInputBox}`}
@@ -748,7 +757,7 @@ const OrderForm = () => {
                     value={applyLoyalityPoint}
                     // onkeydown="if(event.key==='.'){event.preventDefault();}"
                     // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
-                    disabled={paymentStatus=="Completed" || orderStatus=="Cancelled" ?true:false}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
                     onChange={(e) => {
                       setApplyLoyalityPoint(e.target.value);
                       validateOnInput(
@@ -781,19 +790,19 @@ const OrderForm = () => {
                     style={{ width: "100px" }}
                     value={loyalityPointPrice}
                     disabled
-                    // onChange={(e) => {
-                    //   setAmountForSingleLoyalityPoint(e.target.value);
-                    //   validateOnInput(
-                    //     "amount_for_single_loyality_point",
-                    //     e.target.value
-                    //   );
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur(
-                    //     "amount_for_single_loyality_point",
-                    //     e.target.value
-                    //   );
-                    // }}
+                  // onChange={(e) => {
+                  //   setAmountForSingleLoyalityPoint(e.target.value);
+                  //   validateOnInput(
+                  //     "amount_for_single_loyality_point",
+                  //     e.target.value
+                  //   );
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur(
+                  //     "amount_for_single_loyality_point",
+                  //     e.target.value
+                  //   );
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -803,7 +812,7 @@ const OrderForm = () => {
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
-                  Loyality point status
+                    Loyality point status
                   </div>
                   <input
                     className={`${style.textInputBox}`}
@@ -813,19 +822,19 @@ const OrderForm = () => {
                     value={loyalityPointStatus}
                     disabled
 
-                    // onChange={(e) => {
-                    //   setAmountForSingleLoyalityPoint(e.target.value);
-                    //   validateOnInput(
-                    //     "amount_for_single_loyality_point",
-                    //     e.target.value
-                    //   );
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur(
-                    //     "amount_for_single_loyality_point",
-                    //     e.target.value
-                    //   );
-                    // }}
+                  // onChange={(e) => {
+                  //   setAmountForSingleLoyalityPoint(e.target.value);
+                  //   validateOnInput(
+                  //     "amount_for_single_loyality_point",
+                  //     e.target.value
+                  //   );
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur(
+                  //     "amount_for_single_loyality_point",
+                  //     e.target.value
+                  //   );
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -853,7 +862,7 @@ const OrderForm = () => {
               </div> */}
             </div>
 
-            
+
 
             {/* <div className={`${style.sectionInsideForm}`}>
               <div className={`${style.inputContainer}`}>
@@ -878,7 +887,7 @@ const OrderForm = () => {
             </div> */}
 
             <div className={`${style.sectionInsideForm}`}>
-              
+
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
@@ -891,14 +900,14 @@ const OrderForm = () => {
                     value={subTotal}
                     disabled
 
-                    // maxLength={15}
-                    // onChange={(e) => {
-                    //   setGstin(e.target.value);
-                    //   validateOnInput("gstin", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("gstin", e.target.value);
-                    // }}
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -916,14 +925,14 @@ const OrderForm = () => {
                     value={cgst}
                     disabled
 
-                    // maxLength={15}
-                    // onChange={(e) => {
-                    //   setGstin(e.target.value);
-                    //   validateOnInput("gstin", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("gstin", e.target.value);
-                    // }}
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -941,14 +950,14 @@ const OrderForm = () => {
                     value={sgst}
                     disabled
 
-                    // maxLength={15}
-                    // onChange={(e) => {
-                    //   setGstin(e.target.value);
-                    //   validateOnInput("gstin", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("gstin", e.target.value);
-                    // }}
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -966,14 +975,14 @@ const OrderForm = () => {
                     value={total}
                     disabled
 
-                    // maxLength={15}
-                    // onChange={(e) => {
-                    //   setGstin(e.target.value);
-                    //   validateOnInput("gstin", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("gstin", e.target.value);
-                    // }}
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -991,14 +1000,14 @@ const OrderForm = () => {
                     value={finalAmount}
                     disabled
 
-                    // maxLength={15}
-                    // onChange={(e) => {
-                    //   setGstin(e.target.value);
-                    //   validateOnInput("gstin", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("gstin", e.target.value);
-                    // }}
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -1013,17 +1022,17 @@ const OrderForm = () => {
                     type="text"
                     name="rating"
                     style={{ width: "200px" }}
-                    value={rating && rating ? rating :'----'}
+                    value={rating && rating ? rating : '----'}
                     disabled
 
-                    // maxLength={15}
-                    // onChange={(e) => {
-                    //   setGstin(e.target.value);
-                    //   validateOnInput("gstin", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("gstin", e.target.value);
-                    // }}
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
@@ -1039,16 +1048,16 @@ const OrderForm = () => {
                     type="text"
                     name="review"
                     style={{ width: "200px" }}
-                    value={review && review ? review :'----'}
+                    value={review && review ? review : '----'}
                     disabled
-                    // maxLength={14}
-                    // onChange={(e) => {
-                    //   setFssaiNumber(e.target.value);
-                    //   validateOnInput("fssaino", e.target.value);
-                    // }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("fssaino", e.target.value);
-                    // }}
+                  // maxLength={14}
+                  // onChange={(e) => {
+                  //   setFssaiNumber(e.target.value);
+                  //   validateOnInput("fssaino", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("fssaino", e.target.value);
+                  // }}
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
