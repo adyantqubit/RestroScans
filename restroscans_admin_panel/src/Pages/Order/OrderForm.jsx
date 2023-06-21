@@ -211,20 +211,20 @@ const OrderForm = () => {
       }
     }
 
-    if (inputName == "cancel_reason") {
-      if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
-        const error = {
-          cancel_reason: "Please enter cancel reason"
-        };
-        setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
-      }
-      else {
-        const error = {
-          cancel_reason: "",
-        };
-        setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
-      }
-    }
+    // if (inputName == "cancel_reason") {
+    //   if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
+    //     const error = {
+    //       cancel_reason: "Please enter cancel reason"
+    //     };
+    //     setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
+    //   }
+    //   else {
+    //     const error = {
+    //       cancel_reason: "",
+    //     };
+    //     setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
+    //   }
+    // }
 
   };
   /**
@@ -233,26 +233,13 @@ const OrderForm = () => {
    */
 
   const validateOnInput = (inputName, value) => {
-    // if (inputName == "apply_loyality_point") {
-    //   if (value.toString().length > 0) {
-    //     if (isNaN(value)) {
-    //       const error = {
-    //         apply_loyality_point: "apply_loyality_point must be a number",
-    //       };
-    //       setValidationErrors({ ...validationErrors, ...error });
-    //     } else {
-    //       const error = {
-    //         apply_loyality_point: "",
-    //       };
-    //       setValidationErrors({ ...validationErrors, ...error });
-    //     }
-    //   } else {
-    //     const error = {
-    //       apply_loyality_point: "",
-    //     };
-    //     setValidationErrors({ ...validationErrors, ...error });
-    //   }
-    // }
+    if (inputName == "cancel_reason") {
+      if (value.toString().length > 0) {
+        setValidationForOrderCancel("");
+      } else {
+        setValidationForOrderCancel("Cancel reason must be 255 characters long");
+      }
+    }
 
     // if (inputName == "sgst") {
     //   if (value.toString().length > 0) {
@@ -350,37 +337,41 @@ const OrderForm = () => {
     else {
       allowDataPost = false
     }
-
-    if (validationErrors.discount_rupees == "") {
-      allowDataPost = true;
-    }
-    else {
-      allowDataPost = false
-    }
-
-    if (validationErrors.discount_percentage == "") {
-      allowDataPost = true;
-    }
-    else {
-      allowDataPost = false
-    }
-
-    // if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
+// Commented by Om Shrivastava on 21-06-23
+// Reason : Need to change the usestsate of this fields to another usestate
+    // if (validationErrors.discount_rupees == "") {
     //   allowDataPost = true;
-
-    //   const error = {
-    //     cancel_reason: "Please enter cancel reason"
-    //   };
-    //   setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
-
-    //   console.log('if part')
     // }
+    // else {
+    //   allowDataPost = false
+    // }
+
+    // if (validationErrors.discount_percentage == "") {
+    //   allowDataPost = true;
+    // }
+    // else {
+    //   allowDataPost = false
+    // }
+  // End of commented by Om Shrivastava on 21-06-23
+
+    if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
+      allowDataPost = false;
+
+      // const error = {
+      //   cancel_reason: "Please enter cancel reason"
+      // };
+      setValidationForOrderCancel("Please enter cancel reason");
+      // setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
+
+      console.log('if part')
+    }
     // else {
     //   allowDataPost = false
 
     //   const error = {
     //     cancel_reason: "",
     //   };
+    //   // setValidationForOrderCancel("");
     //   setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
     //   console.log('else')
     // }
@@ -412,7 +403,7 @@ const OrderForm = () => {
       }
     }
     else {
-      Message("Please provide values for all mendatory fields", "info");
+      Message("Please provide value for this field", "info");
     }
   };
   console.log(discountReason, '55555')
@@ -600,15 +591,14 @@ const OrderForm = () => {
                     name="cancel_reason"
                     value={cancelReaon}
                     style={{ width: "200px", height: "200px", resize: 'none' }}
-                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || cancelReaon > 0 ? true : false}
-
+                    disabled={paymentStatus == "Completed" || cancelReaon > 0 ? true : false}
                     // onFocus={(e)=>{
                     //   if(whatsappNumber.length==13)
                     //     setWhatsappNumber(whatsappNumber.substring(3,13))
                     // }}
                     onChange={(e) => {
                       setCancelReason(e.target.value);
-                      // validateOnInput("whatsapp_number", e.target.value);
+                      validateOnInput("cancel_reason", e.target.value);
                     }}
                     // onBlur={(e) => {
                     //   validateOnBlur("cancel_reason", e.target.value);
@@ -617,7 +607,7 @@ const OrderForm = () => {
                   />
                 </div>
                 <div className={`${style.inputErrorArea}`}>
-                  {validationForOrderCancel.cancel_reason}
+                  {validationForOrderCancel}
                 </div>
               </div>
 
@@ -760,10 +750,10 @@ const OrderForm = () => {
                     disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
                     onChange={(e) => {
                       setApplyLoyalityPoint(e.target.value);
-                      validateOnInput(
-                        "apply_loyality_point",
-                        e.target.value
-                      );
+                      // validateOnInput(
+                      //   "apply_loyality_point",
+                      //   e.target.value
+                      // );
                     }}
                     onBlur={(e) => {
                       validateOnBlur(

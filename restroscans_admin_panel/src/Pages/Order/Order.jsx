@@ -227,42 +227,8 @@ const Order = () => {
                 >
                   S.No{" "}
                 </div>
-
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                 
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortOrderId("order_id");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "order_id") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "order_id") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                >
-                  Order ID{" "}
-                  {columnToSort == "order_id" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "order_id" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "order_id" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
-                  )}
-                </div>
-
+                {/* Mofication by Om Shrivastava on 21-06-23 
+                because need to change the sequence of table number and order id */}
                 <div
                   className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
 
@@ -297,6 +263,41 @@ const Order = () => {
                     />
                   )}
                 </div>
+                <div
+                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                 
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderId("order_id");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "order_id") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "order_id") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                >
+                  Order ID{" "}
+                  {columnToSort == "order_id" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "order_id" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "order_id" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                </div>
+                {/* End of modifciation by Om Shrivastava on 21-06-23 */}
 
                 <div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
@@ -480,7 +481,25 @@ const Order = () => {
                           className={`${style.commonColumnData} ${style.smallColumnWidth}`}
                         >
 
-                          {index+1}
+                          {/* {currentPage*10} */}
+                          {((index+1)*currentPage)-1}
+                          {/* {for(i =0; i < 10; i++){
+   return <li>{i}</li>
+ }} */}
+                        </div>
+                        {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}
+                        <div className={`${style.commonColumnData} ${style.smallColumnWidth}`}
+                        // Added by Om Shrivastava on 21-06-23
+                        // Reason : Need to navigate when user click the table no
+                        style={{color:'#185ee0',cursor:'pointer'}}
+                          onClick={() => {
+                            navigate(`/update-order/${orderDetail.id}`, {
+                              state: { id: orderDetail.id },
+                             });
+                          }}
+                          // End of addition by Om Shrivastava on 21-06-23
+                        >
+                          {orderDetail.table_number}
                         </div>
                         <div
                           className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
@@ -494,19 +513,7 @@ const Order = () => {
                           {orderDetail.order_id}
                         </div>
 
-                        {/* {orderDetail.is_active == true ? ( */}
-                        <div className={`${style.commonColumnData} ${style.smallColumnWidth}`}
-                        >
-                          {/* <MdCheckCircle className={style.yesIcon} /> */}
-                          {orderDetail.table_number}
-
-                        </div>
-                        {/* ) : ( */}
-                        {/* <div className={style.commonColumnData}>
-                        <MdCancel className={style.noIcon} />
-                        </div> */}
-                        {/* )} */}
-
+                        {/* End of Modification by Om Shrivastava on 21-06-23 */}
 
                         <div
                           className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}

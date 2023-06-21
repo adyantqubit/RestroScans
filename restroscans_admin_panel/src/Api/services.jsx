@@ -351,7 +351,7 @@ export const getOrdersApi = async (tenant,filteringCriteria) => {
       "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
-  console.log(response.data,'++++++++++++++++++++++')
+  // console.log(response.data,'++++++++++++++++++++++')
   return response ? response.data : {};
 };
 /**
