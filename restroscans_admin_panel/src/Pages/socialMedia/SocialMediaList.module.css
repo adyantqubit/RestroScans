@@ -483,6 +483,9 @@
 Reason - to design a modal for delete social media */
 .modalContainerSocial{
     width: 25vw !important;
+    margin-left: 45vw !important;
+    margin-top: 25vh !important;
+    /* position: absolute !important; */
 }
 /* End of design modal by Yuvraj Sahu on 22-06-2023 */
 
@@ -585,6 +588,13 @@ Reason - to design a modal for delete social media */
 @media screen and (max-width:950px){
     .modalContainerSocial{
         width: 60vw !important;
+        margin-left: 30vw !important;
+    }
+}
+
+@media screen and (max-width:765px){
+    .modalContainerSocial{
+        margin-left: auto !important;
     }
 }
 
@@ -593,6 +603,7 @@ Reason - to design a modal for delete social media */
         width: unset !important;
     }
 }
+
 /* End of design modal by Yuvraj Sahu on 22-06-2023 */
 /* ------------------------------------------- End 10-06-2023 ------------------------------- */
 

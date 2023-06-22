@@ -49,9 +49,6 @@ export default function SocialMediaList() {
   /**
    * End of getting social media
    */
-
-  console.log(allSocialMedia);
-
   /**
    * To check and uncheck checkbox for select
    */
