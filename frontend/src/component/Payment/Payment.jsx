@@ -321,10 +321,17 @@ export default function Payment() {
             reason :- changes in ui
         */}
       <div className='payment_btn_container'>
-        <button className='payment_btn_pay' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
-          onClick={(e) => submitPaymentMode()}
-        >
+
+        {/* Added and Modified by :- Parineeta Gedam on 22-06-2023 
+        reason :- After completing the order when we click on "Proceed to pay" button, then again confirmation notification is display on page */}
+        {orders.payment_status == "Completed" ?
+        <button className='payment_btn_pay' style={{ background: "grey", color: colors.backgroundTheme }}>Proceed to pay </button>: 
+        <button className='payment_btn_pay' style={{ background: colors.bannerColor, color: colors.backgroundTheme}}
+          onClick={(e) => submitPaymentMode()}>
           Proceed to pay </button>
+        }
+        {/* End of added and modified code by :- Parineeta Gedam on on 22-06-2023 */}
+
         {orders.payment_status == "Completed" ?
           <button className='payment_btn_get_bill' style={{ background: colors.bannerColor, color: colors.backgroundTheme }}
             onClick={(e) => checkPaymentStatus()}>Get Bill</button>

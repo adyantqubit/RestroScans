@@ -380,6 +380,9 @@ export default function InvoiceDetail() {
                               </div>
                             </>):null}
                         {/* End of addition by Om Shrivastava on 14-06-23 */}
+
+                        {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                        {orders?.cgst > 0 || orders?.sgst > 0 ? (
                         <div className="calculationLine">
                           <div className="calculationLabel">
                             <div style={{ width: "98%" }}>Total</div>
@@ -390,6 +393,9 @@ export default function InvoiceDetail() {
                             {orders.total.toFixed(2)}
                           </div>
                         </div>
+                         ) : null}
+                        {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+
                         {orders?.cgst > 0 ? (
                           <div className="calculationLine">
                             <div className="calculationLabel">
@@ -432,7 +438,7 @@ export default function InvoiceDetail() {
                         <div className="calculationLine">
                           <div className="calculationLabel">
                             <div style={{ width: "98%", fontWeight: 600 }}>
-                              Grant Total
+                              Grand Total
                             </div>
                             <div>:</div>
                           </div>{" "}
@@ -475,7 +481,7 @@ export default function InvoiceDetail() {
                                   {orders.loyality_point_price.toFixed(2)}
                                 </div>
                               </div>
-                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                            {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
                               {orders?.cgst > 0 || orders?.sgst > 0  ?
                               <div className="order-calculation-line">
                                 <div className="order-calculation-label">

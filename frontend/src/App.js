@@ -85,14 +85,36 @@ function App() {
     // console.log('message from sw order', (updatedOrderData.fields));
     // console.log('message from sw order Item', updatedOrderItemsData);
     var orderItemsField = []
+
+    // Commented and Modified by :- Parineeta Gedam on 22-06-2023
+    // Ticket no :- 316
+    // Reason :- Customer UI - Blank page is displayed, when click on update button after served.
+
+    // updatedOrderItemsData.forEach((data) => {
+    //   orderItemsField.push(data.fields)
+    // orderItemsField.push(data.fields)
+    // })
+
     updatedOrderItemsData.forEach((data) => {
-      orderItemsField.push(data.fields)
+      var orderItem = {
+      cancel_reason : data.fields.cancel_reason,
+      date : data.fields.date,
+      item : data.fields.item,
+      item_id : data.fields.item_id,
+      item_status : data.fields.item_status,
+      order_id : data.fields.order_id,
+      price : data.fields.price,
+      quantity : data.fields.quantity,
+      rating : data.fields.rating,
+      review : data.fields.review,
+      serving_size : data.fields.serving_size,
+      id : data.pk
+      }
+      orderItemsField.push(orderItem)
     })
+    // End of commented and modified code by :- Parineeta Gedam on 22-06-2023
     updateOrderOnUI(updatedOrderData, orderItemsField);
   }
-
-
-
 
   /**
    * End of code addition by Ashish Dewangan on 19-05-2023 for receiving push notification
@@ -110,7 +132,9 @@ function App() {
     if (updatedOrderData.fields.order_status == "Confirm") {
       message.success({
         content: "Order Confirm",
+        duration: 3,
         key: 1,
+        maxCount : 1,
         icon: <CheckCircleOutlined />,
         style: {
           marginTop: '5vh',
@@ -161,11 +185,11 @@ function App() {
     
     // Modified by :- Parineeta Gedam on 15-06-2023 
     // reason :- only once, show the payment complete message 
-
-    // if(setPayment == false){
       if (updatedOrderData.fields.payment_status == "Completed") {
         message.success({
           content: "Your payment is completed, please get your bill",
+          duration: 3,
+          maxCount : 1,
           key: 1,
           icon: <CheckCircleOutlined />,
           style: {
@@ -176,8 +200,6 @@ function App() {
             color: colors.headingColor,
           },
         });
-      // }
-      // setPayment(true);
     }
     // End of added code by :- Parineeta Gedam on 15-06-2023 reason :- only once, show the payment complete message 
     
@@ -186,6 +208,8 @@ function App() {
     if (updatedOrderData.fields.order_status == "Cancelled") {
       message.error({
         content: "Order Cancelled",
+        duration: 3,
+        maxCount : 1,
         key: 1,
         icon: <CheckCircleOutlined />,
         style: {

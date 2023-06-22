@@ -743,6 +743,21 @@ class Order(models.Model):
     loyality_point_calculated = models.BooleanField(default=False)
     # End of addition by yuvraj Sahu on 12-06-2023
 
+    # Added by Parineeta Gedam on 22-06-2023
+    # reason - to add new field for check notifications on order update
+    send_notifications_on_order_update = models.BooleanField(default=False)
+    # End of addition by Parineeta Gedam on 22-06-2023
+
+    # Added by Parineeta Gedam on 22-06-2023
+    # reason - to add new field for check notifications on payment update
+    send_notifications_on_payment_update = models.BooleanField(default=False)
+    # End of addition by Parineeta Gedam on 22-06-2023
+
+    # Added by Parineeta Gedam on 22-06-2023
+    # reason - to add new field for check notifications on payment update
+    send_notifications_on_amount_update = models.BooleanField(default=False)
+    # End of addition by Parineeta Gedam on 22-06-2023
+
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100
     def clean(self):
@@ -876,6 +891,29 @@ class Order(models.Model):
     # Added by Yuvraj Sahu on 24-4-2023
     # Reason - to update order item status based on order status
     def save(self, *args, **kwargs ):
+
+        # Added by :- Parineeta Gedam on 22-06-2023
+        # reason :- check conditions for notifications
+
+        self.send_notifications_on_order_update = False
+        self.send_notifications_on_payment_update = False
+
+        try:
+            order = Order.objects.get(order_id = self.order_id)
+            if order.order_status != self.order_status:
+                self.send_notifications_on_order_update = True
+        except Exception as e:
+            pass
+
+        try:
+            order = Order.objects.get(order_id = self.order_id)
+            if order.payment_status != self.payment_status:
+                self.send_notifications_on_payment_update = True
+        except Exception as e:
+            pass
+        
+        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+
         if self.order_status == "Confirm" :
            OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
         # Added by Rohan kansari- 10/5/23
@@ -939,6 +977,7 @@ class Order(models.Model):
                     get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
                     user_no= self.customer_id.contact_number
                     CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
+
         else:   
             pass
         # End of addition by Om shrivastava on 10-06-23
@@ -1106,6 +1145,20 @@ class Order(models.Model):
             print("Exception in save method of order - ",e)
         # End of added code on 06-05-2023
 
+
+        # Added by :- Parineeta Gedam on 22-06-2023
+        # reason :- check conditions for notifications
+
+        self.send_notifications_on_amount_update = False
+        try:
+            order = Order.objects.get(order_id = self.order_id)
+            if order.final_amount != self.final_amount:
+                self.send_notifications_on_amount_update = True
+        except Exception as e:
+            pass
+
+        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+
         super().save( *args, **kwargs)
     # End of addition
 
@@ -1224,6 +1277,11 @@ class OrderItem(models.Model):
     cancel_reason = models.TextField(null=True,blank=True)
     # End of added code by :- Parineeta Gedam on 18-05-2023
 
+    # Added by Parineeta Gedam on 22-06-2023
+    # reason - to add new field for check notifications on order update
+    send_notifications_on_item_update = models.BooleanField(default=False)
+    # End of addition by Parineeta Gedam on 22-06-2023
+
     # Commented and modified by - Ashish Dewangan on 24-04-2023
     # Reason - To show details of each order item properly 
     # def __str__(self):
@@ -1243,6 +1301,20 @@ class OrderItem(models.Model):
     # Added by Suman Sahu on 07-05-2023
     # Reason - to update order status based on item status
     def save(self, *args, **kwargs ):
+
+        # Added by :- Parineeta Gedam on 22-06-2023
+        # reason :- check conditions for notifications
+
+        self.send_notifications_on_item_update = False
+        try:
+            orderItem = OrderItem.objects.get(id = self.id)
+            if orderItem.item_status != self.item_status:
+                self.send_notifications_on_item_update = True
+        except Exception as e:
+            pass
+        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+        
+
         # Added by Yuvraj Sahu on 21-06-2023
         # Reason - to update print kot button
         # if self.item_status == "Confirm":
@@ -1272,6 +1344,19 @@ class OrderItem(models.Model):
                 float(self.item_id.price_full) * float(self.quantity) /100)*float(discounted)
             
         self.price = price
+
+        # Added by :- Parineeta Gedam on 22-06-2023
+        # reason :- check conditions for notifications
+
+        # self.send_notifications_on_item_update = False
+        try:
+            orderItem = OrderItem.objects.get(id = self.id)
+            if orderItem.price != self.price:
+                self.send_notifications_on_item_update = True
+        except Exception as e:
+            pass
+        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+
         # super().save( *args, **kwargs)
 
         # End of added code by :- Parineeta Gedam on 18-05-2023
@@ -1473,7 +1558,7 @@ class Reservation(models.Model):
                 msg['From'] = 'sales@adyant.co.in'
                 msg['To'] = self.email
                 msg['Subject'] = 'Reservation confirmation detail '
-                message = f'Hello {self.name},\n\nWe are please to inform that your booking has been Confirmed.\n\n Your booking details : \n Guest Name : {self.name}\n Number of Guest : {self.number_of_person}\n Table Number : {table_number}\n Date : {self.date.strftime("%d-%m-%y")} \n Time : {self.time} \n\n Regarding : \n {tenant.restaurant_name.restaurant_name}\n {tenant.restaurant_name.mobile_number}\n {tenant.restaurant_name.address}\n\nWe are delighted to serve you,\nHope you will enjoy your visit !!\n\n Thanking you..!!'
+                message = f'Hello {self.name},\n\nWe are pleased to inform that your booking has been Confirmed.\n\n Your booking details : \n Guest Name : {self.name}\n Number of Guest : {self.number_of_person}\n Table Number : {table_number}\n Date : {self.date.strftime("%d-%m-%y")} \n Time : {self.time} \n\n Regarding : \n {tenant.restaurant_name.restaurant_name}\n {tenant.restaurant_name.mobile_number}\n {tenant.restaurant_name.address}\n\nWe are delighted to serve you,\nHope you will enjoy your visit !!\n\n Thanking you..!!'
 
                 msg.attach(MIMEText(message))
 

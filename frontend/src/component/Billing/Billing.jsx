@@ -332,14 +332,23 @@ const Billing = () => {
                             <>
                                 <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{SubtotalOfItems().toFixed(2)}</div></div>
                                 <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Discount</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.discount_rupees.toFixed(2)}</div></div>
-                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
-                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>
+                                
+                                {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- proper alignment of Loyality Price */}
+                                {/* {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null} */}
+                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Loyality Price</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
+                                {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                                
+
+                                {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                                {billingData?.detail.cgst> 0 || billingData?.detail.sgst>0 ? (<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>) : null}
+                                {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+
                                 {/* Modified by :- PArineeta Gedam on 11-06-2023 reason :- when admin added cgst and sgst then show the user */}
                                 {billingData?.detail.cgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>CGST</div><div>({(billingData.detail.cgst / billingData.detail.total * 100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.cgst).toFixed(2)}</div></div>:null}
                                 {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>SGST</div><div>({(billingData.detail.sgst / billingData.detail.total * 100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
                                 {/* End of modified code by :- PArineeta Gedam on 11-06-2023 */}
                                 <div className={style.breakLine} style={{ width: "98%" }} />
-                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Grant Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Grand Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
                             </>
                             :
                             <>
@@ -351,13 +360,18 @@ const Billing = () => {
 
                                 {/* Added by Om Shrivastava on 06-06-23
                                 Reason : When Loyality point added then show the user  */}
-                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
+
+                                {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- proper alignment of Loyality Price */}
+                                {/* {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null} */}
+                                {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Loyality Price</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
+                                {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                                
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.breakLine} style={{width:"98%",margin:'7px auto'}}/>:null}
                                 {/* Modification by Om Shrivastava on 10-06-23 Reason : When cgst or sgst show than this total is enable */}
 
                                 {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
                                 
-                                {billingData?.detail.loyality_point_price>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null} 
+                                {/* {billingData?.detail.loyality_point_price>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>:null}  */}
                                 {/* End of addition by Om Shrivastava on 06-06-23 */}
                                 
                                 {/* Modified by Om on 08-06-23 */}

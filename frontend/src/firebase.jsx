@@ -41,7 +41,7 @@ export const getFCMToken = () => {
       "BFBMZXfht5P5mlZ_MtL4OER7W1iZojCTNYgVAUe83trFjy4yIjLVAuxJ_IIGVlNkks9SNveg78G_GKiQBTOtnmk",
   })
     .then(function (currentToken) {
-      console.log("Got current token-----", currentToken);
+      // console.log("Got current token-----", currentToken);
       if (currentToken) {
         localStorage.setItem('fcmToken',currentToken)
         sendTokenToServer(currentToken);
@@ -53,7 +53,7 @@ export const getFCMToken = () => {
       }
     })
     .catch(function (err) {
-      console.log("An error occurred while retrieving token. ", err);
+      // console.log("An error occurred while retrieving token. ", err);
       setTokenSentToServer(false);
     });
   console.log("End get token");

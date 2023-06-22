@@ -292,6 +292,7 @@ export default function OrderDetails() {
       });
     }
     setOrderItem([...allOrderItem]);
+
   }
   // End of added code by :- Parineeta Gedam on 14-05-2023
 
@@ -857,6 +858,9 @@ export default function OrderDetails() {
                               </div>
                             </>):null}
                         {/* End of addition by Om Shrivastava on 14-06-23 */}
+
+                        {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                        {orders?.cgst > 0 || orders?.sgst > 0 ? (
                         <div className="order-calculation-line">
                           <div className="order-calculation-label">
                             <div style={{ width: "98%", fontWeight: 600 }}>
@@ -872,6 +876,10 @@ export default function OrderDetails() {
                             {orders.total.toFixed(2)}
                           </div>
                         </div>
+                        ) : null}
+                        {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                          
+
                         {orders?.cgst > 0 ? (
                           <div className="order-calculation-line">
                             <div className="order-calculation-label">
@@ -917,7 +925,7 @@ export default function OrderDetails() {
                         <div className="order-calculation-line">
                           <div className="order-calculation-label">
                             <div style={{ width: "98%", fontWeight: 600 }}>
-                              Grant Total
+                              Grand Total
                             </div>
                             <div>:</div>
                           </div>{" "}
@@ -1096,7 +1104,10 @@ export default function OrderDetails() {
         */}
 
             <div className="invoice_btn_container">
-              <button
+
+              {/* Modified by :- Parineeta Gedam on 19-06-2023 reason :- if in item nothinfg to update then disable update button */}
+              {/* {orders.order_status == "Placed" ? ( */}
+                <button
                 className="invoice_btn_update_order"
                 style={{
                   background: colors.bannerColor,
@@ -1106,6 +1117,18 @@ export default function OrderDetails() {
               >
                 Update Order
               </button>
+              {/* ) : 
+              <button
+                className="invoice_btn_update_order"
+                style={{
+                  background: "grey", color: colors.backgroundTheme
+                }}
+              >
+                Update Order
+              </button>
+              } */}
+              {/* End of Modified by :- Parineeta Gedam on 19-06-2023 reason :- if in item nothinfg to update then disable update button */}
+
               {orders.order_status == "Served" ? (
                 <button
                   className="invoice_btn_heading"
