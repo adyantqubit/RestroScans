@@ -20,7 +20,7 @@ import {
   BsSortNumericDown,
 } from "react-icons/bs";
 
-import { MdCancel, MdCheckCircle } from "react-icons/md";
+import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
 
 import { Input, Space } from "antd";
 import config from "../../Api/config";
@@ -30,12 +30,15 @@ import defaultIcon from "../../../src/images/no-category.jpg"
 const Category = () => {
   const [backendCategoryCount, setBackendCategoryCount] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
-  const [listPerPage, setListPerPage] = useState(10);
+  // Modified by Rohan Kansari - 22/6/23 - To Get Selected List page from localstorage on Reload 
+  // const [listPerPage, setListPerPage] = useState(localStorage.getItem(10));
+  const [listPerPage, setListPerPage] = useState(localStorage.getItem("listPerPage"));
+  // End of code - ROhan kansari - 22/6/23
 
   const [columnToSort, setColumnToSort] = useState("name");
   const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
   const [showSortingIcon, setShowSortingIcon] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  var [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState("");
 
   const { Search } = Input;
@@ -55,9 +58,21 @@ const Category = () => {
    * Reason - method that will execute when page loads. this method will call category list api
    */
   useEffect(() => {
+
+    // Added By Rohan Kansari - 22/6/23
+    // Reason - To set global Page index Whenever its index updated
+
+    if (localStorage.getItem("globalPageIndex")) {
+      currentPage = localStorage.getItem("globalPageIndex")
+      setCurrentPage(localStorage.getItem("globalPageIndex"))
+    }
+
+    // End of code - Rohan kansari - 22/6/23
     getCountOfCategory();
     getListOfCategory();
   }, []);
+
+
 
   /**
    * End of code addition by - Yuvraj Sahu on 16-06-2023
@@ -71,7 +86,11 @@ const Category = () => {
    */
   useEffect(() => {
     getListOfCategory();
-  }, [columnToSort, columnSortingOrder, currentPage, searchText]);
+
+    // Modified by ROhan KAnsari - 22/6/23 - To add listPerPage Change call 
+    // }, [columnToSort, columnSortingOrder, currentPage, searchText]);
+  }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
+
   /**
    * End of code addition by - Yuvraj Sahu on 16-06-2023
    * Reason - method that will execute when sorting on column is applied or page number is changed.
@@ -145,6 +164,10 @@ const Category = () => {
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const handlePageChange = async (pageNumber) => {
+    //Added by ROhan KAnsari - 22/6/23
+    // Reason - to set currentpage to global
+    localStorage.setItem("globalPageIndex", pageNumber)
+    // End of code - Rohan Kansari - 22/6/23
     setCurrentPage(pageNumber);
   };
   /**
@@ -191,6 +214,20 @@ const Category = () => {
    * Reason - Method that will open edit menu form of selected category
    */
 
+  // Added by Rohan kansari - 22/6/23
+  // Reason - To toggle dropdown visiblity on click
+  function toggelDropdown() {
+    if (document.getElementById("dropdown").style.display.length == 0)
+      document.getElementById("dropdown").style.display = "block"
+    else
+      document.getElementById("dropdown").style.display = ""
+  }
+
+  function hideDropdown() {
+    document.getElementById("dropdown").style.display = ""
+  }
+  // End of code - Rohan Kansari - 22/6/23
+
   return (
     <Header>
       <div className={style.container}>
@@ -234,7 +271,14 @@ const Category = () => {
                   Add Category
                 </div>
               </div>
-              <div className={style.tableHeadingContainer}>
+              <div className={style.tableHeadingContainer}
+
+                // Added by Rohan Kansari - 22/6/23
+                // Reason- To hide page size dropdown on outer click
+                onClick={hideDropdown}
+                onTouchStart={hideDropdown}
+              // End of code - ROhan KAnsari - 22/6/23
+              >
                 <div className={style.commonColumnTitle}>Icon </div>
 
                 <div
@@ -289,7 +333,7 @@ const Category = () => {
                       setShowSortingIcon(false);
                     }
                   }}
-                  // End of addition by Yuvraj Sahu on 18-06-2023
+                // End of addition by Yuvraj Sahu on 18-06-2023
                 >
                   Menu name
                   {/* Added by Yuvraj Sahu on 17-06-2023
@@ -349,6 +393,12 @@ const Category = () => {
                 style={{
                   backgroundColor: "#efefef",
                 }}
+
+                // Added by Rohan Kansari - 22/6/23
+                // Reason- To hide page size dropdown on outer click
+                onClick={hideDropdown}
+                onTouchStart={hideDropdown}
+              // End of code - ROhan KAnsari - 22/6/23
               >
                 {categoryList != null && categoryList.length > 0 ? (
                   categoryList.map((categoryDetails, index) => {
@@ -415,21 +465,41 @@ const Category = () => {
 
         <div className={style.paginationContainer}>
           {categoryList && categoryList.length > 0 ? (
-            <Pagination
-              defaultCurrent={1}
-              /**
-               * Added by - Yuvraj Sahu on 16-06-2023
-               * Reason - To set current selected page number
-               */
-              current={currentPage}
-              /**
-               * End of code addition by - Yuvraj Sahu on 16-06-2023
-               * Reason - To set current selected page number
-               */
-              total={backendCategoryCount}
-              defaultPageSize={listPerPage}
-              onChange={handlePageChange}
-            />
+            // Modified by Rohan kansari - 22/6/23 
+            // Reason - To divide container into two part for page selector
+            < div className={style.paginationContent}>
+              <Pagination
+                defaultCurrent={1}
+                /**
+                 * Added by - Yuvraj Sahu on 16-06-2023
+                 * Reason - To set current selected page number
+                 */
+                current={currentPage}
+                /**
+                 * End of code addition by - Yuvraj Sahu on 16-06-2023
+                 * Reason - To set current selected page number
+                 */
+                total={backendCategoryCount}
+                defaultPageSize={listPerPage}
+                pageSize={listPerPage}
+                simple
+                onChange={handlePageChange}
+              />
+
+              <div className={style.dropdown} onClick={toggelDropdown}>
+                <button className={style.dropbtn}>{listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
+                <div className={style.dropdown_content} id="dropdown">
+                  {backendCategoryCount > 50 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
+                  {backendCategoryCount > 40 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
+                  {backendCategoryCount > 30 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
+                  <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span> 
+                  <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
+                </div>
+              </div>
+            </div>
+            // End of code - Modification - 22/6/23 - Rohan Kansari
+            // Reason - To separate div and add Selection box for page item size 
+
           ) : null}
         </div>
       </div>

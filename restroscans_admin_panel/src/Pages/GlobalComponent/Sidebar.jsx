@@ -6,21 +6,21 @@ import style from "./sidebar.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
-import {FaCaretDown} from "react-icons/fa"
+import { FaCaretDown } from "react-icons/fa"
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   {/* Modified by Rohan Kansari - 26/5/23 
       Reason -To add sub menu functionality in report menu */}
   const [ReportSubVisible, setReportSubVisible] = useState(false)
-  {/*End of code -Rohan Kansari 26/5/23  */}
+  {/*End of code -Rohan Kansari 26/5/23  */ }
 
   function closeSidebar() {
     setSidebar(false);
   }
-// Added by Om Shrivastava on 02-06-23
-// Reason : Need to navigate when user click the main div
+  // Added by Om Shrivastava on 02-06-23
+  // Reason : Need to navigate when user click the main div
   const navigateToDashboard = () => {
     navigate('/Dashboard');
   };
@@ -110,6 +110,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/Dashboard"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+          // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Dashboard{" "}
@@ -123,6 +127,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/BannerOffer"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+          // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Banner/Offer{" "}
@@ -153,6 +161,10 @@ const Sidebar = () => {
                 }
                 // end of modification by - Suman sahu on - 17/06/2023
                 to="/OrderReport"
+                // Added by Rohan kansari - 22/6/23
+                // Reason - To set page index by default 1 on side bar page link
+                onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // End of code - Rohan kansari - 22/6/23
               >
                 Order Report
               </NavLink>
@@ -170,6 +182,10 @@ const Sidebar = () => {
                 }
                 // end of modification by - Suman sahu on - 17/06/2023
                 to="/OrderItemReport"
+                // Added by Rohan kansari - 22/6/23
+                // Reason - To set page index by default 1 on side bar page link
+                onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // End of code - Rohan kansari - 22/6/23
               >
                 Order Item Report
               </NavLink>
@@ -187,6 +203,10 @@ const Sidebar = () => {
                 }
                 // end of modification by - Suman sahu on - 17/06/2023
                 to="/CustomerReport"
+                // Added by Rohan kansari - 22/6/23
+                // Reason - To set page index by default 1 on side bar page link
+                onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // End of code - Rohan kansari - 22/6/23
               >
                 Customer Report
               </NavLink>
@@ -217,6 +237,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/BannerOfferItem"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Banner/Offer Items{" "}
@@ -230,6 +254,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/Menu"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Menu{" "}
@@ -243,6 +271,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/Category"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Category{" "}
@@ -256,6 +288,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/item"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Item{" "}
@@ -269,6 +305,7 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/SettingForm"
+
           >
             {" "}
             Setting{" "}
@@ -295,6 +332,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/CustomerDetail"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Customer Detail{" "}
@@ -308,6 +349,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/Order"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Order{" "}
@@ -321,6 +366,10 @@ const Sidebar = () => {
             className={({ isActive }) => (isActive ? style.active : style.link)}
             // end of modification by - Suman sahu on - 17/06/2023
             to="/OrderItem"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
           >
             {" "}
             Order Item{" "}
