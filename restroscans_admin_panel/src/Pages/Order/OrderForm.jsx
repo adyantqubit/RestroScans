@@ -143,7 +143,7 @@ const OrderForm = () => {
           }
         } else {
           const error = {
-            apply_loyality_point: "apply_loyality_point must be a number.",
+            apply_loyality_point: "Loyality point must be a number.",
           };
           setValidationErrors({ ...validationErrors, ...error });
         }
@@ -666,8 +666,8 @@ const OrderForm = () => {
                   </div>
                   <input
                     className={`${style.textInputBox}`}
-                    // type="text"
-                    type="number"
+                    type="text"
+                    // type="number"
                     name="apply_loyality_point"
                     style={{ width: "200px" }}
                     value={applyLoyalityPoint}
