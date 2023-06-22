@@ -7,10 +7,9 @@ import { deteleSocialMediaApi, getSocialMediaApi } from "../../Api/services";
 import style from "./SocialMediaList.module.css";
 import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
-import { Button, message, Popconfirm } from "antd";
+import { Button, message, Modal, Popconfirm } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { Message } from "../../App";
-
 
 export default function SocialMediaList() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ export default function SocialMediaList() {
   useEffect(() => {
     // Added by Yuvraj Sahu on 12-06-2023
     // Reason - to open page from top
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     // End of additionm by Yuvraj Sahu on 12-06-2023
     getSocialMedias();
   }, []);
@@ -77,6 +76,15 @@ export default function SocialMediaList() {
   // }
 
   // --------------- delete confirm ------------------
+  /**
+   * Added by Yuvraj Sahu on 22-06-2023
+   * Reason - to open and close modal for delete social media
+   */
+  var [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState({isOpen : false, id : null});
+  /**
+   * End of addition by Yuvraj Sahu on 22-06-2023
+   */
+
   const confirm = async (e) => {
     var tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     var response = await deteleSocialMediaApi(tenant, e);
@@ -87,15 +95,22 @@ export default function SocialMediaList() {
        * Reason - to give success message
        */
       Message("Social media deleted successfully.", "success");
+      /** Added by yuvraj Sahu on 22-06-2023
+      * Reson - to close modal
+      */
+      setIsConfirmationModalOpen({isOpen : false});
+      /**
+      * End of addition by Yuvraj Sahu on 22-06-2023
+      */
       /**
        * End of addition by Yuvraj Sahu 10-06-2023
        */
       setAllSocialMedia(response.socialData);
     } else {
-    /**
-     * Added by Yuvraj Sahu on 10-06-2023
-     * Reason - to give error message
-     */
+      /**
+       * Added by Yuvraj Sahu on 10-06-2023
+       * Reason - to give error message
+       */
       Message("Something went wrong", "error");
     }
     /**
@@ -154,7 +169,7 @@ export default function SocialMediaList() {
                       state: { id: data.id },
                     });
                   }}
-                  style={{wordBreak: "break-word"}}
+                  style={{ wordBreak: "break-word" }}
                 >
                   {data.social_media_name}
                 </div>
@@ -176,20 +191,55 @@ export default function SocialMediaList() {
                   />
                 </div>
                 <div className={style.tableColumn5}>
-                  <Popconfirm
+                  {/* Commeted and modified by Yuvraj Sahu on 22-06-2023
+                  Reason - to pop confirm to modal */}
+                  {/* <Popconfirm
                     title="Are you sure you want to delete"
-                    // description="Are you sure you want to delete"
                     onConfirm={() => confirm(data.id)}
                     onCancel={cancel}
                     okText="Yes"
                     cancelText="No"
+                  > */}
+                  <Modal
+                    // mask={false}
+                    maskStyle={{
+                      backgroundColor: "rgba(0,0,0,0.03)",
+                    }}
+                    title="Confirmation"
+                    open={isConfirmationModalOpen.isOpen}
+                    onOk={() => setIsConfirmationModalOpen({isOpen : false})}
+                    onCancel={() => setIsConfirmationModalOpen({isOpen : false})}
+                    footer={null}
+                    className={style.modalContainerSocial}
                   >
-                    <DeleteTwoTone
-                      color="red"
-                      style={{ fontSize: 20 }}
-                      twoToneColor="red"
-                    />
-                  </Popconfirm>
+                    <h1 style={{fontSize: "15px", fontWeight: 500}}>Are you sure you want to delete</h1>
+                    <div className={style.btnContainer}>
+                      <div className={style.selectionContainer}>
+                        <button
+                          className={style.btnUpdate}
+                          onClick={e => confirm(isConfirmationModalOpen.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      <div className={style.selectionContainer}>
+                        <button
+                          className={style.btnUpdate}
+                          onClick={e => setIsConfirmationModalOpen({isOpen : false})}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </Modal>
+                  <DeleteTwoTone
+                    color="red"
+                    style={{ fontSize: 20 }}
+                    twoToneColor="red"
+                    onClick={() => setIsConfirmationModalOpen({isOpen : true, id : data.id})}
+                  />
+                  {/* </Popconfirm> */}
+                  {/* End of changing pop confirm by Yuvraj Sahu on 22-06-2023 */}
                 </div>
               </div>
             ))

@@ -215,6 +215,10 @@ Reason : When popup is shown than its overlap in header page */
    reason - decrease padding of the antd modal */
 .ant-modal .ant-modal-content {
   padding: 10px 10px !important;
+  /* Added by Yuvraj Sahu on 22-06-2023
+  Reason - to remove shadow of modal */
+  box-shadow: unset !important ;
+  /* End of addition by yuvraj Sahu on 22-06-2023 */
 }
 /* end of addition On 09/06/2023 */
 

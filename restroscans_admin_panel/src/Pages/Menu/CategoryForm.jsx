@@ -168,7 +168,7 @@ function CategoryForm() {
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          menu: "Please enter select menu name",
+          menu: "Please enter menu name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -220,7 +220,7 @@ function CategoryForm() {
     if (name == null && menu == null) {
       const error = {
         name: "Please enter category name",
-        menu: "Please enter select menu name",
+        menu: "Please enter menu name",
       };
       setValidationErrors({ ...validationErrors, ...error });
     } else {
@@ -233,7 +233,7 @@ function CategoryForm() {
 
       if (menu == null) {
         const error = {
-          menu: "Please select menu name",
+          menu: "Please enter menu name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
