@@ -1501,7 +1501,11 @@ class UpdateOrderPaymentStatus(APIView):
     def put(self, request, tenant, orderID):
         orderObj = Order.objects.get(order_id = orderID)
         if request.data["order_status"] == "Confirm" :
-            OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Confirm")
+            # Added by Yuvraj Sahu on 21-06-2023
+            # Reason - to update kot print status when we confirm order
+            # OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Confirm")
+            OrderItem.objects.filter(order_id__order_id=orderID, item_status="Pending").update(item_status="Confirm", kot_print_status=True)
+            # end of updating kot print status by Yuvraj Sahu on 21-06-2023
 		 # Added by :- Parineeta Gedam on 17-06-2023
         # Reason :- if order cancel by admin then in cancelled by field save the Admin
         if request.data["order_status"] == "Cancelled":

@@ -1214,6 +1214,11 @@ class OrderItem(models.Model):
     item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")
     # End of modified code 17-04-2023
 
+    # Added by Yuvraj Sahu on 21-06-2023
+    # Reason - to give kot print status
+    kot_print_status = models.BooleanField(default=False)
+    # End of giving kot print status 
+
     # Added by :- Parineeta Gedam on 18-05-2023 
     # Reason :- for order cancel
     cancel_reason = models.TextField(null=True,blank=True)
@@ -1238,7 +1243,12 @@ class OrderItem(models.Model):
     # Added by Suman Sahu on 07-05-2023
     # Reason - to update order status based on item status
     def save(self, *args, **kwargs ):
-        if self.item_status == "Confirm" :
+        # Added by Yuvraj Sahu on 21-06-2023
+        # Reason - to update print kot button
+        # if self.item_status == "Confirm":
+        if self.item_status == "Confirm" and self.kot_print_status == False:
+            self.kot_print_status=True
+            # End of addition by Yuvraj Sahu on 21-06-2023
             orderItemObj = OrderItem.objects.filter(order_id = self.order_id)
             obj = orderItemObj.filter(item_status = "Pending").count()
             if obj == 1:

@@ -946,8 +946,35 @@ export default function OrderItemsScreen({ route, navigation }) {
 
     var orderItem = "";
     var SNumberIncreasing = 1;
+
+    // Commeted and Added by Yuvraj Sahu on 21-06-2023
+    // Reason - to print kot confirm items
+    // for (var i = 0; i < orderItems.length; i++) {
+    //   if (orderItems[i].item_status == "Pending")
+    //   orderItem =
+    //     orderItem +
+    //     `<div class="tableContents ">
+    //         <div class="quantityText">${SNumberIncreasing++}</div>
+    //         <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+    //     })</div>
+    //         <div class="rateText">${orderItems[i].quantity}</div>
+    //       </div>`;
+    // }
+    if (orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0) {
     for (var i = 0; i < orderItems.length; i++) {
-      if (orderItems[i].item_status == "Pending") {
+      if (orderItems[i].item_status == "Confirm")
+        orderItem =
+          orderItem +
+          `<div class="tableContents ">
+              <div class="quantityText">${SNumberIncreasing++}</div>
+              <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+          })</div>
+              <div class="rateText">${orderItems[i].quantity}</div>
+            </div>`;
+      }
+    } else {
+      for (var i = 0; i < orderItems.length; i++) {
+        if (orderItems[i].item_status == "Pending")
         orderItem =
           orderItem +
           `<div class="tableContents ">
@@ -958,6 +985,8 @@ export default function OrderItemsScreen({ route, navigation }) {
             </div>`;
       }
     }
+    // End of of addition by Yuvraj Sahu on 21-06-2023
+    // Reason - to print kot confirm items
     /**
      * Added by - Ashish Dewangan on 19-04-2023
      * Reason - To print pending order items for kitchen whenever order status is changed by admin to confirm
@@ -1133,12 +1162,19 @@ export default function OrderItemsScreen({ route, navigation }) {
     // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false ) {
 
     // Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
+    // Added and commeted by Yuvraj Sahu on 21-06-2023
+    // Reason - to not print kot on every confirm and updates
+    var checkConfirmOrder = orderStatusSelected == "Confirm" && orderItems.filter((e) => e.item_status == "Pending" && e.kot_print_status == false).length > 0
+    var checkConfirmOrderItems = orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0
     // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
-    if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && orderCancelReasonErrorMsg == false) {
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && orderCancelReasonErrorMsg == false) {
+      if ((checkConfirmOrder) || (checkConfirmOrderItems)){
+      // End of modification by Yuvraj Sahu on 21-06-2023
       // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
 
       //  End of addition by Om Shrivastava on 08-06-23 
       printDoc();
+      }
     }
     // End of added code by :- Parineeta Gedam on 10-05-2023
 
