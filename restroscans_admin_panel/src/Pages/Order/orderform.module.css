@@ -54,6 +54,15 @@
     box-shadow:
       var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
 }
+.sectionInsideForm2{
+  margin-top: 30px;
+  background-color: #e6f0f0;
+  padding: 10px;
+  width:300px !important;
+  border-radius: 5px;
+  box-shadow:
+    var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+}
 .inputContainer {
   display: flex;
   flex-direction: column;
@@ -66,10 +75,21 @@
 }
 
 .inputLabel {
-  width: 250px;
+  /* width: 250px; */
+  width: 200px;
   font-weight: bold;
 }
 
+.textAreaDefaultHeight{
+  height: 32px;
+}
+/* Added by Om Shrivastava on 22-06-23
+Reason : Need to apply this css when some field is disable */
+.inputLabel2 {
+  width: 150px;
+  font-weight: bold;
+}
+/* End of addition by Om Shrivastava on 22-06-23 */
 .textInputBox {
   width: 200px;
   border: 1px solid black;
@@ -78,10 +98,19 @@
   padding: 2px;
   background-color: white;
 }
+/* Added by Om Shrivastava on 22-06-23
+Reason : Need to apply this css when some field is disable */
+.disabledInputBox {
+  border: none;
+  background-color: unset;
+  width: 120px;
+}
+/* End of addition by Om Shrivastava on 22-06-23 */
 
 .inputErrorArea {
-  margin-left: 250px;
-  width: 200px;
+  margin-left: 200px;
+  font-size: 13px;
+  width: 250px;
   color: red;
 }
 
@@ -147,6 +176,10 @@
     --common-column-min-width: 15%;
     --common-column-display: unset;
   }
+  .formContainer{
+    justify-content: center;
+  }
+ 
 }
 
 @media screen and (max-width: 1120px) {
@@ -157,6 +190,12 @@
   }
   .settingSection {
     padding: 20px 40px;
+  }
+  .sectionInsideForm2{
+    width: 470px !important;
+  }
+  .inputLabel2 {
+    width: 200px;
   }
 }
 
@@ -169,15 +208,20 @@
   .settingSection {
     padding: 20px 20px;
   }
-  .inputLabel {
+  /* Commented by Om Shrivastava on 22-06-23 */
+  /* .inputLabel {
     width: 250px;
   }
   .textInputBox {
     width: 200px;
-  }
+  } */
+  /* End of commented code on 22-06-23 */
   .inputErrorArea {
     margin-left: 250px;
     width: 200px;
+  }
+  .inputLabel2 {
+    width: 250px;
   }
 }
 
@@ -186,19 +230,12 @@
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
-    /* min-height: 82vh; */
     margin-bottom: 11vh;
   }
   .settingSection {
     padding: 20px 20px;
-    /* margin-bottom: 11vh; */
   }
-  .inputLabel {
-    width: 300px;
-  }
-  .textInputBox {
-    width: 200px;
-  }
+  
   .inputErrorArea {
     margin-left: 300px;
     width: 200px;
@@ -230,10 +267,17 @@
   .textInputBox {
     width: 200px;
   }
+  .disabledInputBox {
+    width: 120px;
+  }
+  .inputLabel2 {
+    width: 250px;
+  }
   .inputErrorArea {
     margin-left: 250px;
     width: 200px;
   }
+ 
 }
 
 @media screen and (max-width: 610px) {
@@ -242,12 +286,13 @@
     --common-column-min-width: 15%;
     --common-column-display: unset;
   }
-  .inputArea {
-    flex-direction: column;
-  }
+  
   .inputLabel {
     align-self: flex-start;
     width: 400px;
+  }
+  .inputLabel2{
+    margin-top: 3%;
   }
   .textInputBox {
     align-self: flex-start;
@@ -258,24 +303,19 @@
     width: 100%;
     margin-right: 0px;
   }
-}
-
-@media screen and (max-width: 610px) {
-  .container {
-    --common-column-width: 15%;
-    --common-column-min-width: 15%;
-    --common-column-display: unset;
-  }
+  
   .inputArea {
     flex-direction: column;
   }
-  .inputLabel {
-    width: 350px;
-    align-self: flex-start;
+  .inputAreaForResponsive{
+    flex-direction: row;
   }
-  .textInputBox {
-    align-self: flex-start;
-    width: 100%;
+ 
+  .sectionInsideForm{
+    width: 320px;
+  }
+  .sectionInsideForm2{
+    width: 320px !important;
   }
 }
 @media screen and (max-width: 500px) {
@@ -287,6 +327,10 @@
   .inputArea {
     flex-direction: column;
   }
+  .inputAreaForResponsive{
+    flex-direction: row;
+  }
+  
   .inputLabel {
     width: 300px;
     align-self: flex-start;
@@ -300,6 +344,9 @@
     font-size: 17px;
     padding:3px 3px;
   }
+  .inputLabel2{
+    margin-top: 1.5%;
+  }
 }
 @media screen and (max-width: 400px) {
   .container {
@@ -310,6 +357,13 @@
   .inputArea {
     flex-direction: column;
   }
+  .inputAreaForResponsive{
+    flex-direction: row;
+  }
+  .inputLabel2{
+    margin-top: 1.5%;
+  }
+  
   .inputLabel {
     width: 250px;
     align-self: flex-start;
@@ -322,5 +376,8 @@
     margin-left: 0px;
     width: 90%;
     margin-right: 0px;
+  }
+  .sectionInsideForm2{
+    width: 320px !important;
   }
 }

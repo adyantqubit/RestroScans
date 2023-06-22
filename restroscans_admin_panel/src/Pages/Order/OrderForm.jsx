@@ -403,10 +403,10 @@ const OrderForm = () => {
       }
     }
     else {
-      Message("Please provide value for this field", "info");
+      // Message("Please provide value for this field", "info");
     }
   };
-  console.log(discountReason, '55555')
+  // console.log(discountReason, '55555')
 
 
   return (
@@ -414,10 +414,12 @@ const OrderForm = () => {
       <div className={style.container}>
         <div className={style.titleContainer}>
           {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
-          <div className={style.pageTitle}>Order</div>
+          <div className={style.pageTitle} style={{fontSize:"25px"}}>Order</div>
         </div>
         <form className={style.settingSection}>
-          <div className={style.formContainer}>
+          <div className={style.formContainer} style={{display:'flex',
+          flexWrap:'wrap'
+          }}>
             <div className={`${style.sectionInsideForm}`}>
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
@@ -590,7 +592,7 @@ const OrderForm = () => {
                     type="text"
                     name="cancel_reason"
                     value={cancelReaon}
-                    style={{ width: "200px", height: "200px", resize: 'none' }}
+                    style={{ width: "200px", height: "100px", resize: 'none' }}
                     disabled={paymentStatus == "Completed" || cancelReaon > 0 ? true : false}
                     // onFocus={(e)=>{
                     //   if(whatsappNumber.length==13)
@@ -618,95 +620,19 @@ const OrderForm = () => {
 
 
 
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    Discount in (₹)
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="discount_rupees"
-                    style={{ width: "100px" }}
-                    value={discountRupee}
-                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
-
-                    onChange={(e) => {
-                      setDiscountRupee(e.target.value);
-                      // validateOnInput(
-                      //   "amount_for_single_loyality_point",
-                      //   e.target.value
-                      // );
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur(
-                        "discount_rupees",
-                        e.target.value
-                      );
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.discount_rupees}
-                </div>
-              </div>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Discount in (%)</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="number"
-                    name="discount_percentage"
-                    style={{ width: "100px" }}
-                    value={discountPercentage}
-                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
-                    onChange={(e) => {
-                      setDiscountPercentage(e.target.value);
-                      // validateOnInput("cgst", e.target.value);
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur("discount_percentage", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.discount_percentage}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Discount reason</div>
-                  <textarea
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="discount_reason"
-                    style={{ width: "200px", height: "200px", resize: 'none' }}
-                    value={discountReason}
-                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
-                    onChange={(e) => {
-                      setDiscountReason(e.target.value);
-                      // validateOnInput("sgst", e.target.value);
-                    }}
-                    // onBlur={(e) => {
-                    //   validateOnBlur("sgst", e.target.value);
-                    // }}
-                    maxLength={255}
-
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.discount_reason}
-                </div>
-              </div>
+              
 
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
-                    Customer loyality point
+                    {/* Modification and addition by Om Shrivastava on 22-06-23
+                    Reason : Need to change the name */}
+                    {/* Customer loyality point */}
+                    Customer earn point
+                  {/* End of addition and modifciation by Om Shrivastava on 22-06-23 */}
                   </div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="customer_loyality_point"
                     style={{ width: "100px" }}
@@ -743,7 +669,7 @@ const OrderForm = () => {
                     // type="text"
                     type="number"
                     name="apply_loyality_point"
-                    style={{ width: "100px" }}
+                    style={{ width: "200px" }}
                     value={applyLoyalityPoint}
                     // onkeydown="if(event.key==='.'){event.preventDefault();}"
                     // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
@@ -774,7 +700,7 @@ const OrderForm = () => {
                     Loyality point price
                   </div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="loyality_point_price"
                     style={{ width: "100px" }}
@@ -805,7 +731,7 @@ const OrderForm = () => {
                     Loyality point status
                   </div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="loyality_point_status"
                     style={{ width: "100px" }}
@@ -850,6 +776,87 @@ const OrderForm = () => {
 
                 </div>
               </div> */}
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>
+                    Discount in (₹)
+                  </div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="discount_rupees"
+                    style={{ width: "200px" }}
+                    value={discountRupee}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+
+                    onChange={(e) => {
+                      setDiscountRupee(e.target.value);
+                      // validateOnInput(
+                      //   "amount_for_single_loyality_point",
+                      //   e.target.value
+                      // );
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur(
+                        "discount_rupees",
+                        e.target.value
+                      );
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.discount_rupees}
+                </div>
+              </div>
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>Discount in (%)</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="number"
+                    name="discount_percentage"
+                    style={{ width: "200px" }}
+                    value={discountPercentage}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                    onChange={(e) => {
+                      setDiscountPercentage(e.target.value);
+                      // validateOnInput("cgst", e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      validateOnBlur("discount_percentage", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.discount_percentage}
+                </div>
+              </div>
+
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>Discount reason</div>
+                  <textarea
+                    className={`${style.textInputBox}`}
+                    type="text"
+                    name="discount_reason"
+                    style={{ width: "200px", height: "100px", resize: 'none' }}
+                    value={discountReason}
+                    disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
+                    onChange={(e) => {
+                      setDiscountReason(e.target.value);
+                      // validateOnInput("sgst", e.target.value);
+                    }}
+                    // onBlur={(e) => {
+                    //   validateOnBlur("sgst", e.target.value);
+                    // }}
+                    maxLength={255}
+
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.discount_reason}
+                </div>
+              </div>
             </div>
 
 
@@ -875,18 +882,19 @@ const OrderForm = () => {
                 </div>
               </div>
             </div> */}
-
-            <div className={`${style.sectionInsideForm}`}>
+            {/* Aadded by Om Shrivastava on 22-06-23 
+            Reason : Add Two classname for some fields like : calculation section, loyality point section, and rating review section */}
+            <div className={`${style.sectionInsideForm} ${style.sectionInsideForm2}`}>
 
 
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Subtotal</div>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox} `}
                     type="text"
                     name="sub_total"
-                    style={{ width: "200px" }}
+                    // style={{ width: "200px" }}
                     value={subTotal}
                     disabled
 
@@ -905,13 +913,13 @@ const OrderForm = () => {
                 </div>
               </div>
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>CGST</div>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>CGST</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="cgst"
-                    style={{ width: "200px" }}
+                    // style={{ width: "200px" }}
                     value={cgst}
                     disabled
 
@@ -930,13 +938,13 @@ const OrderForm = () => {
                 </div>
               </div>
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>SGST</div>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>SGST</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="sgst"
-                    style={{ width: "200px" }}
+                    // style={{ width: "200px" }}
                     value={sgst}
                     disabled
 
@@ -955,13 +963,13 @@ const OrderForm = () => {
                 </div>
               </div>
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Total</div>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="total"
-                    style={{ width: "200px" }}
+                    // style={{ width: "200px" }}
                     value={total}
                     disabled
 
@@ -980,13 +988,13 @@ const OrderForm = () => {
                 </div>
               </div>
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Grand Total</div>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>Grand Total</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="grand_total"
-                    style={{ width: "200px" }}
+                    // style={{ width: "200px" }}
                     value={finalAmount}
                     disabled
 
@@ -1005,13 +1013,13 @@ const OrderForm = () => {
                 </div>
               </div>
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Rating</div>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>Rating</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="rating"
-                    style={{ width: "200px" }}
+                    // style={{ width: "200px" }}
                     value={rating && rating ? rating : '----'}
                     disabled
 
@@ -1031,24 +1039,21 @@ const OrderForm = () => {
               </div>
 
               <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Review</div>
-                  <input
-                    className={`${style.textInputBox}`}
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>Review</div>
+                  {/* <textarea
+                  
+                    className=   {review && review ? `${style.hyyy} `:`${style.textInputBox} ${style.disabledInputBox} ${style.textAreaDefaultHeight}`}
                     type="text"
                     name="review"
-                    style={{ width: "200px" }}
-                    value={review && review ? review : '----'}
+                    style={{ resize:'none' }}
+                    value={review && review ? review : '---'}
                     disabled
-                  // maxLength={14}
-                  // onChange={(e) => {
-                  //   setFssaiNumber(e.target.value);
-                  //   validateOnInput("fssaino", e.target.value);
-                  // }}
-                  // onBlur={(e) => {
-                  //   validateOnBlur("fssaino", e.target.value);
-                  // }}
-                  />
+                  /> */}
+                  <p
+                  className= {`${style.textInputBox} ${style.disabledInputBox} `}
+                  
+                  style={{wordBreak:'break-word'}}>{review && review ?review:'ghjghj hghugyut fdstdtretrerterterererere gfgfgtr ewew'}</p>
                 </div>
                 <div className={`${style.inputErrorArea}`}>
                   {/* {validationErrors.fssaino} */}
@@ -1056,6 +1061,7 @@ const OrderForm = () => {
               </div>
             </div>
           </div>
+          {/* End of addition by Om Shrivastava on 22-06-23 */}
 
           <div className={style.actionContainer}>
             <div

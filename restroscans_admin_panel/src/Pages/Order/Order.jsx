@@ -481,11 +481,8 @@ const Order = () => {
                           className={`${style.commonColumnData} ${style.smallColumnWidth}`}
                         >
 
-                          {/* {currentPage*10} */}
-                          {((index+1)*currentPage)-1}
-                          {/* {for(i =0; i < 10; i++){
-   return <li>{i}</li>
- }} */}
+                          {(currentPage*10-9)+index}
+                              
                         </div>
                         {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}
                         <div className={`${style.commonColumnData} ${style.smallColumnWidth}`}
@@ -533,7 +530,7 @@ const Order = () => {
                         </div><div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                           {orderDetail.final_amount}
                         </div><div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                                onClick={() => openMenuDetails(orderDetail.id)}
+                                                // onClick={() => openMenuDetails(orderDetail.id)}
 
                         >
                           {orderDetail.payment_mode != null || orderDetail.payment_mode != undefined ?
