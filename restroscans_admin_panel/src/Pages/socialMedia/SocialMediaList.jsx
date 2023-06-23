@@ -82,7 +82,7 @@ export default function SocialMediaList() {
    * End of addition by Yuvraj Sahu on 22-06-2023
    */
 
-  const confirm = async (e) => {
+  const handleDeleteConfirmation = async (e) => {
     var tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     var response = await deteleSocialMediaApi(tenant, e);
     if (response.msg) {
@@ -214,7 +214,7 @@ export default function SocialMediaList() {
                       <div className={style.selectionContainer}>
                         <button
                           className={style.btnUpdate}
-                          onClick={e => confirm(isConfirmationModalOpen.id)}
+                          onClick={e => handleDeleteConfirmation(isConfirmationModalOpen.id)}
                         >
                           Delete
                         </button>
