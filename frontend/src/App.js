@@ -88,7 +88,7 @@ function App() {
 
     // Commented and Modified by :- Parineeta Gedam on 22-06-2023
     // Ticket no :- 316
-    // Reason :- Customer UI - Blank page is displayed, when click on update button after served.
+    // Reason :- Customer UI - Blank page is displayed, when push notifications will come.
 
     // updatedOrderItemsData.forEach((data) => {
     //   orderItemsField.push(data.fields)
@@ -203,6 +203,26 @@ function App() {
     }
     // End of added code by :- Parineeta Gedam on 15-06-2023 reason :- only once, show the payment complete message 
     
+    setLoading(true);
+    if (secureLocalStorage.getItem("order") && secureLocalStorage.getItem("orderItem")) {
+      secureLocalStorage.removeItem('order');
+      secureLocalStorage.removeItem('orderItem');
+      secureLocalStorage.setItem("order", updatedOrderData.fields)
+      secureLocalStorage.setItem("orderItem", orderItemsField)
+      setOrders(secureLocalStorage.getItem("order"))
+      setOrderItem(secureLocalStorage.getItem("orderItem"))
+    }
+
+    // Commented by :- Parineeta Gedam on 23-06-2023 
+    // else {
+    //   secureLocalStorage.setItem("order", updatedOrderData.fields)
+    //   secureLocalStorage.setItem("orderItem", orderItemsField)
+    //   setOrders(secureLocalStorage.getItem("order"))
+    //   setOrderItem(secureLocalStorage.getItem("orderItem"))
+    // }
+    // Commented by :- PArineeta Gedam on 23-06-2023
+
+    // Modified by :- Parineeta Gedam on 23-06-2023 reason :- order cancellations 
     // Added by :- Parineeta Gedam on 15-06-2023
     // reason :- only once, show the order cancel message 
     if (updatedOrderData.fields.order_status == "Cancelled") {
@@ -222,63 +242,13 @@ function App() {
       });
       secureLocalStorage.removeItem('order');
       secureLocalStorage.removeItem('orderItem');
+      secureLocalStorage.removeItem("setting_data");
+      secureLocalStorage.removeItem("customer_details");
+      secureLocalStorage.removeItem("invoice_detail");
       window.location = `/menu-item`
     }
     // End of added code by :- Parineeta Gedam on 15-06-2023 reason :- only once, show the order cancel message 
-
-
-    // for (var i = 0; orderItemsField.length > 0; i++) {
-    //   console.log("==========", orderItemsField[i].item_status)
-    //   if (orderItemsField[i].item_status == "Confirm") {
-    //     console.log("8888888888888")
-    //     message.error({
-    //       content: "order item confirm",
-    //       key: 1,
-    //       icon: <CheckCircleOutlined />,
-    //       style: {
-    //         marginTop: '5vh',
-    //         fontSize: "16px",
-    //         letterSpacing: "1.3px",
-    //         fontFamily: "Times News Roman",
-    //         color: colors.headingColor,
-    //       },
-    //     });
-    //   }
-    // }
-
-    // for (var i = 0; orderItemsField.length > 0; i++) {
-    //   console.log("==========")
-    //   if (orderItemsField[i].item_status == "Cancelled") {
-    //     console.log("8888888888888")
-    //     message.error({
-    //       content: "order item cancelled",
-    //       key: 1,
-    //       icon: <CheckCircleOutlined />,
-    //       style: {
-    //         marginTop: '5vh',
-    //         fontSize: "16px",
-    //         letterSpacing: "1.3px",
-    //         fontFamily: "Times News Roman",
-    //         color: colors.headingColor,
-    //       },
-    //     });
-    //   }
-    // }
-    setLoading(true);
-    if (secureLocalStorage.getItem("order") && secureLocalStorage.getItem("orderItem")) {
-      secureLocalStorage.removeItem('order');
-      secureLocalStorage.removeItem('orderItem');
-      secureLocalStorage.setItem("order", updatedOrderData.fields)
-      secureLocalStorage.setItem("orderItem", orderItemsField)
-      setOrders(secureLocalStorage.getItem("order"))
-      setOrderItem(secureLocalStorage.getItem("orderItem"))
-    }
-    else {
-      secureLocalStorage.setItem("order", updatedOrderData.fields)
-      secureLocalStorage.setItem("orderItem", orderItemsField)
-      setOrders(secureLocalStorage.getItem("order"))
-      setOrderItem(secureLocalStorage.getItem("orderItem"))
-    }
+    // Modified by :- Parineeta Gedam on 23-06-2023 reason :- order cancellations 
     setLoading(false);
     // End of modifications code by :- Parineeta Gedam on 17-05-2023
   }
@@ -286,6 +256,7 @@ function App() {
    * End of code addition by Ashish Dewangan on 19-05-2023 to taking action for new order status
    */
 
+  
   return (
     <BrowserRouter>
 

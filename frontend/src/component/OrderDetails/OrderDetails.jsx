@@ -216,29 +216,56 @@ export default function OrderDetails() {
       }
     }
 
+    // Commented code by :- Parineeta Gedam on 23-06-2023 reason :- add discount functionality and code optimizations
     // Added and modified by :- Parineeta Gedam on 10-06-2023
     // reason :- add discount functionality
     // Ticket no :- 307
-    if (orders.discount_rupees) {
-      orders.sub_total = newSubTotal;
-      var total = newSubTotal - orders.discount_rupees;
-      orders.total = total;
-      orders.cgst = (total * settingData.cgst) / 100;
-      orders.sgst = (total * settingData.sgst) / 100;
+    // if (orders.discount_rupees) {
+    //   orders.sub_total = newSubTotal;
+    //   var total = newSubTotal - orders.discount_rupees;
+    //   orders.total = total;
+    //   orders.cgst = (total * settingData.cgst) / 100;
+    //   orders.sgst = (total * settingData.sgst) / 100;
+    //   var a =
+    //     (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+    //   orders.final_amount = a + newSubTotal;
+    // } else {
+    //   orders.sub_total = newSubTotal;
+    //   orders.cgst = (newSubTotal * settingData.cgst) / 100;
+    //   orders.sgst = (newSubTotal * settingData.sgst) / 100;
+    //   var a =
+    //     (newSubTotal * settingData.cgst) / 100 +
+    //     (newSubTotal * settingData.sgst) / 100;
+    //   orders.final_amount = a + newSubTotal;
+    // }
+    //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
+    // End of Commented code by :- Parineeta Gedam on 23-06-2023 reason :- add discount functionality and code optimizations
+
+    // Added  by :- Parineeta Gedam on 18-06-2023
+    // reason :- add discount functionality and for code optimizations
+    var copyOrder = orders
+    if (copyOrder.discount_rupees) {
+      copyOrder.sub_total = newSubTotal;
+      var total = newSubTotal - copyOrder.discount_rupees;
+      copyOrder.total = total;
+      copyOrder.cgst = (total * settingData.cgst) / 100;
+      copyOrder.sgst = (total * settingData.sgst) / 100;
       var a =
         (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-      orders.final_amount = a + newSubTotal;
+      copyOrder.final_amount = a + newSubTotal;
     } else {
-      orders.sub_total = newSubTotal;
-      orders.cgst = (newSubTotal * settingData.cgst) / 100;
-      orders.sgst = (newSubTotal * settingData.sgst) / 100;
+      copyOrder.sub_total = newSubTotal;
+      copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
+      copyOrder.sgst = (newSubTotal * settingData.sgst) / 100;
       var a =
         (newSubTotal * settingData.cgst) / 100 +
         (newSubTotal * settingData.sgst) / 100;
-      orders.final_amount = a + newSubTotal;
+      copyOrder.final_amount = a + newSubTotal;
     }
-    //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
     setOrderItem([...allOrderItem]);
+    setOrders(copyOrder)
+    // End of added code by :- PArineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
+
   }
   // End of added code by :- Parineeta Gedam on 14-05-2023
 
@@ -259,28 +286,53 @@ export default function OrderDetails() {
         }
       }
 
+      // Commented code by :- Parineeta Gedam on 23-06-2023 reason :- add discount functionality and code optimizations
       // Added and modified by :- Parineeta Gedam on 10-06-2023
       // reason :- add discount functionality
       // Ticket no :- 307
-      if (orders.discount_rupees) {
-        orders.sub_total = newSubTotal;
-        var total = newSubTotal - orders.discount_rupees;
-        orders.total = total;
-        orders.cgst = (total * settingData.cgst) / 100;
-        orders.sgst = (total * settingData.sgst) / 100;
+      // if (orders.discount_rupees) {
+      //   orders.sub_total = newSubTotal;
+      //   var total = newSubTotal - orders.discount_rupees;
+      //   orders.total = total;
+      //   orders.cgst = (total * settingData.cgst) / 100;
+      //   orders.sgst = (total * settingData.sgst) / 100;
+      //   var a =
+      //     (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+      //   orders.final_amount = a + newSubTotal;
+      // } else {
+      //   orders.sub_total = newSubTotal;
+      //   orders.cgst = (newSubTotal * settingData.cgst) / 100;
+      //   orders.sgst = (newSubTotal * settingData.sgst) / 100;
+      //   var a =
+      //     (newSubTotal * settingData.cgst) / 100 +
+      //     (newSubTotal * settingData.sgst) / 100;
+      //   orders.final_amount = a + newSubTotal;
+      // }
+      //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
+      // End of Commented code by :- Parineeta Gedam on 23-06-2023 reason :- add discount functionality and code optimizations
+
+      // Added  by :- Parineeta Gedam on 18-06-2023
+    // reason :- add discount functionality and for code optimizations
+    var copyOrder = orders
+      
+      if (copyOrder.discount_rupees) {
+        copyOrder.sub_total = newSubTotal;
+        var total = newSubTotal - copyOrder.discount_rupees;
+        copyOrder.total = total;
+        copyOrder.cgst = (total * settingData.cgst) / 100;
+        copyOrder.sgst = (total * settingData.sgst) / 100;
         var a =
           (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-        orders.final_amount = a + newSubTotal;
+        copyOrder.final_amount = a + newSubTotal;
       } else {
-        orders.sub_total = newSubTotal;
-        orders.cgst = (newSubTotal * settingData.cgst) / 100;
-        orders.sgst = (newSubTotal * settingData.sgst) / 100;
+        copyOrder.sub_total = newSubTotal;
+        copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
+        copyOrder.sgst = (newSubTotal * settingData.sgst) / 100;
         var a =
           (newSubTotal * settingData.cgst) / 100 +
           (newSubTotal * settingData.sgst) / 100;
-        orders.final_amount = a + newSubTotal;
+        copyOrder.final_amount = a + newSubTotal;
       }
-      //  Modified code by Parineeta Gedam on 10-06-2023 Ticket no :- 307
     } else {
       message.warning({
         content: "Quantity can't be less than 1",
@@ -292,6 +344,9 @@ export default function OrderDetails() {
       });
     }
     setOrderItem([...allOrderItem]);
+    setOrders(copyOrder)
+
+  // End of added code by :- PArineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
 
   }
   // End of added code by :- Parineeta Gedam on 14-05-2023
@@ -347,6 +402,13 @@ export default function OrderDetails() {
       setOrderItem(response.orderItem);
       setLoading(false);
       if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1) {
+        // modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
+        secureLocalStorage.removeItem('order');
+        secureLocalStorage.removeItem('orderItem');
+        secureLocalStorage.removeItem("setting_data");
+        secureLocalStorage.removeItem("customer_details");
+        secureLocalStorage.removeItem("invoice_detail");
+        // End of modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
         navigate("/menu-item");
       }
       const rem = message.info({

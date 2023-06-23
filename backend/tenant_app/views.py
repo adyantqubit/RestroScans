@@ -887,7 +887,7 @@ class updateOrdersAPIView(APIView):
         orderItem = orderItemsCreation(request, orderId)
         orderItemSerializer = orderItem['orderItemSerializer']
 
-        orderItems = OrderItem.objects.filter(order_id=orderId)
+        orderItems = OrderItem.objects.filter(order_id=orderId).order_by('-id')
 
         orderItemList = OrderItemSerializer(orderItems, many=True)
 
@@ -1037,7 +1037,12 @@ class getOrderItemsAPI(APIView):
     def get(self, request, tenant, pk):
         order = Order.objects.filter(id=pk).first()
         customerDetail =  CustomerDetail.objects.filter(id=order.customer_id.id).first()
-        itemObjs = OrderItem.objects.filter(order_id=pk)
+
+        # Commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest item show in top
+        # itemObjs = OrderItem.objects.filter(order_id=pk)
+        itemObjs = OrderItem.objects.filter(order_id=pk).order_by('-id')
+        # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- latest item show in top
+
         orderItemsSerializer=OrderItemSerializer(itemObjs, many=True)
         customerSerializer=CustomerDetailSerializer(customerDetail)
         OrderSerializers = AllOrderSerializer(order)
@@ -1196,7 +1201,7 @@ class getPaymentMethodAPIView(APIView):
         serializer = PaymentMethodSerializer(content, many=True)
         return Response(serializer.data)
     def post(self, request, tenant):
-        print(request.data)
+        # print(request.data)
         if "id" in request.data:
             paymentMethod = PaymentMethod.objects.get(id=request.data["id"])
             serializedData = PaymentMethodSerializer(paymentMethod, data=request.data, partial=True)
@@ -1968,17 +1973,25 @@ class DeleteOrderItemsAPIView(APIView):
         orderItemId.item_status = "Cancelled"
         orderItemId.save()
 
-        orderItemsObj = OrderItem.objects.filter(order_id=orderId.id)
+        # commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest data show on the top
+        # orderItemsObj = OrderItem.objects.filter(order_id=orderId.id)
+        orderItemsObj = OrderItem.objects.filter(order_id=orderId.id).order_by('-id')
+        # End of commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest data show on the top 
+
         orderItemserializer = OrderItemSerializer(orderItemsObj, many=True)
        
         orderItemOrderId = OrderItem.objects.filter(order_id=orderId.id)
 
+        #  Modified by :- Parineeta Gedam on 23-06-2023  
+        updatedOrderValues=dict()
         itemsPrice = []
         for orderItem in orderItemOrderId :
             if(orderItem.item_status != "Cancelled"):
                 price = orderItem.price
                 itemsPrice.append(price)
-        updatedOrderValues=dict()
+            else:
+                updatedOrderValues['Cancelled by'] = "Customer"
+        # End of modified code by :- Parineeta Gedam on 23-06-2023
 
         updatedOrderValues['sub_total'] = round(float("{:.2f}".format((sum(itemsPrice)))),2)
         orderSerializer=OrderSerializer(orderId,data=updatedOrderValues,partial=True)
@@ -2008,7 +2021,7 @@ class PostUpdateOrderItemsAPIView(APIView):
         # if(order['order_status'] == "Placed") : 
         for cart in request.data['orderItems']:
             if(cart['item_status'] != "Cancelled") : 
-                print("cart", cart)
+                # print("cart", cart)
                 orderItem = OrderItem.objects.get(id=cart['id'])
                 orderItem.quantity=cart['quantity']
                 orderItem.price=cart['price']
@@ -2041,7 +2054,12 @@ class GetOrderItemsAndOrderAPIView(APIView):
     def post(self, request, tenant):
         orderId = Order.objects.get(order_id=request.data['order'])
         orderSerializer = OrderSerializer(orderId)
+
+        # Modified by :- Parineeta GEdam on 22-06-2023 reason :- show latest item on the top
         orderItemId = OrderItem.objects.filter(order_id=orderId.id)
+        orderItemId = OrderItem.objects.filter(order_id=orderId.id).order_by('-id')
+        # End of Modified code by :- Parineeta GEdam on 22-06-2023 reason :- show latest item on the top
+
         orderItemsSerializer = OrderItemSerializer(orderItemId, many=True)
         return Response({"orderItem":orderItemsSerializer.data, "order": orderSerializer.data})
     
@@ -2062,7 +2080,12 @@ class AddOrderItemsAPIView(APIView):
             quantity = request.data["quantity"],
             item_status = request.data["item_status"]
         ).save()
-        orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
+
+        # Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
+        # orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
+        orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
+        # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
+
         orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
         order = Order.objects.get(order_id = request.data["order_order_id"])
         order.order_status = "Placed"
@@ -2442,7 +2465,12 @@ class GetBillingDataAPIView(APIView):
         order = Order.objects.filter(
             customer_id__contact_number=request.data['contact_number']).latest('date')
         orderSerializedData = OrderSerializer(order)
-        orderItem = OrderItem.objects.filter(order_id__order_id=order.order_id)
+
+        # Commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest order item show in top
+        # orderItem = OrderItem.objects.filter(order_id__order_id=order.order_id)
+        orderItem = OrderItem.objects.filter(order_id__order_id=order.order_id).order_by('-id')
+        # End of Commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest order item show in top
+
         orderItemSerializedData = OrderItemSerializer(orderItem, many=True)
         settingserailize = SettingSaveSerializer(Setting.objects.last())
         from admin_app.models import Tenant, RestaurantRequest

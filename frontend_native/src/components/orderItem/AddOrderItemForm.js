@@ -15,6 +15,12 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default function AddOrderItemForm(orderId) {
 
+    // Added by :- Parineeta Gedam on 23-06-2023 
+    // Reason :- after submit button will be disable 
+    var [submitBtnDisable, setSubmitBtnDisable] = useState(false);
+    // End of added code by :- Parineeta Gedam on 23-06-2023
+
+
     // Added by :- Parineeta Gedam on 09-06-2023
     // reason :- get setting data\
 
@@ -176,6 +182,13 @@ export default function AddOrderItemForm(orderId) {
     //  Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - submit order items 
     const submitOrderItems = async () => {
+
+        // Added by :- Parineeta Gedam on 23-06-2023
+        // Reason :- set button disable
+        setSubmitBtnDisable(true);
+        // End of added code by :- Parineeta Gedam on 23-06-2023 
+
+
         // Added by :-  Parineeta Gedam on 26-05-2023
         // Reason :- for show the validations message
         if (itemIdSelected == null) {
@@ -203,6 +216,10 @@ export default function AddOrderItemForm(orderId) {
                 orderId.setOrderStatus(response.order.order_status)
                 Alert.alert("Item added successfully");
                 orderId.modalvisibilityFn(false)
+
+                // Added by :- Parineeta Gedam on 23-06-2023 
+                setSubmitBtnDisable(false);
+                // End of added code by :- Parineeta Gedam on 23-06-2023 
             }
         }
     }
@@ -468,9 +485,20 @@ export default function AddOrderItemForm(orderId) {
                                             </Text>
                                         </Pressable>
                                         <Pressable
+                                            // Added by :- Parineeta Gedam on 23-06-2023
+                                            // Reason :- to btn disable
+                                            disabled={submitBtnDisable}
+                                            // End of added code by :- PArineeta Gedam on 23-06-2023
+
                                             onPress={handleSubmit}
                                             style={{
-                                                backgroundColor: colors.btnColor,
+                                                // Modified by :- Parineeta Gedam on 23-06-2023
+                                                // Reason :- to btn disable
+                                                // backgroundColor: colors.btnColor,
+                                                backgroundColor: submitBtnDisable
+                                                ? "#E0E0E0"
+                                                : colors.btnColor,
+                                                // End of added code by :- Parineeta Gedam on 23-06-2023
                                                 height: 30,
                                                 alignItems: "center",
                                                 justifyContent: "center",
@@ -483,7 +511,12 @@ export default function AddOrderItemForm(orderId) {
                                                 style={{
                                                     fontSize: 16,
                                                     fontWeight: "bold",
-                                                    color: "white",
+                                                     // Added by :- Parineeta Gedam on 23-06-2023
+                                                        // Reason :- to btn disable
+                                                        // backgroundColor: colors.btnColor,
+                                                        // color: colors.white,
+                                                        color: submitBtnDisable ? "#989898" : colors.white,
+                                                        // End of added code by :- Parineeta Gedam on 23-06-2023
                                                 }}
                                             >
                                                 Submit

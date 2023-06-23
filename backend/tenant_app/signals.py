@@ -44,7 +44,7 @@ def on_order_status_update(sender,instance,created,**kwargs):
         try:
             customerDetail=CustomerDetail.objects.get(id=instance.customer_id.id)
             order=Order.objects.get(id=instance.id)
-            orderItem = OrderItem.objects.filter(order_id = order)
+            orderItem = OrderItem.objects.filter(order_id = order).order_by('-id')
             try :
                 fcmRegisteredObject=FcmNotification.objects.filter(phone_number=customerDetail.contact_number)
                 if order.order_status == "Confirm" and order.send_notifications_on_order_update == True :
@@ -67,9 +67,19 @@ def on_order_status_update(sender,instance,created,**kwargs):
                     data2=serializers.serialize('json', orderItem)
                     fcmRegisteredObject.send_message(Message(notification=Notification(title='Restroscans.com', body='Order Status'),data={"order":data1, "orderItem" : data2}))
                 # print("success order status Completed -----")
+                # Added by :- Parineeta Gedam on 23-06-2023 reason :- send notifications for order cancelled
+                if order.order_status == "Cancelled" :
+                    data1=serializers.serialize('json', [ order,])
+                    data2=serializers.serialize('json', orderItem)
+                    fcmRegisteredObject.send_message(Message(notification=Notification(title='Restroscans.com', body='Order Status'),data={"order":data1, "orderItem" : data2}))
+                # End of Added by :- Parineeta Gedam on 23-06-2023 reason :- send notifications for order cancelled
             except :
-                fcmRegisteredObject=FcmNotification.objects.filter(phone_number=customerDetail.contact_number)
-                print("except ====== ")
+                # Commented and modified by :- Parineeta gedam on 23-06-2023
+                # fcmRegisteredObject=FcmNotification.objects.filter(phone_number=customerDetail.contact_number)
+                # print("except ====== ")
+                pass
+                # End of Commented and modified by :- Parineeta gedam on 23-06-2023
+                
         except Exception as e:
             print("exception occured order :----------------",e) 
     else:
@@ -95,7 +105,8 @@ def on_orderItem_status_update(sender,instance,created,**kwargs):
         try:
             customerDetail=CustomerDetail.objects.get(id=order.customer_id.id)
             order=Order.objects.get(order_id=instance.order_id)
-            orderItem = OrderItem.objects.filter(order_id = instance.order_id)
+            orderItem = OrderItem.objects.filter(order_id = instance.order_id).order_by('-id')
+            orderItemID = OrderItem.objects.get(id = instance.id)
             fcmRegisteredObject=FcmNotification.objects.filter(phone_number=customerDetail.contact_number)
 
             # Modified by :- Parineeta Gedam on 22-06-2023 reason :- conditions based send push notifications 
