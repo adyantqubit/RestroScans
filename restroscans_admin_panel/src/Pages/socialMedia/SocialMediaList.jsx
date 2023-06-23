@@ -200,7 +200,7 @@ export default function SocialMediaList() {
                   <Modal
                     // mask={false}
                     maskStyle={{
-                      backgroundColor: "rgba(0,0,0,0.03)",
+                      backgroundColor: "rgba(0,0,0,0.05)",
                     }}
                     title="Confirmation"
                     open={isConfirmationModalOpen.isOpen}

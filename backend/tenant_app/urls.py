@@ -319,6 +319,34 @@ urlpatterns = [
     path('<str:tenant>/get-menus/',GetMenusAPI.as_view()),
     # End of getting menus
 
+    # Added by Yuvraj Sahu on 23-06-23
+    # Reason : To get count of items.
+    path('<str:tenant>/item-count/',ItemAPI.as_view()),
+    # End of code addition by - Yuvraj Sahu on 23-06-2023
+    # Reason : To get count of item.  
+
+    # Added by Yuvraj Sahu on 23-06-23
+    # Reason : To get list of item.
+    path('<str:tenant>/item-list-v2/',ItemAPI.as_view()),
+    # End of code addition by - Yuvraj Sahu on 23-06-2023
+    # Reason : To get list of item.
+
+    # Added by - Yuvraj Sahu on 23-06-2023
+    # Reason - To get item details by id
+    path('<str:tenant>/item-details/<int:itemId>',ItemDetailsAPI.as_view()),
+    # End of code addition by Yuvraj sahu. reason - To get item details by id
+
+    # Added by - Yuvraj Sahu on 23-06-2023
+    # Reason - To save item details
+    path('<str:tenant>/item-details/',ItemDetailsAPI.as_view()),
+    # End of code addition by Yuvraj Sahu. reason - To save item details
+
+    # Added by Yuvraj Sahu on 23-06-23
+    # Reason : get categories details
+    path('<str:tenant>/get-categories/',GetCategoryAPI.as_view()),
+    # End of getting categories
+    
+
     # Added by Om Shrivastava on 14-06-23
     # Reason: When user apply rating than show rating and review
     path('<str:tenant>/rating-review/',RatingReviewAPI.as_view()),

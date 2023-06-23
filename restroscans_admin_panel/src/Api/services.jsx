@@ -505,3 +505,93 @@ export const postCategoryDetails = async (tenant,values) => {
  * End of code addition by - Yuvraj Sahu on 17-06-2023.
  * Reason - To save category details
  */
+
+
+/**
+ * Added by - Yuvraj Sahu on 23-06-2023
+ * Reason - To get item count
+ */
+export const getItemCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/item-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * Ent of code adition by - Yuvraj Sahu on 23-06-2023
+ * Reason - To get item count
+ */
+
+
+/**
+ * Added by - Yuvraj Sahu on 23-06-2023
+ * Reason - To get item list of tenant.
+ */
+export const getItemList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/item-list-v2/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Yuvraj Sahu on 23-06-2023.
+ * Reason - To get item list of tenant.
+ */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 23-06-2023
+ * Reason - To get item data by id.
+ */
+export const getItemDetails = async (tenantId,itemId) => {
+  const response = await API.get(`/api/v1/${tenantId}/item-details/${itemId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Yuvraj Sahu on 23-06-2023
+ * Reason -  To get item data by id.
+ * */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 23-06-2023
+ * Reason - To get all category from database.
+ */
+export const getCategoriesAPI = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/get-categories/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Yuvraj Sahu on 23-06-2023
+ * Reason -  To get categories.
+ * */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 23-06-2023
+ * Reason - To save item details
+ */
+export const postItemDetails = async (tenant,values) => {
+  const response = await API.post(`/api/v1/${tenant}/item-details/`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Yuvraj Sahu on 23-06-2023.
+ * Reason - To save item details
+ */

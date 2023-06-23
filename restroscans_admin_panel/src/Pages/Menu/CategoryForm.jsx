@@ -217,14 +217,22 @@ function CategoryForm() {
   const saveCategory = async () => {
     var allowDataPost = false;
 
-    if (name == null && menu == null) {
+    // Commeted and modified by yuvraj sahu on 23-06-2023
+    // Reason - to show validation message after clicking the clear and save
+    // if (name == null && menu == null) {
+    if (name == null || name == "" && menu == null) {
+    // End showing validation message by Yuvraj Sahu on 23-06-2023
       const error = {
         name: "Please enter category name",
         menu: "Please enter menu name",
       };
       setValidationErrors({ ...validationErrors, ...error });
     } else {
-      if (name == null) {
+      // Commeted and modified by yuvraj sahu on 23-06-2023
+      // Reason - to show validation message after clicking the clear and save
+      // if (name == null) {
+      if (name == null || name == "") {
+      // End showing validation message by Yuvraj Sahu on 23-06-2023
         const error = {
           name: "Please enter category name",
         };

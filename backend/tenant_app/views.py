@@ -2883,3 +2883,140 @@ class GetMenusAPI(APIView):
         menuListSerializer = MenuListSerializer(var, many =True)
         return Response({"msg":"success", "menus":menuListSerializer.data})
 # End of addition by Yuvraj Sahu on 17-06-2023
+
+
+# Added by Yuvraj Sahu on 23-06-2023
+# Reason - API for CRUD operation on Item
+class ItemAPI(APIView):
+    # Added by Yuvraj Sahu on 23-06-2023
+    # Reason - To get count of item
+    def get(self,request,tenant):
+         itemCount=Item.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "itemCount":itemCount,
+        })
+    # End of code addition by - Yuvraj Sahu on 23-06-2023
+    # Reason - To get count of item
+    
+    # Added by - Yuvraj Sahu on 23-06-2023
+    # Reason - To get list of item using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Commented and modified by - Yuvraj Sahu on 23-06-2023
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        itemList=[]
+
+        if columnToSort == "":
+            itemList = Item.objects.all()
+
+        if searchText:
+            # Modified by Yuvraj Sahu on 23-06-2023
+            # Reason - to search by item name and category name 
+            itemList=Item.objects.filter(Q(name__icontains=searchText) | Q(category__name__icontains=searchText) )
+            # End of addition by Yuvraj Sahu on 23-06-2023
+        else:
+            itemList = Item.objects.all()        
+
+        if columnToSort == "name" and columnSortingOrder=="ascending":
+            itemList = itemList.order_by('name')
+        if columnToSort == "name" and columnSortingOrder=="descending":
+            itemList = itemList.order_by('-name')
+
+        # if columnToSort == "category" and columnSortingOrder=="ascending":
+        #     itemList = Item.objects.all().order_by('category__name')     
+        # if columnToSort == "category" and columnSortingOrder=="descending":
+        #     itemList = Item.objects.all().order_by('-category__name')
+
+        # if columnToSort == "priceFull" and columnSortingOrder=="ascending":
+        #     itemList = itemList.order_by('price_full')
+        # if columnToSort == "priceFull" and columnSortingOrder=="descending":
+        #     itemList = itemList.order_by('-price_full')
+
+        # if columnToSort == "priceHalf" and columnSortingOrder=="ascending":
+        #     itemList = itemList.order_by('price_half')
+        # if columnToSort == "priceHalf" and columnSortingOrder=="descending":
+        #     itemList = itemList.order_by('-price_half')     
+        
+        if columnToSort == "is_active" and columnSortingOrder=="ascending":
+            itemList = itemList.order_by('is_active')
+        if columnToSort == "is_active" and columnSortingOrder=="descending":
+            itemList = itemList.order_by('-is_active')
+        
+        # if columnToSort == "best_seller" and columnSortingOrder=="ascending":
+        #     itemList = itemList.order_by('best_seller')
+        # if columnToSort == "best_seller" and columnSortingOrder=="descending":
+        #     itemList = itemList.order_by('-best_seller')
+        
+        itemListCount=itemList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(itemList, listPerPage)
+        filteredItemList = paginator.page(currentPage)
+
+        itemListSerializer = ItemListSerializer(filteredItemList, many =True)
+        return Response({
+            "msg":"success",
+            "itemList":itemListSerializer.data,
+            "itemListCount":itemListCount,
+        })
+        # End of code modification by - Yuvraj Sahu on 23-06-2023
+        # Reason - To enhance and add basic search functionality
+        
+    # End of code addition by - Yuvraj Sahu on 23-06-2023
+    # Reason - To get list of item using backend pagination
+    
+# End of code addition by - Yuvraj Sahu on 23-06-2023
+# Reason - API to get list of item 
+
+
+# Added by - Yuvraj Sahu on 23-06-2023
+# Reason - API to get item by id
+class ItemDetailsAPI(APIView):
+    logger=logging.getLogger("custom_logger")
+    def get(self,request,tenant, itemId):
+        self.logger.info(request.data)
+        if itemId:
+            item=Item.objects.get(id=itemId)
+        else:
+            item= None
+        if item:
+            itemSerializer=ItemListSerializer(item)
+            itemData=itemSerializer.data
+        else:
+            itemData={}  
+        categories = Category.objects.all()
+        categorySerializer = CategoryListSerializer(categories, many=True)
+        return Response({"msg":"success","item":itemData, "categories":categorySerializer.data})
+    # Added by - Yuvraj Sahu on 23-06-2023
+    # Reason - To save item details
+    def post(self,request,tenant):
+        if "id" in request.data :
+            obj = Item.objects.get(id=request.data["id"])
+            itemSaveSerializer = ItemSaveSerializer(obj, data=request.data,partial=True)
+        else :
+            itemSaveSerializer = ItemSaveSerializer(data=request.data)
+        if itemSaveSerializer.is_valid():
+            itemSaveSerializer.save()
+            return Response({"msg": "Saved Successfully" }, status=status.HTTP_201_CREATED)
+        return Response({"error": itemSaveSerializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    # End of code addition by - Yuvraj Sahu on 23-06-2023
+    # Reason - To save item details
+
+# Added by Yuvraj Sahu on 23-06-2023
+# Reason - to get all categories from database
+class GetCategoryAPI(APIView):
+    def get(self,request,tenant):
+        categoryList=Category.objects.all().order_by('name')
+        var = categoryList.filter(is_active = True) 
+        categoryListSerializer = CategoryListSerializer(var, many =True)
+        return Response({"msg":"success", "categories":categoryListSerializer.data})
+# End of addition by Yuvraj Sahu on 23-06-2023

@@ -482,7 +482,11 @@
 /* Added by yuvraj Sahu on 22-06-2023
 Reason - to design a modal for delete social media */
 .modalContainerSocial{
-    width: 25vw !important;
+    /* Modified by yuvraj sahu on 23-06-2023
+    Reason - to reduce size of modal */
+    /* width: 25vw !important; */
+    width: 20vw !important;
+    /* End of modification  by yuvraj Sahu on 23-06-2023 */
     margin-left: 45vw !important;
     margin-top: 25vh !important;
     /* position: absolute !important; */
