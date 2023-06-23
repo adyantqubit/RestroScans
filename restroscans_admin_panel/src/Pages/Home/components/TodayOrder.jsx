@@ -573,7 +573,6 @@ function printKot(){
             width: 100%;
             height: auto;
             position: relative;
-            min-height: 100vh;
         }
 
 
@@ -769,6 +768,7 @@ function printKot(){
             .btnContainer{
             display: none;
             }
+            @page{margin:0;}
         }
         </style>
         </head>
@@ -813,6 +813,7 @@ function printKot(){
         </html>`)
         a.document.close();
         a.print();
+        a.close();
     }
     /**
      * End of addition by Yuvraj Sahu on 22-06-2023
