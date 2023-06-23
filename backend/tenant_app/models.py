@@ -598,8 +598,11 @@ PAYMENT_STATUS = (
 
 # Added by :- Parineeta Gedam on 13-05-2023
 CANCELLED_BY = (
-    ("Customer", "Customer"),
+    # Position changes by Om Shrivatava on 23-06-23
+    # ("Customer", "Customer"),
     ("Admin", "Admin"),
+    ("Customer", "Customer"),
+
 )
 # End of added code by :- Parineeta Gedam on 13-05-2023
 
@@ -713,12 +716,19 @@ class Order(models.Model):
 
     # Added by :- Parineeta Gedam on 13-05-2023 
     # Reason :- for order cancel
-    # Modification and addition by Om Shrivastava on 18-06-23
+    # Modification and addition by Om Shrivastava on 23-06-23
     # Reason : Remove the default field 
-    cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
+    # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
+    cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin")
     # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,null=True,blank=True)
-    # End of addition by Om Shrivastava on 18-06-23
-    cancel_reason = models.TextField(null=True,blank=True)
+    # End of addition by Om Shrivastava on 23-06-23
+    
+    # Modification and addition by Om Shrivastava on 23-06-23
+    # Reason : Remove the null true property
+    # cancel_reason = models.TextField(null=True,blank=True)
+    cancel_reason = models.TextField(default="",blank=True)
+    # End of addition by Om Shrivastava on 23-06-23
+
     # End of added code by :- Parineeta Gedam on 13-05-2023
 
     # Added by :- Om shrivastava on 26-05-23 

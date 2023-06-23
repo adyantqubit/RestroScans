@@ -52,8 +52,8 @@ const Order = () => {
   // Reason - To set global Page index Whenever its index updated
   useEffect(() => {
     if (localStorage.getItem("globalPageIndex")) {
-      currentPage = localStorage.getItem("globalPageIndex")
-      setCurrentPage(localStorage.getItem("globalPageIndex"))
+      currentPage =parseInt(localStorage.getItem("globalPageIndex"))
+      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
     }
 
   }, [])
@@ -531,8 +531,10 @@ const Order = () => {
                         <div
                           className={`${style.commonColumnData} ${style.smallColumnWidth}`}
                         >
-
-                          {(currentPage*10-9)+index}
+                          {/* Added by Rohan kansari - 23/6/23 
+                              Reason - Serial no. impact from list perpage so i set serial no. according to list per page */}
+                          {(currentPage*listPerPage-listPerPage)+index+1}
+                          {/* End of code- Rohan Kansari - 23/6/23 */}
                               
                         </div>
                         {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}

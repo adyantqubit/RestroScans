@@ -533,9 +533,9 @@ const OrderForm = () => {
               </div>
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Payment mode</div>
+                  <div className={`${style.inputLabel} `}>Payment mode</div>
                   <input
-                    className={`${style.textInputBox}`}
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
                     name="payment_mode"
                     value={paymentMode && paymentMode ? paymentMode : '----'}
@@ -563,6 +563,8 @@ const OrderForm = () => {
               <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>Order is cancelled by </div>
+                  {/* Addition and Modification by Om Shrivastava on 23-06-23
+                  Reason : Show the cancel field, only read only */}
                   <select
                     className={`${style.textInputBox}`}
                     name="cancelled_by"
@@ -572,11 +574,20 @@ const OrderForm = () => {
                       // validateOnInput("app_theme", e.target.value);
                     }}
                   >
-                    <option value="" selected={cancelledBy == null ? true : false}>---</option>
-                    <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
+                    {/* <option value=""  selected={cancelledBy && cancelledBy ||cancelledBy == ""||cancelledBy == null||cancelledBy == undefined ? true : false}>---</option> */}
                     <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
+                    <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
 
                   </select>
+                  {/* <input
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
+                    type="text"
+                    name="cancelled_by"
+                    style={{ width: "100px" }}
+                    value={cancelledBy && cancelledBy ?cancelledBy:"----"}
+                    disabled
+                  /> */}
+                  {/* End of addition and Modification by Om Shrivastava on 23-06-23 */}
                 </div>
                 <div className={`${style.inputErrorArea}`}>
                   {validationErrors.cancelled_by}
@@ -1053,7 +1064,7 @@ const OrderForm = () => {
                   <p
                   className= {`${style.textInputBox} ${style.disabledInputBox} `}
                   
-                  style={{wordBreak:'break-word'}}>{review && review ?review:'ghjghj hghugyut fdstdtretrerterterererere gfgfgtr ewew'}</p>
+                  style={{wordBreak:'break-word'}}>{review && review ?review:'----'}</p>
                 </div>
                 <div className={`${style.inputErrorArea}`}>
                   {/* {validationErrors.fssaino} */}

@@ -51,8 +51,8 @@ const CustomerDetail = () => {
     // Added By Rohan Kansari - 22/6/23
     // Reason - To set global Page index Whenever its index updated
     if (localStorage.getItem("globalPageIndex")){
-      currentPage=localStorage.getItem("globalPageIndex")
-      setCurrentPage(localStorage.getItem("globalPageIndex"))
+      currentPage =parseInt(localStorage.getItem("globalPageIndex"))
+      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
     }
     // End of code - Rohan kansari - 22/6/23
 
