@@ -107,7 +107,11 @@
   height: 100%;
   display: var(--common-column-display);
   font-weight: 600;
-  font-size: 14px;
+  /* Modified by yuvraj Sahu on 24-06-2023
+  Reason - to change font size */
+  /* font-size: 14px; */
+  font-size: 15px;
+  /* End of addition by yuvraj Sahu on 24-06-2023 */
   text-align: center;
   display: flex;
   justify-content: center;
@@ -273,7 +277,7 @@
     /* commeted and modified by Yuvraj Sahu on 23-06-2023
     Reason - to give spacing of collumns */
     /* --common-column-min-width: 15vw; */
-    --common-column-min-width: 11vw;
+    --common-column-min-width: 10vw;
     /* End of addition by yuvraj Sahu on 23-06-2023 */
 
     /* End of code modification by - Ashish Dewangan on 14-06-2023
@@ -292,7 +296,7 @@
     /* commeted and modified by Yuvraj Sahu on 23-06-2023
     Reason - to give spacing of collumns */
     /* --common-column-min-width: 15vw; */
-    --common-column-min-width: 11vw;
+    --common-column-min-width: 10vw;
     /* End of addition by yuvraj Sahu on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
@@ -314,7 +318,7 @@
     /* commeted and modified by Yuvraj Sahu on 23-06-2023
     Reason - to give spacing of collumns */
     /* --common-column-min-width: 15vw; */
-    --common-column-min-width: 11vw;
+    --common-column-min-width: 10vw;
     /* End of addition by yuvraj Sahu on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
@@ -336,7 +340,7 @@
     /* commeted and modified by Yuvraj Sahu on 23-06-2023
     Reason - to give spacing of collumns */
     /* --common-column-min-width: 15vw; */
-    --common-column-min-width: 11vw;
+    --common-column-min-width: 10vw;
     /* End of addition by yuvraj Sahu on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
@@ -358,7 +362,7 @@
     /* commeted and modified by Yuvraj Sahu on 23-06-2023
     Reason - to give spacing of collumns */
     /* --common-column-min-width: 15vw; */
-    --common-column-min-width: 11vw;
+    --common-column-min-width: 10vw;
     /* End of addition by yuvraj Sahu on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
@@ -380,7 +384,7 @@
     /* commeted and modified by Yuvraj Sahu on 23-06-2023
     Reason - to give spacing of collumns */
     /* --common-column-min-width: 15vw; */
-    --common-column-min-width: 11vw;
+    --common-column-min-width: 10vw;
     /* End of addition by yuvraj Sahu on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */

@@ -2950,10 +2950,10 @@ class ItemAPI(APIView):
             itemList = Item.objects.all()
 
         if searchText:
-            # Modified by Yuvraj Sahu on 23-06-2023
+            # Modified by Yuvraj Sahu on 24-06-2023
             # Reason - to search by item name and category name 
-            itemList=Item.objects.filter(Q(name__icontains=searchText) | Q(category__name__icontains=searchText) )
-            # End of addition by Yuvraj Sahu on 23-06-2023
+            itemList=Item.objects.filter(Q(name__icontains=searchText) | Q(category__name__icontains=searchText) | Q(price_full__icontains=searchText) | Q(price_half__icontains=searchText))
+            # End of addition by Yuvraj Sahu on 24-06-2023
         else:
             itemList = Item.objects.all()        
 
@@ -2962,30 +2962,45 @@ class ItemAPI(APIView):
         if columnToSort == "name" and columnSortingOrder=="descending":
             itemList = itemList.order_by('-name')
 
-        # if columnToSort == "category" and columnSortingOrder=="ascending":
-        #     itemList = Item.objects.all().order_by('category__name')     
-        # if columnToSort == "category" and columnSortingOrder=="descending":
-        #     itemList = Item.objects.all().order_by('-category__name')
+        # Added by yuvraj Sahu on 24-06-2023
+        # Reason - to sort by category name
+        if columnToSort == "category" and columnSortingOrder=="ascending":
+            itemList = Item.objects.all().order_by('category__name')     
+        if columnToSort == "category" and columnSortingOrder=="descending":
+            itemList = Item.objects.all().order_by('-category__name')
+        # End of sorting by category name by Yuvraj Sahu on 14-06-2023
 
-        # if columnToSort == "priceFull" and columnSortingOrder=="ascending":
-        #     itemList = itemList.order_by('price_full')
-        # if columnToSort == "priceFull" and columnSortingOrder=="descending":
-        #     itemList = itemList.order_by('-price_full')
+        # Added by yuvraj Sahu on 24-06-2023
+        # Reason - to sort by full price name
+        if columnToSort == "priceFull" and columnSortingOrder=="ascending":
+            itemList = itemList.order_by('price_full')
+        if columnToSort == "priceFull" and columnSortingOrder=="descending":
+            itemList = itemList.order_by('-price_full')
+        # End of sorting by full price by Yuvraj Sahu on 14-06-2023
 
-        # if columnToSort == "priceHalf" and columnSortingOrder=="ascending":
-        #     itemList = itemList.order_by('price_half')
-        # if columnToSort == "priceHalf" and columnSortingOrder=="descending":
-        #     itemList = itemList.order_by('-price_half')     
+        # Added by yuvraj Sahu on 24-06-2023
+        # Reason - to sort by price full name
+        if columnToSort == "priceHalf" and columnSortingOrder=="ascending":
+            itemList = itemList.order_by('price_half')
+        if columnToSort == "priceHalf" and columnSortingOrder=="descending":
+            itemList = itemList.order_by('-price_half')
+        # End of sorting by half price by Yuvraj Sahu on 14-06-2023     
         
+        # Added by yuvraj Sahu on 24-06-2023
+        # Reason - to sort by active status
         if columnToSort == "is_active" and columnSortingOrder=="ascending":
             itemList = itemList.order_by('is_active')
         if columnToSort == "is_active" and columnSortingOrder=="descending":
             itemList = itemList.order_by('-is_active')
+        # End of sorting by active status by Yuvraj Sahu on 14-06-2023
         
-        # if columnToSort == "best_seller" and columnSortingOrder=="ascending":
-        #     itemList = itemList.order_by('best_seller')
-        # if columnToSort == "best_seller" and columnSortingOrder=="descending":
-        #     itemList = itemList.order_by('-best_seller')
+        # Added by yuvraj Sahu on 24-06-2023
+        # Reason - to sort by best seller item
+        if columnToSort == "best_seller" and columnSortingOrder=="ascending":
+            itemList = itemList.order_by('best_seller')
+        if columnToSort == "best_seller" and columnSortingOrder=="descending":
+            itemList = itemList.order_by('-best_seller')
+        # End of sorting by best seller by Yuvraj Sahu on 14-06-2023
         
         itemListCount=itemList.count()
 

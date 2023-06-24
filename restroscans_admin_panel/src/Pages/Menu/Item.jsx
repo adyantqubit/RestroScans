@@ -7,28 +7,29 @@ import React, { useEffect, useState } from "react";
 import style from "./item.module.css";
 import Header from "../GlobalComponent/Header";
 import { Pagination } from "antd";
-import {
-  getItemCount,
-  getItemList,
-} from "../../Api/services";
+import { getItemCount, getItemList } from "../../Api/services";
 import {
   BsSortAlphaDownAlt,
   BsSortAlphaDown,
+  BsSortNumericDownAlt,
+  BsSortNumericDown,
 } from "react-icons/bs";
 
 import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
 import { Input, Space } from "antd";
 import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
-import defaultIcon from "../../../src/images/no-category.jpg"
+import defaultIcon from "../../../src/images/no-category.jpg";
 
 const Item = () => {
   const [backendItemCount, setBackendItemCount] = useState(0);
   const [itemList, setItemList] = useState([]);
-  // Modified by Rohan Kansari - 22/6/23 - To Get Selected List page from localstorage on Reload 
+  // Modified by Yuvraj Sahu on 23-06-2023 - To Get Selected List page from localstorage on Reload
   // const [listPerPage, setListPerPage] = useState(localStorage.getItem(10));
-  const [listPerPage, setListPerPage] = useState(localStorage.getItem("listPerPage"));
-  // End of code - ROhan kansari - 22/6/23
+  const [listPerPage, setListPerPage] = useState(
+    localStorage.getItem("listPerPage")
+  );
+  // End of code - Yuvraj Sahu on 23-06-2023
 
   const [columnToSort, setColumnToSort] = useState("name");
   const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
@@ -53,21 +54,18 @@ const Item = () => {
    * Reason - method that will execute when page loads. this method will call item list api
    */
   useEffect(() => {
-
     // Added By Yuvraj Sahu - 23-06-2023
     // Reason - To set global Page index Whenever its index updated
 
     if (localStorage.getItem("globalPageIndex")) {
-      currentPage = parseInt(localStorage.getItem("globalPageIndex"))
-      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
+      currentPage = parseInt(localStorage.getItem("globalPageIndex"));
+      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")));
     }
 
     // End of code - Yuvraj Sahu - 23-06-2023
     getCountOfItem();
     getListOfItem();
   }, []);
-
-
 
   /**
    * End of code addition by - Yuvraj Sahu on 23-06-2023
@@ -82,7 +80,7 @@ const Item = () => {
   useEffect(() => {
     getListOfItem();
 
-    // Modified by Yuvraj Sahu - 23-06-2023 - To add listPerPage Change call 
+    // Modified by Yuvraj Sahu - 23-06-2023 - To add listPerPage Change call
   }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
 
   /**
@@ -160,7 +158,7 @@ const Item = () => {
   const handlePageChange = async (pageNumber) => {
     //Added by Yuvraj Sahu - 23-06-2023
     // Reason - to set currentpage to global
-    localStorage.setItem("globalPageIndex", pageNumber)
+    localStorage.setItem("globalPageIndex", pageNumber);
     // End of code - Yuvraj Sahu - 23-06-2023
     setCurrentPage(pageNumber);
   };
@@ -212,13 +210,12 @@ const Item = () => {
   // Reason - To toggle dropdown visiblity on click
   function toggelDropdown() {
     if (document.getElementById("dropdown").style.display.length == 0)
-      document.getElementById("dropdown").style.display = "block"
-    else
-      document.getElementById("dropdown").style.display = ""
+      document.getElementById("dropdown").style.display = "block";
+    else document.getElementById("dropdown").style.display = "";
   }
 
   function hideDropdown() {
-    document.getElementById("dropdown").style.display = ""
+    document.getElementById("dropdown").style.display = "";
   }
   // End of code - Yuvraj Sahu on 23-06-2023
 
@@ -302,13 +299,13 @@ const Item = () => {
                 </div>
               </div> */}
               {/* -------------------------------------------------------------------------------------- */}
-              <div className={style.tableHeadingContainer}
-
+              <div
+                className={style.tableHeadingContainer}
                 // Added by Yuvraj Sahu on 23-06-2023
                 // Reason- To hide page size dropdown on outer click
                 onClick={hideDropdown}
                 onTouchStart={hideDropdown}
-              // End of code - Yuvraj Sahu on 23-06-2023
+                // End of code - Yuvraj Sahu on 23-06-2023
               >
                 <div className={style.commonColumnTitle}>Icon </div>
                 <div
@@ -363,7 +360,7 @@ const Item = () => {
                       setShowSortingIcon(false);
                     }
                   }}
-                // End of addition by Yuvraj Sahu on 23-06-2023
+                  // End of addition by Yuvraj Sahu on 23-06-2023
                 >
                   Category name
                   {/* Added by Yuvraj Sahu on 23-06-2023
@@ -385,16 +382,90 @@ const Item = () => {
                   {/* End of addition by Yuvraj Sahu on 23-06-2023 */}
                 </div>
 
-                <div className={style.commonColumnTitle}>
-                    Full price
-                </div>
-
-                <div className={style.commonColumnTitle}>
-                    Half price
+                <div
+                  // Added by Yuvraj Sahu on 24-06-2023
+                  // Reason - to sort data by Full price
+                  className={style.commonColumnTitle}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortItemList("priceFull");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "priceFull") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "priceFull") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // End of addition by Yuvraj Sahu on 24-06-2023
+                >
+                  Full price
+                  {/* Added by Yuvraj Sahu on 24-06-2023
+                  Reason - to sort data with full price */}
+                  {columnToSort == "priceFull" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "priceFull" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "priceFull" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  {/* End of addition by Yuvraj Sahu on 24-06-2023 */}
                 </div>
 
                 <div
                   className={style.commonColumnTitle}
+                  // Added by Yuvraj Sahu on 24-06-2023
+                  // Reason - to sort data by Half price
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortItemList("priceHalf");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "priceHalf") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "priceHalf") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // End of addition by Yuvraj Sahu on 24-06-2023
+                >
+                  Half price
+                  {/* Added by Yuvraj Sahu on 24-06-2023
+                  Reason - to sort data with half price */}
+                  {columnToSort == "priceHalf" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "priceHalf" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "priceHalf" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  {/* End of addition by Yuvraj Sahu on 24-06-2023 */}
+                </div>
+
+                <div
+                  className={style.commonColumnTitle}
+                  // Added by Yuvraj Sahu on 24-06-2023
+                  // Reason - to sort data by active status
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortItemList("is_active");
@@ -409,6 +480,7 @@ const Item = () => {
                       setShowSortingIcon(false);
                     }
                   }}
+                  // End of addition by Yuvraj Sahu on 24-06-2023
                 >
                   Is Available{" "}
                   {columnToSort == "is_active" &&
@@ -426,23 +498,25 @@ const Item = () => {
 
                 <div
                   className={style.commonColumnTitle}
-                  // onClick={(e) => {
-                  //   setShowSortingIcon(false);
-                  //   sortItemList("best_seller");
-                  // }}
-                  // onMouseEnter={(e) => {
-                  //   if (columnToSort != "best_seller") {
-                  //     setShowSortingIcon(true);
-                  //   }
-                  // }}
-                  // onMouseLeave={(e) => {
-                  //   if (columnToSort != "best_seller") {
-                  //     setShowSortingIcon(false);
-                  //   }
-                  // }}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortItemList("best_seller");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "best_seller") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "best_seller") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
                 >
                   Best Seller{" "}
-                  {/* {columnToSort == "best_seller" &&
+                  {/* Added by Yuvraj Sahu on 24-06-2023
+                  Reason - to sort data with best seller */}
+                  {columnToSort == "best_seller" &&
                     columnSortingOrder == "ascending" && (
                       <MdCancel className={style.sortingIcon} />
                     )}
@@ -452,7 +526,8 @@ const Item = () => {
                     )}
                   {columnToSort != "best_seller" && showSortingIcon && (
                     <MdCancel color="grey" className={style.sortingIcon} />
-                  )} */}
+                  )}
+                  {/* End of addition by Yuvraj Sahu on 24-06-2023 */}
                 </div>
 
                 <div className={style.commonColumnTitle}> Action </div>
@@ -463,12 +538,11 @@ const Item = () => {
                 style={{
                   backgroundColor: "#efefef",
                 }}
-
                 // Added by Yuvraj Sahu on 23-06-2023
                 // Reason- To hide page size dropdown on outer click
                 onClick={hideDropdown}
                 onTouchStart={hideDropdown}
-              // End of code - Yuvraj Sahu on 23-06-2023
+                // End of code - Yuvraj Sahu on 23-06-2023
               >
                 {itemList != null && itemList.length > 0 ? (
                   itemList.map((itemDetails, index) => {
@@ -486,12 +560,19 @@ const Item = () => {
                         <div className={style.commonColumnData}>
                           <img
                             className={style.itemImage}
-                            src={itemDetails.icon ? config.staticBaseURL + itemDetails.icon : defaultIcon}
+                            src={
+                              itemDetails.icon
+                                ? config.staticBaseURL + itemDetails.icon
+                                : defaultIcon
+                            }
                           />
                         </div>
                         {/* Modified by Yuvraj Sahu on 23-06-2023
                         Reason - to arrange the word */}
-                        <div className={style.commonColumnData} style={{wordBreak: "break-word"}}>
+                        <div
+                          className={style.commonColumnData}
+                          style={{ wordBreak: "break-word" }}
+                        >
                           {/* End of modification by Yuvraj Sahu on 23-06-2023 */}
                           {itemDetails.name}
                         </div>
@@ -501,11 +582,15 @@ const Item = () => {
                         </div>
 
                         <div className={style.commonColumnData}>
-                        {itemDetails.price_half ? itemDetails.price_half : "-"}
+                          {itemDetails.price_full
+                            ? itemDetails.price_full
+                            : "-"}
                         </div>
 
                         <div className={style.commonColumnData}>
-                          {itemDetails.price_full ? itemDetails.price_full : "-"} 
+                          {itemDetails.price_half
+                            ? itemDetails.price_half
+                            : "-"}
                         </div>
 
                         {itemDetails.is_active == true ? (
@@ -534,9 +619,7 @@ const Item = () => {
                         >
                           <div
                             className={` ${style.primaryButton}`}
-                            onClick={() =>
-                              openItemDetails(itemDetails.id)
-                            }
+                            onClick={() => openItemDetails(itemDetails.id)}
                           >
                             View
                           </div>
@@ -556,7 +639,7 @@ const Item = () => {
           {itemList && itemList.length > 0 ? (
             // Modified by Yuvraj Sahu on 23-06-2023
             // Reason - To divide container into two part for page selector
-            < div className={style.paginationContent}>
+            <div className={style.paginationContent}>
               <Pagination
                 defaultCurrent={1}
                 /**
@@ -576,20 +659,73 @@ const Item = () => {
               />
 
               <div className={style.dropdown} onClick={toggelDropdown}>
-                <button className={style.dropbtn}>{listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
+                <button className={style.dropbtn}>
+                  {listPerPage} / Page{" "}
+                  <MdArrowDropUp style={{ margin: "5px 0" }} />
+                </button>
                 <div className={style.dropdown_content} id="dropdown">
-                  {backendItemCount > 50 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
-                  {backendItemCount > 40 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
-                  {backendItemCount > 30 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
-                  <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span> 
-                  <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
+                  {backendItemCount > 50 ? (
+                    <span
+                      href="#"
+                      onClick={(e) => {
+                        setListPerPage(50);
+                        setCurrentPage(1);
+                        localStorage.setItem("listPerPage", 50);
+                      }}
+                    >
+                      50 / Page
+                    </span>
+                  ) : null}
+                  {backendItemCount > 40 ? (
+                    <span
+                      href="#"
+                      onClick={(e) => {
+                        setListPerPage(40);
+                        setCurrentPage(1);
+                        localStorage.setItem("listPerPage", 40);
+                      }}
+                    >
+                      40 / Page
+                    </span>
+                  ) : null}
+                  {backendItemCount > 30 ? (
+                    <span
+                      href="#"
+                      onClick={(e) => {
+                        setListPerPage(30);
+                        setCurrentPage(1);
+                        localStorage.setItem("listPerPage", 30);
+                      }}
+                    >
+                      30 / Page
+                    </span>
+                  ) : null}
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(20);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 20);
+                    }}
+                  >
+                    20 / Page
+                  </span>
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(10);
+                      localStorage.setItem("listPerPage", 10);
+                    }}
+                  >
+                    10 / Page
+                  </span>
                 </div>
               </div>
             </div>
-            // End of code - Modification - Yuvraj Sahu on 23-06-2023
-            // Reason - To separate div and add Selection box for page item size 
+          ) : // End of code - Modification - Yuvraj Sahu on 23-06-2023
+          // Reason - To separate div and add Selection box for page item size
 
-          ) : null}
+          null}
         </div>
       </div>
     </Header>
