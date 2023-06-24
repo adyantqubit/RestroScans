@@ -1413,6 +1413,13 @@ export default function OrderItemsScreen({ route, navigation }) {
       orderItem: id,
       tenant: tenantName,
     }
+    
+    //  Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a admin.
+    if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1){
+      data["cancelled_by"] = "Admin"
+    }
+    // End of Added code by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a admin.
+
     const response = await deleteOrderItemApi(tenantName, data);
     if (response.orderItem) {
       setOrderItems(response.orderItem)

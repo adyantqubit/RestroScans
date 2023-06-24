@@ -1989,9 +1989,13 @@ class DeleteOrderItemsAPIView(APIView):
             if(orderItem.item_status != "Cancelled"):
                 price = orderItem.price
                 itemsPrice.append(price)
-            else:
-                updatedOrderValues['Cancelled by'] = "Customer"
         # End of modified code by :- Parineeta Gedam on 23-06-2023
+
+        # Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer and if admin cancel the order then cancelled by save as a admin and also order status will be cancelled
+        if "cancelled_by" in request.data :
+            updatedOrderValues['cancelled_by'] = request.data['cancelled_by']
+            updatedOrderValues['order_status'] = "Cancelled"
+        # End of added code by :- Parineeta Gedam on 24-06-2023.
 
         updatedOrderValues['sub_total'] = round(float("{:.2f}".format((sum(itemsPrice)))),2)
         orderSerializer=OrderSerializer(orderId,data=updatedOrderValues,partial=True)

@@ -393,6 +393,13 @@ export default function OrderDetails() {
       orderItem: id,
       tenant: tenantName,
     };
+
+    //  Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer.
+    if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1){
+      data["cancelled_by"] = "Customer"
+    }
+    // End of Added code by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer.
+
     const response = await deleteOrderItems(tenantName, data);
     if (response.orderItem) {
       secureLocalStorage.removeItem("orderItem");
