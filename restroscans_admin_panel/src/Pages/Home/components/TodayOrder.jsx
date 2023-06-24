@@ -1104,10 +1104,8 @@ const TodayOrder = () => {
                 {/* added by - suman sahu on 10/06/2023
                     reason - change the popup when click the data of table no. in the dashbord */}
 
-                {/* Modified by Rohan kansari - 25/6/23
-                    Reason - To update select box value on cancle also */}
-                <Modal open={popupOrderItem} afterOpenChange={(open)=>{if(!open) orderItemModel(selectedItemArr)}} onCancel={e=>{closeModalOrderItem(); }}  footer={null} className={style.modalContainer}>
-                    {/* ENd of code - ROha kansari - 25/6/23 */}
+                <Modal open={popupOrderItem}  onCancel={e=>{closeModalOrderItem(); }}  footer={null} className={style.modalContainer}>
+           
                     <div className={style.popupItemContainer}>
                         <div className={style.itemlist}>
                             {orderItemList?.map((orderItem, i) => {
