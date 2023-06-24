@@ -5,7 +5,7 @@ import { GrFormCheckmark } from 'react-icons/gr'
 import { GiRiceCooker } from "react-icons/gi"
 import { getDashboardData, updateAllOrderAPI, updateItemStatus, updateOrderAndPaymentStatus } from '../../../Api/services'
 import { AiOutlineClose } from 'react-icons/ai'
-import { MdKeyboardArrowDown, MdDownloading } from "react-icons/md"
+import { MdKeyboardArrowDown, MdDownloading, MdArrowDropUp } from "react-icons/md"
 import { RiErrorWarningLine } from "react-icons/ri"
 import { Popover, Modal } from 'antd'
 import { Message } from '../../../App'
@@ -145,15 +145,48 @@ const TodayOrder = () => {
     function statusValidation(orderStatus, paymentStatus, m) {
         // Modified by ROhan Kansari - 26/5/23
         // Reason - To pass validion message if served is not done done payment want to completed by admin
-        if (orderStatus != "Served" && paymentStatus == "Completed") {
-            Message("You can not change the status to completed until this order is severd.", "error")
-            return false
+
+        // Modified By ROhan Kansari - 26/5/23
+        // Reason - To pass proper validation on each change and admin can able move backward after changing order status
+        // if (orderStatus != "Served" && paymentStatus == "Completed") {
+        //     Message("You can not change the status to completed until this order is severd.", "error")
+        //     return false
+        // }
+        // else if (orderStatus == "Served" && paymentStatus == "Completed") {
+        //     return true
+        // }
+        // else
+        //     return true
+
+        if(m.order.order_status=="Placed" && (orderStatus=="Cooked" || orderStatus=="Served"))
+        {  Message("Please first change order status to confirm ", "error")
+           return false;
         }
-        else if (orderStatus == "Served" && paymentStatus == "Completed") {
-            return true
+        else if (m.order.order_status=="Confirm" && (orderStatus=="Placed" )) 
+        {
+            Message("You cant change order status confirm to placed", "error")
+            return false;
         }
-        else
-            return true
+        else if (m.order.order_status=="Confirm" && (orderStatus=="Serverd" ))
+        {
+            Message("Please first change order status confirm to cooked", "error")
+            return false; 
+        }
+        else if(m.order.order_status=="Cooked" && (orderStatus=="Confirm" || orderStatus =="Placed" ))
+        {
+            Message(`You cant change order status cooked to ${orderStatus}`,"error")
+            return false;
+        }
+        else if(m.order.order_status=="Served" && (orderStatus=="Confirm" || orderStatus =="Placed" || orderStatus == "Cooked" ))
+        {
+            Message(`You cant change order status cooked to ${orderStatus}`,"error")
+            return false;
+        }
+        else 
+        return true;
+           
+
+            
 
         //End of code - Rohan Kansari - 26/5/23 
     }
@@ -170,12 +203,22 @@ const TodayOrder = () => {
     function model(m, i) {
         var paymentStatus = m.payment_status
         var orderStatus = m.order_status
+
+        // Modified by Rohan Kansari - 24/6/23
+        // Reason - To
+        var canWeUpdate= statusValidation(orderStatus,paymentStatus,m)
+        if(canWeUpdate)
         // added by - suman sahu on 11/06/2023
         // reason - for call that function in the antd modal
         updateStatus();
         // end of addition 11/06/2023 by - suman sahu
 
+        else{
+            document.getElementById("order_status_selectBox").value=m.order.order_status
+            return false
+        }
 
+        
         async function updateStatus() {
             const status = {
                 order_status: orderStatus,
@@ -215,85 +258,85 @@ const TodayOrder = () => {
 
         }
 
-    // commented by - suman sahu on 11/06/2023
-    // reason - change that popup to antd modal (when click on more button in the action of dashbord)
+        // commented by - suman sahu on 11/06/2023
+        // reason - change that popup to antd modal (when click on more button in the action of dashbord)
 
-    //     if (popupOpen)
-    //         return <div className={style.popupContainer}
-    //             onLoad={e => {
-    //                 console.log(document.getElementById("order_status_selected").selected)
-    //                 console.log(document.getElementById("payment_status_selected").selected)
-    //             }}>
-    //             <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
-    //                 selectboxReset()
-    //                 setPopupOpen(false)
-    //             }}><AiOutlineClose /></button></div>
-    //             <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
-    //             <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
-    //             <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
-    //             <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
-    //             <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
-    //             <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
-    //             <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
-    //             <div className={style.btnContainer}>
-    //                 <div className={style.selectionContainer}>
-    //                     <label className={style.lable}>Order Status</label>
-    //                     <div className={style.selctedContentBox}>
-    //                         <select defaultValue={orderStatus} onChange={e => orderStatus = e.target.value} id="order_status_selected">
-    //                             <option value="Placed" className={style.options}>Placed</option>
-    //                             <option value="Confirm" className={style.options}>Confirm</option>
-    //                             <option value="Cooked" className={style.options}>Cooked</option>
-    //                             <option value="Served" className={style.options}>Served</option>
-    //                         </select>
-    //                     </div>
-    //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
+        //     if (popupOpen)
+        //         return <div className={style.popupContainer}
+        //             onLoad={e => {
+        //                 console.log(document.getElementById("order_status_selected").selected)
+        //                 console.log(document.getElementById("payment_status_selected").selected)
+        //             }}>
+        //             <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
+        //                 selectboxReset()
+        //                 setPopupOpen(false)
+        //             }}><AiOutlineClose /></button></div>
+        //             <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
+        //             <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
+        //             <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
+        //             <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
+        //             <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
+        //             <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
+        //             <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
+        //             <div className={style.btnContainer}>
+        //                 <div className={style.selectionContainer}>
+        //                     <label className={style.lable}>Order Status</label>
+        //                     <div className={style.selctedContentBox}>
+        //                         <select defaultValue={orderStatus} onChange={e => orderStatus = e.target.value} id="order_status_selected">
+        //                             <option value="Placed" className={style.options}>Placed</option>
+        //                             <option value="Confirm" className={style.options}>Confirm</option>
+        //                             <option value="Cooked" className={style.options}>Cooked</option>
+        //                             <option value="Served" className={style.options}>Served</option>
+        //                         </select>
+        //                     </div>
+        //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
 
-    //                 </div>
-    //                 <div className={style.selectionContainer}>
-    //                     <label className={style.lable}>Payment Status</label>
-    //                     <div className={style.selctedContentBox}>
-    //                         <select defaultValue={paymentStatus} onChange={e => paymentStatus = e.target.value} id="payment_status_selected">
-    //                             <option className={style.options} value="Pending">Pending</option>
-    //                             <option className={style.options} value="Completed">Completed</option>
-    //                         </select>
-    //                     </div>
-    //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
-    //                 </div>
-    //             </div>
-    //             <div className={style.btnContainer}>
-    //                 <div className={style.selectionContainer}>
-    //                     <button className={style.btnUpdate} onClick={e => updateStatus()}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-    //                 </div>
-    //                 <div className={style.selectionContainer}>
-    //                     <button className={style.btnUpdate} onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}>Cancel</button>
-    //                 </div>
-    //             </div>
+        //                 </div>
+        //                 <div className={style.selectionContainer}>
+        //                     <label className={style.lable}>Payment Status</label>
+        //                     <div className={style.selctedContentBox}>
+        //                         <select defaultValue={paymentStatus} onChange={e => paymentStatus = e.target.value} id="payment_status_selected">
+        //                             <option className={style.options} value="Pending">Pending</option>
+        //                             <option className={style.options} value="Completed">Completed</option>
+        //                         </select>
+        //                     </div>
+        //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
+        //                 </div>
+        //             </div>
+        //             <div className={style.btnContainer}>
+        //                 <div className={style.selectionContainer}>
+        //                     <button className={style.btnUpdate} onClick={e => updateStatus()}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+        //                 </div>
+        //                 <div className={style.selectionContainer}>
+        //                     <button className={style.btnUpdate} onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}>Cancel</button>
+        //                 </div>
+        //             </div>
 
-    //             <div className={style.btnContainer}>
-    //                 <div className={style.selectionContainer} style={{ textAlign: "center" }}>
-    //                     <div className={style.visitLink}>See Order</div>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-    //                 </div>
-    //                 <div className={style.selectionContainer}>
-    //                     <span className={style.visitLink}>See Order Item</span>
-    //                 </div>
-    //             </div>
+        //             <div className={style.btnContainer}>
+        //                 <div className={style.selectionContainer} style={{ textAlign: "center" }}>
+        //                     <div className={style.visitLink}>See Order</div>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+        //                 </div>
+        //                 <div className={style.selectionContainer}>
+        //                     <span className={style.visitLink}>See Order Item</span>
+        //                 </div>
+        //             </div>
 
-    //             <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
-    //                 <div className={style.selectionContainer}>
-    //                     <button className={style.kotPrint}
-    //                         // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
-    //                         onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
-    //                     >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-    //                 </div>
-    //                 <div className={style.selectionContainer}>
-    //                     <button className={style.billPrint}
-    //                         style={m.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
-    //                         onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
-    //                     >Print</button>
-    //                 </div>
-    //             </div>
+        //             <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
+        //                 <div className={style.selectionContainer}>
+        //                     <button className={style.kotPrint}
+        //                         // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
+        //                         onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+        //                     >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+        //                 </div>
+        //                 <div className={style.selectionContainer}>
+        //                     <button className={style.billPrint}
+        //                         style={m.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
+        //                         onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+        //                     >Print</button>
+        //                 </div>
+        //             </div>
 
-    //         </div>
+        //         </div>
     }
 
     // end of commentation code on 11/06/2023 by - suman sahu
@@ -321,6 +364,7 @@ const TodayOrder = () => {
             await updateItemStatus(tenant, filteredOrderItemList, filteredOrderItemList[0].order_id).then(r => {
                 updatedStatus.current.value = []
                 var newOrderItemList = []
+
                 r.filter(e => {
                     updatedStatus.current.value.push(e.item_status);
                     /**
@@ -328,7 +372,12 @@ const TodayOrder = () => {
                      * Reason - Fixed issue where when we change item status then some items were not appearing on modal
                      */
                     // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
-                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o=>o.id==e.id)]
+                    // Modified by Rohan Kansari- 24/6/23
+                    // Reason - To get updated value before it is setting old values 
+                    // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
+                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
+                    ...orderItemList.filter(o => { if (o.id == e.id) return o.item_status = e.item_status })]
+                    //  ENd of code - ROhan Kansari - 24/6/23
                     /**
                      * End of code modifciation by - Ashish Dewangan on 18-06-2023
                      * Reason - Fixed issue where when we change item status then some items were not appearing on modal
@@ -336,9 +385,16 @@ const TodayOrder = () => {
                 })
 
                 setOrderItem(newOrderItemList)
-                var option = document.querySelectorAll("select option");
+                selectedItemArr = []
+
+                // Modified by Rohan Kansari- 24/5/23
+                // Reason - Select box is not updated 
+                // var option = document.querySelectorAll("select option")
+                var option = document.getElementsByClassName("item_selected");
+                console.log(option)
                 for (var i = 0; i < option.length; i++) {
-                    option[i].defaultSelected = option[i].selected;
+                    // option[i].defaultSelected=option[i].selected
+                    option[i].value = r[i].item_status
                 }
             }
             )
@@ -472,7 +528,7 @@ const TodayOrder = () => {
                     setCheckedItem(checkedItems)
                     uncheckAll()
                     setOrderItem(r.order_items)
-                    
+
                     // Modified by ROhan kansari - 23/6/23
                     // Reason - To enhance code and making easy to understand
                     // completed,pending_order,newly_placed
@@ -589,22 +645,22 @@ const TodayOrder = () => {
     // var [kotData, setKot] = useState({})
     var kotData = {}
 
-function printKot(){
-    var filterKotItems = orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id })
-    var state = { gstFssai: gstFssai, restro_detail: restroDetail, order:openActionPopupModal, orderItem: filterKotItems }
-    // setKot(state)   
-    kotData = state
+    function printKot() {
+        var filterKotItems = orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id })
+        var state = { gstFssai: gstFssai, restro_detail: restroDetail, order: openActionPopupModal, orderItem: filterKotItems }
+        // setKot(state)   
+        kotData = state
 
-    console.log(kotData)
+        console.log(kotData)
 
-    function ExtractDateTime(format) {
-        var date = format.substring(0, 10)
-        var time = format.substring(11, 19)
-        return { date, time }
-    }
+        function ExtractDateTime(format) {
+            var date = format.substring(0, 10)
+            var time = format.substring(11, 19)
+            return { date, time }
+        }
 
         var a = window.open('', '', 'height=800, width=1200');
-        
+
         a.document.write(`<html>
         <head>
         <style>
@@ -821,15 +877,14 @@ function printKot(){
                 <hr />
                 <div class="inLineContainer">
                     <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Date</div><div>:</div>  </div><div class="text">${new Date(
-                        kotData.order.date
-                    ).toLocaleDateString("en-GB")}</div></div>
+            kotData.order.date
+        ).toLocaleDateString("en-GB")}</div></div>
                     <div class="column1"><div class="label"><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div class="text"> ${ExtractDateTime(kotData.order.date).time}</div></div>
                 </div>
                 <div class="inLineContainer">
                     <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Order id</div><div>:</div>  </div><div class="text"> ${kotData.order.order_id}</div></div>
-                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Table</div><div>:</div>  </div><div class="text">${
-                        !kotData.order.table_number ? "N/A" : kotData.order.table_number
-                    }</div></div>
+                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Table</div><div>:</div>  </div><div class="text">${!kotData.order.table_number ? "N/A" : kotData.order.table_number
+            }</div></div>
 
                 </div>
                 <div class="tableHeader">
@@ -837,16 +892,15 @@ function printKot(){
                     <div class="titleHeading">Item Name</div>
                     <div class="qtyHeading">   Qty   </div>
                 </div>`+
-                kotData.orderItem.map((item, i) =>
-                    `<div class="tableContents">
-                        <div class="quantityText">${i+1}</div>
-                        <div class="titleText">${item.item} (${
-                            item.serving_size
-                        })</div>
+            kotData.orderItem.map((item, i) =>
+                `<div class="tableContents">
+                        <div class="quantityText">${i + 1}</div>
+                        <div class="titleText">${item.item} (${item.serving_size
+                })</div>
                         <div class="rateText">${item.quantity}</div>
                     </div>`
-                ).join("")
-            +`</div>
+            ).join("")
+            + `</div>
                
         </div>
         </body>
@@ -859,7 +913,6 @@ function printKot(){
      * End of addition by Yuvraj Sahu on 22-06-2023
      */
     // -------------------------------------- End print kot by Yuvraj Sahu -----------------------------------
-
 
 
 
@@ -944,7 +997,7 @@ function printKot(){
                                     <button className={style.printBtn} onClick={e => setPopupOpen({ [`${i}`]: true })}>More</button>
                                 </Popover> */}
 
-                                <div className={style.columnData2} onClick={e =>{ setOpenModalNumOrderItem(data);setPopupOrderItem(true)}} >{data.table_number}</div>
+                                <div className={style.columnData2} onClick={e => { setOpenModalNumOrderItem(data); setPopupOrderItem(true) }} >{data.table_number}</div>
                                 {/* end of modification on 10/06/2023 */}
 
                                 <div className={style.columnData8}>{data.order_id}</div>
@@ -953,9 +1006,9 @@ function printKot(){
                                 <div className={style.columnData5}>{data.total}</div>
                                 <div className={style.columnData6}>{getStatusBtn(data.payment_status)}</div>
                                 <div className={style.columnData7}>
-                                {/* // Commented and modification by - Suman sahu On 12/06/2023
+                                    {/* // Commented and modification by - Suman sahu On 12/06/2023
                                     // reason - change that popup to antd modal */}
-                                    <Popover placement="left" 
+                                    {/* <Popover placement="left"
                                         content={e => model(data, i)}
                                         // Added by Om Shrivastava on 05-06-23
                                         // Reason : Fix the arrow issue when we click cancel button
@@ -973,10 +1026,10 @@ function printKot(){
                                         }}
                                         trigger='click'>
                                         {/* <button className={style.printBtn} onClick={e => setPopupOpen(true)}>More</button> */}
-                                    </Popover>
+                                    {/* </Popover>  */}
 
-                                    <div className={style.columnData7} onClick={e =>{ setOpenActionPopupModal(data); setPopupOpen(true)}}><button className={style.printBtn}>More</button></div>
-                                {/* end of modification on 12/06/2023 */}
+                                    <div className={style.columnData7} onClick={e => { setOpenActionPopupModal(data); setPopupOpen(true) }}><button className={style.printBtn}>More</button></div>
+                                    {/* end of modification on 12/06/2023 */}
                                 </div>
                             </div>
                             // Added by Rohan Kansari - 30/5/23 
@@ -1020,27 +1073,26 @@ function printKot(){
                 {/* added by - suman sahu on 10/06/2023
                     reason - change the popup when click the data of table no. in the dashbord */}
 
-                <Modal open={popupOrderItem} onCancel={closeModalOrderItem}  footer={null} className={style.modalContainer}>
+                <Modal open={popupOrderItem} onCancel={closeModalOrderItem} footer={null} className={style.modalContainer}>
                     <div className={style.popupItemContainer}>
                         <div className={style.itemlist}>
                             {orderItemList?.map((orderItem, i) => {
-                                
-                                if(orderItem.order_id==openModalNumOrderItem.order_id){
-                                    
-                                    {selectedItemArr.push(orderItem) }
+
+                                if (orderItem.order_id == openModalNumOrderItem.order_id) {
+                                    { selectedItemArr.push(orderItem) }
                                     return <div key={i} className={style.itemListContainer}
-                                    // added by - Suman sahu on - 17/06/2023
-                                    style={{
-                                        marginTop: "5px",
-                                        background:
-                                          i % 2 === 0
-                                            ? " rgb(234, 229, 227) "
-                                            : " #faf5f5 ",
-                                      }}
+                                        // added by - Suman sahu on - 17/06/2023
+                                        style={{
+                                            marginTop: "5px",
+                                            background:
+                                                i % 2 === 0
+                                                    ? " rgb(234, 229, 227) "
+                                                    : " #faf5f5 ",
+                                        }}
                                     //   end of addition by - Suman sahu on - 17/06/2023
-                                      >
+                                    >
                                         <div className={style.title}>
-                                        {orderItem.item}
+                                            {orderItem.item}
                                         </div>
                                         <div className={style.itemStatusContainer} >
                                             <label className={style.lable}>Serving Size</label>
@@ -1053,19 +1105,30 @@ function printKot(){
                                         <div className={style.itemStatusContainer} >
                                             <label className={style.lable}>Item Status</label>
                                             <div className={style.selctedContentBox}>
-                                                <select 
-                                                defaultValue={orderItem.item_status}
-                                                // added by - Suman sahu on - 14/06/2023
-                                                // reason - to save item status and render that value on select box after updating
-                                                onChange={e => { selectedItemArr.forEach((item)=>{
-                                                    if(item.id==orderItem.id){
-                                                        item.item_status=e.target.value
-                                                    }
-                                                }) }} 
-                                                // end of addition by - Suman sahu on - 14/06/2023
-                                                id="payment_status_selected">
-                                                    <option className={style.options} value="Pending">Pending</option>
-                                                    <option className={style.options} value="Confirm">Confirm</option>
+
+                                                <select
+
+                                                    defaultValue={orderItem.item_status}
+                                                    // added by - Suman sahu on - 14/06/2023
+                                                    // reason - to save item status and render that value on select box after updating
+                                                    onChange={e => {
+                                                        selectedItemArr.forEach((item) => {
+                                                            if (item.id == orderItem.id) {
+                                                                item.item_status = e.target.value
+                                                            }
+                                                        })
+                                                    }}
+                                                    // end of addition by - Suman sahu on - 14/06/2023
+                                                    className="item_selected">
+                                                    {/* Modified by Rohan Kansari - 24/6/23
+                                                         Reason - facing issue on showing default value so changing flow where
+                                                          i am giving condition in in each option */}
+                                                    {/* <option className={style.options} value="Pending" >Pending</option>
+                                                     <option className={style.options} value="Confirm" >Confirm</option> */}
+                                                    <option className={style.options} value="Pending" selected={orderItem.item_status == "Pending"}>Pending</option>
+                                                    <option className={style.options} value="Confirm" selected={orderItem.item_status == "Confirm"}>Confirm</option>
+                                                    <option className={style.options} value="Cancelled" selected={orderItem.item_status == "Cancelled"}>Cancelled</option>
+                                                    {/* End of code by Rohan Kansari - 24/5/23 - To add cancel option in item status */}
                                                 </select>
                                             </div>
                                         </div>
@@ -1076,13 +1139,13 @@ function printKot(){
                     </div>
                     <div className={style.btnContainer}>
                         <div className={style.selectionContainer}>
-                            <button className={style.btnUpdate} 
-                            onClick={e => { orderItemModel(selectedItemArr); }}
-                            >Update</button>                                    
+                            <button className={style.btnUpdate}
+                                onClick={e => { orderItemModel(selectedItemArr); }}
+                            >Update</button>
                         </div>
                         <div className={style.selectionContainer}>
-                            <button className={style.btnUpdate} 
-                            onClick={e => { setPopupOrderItem(false);}}
+                            <button className={style.btnUpdate}
+                                onClick={e => { setPopupOrderItem(false); }}
                             >Cancel</button>
                         </div>
                     </div>
@@ -1098,20 +1161,34 @@ function printKot(){
                             console.log(document.getElementById("order_status_selected").selected)
                             console.log(document.getElementById("payment_status_selected").selected)
                         }}>
-                           
-                      
+
+
                         {selectedOrder?.map((orderItem, i) => {
 
-                            if(orderItem.order_id==openActionPopupModal.order_id){
-                                selectedOrderCopy["order_id"]=openActionPopupModal.order_id
+                            if (orderItem.order_id == openActionPopupModal.order_id) {
+                                selectedOrderCopy["order_id"] = openActionPopupModal.order_id
+                                // Added by Rohan kansari - 24/6/23
+                                // Reason - To save ordr object also to send for validation
+                                selectedOrderCopy["order"]=orderItem
+                                // End of code - Rohan Kansari - 24/6/23
+                                
                                 // added by - Suman sahu on - 14/06/2023
                                 // reason - to save order status & payment status and render that value on select box after updating
-                                selectedOrderCopy["order_status"]=openActionPopupModal.order_status
-                                selectedOrderCopy["payment_status"]=openActionPopupModal.payment_status
-                                {/* end of addition by - Suman sahu on 14/06/2023 */}
+                                selectedOrderCopy["order_status"] = openActionPopupModal.order_status
+                                selectedOrderCopy["payment_status"] = openActionPopupModal.payment_status
+                                {/* end of addition by - Suman sahu on 14/06/2023 */ }
+
+                                // Added by Rohan kansari - 24/6/23
+                                // Reason - Select box issue solved, Passing update value in select box
+                                if(document.getElementById("order_status_selectBox")){
+                                document.getElementById("order_status_selectBox").value=orderItem.order_status
+                                document.getElementById("payment_status_selectBox").value=orderItem.payment_status
+                                }
+                                // End of code - Rohan Kansari - 24/6/23
+                                
 
                                 return <>
-                                {/* modified by - Suman sahu on 17/06/2023 */}
+                                    {/* modified by - Suman sahu on 17/06/2023 */}
                                     <div className={style.customername}><label className={style.lable}>Contact Number : &nbsp;</label>{orderItem.customer_number}</div>
                                     <div className={style.OrderTime}><label className={style.lable}>Table No : &nbsp;</label>{orderItem.table_number}</div>
                                     <div className={style.OrderTime}><label className={style.lable}>Date & Time : &nbsp;</label>{orderItem.date.substring(0, 10).split('-').reverse().join("/") + ' ' + orderItem.date.substring(11, 16)}</div>
@@ -1134,56 +1211,58 @@ function printKot(){
                                     <div className={style.OrderTime}><label className={style.Highlightlable}>Total : &nbsp; {(orderItem.total).toFixed(2)} </label></div>
                                     {/* end of modification by - Suman sahu on 17/06/2023 */}
 
-                                {/* end of modification by - suman sahu on - 17/06/2023 */}
-                        
-                                <div className={style.btnContainer}>
-                                    <div className={style.selectionContainer}>
-                                        <label className={style.lable}>Order Status</label>
-                                        <div className={style.selctedContentBox}>
-                                            <select 
-                                            defaultValue={orderItem.order_status} 
-                                            onChange={e => { selectedOrderCopy["order_status"] = e.target.value }} 
-                                            >
-                                                <option value="Placed" className={style.options}>Placed</option>
-                                                <option value="Confirm" className={style.options}>Confirm</option>
-                                                <option value="Cooked" className={style.options}>Cooked</option>
-                                                <option value="Served" className={style.options}>Served</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    {/* end of modification by - suman sahu on - 17/06/2023 */}
 
-                                    <div className={style.selectionContainer}>
-                                        <label className={style.lable}>Payment Status</label>
-                                        <div className={style.selctedContentBox}>
-                                            <select 
-                                            defaultValue={orderItem.payment_status} 
-                                            onChange={e => { selectedOrderCopy["payment_status"] = e.target.value }} 
-                                            >
-                                                <option className={style.options} value="Pending">Pending</option>
-                                                <option className={style.options} value="Completed">Completed</option>
-                                            </select>
+                                    <div className={style.btnContainer}>
+                                        <div className={style.selectionContainer}>
+                                            <label className={style.lable}>Order Status</label>
+                                            <div className={style.selctedContentBox}>
+                                                <select
+                                                    id="order_status_selectBox"
+                                                    defaultValue={orderItem.order_status}
+                                                    onChange={e => { selectedOrderCopy["order_status"] = e.target.value }}
+                                                >
+                                                    <option value="Placed" className={style.options}>Placed</option>
+                                                    <option value="Confirm" className={style.options}>Confirm</option>
+                                                    <option value="Cooked" className={style.options}>Cooked</option>
+                                                    <option value="Served" className={style.options}>Served</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className={style.selectionContainer}>
+                                            <label className={style.lable}>Payment Status</label>
+                                            <div className={style.selctedContentBox}>
+                                                <select
+                                                    id="payment_status_selectBox"
+                                                    defaultValue={orderItem.payment_status}
+                                                    onChange={e => { selectedOrderCopy["payment_status"] = e.target.value }}
+                                                >
+                                                    <option className={style.options} value="Pending">Pending</option>
+                                                    <option className={style.options} value="Completed">Completed</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </>
+                                </>
                             }
                         })}
                         <div className={style.btnContainer}>
                             <div className={style.selectionContainer}>
-                                <button className={style.btnUpdate} 
-                                onClick={e => { model(selectedOrderCopy); }}
-                                >Update</button>                                    
+                                <button className={style.btnUpdate}
+                                    onClick={e => { model(selectedOrderCopy); }}
+                                >Update</button>
                             </div>
                             <div className={style.selectionContainer}>
-                                <button className={style.btnUpdate} 
-                                onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}
+                                <button className={style.btnUpdate}
+                                    onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}
                                 >Cancel</button>
                             </div>
                         </div>
 
                         <div className={style.btnContainer}>
                             <div className={style.selectionContainer} style={{ textAlign: "center" }}>
-                                <div className={style.visitLink}>See Order</div>                                    
+                                <div className={style.visitLink}>See Order</div>
                             </div>
                             <div className={style.selectionContainer}>
                                 <span className={style.visitLink}>See Order Item</span>
@@ -1194,12 +1273,12 @@ function printKot(){
                         <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
                             <div className={style.selectionContainer}>
                                 <button className={style.kotPrint}
-                                // Commeted and added by yuvraj Sahu on 22-06-2023
-                                // Reason - to print kot from completed section
+                                    // Commeted and added by yuvraj Sahu on 22-06-2023
+                                    // Reason - to print kot from completed section
                                     // onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}
                                     onClick={printKot}
                                 // End of modification by Yuvraj Sahu on 22-06-2023
-                                >Print KOT</button>                                   
+                                >Print KOT</button>
                             </div>
                             <div className={style.selectionContainer}>
                                 <button className={style.billPrint}

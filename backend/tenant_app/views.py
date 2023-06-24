@@ -1464,8 +1464,10 @@ class DashboardAPI(APIView):
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
         # End of code addition by Ashish Dewangan on 19-04-2023
 
-        # Added by Rohan kansari-  
-        todays_order_item=OrderItem.objects.all().filter(date__gte=today)
+        # Added by Rohan kansari-24/6/23
+        # Reason - To get order item in fixed organize manner  
+        todays_order_item=OrderItem.objects.all().filter(date__gte=today).order_by("-id")
+        # End of code - Rohan kansari- 24/6/23
         todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
 
         settingserailize = SettingSaveSerializer(Setting.objects.last())
@@ -1891,13 +1893,16 @@ class UpdateItemStatus(APIView):
        print(request.data)
     #    orderItem=OrderItem.objects.filter(order_id=orderObj.id)
        for i,data in enumerate(request.data):
-            OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
-        #   print(orderItem[i].item_status,data['item_status'])
-        #   orderItem[i].item_status=data['item_status']
-        #   orderItem[i].save()
-        #   print(orderItem[i].item_status)
+            # Modified By Rohan Kansari - 24/6/23
+            # Reason - To update item status from save method Not from update method becuase many thing happening on 
+            # Model save middlware
+            # OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
+              orderItemObj=OrderItem.objects.get(id=data["id"])
+              orderItemObj.item_status=data['item_status']
+              orderItemObj.save()
+              
        
-       orderItem=OrderItem.objects.filter(order_id=orderObj.id)
+       orderItem=OrderItem.objects.filter(order_id=orderObj.id).order_by("-id")
        serializer=OrderItemSerializer(orderItem,many=True)
        return Response(serializer.data)                     
 
