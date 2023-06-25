@@ -1889,22 +1889,45 @@ def item_report(request,report_period):
 
 class UpdateItemStatus(APIView):
     def put(self, request, tenant, orderID):
-       orderObj = Order.objects.get(order_id = orderID)
-       print(request.data)
-    #    orderItem=OrderItem.objects.filter(order_id=orderObj.id)
-       for i,data in enumerate(request.data):
-            # Modified By Rohan Kansari - 24/6/23
-            # Reason - To update item status from save method Not from update method becuase many thing happening on 
-            # Model save middlware
-            # OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
-              orderItemObj=OrderItem.objects.get(id=data["id"])
-              orderItemObj.item_status=data['item_status']
-              orderItemObj.save()
-              
-       
-       orderItem=OrderItem.objects.filter(order_id=orderObj.id).order_by("-id")
-       serializer=OrderItemSerializer(orderItem,many=True)
-       return Response(serializer.data)                     
+        orderObj = Order.objects.get(order_id = orderID)
+        print(request.data)
+        #    orderItem=OrderItem.objects.filter(order_id=orderObj.id)
+        for i,data in enumerate(request.data):
+                # Modified By Rohan Kansari - 24/6/23
+                # Reason - To update item status from save method Not from update method becuase many thing happening on 
+                # Model save middlware
+                # OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
+                orderItemObj=OrderItem.objects.get(id=data["id"])
+                orderItemObj.item_status=data['item_status']
+                orderItemObj.save()
+                
+        
+        orderItem=OrderItem.objects.filter(order_id=orderObj.id).order_by("-id")
+        serializer=OrderItemSerializer(orderItem,many=True)
+
+    #    Added by Rohan Kansari -25/6/23
+    #    Reason - to get Updated order in order item update also
+        from django.utils.timezone import datetime
+        today=datetime.today().date()
+        
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
+        todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+
+        from django.db.models import Q
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
+        todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+
+        return Response({"success":"Updated status","order_items":serializer.data 
+                            ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
+                            ,"todays_pending_orders":todays_pending_orders_serializer.data
+                            ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
+                
+
+    # ENd of code - Rohan kansari - 25/6/23
+    #    return Response(serializer.data)                     
 
 
 # End of code - Rohan Kansari - 22/5/23
