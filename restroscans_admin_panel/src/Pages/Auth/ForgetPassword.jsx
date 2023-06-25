@@ -4,7 +4,7 @@ import image from "../../assets/registerbg.jpg"
 import { postRestaurantDetail, restaurentAuthentication, sendOtpApi, updatePasswordApi } from '../../Api/services';
 import { Alert, AlertIcon} from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
-import { Message } from '../../App';
+import { Message, disableHeader } from '../../App';
 import {AiOutlineEye,AiOutlineEyeInvisible} from "react-icons/ai"
 
 
@@ -35,7 +35,10 @@ const Forget = () => {
 
 
     useEffect(() => {
-        console.log(errors)
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To disbale headerSiderbar
+        disableHeader()
+        // End of code - Rohan kansari - 25/6/23
     }, [errors])
 
     function scheduleTimer(sec, func, value) {

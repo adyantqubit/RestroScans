@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import style from "./billing.module.css"
 
 import { useLocation, useNavigate } from "react-router-dom";
+import { disableHeader } from '../../App';
 
 
 const Billing = () => {
@@ -15,6 +16,10 @@ const Billing = () => {
     const nav=useNavigate()
 
     useEffect(() => {
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To disbale headerSiderbar
+        disableHeader()
+        // End of code - Rohan kansari - 25/6/23
         var data = {
             "items": state.orderItem,
             "detail": state.order,

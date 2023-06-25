@@ -5,7 +5,7 @@
 
 .container {
   height: 90vh;
-
+  width: 18%;
   background-color: var(--sidebar-color);
   /* background-color: var(--header-sidebar-bg-color); */
 
@@ -72,12 +72,11 @@
 
 /* added by - Suman sahu on - 17/06/2023 */
 .active{
-  background-color: #374151;
   color: white;
-  padding: 0.2rem 0 0.6rem 0.8rem;
+  padding: 0.2rem 0 0.2rem 0.8rem;
   display: flex;
   width: 15rem;
-  font-size: 1.2rem;
+  font-size: 16px;
   cursor: pointer;
 }
 /* end of addition by - Suman sahu on - 17/06/2023 */
@@ -104,11 +103,62 @@
 .close_sidebar {
   padding-bottom: 2rem;
 }
-@media screen and (max-width: 768px) {
+/* Modified by Rohan kansari - 25/6/23 */
+.drawer{
+  width: 18% !important;
+  background-color: var(--sidebar-color) !important;
+}
+
+
+@media screen and (max-width: 1200px) {
+ 
+  .container{
+    width: 20%;
+  }
+  .drawer{
+    width: 20% !important;
+  }
+
+}
+
+@media screen and (max-width: 1000px) {
+ 
+  .container{
+    width: 20%;
+  }
+  .drawer{
+    width: 20% !important;
+  }
+
+}
+
+@media screen and (max-width: 900px) {
+ 
+  .container{
+    width: 25%;
+  }
+  .drawer{
+    width: 25% !important;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+
+  .drawer{
+    /* max-width: 180px; */
+    width: 50% !important;
+    background-color: var(--sidebar-color) !important;
+    height: 80%;
+  }
+  
+  /* End of code- Rohan kansari - 25/6/23 */
+
   .container {
     /* added by suman sahu on 16/06/2023 */
     position: absolute;
     left: 0;
+    width: 0;
     /* end of code by - suman sahu on 16/06/2023 */
 
     /* Modification and addition by Om Shrivastava on 04-06-23
@@ -141,7 +191,7 @@
   }
   .sidebar_close_div {
     /* font-size: 3rem; */
-    display: flex;
+    display: none;
   }
   .open_sidebar {
     /* height: 130vh; */
@@ -154,7 +204,7 @@
 
     /* added by - Suman sahu on 16/06/2023 
        reason - for manage sidebar height in responsive */
-    height: 80vh;
+    /* height: 80vh; */
     overflow: scroll;
     /* end of addition by - Suman sahu on - 16/06/2023 */
   }

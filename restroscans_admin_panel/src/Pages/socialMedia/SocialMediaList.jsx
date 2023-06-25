@@ -9,7 +9,7 @@ import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import { Button, message, Modal, Popconfirm } from "antd";
 import { DeleteTwoTone } from "@ant-design/icons";
-import { Message } from "../../App";
+import { Message, enableHeader } from "../../App";
 
 export default function SocialMediaList() {
   const navigate = useNavigate();
@@ -30,6 +30,10 @@ export default function SocialMediaList() {
     // Reason - to open page from top
     window.scrollTo(0, 0);
     // End of additionm by Yuvraj Sahu on 12-06-2023
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     getSocialMedias();
   }, []);
   /**
@@ -123,7 +127,9 @@ export default function SocialMediaList() {
   // --------------- End delete confirm --------------
 
   return (
-    <Header>
+    // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container}>
         <h1 className={style.heading}>Social Media List</h1>
         <div className={style.addBtnContainer}>
@@ -251,6 +257,7 @@ export default function SocialMediaList() {
         </div>
         {/* </div> */}
       </div>
-    </Header>
+ 
+    // </Header>
   );
 }

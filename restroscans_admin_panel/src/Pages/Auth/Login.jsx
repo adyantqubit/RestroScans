@@ -4,7 +4,7 @@ import image from "../../assets/registerbg.jpg"
 import { postRestaurantDetail, restaurentAuthentication } from '../../Api/services';
 import { Alert, AlertIcon } from '@chakra-ui/react'
 import { json, useNavigate } from "react-router-dom";
-import { Message, tokenRecheck } from '../../App';
+import { Message, disableHeader, tokenRecheck } from '../../App';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 
 // import NiceInputPassword from 'react-nice-input-password';
@@ -16,7 +16,7 @@ Reason - To change all validation messages*/}
 
 
 const Login = () => {
-
+   
     // Saving all error message in errors variable to 
     var [errors, setError] = useState([])
     const [paswrdEye, setPswdEyeVisible] = useState(true)
@@ -30,7 +30,10 @@ const Login = () => {
 
 
     useEffect(() => {
-        console.log(errors)
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To disbale headerSiderbar
+        disableHeader()
+        // End of code - Rohan kansari - 25/6/23
     }, [errors])
 
     function scheduleTimer(sec, func, value) {
@@ -142,7 +145,7 @@ const Login = () => {
 
 
 
-            <div className={style.registrationContainer}>
+            <div className={style.registrationContainer} >
                 <div className={style.BackgroundImageContainer}>
                     <img className={style.RegisterImg} alt="" src={image} />
                 </div>

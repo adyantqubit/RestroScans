@@ -7,6 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
 import "./checkbox.scss"
 import { OrderFilterQueryAPI } from '../../Api/services';
+import { enableHeader } from '../../App';
 
 const OrderReport = () => {
     const [fromDate, onChangeFrom] = useState(new Date());
@@ -17,6 +18,10 @@ const OrderReport = () => {
     const [order, setOrder] = useState(null)
 
     useEffect(() => {
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To enable headerSiderbar
+        enableHeader()
+        // End of code - Rohan kansari - 25/6/23
         postOrderQuery()
     }, [])
 
@@ -119,7 +124,9 @@ const OrderReport = () => {
     }
 
     return (
-        <Header>
+     // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+        // <Header>
             <div className={style.orderContainer}>
                 <div className={style.filterContainer}>
                     {/*Filter 1  */}
@@ -241,7 +248,7 @@ const OrderReport = () => {
                     </div>
                 </div>
             </div>
-        </Header>
+        // </Header>
     )
 }
 

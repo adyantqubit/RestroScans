@@ -17,6 +17,7 @@ import {
 
 import { Input, Space } from "antd";
 import { MdArrowDropUp } from "react-icons/md";
+import { enableHeader } from "../../App";
 
 const CustomerDetail = () => {
   const [backendCustomersCount, setBackendCustomersCount] = useState(0);
@@ -47,7 +48,10 @@ const CustomerDetail = () => {
    * Reason - method that will execute when page loads. this method will call cutomer list api
    */
   useEffect(() => {
-
+     // Added By Rohan Kansari - 25/6/23
+        // Reason - To enable headerSiderbar
+        enableHeader()
+        // End of code - Rohan kansari - 25/6/23
     // Added By Rohan Kansari - 22/6/23
     // Reason - To set global Page index Whenever its index updated
     if (localStorage.getItem("globalPageIndex")){
@@ -210,7 +214,9 @@ const CustomerDetail = () => {
   // End of code - Rohan Kansari - 22/6/23
 
   return (
-    <Header>
+  // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container}>
         <div className={`${style.pageTitleContainer}`}>
           <div className={style.pageTitle}>Customer List</div>
@@ -670,7 +676,7 @@ const CustomerDetail = () => {
           ) : null}
         </div>
       </div>
-    </Header>
+    // </Header>
   );
 };
 

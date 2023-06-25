@@ -12,7 +12,7 @@ import {
   postSettingsDetails,
   saveSocialMediaApi,
 } from "../../Api/services";
-import { Message } from "../../App";
+import { Message, enableHeader } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, message, Popconfirm } from "antd";
 import { FileUploader } from "react-drag-drop-files";
@@ -74,6 +74,10 @@ function SocialMediaForm(props) {
    * Reason - method that will execute when page loads and then call api
    */
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     getSocialMediaData();
   }, []);
   /**
@@ -457,7 +461,9 @@ function SocialMediaForm(props) {
   // --------------- End delete confirm --------------
 
   return (
-    <Header>
+     // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container}>
         <div className={style.titleContainer}>
           {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
@@ -631,7 +637,7 @@ function SocialMediaForm(props) {
           </div>
         </form>
       </div>
-    </Header>
+    //</Header>
   );
 }
 export default SocialMediaForm;

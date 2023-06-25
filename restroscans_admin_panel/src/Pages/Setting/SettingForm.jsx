@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import style from "./settingForm.module.css";
 import Header from "../GlobalComponent/Header";
 import { getSettingsDetails, postSettingsDetails } from "../../Api/services";
-import { Message } from "../../App";
+import { Message, enableHeader } from "../../App";
 import { useNavigate } from "react-router-dom";
 
 function SettingForm() {
@@ -44,6 +44,10 @@ function SettingForm() {
    * Reason - method that will execute when page loads and then call api
    */
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+        // Reason - To enable headerSiderbar
+        enableHeader()
+        // End of code - Rohan kansari - 25/6/23
     getSettingData();
   }, []);
   /**
@@ -552,7 +556,9 @@ function SettingForm() {
    */
 
   return (
-    <Header>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container}>
         <div className={style.titleContainer}>
           {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
@@ -863,7 +869,7 @@ function SettingForm() {
           </div>
         </form>
       </div>
-    </Header>
+    // </Header>
   );
 }
 export default SettingForm;

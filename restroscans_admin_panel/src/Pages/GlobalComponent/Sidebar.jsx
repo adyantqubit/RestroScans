@@ -1,20 +1,26 @@
 // Created by- Suman sahu On 24/05/2023
 // reason- create sidebar for react js admin panel
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./sidebar.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaCaretDown } from "react-icons/fa"
+// import component 👇
+import Drawer from 'react-modern-drawer'
 
-const Sidebar = () => {
-  const [sidebar, setSidebar] = useState(false);
+//import styles 👇
+import 'react-modern-drawer/dist/index.css'
+
+const Sidebar = ({sidebar, setSidebar}) => {
   const navigate = useNavigate();
   {/* Modified by Rohan Kansari - 26/5/23 
       Reason -To add sub menu functionality in report menu */}
   const [ReportSubVisible, setReportSubVisible] = useState(false)
   {/*End of code -Rohan Kansari 26/5/23  */ }
+
+  const [overlayEnable,setOverlayEnable]=useState(false)
 
   function closeSidebar() {
     setSidebar(false);
@@ -24,118 +30,206 @@ const Sidebar = () => {
   const navigateToDashboard = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
+    
     navigate('/Dashboard');
   };
 
   const navigateToBanner = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/BannerOffer');
   };
   const navigateToOrderReport = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/OrderReport');
   };
   const navigateToOrderItemReport = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10);
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10);
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/OrderItemReport');
   };
   const navigateToCustomerReport = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10);
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10);
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/CustomerReport');
   };
   const navigateToRevenue = () => {
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/Revenue');
   };
   const navigateToBannerItems = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/BannerOfferItem');
   };
   const navigateToMenu = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/Menu');
   };
   const navigateToCategory = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/Category');
   };
   const navigateToItem = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/item');
   };
   const navigateToSetting = () => {
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/SettingForm');
   };
   const navigateToFooter = () => {
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/FooterDescription');
   };
   const navigateToCustomerDetail = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/CustomerDetail');
   };
   const navigateToOrder = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/Order');
   };
   const navigateToOrderItem = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/OrderItem');
   };
   const navigateToPayment = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
-    localStorage.setItem("globalPageIndex",1); 
-    localStorage.setItem("listPerPage",10)
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10)
     // ENd of code - ROhan Kansari - 23/6/23
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/PaymentMethod');
   };
   const navigateToQR = () => {
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate('/QRcode');
   };
   // End of addition by Om Shrivastava on 02-06-23
@@ -144,15 +238,65 @@ const Sidebar = () => {
    * Reason - to navigate social media page
    */
   const navigateToSocialList = () => {
+    // Added by Rohan Kansari - 25/6/23
+    // Reason - close drawer when you are mobile view
+    if (windowSize.innerWidth < 800)
+       setSidebar(false)
+    // ENd of code - ROhan Kansari - 26/6/23
     navigate("/social-media");
   };
   /**
    * End of addition by yuvraj Sahu on 12-06-2023
    */
 
+  // Added by ROhan kansari - 25/6/23
+  // Reason - getting widowsize 
+
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+
+
+  }, [window.innerWidth]);
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
+  useEffect(() => {
+   
+    if (windowSize.innerWidth < 767)
+       setOverlayEnable(true)
+    else if (windowSize.innerWidth > 767)
+      setOverlayEnable(false)
+  }, [windowSize])
+
+  // End of code - Rohan kansari - 25/6/23
+
   return (
-    <div className={style.container}>
-      <div className={style.sidebar_open_div}>
+    // Modified by Rohan kansari - 25/6/23
+    // Reason - To implementing drawer
+    <div className={style.container} id="sidebar">
+
+      <Drawer
+        open={sidebar}
+        onClose={e=>setSidebar(!sidebar)}
+        direction='left'
+        className={style.drawer}
+        enableOverlay={overlayEnable}
+        // style={{width:"20%"}}
+      >
+{/*         
+         <div className={style.sidebar_open_div}>
         <FaCaretRight
           onClick={() => {
             setSidebar(!sidebar);
@@ -163,7 +307,7 @@ const Sidebar = () => {
               : style.show_sidebar_openarrow
           }
         />
-      </div>
+      </div> */}
       <ul
         className={sidebar == true ? style.open_sidebar : style.close_sidebar}
       >
@@ -524,6 +668,7 @@ const Sidebar = () => {
           }
         />
       </div>
+      </Drawer>
     </div>
   );
 };

@@ -143,8 +143,8 @@ li {
   padding: 0 0.5rem 0.2rem 0.5rem;
   display: flex;
 }
-
-.btn_div .hamburger_menu {
+/* Modified by Rohan kansari - 25/6/23 */
+ .hamburger_menu {
   display: none;
 }
 
@@ -176,9 +176,36 @@ li {
   display: none;
 }
 
+/* Modified by Rohan kansari - 25/6/23 */
+
+.content{
+  width: 82%;
+}
+
+@media screen and (max-width: 1200px) {
+ 
+  .content{
+    width: 78%;
+  }
+ 
+
+}
+
+@media screen and (max-width: 1000px) {
+ 
+  .content{
+    width: 80%;
+  }
+ 
+
+}
+/* end of code- Rohan kansari - 25/6/23 */
+
 @media (max-width: 1080px) {
   .header_container {
-    grid-template-columns: 1rem 3fr 3fr 1fr 1rem;
+  	/* Modified by Rohan kansari - 25/6/23 */
+
+    grid-template-columns: 3rem 3fr 3fr 1fr 1rem;
   }
 
   .menu_link ul {
@@ -188,6 +215,14 @@ li {
     font-size: 1.1rem;
   }
 }
+
+/* Added by Rohan kansari - 25/6/23 */
+@media (max-width: 900px) {
+  .content{
+    width: 75%;
+  }
+}
+
 @media (max-width: 950px) {
   .link {
     font-size: 1rem;
@@ -200,10 +235,20 @@ li {
     margin-right: 1.5rem;
   }
 }
-@media (max-width: 798px) {
-  .header_container {
-    grid-template-columns: 2rem 2fr 3fr 2rem 2rem;
+
+
+/* Modified by Rohan kansari - 25/6/23 */
+@media (max-width: 768px) {
+
+  .content{
+    width: 100%;
   }
+
+  .container
+  .header_container {
+    grid-template-columns: 3fr 2fr 3fr 2rem 2rem;
+  }
+  
   .logo_link {
     cursor: auto;
   }
@@ -275,21 +320,26 @@ li {
     justify-self: end;
     align-items: center;
   }
+/* Modified by Rohan kansari - 25/6/23 */
+  .hamburger_menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-  .btn_div .hamburger_menu {
-    display: block;
     font-size: 2.5rem;
   }
 }
 
 @media (max-width: 798px) {
   .header_container {
-    grid-template-columns: 1rem 2fr 1fr 1fr 1rem;
+  	/* Modified by Rohan kansari - 25/6/23 */
+    grid-template-columns: 3rem 2fr 1fr 1fr 1rem;
   }
 }
 @media (max-width: 520px) {
   .header_container {
-    grid-template-columns: 1rem 4fr 1fr 1fr 1rem;
+  	/* Modified by Rohan kansari - 25/6/23 */
+    grid-template-columns: 3rem 4fr 1fr 1fr 1rem;
   }
 
   .logo_div h2 {

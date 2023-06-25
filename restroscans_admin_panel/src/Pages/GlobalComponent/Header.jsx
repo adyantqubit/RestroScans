@@ -1,7 +1,7 @@
 // Created by- Suman sahu On 22/05/2023
 // reason- create header for react js admin panel
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./header.module.css";
 import Sidebar from "./Sidebar";
 import { NavLink, Link, useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { FaBell, FaHome } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { MdSupport } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
+import {SlOptionsVertical} from "react-icons/sl"
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { Popconfirm, message } from "antd";
 import Footer from "./Footer";
@@ -17,6 +18,10 @@ import { Message, tokenRecheck } from "../../App";
 
 const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Added by Rohan Kansari - 25/6/23
+  // Reason - To manage sidebar from header
+  const [sidebar, setSidebar] = useState(true);
+
   const navigate = useNavigate();
 
   // Reason:- When click on "Support" link, open in new tab
@@ -34,10 +39,61 @@ const Header = (props) => {
     Message("Successfully logged out", "warning");
     // End of modification by Om Shrivastava on 02-06-23
   };
-  const cancel = (e) => {};
+  const cancel = (e) => { };
+
+
+
+  // Added by ROhan kansari - 25/6/23
+  // Reason - getting widowsize 
+
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+
+
+  }, [window.innerWidth]);
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+
+  useEffect(() => {
+ 
+    if (windowSize.innerWidth < 767){
+      document.getElementById("drawer").style.display = "flex"
+      setSidebar(false)
+    }
+    else if (windowSize.innerWidth == 767){
+      document.getElementById("drawer").style.display = "none"
+      setSidebar(false)
+    }
+
+    else if (windowSize.innerWidth > 767){
+      document.getElementById("drawer").style.display = "none"
+      setSidebar(true)
+    }
+  }, [windowSize])
+
+  // End of code - Rohan kansari - 25/6/23
   return (
     <>
       <nav className={style.header_container} id="header">
+
+        {/* Added by Rohan kansari - 25/6/23
+            Reason - To add hamburger for tabel menus */}
+        <div className={style.hamburger_menu} id="drawer">
+            <GiHamburgerMenu style={{fontSize:"30px",margin:"auto auto"}} onClick={e=>setSidebar(!sidebar)}/>
+        </div>
+        {/* ENd of code - Rohan kansari - 25/6/23 */}
         {/* 1st logo part  */}
         <div className={style.logo_div}>
           <Link to="/Dashboard" className={style.logo_link}>
@@ -87,7 +143,7 @@ const Header = (props) => {
                 cancelText="Cancel"
                 okText="Ok"
               >
-              <RiLogoutBoxFill className={style.icons} />
+                <RiLogoutBoxFill className={style.icons} />
                 Logout
               </Popconfirm>
             </li>
@@ -116,18 +172,24 @@ const Header = (props) => {
 
           {/* hamburget menu start  */}
           <div className={style.hamburger_menu}>
-            <a onClick={() => setMenuOpen(!menuOpen)}>
-              <GiHamburgerMenu />
-            </a>
+            {/* Modified by ROha kansari - 25/6/23 
+                Reason - To change header menus mobile view icons*/}
+              <SlOptionsVertical style={{fontSize:"22px",color:"blue",margin:"auto auto"}} onClick={() => setMenuOpen(!menuOpen)}/>
+          {/* End of code - Rohan kansari - Rohan kansari*/}
           </div>
         </div>
       </nav>
 
       <div className={style.content_and_sideBar}>
-        <Sidebar />
+        <Sidebar sidebar={sidebar} setSidebar={setSidebar}/>
+        {/* Added by ROhan kansari - 25/6/24
+            Reason - adding div because facing issue on managing all content page so now we manage from one place  */}
+        <div className={style.content}>
         {props.children}
-        <Footer />
+        </div>
+        {/* End of code - Rohan kansari - 25/6/23*/}
       </div>
+      <Footer />
     </>
   );
 };

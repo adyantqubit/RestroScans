@@ -48,6 +48,36 @@ body {
   /* letter-spacing: 1.2px; */
   font-size: 16px;
 }
+/* Added by Rohan Kansari - 25/6/23 
+   Reason- To manage sidebar drawer  */
+.EZDrawer__overlay{
+  background: unset !important;
+}
+
+.EZDrawer__container
+{ top:unset !important;
+  height: 87vh !important;
+  overflow: scroll !important;
+}
+
+.EZDrawer__container::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	background-color: transparent;
+}
+
+.EZDrawer__container::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: transparent;
+}
+
+.EZDrawer__container::-webkit-scrollbar-thumb
+{
+	background-color: #014fbb;
+	border: 1px solid blue;
+}
+
 
 /* Added by Rohan Kansari - 14/5/23 
    Reason- Input box drop file css changes  */
@@ -182,6 +212,11 @@ Reason : When popup is shown than its overlap in header page */
     --heading-font-size: 20px;
     --label-font-size: 14px;
   }
+
+  .EZDrawer__container
+{ 
+  height: 73vh !important;
+}
 }
 
 /* Added by- Suman sahu On 24/05/2023

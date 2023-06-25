@@ -42,6 +42,10 @@ import CategoryForm from './Pages/Menu/CategoryForm';
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
+// Added by Rohan kansari - 25/6/23
+// Reason - declaring global function
+var enableHeader=0
+var disableHeader=0
 function App() {
   const [isSuccessfull,setSuccessfull]=useState(false)
   // set all message type in smaller character
@@ -110,6 +114,26 @@ function App() {
 
   setInterval(AutoValidateToken,72000)
 
+
+  // Added by ROhan kansari - 25/6/23
+  // Reason - To making gblobal functionso we can define where header is anable or not
+ enableHeader=()=>{
+  if(document.getElementById('header')){
+  document.getElementById('header').style.display="grid"
+  document.getElementById('sidebar').style.display="block"
+  document.getElementById('footer').style.display="block"
+  }
+ }
+
+ disableHeader=()=>{
+ if(document.getElementById('header')){
+  document.getElementById('header').style.display="none"
+  document.getElementById('sidebar').style.display="none"
+  document.getElementById('footer').style.display="none"
+  }
+ }
+//  ENd of code - Rohan kansari
+
   return (
     <>
       {isSuccessfull ?
@@ -129,17 +153,26 @@ function App() {
         <Route path='/Registration' element={tokenExist ? <Navigate to="/Dashboard" /> : <Registration />} />
         <Route path="/Login" element={tokenExist ? <Navigate to="/Dashboard" /> : <Login />} />
         <Route path="/Forget" element={tokenExist ? <Navigate to="/Dashboard" /> : <Forget />} />
+        {/* Added by ROhan kansari - 25/6/23 - To because non header containing pages define in other part  */}
+        <Route path="/kot" element={!tokenExist ? <Navigate to="/Login" /> : <Kot />} />
+        <Route path="/Billing" element={!tokenExist ? <Navigate to="/Login" /> : <Billing />} />
+        {/* End of code - Rohan kansari - 25/6/24 */}
       </Routes>
-      {/* <Header> */}
+
+       {/* Modified by Rohan Kansari - 25/6/23
+     Reason - adding header from each page and making it global */}
+      <Header>
       <Routes>
         {/* <Route path='/Registration' element={<Registration/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/Forget" element={<Forget/>}/> */}
         <Route path="/Dashboard" element={!tokenExist ? <Navigate to="/Login" /> : <Dashboard />} />
-        <Route path="/Billing" element={!tokenExist ? <Navigate to="/Login" /> : <Billing />} />
+        {/* REmoved by ROhan kansari - 25/3/26 */}
+        {/* <Route path="/Billing" element={!tokenExist ? <Navigate to="/Login" /> : <Billing />} /> */}
         {/* Added by Rohan Kansari - 25/5/23
           Reason - Kot page added */}
-        <Route path="/kot" element={!tokenExist ? <Navigate to="/Login" /> : <Kot />} />
+          {/* REmoved by ROhan kansari - 25/3/26 */}
+        {/* <Route path="/kot" element={!tokenExist ? <Navigate to="/Login" /> : <Kot />} /> */}
         {/*End of code- Rohan Kansari - 25/5/23  */}
 
         {/* Added by Rohan Kansari - 26/5/23
@@ -220,12 +253,12 @@ function App() {
       	{/* End of addition by Om shrivastava on 16-06-23 */}
       </Routes>
       {/* <Footer /> */}
-      {/* </Header> */}
+      </Header>
     </>
   );
 }
 
 export default App;
 
-export { Message, AutoValidateToken,tokenRecheck }
+export { Message, AutoValidateToken,tokenRecheck,enableHeader,disableHeader }
 

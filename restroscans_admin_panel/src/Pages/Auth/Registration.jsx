@@ -7,7 +7,7 @@ import { postRestaurantDetail } from '../../Api/services';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import PasswordField from 'password-field'
 import {AiOutlineEye,AiOutlineEyeInvisible} from "react-icons/ai"
-import { Message } from '../../App';
+import { Message, disableHeader } from '../../App';
 import { useNavigate } from 'react-router-dom';
 const fileTypes = ["JPG", "PNG", "SVG","GIF"];
 
@@ -15,7 +15,7 @@ const fileTypes = ["JPG", "PNG", "SVG","GIF"];
 {/* Modified by Rohan Kansari - 29/5/23 
 Reason - To correct all validation messages*/}  
 const Registration = () => {
-
+    
     // Saving all error message in errors variable to 
     var [errors, setError] = useState([])
     const [paswrdEye,setPswdEyeVisible]=useState(true)
@@ -31,7 +31,10 @@ const Registration = () => {
 
 
     useEffect(() => {
-        console.log(errors)
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To disbale headerSiderbar
+        disableHeader()
+        // End of code - Rohan kansari - 25/6/23
     }, [errors])
 
     function scheduleTimer(sec, func, value) {

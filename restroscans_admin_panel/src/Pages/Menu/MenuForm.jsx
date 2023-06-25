@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import style from "./menuForm.module.css";
 import Header from "../GlobalComponent/Header";
 import { getMenuDetails, postMenuDetails } from "../../Api/services";
-import { Message } from "../../App";
+import { Message, enableHeader } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
 
@@ -30,27 +30,31 @@ function MenuForm() {
   //   icon: "",
   //   is_active: "",
   // });
-   /**
-   * End of comment by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
+  /**
+  * End of comment by - Ashish dewangan on 17-06-2023
+  * Reason - To handle validation differently
+  */
 
   /**
    * Added by - Ashish dewangan on 17-06-2023
    * Reason - To handle validation differently
    */
-  const [nameError,setNameError]=useState("")
-  const [iconError,setIconError]=useState("")
+  const [nameError, setNameError] = useState("")
+  const [iconError, setIconError] = useState("")
   /**
    * End of code addition by - Ashish dewangan on 17-06-2023
    * Reason - To handle validation differently
    */
-   
+
   /**
    * Added by - Ashish Dewangan on 15-06-2023
    * Reason - method that will execute when page loads and then call api
    */
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     window.scrollTo(0, 0);
     if (location.state.id != null) {
       setMenuId(location.state.id);
@@ -91,7 +95,7 @@ function MenuForm() {
    * Added by - Ashish Dewangan on 16-06-2023
    * Reason -  method to validate inputs when input is focused out
    */
-  const validateOnBlur = (inputName, value) => {};
+  const validateOnBlur = (inputName, value) => { };
   /**
    * End of code addition by - Ashish Dewangan on 16-06-2023
    * Reason -  method to validate inputs when input is focused out
@@ -106,15 +110,15 @@ function MenuForm() {
      * Added by - Ashish Dewangan on 17-06-2023
      * Reason - added validation for name
      */
-    if(inputName=="name"){
-      if(value!= null || value!=undefined || value.trim()!=""){
+    if (inputName == "name") {
+      if (value != null || value != undefined || value.trim() != "") {
         setNameError("")
       }
     }
-     /**
-     * End of code addition by - Ashish Dewangan on 17-06-2023
-     * Reason - added validation for name
-     */
+    /**
+    * End of code addition by - Ashish Dewangan on 17-06-2023
+    * Reason - added validation for name
+    */
   };
   /**
    * End of code addition by - Ashish Dewangan on 16-06-2023
@@ -126,10 +130,10 @@ function MenuForm() {
    * Reason - method to validate image when user is entering some data
    */
   const validateOnFileInput = (inputName, value) => {
-  /**
-   * Commented and modified by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
+    /**
+     * Commented and modified by - Ashish dewangan on 17-06-2023
+     * Reason - To handle validation differently
+     */
     // if (inputName == "icon") {
     //   if (value != null && value != undefined) {
     //     if (value.size / 1024 > 200) {
@@ -155,16 +159,16 @@ function MenuForm() {
         if (value.size / 1024 > 200) {
           setIconError("File size must be below 200 KB")
         } else {
-         setIconError("")
+          setIconError("")
         }
       } else {
         setIconError("")
       }
     }
-  /**
-   * Commented and modified by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
+    /**
+     * Commented and modified by - Ashish dewangan on 17-06-2023
+     * Reason - To handle validation differently
+     */
   };
   /**
    * End of code addition by - Ashish Dewangan on 16-06-2023
@@ -199,7 +203,7 @@ function MenuForm() {
     // if (validationErrors.icon != "" || validationErrors.name != "") {
     //   allowDataPost = false;
     // }
-  
+
 
     if (name == null || name == undefined || name.trim() == "") {
       setNameError("Please enter menu name")
@@ -216,11 +220,11 @@ function MenuForm() {
     } else {
       setIconError("")
     }
-    
-    if(name == null || name == undefined || name.trim() == "" ||
-     ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined) )){
-      allowDataPost=false
-    }else{
+
+    if (name == null || name == undefined || name.trim() == "" ||
+      ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined))) {
+      allowDataPost = false
+    } else {
       if (nameError != "" || iconError != "") {
         allowDataPost = false;
       }else{
@@ -316,7 +320,9 @@ function MenuForm() {
    */
 
   return (
-    <Header>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container}>
         <div className={style.titleContainer}>
           <div className={style.pageTitle}>Menu</div>
@@ -480,7 +486,7 @@ function MenuForm() {
           </div>
         </form>
       </div>
-    </Header>
+    //</Header>
   );
 }
 export default MenuForm;

@@ -20,6 +20,7 @@ import { Input, Space } from "antd";
 import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import defaultIcon from "../../../src/images/no-category.jpg";
+import { enableHeader } from "../../App";
 
 const Item = () => {
   const [backendItemCount, setBackendItemCount] = useState(0);
@@ -54,6 +55,10 @@ const Item = () => {
    * Reason - method that will execute when page loads. this method will call item list api
    */
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     // Added By Yuvraj Sahu - 23-06-2023
     // Reason - To set global Page index Whenever its index updated
 
@@ -220,11 +225,13 @@ const Item = () => {
   // End of code - Yuvraj Sahu on 23-06-2023
 
   return (
-    <Header>
-      <div className={style.container}>
-        <div className={`${style.pageTitleContainer}`}>
-          <div className={style.pageTitle}>Item List</div>
-        </div>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
+    <div className={style.container}>
+      <div className={`${style.pageTitleContainer}`}>
+        <div className={style.pageTitle}>Item List</div>
+      </div>
 
         <div
           style={{
@@ -728,7 +735,7 @@ const Item = () => {
           null}
         </div>
       </div>
-    </Header>
+    // </Header>
   );
 };
 

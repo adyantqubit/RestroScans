@@ -12,7 +12,7 @@ import {
   postCategoryDetails,
   getMenusAPI,
 } from "../../Api/services";
-import { Message } from "../../App";
+import { Message, enableHeader } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
 
@@ -41,6 +41,11 @@ function CategoryForm() {
    * Reason - method that will execute when page loads and then call api
    */
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
+
     window.scrollTo(0, 0);
     if (location.state.id != null) {
       setCategoryId(location.state.id);
@@ -221,7 +226,7 @@ function CategoryForm() {
     // Reason - to show validation message after clicking the clear and save
     // if (name == null && menu == null) {
     if (name == null || name == "" && menu == null) {
-    // End showing validation message by Yuvraj Sahu on 23-06-2023
+      // End showing validation message by Yuvraj Sahu on 23-06-2023
       const error = {
         name: "Please enter category name",
         menu: "Please enter menu name",
@@ -232,7 +237,7 @@ function CategoryForm() {
       // Reason - to show validation message after clicking the clear and save
       // if (name == null) {
       if (name == null || name == "") {
-      // End showing validation message by Yuvraj Sahu on 23-06-2023
+        // End showing validation message by Yuvraj Sahu on 23-06-2023
         const error = {
           name: "Please enter category name",
         };
@@ -340,7 +345,9 @@ function CategoryForm() {
    */
 
   return (
-    <Header>
+    // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container}>
         <div className={style.titleContainer}>
           <div className={style.pageTitle}>Category</div>
@@ -532,7 +539,7 @@ function CategoryForm() {
           </div>
         </form>
       </div>
-    </Header>
+    //</Header>
   );
 }
 export default CategoryForm;

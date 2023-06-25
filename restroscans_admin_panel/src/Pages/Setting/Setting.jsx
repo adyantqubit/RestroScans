@@ -10,17 +10,22 @@ import { getSettingsDetails } from "../../Api/services";
 import { useNavigate } from "react-router-dom";
 import { MdCancel, MdCheckCircle } from "react-icons/md";
 import Loader from "../GlobalComponent/Loader";
+import { enableHeader } from "../../App";
 
 const Setting = () => {
   const [settingData, setSettingData] = useState(null);
   const [appTheme, setAppTheme] = useState(null);
   const navigate = useNavigate();
-  const [showLoader,setShowLoader]=useState(true)
+  const [showLoader, setShowLoader] = useState(true)
   /**
    * Added by - Ashish Dewangan on 01-06-2023
    * Reason - method that will execute when page loads. this method will call setting data api
    */
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     getSettingData();
   }, []);
   /**
@@ -61,8 +66,10 @@ const Setting = () => {
    */
 
   return (
-    <Header>
-      <div className={style.container}>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
+    <div className={style.container}>
 
         {showLoader?
         
@@ -149,8 +156,9 @@ const Setting = () => {
         
 
 
-      </div>
-    </Header>
+
+    </div>
+    // </Header>
   );
 };
 

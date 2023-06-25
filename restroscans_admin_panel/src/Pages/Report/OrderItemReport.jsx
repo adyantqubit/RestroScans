@@ -8,6 +8,7 @@ import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscendi
 import {BsSortNumericDownAlt} from 'react-icons/bs'
 import "./checkbox.scss"
 import { OrderItemFilterQueryAPI } from '../../Api/services';
+import { enableHeader } from '../../App';
 
 const OrderItemReport = () => {
     const [value, onChange] = useState("");
@@ -20,6 +21,10 @@ const OrderItemReport = () => {
 
 
     useEffect(() => {
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To enable headerSiderbar
+        enableHeader()
+        // End of code - Rohan kansari - 25/6/23
         postQuery()
     }, [])
 
@@ -135,7 +140,9 @@ const OrderItemReport = () => {
 
 
     return (
-        <Header>
+     // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+        // <Header>
             <div className={style.orderContainer}>
                 <div className={style.filterContainer}>
                     {/*Filter 1  */}
@@ -193,7 +200,7 @@ const OrderItemReport = () => {
                     </div>
                 </div>
             </div>
-        </Header>
+        // </Header>
     )
 }
 

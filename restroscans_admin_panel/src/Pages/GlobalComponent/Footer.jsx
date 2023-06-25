@@ -22,7 +22,9 @@ const Footer = () => {
   };
 
   return (
-    <>
+  // Modified by Rohan Kansari - 25/6/23
+    // Reason - defining id to access and hide
+    <div id="footer">
       <div className={style.footer_container}>
         <div className={style.footer_main_section}>
           <div className={style.footer_icons_section}>
@@ -82,7 +84,7 @@ const Footer = () => {
           </h6>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -4,17 +4,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import style from "./kot.module.css"
 import { useLocation, useNavigate } from "react-router-dom";
+import { disableHeader } from '../../App';
 
 
 const Kot = () => {
 
     const { state } = useLocation()
-
-
     const [kotData, setKot] = useState(null)
     const nav = useNavigate()
 
     useEffect(() => {
+        // Added By Rohan Kansari - 25/6/23
+        // Reason - To disable headerSiderbar
+        disableHeader()
+        // End of code - Rohan kansari - 25/6/23
         var data = {
             "items": state.orderItem,
             "detail": state.order,

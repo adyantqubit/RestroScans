@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by - Ashish Dewangan on 12-06-2023
  * Reason - To have menu details section
  */
@@ -20,6 +20,7 @@ import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
 
 import { Input, Space } from "antd";
 import config from "../../Api/config";
+import { enableHeader } from "../../App";
 
 const Menu = () => {
   const [backendMenuCount, setBackendMenuCount] = useState(0);
@@ -52,7 +53,11 @@ const Menu = () => {
    * Reason - method that will execute when page loads. this method will call menu list api
    */
   useEffect(() => {
-      // Added By Rohan Kansari - 22/6/23
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
+    // Added By Rohan Kansari - 22/6/23
     // Reason - To set global Page index Whenever its index updated
   
     if (localStorage.getItem("globalPageIndex")){
@@ -217,11 +222,13 @@ const Menu = () => {
    // End of code - Rohan Kansari - 22/6/23
 
   return (
-    <Header>
-      <div className={style.container}>
-        <div className={`${style.pageTitleContainer}`}>
-          <div className={style.pageTitle}>Menu List</div>
-        </div>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
+    <div className={style.container}>
+      <div className={`${style.pageTitleContainer}`}>
+        <div className={style.pageTitle}>Menu List</div>
+      </div>
 
         <div className={style.menuListSection}>
           <div className={style.tableContainer}>
@@ -588,7 +595,7 @@ const Menu = () => {
           ) : null}
         </div>
       </div>
-    </Header>
+    // </Header>
   );
 };
 

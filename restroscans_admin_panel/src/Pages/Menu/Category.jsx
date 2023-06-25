@@ -26,6 +26,7 @@ import { Input, Space } from "antd";
 import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import defaultIcon from "../../../src/images/no-category.jpg"
+import { enableHeader } from "../../App";
 
 const Category = () => {
   const [backendCategoryCount, setBackendCategoryCount] = useState(0);
@@ -58,12 +59,15 @@ const Category = () => {
    * Reason - method that will execute when page loads. this method will call category list api
    */
   useEffect(() => {
-
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     // Added By Rohan Kansari - 22/6/23
     // Reason - To set global Page index Whenever its index updated
 
     if (localStorage.getItem("globalPageIndex")) {
-      currentPage =parseInt(localStorage.getItem("globalPageIndex"))
+      currentPage = parseInt(localStorage.getItem("globalPageIndex"))
       setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
     }
 
@@ -229,281 +233,283 @@ const Category = () => {
   // End of code - Rohan Kansari - 22/6/23
 
   return (
-    <Header>
-      <div className={style.container}>
-        <div className={`${style.pageTitleContainer}`}>
-          <div className={style.pageTitle}>Category List</div>
-        </div>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
+    <div className={style.container}>
+      <div className={`${style.pageTitleContainer}`}>
+        <div className={style.pageTitle}>Category List</div>
+      </div>
 
-        <div className={style.categoryListSection}>
-          <div className={style.tableContainer}>
-            <div className={style.table}>
-              <div
+      <div className={style.categoryListSection}>
+        <div className={style.tableContainer}>
+          <div className={style.table}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white",
+                padding: "4px",
+              }}
+            >
+              <Search
+                placeholder="Search by name and menu name"
+                allowClear
+                enterButton
+                onSearch={(value) => {
+                  setCurrentPage(1);
+                  setSearchText(value);
+                }}
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "white",
-                  padding: "4px",
+                  width: "60%",
+                }}
+              />
+              <div
+                className={`${style.primaryButton}`}
+                onClick={() => openCategoryDetails()}
+                style={{
+                  marginLeft: "10px",
+                  minWidth: "100px",
+                  textAlign: "center",
                 }}
               >
-                <Search
-                  placeholder="Search by name and menu name"
-                  allowClear
-                  enterButton
-                  onSearch={(value) => {
-                    setCurrentPage(1);
-                    setSearchText(value);
-                  }}
-                  style={{
-                    width: "60%",
-                  }}
-                />
-                <div
-                  className={`${style.primaryButton}`}
-                  onClick={() => openCategoryDetails()}
-                  style={{
-                    marginLeft: "10px",
-                    minWidth: "100px",
-                    textAlign: "center",
-                  }}
-                >
-                  Add Category
-                </div>
+                Add Category
               </div>
-              <div className={style.tableHeadingContainer}
+            </div>
+            <div className={style.tableHeadingContainer}
 
-                // Added by Rohan Kansari - 22/6/23
-                // Reason- To hide page size dropdown on outer click
-                onClick={hideDropdown}
-                onTouchStart={hideDropdown}
-              // End of code - ROhan KAnsari - 22/6/23
-              >
-                <div className={style.commonColumnTitle}>Icon </div>
-
-                <div
-                  className={style.commonColumnTitle}
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortMenuList("name");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "name") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "name") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                >
-                  Name{" "}
-                  {columnToSort == "name" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortAlphaDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "name" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortAlphaDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "name" && showSortingIcon && (
-                    <BsSortAlphaDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
-                  )}
-                </div>
-
-                <div
-                  className={style.commonColumnTitle}
-                  // Added by Yuvraj Sahu on 17-06-2023
-                  // Reason - to sort data menu name
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortMenuList("menu");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "menu") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "menu") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                // End of addition by Yuvraj Sahu on 18-06-2023
-                >
-                  Menu name
-                  {/* Added by Yuvraj Sahu on 17-06-2023
-                  Reason - to sort data with menu name */}
-                  {columnToSort == "menu" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortAlphaDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "menu" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortAlphaDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "menu" && showSortingIcon && (
-                    <BsSortAlphaDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
-                  )}
-                  {/* End of addition by Yuvraj Sahu on 17-06-2023 */}
-                </div>
-
-                <div
-                  className={style.commonColumnTitle}
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortMenuList("is_active");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "is_active") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "is_active") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                >
-                  Is Available{" "}
-                  {columnToSort == "is_active" &&
-                    columnSortingOrder == "ascending" && (
-                      <MdCancel className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "is_active" &&
-                    columnSortingOrder == "descending" && (
-                      <MdCheckCircle className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "is_active" && showSortingIcon && (
-                    <MdCancel color="grey" className={style.sortingIcon} />
-                  )}
-                </div>
-                <div className={style.commonColumnTitle}> Action </div>
-              </div>
+              // Added by Rohan Kansari - 22/6/23
+              // Reason- To hide page size dropdown on outer click
+              onClick={hideDropdown}
+              onTouchStart={hideDropdown}
+            // End of code - ROhan KAnsari - 22/6/23
+            >
+              <div className={style.commonColumnTitle}>Icon </div>
 
               <div
-                className={style.tableDataContainer}
-                style={{
-                  backgroundColor: "#efefef",
+                className={style.commonColumnTitle}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortMenuList("name");
                 }}
-
-                // Added by Rohan Kansari - 22/6/23
-                // Reason- To hide page size dropdown on outer click
-                onClick={hideDropdown}
-                onTouchStart={hideDropdown}
-              // End of code - ROhan KAnsari - 22/6/23
+                onMouseEnter={(e) => {
+                  if (columnToSort != "name") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "name") {
+                    setShowSortingIcon(false);
+                  }
+                }}
               >
-                {categoryList != null && categoryList.length > 0 ? (
-                  categoryList.map((categoryDetails, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={style.tableData}
-                        style={{
-                          padding: "2px",
-                          marginTop: "2px",
-                          marginBottom:
-                            categoryList.length == index + 1 ? "2px" : "0px",
-                        }}
-                      >
-                        <div className={style.commonColumnData}>
-                          <img
-                            className={style.categoryImage}
-                            src={categoryDetails.icon ? config.staticBaseURL + categoryDetails.icon : defaultIcon}
-                          />
-                        </div>
-                        {/* Modified by Yuvraj Sahu on 18-06-2023
-                        Reason - to arrange the word */}
-                        <div className={style.commonColumnData} style={{wordBreak: "break-word"}}>
-                          {/* End of modification by Yuvraj Sahu on 18-06-2023 */}
-                          {categoryDetails.name}
-                        </div>
-
-                        <div className={style.commonColumnData}>
-                          {categoryDetails.menu_name}
-                        </div>
-
-                        {categoryDetails.is_active == true ? (
-                          <div className={style.commonColumnData}>
-                            <MdCheckCircle className={style.yesIcon} />
-                          </div>
-                        ) : (
-                          <div className={style.commonColumnData}>
-                            <MdCancel className={style.noIcon} />
-                          </div>
-                        )}
-                        <div
-                          className={`${style.commonColumnData}`}
-                          style={{ display: "flex", justifyContent: "center" }}
-                        >
-                          <div
-                            className={` ${style.primaryButton}`}
-                            onClick={() =>
-                              openCategoryDetails(categoryDetails.id)
-                            }
-                          >
-                            View
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div style={{ textAlign: "center" }}>No records found!</div>
+                Name{" "}
+                {columnToSort == "name" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortAlphaDown className={style.sortingIcon} />
+                  )}
+                {columnToSort == "name" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortAlphaDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "name" && showSortingIcon && (
+                  <BsSortAlphaDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
                 )}
               </div>
+
+              <div
+                className={style.commonColumnTitle}
+                // Added by Yuvraj Sahu on 17-06-2023
+                // Reason - to sort data menu name
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortMenuList("menu");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "menu") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "menu") {
+                    setShowSortingIcon(false);
+                  }
+                }}
+              // End of addition by Yuvraj Sahu on 18-06-2023
+              >
+                Menu name
+                {/* Added by Yuvraj Sahu on 17-06-2023
+                  Reason - to sort data with menu name */}
+                {columnToSort == "menu" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortAlphaDown className={style.sortingIcon} />
+                  )}
+                {columnToSort == "menu" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortAlphaDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "menu" && showSortingIcon && (
+                  <BsSortAlphaDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
+                {/* End of addition by Yuvraj Sahu on 17-06-2023 */}
+              </div>
+
+              <div
+                className={style.commonColumnTitle}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortMenuList("is_active");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "is_active") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "is_active") {
+                    setShowSortingIcon(false);
+                  }
+                }}
+              >
+                Is Available{" "}
+                {columnToSort == "is_active" &&
+                  columnSortingOrder == "ascending" && (
+                    <MdCancel className={style.sortingIcon} />
+                  )}
+                {columnToSort == "is_active" &&
+                  columnSortingOrder == "descending" && (
+                    <MdCheckCircle className={style.sortingIcon} />
+                  )}
+                {columnToSort != "is_active" && showSortingIcon && (
+                  <MdCancel color="grey" className={style.sortingIcon} />
+                )}
+              </div>
+              <div className={style.commonColumnTitle}> Action </div>
+            </div>
+
+            <div
+              className={style.tableDataContainer}
+              style={{
+                backgroundColor: "#efefef",
+              }}
+
+              // Added by Rohan Kansari - 22/6/23
+              // Reason- To hide page size dropdown on outer click
+              onClick={hideDropdown}
+              onTouchStart={hideDropdown}
+            // End of code - ROhan KAnsari - 22/6/23
+            >
+              {categoryList != null && categoryList.length > 0 ? (
+                categoryList.map((categoryDetails, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={style.tableData}
+                      style={{
+                        padding: "2px",
+                        marginTop: "2px",
+                        marginBottom:
+                          categoryList.length == index + 1 ? "2px" : "0px",
+                      }}
+                    >
+                      <div className={style.commonColumnData}>
+                        <img
+                          className={style.categoryImage}
+                          src={categoryDetails.icon ? config.staticBaseURL + categoryDetails.icon : defaultIcon}
+                        />
+                      </div>
+                      {/* Modified by Yuvraj Sahu on 18-06-2023
+                        Reason - to arrange the word */}
+                      <div className={style.commonColumnData} style={{ wordBreak: "break-word" }}>
+                        {/* End of modification by Yuvraj Sahu on 18-06-2023 */}
+                        {categoryDetails.name}
+                      </div>
+
+                      <div className={style.commonColumnData}>
+                        {categoryDetails.menu_name}
+                      </div>
+
+                      {categoryDetails.is_active == true ? (
+                        <div className={style.commonColumnData}>
+                          <MdCheckCircle className={style.yesIcon} />
+                        </div>
+                      ) : (
+                        <div className={style.commonColumnData}>
+                          <MdCancel className={style.noIcon} />
+                        </div>
+                      )}
+                      <div
+                        className={`${style.commonColumnData}`}
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <div
+                          className={` ${style.primaryButton}`}
+                          onClick={() =>
+                            openCategoryDetails(categoryDetails.id)
+                          }
+                        >
+                          View
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div style={{ textAlign: "center" }}>No records found!</div>
+              )}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className={style.paginationContainer}>
-          {categoryList && categoryList.length > 0 ? (
-            // Modified by Rohan kansari - 22/6/23 
-            // Reason - To divide container into two part for page selector
-            < div className={style.paginationContent}>
-              <Pagination
-                defaultCurrent={1}
-                /**
-                 * Added by - Yuvraj Sahu on 16-06-2023
-                 * Reason - To set current selected page number
-                 */
-                current={currentPage}
-                /**
-                 * End of code addition by - Yuvraj Sahu on 16-06-2023
-                 * Reason - To set current selected page number
-                 */
-                total={backendCategoryCount}
-                defaultPageSize={listPerPage}
-                pageSize={listPerPage}
-                simple
-                onChange={handlePageChange}
-              />
+      <div className={style.paginationContainer}>
+        {categoryList && categoryList.length > 0 ? (
+          // Modified by Rohan kansari - 22/6/23 
+          // Reason - To divide container into two part for page selector
+          < div className={style.paginationContent}>
+            <Pagination
+              defaultCurrent={1}
+              /**
+               * Added by - Yuvraj Sahu on 16-06-2023
+               * Reason - To set current selected page number
+               */
+              current={currentPage}
+              /**
+               * End of code addition by - Yuvraj Sahu on 16-06-2023
+               * Reason - To set current selected page number
+               */
+              total={backendCategoryCount}
+              defaultPageSize={listPerPage}
+              pageSize={listPerPage}
+              simple
+              onChange={handlePageChange}
+            />
 
-              <div className={style.dropdown} onClick={toggelDropdown}>
-                <button className={style.dropbtn}>{listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
-                <div className={style.dropdown_content} id="dropdown">
-                  {backendCategoryCount > 50 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
-                  {backendCategoryCount > 40 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
-                  {backendCategoryCount > 30 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
-                  <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span> 
-                  <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
-                </div>
+            <div className={style.dropdown} onClick={toggelDropdown}>
+              <button className={style.dropbtn}>{listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
+              <div className={style.dropdown_content} id="dropdown">
+                {backendCategoryCount > 50 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
+                {backendCategoryCount > 40 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
+                {backendCategoryCount > 30 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
+                <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span>
+                <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
               </div>
             </div>
-            // End of code - Modification - 22/6/23 - Rohan Kansari
-            // Reason - To separate div and add Selection box for page item size 
+          </div>
+          // End of code - Modification - 22/6/23 - Rohan Kansari
+          // Reason - To separate div and add Selection box for page item size 
 
-          ) : null}
-        </div>
+        ) : null}
       </div>
-    </Header>
+    </div>
+    // </Header>
   );
 };
 

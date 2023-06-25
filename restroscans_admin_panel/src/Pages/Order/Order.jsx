@@ -20,6 +20,7 @@ import { MdArrowDropDown, MdArrowDropUp, MdCancel, MdCheckCircle } from "react-i
 import { Input, Space } from "antd";
 import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
+import { enableHeader } from "../../App";
 
 const Order = () => {
 
@@ -51,6 +52,11 @@ const Order = () => {
   // Added By Rohan Kansari - 22/6/23
   // Reason - To set global Page index Whenever its index updated
   useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
+
     if (localStorage.getItem("globalPageIndex")) {
       currentPage =parseInt(localStorage.getItem("globalPageIndex"))
       setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
@@ -236,7 +242,9 @@ const Order = () => {
   // End of code - Rohan Kansari - 22/6/23
 
   return (
-    <Header>
+   // Modified by Rohan Kansari - 25/6/23
+    // Reason - removing header from each page and making it global
+    // <Header>
       <div className={style.container} >
         <div className={`${style.pageTitleContainer}`}>
           <div className={style.pageTitle}>Order</div>
@@ -652,7 +660,7 @@ const Order = () => {
 
       </div>
 
-    </Header>
+    // </Header>
   );
 };
 
