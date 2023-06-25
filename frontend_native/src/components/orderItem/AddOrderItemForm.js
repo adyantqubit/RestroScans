@@ -179,6 +179,8 @@ export default function AddOrderItemForm(orderId) {
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
+
+    // Modified by :- PArineeta Gedam on 25-06-2023 reason :- modified for validations message
     //  Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - submit order items 
     const submitOrderItems = async () => {
@@ -191,8 +193,11 @@ export default function AddOrderItemForm(orderId) {
 
         // Added by :-  Parineeta Gedam on 26-05-2023
         // Reason :- for show the validations message
-        if (itemIdSelected == null) {
+        if (itemIdSelected == 0) {
             setItemNameRequired(true);
+        }
+        if (itemIdSelected > 0) {
+            setItemNameRequired(false);
         }
         if (servingSizeSelected == "") {
             setservingSizeRequired(true);
@@ -208,7 +213,8 @@ export default function AddOrderItemForm(orderId) {
             quantity: quantitySelected,
             item_status: "Pending",
         }
-        if (servingSizeRequired == false && itemNameRequired == false) {
+
+        if (servingSizeRequired == false && servingSizeSelected != "" && itemNameRequired == false && itemIdSelected > 0 && quantitySelected > 0  ) {
             var response = await postOrderItemsApi(data, tenant);
             if (response.msg) {
                 orderId.setOrderItems(response.orderItems);
@@ -222,9 +228,12 @@ export default function AddOrderItemForm(orderId) {
                 // End of added code by :- Parineeta Gedam on 23-06-2023 
             }
         }
+        else{
+            setSubmitBtnDisable(false);   
+        }
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
-
+    // End of Modified by :- PArineeta Gedam on 25-06-2023 reason :- modified for validations message
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -300,7 +309,7 @@ export default function AddOrderItemForm(orderId) {
                                             onSelect={(selectedItemId, index) => {
                                                 setItemIdSelected(selectedItemId.id);
                                                 setQuantitySelected(0);
-                                                values.quantity = 0
+                                                values.quantity = ""
                                                 setSingalItemprice(0);
                                                 setPrice(0);
                                                 setItemNameRequired(false);
@@ -364,7 +373,7 @@ export default function AddOrderItemForm(orderId) {
                                                 setQuantitySelected(0);
                                                 setSingalItemprice(0);
                                                 setPrice(0);
-                                                values.quantity = 0
+                                                values.quantity = ""
                                                 setservingSizeRequired(false);
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
