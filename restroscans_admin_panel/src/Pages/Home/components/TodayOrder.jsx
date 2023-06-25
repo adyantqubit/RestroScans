@@ -75,8 +75,8 @@ const TodayOrder = () => {
 
     // Added by Suman sahu - 11/06/2023
     // Reason - To open selected orders in the modal of more button in the action of dashboard
-    var selectedOrderCopy={}
-    const [openActionPopupModal,setOpenActionPopupModal]=useState({})
+    var selectedOrderCopy = {}
+    const [openActionPopupModal, setOpenActionPopupModal] = useState({})
     // End of code - 11/06/2023 by - suman sahu
 
     // Added by ROhan Kansari - 25/5/23
@@ -86,7 +86,7 @@ const TodayOrder = () => {
 
     {/* Modified by Rohan Kansari - 29/5/23 
         Reason - To add loading functionality*/}
-    var [isLoading,setLoading]=useState(true)
+    var [isLoading, setLoading] = useState(true)
     // End of code - ROhan Kansari - 29/5/23
 
     // Billing data
@@ -158,35 +158,31 @@ const TodayOrder = () => {
         // else
         //     return true
 
-        if(m.order.order_status=="Placed" && (orderStatus=="Cooked" || orderStatus=="Served"))
-        {  Message("Please first change order status to confirm ", "error")
-           return false;
+        if (m.order.order_status == "Placed" && (orderStatus == "Cooked" || orderStatus == "Served")) {
+            Message("Please first change order status to confirm ", "error")
+            return false;
         }
-        else if (m.order.order_status=="Confirm" && (orderStatus=="Placed" )) 
-        {
+        else if (m.order.order_status == "Confirm" && (orderStatus == "Placed")) {
             Message("You cant change order status confirm to placed", "error")
             return false;
         }
-        else if (m.order.order_status=="Confirm" && (orderStatus=="Serverd" ))
-        {
+        else if (m.order.order_status == "Confirm" && (orderStatus == "Serverd")) {
             Message("Please first change order status confirm to cooked", "error")
-            return false; 
-        }
-        else if(m.order.order_status=="Cooked" && (orderStatus=="Confirm" || orderStatus =="Placed" ))
-        {
-            Message(`You cant change order status cooked to ${orderStatus}`,"error")
             return false;
         }
-        else if(m.order.order_status=="Served" && (orderStatus=="Confirm" || orderStatus =="Placed" || orderStatus == "Cooked" ))
-        {
-            Message(`You cant change order status cooked to ${orderStatus}`,"error")
+        else if (m.order.order_status == "Cooked" && (orderStatus == "Confirm" || orderStatus == "Placed")) {
+            Message(`You cant change order status cooked to ${orderStatus}`, "error")
             return false;
         }
-        else 
-        return true;
-           
+        else if (m.order.order_status == "Served" && (orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked")) {
+            Message(`You cant change order status cooked to ${orderStatus}`, "error")
+            return false;
+        }
+        else
+            return true;
 
-            
+
+
 
         //End of code - Rohan Kansari - 26/5/23 
     }
@@ -206,19 +202,19 @@ const TodayOrder = () => {
 
         // Modified by Rohan Kansari - 24/6/23
         // Reason - To
-        var canWeUpdate= statusValidation(orderStatus,paymentStatus,m)
-        if(canWeUpdate)
-        // added by - suman sahu on 11/06/2023
-        // reason - for call that function in the antd modal
-        updateStatus();
+        var canWeUpdate = statusValidation(orderStatus, paymentStatus, m)
+        if (canWeUpdate)
+            // added by - suman sahu on 11/06/2023
+            // reason - for call that function in the antd modal
+            updateStatus();
         // end of addition 11/06/2023 by - suman sahu
 
-        else{
-            document.getElementById("order_status_selectBox").value=m.order.order_status
+        else {
+            document.getElementById("order_status_selectBox").value = m.order.order_status
             return false
         }
 
-        
+
         async function updateStatus() {
             const status = {
                 order_status: orderStatus,
@@ -240,16 +236,31 @@ const TodayOrder = () => {
                     setOrderItem(r.order_items)
                     setPopupOpen(!popupOpen)
 
-                    var radioInputs = document.querySelectorAll("input")
-                    if (radioInputs[0].checked) {
+                    // Modified by ROhan kansari - 23/6/23
+                    // Reason - To enhance code and making easy to understand
+                    // completed,pending_order,newly_placed
+                    // var radioInputs = document.querySelectorAll("input")
+                    // if (radioInputs[0].checked) {
+                    //     setSelectedOrder(r.todays_newly_placed_orders)
+                    // }
+                    // else if (radioInputs[1].checked) {
+                    //     setSelectedOrder(r.todays_pending_orders)
+                    // }
+                    // else if (radioInputs[2].checked) {
+                    //     setSelectedOrder(r.todays_completed_orders)
+                    // }
+
+                    if (document.getElementById("newly_placed").checked) {
                         setSelectedOrder(r.todays_newly_placed_orders)
                     }
-                    else if (radioInputs[1].checked) {
+                    else if (document.getElementById("pending_order").checked) {
                         setSelectedOrder(r.todays_pending_orders)
                     }
-                    else if (radioInputs[2].checked) {
+                    else if (document.getElementById("completed").checked) {
                         setSelectedOrder(r.todays_completed_orders)
                     }
+
+                    // End of code - Rohan Kansari - 23/6/23- To enhance the code
 
                 }
             })
@@ -365,7 +376,7 @@ const TodayOrder = () => {
                 updatedStatus.current.value = []
                 var newOrderItemList = []
 
-                r.filter(e => {
+                r.order_items.filter(e => {
                     updatedStatus.current.value.push(e.item_status);
                     /**
                      * Commented and modified by - Ashish Dewangan on 18-06-2023
@@ -384,17 +395,37 @@ const TodayOrder = () => {
                      */
                 })
 
+                // Added by Rohan Kansari - 25/6/23
+                // Reason - To get latest all data order data set it to slected order
+
+                setNewlyPlacedOrders(r.todays_newly_placed_orders);
+                setPendingOrders(r.todays_pending_orders);
+                setCompletedOrders(r.todays_completed_orders);
+
+
+                if (document.getElementById("newly_placed").checked) {
+                    setSelectedOrder(r.todays_newly_placed_orders)
+                }
+                else if (document.getElementById("pending_order").checked) {
+                    setSelectedOrder(r.todays_pending_orders)
+                }
+                else if (document.getElementById("completed").checked) {
+                    setSelectedOrder(r.todays_completed_orders)
+                }
+
+
+                // End of code - 25/6/23 - ROhan kansari
                 setOrderItem(newOrderItemList)
                 selectedItemArr = []
+
 
                 // Modified by Rohan Kansari- 24/5/23
                 // Reason - Select box is not updated 
                 // var option = document.querySelectorAll("select option")
                 var option = document.getElementsByClassName("item_selected");
-                console.log(option)
                 for (var i = 0; i < option.length; i++) {
                     // option[i].defaultSelected=option[i].selected
-                    option[i].value = r[i].item_status
+                    option[i].value = r.order_items[i].item_status
                 }
             }
             )
@@ -1073,7 +1104,10 @@ const TodayOrder = () => {
                 {/* added by - suman sahu on 10/06/2023
                     reason - change the popup when click the data of table no. in the dashbord */}
 
-                <Modal open={popupOrderItem} onCancel={closeModalOrderItem} footer={null} className={style.modalContainer}>
+                {/* Modified by Rohan kansari - 25/6/23
+                    Reason - To update select box value on cancle also */}
+                <Modal open={popupOrderItem} afterOpenChange={(open)=>{if(!open) orderItemModel(selectedItemArr)}} onCancel={e=>{closeModalOrderItem(); }}  footer={null} className={style.modalContainer}>
+                    {/* ENd of code - ROha kansari - 25/6/23 */}
                     <div className={style.popupItemContainer}>
                         <div className={style.itemlist}>
                             {orderItemList?.map((orderItem, i) => {
