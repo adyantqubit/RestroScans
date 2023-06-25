@@ -363,7 +363,7 @@ export const addSocialMedia = yup.object().shape({
 // Added by Parineeta Gedam  on 25-04-2023
 // Reason - to validate qunatity
 export const addOrderItemSchema = yup.object().shape({
-  quantity: yup.string().required("plaese enter quantity"),
+  quantity: yup.string().required("Please enter quantity"),
   price: yup.string()
 });
  // end of addition code by Parineeta Gedam  on 25-04-2023

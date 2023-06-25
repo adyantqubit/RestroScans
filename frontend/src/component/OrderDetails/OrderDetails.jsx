@@ -250,9 +250,12 @@ export default function OrderDetails() {
       copyOrder.total = total;
       copyOrder.cgst = (total * settingData.cgst) / 100;
       copyOrder.sgst = (total * settingData.sgst) / 100;
-      var a =
-        (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-      copyOrder.final_amount = a + newSubTotal;
+      var a = (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+      // Commented and modified by :- Parineeta Gedam on 25-06-2023
+      // Reason :- After giving discount when user update the items then grand total calculation comes wrong.
+      // copyOrder.final_amount = a + newSubTotal;
+      copyOrder.final_amount = copyOrder.cgst + copyOrder.sgst + copyOrder.total;
+      // End of Commented and modified by :- Parineeta Gedam on 25-06-2023
     } else {
       copyOrder.sub_total = newSubTotal;
       copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
@@ -314,16 +317,18 @@ export default function OrderDetails() {
       // Added  by :- Parineeta Gedam on 18-06-2023
     // reason :- add discount functionality and for code optimizations
     var copyOrder = orders
-      
       if (copyOrder.discount_rupees) {
         copyOrder.sub_total = newSubTotal;
         var total = newSubTotal - copyOrder.discount_rupees;
         copyOrder.total = total;
         copyOrder.cgst = (total * settingData.cgst) / 100;
         copyOrder.sgst = (total * settingData.sgst) / 100;
-        var a =
-          (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-        copyOrder.final_amount = a + newSubTotal;
+        var a = (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+        // Commented and modified by :- Parineeta Gedam on 25-06-2023
+        // Reason :- After giving discount when user update the items then grand total calculation comes wrong.
+        // copyOrder.final_amount = a + newSubTotal;
+        copyOrder.final_amount = copyOrder.cgst + copyOrder.sgst + copyOrder.total;
+        // End of Commented and modified by :- Parineeta Gedam on 25-06-2023
       } else {
         copyOrder.sub_total = newSubTotal;
         copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;

@@ -2041,14 +2041,25 @@ class PostUpdateOrderItemsAPIView(APIView):
         
         # End of Modified code by Parineeta Gedam on 10-06-2023
 
-        orderData  = Order.objects.filter(order_id = request.data['orders']).update(
+        # Added and modified code by :- Parineea Gedam on 25-06-2023 
+        # reason :- changes in calculations 
+        if order['discount_rupees'] > 0:
+            orderData  = Order.objects.filter(order_id = request.data['orders']).update(
             sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
             cgst = round( float("{:.2f}".format(order['cgst'])),2), 
             sgst = round( float("{:.2f}".format(order['sgst'])),2), 
             total = round( float("{:.2f}".format(order['total'])),2),
-            # final_amount = round( float("{:.2f}".format(order['total'])),2),
-            final_amount = round( float("{:.2f}".format(order['final_amount'])),2),
-            cancelled_by="Customer")
+            final_amount = round( float("{:.2f}".format(order['final_amount'])),2),)
+        else :
+            orderData  = Order.objects.filter(order_id = request.data['orders']).update(
+                sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
+                cgst = round( float("{:.2f}".format(order['cgst'])),2), 
+                sgst = round( float("{:.2f}".format(order['sgst'])),2), 
+                total = round( float("{:.2f}".format(order['final_amount'])),2),
+                # final_amount = round( float("{:.2f}".format(order['total'])),2),
+                final_amount = round( float("{:.2f}".format(order['final_amount'])),2),
+           )
+        # End of Added and modified code by :- Parineea Gedam on 25-06-2023 reason :- changes in calculations 
         
         orderObject = Order.objects.filter(order_id = request.data['orders']).values()[0]
         return Response({"orderItem":orderItemSerializer.data, "order":orderObject})

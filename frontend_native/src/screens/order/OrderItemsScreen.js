@@ -1293,9 +1293,12 @@ export default function OrderItemsScreen({ route, navigation }) {
         copyOrder.total = total;
         copyOrder.cgst = (total * settingData.cgst) / 100;
         copyOrder.sgst = (total * settingData.sgst) / 100;
-        var a =
-          (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-        copyOrder.final_amount = a + newSubTotal;
+        var a = (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+        // Commented and modified by :- Parineeta Gedam on 25-06-2023
+        // Reason :- After giving discount when user update the items then grand total calculation comes wrong.
+        // copyOrder.final_amount = a + newSubTotal;
+        copyOrder.final_amount = copyOrder.cgst + copyOrder.sgst + copyOrder.total;
+        // End of Commented and modified by :- Parineeta Gedam on 25-06-2023
       } else {
         copyOrder.sub_total = newSubTotal;
         copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
@@ -1371,9 +1374,12 @@ export default function OrderItemsScreen({ route, navigation }) {
           copyOrder.total = total;
           copyOrder.cgst = (total * settingData.cgst) / 100;
           copyOrder.sgst = (total * settingData.sgst) / 100;
-          var a =
-            (total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
-          copyOrder.final_amount = a + newSubTotal;
+          var a =(total * settingData.cgst) / 100 + (total * settingData.sgst) / 100;
+          // Commented and modified by :- Parineeta Gedam on 25-06-2023
+          // Reason :- After giving discount when user update the items then grand total calculation comes wrong.
+          // copyOrder.final_amount = a + newSubTotal;
+          copyOrder.final_amount = copyOrder.cgst + copyOrder.sgst + copyOrder.total;
+          // End of Commented and modified by :- Parineeta Gedam on 25-06-2023
         } else {
           copyOrder.sub_total = newSubTotal;
           copyOrder.cgst = (newSubTotal * settingData.cgst) / 100;
@@ -1413,7 +1419,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       orderItem: id,
       tenant: tenantName,
     }
-    
+
     //  Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a admin.
     if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1){
       data["cancelled_by"] = "Admin"
