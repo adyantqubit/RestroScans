@@ -581,11 +581,14 @@ const Menu = () => {
               <div className={style.dropdown} onClick={toggelDropdown}>
                 <button className={style.dropbtn}> {listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
                 <div className={style.dropdown_content} id="dropdown">
-                {backendMenuCount > 50 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
-                  {backendMenuCount > 40 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
-                  {backendMenuCount > 30 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
+                {/* Modified by ROhan kansari - 26/6/23 
+                      Reason - To change condition for showing list */}
+                {backendMenuCount > 40 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
+                  {backendMenuCount > 30 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
+                  {backendMenuCount > 20 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
                   <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span> 
                   <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
+                {/* End of code - Rohan kansari - 26/6/23 */}
                 </div>
               </div>
             </div>

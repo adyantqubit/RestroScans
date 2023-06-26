@@ -671,7 +671,9 @@ const Item = () => {
                   <MdArrowDropUp style={{ margin: "5px 0" }} />
                 </button>
                 <div className={style.dropdown_content} id="dropdown">
-                  {backendItemCount > 50 ? (
+                  {/* Modified by ROhan kansari - 26/6/23 
+                      Reason - To change condition for showing list */}
+                  {backendItemCount > 40 ? (
                     <span
                       href="#"
                       onClick={(e) => {
@@ -683,7 +685,7 @@ const Item = () => {
                       50 / Page
                     </span>
                   ) : null}
-                  {backendItemCount > 40 ? (
+                  {backendItemCount > 30 ? (
                     <span
                       href="#"
                       onClick={(e) => {
@@ -695,7 +697,7 @@ const Item = () => {
                       40 / Page
                     </span>
                   ) : null}
-                  {backendItemCount > 30 ? (
+                  {backendItemCount > 20 ? (
                     <span
                       href="#"
                       onClick={(e) => {
@@ -726,6 +728,7 @@ const Item = () => {
                   >
                     10 / Page
                   </span>
+                  {/* End of code - Rohan kansari - 26/6/23 */}
                 </div>
               </div>
             </div>

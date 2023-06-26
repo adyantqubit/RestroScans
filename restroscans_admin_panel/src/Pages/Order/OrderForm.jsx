@@ -27,7 +27,6 @@ const OrderForm = () => {
   /**
    * End of addition by Om Shrivastava on 16-06-23
    */
-  console.log(id)
   const [orderDetailsObj, setorderDetailsObj] = useState({});
 
   const [tablenumber, setTablenumber] = useState(null);
@@ -183,7 +182,7 @@ const getOrderItems = async () => {
     }
     // setThemeList(response.themeOptions);
   };
-  console.log(orderDetailsObj.order_status)
+  // console.log(orderStatus,paymentStatus,cancelledBy)
 
   /**
    * End of code addition by - Om Shrivastava on 16-06-23
