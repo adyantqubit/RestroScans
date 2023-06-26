@@ -555,27 +555,42 @@ const Order = () => {
                         <div className={`${style.commonColumnData} ${style.smallColumnWidth}`}
                         // Added by Om Shrivastava on 21-06-23
                         // Reason : Need to navigate when user click the table no
-                        style={{color:'#185ee0',cursor:'pointer'}}
-                          onClick={() => {
+                        // Modification and added by Om Shrivastava on 27-06-23
+                        // Reason : Need to remove onclick by div than added in span tag
+                        style={{color:'#185ee0',}}
+                          // onClick={() => {
+                          //   navigate(`/update-order/${orderDetail.id}`, {
+                          //     state: { id: orderDetail.id },
+                          //    });
+                          // }}
+                          // End of addition by Om Shrivastava on 21-06-23
+                        >
+                        <span style={{cursor:'pointer'}} onClick={() => {
                             navigate(`/update-order/${orderDetail.id}`, {
                               state: { id: orderDetail.id },
                              });
-                          }}
-                          // End of addition by Om Shrivastava on 21-06-23
-                        >
-                          {orderDetail.table_number}
+                          }}> {orderDetail.table_number}  </span> 
+                          {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
+
                         </div>
                         <div
                           className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                          style={{color:'#185ee0',cursor:'pointer'}}
-                          onClick={() => {
+                           // Modification and added by Om Shrivastava on 27-06-23
+                           // Reason : Need to remove onclick by div than added in span tag
+                          style={{color:'#185ee0'}}
+                          // onClick={() => {
+                          //   navigate(`/update-order/${orderDetail.id}`, {
+                          //     state: { id: orderDetail.id },
+                          //    });
+                          // }}
+                        >
+                        <span style={{cursor:'pointer'}} onClick={() => {
                             navigate(`/update-order/${orderDetail.id}`, {
                               state: { id: orderDetail.id },
                              });
-                          }}
-                        >
-                          {orderDetail.order_id}
+                          }}> {orderDetail.order_id}</span> 
                         </div>
+                          {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
 
                         {/* End of Modification by Om Shrivastava on 21-06-23 */}
 

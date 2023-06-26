@@ -373,4 +373,15 @@ urlpatterns = [
     # Reason : update order details
     path('<str:tenant>/order-details/<int:id>',OrderDetailAPIView.as_view()),
     # End of updating social links
+
+    # Added by Om Shrivastava on 26-06-23
+    # Reason : get order item details
+    path('<str:tenant>/order-item-details/',GetAllOrderItemAPI.as_view()),
+    # End of get order item details
+
+    # Added by Om Shrivastava on 26-06-23
+    # Reason : get order item details for searching, sorting, pagination
+    path('<str:tenant>/order-item-list-v2/',GetAllOrderItemAPI.as_view()),
+    # End of code addition by - Om shrivastava 26-06-2023
+    # Reason : To get order item details for searching, sorting, pagination
 ]   

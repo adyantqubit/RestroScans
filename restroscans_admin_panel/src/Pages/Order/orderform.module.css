@@ -129,6 +129,8 @@ Reason : Need to apply this css when some field is disable */
   transition: all 0.3s;
   font-size: 18px;
   width:100px;
+  /* width:200px; */
+
   margin-top: 10px;
   text-align: center;
 }
@@ -137,7 +139,7 @@ Reason : Need to apply this css when some field is disable */
   background-color:#62686c;
 }
 
-.cancelButton {
+.addMoreItemButton {
   /* background-color: #585a5b; */
   background-color: #797b7c;
   color: white;
@@ -145,14 +147,24 @@ Reason : Need to apply this css when some field is disable */
   padding: 5px 20px;
   transition: all 0.3s;
   font-size: 18px;
-  width:100px;
+  /* width:100px; */
   margin-top: 10px;
   text-align: center;
+  margin-left: 12px;
+  /* border: 2px solid red; */
+
 }
-.cancelButton:hover {
+.addMoreItemButton:hover {
   cursor: pointer;
   background-color:#a7b4bd;
 }
+/* Added by Om Shrivastava on 23-06-23
+Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
+.addMoreItemButtonDisabled{
+  display: none;
+  /* border: 2px solid black; */
+}
+/* End of addition by Om Shrivastava on 23-06-23 Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
 
 .proceedButton {
   background-color: #51c14b;
@@ -339,7 +351,7 @@ Reason : Need to apply this css when some field is disable */
     align-self: flex-start;
     width: 100%;
   }
-  .proceedButton,.cancelButton,.backButton{
+  .proceedButton,.addMoreItemButton,.backButton{
     width:90px;
     font-size: 17px;
     padding:3px 3px;

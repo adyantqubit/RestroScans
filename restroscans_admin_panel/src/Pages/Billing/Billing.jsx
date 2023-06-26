@@ -141,6 +141,17 @@ const Billing = () => {
              
                         {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Sub-Total</div><div>:</div> </div> <div className={style.calculationText}>{}{SubtotalOfItems().toFixed(2)}</div></div>:null}
                         
+                        {/* Added by Om shrivastava on 26-06-23
+                        Reason : When loyality point show than show this div */}
+                        {billingData?.detail.loyality_point_price>0?
+                            <div className={style.calculationLine}>
+                                <div className={style.calculationLabel}>
+                                    <div style={{width:"98%"}}>Discount</div>
+                                    <div> :</div>
+                                     </div>
+                                      <div className={style.calculationText}>{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
+                        {/* End of addition by Om Shrivastava on 26-06-23 */}
+
                         {billingData?.detail.cgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>CGST</div><div>({(billingData.detail.cgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{}{(billingData.detail.cgst).toFixed(2)}</div></div>:null}
                        
                          {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/SubtotalOfItems()*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}

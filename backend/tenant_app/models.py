@@ -717,17 +717,17 @@ class Order(models.Model):
     # Added by :- Parineeta Gedam on 13-05-2023 
     # Reason :- for order cancel
     # Modification and addition by Om Shrivastava on 23-06-23
-    # Reason : Remove the default field 
+    # Reason : Remove the null= true property
     # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
     cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin")
     # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,null=True,blank=True)
-    # End of addition by Om Shrivastava on 23-06-23
+    # End of addition by Om Shrivastava on 23-06-23 Reason : Remove the null= true property
     
     # Modification and addition by Om Shrivastava on 23-06-23
-    # Reason : Remove the null true property
+    # Reason : Remove the null= true property
     # cancel_reason = models.TextField(null=True,blank=True)
     cancel_reason = models.TextField(default="",blank=True)
-    # End of addition by Om Shrivastava on 23-06-23
+    # End of addition by Om Shrivastava on 23-06-23 Reason : Remove the null= true property
 
     # End of added code by :- Parineeta Gedam on 13-05-2023
 

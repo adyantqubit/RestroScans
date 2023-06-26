@@ -497,12 +497,21 @@ class getAllMenusAPI(APIView):
         categoryListSerializer=CategoryListSerializer(categoryList,many=True)
         itemList=Item.objects.all().order_by('name')
         itemListSerializer=ItemListSerializer(itemList,many=True)
+        # Added by Om shrivastava on 26-06-23
+        # Reason : Show item name by id 
+        itemListbyId=Item.objects.all().order_by('id')
+        itemListSerializerbyId=ItemListSerializer(itemListbyId,many=True)
+        # End of the code by Om shrivastava on 26-06-23
 
         return Response({
             "msg":"success",
             "menuList":menuData.data,
             "categoryList":categoryListSerializer.data,
-            "itemList":itemListSerializer.data
+            "itemList":itemListSerializer.data,
+            # Added by Om shrivastava on 26-06-23
+            # Reason : Show item name by id 
+            "itemListbyId":itemListSerializerbyId.data
+            # End of the code by Om shrivastava on 26-06-23
             })
 # End of getting active and inactive
 
@@ -3106,3 +3115,66 @@ class GetCategoryAPI(APIView):
         categoryListSerializer = CategoryListSerializer(var, many =True)
         return Response({"msg":"success", "categories":categoryListSerializer.data})
 # End of addition by Yuvraj Sahu on 23-06-2023
+
+# Addded by Om Shrivastava on 26-06-23
+# Reason : Get all order item data 
+class GetAllOrderItemAPI(APIView):
+    def get(self,request,tenant):
+         orderItemCount=OrderItem.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "orderItemCount":orderItemCount,
+        })
+    
+    #To get list of order item using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        #To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        orderItemList=[]
+
+        if columnToSort == "":
+            orderItemList = OrderItem.objects.all()
+
+        if searchText:
+            #To search by item name and category name 
+            orderItemList=OrderItem.objects.filter(Q(order_id__order_id__contains=searchText) | Q(payment_status__icontains=searchText) | Q(order_status__icontains=searchText))
+        else:
+            orderItemList = OrderItem.objects.all()        
+
+        if columnToSort == "order_id" and columnSortingOrder=="ascending":
+            orderItemList = OrderItem.objects.all().order_by('order_id__order_id')
+        if columnToSort == "order_id" and columnSortingOrder=="descending":
+            orderItemList = OrderItem.objects.all().order_by('-order_id__order_id')
+
+        if columnToSort == "item_status" and columnSortingOrder=="ascending":
+            orderItemList = orderItemList.order_by('item_status')
+        if columnToSort == "item_status" and columnSortingOrder=="descending":
+            orderItemList = orderItemList.order_by('-item_status')
+
+        if columnToSort == "date" and columnSortingOrder=="ascending":
+            orderItemList = orderItemList.order_by('date')
+        if columnToSort == "date" and columnSortingOrder=="descending":
+            orderItemList = orderItemList.order_by('-date')
+
+        orderItemListCount=orderItemList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(orderItemList, listPerPage)
+        filteredOrderItemList = paginator.page(currentPage)
+
+        orderItemListSerializer = OrderItemWithOrderIdSerializer(filteredOrderItemList, many =True)
+        return Response({
+            "msg":"success",
+            "orderItemList":orderItemListSerializer.data,
+            "orderItemListCount":orderItemListCount,
+        })
+        
+# End of addition by Om Shrivatava on 26-06-23 Reason : Get all order item data 

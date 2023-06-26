@@ -595,3 +595,58 @@ export const postItemDetails = async (tenant,values) => {
  * End of code addition by - Yuvraj Sahu on 23-06-2023.
  * Reason - To save item details
  */
+
+// Added by Om shrivastava on 24-06-2023
+// Reason - to post added order items
+
+export const postOrderItemsApi = async (data, tenant) => {
+  const response = await API.post(`/api/v1/${tenant}/add_order_items/`, data, {
+    headers: {
+      // "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response,'Post the add more items.. sucessfully')
+  return response ? response.data : {};
+};
+
+export const getAllMenuList = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/all-menus/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const getOrderItemsApi = async (tenant, id) => {
+  const response = await API.get(`api/v1/${tenant}/order-items/${id}/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of added code by Om shrivastava on 24-06-23
+
+// Added by Om Shrivastava on 16-06-23
+// Reason - to get all social media
+export const getOrderItemCountApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/order-item-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response.data)
+  return response ? response.data : {};
+};
+
+export const getOrdersItemDetailApi = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/order-item-list-v2/`, filteringCriteria, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  // console.log(response.data,'++++++++++++++++++++++')
+  return response ? response.data : {};
+};
