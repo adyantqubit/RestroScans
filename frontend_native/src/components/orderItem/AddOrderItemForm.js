@@ -418,6 +418,10 @@ export default function AddOrderItemForm(orderId) {
                                             autoCapitalize="none"
                                             autoCorrect={false}
                                             keyboardType="number-pad"
+
+                                            // Modified by :- PArineeta Gedam on 26-06-2023 reason :- 
+                                            editable = {servingSizeSelected == null || servingSizeSelected == "" || itemIdSelected == null || itemIdSelected == "" ? false : true}
+                                            // End of Modified by :- PArineeta Gedam on 26-06-2023
                                         // onChange={() => {setQuantitySelected(values.quantity); handleCalculations(values.quantity)}}
                                         />
                                         {errors.quantity && touched.quantity && (
@@ -499,7 +503,15 @@ export default function AddOrderItemForm(orderId) {
                                             disabled={submitBtnDisable}
                                             // End of added code by :- PArineeta Gedam on 23-06-2023
 
-                                            onPress={handleSubmit}
+                                            // Modified by :- Parineeta Gedam on 27-06-2023 reason :- Error thrown, when Admin not entered item name and entered quantity then click on "Submit" button.
+                                            onPress={ ()=>{
+                                                handleSubmit();
+                                                itemIdSelected == 0 ? setItemNameRequired(true) : setItemNameRequired(false)
+                                                servingSizeSelected == null || servingSizeSelected == "" ? setservingSizeRequired(true) : setservingSizeRequired(false)
+                                            }
+                                            }
+                                            // End of Modified code by :- Parineeta Gedam on 27-06-2023 reason :- Error thrown, when Admin not entered item name and entered quantity then click on "Submit" button.
+ 
                                             style={{
                                                 // Modified by :- Parineeta Gedam on 23-06-2023
                                                 // Reason :- to btn disable
