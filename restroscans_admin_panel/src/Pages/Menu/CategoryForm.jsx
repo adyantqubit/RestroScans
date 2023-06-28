@@ -15,6 +15,8 @@ import {
 import { Message, enableHeader } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
+import { Select } from 'antd';
+const { Option } = Select;
 
 function CategoryForm() {
   const navigate = useNavigate();
@@ -28,6 +30,17 @@ function CategoryForm() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [menuList, setMenuList] = useState([]);
   const [menu, setMenu] = useState(null);
+  /**
+   * Added by yuvraj sahu on 24-06-2023
+   * Reason - to set menu name for dropdown
+   */
+  var [menuName, setMenuName] = useState(null);
+  /**
+   * End of addition by yuvraj Sahu on 24-06-2023
+   */
+  var defalutMenu = {label: null, value: null}
+  var b
+
 
   const [validationErrors, setValidationErrors] = useState({
     name: "",
@@ -93,6 +106,16 @@ function CategoryForm() {
       setIcon(response.category.icon);
       setIsActive(response.category.is_active);
       setMenu(response.category.menu);
+      /**
+       * Added by yuvraj sahu on 24-06-2023
+       * Reason - to set menu name for dropdown
+       */
+      setMenuName(response.category.menu_name)
+      b = response.category.menu
+      defalutMenu = {label: response.category.menu_name, value: response.category.menu}
+      /**
+       * End of addition by yuvraj Sahu on 24-06-2023
+       */
       setMenuList(response.menus);
     }
   };
@@ -226,7 +249,7 @@ function CategoryForm() {
     // Reason - to show validation message after clicking the clear and save
     // if (name == null && menu == null) {
     if (name == null || name == "" && menu == null) {
-      // End showing validation message by Yuvraj Sahu on 23-06-2023
+    // End showing validation message by Yuvraj Sahu on 23-06-2023
       const error = {
         name: "Please enter category name",
         menu: "Please enter menu name",
@@ -237,7 +260,7 @@ function CategoryForm() {
       // Reason - to show validation message after clicking the clear and save
       // if (name == null) {
       if (name == null || name == "") {
-        // End showing validation message by Yuvraj Sahu on 23-06-2023
+      // End showing validation message by Yuvraj Sahu on 23-06-2023
         const error = {
           name: "Please enter category name",
         };
@@ -344,6 +367,34 @@ function CategoryForm() {
    * Reason - To reset category form
    */
 
+  /**
+   * Added by Yuvraj Sahu on 24-06-2023 
+   * Reason - to set dropdown value
+   */
+  const handleMenuChange = (value) => {
+    setMenu(value)
+    // setValidationErrors({menu: ""})
+    const error = {
+      menu: "",
+    };
+    setValidationErrors({ ...validationErrors, ...error });
+  };
+
+  const newArrayOfObj = menuList.map(({
+    name: label,
+    id: value,
+    ...rest
+  }) => ({
+    label,
+    value,
+    ...rest
+  }));
+  /**
+   * End of addition by yuvraj Sahu on 24-06-2023
+   */
+
+  var [defaultValueData, setDefaultValueData] = useState(10)
+
   return (
     // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
@@ -387,7 +438,29 @@ function CategoryForm() {
                   <div className={`${style.inputLabel}`}>
                     <span className={style.mendatoryField}>* </span>Menu name
                   </div>
-                  <select
+
+                  {/* Added by Yuvraj sahu on 24-06-2023
+                  Reason - to have dropdown for menu */}
+                  {/* {alert(categoryData.menu_name)} */}
+                  <Select
+                    // showSearch
+                    // onChange={getStateName}
+                    placeholder="Please select menu"
+                    optionFilterProp="children"
+                    // defaultValue={menu}
+                    value={menu}
+                    // onChange={()=> {setMenu(); setValidationErrors({menu: ""})}}
+                    onChange={handleMenuChange}
+                    style={{width: 200, border: "1px solid black", borderRadius: "7px", fontSize: "18px"}}
+                    listHeight={190}
+                  >
+                    {menuList.map((items) => (
+                      <Option value={items.id}>{items.name}</Option>
+                    ))}
+                  </Select>
+
+                  {/* End of adfdition by Yuvraj sahu on 24-06-2023 */}
+                  {/* <select
                   // Added by Yuvraj Sahu on 18-06-2023
                   // Reason - to give id for reset dropdown
                     id="menuDropdown"
@@ -413,12 +486,10 @@ function CategoryForm() {
                           value={data.id}
                         >
                           {data.name}
-                          {/* {data?.background_color_label} ,{" "}
-                          {data.heading_color_label} */}
                         </option>
                       );
                     })}
-                  </select>
+                  </select> */}
                 </div>
                 <div className={`${style.inputErrorArea}`}>
                   {validationErrors.menu}

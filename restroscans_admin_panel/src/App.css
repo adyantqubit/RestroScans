@@ -282,7 +282,9 @@ Reason : When popup is shown than its overlap in header page */
      margin-top: 2%;
   }
 } */
-
+.ant-select-selector{
+  padding: 0 3px  !important;
+} 
 @media screen and (max-width: 1100px) {
   #pot{
      margin-top: 1.5%;
