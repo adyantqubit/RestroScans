@@ -589,7 +589,7 @@ PAYMENT_STATUS = (
     ("Completed", "Completed"),
     # Commented by :- PArineeta Gedam on 12-06-2023 reason :- not show the paid option for admin.
     # Added by :- Parineeta Gedam on 21-05-2023
-    Uncommeted by yuvraj sahu on 28-06-2023
+    # Uncommeted by yuvraj sahu on 28-06-2023
     # Reason - to save the paid status when we not select Payment status in react native side
     ("Paid", "Paid"),
     # End of modification by Yuvraj Sahu on 28-06-2023
