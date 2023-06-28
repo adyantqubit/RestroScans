@@ -2236,8 +2236,11 @@ export default function OrderItemsScreen({ route, navigation }) {
         </View>
         <View style={styles.statusContainer}>
           <View style={{ marginTop: 20 }}>
-            <View style={styles.orderStatusContainer}>
+            {/* Added and modified by yuvraj Sahu on 28-06-2023
+              reason - to design radio buttons */}
+            <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5}]}>
               {/* Font weight apply by Om on 27-04-23 */}
+              <View>
               <Text style={{ fontWeight: "bold" }}>Order status</Text>
 
               {/* Commeted and added by Yuvraj Sahu on 04-05-2023
@@ -2272,8 +2275,9 @@ export default function OrderItemsScreen({ route, navigation }) {
                 }}
               /> */}
 
-              <SelectDropdown
-
+              {/* Commeted and added by yuvraj Sahu on 28-06-2023
+              Reason - to change dropdown into radio button */}
+              {/* <SelectDropdown
                 // Commented and modified by :- Parineeta Gedam on 18-06-2023 reason :-once when admin select the dropdown value then update the dropdown and highlight that value 
                 // defaultValue={
                 //   orderStatusData.filter((e) => {
@@ -2294,13 +2298,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                 // End of modified code on 18-06-2023 reasson :- if order status is cancelled then dropdown will be disable
 
 
-                /** Added by Yuvraj Sahu on 07-05-2023
-                 * Reson - to give hieght in dropdown
-                 */
+                // Added by Yuvraj Sahu on 07-05-2023
+                // Reson - to give hieght in dropdown
                 rowStyle={{ height: 30 }}
-                /**
-                 * End of addition by Yuvraj Sahu on 07-05-2023
-                 */
+                // End of addition by Yuvraj Sahu on 07-05-2023
                 selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
                 dropdownStyle={{
                   borderRadius: 10,
@@ -2311,9 +2312,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                   return <AntDesign name="down" size={14} color="black" />;
                 }}
                 buttonStyle={{
-                  /** Added by Yuvraj Sahu on 07-05-2023
-                   * Reson - to give hieght in dropdown
-                   */
+                  // Added by Yuvraj Sahu on 07-05-2023
+                  // Reson - to give hieght in dropdown
                   height: 30,
                   borderColor: "black",
                   borderWidth: 1,
@@ -2325,9 +2325,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   width: "40%",
                   alignSelf: "center",
                   // marginBottom: 10,
-                  /**
-                   * End of addition by Yuvraj Sahu on 07-05-2023
-                   */
+                  // End of addition by Yuvraj Sahu on 07-05-2023
                 }}
                 onSelect={(selectedOrderStatus, index) => {
                   setOrderStatus(selectedOrderStatus.value);
@@ -2340,7 +2338,36 @@ export default function OrderItemsScreen({ route, navigation }) {
                 rowTextForSelection={(order, index) => {
                   return order.value;
                 }}
-              />
+              /> */}
+              {orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" || orderDetail.payment_status == "Paid"
+                ?
+                  null
+                :
+              <RadioButtonGroup
+                containerStyle={{
+                  marginBottom: 10,
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  width: 230,
+                  marginTop: 5
+                }}
+                selected={orderStatusSelected}
+                // onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
+                onSelected={(value) => {setOrderStatus(value)}}
+                radioBackground={colors.btnColor}
+                size={15}
+              >
+                {orderStatusData.map((dt,i)=>(
+                <RadioButtonItem style={{ borderWidth: 1, margin: 7, marginTop: 7, marginRight: 0, marginLeft: 5}} value={dt.value} label={dt.value} key={i}/>
+              ))}
+                {/* <RadioButtonItem style={{ borderWidth: 1 }} value="Completed" label="Completed" /> */}
+              </RadioButtonGroup>
+            }
+              </View>
+              <View>
+                <Text style={{color: colors.btnColor, fontWeight: "bold"}}>{orderStatusSelected}</Text>
+              </View>
+              {/* End of changing dropdown by Yuvraj Sahu on 28-06-2023 */}
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
 
@@ -2390,8 +2417,11 @@ export default function OrderItemsScreen({ route, navigation }) {
             Reason : When order status is served than this payment status is work */}
             {/* {orderDetail.order_status == "Served" ? (
             <> */}
-            <View style={styles.orderStatusContainer}>
+            {/* Commeted and added by yuvraj Sahu on 28-06-2023
+              Reason - to remove dropdown and design radio */}
+            <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5}]}>
               {/* Font weight apply by Om on 27-04-23 */}
+              <View>
               <Text style={{ fontWeight: "bold" }}>Payment status</Text>
 
               {/* Commeted and added by Yuvraj Sahu on 04-05-2023
@@ -2422,7 +2452,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 }}
               /> */}
 
-              <SelectDropdown
+              {/* <SelectDropdown
 
                 // Commented and modified by :- Parineeta Gedam on 18-06-2023 reason :-once when admin select the dropdown value then update the dropdown and highlight that value 
 
@@ -2447,14 +2477,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                 dropdownOverlayColor="rgba(0,0,0,0)"
                 buttonTextStyle={{ fontSize: 16 }}
                 rowTextStyle={{ fontSize: 16 }}
-                /** Added by Yuvraj Sahu on 07-05-2023
-                 * Reson - to give hieght in dropdown
-                 */
+                // Added by Yuvraj Sahu on 07-05-2023
+                // Reson - to give hieght in dropdown
                 rowStyle={{ height: 30 }}
-
-                /**
-                 * End of addition by Yuvraj Sahu on 07-05-2023
-                 */
+                // End of addition by Yuvraj Sahu on 07-05-2023
                 selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
                 dropdownStyle={{
                   borderRadius: 10,
@@ -2465,9 +2491,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                   return <AntDesign name="down" size={14} color="black" />;
                 }}
                 buttonStyle={{
-                  /** Added by Yuvraj Sahu on 07-05-2023
-                   * Reson - to give hieght in dropdown
-                   */
+                  // Added by Yuvraj Sahu on 07-05-2023
+                  // Reson - to give hieght in dropdown
                   height: 30,
                   borderColor: "black",
                   borderWidth: 1,
@@ -2481,9 +2506,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                   width: "40%",
                   alignSelf: "center",
                   // marginBottom: 10,
-                  /**
-                   * End of addition by Yuvraj Sahu on 07-05-2023
-                   */
+                  // End of addition by Yuvraj Sahu on 07-05-2023
                 }}
                 onSelect={(selectedPaymentStatus, index) => {
                   setPaymentStatus(selectedPaymentStatus.value);
@@ -2495,7 +2518,25 @@ export default function OrderItemsScreen({ route, navigation }) {
                 rowTextForSelection={(order, index) => {
                   return order.value;
                 }}
-              />
+              /> */}
+              <RadioButtonGroup
+                containerStyle={{ marginBottom: 10,flexDirection: "row", flexWrap: "wrap", width: 220, marginTop: 5 }}
+                selected={paymentStatusSelected}
+                // onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
+                onSelected={(value) => {setPaymentStatus(orderDetail.order_status == "Cancelled" ? "Pending" : value)}}
+                radioBackground={colors.btnColor}
+                size={15}
+              >
+                {paymentStatusData.map((dt,i)=>(
+                <RadioButtonItem style={{ borderWidth: 1, margin: 7, marginRight: 0, marginLeft: 5}} value={dt.value} label={dt.value} key={i}/>
+              ))}
+                {/* <RadioButtonItem style={{ borderWidth: 1 }} value="Completed" label="Completed" /> */}
+              </RadioButtonGroup>
+              </View>
+              <View>
+                <Text style={{color: colors.btnColor, fontWeight: "bold"}}>{paymentStatusSelected}</Text>
+              </View>
+              {/* End of addition by yuvraj Sahu on 28-06-2023 */}
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
             {/* </>
@@ -2759,16 +2800,19 @@ const styles = StyleSheet.create({
    * End of addition  by Yuvraj Sahu on 07-05-2023
    */
   orderStatusContainer: {
+    // Commented and modified by yuvraj Sahu on 28-06-2023
+    // Reason - to change design of order and payment status
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     margin: 5,
     paddingRight: 10,
     paddingLeft: 10,
+    // borderWidth:1.5,
     /**
      * Added by Yuvraj Sahu on 07-05-2023
      */
-    alignItems: "center",
+    // alignItems: "center",
     /**
      * End of addition by yuvraj Sahu on 07-05-2023
      */
@@ -2776,6 +2820,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     // marginTop: 20
+    // End of modification by yuvraj Sahu on 28-06-2023
   },
   btns: {
     // Modified by - Suman sahu  On 30/04/2023
