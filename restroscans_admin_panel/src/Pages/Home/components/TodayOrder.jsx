@@ -75,7 +75,7 @@ const TodayOrder = () => {
     // Added by Suman sahu - 11/06/2023
     // Reason - To open selected items in the modal of table no. data in the dashboard
     // Modified by ROhan kansari - 26/6/23- to dont loose value on state change
-    var selectedItemArr = useRef({items:[]})
+    var selectedItemArr = useRef({ items: [] })
     const [openModalNumOrderItem, setOpenModalNumOrderItem] = useState({})
     // End of code - 11/06/2023 by - Suman sahu
 
@@ -168,7 +168,9 @@ const TodayOrder = () => {
 
         // Modified by Rohan kansari - 26/6/23
         // Reason - To add cancel feature in status check
-        if (m.order.order_status == "Placed" && (orderStatus == "Cooked" || orderStatus == "Served" || orderStatus == "Cancelled")) {
+        // Changes by Rohan kansari - 28/6/23
+        // Reason - admin can able to change cancle status in any time
+        if (m.order.order_status == "Placed" && (orderStatus == "Cooked" || orderStatus == "Served")) {
             Message("Please first change order status to confirm ", "error")
             return false;
         }
@@ -176,11 +178,11 @@ const TodayOrder = () => {
             Message("You cant change order status confirm to placed", "error")
             return false;
         }
-        else if (m.order.order_status == "Confirm" && (orderStatus == "Served" || orderStatus == "Cancelled")) {
+        else if (m.order.order_status == "Confirm" && (orderStatus == "Served")) {
             Message(`Please first change order status confirm to ${orderStatus}`, "error")
             return false;
         }
-        else if (m.order.order_status == "Cooked" && (orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cancelled")) {
+        else if (m.order.order_status == "Cooked" && (orderStatus == "Confirm" || orderStatus == "Placed")) {
             Message(`You cant change order status cooked to ${orderStatus}`, "error")
             return false;
         }
@@ -188,15 +190,15 @@ const TodayOrder = () => {
             Message(`You cant change order status cooked to ${orderStatus}`, "error")
             return false;
         }
-        else if (m.order.order_status == "Cancelled" && (orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked" || orderStatus == "Serverd" )) {
+        else if (m.order.order_status == "Cancelled" && (orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked" || orderStatus == "Served")) {
             Message(`You cant change order status cooked to ${orderStatus}`, "error")
             return false;
         }
-        else if (m.order.payment_status == "Completed" && (paymentStatus == "Pending" )) {
+        else if (m.order.payment_status == "Completed" && (paymentStatus == "Pending")) {
             Message(`You cant change payment status completed to ${paymentStatus}`, "error")
             return false;
         }
-        // End of code - ROhan kansari - 26/6/23
+        // End of code - ROhan kansari - 28/6/23
         else
             return true;
 
@@ -436,7 +438,7 @@ const TodayOrder = () => {
                 // End of code - 25/6/23 - ROhan kansari 
                 setOrderItem(newOrderItemList)
                 // Modified by ROhan kansari - 26/6/23 - to delete persist data
-                selectedItemArr.current.items=[]
+                selectedItemArr.current.items = []
 
                 // Modified by Rohan Kansari- 24/5/23
                 // Reason - Select box is not updated 
@@ -698,7 +700,7 @@ const TodayOrder = () => {
     function printKot() {
         // Modified by Rohan KAnsari - 26/6/23
         // Reason - To dont print cancelled items
-        var filterKotItems = orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id && o.item_status!="Cancelled" })
+        var filterKotItems = orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id && o.item_status != "Cancelled" })
         var state = { gstFssai: gstFssai, restro_detail: restroDetail, order: openActionPopupModal, orderItem: filterKotItems }
         // setKot(state)   
         kotData = state
@@ -959,8 +961,8 @@ const TodayOrder = () => {
         </html>`)
         a.document.close();
 
-        if(filterKotItems.length>0)
-        a.print();
+        if (filterKotItems.length > 0)
+            a.print();
         a.close();
     }
     /**
@@ -971,18 +973,18 @@ const TodayOrder = () => {
 
     // Added by ROhan kansari - 26/6/23
     // Reason - to restore old selected value in state
-    function oldStatusReverting(){
+    function oldStatusReverting() {
         console.log(selectedItemArr)
-        var tempOrderItemList=orderItemList;
-        selectedItemArr.current.items.filter(e=>{
-            var index=orderItemList.findIndex(o=>o.id==e.id)
-            tempOrderItemList[index].item_status=e.status
+        var tempOrderItemList = orderItemList;
+        selectedItemArr.current.items.filter(e => {
+            var index = orderItemList.findIndex(o => o.id == e.id)
+            tempOrderItemList[index].item_status = e.status
         })
         setOrderItem([...tempOrderItemList])
 
-        selectedItemArr.current.items=[]
+        selectedItemArr.current.items = []
 
-    //    selectedItemArr)
+        //    selectedItemArr)
     }
     // End of code - Rohan kansari - 26/6/23
 
@@ -1144,7 +1146,7 @@ const TodayOrder = () => {
                 {/* added by - suman sahu on 10/06/2023
                     reason - change the popup when click the data of table no. in the dashbord */}
 
-                  {/*Modified by ROhan kansari - 26/6/23
+                {/*Modified by ROhan kansari - 26/6/23
                      Reason - To save and resatore select box value  */}
                 <Modal open={popupOrderItem} onCancel={e => {
                     oldStatusReverting();
@@ -1152,13 +1154,13 @@ const TodayOrder = () => {
                 }} footer={null} className={style.modalContainer}>
 
                     <div className={style.popupItemContainer}>
-                        <div className={style.itemlist}>           
+                        <div className={style.itemlist}>
                             {orderItemList?.map((orderItem, i) => {
 
                                 if (orderItem.order_id == openModalNumOrderItem.order_id && popupOrderItem) {
-                                    if(selectedItemArr.current.items.length==0)
-                                    orderItemList.filter((item, index) => {if(item.order_id == openModalNumOrderItem.order_id) selectedItemArr.current.items.push({"id":item.id,"status":item.item_status})})
-                                    
+                                    if (selectedItemArr.current.items.length == 0)
+                                        orderItemList.filter((item, index) => { if (item.order_id == openModalNumOrderItem.order_id) selectedItemArr.current.items.push({ "id": item.id, "status": item.item_status }) })
+
                                     return <div key={i} className={style.itemListContainer}
                                         // added by - Suman sahu on - 17/06/2023
                                         style={{
@@ -1190,7 +1192,7 @@ const TodayOrder = () => {
                                                     // added by - Suman sahu on - 14/06/2023
                                                     // reason - to save item status and render that value on select box after updating
                                                     onChange={e => {
-                                                        orderItemList[i].item_status=e.target.value
+                                                        orderItemList[i].item_status = e.target.value
                                                         setOrderItem([...orderItemList])
                                                         console.log(selectedItemArr)
                                                         // console.log(e.target.value)
@@ -1217,12 +1219,12 @@ const TodayOrder = () => {
                     <div className={style.btnContainer}>
                         <div className={style.selectionContainer}>
                             <button className={style.btnUpdate}
-                                onClick={e => { orderItemModel(orderItemList.filter((item, index) => item.order_id == openModalNumOrderItem.order_id )) }}
+                                onClick={e => { orderItemModel(orderItemList.filter((item, index) => item.order_id == openModalNumOrderItem.order_id)) }}
                             >Update</button>
                         </div>
                         <div className={style.selectionContainer}>
                             <button className={style.btnUpdate}
-                                onClick={e => {oldStatusReverting(); closeModalOrderItem(); }}
+                                onClick={e => { oldStatusReverting(); closeModalOrderItem(); }}
                             >Cancel</button>
                         </div>
                     </div>
@@ -1247,9 +1249,9 @@ const TodayOrder = () => {
                                 selectedOrderCopy["order_id"] = openActionPopupModal.order_id
                                 // Added by Rohan kansari - 24/6/23
                                 // Reason - To save ordr object also to send for validation
-                                selectedOrderCopy["order"]=orderItem
+                                selectedOrderCopy["order"] = orderItem
                                 // End of code - Rohan Kansari - 24/6/23
-                                
+
                                 // added by - Suman sahu on - 14/06/2023
                                 // reason - to save order status & payment status and render that value on select box after updating
                                 selectedOrderCopy["order_status"] = openActionPopupModal.order_status
@@ -1258,12 +1260,12 @@ const TodayOrder = () => {
 
                                 // Added by Rohan kansari - 24/6/23
                                 // Reason - Select box issue solved, Passing update value in select box
-                                if(document.getElementById("order_status_selectBox")){
-                                document.getElementById("order_status_selectBox").value=orderItem.order_status
-                                document.getElementById("payment_status_selectBox").value=orderItem.payment_status
+                                if (document.getElementById("order_status_selectBox")) {
+                                    document.getElementById("order_status_selectBox").value = orderItem.order_status
+                                    document.getElementById("payment_status_selectBox").value = orderItem.payment_status
                                 }
                                 // End of code - Rohan Kansari - 24/6/23
-                                
+
 
                                 return <>
                                     {/* modified by - Suman sahu on 17/06/2023 */}
@@ -1352,6 +1354,9 @@ const TodayOrder = () => {
                         <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
                             <div className={style.selectionContainer}>
                                 <button className={style.kotPrint}
+                                    // Modified by ROhan kansari - 28/6/23
+                                    // Reason - to disable button 
+                                    style={openActionPopupModal.order_status == "Cancelled" || openActionPopupModal.order_status == "Served" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
                                     // Commeted and added by yuvraj Sahu on 22-06-2023
                                     // Reason - to print kot from completed section
                                     // onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}
@@ -1361,7 +1366,9 @@ const TodayOrder = () => {
                             </div>
                             <div className={style.selectionContainer}>
                                 <button className={style.billPrint}
-                                    style={openActionPopupModal.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
+                                    // Modified by ROhan kansari - 28/6/23
+                                    // Reason - to disable button 
+                                    style={openActionPopupModal.payment_status != "Completed" || openActionPopupModal.order_status == "Cancelled" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
                                     onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}
                                 >Print</button>
                             </div>

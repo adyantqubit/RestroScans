@@ -2809,14 +2809,22 @@ class OrderDetailAPIView(APIView) :
     def get(self, request, tenant):
         orderObjs = Order.objects.all()
         serialized=AllOrderSerializer(orderObjs, many=True)
+        
+        # Added by Rohan kansari - 28/6/23
+        # Reason - To send setting value also in a response
+        settingSerialize=SettingSerializer(Setting.objects.last())
+
 
         # order_status = dict(Order.fields['order_status'].choices)[order_status]
        
         return Response({
             "msg":"success",
             "orderData":serialized.data,
+            "setting":settingSerialize.data
             # "dropDown":order_status,
             })
+    
+        # End of code - Rohan kansari - 28/6/23
     
     def post(self,request,tenant):
     # Added by Om Shrivastava on 16-06-23

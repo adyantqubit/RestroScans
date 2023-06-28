@@ -76,7 +76,10 @@
 
 .inputLabel {
   /* width: 250px; */
-  width: 200px;
+  /* Added by Rohan kansari - 28/6/23
+     Reason - To add minimum price*/
+  min-width: 180px;
+  max-width: 180px;
   font-weight: bold;
 }
 

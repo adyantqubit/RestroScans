@@ -59,7 +59,7 @@
 /* end of addition - 15/06/2023 */
 
 .sublink {
-  font-size: var(--label-font-size);
+  font-size: 18px;
   color: rgb(245, 236, 236);
   letter-spacing: 1px;
 
@@ -110,6 +110,10 @@
   background-color: var(--sidebar-color) !important;
 }
 
+/* Added by Rohan kansari  */
+.open_sidebar{
+  padding: 10px 0;
+}
 
 @media screen and (max-width: 1200px) {
  
@@ -196,6 +200,7 @@
   }
   .open_sidebar {
     /* height: 130vh; */
+    padding:10px 0;
     display: flex;
     flex-direction: column;
     color: white;

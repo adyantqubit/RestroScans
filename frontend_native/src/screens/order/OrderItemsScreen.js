@@ -2534,7 +2534,16 @@ export default function OrderItemsScreen({ route, navigation }) {
               </RadioButtonGroup>
               </View>
               <View>
-                <Text style={{color: colors.btnColor, fontWeight: "bold"}}>{paymentStatusSelected}</Text>
+                <Text style={{
+                  color: colors.btnColor,
+                  fontWeight: "bold"
+                }}>
+                  {(orderDetail.payment_status == "Pending" && orderDetail.payment_mode) ?
+                    "Paid"
+                  :
+                    paymentStatusSelected
+                  }
+                </Text>
               </View>
               {/* End of addition by yuvraj Sahu on 28-06-2023 */}
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}

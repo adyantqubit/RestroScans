@@ -104,27 +104,30 @@
   
 } */
 .revenue_container {
+  /* Modified by ROhan kansari - 28/6/23
+     Reason - To fix heights */
   margin-bottom: 3rem;
+  min-width: 200px;
   width: 100%;
   background-color: var(--primary-bg-color);
-  height: 40vh;
+  min-height: 40vh;
   margin: 1rem;
   box-shadow: 1px 1px 4px 1px grey;
   padding: 1.25rem 1.25rem;
 }
 .btn_div {
-  height: 30px;
-  padding: 8px;
+  min-height: 30px;
+  /* padding: 8px; */
   color: var(--primary-bg-color);
   outline: none;
   font-size: 14px;
   letter-spacing: 1px;
   cursor: pointer;
-  margin: 1rem 0;
+  margin: 14px 0;
 }
 .order_report_btn {
   font-size: 1.2rem;
-  padding: 3px;
+  padding: 3px 10px;
   border-radius: 4px;
   background-color: var(--primary-box-bg-color);
   color: white;
@@ -132,7 +135,7 @@
 }
 .item_report_btn {
   font-size: 1.2rem;
-  padding: 3px;
+  padding: 3px 10px;
   border-radius: 4px;
   background-color: var(--secondary-box-bg-color);
   color: white;

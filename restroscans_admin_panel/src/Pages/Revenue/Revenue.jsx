@@ -123,7 +123,9 @@ const Revenue = () => {
             {todaySummary ? (
               <div className={style.total_revenue}>
                 <FaRupeeSign />
-                {todaySummary.total_revenue}
+                {/* Modified by Rohan kansari - 28/6/23
+                    Reason - to show float with 2 decimal point */}
+                {todaySummary.total_revenue.toFixed(2)}
               </div>
             ) : null}
             <div className={style.btn_div}>
@@ -151,7 +153,9 @@ const Revenue = () => {
             {thisWeekSummary ? (
               <p className={style.total_revenue}>
                 <FaRupeeSign />
-                {thisWeekSummary.total_revenue}
+                {/* Modified by Rohan kansari - 28/6/23
+                    Reason - to show float with 2 decimal point */}
+                {thisWeekSummary.total_revenue.toFixed(2)}
               </p>
             ) : null}
             <div className={style.btn_div}>
@@ -181,7 +185,9 @@ const Revenue = () => {
             {thisMonthSummary ? (
               <p className={style.total_revenue}>
                 <FaRupeeSign />
-                {thisMonthSummary.total_revenue}
+                {/* Modified by Rohan kansari - 28/6/23
+                    Reason - to show float with 2 decimal point */}
+                {thisMonthSummary.total_revenue.toFixed(2)}
               </p>
             ) : null}
             <div className={style.btn_div}>
@@ -209,7 +215,9 @@ const Revenue = () => {
             {thisYearSummary ? (
               <p className={style.total_revenue}>
                 <FaRupeeSign />
-                {thisYearSummary.total_revenue}
+                {/* Modified by Rohan kansari - 28/6/23
+                    Reason - to show float with 2 decimal point */}
+                {thisYearSummary.total_revenue.toFixed(2)}
               </p>
             ) : null}
             <div className={style.btn_div}>

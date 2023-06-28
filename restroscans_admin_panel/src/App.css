@@ -56,7 +56,8 @@ body {
 
 .EZDrawer__container
 { top:unset !important;
-  height: 87vh !important;
+/* Added by ROhan kansari - 28/6/23 */
+  height: 89vh !important;
   overflow: scroll !important;
 }
 
@@ -74,8 +75,9 @@ body {
 
 .EZDrawer__container::-webkit-scrollbar-thumb
 {
-	background-color: #014fbb;
-	border: 1px solid blue;
+    /* Added by ROhan kansari - 28/6/23 */
+	background-color: #033479;
+	/* border: 1px solid white; */
 }
 
 
@@ -241,7 +243,7 @@ Reason : When popup is shown than its overlap in header page */
   background-color: var(--highlight-color);
   color: var(--primary-bg-color);
 }
-.css-dev-only-do-not-override-12jzuas.ant-popconfirm .ant-popconfirm-message .ant-popconfirm-title:only-child{
+.ant-popconfirm .ant-popconfirm-message .ant-popconfirm-title{
   color: white !important;
 }
 /* end of addition by- Suman sahu On 24/05/2023 */
