@@ -170,17 +170,14 @@ export default function AddOrderItemForm(orderId) {
         // }
         {/* Modification and addition by Om Shrivastava on 28-06-23
         Reason : apply the validation for quantity */}
-        if (inputName == "quantity") {
-            if (quantitySelected && quantitySelected!="" && quantitySelected!=0 ) {
-            setquantityValidation("");
-            // console.log('if part')
-            } 
-            else {
-            setquantityValidation("Please enter quantity");
-            // console.log('else part')
-
-            }
-          }
+        // if (inputName == "quantity") {
+        //     if (quantitySelected && quantitySelected!="" && quantitySelected!=0 ) {
+        //     setquantityValidation("");
+        //     } 
+        //     else {
+        //     setquantityValidation("Please enter1 quantity");
+        //     }
+        //   }
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
 
     }
@@ -193,7 +190,7 @@ export default function AddOrderItemForm(orderId) {
                 // console.log('if part')
                 } 
                 else {
-                setquantityValidation("Please enter quantity");
+                setquantityValidation("Please enter2 quantity");
                 // console.log('else part')
                 }
           }
