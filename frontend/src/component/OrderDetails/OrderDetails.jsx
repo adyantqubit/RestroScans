@@ -413,7 +413,12 @@ export default function OrderDetails() {
       secureLocalStorage.setItem("order", response.order);
       setOrderItem(response.orderItem);
       setLoading(false);
-      if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1) {
+
+      // Modified by :- PArineeta Gedam on  28-06-2023 reason :- order cancel 
+      if (orderItems.filter((dt) => dt.item_status == "Confirm") ){
+      } else {
+      // if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1 ) {
+      if (response.order.order_status == "Cancelled") {
         // modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
         secureLocalStorage.removeItem('order');
         secureLocalStorage.removeItem('orderItem');
@@ -423,6 +428,9 @@ export default function OrderDetails() {
         // End of modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
         navigate("/menu-item");
       }
+    }
+    // End of Modified by :- PArineeta Gedam on  28-06-2023 reason :- order cancel 
+
       const rem = message.info({
         content: "Item has been removed from your cart",
         key: 1,

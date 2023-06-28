@@ -580,6 +580,10 @@ def orderCreation(tenant, request):
     # cartData['sub_total'] = float("{:.2f}".format(sum(itemsPrice)))
     cartData['sub_total'] =round(float("{:.2f}".format(sum(itemsPrice))),2)
 
+    # Added by :- Parineeta gedam on 25-06-2023 reason :- if new item added by customer then order status will be placed.
+    cartData['order_status'] = "Placed"
+    # End of Added by :- Parineeta gedam on 25-06-2023 reason :- if new item added by customer then order status will be placed.
+
     # Commented by :- Parineeta Gedam on 24-05-2023 
     # tax = Setting.objects.first()
 
@@ -677,6 +681,10 @@ def orderItemsCreation(request, order_obj):
                 item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
             # End of code - ROhan kansari - 1/5/23
         # End of added code
+
+        # Added by :- Parineeta Gedam on 25-06-2023 reason :- newly added item status will be pending
+        cartData['item_status'] = "Pending"
+        # End of added code by :- Parineeta Gedam on 25-06-2023 reason :- newly added item status will be pending
 
         cartItem.append(cartData)
 
@@ -2028,11 +2036,26 @@ class DeleteOrderItemsAPIView(APIView):
                 itemsPrice.append(price)
         # End of modified code by :- Parineeta Gedam on 23-06-2023
 
+        # Commented by :- Parineeta Gedam on 28-06-2023 reason :- change the conditions for cancel
         # Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer and if admin cancel the order then cancelled by save as a admin and also order status will be cancelled
-        if "cancelled_by" in request.data :
-            updatedOrderValues['cancelled_by'] = request.data['cancelled_by']
-            updatedOrderValues['order_status'] = "Cancelled"
+        # if "cancelled_by" in request.data :
+        #     updatedOrderValues['cancelled_by'] = request.data['cancelled_by']
+        #     updatedOrderValues['order_status'] = "Cancelled"
         # End of added code by :- Parineeta Gedam on 24-06-2023.
+        # End of Commented by :- Parineeta Gedam on 28-06-2023 reason :- change the conditions for cancel
+
+        # Added by :- Parineeta Gedam on 28-06-2023 reason :- if all item is cancel then order status is cancelled
+        flag=False
+        for orderItem in orderItemOrderId :
+            if(orderItem.item_status != "Cancelled"):
+                flag=True
+                break
+
+        if flag == False :
+            updatedOrderValues['cancelled_by'] = request.data['cancelled_by']
+            updatedOrderValues['order_status'] = "Cancelled"        
+           
+        # End of added code by :- Parineeta Gedam on 28-06-2023 reason :- if all item is cancel then order status is cancelled
 
         updatedOrderValues['sub_total'] = round(float("{:.2f}".format((sum(itemsPrice)))),2)
         orderSerializer=OrderSerializer(orderId,data=updatedOrderValues,partial=True)
@@ -2139,9 +2162,25 @@ class AddOrderItemsAPIView(APIView):
         # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
 
         orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
+
+# ==========================================================================================================
+        # Modified by :- Parineeta Gedam on 28-06-2023
+        # reason :- re calculations
+      
+        itemsPrice = []
+        for cart in orderItemsObj:
+            if(cart.item_status != "Cancelled") :
+                price = cart.price
+                itemsPrice.append(price)
         order = Order.objects.get(order_id = request.data["order_order_id"])
-        order.order_status = "Placed"
+        subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+        order.sub_total=subTotal
+        order.order_status="Placed"
+        order.save()
+
         OrderSerializers = AllOrderSerializer(order)
+
+        # End of added code by Parineeta Gedam on 28-06-2023
 
         return Response({"msg":"success", "orderItems":orderItemsSerializer.data,"order":OrderSerializers.data})
 # End of added code by :- Parineeta Gedam on 17-05-2023

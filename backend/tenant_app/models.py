@@ -905,6 +905,13 @@ class Order(models.Model):
     # Reason - to update order item status based on order status
     def save(self, *args, **kwargs ):
 
+        # Modified by :- Parineeta Gedam on 29-06-2023
+        if self.discount_reason is None or self.discount_reason=="":
+            self.discount_reason=""
+        if self.cancel_reason is None or self.cancel_reason=="":
+            self.cancel_reason=""
+        # End of  Modified by :- Parineeta Gedam on 29-06-2023
+    
         # Added by :- Parineeta Gedam on 22-06-2023
         # reason :- check conditions for notifications
 
@@ -1085,7 +1092,7 @@ class Order(models.Model):
             orderUpdate.sgst = self.sgst
             orderUpdate.total = self.sub_total + self.cgst + self.sgst
 
-            if self.discount_rupees:
+            if self.discount_rupees > 0:
                 total = 0  
                 percentage = (self.discount_rupees / self.sub_total) * 100
                 self.discount_percentage = round(float("{:.2f}".format(percentage)), 2)
@@ -1103,7 +1110,7 @@ class Order(models.Model):
                     self.sgst = round(float("{:.2f}".format(sgst)), 2)
                     self.total = round(float("{:.2f}".format(orderUpdate.total)), 2)
                     self.final_amount = round(float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
-            elif self.discount_percentage :
+            elif self.discount_percentage > 0 :
                 total = 0  
                 self.discount_rupees = (self.sub_total / 100) * self.discount_percentage
                 total =  self.sub_total - self.discount_rupees - self.loyality_point_price

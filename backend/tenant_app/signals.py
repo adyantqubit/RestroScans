@@ -99,8 +99,16 @@ def on_orderItem_status_update(sender,instance,created,**kwargs):
             itemsPrice.append(price)
     order = Order.objects.get(order_id = instance.order_id)
     subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
-    order.sub_total=subTotal
-    order.save()
+
+    # Modified by :- Parineeta Gedam on 28-06-2023
+    # order.sub_total=subTotal
+    # order.order_status="Placed"
+    # order.save()
+    orders = Order.objects.filter(order_id = instance.order_id).update(sub_total = subTotal,
+                                                                        # order_status = "Placed"
+                                                                        )
+    # End of Modified by :- Parineeta Gedam on 28-06-2023
+    
     if not created:
         try:
             customerDetail=CustomerDetail.objects.get(id=order.customer_id.id)

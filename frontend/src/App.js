@@ -52,7 +52,7 @@ function App() {
     localStorage.removeItem("sentToServer")
     // Added by - Ashish Dewangan on 30-04-2023
     //Reason - To delete old token from localstorage when user reloads the page
-    localStorage.removeItem("fcmToken")
+    // localStorage.removeItem("fcmToken")
     //End of code addition by Ashish dewanan on 30-04-2023
     if (Notification.permission === 'granted') {
       getFCMToken()
@@ -131,7 +131,7 @@ function App() {
     // Reason :- update using push notification. 
     if (updatedOrderData.fields.order_status == "Confirm") {
       message.success({
-        content: "Order Confirm",
+        content: "Order Confirmed",
         duration: 3,
         key: 1,
         maxCount : 1,

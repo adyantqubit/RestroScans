@@ -167,6 +167,7 @@ export default function AddOrderItemForm(orderId) {
     const handleCalculations = (qty) => {
         var itemName = itemList.filter((item) => item.id == itemIdSelected)[0]
         if (servingSizeSelected == "Half") {
+            
             setSingalItemprice(itemName.price_half)
             var price = (itemName.price_half * qty)
             setPrice(price.toFixed(2))

@@ -415,15 +415,21 @@ export const getDashboardData = async (tenantId) => {
 /**
  * This method is created for update order and payment status
  */
+
+// Modified by :- Parineeta Gedam on 29-06-2023
+
 export const updateOrderAndPaymentStatus = async (tenant, status, orderID) => {
   const response = await API.put(`/api/v1/${tenant}/order-payment-status/${orderID}/`, status, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      // "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
  // End of addition
+// Modified by :- Parineeta Gedam on 29-06-2023
+
 
 
  // ------------------------------- Payment method API --------------------------- //
