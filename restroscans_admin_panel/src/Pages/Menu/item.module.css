@@ -10,8 +10,8 @@
 }
 
 .container {
-  /* width: 100%; */
-  width: 100vw;
+  width: 100%;
+  /* width: 100vw; */
   /* overflow: auto; */
   background-color: white;
   /* commented and modified by suman sahu on 17/06/2023 
