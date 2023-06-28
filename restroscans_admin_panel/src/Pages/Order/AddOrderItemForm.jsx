@@ -144,32 +144,13 @@ export default function AddOrderItemForm(orderId) {
     // End of added code by :- Om shrivastava on 24-06-2023
     const resetForm = (event) => {
         document.getElementById("appliedQuantity").value = " "
+        setQuantitySelected('')
         setPrice(0)
         setSingalItemprice(0)
+        setquantityValidation('')
     };
 
     const validateOnInput = (inputName, value) => {
-        if (inputName == "quantity") {
-            if (value.toString().length > 0) {
-                if (!isNaN(value)) {
-                    if (value < 1) {
-                        setquantityValidation("Quantity must be greater or equal to 1");
-                    } else {
-                        setquantityValidation("");
-                    }
-                }
-                else {
-                    setquantityValidation("Quantity must be a number.");
-                }
-            }
-            else {
-                setquantityValidation("Please enter quantity.");
-            }
-        }
-
-    }
-    const validateOnBlur = (inputName, value) => {
-
         // if (inputName == "quantity") {
         //     if (value.toString().length > 0) {
         //         if (!isNaN(value)) {
@@ -182,24 +163,60 @@ export default function AddOrderItemForm(orderId) {
         //         else {
         //             setquantityValidation("Quantity must be a number.");
         //         }
-        //     } 
+        //     }
         //     else {
         //         setquantityValidation("Please enter quantity.");
         //     }
         // }
-    }
+        {/* Modification and addition by Om Shrivastava on 28-06-23
+        Reason : apply the validation for quantity */}
+        if (inputName == "quantity") {
+            if (quantitySelected && quantitySelected!="" && quantitySelected!=0 ) {
+            setquantityValidation("");
+            // console.log('if part')
+            } 
+            else {
+            setquantityValidation("Please enter quantity");
+            // console.log('else part')
 
+            }
+          }
+        //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
+
+    }
+    const validateOnBlur = (inputName, value) => {
+         {/* Modification and addition by Om Shrivastava on 28-06-23
+        Reason : apply the validation for quantity */}
+        if (inputName == "quantity") {
+            if (quantitySelected && quantitySelected!="" && quantitySelected!=0 ) {
+                setquantityValidation("");
+                // console.log('if part')
+                } 
+                else {
+                setquantityValidation("Please enter quantity");
+                // console.log('else part')
+                }
+          }
+        //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
+
+    }
+// console.log(quantitySelected,'quantity')
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - submit order items 
     const submitOrderItems = async () => {
 
         var allowDataPost = false;
 
-        if (quantityValidation == "") {
+        // if (document.getElementById("appliedQuantity").value = "") {
+        if (quantitySelected && quantitySelected!="" && quantitySelected!=0) {
+            
             allowDataPost = true;
         }
         else {
+            setquantityValidation("Please enter quantity");
             allowDataPost = false
+            // setquantityValidation('66')
+
         }
 
         if (allowDataPost) {
@@ -348,13 +365,18 @@ export default function AddOrderItemForm(orderId) {
 
                         <div className={`${style.inputContainer}`}>
                             <div className={`${style.inputArea}`}>
-                                <div className={`${style.inputLabel}`}>Quantity </div>
-
+                                <div className={`${style.inputLabel}`}>
+                                    {/* Modification and addition by Om Shrivastava on 28-06-23
+                                    Reason : Show the mandatory field of quantity */}
+                                <span style={{color:'red'}}>* </span>
+                                    Quantity </div>
+                                {/* End of Mofication and addition by Om Shrivastava on 28-06-23 Reason : Show the mandatory field of quantity  */}
                                 <input
                                     className={`${style.textInputBox}`}
                                     type="text"
                                     name="quantity"
                                     id='appliedQuantity'
+                                    // value={quantitySelected}
 
                                     style={{ width: "200px" }}
 
