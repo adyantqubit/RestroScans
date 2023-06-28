@@ -2035,6 +2035,23 @@ export default function OrderItemsScreen({ route, navigation }) {
 
             {/* Added by Om Shrivastava on 05-06-23
             Reason : Add the loyality point price field and loyality point value */}
+
+            {/* Modification and addition by Om Shrivastava on 28-06-23
+            Reason : Change the alignment of customer earn point */}
+            {settingData.allow_loyality_points==true && settingData.allow_loyality_points==true ?
+            <>
+            <View style={styles.amountRow}>
+                
+                <Text style={styles.totalPriceLables}>Customer's earned point</Text>
+                <Text>:</Text>
+               
+                <Text style={styles.totalPrices}>
+                 {customerDetail.loyality_points}
+                 
+                 </Text>
+
+              </View>
+
             <View style={styles.amountRow}>
               <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
                 <Text >Apply loyality point</Text>
@@ -2046,7 +2063,10 @@ export default function OrderItemsScreen({ route, navigation }) {
                   // Added by :- Om shrivastava on 16-06-23 reason :- if payment is completed or paid then admin can not add loyality point  
                   editable={
                     orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ||
-                      loyalityPoint > 0
+                    //  Modification by Om Shrivastava on 28-06-23
+                    //  Reason : Need to add condiion for loyaity point 
+                    orderDetail.loyality_point_status!="not used"
+                    // End of addition by Om Shrivastasva on 28-06-23
                       ? false : true}
                   // End of added code by :- Om shrivastava on 16-06-23
                   keyboardType={'numeric'}
@@ -2057,23 +2077,17 @@ export default function OrderItemsScreen({ route, navigation }) {
                 }
               </View>
             </View>
-
-            <View style={styles.amountRow}>
-                
-                <Text style={styles.totalPriceLables}>Customer loyality point</Text>
-                <Text>:</Text>
-               
-                <Text style={styles.totalPrices}>
-                 {customerDetail.loyality_points}
-                 
-                 </Text>
-
-              </View>
-
-            {orderDetail.loyality_point_price ? <>
+            </>
+:null}
+            {/* End of modification by Om Shrivastava on 28-06-23 Reason : Change the alignment of customer earn point */}
+            
+            {/* Modification and addition by Om Shrivastava on 28-06-23
+            Reason : Change the alignment of customer earn point */}
+            {orderDetail && orderDetail.loyality_point_price && settingData && settingData.allow_loyality_points==true? <>
+            {/* End of modification by Om Shrivastava on 28-06-23 Reason : Change the alignment of customer earn point */}
               <View style={styles.amountRow}>
 
-                <Text style={styles.totalPriceLables}>Loyality Point price</Text>
+                <Text style={styles.totalPriceLables}>Loyality price</Text>
                 <Text>:</Text>
 
                 <Text style={styles.totalPrices}>{rupee_sign}
@@ -2082,13 +2096,19 @@ export default function OrderItemsScreen({ route, navigation }) {
 
               </View>
             </> : null}
-            {orderDetail.loyality_point_price && orderDetail.payment_status == "Completed" ? <>
+
+            {/* Modification and addition by Om Shrivastava on 28-06-23
+            Reason : Change the alignment of customer earn point */}
+            {orderDetail.loyality_point_price && orderDetail.loyality_point_price && orderDetail.payment_status == "Completed" && settingData && settingData.allow_loyality_points==true ? <>
+            {/* End of modification by Om Shrivastava on 28-06-23 Reason : Change the alignment of customer earn point */}
               <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 12 }}>
                 <View style={{ flex: 1, height: 1.2, backgroundColor: 'black' }} />
               </View>
             </>
               : null}
-            {orderDetail.loyality_point_price && orderDetail.payment_status == "Completed" || orderDetail.discount_rupees > 0 ? <>
+              {/* Added by Om Shrivastasva on 28-06-23 Reason : Need to add condition for loyaity point */}
+            {orderDetail.loyality_point_price && orderDetail.payment_status == "Completed" || orderDetail.discount_rupees > 0  ? <>
+              {/* End of code by Om Shrivastasva on 28-06-23 */}
               <View style={styles.amountRow}>
 
                 <Text style={styles.totalPriceLables}>Total</Text>
