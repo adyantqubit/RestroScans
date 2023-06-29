@@ -1560,15 +1560,18 @@ export default function OrderItemsScreen({ route, navigation }) {
               {/* End of modification and addition by Om Shrivastava on 17-05-23 */}
               {/* End of modification 30/04/2023 */}
             </Text>
-            {customerDetail.email && (
+            {/* Modified by yuvraj sahu on 29-06-2023
+            Reason - to show dash when email is not save */}
+            {/* {customerDetail.email && ( */}
               <Text style={{ marginTop: 5 }}>
                 {/* Added and modified by yuvraj Sahu on 05-05-2023
                 Reason - to get latest email  */}
                 {/* <Text>Email</Text> : {customerDetail.email} */}
-                <Text>Email</Text> : {customerDetail.last_email}
+                <Text>Email</Text> : {customerDetail.last_email ? customerDetail.last_email : "---"}
                 {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
               </Text>
-            )}
+            {/* )} */}
+            {/* End of addition by yuvraj Sahu on 29-06-2023 */}
             <Text style={{ marginTop: 5 }}>
               <Text>Phone</Text> : {customerDetail.contact_number}
             </Text>
