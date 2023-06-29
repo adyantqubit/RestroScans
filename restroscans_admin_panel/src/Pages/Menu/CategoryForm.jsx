@@ -360,6 +360,14 @@ function CategoryForm() {
 
     const error = {
       name: "",
+      /**
+       * Added by Yuvraj Sahu on 29-06-2023
+       * Reason - to clear the validation message
+       */
+      menu: "",
+      /**
+       * End of clearing validation message by yuvraj Sahu on 29-06-2023
+       */
       icon: "",
       is_active: "",
     };
