@@ -347,9 +347,12 @@ function CategoryForm() {
      * Reason - to set default value of menu
      */
     setMenu(categoryData.menu ? categoryData.menu : null);
-    if (!categoryData.menu) {
-      document.getElementById("menuDropdown").selectedIndex = 0;
-    }
+    // Commeted by yuvraj Sahu on 28-06-2023
+    // Reason - to replace dropdown with antd select
+    // if (!categoryData.menu) {
+    //   document.getElementById("menuDropdown").selectedIndex = 0;
+    // }
+    // end of commet by Yuvraj Sahu on 29-06-2023
     /**
      * End of addition by Yuvraj Sahu on 18-06-2023
      */
