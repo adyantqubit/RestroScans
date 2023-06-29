@@ -225,7 +225,13 @@ function App() {
         Reason - To have route for setting form */}
         <Route path="/FooterDescription" element={<FooterDescription />} />
         <Route path="/CustomerDetail" element={<CustomerDetail />} />
-        <Route path="/Order" element={<Order />} />
+
+        {/* Modification and addition by Om Shrivastava on 29-06-23
+        Reason : When user has no token than after hit back button than need to show the same login page */}
+        {/* <Route path="/Order" element={<Order />} /> */}
+        <Route path="/Order" element={!tokenExist ? <Navigate to="/Login" /> : <Order />} />
+        {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
+
         <Route path="/OrderItem" element={<OrderItem />} />
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* end of addition by - Suman sahu On 26/05/2023 */}
@@ -249,7 +255,12 @@ function App() {
 
          {/* Added by Om shrivastava on 16-06-23
       	Reason - to define route of update order details*/}
-      	<Route path="/update-order/:id" element={<OrderForm/>} />
+        {/* Modification and addition by Om Shrivastava on 29-06-23
+        Reason : When user has no token than after hit back button than need to show the same login page */}
+      	{/* <Route path="/update-order/:id" element={<OrderForm/>} /> */}
+      	<Route path="/update-order/:id" element={!tokenExist ? <Navigate to="/Login" /> : <OrderForm/>} />
+        {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
+ 
       	{/* End of addition by Om shrivastava on 16-06-23 */}
       </Routes>
       {/* <Footer /> */}

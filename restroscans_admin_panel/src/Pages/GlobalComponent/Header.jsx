@@ -163,9 +163,15 @@ const Header = (props) => {
                 cancelText="Cancel"
                 okText="Ok"
               >
-                <a href="#" className={style.logout}>
+                {/* Modification and addition by Om Shrivastava on 29-06-23
+                Reasson : when user click the logout than page is blank, I fix this issue */}
+                {/* <a href="#" className={style.logout}>
                   Logout
-                </a>
+                </a> */}
+                <div className={style.logout}>
+                  Logout
+                </div>
+                {/* End of addition and modifiacation by Om Shrivastava on 29-06-23 */}
               </Popconfirm>
             </li>
           </ul>
