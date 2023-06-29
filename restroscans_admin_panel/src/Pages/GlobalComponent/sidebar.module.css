@@ -40,15 +40,16 @@
 }
 
 .link {
-  font-size: 1.2rem;
+  /* Added by Rohan kansari - 29/6/23
+     Reason -  to fix font faimly*/
+  font-size: 18px;
   color: white;
   /* added by - Suman sahu on - 17/06/2023 */
   padding-left: .8rem;
   /* end of addition by - Suman sahu on - 17/06/2023 */
-
-  /* letter-spacing: .8px; */
-  /* font-family: var(--primary-fontFamily); */
-  /* font-weight: bold; */
+  letter-spacing: 1px;
+  font-family: var(--font-faimly);
+  /* End of code - Rohan kansari - 29/6/23 */
 }
 
 /* added by - Suman sahu on 15/06/2023 */
@@ -77,6 +78,8 @@
   display: flex;
   width: 15rem;
   /* font-weight: bold; */
+  /* Added by Rohan kansari - 29/6/23 */
+  background-color: #676e927c;
   font-size: 20px;
   cursor: pointer;
 }

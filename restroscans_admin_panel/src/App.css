@@ -4,17 +4,19 @@
 }
 
 :root {
-  --secondary-bg-color: #f9f9f9;
+  /* Modified by ROhan kansari - 29/6/23 */
+  --secondary-bg-color: #fff;
   --primary-bg-color: #fff;
-  --highlight-color: #1f51ff;
+  --highlight-color: #272c47;
   --label-font-size: 15px;
   --heading-font-size: 24px;
   --subHeading-font-size: 14px;
   --font-faimly: "Font";
-  --label-color: #7c7c7c;
-  --sidebar-color: #1f2937;
+  --label-color: #000;
+  --sidebar-color: #272c47;
   --primary-box-bg-color: #92d050;
-  --secondary-box-bg-color: #004376;
+  --secondary-box-bg-color: #272c47;
+  /* End of code - Rohan kansari - 29/6/23 */
   /* Added by Om Shrivastava on 11-06-23 
   Reason : Show in create account in login page*/
   --content-small-size:12px;
@@ -76,7 +78,7 @@ body {
 .EZDrawer__container::-webkit-scrollbar-thumb
 {
     /* Added by ROhan kansari - 28/6/23 */
-	background-color: #033479;
+	background-color: #43475c;
 	/* border: 1px solid white; */
 }
 
