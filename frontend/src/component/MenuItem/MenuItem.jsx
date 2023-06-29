@@ -1113,7 +1113,10 @@ function MenuItem() {
           {/* Added by Om Shrivastava on 14-06-23
                 Reason : Show the rating and review for the all over user */}
           {searchVisible == false &&
-            <button className="rate_us_btn" style={{ background: "Yellow", color: "black" }} onClick={showRatingModal}>
+            // Modification and addition by Om Shrivastava on 27-06-23
+            // Reason : Need to change the color of rate us button
+            <button className="rate_us_btn" style={{ background: colors.bannerColor, color: colors.backgroundTheme }} onClick={showRatingModal}>
+            {/* End of commented code by Om Shrivastava on 27-06-23 */}
               Rate Us
             </button>
           }
