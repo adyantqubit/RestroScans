@@ -23,6 +23,9 @@
 }
 
 .socialImg{
-    width: 25px;
-    height: 25px;
+    /* Modified by yuvraj Sahu on 28-06-2023
+    Reason - to increase the image size */
+    width: 30px;
+    height: 30px;
+    /* End of addition by yuvraj Sahu on 28-06-2023 */
 }

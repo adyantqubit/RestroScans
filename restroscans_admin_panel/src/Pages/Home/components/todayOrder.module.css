@@ -30,7 +30,8 @@
     width: 100%;
     /* min-height: 60vh; */
     border-radius: 10px;
-    border: 1px solid #9c9c9c;
+    /* Added by Rohan kansari - 29/6/23 */
+    border: 1px solid var(--sidebar-color);
 
     /* overflow-y: hidden; */
 }
@@ -75,6 +76,8 @@
     background-color:#f7f7f7;
     height: 30px;
     width: 100%;
+    /* Added by Rohan kansari - 29/6/23 */
+    border-radius: 10px;
     display: flex;
     justify-content: flex-start;
     gap:2%;
@@ -328,7 +331,8 @@
 
 .statusBtn{
     background-color: rgba(225, 252, 126, 0.6);
-    padding: 4px 6px;
+    /* Modified by ROhan kansari - 29/6/23 */
+    padding: 4px 10px;
     font-family: var(--font-faimly);
     font-weight: 500;
      border-radius: 8px;
@@ -553,7 +557,8 @@
 .selctedContentBox{
     display: flex;
     justify-content: space-between;
-    border: 1px solid #9c9c9c;
+    /* Modified by ROhan kansari - 29/6/23 */
+    border: 1px solid #000;
     border-radius: 5px;
     padding: 0 2px;
     
@@ -658,7 +663,8 @@
     width: 50vw;
     /* end of addition on - 14/06/2023 */
     font-size: var(--label-font-size);
-    padding: 0 10px;
+    /* Modified by ROhan kansari - 29/6/23 */
+    padding: 10px 0px 0pc 10px;
     font-size: 600;
     letter-spacing: 1.7px;
     /* added by - Suman sahu on - 16/06/2023 */
@@ -699,7 +705,8 @@
 
     /* commented and modified by - Suman sahu on - 16/06/2023 */
     /* padding: 0 10px 10px 29px; */
-    padding: 0 10px 10px 10px;
+    /* Modified by ROhan kansari - 29/6/23 */
+    padding: 10px 0px 10px 0px;
     /* end of modification - 16/06/2023 */
 
 }
@@ -726,19 +733,22 @@
   text-align: center;
   width: 33%;
   padding: 10px 4px;
-  border-bottom:1px solid #185ee0;
+  /* Modified by ROhan kansari - 29/6/23 */
+  border-bottom:1px solid #272c47;
   letter-spacing: 1.2px;
   font-weight: 600;
 
 }
 
 input[type="radio"]:checked + .tabLabel {
-    color: #185ee0;
+    /* Modified by ROhan kansari - 29/6/23 */
+    color: #272c47;
     background-color: #f8fafd;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     font-weight: bold;
-    border: 1px solid #185ee0;
+    /* Modified by ROhan kansari - 29/6/23 */
+    border: 1px solid #272c47;
     border-bottom: none;
 }
 
@@ -751,7 +761,8 @@ input[type="radio"]:checked + .tabLabel {
     margin: 8px 10px;
     padding: 10px 10px;
     border-radius: 5px;
-    border: 1px solid #9c9c9c;
+    /* Modified by ROhan kansari - 29/6/23 */
+    border: 1px solid #000;
     display: flex;
     flex-wrap: wrap;
     row-gap: 10px;
