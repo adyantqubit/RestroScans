@@ -33,21 +33,21 @@ class TenantAPIView(APIView):
     def get(self,request,tenant):
         from admin_app.models import Tenant
         from admin_app.serializers import TenantListSerializer
-        tenant=Tenant.objects.get(tenant_name=tenant)
+        tenant_obj=Tenant.objects.get(tenant_name=tenant)
         try:
             visitCount=VisitCount.objects.get(tenant_name=tenant)
-        except visitCount.DoesNotExist:
-               visitCount=visitCount()
+        except VisitCount.DoesNotExist:
+            visitCount = VisitCount()
+            visitCount.tenant_name = tenant
         visitCount.count=visitCount.count+1
         visitCount.save()
-        tenantListSerializer=TenantListSerializer(tenant)
-        
+        tenantListSerializer=TenantListSerializer(tenant_obj)
         
         # Added by rohan - 18/4/23
         # reason - to save send all subscribe features
         provided_features=[]
         if tenantListSerializer.data['Subscribe_plan'] is not None:
-          plan= Plans.objects.get(id=tenant.Subscribe_plan.id)
+          plan= Plans.objects.get(id=tenant_obj.Subscribe_plan.id)
           features=PlannedFeatures.objects.filter(plan_selected=plan)
           for feature in features:
               provided_features.append(feature.feature_selected.feature_name)
