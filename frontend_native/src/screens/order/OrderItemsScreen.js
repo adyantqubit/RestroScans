@@ -86,6 +86,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   const [paymentStatusSelected, setPaymentStatus] = React.useState("");
   // End of payment status set
 
+  // Added by Om Shrivastava on 29-06-23
+  // Reason : Need to set the loyality point price
+  const [loyalityPointPrice, setloyalityPointPrice] = React.useState("");
+  //  End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price
+
   // Added by :- Parineeta Gedam on 25-05-2023
   // Reason - to get and map setting data
   const [settingData, setSettingData] = useState("");
@@ -165,6 +170,11 @@ export default function OrderItemsScreen({ route, navigation }) {
        */
       setOrderStatus(response.orderDetail.order_status);
       setPaymentStatus(response.orderDetail.payment_status);
+      // Added by Om Shrivastava on 29-06-23
+      // Reason : Need to set the loyality point price
+      setloyalityPointPrice(response.orderDetail.loyality_point_price)
+      //  End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price
+
       /**
        * Added by Yuvraj Sahu on 14-06-2023
        * Reason - to
@@ -813,7 +823,10 @@ export default function OrderItemsScreen({ route, navigation }) {
   // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
   var[loyalityErrorMsg,setLoyalityErrorMsg] = useState(false)
   // End of addition by Om Shrivastava on 08-06-23
-
+  // Added by Om Shrivastava on 29-06-23
+  // Reason : Need to set the loyality point price error message
+  var[loyalityPriceErrorMsg,setLoyalityPriceErrorMsg] = useState(false)
+  // End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price error message
   // Added by :- Parineeta Gedam on :- 07-06-2023
   // reason :- This react hooks is used to set discount amount in precentage
   var [discountPercentage, setDiscountPercentage] = useState(0);
@@ -850,6 +863,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   // Reason : When admin want to change the loyality point than its change
     const loyalityHandleChange = (e) => {
       setLoyalityAmount(e)
+      // Added by Om Shrivastava on 29-06-23
+      // Reason : Need to set the loyality point price
+      setloyalityPointPrice(settingData.per_loyality_point_value * e)
+      //  End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price
+
         if (e > customerDetail.loyality_points) {
           setLoyalityErrorMsg(true)
         }
@@ -857,6 +875,19 @@ export default function OrderItemsScreen({ route, navigation }) {
           setLoyalityErrorMsg(false)
         }
       }
+    // Added by Om Shrivastava on 29-06-23
+    // Reason : Need to set the loyality point price
+    const loyalityPriceCalculation = (e) => {
+
+      if (loyalityPointPrice > orderDetail.sub_total) {
+        setLoyalityPriceErrorMsg(true)
+      }
+      else {
+        setLoyalityPriceErrorMsg(false)
+      }
+      }
+    //  End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price
+      
     // End of addition by Om Shrivastava on 07-06-23
 
 
@@ -1167,7 +1198,10 @@ export default function OrderItemsScreen({ route, navigation }) {
     var checkConfirmOrder = orderStatusSelected == "Confirm" && orderItems.filter((e) => e.item_status == "Pending" && e.kot_print_status == false).length > 0
     var checkConfirmOrderItems = orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0
     // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && orderCancelReasonErrorMsg == false) {
+      // Added by Om Shrivastava on 26-06-23
+      // Reason : When loyality price is greater to subtotal than show the error message
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false ) {
+      // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
       if ((checkConfirmOrder) || (checkConfirmOrderItems)){
       // End of modification by Yuvraj Sahu on 21-06-2023
       // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
@@ -1191,7 +1225,11 @@ export default function OrderItemsScreen({ route, navigation }) {
 
     // Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
     // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false) {
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && orderCancelReasonErrorMsg == false) {
+      // Added by Om Shrivastava on 26-06-23
+      // Reason : When loyality price is greater to subtotal than show the error message 
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false ) {
+      // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
+      
       // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
 
       // End of addition by Om Shrivastava on 08-06-23
@@ -2074,10 +2112,25 @@ export default function OrderItemsScreen({ route, navigation }) {
                   // End of added code by :- Om shrivastava on 16-06-23
                   keyboardType={'numeric'}
                   value={loyalityPoint}
-                  onChangeText={(e) => loyalityHandleChange(e)} />
+                  // Modification and addition by Om Shrivastava on 29-06-23 Reason : Need to show error when loyality price is greater to subtotal
+                  // onChangeText={(e) => 
+                  // loyalityHandleChange(e)
+                  // }
+                  onChangeText={(e) => {  loyalityHandleChange(e);  } }
+                  onBlur={(e) => {  loyalityPriceCalculation(e);  }}
+                  // End of code addition by Om Shrivastava on 29-06-23 Reason : Need to show error when loyality price is greater to subtotal
+
+                  />
                 {loyalityErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Please enter below the customer loyality point</Text>
                 }
+                {/* Modification and addition by Om Shrivastasva on 29-06-23
+                Reason : Need to show the loyality point price */}
+                {loyalityPriceErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Loyality price should be less than to sub-total </Text>
+                }
+                {/* End of addition and modification by Om Shrivastasva on 29-06-23 */}
+
               </View>
             </View>
             </>
@@ -2086,7 +2139,7 @@ export default function OrderItemsScreen({ route, navigation }) {
             
             {/* Modification and addition by Om Shrivastava on 28-06-23
             Reason : Change the alignment of customer earn point */}
-            {orderDetail && orderDetail.loyality_point_price && settingData && settingData.allow_loyality_points==true? <>
+            { settingData && settingData.allow_loyality_points==true? <>
             {/* End of modification by Om Shrivastava on 28-06-23 Reason : Change the alignment of customer earn point */}
               <View style={styles.amountRow}>
 
@@ -2094,7 +2147,12 @@ export default function OrderItemsScreen({ route, navigation }) {
                 <Text>:</Text>
 
                 <Text style={styles.totalPrices}>{rupee_sign}
-                  {orderDetail.loyality_point_price}
+                {/* Modification and addition by Om Shrivastasva on 29-06-23
+                Reason : Need to show the loyality point price */}
+                  {/* {orderDetail.loyality_point_price} */}
+                  {loyalityPointPrice}
+                {/* End of addition and modification by Om Shrivastasva on 29-06-23 */}
+                  {}
                 </Text>
 
               </View>
