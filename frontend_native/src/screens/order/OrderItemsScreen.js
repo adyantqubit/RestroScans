@@ -978,22 +978,11 @@ export default function OrderItemsScreen({ route, navigation }) {
     var orderItem = "";
     var SNumberIncreasing = 1;
 
-    // Commeted and Added by Yuvraj Sahu on 21-06-2023
-    // Reason - to print kot confirm items
-    // for (var i = 0; i < orderItems.length; i++) {
-    //   if (orderItems[i].item_status == "Pending")
-    //   orderItem =
-    //     orderItem +
-    //     `<div class="tableContents ">
-    //         <div class="quantityText">${SNumberIncreasing++}</div>
-    //         <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
-    //     })</div>
-    //         <div class="rateText">${orderItems[i].quantity}</div>
-    //       </div>`;
-    // }
-    if (orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0) {
+    // // Commeted and Added by Yuvraj Sahu on 21-06-2023
+    // // Reason - to print kot confirm items
+    // ------------------------------------------ Kot print remove from update button ------------------------
     for (var i = 0; i < orderItems.length; i++) {
-      if (orderItems[i].item_status == "Confirm")
+      if (orderItems[i].item_status == "Pending")
         orderItem =
           orderItem +
           `<div class="tableContents ">
@@ -1002,20 +991,32 @@ export default function OrderItemsScreen({ route, navigation }) {
           })</div>
               <div class="rateText">${orderItems[i].quantity}</div>
             </div>`;
-      }
-    } else {
-      for (var i = 0; i < orderItems.length; i++) {
-        if (orderItems[i].item_status == "Pending")
-        orderItem =
-          orderItem +
-          `<div class="tableContents ">
-              <div class="quantityText">${SNumberIncreasing++}</div>
-              <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
-          })</div>
-              <div class="rateText">${orderItems[i].quantity}</div>
-            </div>`;
-      }
     }
+    // if (orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0) {
+    // for (var i = 0; i < orderItems.length; i++) {
+    //   if (orderItems[i].item_status == "Confirm")
+    //     orderItem =
+    //       orderItem +
+    //       `<div class="tableContents ">
+    //           <div class="quantityText">${SNumberIncreasing++}</div>
+    //           <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+    //       })</div>
+    //           <div class="rateText">${orderItems[i].quantity}</div>
+    //         </div>`;
+    //   }
+    // } else {
+    //   for (var i = 0; i < orderItems.length; i++) {
+    //     if (orderItems[i].item_status == "Pending")
+    //     orderItem =
+    //       orderItem +
+    //       `<div class="tableContents ">
+    //           <div class="quantityText">${SNumberIncreasing++}</div>
+    //           <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+    //       })</div>
+    //           <div class="rateText">${orderItems[i].quantity}</div>
+    //         </div>`;
+    //   }
+    // }
     // End of of addition by Yuvraj Sahu on 21-06-2023
     // Reason - to print kot confirm items
     /**
@@ -1183,6 +1184,7 @@ export default function OrderItemsScreen({ route, navigation }) {
     </html>
     `;
     // End of addition
+    // ---------------------------------- End removal kot print from update button ---------------------------
 
     // Modified by :- Parineeta Gedam on 10-05-2023 
     // reason :- check order status and discount amount conditions
@@ -1195,20 +1197,25 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
     // Added and commeted by Yuvraj Sahu on 21-06-2023
     // Reason - to not print kot on every confirm and updates
-    var checkConfirmOrder = orderStatusSelected == "Confirm" && orderItems.filter((e) => e.item_status == "Pending" && e.kot_print_status == false).length > 0
-    var checkConfirmOrderItems = orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0
+    // Modified by yuvraj Sahu on 29-06-2023
+    // Reason - to print only pending items
+    // var checkConfirmOrder = orderStatusSelected == "Confirm" && orderItems.filter((e) => e.item_status == "Pending" && e.kot_print_status == false).length > 0
+    var checkConfirmOrder = orderStatusSelected == "Confirm" && orderItems.filter((e) => e.item_status == "Pending").length > 0
+    // var checkConfirmOrderItems = orderItems.filter((e) => e.item_status == "Confirm" && e.kot_print_status == false).length > 0
+    // var checkConfirmOrderItems = orderItems.filter((e) => e.item_status == "Confirm").length > 0
     // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
-      // Added by Om Shrivastava on 26-06-23
-      // Reason : When loyality price is greater to subtotal than show the error message
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false ) {
-      // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
-      if ((checkConfirmOrder) || (checkConfirmOrderItems)){
+    // Added by Om Shrivastava on 26-06-23
+    // Reason : When loyality price is greater to subtotal than show the error message
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false) {
+    // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
+      // if ((checkConfirmOrder) || (checkConfirmOrderItems)){
+      if (checkConfirmOrder){
       // End of modification by Yuvraj Sahu on 21-06-2023
       // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
-
       //  End of addition by Om Shrivastava on 08-06-23 
       printDoc();
       }
+    // End of modification by yuvraj Sahu on 29-06-2023
     }
     // End of added code by :- Parineeta Gedam on 10-05-2023
 
@@ -1571,6 +1578,192 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   // End of added code by :- Parineeta Gedam on 17-06-2023 reason :- show confirmations message when admin select the cancel
   // End of Modified by :- Parineeta Gedam on 18-06-2023 reason :- show validations message when admin not enter any cancel reason 
+
+  // --------------------------------------- Add kot print functionality -----------------------------------
+const printKot = async()=>{
+
+  var restaurantName = JSON.parse(
+    await SecureStore.getItemAsync("userData")
+  ).restaurant_name;
+
+  var orderItem = "";
+  var SNumberIncreasing = 1;
+
+  if (orderItems.filter(e=>e.item_status == "Confirm").length > 0){
+  for (var i = 0; i < orderItems.length; i++) {
+      if (orderItems[i].item_status == "Confirm"){
+        orderItem =
+          orderItem +
+          `<div class="tableContents ">
+              <div class="quantityText">${SNumberIncreasing++}</div>
+              <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+          })</div>
+              <div class="rateText">${orderItems[i].quantity}</div>
+            </div>`;
+      }
+    }
+  }
+    str = `<div class="billingContainer">
+            <div class="inLineContainer" >
+              <div class="Hotellabel"  style="text-align:center;"> ${restaurantName}</div>
+            </div>
+            <hr>
+            <div class="inLineContainer">
+            <div class="label">Date</div>
+             <div class="text">: ${ExtractDateTime(orderDetail.date).date}</div>
+            <div class="label">Time</div>
+            <div class="text">: ${ExtractDateTime(orderDetail.date).time}</div>
+
+          </div>
+          <div class="inLineContainer">
+            <div class="label">Order id</div>
+            <div class="text">: ${orderDetail.order_id}</div>
+            <div class="label">Table</div>
+            <div class="text">: ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
+      }</div>
+            
+          </div>
+          <div class="tableHeader">
+              <div class="serialNo"> SNo   </div>
+              <div class="titleHeading">Item Name</div>
+              <div class="qtyHeading">   Qty   </div>
+            </div>
+            ${orderItem} 
+    </div>`;
+    str = str + `</div>`;
+    html = `
+    <html>
+    <head>
+    <style>
+    .billingContainer {
+      font-family:monospace;
+      letter-spacing: 0.6px;
+      width: 320px;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 5px;
+      padding: 2px 0;
+      padding-bottom: 150px;
+      border: 1px solid black;
+    }
+    .inLineContainer {
+      min-width: 100%;
+      min-height: 10px;
+      margin: 4px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    .Hotellabel{
+      min-width: 100%;
+      font-size: 17px;
+      font-weight: 900;
+      padding: 0 3%;
+      text-align: center;
+    }
+    .centerLabel{
+      min-width: 100%;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .label {
+      min-width: 15%;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 0 2%;
+      text-align: start;
+      white-space: nowrap;
+    }
+    .text {
+      min-width: 22%;
+      word-break: break-all;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: left;
+    }
+    .tableHeader {
+      height: 30px;
+      width: 95%;
+      margin: auto;
+      border-top: 1px solid black;
+      margin-top: 20px;
+      border-bottom: 1px solid black;
+      display: flex;
+      gap: 8px;
+    }
+    .serialNo {
+      font-size: 12px;
+      width: 20%;
+      padding: 2% 0%;
+      font-weight: 700;
+    }
+    .titleHeading {
+      font-size: 12px;
+      width: 50%;
+      padding: 2% 0%;
+      padding-right: 8%;
+      font-weight: 700;
+      text-align: start;
+    }
+    
+    .qtyHeading {
+      font-size: 12px;
+      width: 30%;
+      padding: 2% 0% 0% 0%;
+      font-weight: 700;
+    }
+    
+    .tableContents {
+      min-height: 30px;
+      width: 95%;
+      margin:0 auto;
+      margin: 1px 0;
+      display: flex;
+      gap: 4px;
+    }
+    .quantityText {
+      font-size: 10px;
+      width: 10%;
+      padding: 2% 0% 0% 5%;
+      font-weight: 600;
+    }
+    .titleText {
+      font-size: 10px;
+      width: 70%;
+      font-weight: 600;
+      padding: 2% 0% 0% 8%;
+      text-align:left
+    }
+    .rateText {
+      font-size: 12px;
+      width: 15%;
+      font-weight: 600;
+      text-align: end;
+      white-space: nowrap;
+      padding: 2% 0% 0% 5%;
+      text-align:left
+    }
+    .totalText {
+      font-size: 12px;
+      width: 30%;
+      padding: 2% 2%;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+    }
+    </style>
+    </head>
+      <body style="text-align: center;">
+          <h1 >
+          ${str}
+        </h1>
+      </body>
+    </html>
+    `;
+    printDoc();
+}
+    // End of addition by yuvraj Sahu on 29-06-2023
+  // ------------------------------------- End kot print functionality ------------------------------------
 
   return (
     <>
@@ -2824,6 +3017,57 @@ export default function OrderItemsScreen({ route, navigation }) {
         </>
       ) : null} */}
         {/* End of the addition */}
+        {/* Added by Yuvraj Sahu on 29-06-2023
+        Reason - to give button for print kot */}
+        <View style={styles.mainButtonDiv}>
+              <Pressable
+                onPress={printKot}
+                // disabled={orderDetail.order_status == "Placed" ? true : false}
+                style={{
+                  // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Duplicate kot
+                </Text>
+              </Pressable>
+              {/* <Pressable
+                onPress={printKot}
+                style={{
+                  backgroundColor: orderDetail.order_status == "Pending" ? "grey" : colors.btnColor,
+                  // backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Duplicate kot
+                </Text>
+              </Pressable> */}
+            </View>
+        {/* End of koi print by yuvraj sahu on 29-06-2023 */}
       </ScrollView>
       {/* Added by Om on 18-04-23 For showing the footer*/}
       <>
