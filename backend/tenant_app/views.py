@@ -1518,7 +1518,7 @@ class DashboardAPI(APIView):
     
 # End of code addition for dashboard data
 
-
+# Modified code by :- PArineeta Gedam on 30-06-2023 reason :- some change for proper calculations 
 # Added by Yuvraj Sahu on 17-4-2023
 # Reason - to update payment and order status
 class UpdateOrderPaymentStatus(APIView):
@@ -1535,43 +1535,59 @@ class UpdateOrderPaymentStatus(APIView):
         if request.data["order_status"] == "Cancelled":
             orderObj.cancelled_by = "Admin"
         # End of added code by :- Parineeta Gedam on 17-06-2023
-        serializedData = OrderSerializer(orderObj,request.data, partial=True)
-        if serializedData.is_valid(raise_exception=True):
-            serializedData.save()
-            # Removed by RohanKAnsari - shifted below for latest order Item - 25/5/23
-            # Added by - Rohan Kansari- 19/5/23 - 
-            # To get updated information of updated order of todays order
-            # orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
-            # orderItemSerializer=OrderItemWithOrderIdSerializer(orderItems, many=True)
-            # # Added by Rohan kansari-  
+
+        # Modified code by :- [parineeta Gedam on 30-06-2023 reason :- some change for proper calculations
+        orderSerializedData = OrderSerializer(orderObj,request.data, partial=True)
+
+        try:
+            validated_data = orderSerializedData.is_valid()
+            if validated_data and orderSerializedData.is_valid(raise_exception=True):
+                orderSerializedData.save()
+
+        # End of Modified code by :- parineeta Gedam on 30-06-2023 reason :- some change for proper calculations
             
-    
-            from django.utils.timezone import datetime
-            today=datetime.today().date()
-            
-            todays_order_item=OrderItem.objects.filter(date__gte=today)
-            todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
-            todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
-            todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+                # Removed by RohanKAnsari - shifted below for latest order Item - 25/5/23
+                # Added by - Rohan Kansari- 19/5/23 - 
+                # To get updated information of updated order of todays order
+                # orderItems= OrderItem.objects.filter(order_id__order_id=orderID)
+                # orderItemSerializer=OrderItemWithOrderIdSerializer(orderItems, many=True)
+                # # Added by Rohan kansari-  
+                
+        
+                from django.utils.timezone import datetime
+                today=datetime.today().date()
+                
+                todays_order_item=OrderItem.objects.filter(date__gte=today)
+                todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
+                todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
+                todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
 
-            from django.db.models import Q
-            # Modified by Rohan Kansari- 30/5/23
-            # Reason - To get paid payment also in pending list 
-            # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
-            todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
-            # End of code addition - Rohan Kansari - 30/5/23
-            todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+                from django.db.models import Q
+                # Modified by Rohan Kansari- 30/5/23
+                # Reason - To get paid payment also in pending list 
+                # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
+                todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+                # End of code addition - Rohan Kansari - 30/5/23
+                todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
 
-            todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
-            todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+                todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
+                todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
-            return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
-                             ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
-                             ,"todays_pending_orders":todays_pending_orders_serializer.data
-                             ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
-            # End of code - Rohan Kansari - 19/5/23
-        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
+                                ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
+                                ,"todays_pending_orders":todays_pending_orders_serializer.data
+                                ,"todays_completed_orders":todays_completed_orders_serializer.data,
+                                # Modified code by :- [parineeta Gedam on 30-06-2023 reason :- some change for proper calculations
+                                "order":orderSerializedData.data
+                                # End of Modified code by :- parineeta Gedam on 30-06-2023 reason :- some change for proper calculations
+                                
+                                },status=status.HTTP_201_CREATED)
+                # End of code - Rohan Kansari - 19/5/23
+            return Response({"error":orderSerializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error":"error"})
 # End of addition
+# End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- some change for proper calculations 
 
 
 # Added by - Ashish Dewangan on 28-04-2023
@@ -1907,7 +1923,7 @@ def item_report(request,report_period):
 class UpdateItemStatus(APIView):
     def put(self, request, tenant, orderID):
         orderObj = Order.objects.get(order_id = orderID)
-        print(request.data)
+        # print(request.data)
         #    orderItem=OrderItem.objects.filter(order_id=orderObj.id)
         for i,data in enumerate(request.data):
                 # Modified By Rohan Kansari - 24/6/23
@@ -2066,17 +2082,25 @@ class DeleteOrderItemsAPIView(APIView):
             print("Exception occured on deleteOrderAPI",e)               
         return Response({"orderItem":orderItemserializer.data, "order":orderSerializer.data})
         
+
+# Modified by :- Parineeta Gedam on 30-06-2023 
+# reason :- for re-calculations 
+
 # Added by :- Parineeta Gedam
 # Date :- 17-05-2023
 # Reason : API for update the orders
 
 class PostUpdateOrderItemsAPIView(APIView):
     def put(self, request, tenant):
-        orderId = Order.objects.get(order_id=request.data['orders'])
-        orderItemId = OrderItem.objects.filter(order_id=orderId.id)
-        order = request.data['order']
 
+        # Commented by :- Parineeta Gedam on 30-06-2023 
+        # orderId = Order.objects.get(order_id=request.data['orders'])
+        # orderItemId = OrderItem.objects.filter(order_id=orderId.id)
+        # End of Commented code by :- Parineeta Gedam on 30-06-2023 
+
+        order = request.data['order']
         cartItem = []
+        itemsPrice = []
 
         # Modified by :- Parineeta Gedam on 10-06-2023 
         # Ticket no :- 298
@@ -2085,41 +2109,46 @@ class PostUpdateOrderItemsAPIView(APIView):
         # if(order['order_status'] == "Placed") : 
         for cart in request.data['orderItems']:
             if(cart['item_status'] != "Cancelled") : 
-                # print("cart", cart)
                 orderItem = OrderItem.objects.get(id=cart['id'])
                 orderItem.quantity=cart['quantity']
                 orderItem.price=cart['price']
                 orderItem.item_status = cart['item_status']
                 orderItem.save()
                 cartItem.append(orderItem)
+                itemsPrice.append(orderItem.price)
         orderItemSerializer = OrderItemSerializer(cartItem, many=True)
-        
+
+        order = Order.objects.get(order_id = request.data["orders"])
+        subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+        order.sub_total=subTotal
+        order.save()
+        OrderSerializers = AllOrderSerializer(order)
+       
         # End of Modified code by Parineeta Gedam on 10-06-2023
 
         # Added and modified code by :- Parineea Gedam on 25-06-2023 
         # reason :- changes in calculations 
-        if order['discount_rupees'] > 0:
-            orderData  = Order.objects.filter(order_id = request.data['orders']).update(
-            sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
-            cgst = round( float("{:.2f}".format(order['cgst'])),2), 
-            sgst = round( float("{:.2f}".format(order['sgst'])),2), 
-            total = round( float("{:.2f}".format(order['total'])),2),
-            final_amount = round( float("{:.2f}".format(order['final_amount'])),2),)
-        else :
-            orderData  = Order.objects.filter(order_id = request.data['orders']).update(
-                sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
-                cgst = round( float("{:.2f}".format(order['cgst'])),2), 
-                sgst = round( float("{:.2f}".format(order['sgst'])),2), 
-                total = round( float("{:.2f}".format(order['final_amount'])),2),
-                # final_amount = round( float("{:.2f}".format(order['total'])),2),
-                final_amount = round( float("{:.2f}".format(order['final_amount'])),2),
-           )
+        # if order['discount_rupees'] > 0:
+        #     orderData  = Order.objects.filter(order_id = request.data['orders']).update(
+        #     sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
+        #     cgst = round( float("{:.2f}".format(order['cgst'])),2), 
+        #     sgst = round( float("{:.2f}".format(order['sgst'])),2), 
+        #     total = round( float("{:.2f}".format(order['total'])),2),
+        #     final_amount = round( float("{:.2f}".format(order['final_amount'])),2),)
+        # else :
+        #     orderData  = Order.objects.filter(order_id = request.data['orders']).update(
+        #         sub_total=round( float("{:.2f}".format(order['sub_total'])),2), 
+        #         cgst = round( float("{:.2f}".format(order['cgst'])),2), 
+        #         sgst = round( float("{:.2f}".format(order['sgst'])),2), 
+        #         total = round( float("{:.2f}".format(order['final_amount'])),2),
+        #         # final_amount = round( float("{:.2f}".format(order['total'])),2),
+        #         final_amount = round( float("{:.2f}".format(order['final_amount'])),2),
+        #    )
         # End of Added and modified code by :- Parineea Gedam on 25-06-2023 reason :- changes in calculations 
-        
-        orderObject = Order.objects.filter(order_id = request.data['orders']).values()[0]
-        return Response({"orderItem":orderItemSerializer.data, "order":orderObject})
-
+        # orderObject = Order.objects.filter(order_id = request.data['orders']).values()[0]
+        return Response({"orderItem":orderItemSerializer.data, "order":OrderSerializers.data})
 # End of added code by :- Parineeta Gedam on 17-05-2023
+# End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- for re-calculations
 
 # Added by :- Parineeta Gedam
 # Date :- 22-05-2023
@@ -2131,7 +2160,7 @@ class GetOrderItemsAndOrderAPIView(APIView):
         orderSerializer = OrderSerializer(orderId)
 
         # Modified by :- Parineeta GEdam on 22-06-2023 reason :- show latest item on the top
-        orderItemId = OrderItem.objects.filter(order_id=orderId.id)
+        # orderItemId = OrderItem.objects.filter(order_id=orderId.id)
         orderItemId = OrderItem.objects.filter(order_id=orderId.id).order_by('-id')
         # End of Modified code by :- Parineeta GEdam on 22-06-2023 reason :- show latest item on the top
 
@@ -2141,10 +2170,9 @@ class GetOrderItemsAndOrderAPIView(APIView):
 # End of added code by :- Parineeta Gedam on 22-05-2023
 
 
-# Added by :- Parineeta Gedam
+# Added by :- Parineeta Gedam new
 # Date :- 17-05-2023
 # Reason : API for Add order items used in react native
-
 class AddOrderItemsAPIView(APIView):
     def post(self, request, tenant):
         OrderItem(
@@ -2160,13 +2188,10 @@ class AddOrderItemsAPIView(APIView):
         # orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
         orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
         # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
-
         orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
 
-# ==========================================================================================================
         # Modified by :- Parineeta Gedam on 28-06-2023
         # reason :- re calculations
-      
         itemsPrice = []
         for cart in orderItemsObj:
             if(cart.item_status != "Cancelled") :
@@ -2177,14 +2202,11 @@ class AddOrderItemsAPIView(APIView):
         order.sub_total=subTotal
         order.order_status="Placed"
         order.save()
-
         OrderSerializers = AllOrderSerializer(order)
-
         # End of added code by Parineeta Gedam on 28-06-2023
-
         return Response({"msg":"success", "orderItems":orderItemsSerializer.data,"order":OrderSerializers.data})
-# End of added code by :- Parineeta Gedam on 17-05-2023
 
+# # End of added code by :- Parineeta Gedam on 17-05-2023 new
 
 # Added by :- Suman sahu
 # Date :- 27-05-2023

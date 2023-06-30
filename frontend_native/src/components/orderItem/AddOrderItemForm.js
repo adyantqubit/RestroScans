@@ -221,6 +221,11 @@ export default function AddOrderItemForm(orderId) {
                 orderId.setOrderItems(response.orderItems);
                 orderId.setOrderDetail(response.order);
                 orderId.setOrderStatus(response.order.order_status)
+
+                // Modified by :- Parineeta Gedam on 29-06-2023 reason :- update discount
+                orderId.setDiscountRupees("" + response.order.discount_rupees)
+                orderId.setDiscountPercentage("" + response.order.discount_percentage)
+                // End of modified code by :- Parineeta Gedam on 29-06-2023 reason :- update discount
                 Alert.alert("Item added successfully");
                 orderId.modalvisibilityFn(false)
 

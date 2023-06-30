@@ -1351,6 +1351,10 @@ export default function OrderItemsScreen({ route, navigation }) {
         var a =
           (newSubTotal * settingData.cgst) / 100 +
           (newSubTotal * settingData.sgst) / 100;
+
+        // Added by :- Parineeta Gedam on 30-06-2023
+        copyOrder.total = a + newSubTotal;
+        // End of added code on 30-06-2023
         copyOrder.final_amount = a + newSubTotal;
       }
     }
@@ -1432,6 +1436,9 @@ export default function OrderItemsScreen({ route, navigation }) {
           var a =
             (newSubTotal * settingData.cgst) / 100 +
             (newSubTotal * settingData.sgst) / 100;
+          // Added by :- Parineeta Gedam on 30-06-2023
+          copyOrder.total = a + newSubTotal;
+          // End of added code on 30-06-2023
           copyOrder.final_amount = a + newSubTotal;
         }
     setOrderItems([...allOrderItem])
@@ -1871,7 +1878,9 @@ const printKot = async()=>{
               transparent={true}
               visible={modalVisible}
             >
-              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} setOrderStatus={setOrderStatus} />
+              {/* Modified by :- Parineeta Gedam on 29-06-2023 reason :- update discount */}
+              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} setOrderStatus={setOrderStatus} setDiscountRupees={setDiscountRupees} setDiscountPercentage={setDiscountPercentage} />
+              {/* End of modified code by :- Parineeta Gedam on 29-06-2023 reason :- update discount  */}
             </Modal>
 
             {orderDetail.payment_status == "Completed" || orderDetail.payment_status == "Paid" || orderDetail.order_status == "Cancelled" ?

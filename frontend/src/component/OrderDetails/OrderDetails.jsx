@@ -47,6 +47,11 @@ export default function OrderDetails() {
   var i = 1;
   // end of code
 
+  // Added by Parineeta Date : 30-06-2022
+  // Reason : for backgroundColor 
+  var backgroundColor = 1;
+  // End of Added code by Parineeta Date : 30-06-2022
+
   const [isLoading, setLoading] = useState(false);
 
   // Added by :-  Parineeta Gedam
@@ -263,6 +268,9 @@ export default function OrderDetails() {
       var a =
         (newSubTotal * settingData.cgst) / 100 +
         (newSubTotal * settingData.sgst) / 100;
+      // Added by :- Parineeta Gedam on 30-06-2023
+       copyOrder.total = a + newSubTotal;
+      // End of added code on 30-06-2023
       copyOrder.final_amount = a + newSubTotal;
     }
     setOrderItem([...allOrderItem]);
@@ -336,6 +344,10 @@ export default function OrderDetails() {
         var a =
           (newSubTotal * settingData.cgst) / 100 +
           (newSubTotal * settingData.sgst) / 100;
+
+        // Added by :- Parineeta Gedam on 30-06-2023
+        copyOrder.total = a + newSubTotal;
+        // End of added code on 30-06-2023
         copyOrder.final_amount = a + newSubTotal;
       }
     } else {
@@ -400,9 +412,9 @@ export default function OrderDetails() {
     };
 
     //  Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer.
-    if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1){
-      data["cancelled_by"] = "Customer"
-    }
+      if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1 ){
+        data["cancelled_by"] = "Customer"
+      }
     // End of Added code by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer.
 
     const response = await deleteOrderItems(tenantName, data);
@@ -412,6 +424,7 @@ export default function OrderDetails() {
       secureLocalStorage.setItem("orderItem", response.orderItem);
       secureLocalStorage.setItem("order", response.order);
       setOrderItem(response.orderItem);
+      setOrders(response.order)
       setLoading(false);
 
       // Modified by :- PArineeta Gedam on  28-06-2023 reason :- order cancel 
@@ -664,7 +677,11 @@ export default function OrderDetails() {
                           // Date :- 14-04-2023
                           // reason :- added color
                           style={{
-                            background: index % 2 === 0 ? "#EAE5E3" : "white",
+                            // Modified by :- Parineeta Gedam on 30-06-2023 reason :- if we delete any item then color not show in proper way.
+                            // background: index % 2 === 0 ? "#EAE5E3" : "white",
+                            background: backgroundColor++ % 2 == 0 ? "#EAE5E3" : "white",
+                            // End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- if we delete any item then color not show in proper way.
+
                           }}
                           // End of added code 14-04-2023
                         >

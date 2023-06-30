@@ -91,23 +91,26 @@ def on_order_status_update(sender,instance,created,**kwargs):
 # reason :- conditions based we send push notifications
 @receiver(post_save,sender=OrderItem)
 def on_orderItem_status_update(sender,instance,created,**kwargs):
-    orderItemObject = OrderItem.objects.filter(order_id = instance.order_id)
-    itemsPrice = []
-    for cart in orderItemObject:
-        if(cart.item_status != "Cancelled") :
-            price = cart.price
-            itemsPrice.append(price)
-    order = Order.objects.get(order_id = instance.order_id)
-    subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+
+    # Commented by :- Parineeta Gedam on 30-06-2023 reason :- not used
+    # orderItemObject = OrderItem.objects.filter(order_id = instance.order_id)
+    # itemsPrice = []
+    # for cart in orderItemObject:
+    #     if(cart.item_status != "Cancelled") :
+    #         price = cart.price
+    #         itemsPrice.append(price)
+    # order = Order.objects.get(order_id = instance.order_id)
+    # subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
 
     # Modified by :- Parineeta Gedam on 28-06-2023
     # order.sub_total=subTotal
     # order.order_status="Placed"
     # order.save()
-    orders = Order.objects.filter(order_id = instance.order_id).update(sub_total = subTotal,
-                                                                        # order_status = "Placed"
-                                                                        )
+    # orders = Order.objects.filter(order_id = instance.order_id).update(sub_total = subTotal,
+    #                                                                     # order_status = "Placed"
+    #                                                                     )
     # End of Modified by :- Parineeta Gedam on 28-06-2023
+    # End of Commented code by :- Parineeta Gedam on 30-06-2023 reason :- not used
     
     if not created:
         try:

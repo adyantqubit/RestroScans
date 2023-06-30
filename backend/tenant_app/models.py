@@ -901,6 +901,15 @@ class Order(models.Model):
         verbose_name = "Order"
         verbose_name_plural = 'i) Order'
 
+    # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refereance.
+    def __init__(self,*args,**kwargs):
+        super(Order,self).__init__(*args,**kwargs)
+        self.old_order_status = self.order_status
+        self.old_payment_status = self.payment_status
+        self.old_apply_loyality_point = self.apply_loyality_point
+        self.old_final_amount = self.final_amount
+    # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refereance.
+
     # Added by Yuvraj Sahu on 24-4-2023
     # Reason - to update order item status based on order status
     def save(self, *args, **kwargs ):
@@ -918,24 +927,31 @@ class Order(models.Model):
         self.send_notifications_on_order_update = False
         self.send_notifications_on_payment_update = False
 
-        try:
-            order = Order.objects.get(order_id = self.order_id)
-            if order.order_status != self.order_status:
-                self.send_notifications_on_order_update = True
-        except Exception as e:
-            pass
+        # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
+        # try:
+        #     order = Order.objects.get(order_id = self.order_id)
+        if self.old_order_status != self.order_status:
+            self.send_notifications_on_order_update = True
+        # except Exception as e:
+        #     print(" order = Order.objects.get(order_id = self.order_id)",e)
+        #     pass
+        # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
 
-        try:
-            order = Order.objects.get(order_id = self.order_id)
-            if order.payment_status != self.payment_status:
-                self.send_notifications_on_payment_update = True
-        except Exception as e:
-            pass
-        
+        # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
+        # try:
+        #     order = Order.objects.get(order_id = self.order_id)
+        if self.old_payment_status != self.payment_status:
+            self.send_notifications_on_payment_update = True
+        # except Exception as e:
+        #     print("  order = Order.objects.get(order_id = self.order_id)",e)
+        #     pass
         # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+        # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
+
 
         if self.order_status == "Confirm" :
            OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
+
         # Added by Rohan kansari- 10/5/23
         if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
             from datetime import datetime
@@ -952,8 +968,6 @@ class Order(models.Model):
            OrderItem.objects.filter(order_id__order_id=self.order_id).update(item_status="Cancelled")
         # End of Added code by :- Parineeta Gedam on 10-06-2023
 
-
-
         # # Added by Om Shrivastava on 28-05-23
         # # Reason : Need to apply some condition for calculation the loyality point
 
@@ -968,12 +982,14 @@ class Order(models.Model):
                         pass
                     else:
                         if self.loyality_point_status=='is used':
-                            oldLoyality=Order.objects.get(order_id=self.order_id)
-                            self.apply_loyality_point=oldLoyality.apply_loyality_point
-
+                            # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence 
+                            # oldLoyality=Order.objects.get(order_id=self.order_id)
+                            self.apply_loyality_point=self.old_apply_loyality_point
+                            # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
                         else:
                             # Added by Om Shrivastava on 08-06-23
                             # Reason : Save the loyality point in float value 
+
                             # self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
                             self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
                             # End of addition by Om Shrivastava on 08-06-23
@@ -983,8 +999,10 @@ class Order(models.Model):
                             self.loyality_point_status='is used'
                 
                 if self.payment_status=='Paid':
-                    oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
-                    self.apply_loyality_point=oldLoyalityPoint.apply_loyality_point 
+                    # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence 
+                    # oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
+                    self.apply_loyality_point=self.old_apply_loyality_point 
+                    # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
 
                 # Commented and Added by Yuvraj Sahu on 15-06-2023
                 # Reason - to not calculate when loyality point calculated
@@ -992,8 +1010,12 @@ class Order(models.Model):
                 if self.payment_status == 'Completed' and self.loyality_point_calculated == False:
                     self.loyality_point_calculated = True
                     # End of Comment and modification by Yuvraj Sahu on 15-06-2023
-                    oldPoint=Order.objects.get(order_id=self.order_id)
-                    self.apply_loyality_point=oldPoint.apply_loyality_point
+
+                    # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence 
+                    # oldPoint=Order.objects.get(order_id=self.order_id)
+                    self.apply_loyality_point=self.old_apply_loyality_point
+                    # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
+
                     get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
                     user_no= self.customer_id.contact_number
                     CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
@@ -1085,48 +1107,49 @@ class Order(models.Model):
             # Added by :- Parineeta Gedam on 07-06-2023
             # Reason :- change the flow of calculations because admin can add discount. 
 
+        # Modified code by :- Parineeta Gedam on  30-06-2023 reason :- remove the order refrence
         try :
-            orderUpdate = Order.objects.get(order_id=self.order_id)
-            orderUpdate.sub_total = self.sub_total
-            orderUpdate.cgst=self.cgst
-            orderUpdate.sgst = self.sgst
-            orderUpdate.total = self.sub_total + self.cgst + self.sgst
+            # orderUpdate = Order.objects.get(order_id=self.order_id)
+            sub_total = self.sub_total
+            cgst=self.cgst
+            sgst = self.sgst
+            total = self.sub_total + self.cgst + self.sgst
 
             if self.discount_rupees > 0:
                 total = 0  
                 percentage = (self.discount_rupees / self.sub_total) * 100
                 self.discount_percentage = round(float("{:.2f}".format(percentage)), 2)
                 total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                orderUpdate.total = float("{:.2f}".format(total))
+                total = float("{:.2f}".format(total))
                 tax = Setting.objects.first()
                 if tax is not None:
                     if tax.sgst is None:
                         tax.sgst = 0
                     if tax.cgst is None:
                         tax.cgst = 0
-                    cgst = (orderUpdate.total*(tax.cgst)/100)
+                    cgst = (total*(tax.cgst)/100)
                     self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                    sgst = (orderUpdate.total*(tax.sgst)/100)
+                    sgst = (total*(tax.sgst)/100)
                     self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                    self.total = round(float("{:.2f}".format(orderUpdate.total)), 2)
-                    self.final_amount = round(float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
+                    self.total = round(float("{:.2f}".format(total)), 2)
+                    self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
             elif self.discount_percentage > 0 :
                 total = 0  
                 self.discount_rupees = (self.sub_total / 100) * self.discount_percentage
                 total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                orderUpdate.total = float("{:.2f}".format(total))
+                total = float("{:.2f}".format(total))
                 tax = Setting.objects.first()
                 if tax is not None:
                     if tax.sgst is None:
                         tax.sgst = 0
                     if tax.cgst is None:
                         tax.cgst = 0
-                    cgst = (orderUpdate.total*(tax.cgst)/100)
+                    cgst = (total*(tax.cgst)/100)
                     self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                    sgst = (orderUpdate.total*(tax.sgst)/100)
+                    sgst = (total*(tax.sgst)/100)
                     self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                    self.total = round(float("{:.2f}".format(orderUpdate.total)), 2)
-                    self.final_amount = round(float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
+                    self.total = round(float("{:.2f}".format(total)), 2)
+                    self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
             else : 
                 tax = Setting.objects.first()
                 if tax is not None:
@@ -1135,12 +1158,12 @@ class Order(models.Model):
                     if tax.cgst is None:
                         tax.cgst = 0
                     
-                    cgst = ( orderUpdate.sub_total*(tax.cgst)/100)
+                    cgst = (sub_total*(tax.cgst)/100)
                     self.cgst = round(float("{:.2f}".format(cgst)),2)
-                    sgst = ( orderUpdate.sub_total*(tax.sgst)/100)
+                    sgst = ( sub_total*(tax.sgst)/100)
                     self.sgst = round(float("{:.2f}".format(sgst)),2)
-                    self.total= round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
-                    self.final_amount = round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
+                    self.total= round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
+                    self.final_amount = round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
                   
                     # # Added by Om Shrivastava on 28-05-23
                     # # Reason : Need to apply some condition for calculation the loyality point
@@ -1161,25 +1184,54 @@ class Order(models.Model):
                     #  End of addition by Om Shrivastava on 28-05-23 
             # End of Added code by :- Parineeta Gedam on 07-06-2023
 
-        except Exception as e:
-            print("Exception in save method of order - ",e)
-        # End of added code on 06-05-2023
+            # Added by :- Parineeta Gedam on 22-06-2023
+            # reason :- check conditions for notifications
 
-
-        # Added by :- Parineeta Gedam on 22-06-2023
-        # reason :- check conditions for notifications
-
-        self.send_notifications_on_amount_update = False
-        try:
-            order = Order.objects.get(order_id = self.order_id)
-            if order.final_amount != self.final_amount:
+            self.send_notifications_on_amount_update = False
+            # Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence 
+            # try:
+                # order = Order.objects.get(order_id = self.order_id)
+            if self.old_final_amount != self.final_amount:
                 self.send_notifications_on_amount_update = True
+            # except Exception as e:
+            #     # print("1218")
+            #     pass
+            # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence 
+
+            # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+           
+            super(Order, self).save(force_update=True, *args, **kwargs)
+
         except Exception as e:
-            pass
+           
+            # added by :- Parineeta Gedam on 26-06-2023
+            # reason :-  for calculations 
+            tax = Setting.objects.first()
+            if tax is not None:
+                if tax.sgst is None:
+                    tax.sgst = 0
+                if tax.cgst is None:
+                    tax.cgst = 0
+                cgst = ( self.sub_total*(tax.cgst)/100)
+                self.cgst = round(float("{:.2f}".format(cgst)),2)
+                sgst = ( self.sub_total*(tax.sgst)/100)
+                self.sgst = round(float("{:.2f}".format(sgst)),2)
+                self.total= round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
+                self.final_amount = round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
+                super(Order, self).save(*args, **kwargs)
 
-        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
+            # self.send_notifications_on_amount_update = False
+            # try:
+            #     order = Order.objects.get(order_id = self.order_id)
+            #     if order.final_amount != self.final_amount:
+            #         self.send_notifications_on_amount_update = True
+            # except Exception as e:
+            #     print("1218")
+            #     pass
+            
+        # End of added code on 06-05-2023
+        # End of modified code by :- PArineeta Gedam on 30-06-2023 reason :- remove the order refrences
 
-        super().save( *args, **kwargs)
     # End of addition
 
     # Removed BY rohan kansari - 11/5/23 

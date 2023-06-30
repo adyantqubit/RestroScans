@@ -29,6 +29,11 @@ export default function InvoiceDetail() {
   var i = 1;
   // end ofthe added code by Parineeta Date : 14-04-2022
 
+  // Added by Parineeta Date : 30-06-2022
+  // Reason : for backgroundColor 
+  var backgroundColor = 1;
+  // End of Added code by Parineeta Date : 30-06-2022
+
   // Added by :-  Parineeta Gedam
   // Date :- 9-04-2023
   // Reason :- get order items from local stroage and map the data.
@@ -220,7 +225,10 @@ export default function InvoiceDetail() {
                           id={"order" + items.id}
                           key={index}
                           style={{
-                            background: index % 2 === 0 ? "#EAE5E3" : "white",
+                            // Modified by :- Parineeta Gedam on 30-06-2023 reason :- if we delete any item then color not show in proper way.
+                            // background: index % 2 === 0 ? "#EAE5E3" : "white",
+                            background: backgroundColor++ % 2 == 0 ? "#EAE5E3" : "white",
+                            // End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- if we delete any item then color not show in proper way.
                           }}
                         >
                           <div className="inv_data_container">
