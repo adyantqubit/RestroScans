@@ -208,7 +208,7 @@ Reason:- Create css for Footer.jsx */
 /* Added by - Suman sahu On 14/06/2023 
    reason - for make responsive the footer in the landscap mode*/
 
-   /* @media only screen and (max-width: 1400px) and (max-height: 700px) and (orientation: landscape) {
+    @media only screen and (max-width: 1400px) and (max-height: 700px) and (orientation: landscape) {
     .footer_container,
     .footer_icons_section {
       height: 7vh;
@@ -415,5 +415,5 @@ Reason:- Create css for Footer.jsx */
       margin: 0 0.3rem;
     }
   }
-  end of addition by- Suman sahu On 14/06/2023 */
+  /* end of addition by- Suman sahu On 14/06/2023 */ 
 

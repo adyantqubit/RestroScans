@@ -345,7 +345,7 @@ li {
     grid-template-columns: 3rem 2fr 1fr 1fr 1rem;
   }
   .content{
-    height: 70vh;
+    height: 73vh;
     overflow: auto;
   }
 }

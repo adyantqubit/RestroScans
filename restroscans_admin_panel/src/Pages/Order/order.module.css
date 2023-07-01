@@ -360,7 +360,7 @@
    reason - adjust page according to sidebar, header and footer in the responsive*/
   @media screen and (max-width: 768px) {
   .container {
-    height: 70vh;
+    height: 73vh;
   }
 
   .paginationContent{

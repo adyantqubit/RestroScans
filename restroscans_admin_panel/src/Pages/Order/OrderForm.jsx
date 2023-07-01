@@ -833,7 +833,7 @@ const OrderForm = () => {
                 </div>
                 <input
                   // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
-                  className={loyalityPointStatus == "is used" || paymentStatus=="Paid" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  className={loyalityPointStatus == "is used" || paymentStatus=="Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                   type="text"
                   // type="number"

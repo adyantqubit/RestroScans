@@ -663,7 +663,7 @@ input[type="checkbox"]:checked + .sortingLabel {
    reason - adjust page according to sidebar, header and footer in the responsive*/
 @media screen and (max-width: 768px) {
     .orderContainer {
-        height: 70vh;
+        height: 73vh;
     }
 }
 /* end of code by - suman sahu on 17/06/2023 */

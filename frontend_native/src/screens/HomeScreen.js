@@ -34,7 +34,10 @@ export default function HomeScreen({ navigation }) {
 
   // Added by- Suman sahu  On 29/04/2023
   // Reason - show order details(Newly Placed Orders, pending orders, completed orders) in collapsible
-  var [height, setHeight] = useState("none");
+  // Modified by ROhan kansari - 1/7/23
+  // Reason - newly placed should open by default
+  // var [height, setHeight] = useState("none");
+  var [height, setHeight] = useState("flex");
   var [displayCompletedOrder, setDisplayCompletedOrder] = useState("none");
   var [displayPendingOrder, setDisplayPendingOrder] = useState("none");
   // End of addition 29/04/2023
