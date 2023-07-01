@@ -3226,6 +3226,30 @@ class GetAllOrderItemAPI(APIView):
             orderItemList = orderItemList.order_by('item_status')
         if columnToSort == "item_status" and columnSortingOrder=="descending":
             orderItemList = orderItemList.order_by('-item_status')
+        
+        # Added by Om Shrivastava on 30-06-23 Reason : Need to apply sorting through the quantity, item name
+        if columnToSort == "item" and columnSortingOrder=="ascending":
+            orderItemList = orderItemList.order_by('item')
+        if columnToSort == "item" and columnSortingOrder=="descending":
+            orderItemList = orderItemList.order_by('-item')
+
+        if columnToSort == "quantity" and columnSortingOrder=="ascending":
+            orderItemList = orderItemList.order_by('quantity')
+        if columnToSort == "quantity" and columnSortingOrder=="descending":
+            orderItemList = orderItemList.order_by('-quantity')
+
+        if columnToSort == "price" and columnSortingOrder=="ascending":
+            orderItemList = orderItemList.order_by('price')
+        if columnToSort == "price" and columnSortingOrder=="descending":
+            orderItemList = orderItemList.order_by('-price')
+        
+        if columnToSort == "serving_size" and columnSortingOrder=="ascending":
+            orderItemList = orderItemList.order_by('serving_size')
+        if columnToSort == "serving_size" and columnSortingOrder=="descending":
+            orderItemList = orderItemList.order_by('-serving_size')
+
+        # End of code added by Om Shrivastava on 30-06-23 Reason : Need to apply sorting through the quantity, item name
+ 
 
         if columnToSort == "date" and columnSortingOrder=="ascending":
             orderItemList = orderItemList.order_by('date')
@@ -3247,3 +3271,49 @@ class GetAllOrderItemAPI(APIView):
         })
         
 # End of addition by Om Shrivatava on 26-06-23 Reason : Get all order item data 
+
+"""
+Added by Om Shrivastava on 30-06-23 
+Reason - to get and update the order item details in form section in admin js
+"""
+class OrderItemDetailAPIView(APIView) :
+    def get(self, request, tenant):
+        orderItemObjs = OrderItem.objects.all()
+        serialized=OrderItemWithOrderIdSerializer(orderItemObjs, many=True)
+        
+        return Response({
+            "msg":"success",
+            "orderItemData":serialized.data,
+            })
+    
+        # End of code - Rohan kansari - 28/6/23
+    
+    def post(self,request,tenant):
+    # Added by Om Shrivastava on 30-06-23
+    # Reason - to update and also save order item details in same api
+        if "id" in request.data :
+            obj = OrderItem.objects.get(id=request.data["id"])
+            # Some namme changes by Om Shrivastava on 18-06-23
+            orderItemDetailSerailizer = OrderItemSerializer(obj, data=request.data,partial=True)
+        else :
+            orderItemDetailSerailizer = OrderItemSerializer(data=request.data)
+    # End of addition by Om Shrivastava on 30-06-23
+        # orderObjs = Order.objects.all()
+        # serialized=AllOrderSerializer(orderObjs, many=True)
+        if orderItemDetailSerailizer.is_valid():
+            orderItemDetailSerailizer.save()
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": orderItemDetailSerailizer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetAllOrderItemDetailsAPI(APIView):
+    def get(self,request,tenant):
+        orderItemData=OrderItem.objects.all()
+        orderItemDataSerializer = OrderItemWithOrderIdSerializer(orderItemData, many =True)
+
+        return Response({
+            "msg":"success",
+            "orderItemData":orderItemDataSerializer.data,
+        })
+"""
+End of addition by Om shrivastava on 30-06-23
+"""

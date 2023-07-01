@@ -650,3 +650,48 @@ export const getOrdersItemDetailApi = async (tenant,filteringCriteria) => {
   // console.log(response.data,'++++++++++++++++++++++')
   return response ? response.data : {};
 };
+
+// Added by Om on 30-06-2023
+// Reason - to get all offers
+export const getAllOfferList = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/offer-details/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting offers
+
+// Added by Om Shrivastava on 30-06-23
+// Reason - to get all order-items details and need to save
+export const getOrderItemDataApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/order-item-data/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response.data,'get order item details for post')
+  return response ? response.data : {};
+};
+
+export const saveOrderItemDetailsApi = async (tenant,value) => {
+  const response = await API.post(`/api/v1/${tenant}/order-item-data/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response.data,'post the order item details')
+  return response ? response.data : {};
+};
+
+export const getOrderItemDataShowApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/order-item-show/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  // console.log(response.data)
+  return response ? response.data : {};
+};
+// End of addition by Om Shrivastava on 30-06-23

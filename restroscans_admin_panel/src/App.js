@@ -29,6 +29,7 @@ import FooterDescription from "./Pages/Home/FooterDescription";
 import CustomerDetail from "./Pages/CustomerDetail/CustomerDetail";
 import Order from "./Pages/Order/Order";
 import OrderItem from "./Pages/Order/OrderItem";
+import OrderItemForm from "./Pages/Order/OrderItemForm";
 import PaymentMethod from "./Pages/PaymentDetail/PaymentMethod";
 import Revenue from "./Pages/Revenue/Revenue";
 import Setting from './Pages/Setting/Setting';
@@ -231,8 +232,13 @@ function App() {
         {/* <Route path="/Order" element={<Order />} /> */}
         <Route path="/Order" element={!tokenExist ? <Navigate to="/Login" /> : <Order />} />
         {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
+       
+        {/* Modification and addition by Om Shrivastava on 30-06-23
+        Reason : When user has no token than after hit back button than need to show the same login page */}
+        {/* <Route path="/OrderItem" element={<OrderItem />} /> */}
+        <Route path="/OrderItem" element={!tokenExist ? <Navigate to="/Login" /> : <OrderItem/>} />
+        {/* End of addition and modification by Om Shrivastava on 30-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
 
-        <Route path="/OrderItem" element={<OrderItem />} />
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* end of addition by - Suman sahu On 26/05/2023 */}
 
@@ -262,6 +268,10 @@ function App() {
         {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
  
       	{/* End of addition by Om shrivastava on 16-06-23 */}
+        
+        {/* {/* Added by Om shrivastava on 30-06-23 Reason : Show the order item form page*} */}
+      	<Route path="/update-order-item/:id" element={!tokenExist ? <Navigate to="/Login" /> : <OrderItemForm/>} />
+      	{/* End of addition by Om shrivastava on 30-06-23 Reason : Show the order item form page */}
       </Routes>
       {/* <Footer /> */}
       </Header>

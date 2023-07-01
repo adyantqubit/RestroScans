@@ -47,7 +47,9 @@
 }
 
 .sectionInsideForm{
-    margin-top: 30px;
+
+    /* margin-top: 30px; */
+    margin-top: 25px;
     background-color: #e6f0f0;
     padding: 10px;
     border-radius: 5px;
@@ -154,6 +156,10 @@ Reason : Need to apply this css when some field is disable */
   margin-top: 10px;
   text-align: center;
   margin-left: 12px;
+  /* Added by Om on 30-06-23 */
+  margin-top: auto;
+  margin-bottom: auto;
+  /* End of added code by Om on 30-06-23 */
   /* border: 2px solid red; */
 
 }

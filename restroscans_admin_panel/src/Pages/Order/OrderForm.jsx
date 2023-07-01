@@ -105,41 +105,41 @@ const OrderForm = () => {
 
   //  End of addition by Om Shrivastava on 24-06-23 
   //  Reason: When user add more item than show the modal
-  
-	// Added by Om Shrivastava on 25-06-23
-	// Reason : Get all order items
-	
-	useEffect(() => {
-	  getOrderItems();
-	}, []);
-	// End of addition
-	
-	useEffect(() => {
-	  getOrderItems();
-	}, [modalVisible]);
-	
-	const getOrderItems = async () => {
-	  const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-	  var response = await getOrderItemsApi(tenant, id);
-	  if (response.msg) {
-	    setOrderItems(response.orderItems);
-	    // setOrderStatus(response.orderDetail.order_status);
-	    // setCustomerDetail(response.customerDetail);
-	    // setOrderDetail(response.orderDetail);
-	
-	    // setPaymentStatus(response.orderDetail.payment_status);
-	    // setDiscountReason(response.orderDetail.discount_reason);
-	    // setDiscountRupees("" + response.orderDetail.discount_rupees)
-	    // setDiscountPercentage("" + response.orderDetail.discount_percentage)
-	    // setLoyalityAmount("" + response.orderDetail.apply_loyality_point)
-	    // setSettingData(response.settingData)
-	    // setOriginalResponseOrderItem(response.orderItems)
-	    // setOriginalResponseOrder(response.orderDetail)
-	    // setOrderCancelReason(response.orderDetail.cancel_reason);
-	    
-	
-	  }
-	};
+
+  // Added by Om Shrivastava on 25-06-23
+  // Reason : Get all order items
+
+  useEffect(() => {
+    getOrderItems();
+  }, []);
+  // End of addition
+
+  useEffect(() => {
+    getOrderItems();
+  }, [modalVisible]);
+
+  const getOrderItems = async () => {
+    const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    var response = await getOrderItemsApi(tenant, id);
+    if (response.msg) {
+      setOrderItems(response.orderItems);
+      // setOrderStatus(response.orderDetail.order_status);
+      // setCustomerDetail(response.customerDetail);
+      // setOrderDetail(response.orderDetail);
+
+      // setPaymentStatus(response.orderDetail.payment_status);
+      // setDiscountReason(response.orderDetail.discount_reason);
+      // setDiscountRupees("" + response.orderDetail.discount_rupees)
+      // setDiscountPercentage("" + response.orderDetail.discount_percentage)
+      // setLoyalityAmount("" + response.orderDetail.apply_loyality_point)
+      // setSettingData(response.settingData)
+      // setOriginalResponseOrderItem(response.orderItems)
+      // setOriginalResponseOrder(response.orderDetail)
+      // setOrderCancelReason(response.orderDetail.cancel_reason);
+
+
+    }
+  };
   /**
 * Added by - Om Shrivastava on 16-06-23
 * Reason - created api that will get Order details data
@@ -440,7 +440,7 @@ const OrderForm = () => {
       setValidationForOrderCancel("Please enter cancel reason");
       // setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
 
-      console.log('if part')
+      // console.log('if part')
     }
     // else {
     //   allowDataPost = false
@@ -487,16 +487,16 @@ const OrderForm = () => {
 
   // Added by Rohan kansari - 28/6/23
   // Reason - To validate filed again
-  useEffect(()=>{
-    if(discountRupee!=null)
-    validateOnBlur(
-      "discount_rupees",
-     discountRupee
-    );
-    if(discountPercentage!=null){
+  useEffect(() => {
+    if (discountRupee != null)
+      validateOnBlur(
+        "discount_rupees",
+        discountRupee
+      );
+    if (discountPercentage != null) {
       validateOnBlur("discount_percentage", discountPercentage);
     }
-  },[discountRupee,discountPercentage])
+  }, [discountRupee, discountPercentage])
   // End of code - Rohan kansari - 28/6/23
 
   return (
@@ -509,6 +509,23 @@ const OrderForm = () => {
         <div className={style.pageTitle} style={{ fontSize: "25px" }}>Order</div>
       </div>
       <form className={style.settingSection}>
+        {/* Added by Om Shrivastava on 30-06-23 Reason : Need to show the add more item in top right corner */}
+        <div style={{display:'flex',justifyContent:'end',margin:'-5px',}}>
+          <div
+            className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.addMoreItemButtonDisabled}` : ` ${style.addMoreItemButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              // resetSettingsForm();
+              // window.scrollTo(0, 0);
+              setModalVisible(true)
+            }}
+          >
+            Add more item
+          </div>
+        </div>
+        {/* End of addition by Om Shrivastava on 30-06-23 Reason : Need to show the add more item in top right corner */}
         <div className={style.formContainer} style={{
           display: 'flex',
           flexWrap: 'wrap'
@@ -763,14 +780,14 @@ const OrderForm = () => {
               </div>
 
             </div>
-            {console.log(orderDetailsObj)}
+            {/* {console.log(orderDetailsObj)} */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
                   Apply loyality point
                 </div>
                 <input
-                  className={loyalityPointStatus=="is used" ?`${style.disabledInputBox}`:`${style.textInputBox}`}
+                  className={loyalityPointStatus == "is used" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   // type="number"
                   name="apply_loyality_point"
@@ -778,7 +795,7 @@ const OrderForm = () => {
                   value={applyLoyalityPoint}
                   // onkeydown="if(event.key==='.'){event.preventDefault();}"
                   // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
-                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus=="is used" ? true : false}
+                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" ? true : false}
                   onChange={(e) => {
                     setApplyLoyalityPoint(e.target.value);
                     setLoyalityPointPrice(settings.per_loyality_point_value * e.target.value)
@@ -1271,7 +1288,7 @@ const OrderForm = () => {
         {/* End of addition by Om Shrivastava on 22-06-23 */}
 
         <div className={style.actionContainer}>
-        <div
+          <div
             className={` ${style.backButton}`}
             style={{
               marginRight: "10px",
@@ -1306,7 +1323,7 @@ const OrderForm = () => {
           </div>
           {/* Addition and modifciation by Om Shrivastava on 23-06-23
             Reason : Add more item functionality in the order list page */}
-          <div
+          {/* <div
             className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.addMoreItemButtonDisabled}` : ` ${style.addMoreItemButton}`}
             style={{
               marginRight: "10px",
@@ -1318,7 +1335,7 @@ const OrderForm = () => {
             }}
           >
             Add more item
-          </div>
+          </div> */}
         </div>
       </form>
 

@@ -384,4 +384,19 @@ urlpatterns = [
     path('<str:tenant>/order-item-list-v2/',GetAllOrderItemAPI.as_view()),
     # End of code addition by - Om shrivastava 26-06-2023
     # Reason : To get order item details for searching, sorting, pagination
+
+    # Added by Om Shrivastava on 30-06-23
+    # Reason : get order item details for update
+    path('<str:tenant>/order-item-data/',OrderItemDetailAPIView.as_view()),
+    # End of getting social links
+
+    # Added by Om Shrivastava on 30-06-23
+    # Reason : update order details
+    path('<str:tenant>/order-item-data/<int:id>',OrderItemDetailAPIView.as_view()),
+    # End of updating social links
+
+    # Added by Om Shrivastava on 01-07-23
+    # Reason : get order item data for billling and kot
+    path('<str:tenant>/order-item-show/',GetAllOrderItemDetailsAPI.as_view()),
+    # End of getting social links
 ]   

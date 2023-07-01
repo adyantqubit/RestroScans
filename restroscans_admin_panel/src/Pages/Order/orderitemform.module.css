@@ -1,0 +1,404 @@
+/**
+* Added by - Ashish Dewangan on 02-06-2023
+* Reason - Created to have styling details of settings form page
+*/
+@import "../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+  width: 100%;
+  background-color: #e7f1f1;
+  /* commented by - Suman sahu on 17/06/2023 */
+  /* margin-bottom: 50px; */
+  /* end of commentation by - suman sahu on 17/06/2023 */
+  height: 86.5vh;
+  overflow: scroll;
+}
+
+.titleContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.pageTitle {
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.settingSection {
+  min-height: auto;
+  background-color: transparent;
+  margin: auto 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #9c9c9c;
+  /* background-color: #e7f1f1; */
+  background-color: white;
+  width: fit-content;
+  margin: auto auto;
+  margin-bottom: 20px;
+  padding: 20px 80px;
+}
+
+.sectionInsideForm{
+
+    /* margin-top: 30px; */
+    margin-top: 25px;
+    background-color: #e6f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow:
+      var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+}
+.sectionInsideForm2{
+  margin-top: 30px;
+  background-color: #e6f0f0;
+  padding: 10px;
+  width:300px !important;
+  border-radius: 5px;
+  box-shadow:
+    var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+}
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.inputArea {
+  display: flex;
+  align-items: center;
+}
+
+.inputLabel {
+  /* width: 250px; */
+  /* Added by Rohan kansari - 28/6/23
+     Reason - To add minimum price*/
+  min-width: 180px;
+  max-width: 180px;
+  font-weight: bold;
+}
+
+.textAreaDefaultHeight{
+  height: 32px;
+}
+/* Added by Om Shrivastava on 22-06-23
+Reason : Need to apply this css when some field is disable */
+.inputLabel2 {
+  width: 150px;
+  font-weight: bold;
+}
+/* End of addition by Om Shrivastava on 22-06-23 */
+.textInputBox {
+  width: 200px;
+  border: 1px solid black;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 2px;
+  background-color: white;
+}
+/* Added by Om Shrivastava on 22-06-23
+Reason : Need to apply this css when some field is disable */
+.disabledInputBox {
+  border: none;
+  background-color: unset;
+  width: 120px;
+}
+/* End of addition by Om Shrivastava on 22-06-23 */
+
+.inputErrorArea {
+  margin-left: 200px;
+  font-size: 13px;
+  width: 250px;
+  color: red;
+}
+
+.actionContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.backButton {
+  background-color: #1f2937;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width:100px;
+  /* width:200px; */
+
+  margin-top: 10px;
+  text-align: center;
+}
+.backButton:hover {
+  cursor: pointer;
+  background-color:#62686c;
+}
+
+.addMoreItemButton {
+  /* background-color: #585a5b; */
+  background-color: #797b7c;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  /* width:100px; */
+  margin-top: 10px;
+  text-align: center;
+  margin-left: 12px;
+  /* Added by Om on 30-06-23 */
+  margin-top: auto;
+  margin-bottom: auto;
+  /* End of added code by Om on 30-06-23 */
+  /* border: 2px solid red; */
+
+}
+.addMoreItemButton:hover {
+  cursor: pointer;
+  background-color:#a7b4bd;
+}
+/* Added by Om Shrivastava on 23-06-23
+Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
+.addMoreItemButtonDisabled{
+  display: none;
+  /* border: 2px solid black; */
+}
+/* End of addition by Om Shrivastava on 23-06-23 Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
+
+.proceedButton {
+  background-color: #51c14b;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.proceedButton:hover {
+  cursor: pointer;
+  background-color: #1f871b;
+}
+
+@media screen and (max-width: 4000px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .formContainer{
+    justify-content: center;
+  }
+ 
+}
+
+@media screen and (max-width: 1120px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .settingSection {
+    padding: 20px 40px;
+  }
+  .sectionInsideForm2{
+    width: 470px !important;
+  }
+  .inputLabel2 {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .settingSection {
+    padding: 20px 20px;
+  }
+  /* Commented by Om Shrivastava on 22-06-23 */
+  /* .inputLabel {
+    width: 250px;
+  }
+  .textInputBox {
+    width: 200px;
+  } */
+  /* End of commented code on 22-06-23 */
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+  .inputLabel2 {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    margin-bottom: 11vh;
+  }
+  .settingSection {
+    padding: 20px 20px;
+  }
+  
+  .inputErrorArea {
+    margin-left: 300px;
+    width: 200px;
+  }
+}
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
+
+@media screen and (max-width: 720px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    margin-bottom: 11vh;
+  }
+  .settingSection {
+    margin-bottom: 20px;
+  }
+  .inputLabel {
+    width: 250px;
+  }
+  .textInputBox {
+    width: 200px;
+  }
+  .disabledInputBox {
+    width: 120px;
+  }
+  .inputLabel2 {
+    width: 250px;
+  }
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+ 
+}
+
+@media screen and (max-width: 610px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  
+  .inputLabel {
+    align-self: flex-start;
+    width: 400px;
+  }
+  .inputLabel2{
+    margin-top: 3%;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 100%;
+    margin-right: 0px;
+  }
+  
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputAreaForResponsive{
+    flex-direction: row;
+  }
+ 
+  .sectionInsideForm{
+    width: 320px;
+  }
+  .sectionInsideForm2{
+    width: 320px !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputAreaForResponsive{
+    flex-direction: row;
+  }
+  
+  .inputLabel {
+    width: 300px;
+    align-self: flex-start;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .proceedButton,.addMoreItemButton,.backButton{
+    width:90px;
+    font-size: 17px;
+    padding:3px 3px;
+  }
+  .inputLabel2{
+    margin-top: 1.5%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputAreaForResponsive{
+    flex-direction: row;
+  }
+  .inputLabel2{
+    margin-top: 1.5%;
+  }
+  
+  .inputLabel {
+    width: 250px;
+    align-self: flex-start;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 90%;
+    margin-right: 0px;
+  }
+  .sectionInsideForm2{
+    width: 320px !important;
+  }
+}
