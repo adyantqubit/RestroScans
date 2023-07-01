@@ -832,9 +832,9 @@ const OrderForm = () => {
                   Apply loyality point
                 </div>
                 <input
-                  // Modifed by ROhan kansari - 30/6/23
-                  // Reason - To make tabel no. editable
-                  className={loyalityPointStatus == "is used" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
+                  className={loyalityPointStatus == "is used" || paymentStatus=="Paid" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                   type="text"
                   // type="number"
                   name="apply_loyality_point"
@@ -842,7 +842,9 @@ const OrderForm = () => {
                   value={applyLoyalityPoint}
                   // onkeydown="if(event.key==='.'){event.preventDefault();}"
                   // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
-                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" ? true : false}
+                  // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
+                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" || paymentStatus=="Paid" ? true : false}
+                  // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                   onChange={(e) => {
                     setApplyLoyalityPoint(e.target.value);
                     setLoyalityPointPrice(settings.per_loyality_point_value * e.target.value)

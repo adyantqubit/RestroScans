@@ -47,7 +47,7 @@ class TenantAPIView(APIView):
         # reason - to save send all subscribe features
         provided_features=[]
         if tenantListSerializer.data['Subscribe_plan'] is not None:
-          plan= Plans.objects.get(id=tenant_obj.Subscribe_plan.id)
+          plan= Plans.objects.get(id=tenant.Subscribe_plan.id)
           features=PlannedFeatures.objects.filter(plan_selected=plan)
           for feature in features:
               provided_features.append(feature.feature_selected.feature_name)
@@ -3213,14 +3213,16 @@ class GetAllOrderItemAPI(APIView):
 
         if searchText:
             #To search by item name and category name 
-            orderItemList=OrderItem.objects.filter(Q(order_id__order_id__contains=searchText) | Q(payment_status__icontains=searchText) | Q(order_status__icontains=searchText))
+            orderItemList=OrderItem.objects.filter(Q(order_id__order_id__icontains=searchText)| Q(item_status__icontains=searchText)
+                                                    | Q(item__icontains=searchText)| Q(quantity__icontains=searchText)| Q(serving_size__icontains=searchText))
+                                                    
         else:
-            orderItemList = OrderItem.objects.all()        
+            orderItemList = OrderItem.objects.all() 
 
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
-            orderItemList = OrderItem.objects.all().order_by('order_id__order_id')
+            orderItemList = orderItemList.order_by('order_id__order_id')
         if columnToSort == "order_id" and columnSortingOrder=="descending":
-            orderItemList = OrderItem.objects.all().order_by('-order_id__order_id')
+            orderItemList = orderItemList.order_by('-order_id__order_id')
 
         if columnToSort == "item_status" and columnSortingOrder=="ascending":
             orderItemList = orderItemList.order_by('item_status')

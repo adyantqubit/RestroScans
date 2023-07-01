@@ -231,13 +231,13 @@ function App() {
         Reason : When user has no token than after hit back button than need to show the same login page */}
         {/* <Route path="/Order" element={<Order />} /> */}
         <Route path="/Order" element={!tokenExist ? <Navigate to="/Login" /> : <Order />} />
-        {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
+        {/* End of addition and modification by Om Shrivastava on 29-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} 
        
         {/* Modification and addition by Om Shrivastava on 30-06-23
         Reason : When user has no token than after hit back button than need to show the same login page */}
         {/* <Route path="/OrderItem" element={<OrderItem />} /> */}
         <Route path="/OrderItem" element={!tokenExist ? <Navigate to="/Login" /> : <OrderItem/>} />
-        {/* End of addition and modification by Om Shrivastava on 30-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} */}
+        {/* End of addition and modification by Om Shrivastava on 30-06-23   Reason : When user has no token than after hit back button than need to show the same login page */} 
 
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* end of addition by - Suman sahu On 26/05/2023 */}
