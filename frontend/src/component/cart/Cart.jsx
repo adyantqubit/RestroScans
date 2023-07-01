@@ -146,7 +146,10 @@ const Cart = () => {
         {/* Modified by :- Parineeta Gedam on 21-04-2023 */}
         <div className={style.title_length}>MY CART ({cart.length})</div></div>
         {/* End of modified code on 21-04-2023 */}
-        {cart.length > 0 ? cart.map((item, i) =>
+
+        {/* Modified by :- Parineeta Gedam on 01-07-2023*/}
+        {/* {cart.length > 0 ? cart.map((item, i) => */}
+        {cart.length > 0 ? cart.toReversed().map((item, i) =>
           <div className={style.card} >
             <RemoveItem removeProductIndex={removeProductIndex} currentIndex={item} setRemoveProductIndex={setRemoveProductIndex} />
             

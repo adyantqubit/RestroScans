@@ -467,7 +467,7 @@ export default function OrderDetails() {
       order_id: orders.order_id,
     };
     const response = await CheckOrderConfirmAPI(order, tenantName);
-    console.log("response", response);
+    // console.log("response", response);
     // setOrder(response)
     // if (response.order.order_status == "Confirm") {
     if (response.order) {
