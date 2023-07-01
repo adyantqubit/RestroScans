@@ -1041,5 +1041,17 @@ input[type="radio"]:checked + .tabLabel {
     width: auto;
     float: revert;
 }
+/* Added by Yuvraj Sahu on 01-07-2023
+Reason - to design radio button container */
+.selctedContentBox{
+    width: 70%;
+}
+.lable{
+    width: 20vw;
+}
+.updateflexContainer{
+    width: 100%;
+}
+/* End of addition by Yuvraj sahu on 01-07-2023 */
 }
 /* end of code - 15-06-2023 */

@@ -7,7 +7,7 @@ import { getDashboardData, updateAllOrderAPI, updateItemStatus, updateOrderAndPa
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdKeyboardArrowDown, MdDownloading, MdArrowDropUp } from "react-icons/md"
 import { RiErrorWarningLine } from "react-icons/ri"
-import { Popover, Modal } from 'antd'
+import { Popover, Modal, Radio } from 'antd'
 import { Message } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 // import ReactPaginate from 'react-paginate';
@@ -83,6 +83,16 @@ function getStatusBtn(status) {
 // End of code - Rohan kansari - 29/6/23
 
 const TodayOrder = () => {
+
+    /**
+     * Added by yuvraj Sahu on 28-06-2023
+     * Reason - to handle radio group
+     */
+    var [selectedPaymentStatus, setSelectedPaymentStatus] = useState("");
+    var [selectedOrderStatus, setSelectedOrderStatus] = useState("");
+    /**
+     * End of addition by yuvraj Sahu on 28-06-2023
+     */
 
     // Added by Rohan kansari - 23/6/23
     // Reason - To set Default selected tab when nothing is selected
@@ -587,9 +597,25 @@ const TodayOrder = () => {
     async function updateAll() {
 
         const data = {
-            order_status: document.getElementById("all_order_status_selected").value,
-            payment_status: document.getElementById("all_payment_status_selected").value,
+            /**
+             * Commeted and modified by Yuvraj Sahu on 28-06-2023
+             * Reason - to replace dropdown with radio value
+             */
+            // order_status: document.getElementById("all_order_status_selected").value,
+            // payment_status: document.getElementById("all_payment_status_selected").value,
+            order_status: selectedOrderStatus != "" ? selectedOrderStatus : document.getElementById("all_order_status_selected").value,
+            payment_status: selectedPaymentStatus != "" ? selectedPaymentStatus : document.getElementById("all_payment_status_selected").value,
+            /**
+             * End of modification by yuvraj sahu on 28-06-2023
+             */
             orders: checkedItems
+        }
+
+        if (selectedOrderStatus == ""){
+            delete data.order_status
+        }
+        if (selectedPaymentStatus == ""){
+            delete data.payment_status
         }
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
@@ -621,6 +647,16 @@ const TodayOrder = () => {
                     // else if (radioInputs[2].checked) {
                     //     setSelectedOrder(r.todays_completed_orders)
                     // }
+
+                    /**
+                     * Added by Yuvraj Sahu on 18-06-2023
+                     * Reason - to reset the overall order and payment status
+                     */
+                    setSelectedOrderStatus("")
+                    setSelectedPaymentStatus("")
+                    /**
+                     * End of addition by yuvraj Sahu on 28-06-2023
+                     */
 
                     if (document.getElementById("newly_placed").checked) {
                         setSelectedOrder(r.todays_newly_placed_orders)
@@ -1015,6 +1051,23 @@ const TodayOrder = () => {
     }
     // End of code - Rohan kansari - 26/6/23
 
+    /**
+     * Added by yuvraj Sahu on 28-06-2023
+     * Reason - to handle radio group
+     */
+    // const [value, setValue] = useState(1);
+    const handlePaymentStatus = (e) => {
+        console.log('radio checked', e.target.value);
+        setSelectedPaymentStatus(e.target.value);
+      };
+    const handleOrderStatus = (e) => {
+    console.log('radio checked', e.target.value);
+    setSelectedOrderStatus(e.target.value);
+    };
+    /**
+     * End of addition by Yuvraj Sahu on 28-06-2023
+     */
+
 
     return (
         <>
@@ -1151,21 +1204,38 @@ const TodayOrder = () => {
                 <div className={style.updateflexContainer}>
                     <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order status</div>
                     <div className={style.selctedContentBox}>
-                        <select id="all_order_status_selected" onChange={e => document.getElementById("all_order_status_selected").value = e.target.value}>
+                    {/* Added and commeted by Yuvraj Sahu on 28-06-2023
+                    Reason - to replace dropdown with radio */}
+                    <Radio.Group onChange={handleOrderStatus} value={selectedOrderStatus} id="all_order_status_selected">
+                        <Radio value="Placed">Placed</Radio>
+                        <Radio value="Confirm">Confirm</Radio>
+                        <Radio value="Cooked">Cooked</Radio>
+                        <Radio value="Served">Served</Radio>
+                        <Radio value="Cancelled">Cancelled</Radio>
+                    </Radio.Group>
+                        {/* <select id="all_order_status_selected" onChange={e => document.getElementById("all_order_status_selected").value = e.target.value}>
                             <option value="Placed" className={style.options}>Placed</option>
                             <option value="Confirm" className={style.options}>Confirm</option>
                             <option value="Cooked" className={style.options}>Cooked</option>
                             <option value="Served" className={style.options}>Served</option>
-                        </select>
+                        </select> */}
+                    {/* End of modification by yuvraj Sahu on 28-06-2023 */}
                     </div>
                 </div>
                 <div className={style.updateflexContainer}>
                     <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Payment status</div>
                     <div className={style.selctedContentBox}>
-                        <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
+                    {/* Added and commeted by Yuvraj Sahu on 28-06-2023
+                    Reason - to replace dropdown with radio */}
+                    <Radio.Group onChange={handlePaymentStatus} value={selectedPaymentStatus} id="all_payment_status_selected">
+                        <Radio value="Pending">Pending</Radio>
+                        <Radio value="Completed">Completed</Radio>
+                    </Radio.Group>
+                        {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
                             <option value="Pending" className={style.options}>Pending</option>
                             <option value="Completed" className={style.options}>Completed</option>
-                        </select>
+                        </select> */}
+                    {/* End of modification by yuvraj Sahu on 28-06-2023 */}
                     </div>
                 </div>
                 <div className={style.updateBtn} onClick={e => updateAll()}>Update All</div>
