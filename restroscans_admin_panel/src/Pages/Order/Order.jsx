@@ -942,13 +942,15 @@ const Order = () => {
                         {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
 
                         onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}}
+                        
                         > Get Bill</div> :'---'}
 
                         </div>
                         <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                        {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}  
+                        {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}} 
+                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }
                         // onClick={printKot(orderDetail)}
-                        onClick={e => {openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); printKot() }}
+                        // onClick={e => {openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); printKot() }}
                         > Print KOT</div> :'---'}
 
                         </div>
