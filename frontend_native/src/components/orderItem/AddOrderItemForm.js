@@ -141,17 +141,22 @@ export default function AddOrderItemForm(orderId) {
         getAllOffers();
     }, []);
 
+    // Modified by :- Parineeta Gedam on 02-07-2023 reason :- set offer item list
     // Set the banner name and banner items name in this state
-    var [bannerList, setBannerList] = useState([]);
-
-    // GET all banner data in this method
+    // var [bannerList, setBannerList] = useState([]);
+    var [offerList, setOfferList] = useState([]);
+    // GET all offer data in this method
     const getAllOffers = async () => {
         var tenant = JSON.parse(
             await SecureStore.getItemAsync("tenantInfo")
         ).tenant_name;
         const response = await getAllOfferList(tenant);
         if (response) {
-            setBannerList(response.offerBanner);
+            // Added by :- Parineeta Gedam on 02-07-2023
+            // Reason :- set offer list item.
+            // setBannerList(response.offerBanner);
+            setOfferList(response.offerItemList);
+            // End of added code by :- Parineeta Gedam on 02-07-2023 Reason :- set offer list item.
         }
     };
     // End of added code by :- Parineeta Gedam on 24-05-2023
@@ -164,23 +169,63 @@ export default function AddOrderItemForm(orderId) {
         setQuantitySelected(dt)
         handleCalculations(dt)
     }
-    const handleCalculations = (qty) => {
-        var itemName = itemList.filter((item) => item.id == itemIdSelected)[0]
-        if (servingSizeSelected == "Half") {
-            
-            setSingalItemprice(itemName.price_half)
-            var price = (itemName.price_half * qty)
-            setPrice(price.toFixed(2))
-        }
-        if (servingSizeSelected == "Full") {
-            setSingalItemprice(itemName.price_full)
-            var price = (itemName.price_full * qty)
-            setPrice(price.toFixed(2))
-        }
-    }
+
+    // Commented by :- Parineeta Gedam on 01-07-2023
+    // Reason :- Add more item -  Price is displayed wrong for offered item. 
+    // const handleCalculations = (qty) => {
+    //     var itemName = itemList.filter((item) => item.id == itemIdSelected)[0]
+    //     if (servingSizeSelected == "Half") {
+    //         setSingalItemprice(itemName.price_half)
+    //         var price = (itemName.price_half * qty)
+    //         setPrice(price.toFixed(2))
+    //     }
+    //     if (servingSizeSelected == "Full") {
+    //         setSingalItemprice(itemName.price_full)
+    //         var price = (itemName.price_full * qty)
+    //         setPrice(price.toFixed(2))
+    //     }
+    // }
     // End of added code by :- Parineeta Gedam on 24-05-2023
+    // End of Commented by :- Parineeta Gedam on 01-07-2023 Reason :- Add more item -  Price is displayed wrong for offered item.
 
 
+    // Added by :- Parineeta Gedam on 01-07-2023 
+    // reason :- calculations for offered item.
+    const handleCalculations = (qty) => {
+        if (offerList.filter((item) => item.item_id == itemIdSelected).length) {
+            var amount = 0;
+            var discounted_price=0;
+            var itemName = offerList.filter((item) => item.item_id == itemIdSelected)[0]
+            if(servingSizeSelected == "Full"){
+                amount = ((itemName.item_fullprice / 100) * itemName.item_discount).toFixed(2)
+                discounted_price = (itemName.item_fullprice - amount).toFixed(2)
+                setSingalItemprice(discounted_price)
+                var price = (discounted_price * qty)
+                setPrice(price.toFixed(2))
+            }else{
+                amount = ((itemName.item_halfprice / 100) * itemName.item_discount).toFixed(2)
+                discounted_price = (itemName.item_halfprice - amount).toFixed(2)
+                setSingalItemprice(discounted_price)
+                var price = (discounted_price * qty)
+                setPrice(price.toFixed(2))
+            }
+        }
+        else{
+            var itemName = itemList.filter((item) => item.id == itemIdSelected)[0]
+            if (servingSizeSelected == "Half") {
+                setSingalItemprice(itemName.price_half)
+                var price = (itemName.price_half * qty)
+                setPrice(price.toFixed(2))
+            }
+            if (servingSizeSelected == "Full") {
+                setSingalItemprice(itemName.price_full)
+                var price = (itemName.price_full * qty)
+                setPrice(price.toFixed(2))
+            }
+        }   
+    }
+    // End of added code by :- Parineeta Gedam on 01-07-2023 reason :- calculations for offered item.
+  
     // Modified by :- PArineeta Gedam on 25-06-2023 reason :- modified for validations message
     //  Added by :-  Parineeta Gedam on 24-05-2023
     // Reason - submit order items 
@@ -190,7 +235,6 @@ export default function AddOrderItemForm(orderId) {
         // Reason :- set button disable
         setSubmitBtnDisable(true);
         // End of added code by :- Parineeta Gedam on 23-06-2023 
-
 
         // Added by :-  Parineeta Gedam on 26-05-2023
         // Reason :- for show the validations message

@@ -1483,9 +1483,11 @@ export default function OrderItemsScreen({ route, navigation }) {
       setOrderItems(response.orderItem)
       setOrderDetail(response.order)
       setItemStatus("")
-      if (orderItems.filter(dt => dt.item_status == "Pending").length == 1) {
-        Navigator.navigate('/OrdersScreen')
-      }
+      // Commented code by :- Parineeta Gedam on 02-07-2023 
+      // if (orderItems.filter(dt => dt.item_status == "Pending").length == 1) {
+      //   Navigator.navigate('/OrdersScreen')
+      // }
+      // End of commented code by :- Parineeta Gedam on 02-07-2023 
     }
   };
   // End of added code by :- Parineeta Gedam on 25-05-2023
