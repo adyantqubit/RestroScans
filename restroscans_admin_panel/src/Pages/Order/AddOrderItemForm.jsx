@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Header from '../GlobalComponent/Header';
 import {
-    getAllMenuList, postOrderItemsApi, getSettingsDetails
+    getAllMenuList, postOrderItemsApi, getSettingsDetails, getofferDetails, getAllOfferList
 } from "../../Api/services";
 import style from "./orderform.module.css";
 import { Message } from '../../App';
@@ -21,10 +21,10 @@ export default function AddOrderItemForm(orderId) {
     // Added by :- Om shrivastava on 14-06-2023
     // Reason :- to set and show half and full  
 
-    var [servingSizeData, setServingSizeData] = useState([
-        { key: "Half", value: "Half" },
-        { key: "Full", value: "Full" }
-    ])
+    // var [servingSizeData, setServingSizeData] = useState([
+    //     { key: "Half", value: "Half" },
+    //     { key: "Full", value: "Full" }
+    // ])
 
     // End of added code by :- Om shrivastava on 14-06-2023
 
@@ -44,14 +44,19 @@ export default function AddOrderItemForm(orderId) {
             setSettings(response.setting);
             // Added by :- Om shrivastava on 14-06-2023
             // reason :- when admin not select half then show serving size only "Full"
+            // Modification by Om Shrivastava on 02-07-23 REason : Save only full price
             setAllowHalfPrice(response.setting.allow_half_price);
             if (response.setting.allow_half_price == false) {
-                var rm = options.slice(1);
-                setServingSizeData(rm)
+                console.log('serving size without slice',options)
+                const rm = options.slice(1);
+                setServingSizeData(rm.toString())
+                // console.log('serving size without slice',rm)
+            // End of addition and modification by Om Shrivastava on 02-07-23
             }
             // End of Added by :- Om shrivastava on 14-06-2023 reason :- when admin not select half then show serving size only "Full"
         }
     };
+    // console.log(servingSizeData,'9999999999')
 
     const formRef = useRef(null);
 
@@ -89,13 +94,19 @@ export default function AddOrderItemForm(orderId) {
     // Reason - This is used for set serving size error msg
     var [servingSizeRequired, setservingSizeRequired] = useState(false);
     // End of added code by :- Om shrivastava on 24-06-2023
-
+    // Added by Om Shrivastava on 02-07-23 Reason : Set the offerlist data in usestate
+    const [offerBanner, setBannerList] = useState([]); // Our Item set in this variable
+    var [offerList, setOfferList] = useState([]);
+    // End of addition by Om Shrivastava on 02-07-23
     // Added by :- Om shrivastava on 24-06-2023
     // const isFocused = useIsFocused();
     useEffect(() => {
         setItemNameRequired(false);
         setservingSizeRequired(false);
         getAllMenus();
+
+        getAllOffers()
+
     }, []);
     // End of added code by :- Om shrivastava on 24-06-2023
 
@@ -122,21 +133,58 @@ export default function AddOrderItemForm(orderId) {
     }
     // console.log(servingSizeData)
     // console.log(itemIdSelected)
+    // console.log(itemNameSelected)
+    // Modification and addition by Om Shrivastava on 02-07-23
+    // Reason : When offer data shown than price is correct shown
+    // const handleCalculations = (qty) => {
+    //     var itemName = itemData.filter((item) => item.id == itemIdSelected)[0]
+    //     // console.log(itemName, '888888')
+    //     if (servingSizeData == "Half") {
+    //         setSingalItemprice(itemName.price_half)
+    //         var price = (itemName.price_half * qty)
+    //         setPrice(price.toFixed(2))
+    //     }
+    //     if (servingSizeData == "Full") {
+    //         setSingalItemprice(itemName.price_full)
+    //         var price = (itemName.price_full * qty)
+    //         setPrice(price.toFixed(2))
+    //     }
+    // }
     const handleCalculations = (qty) => {
-        var itemName = itemData.filter((item) => item.id == itemIdSelected)[0]
-        // console.log(itemName, '888888')
-        if (servingSizeData == "Half") {
-            setSingalItemprice(itemName.price_half)
-            var price = (itemName.price_half * qty)
-            setPrice(price.toFixed(2))
+        if (offerList.filter((item) => item.item_id == itemIdSelected).length) {
+            var amount = 0;
+            var discounted_price=0;
+            var itemName = offerList.filter((item) => item.item_id == itemIdSelected)[0]
+            if(servingSizeData == "Full"){
+                amount = ((itemName.item_fullprice / 100) * itemName.item_discount).toFixed(2)
+                discounted_price = (itemName.item_fullprice - amount).toFixed(2)
+                setSingalItemprice(discounted_price)
+                var price = (discounted_price * qty)
+                setPrice(price.toFixed(2))
+            }else{
+                amount = ((itemName.item_halfprice / 100) * itemName.item_discount).toFixed(2)
+                discounted_price = (itemName.item_halfprice - amount).toFixed(2)
+                setSingalItemprice(discounted_price)
+                var price = (discounted_price * qty)
+                setPrice(price.toFixed(2))
+            }
         }
-        if (servingSizeData == "Full") {
-            setSingalItemprice(itemName.price_full)
-            var price = (itemName.price_full * qty)
-            setPrice(price.toFixed(2))
-        }
+        else{
+            var itemName = itemData.filter((item) => item.id == itemIdSelected)[0]
+            if (servingSizeData == "Half") {
+                setSingalItemprice(itemName.price_half)
+                var price = (itemName.price_half * qty)
+                setPrice(price.toFixed(2))
+            }
+            if (servingSizeData == "Full") {
+                setSingalItemprice(itemName.price_full)
+                var price = (itemName.price_full * qty)
+                setPrice(price.toFixed(2))
+            }
+        }   
     }
-    // console.log(singalItemprice)
+    // End of addition and modification by Om Shrivastava on 02-07-23 Reason : When offer data shown than price is correct shown
+
     // console.log(price)
     // console.log(orderId.orderId)
     // console.log(orderId.id)
@@ -190,13 +238,26 @@ export default function AddOrderItemForm(orderId) {
                 // console.log('if part')
                 } 
                 else {
-                setquantityValidation("Please enter2 quantity");
+                setquantityValidation("Please enter quantity");
                 // console.log('else part')
                 }
           }
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
 
     }
+// Added by Om Shrivastava on 02-07-23 Reason : Show the offerlist data 
+    const getAllOffers = async () => {
+        var tenantName = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+
+        const response = await getAllOfferList(tenantName);
+        if (response) {
+            setBannerList(response.offerBanner);
+            setOfferList(response.offerItemList)
+
+        }
+    };
+    // End of addition by Om Shrivastava on 02-07-23
+// console.log(offerList)
 // console.log(quantitySelected,'quantity')
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - submit order items 
@@ -249,6 +310,10 @@ export default function AddOrderItemForm(orderId) {
             // Message("Please provide value for this field", "info");
         }
     }
+
+   
+    //   console.log(offerBanner)
+    //   console.log(offerList)
 
     // console.log(servingSizeData,itemData)
     return (

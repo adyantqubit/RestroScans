@@ -513,21 +513,21 @@ const OrderForm = () => {
       </div>
       <form className={style.settingSection}>
         {/* Added by Om Shrivastava on 30-06-23 Reason : Need to show the add more item in top right corner */}
-        <div style={{display:'flex',justifyContent:'end',margin:'-5px',}}>
+        {/* <div style={{display:'flex',justifyContent:'end',margin:'-5px',}}>
           <div
             className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.addMoreItemButtonDisabled}` : ` ${style.addMoreItemButton}`}
             style={{
               marginRight: "10px",
             }}
             onClick={(e) => {
-              // resetSettingsForm();
-              // window.scrollTo(0, 0);
+              //// resetSettingsForm();
+              //// window.scrollTo(0, 0);
               setModalVisible(true)
             }}
           >
             Add more item
           </div>
-        </div>
+        </div> */}
         {/* End of addition by Om Shrivastava on 30-06-23 Reason : Need to show the add more item in top right corner */}
         <div className={style.formContainer} style={{
           display: 'flex',
@@ -714,6 +714,7 @@ const OrderForm = () => {
                 {/* {validationErrors.whatsapp_number} */}
               </div>
             </div>
+            {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Order cancelled by </div>
@@ -748,48 +749,7 @@ const OrderForm = () => {
                 {validationErrors.cancelled_by}
               </div>
             </div>
-
-
-            {/* <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>Cancel reason</div>
-                <textarea
-                  // Modifed by ROhan kansari - 30/6/23
-                  // Reason - To make tabel no. editable
-                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  type="text"
-                  name="cancel_reason"
-                  value={cancelReaon}
-                  style={{ width: "200px", height: "100px", resize: 'none' }}
-                  disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled"? true : false}
-                  // onFocus={(e)=>{
-                  //   if(whatsappNumber.length==13)
-                  //     setWhatsappNumber(whatsappNumber.substring(3,13))
-                  // }}
-                  onChange={(e) => {
-                    setCancelReason(e.target.value);
-                    validateOnInput("cancel_reason", e.target.value);
-                  }}
-                  // onBlur={(e) => {
-                  //   validateOnBlur("cancel_reason", e.target.value);
-                  // }}
-                  maxLength={255}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationForOrderCancel}
-              </div>
-            </div> */}
-
-          </div>
-
-          <div className={`${style.sectionInsideForm}`}>
-
-
-
-
-
-
+            {/* End of addition by Om Shrivastava on 02-07-23 */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
@@ -824,8 +784,11 @@ const OrderForm = () => {
               <div className={`${style.inputErrorArea}`}>
                 {/* {validationErrors.cus} */}
               </div>
+            {/* End of addition by Om Shrivastava on 02-07-23 */}
 
             </div>
+            {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
+
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
@@ -871,6 +834,46 @@ const OrderForm = () => {
               </div>
 
             </div>
+                {/* End of addition and Modification by Om Shrivastava on 01-07-23 */}
+
+            {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
+
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>Cancel reason</div>
+                <textarea
+                  // Modifed by ROhan kansari - 30/6/23
+                  // Reason - To make tabel no. editable
+                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  type="text"
+                  name="cancel_reason"
+                  value={cancelReaon}
+                  style={{ width: "200px", height: "100px", resize: 'none' }}
+                  disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled"? true : false}
+                  // onFocus={(e)=>{
+                  //   if(whatsappNumber.length==13)
+                  //     setWhatsappNumber(whatsappNumber.substring(3,13))
+                  // }}
+                  onChange={(e) => {
+                    setCancelReason(e.target.value);
+                    validateOnInput("cancel_reason", e.target.value);
+                  }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("cancel_reason", e.target.value);
+                  // }}
+                  maxLength={255}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationForOrderCancel}
+              </div>
+            </div> */}
+
+          </div>
+            {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
+
+          <div className={`${style.sectionInsideForm}`}>
+
             {/* <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
@@ -1055,7 +1058,7 @@ const OrderForm = () => {
                   className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   type="text"
                   name="discount_reason"
-                  style={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? {} : { width: "200px", height: "100px", resize: 'none' }}
+                  style={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? {resize:'none'} : { width: "200px", height: "100px", resize: 'none' }}
                   value={discountReason == null ? "----" : discountReason}
                   disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
                   onChange={(e) => {
@@ -1072,36 +1075,6 @@ const OrderForm = () => {
                 {validationErrors.discount_reason}
               </div>
             </div>
-          </div>
-
-
-
-          {/* <div className={`${style.sectionInsideForm}`}>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Allow Half Price</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="checkbox"
-                    name="allow_half_price"
-                    style={{ width: "18px", height: "18px" }}
-                    checked={allowHalfPrice}
-                    onChange={(e) => {
-                      setAllowHalfPrice(e.target.checked);
-                      validateOnInput("allow_half_price", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.allow_half_price}
-                </div>
-              </div>
-            </div> */}
-          {/* Aadded by Om Shrivastava on 22-06-23 
-            Reason : Add Two classname for some fields like : calculation section, loyality point section, and rating review section */}
-          <div className={`${style.sectionInsideForm} ${style.sectionInsideForm2}`}>
-
-
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
@@ -1126,12 +1099,8 @@ const OrderForm = () => {
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {/* {validationErrors.gstin} */}
               </div>
-            </div>
-
-            {/* Added by ROhan kansari - 28/6/23
-                  Reason - To show loyality point below sub total */}
+            </div> 
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
@@ -1146,23 +1115,10 @@ const OrderForm = () => {
                   //   Reason - to show float with 2 decimal point
                   value={loyalityPointPrice?.toFixed(2)}
                   disabled
-                // onChange={(e) => {
-                //   setAmountForSingleLoyalityPoint(e.target.value);
-                //   validateOnInput(
-                //     "amount_for_single_loyality_point",
-                //     e.target.value
-                //   );
-                // }}
-                // onBlur={(e) => {
-                //   validateOnBlur(
-                //     "amount_for_single_loyality_point",
-                //     e.target.value
-                //   );
-                // }}
+                
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {/* {validationErrors.amount_for_single_loyality_point} */}
               </div>
             </div>
             <div className={`${style.inputContainer}`}>
@@ -1187,8 +1143,8 @@ const OrderForm = () => {
                   className={`${style.textInputBox} ${style.disabledInputBox}`}
                   type="text"
                   name="total"
-                  //  Modified by Rohan kansari - 28/6/23
-                  //   Reason - to show float with 2 decimal point
+                  ////  Modified by Rohan kansari - 28/6/23
+                  ////   Reason - to show float with 2 decimal point
                   value={total?.toFixed(2)}
                   disable
                 />
@@ -1353,6 +1309,231 @@ const OrderForm = () => {
               </div>
             </div>
           </div>
+
+
+
+          {/* <div className={`${style.sectionInsideForm}`}>
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>Allow Half Price</div>
+                  <input
+                    className={`${style.textInputBox}`}
+                    type="checkbox"
+                    name="allow_half_price"
+                    style={{ width: "18px", height: "18px" }}
+                    checked={allowHalfPrice}
+                    onChange={(e) => {
+                      setAllowHalfPrice(e.target.checked);
+                      validateOnInput("allow_half_price", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.allow_half_price}
+                </div>
+              </div>
+            </div> */}
+          {/* Aadded by Om Shrivastava on 22-06-23 
+            Reason : Add Two classname for some fields like : calculation section, loyality point section, and rating review section */}
+          {/* <div className={`${style.sectionInsideForm} ${style.sectionInsideForm2}`}> */}
+
+          {/* Commented by Om  shrivastava on 01-07-23 */}
+
+
+          
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox} `}
+                  type="text"
+                  name="sub_total"
+                  //// style={{ width: "200px" }}
+                  ////  Modified by Rohan kansari - 28/6/23
+                  ////   Reason - to show float with 2 decimal point 
+                  value={subTotal?.toFixed(2)}
+                  disabled
+
+                //// maxLength={15}
+                //// onChange={(e) => {
+                ////   setGstin(e.target.value);
+                ////   validateOnInput("gstin", e.target.value);
+                //// }}
+                //// onBlur={(e) => {
+                ////   validateOnBlur("gstin", e.target.value);
+                //// }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+
+            {/* Added by ROhan kansari - 28/6/23
+                  Reason - To show loyality point below sub total */}
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  Loyality point price
+                </div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="loyality_point_price"
+                  style={{ width: "100px" }}
+                  //  Modified by Rohan kansari - 28/6/23
+                  //   Reason - to show float with 2 decimal point
+                  value={loyalityPointPrice?.toFixed(2)}
+                  disabled
+                
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  Discount
+                </div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="discount"
+                  style={{ width: "100px" }}
+                  value={discountprice}
+                  disabled
+                />
+              </div>
+            </div> */}
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="total"
+                  ////  Modified by Rohan kansari - 28/6/23
+                  ////   Reason - to show float with 2 decimal point
+                  value={total?.toFixed(2)}
+                  disable
+                />
+              </div>
+            </div> */}
+            {/* End of code - Rohan kansari - 28/6/23 */}
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>CGST</div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="cgst"
+                  //// style={{ width: "200px" }}
+                  ////  Modified by Rohan kansari - 28/6/23
+                  ////   Reason - to show float with 2 decimal point
+                  value={cgst?.toFixed(2)}
+                  disabled
+
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+
+
+
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>SGST</div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="sgst"
+                  //// style={{ width: "200px" }}
+                  ////  Modified by Rohan kansari - 28/6/23
+                  ////   Reason - to show float with 2 decimal point
+                  value={sgst?.toFixed(2)}
+                  disabled
+
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+            {/* Commented by Rohan Kansari - 28/6/23
+                  Reason - to change position  */}
+            {/* <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                  <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
+                  <input
+                    className={`${style.textInputBox} ${style.disabledInputBox}`}
+                    type="text"
+                    name="total"
+                    // style={{ width: "200px" }}
+                    value={total}
+                    disabled
+
+                  // maxLength={15}
+                  // onChange={(e) => {
+                  //   setGstin(e.target.value);
+                  //   validateOnInput("gstin", e.target.value);
+                  // }}
+                  // onBlur={(e) => {
+                  //   validateOnBlur("gstin", e.target.value);
+                  // }}
+                  />
+                </div> */}
+            {/* <div className={`${style.inputErrorArea}`}> */}
+            {/* {validationErrors.gstin} */}
+            {/* </div>
+              </div> */}
+            {/* ENd of code - Rohan kansari - 28/6/23 */}
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Grand Total</div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="grand_total"
+                  //// style={{ width: "200px" }}
+                  value={finalAmount?.toFixed(2)}
+                  disabled
+
+                
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Rating</div>
+                <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="rating"
+                  //// style={{ width: "200px" }}
+                  value={rating && rating ? rating : '----'}
+                  disabled
+
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+
+            {/* <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Review</div>
+                
+                <p
+                  className={`${style.textInputBox} ${style.disabledInputBox} `}
+
+                  style={{ wordBreak: 'break-word' }}>{review && review ? review : '----'}</p>
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+              </div>
+            </div> */}
+          {/* </div> */}
         </div>
         {/* End of addition by Om Shrivastava on 22-06-23 */}
 
@@ -1392,6 +1573,27 @@ const OrderForm = () => {
           >
             Save
           </div>
+          <div
+            className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.addMoreItemButtonDisabled}` : ` ${style.addMoreItemButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              setModalVisible(true)
+            }}
+          >
+            Add more item
+          </div>
+          {/* <div
+            className={` ${style.proceedButton}`}
+            onClick={() => {
+              saveOrder();
+              window.scrollTo(0, 0);
+            }}
+          >
+            Add
+          </div> */}
+
           {/* Addition and modifciation by Om Shrivastava on 23-06-23
             Reason : Add more item functionality in the order list page */}
           {/* <div
@@ -1400,8 +1602,8 @@ const OrderForm = () => {
               marginRight: "10px",
             }}
             onClick={(e) => {
-              // resetSettingsForm();
-              // window.scrollTo(0, 0);
+              //// resetSettingsForm();
+              //// window.scrollTo(0, 0);
               setModalVisible(true)
             }}
           >
