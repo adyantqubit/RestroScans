@@ -21,8 +21,7 @@ const Header = (props) => {
   // Added by Rohan Kansari - 25/6/23
   // Reason - To manage sidebar from header
   const [sidebar, setSidebar] = useState(true);
-  // Added by Rohan Kansari - 30/6/23
-  const [logoutPopup,setLogoutpopup]=useState(false)
+  
 
   const navigate = useNavigate();
 
@@ -41,7 +40,7 @@ const Header = (props) => {
     Message("Successfully logged out", "warning");
     // End of modification by Om Shrivastava on 02-06-23
   };
-  const cancel = (e) => { setLogoutpopup(false)};
+  const cancel = (e) => {};
 
 
 
@@ -107,19 +106,22 @@ const Header = (props) => {
         <div className={menuOpen ? style.mobile_menu_link : style.menu_link}>
           <ul>
             <li className={style.links_div}>
-              <NavLink className={style.link} to="/Dashboard">
+            {/* * Modified by ROhan kansari - 3/7/23  */}
+              <NavLink className={style.link} onClick={e=>{setMenuOpen(!menuOpen); setSidebar(false)}} to="/Dashboard">
                 <FaHome className={style.icons} />
                 Home
               </NavLink>
             </li>
             <li className={style.links_div}>
-              <NavLink className={style.link} to="/notification">
+              {/* * Modified by ROhan kansari - 3/7/23  */}
+              <NavLink className={style.link} onClick={e=>{setMenuOpen(!menuOpen); setSidebar(false)}} to="/notification">
                 <FaBell className={style.icons} id="link" />
                 Notification
               </NavLink>
             </li>
             <li className={style.links_div}>
-              <NavLink className={style.link} to="/setting">
+              {/*  Modified by ROhan kansari - 3/7/23  */}
+              <NavLink className={style.link} onClick={e=>{setMenuOpen(!menuOpen); setSidebar(false)}} to="/SettingForm">
                 <IoMdSettings className={style.icons} />
                 Setting
               </NavLink>
@@ -127,9 +129,11 @@ const Header = (props) => {
             <li className={style.links_div}>
               <NavLink
                 className={style.link}
-                onClick={() =>
-                  linkOpen("https://adyant.co.in/contact-us-india-1")
-                }
+                onClick={() =>{
+                  linkOpen("https://adyant.co.in/contact-us-india-1");
+                  setMenuOpen(!menuOpen);
+                  setSidebar(false)
+                }}
               >
                 <MdSupport className={style.icons} />
                 Support
@@ -155,14 +159,13 @@ const Header = (props) => {
         {/* 3rd button section */}
         {/* Modified by ROhan kansari - 30/6/23
             Reason -   */}
-        <div className={style.btn_div} onClick={e=>setLogoutpopup(!logoutPopup)}>
+        <div className={style.btn_div} >
           <ul className={style.logout_btn_div}>
             <li>
               {/* <button className={style.logout} onClick={confirm}>Logout</button> */}
               <Popconfirm
                 className={style.logout_popup}
                 title="Are you sure you want to logout?"
-                open={logoutPopup}
                 onConfirm={confirm}
                 onCancel={cancel}
                 cancelText="Cancel"
@@ -187,7 +190,9 @@ const Header = (props) => {
       
       {/* Modified by Rohan kansari - 30/6/23
           Reason - To close menu on outside of header click*/}
-      <div className={style.content_and_sideBar} onClick={e=>{setLogoutpopup(false);setMenuOpen(false);}}>
+          {/* * Modified by ROhan kansari - 3/7/23  */}
+      <div className={style.content_and_sideBar} onClick={e=>{setMenuOpen(false);}}>
+
         <Sidebar sidebar={sidebar} setSidebar={setSidebar}/>
         {/* Added by ROhan kansari - 25/6/24
             Reason - adding div because facing issue on managing all content page so now we manage from one place  */}
