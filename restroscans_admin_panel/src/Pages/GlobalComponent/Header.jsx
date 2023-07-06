@@ -107,21 +107,48 @@ const Header = (props) => {
           <ul>
             <li className={style.links_div}>
             {/* * Modified by ROhan kansari - 3/7/23  */}
-              <NavLink className={style.link} onClick={e=>{setMenuOpen(!menuOpen); setSidebar(false)}} to="/Dashboard">
+              <NavLink className={style.link} onClick={e=>{
+                // Modified by Rohan kansari - 5/7/23
+                  // Reason - To change mobile view menu list in below 767px width
+                  // setMenuOpen(!menuOpen);
+                  // setSidebar(false)
+                  if (windowSize.innerWidth < 767){
+                    setMenuOpen(!menuOpen);
+                    setSidebar(false)}
+                    // End of code - Rohan kansari - 5/7/23
+              }} to="/Dashboard">
                 <FaHome className={style.icons} />
                 Home
               </NavLink>
             </li>
             <li className={style.links_div}>
               {/* * Modified by ROhan kansari - 3/7/23  */}
-              <NavLink className={style.link} onClick={e=>{setMenuOpen(!menuOpen); setSidebar(false)}} to="/notification">
+              <NavLink className={style.link} onClick={e=>{
+                // Modified by Rohan kansari - 5/7/23
+                  // Reason - To change mobile view menu list in below 767px width
+                  // setMenuOpen(!menuOpen);
+                  // setSidebar(false)
+                  if (windowSize.innerWidth < 767){
+                    setMenuOpen(!menuOpen);
+                    setSidebar(false)}
+                    // End of code - Rohan kansari - 5/7/23
+              }} to="/notification">
                 <FaBell className={style.icons} id="link" />
                 Notification
               </NavLink>
             </li>
             <li className={style.links_div}>
               {/*  Modified by ROhan kansari - 3/7/23  */}
-              <NavLink className={style.link} onClick={e=>{setMenuOpen(!menuOpen); setSidebar(false)}} to="/SettingForm">
+              <NavLink className={style.link} onClick={e=>{
+                // Modified by Rohan kansari - 5/7/23
+                  // Reason - To change mobile view menu list in below 767px width
+                  // setMenuOpen(!menuOpen);
+                  // setSidebar(false)
+                  if (windowSize.innerWidth < 767){
+                    setMenuOpen(!menuOpen);
+                    setSidebar(false)}
+                    // End of code - Rohan kansari - 5/7/23
+                }} to="/SettingForm">
                 <IoMdSettings className={style.icons} />
                 Setting
               </NavLink>
@@ -131,8 +158,15 @@ const Header = (props) => {
                 className={style.link}
                 onClick={() =>{
                   linkOpen("https://adyant.co.in/contact-us-india-1");
+
+                  // Modified by Rohan kansari - 5/7/23
+                  // Reason - To change mobile view menu list in below 767px width
+                  // setMenuOpen(!menuOpen);
+                  // setSidebar(false)
+                  if (windowSize.innerWidth < 767){
                   setMenuOpen(!menuOpen);
-                  setSidebar(false)
+                  setSidebar(false)}
+                  // End of code - Rohan kansari - 5/7/23
                 }}
               >
                 <MdSupport className={style.icons} />
@@ -192,7 +226,6 @@ const Header = (props) => {
           Reason - To close menu on outside of header click*/}
           {/* * Modified by ROhan kansari - 3/7/23  */}
       <div className={style.content_and_sideBar} onClick={e=>{setMenuOpen(false);}}>
-
         <Sidebar sidebar={sidebar} setSidebar={setSidebar}/>
         {/* Added by ROhan kansari - 25/6/24
             Reason - adding div because facing issue on managing all content page so now we manage from one place  */}

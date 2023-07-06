@@ -199,9 +199,12 @@
     width: 70px;
     height:70px;
     height: fit-content;
-    /* height: 100%; */
-    /* padding-top: 2px;
-    border-radius: 25px; */
+    /* Added by Rohan kansari - 6/7/23 
+       Reason - to change position little bit to right  */
+    position: relative;
+    right: -5px;
+    /* End of code - Rohan kansari - 6/7/23 - to change position little bit to right */
+
 }
 
 
@@ -398,3 +401,29 @@
     letter-spacing: 1.7px;
     margin-top: 10px;
 }
+
+/* Added by Rohan kansari -  6/7/23
+   Reason - To design ribbon for best seller  */
+.ribbon {
+    width: 15px;
+    height: 70px;
+    background-color: greenyellow;
+    font-size: 11px;
+    color: black;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: black;
+    padding-left: 0px;
+    position: absolute;
+    left: -2px;
+    z-index: 2;
+    letter-spacing: .8px;
+    margin-right: 2px;
+    text-align: center;
+    writing-mode: vertical-rl;
+    text-orientation:sideways;
+    font-weight:500;
+    transform: rotateY(0deg) rotate(180deg);
+}
+
+/* End of code - Rohan kansari - 6/7/23 - To design ribbon for best seller */

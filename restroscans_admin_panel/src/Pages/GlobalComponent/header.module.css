@@ -339,6 +339,11 @@ li {
 
     font-size: 2.5rem;
   }
+
+  .content{
+    height: 73vh;
+    overflow: auto;
+  }
 }
 
 @media (max-width: 798px) {
@@ -346,10 +351,7 @@ li {
   	/* Modified by Rohan kansari - 25/6/23 */
     grid-template-columns: 3rem 2fr 1fr 1fr 1rem;
   }
-  .content{
-    height: 73vh;
-    overflow: auto;
-  }
+  
 }
 @media (max-width: 520px) {
   .header_container {
@@ -371,6 +373,24 @@ li {
     overflow: auto;
   }
 }
+
+
+/* Added by ROhan kansari - 5/7/23 
+   Reason - To set height in mobile and tab view*/
+@media (max-height:800px) {
+  .content{
+    height: 80vh;
+  }
+}
+
+@media (max-height:760px) {
+  .content{
+    max-height: 73vh;
+    height: max-content;
+  }
+}
+
+/* ENd of code - Rohan kansari - 5/7/23 */
 /* end of creation code by- Suman sahu On 22/05/2023 */
 
 /* Added by - Suman sahu On 09/06/2023 
