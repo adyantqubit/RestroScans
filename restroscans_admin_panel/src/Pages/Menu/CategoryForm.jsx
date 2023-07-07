@@ -339,7 +339,11 @@ function CategoryForm() {
   const resetCategoryForm = (event) => {
     setName(categoryData.name ? categoryData.name : "");
     setIcon(categoryData.icon ? categoryData.icon : "");
-    setIsActive(categoryData.is_active ? categoryData.is_active : true);
+    // Commeted and added by yuvraj Sahu on 06-07-2023
+    // Reason - to set checkbox value
+    // setIsActive(categoryData.is_active ? categoryData.is_active : true);
+    setIsActive(categoryData.is_active);
+    // End of addition by Yuvraj Sahu on 07-07-2023
     setSelectedImageName(null);
     setSelectedImage(null);
     /**

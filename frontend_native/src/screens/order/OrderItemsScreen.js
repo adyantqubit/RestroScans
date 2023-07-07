@@ -1950,7 +1950,10 @@ const printKot = async()=>{
 
               </View>
               {orderItems.map((orderItem, index) => (
-                <View key={index}>
+                // Added by Yuvraj Sahu on 06-07-2023
+                // Reason - to give more space for each order item
+                <View key={index} style={{paddingBottom: 10}}>
+                {/* End of addition by Yuvraj Sahu on 06-07-2023 */}
 
                   {/* Modified by :- Parineeta Gedam on 25-05-2023 */}
                   {/* {orderItem.item_status == "Cancelled" ? null : */}
@@ -1976,9 +1979,12 @@ const printKot = async()=>{
                             <FontAwesome name="star" size={13} color="black" />
                           </Text>
                         )}
-                        {orderItem.review && (
+                        {/* Commeted by Yuvraj Sahu on 06-07-2023
+                        Reason - to remove review and show another place */}
+                        {/* {orderItem.review && (
                           <Text>Review : {orderItem.review}</Text>
-                        )}
+                        )} */}
+                        {/* End of addition by Yuvraj Sahu on 06-07-2023 */}
                       </View>
 
                       {/* Commented by :- Parineeta Gedam on 14-05-2023 
@@ -2043,10 +2049,10 @@ const printKot = async()=>{
 
                       {/* Added by :- Parineeta gedam on 25-05-2023 
                       Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
-                    */}
+                      */}
                       {/* Commented by :- Parineeta gedam on 03-05-2023 
                       Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
-                    */}
+                      */}
                       {/* {orderItem.item_status == "Confirm" || orderItem.item_status == "Cancelled" ?
                           <>
                             <Text style={styles.actionContainer}>
@@ -2064,7 +2070,7 @@ const printKot = async()=>{
 
                       {/* Added by :- Parineeta gedam on 01-06-2023 
                       Reason :- if admin cancelled the order then show and admin can give the order cancel reason.
-                    */}
+                      */}
                       <View style={styles.actionContainer}>
                         {
                           // MOdified by :- PArineeta Gedam on 11-06-2023 reason :- to check condition
@@ -2116,6 +2122,12 @@ const printKot = async()=>{
                             />}
                       </View>
                     </View>
+                    {/* Added by Yuvraj Sahu on 06-07-2023
+                    Reason - to show review with full width */}
+                    {orderItem.review && (
+                      <Text style={{paddingLeft: "7%", textAlign: "justify"}}>Review : {orderItem.review}</Text>
+                    )}
+                    {/* End of addition by yuvraj Sahu on 06-07-2023 */}
                   </>
                   {/* }  */}
                 </View>
@@ -3096,7 +3108,10 @@ const styles = StyleSheet.create({
     width: "100%",
     // Modified by :- Parineeta Gedam on 24-05-2023 reason :- re-designig of table
     // padding: 10,
-    paddingBottom: 10,
+    // Commeted by Yuvraj Sahu on 06-07-2023
+    // Reason - to remove extra space for order items
+    // paddingBottom: 10,
+    // End of commeted by Yuvraj Sahu on 
     paddingTop: 10,
     paddingLeft: 2,
     paddingRight: 5,
@@ -3381,4 +3396,13 @@ const styles = StyleSheet.create({
   /**
    * End of addition by Yuvraj Sahu on 14-06-2023
    */
+   // Added by Yuvraj Sahu on 05-07-2023
+   // Reason - to design button space
+  buttonContainerStyle: {
+    flexDirection: "row",
+    width: "100%",
+    flexWrap: "wrap",
+    alignItems: "center"
+  }
+  // End of addition by Yuvraj Sahu on 05-07-2023
 });

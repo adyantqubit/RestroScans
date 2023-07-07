@@ -75,7 +75,10 @@ export default function SettingScreen({ navigation }) {
     // End of addition by yuvraj Sahu on 03-05-2023
     formRef.current.setErrors({});
     formRef.current.resetForm({});
-    setAllowHalfPrice(false);
+    // Commeted by yuvraj sahu on 06-07-2023
+    // Reason - to solve checkbox issue 
+    // setAllowHalfPrice(false);
+    // End of comment by Yuvraj Sahu on 06-07-2023
     /**
      * End of refresh validation msg
      */
@@ -107,11 +110,19 @@ export default function SettingScreen({ navigation }) {
       if (response) {
         setSettings(response.setting);
         setThemeOption(response.themeOptions);
-        setAllowHalfPrice(settings.allow_half_price);
+        // Added and modification by Yuvraj Sahu on 06-07-2023
+        // Reason - to set half price
+        setAllowHalfPrice(response.setting.allow_half_price)
+        // setAllowHalfPrice(settings.allow_half_price);
+        // End of addition by Yuvraj sahu on 06-07-2023
         
         // Added by Om Shrivastava on 05-06-23
         // Reason : Save the loyality point field in setting table
-        setAllowLoyalityPoint(settings.allow_loyality_points);
+        // Added and modification by Yuvraj Sahu on 06-07-2023
+        // Reason - to set half price
+        // setAllowLoyalityPoint(settings.allow_loyality_points);
+        setAllowLoyalityPoint(response.setting.allow_loyality_points);
+        // End of addition by Yuvraj sahu on 06-07-2023
         // End of addition by Om Shrivastava on 05-06-23
 
         // Added by Yuvraj Sahu on 27-4-2023
@@ -369,7 +380,6 @@ export default function SettingScreen({ navigation }) {
   //   alert(JSON.stringify(oldSetting))
   //   setSettings(oldSetting)
   // }
-  // alert("settings.gstin" + JSON.stringify(settings.gstin));
 
   return (
     <>
