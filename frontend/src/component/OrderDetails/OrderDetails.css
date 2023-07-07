@@ -421,4 +421,12 @@ Reason :- Invoice css */
     height: 1px;
 }
 
-/* End of added code by :- PArineeta Gedam  */
+/* End of added code by :- PArineeta Gedam  */ 
+
+/* Added by :- Parineeta Gedam on 07-05-2023 reason :- add more items button desiging */
+.order_add_item_btn_container {
+   display: flex;
+   justify-content: space-around;
+   margin-top: 25px;
+}
+/* End of Added by :- Parineeta Gedam on 07-05-2023 reason :- add more items button desiging */

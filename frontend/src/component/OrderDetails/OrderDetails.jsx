@@ -1168,6 +1168,21 @@ export default function OrderDetails() {
             ></div>
             {/* End of modified code on 21-4-2023 */}
 
+            {/* Added by :- Parineeta Gedam on 07-07-2023 reason :- "Add more item" button should be there  */}
+            <div className="order_add_item_btn_container">
+              <button
+                className="invoice_btn_update_order"
+                style={{
+                  background: colors.bannerColor,
+                  color: colors.backgroundTheme,
+                }}
+                onClick={(e) => navigate('/menu-item')}
+              >
+                Add More Item
+              </button>
+            </div>
+            {/* End of added code by :- Parineeta Gedam on 07-07-2023 reason : "Add more item" button should be there */}
+
             {/* commented by :- Parineeta Gedam
           Date :- 16-04-2023
           Reason :- now this functionality not showing 

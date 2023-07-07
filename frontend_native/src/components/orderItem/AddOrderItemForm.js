@@ -74,10 +74,13 @@ export default function AddOrderItemForm(orderId) {
     const [itemIdSelected, setItemIdSelected] = useState(0);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
+    // Modified by :- Parineeta Gedam on 07-07-2023 reason :- bydefault select full
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set serving size selcted data
-    const [servingSizeSelected, setServingSizeSelected] = useState("");
+    // const [servingSizeSelected, setServingSizeSelected] = useState("");
+    const [servingSizeSelected, setServingSizeSelected] = useState("Full");
     // End of added code by :- Parineeta Gedam on 24-05-2023
+    // End of modified code by :- Parineeta Gedam on 07-07-2023 reason :- bydefault select full
 
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set quantity
@@ -130,7 +133,16 @@ export default function AddOrderItemForm(orderId) {
         ).tenant_name;
         const response = await getAllMenuList(tenant);
         if (response) {
-            setItemList(response.itemList);
+           
+            // Commented by :- Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items.
+            // setItemList(response.itemList);
+            // End of commented code by Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items.
+
+            // Added by :- Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items.
+            var activeItemList = response.itemList.filter((item) => item.is_active == true)
+            setItemList(activeItemList);
+            // End of added code by :- Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items
+
         }
     };
     // End of added code by :- Parineeta Gedam on 24-05-2023
@@ -386,6 +398,9 @@ export default function AddOrderItemForm(orderId) {
                                             </Text>
                                         )}
                                     </View>
+                                    {/* Added and modified by :- PArineeta Gedam on 07-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. */}
+                                    {allowHalfPrice ? 
+                                    
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
                                             <Text style={{ color: "red", fontWeight: "650" }}>
@@ -450,6 +465,21 @@ export default function AddOrderItemForm(orderId) {
                                             </Text>
                                         )}
                                     </View>
+                                    :
+                                    <View style={styles.formContainer}>
+                                    <Text style={styles.labels}>
+                                        <Text style={{ color: "red", fontWeight: "650" }}>
+                                            *{" "}
+                                        </Text>
+                                        Serving size
+                                    </Text>
+                                    <View style={styles.servingSizeInput}>
+                                    <Text style={styles.servingSizeLabel}>Full</Text>
+                                    </View>
+                                    </View>
+                                    }
+                                    {/* End of Added and modified by :- Parineeta Gedam on 07-07-2023 reason :- Serving section should not be in dropdown, If only full size is available.   */}
+
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
                                             <Text style={{ color: "red", fontWeight: "650" }}>
@@ -663,4 +693,25 @@ const styles = StyleSheet.create({
         color: "#dc3545",
         paddingHorizontal: 10,
     },
+    // Added by :- Parineeta Gedam on 07-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. 
+    servingSizeInput: {
+        height: 35,
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: "white",
+        width: 250,
+        marginTop: 5,
+        alignItems :"center",
+        alignContent:"center"
+    },
+    servingSizeLabel:{
+        fontSize:17,
+        marginTop: 5,
+        textAlign:"center",
+        alignSelf:"center",
+        margin :"auto"
+    }
+
+    // End of added code by :- Parineeta Gedam on 07-07-2023 reason : Serving section should not be in dropdown, If only full size is available.
 });
