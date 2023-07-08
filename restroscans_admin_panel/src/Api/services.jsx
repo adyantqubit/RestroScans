@@ -606,7 +606,7 @@ export const postOrderItemsApi = async (data, tenant) => {
       "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
-  console.log(response,'Post the add more items.. sucessfully')
+  // console.log(response,'Post the add more items.. sucessfully')
   return response ? response.data : {};
 };
 
@@ -637,7 +637,7 @@ export const getOrderItemCountApi = async (tenant) => {
       "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
-  console.log(response.data)
+  // console.log(response.data)
   return response ? response.data : {};
 };
 

@@ -7,13 +7,21 @@
   /* Modified by ROhan kansari - 29/6/23 */
   --secondary-bg-color: #fff;
   --primary-bg-color: #fff;
-  --highlight-color: #272c47;
+  /* Modification and addition by Om Shrivastava on 08-07-23
+  Reason : Change the color  */
+  /* --highlight-color: #272c47; */
+  --highlight-color: #1cafbe;
+/* End of addition and modification by Om Shrivastava on 08-07-23 */
   --label-font-size: 15px;
   --heading-font-size: 24px;
   --subHeading-font-size: 14px;
   --font-faimly: "Font";
   --label-color: #000;
-  --sidebar-color: #272c47;
+/* Modification and addition by Om Shrivastava on 07-07-23
+REason : Set the sidebar color */
+  /* --sidebar-color: #272c47; */
+  --sidebar-color: #1cafbe;
+/* End of addition by Om Shrivastava on 07-07-23 */
   --primary-box-bg-color: #92d050;
   --secondary-box-bg-color: #272c47;
   /* End of code - Rohan kansari - 29/6/23 */
@@ -80,7 +88,11 @@ body {
 .EZDrawer__container::-webkit-scrollbar-thumb
 {
     /* Added by ROhan kansari - 28/6/23 */
-	background-color: #43475c;
+  /* Modification and addition by Om Shrivastava on 08-07-23
+  Reason : Change the color  */
+	/* background-color: #43475c; */
+	background-color: rgba(255, 222, 73, 0.763);
+/* End of addition by Om Shrivastava on 08-07-23 */
 	/* border: 1px solid white; */
 }
 

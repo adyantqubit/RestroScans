@@ -8,7 +8,8 @@ import {
 } from "../../Api/services";
 import style from "./orderform.module.css";
 import { Message } from '../../App';
-
+import { Select } from 'antd';
+const { Option } = Select;
 export default function AddOrderItemForm(orderId) {
 
     // Added by :- Om shrivastava on 04-06-2023
@@ -47,16 +48,13 @@ export default function AddOrderItemForm(orderId) {
             // Modification by Om Shrivastava on 02-07-23 REason : Save only full price
             setAllowHalfPrice(response.setting.allow_half_price);
             if (response.setting.allow_half_price == false) {
-                console.log('serving size without slice',options)
                 const rm = options.slice(1);
                 setServingSizeData(rm.toString())
-                // console.log('serving size without slice',rm)
-            // End of addition and modification by Om Shrivastava on 02-07-23
+                // End of addition and modification by Om Shrivastava on 02-07-23
             }
             // End of Added by :- Om shrivastava on 14-06-2023 reason :- when admin not select half then show serving size only "Full"
         }
     };
-    // console.log(servingSizeData,'9999999999')
 
     const formRef = useRef(null);
 
@@ -67,7 +65,7 @@ export default function AddOrderItemForm(orderId) {
 
     // Added  by :- Om shrivastava on 24-06-2023
     // Reason - This is used for set item id selcted data
-    const [itemIdSelected, setItemIdSelected] = useState(1);
+    var [itemIdSelected, setItemIdSelected] = useState(1);
     // End of added code by :- Om shrivastava on 24-06-2023
 
     // Added  by :- Om shrivastava on 24-06-2023
@@ -119,10 +117,21 @@ export default function AddOrderItemForm(orderId) {
         if (response) {
             // setItemData(response.itemList);
             setItemData(response.itemListbyId);
-
+            // Added by Om shrivastava on 06-07-23
+            // Reason : Set the item name and item id in first name
+            setItemIdSelected(response.itemListbyId[0].id)
+            setItemNameSelected(response.itemListbyId[0].name)
+            // End of addition by Om Shrivastava on 06-07-23
         }
+
     };
 
+    // const disableHalf = (dt) => {
+    //     setItemIdSelected(dt.target.value)
+    //     handleMenuChange(dt.target.value)
+    // }
+
+    
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - calculations for when user add order items 
 
@@ -131,14 +140,10 @@ export default function AddOrderItemForm(orderId) {
         setQuantitySelected(dt.target.value)
         handleCalculations(dt.target.value)
     }
-    // console.log(servingSizeData)
-    // console.log(itemIdSelected)
-    // console.log(itemNameSelected)
     // Modification and addition by Om Shrivastava on 02-07-23
     // Reason : When offer data shown than price is correct shown
     // const handleCalculations = (qty) => {
     //     var itemName = itemData.filter((item) => item.id == itemIdSelected)[0]
-    //     // console.log(itemName, '888888')
     //     if (servingSizeData == "Half") {
     //         setSingalItemprice(itemName.price_half)
     //         var price = (itemName.price_half * qty)
@@ -150,18 +155,20 @@ export default function AddOrderItemForm(orderId) {
     //         setPrice(price.toFixed(2))
     //     }
     // }
+
+
     const handleCalculations = (qty) => {
         if (offerList.filter((item) => item.item_id == itemIdSelected).length) {
             var amount = 0;
-            var discounted_price=0;
+            var discounted_price = 0;
             var itemName = offerList.filter((item) => item.item_id == itemIdSelected)[0]
-            if(servingSizeData == "Full"){
+            if (servingSizeData == "Full") {
                 amount = ((itemName.item_fullprice / 100) * itemName.item_discount).toFixed(2)
                 discounted_price = (itemName.item_fullprice - amount).toFixed(2)
                 setSingalItemprice(discounted_price)
                 var price = (discounted_price * qty)
                 setPrice(price.toFixed(2))
-            }else{
+            } else {
                 amount = ((itemName.item_halfprice / 100) * itemName.item_discount).toFixed(2)
                 discounted_price = (itemName.item_halfprice - amount).toFixed(2)
                 setSingalItemprice(discounted_price)
@@ -169,7 +176,7 @@ export default function AddOrderItemForm(orderId) {
                 setPrice(price.toFixed(2))
             }
         }
-        else{
+        else {
             var itemName = itemData.filter((item) => item.id == itemIdSelected)[0]
             if (servingSizeData == "Half") {
                 setSingalItemprice(itemName.price_half)
@@ -181,13 +188,39 @@ export default function AddOrderItemForm(orderId) {
                 var price = (itemName.price_full * qty)
                 setPrice(price.toFixed(2))
             }
-        }   
+        }
     }
+    // Added by Om shrivastava on 06-07-23
+    // Reason : Set the item name and item id in first name
+    const handleMenuChange = () => {
+        if (offerList.filter((item) => item.item_id == itemIdSelected).length) {
+            var itemName = offerList.filter((item) => item.item_id == itemIdSelected)[0]
+            if (itemName && itemName.item_halfprice == null || itemName.item_halfprice == undefined || itemName.price_half == "0.00") {
+                const rm = options.slice(1);
+                setServingSizeData(rm.toString())
+                document.getElementById("servingSize").disabled = true;
+            } else {
+                document.getElementById("servingSize").disabled = false;
+
+            }
+        }
+        else {
+            var itemName = itemData.filter((item) => item.id == itemIdSelected)[0]
+            if (itemName && itemName.price_half == null || itemName.price_half == undefined || itemName.price_half == "0.00") {
+                const rm = options.slice(1);
+                setServingSizeData(rm.toString())
+                document.getElementById("servingSize").disabled = true;
+
+            }
+            else {
+                document.getElementById("servingSize").disabled = false;
+
+            }
+        }
+    };
+    // End of addition and modification by Om Shrivastava on 06-07-23 Reason : Set the item name and item id in first name
     // End of addition and modification by Om Shrivastava on 02-07-23 Reason : When offer data shown than price is correct shown
 
-    // console.log(price)
-    // console.log(orderId.orderId)
-    // console.log(orderId.id)
 
     // End of added code by :- Om shrivastava on 24-06-2023
     const resetForm = (event) => {
@@ -199,6 +232,21 @@ export default function AddOrderItemForm(orderId) {
     };
 
     const validateOnInput = (inputName, value) => {
+        if (inputName == "quantity") {
+            if (value.toString().length > 1) {
+              if (!isNaN(value)) {
+                if (value < 0 ) {
+                    setquantityValidation("Quantity must be greater than 0 ");
+                } else {
+                    setquantityValidation("");
+                }
+              } else {
+                 setquantityValidation("Quantity must be a number. ");
+              }
+            } else {
+                 setquantityValidation("Please enter Quantity.");
+            }
+          }
         // if (inputName == "quantity") {
         //     if (value.toString().length > 0) {
         //         if (!isNaN(value)) {
@@ -229,23 +277,42 @@ export default function AddOrderItemForm(orderId) {
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
 
     }
+    console.log(quantitySelected,'quantity')
     const validateOnBlur = (inputName, value) => {
-         {/* Modification and addition by Om Shrivastava on 28-06-23
+        {/* Modification and addition by Om Shrivastava on 28-06-23
         Reason : apply the validation for quantity */}
+        // Modification and addition by Om Shrivastava on 07-07-23 
+        // Reason : Set the validation for quantity
+        // if (inputName == "quantity") {
+        //     if (quantitySelected && quantitySelected != "" && quantitySelected != 0) {
+        //         setquantityValidation("");
+        //     }
+        //     else {
+        //         setquantityValidation("Please enter quantity");
+        //     }
+        // }
+
         if (inputName == "quantity") {
-            if (quantitySelected && quantitySelected!="" && quantitySelected!=0 ) {
-                setquantityValidation("");
-                // console.log('if part')
-                } 
-                else {
-                setquantityValidation("Please enter quantity");
-                // console.log('else part')
+            if (value.toString().length > 0) {
+              if (!isNaN(value)) {
+                if (value < 0 ) {
+                    setquantityValidation("Quantity must be greater than 0 ");
+                } else {
+                    setquantityValidation("");
                 }
+              } else {
+                 setquantityValidation("Quantity must be a number. ");
+              }
+            } else {
+                 setquantityValidation("Please enter Quantity.");
+            }
           }
+        // End of addition and modification by Om Shrivastava on 07-07-23 Reason : Set the validation for quantity
+
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
 
     }
-// Added by Om Shrivastava on 02-07-23 Reason : Show the offerlist data 
+    // Added by Om Shrivastava on 02-07-23 Reason : Show the offerlist data 
     const getAllOffers = async () => {
         var tenantName = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
@@ -257,25 +324,27 @@ export default function AddOrderItemForm(orderId) {
         }
     };
     // End of addition by Om Shrivastava on 02-07-23
-// console.log(offerList)
-// console.log(quantitySelected,'quantity')
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - submit order items 
+    console.log(quantityValidation,"quantity validation")
     const submitOrderItems = async () => {
 
         var allowDataPost = false;
-
+        // Modification and addition by Om Shrivastava on 07-07-23
+        // Reason : Set the validation for Quantity
         // if (document.getElementById("appliedQuantity").value = "") {
-        if (quantitySelected && quantitySelected!="" && quantitySelected!=0) {
-            
+        // if (quantitySelected && quantitySelected != "" && quantitySelected != 0) {
+        if (quantitySelected != "" && quantitySelected != 0 && quantityValidation=="") {
+
+        // if (quantityValidation == "") {  
             allowDataPost = true;
         }
         else {
-            setquantityValidation("Please enter quantity");
+            // setquantityValidation("Please enter quantity submit time");
             allowDataPost = false
             // setquantityValidation('66')
-
         }
+        // End of addition and modification by Om Shrivastava on 07-07-23 Reason : Set the valdation for quantity
 
         if (allowDataPost) {
 
@@ -291,7 +360,6 @@ export default function AddOrderItemForm(orderId) {
                 quantity: quantitySelected,
                 item_status: "Pending",
             }
-            // console.log(data, '88888')
             var response = await postOrderItemsApi(data, tenant);
             if (response.msg) {
                 orderId.setOrderItems(response.orderItems);
@@ -304,18 +372,12 @@ export default function AddOrderItemForm(orderId) {
             }
 
             orderId.setOrderItems(response.orderItems);
-
         }
         else {
             // Message("Please provide value for this field", "info");
         }
     }
 
-   
-    //   console.log(offerBanner)
-    //   console.log(offerList)
-
-    // console.log(servingSizeData,itemData)
     return (
         // <Header>
         <>
@@ -347,22 +409,31 @@ export default function AddOrderItemForm(orderId) {
                         <div className={`${style.inputContainer}`}>
                             <div className={`${style.inputArea}`}>
                                 <div className={`${style.inputLabel}`}>Item name</div>
-                                <select
+                                <Select
                                     className={`${style.textInputBox}`}
                                     name="name"
                                     id="itemDropDown"
+                                    value={itemIdSelected}
+                                    // value={itemData[0]?.id}
+                                    // value={itemNameSelected}
 
                                     style={{ width: "200px" }}
-
+                                    // onSelect={handleMenuChange}
+                                    // onClick={handleMenuChange}
                                     onChange={e => {
                                         // alert(e.target.value)
-                                        var itemName = itemData.filter((item) => item.id == e.target.value)[0]
+                                        var itemName = itemData.filter((item) => item.id == e)[0]
+                                        // setItemNameSelected(itemName.name)
                                         setItemNameSelected(itemName.name)
-                                        setItemIdSelected(e.target.value);
+
+                                        itemIdSelected=e;
+                                        setItemIdSelected(e);
                                         setItemNameRequired(false);
                                         (document.getElementById("appliedQuantity").value = " ");
                                         setSingalItemprice(0);
-                                        setPrice(0);
+                                        setPrice(0); 
+                                        // calc(e)
+                                        handleMenuChange(e)
                                         // setItemNameSelected(e.target.value)
                                     }}
                                 >
@@ -371,17 +442,17 @@ export default function AddOrderItemForm(orderId) {
                     </option> */}
                                     {itemData.map((data, index) => {
                                         return (
-                                            <option
+                                            <Option
                                                 key={index}
                                                 name={data.id}
                                                 //   selected={data.id == menu}
                                                 value={data.id}
                                             >
                                                 {data.name}
-                                            </option>
+                                            </Option>
                                         );
                                     })}
-                                </select>
+                                </Select>
                             </div>
                             <div className={`${style.inputErrorArea}`}>
                                 {/* {validationErrors.order_status} */}
@@ -430,7 +501,7 @@ export default function AddOrderItemForm(orderId) {
                                 <div className={`${style.inputLabel}`}>
                                     {/* Modification and addition by Om Shrivastava on 28-06-23
                                     Reason : Show the mandatory field of quantity */}
-                                <span style={{color:'red'}}>* </span>
+                                    <span style={{ color: 'red' }}>* </span>
                                     Quantity </div>
                                 {/* End of Mofication and addition by Om Shrivastava on 28-06-23 Reason : Show the mandatory field of quantity  */}
                                 <input
@@ -439,7 +510,7 @@ export default function AddOrderItemForm(orderId) {
                                     name="quantity"
                                     id='appliedQuantity'
                                     // value={quantitySelected}
-
+                                    // disabled={itemNameSelected == "" ? true : false}
                                     style={{ width: "200px" }}
 
                                     onChange={(e) => {

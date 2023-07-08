@@ -283,7 +283,11 @@ function MenuForm() {
   const resetMenuForm = (event) => {
     setName(menuData.name ? menuData.name : "");
     setIcon(menuData.icon ? menuData.icon : "");
-    setIsActive(menuData.is_active ? menuData.is_active : true);
+    // Addition and commented by Om Shrivastava on 07-07-2023
+    // Reason - to set checkbox value
+    // setIsActive(menuData.is_active ? menuData.is_active : true);
+    setIsActive(menuData.is_active); 
+    // End of addition by Om Shrivastava on 07-07-2023
     setSelectedImageName(null);
     /**
      * Added by - Ashish Dewangan on 17-06-2023

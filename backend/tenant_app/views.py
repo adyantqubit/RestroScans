@@ -502,7 +502,12 @@ class getAllMenusAPI(APIView):
         # Added by Om shrivastava on 26-06-23
         # Reason : Show item name by id 
         itemListbyId=Item.objects.all().order_by('id')
-        itemListSerializerbyId=ItemListSerializer(itemListbyId,many=True)
+        # Modification and addition by Om Shrivastava on 07-07-23
+        # Reason : If item is active, than its show in dropdown, anotherwise its not show 
+        filteredData = itemListbyId.filter(is_active = True)
+        # itemListSerializerbyId=ItemListSerializer(itemListbyId,many=True)
+        itemListSerializerbyId=ItemListSerializer(filteredData,many=True)
+        # End of addition by Om Shrivastava on 07-07-23 Reason : If item is active, than its show in dropdown, anotherwise its not show 
         # End of the code by Om shrivastava on 26-06-23
 
         return Response({
