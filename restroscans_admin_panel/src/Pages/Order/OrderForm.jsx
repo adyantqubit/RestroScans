@@ -969,13 +969,18 @@ const OrderForm = () => {
                 <input
                   // Modifed by ROhan kansari - 30/6/23
                   // Reason - To make tabel no. editable
-                  className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Added by Om Shrivastava on 08-07-23 
+                  // Reason : Cannot enter discount when payment status is Paid
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // End of addition by Om Shrivastava on 08-07-23 Reason : Need to disable the field when payment status is Paid
                   type="text"
                   name="discount_rupees"
                   style={{ width: "200px" }}
                   value={discountRupee}
-                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
-
+                  // Added by Om Shrivastava on 08-07-23 
+                  // Reason : Need to disable the field when payment status is Paid
+                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                  // End of addition by Om Shrivastava on 08-07-23 Reason : Need to disable the field when payment status is Paid
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
                     // Reason - To block minus sign
@@ -1013,12 +1018,18 @@ const OrderForm = () => {
                 <input
                   // Modifed by ROhan kansari - 30/6/23
                   // Reason - To make tabel no. editable
-                  className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Added by Om Shrivastava on 08-07-23 
+                  // Reason : Cannot enter discount percentage when payment status is Paid
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount percentage when payment status is Paid
                   type="number"
                   name="discount_percentage"
                   style={{ width: "200px" }}
                   value={discountPercentage}
-                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                  // Added by Om Shrivastava on 08-07-23 
+                  // Reason : Cannot enter discount percentage when payment status is Paid
+                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                  // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount percentage when payment status is Paid
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
                     // Reason - To block minus sign
@@ -1055,12 +1066,18 @@ const OrderForm = () => {
                 <textarea
                   // Modifed by ROhan kansari - 30/6/23
                   // Reason - To make tabel no. editable
-                  className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Added by Om Shrivastava on 08-07-23 
+                  // Reason : Cannot enter discount reason when payment status is Paid
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // End of addition by Om Shrivastava on 08-07-23
                   type="text"
                   name="discount_reason"
                   style={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? {resize:'none'} : { width: "200px", height: "100px", resize: 'none' }}
                   value={discountReason == null ? "----" : discountReason}
-                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
+                  // Added by Om Shrivastava on 08-07-23 
+                  // Reason : Cannot enter discount reason when payment status is Paid
+                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
+                  // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount reason when payment status is Paid
                   onChange={(e) => {
                     setDiscountReason(e.target.value);
                     // validateOnInput("sgst", e.target.value);
@@ -1138,7 +1155,7 @@ const OrderForm = () => {
             </div>
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
+                <div  className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
                 <input
                   className={`${style.textInputBox} ${style.disabledInputBox}`}
                   type="text"
@@ -1146,7 +1163,7 @@ const OrderForm = () => {
                   ////  Modified by Rohan kansari - 28/6/23
                   ////   Reason - to show float with 2 decimal point
                   value={total?.toFixed(2)}
-                  disable
+                  disabled
                 />
               </div>
             </div>
@@ -1565,7 +1582,7 @@ const OrderForm = () => {
           </div>
 
           <div
-            className={` ${style.proceedButton}`}
+            className={` ${style.proceedButton} `}
             onClick={() => {
               saveOrder();
               window.scrollTo(0, 0);
