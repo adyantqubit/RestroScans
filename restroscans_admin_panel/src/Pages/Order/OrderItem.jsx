@@ -260,9 +260,13 @@ const OrderItem = () => {
                   allowClear
                   enterButton
                   onSearch={(value) => { setCurrentPage(1); setSearchText(value); }}
-                  style={{
-                    width: "45%",
-                  }}
+                  // Added and commeted by Yuvraj Sahu on 09-07-2023
+                  // Reason - to set width of search box
+                  // style={{
+                  //   width: "45%",
+                  // }}
+                  className={`${style.searchContainer}`}
+                  // End of addition by Yuvraj Sahu on 09-07-2023
                 />
           
         </div>
@@ -317,7 +321,11 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                  className={style.commonColumnTitle}
+                  // Added and commeted by Yuvraj Sahu on 09-07-2023
+                  // Reason - to set the width of item name collumn
+                  // className={style.commonColumnTitle}
+                  className={`${style.commonColumnTitle} ${style.itemNameCollumn}`}
+                  // End of addition by Yuvraj Sahu on 09-07-2023
                   // Added by Om Shrivastava on 30-06-23
                   // Reason - to sort data item name
                   onClick={(e) => {
@@ -586,8 +594,11 @@ const OrderItem = () => {
                              });
                             }}> {orderDetail.order_id}</span> 
                         </div>
-
-                        <div className={style.commonColumnData}>
+                        {/* Added and commeted by Yuvraj Sahu on 09-07-2023
+                        Reason - to set the witdh of item name collumn */}
+                        {/* <div className={style.commonColumnData}> */}
+                        <div className={`${style.commonColumnData} ${style.itemNameCollumn}`}>
+                        {/* End of addition by yuvraj Sahu on 09-07-2023 */}
                         <span style={{cursor:'pointer',color:'blue'}} onClick={() => {
                             navigate(`/update-order-item/${orderDetail.id}`, {
                               state: { id: orderDetail.id },

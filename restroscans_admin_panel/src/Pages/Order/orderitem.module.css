@@ -118,6 +118,13 @@
   align-items: center;
 }
 
+/* Added by Yuvraj Sahu on 09-07-2023
+Reason - to set width of search container */
+.searchContainer{
+  width: 45%;
+}
+/* End of addition by Yuvraj Sahu on 09-07-2023 */
+
 .itemImage{
     width:45px;
     height:45px;
@@ -500,6 +507,22 @@
   .tableDataContainer {
     justify-content: space-around;
   }
+  /* Added by Yuvraj Sahu on 09-07-2023
+  Reason - to set width of item name collumn */
+  .itemNameCollumn{
+    width: 28vw;
+    /* padding: 0px 10px 0px 10px; */
+  }
+  .commonColumnData{
+    font-weight: 500;
+  }
+  /* End of addition by Yuvraj Sahu on 09-07-2023 */
+  /* Added by Yuvraj Sahu on 09-07-2023
+  Reason - to set width of search container */
+  .searchContainer{
+    width: 80%;
+  }
+  /* End of addition by Yuvraj Sahu on 09-07-2023 */
 }
 @media screen and (max-width: 430px) {
   .container {

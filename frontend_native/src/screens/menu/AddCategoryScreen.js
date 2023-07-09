@@ -99,7 +99,15 @@ export default function AddCategoryScreen() {
     formRef.current.setErrors({});
     menuDropdownRef.current.reset();
     setCategoryName("");
-    setCatgeoryActive(false);
+     /**
+     * Added by yuvraj Sahu on 09-07-2023
+     * Reason - to checked default valur true in item available
+     */
+    // setCatgeoryActive(false);
+    setCatgeoryActive(true);
+    /**
+     * End of addition by Yuvraj Sahu on 09-07-2023
+     */
     /**
      * Added by Yuvraj Sahu on 04-05-2023
      * Reason - to remove file size error when we come back
@@ -144,7 +152,15 @@ export default function AddCategoryScreen() {
 
   // Added by Yuvraj Sahu on 12-4-2023
   // Reason - to save active status
-  const [isCategoryActive, setCatgeoryActive] = useState(false);
+  /**
+   * Added and commeted by yuvraj Sahu on 09-07-2023
+   * Reason - to defalut true in category available
+   */
+  // const [isCategoryActive, setCatgeoryActive] = useState(false);
+  const [isCategoryActive, setCatgeoryActive] = useState(true);
+  /**
+   * End of addition by Yuvraj Sahu on 09-07-2023
+   */
   // End of addition
 
   // Added by Yuvraj Sahu on 25-3-2023
@@ -295,7 +311,15 @@ export default function AddCategoryScreen() {
           resetForm({ values: "" });
           setImage(null);
           setFileSizeError(false);
-          setCatgeoryActive(false);
+          /**
+           * Added by yuvraj Sahu on 09-07-2023
+           * Reason - to checked default valur true in category available
+           */
+          // setCatgeoryActive(false);
+          setCatgeoryActive(true);
+          /**
+           * End of addition by Yuvraj Sahu on 09-07-2023
+           */
           setCategoryName("");
           // Added by Yuvraj Sahu on 30-4-2023
           // Reason - to clear dropdown when save data

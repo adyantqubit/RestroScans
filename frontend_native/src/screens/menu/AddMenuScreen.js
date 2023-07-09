@@ -157,7 +157,16 @@ export default function AddMenuScreen() {
 
   // Added by Yuvraj Sahu on 12-4-2023
   // Reason - to save active status
-  const [isMenuActive, setMenuActive] = useState(false);
+  /**
+   * Added by yuvraj Sahu on 09-07-2023
+   * Reason - to checked default valur true in item available
+   */
+  // const [isMenuActive, setMenuActive] = useState(false);
+  const [isMenuActive, setMenuActive] = useState(true);
+  /**
+   * End of addition by Yuvraj Sahu on 09-07-2023
+   */
+
   // End of addition
 
   // const handleRegister = async (formValues) => {
@@ -220,7 +229,15 @@ export default function AddMenuScreen() {
     // Reason - to clear the form value by useref
     // setDefaultValue(val);
     // End of comment
-    setMenuActive(false);
+    /**
+     * Added and commeted by yuvraj Sahu on 09-07-2023
+     * Reason - to defalut true in menu available
+     */
+    // setMenuActive(false);
+    setMenuActive(true);
+    /**
+     * End of addition by Yuvraj Sahu on 09-07-2023
+     */
     formRef.current.resetForm({});
     formRef.current.setErrors({});
     setImgRequired(false);
@@ -265,7 +282,15 @@ export default function AddMenuScreen() {
           resetForm({ values: "" });
           setImage(null);
           setFileSizeError(false);
-          setMenuActive(false);
+          /**
+           * Added by yuvraj Sahu on 09-07-2023
+           * Reason - to checked default valur true in menu available
+           */
+          // setMenuActive(false);
+          setMenuActive(true);
+          /**
+           * End of addition by Yuvraj Sahu on 09-07-2023
+           */
         } else if (res.error) {
           setSaveBtnDisable(false);
           Alert.alert(res.error);

@@ -49,7 +49,15 @@ export default function AddItemScreen() {
 
   // Added by Yuvraj Sahu on 12-4-2023
   // Reason - to save active status
-  const [isItemActive, setItemActive] = useState(false);
+  /**
+   * Added by yuvraj Sahu on 09-07-2023
+   * Reason - to checked default value true in item available
+   */
+  // const [isItemActive, setItemActive] = useState(false);
+  const [isItemActive, setItemActive] = useState(true);
+  /**
+   * End of addition by Yuvraj Sahu on 09-07-2023
+   */
   // End of addition
 
   // Added by Yuvraj Sahu on 24-4-2023
@@ -113,7 +121,15 @@ export default function AddItemScreen() {
     setItemName("");
     formRef.current.resetForm({});
     formRef.current.setErrors({});
-    setItemActive(false);
+    /**
+     * Added by yuvraj Sahu on 09-07-2023
+     * Reason - to checked default valur true in category available
+     */
+    // setItemActive(false);
+    setItemActive(true);
+    /**
+     * End of addition by Yuvraj Sahu on 09-07-2023
+     */
     setBestSeller(false);
     setImgRequired(false);
     setItemRequired(false);
@@ -327,7 +343,15 @@ export default function AddItemScreen() {
           resetForm({ values: "" });
           setImage(null);
           setFileSizeError(false);
-          setItemActive(false);
+          /**
+           * Added by yuvraj Sahu on 09-07-2023
+           * Reason - to checked default value true in item available
+           */
+          // setItemActive(false);
+          setItemActive(true);
+          /**
+           * End of addition by Yuvraj Sahu on 09-07-2023
+           */
           setBestSeller(false);
           setItemName("");
           // Added by Yuvraj Sahu on 30-4-2023
