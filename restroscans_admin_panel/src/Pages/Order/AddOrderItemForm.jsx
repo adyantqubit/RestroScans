@@ -131,7 +131,7 @@ export default function AddOrderItemForm(orderId) {
     //     handleMenuChange(dt.target.value)
     // }
 
-    
+
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - calculations for when user add order items 
 
@@ -233,20 +233,21 @@ export default function AddOrderItemForm(orderId) {
 
     const validateOnInput = (inputName, value) => {
         if (inputName == "quantity") {
-            if (value.toString().length > 1) {
-              if (!isNaN(value)) {
-                if (value < 0 ) {
-                    setquantityValidation("Quantity must be greater than 0 ");
+            if (value.toString().length > 0) {
+                if (!isNaN(value)) {
+                    if (value < 1) {
+                        setquantityValidation("Quantity must be greater than 0 ");
+                    } else {
+                        setquantityValidation("");
+                    }
                 } else {
-                    setquantityValidation("");
+                    setquantityValidation("Quantity must be a number. ");
                 }
-              } else {
-                 setquantityValidation("Quantity must be a number. ");
-              }
             } else {
-                 setquantityValidation("Please enter Quantity.");
+                setquantityValidation("Please enter Quantity.");
             }
-          }
+        }
+
         // if (inputName == "quantity") {
         //     if (value.toString().length > 0) {
         //         if (!isNaN(value)) {
@@ -277,7 +278,7 @@ export default function AddOrderItemForm(orderId) {
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
 
     }
-    console.log(quantitySelected,'quantity')
+    console.log(quantitySelected, 'Selected quantity')
     const validateOnBlur = (inputName, value) => {
         {/* Modification and addition by Om Shrivastava on 28-06-23
         Reason : apply the validation for quantity */}
@@ -294,19 +295,19 @@ export default function AddOrderItemForm(orderId) {
 
         if (inputName == "quantity") {
             if (value.toString().length > 0) {
-              if (!isNaN(value)) {
-                if (value < 0 ) {
-                    setquantityValidation("Quantity must be greater than 0 ");
+                if (!isNaN(value)) {
+                    if (value < 0 && value != 0) {
+                        setquantityValidation("Quantity must be greater than 0 ");
+                    } else {
+                        setquantityValidation("ttt");
+                    }
                 } else {
-                    setquantityValidation("");
+                    setquantityValidation("Quantity must be a number. ");
                 }
-              } else {
-                 setquantityValidation("Quantity must be a number. ");
-              }
             } else {
-                 setquantityValidation("Please enter Quantity.");
+                setquantityValidation("Please enter Quantity.");
             }
-          }
+        }
         // End of addition and modification by Om Shrivastava on 07-07-23 Reason : Set the validation for quantity
 
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
@@ -326,24 +327,52 @@ export default function AddOrderItemForm(orderId) {
     // End of addition by Om Shrivastava on 02-07-23
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - submit order items 
-    console.log(quantityValidation,"quantity validation")
+    console.log(quantityValidation, "Setvalidation")
     const submitOrderItems = async () => {
 
         var allowDataPost = false;
         // Modification and addition by Om Shrivastava on 07-07-23
         // Reason : Set the validation for Quantity
-        // if (document.getElementById("appliedQuantity").value = "") {
-        // if (quantitySelected && quantitySelected != "" && quantitySelected != 0) {
-        if (quantitySelected != "" && quantitySelected != 0 && quantityValidation=="") {
 
-        // if (quantityValidation == "") {  
-            allowDataPost = true;
-        }
-        else {
-            // setquantityValidation("Please enter quantity submit time");
-            allowDataPost = false
-            // setquantityValidation('66')
-        }
+            if (isNaN(quantitySelected)) {
+                setquantityValidation("Quantity must be a number. ");
+                allowDataPost=false
+               
+            } else {
+                if (quantitySelected <=0) {
+                    setquantityValidation("Quantity must be greater than 0 ");
+                    allowDataPost=false
+                    
+                } else {
+                    setquantityValidation("");
+                    allowDataPost=true
+                   
+                }
+
+            }
+        
+        // if (NaN) { 
+
+        //     allowDataPost = false 
+        // }
+        // else {
+        //     if (0) {
+
+        //         allowDataPost = false
+        //     } else {
+
+        //         allowDataPost = true
+        //     }
+        // }
+        // if (quantitySelected != "" && quantitySelected != 0 && quantityValidation == "") {
+        //     allowDataPost = true;
+        // }
+        // else {
+
+        //     setquantityValidation("Please enter quantity submit time");
+        //     allowDataPost = false
+        // }
+
         // End of addition and modification by Om Shrivastava on 07-07-23 Reason : Set the valdation for quantity
 
         if (allowDataPost) {
@@ -426,12 +455,12 @@ export default function AddOrderItemForm(orderId) {
                                         // setItemNameSelected(itemName.name)
                                         setItemNameSelected(itemName.name)
 
-                                        itemIdSelected=e;
+                                        itemIdSelected = e;
                                         setItemIdSelected(e);
                                         setItemNameRequired(false);
                                         (document.getElementById("appliedQuantity").value = " ");
                                         setSingalItemprice(0);
-                                        setPrice(0); 
+                                        setPrice(0);
                                         // calc(e)
                                         handleMenuChange(e)
                                         // setItemNameSelected(e.target.value)
@@ -518,12 +547,12 @@ export default function AddOrderItemForm(orderId) {
                                         calc(e)
                                         validateOnInput("quantity", e.target.value);
                                     }}
-                                    onBlur={(e) => {
-                                        validateOnBlur(
-                                            "quantity",
-                                            e.target.value
-                                        );
-                                    }}
+                                // onBlur={(e) => {
+                                //     validateOnBlur(
+                                //         "quantity",
+                                //         e.target.value
+                                //     );
+                                // }}
                                 />
                             </div>
                             <div className={`${style.inputErrorArea}`}>

@@ -286,7 +286,12 @@ function MenuForm() {
     // Addition and commented by Om Shrivastava on 07-07-2023
     // Reason - to set checkbox value
     // setIsActive(menuData.is_active ? menuData.is_active : true);
-    setIsActive(menuData.is_active); 
+    // setIsActive(menuData.is_active ?  true:false);
+    // Modification by Om Shrivastava on 08-07-23
+    // Reason : set the checkbox value
+    setIsActive(typeof menuData.is_active==='boolean' ? menuData.is_active ?true : false:true );
+    // End of addition and modification by Om Shrivastava on 08-07-23
+    // setIsActive(menuData.is_active); 
     // End of addition by Om Shrivastava on 07-07-2023
     setSelectedImageName(null);
     /**

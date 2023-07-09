@@ -193,7 +193,8 @@ Reason : Need to apply this css when some field is disable */
   padding: 12px 24px;
   border: 0;
   color: #fff;
-  background: #000a47;
+  /* background: #000a47; */
+  background: #1cafbe;
   line-height: 1.15;
   font-size: 16px;
 }
