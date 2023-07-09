@@ -288,7 +288,24 @@ const TodayOrder = () => {
             // if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
             await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
                 if (r.success) {
-                    Message("Successfully status updated ", "success")
+                    /**
+                     * Added by yuvraj Sahu on 08-07-2023
+                     * Reason - to change the message for status updation
+                     */
+                    if (selectedOrderStatus != "" && selectedPaymentStatus != ""){
+                        Message("Successfully status updated ", "success")
+                    } else {
+                        if (selectedOrderStatus != ""){
+                            Message("Successfully order status updated ", "success")
+                        }
+                        if (selectedPaymentStatus != ""){
+                            Message("Successfully payment status updated ", "success")
+                        }
+                    }
+                    // Message("Successfully status updated ", "success")
+                    /**
+                     * End of addition by yuvraj Sahu on 08-07-2023
+                     */
                     setNewlyPlacedOrders(r.todays_newly_placed_orders);
                     setPendingOrders(r.todays_pending_orders);
                     setCompletedOrders(r.todays_completed_orders);
