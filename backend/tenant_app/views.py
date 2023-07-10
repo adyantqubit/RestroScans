@@ -630,78 +630,212 @@ def orderCreation(tenant, request):
     return {"order_obj": order_obj, "orderSerializer": orderSerializer}
     # End of added code 06-04-2023 by :- Parineeta Gedam on 24-05-2023 
 
-# Added by :- Parineeta Gedam
-# Date :- 06-04-2023
-# Reason : method for save the cart item in order Items table
+# # Added by :- Parineeta Gedam
+# # Date :- 06-04-2023
+# # Reason : method for save the cart item in order Items table
 
+# def orderItemsCreation(request, order_obj):
+
+#     # save cart item in Order Item Table
+#     cartItem = []
+#     allOffer = OfferItem.objects.all()
+
+#     for cart in request.data['cart']:
+#         cartData = dict()
+
+#         item = Item.objects.get(id=cart['id'])
+#         discounted = 0
+#         if allOffer.filter(item_name=item).count() > 0:
+#             # Modified by Rohan Kansari - 11/5/23
+#             # Reason - If discount is none then do nothing
+#             if allOffer.get(item_name=item).offer_name.discount is not None:
+#                discounted = allOffer.get(item_name=item).offer_name.discount
+#         cartData["item_id"] = item.id
+#         cartData['order_id'] = order_obj.id
+#         cartData['item'] = cart['name']
+        
+#         # Commented by :- Parineeta gedam on 22-04-2023
+#         # cartData['serving_size'] = cart['serve_size']
+#         # End of added code on 22-04-2023
+
+#         # Added by :- Parineeta Gedam on 22-04-2023
+#         if (cart['serve_size'] == "Half Plate"):
+#             cartData['serving_size'] = "Half"
+#         else :
+#             cartData['serving_size'] = "Full"
+#         # End of added code on 22-04-2023
+
+#         cartData['quantity'] = cart['quantity']
+
+#         # Commented by :- Parineeta gedam
+#         # if (cart['serve_size'] == "Half Plate"):
+#         #     cartData['price'] = float(
+#         #         item.price_half) - float(item.price_half/100)*discounted
+#         # else:
+#         #     cartData['price'] = float(
+#         #         item.price_full)-float(item.price_full/100)*discounted
+#         # End of added code
+         
+#         # Modified by :- Parineeta Gedam on 21-04-2023
+#         if (cart['serve_size'] == "Half Plate"):
+#             # Added by Rohan kansari -  1/5/23
+#             # Reason - becuase discount is throwing issue if discount is not in float
+#             cartData['price'] = float(
+#                 item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)* float(discounted)
+#         else:
+#             cartData['price'] = float(
+#                 item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
+#             # End of code - ROhan kansari - 1/5/23
+#         # End of added code
+
+#         # Added by :- Parineeta Gedam on 25-06-2023 reason :- newly added item status will be pending
+#         cartData['item_status'] = "Pending"
+#         # End of added code by :- Parineeta Gedam on 25-06-2023 reason :- newly added item status will be pending
+
+#         cartItem.append(cartData)
+
+#     orderItemSerializer = OrderItemSerializer(data=cartItem, many=True)
+#     if orderItemSerializer.is_valid(raise_exception=True):
+#         orderItemSerializer.save()
+
+#     return {"orderItemSerializer": orderItemSerializer}
+
+# # End of added code 06-04-2023
+# ===================================================================================================================================
+
+# Added by :- Parineeta Gedam
+# Date :- 10-07-2023 
+# Reason : Implement Order Item update functionality.
 
 def orderItemsCreation(request, order_obj):
 
-    # save cart item in Order Item Table
     cartItem = []
     allOffer = OfferItem.objects.all()
 
-    for cart in request.data['cart']:
-        cartData = dict()
+    try : 
+        orderItemsList = OrderItem.objects.filter(order_id__order_id = request.data["orders"])
+        orderItemsListSerializer = list()
+        for cart in request.data['cart']:
 
-        item = Item.objects.get(id=cart['id'])
-        discounted = 0
-        if allOffer.filter(item_name=item).count() > 0:
-            # Modified by Rohan Kansari - 11/5/23
-            # Reason - If discount is none then do nothing
-            if allOffer.get(item_name=item).offer_name.discount is not None:
-               discounted = allOffer.get(item_name=item).offer_name.discount
-        cartData["item_id"] = item.id
-        cartData['order_id'] = order_obj.id
-        cartData['item'] = cart['name']
-        
-        # Commented by :- Parineeta gedam on 22-04-2023
-        # cartData['serving_size'] = cart['serve_size']
-        # End of added code on 22-04-2023
+            if cart['serve_size'] == "Full Plate":
+                cart['serving_size'] = "Full"
+            elif cart['serve_size'] == "Half Plate" :
+                cart['serving_size'] = "Half"
 
-        # Added by :- Parineeta Gedam on 22-04-2023
-        if (cart['serve_size'] == "Half Plate"):
-            cartData['serving_size'] = "Half"
-        else :
-            cartData['serving_size'] = "Full"
-        # End of added code on 22-04-2023
+            filteredItems = orderItemsList.filter(item_id__id = cart['id'], serving_size = cart['serving_size'])
+          
+            if filteredItems.count() > 0 :
+                oldOrderItemObject = filteredItems.first()
+                if oldOrderItemObject.item_status != "Confirm" and oldOrderItemObject.item_status != "Cancelled" :
 
-        cartData['quantity'] = cart['quantity']
+                    item = Item.objects.get(id=cart['id'])
+                    discounted = 0
+                    if allOffer.filter(item_name=item).count() > 0:
+                        if allOffer.get(item_name=item).offer_name.discount is not None:
+                            discounted = allOffer.get(item_name=item).offer_name.discount
 
-        # Commented by :- Parineeta gedam
-        # if (cart['serve_size'] == "Half Plate"):
-        #     cartData['price'] = float(
-        #         item.price_half) - float(item.price_half/100)*discounted
-        # else:
-        #     cartData['price'] = float(
-        #         item.price_full)-float(item.price_full/100)*discounted
-        # End of added code
-         
-        # Modified by :- Parineeta Gedam on 21-04-2023
-        if (cart['serve_size'] == "Half Plate"):
-            # Added by Rohan kansari -  1/5/23
-            # Reason - becuase discount is throwing issue if discount is not in float
-            cartData['price'] = float(
-                item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)* float(discounted)
-        else:
-            cartData['price'] = float(
-                item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
-            # End of code - ROhan kansari - 1/5/23
-        # End of added code
+                    cart['quantity'] = cart['quantity'] + oldOrderItemObject.quantity
+                    cart['price'] = float(item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
+                    cart['item_status'] = "Pending"
+                            
+                    orderItemSerializer = OrderItemSerializer(oldOrderItemObject, data=cart, partial=True)
+                   
+                    try:
+                        if orderItemSerializer.is_valid(raise_exception=True):
+                            orderItemSerializer.save()
+                        orderItemsListSerializer.append(orderItemSerializer)
+                    except Exception as e:
+                        return {"error": e}
+                    
+                else :
+                    cartData = dict()
+                    item = Item.objects.get(id=cart['id'])
+                    discounted = 0
+                    if allOffer.filter(item_name=item).count() > 0:
+                        if allOffer.get(item_name=item).offer_name.discount is not None:
+                            discounted = allOffer.get(item_name=item).offer_name.discount
+                    cartData["item_id"] = item.id
+                    cartData['order_id'] = order_obj.id
+                    cartData['item'] = cart['name']
 
-        # Added by :- Parineeta Gedam on 25-06-2023 reason :- newly added item status will be pending
-        cartData['item_status'] = "Pending"
-        # End of added code by :- Parineeta Gedam on 25-06-2023 reason :- newly added item status will be pending
+                    if (cart['serving_size'] == "Half"):
+                        cartData['serving_size'] = "Half"
+                    elif (cart['serving_size'] == "Full"):
+                        cartData['serving_size'] = "Full"
 
-        cartItem.append(cartData)
+                    cartData['quantity'] = cart['quantity']
+                    if (cart['serving_size'] == "Half"):
+                        cartData['price'] = float(
+                            item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)* float(discounted)
+                    else:
+                        cartData['price'] = float(
+                            item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
+                    cartData['item_status'] = "Pending"
+                    cartItem.append(cartData) 
+                  
+            else:
+                cartData = dict()
+                item = Item.objects.get(id=cart['id'])
+                discounted = 0
+                if allOffer.filter(item_name=item).count() > 0:
+                    if allOffer.get(item_name=item).offer_name.discount is not None:
+                        discounted = allOffer.get(item_name=item).offer_name.discount
+                cartData["item_id"] = item.id
+                cartData['order_id'] = order_obj.id
+                cartData['item'] = cart['name']
 
-    orderItemSerializer = OrderItemSerializer(data=cartItem, many=True)
-    if orderItemSerializer.is_valid(raise_exception=True):
-        orderItemSerializer.save()
+                if (cart['serving_size'] == "Half"):
+                    cartData['serving_size'] = "Half"
+                elif (cart['serving_size'] == "Full"):
+                    cartData['serving_size'] = "Full"
 
-    return {"orderItemSerializer": orderItemSerializer}
+                cartData['quantity'] = cart['quantity']
+                if (cart['serving_size'] == "Half"):
+                    cartData['price'] = float(
+                        item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)* float(discounted)
+                else:
+                    cartData['price'] = float(
+                        item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
+                cartData['item_status'] = "Pending"
+                cartItem.append(cartData) 
+              
+        orderItemSerializer = OrderItemSerializer(data=cartItem, many=True)
+        if orderItemSerializer.is_valid(raise_exception=True):
+            orderItemSerializer.save()
+        orderItemsListSerializer.append(orderItemSerializer)
+        return{"orderItemSerializer":orderItemsListSerializer}
+    except Exception as ee :
+        for cart in request.data['cart']:
+            cartData = dict()
+            item = Item.objects.get(id=cart['id'])
+            discounted = 0
+            if allOffer.filter(item_name=item).count() > 0:
+                if allOffer.get(item_name=item).offer_name.discount is not None:
+                    discounted = allOffer.get(item_name=item).offer_name.discount
+            cartData["item_id"] = item.id
+            cartData['order_id'] = order_obj.id
+            cartData['item'] = cart['name']
+            if (cart['serve_size'] == "Half Plate"):
+                cartData['serving_size'] = "Half"
+            else :
+                cartData['serving_size'] = "Full"
+            cartData['quantity'] = cart['quantity']
+            if (cart['serve_size'] == "Half Plate"):
+                cartData['price'] = float(
+                    item.price_half * cart['quantity']) - float(item.price_half * cart['quantity']/100)* float(discounted)
+            else:
+                cartData['price'] = float(
+                    item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
+            cartData['item_status'] = "Pending"
+            cartItem.append(cartData) 
+        orderItemSerializer = OrderItemSerializer(data=cartItem, many=True)
+        if orderItemSerializer.is_valid(raise_exception=True):
+            orderItemSerializer.save()
+        return {"orderItemSerializer": orderItemSerializer}
 
-# End of added code 06-04-2023
+# End of added code 10-07-2023 # Reason : Implement Order Item update functionality.
+# ==================================================================================================================================
+
 
 # Added by :- Parineeta Gedam
 # Date :- 06-04-2023
@@ -2182,31 +2316,103 @@ class GetOrderItemsAndOrderAPIView(APIView):
     
 # End of added code by :- Parineeta Gedam on 22-05-2023
 
+# Commented by :- Parineeta Gedam on 10-07-2023 
+# reason :-Implement Order Item update functionality.
 
-# Added by :- Parineeta Gedam new
-# Date :- 17-05-2023
-# Reason : API for Add order items used in react native
+# # Added by :- Parineeta Gedam new
+# # Date :- 17-05-2023
+# # Reason : API for Add order items used in react native
+# class AddOrderItemsAPIView(APIView):
+#     def post(self, request, tenant):
+#         OrderItem(
+#             order_id = Order.objects.get(id = request.data["order_id"]),
+#             item = request.data["item"],
+#             item_id = Item.objects.get(id = request.data["item_id"]),
+#             serving_size = request.data["serving_size"],
+#             quantity = request.data["quantity"],
+#             item_status = request.data["item_status"]
+#         ).save()
+
+#         # Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
+#         # orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
+#         orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
+#         # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
+#         orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
+
+#         # Modified by :- Parineeta Gedam on 28-06-2023
+#         # reason :- re calculations
+#         itemsPrice = []
+#         for cart in orderItemsObj:
+#             if(cart.item_status != "Cancelled") :
+#                 price = cart.price
+#                 itemsPrice.append(price)
+#         order = Order.objects.get(order_id = request.data["order_order_id"])
+#         subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+#         order.sub_total=subTotal
+#         order.order_status="Placed"
+#         order.save()
+#         OrderSerializers = AllOrderSerializer(order)
+#         # End of added code by Parineeta Gedam on 28-06-2023
+#         return Response({"msg":"success", "orderItems":orderItemsSerializer.data,"order":OrderSerializers.data})
+
+# # # End of added code by :- Parineeta Gedam on 17-05-2023 
+# End of commented code by :- Parineeta Gedam on 10-07-2023 reason :- Implement Order Item update functionality.
+
+# Added by :- Parineeta Gedam 
+# date :- 10-07-2023
+# reason :- Implement Order Item update functionality.
 class AddOrderItemsAPIView(APIView):
     def post(self, request, tenant):
-        OrderItem(
-            order_id = Order.objects.get(id = request.data["order_id"]),
-            item = request.data["item"],
-            item_id = Item.objects.get(id = request.data["item_id"]),
-            serving_size = request.data["serving_size"],
-            quantity = request.data["quantity"],
-            item_status = request.data["item_status"]
-        ).save()
 
-        # Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
-        # orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
-        orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
-        # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
-        orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
+        allOffer = OfferItem.objects.all()
 
-        # Modified by :- Parineeta Gedam on 28-06-2023
-        # reason :- re calculations
+        orderItemsList = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
+        filteredItems = orderItemsList.filter(item_id=request.data["item_id"],serving_size = request.data["serving_size"])
+
+        if filteredItems.count() > 0 :
+            originalOldOrderItemObject = filteredItems.first()
+            oldOrderItemObject = filteredItems.first()
+            if oldOrderItemObject.item_status != "Confirm" and oldOrderItemObject.item_status != "Cancelled" :
+                cartData = dict()
+                item = Item.objects.get(id=request.data['item_id'])
+                discounted = 0
+                if allOffer.filter(item_name=item).count() > 0:
+                    if allOffer.get(item_name=item).offer_name.discount is not None:
+                        discounted = allOffer.get(item_name=item).offer_name.discount
+                cartData["quantity"]=  int(request.data['quantity']) + oldOrderItemObject.quantity
+                cartData["price"] = float(item.price_full * cartData["quantity"])-float(item.price_full * cartData["quantity"]/100)*float(discounted)
+                cartData["item_status"] = "Pending"
+                orderItemsSerializer = OrderItemSerializer(originalOldOrderItemObject, data=cartData, partial=True)
+                try:
+                    if orderItemsSerializer.is_valid(raise_exception=True):
+                        orderItemsSerializer.save()
+                except Exception as e:
+                    return {"error": e}
+                     
+            else :
+                OrderItem(
+                    order_id = Order.objects.get(id = request.data["order_id"]),
+                    item = request.data["item"],
+                    item_id = Item.objects.get(id = request.data["item_id"]),
+                    serving_size = request.data["serving_size"],
+                    quantity = request.data["quantity"],
+                    item_status = request.data["item_status"]
+                ).save()
+
+        else :
+            OrderItem(
+                order_id = Order.objects.get(id = request.data["order_id"]),
+                item = request.data["item"],
+                item_id = Item.objects.get(id = request.data["item_id"]),
+                serving_size = request.data["serving_size"],
+                quantity = request.data["quantity"],
+                item_status = request.data["item_status"]
+            ).save()
+
+        orderItemsSerializer=OrderItemSerializer(orderItemsList, many=True)
+
         itemsPrice = []
-        for cart in orderItemsObj:
+        for cart in orderItemsList:
             if(cart.item_status != "Cancelled") :
                 price = cart.price
                 itemsPrice.append(price)
@@ -2215,11 +2421,13 @@ class AddOrderItemsAPIView(APIView):
         order.sub_total=subTotal
         order.order_status="Placed"
         order.save()
+
         OrderSerializers = AllOrderSerializer(order)
-        # End of added code by Parineeta Gedam on 28-06-2023
+
         return Response({"msg":"success", "orderItems":orderItemsSerializer.data,"order":OrderSerializers.data})
 
-# # End of added code by :- Parineeta Gedam on 17-05-2023 new
+# End of added code by :- Parineeta Gedam on 10-07-2023 reason :- Implement Order Item update functionality
+
 
 # Added by :- Suman sahu
 # Date :- 27-05-2023
