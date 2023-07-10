@@ -278,7 +278,7 @@ export default function AddOrderItemForm(orderId) {
         //   End of addition and modification by Om Shrivastava on 28-06-23 Reason : apply the validation for quantity 
 
     }
-    console.log(quantitySelected, 'Selected quantity')
+    // console.log(quantitySelected, 'Selected quantity')
     const validateOnBlur = (inputName, value) => {
         {/* Modification and addition by Om Shrivastava on 28-06-23
         Reason : apply the validation for quantity */}
@@ -327,7 +327,7 @@ export default function AddOrderItemForm(orderId) {
     // End of addition by Om Shrivastava on 02-07-23
     //  Added by :-  Om shrivastava on 24-06-2023
     // Reason - submit order items 
-    console.log(quantityValidation, "Setvalidation")
+    // console.log(quantityValidation, "Setvalidation")
     const submitOrderItems = async () => {
 
         var allowDataPost = false;
@@ -433,6 +433,11 @@ export default function AddOrderItemForm(orderId) {
                                     name="name"
                                     id="itemDropDown"
                                     value={itemIdSelected}
+                                    // Added by Om Shrivastava on 10-07-23
+                                    // Reason : Apply the search functionality
+                                    showSearch
+                                    optionFilterProp="children"
+                                    // End of Added by Om Shrivastava on 10-07-23 Reason : Apply the search functionality
                                     // value={itemData[0]?.id}
                                     // value={itemNameSelected}
 
@@ -443,7 +448,11 @@ export default function AddOrderItemForm(orderId) {
                                         // alert(e.target.value)
                                         var itemName = itemData.filter((item) => item.id == e)[0]
                                         // setItemNameSelected(itemName.name)
-                                        setItemNameSelected(itemName.name)
+                                        // Added by Om Shrivastava on 10-07-23
+                                        // Reason : Apply the search functionality
+                                        // setItemNameSelected(itemName.name)
+                                        setItemNameSelected(itemName.name.trim())
+                                        // End of Added by Om Shrivastava on 10-07-23 Reason : Apply the search functionality
 
                                         itemIdSelected = e;
                                         setItemIdSelected(e);
@@ -455,6 +464,10 @@ export default function AddOrderItemForm(orderId) {
                                         handleMenuChange(e)
                                         // setItemNameSelected(e.target.value)
                                     }}
+                                    // optionFilterProp="children"
+                                    // filterOption={(input, option) =>
+                                    //     (itemData?.name  ?? '').toLowerCase().includes(input.toLowerCase())
+                                    //   }
                                 >
                                     {/* <option disabled selected value>
                       Select an item

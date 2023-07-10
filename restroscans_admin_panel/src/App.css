@@ -320,6 +320,13 @@ Reason : When popup is shown than its overlap in header page */
   border-color: white !important;
   /* End of addition by yuvraj Sahu on 19-06-2023 */
 } 
+
+/* Modification and addition by Om Shrivastava on 10-07-23 Reason : Need to fix the cursor in first position */
+.ant-select-selection-search{
+  inset-inline-start:1px !important;
+}
+/*End of  Modification and addition by Om Shrivastava on 10-07-23 Reason : Need to fix the cursor in first position */
+
 @media screen and (max-width: 1100px) {
   #pot{
      margin-top: 1.5%;
