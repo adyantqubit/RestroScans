@@ -201,6 +201,12 @@ export default function OrderItemsScreen({ route, navigation }) {
       setLoyalityAmount("" + response.orderDetail.apply_loyality_point)
       // setDiscountType(response.orderDetail.discount_type)
       // End of added code by :- Parineeta Gedam on 08-05-2023
+      
+
+      // Added by :- Om Shrivastava on 09-07-23
+      // Reason - to set table number
+      setTableNumber("" + response.orderDetail.table_number)
+      // End of added code by :- Om Shrivastava on 09-07-23
 
       // Added by :- Parineeta Gedam on 25-05-2023
       // Reason - get cgst sgst
@@ -819,6 +825,11 @@ export default function OrderItemsScreen({ route, navigation }) {
 
   var [loyalityPoint, setLoyalityAmount] = useState(0);
 
+  // Added by Om Shrivastava on 09-07-23
+  // Reason : Set the table number
+  var[tableNumber,setTableNumber] = useState("")
+  // End of addition by Om Shrivastava on 09-07-23
+
   // Added by Om Shrivastava on 08-06-23
   // Reason : Through the error message when user apply the max loyality point as compare to customer loyality point
   var[loyalityErrorMsg,setLoyalityErrorMsg] = useState(false)
@@ -842,6 +853,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   var [orderCancelReasonErrorMsg, setOrderCancelReasonErrorMsg] = useState(false);
   // End of added code by :- Parineeta Gedam on :- 18-06-2023
 
+  // Added by :- Om shrivastava on :- 09-07-2023
+  // reason :- this hooks used for show the cancel reason error msg
+  var [tableNumberErrorMsg, settableNumberErrorMsg] = useState(false);
+  // End of added code by :- Om shrivastava on :- 09-07-2023
+
   // Commented by :- Parineeta Gedam on 07-06-2023
   // Added by :- Parineeta Gedam on 10-05-2023
   // Reason :- on discount amount box show the error message.
@@ -858,6 +874,21 @@ export default function OrderItemsScreen({ route, navigation }) {
   // }
   // End of added code on 10-05-2023
   // End of commented code by PArineeta Gedam on 07-06-2023
+
+// Added by Om Shrivastava on 07-06-23
+  // Reason : When admin want to change the loyality point than its change
+  const tableNumberHandleChange = (e) => {
+    setTableNumber(e)
+    
+    // setloyalityPointPrice(settingData.per_loyality_point_value * e)
+
+      if (e =="") {
+        settableNumberErrorMsg(true)
+      }
+      else {
+        settableNumberErrorMsg(false)
+      }
+    }
 
   // Added by Om Shrivastava on 07-06-23
   // Reason : When admin want to change the loyality point than its change
@@ -959,6 +990,11 @@ export default function OrderItemsScreen({ route, navigation }) {
       // Reason : Save the loyality point through the native
       apply_loyality_point: loyalityPoint,
       // End of addition by Om Shrivastava on 07-06-23
+
+      // Added by Om Shrivastava on 09-07-23
+      // Reason : Save the table number through the native
+      table_number: tableNumber,
+      // End of addition by Om Shrivastava on 09-07-23
 
       // Added by Yuvraj Sahu on 14-06-23
       // Reason : Save the discount reason
@@ -1206,7 +1242,8 @@ export default function OrderItemsScreen({ route, navigation }) {
     // if (orderStatusSelected == "Confirm" && discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg==false) {
     // Added by Om Shrivastava on 26-06-23
     // Reason : When loyality price is greater to subtotal than show the error message
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false) {
+    // Added by Om Shrivastava on 10-07-23 Reason : Set the error message for table number
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false&& tableNumberErrorMsg == false) {
     // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
       // if ((checkConfirmOrder) || (checkConfirmOrderItems)){
       if (checkConfirmOrder){
@@ -1234,7 +1271,8 @@ export default function OrderItemsScreen({ route, navigation }) {
     // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false) {
       // Added by Om Shrivastava on 26-06-23
       // Reason : When loyality price is greater to subtotal than show the error message 
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false ) {
+    // Added by Om Shrivastava on 10-07-23 Reason : Set the error message for table number
+      if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false && tableNumberErrorMsg == false ) {
       // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
       
       // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
@@ -1605,6 +1643,23 @@ export default function OrderItemsScreen({ route, navigation }) {
   // End of added code by :- Parineeta Gedam on 17-06-2023 reason :- show confirmations message when admin select the cancel
   // End of Modified by :- Parineeta Gedam on 18-06-2023 reason :- show validations message when admin not enter any cancel reason 
 
+  // Added by Om on 09-07-23 Reason : set the confirmation for edit the table number
+  // function confirmationTableNumber(e) {
+  //   Alert.alert("Confirmation", "Are you sure you want to change the table number?", [
+  //     {
+  //       text: "Cancel",
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "OK",
+  //       onPress: (e) => {
+  //         tableNumberHandleChange(e);
+  //         // setTableNumber(e)
+  //       },
+  //     },
+  //   ]);
+  // }
+  // End of addition by Om Shrivastava on 09-07-23
   // --------------------------------------- Add kot print functionality -----------------------------------
 const printKot = async()=>{
 
@@ -1802,9 +1857,32 @@ const printKot = async()=>{
             <Text style={{ marginTop: 5 }}>
               <Text>Order ID</Text> : {orderDetail.order_id}
             </Text>
-            <Text style={{ marginTop: 5 }}>
-              <Text>Table No.</Text> : {orderDetail.table_number}
-            </Text>
+            <View style={{alignItems:"center",flexDirection:'row'}}>
+              <Text>Table No. : </Text> 
+              {/* Modification and addition by Om Shrivastasva on 09-07-23 
+              Reason : Edit the table number */}
+              {/* {orderDetail.table_number} */}
+              <View >
+                <TextInput style={styles.tableNumberStyle}
+                  numeric
+                  maxLength={6}
+                  // Added by :- Om shrivastava on 16-06-23 reason :- if payment is completed or paid then admin can not add loyality point  
+                  editable={
+                    orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled"
+                      ? false : true}
+                  value={tableNumber}
+                  
+                  onChangeText={(e) => {  tableNumberHandleChange(e);}}
+                  // onChangeText={(e) => {  setTableNumber(e);  } }
+                  // onPressIn={(e) => {  confirmationTableNumber(e);  } }
+                  />
+                  {tableNumberErrorMsg &&
+                    <Text style={{ color: "red", fontSize: 10 }}>Please enter table number</Text>
+                  }
+
+              </View>
+              {/* End of addition by Om Shrivastasva on 09-07-23 reason : set the table number and user can edit this field */}
+            </View>
 
             <Text style={{ marginTop: 5 }}>
               {/* Modify by- Suman sahu  On 30/04/2023
@@ -2312,7 +2390,10 @@ const printKot = async()=>{
 
             {/* Modification and addition by Om Shrivastava on 28-06-23
             Reason : Change the alignment of customer earn point */}
-            {settingData.allow_loyality_points==true && settingData.allow_loyality_points==true ?
+            {/* Modification and addition by Om Shrivastasva on 10-07-23
+            Reason : When loyality point is used, then show loyality price */}
+            {settingData.allow_loyality_points==true && settingData.allow_loyality_points==true || orderDetail.loyality_point_status=="is used" ?
+            // End of addition by Om Shrivastasva on 10-07-23
             <>
             <View style={styles.amountRow}>
                 
@@ -2372,7 +2453,10 @@ const printKot = async()=>{
             
             {/* Modification and addition by Om Shrivastava on 28-06-23
             Reason : Change the alignment of customer earn point */}
-            { settingData && settingData.allow_loyality_points==true? <>
+            {/* Modification and addition by Om Shrivastasva on 10-07-23
+            Reason : When loyality point is used, then show loyality price */}
+            { settingData && settingData.allow_loyality_points==true || orderDetail.loyality_point_status=="is used" ? <>
+           {/* End of addition and modification by Om Shrivastasva on 10-07-23 */}
             {/* End of modification by Om Shrivastava on 28-06-23 Reason : Change the alignment of customer earn point */}
               <View style={styles.amountRow}>
 
@@ -3156,6 +3240,19 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     marginTop: 10,
   },
+// Added by Om on 10-07-23
+// Reason : set the css for table number
+  tableNumberStyle: {
+    backgroundColor: "white",
+    borderRadius: 5,
+    borderWidth: 1,
+    width:100,
+    // paddingHorizontal: 5,
+    height: 25,
+    // marginTop:50,
+    // paddingTop:15
+  },
+// End of addition by Om shrivastava on 10-07-23
   // Added by Yuvraj Sahu on 14-4-2023
   // Reason - to design
   amountRow: {

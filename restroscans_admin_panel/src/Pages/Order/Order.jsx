@@ -564,7 +564,7 @@ const Order = () => {
 
 
                   style={{
-                    width: "40%",
+                    width: "45%",
                   }}
                 />
               </div>

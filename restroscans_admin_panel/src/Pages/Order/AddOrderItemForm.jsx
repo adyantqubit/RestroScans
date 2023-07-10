@@ -333,6 +333,8 @@ export default function AddOrderItemForm(orderId) {
         var allowDataPost = false;
         // Modification and addition by Om Shrivastava on 07-07-23
         // Reason : Set the validation for Quantity
+        // Modification and addition by Om Shrivastava on 09-07-23
+        // Reason : Set the validation for quantity
 
             if (isNaN(quantitySelected)) {
                 setquantityValidation("Quantity must be a number. ");
@@ -350,20 +352,8 @@ export default function AddOrderItemForm(orderId) {
                 }
 
             }
+            // End of addition by Om Shrivastava on 09-07-23
         
-        // if (NaN) { 
-
-        //     allowDataPost = false 
-        // }
-        // else {
-        //     if (0) {
-
-        //         allowDataPost = false
-        //     } else {
-
-        //         allowDataPost = true
-        //     }
-        // }
         // if (quantitySelected != "" && quantitySelected != 0 && quantityValidation == "") {
         //     allowDataPost = true;
         // }

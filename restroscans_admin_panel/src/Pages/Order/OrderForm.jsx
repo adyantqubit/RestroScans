@@ -576,7 +576,7 @@ const OrderForm = () => {
                   // Modifed by ROhan kansari - 30/6/23
                   // Reason - To make tabel no. editable
                   onChange={e => setTablenumber(e.target.value)}
-                  // style={{ width: "200px" }}
+                  style={{ width: "200px" }}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
                   //     setWhatsappNumber(whatsappNumber.substring(3,13))
