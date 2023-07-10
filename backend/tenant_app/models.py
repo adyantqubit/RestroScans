@@ -1162,7 +1162,18 @@ class Order(models.Model):
                     self.cgst = round(float("{:.2f}".format(cgst)),2)
                     sgst = ( sub_total*(tax.sgst)/100)
                     self.sgst = round(float("{:.2f}".format(sgst)),2)
-                    self.total= round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
+
+                    # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                    # self.total= round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
+                    # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                    
+                    # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                    self.total= round(float("{:.2f}".format(sub_total)),2)
+                    # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                    
+                    
+                    
+                    
                     self.final_amount = round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
                   
                     # # Added by Om Shrivastava on 28-05-23
@@ -1216,7 +1227,16 @@ class Order(models.Model):
                 self.cgst = round(float("{:.2f}".format(cgst)),2)
                 sgst = ( self.sub_total*(tax.sgst)/100)
                 self.sgst = round(float("{:.2f}".format(sgst)),2)
-                self.total= round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
+
+
+                # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                # self.total= round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
+                # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+
+                # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                self.total= round(float("{:.2f}".format( self.sub_total)),2)
+                # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+                
                 self.final_amount = round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
                 super(Order, self).save(*args, **kwargs)
 

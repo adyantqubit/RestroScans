@@ -268,9 +268,17 @@ export default function OrderDetails() {
       var a =
         (newSubTotal * settingData.cgst) / 100 +
         (newSubTotal * settingData.sgst) / 100;
+
+      // Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component  
       // Added by :- Parineeta Gedam on 30-06-2023
-       copyOrder.total = a + newSubTotal;
+      // copyOrder.total = a + newSubTotal;
       // End of added code on 30-06-2023
+      // End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+
+      // Added by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component  
+      copyOrder.total = newSubTotal;
+      // End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+
       copyOrder.final_amount = a + newSubTotal;
     }
     setOrderItem([...allOrderItem]);
@@ -345,9 +353,16 @@ export default function OrderDetails() {
           (newSubTotal * settingData.cgst) / 100 +
           (newSubTotal * settingData.sgst) / 100;
 
+        // Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component  
         // Added by :- Parineeta Gedam on 30-06-2023
-        copyOrder.total = a + newSubTotal;
+        // copyOrder.total = a + newSubTotal;
         // End of added code on 30-06-2023
+        // End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+
+        // Added by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component  
+        copyOrder.total = newSubTotal;
+        // End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
+
         copyOrder.final_amount = a + newSubTotal;
       }
     } else {
