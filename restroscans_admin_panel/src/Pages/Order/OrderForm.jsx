@@ -208,9 +208,9 @@ const OrderForm = () => {
     if (inputName == "apply_loyality_point") {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
-          if (value < 0 || customerLoyalitypoint < value) {
+          if (value < 0 || customerLoyalitypoint < value || subTotal < loyalityPointPrice) {
             const error = {
-              apply_loyality_point: "Loyality point must be greater than 0 and below the customer loyality point.",
+              apply_loyality_point: "Loyality point must be greater than 0 and below the customer loyality point and below the subtotal.",
             };
             setValidationErrors({ ...validationErrors, ...error });
           } else {
@@ -752,91 +752,100 @@ const OrderForm = () => {
               </div>
             </div>
             {/* End of addition by Om Shrivastava on 02-07-23 */}
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
-                  {/* Modification and addition by Om Shrivastava on 22-06-23
+            {/* Modification and addition by Om Shrivastava on 12-07-23 
+            Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show */}
+            {settings.allow_loyality_points == true && settings.allow_loyality_points == true ?
+              <>
+                <div className={`${style.inputContainer}`}>
+                  <div className={`${style.inputArea}`}>
+                    <div className={`${style.inputLabel}`}>
+                      {/* Modification and addition by Om Shrivastava on 22-06-23
                     Reason : Need to change the name */}
-                  {/* Customer loyality point */}
-                  Customer earn point
-                  {/* End of addition and modifciation by Om Shrivastava on 22-06-23 */}
+                      {/* Customer loyality point */}
+                      Customer earn point
+                      {/* End of addition and modifciation by Om Shrivastava on 22-06-23 */}
+                    </div>
+                    <input
+                      className={`${style.textInputBox} ${style.disabledInputBox}`}
+                      type="text"
+                      name="customer_loyality_point"
+                      style={{ width: "100px" }}
+                      value={customerLoyalitypoint}
+                      disabled
+                      onChange={(e) => {
+                        // setcustomerLoyalitypoint(e.target.value);
+                        // validateOnInput(
+                        //   "amount_for_single_loyality_point",
+                        //   e.target.value
+                        // );
+                      }}
+                    // onBlur={(e) => {
+                    //   validateOnBlur(
+                    //     "amount_for_single_loyality_point",
+                    //     e.target.value
+                    //   );
+                    // }}
+                    />
+                  </div>
+                  <div className={`${style.inputErrorArea}`}>
+                    {/* {validationErrors.cus} */}
+                  </div>
+                  {/* End of addition by Om Shrivastava on 02-07-23 */}
+
                 </div>
-                <input
-                  className={`${style.textInputBox} ${style.disabledInputBox}`}
-                  type="text"
-                  name="customer_loyality_point"
-                  style={{ width: "100px" }}
-                  value={customerLoyalitypoint}
-                  disabled
-                  onChange={(e) => {
-                    // setcustomerLoyalitypoint(e.target.value);
-                    // validateOnInput(
-                    //   "amount_for_single_loyality_point",
-                    //   e.target.value
-                    // );
-                  }}
-                // onBlur={(e) => {
-                //   validateOnBlur(
-                //     "amount_for_single_loyality_point",
-                //     e.target.value
-                //   );
-                // }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {/* {validationErrors.cus} */}
-              </div>
-            {/* End of addition by Om Shrivastava on 02-07-23 */}
+                {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
 
-            </div>
-            {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
+                <div className={`${style.inputContainer}`}>
+                  <div className={`${style.inputArea}`}>
+                    <div className={`${style.inputLabel}`}>
+                      Apply loyality point
+                    </div>
+                    <input
+                      // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
+                      className={loyalityPointStatus == "is used" || paymentStatus == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
+                      type="text"
+                      // type="number"
+                      name="apply_loyality_point"
+                      style={{ width: "200px" }}
+                      value={applyLoyalityPoint}
+                      // onkeydown="if(event.key==='.'){event.preventDefault();}"
+                      // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
+                      // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
+                      disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" || paymentStatus == "Paid" ? true : false}
+                      // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
+                      onChange={(e) => {
+                        setApplyLoyalityPoint(e.target.value);
+                        setLoyalityPointPrice(settings.per_loyality_point_value * e.target.value)
+                        // subtracting subtotal - to loyality point then we get total
+                        var total = orderDetailsObj.sub_total - (settings.per_loyality_point_value * e.target.value) - discountprice
+                        setTotal(total)
+                        var final = total + orderDetailsObj.cgst + orderDetailsObj.sgst
+                        setFinalAmount(final)
+                        // validateOnInput(
+                        //   "apply_loyality_point",
+                        //   e.target.value
+                        // );
+                      }}
+                      onBlur={(e) => {
+                        validateOnBlur(
+                          "apply_loyality_point",
+                          e.target.value
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className={`${style.inputErrorArea}`}>
+                    {validationErrors.apply_loyality_point}
+                  </div>
 
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
-                  Apply loyality point
                 </div>
-                <input
-                  // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
-                  className={loyalityPointStatus == "is used" || paymentStatus=="Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
-                  type="text"
-                  // type="number"
-                  name="apply_loyality_point"
-                  style={{ width: "200px" }}
-                  value={applyLoyalityPoint}
-                  // onkeydown="if(event.key==='.'){event.preventDefault();}"
-                  // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
-                  // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
-                  disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" || paymentStatus=="Paid" ? true : false}
-                  // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
-                  onChange={(e) => {
-                    setApplyLoyalityPoint(e.target.value);
-                    setLoyalityPointPrice(settings.per_loyality_point_value * e.target.value)
-                    // subtracting subtotal - to loyality point then we get total
-                    var total = orderDetailsObj.sub_total - (settings.per_loyality_point_value * e.target.value) - discountprice
-                    setTotal(total)
-                    var final = total + orderDetailsObj.cgst + orderDetailsObj.sgst
-                    setFinalAmount(final)
-                    // validateOnInput(
-                    //   "apply_loyality_point",
-                    //   e.target.value
-                    // );
-                  }}
-                  onBlur={(e) => {
-                    validateOnBlur(
-                      "apply_loyality_point",
-                      e.target.value
-                    );
-                  }}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.apply_loyality_point}
-              </div>
+              </>
+              : null}
+            {/* End of addition and modifciation by Om Shrivastava on 12-07-23 
+            Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show  */}
 
-            </div>
-                {/* End of addition and Modification by Om Shrivastava on 01-07-23 */}
+            {/* End of addition and Modification by Om Shrivastava on 01-07-23 */}
 
             {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
 
@@ -872,7 +881,7 @@ const OrderForm = () => {
             </div> */}
 
           </div>
-            {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
+          {/* Modification by Om Shrivastava on 02-07-23 REason : Change the position of cards in this page */}
 
           <div className={`${style.sectionInsideForm}`}>
 
@@ -986,8 +995,8 @@ const OrderForm = () => {
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
                     // Reason - To block minus sign
-                    if(e.target.value.includes("-") && e.target.value.length>1)
-                    e.target.value=0
+                    if (e.target.value.includes("-") && e.target.value.length > 1)
+                      e.target.value = 0
                     // End of code - ROhan kansari - 30/6/23
                     setDiscountRupee(e.target.value);
                     setDiscountprice(e.target.value)
@@ -1035,8 +1044,8 @@ const OrderForm = () => {
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
                     // Reason - To block minus sign
-                    if(e.target.value<0)
-                    e.target.value=0
+                    if (e.target.value < 0)
+                      e.target.value = 0
                     // End of code - ROhan kansari - 30/6/23
                     setDiscountPercentage(e.target.value);
                     setDiscountRupee(0)
@@ -1074,9 +1083,9 @@ const OrderForm = () => {
                   // End of addition by Om Shrivastava on 08-07-23
                   type="text"
                   name="discount_reason"
-                  style={orderDetailsObj.payment_status == "Completed" 
-                  || orderDetailsObj.order_status == "Cancelled"
-                   ? {resize:'none'} : { width: "200px", height: "100px", resize: 'none' }}
+                  style={orderDetailsObj.payment_status == "Completed"
+                    || orderDetailsObj.order_status == "Cancelled"
+                    ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}
                   value={discountReason == null ? "----" : discountReason}
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount reason when payment status is Paid
@@ -1121,27 +1130,36 @@ const OrderForm = () => {
               </div>
               <div className={`${style.inputErrorArea}`}>
               </div>
-            </div> 
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
-                  Loyality point price
-                </div>
-                <input
-                  className={`${style.textInputBox} ${style.disabledInputBox}`}
-                  type="text"
-                  name="loyality_point_price"
-                  style={{ width: "100px" }}
-                  //  Modified by Rohan kansari - 28/6/23
-                  //   Reason - to show float with 2 decimal point
-                  value={loyalityPointPrice?.toFixed(2)}
-                  disabled
-                
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>
-              </div>
             </div>
+            {/* Modification and addition by Om Shrivastava on 12-07-23 
+            Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show */}
+            {settings.allow_loyality_points == true && settings.allow_loyality_points == true ?
+              <>
+                <div className={`${style.inputContainer}`}>
+                  <div className={`${style.inputArea}`}>
+                    <div className={`${style.inputLabel}`}>
+                      Loyality point price
+                    </div>
+                    <input
+                      className={`${style.textInputBox} ${style.disabledInputBox}`}
+                      type="text"
+                      name="loyality_point_price"
+                      style={{ width: "100px" }}
+                      //  Modified by Rohan kansari - 28/6/23
+                      //   Reason - to show float with 2 decimal point
+                      value={loyalityPointPrice?.toFixed(2)}
+                      disabled
+
+                    />
+                  </div>
+                  <div className={`${style.inputErrorArea}`}>
+                  </div>
+                </div>
+              </>
+              : null}
+            {/* End of addition and modifciation by Om Shrivastava on 12-07-23 
+            Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show  */}
+
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
@@ -1159,7 +1177,7 @@ const OrderForm = () => {
             </div>
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                <div  className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
+                <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
                 <input
                   className={`${style.textInputBox} ${style.disabledInputBox}`}
                   type="text"
@@ -1361,8 +1379,8 @@ const OrderForm = () => {
           {/* Commented by Om  shrivastava on 01-07-23 */}
 
 
-          
-            {/* <div className={`${style.inputContainer}`}>
+
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
                 <input

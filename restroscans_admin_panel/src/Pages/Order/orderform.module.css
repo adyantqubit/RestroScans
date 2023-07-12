@@ -123,7 +123,11 @@ Reason : Need to apply this css when some field is disable */
 /* End of addition by Om Shrivastava on 22-06-23 */
 
 .inputErrorArea {
-  margin-left: 200px;
+  /* Modification and addition by Om Shrivastava on 12-07-23
+  Reason : Fix the margin of error contents */
+  /* margin-left: 200px; */
+  margin-left: 180px;
+  /* End of addition and modfication by Om Shrivastava on 12-07-23 */
   font-size: 13px;
   width: 250px;
   color: red;
