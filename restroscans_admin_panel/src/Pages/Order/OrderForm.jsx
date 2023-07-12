@@ -214,10 +214,23 @@ const OrderForm = () => {
             };
             setValidationErrors({ ...validationErrors, ...error });
           } else {
-            const error = {
-              apply_loyality_point: "",
-            };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivastava on 12-07-23 Reason :Set the validation when loyality price is greater to subtotal
+            // const error = {
+            //   apply_loyality_point: "",
+            // };
+            // setValidationErrors({ ...validationErrors, ...error });
+                if ( subTotal < loyalityPointPrice) {
+                  const error = {
+                    apply_loyality_point: "Loyality price should be less than to sub-total.",
+                  };
+                  setValidationErrors({ ...validationErrors, ...error });
+                } else {
+                  const error = {
+                    apply_loyality_point: "",
+                  };
+                  setValidationErrors({ ...validationErrors, ...error });
+                }
+            //End of Modification and addition by Om Shrivastava on 12-07-23 Reason :Set the validation when loyality price is greater to subtotal
           }
         } else {
           const error = {
@@ -754,7 +767,7 @@ const OrderForm = () => {
             {/* End of addition by Om Shrivastava on 02-07-23 */}
             {/* Modification and addition by Om Shrivastava on 12-07-23 
             Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show */}
-            {settings.allow_loyality_points == true && settings.allow_loyality_points == true ?
+            {settings.allow_loyality_points && settings.allow_loyality_points == true ?
               <>
                 <div className={`${style.inputContainer}`}>
                   <div className={`${style.inputArea}`}>
@@ -1133,7 +1146,7 @@ const OrderForm = () => {
             </div>
             {/* Modification and addition by Om Shrivastava on 12-07-23 
             Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show */}
-            {settings.allow_loyality_points == true && settings.allow_loyality_points == true ?
+            {settings.allow_loyality_points && settings.allow_loyality_points == true ?
               <>
                 <div className={`${style.inputContainer}`}>
                   <div className={`${style.inputArea}`}>
@@ -1582,7 +1595,7 @@ const OrderForm = () => {
           <div
             className={` ${style.backButton}`}
             style={{
-              marginRight: "10px",
+              // marginRight: "10px",
             }}
             onClick={(e) => {
               getOrderDetail();
@@ -1594,7 +1607,7 @@ const OrderForm = () => {
           <div
             className={` ${style.backButton}`}
             style={{
-              marginRight: "10px",
+              // marginRight: "10px",
             }}
             onClick={(e) => {
               navigate(-1);
@@ -1615,7 +1628,7 @@ const OrderForm = () => {
           <div
             className={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.addMoreItemButtonDisabled}` : ` ${style.addMoreItemButton}`}
             style={{
-              marginRight: "10px",
+              // marginRight: "10px",
             }}
             onClick={(e) => {
               setModalVisible(true)

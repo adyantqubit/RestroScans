@@ -148,6 +148,7 @@ Reason : Need to apply this css when some field is disable */
   transition: all 0.3s;
   font-size: 18px;
   width:100px;
+  margin-right: 10px;
   /* width:200px; */
 
   margin-top: 10px;
@@ -201,6 +202,7 @@ Reason : Need to apply this css when some field is disable */
   background: #1cafbe;
   line-height: 1.15;
   font-size: 16px;
+  margin-right: 10px;
 }
 .addMoreItemButton:hover {
   /* cursor: pointer;
@@ -213,6 +215,8 @@ Reason : Need to apply this css when some field is disable */
 Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
 .addMoreItemButtonDisabled{
   display: none;
+margin-right: 10px;
+
   /* border: 2px solid black; */
 }
 /* End of addition by Om Shrivastava on 23-06-23 Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
@@ -239,6 +243,8 @@ Reason : When payment status is completed or orderstatus is cancelled so this bu
   color: #fff;
   line-height: 1.15;
   font-size: 16px; 
+  /* margin-top: 10px; */
+
   /* End of added code by Om Shrivastava on 08-07-23  */
 }
 .proceedButton:hover {
@@ -430,6 +436,27 @@ Reason : When payment status is completed or orderstatus is cancelled so this bu
     margin-top: 1.5%;
   }
 }
+/* Added by Om Shrivastava on 12-07-23 For set the button alignment in mobileview */
+@media screen and (max-width : 430px){
+  .actionContainer{
+    width: 100%;
+    /* border: 1px solid green; */
+    justify-content: space-around;
+  }
+  .backButton{
+    margin: 0px !important;
+  }
+  .addMoreItemButtonDisabled{
+    margin: 0px !important;
+  }
+  .addMoreItemButton{
+    margin: 0px !important;
+  }
+  .proceedButton{
+    margin-top: 0px;
+  }
+}
+/* End of addition by Om Shrivastava on 12-07-23 */
 @media screen and (max-width: 400px) {
   .container {
     --common-column-width: 15%;
