@@ -52,6 +52,12 @@ export default function AddOrderItemForm(orderId) {
             // Added by :- Parineeta Gedam on 11-06-2023
             // reason :- when admin not select half then show serving size only "Full"
             setAllowHalfPrice(response.setting.allow_half_price);
+
+            // Added by :- Parineeta Gedam on 12-07-2023 reason :- if allow half price is true then serving size will be empty.
+            if (response.setting.allow_half_price == true){
+                setServingSizeSelected("")
+            }
+            // End of added by :- Parineeta Gedam on 12-07-2023 reason :- if allow half price is true then serving size will be empty.
             if (response.setting.allow_half_price == false) {
                 var rm = servingSizeData.slice(1);
                 setServingSizeData(rm)
@@ -74,13 +80,13 @@ export default function AddOrderItemForm(orderId) {
     const [itemIdSelected, setItemIdSelected] = useState(0);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
-    // Modified by :- Parineeta Gedam on 07-07-2023 reason :- bydefault select full
+    // Modified by :- Parineeta Gedam on 12-07-2023 reason :- bydefault select full
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set serving size selcted data
     // const [servingSizeSelected, setServingSizeSelected] = useState("");
     const [servingSizeSelected, setServingSizeSelected] = useState("Full");
     // End of added code by :- Parineeta Gedam on 24-05-2023
-    // End of modified code by :- Parineeta Gedam on 07-07-2023 reason :- bydefault select full
+    // End of modified code by :- Parineeta Gedam on 12-07-2023 reason :- bydefault select full
 
     // Added  by :- Parineeta Gedam on 24-05-2023
     // Reason - This is used for set quantity
@@ -115,7 +121,9 @@ export default function AddOrderItemForm(orderId) {
         setservingSizeRequired(false);
         // Modified by :- Parineeta gedam 
         getAllMenus();
+
     }, [isFocused]);
+
     // End of added code by :- Parineeta Gedam on 27-05-2023
 
     // Commented by :- Parineeta Gedam on 11-06-2023
@@ -398,7 +406,7 @@ export default function AddOrderItemForm(orderId) {
                                             </Text>
                                         )}
                                     </View>
-                                    {/* Added and modified by :- PArineeta Gedam on 07-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. */}
+                                    {/* Added and modified by :- PArineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. */}
                                     {allowHalfPrice ? 
                                     
                                     <View style={styles.formContainer}>
@@ -478,7 +486,7 @@ export default function AddOrderItemForm(orderId) {
                                     </View>
                                     </View>
                                     }
-                                    {/* End of Added and modified by :- Parineeta Gedam on 07-07-2023 reason :- Serving section should not be in dropdown, If only full size is available.   */}
+                                    {/* End of Added and modified by :- Parineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available.   */}
 
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
@@ -693,7 +701,7 @@ const styles = StyleSheet.create({
         color: "#dc3545",
         paddingHorizontal: 10,
     },
-    // Added by :- Parineeta Gedam on 07-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. 
+    // Added by :- Parineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. 
     servingSizeInput: {
         height: 35,
         borderColor: "black",
@@ -713,5 +721,5 @@ const styles = StyleSheet.create({
         margin :"auto"
     }
 
-    // End of added code by :- Parineeta Gedam on 07-07-2023 reason : Serving section should not be in dropdown, If only full size is available.
+    // End of added code by :- Parineeta Gedam on 12-07-2023 reason : Serving section should not be in dropdown, If only full size is available.
 });
