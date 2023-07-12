@@ -638,7 +638,9 @@ const OrderForm = () => {
                   type="text"
                   name="cancel_reason"
                   value={cancelReaon}
-                  style={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px" } : { width: "200px", height: "100px", resize: 'none' }}
+                  style={orderDetailsObj.payment_status == "Completed" && 
+                  orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px" ,resize:'none'} : 
+                   { width: "200px", height: "100px", resize: 'none' }}
                   disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
@@ -1072,7 +1074,9 @@ const OrderForm = () => {
                   // End of addition by Om Shrivastava on 08-07-23
                   type="text"
                   name="discount_reason"
-                  style={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? {resize:'none'} : { width: "200px", height: "100px", resize: 'none' }}
+                  style={orderDetailsObj.payment_status == "Completed" 
+                  || orderDetailsObj.order_status == "Cancelled"
+                   ? {resize:'none'} : { width: "200px", height: "100px", resize: 'none' }}
                   value={discountReason == null ? "----" : discountReason}
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount reason when payment status is Paid

@@ -311,6 +311,11 @@ const OrderItemForm = () => {
                   name="item"
                   value={itemName}
                   disabled
+                  // Added by Om Shrivastava on 12-07-23
+                  // Reason : Increase the width of input
+                  style={{width:'200px'}}
+                  // End of added code by Om Shrivastava on 12-07-23
+                  // Reason : Increase the width of input
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
@@ -360,7 +365,10 @@ const OrderItemForm = () => {
                 <select
                   className={`${style.textInputBox}`}
                   name="item_status"
-                  style={{ width: "200px" }}
+                  // Modification by Om Shrivastava on 12-07-23 Reason : Decrease the width of Item status
+                  // style={{ width: "200px" }}
+                  style={{ width: "120px" }}
+                  //End of code Modification by Om Shrivastava on 12-07-23 Reason : Decrease the width of Item status
                   onChange={(e) => {
                     setItemStatus(e.target.value);
                     // validateOnInput("app_theme", e.target.value);

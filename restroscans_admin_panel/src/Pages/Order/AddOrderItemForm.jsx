@@ -412,7 +412,7 @@ export default function AddOrderItemForm(orderId) {
                             <div className={`${style.inputArea}`}>
                                 <div className={`${style.inputLabel}`}>Order Id</div>
                                 <input
-                                    className={`${style.textInputBox}`}
+                                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                                     type="text"
                                     name="order_id"
                                     value={orderId.orderId}
@@ -567,7 +567,7 @@ export default function AddOrderItemForm(orderId) {
                             <div className={`${style.inputArea}`}>
                                 <div className={`${style.inputLabel}`}>Price</div>
                                 <input
-                                    className={`${style.textInputBox}`}
+                                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                                     type="text"
                                     name="price"
                                     id='singlePrice'
@@ -590,7 +590,7 @@ export default function AddOrderItemForm(orderId) {
                             <div className={`${style.inputArea}`}>
                                 <div className={`${style.inputLabel}`}>Total Price</div>
                                 <input
-                                    className={`${style.textInputBox}`}
+                                    className={`${style.textInputBox} ${style.disabledInputBox}`}
                                     type="text"
                                     name="cancel_reason"
                                     id='multipliedPrice'
