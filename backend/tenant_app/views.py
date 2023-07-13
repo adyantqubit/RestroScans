@@ -504,7 +504,11 @@ class getAllMenusAPI(APIView):
         itemListbyId=Item.objects.all().order_by('id')
         # Modification and addition by Om Shrivastava on 07-07-23
         # Reason : If item is active, than its show in dropdown, anotherwise its not show 
-        filteredData = itemListbyId.filter(is_active = True)
+        # Modification and addition by Om Shrivastava on 12-07-23 
+        # Reason : When category and menu is is_active then show the item name anotherwise not show
+        # filteredData = itemListbyId.filter(is_active = True)
+        filteredData = itemListbyId.filter(is_active = True,category__menu__is_active=True,category__is_active=True)
+        # End of addition and modification by Om Shrivastava on 12-07-23
         # itemListSerializerbyId=ItemListSerializer(itemListbyId,many=True)
         itemListSerializerbyId=ItemListSerializer(filteredData,many=True)
         # End of addition by Om Shrivastava on 07-07-23 Reason : If item is active, than its show in dropdown, anotherwise its not show 
