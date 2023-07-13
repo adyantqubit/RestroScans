@@ -208,9 +208,9 @@ const OrderForm = () => {
     if (inputName == "apply_loyality_point") {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
-          if (value < 0 || customerLoyalitypoint < value || subTotal < loyalityPointPrice) {
+          if (value < 0 || customerLoyalitypoint < value) {
             const error = {
-              apply_loyality_point: "Loyality point must be greater than 0 and below the customer loyality point and below the subtotal.",
+              apply_loyality_point: "Loyality point must be greater than 0 and below the customer loyality point.",
             };
             setValidationErrors({ ...validationErrors, ...error });
           } else {
