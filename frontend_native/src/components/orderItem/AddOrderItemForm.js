@@ -304,6 +304,34 @@ export default function AddOrderItemForm(orderId) {
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
     // End of Modified by :- PArineeta Gedam on 25-06-2023 reason :- modified for validations message
+
+    // Added by  Parineeta Gedam on 14-07-23
+    // Reason : if full price is there but half plate price is not available for that item. Then also serving size should not be shown in the dropdown
+    const handleMenuChange = (e) => {
+        if (offerList.filter((item) => item.item_id == e).length) {
+            var itemName = offerList.filter((item) => item.item_id == e)[0]
+            if (itemName && itemName.item_halfprice == null || itemName.item_halfprice == undefined || itemName.price_half == "0.00") {
+                setAllowHalfPrice(false)
+                setServingSizeSelected("Full")
+
+            } else {
+                setAllowHalfPrice(true)
+            }
+        }
+        else {
+            var itemName = itemList.filter((item) => item.id == e)[0]
+            if (itemName && itemName.price_half == null || itemName.price_half == undefined || itemName.price_half == "0.00") {
+                setAllowHalfPrice(false)
+                setServingSizeSelected("Full")
+            }
+            else {
+                setAllowHalfPrice(true)
+            }
+        }
+    };
+    // End of Added by  Parineeta Gedam on 14-07-23
+    // Reason : if full price is there but half plate price is not available for that item. Then also serving size should not be shown in the dropdown
+
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -366,6 +394,7 @@ export default function AddOrderItemForm(orderId) {
                                             renderDropdownIcon={() => {
                                                 return <AntDesign name="down" size={14} color="black" />;
                                             }}
+                                            
                                             buttonStyle={{
                                                 height: 35,
                                                 borderColor: "black",
@@ -384,6 +413,12 @@ export default function AddOrderItemForm(orderId) {
                                                 setPrice(0);
                                                 setItemNameRequired(false);
                                                 setItemNameSelected(selectedItemId.name)
+                                                // Added by :- Parineeta Gedam on 14-07-2023 reason :- if full price is there but half plate price is not available for that item.
+                                                // Then also serving size should not be shown in the dropdown
+                                                handleMenuChange(selectedItemId.id)
+                                                // End of Added code by :- Parineeta Gedam on 14-07-2023 reason :- if full price is there but half plate price is not available for that item.
+                                                
+
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}
                                             buttonTextAfterSelection={(selectedItemName, index) => {
