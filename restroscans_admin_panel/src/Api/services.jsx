@@ -695,3 +695,29 @@ export const getOrderItemDataShowApi = async (tenant) => {
   return response ? response.data : {};
 };
 // End of addition by Om Shrivastava on 30-06-23
+
+// ------------------------------- Payment method API --------------------------- //
+// Added by Parineeta Gedam on 12-07-2023
+// Reason - to save payment method
+export const savePaymentMethodApi = async (tenant,value) => {
+  const response = await API.post(`/api/v1/${tenant}/get-scanner/`, value, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End saving payment method
+
+// ------------------------------- Payment method API --------------------------- //
+// Added by Parineeta Gedam on 27-4-2023
+// Reason - to get payment method
+export const getPaymentMethodApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/get-scanner/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End getting payment method
