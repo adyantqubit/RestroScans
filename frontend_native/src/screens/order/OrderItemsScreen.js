@@ -150,6 +150,14 @@ export default function OrderItemsScreen({ route, navigation }) {
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to get orders
   // This function is created for getting all orders
+  /**
+   * Added by yuvraj Sahu on 12-07-2023
+   * Reason - to enable and disable duplicate kot button
+   */
+  const [isDuplicateKotDisable, setIsDuplicateKotDisable] = useState(true)
+  /**
+   * End of addition by Yuvraj Sahu on 12-07-2023
+   */
   const getOrderItems = async () => {
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
@@ -160,6 +168,14 @@ export default function OrderItemsScreen({ route, navigation }) {
     // End of modification
     if (response.msg) {
       setOrderItems(response.orderItems);
+      /**
+       * Added by yuvraj Sahu on 12-07-2023
+       * Reason - to enable and disable duplicate kot button
+       */
+      setIsDuplicateKotDisable(response.orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? false : true)
+      /**
+       * End of addition by Yuvraj Sahu on 12-07-2023
+       */
       setCustomerDetail(response.customerDetail);
       // Added by Yuvraj Sahu on 14-4-2023
       // Reason - to set order detail in state
@@ -3146,10 +3162,15 @@ const printKot = async()=>{
         <View style={styles.mainButtonDiv}>
               <Pressable
                 onPress={printKot}
+                // Modified by Yuvraj Sahu on 12-07-2023
                 // disabled={orderDetail.order_status == "Placed" ? true : false}
+                // disabled ={orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? false : true}
+                disabled ={isDuplicateKotDisable}
                 style={{
                   // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
+                  // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
+                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
+                  // backgroundColor: colors.btnColor,
                   height: 30,
                   alignItems: "center",
                   justifyContent: "center",
