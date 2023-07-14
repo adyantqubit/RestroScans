@@ -426,10 +426,10 @@
     /* width: 280px; */
     width: 100%;
     /* end of code - 11-06-2023 */
-    
+    min-height: 30vh;
     height: auto;
     border-radius: 10px;
-    background-color:#faf5f5;
+    background-color:#fff;
 }
 
 
@@ -557,11 +557,13 @@
 
 .selctedContentBox{
     display: flex;
-    justify-content: space-between;
+    width: fit-content;
+    margin: 0 auto;
+    /* justify-content: space-between; */
     /* Modified by ROhan kansari - 29/6/23 */
     border: 1px solid #000;
     border-radius: 5px;
-    padding: 0 2px;
+    padding: 0 10px;
     
 }
 
@@ -665,7 +667,7 @@
     /* end of addition on - 14/06/2023 */
     font-size: var(--label-font-size);
     /* Modified by ROhan kansari - 29/6/23 */
-    padding: 10px 0px 0pc 10px;
+    /* padding: 10px 0px 0pc 10px; */
     font-size: 600;
     letter-spacing: 1.7px;
     /* added by - Suman sahu on - 16/06/2023 */
@@ -1044,14 +1046,854 @@ input[type="radio"]:checked + .tabLabel {
 /* Added by Yuvraj Sahu on 01-07-2023
 Reason - to design radio button container */
 .selctedContentBox{
-    width: 70%;
+    width: fit-content;
 }
-.lable{
+/* .lable{
     width: 20vw;
-}
+} */
 .updateflexContainer{
     width: 100%;
 }
 /* End of addition by Yuvraj sahu on 01-07-2023 */
 }
 /* end of code - 15-06-2023 */
+
+
+
+/* Added by ROhan kansari - 12/7/23 
+   Reason- new ui designing  */
+
+.CustomerInformationBox{
+    width: 100%;
+    min-height:100px;
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
+    padding-bottom: 10px;
+}
+
+.WhiteLabel{
+    color: #000;
+    font-size: var(--label-font-size);
+    width: fit-content;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+}
+
+.Order_idText{
+    color:#000;
+    text-align: center;
+    font-size:var(--heading-font-size);
+    padding: 10px 0;
+    border-bottom: 1px solid white;
+    margin-bottom: 10px;
+}
+
+.informationContainer{
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    row-gap: 0px;
+    flex-wrap: wrap;
+    /* width: 100%; */
+}
+
+.information{
+    min-width: 30%;
+    /* width: 48%; */
+    display: flex;
+    gap: 14px;
+}
+
+.data{
+    color:#000;
+    white-space: nowrap;
+    display: flex;
+}
+
+.scrollContainer{
+    max-height: 60vh;
+    overflow: auto;
+}
+
+
+.scrollContainer::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	background-color: transparent;
+    width: 0;
+    display: none;
+}
+
+.scrollContainer::-webkit-scrollbar
+{
+	width: 0;
+	background-color: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb
+{
+    /* Added by ROhan kansari - 28/6/23 */
+	background-color: rgb(39,166,75);
+    display: none;
+	/* border: 1px solid white; */
+}
+
+.orderItemContainer{
+    width: 100%;
+    min-height:40vh;
+    /* max-height: 30vh; */
+    overflow: auto;
+    position: relative;
+    background-color: #f8f7f7;
+    
+}
+
+.itemsContent::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	background-color: transparent;
+}
+
+.itemsContent::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: transparent;
+}
+
+.itemsContent::-webkit-scrollbar-thumb
+{
+    /* Added by ROhan kansari - 28/6/23 */
+	background-color: #43475c;
+	/* border: 1px solid white; */
+}
+
+.orderItemHeader{
+    position :absolute;
+    height: 30px;
+    width: 100%;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item_heading{
+    width:35%;
+    min-width: 140px;
+    height:100%;
+    margin-left:20px;
+    margin-right: 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #e7e7e7;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.QtyNPriceHeadings{
+    min-width: 150px;
+    height:100%;
+    margin: 0 0px;
+    display: flex;
+}
+
+.priceHeading{
+    padding: 4px 10px;
+    font-size: 16px;
+    margin: 0 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #e7e7e7;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.quantityHeading{
+    padding: 4px 8px;
+    font-size: 16px;
+    margin-right:8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #e7e7e7;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status_list{
+    min-width: 150px;
+    height:100%;
+    margin: 0 15px;
+    display: flex;
+    /* border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #9c9c9c; */
+    /* color: black;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center; */
+}
+
+.status{
+    padding: 4px 8px;
+    font-size: 16px;
+    margin: 0 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #e7e7e7;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.itemsContent{
+
+  min-height: 180px;
+  max-height:29vh;
+  margin: 8px 0;
+  overflow: auto;
+  width:100%;
+  margin-top: 40px;
+
+}
+
+.itemList{
+
+   width: 100%;
+   min-height: 27vh;
+
+   display: flex;
+   flex-direction: column;
+}
+
+.itemrow{
+    width:100%;
+    padding: 5px 0;
+    margin: .5px 0;
+    min-height: 25px;
+    /* margin: 5px 0; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Red */
+    /* background-color: rgba(255,91,71,0.2);
+    cursor:no-drop; */
+    /* Green */
+    /* background-color: rgba(144, 238, 144,0.2);
+    cursor:no-drop; */
+}
+
+.cancelledRow{
+    background-color: rgba(255,91,71,0.2);
+    cursor:no-drop;
+}
+
+.confirmRow{
+    background-color: rgba(144, 238, 144,0.2);
+    cursor:no-drop;
+}
+
+.pointer_event{
+    pointer-events:none;
+}
+
+
+.ItemInformation{
+    width: 70%;
+    min-height: 25px;
+    margin-left: 10px ;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title{
+    width: 90%;
+    position: relative;
+    /* top: -10px; */
+    min-width: 130px;
+}
+
+.checkboxNTitleFlex{
+    width: 60%;
+    min-width: 130px;
+    display: flex;
+    gap: 10px;
+}
+
+.quantityNPriceFlex{
+    width: 40%;
+    min-width: 130px;
+    display: flex;
+    gap: 10px;
+}
+
+.price{
+    margin: 0 10px;
+    width: 20%;
+    min-width: 80px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.quantity{
+    width: 30%;
+    height: 25px;
+    min-width: 80px;
+    background-color: #eceaea;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px #c4c0c0;
+    display: flex;
+    cursor: pointer;
+}
+
+.decrease{
+    width: 33.337%;
+    height: 100%;
+    border-right: 1px solid #9c9c9c;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    font-size: 15px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.quantityValue{
+    width: 33.337%;
+    height: 100%;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.increase{
+    width: 33.337%;
+    height: 100%;
+    border-left: 1px solid #9c9c9c;
+    text-align: center;
+    font-weight: bolder;
+    padding: 5px;
+    font-size: 15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.UpdateItemContainer{
+    width:90%;
+    height: 40px;
+    background: #fff;
+    display:flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    margin-top: 10px;
+}
+
+.UpdateItemBTN{
+    width: 40%;
+    height: 100%;
+    font-size: 18px;
+    letter-spacing: 1.4px;
+    color:var(--primary-box-bg-color);
+    border: 2px solid var(--primary-box-bg-color);
+    /* background: var(--primary-box-bg-color); */
+    font-weight: bold;
+    padding: 5px 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all .3s;
+}
+
+.UpdateItemBTN:hover{
+    background: var(--primary-box-bg-color);
+    color: white;
+}
+
+.TotalContainer{
+    min-height: 30vh;
+    width:100%;
+}
+
+.inputChecked{
+  position :relative;
+  right: 10px;
+  color:greenyellow;
+}
+
+.EditableInput{
+    background-color:#fff;
+    outline: none;
+    border: none;
+    border-bottom:1px solid black;
+    caret-color: black;
+    letter-spacing: 1.2px;
+    height: 18px;
+}
+
+.flex{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.AllStatusContainer{
+display: flex;
+justify-content: space-between;
+flex-direction: row-reverse;
+}
+
+.StatusBtnContainer{
+    width:50%;
+    max-width:300px ;
+    height: 30px;
+    /* background-color: #000; */
+    margin: 0 10px;
+    display: flex;
+    gap:4px;
+}
+
+.AllUpdateButton{
+    width: 40%;
+    margin: 0 10px;
+    min-width:150px ;
+    max-width: 250px;
+    font-size: 16px;
+    letter-spacing: 1.3px;
+    border-radius: 5px;
+    height: 30px;
+    color: #000;
+    background-color: transparent;
+    font-weight: 600;
+    border: 1px solid rgb(39,166,75);
+    transition: all .3s;
+}
+
+.AllUpdateButton:hover{
+    background-color: rgb(39,166,75);
+    color: #000;
+}
+
+.checkboxContainer{
+    max-width: 250px;
+    width: 50%;
+    min-height: 20px;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.statusRow{
+    display: flex;
+    width: 100%;
+    min-height: 35px;
+}
+
+.checkboxContain{
+    width: 33%;
+    height: 40px;
+    min-width: 33px;
+    position: relative;
+}
+
+.DiscountNCancelSection{
+  width:98%;
+  min-height: 30vh;
+  background-color: #f8f7f7;
+  margin: 8px 8px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+} 
+
+.inputContainerFlex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    
+}
+
+.inputBoxContainer{
+    width: 50%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.InputLabel{
+    color: black;
+    font-size: 15px;
+    letter-spacing: 1.2px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.subInputLabel{
+    color: black;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.inputBox{
+    width: 95%;
+    min-width: 70px;
+    height: 30px;
+    margin: 3px 0;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+    padding: 0 5px ;
+}
+
+.flexDoubleInput{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.discountInputBox{
+    width: 46%;
+    min-width: 70px;
+}
+
+.Column{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.TextInputBox{
+    width: 98%;
+    min-width: 90px;
+    height: 53px;
+    margin: 3px 0;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+    padding: 0 6px ;
+}
+
+.UpdateDIscountBtn{
+    width: 50%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 10px;
+
+}
+
+
+.rewardbox{
+    width: 60%;
+    height: 60px;
+    min-width: 200px;
+    border-radius: 10px;
+    box-shadow: 0px .5px 5px hsl(197, 100%, 50%);
+    border: 1px solid hsl(197, 100%, 50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-family:sans-serif;
+    font-weight: 500;
+    color:hsl(197, 100%, 50%);
+    letter-spacing: 1.2px;
+
+}
+
+.ApplyBtn{
+    min-width: 100px;
+    font-size: 16px;
+    letter-spacing: 1.3px;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 8px;
+    color: rgb(39,166,75);
+    background-color: transparent;
+    font-weight: 600;
+    border: 1px solid rgb(39,166,75);
+    transition: all .3s;
+}
+
+.ApplyBtn:hover{
+    background-color: rgb(39,166,75);
+    color: #fff;
+}
+
+.StatusArrowBtnContainer{
+    display: flex;
+    flex-wrap: wrap;
+    
+    width: 80%;
+    /* padding: 0 10px; */
+}
+
+.OrderstatusBtnContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+.orderCancelBtn{
+    border: 2px solid #f8857d;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #f8857d;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width: 90px;
+    transition: all .3s;
+    height: 30px;
+    
+}
+
+.orderCancelBtn:hover{
+    border: 2px solid #f8857d;
+    color: #fff;
+    background-color: #f8857d;
+}
+
+.PricingContainer{
+  width:98%;
+  min-height: 30vh;
+  margin: 8px 8px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: flex-end;
+  row-gap: 8px;
+}
+
+.pricingContent{
+    width: 50%;
+    max-width: 260px;
+    min-width: 260px;
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    background: #f8f7f7;
+
+}
+
+.priceInformation{
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 0;
+}
+
+.loyalityColumn{
+    display: flex;
+    flex-direction: column;
+    width: 38%;
+}
+
+.coinBox{
+    display: flex;
+}
+
+.PrintNBack{
+    width:60%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 15px;
+    padding: 0 10px;
+
+}
+
+.BackBtn{
+    min-width: 100px;
+    font-size: 16px;
+    letter-spacing: 1.3px;
+    border-radius: 5px;
+    height: 30px;
+    
+    color: rgb(0,0,0);
+    background-color: transparent;
+    font-weight: 600;
+    border: 1px solid rgb(0,0,0);
+    transition: all .3s;
+}
+
+.BackBtn:hover{
+    background-color: rgb(0,0,0);
+    color: white;
+}
+
+@media (max-width: 1000px){
+    .ItemInformation{
+        width: 45%;
+        flex-direction: column;
+    }
+
+    .title{
+        width: 90%;
+    }
+    .quantityNPriceFlex{
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .checkboxNTitleFlex{
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .Column{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .loyalityColumn{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .QtyNPriceHeadings{
+        display:none;
+    }
+
+}
+
+
+
+@media screen and (max-width: 500px){
+
+    .item_heading{
+        width: 35%;
+     min-width: 100px;
+     margin: 0 4px 0px 10px;
+     font-size: 13px;
+    }
+
+    .status_list{
+        margin:0 2px;
+    }
+
+    .status{
+        font-size: 12px;
+        margin: 0 2px;
+    }
+
+    .title{
+        width: 80%;
+        font-size: 13px;
+        letter-spacing: 0.9px;
+        min-width: 90px;
+    }
+
+    .quantityNPriceFlex{
+        margin-top: 5px;
+        /* margin-left: 8px; */
+        width: 100%;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-end;
+        gap: 0;
+        min-width: 100px;
+    }
+
+    .quantity{
+        min-width: 45px;
+        height: 18px;
+        font-size: 12px;
+
+    }
+
+    .increase{
+        padding: 3px;
+    font-size: 9px;
+    }
+
+    .decrease{
+        padding: 3px;
+        font-size: 9px;
+    }
+
+    .price{
+        min-width: 40px;
+        font-size: 13px;
+    }
+
+    .AllStatusContainer{
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .StatusBtnContainer{
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .AllUpdateButton{
+        margin: 0 auto;
+    }
+
+    .UpdateItemBTN{
+        font-size: 14px;
+        letter-spacing: .9px;
+    }
+
+    .DiscountNCancelSection{
+        width: 95%;
+    }
+
+    .inputBoxContainer{
+        width: 100%;
+    }
+
+    .StatusArrowBtnContainer{
+        width: 100%;
+        justify-content: center;
+    }
+
+    .OrderstatusBtnContainer{
+        justify-content: center;
+        row-gap: 14px;
+    }
+
+    .checkboxNTitleFlex{
+        gap: 0px;
+        min-width: 90px;
+        width: 38%;
+    }
+
+    
+   .statusRow{
+    gap: 18px
+   }
+}
+
+/* ENd of code - Rohan kansari - 12/7/23 - New ui Chnages */

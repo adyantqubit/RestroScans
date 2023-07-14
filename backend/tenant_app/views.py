@@ -2070,18 +2070,78 @@ class UpdateItemStatus(APIView):
         orderObj = Order.objects.get(order_id = orderID)
         # print(request.data)
         #    orderItem=OrderItem.objects.filter(order_id=orderObj.id)
+        # Modofied by ROhan kansari - 14/7/23
+        # To add cancellation feature
+        cartItem = []
+        itemsPrice = []
         for i,data in enumerate(request.data):
                 # Modified By Rohan Kansari - 24/6/23
                 # Reason - To update item status from save method Not from update method becuase many thing happening on 
                 # Model save middlware
                 # OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
-                orderItemObj=OrderItem.objects.get(id=data["id"])
-                orderItemObj.item_status=data['item_status']
-                orderItemObj.save()
+                 
+                if(data['item_status'] != "Cancelled") : 
+                    # orderItemObj=OrderItem.objects.get(id=data["id"])
+                    # orderItemObj.item_status=data['item_status']
+                    # orderItemObj.save()
+                
+                    orderItem = OrderItem.objects.get(id=data['id'])
+                    orderItem.quantity=data['quantity']
+                    orderItem.price=data['price']
+                    orderItem.item_status = data['item_status']
+                    orderItem.save()
+                    cartItem.append(orderItem)
+                    itemsPrice.append(orderItem.price)
+
+                else:
+                    orderItemId  = OrderItem.objects.get(id = data["id"])
+                    orderId = Order.objects.get(order_id=orderID)
+                    orderItemId.item_status = "Cancelled"
+                    orderItemId.save()
+
+                    # commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest data show on the top
+                    # orderItemsObj = OrderItem.objects.filter(order_id=orderId.id)
+                    # orderItemsObj = OrderItem.objects.filter(order_id=orderId.id)
+                    # End of commented and modified by :- Parineeta Gedam on 23-06-2023 reason :- latest data show on the top 
+                    orderItemOrderId = OrderItem.objects.filter(order_id=orderId.id).order_by('-id')
+
+                    orderItemserializer = OrderItemSerializer(orderItemOrderId, many=True)
+                
+
+                    updatedOrderValues=dict()
+
+                    flag=False
+                    for orderItem in orderItemOrderId :
+                        if(orderItem.item_status != "Cancelled"):
+                            flag=True
+                            break
+
+                    if flag == False :
+                        updatedOrderValues['cancelled_by'] = "Admin"
+                        updatedOrderValues['order_status'] = "Cancelled"        
+                    
+                    # End of added code by :- Parineeta Gedam on 28-06-2023 reason :- if all item is cancel then order status is cancelled
+
+                    orderSerializer=OrderSerializer(orderId,data=updatedOrderValues,partial=True)
+                    try:
+                        if orderSerializer.is_valid(raise_exception=True):
+                            orderSerializer.save()
+                    except Exception as e:
+                        print("Exception occured on deleteOrderAPI",e)    
+
+                
+                # orderItemSerializer = OrderItemSerializer(cartItem, many=True)
+
+        order = Order.objects.get(order_id=orderID)
+        subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
+        order.sub_total=subTotal
+        order.save()
+                # OrderSerializers = AllOrderSerializer(order)
                 
         
         orderItem=OrderItem.objects.filter(order_id=orderObj.id).order_by("-id")
         serializer=OrderItemSerializer(orderItem,many=True)
+        # ENd of code - ROhan kansari - 14/7/23 - To add cancellation feature
 
     #    Added by Rohan Kansari -25/6/23
     #    Reason - to get Updated order in order item update also
@@ -2171,6 +2231,7 @@ class CheckOrderConfirmAPIView(APIView):
     def post(self, request, tenant):
         orderObj = Order.objects.get(order_id=request.data['order_id'])
         serializer = OrderSerializer(orderObj)
+       
         return Response({"order": serializer.data}, 200)
 # End of code addition by Parineeta Gedam on 17-04-2023
 
@@ -2267,6 +2328,7 @@ class PostUpdateOrderItemsAPIView(APIView):
                 orderItem.save()
                 cartItem.append(orderItem)
                 itemsPrice.append(orderItem.price)
+
         orderItemSerializer = OrderItemSerializer(cartItem, many=True)
 
         order = Order.objects.get(order_id = request.data["orders"])
@@ -2367,6 +2429,20 @@ class GetOrderItemsAndOrderAPIView(APIView):
 # reason :- Implement Order Item update functionality.
 class AddOrderItemsAPIView(APIView):
     def post(self, request, tenant):
+        OrderItem(
+            order_id = Order.objects.get(id = request.data["order_id"]),
+            item = request.data["item"],
+            item_id = Item.objects.get(id = request.data["item_id"]),
+            serving_size = request.data["serving_size"],
+            quantity = request.data["quantity"],
+            item_status = request.data["item_status"]
+        ).save()
+
+        # Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
+        # orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
+        orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
+        # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
+        orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
 
         allOffer = OfferItem.objects.all()
 

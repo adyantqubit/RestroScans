@@ -415,7 +415,10 @@
     color: black;
     padding-left: 0px;
     position: absolute;
+    /* Added by Rohan Kansari - 7/7/23
+       Reason - To give top margin in absolute ribbon  */
     top:9px;
+    /*  End of code - Rohan kansari - 7/7/23 */
     left: -2px;
     z-index: 2;
     letter-spacing: .8px;

@@ -7,7 +7,9 @@ Reason:- Create css for Footer.jsx */
   position: fixed;
   width: 100%;
   height: 7vh;
-  z-index: 99999;
+  /* Modified by ROhan kansari - 11/7/23 */
+  /* z-index: 99999; */
+  z-index: 999;
   background-color: gainsboro;
 }
 .footer_main_section {
