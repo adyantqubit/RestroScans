@@ -1000,9 +1000,9 @@ export default function OrderDetails() {
                               <div style={{ width: "98%" }}>CGST</div>
                               <div>
                                 (
-                                {((orders.cgst / orders.total) * 100).toFixed(
+                                {(Math.round((orders.cgst / orders.total) * 100).toFixed(
                                   2
-                                )}{" "}
+                                ))}{" "}
                                 %) :
                               </div>{" "}
                             </div>{" "}
@@ -1018,10 +1018,11 @@ export default function OrderDetails() {
                               <div style={{ width: "98%" }}>SGST</div>
                               <div>
                                 (
-                                {((orders.sgst / orders.total) * 100).toFixed(
+                                {(
+                                  Math.round((orders.sgst / orders.total) * 100).toFixed( 
                                   2
-                                )}{" "}
-                                %) :
+                                ))}{" "}
+                               %) :
                               </div>{" "}
                             </div>{" "}
                             <div className="order-calculation-text">
@@ -1106,12 +1107,26 @@ export default function OrderDetails() {
                             <div className="order-calculation-label">
                               <div style={{ width: "98%" }}>CGST</div>
                               <div>
+                                {/* Modification and addition by Om Shrivastava on 13-07-23
+                                Reason : Set the gst and sgst heading when loyality point is there */}
+                                {orders.loyality_point_price > 0 ?
+                                <>
                                 (
                                 {(
-                                  (orders.cgst / orders.sub_total) *
+                                Math.round((orders.cgst / orders.total) *
                                   100
-                                ).toFixed(2)}
-                                %) :
+                                ).toFixed(2))}
+                               %) :
+                               </>
+                               :<>
+                                (
+                                {(
+                                Math.round((orders.cgst / orders.sub_total) *
+                                  100
+                                ).toFixed(2))}
+                               %) :
+                               </>}
+                               {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
                               </div>{" "}
                             </div>{" "}
                             <div className="order-calculation-text">
@@ -1125,12 +1140,26 @@ export default function OrderDetails() {
                             <div className="order-calculation-label">
                               <div style={{ width: "98%" }}>SGST</div>
                               <div>
+                                {/* Modification and addition by Om Shrivastava on 13-07-23
+                                Reason : Set the gst and sgst heading when loyality point is there */}
+                                {orders.loyality_point_price > 0 ?
+                                <>
                                 (
                                 {(
-                                  (orders.sgst / orders.sub_total) *
+                                Math.round((orders.sgst / orders.total) *
                                   100
-                                ).toFixed(2)}
-                                %) :
+                                ).toFixed(2))}
+                               %) :
+                               </>
+                               :<>
+                                (
+                                {(
+                                Math.round((orders.sgst / orders.sub_total) *
+                                  100
+                                ).toFixed(2))}
+                               %) :
+                               </>}
+                               {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
                               </div>{" "}
                             </div>{" "}
                             <div className="order-calculation-text">

@@ -1182,7 +1182,12 @@ class Order(models.Model):
                     # Modification and addition by Om Shrivastava on 14-06-23
                     # Reason : Show all calculation in pending case
                     # if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
-                    if self.payment_status == 'Pending' and self.loyality_point_status=='is used':
+                    # Modification and addition by Om Shrivastava on 14-07-23 
+                    # Reason : Set the loyality point calculation
+                    # if self.payment_status == 'Pending' and self.loyality_point_status=='is used':
+                    if self.loyality_point_status=='is used':
+                    # End of Modification and addition by Om Shrivastava on 14-07-23 
+                    # Reason : Set the loyality point calculation
                     # End of addition by Om Shrivastava on 14-06-23    
                         # print(self.sub_total,'22222222')
                         self.total = self.sub_total - self.loyality_point_price

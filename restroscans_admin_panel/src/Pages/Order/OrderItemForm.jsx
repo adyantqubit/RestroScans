@@ -313,7 +313,7 @@ const OrderItemForm = () => {
                   disabled
                   // Added by Om Shrivastava on 12-07-23
                   // Reason : Increase the width of input
-                  style={{width:'200px'}}
+                  style={{width:'230px'}}
                   // End of added code by Om Shrivastava on 12-07-23
                   // Reason : Increase the width of input
                 />
