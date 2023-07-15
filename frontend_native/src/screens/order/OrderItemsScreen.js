@@ -3267,11 +3267,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 5,
     borderWidth: 1,
-    width:100,
+    // Modification and addition by Om Shrivastava on 15-07-23
+    // Reason : Set the width and padding in input box
+    width:65,
     // paddingHorizontal: 5,
     height: 25,
     // marginTop:50,
     // paddingTop:15
+    paddingHorizontal: 5,
+    // End of Modification and addition by Om Shrivastava on 15-07-23
+    // Reason : Set the width and padding in input box
   },
 // End of addition by Om shrivastava on 10-07-23
   // Added by Yuvraj Sahu on 14-4-2023
