@@ -85,6 +85,8 @@
   margin-left: 250px;
   width: 200px;
   color: red;
+  display: flex;
+  flex-direction: column;
 }
 
 .actionContainer {

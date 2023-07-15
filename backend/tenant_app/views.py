@@ -726,12 +726,14 @@ def orderItemsCreation(request, order_obj):
             elif cart['serve_size'] == "Half Plate" :
                 cart['serving_size'] = "Half"
 
-            filteredItems = orderItemsList.filter(item_id__id = cart['id'], serving_size = cart['serving_size'])
-          
+            # Modified by :- Parineeta Gedam on 15-07-2023 reason :- Implement Order Item update functionality >> When admin confirm the order & user again order same item then in UI panel again a new row is generate for same item.
+            # filteredItems = orderItemsList.filter(item_id__id = cart['id'], serving_size = cart['serving_size'])
+            filteredItems = orderItemsList.filter(item_id__id = cart['id'], serving_size = cart['serving_size'], item_status = "Pending")
+            # End of Modified by :- Parineeta Gedam on 15-07-2023 reason :- Implement Order Item update functionality >> When admin confirm the order & user again order same item then in UI panel again a new row is generate for same item.
+
             if filteredItems.count() > 0 :
                 oldOrderItemObject = filteredItems.first()
                 if oldOrderItemObject.item_status != "Confirm" and oldOrderItemObject.item_status != "Cancelled" :
-
                     item = Item.objects.get(id=cart['id'])
                     discounted = 0
                     if allOffer.filter(item_name=item).count() > 0:
@@ -740,7 +742,7 @@ def orderItemsCreation(request, order_obj):
 
                     cart['quantity'] = cart['quantity'] + oldOrderItemObject.quantity
                     cart['price'] = float(item.price_full * cart['quantity'])-float(item.price_full * cart['quantity']/100)*float(discounted)
-                    cart['item_status'] = "Pending"
+                    # cart['item_status'] = "Pending"
                             
                     orderItemSerializer = OrderItemSerializer(oldOrderItemObject, data=cart, partial=True)
                    
@@ -2433,7 +2435,12 @@ class AddOrderItemsAPIView(APIView):
         allOffer = OfferItem.objects.all()
 
         orderItemsList = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
-        filteredItems = orderItemsList.filter(item_id=request.data["item_id"],serving_size = request.data["serving_size"])
+        
+        # Modified by :- Parineeta Gedam on :- 15-07-2023 reason :- Implement Order Item update functionality >> When admin confirm the order & user again order same item then in UI panel again a new row is generate for same item.
+        # filteredItems = orderItemsList.filter(item_id=request.data["item_id"],serving_size = request.data["serving_size"])
+        filteredItems = orderItemsList.filter(item_id=request.data["item_id"],serving_size = request.data["serving_size"], item_status = "Pending")
+        # End of Modified by :- Parineeta Gedam on :- 15-07-2023 reason :- Implement Order Item update functionality >> When admin confirm the order & user again order same item then in UI panel again a new row is generate for same item.
+
 
         if filteredItems.count() > 0 :
             originalOldOrderItemObject = filteredItems.first()

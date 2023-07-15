@@ -36,6 +36,7 @@ const PaymentMethod = () => {
   const [nameError, setNameError] = useState("");
   const [contactNumberError, setContactNumberError] = useState("");
   const [iconError, setIconError] = useState("");
+  const [iconSizeError, setIconSizeError] = useState("");
   /**
    * End of code addition by - Ashish dewangan on 17-06-2023
    * Reason - To handle validation differently
@@ -50,7 +51,6 @@ const PaymentMethod = () => {
     getPaymentData();
   }, []);
 
-
   /**
    * End of code addition by - Parineeta Gedam on 13-07-2023
    * Reason - method that will execute when page loads and then call api
@@ -64,13 +64,9 @@ const PaymentMethod = () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getPaymentMethodApi(tenant, paymentMethodId);
     if (response.length > 0) {
-      /**
-       * Modified by Parineeta Gedam on 15-07-2023
-       */
+      // modified by :- Parineeta Gedam on 15-07-2023
       setPaymentData(response[0]);
-      /**
-       * End of modification by Parineeta Gedam on 15-07-2023
-       */
+      // End of modified code by :- Parineeta Gedam on 15-07-2023
       setPaymentMethodId(response[0].id);
       setName(response[0].name);
       setContactNumber(response[0].contact_number);
@@ -94,7 +90,6 @@ const PaymentMethod = () => {
       }
     }
     if (inputName == "contact_number") {
-      console.log("inputName", inputName);
       // if (value != null || value != undefined || value.trim() != "") {
       //   setContactNumberError("");
       // }
@@ -126,14 +121,15 @@ const PaymentMethod = () => {
    */
   const validateOnFileInput = (inputName, value) => {
     if (inputName == "icon") {
+      setIconError("")
       if (value != null && value != undefined) {
         if (value.size / 1024 > 200) {
-          setIconError("File size must be below 200 KB");
+          setIconSizeError("File size must be below 200 KB");
         } else {
-          setIconError("");
+          setIconSizeError("");
         }
       } else {
-        setIconError("");
+        setIconSizeError("");
       }
     }
   };
@@ -148,19 +144,19 @@ const PaymentMethod = () => {
    */
   const postPaymentData = async () => {
     var allowDataPost = false;
-
     if (icon == null || icon == undefined) {
-      if ((selectedImage == null || selectedImage == undefined)) {
+      if (selectedImage == null || selectedImage == undefined) {
         setIconError("Please select image");
+        allowDataPost = false;
       } else {
-        if (contactNumberError == ""){
-          allowDataPost = true
-        } else{
-          allowDataPost = false
-        }
         setIconError("");
+        if (contactNumberError == "" && iconSizeError == "") {
+          allowDataPost = true;
+        } else {
+          allowDataPost = false;
+        }
       }
-    } else{
+    } else {
       allowDataPost = true;
     }
 
@@ -180,7 +176,6 @@ const PaymentMethod = () => {
       if (selectedImage != null || selectedImage != undefined) {
         updatedMenuData.append("scanner", selectedImage);
       }
-      console.log("updatedMenuData", updatedMenuData);
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await savePaymentMethodApi(tenant, updatedMenuData);
       if (response.msg) {
@@ -202,8 +197,17 @@ const PaymentMethod = () => {
    */
   const resetPaymentForm = (event) => {
     setName(paymentData.name ? paymentData.name : "");
-    setContactNumber(paymentData.name ? paymentData.name : "");
-    setIcon(paymentData.icon ? paymentData.icon : "");
+    // setContactNumber(paymentData.name ? paymentData.name : "");
+    // setIcon(paymentData.icon ? paymentData.icon : "");
+    setContactNumber(
+      paymentData.contact_number ? paymentData.contact_number : ""
+    );
+
+    // Modified by :- Parineeta Gedam on 15-07-2023
+    // setIcon(paymentData.scanner ? paymentData.scanner : "");
+    setIcon(paymentData.scanner ? paymentData.scanner : null);
+    // End of modified code by :- Parineeta Gedam on 15-07-2023
+
     setSelectedImageName(null);
     setSelectedImage(null);
     document.getElementById("icon").value = "";
@@ -263,7 +267,6 @@ const PaymentMethod = () => {
                   type="number"
                   name="contact_number"
                   ng-pattern="/^[0-9]{10}$/"
-
                   value={contactNumber}
                   style={{ width: "200px" }}
                   onChange={(e) => {
@@ -325,7 +328,7 @@ const PaymentMethod = () => {
                 />
               </div>
 
-              <div className={`${style.inputErrorArea}`}>{iconError}</div>
+              <div className={`${style.inputErrorArea}`}><p>{iconError}</p><p>{iconSizeError}</p></div>
             </div>
           </div>
         </div>
