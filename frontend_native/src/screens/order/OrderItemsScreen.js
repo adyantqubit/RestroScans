@@ -430,22 +430,24 @@ export default function OrderItemsScreen({ route, navigation }) {
       ${orderDetail.loyality_point_price > 0 && orderDetail.loyality_point_price != null ?
 
         `<div class="calculationLine">
-    <div  class="calculationLabel" > 
-    <div style= "width:98%">Loyality Price</div>
-    <div>:</div></div>
-    <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price} </div>
-  </div>
+          <div  class="calculationLabel" > 
+            <div style= "width:98%">Loyality Price</div>
+            <div>:</div>
+          </div>
+          <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price.toFixed(2)} </div>
+          </div>
   
+  <hr>`
+  :``}`
+        // <div class="calculationLine">
+        //   <div  class="calculationLabel" > 
+        //     <div style= "width:98%">Total</div>
+        //     <div>:</div>
+        //   </div>
+        // <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}</div>
+        // </div>`
 
-  <hr>
-  <div class="calculationLine">
-  <div  class="calculationLabel" > 
-  <div style= "width:98%">Total</div>
-  <div>:</div></div>
-  <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}  </div>
-  </div>`
-
-        : ``}  `
+        // : ``}  `
 
       
 
@@ -459,14 +461,14 @@ export default function OrderItemsScreen({ route, navigation }) {
       <div class="calculationLine">
         <div  class="calculationLabel" > 
         <div style= "width:98%">CGST</div>
-        <div> (%${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
-        <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+        <div> (%${(Math.round((orderDetail.cgst / orderDetail.total * 100)).toFixed(2))}):</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.cgst.toFixed(2)}  </div>
       </div>
       <div class="calculationLine">
         <div  class="calculationLabel" > 
         <div style= "width:98%">SGST</div>
-        <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
-        <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+        <div> (%${(Math.round((orderDetail.sgst / orderDetail.total * 100)).toFixed(2))}):</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.sgst.toFixed(2)} </div>
       </div>`
     // End of Added code by :- Parineeta Gedam on 07-06-2023
 
@@ -482,7 +484,7 @@ export default function OrderItemsScreen({ route, navigation }) {
       <div  class="calculationLabel" > 
       <div style= "width:98%">Loyality Price</div>
       <div>:</div></div>
-      <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price} </div>
+      <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price.toFixed(2)} </div>
     </div>
     
 
@@ -499,13 +501,13 @@ export default function OrderItemsScreen({ route, navigation }) {
       <div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">CGST</div>
-      <div>(%${((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
+      <div>(%${(Math.round((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2))}):</div></div>
       <div  class="calculationText" >${rupee_sign}${orderDetail.cgst.toFixed(2)}  </div>
       </div>
       <div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">SGST</div>
-      <div>(%${((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
+      <div>(%${(Math.round((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2))}):</div></div>
       <div  class="calculationText" >${rupee_sign}${orderDetail.sgst.toFixed(2)} </div>
     </div>`
     }
@@ -559,8 +561,8 @@ export default function OrderItemsScreen({ route, navigation }) {
          
             <div class="inLineContainer">
               <div class="label">Payment   </div>
-              <div class="text" style= "margin-right:53%">  ${orderDetail.payment_mode}</div>
-              
+              <div class="text" style= "margin-right:53%">  ${orderDetail.payment_mode==null||orderDetail.payment_mode==undefined?"":orderDetail.payment_mode}</div>
+             
             </div>
             <div class="tableHeader">
               <div class="titleHeading"> Item Name   </div>
