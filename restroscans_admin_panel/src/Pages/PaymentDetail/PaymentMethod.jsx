@@ -64,7 +64,13 @@ const PaymentMethod = () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getPaymentMethodApi(tenant, paymentMethodId);
     if (response.length > 0) {
-      setPaymentData(response);
+      /**
+       * Modified by Parineeta Gedam on 15-07-2023
+       */
+      setPaymentData(response[0]);
+      /**
+       * End of modification by Parineeta Gedam on 15-07-2023
+       */
       setPaymentMethodId(response[0].id);
       setName(response[0].name);
       setContactNumber(response[0].contact_number);

@@ -2429,20 +2429,6 @@ class GetOrderItemsAndOrderAPIView(APIView):
 # reason :- Implement Order Item update functionality.
 class AddOrderItemsAPIView(APIView):
     def post(self, request, tenant):
-        OrderItem(
-            order_id = Order.objects.get(id = request.data["order_id"]),
-            item = request.data["item"],
-            item_id = Item.objects.get(id = request.data["item_id"]),
-            serving_size = request.data["serving_size"],
-            quantity = request.data["quantity"],
-            item_status = request.data["item_status"]
-        ).save()
-
-        # Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
-        # orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"])
-        orderItemsObj = OrderItem.objects.filter(order_id__order_id = request.data["order_order_id"]).order_by('-id')
-        # End of Commented and modified code by :- Parineeta Gedam on 23-06-2023 reason :- show latest item on top
-        orderItemsSerializer=OrderItemSerializer(orderItemsObj, many=True)
 
         allOffer = OfferItem.objects.all()
 

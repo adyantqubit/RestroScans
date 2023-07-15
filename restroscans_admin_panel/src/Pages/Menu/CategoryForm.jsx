@@ -248,7 +248,15 @@ function CategoryForm() {
     // Commeted and modified by yuvraj sahu on 23-06-2023
     // Reason - to show validation message after clicking the clear and save
     // if (name == null && menu == null) {
-    if (name == null || name == "" && menu == null) {
+      /**
+       * Commeted and modified by Yuvraj Sahu on 15-07-2023
+       * Reason - to change validation message
+       */
+    // if (name == null || name == "" && menu == null) {
+    if ((name == null || name == "") && menu == null) {
+      /**
+       * End of comment by yuvraj Sahu on 15-07-2023
+       */
     // End showing validation message by Yuvraj Sahu on 23-06-2023
       const error = {
         name: "Please enter category name",
@@ -342,7 +350,15 @@ function CategoryForm() {
     // Commeted and added by yuvraj Sahu on 06-07-2023
     // Reason - to set checkbox value
     // setIsActive(categoryData.is_active ? categoryData.is_active : true);
-    setIsActive(categoryData.is_active);
+    /**
+     * Commeted and modified by Yuvraj Sahu on 15-07-2023
+     * Reason - to set the item available value if clear the data
+     */
+    // setIsActive(categoryData.is_active);
+    setIsActive(categoryData.is_active == true || categoryData.is_active == false ? categoryData.is_active : true);
+    /**
+     * End of modification by Yuvraj Sahu on 15-07-2023
+     */
     // End of addition by Yuvraj Sahu on 07-07-2023
     setSelectedImageName(null);
     setSelectedImage(null);
