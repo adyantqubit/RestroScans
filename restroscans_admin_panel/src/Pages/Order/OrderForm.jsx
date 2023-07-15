@@ -815,7 +815,12 @@ const OrderForm = () => {
                     </div>
                     <input
                       // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
-                      className={loyalityPointStatus == "is used" || paymentStatus == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      // Modification and addition by Om Shrivastava on 15-07-23 
+                      // Reason : Set the validation for apply loyality point
+                      // className={loyalityPointStatus == "is used" || paymentStatus == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      className={orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      // End of addition and modification by Om Shrivastava on 15-07-23 
+                      // Reason : Set the validation for apply loyality point
                       // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                       type="text"
                       // type="number"
@@ -825,7 +830,12 @@ const OrderForm = () => {
                       // onkeydown="if(event.key==='.'){event.preventDefault();}"
                       // oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
                       // Modification and addition by Om Shrivastava on 01-07-23 Reason : When payment status is paid than this field is disable
-                      disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" || paymentStatus == "Paid" ? true : false}
+                      // Modification and addition by Om Shrivastava on 15-07-23 
+                      // Reason : Set the validation for apply loyality point
+                      // disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" || paymentStatus == "Paid" ? true : false}
+                      disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" ? true : false}
+                      // End of addition and modification by Om Shrivastava on 15-07-23 
+                      // Reason : Set the validation for apply loyality point
                       // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                       onChange={(e) => {
                         setApplyLoyalityPoint(e.target.value);
