@@ -615,7 +615,7 @@ export default function AddOrderItemForm(orderId) {
 
                 <div className={style.actionContainer}>
                     <div
-                        className={` ${style.backButton}`}
+                        className={` ${style.backButton} ${style.reverseButton}`}
                         style={{
                             marginRight: "10px",
                         }}
@@ -629,7 +629,7 @@ export default function AddOrderItemForm(orderId) {
                     </div>
 
                     <div
-                        className={` ${style.proceedButton}`}
+                        className={` ${style.proceedButton} ${style.savedButton} `}
                         onClick={() => {
                             submitOrderItems();
                             window.scrollTo(0, 0);

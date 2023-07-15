@@ -425,13 +425,39 @@ margin-right: 10px;
   .addMoreItemButton{
     /* width:90px; */
     font-size: 17px;
-    padding:3px 3px;
+    /* Addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view  */
+    /* padding:3px 3px; */
+    padding:11px 3px;
+    /* End of addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view */
+
   }
   .proceedButton,.backButton{
     font-size: 17px;
     padding:11px 3px;
+    /* Addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view  */
+    width: 20%;
+    /* End of addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view */
   }
   /* End of addition and modification by Om Shrivastava on 08-07-23 */
+
+   /* Addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view  */
+   .savedButton{
+    font-size: 17px;
+    padding:11px 10px;
+    width: unset;
+  }
+  .reverseButton{
+    font-size: 17px;
+    padding:11px 10px;
+    width: unset;
+  }
+  /* End of addition and modification by Om Shrivastava on 08-07-23 */
+
   .inputLabel2{
     margin-top: 1.5%;
   }
