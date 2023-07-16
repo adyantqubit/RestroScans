@@ -70,7 +70,7 @@ export default function AddOrderItemForm(orderId) {
 
     // Added  by :- Om shrivastava on 24-06-2023
     // Reason - This is used for set quantity
-    const [quantitySelected, setQuantitySelected] = useState(0);
+    const [quantitySelected, setQuantitySelected] = useState("");
     // End of added code by :- Om shrivastava on 24-06-2023
 
     // Added  by :- Om shrivastava on 24-06-2023
@@ -137,8 +137,21 @@ export default function AddOrderItemForm(orderId) {
 
     const calc = (dt) => {
         // formRef.current.handleChange("quantity")(dt.target.value)
+        // Modification and addition by Om Shrivastava on 16-07-23
+        // Reason : Add condition for quantity
+        if(dt.target.value.length>0 && dt.target.value>0){
         setQuantitySelected(dt.target.value)
         handleCalculations(dt.target.value)
+        }
+        else{
+        setQuantitySelected("")
+        setSingalItemprice(0)
+        setPrice(0)
+
+        }
+        // End of Modification and addition by Om Shrivastava on 16-07-23
+        // Reason : Add condition for quantity
+        
     }
     // Modification and addition by Om Shrivastava on 02-07-23
     // Reason : When offer data shown than price is correct shown
@@ -225,7 +238,7 @@ export default function AddOrderItemForm(orderId) {
     // End of added code by :- Om shrivastava on 24-06-2023
     const resetForm = (event) => {
         document.getElementById("appliedQuantity").value = " "
-        setQuantitySelected('')
+        setQuantitySelected("")
         setPrice(0)
         setSingalItemprice(0)
         setquantityValidation('')
@@ -236,12 +249,22 @@ export default function AddOrderItemForm(orderId) {
             if (value.toString().length > 0) {
                 if (!isNaN(value)) {
                     if (value < 1) {
-                        setquantityValidation("Quantity must be greater than 0 ");
+                        // Modification and addition by Om shrivastava on 16-07-23
+                        // Reason : set the condition for validation in the field of quantity 
+                        // setquantityValidation("Quantity must be greater than 0 ");
+                        setquantityValidation("Please enter Quantity. ");
+                        // End of Modification and addition by Om shrivastava on 16-07-23
+                        // Reason : set the condition for validation in the field of quantity
                     } else {
                         setquantityValidation("");
                     }
                 } else {
-                    setquantityValidation("Quantity must be a number. ");
+                    // Modification and addition by Om shrivastava on 16-07-23
+                    // Reason : set the condition for validation in the field of quantity 
+                    // setquantityValidation("Quantity must be a number. ");
+                    setquantityValidation("Please enter Quantity. ");
+                    // End of Modification and addition by Om shrivastava on 16-07-23
+
                 }
             } else {
                 setquantityValidation("Please enter Quantity.");
@@ -337,12 +360,22 @@ export default function AddOrderItemForm(orderId) {
         // Reason : Set the validation for quantity
 
             if (isNaN(quantitySelected)) {
-                setquantityValidation("Quantity must be a number. ");
+                // Modification and addition by Om shrivastava on 16-07-23
+                // Reason : set the condition for validation in the field of quantity
+                // setquantityValidation("Quantity must be a number. ");
+                setquantityValidation("Please enter quantity. ");
+                // End of Modification and addition by Om shrivastava on 16-07-23
+
                 allowDataPost=false
                
             } else {
                 if (quantitySelected <=0) {
-                    setquantityValidation("Quantity must be greater than 0 ");
+                    // Modification and addition by Om shrivastava on 16-07-23
+                    // Reason : set the condition for validation in the field of quantity
+                    // setquantityValidation("Quantity must be greater than 0 ");
+                    setquantityValidation("Please enter quantity. ");
+                    // End of Modification and addition by Om shrivastava on 16-07-23
+
                     allowDataPost=false
                     
                 } else {
@@ -462,6 +495,11 @@ export default function AddOrderItemForm(orderId) {
                                         setPrice(0);
                                         // calc(e)
                                         handleMenuChange(e)
+                                        // Added by Om Shrivastava on 16-07-23
+                                        // Reason : When user select the item name than quantity is set to empty
+                                        setQuantitySelected("");
+                                        // End of addition by Om Shrivastava on 16-07-23
+                                        // Reason : When user select the item name than quantity is set to empty
                                         // setItemNameSelected(e.target.value)
                                     }}
                                     // optionFilterProp="children"
@@ -504,12 +542,17 @@ export default function AddOrderItemForm(orderId) {
                                         setServingSizeData(e.target.value);
                                         (document.getElementById("appliedQuantity").value = " ");
                                         setSingalItemprice(0);
+                                        // Added by Om Shrivastava on 16-07-23
+                                        // Reason : When user select the item name than quantity is set to empty
+                                        setQuantitySelected("");
+                                        // End of addition by Om Shrivastava on 16-07-23
+                                        // Reason : When user select the item name than quantity is set to empty
                                         setPrice(0);
                                     }}
 
                                     onSelect={(selectedServingSize, index) => {
                                         // setServingSizeSelected(selectedServingSize.value);
-                                        setQuantitySelected(0);
+                                        setQuantitySelected("");
                                         setSingalItemprice(0);
                                         setPrice(0);
                                         // setservingSizeRequired(false);
@@ -541,12 +584,12 @@ export default function AddOrderItemForm(orderId) {
                                     type="text"
                                     name="quantity"
                                     id='appliedQuantity'
-                                    // value={quantitySelected}
+                                    value={quantitySelected}
                                     // disabled={itemNameSelected == "" ? true : false}
                                     style={{ width: "200px" }}
 
                                     onChange={(e) => {
-                                        //   setApplyLoyalityPoint(e.target.value);
+                                        //   setApplyLoyalityPoint(e.target.value);                                        
                                         calc(e)
                                         validateOnInput("quantity", e.target.value);
                                     }}
