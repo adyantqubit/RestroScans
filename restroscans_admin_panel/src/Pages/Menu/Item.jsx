@@ -200,7 +200,7 @@ const Item = () => {
      * Added by - Yuvraj Sahu on 23-06-2023
      * Reason - To navigate to item form
      */
-    navigate("/addItemForm", { state: { id: id } });
+    navigate("/editItemForm", { state: { id: id } });
     /**
      * End of code addition by - Yuvraj Sahu on 23-06-2023
      * Reason - To navigate to item form
@@ -209,6 +209,26 @@ const Item = () => {
   /**
    * Added by - Yuvraj Sahu on 23-06-2023
    * Reason - Method that will open edit item form of selected item
+   */
+
+  /**
+   * Added by - Yuvraj Sahu on 15-07-2023
+   * Reason - Method that will open add new item
+   */
+  const openAddItemForm = (id) => {
+    /**
+     * Added by - Yuvraj Sahu on 15-07-2023
+     * Reason - To navigate to item form
+     */
+    navigate("/addItemForm", { state: { id: id } });
+    /**
+     * End of code addition by - Yuvraj Sahu on 15-07-2023
+     * Reason - To navigate to item form
+     */
+  };
+  /**
+   * Added by - Yuvraj Sahu on 15-07-2023
+   * Reason - Method that will open add new item
    */
 
   // Added by Yuvraj Sahu on 23-06-2023
@@ -257,7 +277,11 @@ const Item = () => {
           />
           <div
             className={`${style.primaryButton}`}
-            onClick={() => openItemDetails()}
+            // Commeted and added by yuvraj Sahu on 15--7-2023
+            // Reason - to open add new item form 
+            // onClick={() => openItemDetails()}
+            onClick={() => openAddItemForm()}
+            // End of addition by Yuvraj Sahu on 15-07-2023
             style={{
               marginLeft: "10px",
               minWidth: "100px",
