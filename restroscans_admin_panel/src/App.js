@@ -39,6 +39,7 @@ import SocialMediaForm from './Pages/socialMedia/SocialMediaForm';
 import OrderForm from './Pages/Order/OrderForm'
 import MenuForm from './Pages/Menu/MenuForm';
 import CategoryForm from './Pages/Menu/CategoryForm';
+import EditItemForm from './Pages/Menu/EditItemForm';
 
 var Message=0;
 var AutoValidateToken=0
@@ -213,6 +214,11 @@ function App() {
         {/* End of code addition by - Yuvraj Sahu on 17-06-2023
         Reason - Added route for menu form page */}
         <Route path="/Item" element={<Item />} />
+        {/* Added by - Yuvraj Sahu on 01-07-2023
+        Reason - Added route for edit item form page */}
+        <Route path="/editItemForm" element={<EditItemForm />} />
+        {/* End of code addition by - Yuvraj Sahu on 01-07-2023
+        Reason - Added route for add item form page */}
         {/* Commented by - Ashish Dewangan on 04-06-2023
         Reason - No need to display setting list because we can have only one setting */}
         {/* <Route path="/Setting" element={<Setting/>} /> */}
