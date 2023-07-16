@@ -22,6 +22,7 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import { Feather } from '@expo/vector-icons';
 import AddOrderItemForm from "../../components/orderItem/AddOrderItemForm";
 import { MaterialIcons } from '@expo/vector-icons';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function OrderItemsScreen({ route, navigation }) {
   var { render, setRender, settings, rupee_sign } = useContext(AppStateContext); //Need to use settings, for GST number.
@@ -876,6 +877,11 @@ export default function OrderItemsScreen({ route, navigation }) {
   var [tableNumberErrorMsg, settableNumberErrorMsg] = useState(false);
   // End of added code by :- Om shrivastava on :- 09-07-2023
 
+  // Added by :- Om shrivastava on :- 16-07-2023
+  // reason :- Show table number input type or default type
+  var [showTableNumber, setshowTableNumber] = useState(false);
+  // End of added code by :- Om shrivastava on :- 09-07-2023
+
   // Commented by :- Parineeta Gedam on 07-06-2023
   // Added by :- Parineeta Gedam on 10-05-2023
   // Reason :- on discount amount box show the error message.
@@ -1662,21 +1668,27 @@ export default function OrderItemsScreen({ route, navigation }) {
   // End of Modified by :- Parineeta Gedam on 18-06-2023 reason :- show validations message when admin not enter any cancel reason 
 
   // Added by Om on 09-07-23 Reason : set the confirmation for edit the table number
-  // function confirmationTableNumber(e) {
-  //   Alert.alert("Confirmation", "Are you sure you want to change the table number?", [
-  //     {
-  //       text: "Cancel",
-  //       style: "cancel",
-  //     },
-  //     {
-  //       text: "OK",
-  //       onPress: (e) => {
-  //         tableNumberHandleChange(e);
-  //         // setTableNumber(e)
-  //       },
-  //     },
-  //   ]);
-  // }
+  // Uncommented and modification by Om Shrivastava on 16-07-23
+  // Reason : Show the popup confirmation for table number
+  function confirmationTableNumber(e) {
+    Alert.alert("Confirmation", "Are you sure you want to change the table number?", [
+      {
+        text: "Cancel",
+        onPress: (e) => {
+          setshowTableNumber(false)
+          setTableNumber(orderDetail.table_number)
+        },
+      },
+      {
+        text: "OK",
+        onPress: (e) => {
+          setshowTableNumber(true)
+        },
+      },
+    ]);
+  }
+  // End of Uncommented and modification by Om Shrivastava on 16-07-23
+  // Reason : Show the popup confirmation for table number
   // End of addition by Om Shrivastava on 09-07-23
   // --------------------------------------- Add kot print functionality -----------------------------------
 const printKot = async()=>{
@@ -1875,12 +1887,14 @@ const printKot = async()=>{
             <Text style={{ marginTop: 5 }}>
               <Text>Order ID</Text> : {orderDetail.order_id}
             </Text>
-            <View style={{alignItems:"center",flexDirection:'row'}}>
+            {/* Modification and addition by Om Shrivastasva on 16-07-23 Reason : Set the table number functionality of alert box */}
+            <View style={{alignItems:"center",flexDirection:'row',marginTop:4}}>
               <Text>Table No. : </Text> 
               {/* Modification and addition by Om Shrivastasva on 09-07-23 
               Reason : Edit the table number */}
               {/* {orderDetail.table_number} */}
-              <View >
+              <View  style={{ display:'flex',flexDirection:'row',justifyContent:'space-between',width:85}}>
+                {showTableNumber==true ? 
                 <TextInput style={styles.tableNumberStyle}
                   numeric
                   maxLength={6}
@@ -1889,19 +1903,28 @@ const printKot = async()=>{
                     orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled"
                       ? false : true}
                   value={tableNumber}
-                  
                   onChangeText={(e) => {  tableNumberHandleChange(e);}}
-                  // onChangeText={(e) => {  setTableNumber(e);  } }
-                  // onPressIn={(e) => {  confirmationTableNumber(e);  } }
                   />
-                  {tableNumberErrorMsg &&
-                    <Text style={{ color: "red", fontSize: 10 }}>Please enter table number</Text>
-                  }
-
+                  :
+                  <Text >{tableNumber}</Text> }
+                  {orderDetail.payment_status != "Completed" ?
+                  <>
+                  <Pressable style={{marginTop:3}}
+                    onPress={(e) =>
+                      confirmationTableNumber(e)
+                    }
+                  >
+                    <Icon name="edit" size={18} color="black" />
+                  </Pressable>
+                  </>
+                  :null}
               </View>
               {/* End of addition by Om Shrivastasva on 09-07-23 reason : set the table number and user can edit this field */}
             </View>
-
+            {tableNumberErrorMsg &&
+                    <Text style={{ color: "red", fontSize: 10,marginLeft:71,marginTop:2 }}>Please enter table number</Text>
+                  }
+             {/* End of addition and modification and addition by Om Shrivastasva on 16-07-23 Reason : Set the table number functionality of alert box  */}
             <Text style={{ marginTop: 5 }}>
               {/* Modify by- Suman sahu  On 30/04/2023
                   Reason- show only latest name on the order details */}
