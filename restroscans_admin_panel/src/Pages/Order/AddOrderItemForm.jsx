@@ -252,7 +252,7 @@ export default function AddOrderItemForm(orderId) {
                         // Modification and addition by Om shrivastava on 16-07-23
                         // Reason : set the condition for validation in the field of quantity 
                         // setquantityValidation("Quantity must be greater than 0 ");
-                        setquantityValidation("Please enter Quantity. ");
+                        setquantityValidation("Please enter quantity. ");
                         // End of Modification and addition by Om shrivastava on 16-07-23
                         // Reason : set the condition for validation in the field of quantity
                     } else {
@@ -262,12 +262,12 @@ export default function AddOrderItemForm(orderId) {
                     // Modification and addition by Om shrivastava on 16-07-23
                     // Reason : set the condition for validation in the field of quantity 
                     // setquantityValidation("Quantity must be a number. ");
-                    setquantityValidation("Please enter Quantity. ");
+                    setquantityValidation("Please enter quantity. ");
                     // End of Modification and addition by Om shrivastava on 16-07-23
 
                 }
             } else {
-                setquantityValidation("Please enter Quantity.");
+                setquantityValidation("Please enter quantity.");
             }
         }
 
@@ -328,7 +328,7 @@ export default function AddOrderItemForm(orderId) {
                     setquantityValidation("Quantity must be a number. ");
                 }
             } else {
-                setquantityValidation("Please enter Quantity.");
+                setquantityValidation("Please enter quantity.");
             }
         }
         // End of addition and modification by Om Shrivastava on 07-07-23 Reason : Set the validation for quantity
