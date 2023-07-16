@@ -61,9 +61,23 @@ export default function LoginScreen({ navigation }) {
 
   // Added by Yuvraj Sahu on 25-3-2023
   // Reason - to get adyant logo and show it background
-  const [appSettings, setAppSettings] = useState("");
+  /**
+   * Commeted by Yuvraj Sahu on 14-07-2023
+   * Reason - now it's not using
+   */
+  // const [appSettings, setAppSettings] = useState("");
+  /**
+   * End of comment by Yuvraj Sahu on 14-07-2023
+   */
   useEffect(() => {
-    getAppDetails();
+      /**
+   * Commeted by Yuvraj Sahu on 14-07-2023
+   * Reason - now it's not using
+   */
+    // getAppDetails();
+    /**
+   * End of comment by Yuvraj Sahu on 14-07-2023
+   */
     /**
      * Added by Yuvraj Sahu on 03-05-2023
      * Reason - to re-fresh the validation
@@ -74,10 +88,17 @@ export default function LoginScreen({ navigation }) {
      * End of refreshing validation msg
      */
   }, [isFocused]);
-  const getAppDetails = async () => {
-    const response = await getAppSetting();
-    setAppSettings(response);
-  };
+   /**
+   * Commeted by Yuvraj Sahu on 14-07-2023
+   * Reason - now it's not using
+   */
+  // const getAppDetails = async () => {
+  //   const response = await getAppSetting();
+  //   setAppSettings(response);
+  // };
+  /**
+   * End of comment by Yuvraj Sahu on 14-07-2023
+   */
 
   //when user click login button this method is called
   const submitLog = (values, { resetForm }) => {

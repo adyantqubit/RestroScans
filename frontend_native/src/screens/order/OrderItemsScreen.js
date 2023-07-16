@@ -3038,7 +3038,11 @@ const printKot = async()=>{
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
-                  width: "35%",
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  width: "48%",
+                  // End of addition by yuvraj Sahu pon 16-07-2023
                 }}
               >
                 <Text
@@ -3061,7 +3065,11 @@ const printKot = async()=>{
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
-                  width: "35%",
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  width: "48%",
+                  // End of addition by yuvraj Sahu pon 16-07-2023
                 }}
               >
                 <Text
@@ -3093,7 +3101,11 @@ const printKot = async()=>{
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
-                  width: "35%",
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  width: "48%",
+                  // End of addition by yuvraj Sahu pon 16-07-2023
                 }}
                 // Added by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
                 disabled={orderDetail.order_status == "Cancelled" ? true : false}
@@ -3135,7 +3147,11 @@ const printKot = async()=>{
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
-                  width: "35%",
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  width: "48%",
+                  // End of addition by yuvraj Sahu pon 16-07-2023
                 }}
                 disabled={orderDetail.order_status == "Cancelled" ? true : false}
               >
@@ -3200,7 +3216,11 @@ const printKot = async()=>{
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
-                  width: "35%",
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%"
+                  width: "48%",
+                  // End of addition by yuvraj Sahu pon 16-07-2023
                 }}
               >
                 <Text
@@ -3473,6 +3493,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     marginBottom: 12,
+    // Added by Yuvraj Sahu on 16-07-2023
+    // Reason - to design button 
+    justifyContent: "space-around",
+    width: 250
+    // End of addition by Yuvraj Sahu on 16-07-2023
   },
   // End of table design
   /**
