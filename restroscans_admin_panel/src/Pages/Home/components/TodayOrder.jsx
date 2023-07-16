@@ -3,13 +3,13 @@ import style from './todayOrder.module.css'
 import { TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Tfoot, PopoverTrigger, IconButton, FocusLock, PopoverArrow, PopoverContent, PopoverCloseButton } from '@chakra-ui/react'
 import { GrFormCheckmark, GrFormClose, GrAddCircle } from 'react-icons/gr'
 import { GiRiceCooker } from "react-icons/gi"
-import { getDashboardData, updateAllOrderAPI, updateItemStatus, updateOrderAndPaymentStatus } from '../../../Api/services'
+import { getDashboardData, saveOrderDetailsApi, updateAllOrderAPI, updateItemStatus, updateOrderAndPaymentStatus } from '../../../Api/services'
 import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus, AiOutlineRight } from 'react-icons/ai'
 import { MdKeyboardArrowDown, MdDownloading, MdArrowDropUp, MdAddCircleOutline } from "react-icons/md"
 import { RiErrorWarningLine } from "react-icons/ri"
 import { TiTick } from "react-icons/ti"
 import { BsPencilSquare } from "react-icons/bs"
-import { Popover, Modal, Radio } from 'antd'
+import { Popover, Modal, Radio, Popconfirm } from 'antd'
 import { Message } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 // import ReactPaginate from 'react-paginate';
@@ -110,6 +110,8 @@ const TodayOrder = () => {
     const [newlyPlaced, setNewlyPlacedOrders] = useState(null)
     var [orderItemList, setOrderItem] = useState(null)
     var updatedStatus = useRef({ value: [] })
+    // Added by Rohan kansari - 15/7/23 - To save order detail selected value
+    var OldOrdervalue=useRef({value:{}})
     var [selectedOrder, setSelectedOrder] = useState([])
     var [cancel_reason, setCancelReason] = useState("")
 
@@ -143,10 +145,16 @@ const TodayOrder = () => {
     var [isLoading, setLoading] = useState(true)
     // End of code - ROhan Kansari - 29/5/23
 
+    // Added by Rohan kansari - 15/7/23 - To save selected order item
+    var [tickedItems,setTickedItems]=useState([])
+    // End of code - ROhan kansari - 15/7/23
+
     // Billing data
     const [restroDetail, setRestroDetail] = useState(null)
     const [gstFssai, setGstFsaai] = useState(null)
-    const nav = useNavigate()
+    // Added by Rohan kansari - 15/7/23 - to open confirmation box for table number
+    // const nav=useNavigate()
+    const [OpenTableCofirmation,setTableConfirm]=useState(false)
 
     const [inputEnable, setInputEnable] = useState(null)
 
@@ -461,86 +469,28 @@ const TodayOrder = () => {
     // end of addition by suman sahu on 10/06/2023
 
     function orderItemModel(filteredOrderItemList, i) {
-        updatedStatus.current.value = []
+        
+        // updatedStatus.current.value = []
+        
         // filteredOrderItemList?.filter(e => updatedStatus.current.value.push(e.item_status))
         // added by - suman sahu on 10/06/2023
         // reason - for call that function in the antd modal
-        updateStatus();
+        
+        // Modified by ROhan kansari - 15/7/23 
+        // Reason - To check wheteher any status changed on button hit
+        console.log(OldOrdervalue.current.value,filteredOrderItemList)
+        if (JSON.stringify(JSON.parse(OldOrdervalue.current.value).order_item)==JSON.stringify(filteredOrderItemList))
+        {
+            Message("No Change detected", "error")
+        }
+        else{
+            updatedStatus.current.value = []
+            updateStatus(filteredOrderItemList);
+        }
         // end of addition by - suman sahu on 10/06/2023
 
         
-        
-
-        async function updateStatus() {
-
-            const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
-            await updateItemStatus(tenant, filteredOrderItemList, filteredOrderItemList[0].order_id).then(r => {
-                updatedStatus.current.value = []
-                var newOrderItemList = []
-
-                r.order_items.filter(e => {
-                    updatedStatus.current.value.push(e.item_status);
-                    /**
-                     * Commented and modified by - Ashish Dewangan on 18-06-2023
-                     * Reason - Fixed issue where when we change item status then some items were not appearing on modal
-                     */
-                    // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
-                    // Modified by Rohan Kansari- 24/6/23
-                    // Reason - To get updated value before it is setting old values 
-                    // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
-                    newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
-                    ...orderItemList.filter(o => { if (o.id == e.id) return o.item_status = e.item_status })]
-                    //  ENd of code - ROhan Kansari - 24/6/23
-                    /**
-                     * End of code modifciation by - Ashish Dewangan on 18-06-2023
-                     * Reason - Fixed issue where when we change item status then some items were not appearing on modal
-                     */
-                })
-
-                // Added by Rohan Kansari - 25/6/23
-                // Reason - To get latest all data order data set it to slected order
-
-                setNewlyPlacedOrders(r.todays_newly_placed_orders);
-                setPendingOrders(r.todays_pending_orders);
-                setCompletedOrders(r.todays_completed_orders);
-
-
-                if (document.getElementById("newly_placed").checked) {
-                    setSelectedOrder(r.todays_newly_placed_orders)
-                }
-                else if (document.getElementById("pending_order").checked) {
-                    setSelectedOrder(r.todays_pending_orders)
-                }
-                else if (document.getElementById("completed").checked) {
-                    setSelectedOrder(r.todays_completed_orders)
-                }
-
-                // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
-                var all_orders=[...r.todays_completed_orders,...r.todays_pending_orders,...r.todays_newly_placed_orders]
-                 var order=all_orders.filter(o=>o.order_id==selectedOrderData.order_detail.order_id)[0]
-                   setSelectedorderData({...{
-                        "order_detail": order
-                        , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
-                    }})
-                //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
-
-                // End of code - 25/6/23 - ROhan kansari 
-                setOrderItem(newOrderItemList)
-                // Modified by ROhan kansari - 26/6/23 - to delete persist data
-                selectedItemArr.current.items = []
-
-                // Modified by Rohan Kansari- 24/5/23
-                // Reason - Select box is not updated 
-                // var option = document.querySelectorAll("select option")
-                var option = document.getElementsByClassName("item_selected");
-                for (var i = 0; i < option.length; i++) {
-                    // option[i].defaultSelected=option[i].selected
-                    option[i].value = r.order_items[i].item_status
-                }
-            }
-            )
-            setPopupOrderItem(null)
-        }
+     
 
         // commented by - suman sahu On 10/06/2023
         // reason - change that popup to antd modal (when click on table no. data in the dashbord)
@@ -595,6 +545,94 @@ const TodayOrder = () => {
 
         // end of commentation on 10/06/2023 by suman sahu
 
+    }
+
+
+       
+
+    async function updateStatus(filteredOrderItemList) {
+
+        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
+        await updateItemStatus(tenant, filteredOrderItemList, filteredOrderItemList[0].order_id).then(r => {
+            updatedStatus.current.value = []
+            var newOrderItemList = []
+
+            r.order_items.filter(e => {
+                updatedStatus.current.value.push({"quantity": e.quantity,"item_status":e.item_status,"price":e.price});
+                /**
+                 * Commented and modified by - Ashish Dewangan on 18-06-2023
+                 * Reason - Fixed issue where when we change item status then some items were not appearing on modal
+                 */
+                // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
+                // Modified by Rohan Kansari- 24/6/23
+                // Reason - To get updated value before it is setting old values 
+                // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
+                newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
+                ...orderItemList.filter(o => { if (o.id == e.id) return o.item_status = e.item_status })]
+                //  ENd of code - ROhan Kansari - 24/6/23
+                /**
+                 * End of code modifciation by - Ashish Dewangan on 18-06-2023
+                 * Reason - Fixed issue where when we change item status then some items were not appearing on modal
+                 */
+            })
+
+            // Added by Rohan Kansari - 25/6/23
+            // Reason - To get latest all data order data set it to slected order
+
+            setNewlyPlacedOrders(r.todays_newly_placed_orders);
+            setPendingOrders(r.todays_pending_orders);
+            setCompletedOrders(r.todays_completed_orders);
+
+
+            if (document.getElementById("newly_placed").checked) {
+                setSelectedOrder(r.todays_newly_placed_orders)
+            }
+            else if (document.getElementById("pending_order").checked) {
+                setSelectedOrder(r.todays_pending_orders)
+            }
+            else if (document.getElementById("completed").checked) {
+                setSelectedOrder(r.todays_completed_orders)
+            }
+
+            // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
+            var all_orders=[...r.todays_completed_orders,...r.todays_pending_orders,...r.todays_newly_placed_orders]
+             var order=all_orders.filter(o=>o.order_id==selectedOrderData.order_detail.order_id)[0]
+               setSelectedorderData({...{
+                    "order_detail": order
+                    , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
+                }})
+            //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
+
+
+            OldOrdervalue.current.value=JSON.stringify(
+                {...{
+                    "order_detail": order
+                    , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
+                }}
+            )
+            // End of code - 25/6/23 - ROhan kansari 
+            setOrderItem(newOrderItemList)
+            // Modified by ROhan kansari - 26/6/23 - to delete persist data
+            selectedItemArr.current.items = []
+
+            // Modified by Rohan Kansari- 24/5/23
+            // Reason - Select box is not updated 
+            // var option = document.querySelectorAll("select option")
+            // var option = document.getElementsByClassName("item_selected");
+            // for (var i = 0; i < option.length; i++) {
+            //     // option[i].defaultSelected=option[i].selected
+            //     option[i].value = r.order_items[i].item_status
+            // }
+
+           var CheckboxForItem= document.getElementsByClassName("checkbox-wrapper-24")
+           for (var i =0 ; i<CheckboxForItem.length;i++){
+            CheckboxForItem[i].children[0].checked=false;
+           }
+
+            Message("Successfully status updated ", "success")
+        }
+        )
+        setPopupOrderItem(null)
     }
 
     // end of modification code on 10/06/2023
@@ -1194,6 +1232,55 @@ const TodayOrder = () => {
         }
     }
 
+
+    // Added by Rohan kansari - 15/7/23
+    // Reason - To add Selected Order item or Remove 
+    function AddTickedOrderitem(DoIAdd,data,index){
+        if(DoIAdd){
+           setTickedItems([...tickedItems,data])
+        }else{
+            setTickedItems([...tickedItems.filter(t=>t.id!=data.id)])
+        }
+
+        console.log(tickedItems)
+    }
+
+    // End of code - ROhan kansari - 15/7/23
+
+   async function UpdateorderDetail(){
+
+            const updatedOrderData = new FormData();
+            
+              updatedOrderData.append("id", selectedOrderData.order_detail.id);
+            
+            // Added by Rohan kansari - 30/6/23 - To update table no. also
+            updatedOrderData.append("table_number", selectedOrderData.order_detail.table_number);
+            updatedOrderData.append("discount_rupees",selectedOrderData.order_detail.discount_rupees);
+            updatedOrderData.append("discount_percentage",selectedOrderData.order_detail.discount_percentage );
+            updatedOrderData.append("apply_loyality_point",selectedOrderData.order_detail.apply_loyality_point );
+            updatedOrderData.append("order_status", selectedOrderData.order_detail.order_status);
+            updatedOrderData.append("payment_status",selectedOrderData.order_detail.payment_status);
+            updatedOrderData.append("cancelled_by",selectedOrderData.order_detail.cancelled_by);
+            updatedOrderData.append("cancel_reason",selectedOrderData.order_detail.cancel_reason);
+            updatedOrderData.append("discount_reason", selectedOrderData.order_detail.discount_reason);
+      
+      
+            const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+            const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+            if (response.msg) {
+              Message("Order saved successfully.", "success");
+              OldOrdervalue.current.value=JSON.stringify(
+                {...{
+                    "order_detail": selectedOrderData.order_detail
+                    , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
+                }}
+            )
+            } else {
+              Message("Something went wrong", "error");
+            }
+          
+    }
+
     return (
         <>
             {/* Added and modified by - ROhan Kansari - 25/5/23
@@ -1320,7 +1407,11 @@ const TodayOrder = () => {
 
                                             setPopupOpen(true);
                                             // This line will push Original status in array and change only when update Order Item COmes from backend
-                                            orderItemList.filter(i => {if(i.order_id == data.order_id) return updatedStatus.current.value.push(i.item_status)})
+                                            OldOrdervalue.current.value=JSON.stringify({
+                                                "order_detail": data
+                                                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+                                            })
+                                            orderItemList.filter(i => {if(i.order_id == data.order_id) return updatedStatus.current.value.push({"quantity": i.quantity,"item_status":i.item_status,"price":i.price})})
                                         }}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
@@ -1487,6 +1578,8 @@ const TodayOrder = () => {
                 <Modal open={popupOpen} afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
                 } onCancel={e => {
                     closePopupOpen();
+                    updatedStatus.current.value=[]
+                    OldOrdervalue.current.value={}
                     // oldOrderDataReverting() 
                 }}
                     style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw" }}
@@ -1496,7 +1589,7 @@ const TodayOrder = () => {
                        
                         <div className={style.CustomerInformationBox}>
                             {/* This content is fixed it not scrolled up */}
-                            <div className={style.Order_idText}>Res001234</div>
+                            <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
 
                             <div className={style.flex}>
                                 <div className={style.informationContainer}>
@@ -1506,18 +1599,39 @@ const TodayOrder = () => {
                                         </div>
                                         <div className={style.data}>
                                             {inputEnable == "tableEdit" ? <>
+                                            {/* <Popconfirm
+                                                    className={style.link}
+                                                    open={OpenTableCofirmation}
+                                                    title="Are you sure you want to change table number?"
+                                                    onConfirm={e=>{UpdateorderDetail(); setInputEnable(null); setTableConfirm(false)}}
+                                                    onCancel={e=>{setTableConfirm(false)}}
+                                                    cancelText="Cancel"
+                                                    okText="Ok"
+                                                > */}
                                                 <input className={style.EditableInput} onKeyUp={e => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
-                                                        setInputEnable(null)
+                                                        setTableConfirm(true)
                                                     }
                                                 }
 
-                                                } />
-                                                <TiTick className={style.inputChecked} />
+                                                }  onChange={e=>{
+                                                    selectedOrderData.order_detail.table_number=e.target.value
+                                                    setSelectedorderData({...selectedOrderData})
+                                                }}
+                                                value={selectedOrderData.order_detail.table_number}
+                                                onBlur={e=>{
+                                                    selectedOrderData.order_detail.table_number=JSON.parse(OldOrdervalue.current.value).order_detail.table_number
+                                                    setSelectedorderData({...selectedOrderData})
+                                                    setInputEnable(null)
+                                                }}
+                                                />
+                                                <TiTick className={style.inputChecked} onClick={e=>setTableConfirm(true)}/>
+                                                {/* </Popconfirm> */}
                                             </>
                                                 :
                                                 <>
-                                                    657Uh
+                                                    {selectedOrderData?.order_detail?.table_number}
+                                                    
                                                     <BsPencilSquare onClick={e => {
                                                         if (inputEnable != "tableEdit") setInputEnable("tableEdit");
                                                         else setInputEnable(null)
@@ -1525,26 +1639,26 @@ const TodayOrder = () => {
                                                     } style={{ margin: "5px 10px" }} />
                                                 </>
                                             }
-                                        </div>
+                                        </div>  
                                     </div>
 
                                     <div className={style.information} >
                                         <div className={style.WhiteLabel}>
-                                            Customer Loaylity Point :
+                                            Email :
                                         </div>
                                         <div className={style.data}>
-                                            657
+                                        {selectedOrderData?.order_detail?.email}
                                         </div>
                                     </div>
                                 </div>
-
+                                {console.log(selectedOrderData?.order_detail)}
                                 <div className={style.informationContainer}>
                                     <div className={style.information} >
                                         <div className={style.WhiteLabel}>
                                             Contact :
                                         </div>
                                         <div className={style.data}>
-                                            6576879787
+                                        {selectedOrderData?.order_detail?.customer_number}
                                         </div>
                                     </div>
                                     <div className={style.information} >
@@ -1552,7 +1666,7 @@ const TodayOrder = () => {
                                             Name :
                                         </div>
                                         <div className={style.data}>
-                                            Rohan Kansari
+                                        {selectedOrderData?.order_detail?.Name}
                                         </div>
                                     </div>
                                 </div>
@@ -1563,7 +1677,7 @@ const TodayOrder = () => {
                                             Date & Time:
                                         </div>
                                         <div className={style.data}>
-                                            12/07/2023 12:00 PM
+                                        {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString()+" "+new Date(selectedOrderData?.order_detail?.date).toLocaleTimeString()}
                                         </div>
                                     </div>
                                     <div className={style.information}>
@@ -1571,7 +1685,7 @@ const TodayOrder = () => {
                                             Payment Mode :
                                         </div>
                                         <div className={style.data}>
-                                            Cash
+                                            {selectedOrderData?.order_detail?.payment_mode}
                                         </div>
                                     </div>
 
@@ -1620,21 +1734,21 @@ const TodayOrder = () => {
                                         {selectedOrderData.order_item?.map((item, index) => (
                                              
                                             <div className={`${style.itemrow} 
-                                                          ${updatedStatus.current.value[index]=="Confirm"?
+                                                          ${updatedStatus.current.value[index]?.item_status=="Confirm"?
                                                             style.confirmRow
                                                             :
-                                                            updatedStatus.current.value[index]=="Pending"?
+                                                            updatedStatus.current.value[index]?.item_status=="Pending"?
                                                             null
                                                             :
                                                             style.cancelledRow}`} >
 
-                                                <div className={`${style.ItemInformation} ${updatedStatus.current.value[index]!="Pending"?
+                                                <div className={`${style.ItemInformation} ${updatedStatus.current.value[index]?.item_status!="Pending"?
                                                             style.pointer_event
                                                             :
                                                             null}`} >
                                                     <div className={style.checkboxNTitleFlex} >
                                                         <div class="checkbox-wrapper-24">
-                                                            <input type="checkbox" id={`status0${index}`} name="check" value="" />
+                                                            <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e=>AddTickedOrderitem(e.target.checked,item,index)} />
                                                             <label for={`status0${index}`}>
                                                                 <span></span>
                                                             </label>
@@ -1647,7 +1761,7 @@ const TodayOrder = () => {
                                                                 <AiOutlineMinus />
                                                             </div>
                                                             <div className={style.quantityValue}>{item.quantity}</div>
-                                                            <div className={style.increase} onClick={e=>increaseAndDecrease("+",index,selectedOrderData.order_detail.order_id)}>
+                                                            <div className={style.increase} onClick={e=>{increaseAndDecrease("+",index,selectedOrderData.order_detail.order_id); console.log(updatedStatus.current.value)}}>
                                                                 <AiOutlinePlus />
                                                             </div>
                                                         </div>
@@ -1655,13 +1769,13 @@ const TodayOrder = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className={`${style.checkboxContainer} ${updatedStatus.current.value[index]!="Pending"?
+                                                <div className={`${style.checkboxContainer} ${updatedStatus.current.value[index]?.item_status!="Pending"?
                                                             style.pointer_event
                                                             :
                                                             null}`}>
                                                     <div className={style.statusRow}>
                                                         <div className={style.checkboxContain}>
-                                                            <input type="checkbox" className="_checkbox" id={`status1${index}`} checked={item.item_status == "Pending"} onClick={e => { selectedOrderData.order_item[index].item_status = "Pending"; setSelectedorderData({...selectedOrderData}) }} />
+                                                            <input type="checkbox" className="_checkbox" id={`status1${index}`} checked={item.item_status == "Pending"} onClick={e => { selectedOrderData.order_item[index].item_status = "Pending"; setSelectedorderData({...selectedOrderData});  }} />
                                                             <label className='statuslabel' for={`status1${index}`}>
                                                                 <div id="tick_mark"></div>
                                                             </label>
@@ -1686,12 +1800,47 @@ const TodayOrder = () => {
 
                                 </div>
                                 <div className={style.AllStatusContainer}>
-                                    <button className={style.AllUpdateButton} onClick={e=>orderItemModel(selectedOrderData.order_item)}>Update Items</button>
+                                <Popconfirm
+                                                    className={style.link}
+                                                    style={{maxWidth:"150px"}}
+                                                    title="Are you sure you want to update?"
+                                                    onConfirm={e=>{orderItemModel(selectedOrderData.order_item)}}
+                                                    // onCancel={e=>{setTableConfirm(false)}}
+                                                    cancelText="Cancel"
+                                                    okText="Ok"
+                                                >
+                                    <button className={style.AllUpdateButton} >Update Items</button>
+                                    </Popconfirm>
                                     <div className={style.StatusBtnContainer}>
 
-                                        <button class="button" id="cut"><span>Pending</span></button>
-                                        <button class="button" id="copy"><span>Confirm</span></button>
-                                        <button class="button" id="paste"><span>Cancel</span></button>
+                                        <button class="button" id="cut" ><span>Pending</span></button>
+                                        <button class="button" id="copy" onClick={e=> orderItemModel(selectedOrderData.order_item.filter((t,i)=>{
+                                                                                                 if(updatedStatus.current.value[i].item_status=="Pending"&& tickedItems.findIndex(d=>d.id==t.id)!=-1){
+                                                                                                 t.item_status="Confirm"
+                                                                                                 console.log("update value send",t)
+                                                                                                 return t;
+                                                                                                }
+                                                                                                 else{
+                                                                                                    t.item_status=updatedStatus.current.value[i].item_status
+                                                                                                    t.quantity=updatedStatus.current.value[i].quantity
+                                                                                                    t.price=updatedStatus.current.value[i].price 
+                                                                                                    console.log("old value send",t)
+                                                                                                    return t;
+                                                                                                    }
+                                        }))}><span>Confirm</span></button>
+                                        <button class="button" id="paste" onClick={e=> orderItemModel(selectedOrderData.order_item.filter((t,i)=>{
+                                                                                                 if(t.item_status=="Pending" && tickedItems.findIndex(d=>d.id==t.id)!=-1){
+                                                                                                 t.item_status="Cancelled"
+                                                                                                 console.log("updated value send",t)
+                                                                                                 return t;}
+                                                                                                 else{
+                                                                                                 t.item_status=updatedStatus.current.value[i].item_status
+                                                                                                 t.quantity=updatedStatus.current.value[i].quantity
+                                                                                                 t.price=updatedStatus.current.value[i].price 
+                                                                                                 console.log("old value send", t)
+                                                                                                 return t;
+                                                                                                 }
+                                        }))}><span>Cancel</span></button>
 
                                     </div>
                                 </div>

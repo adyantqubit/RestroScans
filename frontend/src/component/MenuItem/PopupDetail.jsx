@@ -318,7 +318,10 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
                             <RemoveItem item={item} size={sizeSelected} currentSize="Full Plate" setSizeSlelected={setSizeSlelected} setQuantityFull={setQuantityFull} />
                             {/* <img alt="" src={config.siteURL + item.icon} className={style.img} /> */}
                             {/* Added by ROhan kansari - 6/7/23 - To show best seller ribbon in this page also */}
-                            {bestSeller.filter(b=>b.item==item.id).length>0?<div className={style.ribbon}>Best Seller</div>:null}
+                            {/* Modofied by ROhan kansari - 15/7/23 - When bestseller is not there then page goes blank issue */}
+                            {bestSeller?.filter(b=>b.item==item.id).length>0?<div className={style.ribbon}>Best Seller</div>:null}
+                            {/* End of code - ROhan kansari - 15/7/23 - To show best seller */}
+
                             {/* End of code - Rohan kansari - 6/7/23 - To show best seller ribbon in this page also */}
 
                             <div className={style.imgContainer}>
@@ -360,7 +363,9 @@ const PopupDetail = ({ item, isDetailPopupOpen, setDetailPopupVisiblity,bestSell
                         {item.discounted_half_price>0 && colors.allow_half_price ? <div className={style.card} >
                             <RemoveItem item={item} size={sizeSelected} currentSize="Half Plate" setSizeSlelected={setSizeSlelected} setQuantityHalf={setQuantityHalf} />
                             {/* Added by ROhan kansari - 6/7/23 - To show best seller ribbon in this page also */}
-                            {bestSeller.filter(b=>b.item==item.id).length>0?<div className={style.ribbon}>Best Seller</div>:null}
+                            {/* Modofied by ROhan kansari - 15/7/23 - When bestseller is not there then page goes blank issue */}
+                            {bestSeller?.filter(b=>b.item==item.id).length>0?<div className={style.ribbon}>Best Seller</div>:null}
+                            {/* End of code - ROhan kansari - 15/7/23 - To show best seller */}
                             {/* End of code - Rohan kansari - 6/7/23 - To show best seller ribbon in this page also */}
                             <div className={style.imgContainer}>
                                 <img alt="" src={config.siteURL + item.icon} className={style.img} />
