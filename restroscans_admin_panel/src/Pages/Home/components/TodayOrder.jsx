@@ -111,7 +111,7 @@ const TodayOrder = () => {
     var [orderItemList, setOrderItem] = useState(null)
     var updatedStatus = useRef({ value: [] })
     // Added by Rohan kansari - 15/7/23 - To save order detail selected value
-    var OldOrdervalue=useRef({value:{}})
+    var OldOrdervalue = useRef({ value: {} })
     var [selectedOrder, setSelectedOrder] = useState([])
     var [cancel_reason, setCancelReason] = useState("")
 
@@ -146,7 +146,7 @@ const TodayOrder = () => {
     // End of code - ROhan Kansari - 29/5/23
 
     // Added by Rohan kansari - 15/7/23 - To save selected order item
-    var [tickedItems,setTickedItems]=useState([])
+    var [tickedItems, setTickedItems] = useState([])
     // End of code - ROhan kansari - 15/7/23
 
     // Billing data
@@ -154,7 +154,7 @@ const TodayOrder = () => {
     const [gstFssai, setGstFsaai] = useState(null)
     // Added by Rohan kansari - 15/7/23 - to open confirmation box for table number
     // const nav=useNavigate()
-    const [OpenTableCofirmation,setTableConfirm]=useState(false)
+    const [OpenTableCofirmation, setTableConfirm] = useState(false)
 
     const [inputEnable, setInputEnable] = useState(null)
 
@@ -322,13 +322,13 @@ const TodayOrder = () => {
                      * Added by yuvraj Sahu on 08-07-2023
                      * Reason - to change the message for status updation
                      */
-                    if (selectedOrderStatus != "" && selectedPaymentStatus != ""){
+                    if (selectedOrderStatus != "" && selectedPaymentStatus != "") {
                         Message("Successfully status updated ", "success")
                     } else {
-                        if (selectedOrderStatus != ""){
+                        if (selectedOrderStatus != "") {
                             Message("Successfully order status updated ", "success")
                         }
-                        if (selectedPaymentStatus != ""){
+                        if (selectedPaymentStatus != "") {
                             Message("Successfully payment status updated ", "success")
                         }
                     }
@@ -469,28 +469,27 @@ const TodayOrder = () => {
     // end of addition by suman sahu on 10/06/2023
 
     function orderItemModel(filteredOrderItemList, i) {
-        
+
         // updatedStatus.current.value = []
-        
+
         // filteredOrderItemList?.filter(e => updatedStatus.current.value.push(e.item_status))
         // added by - suman sahu on 10/06/2023
         // reason - for call that function in the antd modal
-        
+
         // Modified by ROhan kansari - 15/7/23 
         // Reason - To check wheteher any status changed on button hit
-        console.log(OldOrdervalue.current.value,filteredOrderItemList)
-        if (JSON.stringify(JSON.parse(OldOrdervalue.current.value).order_item)==JSON.stringify(filteredOrderItemList))
-        {
-            Message("No Change detected", "error")
+        console.log(OldOrdervalue.current.value, filteredOrderItemList)
+        if (JSON.stringify(JSON.parse(OldOrdervalue.current.value).order_item) == JSON.stringify(filteredOrderItemList)) {
+            Message("No changes detected", "error")
         }
-        else{
+        else {
             updatedStatus.current.value = []
             updateStatus(filteredOrderItemList);
         }
         // end of addition by - suman sahu on 10/06/2023
 
-        
-     
+
+
 
         // commented by - suman sahu On 10/06/2023
         // reason - change that popup to antd modal (when click on table no. data in the dashbord)
@@ -548,7 +547,7 @@ const TodayOrder = () => {
     }
 
 
-       
+
 
     async function updateStatus(filteredOrderItemList) {
 
@@ -558,7 +557,7 @@ const TodayOrder = () => {
             var newOrderItemList = []
 
             r.order_items.filter(e => {
-                updatedStatus.current.value.push({"quantity": e.quantity,"item_status":e.item_status,"price":e.price});
+                updatedStatus.current.value.push({ "quantity": e.quantity, "item_status": e.item_status, "price": e.price });
                 /**
                  * Commented and modified by - Ashish Dewangan on 18-06-2023
                  * Reason - Fixed issue where when we change item status then some items were not appearing on modal
@@ -595,20 +594,24 @@ const TodayOrder = () => {
             }
 
             // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
-            var all_orders=[...r.todays_completed_orders,...r.todays_pending_orders,...r.todays_newly_placed_orders]
-             var order=all_orders.filter(o=>o.order_id==selectedOrderData.order_detail.order_id)[0]
-               setSelectedorderData({...{
+            var all_orders = [...r.todays_completed_orders, ...r.todays_pending_orders, ...r.todays_newly_placed_orders]
+            var order = all_orders.filter(o => o.order_id == selectedOrderData.order_detail.order_id)[0]
+            setSelectedorderData({
+                ...{
                     "order_detail": order
                     , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
-                }})
+                }
+            })
             //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
 
 
-            OldOrdervalue.current.value=JSON.stringify(
-                {...{
-                    "order_detail": order
-                    , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
-                }}
+            OldOrdervalue.current.value = JSON.stringify(
+                {
+                    ...{
+                        "order_detail": order
+                        , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
+                    }
+                }
             )
             // End of code - 25/6/23 - ROhan kansari 
             setOrderItem(newOrderItemList)
@@ -624,10 +627,10 @@ const TodayOrder = () => {
             //     option[i].value = r.order_items[i].item_status
             // }
 
-           var CheckboxForItem= document.getElementsByClassName("checkbox-wrapper-24")
-           for (var i =0 ; i<CheckboxForItem.length;i++){
-            CheckboxForItem[i].children[0].checked=false;
-           }
+            var CheckboxForItem = document.getElementsByClassName("checkbox-wrapper-24")
+            for (var i = 0; i < CheckboxForItem.length; i++) {
+                CheckboxForItem[i].children[0].checked = false;
+            }
 
             Message("Successfully status updated ", "success")
         }
@@ -718,13 +721,13 @@ const TodayOrder = () => {
                      * Added by yuvraj Sahu on 08-07-2023
                      * Reason - to change the message for status updation
                      */
-                    if (selectedOrderStatus != "" && selectedPaymentStatus != ""){
+                    if (selectedOrderStatus != "" && selectedPaymentStatus != "") {
                         Message("Successfully status updated ", "success")
                     } else {
-                        if (selectedOrderStatus != ""){
+                        if (selectedOrderStatus != "") {
                             Message("Successfully order status updated ", "success")
                         }
-                        if (selectedPaymentStatus != ""){
+                        if (selectedPaymentStatus != "") {
                             Message("Successfully payment status updated ", "success")
                         }
                     }
@@ -1200,46 +1203,50 @@ const TodayOrder = () => {
 
     // Added by Rohan kansari - 14/7/23
     // Reason - To Increase and decreasing Value
-    
-    function increaseAndDecrease(sign,index,orderId){
-        if(sign=="-"){
-          if(selectedOrderData.order_item[index].quantity!=1)  {
-            selectedOrderData.order_item[index].quantity=--selectedOrderData.order_item[index].quantity
-            selectedOrderData.order_item[index].price=(selectedOrderData.order_item[index].price/
-                                                            (selectedOrderData.order_item[index].quantity+1))*
-                                                            selectedOrderData.order_item[index].quantity
-            var subtotal =  0
-            selectedOrderData.order_item.filter(i=>{if(i.item_status!="Cancelled")subtotal=subtotal+i.price})  
-            selectedOrderData.order_detail.sub_total=subtotal                                              
-            setSelectedorderData({...{
-                "order_detail": selectedOrderData.order_detail,
-                "order_item":selectedOrderData.order_item
-            }})
-        }
-        }else{
-            selectedOrderData.order_item[index].quantity=++selectedOrderData.order_item[index].quantity
-            selectedOrderData.order_item[index].price=(selectedOrderData.order_item[index].price/
-                                                        (selectedOrderData.order_item[index].quantity-1))*
-                                                        selectedOrderData.order_item[index].quantity
 
-            var subtotal =  0
-            selectedOrderData.order_item.filter(i=>{if(i.item_status!="Cancelled")subtotal=subtotal+i.price})  
-            selectedOrderData.order_detail.sub_total=subtotal                                          
-            setSelectedorderData({...{
-                "order_detail": selectedOrderData.order_detail,
-                "order_item":selectedOrderData.order_item
-            }})
+    function increaseAndDecrease(sign, index, orderId) {
+        if (sign == "-") {
+            if (selectedOrderData.order_item[index].quantity != 1) {
+                selectedOrderData.order_item[index].quantity = --selectedOrderData.order_item[index].quantity
+                selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
+                    (selectedOrderData.order_item[index].quantity + 1)) *
+                    selectedOrderData.order_item[index].quantity
+                var subtotal = 0
+                selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+                selectedOrderData.order_detail.sub_total = subtotal
+                setSelectedorderData({
+                    ...{
+                        "order_detail": selectedOrderData.order_detail,
+                        "order_item": selectedOrderData.order_item
+                    }
+                })
+            }
+        } else {
+            selectedOrderData.order_item[index].quantity = ++selectedOrderData.order_item[index].quantity
+            selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
+                (selectedOrderData.order_item[index].quantity - 1)) *
+                selectedOrderData.order_item[index].quantity
+
+            var subtotal = 0
+            selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+            selectedOrderData.order_detail.sub_total = subtotal
+            setSelectedorderData({
+                ...{
+                    "order_detail": selectedOrderData.order_detail,
+                    "order_item": selectedOrderData.order_item
+                }
+            })
         }
     }
 
 
     // Added by Rohan kansari - 15/7/23
     // Reason - To add Selected Order item or Remove 
-    function AddTickedOrderitem(DoIAdd,data,index){
-        if(DoIAdd){
-           setTickedItems([...tickedItems,data])
-        }else{
-            setTickedItems([...tickedItems.filter(t=>t.id!=data.id)])
+    function AddTickedOrderitem(DoIAdd, data, index) {
+        if (DoIAdd) {
+            setTickedItems([...tickedItems, data])
+        } else {
+            setTickedItems([...tickedItems.filter(t => t.id != data.id)])
         }
 
         console.log(tickedItems)
@@ -1247,38 +1254,40 @@ const TodayOrder = () => {
 
     // End of code - ROhan kansari - 15/7/23
 
-   async function UpdateorderDetail(){
+    async function UpdateorderDetail() {
 
-            const updatedOrderData = new FormData();
-            
-              updatedOrderData.append("id", selectedOrderData.order_detail.id);
-            
-            // Added by Rohan kansari - 30/6/23 - To update table no. also
-            updatedOrderData.append("table_number", selectedOrderData.order_detail.table_number);
-            updatedOrderData.append("discount_rupees",selectedOrderData.order_detail.discount_rupees);
-            updatedOrderData.append("discount_percentage",selectedOrderData.order_detail.discount_percentage );
-            updatedOrderData.append("apply_loyality_point",selectedOrderData.order_detail.apply_loyality_point );
-            updatedOrderData.append("order_status", selectedOrderData.order_detail.order_status);
-            updatedOrderData.append("payment_status",selectedOrderData.order_detail.payment_status);
-            updatedOrderData.append("cancelled_by",selectedOrderData.order_detail.cancelled_by);
-            updatedOrderData.append("cancel_reason",selectedOrderData.order_detail.cancel_reason);
-            updatedOrderData.append("discount_reason", selectedOrderData.order_detail.discount_reason);
-      
-      
-            const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-            const response = await saveOrderDetailsApi(tenant, updatedOrderData);
-            if (response.msg) {
-              Message("Order saved successfully.", "success");
-              OldOrdervalue.current.value=JSON.stringify(
-                {...{
-                    "order_detail": selectedOrderData.order_detail
-                    , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
-                }}
+        const updatedOrderData = new FormData();
+
+        updatedOrderData.append("id", selectedOrderData.order_detail.id);
+
+        // Added by Rohan kansari - 30/6/23 - To update table no. also
+        updatedOrderData.append("table_number", selectedOrderData.order_detail.table_number);
+        updatedOrderData.append("discount_rupees", selectedOrderData.order_detail.discount_rupees);
+        updatedOrderData.append("discount_percentage", selectedOrderData.order_detail.discount_percentage);
+        updatedOrderData.append("apply_loyality_point", selectedOrderData.order_detail.apply_loyality_point);
+        updatedOrderData.append("order_status", selectedOrderData.order_detail.order_status);
+        updatedOrderData.append("payment_status", selectedOrderData.order_detail.payment_status);
+        updatedOrderData.append("cancelled_by", selectedOrderData.order_detail.cancelled_by);
+        updatedOrderData.append("cancel_reason", selectedOrderData.order_detail.cancel_reason);
+        updatedOrderData.append("discount_reason", selectedOrderData.order_detail.discount_reason);
+
+
+        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+        const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+        if (response.msg) {
+            Message("Order saved successfully.", "success");
+            OldOrdervalue.current.value = JSON.stringify(
+                {
+                    ...{
+                        "order_detail": selectedOrderData.order_detail
+                        , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
+                    }
+                }
             )
-            } else {
-              Message("Something went wrong", "error");
-            }
-          
+        } else {
+            Message("Something went wrong", "error");
+        }
+
     }
 
     return (
@@ -1400,18 +1409,25 @@ const TodayOrder = () => {
                                     <div className={style.columnData7}
                                         onClick={e => {
                                             // Sending all datas in openActionPopupModel variable
-                                            setOpenActionPopupModal({...{
-                                                "order_detail": data
-                                                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-                                            }}); 
+                                            setOpenActionPopupModal({
+                                                ...{
+                                                    "order_detail": data
+                                                    , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+                                                }
+                                            });
 
                                             setPopupOpen(true);
                                             // This line will push Original status in array and change only when update Order Item COmes from backend
-                                            OldOrdervalue.current.value=JSON.stringify({
+                                            OldOrdervalue.current.value = JSON.stringify({
                                                 "order_detail": data
                                                 , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
                                             })
-                                            orderItemList.filter(i => {if(i.order_id == data.order_id) return updatedStatus.current.value.push({"quantity": i.quantity,"item_status":i.item_status,"price":i.price})})
+
+                                            console.log({
+                                                "order_detail": data
+                                                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+                                            })
+                                            orderItemList.filter(i => { if (i.order_id == data.order_id) return updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }) })
                                         }}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
@@ -1438,36 +1454,36 @@ const TodayOrder = () => {
                     <div className={style.selctedContentBox}>
                         {/* Added and commeted by Yuvraj Sahu on 28-06-2023
                     Reason - to replace dropdown with radio */}
-                    <Radio.Group onChange={handleOrderStatus} value={selectedOrderStatus} id="all_order_status_selected">
-                        <Radio value="Placed">Placed</Radio>
-                        <Radio value="Confirm">Confirm</Radio>
-                        <Radio value="Cooked">Cooked</Radio>
-                        <Radio value="Served">Served</Radio>
-                        <Radio value="Cancelled">Cancelled</Radio>
-                    </Radio.Group>
+                        <Radio.Group onChange={handleOrderStatus} value={selectedOrderStatus} id="all_order_status_selected">
+                            <Radio value="Placed">Placed</Radio>
+                            <Radio value="Confirm">Confirm</Radio>
+                            <Radio value="Cooked">Cooked</Radio>
+                            <Radio value="Served">Served</Radio>
+                            <Radio value="Cancelled">Cancelled</Radio>
+                        </Radio.Group>
                         {/* <select id="all_order_status_selected" onChange={e => document.getElementById("all_order_status_selected").value = e.target.value}>
                             <option value="Placed" className={style.options}>Placed</option>
                             <option value="Confirm" className={style.options}>Confirm</option>
                             <option value="Cooked" className={style.options}>Cooked</option>
                             <option value="Served" className={style.options}>Served</option>
                         </select> */}
-                    {/* End of modification by yuvraj Sahu on 28-06-2023 */}
+                        {/* End of modification by yuvraj Sahu on 28-06-2023 */}
                     </div>
                 </div>
                 <div className={style.updateflexContainer}>
                     <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Payment status</div>
                     <div className={style.selctedContentBox}>
-                    {/* Added and commeted by Yuvraj Sahu on 28-06-2023
+                        {/* Added and commeted by Yuvraj Sahu on 28-06-2023
                     Reason - to replace dropdown with radio */}
-                    <Radio.Group onChange={handlePaymentStatus} value={selectedPaymentStatus} id="all_payment_status_selected">
-                        <Radio value="Pending">Pending</Radio>
-                        <Radio value="Completed">Completed</Radio>
-                    </Radio.Group>
+                        <Radio.Group onChange={handlePaymentStatus} value={selectedPaymentStatus} id="all_payment_status_selected">
+                            <Radio value="Pending">Pending</Radio>
+                            <Radio value="Completed">Completed</Radio>
+                        </Radio.Group>
                         {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
                             <option value="Pending" className={style.options}>Pending</option>
                             <option value="Completed" className={style.options}>Completed</option>
                         </select> */}
-                    {/* End of modification by yuvraj Sahu on 28-06-2023 */}
+                        {/* End of modification by yuvraj Sahu on 28-06-2023 */}
                     </div>
                 </div>
                 <div className={style.updateBtn} onClick={e => updateAll()}>Update All</div>
@@ -1478,8 +1494,8 @@ const TodayOrder = () => {
                 {/*Modified by ROhan kansari - 26/6/23
                      Reason - To save and resatore select box value  */}
 
-                  {/*Commented by ROhan kansari - 10/7/23
-                     Reason - To remove order item model and move it to more button model*/}   
+                {/*Commented by ROhan kansari - 10/7/23
+                     Reason - To remove order item model and move it to more button model*/}
                 {/* <Modal open={popupOrderItem} onCancel={e => {
                     oldStatusReverting();
                     closeModalOrderItem();
@@ -1577,16 +1593,18 @@ const TodayOrder = () => {
                     Reason - New Ui changes and Functionality  */}
                 <Modal open={popupOpen} afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
                 } onCancel={e => {
+
+                    BackendCall()
+                    updatedStatus.current.value = []
+                    OldOrdervalue.current.value = {}
                     closePopupOpen();
-                    updatedStatus.current.value=[]
-                    OldOrdervalue.current.value={}
                     // oldOrderDataReverting() 
                 }}
                     style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw" }}
                     // width="60vw"
-                    footer={null} className={style.modalContainer} closeIcon={<AiOutlineClose color="white" />}>
-                     {popupOpen?<div className={style.popupContainer}>
-                       
+                    footer={null} className={style.modalContainer} closeIcon={<AiOutlineClose />}>
+                    {popupOpen ? <div className={style.popupContainer}>
+
                         <div className={style.CustomerInformationBox}>
                             {/* This content is fixed it not scrolled up */}
                             <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
@@ -1599,47 +1617,52 @@ const TodayOrder = () => {
                                         </div>
                                         <div className={style.data}>
                                             {inputEnable == "tableEdit" ? <>
-                                            {/* <Popconfirm
-                                                    className={style.link}
-                                                    open={OpenTableCofirmation}
-                                                    title="Are you sure you want to change table number?"
-                                                    onConfirm={e=>{UpdateorderDetail(); setInputEnable(null); setTableConfirm(false)}}
-                                                    onCancel={e=>{setTableConfirm(false)}}
-                                                    cancelText="Cancel"
-                                                    okText="Ok"
-                                                > */}
+
                                                 <input className={style.EditableInput} onKeyUp={e => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
-                                                        setTableConfirm(true)
+                                                        UpdateorderDetail(); setInputEnable(null);
                                                     }
                                                 }
 
-                                                }  onChange={e=>{
-                                                    selectedOrderData.order_detail.table_number=e.target.value
-                                                    setSelectedorderData({...selectedOrderData})
+                                                } onChange={e => {
+                                                    selectedOrderData.order_detail.table_number = e.target.value
+                                                    setSelectedorderData({ ...selectedOrderData })
                                                 }}
-                                                value={selectedOrderData.order_detail.table_number}
-                                                onBlur={e=>{
-                                                    selectedOrderData.order_detail.table_number=JSON.parse(OldOrdervalue.current.value).order_detail.table_number
-                                                    setSelectedorderData({...selectedOrderData})
-                                                    setInputEnable(null)
-                                                }}
+                                                    value={selectedOrderData.order_detail.table_number}
+                                                    onBlur={e => {
+                                                        selectedOrderData.order_detail.table_number = JSON.parse(OldOrdervalue.current.value).order_detail.table_number
+                                                        setSelectedorderData({ ...selectedOrderData })
+                                                        setInputEnable(null)
+                                                    }}
                                                 />
-                                                <TiTick className={style.inputChecked} onClick={e=>setTableConfirm(true)}/>
-                                                {/* </Popconfirm> */}
+                                                <TiTick className={style.inputChecked} onClick={e => {
+                                                    UpdateorderDetail(); setInputEnable(null);
+                                                }} />
+
                                             </>
                                                 :
                                                 <>
                                                     {selectedOrderData?.order_detail?.table_number}
-                                                    
-                                                    <BsPencilSquare onClick={e => {
-                                                        if (inputEnable != "tableEdit") setInputEnable("tableEdit");
-                                                        else setInputEnable(null)
-                                                    }
-                                                    } style={{ margin: "5px 10px" }} />
+                                                    <Popconfirm
+                                                        className={style.link}
+                                                        open={OpenTableCofirmation}
+                                                        title="Are you sure you want to change table number?"
+                                                        onConfirm={e => { setInputEnable("tableEdit"); setTableConfirm(false) }}
+                                                        onCancel={e => { setTableConfirm(false) }}
+                                                        cancelText="Cancel"
+                                                        okText="Ok"
+                                                    >
+                                                        <BsPencilSquare onClick={e => {
+                                                            if (inputEnable != "tableEdit") {
+                                                                setTableConfirm(true)
+                                                            }
+                                                            else setInputEnable(null)
+                                                        }
+                                                        } style={{ margin: "5px 10px" }} />
+                                                    </Popconfirm>
                                                 </>
                                             }
-                                        </div>  
+                                        </div>
                                     </div>
 
                                     <div className={style.information} >
@@ -1647,18 +1670,17 @@ const TodayOrder = () => {
                                             Email :
                                         </div>
                                         <div className={style.data}>
-                                        {selectedOrderData?.order_detail?.email}
+                                            {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData?.order_detail?.customer_email?.split(",").length - 1]}
                                         </div>
                                     </div>
                                 </div>
-                                {console.log(selectedOrderData?.order_detail)}
                                 <div className={style.informationContainer}>
                                     <div className={style.information} >
                                         <div className={style.WhiteLabel}>
                                             Contact :
                                         </div>
                                         <div className={style.data}>
-                                        {selectedOrderData?.order_detail?.customer_number}
+                                            {selectedOrderData?.order_detail?.customer_number}
                                         </div>
                                     </div>
                                     <div className={style.information} >
@@ -1666,7 +1688,7 @@ const TodayOrder = () => {
                                             Name :
                                         </div>
                                         <div className={style.data}>
-                                        {selectedOrderData?.order_detail?.Name}
+                                            {selectedOrderData?.order_detail?.Name}
                                         </div>
                                     </div>
                                 </div>
@@ -1677,7 +1699,7 @@ const TodayOrder = () => {
                                             Date & Time:
                                         </div>
                                         <div className={style.data}>
-                                        {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString()+" "+new Date(selectedOrderData?.order_detail?.date).toLocaleTimeString()}
+                                            {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString() + " " + new Date(selectedOrderData?.order_detail?.date).toTimeString().substring(0,5)}
                                         </div>
                                     </div>
                                     <div className={style.information}>
@@ -1698,148 +1720,151 @@ const TodayOrder = () => {
 
 
                             <div className={style.orderItemContainer}>
-                                <div className={style.orderItemHeader}>
-                                    <div className={style.item_heading}>
-                                        Item Name
+                                <div style={{ width: "100%", overflow: "auto" }}>
+                                    <div className={style.orderItemHeader}>
+                                        <div className={style.item_heading}>
+                                            Item Name
+                                        </div>
+
+                                        <div className={style.QtyNPriceHeadings}>
+
+                                            <div className={style.quantityHeading}>
+                                                Quantity
+                                            </div>
+                                            <div className={style.priceHeading}>
+                                                Price
+                                            </div>
+                                        </div>
+
+                                        <div className={style.status_list}>
+                                            <div className={style.status}>
+                                                Pending
+                                            </div>
+                                            <div className={style.status}>
+                                                Confirm
+                                            </div>
+                                            <div className={style.status}>
+                                                Cancel
+                                            </div>
+                                        </div>
+
                                     </div>
 
-                                    <div className={style.QtyNPriceHeadings}>
+                                    <div className={style.itemsContent}>
 
-                                        <div className={style.quantityHeading}>
-                                            Qunatity
-                                        </div>
-                                        <div className={style.priceHeading}>
-                                            Price
-                                        </div>
-                                    </div>
+                                        <div className={style.itemList}>
+                                            {selectedOrderData.order_item?.map((item, index) => (
 
-                                    <div className={style.status_list}>
-                                        <div className={style.status}>
-                                            Pending
-                                        </div>
-                                        <div className={style.status}>
-                                            Confirm
-                                        </div>
-                                        <div className={style.status}>
-                                            Cancel
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className={style.itemsContent}>
-
-                                    {console.log(updatedStatus.current.value,)}
-                                    <div className={style.itemList}>
-                                        {selectedOrderData.order_item?.map((item, index) => (
-                                             
-                                            <div className={`${style.itemrow} 
-                                                          ${updatedStatus.current.value[index]?.item_status=="Confirm"?
-                                                            style.confirmRow
-                                                            :
-                                                            updatedStatus.current.value[index]?.item_status=="Pending"?
+                                                <div className={`${style.itemrow} 
+                                                          ${updatedStatus.current.value[index]?.item_status == "Confirm" ?
+                                                        style.confirmRow
+                                                        :
+                                                        updatedStatus.current.value[index]?.item_status == "Pending" ?
                                                             null
                                                             :
                                                             style.cancelledRow}`} >
 
-                                                <div className={`${style.ItemInformation} ${updatedStatus.current.value[index]?.item_status!="Pending"?
-                                                            style.pointer_event
-                                                            :
-                                                            null}`} >
-                                                    <div className={style.checkboxNTitleFlex} >
-                                                        <div class="checkbox-wrapper-24">
-                                                            <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e=>AddTickedOrderitem(e.target.checked,item,index)} />
-                                                            <label for={`status0${index}`}>
-                                                                <span></span>
-                                                            </label>
-                                                        </div>
-                                                        <div className={style.title}>{item.item} ({item.serving_size})</div>
-                                                    </div>
-                                                    <div className={style.quantityNPriceFlex}>
-                                                        <div className={style.quantity}>
-                                                            <div className={style.decrease} onClick={e=>increaseAndDecrease("-",index,selectedOrderData.order_detail.order_id)}>
-                                                                <AiOutlineMinus />
+                                                    <div className={`${style.ItemInformation} ${updatedStatus.current.value[index]?.item_status != "Pending" ?
+                                                        style.pointer_event
+                                                        :
+                                                        null}`} >
+                                                        <div className={style.checkboxNTitleFlex} >
+                                                            <div class="checkbox-wrapper-24">
+                                                                <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
+                                                                <label for={`status0${index}`}>
+                                                                    <span></span>
+                                                                </label>
                                                             </div>
-                                                            <div className={style.quantityValue}>{item.quantity}</div>
-                                                            <div className={style.increase} onClick={e=>{increaseAndDecrease("+",index,selectedOrderData.order_detail.order_id); console.log(updatedStatus.current.value)}}>
-                                                                <AiOutlinePlus />
-                                                            </div>
+                                                            <div className={style.title}>{item.item} ({item.serving_size})</div>
                                                         </div>
-                                                        <div className={style.price}>{item.price.toFixed(2)}</div>
+                                                        <div className={style.quantityNPriceFlex}>
+                                                            <div className={style.quantity}>
+                                                                <div className={style.decrease} onClick={e => increaseAndDecrease("-", index, selectedOrderData.order_detail.order_id)}>
+                                                                    <AiOutlineMinus />
+                                                                </div>
+                                                                <div className={style.quantityValue}>{item.quantity}</div>
+                                                                <div className={style.increase} onClick={e => { increaseAndDecrease("+", index, selectedOrderData.order_detail.order_id); console.log(updatedStatus.current.value) }}>
+                                                                    <AiOutlinePlus />
+                                                                </div>
+                                                            </div>
+                                                            <div className={style.price}>{item.price.toFixed(2)}</div>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div className={`${style.checkboxContainer} ${updatedStatus.current.value[index]?.item_status!="Pending"?
-                                                            style.pointer_event
-                                                            :
-                                                            null}`}>
-                                                    <div className={style.statusRow}>
-                                                        <div className={style.checkboxContain}>
-                                                            <input type="checkbox" className="_checkbox" id={`status1${index}`} checked={item.item_status == "Pending"} onClick={e => { selectedOrderData.order_item[index].item_status = "Pending"; setSelectedorderData({...selectedOrderData});  }} />
-                                                            <label className='statuslabel' for={`status1${index}`}>
-                                                                <div id="tick_mark"></div>
-                                                            </label>
-                                                        </div>
-                                                        <div className={style.checkboxContain}>
-                                                            <input type="checkbox" className="_checkbox" id={`status2${index}`} checked={item.item_status == "Confirm"} onClick={e => { selectedOrderData.order_item[index].item_status = "Confirm"; setSelectedorderData({...selectedOrderData}) }} />
-                                                            <label className='statuslabel' for={`status2${index}`}>
-                                                                <div id="tick_mark"></div>
-                                                            </label>
-                                                        </div>
-                                                        <div className={style.checkboxContain}>
-                                                            <input type="checkbox" className="_checkbox" id={`status3${index}`} checked={item.item_status == "Cancelled"} onClick={e => { selectedOrderData.order_item[index].item_status = "Cancelled"; setSelectedorderData({...selectedOrderData}) }} />
-                                                            <label className='statuslabel' for={`status3${index}`}>
-                                                                <div id="tick_mark"></div>
-                                                            </label>
+                                                    <div className={`${style.checkboxContainer} ${updatedStatus.current.value[index]?.item_status != "Pending" ?
+                                                        style.pointer_event
+                                                        :
+                                                        null}`}>
+                                                        <div className={style.statusRow}>
+                                                            <div className={style.checkboxContain}>
+                                                                <input type="checkbox" className="_checkbox" id={`status1${index}`} checked={item.item_status == "Pending"} onClick={e => { selectedOrderData.order_item[index].item_status = "Pending"; setSelectedorderData({ ...selectedOrderData }); }} />
+                                                                <label className='statuslabel' for={`status1${index}`}>
+                                                                    <div id="tick_mark"></div>
+                                                                </label>
+                                                            </div>
+                                                            <div className={style.checkboxContain}>
+                                                                <input type="checkbox" className="_checkbox" id={`status2${index}`} checked={item.item_status == "Confirm"} onClick={e => { selectedOrderData.order_item[index].item_status = "Confirm"; setSelectedorderData({ ...selectedOrderData }) }} />
+                                                                <label className='statuslabel' for={`status2${index}`}>
+                                                                    <div id="tick_mark"></div>
+                                                                </label>
+                                                            </div>
+                                                            <div className={style.checkboxContain}>
+                                                                <input type="checkbox" className="_checkbox" id={`status3${index}`} checked={item.item_status == "Cancelled"} onClick={e => { selectedOrderData.order_item[index].item_status = "Cancelled"; setSelectedorderData({ ...selectedOrderData }) }} />
+                                                                <label className='statuslabel' for={`status3${index}`}>
+                                                                    <div id="tick_mark"></div>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
+
                                     </div>
 
                                 </div>
                                 <div className={style.AllStatusContainer}>
-                                <Popconfirm
-                                                    className={style.link}
-                                                    style={{maxWidth:"150px"}}
-                                                    title="Are you sure you want to update?"
-                                                    onConfirm={e=>{orderItemModel(selectedOrderData.order_item)}}
-                                                    // onCancel={e=>{setTableConfirm(false)}}
-                                                    cancelText="Cancel"
-                                                    okText="Ok"
-                                                >
-                                    <button className={style.AllUpdateButton} >Update Items</button>
+                                    <Popconfirm
+                                        className={style.link}
+                                        style={{ maxWidth: "150px" }}
+                                        title="Are you sure you want to update?"
+                                        onConfirm={e => { orderItemModel(selectedOrderData.order_item) }}
+                                        // onCancel={e=>{setTableConfirm(false)}}
+                                        cancelText="Cancel"
+                                        okText="Ok"
+                                    >
+                                        <button className={style.AllUpdateButton} >Update Items</button>
                                     </Popconfirm>
                                     <div className={style.StatusBtnContainer}>
 
                                         <button class="button" id="cut" ><span>Pending</span></button>
-                                        <button class="button" id="copy" onClick={e=> orderItemModel(selectedOrderData.order_item.filter((t,i)=>{
-                                                                                                 if(updatedStatus.current.value[i].item_status=="Pending"&& tickedItems.findIndex(d=>d.id==t.id)!=-1){
-                                                                                                 t.item_status="Confirm"
-                                                                                                 console.log("update value send",t)
-                                                                                                 return t;
-                                                                                                }
-                                                                                                 else{
-                                                                                                    t.item_status=updatedStatus.current.value[i].item_status
-                                                                                                    t.quantity=updatedStatus.current.value[i].quantity
-                                                                                                    t.price=updatedStatus.current.value[i].price 
-                                                                                                    console.log("old value send",t)
-                                                                                                    return t;
-                                                                                                    }
+                                        <button class="button" id="copy" onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
+                                            if (updatedStatus.current.value[i].item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
+                                                t.item_status = "Confirm"
+                                                console.log("update value send", t)
+                                                return t;
+                                            }
+                                            else {
+                                                t.item_status = updatedStatus.current.value[i].item_status
+                                                t.quantity = updatedStatus.current.value[i].quantity
+                                                t.price = updatedStatus.current.value[i].price
+                                                console.log("old value send", t)
+                                                return t;
+                                            }
                                         }))}><span>Confirm</span></button>
-                                        <button class="button" id="paste" onClick={e=> orderItemModel(selectedOrderData.order_item.filter((t,i)=>{
-                                                                                                 if(t.item_status=="Pending" && tickedItems.findIndex(d=>d.id==t.id)!=-1){
-                                                                                                 t.item_status="Cancelled"
-                                                                                                 console.log("updated value send",t)
-                                                                                                 return t;}
-                                                                                                 else{
-                                                                                                 t.item_status=updatedStatus.current.value[i].item_status
-                                                                                                 t.quantity=updatedStatus.current.value[i].quantity
-                                                                                                 t.price=updatedStatus.current.value[i].price 
-                                                                                                 console.log("old value send", t)
-                                                                                                 return t;
-                                                                                                 }
+                                        <button class="button" id="paste" onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
+                                            if (t.item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
+                                                t.item_status = "Cancelled"
+                                                console.log("updated value send", t)
+                                                return t;
+                                            }
+                                            else {
+                                                t.item_status = updatedStatus.current.value[i].item_status
+                                                t.quantity = updatedStatus.current.value[i].quantity
+                                                t.price = updatedStatus.current.value[i].price
+                                                console.log("old value send", t)
+                                                return t;
+                                            }
                                         }))}><span>Cancel</span></button>
 
                                     </div>
@@ -1984,7 +2009,7 @@ const TodayOrder = () => {
 
                         </div>     {/* Scroller div end*/}
 
-                    </div>:null}
+                    </div> : null}
                 </Modal >
                 {/* End of code - ROhan kansari -  */}
                 {/* end of addition by - suman sahu on 11/06/2023 */}

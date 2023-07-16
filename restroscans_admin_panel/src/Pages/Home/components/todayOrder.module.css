@@ -1170,10 +1170,11 @@ Reason - to design radio button container */
 }
 
 .orderItemHeader{
-    position :absolute;
     height: 30px;
+    min-width: max-content;
     width: 100%;
     top: 0;
+    /* background-color: #e7e7e7; */
     display: flex;
     justify-content: space-between;
 }
@@ -1260,7 +1261,6 @@ Reason - to design radio button container */
   margin: 8px 0;
   overflow: auto;
   width:100%;
-  margin-top: 40px;
 
 }
 
@@ -1275,7 +1275,7 @@ Reason - to design radio button container */
 
 .itemrow{
     width:100%;
-    padding: 5px 0;
+    /* padding: 5px 0; */
     margin: .5px 0;
     min-height: 25px;
     /* margin: 5px 0; */
@@ -1317,35 +1317,35 @@ Reason - to design radio button container */
     width: 90%;
     position: relative;
     /* top: -10px; */
-    min-width: 130px;
+    min-width: 140px;
 }
 
 .checkboxNTitleFlex{
     width: 60%;
-    min-width: 130px;
+    min-width: 140px;
     display: flex;
     gap: 10px;
 }
 
 .quantityNPriceFlex{
     width: 40%;
-    min-width: 130px;
+    min-width: 140px;
     display: flex;
     gap: 10px;
 }
 
 .price{
     margin: 0 10px;
-    width: 20%;
-    min-width: 80px;
+    width: 50%;
+    /* min-width: 80px; */
     font-size: 16px;
     font-weight: 600;
 }
 
 .quantity{
-    width: 30%;
+    width: 50%;
     height: 25px;
-    min-width: 80px;
+    /* min-width: 80px; */
     background-color: #eceaea;
     border-radius: 5px;
     box-shadow: 0px 1px 5px #c4c0c0;
@@ -1483,6 +1483,7 @@ flex-direction: row-reverse;
 
 .checkboxContainer{
     max-width: 250px;
+    min-width: 150px;
     width: 50%;
     min-height: 20px;
     margin-right: 15px;
@@ -1750,24 +1751,28 @@ flex-direction: row-reverse;
     color: white;
 }
 
+.itemsContent{
+    min-width: 670px;
+   }
+
 @media (max-width: 1000px){
-    .ItemInformation{
+    /* .ItemInformation{
         width: 45%;
         flex-direction: column;
-    }
+    } */
 
     .title{
         width: 90%;
     }
-    .quantityNPriceFlex{
+    /* .quantityNPriceFlex{
         width: 100%;
         justify-content: space-between;
-    }
+    } */
 
-    .checkboxNTitleFlex{
+    /* .checkboxNTitleFlex{
         width: 100%;
         justify-content: space-between;
-    }
+    } */
 
     .Column{
         display: flex;
@@ -1781,9 +1786,39 @@ flex-direction: row-reverse;
         width: 100%;
     }
 
-    .QtyNPriceHeadings{
+    /* .QtyNPriceHeadings{
         display:none;
+    } */
+
+    .itemsContent{
+        min-width: 660px;
+       }
+
+       .checkboxNTitleFlex{
+        
+        width: 100%;
+        min-width: 140px;
     }
+
+    .checkboxContainer{
+        width: 100%;
+    }
+
+    .itemrow{
+        gap: 15px
+    }
+
+    
+   .statusRow{
+    gap: 18px
+   }
+
+
+   .itemList{
+    width: 100%;
+   }
+
+   
 
 }
 
@@ -1791,9 +1826,19 @@ flex-direction: row-reverse;
 
 @media screen and (max-width: 500px){
 
+
+        .itemList{
+
+            width: max-content;}
+
+            .itemsContent{
+                width:max-content;
+              
+              }
+
     .item_heading{
-        width: 35%;
-     min-width: 100px;
+     width: 35%;
+     min-width: 150px;
      margin: 0 4px 0px 10px;
      font-size: 13px;
     }
@@ -1814,15 +1859,22 @@ flex-direction: row-reverse;
         min-width: 90px;
     }
 
+    .ItemInformation{
+        width: 100%;
+        max-width: 300px;        
+        gap: 15px;
+    }
+
     .quantityNPriceFlex{
-        margin-top: 5px;
-        /* margin-left: 8px; */
+        width: 40%;
+        min-width: 130px;
+        /* margin-left: 8px; 
         width: 100%;
         flex-direction: row;
         align-items: flex-end;
         justify-content: flex-end;
         gap: 0;
-        min-width: 100px;
+        min-width: 100px;*/
     }
 
     .quantity{
@@ -1884,16 +1936,46 @@ flex-direction: row-reverse;
         row-gap: 14px;
     }
 
+    .quantityHeading{
+        min-width: 40px;
+        margin-right: 0px;
+        font-size: 13px;
+    }
+
+    .priceHeading{
+        min-width: 40px;
+        font-size: 13px;
+    }
+
     .checkboxNTitleFlex{
-        gap: 0px;
-        min-width: 90px;
-        width: 38%;
+        
+        width: 100%;
+        min-width: 140px;
+    }
+
+    .checkboxContainer{
+        width: 100%;
+        max-width: 160px;
+    }
+
+    .itemrow{
+        gap: 15px
     }
 
     
    .statusRow{
     gap: 18px
    }
+
+   .itemsContent{
+    min-width: 530px;
+   }
+
+   .itemList{
+    width: 100%;
+   }
 }
 
 /* ENd of code - Rohan kansari - 12/7/23 - New ui Chnages */
+
+
