@@ -3476,7 +3476,7 @@ class GetCategoryAPI(APIView):
         categoryList=Category.objects.all().order_by('name')
         var = categoryList.filter(is_active = True) 
         categoryListSerializer = CategoryListSerializer(var, many =True)
-        return Response({"msg":"success", "categories":categoryListSerializer.data})
+        return Response({"msg":"success", "categoryList":categoryListSerializer.data})
 # End of addition by Yuvraj Sahu on 23-06-2023
 
 # Addded by Om Shrivastava on 26-06-23
