@@ -1893,7 +1893,11 @@ const printKot = async()=>{
               {/* Modification and addition by Om Shrivastasva on 09-07-23 
               Reason : Edit the table number */}
               {/* {orderDetail.table_number} */}
-              <View  style={{ display:'flex',flexDirection:'row',justifyContent:'space-between',width:85}}>
+              {/* Modification and addition by Om Shrivastasva on 17-07-23 Reason : Set the table number div */}
+              <View  style={showTableNumber==false && tableNumber.length<4? styles.tableNumberMainDivStyle:styles.tableNumberElseStyle}
+              // style={{ display:'flex',flexDirection:'row',justifyContent:'space-between',width:85}}
+              // End of addition and modification by Om Shrivastava on 17-07-23
+              >
                 {showTableNumber==true ? 
                 <TextInput style={styles.tableNumberStyle}
                   numeric
@@ -3324,6 +3328,25 @@ const styles = StyleSheet.create({
     // Reason : Set the width and padding in input box
   },
 // End of addition by Om shrivastava on 10-07-23
+
+// Added by Om on 17-07-23
+// Reason : set the css for table number
+tableNumberMainDivStyle: {
+  display:'flex',
+  flexDirection:'row',
+  justifyContent:'space-between',
+  // borderWidth: 1,
+  width:55,
+},
+tableNumberElseStyle: {
+  display:'flex',
+  flexDirection:'row',
+  justifyContent:'space-between',
+  // borderWidth: 1,
+  width:85,
+},
+// End of addition by Om shrivastava on 10-07-23 on 17-07-23
+
   // Added by Yuvraj Sahu on 14-4-2023
   // Reason - to design
   amountRow: {
