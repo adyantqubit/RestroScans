@@ -116,6 +116,10 @@ const PaymentMethod = () => {
    */
 
   /**
+   * Modified by  - Parineeta Gedam on 17-07-2023
+   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
+   */
+  /**
    * Added by - Parineeta Gedam on 13-07-2023
    * Reason - method to validate image when user is entering some data
    */
@@ -125,7 +129,10 @@ const PaymentMethod = () => {
       if (value != null && value != undefined) {
         if (value.size / 1024 > 200) {
           setIconSizeError("File size must be below 200 KB");
+          setSelectedImageName(null)
         } else {
+          setSelectedImageName(value.name);
+          setSelectedImage(value);
           setIconSizeError("");
         }
       } else {
@@ -137,7 +144,17 @@ const PaymentMethod = () => {
    * End of code addition by - Parineeta Gedam on 13-07-2023
    * Reason -  method to validate images when user is entering some data
    */
+    /**
+   * End of code Modified by  - Parineeta Gedam on 17-07-2023
+   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
 
+   */
+
+
+   /**
+   * Modified by  - Parineeta Gedam on 17-07-2023
+   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
+   */
   /**
    * Added by - Parineeta Gedam on 13-07-2023
    * Reason - created api to save payment data. After saving the payment data redirect to dashboard.
@@ -146,7 +163,11 @@ const PaymentMethod = () => {
     var allowDataPost = false;
     if (icon == null || icon == undefined) {
       if (selectedImage == null || selectedImage == undefined) {
-        setIconError("Please select image");
+        if (iconSizeError != ""){
+          setIconSizeError("File size must be below 200 KB");
+        } else {
+          setIconError("Please select image");
+        }
         allowDataPost = false;
       } else {
         setIconError("");
@@ -157,7 +178,11 @@ const PaymentMethod = () => {
         }
       }
     } else {
-      allowDataPost = true;
+      if (iconSizeError != ""){
+        allowDataPost = false;
+      } else {
+        allowDataPost = true;
+      }
     }
 
     if (allowDataPost) {
@@ -189,6 +214,10 @@ const PaymentMethod = () => {
      * End of code addition by - Parineeta Gedam on 12-07-2023
      * Reason - created api to save menu. After saving the menu it will redirect to menu list page.
      */
+      /**
+   * End of code Modified by  - Parineeta Gedam on 17-07-2023
+   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
+   */
   };
 
   /**
@@ -317,8 +346,16 @@ const PaymentMethod = () => {
                   style={{ width: "200px" }}
                   onChange={(e) => {
                     if (e.target.files[0]) {
-                      setSelectedImageName(e.target.files[0].name);
-                      setSelectedImage(e.target.files[0]);
+                      /**
+                       * Commented by  - Parineeta Gedam on 17-07-2023
+                       * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
+                       */
+                      // setSelectedImageName(e.target.files[0].name);
+                      // setSelectedImage(e.target.files[0]);
+                      /**
+                       * Commented by  - Parineeta Gedam on 17-07-2023
+                       * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
+                       */
                       validateOnFileInput("icon", e.target.files[0]);
                     } else {
                       setSelectedImageName(null);
