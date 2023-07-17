@@ -38,34 +38,39 @@ export default function AddOrderItemForm(orderId) {
         { key: "Full", value: "Full" }
     ])
     // End of added code by :- Parineeta Gedam on 11-06-2023
-    
+
     var [settings, setSettings] = useState({});
     var [allowHalfPrice, setAllowHalfPrice] = useState(false);
     const getSettingData = async () => {
         if (await SecureStore.getItemAsync("tenantInfo")) {
-          var tenant = JSON.parse(
-            await SecureStore.getItemAsync("tenantInfo")
-          ).tenant_name;
-          var response = await getSettingApi(tenant);
-          if (response) {
-            setSettings(response.setting);
-            // Added by :- Parineeta Gedam on 11-06-2023
-            // reason :- when admin not select half then show serving size only "Full"
-            setAllowHalfPrice(response.setting.allow_half_price);
+            var tenant = JSON.parse(
+                await SecureStore.getItemAsync("tenantInfo")
+            ).tenant_name;
+            var response = await getSettingApi(tenant);
+            if (response) {
+                setSettings(response.setting);
+                // Added by :- Parineeta Gedam on 11-06-2023
+                // reason :- when admin not select half then show serving size only "Full"
+                setAllowHalfPrice(response.setting.allow_half_price);
 
-            // Added by :- Parineeta Gedam on 12-07-2023 reason :- if allow half price is true then serving size will be empty.
-            if (response.setting.allow_half_price == true){
-                setServingSizeSelected("")
+                // Added by :- Parineeta Gedam on 17-07-2023
+                // reason :- when admin not select half then show serving size only "Full"
+                setSettingAllowHalfPrice(response.setting.allow_half_price)
+                // End of Added by :- Parineeta Gedam on 17-07-2023
+
+                // Added by :- Parineeta Gedam on 12-07-2023 reason :- if allow half price is true then serving size will be empty.
+                if (response.setting.allow_half_price == true) {
+                    setServingSizeSelected("")
+                }
+                // End of added by :- Parineeta Gedam on 12-07-2023 reason :- if allow half price is true then serving size will be empty.
+                if (response.setting.allow_half_price == false) {
+                    var rm = servingSizeData.slice(1);
+                    setServingSizeData(rm)
+                }
+                // End of Added by :- Parineeta Gedam on 11-06-2023 reason :- when admin not select half then show serving size only "Full"
             }
-            // End of added by :- Parineeta Gedam on 12-07-2023 reason :- if allow half price is true then serving size will be empty.
-            if (response.setting.allow_half_price == false) {
-                var rm = servingSizeData.slice(1);
-                setServingSizeData(rm)
-            }
-            // End of Added by :- Parineeta Gedam on 11-06-2023 reason :- when admin not select half then show serving size only "Full"
-          }
         }
-      };
+    };
     // End of added code by :- Parineeta Gedam 09-06-2023
 
     const formRef = useRef(null);
@@ -113,6 +118,11 @@ export default function AddOrderItemForm(orderId) {
     var [servingSizeRequired, setservingSizeRequired] = useState(false);
     // End of added code by :- Parineeta Gedam on 24-05-2023
 
+    // Added  by :- Parineeta Gedam on 17-07-2023
+    // Reason - Show serving size
+    var [settingAllowHalfPrice, setSettingAllowHalfPrice] = useState(false);
+    // End of added code by :-Parineeta Gedam on 17-07-2023
+
     // Added by :- Parineeta Gedam on 27-05-2023
     const isFocused = useIsFocused();
     useEffect(() => {
@@ -141,7 +151,7 @@ export default function AddOrderItemForm(orderId) {
         ).tenant_name;
         const response = await getAllMenuList(tenant);
         if (response) {
-           
+
             // Commented by :- Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items.
             // setItemList(response.itemList);
             // End of commented code by Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items.
@@ -310,23 +320,62 @@ export default function AddOrderItemForm(orderId) {
     const handleMenuChange = (e) => {
         if (offerList.filter((item) => item.item_id == e).length) {
             var itemName = offerList.filter((item) => item.item_id == e)[0]
-            if (itemName && itemName.item_halfprice == null || itemName.item_halfprice == undefined || itemName.price_half == "0.00") {
-                setAllowHalfPrice(false)
-                setServingSizeSelected("Full")
 
+            // Commented by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+            // if (itemName && itemName.item_halfprice == null || itemName.item_halfprice == undefined || itemName.price_half == "0.00") {
+            //     setAllowHalfPrice(false)
+            //     setServingSizeSelected("Full")
+            // } else {
+            //     setAllowHalfPrice(true)
+            // }
+            // End of Commented by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+
+            // Added by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+
+            if (settingAllowHalfPrice == false) {
+                setAllowHalfPrice(false)
             } else {
-                setAllowHalfPrice(true)
+                if (itemName && itemName.item_halfprice == null || itemName.item_halfprice == undefined || itemName.price_half == "0.00") {
+                    setAllowHalfPrice(false)
+                    setServingSizeSelected("Full")
+                } else {
+                    setAllowHalfPrice(true)
+                }
             }
+            // Added by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+
         }
         else {
             var itemName = itemList.filter((item) => item.id == e)[0]
-            if (itemName && itemName.price_half == null || itemName.price_half == undefined || itemName.price_half == "0.00") {
+
+            // Commented by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+
+            // if (itemName && itemName.price_half == null || itemName.price_half == undefined || itemName.price_half == "0.00") {
+            //         setAllowHalfPrice(true)
+            //     }
+            //     // setAllowHalfPrice(false)
+            //     // setServingSizeSelected("Full")
+            // }
+            // else {
+            //     setAllowHalfPrice(true)
+            // }
+            // Commented by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+
+            // Added by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+            if (settingAllowHalfPrice == false) {
                 setAllowHalfPrice(false)
-                setServingSizeSelected("Full")
+            } else {
+                if (itemName && itemName.price_half == null || itemName.price_half == undefined || itemName.price_half == "0.00") {
+                    setAllowHalfPrice(false)
+                    setServingSizeSelected("Full")
+                }
+                else {
+                    setAllowHalfPrice(true)
+                }
             }
-            else {
-                setAllowHalfPrice(true)
-            }
+            // Added by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+
+           
         }
     };
     // End of Added by  Parineeta Gedam on 14-07-23
@@ -394,7 +443,7 @@ export default function AddOrderItemForm(orderId) {
                                             renderDropdownIcon={() => {
                                                 return <AntDesign name="down" size={14} color="black" />;
                                             }}
-                                            
+
                                             buttonStyle={{
                                                 height: 35,
                                                 borderColor: "black",
@@ -417,7 +466,7 @@ export default function AddOrderItemForm(orderId) {
                                                 // Then also serving size should not be shown in the dropdown
                                                 handleMenuChange(selectedItemId.id)
                                                 // End of Added code by :- Parineeta Gedam on 14-07-2023 reason :- if full price is there but half plate price is not available for that item.
-                                                
+
 
                                                 // setOrderStatusChange(selectedOrderStatus.value)
                                             }}

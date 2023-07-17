@@ -2363,12 +2363,32 @@ const printKot = async()=>{
                   editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
                   // End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountRupees(e)} />
-                {discountRupeesErrorMsg &&
+
+
+                {/* Commented by Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
+                {/* {discountRupeesErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than total price</Text>
-                }
+                } */}
+                {/* End of Commented by :-  Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
+
                 {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
               </View>
             </View>
+            {/* Added by Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
+            <View style={styles.discountErrorMsg}>
+              {discountRupeesErrorMsg &&
+                <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than Sub-Total.</Text>
+              }
+            </View>
+            {/* End of Added by :-  Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
             <View style={styles.amountRow}>
               <View style={{ marginTop: 0, width: "50%", alignItems: "flex-end" }}>
                 {/* Modified by :- Parineeta Gedam on 12-06-2023 reason :- changes in desiging */}
@@ -2390,13 +2410,30 @@ const printKot = async()=>{
                   editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
                   // End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
-                {discountPercentageErrorMsg &&
+                {/* Commented by Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
+                {/* {discountPercentageErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
-                }
+                } */}
+                {/* End of Commented by :-  Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
                 {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
               </View>
             </View>
+            {/* Added by Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
+            <View style={styles.discountErrorMsg}>
+              {discountPercentageErrorMsg &&
+                <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100%.</Text>
+              }
+            </View>
 
+            {/* End of Added by :-  Parineeta Gedam on 17-06-2023
+                Reason - to design a discount ruppes and percentages error message
+            */}
             {/* Added by Yuvraj Sahu on 14-06-2023
             Reason - to save and show discount reason */}
             {/* ---------------------------------------------------------------------------------------------- */}
@@ -3616,6 +3653,21 @@ tableNumberElseStyle: {
     width: "100%",
     flexWrap: "wrap",
     alignItems: "center"
-  }
+  },
   // End of addition by Yuvraj Sahu on 05-07-2023
+
+  /**
+  * Added by :- Parineeta Gedam on 17-06-2023
+  * Reason - to design a discount ruppes and percentages error message
+  */
+  discountErrorMsg: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+  /**
+  * End of addition by Yuvraj Sahu on 14-06-2023
+  */
 });
