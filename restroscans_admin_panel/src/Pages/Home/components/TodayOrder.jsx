@@ -1275,7 +1275,7 @@ const TodayOrder = () => {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
         if (response.msg) {
-            Message("Order saved successfully.", "success");
+            Message("Table number saved successfully.", "success");
             OldOrdervalue.current.value = JSON.stringify(
                 {
                     ...{
@@ -1634,6 +1634,8 @@ const TodayOrder = () => {
                                                         setSelectedorderData({ ...selectedOrderData })
                                                         setInputEnable(null)
                                                     }}
+
+                                                    maxLength={6}
                                                 />
                                                 <TiTick className={style.inputChecked} onClick={e => {
                                                     UpdateorderDetail(); setInputEnable(null);
@@ -1645,16 +1647,17 @@ const TodayOrder = () => {
                                                     {selectedOrderData?.order_detail?.table_number}
                                                     <Popconfirm
                                                         className={style.link}
-                                                        open={OpenTableCofirmation}
+                                                        
                                                         title="Are you sure you want to change table number?"
-                                                        onConfirm={e => { setInputEnable("tableEdit"); setTableConfirm(false) }}
-                                                        onCancel={e => { setTableConfirm(false) }}
+                                                        onConfirm={e => { setInputEnable("tableEdit"); }}
+                                                        // onCancel={e => { setTableConfirm(false) }}
                                                         cancelText="Cancel"
                                                         okText="Ok"
+                                                        placement='bottomLeft'
                                                     >
                                                         <BsPencilSquare onClick={e => {
                                                             if (inputEnable != "tableEdit") {
-                                                                setTableConfirm(true)
+                                                             
                                                             }
                                                             else setInputEnable(null)
                                                         }
@@ -1670,7 +1673,7 @@ const TodayOrder = () => {
                                             Email :
                                         </div>
                                         <div className={style.data}>
-                                            {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData?.order_detail?.customer_email?.split(",").length - 1]}
+                                            {selectedOrderData?.order_detail?.customer_email?.split(",")[0]}
                                         </div>
                                     </div>
                                 </div>
@@ -1688,7 +1691,7 @@ const TodayOrder = () => {
                                             Name :
                                         </div>
                                         <div className={style.data}>
-                                            {selectedOrderData?.order_detail?.Name}
+                                            {selectedOrderData?.order_detail?.customer_ame}
                                         </div>
                                     </div>
                                 </div>
@@ -1699,7 +1702,7 @@ const TodayOrder = () => {
                                             Date & Time:
                                         </div>
                                         <div className={style.data}>
-                                            {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString() + " " + new Date(selectedOrderData?.order_detail?.date).toTimeString().substring(0,5)}
+                                            {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(selectedOrderData?.order_detail?.date).toTimeString().substring(0,5)}
                                         </div>
                                     </div>
                                     <div className={style.information}>
@@ -1768,7 +1771,10 @@ const TodayOrder = () => {
                                                         style.pointer_event
                                                         :
                                                         null}`} >
+                                                            
                                                         <div className={style.checkboxNTitleFlex} >
+
+                                                        
                                                             <div class="checkbox-wrapper-24">
                                                                 <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
                                                                 <label for={`status0${index}`}>
@@ -1810,8 +1816,8 @@ const TodayOrder = () => {
                                                             </div>
                                                             <div className={style.checkboxContain}>
                                                                 <input type="checkbox" className="_checkbox" id={`status3${index}`} checked={item.item_status == "Cancelled"} onClick={e => { selectedOrderData.order_item[index].item_status = "Cancelled"; setSelectedorderData({ ...selectedOrderData }) }} />
-                                                                <label className='statuslabel' for={`status3${index}`}>
-                                                                    <div id="tick_mark"></div>
+                                                                <label className='statuslabel cancelled' for={`status3${index}`}>
+                                                                    <div id="cross"></div>
                                                                 </label>
                                                             </div>
                                                         </div>

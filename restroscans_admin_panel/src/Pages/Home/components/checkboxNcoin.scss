@@ -98,8 +98,53 @@
     transform: translateX(90px);
   }
 
+  // Added by ROhan kansari - 17/7/23
+  // Reason - To design cross sign also
 
-  /* label 2 checkbox */
+  #cross {
+    position: absolute;
+    top: -1px;
+    right: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    margin-left: 14px;
+    transform: rotateZ(-47deg);
+  }
+  
+  #cross:before,
+  #cross:after {
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    border-radius: 2px;
+    opacity: 0;
+    transition: 0.2s ease transform, 0.2s ease opacity;
+  }
+  
+  #cross:before {
+    left: 3px;
+    bottom: 22px;
+    width: 4px;
+    height: 16px;
+    // box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
+    transform: translateY(-200px);
+  }
+  
+  #cross:after {
+    left: -3px;
+    bottom: 27.7px;
+    width: 16px;
+    height: 4px;
+    // box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
+    transform: translateX(90px);
+  }
+
+  // End of code - Rohan kansari - 18/7/23
+
+
+  /* label 1 checkbox */
   ._checkbox:checked + .statuslabel {
     background-color: #07d410;
     box-shadow: 0 3px 10px #92ff97;
@@ -116,40 +161,20 @@
     opacity: 1;
   }
 
+  ._checkbox:checked + .cancelled {
+    background-color: tomato;
+    box-shadow: 0 3px 10px tomato;
+  }
+  
 
-  /* Lebel2 checkbox  */
-  #_checkbox2:checked + .statuslabel {
-    background-color: #07d410;
-    box-shadow: 0 3px 10px #92ff97;
-  }
-  
-  #_checkbox2:checked + .statuslabel:before {
-    width: 0;
-    height: 0;
-  }
-  
-  #_checkbox2:checked + .statuslabel #tick_mark:before,
-  #_checkbox2:checked + .statuslabel #tick_mark:after {
+  ._checkbox:checked + .statuslabel #cross:before,
+  ._checkbox:checked + .statuslabel #cross:after {
     transform: translate(0);
     opacity: 1;
   }
 
-   /* Lebel3 checkbox  */
-   #_checkbox3:checked + .statuslabel {
-    background-color: #07d410;
-    box-shadow: 0 3px 10px #92ff97;
-  }
-  
-  #_checkbox3:checked + .statuslabel:before {
-    width: 0;
-    height: 0;
-  }
-  
-  #_checkbox3:checked + .statuslabel #tick_mark:before,
-  #_checkbox3:checked + .statuslabel #tick_mark:after {
-    transform: translate(0);
-    opacity: 1;
-  }
+
+
   
 
   /* Buttons  */
