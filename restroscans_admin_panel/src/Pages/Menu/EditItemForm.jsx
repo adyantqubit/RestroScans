@@ -119,7 +119,10 @@ function EditItemForm() {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getCategoriesAPI(tenant);
     if (response.msg) {
-      setCategoryList(response.categoryList);
+    // Added by Yuvraj Sahu on 17-07-2023
+    // Reason - to show active categories
+      var categoryList = response.categoryList.filter(e=>e.is_active == true)
+      setCategoryList(categoryList);
     }
   };
   /**
@@ -172,7 +175,16 @@ function EditItemForm() {
       /**
        * End of addition by yuvraj Sahu on 15-07-2023
        */
-      setCategoryList(response.categories);
+      /**
+       * Commented and added by Yuvraj Sahu on 17-07-2023
+       * Reason - to set the active categories
+       */
+      // setCategoryList(response.categories);
+      var categoryList = response.categories.filter(e=>e.is_active == true)
+      setCategoryList(categoryList);
+      /**
+       * End of addition byYuvraj Sahu on 17-07-2023
+       */
     }
   };
   /**
