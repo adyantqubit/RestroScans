@@ -121,8 +121,16 @@ function EditItemForm() {
     if (response.msg) {
     // Added by Yuvraj Sahu on 17-07-2023
     // Reason - to show active categories
-      var categoryList = response.categoryList.filter(e=>e.is_active == true)
-      setCategoryList(categoryList);
+    /**
+     * Commeted and added by Yuvraj Sahu on 20-07-2023
+     * Reason - to set the all categories
+     */
+      // var categoryList = response.categoryList.filter(e=>e.is_active == true)
+      // setCategoryList(categoryList);
+      setCategoryList(response.categoryList);
+      /**
+       * End of addition by yuvraj Sahu on 20-07-2023
+       */
     }
   };
   /**
@@ -179,9 +187,17 @@ function EditItemForm() {
        * Commented and added by Yuvraj Sahu on 17-07-2023
        * Reason - to set the active categories
        */
+      /**
+       * Commeted and added by yuvraj Sahu on 20-07-2023
+       * Reason - to set the all categories
+       */
       // setCategoryList(response.categories);
-      var categoryList = response.categories.filter(e=>e.is_active == true)
-      setCategoryList(categoryList);
+      // var categoryList = response.categories.filter(e=>e.is_active == true)
+      // setCategoryList(categoryList);
+      setCategoryList(response.categories);
+      /**
+       * End of modification by yuvraj Sahu on 20-07-2023
+       */
       /**
        * End of addition byYuvraj Sahu on 17-07-2023
        */

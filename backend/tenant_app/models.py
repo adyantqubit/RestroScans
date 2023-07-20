@@ -78,7 +78,16 @@ class Menu(models.Model):
     class Meta:
         verbose_name_plural = 'c) Menu'
     # End of addition
-    
+
+    # Added by Yuvraj Sahu on 20-07-2023
+    # Reason - to make inactive categories and item when we edit menu inactive
+    def save(self, *args, **kwargs ):
+        if self.is_active == False :
+            Category.objects.filter(menu=self.id).update(is_active = False)
+            Item.objects.filter(category__menu = self.id).update(is_active = False)
+        super().save( *args, **kwargs)
+    # End of addition by Yuvraj Sahu on 20-07-2023
+
             
     # def clean_icon(self):
     #     icon = self.cleaned_data.get("icon")
@@ -139,6 +148,17 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'd) Category'
     # End of addition
+
+    # Added by Yuvraj Sahu on 20-07-2023
+    # Reason - to make inactive items when we edit category inactive
+    def save(self, *args, **kwargs ):
+        if self.is_active == False :
+            Item.objects.filter(category = self.id).update(is_active = False)
+        else : 
+            Menu.objects.filter(id=self.menu.id).update(is_active = True)
+        super().save( *args, **kwargs)
+    # End of addition by Yuvraj Sahu on 20-07-2023
+
 """
 End of code addition
 """
@@ -240,6 +260,15 @@ class Item(models.Model):
     class Meta:
         verbose_name_plural = 'e) Item'
     # End of addition
+
+     # Added by Yuvraj Sahu on 20-07-2023
+    # Reason - to make inactive items when we edit category inactive
+    def save(self, *args, **kwargs ):
+        if self.is_active == True :
+            Category.objects.filter(id = self.category.id).update(is_active = True)
+            Menu.objects.filter(id = self.category.menu.id).update(is_active = True)
+        super().save( *args, **kwargs)
+    # End of addition by Yuvraj Sahu on 20-07-2023
 
     # AAdded by Om Shrivastava on 19-05-23
     # Reason : When best seller number is greater than zero than through a error

@@ -151,8 +151,17 @@ export default function ItemListScreen({ route, navigation }) {
       /**
        * End of addition by Yuvraj Sahu on 21-05-2023
        */
-      var menuList = response.menuList.filter((e) => e.is_active == true);
-      setMenuDatas(menuList);
+      /**
+       * Added and commeted by Yuvraj Sahu on 20-07-2023
+       * Reason - to set the all menus in dropdown
+       */
+      // var menuList = response.menuList.filter((e) => e.is_active == true);
+      // setMenuDatas(menuList);
+      setMenuDatas(response.menuList);
+      /**
+       * End of addition by yuvraj Sahu on 20-07-2023
+       */
+
       var selectedMenu = response.menuList.filter((e) => e.id == menuID)[0];
       setMenuValue(selectedMenu);
       // Added by Yuvraj Sahu on 26-4-2023

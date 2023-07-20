@@ -3322,8 +3322,12 @@ class CategoryDetailsAPI(APIView):
 class GetMenusAPI(APIView):
     def get(self,request,tenant):
         menuList=Menu.objects.all().order_by('name')
-        var = menuList.filter(is_active = True) 
-        menuListSerializer = MenuListSerializer(var, many =True)
+        # Commented and modified by Yuvraj Sahu on 20-07-2023
+        # Reason - to get all menus
+        # var = menuList.filter(is_active = True) 
+        # menuListSerializer = MenuListSerializer(var, many =True)
+        menuListSerializer = MenuListSerializer(menuList, many =True)
+        # End of commeted by yuvraj Sahu on 20-07-2023
         return Response({"msg":"success", "menus":menuListSerializer.data})
 # End of addition by Yuvraj Sahu on 17-06-2023
 
@@ -3474,8 +3478,11 @@ class ItemDetailsAPI(APIView):
 class GetCategoryAPI(APIView):
     def get(self,request,tenant):
         categoryList=Category.objects.all().order_by('name')
-        var = categoryList.filter(is_active = True) 
-        categoryListSerializer = CategoryListSerializer(var, many =True)
+        # Commeted and modification by yuvraj Sahu on 20-07-2023
+        # Reason - to return all categories
+        # var = categoryList.filter(is_active = True) 
+        categoryListSerializer = CategoryListSerializer(categoryList, many =True)
+        # End of modification by yuvraj sahu on 20-07-2023
         return Response({"msg":"success", "categoryList":categoryListSerializer.data})
 # End of addition by Yuvraj Sahu on 23-06-2023
 

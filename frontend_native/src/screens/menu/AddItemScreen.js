@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { getMenuList, saveCategoryApi, saveItemApi } from "../../api/Services";
+import { getCategoriesAPI, getMenuList, saveCategoryApi, saveItemApi } from "../../api/Services";
 import { colors, inputs } from "../../Colours/globalColor";
 import * as SecureStore from "expo-secure-store";
 // import { tenantName } from "../config/config";
@@ -144,24 +144,35 @@ export default function AddItemScreen() {
 
   const getMenus = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-    if (response.categoryList) {
-      // Commented and modified by Yuvraj Sahu on 23-4-2023
-      // Reason - to set category list in dropdown
-      // setCategories(
-      //   response.categoryList.map(function (obj) {
-      //     obj["key"] = obj["id"]; // Assign new key
-      //     obj["value"] = obj["name"]; // Rename key
-      //     delete obj["id"]; // Delete old key
-      //     delete obj["name"]; // Delete name
-      //     delete obj["icon"]; // Delete icon
-      //     delete obj["menu_name"]; // Delete menu name
-      //     delete obj["menu"]; // Delete menu
-      //     return obj;
-      //   })
-      // );
-      setCategories(response.categoryList);
+    /**
+     * Commeted and added by Yuvraj Sahu on 20-07-2023
+     * Reason - to set all categories
+     */
+    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    // if (response.categoryList) {
+    //   // Commented and modified by Yuvraj Sahu on 23-4-2023
+    //   // Reason - to set category list in dropdown
+    //   // setCategories(
+    //   //   response.categoryList.map(function (obj) {
+    //   //     obj["key"] = obj["id"]; // Assign new key
+    //   //     obj["value"] = obj["name"]; // Rename key
+    //   //     delete obj["id"]; // Delete old key
+    //   //     delete obj["name"]; // Delete name
+    //   //     delete obj["icon"]; // Delete icon
+    //   //     delete obj["menu_name"]; // Delete menu name
+    //   //     delete obj["menu"]; // Delete menu
+    //   //     return obj;
+    //   //   })
+    //   // );
+    //   setCategories(response.categoryList);
+    // }
+    const response = await getCategoriesAPI(JSON.parse(tenantInfo).tenant_name);
+    if (response.msg){
+      setCategories(response.categoryList)
     }
+    /**
+     * End of modification by yuvraj Sahu on 20-07-2023
+     */
   };
 
   // Added by Yuvraj Sahu on 25-3-2023

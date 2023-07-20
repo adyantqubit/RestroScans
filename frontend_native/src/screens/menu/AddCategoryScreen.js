@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
-import { getMenuList, saveCategoryApi, saveMenuApi } from "../../api/Services";
+import { getMenuList, getMenusAPI, saveCategoryApi, saveMenuApi } from "../../api/Services";
 import { colors, inputs } from "../../Colours/globalColor";
 // import { tenantName } from "../config/config";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -125,23 +125,34 @@ export default function AddCategoryScreen() {
 
   const getMenus = async () => {
     var tenantInfo = await SecureStore.getItemAsync("tenantInfo");
-    const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
-    if (response.menuList) {
-      setData(
-        // Commented and modified by Yuvraj Sahu on 23-4-2023
-        // Reason - to set menu in dropdown
-        // response.menuList.map(function (obj) {
-        //   obj["key"] = obj["id"]; // Assign new key
-        //   obj["value"] = obj["name"]; // Rename key
-        //   delete obj["id"]; // Delete old key
-        //   delete obj["name"]; // Delete name
-        //   delete obj["icon"]; // Delete icon
-        //   return obj;
-        // })
-        response.menuList
-        // End of modification
-      );
+    /**
+     * Commeted and added by yuvraj Sahu on 20-07-2023
+     * Reason - to show all menus
+     */
+    // const response = await getMenuList(JSON.parse(tenantInfo).tenant_name);
+    // if (response.menuList) {
+    //   setData(
+    //     // Commented and modified by Yuvraj Sahu on 23-4-2023
+    //     // Reason - to set menu in dropdown
+    //     // response.menuList.map(function (obj) {
+    //     //   obj["key"] = obj["id"]; // Assign new key
+    //     //   obj["value"] = obj["name"]; // Rename key
+    //     //   delete obj["id"]; // Delete old key
+    //     //   delete obj["name"]; // Delete name
+    //     //   delete obj["icon"]; // Delete icon
+    //     //   return obj;
+    //     // })
+    //     response.menuList
+    //     // End of modification
+    //   );
+    // }
+    const response = await getMenusAPI(JSON.parse(tenantInfo).tenant_name);
+    if (response.msg) {
+      setData(response.menus);
     }
+    /**
+     * End of addition by Yuvraj Sahu on 20-07-2023
+     */
   };
   var [isDisable, setIsDisable] = useState(false);
 

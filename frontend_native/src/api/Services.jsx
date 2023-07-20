@@ -592,3 +592,40 @@ export const updateReservationApi = async (value, tenant) => {
   return response ? response.data : {};
 };
 // End saving setting
+
+
+
+/**
+ * Added by - Yuvraj Sahu on 17-06-2023
+ * Reason - To get all menu from database.
+ */
+export const getMenusAPI = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/get-menus/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Yuvraj Sahu on 17-06-2023
+ * Reason -  To get menus.
+ * */ 
+
+
+/**
+ * Added by - Yuvraj Sahu on 20-07-2023
+ * Reason - To get all category from database.
+ */
+export const getCategoriesAPI = async (tenantId) => {
+  const response = await API.get(`/api/v1/${tenantId}/get-categories/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Yuvraj Sahu on 20-07-2023
+ * Reason -  To get categories.
+ * */ 
