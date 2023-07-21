@@ -2499,10 +2499,12 @@ const printKot = async()=>{
                   numeric
                   // Added by :- Om shrivastava on 16-06-23 reason :- if payment is completed or paid then admin can not add loyality point  
                   editable={
-                    orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ||
+                    orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" 
                     //  Modification by Om Shrivastava on 28-06-23
                     //  Reason : Need to add condiion for loyaity point 
-                    orderDetail.loyality_point_status!="not used"
+                    // Commented by Om Shrivastava on 21-07-23 Reason : Disable the loyality point field when payment status is paid or completed
+                    // orderDetail.loyality_point_status!="not used"
+                    // Uncommented code by Om Shrivastava on 21-07-23 Reason : Disable the loyality point field when payment status is paid or completed
                     // End of addition by Om Shrivastasva on 28-06-23
                       ? false : true}
                   // End of added code by :- Om shrivastava on 16-06-23
