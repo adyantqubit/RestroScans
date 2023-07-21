@@ -818,7 +818,12 @@ const OrderForm = () => {
                       // Modification and addition by Om Shrivastava on 15-07-23 
                       // Reason : Set the validation for apply loyality point
                       // className={loyalityPointStatus == "is used" || paymentStatus == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                      className={orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      // Modification and addition by Om Shrivastava on 21-07-23
+                      // Reason : When payment status is paid or completed then loyality field is disable
+                      // className={orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      className={ orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      // End of addition and modification and addition by Om Shrivastava on 21-07-23
+                      // Reason : When payment status is paid or completed then loyality field is disable
                       // End of addition and modification by Om Shrivastava on 15-07-23 
                       // Reason : Set the validation for apply loyality point
                       // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
@@ -833,7 +838,12 @@ const OrderForm = () => {
                       // Modification and addition by Om Shrivastava on 15-07-23 
                       // Reason : Set the validation for apply loyality point
                       // disabled={paymentStatus == "Completed" || orderStatus == "Cancelled" || loyalityPointStatus == "is used" || paymentStatus == "Paid" ? true : false}
-                      disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" ? true : false}
+                      // Modification and addition by Om Shrivastava on 21-07-23
+                      // Reason : When payment status is paid or completed then loyality field is disable
+                      // disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" ? true : false}
+                      disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled"  || orderDetailsObj.payment_status == "Paid" ? true : false}
+                      // Reason : Set the validation for apply loyality point
+                      // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                       // End of addition and modification by Om Shrivastava on 15-07-23 
                       // Reason : Set the validation for apply loyality point
                       // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
@@ -1132,7 +1142,7 @@ const OrderForm = () => {
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
                 <input
-                  className={`${style.textInputBox} ${style.disabledInputBox} `}
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
                   type="text"
                   name="sub_total"
                   // style={{ width: "200px" }}
@@ -1159,8 +1169,9 @@ const OrderForm = () => {
             {settings.allow_loyality_points && settings.allow_loyality_points == true ?
               <>
                 <div className={`${style.inputContainer}`}>
-                  <div className={`${style.inputArea}`}>
-                    <div className={`${style.inputLabel}`}>
+              {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
+                  <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+                    <div className={`${style.inputLabel} `}>
                       Loyality point price
                     </div>
                     <input
@@ -1184,7 +1195,8 @@ const OrderForm = () => {
             Reason : When user cannot select the loyality point status in setting table than loyality point labels doesn't show  */}
 
             <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
+              {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
+              <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel}`}>
                   Discount
                 </div>
