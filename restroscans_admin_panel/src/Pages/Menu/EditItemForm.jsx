@@ -685,6 +685,10 @@ function EditItemForm() {
                   setFullPrice(e.target.value);
                   validateOnInput("fullPrice", e.target.value);
                 }}
+                // Added by Yuvraj Sahu on 19-07-2023
+                // Reason - to disable the encrease and decrease the price
+                onWheel={(e) => e.target.blur()}
+                // End of addition by Yuvraj Sahu on 19-07-2023
                 // Added by Yuvraj Sahu on 15-07-2023
                 // Reason - to validate input go out side
                 onBlur={(e) => validateOnBlur("fullPrice", e.target.value)}
@@ -708,6 +712,10 @@ function EditItemForm() {
                   setHalfPrice(e.target.value);
                   validateOnInput("halfPrice", e.target.value);
                 }}
+                // Added by Yuvraj Sahu on 19-07-2023
+                // Reason - to disable the encrease and decrease the price
+                onWheel={(e) => e.target.blur()}
+                // End of addition by Yuvraj Sahu on 19-07-2023
                 // Added by Yuvraj Sahu on 15-07-2023
                 // Reason - to validate input go out side
                 onBlur={(e) => validateOnBlur("halfPrice", e.target.value)}

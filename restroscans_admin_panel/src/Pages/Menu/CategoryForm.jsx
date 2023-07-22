@@ -91,7 +91,7 @@ function CategoryForm() {
   /**
    * End of addition by Yuvraj Sahu on 17-06-2023
    */
-
+ 
   /**
    * Added by - Yuvraj Sahu on 17-06-2023
    * Reason - created api that will get category data
@@ -484,6 +484,13 @@ function CategoryForm() {
                     onChange={handleMenuChange}
                     style={{width: 200, border: "1px solid black", borderRadius: "7px", fontSize: "18px"}}
                     listHeight={190}
+                    // Added by yuvraj sahu on 21-07-2023
+                    // Reason - to searching dropdown
+                    showSearch
+                    filterOption={(input, option) =>
+                      (option?.children ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
+                    // End of addition by yuvraj sahu on 21-07-2023
                   >
                     {menuList.map((items) => (
                       <Option value={items.id}>{items.name}</Option>

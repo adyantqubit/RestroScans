@@ -3448,12 +3448,25 @@ tableNumberElseStyle: {
   // Added by by :- Parineeta Gedam on 24-05-2023
   // Reason - to design table
 
+  /**
+   * Commeted and modified by yuvraj Sahu on 21-07-2023
+   * Reason - to fix the alignment of serial number
+   */
+  // sNoContainer: {
+  //   width: "7%",
+  // },
+  // sNoDataContainer: {
+  //   width: "7%",
+  // },
   sNoContainer: {
-    width: "6%",
+    width: "7%",
   },
   sNoDataContainer: {
-    width: "6%",
+    width: "7%",
   },
+  /**
+   * End of amodification by yuvraj Sahu on 21-07-2023
+   */
   actionContainer: {
     width: "22%",
     textAlign: "right",

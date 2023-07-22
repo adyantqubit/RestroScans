@@ -48,7 +48,7 @@ export default function SocialMediaList({ navigation }) {
   };
 
   function deletePermission(socialLinkID) {
-    Alert.alert("Confirmation", "Are you sure you want to delete this item?", [
+    Alert.alert("Confirmation", "Are you sure you want to delete this social media?", [
       {
         text: "Cancel",
         style: "cancel",
