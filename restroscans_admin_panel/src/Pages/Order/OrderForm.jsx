@@ -1103,7 +1103,9 @@ const OrderForm = () => {
                 {validationErrors.discount_percentage}
               </div>
             </div>
-
+            {/* Modification and addition by Om Shrivastava on 22-07-23
+            Reason : When user enter discount rupee or percent then discount reason block is open */}
+            {discountRupee!= 0 || discountPercentage!=0?
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Discount reason</div>
@@ -1112,17 +1114,37 @@ const OrderForm = () => {
                   // Reason - To make tabel no. editable
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount reason when payment status is Paid
-                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Modification and addition by Om Shrivastava on 22-07-23
+                  // Reason : Set the validation for discount reason 
+                  // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status  == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  //  End of Modification and addition by Om Shrivastava on 22-07-23
+                  // Reason : Set the validation for discount reason 
                   // End of addition by Om Shrivastava on 08-07-23
                   type="text"
                   name="discount_reason"
-                  style={orderDetailsObj.payment_status == "Completed"
-                    || orderDetailsObj.order_status == "Cancelled"
-                    ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}
+
+                  // Modification and addition by Om Shrivastava on 22-07-23
+                  // Reason : Set the validation for discount reason 
+                  // style={orderDetailsObj.payment_status == "Completed"
+                  //   || orderDetailsObj.order_status == "Cancelled"
+                  //   ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}
+                  style={orderDetailsObj.payment_status== "Completed"|| orderDetailsObj.payment_status== "Paid"||
+                  orderDetailsObj.order_status == "Cancelled"
+                    ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}  
+                  //  End of Modification and addition by Om Shrivastava on 22-07-23
+
                   value={discountReason == null ? "----" : discountReason}
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount reason when payment status is Paid
-                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
+
+                  // Modification and addition by Om Shrivastava on 22-07-23
+                  // Reason : Set the validation for discount reason 
+                  // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
+                  disabled={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || discountReason == undefined ? true : false}
+                  //  End of Modification and addition by Om Shrivastava on 22-07-23
+                 
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount reason when payment status is Paid
                   onChange={(e) => {
                     setDiscountReason(e.target.value);
@@ -1138,6 +1160,8 @@ const OrderForm = () => {
                 {validationErrors.discount_reason}
               </div>
             </div>
+            :null}
+            {/* End of addition and modifciation by Om Shrivastava on 22-07-23  Reason : When user enter discount rupee or percent then discount reason block is open */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
