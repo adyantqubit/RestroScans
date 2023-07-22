@@ -1437,6 +1437,7 @@ Reason - to design radio button container */
     caret-color: black;
     letter-spacing: 1.2px;
     height: 18px;
+    max-width: 80px;
 }
 
 .flex{
@@ -1749,6 +1750,11 @@ flex-direction: row-reverse;
 .BackBtn:hover{
     background-color: rgb(0,0,0);
     color: white;
+}
+
+.disbaleBtn{
+    pointer-events: none;
+    background-color: rgba(0,0,0,0.1);
 }
 
 .itemsContent{

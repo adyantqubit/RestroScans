@@ -83,6 +83,17 @@ export const postRestaurantDetail = async (value) => {
     return response ? response.data : {};
   };
 
+  // Added by :- Rohan kansari
+// Date :- 13-07-2023
+// Reason :- Post API for update orders
+export const postUpdateOrderItemsApi = async(tenantId,updateOrderItems) => {
+  const response = await API.put(`/api/v1/${tenantId}/update_order_items/`,updateOrderItems,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by :- Added by :- Rohan kansari - 13-07-2023
+
 
   
   export const tokenValidationAPI = async ( tokens) => {

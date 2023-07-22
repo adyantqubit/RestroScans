@@ -149,7 +149,9 @@ class OrderSerializer(serializers.ModelSerializer):
     # Added by ROhan kansari - 16/7/23 - to send email also in data 
     customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
     # ENd of code - Rohan kansari - 16/7/23
-    # end of code- ROhna kansari - 25/5/23
+     # Added by ROhan kansari - 21/7/23 - to send customer laylity point also in data 
+    customer_loyality_point = serializers.IntegerField(source="customer_id.loyality_points")
+    # end of code- Rohan kansari - 21/7/23 - to send customer laylity point also in data 
     class Meta:
         model = Order
         fields = '__all__'

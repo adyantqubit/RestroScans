@@ -98,6 +98,14 @@ export default function AddOrderItemForm(orderId) {
     // End of addition by Om Shrivastava on 02-07-23
     // Added by :- Om shrivastava on 24-06-2023
     // const isFocused = useIsFocused();
+
+
+    // Added by ROhan kansari - 21/7/23
+    // Reason - To save search value and remove spacing
+     const [searchValue,setSearchValue]=useState("")
+    // End of code - Rohan kansari - 21/7/23
+
+
     useEffect(() => {
         setItemNameRequired(false);
         setservingSizeRequired(false);
@@ -417,7 +425,10 @@ export default function AddOrderItemForm(orderId) {
                 orderId.setOrderItems(response.orderItems);
                 orderId.setOrderDetail(response.order);
                 orderId.setOrderStatus(response.order.order_status)
-                orderId.getOrderDetail()
+                //Modified by ROhan kansari - 20/7/23
+                //Reason to - save order data in dashboard where it is taking parameter
+                //orderId.getOrderDetail()
+                orderId.getOrderDetail(response.order)
                 Message("Item added successfully.", "success");
                 resetForm()
                 orderId.modalvisibilityFn(false)
@@ -469,7 +480,12 @@ export default function AddOrderItemForm(orderId) {
                                     // Added by Om Shrivastava on 10-07-23
                                     // Reason : Apply the search functionality
                                     showSearch
+                                    // Added by ROhan kansari - 21/7/23
+                                    // Reason - To add search value with trimmed space
+                                    onSearch={e=>{setSearchValue(e.trimStart().replace(/\s+/g, ' '))}}
+                                    searchValue={searchValue}
                                     optionFilterProp="children"
+                                    // ENd of code - Rohan kanari - 21/7/23 - To add search value with trimmed space
                                     // End of Added by Om Shrivastava on 10-07-23 Reason : Apply the search functionality
                                     // value={itemData[0]?.id}
                                     // value={itemNameSelected}

@@ -14,6 +14,8 @@ import { Message } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 // import ReactPaginate from 'react-paginate';
 import "./checkboxNcoin.scss"
+import AddOrderItemForm from '../../Order/AddOrderItemForm'
+import { FaGrinAlt } from 'react-icons/fa'
 
 
 // Modified by Rohan kansari - 29/6/23
@@ -106,24 +108,13 @@ const TodayOrder = () => {
     const [todaysPendingOrder, setPendingOrders] = useState(null)
     const [todaysCompletedOrder, setCompletedOrders] = useState(null)
     const [popupOpen, setPopupOpen] = useState(false)
-    const [popupOrderItem, setPopupOrderItem] = useState(false)
     const [newlyPlaced, setNewlyPlacedOrders] = useState(null)
     var [orderItemList, setOrderItem] = useState(null)
     var updatedStatus = useRef({ value: [] })
     // Added by Rohan kansari - 15/7/23 - To save order detail selected value
     var OldOrdervalue = useRef({ value: {} })
     var [selectedOrder, setSelectedOrder] = useState([])
-    var [cancel_reason, setCancelReason] = useState("")
-
-    var [orderStatus, setOrderStatus] = useState("Confirm")
-
-    // var selectedOrdersItemIndex=0;
-    // Added by Suman sahu - 11/06/2023
-    // Reason - To open selected items in the modal of table no. data in the dashboard
-    // Modified by ROhan kansari - 26/6/23- to dont loose value on state change
     var selectedItemArr = useRef({ items: [] })
-    const [openModalNumOrderItem, setOpenModalNumOrderItem] = useState({})
-    // End of code - 11/06/2023 by - Suman sahu
 
     // Added by Rohan kansari - 3/7/23 - To save old order 
     const [selectedOrderData, setSelectedorderData] = useState({ Value: [] })
@@ -131,7 +122,6 @@ const TodayOrder = () => {
 
     // Added by Suman sahu - 11/06/2023
     // Reason - To open selected orders in the modal of more button in the action of dashboard
-    var selectedOrderCopy = {}
     const [openActionPopupModal, setOpenActionPopupModal] = useState({})
     // End of code - 11/06/2023 by - suman sahu
 
@@ -152,11 +142,71 @@ const TodayOrder = () => {
     // Billing data
     const [restroDetail, setRestroDetail] = useState(null)
     const [gstFssai, setGstFsaai] = useState(null)
-    // Added by Rohan kansari - 15/7/23 - to open confirmation box for table number
-    // const nav=useNavigate()
-    const [OpenTableCofirmation, setTableConfirm] = useState(false)
+
+
+
 
     const [inputEnable, setInputEnable] = useState(null)
+
+    // Added by ROhan kansari - 20/7/23 
+    // Reason - Declaring useState for opening add more item model 
+    const [AddMoreItemmodalVisible, setAddMoreItemModalVisible] = useState(false)
+    // ENd of code - ROhan kansari - 20/7/23
+
+    // Added by ROhan kansari - 20/7/23
+    // Reason - Getting all thing of order and setting it all in use state for on change
+
+    const [orderDetailsObj, setorderDetailsObj] = useState({});
+
+    const [selectedOrderItemList, setSelectedOrderItemList] = useState([])
+
+    const [tablenumber, setTablenumber] = useState(null);
+    const [orderId, setOrderId] = useState(null);
+    const [orderStatus, setOrderStatus] = useState(null);
+    const [paymentStatus, setPaymemntStatus] = useState(null);
+    const [paymentMode, setPaymentMode] = useState(null);
+    const [cancelledBy, setCancelledBy] = useState(null);
+    const [cancelReaon, setCancelReason] = useState(null);
+
+    const [discountRupee, setDiscountRupee] = useState(null);
+    const [discountPercentage, setDiscountPercentage] = useState(null);
+    const [discountprice, setDiscountprice] = useState(null)
+    const [discountReason, setDiscountReason] = useState("");
+    const [applyLoyalityPoint, setApplyLoyalityPoint] = useState(null);
+    const [loyalityPointPrice, setLoyalityPointPrice] = useState(null);
+    const [loyalityPointStatus, setLoyalityPointStatus] = useState(null);
+    const [loyalityPointCalculated, setLoyalityPointCalculated] = useState(null);
+    const [customerLoyalitypoint, setcustomerLoyalitypoint] = useState(null);
+    const [settings, setSettings] = useState({})
+
+    const [subTotal, setSubTotal] = useState(null);
+    const [cgst, setCGST] = useState(null);
+    const [total, setTotal] = useState(null);
+    const [sgst, setSGST] = useState(null);
+    const [finalAmount, setFinalAmount] = useState(null);
+    const [rating, setRating] = useState(null);
+    const [review, setReview] = useState(null);
+
+    // End of code - Rohan kansari - 20/7/23 - Getting all thing of order and setting it all in use state for on change
+
+
+    // var [cancel_reason, setCancelReason] = useState("")
+    // const [popupOrderItem, setPopupOrderItem] = useState(false)
+    // var [orderStatus, setOrderStatus] = useState("Confirm")
+
+    // var selectedOrdersItemIndex=0;
+    // Added by Suman sahu - 11/06/2023
+    // Reason - To open selected items in the modal of table no. data in the dashboard
+    // Modified by ROhan kansari - 26/6/23- to dont loose value on state change
+
+    // const [openModalNumOrderItem, setOpenModalNumOrderItem] = useState({})
+    //    var selectedOrderCopy = {}
+
+    // Added by Rohan kansari - 15/7/23 - to open confirmation box for table number
+    // const nav=useNavigate()
+    // const [OpenTableCofirmation, setTableConfirm] = useState(false)
+
+    // End of code - 11/06/2023 by - Suman sahu
 
     useEffect(() => {
 
@@ -165,8 +215,6 @@ const TodayOrder = () => {
         if (JSON.parse(localStorage.getItem("tenantInfo"))?.tenant_name)
             // End of addition by Om Shrivastava on 02-06-23
             BackendCall()
-
-
 
     }, [])
 
@@ -180,13 +228,15 @@ const TodayOrder = () => {
             // setThisMonthsSummary(response.revenue_details.this_months_summary);
             // setThisYearsSummary(response.revenue_details.this_years_summary);
             // console.log(response)
+
             setLoading(false)
             setNewlyPlacedOrders(response.todays_newly_placed_orders);
             setPendingOrders(response.todays_pending_orders);
             setCompletedOrders(response.todays_completed_orders);
-            setGstFsaai(response.setting)
-            setRestroDetail(response.tenant)
-            setOrderItem(response.order_item)
+            setGstFsaai(response.setting);
+            setSettings(response.setting);
+            setRestroDetail(response.tenant);
+            setOrderItem(response.order_item);
             // Added by Rohan kansari - 23/6/23 
             // Reason - To set current selected tab items in useState
             // setSelectedOrder(response.todays_newly_placed_orders)
@@ -275,187 +325,187 @@ const TodayOrder = () => {
     };
     // end of addition - 11/06/2023 by - suman sahu
 
-    function model(m, i) {
-        var paymentStatus = m.payment_status
-        var orderStatus = m.order_status
+    // function model(m, i) {
+    //     var paymentStatus = m.payment_status
+    //     var orderStatus = m.order_status
 
-        // Modified by Rohan Kansari - 24/6/23
-        // Reason - To
-        var canWeUpdate = statusValidation(orderStatus, paymentStatus, m)
-        // Added by Rohan kansari - 3/7/23
-        if (m.order_status == "Cancelled" && cancel_reason.length == 0) {
-            Message("please enter cancellation message", "error")
-            return false
-        }
-        // End of code - ROhan kansari - 3/7/23
-        if (canWeUpdate)
-            // added by - suman sahu on 11/06/2023
-            // reason - for call that function in the antd modal
-            updateStatus();
-        // end of addition 11/06/2023 by - suman sahu
+    //     // Modified by Rohan Kansari - 24/6/23
+    //     // Reason - To
+    //     var canWeUpdate = statusValidation(orderStatus, paymentStatus, m)
+    //     // Added by Rohan kansari - 3/7/23
+    //     if (m.order_status == "Cancelled" && cancel_reason.length == 0) {
+    //         Message("please enter cancellation message", "error")
+    //         return false
+    //     }
+    //     // End of code - ROhan kansari - 3/7/23
+    //     if (canWeUpdate)
+    //         // added by - suman sahu on 11/06/2023
+    //         // reason - for call that function in the antd modal
+    //         updateStatus();
+    // end of addition 11/06/2023 by - suman sahu
 
-        else {
-            // document.getElementById("order_status_selectBox").value = m.order.order_status
-            // Modified by Rohan kansari - 3/7/23
-            // Reason - To use method instead of dom manipulation
-            oldOrderDataReverting()
-            return false
-        }
+    // else {
+    //     // document.getElementById("order_status_selectBox").value = m.order.order_status
+    //     // Modified by Rohan kansari - 3/7/23
+    //     // Reason - To use method instead of dom manipulation
+    //     oldOrderDataReverting()
+    //     return false
+    // }
 
 
-        async function updateStatus() {
-            const status = {
-                order_status: orderStatus,
-                payment_status: paymentStatus,
-                cancel_reason: cancel_reason
-            }
+    // async function updateStatus() {
+    //     const status = {
+    //         order_status: orderStatus,
+    //         payment_status: paymentStatus,
+    //         cancel_reason: cancel_reason
+    //     }
 
-            const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
+    //     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
 
-            // commented by - suman sahu on 11/06/2023
-            // reason - fix issue when update order status and payment status in the modal
+    // commented by - suman sahu on 11/06/2023
+    // reason - fix issue when update order status and payment status in the modal
 
-            // if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
-            await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
-                if (r.success) {
-                    /**
-                     * Added by yuvraj Sahu on 08-07-2023
-                     * Reason - to change the message for status updation
-                     */
-                    if (selectedOrderStatus != "" && selectedPaymentStatus != "") {
-                        Message("Successfully status updated ", "success")
-                    } else {
-                        if (selectedOrderStatus != "") {
-                            Message("Successfully order status updated ", "success")
-                        }
-                        if (selectedPaymentStatus != "") {
-                            Message("Successfully payment status updated ", "success")
-                        }
-                    }
-                    // Message("Successfully status updated ", "success")
-                    /**
-                     * End of addition by yuvraj Sahu on 08-07-2023
-                     */
-                    setNewlyPlacedOrders(r.todays_newly_placed_orders);
-                    setPendingOrders(r.todays_pending_orders);
-                    setCompletedOrders(r.todays_completed_orders);
-                    setOrderItem(r.order_items)
-                    setPopupOpen(!popupOpen)
+    // if ((m.order_status !== orderStatus || m.payment_status !== paymentStatus) && statusValidation(orderStatus, paymentStatus, m)) {
+    // await updateOrderAndPaymentStatus(tenant, status, m.order_id).then(r => {
+    //     if (r.success) {
+    /**
+     * Added by yuvraj Sahu on 08-07-2023
+     * Reason - to change the message for status updation
+     */
+    // if (selectedOrderStatus != "" && selectedPaymentStatus != "") {
+    //     Message("Successfully status updated ", "success")
+    // } else {
+    //     if (selectedOrderStatus != "") {
+    //         Message("Successfully order status updated ", "success")
+    //     }
+    //     if (selectedPaymentStatus != "") {
+    //         Message("Successfully payment status updated ", "success")
+    //     }
+    // }
+    // Message("Successfully status updated ", "success")
+    /**
+     * End of addition by yuvraj Sahu on 08-07-2023
+     */
+    // setNewlyPlacedOrders(r.todays_newly_placed_orders);
+    // setPendingOrders(r.todays_pending_orders);
+    // setCompletedOrders(r.todays_completed_orders);
+    // setOrderItem(r.order_items)
+    // setPopupOpen(!popupOpen)
 
-                    // Modified by ROhan kansari - 23/6/23
-                    // Reason - To enhance code and making easy to understand
-                    // completed,pending_order,newly_placed
-                    // var radioInputs = document.querySelectorAll("input")
-                    // if (radioInputs[0].checked) {
-                    //     setSelectedOrder(r.todays_newly_placed_orders)
-                    // }
-                    // else if (radioInputs[1].checked) {
-                    //     setSelectedOrder(r.todays_pending_orders)
-                    // }
-                    // else if (radioInputs[2].checked) {
-                    //     setSelectedOrder(r.todays_completed_orders)
-                    // }
+    // Modified by ROhan kansari - 23/6/23
+    // Reason - To enhance code and making easy to understand
+    // completed,pending_order,newly_placed
+    // var radioInputs = document.querySelectorAll("input")
+    // if (radioInputs[0].checked) {
+    //     setSelectedOrder(r.todays_newly_placed_orders)
+    // }
+    // else if (radioInputs[1].checked) {
+    //     setSelectedOrder(r.todays_pending_orders)
+    // }
+    // else if (radioInputs[2].checked) {
+    //     setSelectedOrder(r.todays_completed_orders)
+    // }
 
-                    if (document.getElementById("newly_placed").checked) {
-                        setSelectedOrder(r.todays_newly_placed_orders)
-                    }
-                    else if (document.getElementById("pending_order").checked) {
-                        setSelectedOrder(r.todays_pending_orders)
-                    }
-                    else if (document.getElementById("completed").checked) {
-                        setSelectedOrder(r.todays_completed_orders)
-                    }
+    //         if (document.getElementById("newly_placed").checked) {
+    //             setSelectedOrder(r.todays_newly_placed_orders)
+    //         }
+    //         else if (document.getElementById("pending_order").checked) {
+    //             setSelectedOrder(r.todays_pending_orders)
+    //         }
+    //         else if (document.getElementById("completed").checked) {
+    //             setSelectedOrder(r.todays_completed_orders)
+    //         }
 
-                    // End of code - Rohan Kansari - 23/6/23- To enhance the code
+    //         // End of code - Rohan Kansari - 23/6/23- To enhance the code
 
-                    selectedOrderData.current.order = []
-                }
-            })
-            // }
-            // end of commentation - 11/06/2023 by - suman sahu
+    //         selectedOrderData.current.order = []
+    //     }
+    // })
+    // }
+    // end of commentation - 11/06/2023 by - suman sahu
 
-        }
+    // }
 
-        // commented by - suman sahu on 11/06/2023
-        // reason - change that popup to antd modal (when click on more button in the action of dashbord)
+    // commented by - suman sahu on 11/06/2023
+    // reason - change that popup to antd modal (when click on more button in the action of dashbord)
 
-        //     if (popupOpen)
-        //         return <div className={style.popupContainer}
-        //             onLoad={e => {
-        //                 console.log(document.getElementById("order_status_selected").selected)
-        //                 console.log(document.getElementById("payment_status_selected").selected)
-        //             }}>
-        //             <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
-        //                 selectboxReset()
-        //                 setPopupOpen(false)
-        //             }}><AiOutlineClose /></button></div>
-        //             <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
-        //             <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
-        //             <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
-        //             <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
-        //             <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
-        //             <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
-        //             <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
-        //             <div className={style.btnContainer}>
-        //                 <div className={style.selectionContainer}>
-        //                     <label className={style.lable}>Order Status</label>
-        //                     <div className={style.selctedContentBox}>
-        //                         <select defaultValue={orderStatus} onChange={e => orderStatus = e.target.value} id="order_status_selected">
-        //                             <option value="Placed" className={style.options}>Placed</option>
-        //                             <option value="Confirm" className={style.options}>Confirm</option>
-        //                             <option value="Cooked" className={style.options}>Cooked</option>
-        //                             <option value="Served" className={style.options}>Served</option>
-        //                         </select>
-        //                     </div>
-        //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
+    //     if (popupOpen)
+    //         return <div className={style.popupContainer}
+    //             onLoad={e => {
+    //                 console.log(document.getElementById("order_status_selected").selected)
+    //                 console.log(document.getElementById("payment_status_selected").selected)
+    //             }}>
+    //             <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
+    //                 selectboxReset()
+    //                 setPopupOpen(false)
+    //             }}><AiOutlineClose /></button></div>
+    //             <div className={style.customername}><label className={style.lable}>Contact Number : </label>{m.customer_number}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Table No : </label>{m.table_number}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Date & Time : </label>{m.date.substring(0, 10).split('-').reverse().join("/") + ' ' + m.date.substring(11, 16)}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Payment Mode :</label>{m.payment_mode}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>Subtotal :</label>{m.sub_total}</div>
+    //             <div className={style.OrderTime}><label className={style.lable}>CGST : </label>{m.cgst}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label className={style.lable}>SGST : </label>{m.sgst}</div>
+    //             <div className={style.OrderTime}><label className={style.Highlightlable}>Total : {m.total} </label></div>
+    //             <div className={style.btnContainer}>
+    //                 <div className={style.selectionContainer}>
+    //                     <label className={style.lable}>Order Status</label>
+    //                     <div className={style.selctedContentBox}>
+    //                         <select defaultValue={orderStatus} onChange={e => orderStatus = e.target.value} id="order_status_selected">
+    //                             <option value="Placed" className={style.options}>Placed</option>
+    //                             <option value="Confirm" className={style.options}>Confirm</option>
+    //                             <option value="Cooked" className={style.options}>Cooked</option>
+    //                             <option value="Served" className={style.options}>Served</option>
+    //                         </select>
+    //                     </div>
+    //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
 
-        //                 </div>
-        //                 <div className={style.selectionContainer}>
-        //                     <label className={style.lable}>Payment Status</label>
-        //                     <div className={style.selctedContentBox}>
-        //                         <select defaultValue={paymentStatus} onChange={e => paymentStatus = e.target.value} id="payment_status_selected">
-        //                             <option className={style.options} value="Pending">Pending</option>
-        //                             <option className={style.options} value="Completed">Completed</option>
-        //                         </select>
-        //                     </div>
-        //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
-        //                 </div>
-        //             </div>
-        //             <div className={style.btnContainer}>
-        //                 <div className={style.selectionContainer}>
-        //                     <button className={style.btnUpdate} onClick={e => updateStatus()}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-        //                 </div>
-        //                 <div className={style.selectionContainer}>
-        //                     <button className={style.btnUpdate} onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}>Cancel</button>
-        //                 </div>
-        //             </div>
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <label className={style.lable}>Payment Status</label>
+    //                     <div className={style.selctedContentBox}>
+    //                         <select defaultValue={paymentStatus} onChange={e => paymentStatus = e.target.value} id="payment_status_selected">
+    //                             <option className={style.options} value="Pending">Pending</option>
+    //                             <option className={style.options} value="Completed">Completed</option>
+    //                         </select>
+    //                     </div>
+    //                     {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}><MdKeyboardArrowDown /></div></div> */}
+    //                 </div>
+    //             </div>
+    //             <div className={style.btnContainer}>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.btnUpdate} onClick={e => updateStatus()}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.btnUpdate} onClick={e => { setPopupOpen(!popupOpen); selectboxReset() }}>Cancel</button>
+    //                 </div>
+    //             </div>
 
-        //             <div className={style.btnContainer}>
-        //                 <div className={style.selectionContainer} style={{ textAlign: "center" }}>
-        //                     <div className={style.visitLink}>See Order</div>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-        //                 </div>
-        //                 <div className={style.selectionContainer}>
-        //                     <span className={style.visitLink}>See Order Item</span>
-        //                 </div>
-        //             </div>
+    //             <div className={style.btnContainer}>
+    //                 <div className={style.selectionContainer} style={{ textAlign: "center" }}>
+    //                     <div className={style.visitLink}>See Order</div>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <span className={style.visitLink}>See Order Item</span>
+    //                 </div>
+    //             </div>
 
-        //             <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
-        //                 <div className={style.selectionContainer}>
-        //                     <button className={style.kotPrint}
-        //                         // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
-        //                         onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
-        //                     >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-        //                 </div>
-        //                 <div className={style.selectionContainer}>
-        //                     <button className={style.billPrint}
-        //                         style={m.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
-        //                         onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
-        //                     >Print</button>
-        //                 </div>
-        //             </div>
+    //             <div className={style.btnContainer} style={{ paddingBottom: "10px" }}>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.kotPrint}
+    //                         // Added  by Rohan Kansari - to manage kot print bill - 25/5/23
+    //                         onClick={e => nav("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+    //                     >Print KOT</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
+    //                 </div>
+    //                 <div className={style.selectionContainer}>
+    //                     <button className={style.billPrint}
+    //                         style={m.payment_status != "Completed" ? { background: "rgba(128,128,128,0.3)", pointerEvents: "none", textDecoration: "line-through" } : {}}
+    //                         onClick={e => nav("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": m, "orderItem": orderItemList.filter((o) => { return o.order_id == m.order_id }) } })}
+    //                     >Print</button>
+    //                 </div>
+    //             </div>
 
-        //         </div>
-    }
+    //         </div>
+    // }
 
     // end of commentation code on 11/06/2023 by - suman sahu
 
@@ -463,9 +513,9 @@ const TodayOrder = () => {
     // added by - Suman sahu On 10/06/2023
     // reason - for close modal when click on cross icon or outside click on that modal
 
-    const closeModalOrderItem = () => {
-        setPopupOrderItem(false);
-    };
+    // const closeModalOrderItem = () => {
+    //     setPopupOrderItem(false);
+    // };
     // end of addition by suman sahu on 10/06/2023
 
     function orderItemModel(filteredOrderItemList, i) {
@@ -605,6 +655,11 @@ const TodayOrder = () => {
             //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
 
 
+            updatedStatus.current.value=[]
+
+            newOrderItemList.filter(i => {if(i.order_id == order.order_id){updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id=orderDetailsObj.order_id; }})
+
+
             OldOrdervalue.current.value = JSON.stringify(
                 {
                     ...{
@@ -635,7 +690,6 @@ const TodayOrder = () => {
             Message("Successfully status updated ", "success")
         }
         )
-        setPopupOrderItem(null)
     }
 
     // end of modification code on 10/06/2023
@@ -1178,9 +1232,6 @@ const TodayOrder = () => {
 
     }
 
-    useEffect(() => {
-        console.log("updated old data", selectedOrderData[0])
-    }, [selectedOrderData])
     // End of code - Rohan kansari - 3/7/23
 
 
@@ -1290,6 +1341,106 @@ const TodayOrder = () => {
 
     }
 
+
+    // Added by ROhan kansari - 20/7/23
+    // Reason - To add all order object data in their usestate to perform on change functionality
+
+    function UpdatingOpenedOrder(data) {
+
+        console.log(data)
+        setorderDetailsObj(data);
+        setOrderId(data.order_id);
+        setTablenumber(data.table_number);
+        setOrderStatus(data.order_status);
+        setPaymemntStatus(data.payment_status);
+        setPaymentMode(data.payment_mode);
+        setCancelledBy(data.cancelled_by);
+        setCancelReason(data.cancel_reason);
+        setDiscountRupee(data.discount_rupees);
+        setDiscountprice(data.discount_rupees)
+        setDiscountPercentage(data.discount_percentage);
+        setDiscountReason(data.discount_reason);
+        setApplyLoyalityPoint(data.apply_loyality_point);
+        setLoyalityPointPrice(data.loyality_point_price);
+        setLoyalityPointStatus(data.loyality_point_status);
+        setLoyalityPointCalculated(data.loyality_point_calculated);
+        setcustomerLoyalitypoint(data.customer_loyality_point);
+
+        setSubTotal(data.sub_total);
+        setCGST(data.cgst);
+        setSGST(data.sgst);
+        setTotal(data.total);
+        setFinalAmount(data.final_amount);
+        setRating(data.rating);
+        setReview(data.review);
+    }
+
+
+    const handlemoreItemCancel = () => {
+        setAddMoreItemModalVisible(false);
+    };
+
+    useEffect(()=>{
+
+        console.log(selectedOrderItemList,orderDetailsObj)
+        if(selectedOrderItemList.length>0){
+
+            
+        BackendCall()
+
+        setSelectedorderData({...{
+            "order_detail": orderDetailsObj
+            , "order_item": selectedOrderItemList
+        }})
+
+        OldOrdervalue.current.value=JSON.stringify(
+            {
+                "order_detail": orderDetailsObj
+                , "order_item": selectedOrderItemList
+            }
+        )
+
+        updatedStatus.current.value=[]
+
+        selectedOrderItemList.filter(i => {updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id=orderDetailsObj.order_id; })
+
+
+        setOpenActionPopupModal(
+            {...{
+                "order_detail": orderDetailsObj
+                , "order_item": selectedOrderItemList
+            }
+            }
+        )
+
+    }
+
+    },[selectedOrderItemList])
+
+
+    // ENd of code - ROhan kansari - 20/7/23
+
+
+
+    // Added by ROhan kansari -21/7/23
+    // Reason - adding status method to get status frequently
+
+    function getOrderStatus(){
+        console.log(selectedOrderData)
+       if(selectedOrderData?.order_detail?.order_status!="Cancelled"
+          && selectedOrderData?.order_detail?.payment_status=="Pending")
+       {
+        return true;
+       }
+       else {
+        return false;
+       }
+    }
+
+    // ENd of code - Rohan kansari - 21/7/23
+
+
+
     return (
         <>
             {/* Added and modified by - ROhan Kansari - 25/5/23
@@ -1371,7 +1522,11 @@ const TodayOrder = () => {
                                     <button className={style.printBtn} onClick={e => setPopupOpen({ [`${i}`]: true })}>More</button>
                                 </Popover> */}
 
-                                <div className={style.columnData2} onClick={e => { setOpenModalNumOrderItem(data); setPopupOrderItem(true) }} >{data.table_number}</div>
+                                <div className={style.columnData2}
+                                // Commented by ROhan kansari - 20/7/23
+                                // Reason - No where using it now , its for order item model but now all code is moved on to one sigle model
+                                // onClick={e => { setOpenModalNumOrderItem(data); setPopupOrderItem(true) }} 
+                                >{data.table_number}</div>
                                 {/* end of modification on 10/06/2023 */}
 
                                 <div className={style.columnData8}>{data.order_id}</div>
@@ -1423,11 +1578,11 @@ const TodayOrder = () => {
                                                 , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
                                             })
 
-                                            console.log({
-                                                "order_detail": data
-                                                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-                                            })
+                                            setSelectedOrderItemList(orderItemList.filter(i => i.order_id == data.order_id))
+
                                             orderItemList.filter(i => { if (i.order_id == data.order_id) return updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }) })
+
+                                            UpdatingOpenedOrder(data)
                                         }}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
@@ -1591,8 +1746,11 @@ const TodayOrder = () => {
 
                 {/* Modified by Rohan kansari- 11/7/23 
                     Reason - New Ui changes and Functionality  */}
-                <Modal open={popupOpen} afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
-                } onCancel={e => {
+                <Modal open={popupOpen}
+                afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
+                } 
+
+                onCancel={e => {
 
                     BackendCall()
                     updatedStatus.current.value = []
@@ -1600,7 +1758,8 @@ const TodayOrder = () => {
                     closePopupOpen();
                     // oldOrderDataReverting() 
                 }}
-                    style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw" }}
+
+                    style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw",padding:"0"}}
                     // width="60vw"
                     footer={null} className={style.modalContainer} closeIcon={<AiOutlineClose />}>
                     {popupOpen ? <div className={style.popupContainer}>
@@ -1647,7 +1806,7 @@ const TodayOrder = () => {
                                                     {selectedOrderData?.order_detail?.table_number}
                                                     <Popconfirm
                                                         className={style.link}
-                                                        
+
                                                         title="Are you sure you want to change table number?"
                                                         onConfirm={e => { setInputEnable("tableEdit"); }}
                                                         // onCancel={e => { setTableConfirm(false) }}
@@ -1657,7 +1816,7 @@ const TodayOrder = () => {
                                                     >
                                                         <BsPencilSquare onClick={e => {
                                                             if (inputEnable != "tableEdit") {
-                                                             
+
                                                             }
                                                             else setInputEnable(null)
                                                         }
@@ -1702,7 +1861,7 @@ const TodayOrder = () => {
                                             Date & Time:
                                         </div>
                                         <div className={style.data}>
-                                            {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(selectedOrderData?.order_detail?.date).toTimeString().substring(0,5)}
+                                            {new Date(selectedOrderData?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(selectedOrderData?.order_detail?.date).toTimeString().substring(0, 5)}
                                         </div>
                                     </div>
                                     <div className={style.information}>
@@ -1730,7 +1889,6 @@ const TodayOrder = () => {
                                         </div>
 
                                         <div className={style.QtyNPriceHeadings}>
-
                                             <div className={style.quantityHeading}>
                                                 Quantity
                                             </div>
@@ -1879,7 +2037,7 @@ const TodayOrder = () => {
 
 
                             <div className={style.UpdateItemContainer}>
-                                <button className={style.UpdateItemBTN}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
+                                <button className={`${style.UpdateItemBTN} ${getOrderStatus()?null:style.disbaleBtn}`} onClick={e => setAddMoreItemModalVisible(true)} disable={!getOrderStatus()}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
                                 <div className={style.WhiteLabel} style={{ textAlign: "end", width: "40%", padding: "8px 0" }}>Subtotal : {selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
                             </div>
 
@@ -1891,15 +2049,25 @@ const TodayOrder = () => {
                                             <div className={style.flexDoubleInput}>
                                                 <div className={style.Column}>
                                                     <label className={style.subInputLabel}>( In ₹ ) </label>
-                                                    <input className={style.inputBox} />
+                                                    {/* Added by Rohan kansari - 21/7/23
+                                                        Reason - Discount rupees functionality added */}
+                                                    <input id="discount_rupees" className={style.inputBox} value={discountRupee}
+                                                     onChange={e=>{
+                                                           if(e.target.value>subTotal)
+                                                            {
+                                                              
+                                                            }else{
+
+                                                            }
+                                                     }} />
                                                 </div>
                                                 <div className={style.Column}>
                                                     <label className={style.subInputLabel}>( In % ) </label>
-                                                    <input className={style.inputBox} />
+                                                    <input id="discount_percentage" className={style.inputBox} value={discountPercentage}/>
                                                 </div>
                                                 <div className={style.loyalityColumn} >
                                                     <label className={style.subInputLabel}>Apply Loyalty Point </label>
-                                                    <input className={style.inputBox} />
+                                                    <input className={style.inputBox} value={applyLoyalityPoint}/>
                                                 </div>
                                             </div>
                                         </div>
@@ -1907,7 +2075,7 @@ const TodayOrder = () => {
                                             <div className={style.rewardbox}>
                                                 Customer Earn Point
                                                 <div className={style.coinBox}>
-                                                    <div>6</div>
+                                                    <div>{customerLoyalitypoint}</div>
                                                     <div class="spinningasset coin is-sm">
                                                         <div>
                                                             <div></div>
@@ -1935,11 +2103,11 @@ const TodayOrder = () => {
                                     <div className={style.inputContainerFlex}>
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Cancel Reason </label>
-                                            <textarea className={style.TextInputBox} />
+                                            <textarea className={style.TextInputBox} value={cancelReaon}/>
                                         </div>
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Discount Reason </label>
-                                            <textarea className={style.TextInputBox} />
+                                            <textarea className={style.TextInputBox} value={discountReason}/>
                                         </div>
                                     </div>
 
@@ -1957,19 +2125,19 @@ const TodayOrder = () => {
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
                                 <div className={style.OrderstatusBtnContainer}>
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button class="btn-right"><a href="#">Placed</a></button></p>
-                                        <p><button class="btn-right activeStatusBtn"><a href="#">Confirm</a></button></p>
-                                        <p><button class="btn-right"><a href="#">Cooked</a></button></p>
-                                        <p><button class="btn-right"><a href="#">Served</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus=="Placed"?'activeStatusBtn':null}`}><a href="#">Placed</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus=="Confirm"?'activeStatusBtn':null}`}><a href="#">Confirm</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus=="Cooked"?'activeStatusBtn':null}`}><a href="#">Cooked</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus=="Served"?'activeStatusBtn':null}`}><a href="#">Served</a></button></p>
                                     </div>
-                                    <button className={style.orderCancelBtn}>Cancel</button>
+                                    <button className={style.orderCancelBtn} >Cancel</button>
                                 </div>
 
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
                                         <p><button class="btn-right"><a href="#">Pending</a></button></p>
-                                        <p><button class="btn-right activeStatusBtn"><a href="#">Completed</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus=="Completed"?'activeStatusBtn':null}`}><a href="#">Completed</a></button></p>
                                     </div>
                                 </div>
 
@@ -1979,33 +2147,33 @@ const TodayOrder = () => {
                                         <div className={style.pricingContent}>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Loyality Price :- </label>
-                                                <label className={style.InputLabel}> 2300</label>
+                                                <label className={style.InputLabel}>{loyalityPointPrice}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Discount Price :- </label>
-                                                <label className={style.InputLabel}> 230</label>
+                                                <label className={style.InputLabel}>{discountprice}</label>
                                             </div>
                                             <div className={style.priceInformation} >
                                                 <label className={style.InputLabel}></label>
-                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- 23000</label>
+                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Cgst :- </label>
-                                                <label className={style.InputLabel}> 2300</label>
+                                                <label className={style.InputLabel}> {cgst}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Sgst :- </label>
-                                                <label className={style.InputLabel}> 2300</label>
+                                                <label className={style.InputLabel}>{sgst}</label>
                                             </div>
-                                            <div className={style.priceInformation} >
+                                            <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}></label>
-                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- 23000</label>
+                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount}</label>
                                             </div>
                                         </div>
 
                                         <div className={style.PrintNBack}>
                                             <button className={style.ApplyBtn}>Get Bill</button>
-                                            <button className={style.BackBtn}>Close</button>
+                                            <button className={style.BackBtn} onClick={e=>setPopupOpen(false)}>Close</button>
                                         </div>
 
                                     </div>
@@ -2016,11 +2184,34 @@ const TodayOrder = () => {
                         </div>     {/* Scroller div end*/}
 
                     </div> : null}
+
+
+                    {/* Adding by Rohan kansari -  20/7/23
+                reason - To add -  add more item model here and open up on button click */}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        footer={null}
+                        open={AddMoreItemmodalVisible}
+                        closable={false}
+                        keyboard={false}
+                    >
+
+                        <AddOrderItemForm orderId={orderDetailsObj.order_id} id={orderDetailsObj.id} modalvisibilityFn={setAddMoreItemModalVisible} modalvisibility={AddMoreItemmodalVisible} onCancel={handlemoreItemCancel}
+                            setOrderItems={setSelectedOrderItemList}
+                            setOrderDetail={setorderDetailsObj} setOrderStatus={setOrderStatus} getOrderDetail={UpdatingOpenedOrder} />
+
+                    </Modal>
+
+                    {/* End of code - Rohan kansari - 20/7/23*/}
                 </Modal >
                 {/* End of code - ROhan kansari -  */}
                 {/* end of addition by - suman sahu on 11/06/2023 */}
 
             </div >
+
+
+
 
             {/* <ReactPaginate
                 breakLabel="..."
