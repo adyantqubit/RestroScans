@@ -853,8 +853,18 @@ const OrderForm = () => {
                         // subtracting subtotal - to loyality point then we get total
                         var total = orderDetailsObj.sub_total - (settings.per_loyality_point_value * e.target.value) - discountprice
                         setTotal(total)
-                        var final = total + orderDetailsObj.cgst + orderDetailsObj.sgst
+
+                        //Modification and Added by Om shrivastava on 22-07-23
+                        // Reason : Set the cgst and sgst
+                        var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
+                        var cgst = (total/100) *get_cgst
+                        setCGST(cgst)
+                       
+                        var final = total + cgst + orderDetailsObj.sgst
                         setFinalAmount(final)
+                         // End of addition by Om shrivastava on 22-07-23
+                        // Reason : Set the cgst and sgst
+
                         // validateOnInput(
                         //   "apply_loyality_point",
                         //   e.target.value
@@ -1037,8 +1047,18 @@ const OrderForm = () => {
                     // subtracting subtotal - to loyality point then we get total
                     var total = orderDetailsObj.sub_total - loyalityPointPrice - e.target.value
                     setTotal(total)
-                    var final = total + orderDetailsObj.cgst + orderDetailsObj.sgst
+
+                    // Added by Om shrivastava on 22-07-23
+                    // Reason : Set the cgst and sgst
+                    var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
+                    var cgst = (total/100) *get_cgst
+                    setCGST(cgst)
+
+                    var final = total + cgst + orderDetailsObj.sgst
                     setFinalAmount(final)
+                    
+                    // End of addition by Om shrivastava on 22-07-23
+                    // Reason : Set the cgst and sgst
                     // validateOnInput(
                     //   "amount_for_single_loyality_point",
                     //   e.target.value
@@ -1089,9 +1109,17 @@ const OrderForm = () => {
                     // subtracting subtotal - to loyality point then we get total
                     var total = orderDetailsObj.sub_total - loyalityPointPrice - percantagePrice
                     setTotal(total)
-                    var final = total + orderDetailsObj.cgst + orderDetailsObj.sgst
+                    // Added by Om shrivastava on 22-07-23
+                    // Reason : Set the cgst and sgst
+                    var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
+                    var cgst = (total/100) *get_cgst
+                    setCGST(cgst)
+                    
+                    var final = total + cgst + orderDetailsObj.sgst
                     setFinalAmount(final)
-
+                    
+                    // End of addition by Om shrivastava on 22-07-23
+                    // Reason : Set the cgst and sgst
                     // validateOnInput("cgst", e.target.value);
                   }}
                   onBlur={(e) => {
@@ -1195,11 +1223,14 @@ const OrderForm = () => {
                 <div className={`${style.inputContainer}`}>
               {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
                   <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+              {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
                     <div className={`${style.inputLabel} `}>
                       Loyality point price
                     </div>
                     <input
+              // {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                       className={`${style.textInputBox} ${style.disabledInputBox}`}
+              // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                       type="text"
                       name="loyality_point_price"
                       style={{ width: "100px" }}
@@ -1221,11 +1252,15 @@ const OrderForm = () => {
             <div className={`${style.inputContainer}`}>
               {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
+              {/* // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
+
                 <div className={`${style.inputLabel}`}>
                   Discount
                 </div>
                 <input
+              // {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                   className={`${style.textInputBox} ${style.disabledInputBox}`}
+              // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                   type="text"
                   name="discount"
                   style={{ width: "100px" }}
