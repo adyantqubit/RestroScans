@@ -79,12 +79,23 @@ class Menu(models.Model):
         verbose_name_plural = 'c) Menu'
     # End of addition
 
+    # Added by yuvraj Sahu on 22-07-2023
+    # Reason - to add old is active value
+    def __init__(self,*args,**kwargs):
+        super(Menu,self).__init__(*args,**kwargs)
+        self.old_is_active = self.is_active
+    # End of addition by yuvraj Sahu on 22-07-2023
+
     # Added by Yuvraj Sahu on 20-07-2023
     # Reason - to make inactive categories and item when we edit menu inactive
     def save(self, *args, **kwargs ):
-        if self.is_active == False :
-            Category.objects.filter(menu=self.id).update(is_active = False)
-            Item.objects.filter(category__menu = self.id).update(is_active = False)
+        if self.old_is_active != self.is_active :
+            if self.is_active == False :
+                Category.objects.filter(menu=self.id).update(is_active = False)
+                Item.objects.filter(category__menu = self.id).update(is_active = False)
+            else : 
+                Category.objects.filter(menu=self.id).update(is_active = True)
+                Item.objects.filter(category__menu = self.id).update(is_active = True) 
         super().save( *args, **kwargs)
     # End of addition by Yuvraj Sahu on 20-07-2023
 
@@ -149,15 +160,31 @@ class Category(models.Model):
         verbose_name_plural = 'd) Category'
     # End of addition
 
+    # Added by yuvraj Sahu on 22-07-2023
+    # Reason - to add old is active value
+    def __init__(self,*args,**kwargs):
+        super(Category,self).__init__(*args,**kwargs)
+        self.old_is_active = self.is_active
+    # End of addition by yuvraj Sahu on 22-07-2023
+
     # Added by Yuvraj Sahu on 20-07-2023
     # Reason - to make inactive items when we edit category inactive
     def save(self, *args, **kwargs ):
-        if self.is_active == False :
-            Item.objects.filter(category = self.id).update(is_active = False)
-        else : 
-            Menu.objects.filter(id=self.menu.id).update(is_active = True)
+        if self.old_is_active != self.is_active :
+            if self.is_active == False :
+                Item.objects.filter(category = self.id).update(is_active = False)
+            else : 
+                Menu.objects.filter(id=self.menu.id).update(is_active = True)
         super().save( *args, **kwargs)
-    # End of addition by Yuvraj Sahu on 20-07-2023
+# Added by yuvraj Sahu on 22-07-2023
+# Reason - when make the categories inactive then linked menu will be inactive
+@receiver(post_save, sender=Category)
+def create_category(sender, instance, created, **kwargs):
+    menuObj = Menu.objects.get(id = instance.menu.id)
+    categoryCount = Category.objects.filter(menu = menuObj.id, is_active = True).count()
+    if categoryCount == 0 :
+        Menu.objects.filter(id=instance.menu.id).update(is_active = False)
+# End of addition by yuvraj Sahu on 22-07-2023
 
 """
 End of code addition
@@ -261,12 +288,20 @@ class Item(models.Model):
         verbose_name_plural = 'e) Item'
     # End of addition
 
-     # Added by Yuvraj Sahu on 20-07-2023
+    # Added by yuvraj Sahu on 22-07-2023
+    # Reason - to add old is active value
+    def __init__(self,*args,**kwargs):
+        super(Item,self).__init__(*args,**kwargs)
+        self.old_is_active = self.is_active
+    # End of addition by yuvraj Sahu on 22-07-2023
+
+    # Added by Yuvraj Sahu on 20-07-2023
     # Reason - to make inactive items when we edit category inactive
     def save(self, *args, **kwargs ):
-        if self.is_active == True :
-            Category.objects.filter(id = self.category.id).update(is_active = True)
-            Menu.objects.filter(id = self.category.menu.id).update(is_active = True)
+        if self.old_is_active != self.is_active :
+            if self.is_active == True :
+                Category.objects.filter(id = self.category.id).update(is_active = True)
+                Menu.objects.filter(id = self.category.menu.id).update(is_active = True)
         super().save( *args, **kwargs)
     # End of addition by Yuvraj Sahu on 20-07-2023
 
@@ -285,6 +320,24 @@ class Item(models.Model):
     # End of commet by Yuvraj Sahu on 14-06-2023
 
     # End of addition by Om Shrivastava on 19-05-23
+
+# Added by yuvraj Sahu on 22-07-2023
+# Reason - when make the categories inactive then linked menu will be inactive
+@receiver(post_save, sender=Item)
+def create_item(sender, instance, created, **kwargs):
+
+    categoryObj = Category.objects.get(id = instance.category.id)
+    itemCount = Item.objects.filter(category = categoryObj.id, is_active = True).count()
+    if itemCount == 0 :
+        Category.objects.filter(id=instance.category.id).update(is_active = False)
+
+    menuObj = Menu.objects.get(id = instance.category.menu.id)
+    categoryCount = Category.objects.filter(menu = menuObj.id, is_active = True).count()
+    if categoryCount == 0 :
+        Menu.objects.filter(id=instance.category.menu.id).update(is_active = False)
+    
+# End of addition by yuvraj Sahu on 22-07-2023
+
 """
 End of code addition
 """
