@@ -951,13 +951,36 @@ export default function OrderItemsScreen({ route, navigation }) {
   const handleChangeDiscountRupees = (e) => {
     setDiscountRupees(e)
     var discountPercentages = (e / orderDetail.sub_total) * 100
+
+    // Added by :- Parineeta Gedam on 20-07-2023 
+    // reason :- Discount validation came in both Discount in rs and discount in percentage sections but if rs decrease then validation message is removed from the “Discount in rupees” field but validation message for the percentage field not getting removed that's why unable to update discount.
+    if (discountPercentages > 100 || discountPercentages == null ) {
+      setDiscountPercentageErrorMsg(true)
+    }
+    // if (discountPercentages < 100){
+    //   setDiscountPercentageErrorMsg(false)
+    // }
+    else {
+      setDiscountPercentageErrorMsg(false)
+    }
+    // End of Added by :- Parineeta Gedam on 20-07-2023
+
     setDiscountPercentage("" + discountPercentages.toFixed(2))
-    if (e > orderDetail.sub_total) {
+
+    // Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
+    // if (e > orderDetail.sub_total) {
+    //   setDiscountRupeesErrorMsg(true)
+    // }
+    // End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
+
+    // Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
+    if (e > orderDetail.sub_total || e == null || e == "" ) {
       setDiscountRupeesErrorMsg(true)
     }
     else {
       setDiscountRupeesErrorMsg(false)
     }
+    // End of Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
   }
   // End of added code by Parineeta Gedam on 07-06-2023
 
@@ -966,13 +989,40 @@ export default function OrderItemsScreen({ route, navigation }) {
   const handleChangeDiscountAmountPercentage = (e) => {
     setDiscountPercentage(e)
     var discountRupees = (orderDetail.sub_total / 100) * e
+
+    // Added by :- Parineeta Gedam on 20-07-2023 
+    // reason :- Discount validation came in both Discount in rs and discount in percentage sections but if rs decrease then validation message is removed from the “Discount in rupees” field but validation message for the percentage field not getting removed that's why unable to update discount.
+    
+    if (discountRupees > orderDetail.sub_total || discountRupees == null ) {
+      setDiscountRupeesErrorMsg(true)
+    }
+   
+    else {
+        setDiscountRupeesErrorMsg(false)
+    }
+    // End of Added by :- Parineeta Gedam on 20-07-2023
+
     setDiscountRupees("" + discountRupees.toFixed(2))
-      if (e > 100) {
-        setDiscountPercentageErrorMsg(true)
-      }
+
+    // Commented by :- Parineeta Gedam on 20-07-2023 
+    // reason :- If discount section is empty and tap on update button then validation message should be displayed
+    // if (e > 100) {
+    //   setDiscountPercentageErrorMsg(true)
+    // }
+    // End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
+
+    // Added by :- Parineeta Gedam on 20-07-2023 
+    // reason :- If discount section is empty and tap on update button then validation message should be displayed
+    if (e > 100 || e == null || e == "" ) {
+      setDiscountPercentageErrorMsg(true)
+    }
+    // End of Added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
       else {
         setDiscountPercentageErrorMsg(false)
     }
+    
+    // End of Added by :- Parineeta Gedam on 20-07-2023 
+    // reason :- If discount section is empty and tap on update button then validation message should be displayed
   }
   // End of added code by :- Parineeta Gedam on 07-06-2023
 
@@ -2382,9 +2432,22 @@ const printKot = async()=>{
                 Reason - to design a discount ruppes and percentages error message
             */}
             <View style={styles.discountErrorMsg}>
-              {discountRupeesErrorMsg &&
-                <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than Sub-Total.</Text>
-              }
+
+            {/* Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+            {/* {discountRupeesErrorMsg &&
+                <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than Sub-Total</Text>
+              } */}
+            {/* End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+
+            {/* Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+             {discountRupeesErrorMsg &&
+              <Text style={{ color: "red", fontSize: 10 }}>
+                {(discountRupees == null || discountRupees == "") ? "Please enter discount." 
+                 : "Discount should not be greater than Sub-Total."}
+                </Text>
+            }
+            {/* End of added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+
             </View>
             {/* End of Added by :-  Parineeta Gedam on 17-06-2023
                 Reason - to design a discount ruppes and percentages error message
@@ -2426,9 +2489,22 @@ const printKot = async()=>{
                 Reason - to design a discount ruppes and percentages error message
             */}
             <View style={styles.discountErrorMsg}>
-              {discountPercentageErrorMsg &&
+
+            {/* Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {/* {discountPercentageErrorMsg &&
                 <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100%.</Text>
-              }
+              } */}
+            {/* End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+
+            {/* Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+            {discountPercentageErrorMsg &&
+            <Text style={{ color: "red", fontSize: 10 }}>
+              {(discountPercentage == null || discountPercentage == "") ? "Please enter discount."
+                : "Discount should not be greater than 100%." }
+              </Text>
+            }
+            {/* End of added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+
             </View>
 
             {/* End of Added by :-  Parineeta Gedam on 17-06-2023
