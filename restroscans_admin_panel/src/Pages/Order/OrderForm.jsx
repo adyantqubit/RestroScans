@@ -859,8 +859,14 @@ const OrderForm = () => {
                         var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
                         var cgst = (total/100) *get_cgst
                         setCGST(cgst)
-                       
-                        var final = total + cgst + orderDetailsObj.sgst
+                        // Added by Om Shrivastava on 23-07-23 
+                        // Reason : Set the sgst new value in onchange
+                        var get_sgst = (orderDetailsObj.sgst/orderDetailsObj.total)*100
+                        var sgst = (total/100) *get_sgst
+                        setSGST(sgst)
+                        // End of addition by Om Shrivastava on 23-07-23 
+                        // Reason : Set the sgst new value in onchange
+                        var final = total + cgst + sgst
                         setFinalAmount(final)
                          // End of addition by Om shrivastava on 22-07-23
                         // Reason : Set the cgst and sgst
@@ -1054,7 +1060,15 @@ const OrderForm = () => {
                     var cgst = (total/100) *get_cgst
                     setCGST(cgst)
 
-                    var final = total + cgst + orderDetailsObj.sgst
+                    // Added by Om Shrivastava on 23-07-23 
+                    // Reason : Set the sgst new value in onchange
+                    var get_sgst = (orderDetailsObj.sgst/orderDetailsObj.total)*100
+                    var sgst = (total/100) *get_sgst
+                    setSGST(sgst)
+                    // End of addition by Om Shrivastava on 23-07-23 
+                    // Reason : Set the sgst new value in onchange
+
+                    var final = total + cgst + sgst
                     setFinalAmount(final)
                     
                     // End of addition by Om shrivastava on 22-07-23
@@ -1114,8 +1128,16 @@ const OrderForm = () => {
                     var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
                     var cgst = (total/100) *get_cgst
                     setCGST(cgst)
-                    
-                    var final = total + cgst + orderDetailsObj.sgst
+
+                    // Added by Om Shrivastava on 23-07-23 
+                    // Reason : Set the sgst new value in onchange
+                    var get_sgst = (orderDetailsObj.sgst/orderDetailsObj.total)*100
+                    var sgst = (total/100) *get_sgst
+                    setSGST(sgst)
+                    // End of addition by Om Shrivastava on 23-07-23 
+                    // Reason : Set the sgst new value in onchange
+
+                    var final = total + cgst + sgst
                     setFinalAmount(final)
                     
                     // End of addition by Om shrivastava on 22-07-23

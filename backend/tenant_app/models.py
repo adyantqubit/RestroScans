@@ -1061,13 +1061,13 @@ class Order(models.Model):
             if setting_data.allow_loyality_points is True :
                 if self.payment_status == 'Pending':
                     if self.apply_loyality_point == 0:
-                        # Modification and addition by Om Shrivastava on 17-07-23
+                        # Modification and addition by Om Shrivastava on 20-07-23
                         # Reason : When payment status is pending than user edit the loyality point
                         # pass
                         self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
                         user_contact = self.customer_id.contact_number
                         CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point+self.old_apply_loyality_point)
-                        # End of addition and modification and addition by Om Shrivastava on 17-07-23
+                        # End of addition and modification and addition by Om Shrivastava on 20-07-23
                         # Reason : When payment status is pending than user edit the loyality point
                     else:
                         if self.loyality_point_status=='is used':

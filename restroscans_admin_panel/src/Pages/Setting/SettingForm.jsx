@@ -34,10 +34,20 @@ function SettingForm() {
     fssaino: "",
     allow_half_price: "",
     allow_loyality_points: "",
-    per_loyality_point_value: "",
+    // Commented by Om Shrivastava on 23-07-23
+    // Reason : Add validation for single loyality point
+    // per_loyality_point_value: "",
+    // End of Commented code by Om Shrivastava on 23-07-23
+    // Reason : Add validation for single loyality point 
     amount_for_single_loyality_point: "",
     whatsapp_number: "",
   });
+
+  // Added by Om Shrivastava on 23-07-23
+  // Reason : Add validation for single loyality point
+  const [singleLoyalityPointValidation, setSingleLoyalityPointValidation] = useState("")
+  // End of addition by Om Shrivastava on 23-07-23
+  // Reason : Add validation for single loyality point 
 
   /**
    * Added by - Ashish Dewangan on 02-06-2023
@@ -45,9 +55,9 @@ function SettingForm() {
    */
   useEffect(() => {
     // Added By Rohan Kansari - 25/6/23
-        // Reason - To enable headerSiderbar
-        enableHeader()
-        // End of code - Rohan kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Rohan kansari - 25/6/23
     getSettingData();
   }, []);
   /**
@@ -192,28 +202,48 @@ function SettingForm() {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
           if (value <= 0) {
-            const error = {
-              per_loyality_point_value:
-                "Value for this field must be greater than 0",
-            };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivasstava on 23-07-23
+            // Reason : Set the validation for per loyality point
+            // const error = {
+            //   per_loyality_point_value:
+            //     "Value for this field must be greater than 0",
+            // };
+            // setValidationErrors({ ...validationErrors, ...error });
+            setSingleLoyalityPointValidation("Value for this field must be greater than 0. ");
+            // End of  Modification and addition by Om Shrivasstava on 23-07-23
+            // Reason : Set the validation for per loyality point
           } else {
-            const error = {
-              per_loyality_point_value: "",
-            };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivasstava on 23-07-23
+            // Reason : Set the validation for per loyality point
+            // const error = {
+            //   per_loyality_point_value: "",
+            // };
+            // setValidationErrors({ ...validationErrors, ...error });
+            setSingleLoyalityPointValidation("");
+            // End of  Modification and addition by Om Shrivasstava on 23-07-23
+            // Reason : Set the validation for per loyality point
           }
         } else {
-          const error = {
-            per_loyality_point_value: "Value for this field must be a number",
-          };
-          setValidationErrors({ ...validationErrors, ...error });
+          // Modification and addition by Om Shrivasstava on 23-07-23
+          // Reason : Set the validation for per loyality point
+          // const error = {
+          //   per_loyality_point_value: "Value for this field must be a number",
+          // };
+          // setValidationErrors({ ...validationErrors, ...error });
+          setSingleLoyalityPointValidation("Value for this field must be a number");
+          // End of  Modification and addition by Om Shrivasstava on 23-07-23
+          // Reason : Set the validation for per loyality point
         }
       } else {
-        const error = {
-          per_loyality_point_value: "",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
+        // Modification and addition by Om Shrivasstava on 23-07-23
+        // Reason : Set the validation for per loyality point
+        // const error = {
+        //   per_loyality_point_value: "",
+        // };
+        // setValidationErrors({ ...validationErrors, ...error });
+        setSingleLoyalityPointValidation("");
+        // End of  Modification and addition by Om Shrivasstava on 23-07-23
+        // Reason : Set the validation for per loyality point
       }
     }
 
@@ -330,21 +360,36 @@ function SettingForm() {
     if (inputName == "per_loyality_point_value") {
       if (value.toString().length > 0) {
         if (isNaN(value)) {
-          const error = {
-            per_loyality_point_value: "Value for this field must be a number",
-          };
-          setValidationErrors({ ...validationErrors, ...error });
+          {/* // Added by Om Shrivastava on 23-07-23
+          // Reason : Add validation for single loyality point */}
+          // const error = {
+          //   per_loyality_point_value: "Value for this field must be a number",
+          // };
+          // setValidationErrors({ ...validationErrors, ...error });
+          setSingleLoyalityPointValidation("Value for this field must be a number")
+           // End of addition by Om Shrivastava on 23-07-23
+          // Reason : Add validation for single loyality point 
         } else {
-          const error = {
-            per_loyality_point_value: "",
-          };
-          setValidationErrors({ ...validationErrors, ...error });
+          {/* // Added by Om Shrivastava on 23-07-23
+          // Reason : Add validation for single loyality point */}
+          // const error = {
+          //   per_loyality_point_value: "",
+          // };
+          // setValidationErrors({ ...validationErrors, ...error });
+          setSingleLoyalityPointValidation("")
+          // End of addition by Om Shrivastava on 23-07-23
+          // Reason : Add validation for single loyality point 
         }
       } else {
-        const error = {
-          per_loyality_point_value: "",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
+        {/* // Added by Om Shrivastava on 23-07-23
+        // Reason : Add validation for single loyality point */}
+        // const error = {
+        //   per_loyality_point_value: "",
+        // };
+        // setValidationErrors({ ...validationErrors, ...error });
+        setSingleLoyalityPointValidation("")
+        // End of addition by Om Shrivastava on 23-07-23
+        // Reason : Add validation for single loyality point 
       }
     }
 
@@ -408,11 +453,19 @@ function SettingForm() {
       validationErrors.gstin != "" ||
       validationErrors.fssaino != "" ||
       validationErrors.allow_half_price != "" ||
-      validationErrors.allow_loyality_points != "" ||
-      validationErrors.per_loyality_point_value != "" ||
-      validationErrors.amount_for_single_loyality_point != "" ||
+      // Commented by Om Shrivastava on 23-07-23 
+      // Reason : Set the validation for loyality fields
+      // validationErrors.allow_loyality_points != "" ||
+
+      // validationErrors.per_loyality_point_value != "" ||
+      // singleLoyalityPointValidation!= "" ||
+
+      // validationErrors.amount_for_single_loyality_point != "" ||
+      // End of Commented by Om Shrivastava on 23-07-23 
+      // Reason : Set the validation for loyality fields
       validationErrors.app_theme != "" ||
       validationErrors.whatsapp_number != ""
+
     ) {
       allowDataPost = false;
     } else {
@@ -423,11 +476,50 @@ function SettingForm() {
        * }
        * else{
        *  //no error
-       *  allowDataPost=true;
+       *  allowDataPost=true; 
        * }
        */
-      allowDataPost = true;
+
+      // Added by Om Shrivastava on 23-07-23
+      // Reason : Add validation for single loyality point
+      if (allowLoyalityPoints == true) {
+        if (perLoyalityPointValue <= 0) {
+          setSingleLoyalityPointValidation('Please enter single loyality point')
+          allowDataPost = false
+        }
+        else{ 
+            if (amountForSingleLoyalityPoint <= 0) {
+              const error = {
+                amount_for_single_loyality_point:
+                  "Please enter calculation amount",
+              };
+              setValidationErrors({ ...validationErrors, ...error });
+              allowDataPost = false
+            }
+            else {
+              const error = {
+                amount_for_single_loyality_point: "",
+              };
+              setValidationErrors({ ...validationErrors, ...error });
+
+              setSingleLoyalityPointValidation("")
+              allowDataPost = true
+            }
+        }
+      }
+      else {
+        const error = {
+          amount_for_single_loyality_point: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+
+        setSingleLoyalityPointValidation("")
+        allowDataPost = true
+      }
     }
+    // End of addition by Om Shrivastava on 23-07-23
+    // Reason : Add validation for single loyality point
+
     if (allowDataPost) {
       const updatedSettingsData = {
         id: settingId,
@@ -444,16 +536,16 @@ function SettingForm() {
           ? whatsappNumber.toString().length == 10
             ? "+91" + whatsappNumber
             : whatsappNumber
-            /**
-             * Modified by - Ashish Dewangan on 05-06-2023
-             * Reason - To save empty string rather than null
-             */
-            // : null,
-          : "",
           /**
-           * End of code Modification by - Ashish Dewangan on 05-06-2023
+           * Modified by - Ashish Dewangan on 05-06-2023
            * Reason - To save empty string rather than null
            */
+          // : null,
+          : "",
+        /**
+         * End of code Modification by - Ashish Dewangan on 05-06-2023
+         * Reason - To save empty string rather than null
+         */
       };
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await postSettingsDetails(updatedSettingsData, tenant);
@@ -484,7 +576,7 @@ function SettingForm() {
          * End of code addition by - Ashish Dewangan on 05-06-2023
          * Reason - To rerender the page based on response
          */
-        
+
       } else {
         Message("Something went wrong", "error");
       }
@@ -498,7 +590,9 @@ function SettingForm() {
        * Reason - No need to redirect to dashboard
        */
     } else {
-      Message("Please provide valid input", "info");
+
+      // Message("Please provide valid input", "info");
+
     }
   };
   
@@ -549,6 +643,9 @@ function SettingForm() {
       whatsapp_number: "",
     };
     setValidationErrors({ ...validationErrors, ...error });
+
+    setSingleLoyalityPointValidation("")
+
   };
   /**
    * End of code addition by - Ashish Dewangan on 04-06-2023.
@@ -556,319 +653,324 @@ function SettingForm() {
    */
 
   return (
-   // Modified by Rohan Kansari - 25/6/23
+    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
     // <Header>
-      <div className={style.container}>
-        <div className={style.titleContainer}>
-          {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
-          <div className={style.pageTitle}>Settings</div>
-        </div>
-        <form className={style.settingSection}>
-          <div className={style.formContainer}>
-            <div className={`${style.sectionInsideForm}`}>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>App Theme</div>
-                  <select
-                    className={`${style.textInputBox}`}
-                    name="app_theme"
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      setAppTheme(e.target.value);
-                      validateOnInput("app_theme", e.target.value);
-                    }}
-                  >
-                    {themeList.map((data, index) => {
-                      return (
-                        <option
-                          key={index}
-                          name={data.id}
-                          selected={data.id == appTheme}
-                          value={data.id}
-                        >
-                          {data?.background_color_label} ,{" "}
-                          {data.heading_color_label}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.app_theme}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>WhatsApp Number</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="whatsapp_number"
-                    value={whatsappNumber}
-                    style={{ width: "200px" }}
-                    onFocus={(e)=>{
-                      if(whatsappNumber.length==13)
-                        setWhatsappNumber(whatsappNumber.substring(3,13))
-                    }}
-                    onChange={(e) => {
-                      setWhatsappNumber(e.target.value);
-                      validateOnInput("whatsapp_number", e.target.value);
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur("whatsapp_number", e.target.value);
-                    }}
-                    maxLength={10}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.whatsapp_number}
-                </div>
-              </div>
-            </div>
-
-            <div className={`${style.sectionInsideForm}`}>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    Allow Loyality Points
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="checkbox"
-                    name="allow_loyality_points"
-                    style={{ width: "18px", height: "18px" }}
-                    checked={allowLoyalityPoints}
-                    onChange={(e) => {
-                      setAllowLoyalityPoints(e.target.checked);
-                      validateOnInput("allow_loyality_points", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.allow_loyality_points}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    Value Of Single Loyality Point (Rs.)
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="per_loyality_point_value"
-                    style={{ width: "100px" }}
-                    value={perLoyalityPointValue}
-                    onChange={(e) => {
-                      setPerLoyalityPointValue(e.target.value);
-                      validateOnInput(
-                        "per_loyality_point_value",
-                        e.target.value
-                      );
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur(
-                        "per_loyality_point_value",
-                        e.target.value
-                      );
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.per_loyality_point_value}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    Loyality Point Calculation Amount (Rs.)
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="amount_for_single_loyality_point"
-                    style={{ width: "100px" }}
-                    value={amountForSingleLoyalityPoint}
-                    onChange={(e) => {
-                      setAmountForSingleLoyalityPoint(e.target.value);
-                      validateOnInput(
-                        "amount_for_single_loyality_point",
-                        e.target.value
-                      );
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur(
-                        "amount_for_single_loyality_point",
-                        e.target.value
-                      );
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.amount_for_single_loyality_point}
-                </div>
-              </div>
-            </div>
-
-            <div className={`${style.sectionInsideForm}`}>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>Allow Half Price</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="checkbox"
-                    name="allow_half_price"
-                    style={{ width: "18px", height: "18px" }}
-                    checked={allowHalfPrice}
-                    onChange={(e) => {
-                      setAllowHalfPrice(e.target.checked);
-                      validateOnInput("allow_half_price", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.allow_half_price}
-                </div>
-              </div>
-            </div>
-
-            <div className={`${style.sectionInsideForm}`}>
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>CGST (%)</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="cgst"
-                    style={{ width: "100px" }}
-                    value={cgst}
-                    onChange={(e) => {
-                      setCgst(e.target.value);
-                      validateOnInput("cgst", e.target.value);
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur("cgst", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.cgst}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>SGST (%)</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="sgst"
-                    style={{ width: "100px" }}
-                    value={sgst}
-                    onChange={(e) => {
-                      setSgst(e.target.value);
-                      validateOnInput("sgst", e.target.value);
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur("sgst", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.sgst}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>GSTIN</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="gstin"
-                    style={{ width: "200px" }}
-                    value={gstin}
-                    maxLength={15}
-                    onChange={(e) => {
-                      setGstin(e.target.value);
-                      validateOnInput("gstin", e.target.value);
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur("gstin", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.gstin}
-                </div>
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>FSSAI Number</div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="fssaino"
-                    style={{ width: "200px" }}
-                    value={fssaiNumber}
-                    maxLength={14}
-                    onChange={(e) => {
-                      setFssaiNumber(e.target.value);
-                      validateOnInput("fssaino", e.target.value);
-                    }}
-                    onBlur={(e) => {
-                      validateOnBlur("fssaino", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {validationErrors.fssaino}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={style.actionContainer}>
-            <div
-              className={` ${style.backButton}`}
-              style={{
-                marginRight: "10px",
-              }}
-              onClick={(e) => {
-                navigate("/Dashboard");
-              }}
-            >
-              Back
-            </div>
-
-            <div
-              className={` ${style.cancelButton}`}
-              style={{
-                marginRight: "10px",
-              }}
-              onClick={(e) => {
-                resetSettingsForm();
-                window.scrollTo(0, 0);
-              }}
-            >
-              Clear
-            </div>
-
-            <div
-              className={` ${style.proceedButton}`}
-              onClick={() =>{ saveSettings(); window.scrollTo(0, 0);}}
-              
-            >
-              Save
-            </div>
-          </div>
-        </form>
+    <div className={style.container}>
+      <div className={style.titleContainer}>
+        {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
+        <div className={style.pageTitle}>Settings</div>
       </div>
+      <form className={style.settingSection}>
+        <div className={style.formContainer}>
+          <div className={`${style.sectionInsideForm}`}>
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>App Theme</div>
+                <select
+                  className={`${style.textInputBox}`}
+                  name="app_theme"
+                  style={{ width: "200px" }}
+                  onChange={(e) => {
+                    setAppTheme(e.target.value);
+                    validateOnInput("app_theme", e.target.value);
+                  }}
+                >
+                  {themeList.map((data, index) => {
+                    return (
+                      <option
+                        key={index}
+                        name={data.id}
+                        selected={data.id == appTheme}
+                        value={data.id}
+                      >
+                        {data?.background_color_label} ,{" "}
+                        {data.heading_color_label}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.app_theme}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>WhatsApp Number</div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="whatsapp_number"
+                  value={whatsappNumber}
+                  style={{ width: "200px" }}
+                  onFocus={(e) => {
+                    if (whatsappNumber.length == 13)
+                      setWhatsappNumber(whatsappNumber.substring(3, 13))
+                  }}
+                  onChange={(e) => {
+                    setWhatsappNumber(e.target.value);
+                    validateOnInput("whatsapp_number", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur("whatsapp_number", e.target.value);
+                  }}
+                  maxLength={10}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.whatsapp_number}
+              </div>
+            </div>
+          </div>
+
+          <div className={`${style.sectionInsideForm}`}>
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  Allow Loyality Points
+                </div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="checkbox"
+                  name="allow_loyality_points"
+                  style={{ width: "18px", height: "18px" }}
+                  checked={allowLoyalityPoints}
+                  onChange={(e) => {
+                    setAllowLoyalityPoints(e.target.checked);
+                    validateOnInput("allow_loyality_points", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.allow_loyality_points}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  Value Of Single Loyality Point (Rs.)
+                </div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="per_loyality_point_value"
+                  style={{ width: "100px" }}
+                  value={perLoyalityPointValue}
+                  onChange={(e) => {
+                    setPerLoyalityPointValue(e.target.value);
+                    validateOnInput(
+                      "per_loyality_point_value",
+                      e.target.value
+                    );
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur(
+                      "per_loyality_point_value",
+                      e.target.value
+                    );
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {/* // Added by Om Shrivastava on 23-07-23
+                // Reason : Add validation for single loyality point */}
+                {/* {validationErrors.per_loyality_point_value} */}
+                {singleLoyalityPointValidation}
+                {/* End of Added by Om Shrivastava on 23-07-23
+                // Reason : Add validation for single loyality point */}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  Loyality Point Calculation Amount (Rs.)
+                </div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="amount_for_single_loyality_point"
+                  style={{ width: "100px" }}
+                  value={amountForSingleLoyalityPoint}
+                  onChange={(e) => {
+                    setAmountForSingleLoyalityPoint(e.target.value);
+                    validateOnInput(
+                      "amount_for_single_loyality_point",
+                      e.target.value
+                    );
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur(
+                      "amount_for_single_loyality_point",
+                      e.target.value
+                    );
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.amount_for_single_loyality_point}
+              </div>
+            </div>
+          </div>
+
+          <div className={`${style.sectionInsideForm}`}>
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>Allow Half Price</div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="checkbox"
+                  name="allow_half_price"
+                  style={{ width: "18px", height: "18px" }}
+                  checked={allowHalfPrice}
+                  onChange={(e) => {
+                    setAllowHalfPrice(e.target.checked);
+                    validateOnInput("allow_half_price", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.allow_half_price}
+              </div>
+            </div>
+          </div>
+
+          <div className={`${style.sectionInsideForm}`}>
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>CGST (%)</div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="cgst"
+                  style={{ width: "100px" }}
+                  value={cgst}
+                  onChange={(e) => {
+                    setCgst(e.target.value);
+                    validateOnInput("cgst", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur("cgst", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.cgst}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>SGST (%)</div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="sgst"
+                  style={{ width: "100px" }}
+                  value={sgst}
+                  onChange={(e) => {
+                    setSgst(e.target.value);
+                    validateOnInput("sgst", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur("sgst", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.sgst}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>GSTIN</div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="gstin"
+                  style={{ width: "200px" }}
+                  value={gstin}
+                  maxLength={15}
+                  onChange={(e) => {
+                    setGstin(e.target.value);
+                    validateOnInput("gstin", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur("gstin", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.gstin}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>FSSAI Number</div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="fssaino"
+                  style={{ width: "200px" }}
+                  value={fssaiNumber}
+                  maxLength={14}
+                  onChange={(e) => {
+                    setFssaiNumber(e.target.value);
+                    validateOnInput("fssaino", e.target.value);
+                  }}
+                  onBlur={(e) => {
+                    validateOnBlur("fssaino", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.fssaino}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className={style.actionContainer}>
+          <div
+            className={` ${style.backButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              navigate("/Dashboard");
+            }}
+          >
+            Back
+          </div>
+
+          <div
+            className={` ${style.cancelButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              resetSettingsForm();
+              window.scrollTo(0, 0);
+            }}
+          >
+            Clear
+          </div>
+
+          <div
+            className={` ${style.proceedButton}`}
+            onClick={() => { saveSettings(); window.scrollTo(0, 0); }}
+
+          >
+            Save
+          </div>
+        </div>
+      </form>
+    </div>
     // </Header>
   );
 }
