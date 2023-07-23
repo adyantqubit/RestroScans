@@ -8,6 +8,7 @@ import OrderItemsScreen from "../screens/order/OrderItemsScreen";
 import OrderListScreen from "../screens/order/OrderListScreen";
 import { CommonActions, useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
+import AddOrderItemForm from "../components/orderItem/AddOrderItemForm";
 
 // Modified by yuvraj Sahu on 11-06-2023
 // Reason - to clear the validation
@@ -76,6 +77,14 @@ const OrderNavigation = ({ navigation }) => {
           options={{ title: "Order details", headerBackVisible: true }}
           component={OrderItemsScreen}
         />
+
+        {/* Added by :- Parineeta Gedam on 23-07-2023 reason :- for navigations */}
+        <Stack.Screen
+          name="AddOrderItemForm"
+          options={{ title: "Please Add More Item", headerBackVisible: true }}
+          component={AddOrderItemForm}
+        />
+        {/* End of Added by :- Parineeta Gedam on 23-07-2023 reason :- for navigations */}
       </Stack.Navigator>
     </>
   );

@@ -2,18 +2,28 @@
 // Reason - to desigin and functionality of add order item
 
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, StyleSheet, Button, Pressable, Alert, Modal, TextInput } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Button, Pressable, Alert, Modal, TextInput} from "react-native";
 import { colors, inputs } from "../../Colours/globalColor";
-import { getAllMenuList, postOrderItemsApi, getAllOfferList,getSettingApi } from "../../api/Services";
+import { getAllMenuList, postOrderItemsApi, getAllOfferList, getSettingApi } from "../../api/Services";
 import { Formik } from "formik";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 import { addOrderItemSchema } from "../../validation/ValidationSchema";
 import { useIsFocused } from "@react-navigation/native";
+import { EvilIcons } from '@expo/vector-icons';
 
+// Modified by :- PArineeta Gedam on 23-07-2023 
+// Reason :- before AddOrderItemForm open in modal but now open in new pages that's why some objects will be chnage
 
-export default function AddOrderItemForm(orderId) {
+export default function AddOrderItemForm({ route, navigation }) {
+
+    // Added by :- Parineeta Gedam on 23-07-2023 
+    // Reason :- before AddOrderItemForm open in modal but now open in new pages that's why some objects will be chnage
+    const { orderId, id } = route.params;
+    // End of Added by :- Parineeta Gedam on 23-07-2023 
+    // Reason :- before AddOrderItemForm open in modal but now open in new pages that's why some objects will be chnage
+
 
     // Added by :- Parineeta Gedam on 23-06-2023 
     // Reason :- after submit button will be disable 
@@ -224,15 +234,15 @@ export default function AddOrderItemForm(orderId) {
     const handleCalculations = (qty) => {
         if (offerList.filter((item) => item.item_id == itemIdSelected).length) {
             var amount = 0;
-            var discounted_price=0;
+            var discounted_price = 0;
             var itemName = offerList.filter((item) => item.item_id == itemIdSelected)[0]
-            if(servingSizeSelected == "Full"){
+            if (servingSizeSelected == "Full") {
                 amount = ((itemName.item_fullprice / 100) * itemName.item_discount).toFixed(2)
                 discounted_price = (itemName.item_fullprice - amount).toFixed(2)
                 setSingalItemprice(discounted_price)
                 var price = (discounted_price * qty)
                 setPrice(price.toFixed(2))
-            }else{
+            } else {
                 amount = ((itemName.item_halfprice / 100) * itemName.item_discount).toFixed(2)
                 discounted_price = (itemName.item_halfprice - amount).toFixed(2)
                 setSingalItemprice(discounted_price)
@@ -240,7 +250,7 @@ export default function AddOrderItemForm(orderId) {
                 setPrice(price.toFixed(2))
             }
         }
-        else{
+        else {
             var itemName = itemList.filter((item) => item.id == itemIdSelected)[0]
             if (servingSizeSelected == "Half") {
                 setSingalItemprice(itemName.price_half)
@@ -252,7 +262,7 @@ export default function AddOrderItemForm(orderId) {
                 var price = (itemName.price_full * qty)
                 setPrice(price.toFixed(2))
             }
-        }   
+        }
     }
     // End of added code by :- Parineeta Gedam on 01-07-2023 reason :- calculations for offered item.
   
@@ -280,36 +290,51 @@ export default function AddOrderItemForm(orderId) {
         // End of Added by :-  Parineeta Gedam on 26-05-2023
         var tenant = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
         var data = {
-            order_id: orderId.id,
-            order_order_id: orderId.orderId,
+
+            // Commented and Modified by :- Parineeta Gedam on 23-07-2023 
+            // order_id: orderId.id,
+            // order_order_id: orderId.orderId,
+            order_id: id,
+            order_order_id: orderId,
+            // commented and Modified by :- Parineeta Gedam on 23-07-2023 
+
             item: itemNameSelected,
             item_id: itemIdSelected,
             serving_size: servingSizeSelected,
             quantity: quantitySelected,
             item_status: "Pending",
         }
-
-        if (servingSizeRequired == false && servingSizeSelected != "" && itemNameRequired == false && itemIdSelected > 0 && quantitySelected > 0  ) {
+        if (servingSizeRequired == false && servingSizeSelected != "" && itemNameRequired == false && itemIdSelected > 0 && quantitySelected > 0) {
             var response = await postOrderItemsApi(data, tenant);
+            // Commented by :- PArineeta Gedam on 23-07-2023
+            // if (response.msg) {
+            // orderId.setOrderItems(response.orderItems);
+            // orderId.setOrderDetail(response.order);
+            // orderId.setOrderStatus(response.order.order_status)
+
+            // Modified by :- Parineeta Gedam on 29-06-2023 reason :- update discount
+            // orderId.setDiscountRupees("" + response.order.discount_rupees)
+            // orderId.setDiscountPercentage("" + response.order.discount_percentage)
+            // End of modified code by :- Parineeta Gedam on 29-06-2023 reason :- update discount
+            // Alert.alert("Item added successfully");
+            // orderId.modalvisibilityFn(false)
+
+            // Added by :- Parineeta Gedam on 23-06-2023 
+            // setSubmitBtnDisable(false);
+            // End of added code by :- Parineeta Gedam on 23-06-2023 
+            // }
+            // End of Commented by :- PArineeta Gedam on 23-07-2023
+
+            // Added by :- PArineeta Gedam on 23-07-2023
             if (response.msg) {
-                orderId.setOrderItems(response.orderItems);
-                orderId.setOrderDetail(response.order);
-                orderId.setOrderStatus(response.order.order_status)
-
-                // Modified by :- Parineeta Gedam on 29-06-2023 reason :- update discount
-                orderId.setDiscountRupees("" + response.order.discount_rupees)
-                orderId.setDiscountPercentage("" + response.order.discount_percentage)
-                // End of modified code by :- Parineeta Gedam on 29-06-2023 reason :- update discount
-                Alert.alert("Item added successfully");
-                orderId.modalvisibilityFn(false)
-
-                // Added by :- Parineeta Gedam on 23-06-2023 
                 setSubmitBtnDisable(false);
-                // End of added code by :- Parineeta Gedam on 23-06-2023 
+                Alert.alert("Item added successfully");
+                navigation.pop()
             }
+            // End of Added by :- PArineeta Gedam on 23-07-2023
         }
-        else{
-            setSubmitBtnDisable(false);   
+        else {
+            setSubmitBtnDisable(false);
         }
     }
     // End of added code by :- Parineeta Gedam on 24-05-2023
@@ -373,21 +398,26 @@ export default function AddOrderItemForm(orderId) {
                     setAllowHalfPrice(true)
                 }
             }
-            // Added by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
+            // End Added by :- Parineeta Gedam on 17-07-2023 reason :- Admin Panel (Native)>>Order Detail>>Serving section should not be in dropdown, If only full size is available.
 
-           
+
         }
     };
     // End of Added by  Parineeta Gedam on 14-07-23
     // Reason : if full price is there but half plate price is not available for that item. Then also serving size should not be shown in the dropdown
 
     return (
-        <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-                <Text style={styles.modalText}>Please Add More Item</Text>
+        <ScrollView keyboardShouldPersistTaps="handled">
+            <View style={styles.centeredView}>
+                {/* <View style={styles.modalView}>
+                    <Text style={styles.modalText}>Please Add More Item</Text> */}
                 <View>
                     <Formik
-                        initialValues={{ order_id: orderId.orderId, quantity: "" }}
+                        // Modified by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+                        initialValues={{ order_id: orderId, quantity: "" }}
+                        // initialValues={object : { order_id: orderId.orderId, quantity: "" }}
+                        // End of Modified by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
                         validateOnMount={true}
                         validationSchema={addOrderItemSchema}
                         onSubmit={submitOrderItems}
@@ -403,7 +433,13 @@ export default function AddOrderItemForm(orderId) {
                         }) => (
                             // <ScrollView style={styles.container}>
                             <View style={styles.container}>
-                                <View style={{ marginTop: 30 }}>
+                                {/* Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging */}
+
+                                {/* <View style={{ marginTop: 30 }}>
+                                        <View style={styles.formContainer}> */}
+                                {/* End of Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging */}
+
+                                <View>
                                     <View style={styles.formContainer}>
                                         <Text style={styles.labels}>
                                             <Text style={{ color: "red", fontWeight: "650" }}>
@@ -428,7 +464,14 @@ export default function AddOrderItemForm(orderId) {
                                             </Text>
                                             Item Name
                                         </Text>
+
                                         <SelectDropdown
+                                            // Added by :- Parineeta Gedam on  21-07-2023 reason :-  Add more item >>Add search field in Item select box
+                                            search={true}
+                                            searchPlaceHolder="Search by item name"
+                                            renderSearchInputRightIcon={() => { return <EvilIcons name="search" size={20} color="black" /> }}
+                                            // End of Added code by :- Parineeta Gedam on 21-07-2023 reason :-  Add more item >>Add search field in Item select box
+
                                             data={itemList}
                                             dropdownOverlayColor="rgba(0,0,0,0)"
                                             buttonTextStyle={{ fontSize: 16 }}
@@ -439,21 +482,41 @@ export default function AddOrderItemForm(orderId) {
                                                 borderRadius: 10,
                                                 backgroundColor: "white",
                                                 borderWidth: 1,
+                                                marginTop: 0
                                             }}
                                             renderDropdownIcon={() => {
                                                 return <AntDesign name="down" size={14} color="black" />;
                                             }}
 
+                                            // Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+                                            // buttonStyle={{
+                                            //     height: 35,
+                                            //     borderColor: "black",
+                                            //     borderWidth: 1,
+                                            //     borderRadius: 10,
+                                            //     backgroundColor: "white",
+                                            //     width: 250,
+                                            //     // alignSelf: "center",
+                                            //     marginTop: 5,
+                                            // }}
+                                            // End of Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+                                            // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
                                             buttonStyle={{
-                                                height: 35,
+                                                height: inputs.inputBoxHeight,
                                                 borderColor: "black",
                                                 borderWidth: 1,
                                                 borderRadius: 10,
                                                 backgroundColor: "white",
-                                                width: 250,
-                                                // alignSelf: "center",
-                                                marginTop: 5,
+                                                width: "94%",
+                                                alignSelf: "center",
+                                                // marginBottom: 10,
+                                                marginBottom: 0
                                             }}
+                                            // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
                                             onSelect={(selectedItemId, index) => {
                                                 setItemIdSelected(selectedItemId.id);
                                                 setQuantitySelected(0);
@@ -478,97 +541,127 @@ export default function AddOrderItemForm(orderId) {
                                             rowTextForSelection={(itemName, index) => {
                                                 return itemName.name;
                                             }}
+                                            // Added by :- Parineeta Gedam on  21-07-2023 reason :-  Add more item >>Add search field in Item select box
+                                            searchInputStyle={{
+                                                borderWidth: 1,
+                                                height: 40,
+                                                position: "relative",
+                                            }}
+                                        // End of Added by :- Parineeta Gedam on  21-07-2023 reason :-  Add more item >>Add search field in Item select box
                                         />
                                         {itemNameRequired && (
                                             <Text
-                                                style={{
-                                                    color: "red",
-                                                    paddingHorizontal: 10,
-                                                }}
+                                                // Commented and Modified by :- Parineeta Gedam on 23-07-2023 reason :- chnages in desging 
+                                                // style={{
+                                                //     color: "red",
+                                                //     paddingHorizontal: 10,
+                                                // }}
+                                                style={styles.textdanger}
+                                            // End of Commented and Modified by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
                                             >
                                                 Item Name is required
                                             </Text>
                                         )}
                                     </View>
                                     {/* Added and modified by :- PArineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. */}
-                                    {allowHalfPrice ? 
-                                    
-                                    <View style={styles.formContainer}>
-                                        <Text style={styles.labels}>
-                                            <Text style={{ color: "red", fontWeight: "650" }}>
-                                                *{" "}
+                                    {allowHalfPrice ?
+
+                                        <View style={styles.formContainer}>
+                                            <Text style={styles.labels}>
+                                                <Text style={{ color: "red", fontWeight: "650" }}>
+                                                    *{" "}
+                                                </Text>
+                                                Serving size
                                             </Text>
-                                            Serving size
-                                        </Text>
-                                        <SelectDropdown
-                                            data={servingSizeData}
-                                            dropdownOverlayColor="rgba(0,0,0,0)"
-                                            buttonTextStyle={{ fontSize: 16 }}
-                                            rowTextStyle={{ fontSize: 16 }}
-                                            rowStyle={{ height: 30 }}
-                                            selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
-                                            dropdownStyle={{
-                                                borderRadius: 10,
-                                                backgroundColor: "white",
-                                                borderWidth: 1,
-                                            }}
-                                            renderDropdownIcon={() => {
-                                                return <AntDesign name="down" size={14} color="black" />;
-                                            }}
-                                            buttonStyle={{
-                                                height: 35,
-                                                borderColor: "black",
-                                                borderWidth: 1,
-                                                borderRadius: 10,
-                                                backgroundColor: "white",
-                                                width: 250,
-                                                // alignSelf: "center",
-                                                marginTop: 5,
-                                            }}
-                                            onSelect={(selectedServingSize, index) => {
-                                                setServingSizeSelected(selectedServingSize.value);
-                                                setQuantitySelected(0);
-                                                setSingalItemprice(0);
-                                                setPrice(0);
-                                                values.quantity = ""
-                                                setservingSizeRequired(false);
-                                                // setOrderStatusChange(selectedOrderStatus.value)
-                                            }}
-                                            buttonTextAfterSelection={(selectedServingSize, index) => {
-                                                // return selectedServingSize.value;
-                                                return selectedServingSize.value;
-                                            }}
-                                            rowTextForSelection={(servingSize, index) => {
-                                                return servingSize.value;
-                                            }}
+                                            <SelectDropdown
+                                                data={servingSizeData}
+                                                dropdownOverlayColor="rgba(0,0,0,0)"
+                                                buttonTextStyle={{ fontSize: 16 }}
+                                                rowTextStyle={{ fontSize: 16 }}
+                                                rowStyle={{ height: 30 }}
+                                                selectedRowStyle={{ backgroundColor: "#d2d2d2" }}
+                                                dropdownStyle={{
+                                                    borderRadius: 10,
+                                                    backgroundColor: "white",
+                                                    borderWidth: 1,
+                                                }}
+                                                renderDropdownIcon={() => {
+                                                    return <AntDesign name="down" size={14} color="black" />;
+                                                }}
+
+                                                // Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+                                                // buttonStyle={{
+                                                //     height: 35,
+                                                //     borderColor: "black",
+                                                //     borderWidth: 1,
+                                                //     borderRadius: 10,
+                                                //     backgroundColor: "white",
+                                                //     width: 250,
+                                                //     // alignSelf: "center",
+                                                //     marginTop: 5,
+                                                // }}
+                                                // End of Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+                                                // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+                                                buttonStyle={{
+                                                    height: inputs.inputBoxHeight,
+                                                    borderColor: "black",
+                                                    borderWidth: 1,
+                                                    borderRadius: 10,
+                                                    backgroundColor: "white",
+                                                    width: "94%",
+                                                    alignSelf: "center",
+                                                    marginBottom: 10,
+                                                }}
+                                                // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+                                                onSelect={(selectedServingSize, index) => {
+                                                    setServingSizeSelected(selectedServingSize.value);
+                                                    setQuantitySelected(0);
+                                                    setSingalItemprice(0);
+                                                    setPrice(0);
+                                                    values.quantity = ""
+                                                    setservingSizeRequired(false);
+                                                    // setOrderStatusChange(selectedOrderStatus.value)
+                                                }}
+                                                buttonTextAfterSelection={(selectedServingSize, index) => {
+                                                    // return selectedServingSize.value;
+                                                    return selectedServingSize.value;
+                                                }}
+                                                rowTextForSelection={(servingSize, index) => {
+                                                    return servingSize.value;
+                                                }}
                                             // disabledIndexs={[0]}
                                             // renderCustomizedRowChild={(d, i)=>{
                                             //     return d
                                             // }}
-                                        />
-                                        {servingSizeRequired && (
-                                            <Text
-                                                style={{
-                                                    color: "red",
-                                                    paddingHorizontal: 10,
-                                                }}
-                                            >
-                                                Serving size is required
+                                            />
+                                            {servingSizeRequired && (
+                                                <Text
+                                                    // Commented and Modified by :- Parineeta Gedam on 23-07-2023 reason :- chnages in desging 
+                                                    // style={{
+                                                    //     color: "red",
+                                                    //     paddingHorizontal: 10,
+                                                    // }}
+                                                    style={styles.textdanger}
+                                                    // End of Commented and Modified by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+                                                >
+                                                    Serving size is required
+                                                </Text>
+                                            )}
+                                        </View>
+                                        :
+                                        <View style={styles.formContainer}>
+                                            <Text style={styles.labels}>
+                                                <Text style={{ color: "red", fontWeight: "650" }}>
+                                                    *{" "}
+                                                </Text>
+                                                Serving size
                                             </Text>
-                                        )}
-                                    </View>
-                                    :
-                                    <View style={styles.formContainer}>
-                                    <Text style={styles.labels}>
-                                        <Text style={{ color: "red", fontWeight: "650" }}>
-                                            *{" "}
-                                        </Text>
-                                        Serving size
-                                    </Text>
-                                    <View style={styles.servingSizeInput}>
-                                    <Text style={styles.servingSizeLabel}>Full</Text>
-                                    </View>
-                                    </View>
+                                            <View style={styles.servingSizeInput}>
+                                                <Text style={styles.servingSizeLabel}>Full</Text>
+                                            </View>
+                                        </View>
                                     }
                                     {/* End of Added and modified by :- Parineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available.   */}
 
@@ -592,8 +685,8 @@ export default function AddOrderItemForm(orderId) {
                                             keyboardType="number-pad"
 
                                             // Modified by :- PArineeta Gedam on 26-06-2023 reason :- 
-                                            editable = {servingSizeSelected == null || servingSizeSelected == "" || itemIdSelected == null || itemIdSelected == "" ? false : true}
-                                            // End of Modified by :- PArineeta Gedam on 26-06-2023
+                                            editable={servingSizeSelected == null || servingSizeSelected == "" || itemIdSelected == null || itemIdSelected == "" ? false : true}
+                                        // End of Modified by :- PArineeta Gedam on 26-06-2023
                                         // onChange={() => {setQuantitySelected(values.quantity); handleCalculations(values.quantity)}}
                                         />
                                         {errors.quantity && touched.quantity && (
@@ -648,27 +741,30 @@ export default function AddOrderItemForm(orderId) {
                                         }}
                                     >
                                         <Pressable
-                                            onPress={() => orderId.modalvisibilityFn(false)}
-                                            style={{
-                                                backgroundColor: colors.btnColor,
-                                                height: 30,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                borderRadius: 10,
-                                                width: 100,
-                                                alignSelf: "center",
-                                            }}
-                                        >
-                                            <Text
+                                                // Commented and Modified by :- PArineeta Gedam on 23-07-2023 
+                                                // onPress={() => orderId.modalvisibilityFn(false)}
+                                                onPress={() =>navigation.pop()}
+                                                // End of Commented and Modified by :- Parineeta Gedam on 23-07-2023
                                                 style={{
-                                                    fontSize: 16,
-                                                    fontWeight: "bold",
-                                                    color: "white",
+                                                    backgroundColor: colors.btnColor,
+                                                    height: 30,
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    borderRadius: 10,
+                                                    width: 100,
+                                                    alignSelf: "center",
                                                 }}
                                             >
-                                                Cancel
-                                            </Text>
-                                        </Pressable>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 16,
+                                                        fontWeight: "bold",
+                                                        color: "white",
+                                                    }}
+                                                >
+                                                    Cancel
+                                                </Text>
+                                            </Pressable>
                                         <Pressable
                                             // Added by :- Parineeta Gedam on 23-06-2023
                                             // Reason :- to btn disable
@@ -676,21 +772,21 @@ export default function AddOrderItemForm(orderId) {
                                             // End of added code by :- PArineeta Gedam on 23-06-2023
 
                                             // Modified by :- Parineeta Gedam on 27-06-2023 reason :- Error thrown, when Admin not entered item name and entered quantity then click on "Submit" button.
-                                            onPress={ ()=>{
+                                            onPress={() => {
                                                 handleSubmit();
                                                 itemIdSelected == 0 ? setItemNameRequired(true) : setItemNameRequired(false)
                                                 servingSizeSelected == null || servingSizeSelected == "" ? setservingSizeRequired(true) : setservingSizeRequired(false)
                                             }
                                             }
                                             // End of Modified code by :- Parineeta Gedam on 27-06-2023 reason :- Error thrown, when Admin not entered item name and entered quantity then click on "Submit" button.
- 
+
                                             style={{
                                                 // Modified by :- Parineeta Gedam on 23-06-2023
                                                 // Reason :- to btn disable
                                                 // backgroundColor: colors.btnColor,
                                                 backgroundColor: submitBtnDisable
-                                                ? "#E0E0E0"
-                                                : colors.btnColor,
+                                                    ? "#E0E0E0"
+                                                    : colors.btnColor,
                                                 // End of added code by :- Parineeta Gedam on 23-06-2023
                                                 height: 30,
                                                 alignItems: "center",
@@ -704,15 +800,16 @@ export default function AddOrderItemForm(orderId) {
                                                 style={{
                                                     fontSize: 16,
                                                     fontWeight: "bold",
-                                                     // Added by :- Parineeta Gedam on 23-06-2023
-                                                        // Reason :- to btn disable
-                                                        // backgroundColor: colors.btnColor,
-                                                        // color: colors.white,
-                                                        color: submitBtnDisable ? "#989898" : colors.white,
-                                                        // End of added code by :- Parineeta Gedam on 23-06-2023
+                                                    // Added by :- Parineeta Gedam on 23-06-2023
+                                                    // Reason :- to btn disable
+                                                    // backgroundColor: colors.btnColor,
+                                                    // color: colors.white,
+                                                    color: submitBtnDisable ? "#989898" : colors.white,
+                                                    // End of added code by :- Parineeta Gedam on 23-06-2023
                                                 }}
                                             >
-                                                Submit
+                                                {/* Submit */}
+                                                Add
                                             </Text>
                                         </Pressable>
 
@@ -723,22 +820,41 @@ export default function AddOrderItemForm(orderId) {
                         )}
                     </Formik>
                 </View>
+                {/* Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging */}
+                {/* </View> */}
+                {/* End of Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging */}
+
             </View>
-        </View>
+        </ScrollView>
+
 
     )
 }
 
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // marginTop: 85,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        // opacity:1.0,
 
+    // Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+    // centeredView: {
+    //     flex: 1,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     // marginTop: 85,
+    //     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    //     // opacity:1.0,
+    // },
+    // End of Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+    centeredView: {
+        paddingTop: 10,
+        flex: 1,
+        height: "100%",
+        paddingHorizontal: 10,
+        backgroundColor: "#fff",
     },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+
     modalView: {
         margin: 10,
         backgroundColor: 'white',
@@ -767,43 +883,97 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         paddingLeft: 10,
     },
+
+    // Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+    // textInput: {
+    //     backgroundColor: "white",
+    //     borderRadius: 5,
+    //     borderWidth: 1,
+    //     paddingHorizontal: 5,
+    //     height: 35,
+    //     width: 250,
+    //     paddingLeft: 5,
+    //     paddingRight: 5,
+    //     marginTop: 10,
+    // },
+    // End of Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
     textInput: {
-        backgroundColor: "white",
-        borderRadius: 5,
+        height: inputs.inputBoxHeight,
+        margin: 12,
         borderWidth: 1,
-        paddingHorizontal: 5,
-        height: 35,
-        width: 250,
-        paddingLeft: 5,
-        paddingRight: 5,
-        marginTop: 10,
+        padding: 10,
+        marginTop: 0,
+        fontSize: 16,
+        borderRadius: 10,
     },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+    // labels: {
+    //     width: 100,
+    // },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
     labels: {
-        width: 100,
+        paddingHorizontal: 10,
+        marginBottom: 5,
     },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Commented by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+    // textdanger: {
+    //     color: "#dc3545",
+    //     paddingHorizontal: 10,
+    // },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
     textdanger: {
         color: "#dc3545",
+        marginBottom: 10,
         paddingHorizontal: 10,
+        marginTop: -10,
+        marginLeft: 5,
     },
-    // Added by :- Parineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. 
-    servingSizeInput: {
-        height: 35,
-        borderColor: "black",
-        borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: "white",
-        width: 250,
-        marginTop: 5,
-        alignItems :"center",
-        alignContent:"center"
-    },
-    servingSizeLabel:{
-        fontSize:17,
-        marginTop: 5,
-        textAlign:"center",
-        alignSelf:"center",
-        margin :"auto"
-    }
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
 
+
+    // Added by :- Parineeta Gedam on 12-07-2023 reason :- Serving section should not be in dropdown, If only full size is available. 
+    // Commented by :- Parineeta Gedam on 23-07-2023 reason :- chnages in desging 
+    // servingSizeInput: {
+    //     height: 35,
+    //     borderColor: "black",
+    //     borderWidth: 1,
+    //     borderRadius: 10,
+    //     backgroundColor: "white",
+    //     width: 250,
+    //     marginTop: 5,
+    //     alignItems: "center",
+    //     alignContent: "center"
+    // },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    // Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+    servingSizeInput: {
+        height: inputs.inputBoxHeight,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        marginTop: 0,
+        fontSize: 16,
+        borderRadius: 10,
+    },
+    // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
+
+    servingSizeLabel: {
+        fontSize: 17,
+        marginTop: 0,
+        textAlign: "center",
+        alignSelf: "center",
+        margin: "auto"
+    },
     // End of added code by :- Parineeta Gedam on 12-07-2023 reason : Serving section should not be in dropdown, If only full size is available.
 });
