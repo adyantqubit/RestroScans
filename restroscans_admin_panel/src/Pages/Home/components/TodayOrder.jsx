@@ -1463,9 +1463,15 @@ const TodayOrder = () => {
         console.log(e.target.value)
         
         if (e.target.value.length > 0 && e.target.value<subTotal && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
-            setTotal(subtotal - e.target.value - loyalityPointPrice)
+            var total_price = subtotal - e.target.value - loyalityPointPrice
+            var CGST = (cgst/(total /100))*total_price/100
+            var SGST=(sgst/(total /100))*total_price/100
+            setCGST(CGST)
+            setSGST(SGST)
+            setTotal(total_price)
+            
             var discount_percentage = e.target.value / (subtotal / 100)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
             setDiscountPercentage(discount_percentage.toFixed(2))
             // we are using this for setting max decimal till 2 decimal point 
             setDiscountRupee(e.target.value.indexOf(".") >= 0 ? e.target.value.slice(0, e.target.value.indexOf(".") + 3) : e.target.value)
@@ -1481,8 +1487,13 @@ const TodayOrder = () => {
             setDiscountRupee("")
             setDiscountprice(0.00)
             setDiscountPercentage(0.00)
-            setTotal(subtotal - 0 - loyalityPointPrice)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            var total_price = subtotal - e.target.value - loyalityPointPrice
+            var CGST = (cgst/(total /100))*total_price/100
+            var SGST=(sgst/(total /100))*total_price/100
+            setCGST(CGST)
+            setSGST(SGST)
+            setTotal(total_price)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
             errorText["discount_price"]="Discount price sould not blank"
             setErrorText({...errorText})
 
@@ -1505,9 +1516,13 @@ const TodayOrder = () => {
         
         if (e.target.value.length > 0 && e.target.value < 101 && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
             var discount_percentage = e.target.value * (subtotal / 100)
-            setTotal(subtotal - discount_percentage - loyalityPointPrice)
-
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            var total_price = subtotal - discount_percentage - loyalityPointPrice
+            var CGST = (cgst/(total /100))*total_price/100
+            var SGST=(sgst/(total /100))*total_price/100
+            setCGST(CGST)
+            setSGST(SGST)
+            setTotal(total_price)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
             setDiscountPercentage(e.target.value)
             setDiscountRupee(discount_percentage.toFixed(2))
             setDiscountprice(parseFloat(discount_percentage))
@@ -1521,8 +1536,13 @@ const TodayOrder = () => {
             setDiscountRupee(0)
             setDiscountprice(0.00)
             setDiscountPercentage("")
-            setTotal(subtotal - 0 - loyalityPointPrice)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            var total_price = subtotal - discount_percentage - loyalityPointPrice
+            var CGST = (cgst/(total /100))*total_price/100
+            var SGST=(sgst/(total /100))*total_price/100
+            setCGST(CGST)
+            setSGST(SGST)
+            setTotal(total_price)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
             document.getElementById("discount_percentage").style.border="1px solid red"
             errorText["discount_price"]="Discount price sould not blank"
             setErrorText({...errorText})
@@ -1547,12 +1567,19 @@ const TodayOrder = () => {
         // }
         var loyality_price= settings.per_loyality_point_value * e.target.value
         var customer_earn=parseInt(customerLoyalitypoint)+JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point
-        if(e.target.value>0 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value<customer_earn+1 && loyality_price < subTotal+1)
+        if(e.target.value>-1 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value<customer_earn+1 && loyality_price < subTotal+1)
         {setApplyLoyalityPoint(e.target.value)
         var loyalityPrice = settings.per_loyality_point_value * e.target.value
         setLoyalityPointPrice(loyalityPrice)
-        setTotal(subTotal - loyalityPrice - discountprice)
-        setFinalAmount(subTotal - loyalityPointPrice - discountprice + sgst + cgst)
+        var total_price = subTotal - loyalityPrice - discountprice
+        var CGST = (cgst/(total /100))*total_price/100
+        var SGST=(sgst/(total /100))*total_price/100
+        setCGST(CGST)
+        setSGST(SGST)
+        setTotal(total_price)
+        setFinalAmount(subTotal - loyalityPointPrice - discountprice + SGST + CGST)
+
+
         errorText["loyality_point"]=""
             setErrorText({...errorText})
            
@@ -1561,8 +1588,13 @@ const TodayOrder = () => {
             setApplyLoyalityPoint("")
             var loyalityPrice = settings.per_loyality_point_value * e.target.value
             setLoyalityPointPrice(loyalityPrice)
-            setTotal(subTotal - loyalityPrice - discountprice)
-            setFinalAmount(subTotal - loyalityPointPrice - discountprice + sgst + cgst)
+            var total_price = subTotal - loyalityPrice - discountprice
+            var CGST = (cgst/(total /100))*total_price/100
+            var SGST=(sgst/(total /100))*total_price/100
+            setCGST(CGST)
+            setSGST(SGST)
+            setTotal(total_price)
+            setFinalAmount(subTotal - loyalityPointPrice - discountprice + SGST + CGST)
 
         }
         else if (! /^\d+$/.test(e.target.value)) {
