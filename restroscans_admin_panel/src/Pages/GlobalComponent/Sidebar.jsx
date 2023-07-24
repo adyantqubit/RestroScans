@@ -252,7 +252,19 @@ const Sidebar = ({sidebar, setSidebar}) => {
   /**
    * End of addition by yuvraj Sahu on 12-06-2023
    */
-
+/**
+   * Added by Om Shrivastava on 24-07-2023
+   * Reason - to navigate restaurant rating review
+   */
+const navigateToRatingReviewList = () => {
+  if (windowSize.innerWidth < 800)
+     setSidebar(false)
+  navigate("/RatingReview");
+};
+/**
+ * End of addition by Om Shrivastava on 24-07-2023
+ * Reason - to navigate restaurant rating review
+ */
   // Added by ROhan kansari - 25/6/23
   // Reason - getting widowsize 
 
@@ -657,6 +669,20 @@ const Sidebar = ({sidebar, setSidebar}) => {
           </NavLink>
         </li>
         {/* End of addition social media by yuvraj Sahu on 29-05-2023 */}
+
+        {/* Added by Om Shrivastava on 24-07-23 
+        REason : Show the restaurant rating and review */}
+        <li className={style.links_div} onClick={navigateToRatingReviewList}>
+          <NavLink
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            to="/social-media"
+          >
+            {" "}
+           Rating & Review{" "}
+          </NavLink>
+        </li>
+        {/* End of  Added by Om Shrivastava on 24-07-23 
+        REason : Show the restaurant rating and review */}
       </ul>
 
       <div className={style.sidebar_close_div}>

@@ -40,7 +40,7 @@ import OrderForm from './Pages/Order/OrderForm'
 import MenuForm from './Pages/Menu/MenuForm';
 import CategoryForm from './Pages/Menu/CategoryForm';
 import EditItemForm from './Pages/Menu/EditItemForm';
-
+import RestaurantRatingReview from './Pages/RestaurantRatingReview/RestaurantRatingReview'
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
@@ -278,6 +278,11 @@ function App() {
         {/* {/* Added by Om shrivastava on 30-06-23 Reason : Show the order item form page*} */}
       	<Route path="/update-order-item/:id" element={!tokenExist ? <Navigate to="/Login" /> : <OrderItemForm/>} />
       	{/* End of addition by Om shrivastava on 30-06-23 Reason : Show the order item form page */}
+        
+        {/* {/* Added by Om shrivastava on 24-07-23 Reason : Show the restaurant rating and review*} */}
+        <Route path="/RatingReview" element={<RestaurantRatingReview />} />
+      	{/* End of addition by Om shrivastava on 24-07-23 Reason : Show the restaurant rating and review */}
+
       </Routes>
       {/* <Footer /> */}
       </Header>

@@ -399,4 +399,16 @@ urlpatterns = [
     # Reason : get order item data for billling and kot
     path('<str:tenant>/order-item-show/',GetAllOrderItemDetailsAPI.as_view()),
     # End of getting social links
+
+    # Added by Om Shrivastava on 24-07-23
+    # Reason : To get count of restaurant rating and review.
+    path('<str:tenant>/restaurant-rating-count/',RestaurantRatingAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 24-07-23
+    # Reason : To get count of restaurant rating and review.
+
+    # Added by Om Shrivastava on 24-07-23
+    # Reason : To get list of restaurant rating and review.
+    path('<str:tenant>/restaurant-rating-list/',RestaurantRatingAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 24-07-23
+    # Reason : To get list of restaurant rating and review.
 ]   

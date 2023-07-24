@@ -221,7 +221,7 @@ export const getCutomersCount = async (tenantId) => {
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
-/**
+/** 
  * Ent of code adition by - Ashish Dewangan on 05-06-2023
  * Reason - To get customer count
  */
@@ -732,3 +732,37 @@ export const getPaymentMethodApi = async (tenant) => {
   return response ? response.data : {};
 };
 // End getting payment method
+
+/**
+ * Added by - Om Shrivastava on 24-07-2023
+ * Reason - To get rating and review count for restaurant
+ */
+export const getRestaurantRatingReviewCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/restaurant-rating-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/** 
+ * Ent of code adition by - Om Shrivastava on 24-07-2023
+ * Reason - To get rating and review count for restaurant
+ */
+ 
+/**
+ * Added by - Om Shrivastava on 24-07-2023
+ * Reason - To get rating and review list of tenant.
+ */
+export const getRestaurantRatingReviewList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/restaurant-rating-list/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Om Shrivastava on 24-07-2023.
+ * Reason - To get rating and review list of tenant.
+ */ 

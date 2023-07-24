@@ -218,7 +218,10 @@ export default function RatingAndReview() {
             {" "}
             Skip{" "}
           </button>
-          <button
+
+          {/* Modification and addition by Om Shrivastava on 24-07-23 
+          Reason : Change the button to div */}
+          {/* <button
             className="rating_review_done_heading"
             style={{
               background: colors.bannerColor,
@@ -228,7 +231,21 @@ export default function RatingAndReview() {
           >
             {" "}
             Done{" "}
-          </button>
+          </button> */}
+          <div
+            className="rating_review_done_heading"
+            style={{
+              background: colors.bannerColor,
+              color: colors.backgroundTheme,
+              textAlign:'center'
+            }}
+            onClick={(e) => updateInvoiceData()}
+          >
+            {" "}
+            Done{" "}
+          </div>
+          {/* End of Modification and addition by Om Shrivastava on 24-07-23 
+          Reason : Change the button to div  */}
         </div>
       </div>
       {/* Added by Yuvraj Sahu on 26-05-2023

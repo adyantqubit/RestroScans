@@ -792,7 +792,7 @@ function MenuItem() {
    5: <SmileOutlined />,
  };
  const { TextArea } = Input;
- const [value, setValue] = useState(3);
+ var [value, setValue] = useState(3);
  const onChange = (e) => {
    console.log('radio checked', e.target.value);
    setValue(e.target.value);
@@ -803,8 +803,8 @@ function MenuItem() {
  // Reason : When display the rating and review
 
  const handleFormSubmit = async (formdata) => {
-   var saveRatingData = {
-     rating: value,
+   const saveRatingData = {
+     rating: value == "" ? 0.0:value,
      review: formdata.review,
    };
    var tenantName = localStorage.getItem("tenantName")
@@ -1496,7 +1496,7 @@ function MenuItem() {
                                     ) : null}
                                     {/* End of added code 10-04-2023 */}
 
-                                    <span onClick={e => toggleDescription(e.currentTarget.style)} className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor, padding: "0 5px" }}>
+                                    <div onClick={e => toggleDescription(e.currentTarget.style)} className="description_content" style={{ alignItems: 'center', color: colors.subHeadingColor, padding: "0 5px" }}>
 
                                       {subscribePlan?.includes("order") ? <button className="add_product" style={{
                                         color: colors.bannerColor,
@@ -1519,7 +1519,7 @@ function MenuItem() {
                                         {person.description && person.description.length > 0 ? person.description : "  "}
                                       </ReactReadMoreReadLess>
                                       {/* End of addition by Om Shrivastava on 17-05-23 */}
-                                    </span>
+                                    </div>
                                   </div>
 
                                   {/* added by rohan -9/4/23
@@ -2445,7 +2445,16 @@ function MenuItem() {
                 <div
                 // style={{border:"2px solid green"}}
                 >
-                  <Rate allowHalf defaultValue={3} onChange={setValue} />
+                  {/* Modification and addition by Om Shrivastava on 24-07-23 
+                  Reason : Set the rating value */}
+                  <Rate defaultValue={3} 
+                  // onChange={setValue} 
+                  onChange={(e)=>setValue(e)} 
+                  // onChange={(e) => setOverallRating(e)}
+                  
+                  />
+                  {/* End of Modification and addition by Om Shrivastava on 24-07-23 
+                  Reason : Set the rating value */}
                   {/* <Rate allowHalf character={({ index }) => customIcons[index + 1]} defaultValue={1} onChange={setValue} /> */}
                 </div>
               </Form.Item>

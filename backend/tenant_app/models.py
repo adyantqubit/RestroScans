@@ -1771,7 +1771,12 @@ End of added code by - Parineeta Gedam on 01-06-2023
 # Added by Om Shrivastava on 14-06-23
 # Reason: When user apply rating than show rating and review
 class RatingReview(models.Model):
-    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    # Modification and addiition by Om Shrivastava on 24-07-23
+    # Reason : Set the min value 0
+    # rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(0),MaxValueValidator(5.0)],decimal_places=1)
+    # End of addition and modification by Om Shrivastava on 24-07-23
+    # Reason : Set the min value 0
     review = models.TextField(null=True, blank=True)
 
     class Meta:

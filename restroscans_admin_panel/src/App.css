@@ -327,6 +327,14 @@ Reason : When popup is shown than its overlap in header page */
 }
 /*End of  Modification and addition by Om Shrivastava on 10-07-23 Reason : Need to fix the cursor in first position */
 
+/* Modification and addition by Om Shrivastava on 24-07-23 Reason : Need to set the color of read more read less*/
+.react-read-more-read-less,
+.react-read-more-read-less-more {
+    color: blue !important;
+    text-decoration: underline;
+}
+/*End of  Modification and addition by Om Shrivastava on 24-07-23 Reason : Need to set the color of read more read less*/
+
 @media screen and (max-width: 1100px) {
   #pot{
      margin-top: 1.5%;

@@ -3039,7 +3039,7 @@ class MenuDetailsAPI(APIView):
 # Reason: When user apply rating than show rating and review
 class RatingReviewAPI(APIView):
     def post(self,request,tenant):
-        print(request.data)
+        # print(request.data)
         serializedData = RatingReviewSerializer(data=request.data)
      
         if serializedData.is_valid():
@@ -3623,3 +3623,75 @@ class GetAllOrderItemDetailsAPI(APIView):
 """
 End of addition by Om shrivastava on 30-06-23
 """
+
+# Added by Om Shrivastava  on 24-07-2023
+# Reason - API for CRUD operation on rating and review for restaurant
+class RestaurantRatingAPI(APIView):
+    
+    # Added by Om Shrivastava  on 24-07-2023
+    # Reason - To get count of rating for restaurant
+    def get(self,request,tenant):
+         ratingCount=RatingReview.objects.all().count() 
+         return Response({
+            "msg":"success",
+            "ratingCount":ratingCount,
+        })
+    # End of code addition by - Om Shrivastava  on 24-07-2023
+    # Reason - To get count of rating for restaurant
+    
+    # Added by - Om Shrivastava  on 24-07-2023
+    # Reason - To get list of rating for restaurant using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Commented and modified by - Om Shrivastava  on 24-07-2023
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        ratingReviewList=[]
+
+        if columnToSort == "":
+            ratingReviewList = RatingReview.objects.all()
+
+        if searchText:
+            ratingReviewList=RatingReview.objects.filter(Q(review__icontains=searchText) | 
+                                                       Q(rating__icontains=searchText))
+        else:
+            ratingReviewList = RatingReview.objects.all()    
+
+        if columnToSort == "review" and columnSortingOrder=="ascending":
+            ratingReviewList = ratingReviewList.order_by('review')
+        if columnToSort == "review" and columnSortingOrder=="descending":
+            ratingReviewList = ratingReviewList.order_by('-review')
+
+        if columnToSort == "rating" and columnSortingOrder=="ascending":
+            ratingReviewList = ratingReviewList.order_by('rating')
+        if columnToSort == "rating" and columnSortingOrder=="descending":
+            ratingReviewList = ratingReviewList.order_by('-rating')
+
+        ratingReviewListCount=ratingReviewList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(ratingReviewList, listPerPage)
+        filteredRatingReviewList = paginator.page(currentPage)
+
+        ratingReviewSerializer = RatingReviewSerializer(filteredRatingReviewList, many =True)
+        return Response({
+            "msg":"success",
+            "ratingReviewList":ratingReviewSerializer.data,
+            "ratingReviewListCount":ratingReviewListCount,
+            
+        })
+        # End of code modification by - Om Shrivastava  on 24-07-2023
+        # Reason - To enhance and add basic search functionality
+
+    # End of code addition by - Om Shrivastava  on 24-07-2023
+    # Reason - To get list of rating for restaurant using backend pagination
+    
+# End of code addition by - Om Shrivastava  on 24-07-2023
+# Reason - API to get list of rating for restaurant 
