@@ -3195,7 +3195,10 @@ class OrderDetailAPIView(APIView) :
         # serialized=AllOrderSerializer(orderObjs, many=True)
         if orderDetailSerailizer.is_valid():
             orderDetailSerailizer.save()
-            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+            # Added by ROhan kansari - 23/7/23 
+            # Reason - To send updated order detail data
+            # return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+            return Response({"msg": "Saved Successfully","orderData":orderDetailSerailizer.data}, status=status.HTTP_201_CREATED)
         return Response({"error": orderDetailSerailizer.errors}, status=status.HTTP_400_BAD_REQUEST)
    
 """

@@ -105,19 +105,30 @@ const TodayOrder = () => {
         localStorage.setItem("selectedTab", "Newly_placed");
     //    End of code - Rohan kansari - 23/6/23
 
+
+    // Uses - this all is saving data on pending order newly placed order and completed order separatly
     const [todaysPendingOrder, setPendingOrders] = useState(null)
     const [todaysCompletedOrder, setCompletedOrders] = useState(null)
-    const [popupOpen, setPopupOpen] = useState(false)
     const [newlyPlaced, setNewlyPlacedOrders] = useState(null)
-    var [orderItemList, setOrderItem] = useState(null)
-    var updatedStatus = useRef({ value: [] })
-    // Added by Rohan kansari - 15/7/23 - To save order detail selected value
-    var OldOrdervalue = useRef({ value: {} })
-    var [selectedOrder, setSelectedOrder] = useState([])
-    var selectedItemArr = useRef({ items: [] })
 
-    // Added by Rohan kansari - 3/7/23 - To save old order 
-    const [selectedOrderData, setSelectedorderData] = useState({ Value: [] })
+    // Uses - this state save to show where more button popup is opened or not
+    const [popupOpen, setPopupOpen] = useState(false)
+    // uses - all order item of all order is saved here You can extract selected items from order_id
+    var [orderItemList, setOrderItem] = useState(null)
+
+    // Uses - saving current database order item status here and pushing only required field only
+    var updatedStatus = useRef({ value: [] })
+
+    // Added by Rohan kansari - 15/7/23 - To save order detail database value 
+    var OldOrdervalue = useRef({ value: {} })
+
+    // Uses - Set checked order row in this use state ( multiple selection together data) 
+    var [selectedOrder, setSelectedOrder] = useState([])
+
+    // var selectedItemArr = useRef({ items: [] })
+
+    // Added by Rohan kansari - 3/7/23 - To save selected order details
+    const [selectedOrderData, setSelectedorderData] = useState({ })
     // End of code - Rohan kansari - 3/7/23
 
     // Added by Suman sahu - 11/06/2023
@@ -145,7 +156,7 @@ const TodayOrder = () => {
 
 
 
-
+    // This state is use for table number is editable or not
     const [inputEnable, setInputEnable] = useState(null)
 
     // Added by ROhan kansari - 20/7/23 
@@ -187,6 +198,11 @@ const TodayOrder = () => {
     const [rating, setRating] = useState(null);
     const [review, setReview] = useState(null);
 
+    // Added by Rohan kansari - 23/7/23 
+    // Reason - To add Loyality price 
+    const [errorText,setErrorText]=useState({})
+    // End of code - Rohan Kansari - 23/7/23 
+
     // End of code - Rohan kansari - 20/7/23 - Getting all thing of order and setting it all in use state for on change
 
 
@@ -218,6 +234,8 @@ const TodayOrder = () => {
 
     }, [])
 
+
+    // this function is used to get all today's updated order from backend
     async function BackendCall() {
 
         const response = await getDashboardData(JSON.parse(localStorage.getItem("tenantInfo")).tenant_name);
@@ -258,6 +276,8 @@ const TodayOrder = () => {
     }
 
 
+    // uses - This function is call at time of status change and it will allow to move 
+    // step by step If not then it pass an error
     function statusValidation(orderStatus, paymentStatus, m) {
         // Modified by ROhan Kansari - 26/5/23
         // Reason - To pass validion message if served is not done done payment want to completed by admin
@@ -518,17 +538,10 @@ const TodayOrder = () => {
     // };
     // end of addition by suman sahu on 10/06/2023
 
+    // Uses - Check whether current data is doesnt equal to old one and then call update method to change order item
     function orderItemModel(filteredOrderItemList, i) {
 
-        // updatedStatus.current.value = []
-
-        // filteredOrderItemList?.filter(e => updatedStatus.current.value.push(e.item_status))
-        // added by - suman sahu on 10/06/2023
-        // reason - for call that function in the antd modal
-
-        // Modified by ROhan kansari - 15/7/23 
-        // Reason - To check wheteher any status changed on button hit
-        console.log(OldOrdervalue.current.value, filteredOrderItemList)
+        // Uses - Check wheter your old data is not equal to current changed data
         if (JSON.stringify(JSON.parse(OldOrdervalue.current.value).order_item) == JSON.stringify(filteredOrderItemList)) {
             Message("No changes detected", "error")
         }
@@ -536,69 +549,14 @@ const TodayOrder = () => {
             updatedStatus.current.value = []
             updateStatus(filteredOrderItemList);
         }
-        // end of addition by - suman sahu on 10/06/2023
-
-
-
-
-        // commented by - suman sahu On 10/06/2023
-        // reason - change that popup to antd modal (when click on table no. data in the dashbord)
-
-        // function resetingSelectbox() {
-        //     // This is to reseting the all value of select box on closing without updating
-        //     var option = document.querySelectorAll("select option");
-        //     for (var i = 0; i < option.length; i++) {
-        //         option[i].selected = option[i].defaultSelected;
-        //         if (filteredOrderItemList[i])
-        //             filteredOrderItemList[i].item_status = updatedStatus.current.value[i];
-        //     }
-
-        //     // Reseting end code
-        // }
-
-        // if (popupOrderItem)
-        //     return <div className={style.popupItemContainer}>
-        //         <div className={style.closeContainer}><button className={style.closeBtn} onClick={e => {
-        //             setPopupOrderItem(false);
-        //             resetingSelectbox()
-        //         }}><AiOutlineClose /></button></div>
-        //         Added by ROhan kansari - 29/5/23
-        //             Reason - To add overflow div and set max height of parent 300px
-        //         <div className={style.itemlist}>
-        //             {filteredOrderItemList?.map((orderItem, i) => (
-        //                 <div key={i} className={style.itemListContainer}>
-        //                     <div className={style.title}>{i + 1 + ". "}{orderItem.item}</div>
-        //                     <div className={style.itemStatusContainer} >
-        //                         <label className={style.lable}>Item Status</label>
-        //                         <div className={style.selctedContentBox}>
-        //                             <select defaultValue={orderItem.item_status} onChange={e => { filteredOrderItemList[i].item_status = e.target.value }} id="payment_status_selected">
-        //                                 <option className={style.options} value="Pending">Pending</option>
-        //                                 <option className={style.options} value="Confirm">Confirm</option>
-        //                             </select>
-        //                         </div>
-        //                     </div>
-        //                 </div>
-
-        //             ))}
-        //         </div>
-        //         End of addition - Rohan kansari - 29/5/23
-        //         <div className={style.itemStatusContainer}>
-        //             <div className={style.selectionContainer}>
-        //                 <button className={style.btnUpdate} onClick={e => { updateStatus(); }}>Update</button>                                    {/* <div className={style.selctedContentBox}>Pending<div className={style.icon}>{">"}</div></div> */}
-        //             </div>
-        //             <div className={style.selectionContainer}>
-        //                 <button className={style.btnUpdate} onClick={e => {  resetingSelectbox(); setPopupOrderItem(false); }}>Cancel</button>
-        //             </div>
-        //         </div>
-        //     </div>
-
-        // end of commentation on 10/06/2023 by suman sahu
+    
 
     }
 
 
 
 
+    // Uses this function updated all item chnages and resetting all updated value from backend
     async function updateStatus(filteredOrderItemList) {
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
@@ -607,6 +565,7 @@ const TodayOrder = () => {
             var newOrderItemList = []
 
             r.order_items.filter(e => {
+
                 updatedStatus.current.value.push({ "quantity": e.quantity, "item_status": e.item_status, "price": e.price });
                 /**
                  * Commented and modified by - Ashish Dewangan on 18-06-2023
@@ -616,6 +575,9 @@ const TodayOrder = () => {
                 // Modified by Rohan Kansari- 24/6/23
                 // Reason - To get updated value before it is setting old values 
                 // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
+
+                // uses - setting other order_id order item first then setting updated order_item which we got from backend 
+                // So old data will also not affected and new data is also get
                 newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
                 ...orderItemList.filter(o => { if (o.id == e.id) return o.item_status = e.item_status })]
                 //  ENd of code - ROhan Kansari - 24/6/23
@@ -655,9 +617,9 @@ const TodayOrder = () => {
             //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
 
 
-            updatedStatus.current.value=[]
+            updatedStatus.current.value = []
 
-            newOrderItemList.filter(i => {if(i.order_id == order.order_id){updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id=orderDetailsObj.order_id; }})
+            newOrderItemList.filter(i => { if (i.order_id == order.order_id) { updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id = orderDetailsObj.order_id; } })
 
 
             OldOrdervalue.current.value = JSON.stringify(
@@ -668,10 +630,16 @@ const TodayOrder = () => {
                     }
                 }
             )
+            // Added by ROhan kansari - 23/7/23
+            // Reason - To save updated order in orderdetail state and all other prices
+            UpdatingOpenedOrder(order)
+
+            // End of code - Rohan kansari - 23/7/23
             // End of code - 25/6/23 - ROhan kansari 
             setOrderItem(newOrderItemList)
+
             // Modified by ROhan kansari - 26/6/23 - to delete persist data
-            selectedItemArr.current.items = []
+            // selectedItemArr.current.items = []
 
             // Modified by Rohan Kansari- 24/5/23
             // Reason - Select box is not updated 
@@ -1199,38 +1167,38 @@ const TodayOrder = () => {
 
     // Added by ROhan kansari - 26/6/23
     // Reason - to restore old selected value in state
-    function oldStatusReverting() {
-        console.log(selectedItemArr)
-        var tempOrderItemList = orderItemList;
-        selectedItemArr.current.items.filter(e => {
-            var index = orderItemList.findIndex(o => o.id == e.id)
-            tempOrderItemList[index].item_status = e.status
-        })
-        setOrderItem([...tempOrderItemList])
+    // function oldStatusReverting() {
+    //     console.log(selectedItemArr)
+    //     var tempOrderItemList = orderItemList;
+    //     selectedItemArr.current.items.filter(e => {
+    //         var index = orderItemList.findIndex(o => o.id == e.id)
+    //         tempOrderItemList[index].item_status = e.status
+    //     })
+    //     setOrderItem([...tempOrderItemList])
 
-        selectedItemArr.current.items = []
+    //     selectedItemArr.current.items = []
 
-        //    selectedItemArr)
-    }
+    //     //    selectedItemArr)
+    // }
     // End of code - Rohan kansari - 26/6/23
 
     // Added by ROhan kansari - 3/7/23
     // Reason - to restore old selected value in state
-    function oldOrderDataReverting() {
-        console.log(selectedOrderData.current.order[0].order_status)
-        if (selectedOrderData.current.order.length > 0) {
-            var index = selectedOrder.findIndex(e => e.id == selectedOrderData.current.order[0].id)
-            selectedOrder[index].order_status = selectedOrderData.current.order[0].order_status;
-            selectedOrder[index].payment_status = selectedOrderData.current.order[0].payment_status;
-            setSelectedOrder([...selectedOrder])
+    // function oldOrderDataReverting() {
+    //     console.log(selectedOrderData.current.order[0].order_status)
+    //     if (selectedOrderData.current.order.length > 0) {
+    //         var index = selectedOrder.findIndex(e => e.id == selectedOrderData.current.order[0].id)
+    //         selectedOrder[index].order_status = selectedOrderData.current.order[0].order_status;
+    //         selectedOrder[index].payment_status = selectedOrderData.current.order[0].payment_status;
+    //         setSelectedOrder([...selectedOrder])
 
-            selectedOrderData.current.order = []
-        }
-
-
+    //         selectedOrderData.current.order = []
+    //     }
 
 
-    }
+
+
+    // }
 
     // End of code - Rohan kansari - 3/7/23
 
@@ -1258,12 +1226,16 @@ const TodayOrder = () => {
     function increaseAndDecrease(sign, index, orderId) {
         if (sign == "-") {
             if (selectedOrderData.order_item[index].quantity != 1) {
+                // It will decrease value first then
                 selectedOrderData.order_item[index].quantity = --selectedOrderData.order_item[index].quantity
+                // getting price from updated quantity and price of one item of product
                 selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
                     (selectedOrderData.order_item[index].quantity + 1)) *
                     selectedOrderData.order_item[index].quantity
                 var subtotal = 0
+                // Only get prices of item which is not cancelled
                 selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+                // then set ypdated subtotal into order detail
                 selectedOrderData.order_detail.sub_total = subtotal
                 setSelectedorderData({
                     ...{
@@ -1273,6 +1245,7 @@ const TodayOrder = () => {
                 })
             }
         } else {
+            // Uses - same goes for increasing value
             selectedOrderData.order_item[index].quantity = ++selectedOrderData.order_item[index].quantity
             selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
                 (selectedOrderData.order_item[index].quantity - 1)) *
@@ -1305,6 +1278,8 @@ const TodayOrder = () => {
 
     // End of code - ROhan kansari - 15/7/23
 
+    // Uses - update form data which consist discount in rupees, in percentage , loyalty point 
+    // , cancel reason, discount reason 
     async function UpdateorderDetail() {
 
         const updatedOrderData = new FormData();
@@ -1312,25 +1287,25 @@ const TodayOrder = () => {
         updatedOrderData.append("id", selectedOrderData.order_detail.id);
 
         // Added by Rohan kansari - 30/6/23 - To update table no. also
-        updatedOrderData.append("table_number", selectedOrderData.order_detail.table_number);
-        updatedOrderData.append("discount_rupees", selectedOrderData.order_detail.discount_rupees);
-        updatedOrderData.append("discount_percentage", selectedOrderData.order_detail.discount_percentage);
-        updatedOrderData.append("apply_loyality_point", selectedOrderData.order_detail.apply_loyality_point);
-        updatedOrderData.append("order_status", selectedOrderData.order_detail.order_status);
-        updatedOrderData.append("payment_status", selectedOrderData.order_detail.payment_status);
-        updatedOrderData.append("cancelled_by", selectedOrderData.order_detail.cancelled_by);
-        updatedOrderData.append("cancel_reason", selectedOrderData.order_detail.cancel_reason);
-        updatedOrderData.append("discount_reason", selectedOrderData.order_detail.discount_reason);
-
+        updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
+        updatedOrderData.append("discount_rupees", discountprice);
+        updatedOrderData.append("discount_percentage", discountPercentage);
+        updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
+        updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
+        updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
+        updatedOrderData.append("cancelled_by", cancelledBy);
+        updatedOrderData.append("cancel_reason", cancelReaon);
+        updatedOrderData.append("discount_reason", discountReason);
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
         if (response.msg) {
-            Message("Table number saved successfully.", "success");
+            Message("order detail saved successfully.", "success");
+            UpdatingOpenedOrder(response.orderData)
             OldOrdervalue.current.value = JSON.stringify(
                 {
                     ...{
-                        "order_detail": selectedOrderData.order_detail
+                        "order_detail": response.orderData
                         , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
                     }
                 }
@@ -1341,6 +1316,42 @@ const TodayOrder = () => {
 
     }
 
+
+    // Uses - this only update table table and sending all old data
+    async function updateTableNumberOnly() {
+        const updatedOrderData = new FormData();
+
+        updatedOrderData.append("id", selectedOrderData.order_detail.id);
+
+        // Added by Rohan kansari - 30/6/23 - To update table no. also
+        updatedOrderData.append("table_number", tablenumber);
+        updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
+        updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
+        updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
+        updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
+        updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
+        updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+        updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
+        updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
+
+
+        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+        const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+        if (response.msg) {
+            Message("Table number saved successfully.", "success");
+            UpdatingOpenedOrder(response.orderData)
+            OldOrdervalue.current.value = JSON.stringify(
+                {
+                    ...{
+                        "order_detail": response.orderData
+                        , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
+                    }
+                }
+            )
+        } else {
+            Message("Something went wrong", "error");
+        }
+    }
 
     // Added by ROhan kansari - 20/7/23
     // Reason - To add all order object data in their usestate to perform on change functionality
@@ -1357,7 +1368,7 @@ const TodayOrder = () => {
         setCancelledBy(data.cancelled_by);
         setCancelReason(data.cancel_reason);
         setDiscountRupee(data.discount_rupees);
-        setDiscountprice(data.discount_rupees)
+        setDiscountprice(data.discount_rupees);
         setDiscountPercentage(data.discount_percentage);
         setDiscountReason(data.discount_reason);
         setApplyLoyalityPoint(data.apply_loyality_point);
@@ -1365,7 +1376,6 @@ const TodayOrder = () => {
         setLoyalityPointStatus(data.loyality_point_status);
         setLoyalityPointCalculated(data.loyality_point_calculated);
         setcustomerLoyalitypoint(data.customer_loyality_point);
-
         setSubTotal(data.sub_total);
         setCGST(data.cgst);
         setSGST(data.sgst);
@@ -1380,42 +1390,49 @@ const TodayOrder = () => {
         setAddMoreItemModalVisible(false);
     };
 
-    useEffect(()=>{
 
-        console.log(selectedOrderItemList,orderDetailsObj)
-        if(selectedOrderItemList.length>0){
+    // This is used for setting added item in list so, reseting with updated value in all required variable
+    useEffect(() => {
 
-            
-        BackendCall()
-
-        setSelectedorderData({...{
-            "order_detail": orderDetailsObj
-            , "order_item": selectedOrderItemList
-        }})
-
-        OldOrdervalue.current.value=JSON.stringify(
-            {
-                "order_detail": orderDetailsObj
-                , "order_item": selectedOrderItemList
-            }
-        )
-
-        updatedStatus.current.value=[]
-
-        selectedOrderItemList.filter(i => {updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id=orderDetailsObj.order_id; })
+        if (selectedOrderItemList.length > 0) {
 
 
-        setOpenActionPopupModal(
-            {...{
-                "order_detail": orderDetailsObj
-                , "order_item": selectedOrderItemList
-            }
-            }
-        )
+            BackendCall()
 
-    }
+            // setting selected order with new data
+            setSelectedorderData({
+                ...{
+                    "order_detail": orderDetailsObj
+                    , "order_item": selectedOrderItemList
+                }
+            })
 
-    },[selectedOrderItemList])
+            // Setting datas for containing json string we will not updating in 
+            // on change till we dosent get update value from backend
+            OldOrdervalue.current.value = JSON.stringify(
+                {
+                    "order_detail": orderDetailsObj
+                    , "order_item": selectedOrderItemList
+                }
+            )
+
+            // All containing status we goes blank because we need updated status according to new added item
+            updatedStatus.current.value = []
+            selectedOrderItemList.filter(i => { updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id = orderDetailsObj.order_id; })
+
+
+            setOpenActionPopupModal(
+                {
+                    ...{
+                        "order_detail": orderDetailsObj
+                        , "order_item": selectedOrderItemList
+                    }
+                }
+            )
+
+        }
+
+    }, [selectedOrderItemList])
 
 
     // ENd of code - ROhan kansari - 20/7/23
@@ -1425,20 +1442,175 @@ const TodayOrder = () => {
     // Added by ROhan kansari -21/7/23
     // Reason - adding status method to get status frequently
 
-    function getOrderStatus(){
+    function getOrderStatus() {
         console.log(selectedOrderData)
-       if(selectedOrderData?.order_detail?.order_status!="Cancelled"
-          && selectedOrderData?.order_detail?.payment_status=="Pending")
-       {
-        return true;
-       }
-       else {
-        return false;
-       }
+        if (selectedOrderData?.order_detail?.order_status != "Cancelled"
+            && selectedOrderData?.order_detail?.payment_status == "Pending") {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     // ENd of code - Rohan kansari - 21/7/23
 
+
+    // Added by ROhan kansari - 23/7/23 
+    // Reason - to validate discount rupees and percantage
+    function inputIvalidationDiscountRupees(e) {
+        var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
+        console.log(e.target.value)
+        
+        if (e.target.value.length > 0 && e.target.value<subTotal && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
+            setTotal(subtotal - e.target.value - loyalityPointPrice)
+            var discount_percentage = e.target.value / (subtotal / 100)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            setDiscountPercentage(discount_percentage.toFixed(2))
+            // we are using this for setting max decimal till 2 decimal point 
+            setDiscountRupee(e.target.value.indexOf(".") >= 0 ? e.target.value.slice(0, e.target.value.indexOf(".") + 3) : e.target.value)
+            setDiscountprice(parseFloat(e.target.value))
+            errorText["discount_price"]=""
+            setErrorText({...errorText})
+            document.getElementById("discount_rupees").style.border="1px solid black"
+            document.getElementById("discount_percentage").style.border="1px solid black"
+
+        }
+        else if (e.target.value.length == 0) {
+            var discount_percentage = 0.00
+            setDiscountRupee("")
+            setDiscountprice(0.00)
+            setDiscountPercentage(0.00)
+            setTotal(subtotal - 0 - loyalityPointPrice)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            errorText["discount_price"]="Discount price sould not blank"
+            setErrorText({...errorText})
+
+            document.getElementById("discount_rupees").style.border="1px solid red"
+        }
+        else if (! /^\d+$/.test(e.target.value)) {
+            errorText["discount_price"]="Discount price sould always in digit"
+            setErrorText({...errorText})
+            document.getElementById("discount_rupees").style.border="1px solid red"
+        }
+        else if(e.target.value>subTotal){
+            errorText["discount_price"]="Discount price sould not greater than subtotal"
+            setErrorText({...errorText})
+            document.getElementById("discount_rupees").style.border="1px solid red"
+        }
+    }
+
+    function inputValidationDiscountPercentage(e) {
+        var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
+        
+        if (e.target.value.length > 0 && e.target.value < 101 && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
+            var discount_percentage = e.target.value * (subtotal / 100)
+            setTotal(subtotal - discount_percentage - loyalityPointPrice)
+
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            setDiscountPercentage(e.target.value)
+            setDiscountRupee(discount_percentage.toFixed(2))
+            setDiscountprice(parseFloat(discount_percentage))
+            document.getElementById("discount_percentage").style.border="1px solid black"
+            document.getElementById("discount_rupees").style.border="1px solid black"
+            errorText["discount_price"]=""
+            setErrorText({...errorText})
+        }
+        else if (e.target.value.length == 0) {
+            var discount_percentage = 0.00
+            setDiscountRupee(0)
+            setDiscountprice(0.00)
+            setDiscountPercentage("")
+            setTotal(subtotal - 0 - loyalityPointPrice)
+            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + sgst + cgst)
+            document.getElementById("discount_percentage").style.border="1px solid red"
+            errorText["discount_price"]="Discount price sould not blank"
+            setErrorText({...errorText})
+        }
+        else if (! /^\d+$/.test(e.target.value)) {
+            errorText["discount_price"]="Discount price sould always in digit"
+            setErrorText({...errorText})
+            document.getElementById("discount_percentage").style.border="1px solid red"
+        }
+        else if(e.target.value>100){
+            errorText["discount_price"]="Discount price sould not be greater than 100%"
+            setErrorText({...errorText})
+            document.getElementById("discount_percentage").style.border="1px solid red"
+
+        }
+    }
+
+    function validateLoyalityPoint(e){
+        // if(e.target.value.length<applyLoyalityPoint.length){
+        //     // console.log(applyLoyalityPoint[applyLoyalityPoint.length-1])
+        //     setcustomerLoyalitypoint(parseInt(customerLoyalitypoint)+parseInt(applyLoyalityPoint[applyLoyalityPoint.length-1]))
+        // }
+        var loyality_price= settings.per_loyality_point_value * e.target.value
+        var customer_earn=parseInt(customerLoyalitypoint)+JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point
+        if(e.target.value>0 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value<customer_earn+1 && loyality_price < subTotal+1)
+        {setApplyLoyalityPoint(e.target.value)
+        var loyalityPrice = settings.per_loyality_point_value * e.target.value
+        setLoyalityPointPrice(loyalityPrice)
+        setTotal(subTotal - loyalityPrice - discountprice)
+        setFinalAmount(subTotal - loyalityPointPrice - discountprice + sgst + cgst)
+        errorText["loyality_point"]=""
+            setErrorText({...errorText})
+           
+        }
+        else if (e.target.value.length==0){
+            setApplyLoyalityPoint("")
+            var loyalityPrice = settings.per_loyality_point_value * e.target.value
+            setLoyalityPointPrice(loyalityPrice)
+            setTotal(subTotal - loyalityPrice - discountprice)
+            setFinalAmount(subTotal - loyalityPointPrice - discountprice + sgst + cgst)
+
+        }
+        else if (! /^\d+$/.test(e.target.value)) {
+            errorText["loyality_point"]="loyality point sould always in digit"
+            setErrorText({...errorText})
+        }
+       
+        else if(e.target.value>customer_earn){
+            errorText["loyality_point"]="loyality point sould not be less then earn point"
+            setErrorText({...errorText})
+        }
+        else if(loyality_price >= subTotal+1){
+            errorText["loyality_point"]="loyality point sould not be less then sub-total"
+            setErrorText({...errorText})
+        }
+
+    }
+                                                
+
+    // ENd of code - Rohan kansari - 21/7/23 
+
+
+    function settingClickedData(data){
+         // Sending all datas in openActionPopupModel variable
+         setOpenActionPopupModal({
+            ...{
+                "order_detail": data
+                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+            }
+        });
+
+        setPopupOpen(true);
+
+        // This line will push Original status in array and change only when update Order Item COmes from backend
+        OldOrdervalue.current.value = JSON.stringify({
+            "order_detail": data
+            , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+        })
+
+        // This state contain selected order item and sending in add mor eitem for new updation 
+        setSelectedOrderItemList(orderItemList.filter(i => i.order_id == data.order_id))
+
+        // Updating  order item status in useRef state for save unchanged data for reverting value
+        orderItemList.filter(i => { if (i.order_id == data.order_id) return updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }) })
+
+        // Setting all order data seperatly in each usestate
+        UpdatingOpenedOrder(data)
+    }
 
 
     return (
@@ -1562,28 +1734,7 @@ const TodayOrder = () => {
                                     <button className={style.printBtn}>More</button></div> */}
 
                                     <div className={style.columnData7}
-                                        onClick={e => {
-                                            // Sending all datas in openActionPopupModel variable
-                                            setOpenActionPopupModal({
-                                                ...{
-                                                    "order_detail": data
-                                                    , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-                                                }
-                                            });
-
-                                            setPopupOpen(true);
-                                            // This line will push Original status in array and change only when update Order Item COmes from backend
-                                            OldOrdervalue.current.value = JSON.stringify({
-                                                "order_detail": data
-                                                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-                                            })
-
-                                            setSelectedOrderItemList(orderItemList.filter(i => i.order_id == data.order_id))
-
-                                            orderItemList.filter(i => { if (i.order_id == data.order_id) return updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }) })
-
-                                            UpdatingOpenedOrder(data)
-                                        }}><button className={style.printBtn}>More</button>
+                                        onClick={e => {settingClickedData(data)}}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
                                     {/* end of modification on 12/06/2023 */}
@@ -1747,19 +1898,19 @@ const TodayOrder = () => {
                 {/* Modified by Rohan kansari- 11/7/23 
                     Reason - New Ui changes and Functionality  */}
                 <Modal open={popupOpen}
-                afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
-                } 
+                    afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
+                    }
 
-                onCancel={e => {
+                    onCancel={e => {
 
-                    BackendCall()
-                    updatedStatus.current.value = []
-                    OldOrdervalue.current.value = {}
-                    closePopupOpen();
-                    // oldOrderDataReverting() 
-                }}
+                        BackendCall()
+                        updatedStatus.current.value = []
+                        OldOrdervalue.current.value = {}
+                        closePopupOpen();
+                        // oldOrderDataReverting() 
+                    }}
 
-                    style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw",padding:"0"}}
+                    style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw", padding: "0" }}
                     // width="60vw"
                     footer={null} className={style.modalContainer} closeIcon={<AiOutlineClose />}>
                     {popupOpen ? <div className={style.popupContainer}>
@@ -1779,7 +1930,7 @@ const TodayOrder = () => {
 
                                                 <input className={style.EditableInput} onKeyUp={e => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
-                                                        UpdateorderDetail(); setInputEnable(null);
+                                                        updateTableNumberOnly(); setInputEnable(null);
                                                     }
                                                 }
 
@@ -1793,11 +1944,10 @@ const TodayOrder = () => {
                                                         setSelectedorderData({ ...selectedOrderData })
                                                         setInputEnable(null)
                                                     }}
-
                                                     maxLength={6}
                                                 />
                                                 <TiTick className={style.inputChecked} onClick={e => {
-                                                    UpdateorderDetail(); setInputEnable(null);
+                                                    updateTableNumberOnly(); setInputEnable(null);
                                                 }} />
 
                                             </>
@@ -1884,6 +2034,9 @@ const TodayOrder = () => {
                             <div className={style.orderItemContainer}>
                                 <div style={{ width: "100%", overflow: "auto" }}>
                                     <div className={style.orderItemHeader}>
+                                        <div className={style.priceHeading} style={{ marginLeft: "30px" }}>
+                                            SNo.
+                                        </div>
                                         <div className={style.item_heading}>
                                             Item Name
                                         </div>
@@ -1929,17 +2082,17 @@ const TodayOrder = () => {
                                                         style.pointer_event
                                                         :
                                                         null}`} >
-                                                            
+
                                                         <div className={style.checkboxNTitleFlex} >
 
-                                                        
+
                                                             <div class="checkbox-wrapper-24">
                                                                 <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
                                                                 <label for={`status0${index}`}>
                                                                     <span></span>
                                                                 </label>
                                                             </div>
-                                                            <div className={style.title}>{item.item} ({item.serving_size})</div>
+                                                            <div className={style.title}><div className={style.index}>{index}. </div> {item.item} ({item.serving_size})</div>
                                                         </div>
                                                         <div className={style.quantityNPriceFlex}>
                                                             <div className={style.quantity}>
@@ -2037,45 +2190,55 @@ const TodayOrder = () => {
 
 
                             <div className={style.UpdateItemContainer}>
-                                <button className={`${style.UpdateItemBTN} ${getOrderStatus()?null:style.disbaleBtn}`} onClick={e => setAddMoreItemModalVisible(true)} disable={!getOrderStatus()}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
+                                <button className={`${style.UpdateItemBTN} ${getOrderStatus() ? null : style.disbaleBtn}`} onClick={e => setAddMoreItemModalVisible(true)} disable={!getOrderStatus()}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
                                 <div className={style.WhiteLabel} style={{ textAlign: "end", width: "40%", padding: "8px 0" }}>Subtotal : {selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
                             </div>
 
                             <div className={style.TotalContainer}>
+                            <div className={style.PricingContainer}>
                                 <div className={style.DiscountNCancelSection}>
                                     <div className={style.inputContainerFlex}>
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Discount </label>
                                             <div className={style.flexDoubleInput}>
-                                                <div className={style.Column}>
-                                                    <label className={style.subInputLabel}>( In ₹ ) </label>
-                                                    {/* Added by Rohan kansari - 21/7/23
-                                                        Reason - Discount rupees functionality added */}
-                                                    <input id="discount_rupees" className={style.inputBox} value={discountRupee}
-                                                     onChange={e=>{
-                                                           if(e.target.value>subTotal)
-                                                            {
-                                                              
-                                                            }else{
+                                                <div className={style.discountColumn}>
+                                                    <div className={style.discountRow}>
+                                                        <div className={style.Column}>
+                                                            <label className={style.subInputLabel}>( In ₹ ) </label>
+                                                            {/* Added by Rohan kansari - 21/7/23
+                                                                Reason - Discount rupees functionality added */}
+                                                            <input id="discount_rupees" type="text" className={style.inputBox} value={discountRupee}
+                                                                onChange={e => {
+                                                                    inputIvalidationDiscountRupees(e)
+                                                                    // console.log(parseFloat(e.target.value))
+                                                                }} />
+                                                        </div>
+                                                        <div className={style.Column}>
+                                                            <label className={style.subInputLabel}>( In % ) </label>
+                                                            <input id="discount_percentage" className={style.inputBox} value={discountPercentage}
+                                                                onChange={e => {
+                                                                    inputValidationDiscountPercentage(e)
+                                                                }} />
+                                                        </div>
 
-                                                            }
-                                                     }} />
-                                                </div>
-                                                <div className={style.Column}>
-                                                    <label className={style.subInputLabel}>( In % ) </label>
-                                                    <input id="discount_percentage" className={style.inputBox} value={discountPercentage}/>
+                                                    </div> 
+                                                    <div className={style.errorText}>{errorText.discount_price?errorText.discount_price:null}</div>
                                                 </div>
                                                 <div className={style.loyalityColumn} >
                                                     <label className={style.subInputLabel}>Apply Loyalty Point </label>
-                                                    <input className={style.inputBox} value={applyLoyalityPoint}/>
+                                                    <input className={style.inputBox} value={applyLoyalityPoint}
+                                                        onChange={e => { validateLoyalityPoint(e) }}
+                                                    />
+                                                    <div className={style.errorText}>{errorText.loyality_point?errorText.loyality_point:null}</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className={style.inputBoxContainer} style={{ alignItems: "center", justifyContent: "center" }}>
+                                        <div className={style.inputBoxContainer} >
+                                         <div className={style.discountRow} style={{justifyContent:"space-between"}}>
                                             <div className={style.rewardbox}>
-                                                Customer Earn Point
+                                                Earn Point &nbsp;
                                                 <div className={style.coinBox}>
-                                                    <div>{customerLoyalitypoint}</div>
+                                                    <div className={style.cointPoints}>{customerLoyalitypoint}</div>
                                                     <div class="spinningasset coin is-sm">
                                                         <div>
                                                             <div></div>
@@ -2094,41 +2257,86 @@ const TodayOrder = () => {
                                                             <em></em>
                                                             <div></div>
                                                         </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className={style.loyalityColumn} >
+                                                <label className={style.subInputLabel}>Cancelled By </label>
+                                                <select
+                                                    id="cancelled_by" 
+                                                    className={style.inputBox}
+                                                    name="cancelled_by"
+                                                    onChange={(e) => {
+                                                        setCancelledBy(e.target.value);
+                                                    }}
+                                                    >
+                                                    <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
+                                                    <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
+
+                                                    </select>
+                                            </div>
+                                        </div>
+                                        </div>
                                     </div>
 
                                     <div className={style.inputContainerFlex}>
                                         <div className={style.inputBoxContainer}>
-                                            <label className={style.InputLabel}>Cancel Reason </label>
-                                            <textarea className={style.TextInputBox} value={cancelReaon}/>
+                                            <label className={style.InputLabel} >Cancel Reason </label>
+                                            <textarea className={style.TextInputBox} value={cancelReaon} onChange={e=>setCancelReason(e.target.value)}/>
                                         </div>
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Discount Reason </label>
-                                            <textarea className={style.TextInputBox} value={discountReason}/>
+                                            <textarea className={style.TextInputBox} value={discountReason} onChange={e=>setDiscountReason(e.target.value)}/>
                                         </div>
                                     </div>
 
                                     <div className={style.inputContainerFlex}>
                                         <div className={style.inputBoxContainer}>
-                                            <label className={style.InputLabel}></label>
+                                            <label className={style.InputLabel} />
                                         </div>
                                         <div className={style.UpdateDIscountBtn}>
-                                            <button className={style.ApplyBtn}>Apply</button>
+                                            <button className={style.ApplyBtn} onClick={e => UpdateorderDetail()}>Apply</button>
                                         </div>
                                     </div>
 
                                 </div>
 
+                                <div className={style.pricingContent}>
+                                            <div className={style.priceInformation}>
+                                                <label className={style.InputLabel}>Loyality Price :- </label>
+                                                <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
+                                            </div>
+                                            <div className={style.priceInformation}>
+                                                <label className={style.InputLabel}>Discount Price :- </label>
+                                                <label className={style.InputLabel}>{discountprice.toFixed(2)}</label>
+                                            </div>
+                                            <div className={style.priceInformation} >
+                                                <label className={style.InputLabel}></label>
+                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
+                                            </div>
+                                            <div className={style.priceInformation}>
+                                                <label className={style.InputLabel}>Cgst :- </label>
+                                                <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
+                                            </div>
+                                            <div className={style.priceInformation}>
+                                                <label className={style.InputLabel}>Sgst :- </label>
+                                                <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
+                                            </div>
+                                            <div className={style.priceInformation}>
+                                                <label className={style.InputLabel}></label>
+                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
+                                            </div>
+                                        </div>
+                                </div>
+
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
                                 <div className={style.OrderstatusBtnContainer}>
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button className={`btn-right ${orderStatus=="Placed"?'activeStatusBtn':null}`}><a href="#">Placed</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus=="Confirm"?'activeStatusBtn':null}`}><a href="#">Confirm</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus=="Cooked"?'activeStatusBtn':null}`}><a href="#">Cooked</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus=="Served"?'activeStatusBtn':null}`}><a href="#">Served</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}><a href="#">Placed</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}><a href="#">Confirm</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}><a href="#">Cooked</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Served" ? 'activeStatusBtn' : null}`}><a href="#">Served</a></button></p>
                                     </div>
                                     <button className={style.orderCancelBtn} >Cancel</button>
                                 </div>
@@ -2137,43 +2345,45 @@ const TodayOrder = () => {
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
                                         <p><button class="btn-right"><a href="#">Pending</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus=="Completed"?'activeStatusBtn':null}`}><a href="#">Completed</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Completed" ? 'activeStatusBtn' : null}`}><a href="#">Completed</a></button></p>
                                     </div>
                                 </div>
 
 
                                 <div className={style.PricingContainer}>
                                     <div className={style.inputContainerFlex}>
-                                        <div className={style.pricingContent}>
+                                        {/* Commented by ROhan kansari - 24/7/23
+                                            Reason - position changed  */}
+                                    {/* <div className={style.pricingContent}>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Loyality Price :- </label>
-                                                <label className={style.InputLabel}>{loyalityPointPrice}</label>
+                                                <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Discount Price :- </label>
-                                                <label className={style.InputLabel}>{discountprice}</label>
+                                                <label className={style.InputLabel}>{discountprice.toFixed(2)}</label>
                                             </div>
                                             <div className={style.priceInformation} >
                                                 <label className={style.InputLabel}></label>
-                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total}</label>
+                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Cgst :- </label>
-                                                <label className={style.InputLabel}> {cgst}</label>
+                                                <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Sgst :- </label>
-                                                <label className={style.InputLabel}>{sgst}</label>
+                                                <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
                                             </div>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}></label>
-                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount}</label>
+                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
                                             </div>
-                                        </div>
-
+                                        </div> */}
+                                        {/* End of code - Rohan kansari - 24/7/23 -position changed  */}
                                         <div className={style.PrintNBack}>
                                             <button className={style.ApplyBtn}>Get Bill</button>
-                                            <button className={style.BackBtn} onClick={e=>setPopupOpen(false)}>Close</button>
+                                            <button className={style.BackBtn} onClick={e => setPopupOpen(false)}>Close</button>
                                         </div>
 
                                     </div>
@@ -2209,25 +2419,9 @@ const TodayOrder = () => {
                 {/* end of addition by - suman sahu on 11/06/2023 */}
 
             </div >
-
-
-
-
-            {/* <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                previousLabel="< previous"
-                renderOnZeroPageCount={null}
-            /> */}
-
-            {/*End of code - ROhan Kansari - 26/5/23*/}
         </>
     )
 }
 
 export default TodayOrder
-
 
