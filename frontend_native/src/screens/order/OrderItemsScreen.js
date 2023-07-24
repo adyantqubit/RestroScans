@@ -2062,24 +2062,38 @@ const printKot = async()=>{
 
             {/* End of addition by Yuvraj Sahu on 07-05-2023 */}
 
-            {/* Added by :- Parineeta Gedam on 24-05-2023 
+            {/*  Commented by :- Parineeta Gedam on 23-07-2023  */}
+            {/* Reason :- before AddOrderItemForm open in modal but now open in new pages that's why some objects will be chnage */}
+
+            {/* Added by :- Parineeta Gedam on 23-07-2023 
                 reason :- Add button, when click on button then open a model for add new order item. 
             */}
-            <Modal
+            {/* <Modal
               animationType="slide"
               transparent={true}
               visible={modalVisible}
-            >
+            > */}
               {/* Modified by :- Parineeta Gedam on 29-06-2023 reason :- update discount */}
-              <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} setOrderStatus={setOrderStatus} setDiscountRupees={setDiscountRupees} setDiscountPercentage={setDiscountPercentage} />
+              {/* <AddOrderItemForm orderId={orderDetail.order_id} id={orderDetail.id} modalvisibilityFn={setModalVisible} modalvisibility={modalVisible} setOrderItems={setOrderItems} setOrderDetail={setOrderDetail} setOrderStatus={setOrderStatus} setDiscountRupees={setDiscountRupees} setDiscountPercentage={setDiscountPercentage} /> */}
               {/* End of modified code by :- Parineeta Gedam on 29-06-2023 reason :- update discount  */}
-            </Modal>
+            {/* </Modal> */}
+            {/* End of Commented by :- Parineeta Gedam on 23-07-2023 
+                reason :- Add button, when click on button then open a model for add new order item. 
+            */}
 
             {orderDetail.payment_status == "Completed" || orderDetail.payment_status == "Paid" || orderDetail.order_status == "Cancelled" ?
               null
               : <View style={styles.addOrderItemBtn}>
                 <Pressable
-                  onPress={() => setModalVisible(true)}
+                /* Added by :- Parineeta Gedam on 23-07-2023 
+                  reason :- Add button, when click on button then open a model for add new order item. 
+                */
+                  // onPress={() => setModalVisible(true)}
+                  onPress={() => navigation.navigate("AddOrderItemForm", { orderId: orderDetail.order_id, id:orderDetail.id } )}
+                /* End of Commented by :- Parineeta Gedam on 23-07-2023 
+                reason :- Add button, when click on button then open a model for add new order item. 
+                */
+
                   style={{
                     backgroundColor: colors.btnColor,
                     height: 30,

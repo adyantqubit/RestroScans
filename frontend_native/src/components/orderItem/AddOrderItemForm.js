@@ -512,8 +512,8 @@ export default function AddOrderItemForm({ route, navigation }) {
                                                 backgroundColor: "white",
                                                 width: "94%",
                                                 alignSelf: "center",
-                                                // marginBottom: 10,
-                                                marginBottom: 0
+                                                marginBottom: 10,
+                                                // marginBottom: 0
                                             }}
                                             // End of Added by :- Parineeta Gedam on 23-07-2023 reason :- changes in desiging
 
