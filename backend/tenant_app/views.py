@@ -1787,7 +1787,7 @@ class getCustomerList(APIView):
 # End of getting customer list
 """
 End of getting all customers
-"""
+""" 
 
 # Added by Om Shrivastava on 03-05-23 
 # Adding a generate_pdf button
@@ -3632,9 +3632,20 @@ class RestaurantRatingAPI(APIView):
     # Reason - To get count of rating for restaurant
     def get(self,request,tenant):
          ratingCount=RatingReview.objects.all().count() 
+        #  Added by Om Shrivastava on 26-07-23
+        #  Reason : get the rating and review for restaurant
+         allratingData = RatingReview.objects.all()
+         ratingSerializer=RatingReviewSerializer(allratingData, many=True)
+        #  End of addition by Om Shrivastava on 26-07-23
+        #  Reason : get the rating and review for restaurant
          return Response({
             "msg":"success",
             "ratingCount":ratingCount,
+             #  Added by Om Shrivastava on 26-07-23
+             #  Reason : get the rating and review for restaurant
+            "allRatingData":ratingSerializer.data
+             #  End of addition by Om Shrivastava on 26-07-23
+             #  Reason : get the rating and review for restaurant
         })
     # End of code addition by - Om Shrivastava  on 24-07-2023
     # Reason - To get count of rating for restaurant

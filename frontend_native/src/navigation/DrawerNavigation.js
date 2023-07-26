@@ -35,6 +35,7 @@ import ReservationNavigation from "./ReservationNavigation";
 import SocialLinkScreen from "../screens/socialMedia/SocialLinkScreen";
 import { Feather } from "@expo/vector-icons";
 import SocialMediaNavigation from "./SocialMediaNavigation";
+import RatingReviewScreen from "../screens/ratingreview/RatingReviewScreen";
 
 
 export default function DrawerNavigation({ navigation }) {
@@ -371,6 +372,21 @@ export default function DrawerNavigation({ navigation }) {
         }}
       />
       {/* End of adding social media link */}
+
+      {/* Added by Om Shrivastava on 26-07-2023
+      Reason - to show customer list navigation */}
+      <Drawer.Screen
+        name="RatingReviewScreen"
+        component={RatingReviewScreen}
+        options={{
+          drawerLabel: "Rating & Review",
+          title: "Rating & Review",
+          drawerIcon: (config) => (
+            <MaterialCommunityIcons name="account-star" size={20} color="black" />
+          ),
+        }}
+      />
+      {/* End of addition by Om Shrivastava on 26-07-2023 */}
 
       {/* End of addition */}
     </Drawer.Navigator>

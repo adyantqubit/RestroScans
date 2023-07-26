@@ -479,7 +479,7 @@ export const getAllCustomerApi = async (tenant) => {
 /**
  * End of getting all orders
  */
-
+ 
 // Added by Parineeta Gedam  on 24-05-2023
 // Reason - to post added order items
 
@@ -629,3 +629,22 @@ export const getCategoriesAPI = async (tenantId) => {
  * End of code addition by Yuvraj Sahu on 20-07-2023
  * Reason -  To get categories.
  * */ 
+
+/**
+ * Added by Om Shrivastava on 26-07-2023
+ * Reason - to get all rating review for restaurant
+ */
+
+export const getRestaurantRatingReview = async (tenant) => {
+  const response = await API.get(`api/v1/${tenant}/restaurant-rating-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+/**
+ * End of get all rating review for restaurant
+ */
+ 
