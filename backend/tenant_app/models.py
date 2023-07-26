@@ -551,6 +551,13 @@ class Setting(models.Model):
     amount_for_single_loyality_point=models.IntegerField(default=0,null=True,blank=True, verbose_name='Loyality point calculation amount(Rs.)')
     # End of addition 26-05-23
 
+    # Added by :- Parineeta Gedam on 26-07-2023
+    # Reason :- check, which type of discout is apply.
+    DISCOUNT_CHOICES = [('Discount in (₹)', 'Discount in (₹)'),
+               ('Discount in (%)', 'Discount in (%)')]
+    discount_in = models.CharField(max_length=255, choices=DISCOUNT_CHOICES, default="Discount in (₹)")
+    # End of added code by :- Parineeta Gedam on 26-07-2023
+
     def __str__(self):
         return "Setting"
     # Added by Yuvraj Sahu on 29-3-2023
@@ -1207,7 +1214,8 @@ class Order(models.Model):
             # Added by :- Parineeta Gedam on 07-06-2023
             # Reason :- change the flow of calculations because admin can add discount. 
 
-        # Modified code by :- Parineeta Gedam on  30-06-2023 reason :- remove the order refrence
+        # Modified code by :- Parineeta Gedam on  30-06-2023 
+        # reason :- remove the order refrence
         try :
             # orderUpdate = Order.objects.get(order_id=self.order_id)
             sub_total = self.sub_total
@@ -1215,41 +1223,74 @@ class Order(models.Model):
             sgst = self.sgst
             total = self.sub_total + self.cgst + self.sgst
 
+            # Modified by :- Parineeta Gedam on 26-07-2023 
+            # reason :- whatever discount type will be checked by admin, calculations perform by that.
+
             if self.discount_rupees > 0:
-                total = 0  
-                percentage = (self.discount_rupees / self.sub_total) * 100
-                self.discount_percentage = round(float("{:.2f}".format(percentage)), 2)
-                total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                total = float("{:.2f}".format(total))
-                tax = Setting.objects.first()
-                if tax is not None:
-                    if tax.sgst is None:
-                        tax.sgst = 0
-                    if tax.cgst is None:
-                        tax.cgst = 0
-                    cgst = (total*(tax.cgst)/100)
-                    self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                    sgst = (total*(tax.sgst)/100)
-                    self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                    self.total = round(float("{:.2f}".format(total)), 2)
-                    self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
+                # Modified by :- Parineeta Gedam on 26-07-2023 
+                # reason :- whatever discount type will be checked by admin, calculations perform by that.
+                if setting_data.discount_in == "Discount in (₹)" :
+                    total = 0  
+                    percentage = (self.discount_rupees / self.sub_total) * 100
+                    self.discount_percentage = round(float("{:.2f}".format(percentage)), 2)
+                    total =  self.sub_total - self.discount_rupees - self.loyality_point_price
+                    total = float("{:.2f}".format(total))
+                    tax = Setting.objects.first()
+                    if tax is not None:
+                        if tax.sgst is None:
+                            tax.sgst = 0
+                        if tax.cgst is None:
+                            tax.cgst = 0
+                        cgst = (total*(tax.cgst)/100)
+                        self.cgst = round(float("{:.2f}".format(cgst)), 2)
+                        sgst = (total*(tax.sgst)/100)
+                        self.sgst = round(float("{:.2f}".format(sgst)), 2)
+                        self.total = round(float("{:.2f}".format(total)), 2)
+                        self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
+                # Modified by :- Parineeta Gedam on 26-07-2023 
+                # reason :- whatever discount type will be checked by admin, calculations perform by that.
+                else :
+                    total = 0  
+                    rupees = (self.sub_total / 100) * self.discount_percentage
+                    self.discount_rupees = round(float("{:.2f}".format(rupees)), 2)
+                    self.discount_percentage = self.discount_percentage
+                    total =  self.sub_total - self.discount_rupees - self.loyality_point_price
+                    total = float("{:.2f}".format(total))
+                    tax = Setting.objects.first()
+                    if tax is not None:
+                        if tax.sgst is None:
+                            tax.sgst = 0
+                        if tax.cgst is None:
+                            tax.cgst = 0
+                        cgst = (total*(tax.cgst)/100)
+                        self.cgst = round(float("{:.2f}".format(cgst)), 2)
+                        sgst = (total*(tax.sgst)/100)
+                        self.sgst = round(float("{:.2f}".format(sgst)), 2)
+                        self.total = round(float("{:.2f}".format(total)), 2)
+                        self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
+
             elif self.discount_percentage > 0 :
-                total = 0  
-                self.discount_rupees = (self.sub_total / 100) * self.discount_percentage
-                total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                total = float("{:.2f}".format(total))
-                tax = Setting.objects.first()
-                if tax is not None:
-                    if tax.sgst is None:
-                        tax.sgst = 0
-                    if tax.cgst is None:
-                        tax.cgst = 0
-                    cgst = (total*(tax.cgst)/100)
-                    self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                    sgst = (total*(tax.sgst)/100)
-                    self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                    self.total = round(float("{:.2f}".format(total)), 2)
-                    self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
+                # Modified by :- Parineeta Gedam on 26-07-2023 
+                # reason :- whatever discount type will be checked by admin, calculations perform by that.
+                if setting_data.discount_in == "Discount in (%)" :
+                    total = 0  
+                    self.discount_rupees = (self.sub_total / 100) * self.discount_percentage
+                    total =  self.sub_total - self.discount_rupees - self.loyality_point_price
+                    total = float("{:.2f}".format(total))
+                    tax = Setting.objects.first()
+                    if tax is not None:
+                        if tax.sgst is None:
+                            tax.sgst = 0
+                        if tax.cgst is None:
+                            tax.cgst = 0
+                        cgst = (total*(tax.cgst)/100)
+                        self.cgst = round(float("{:.2f}".format(cgst)), 2)
+                        sgst = (total*(tax.sgst)/100)
+                        self.sgst = round(float("{:.2f}".format(sgst)), 2)
+                        self.total = round(float("{:.2f}".format(total)), 2)
+                        self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
+            # End of Modified by :- Parineeta Gedam on 26-07-2023 
+            # reason :- whatever discount type will be checked by admin, calculations perform by that.
             else : 
                 tax = Setting.objects.first()
                 if tax is not None:
@@ -1270,9 +1311,6 @@ class Order(models.Model):
                     # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
                     self.total= round(float("{:.2f}".format(sub_total)),2)
                     # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                    
-                    
-                    
                     
                     self.final_amount = round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
                   

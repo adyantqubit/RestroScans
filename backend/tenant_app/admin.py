@@ -356,6 +356,11 @@ class SettingAdmin(admin.ModelAdmin):
         return form
     # End of addition on :- 24-04-2023
 
+    # # Added by :- Parineeta Gedam on 26-07-2023
+    # # Reason :- to design radio options for discount in
+    radio_fields = {'discount_in': admin.VERTICAL}
+    # # End of addition on :- 26-07-2023
+
 @admin.register(Description)
 class DescriptionAdmin(admin.ModelAdmin):
     list_display=("id","content")

@@ -1060,6 +1060,11 @@ export default function OrderItemsScreen({ route, navigation }) {
       // manual_discount: discountAmount,
       // End of added code on 08-05-2023
 
+      // Added by :- Parineeta Gedam on :- 26-07-2023 
+      // Reason :- update the discount precentages
+      discount_percentage: discountPercentage,
+      // End of added code on 26-07-2023 
+
       // Added by Om Shrivastava on 07-06-23
       // Reason : Save the loyality point through the native
       apply_loyality_point: loyalityPoint,
@@ -2415,52 +2420,72 @@ const printKot = async()=>{
                 {/* End of added code by :- PArineeta Gedam on 12-06-2023 */}
               </View>
               <Text>:</Text>
-              <View style={{ width: "20%" }}>
-                {/* Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
+
+              {/* Commented by :- Parineeta Gedam on 26-07-2023 
+              reason :- changes in discount  */}
+
+              {/* <View style={{ width: "20%" }}>
+                Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
                     reason :- if payment is completed then disable that fields
-                */}
                 <TextInput style={styles.discoutAmount}
                   numeric
                   keyboardType={'numeric'}
                   value={discountRupees}
-                  // Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid then admin can not add discount T.no :- 307  
+                  Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid then admin can not add discount T.no :- 307  
                   editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
-                  // End of added code by :- Parineeta Gedam on 10-06-2023
+                  End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountRupees(e)} />
-
-
-                {/* Commented by Parineeta Gedam on 17-06-2023
+                Commented by Parineeta Gedam on 17-06-2023
                 Reason - to design a discount ruppes and percentages error message
-            */}
-                {/* {discountRupeesErrorMsg &&
+                {discountRupeesErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than total price</Text>
-                } */}
-                {/* End of Commented by :-  Parineeta Gedam on 17-06-2023
+                }
+                 End of Commented by :-  Parineeta Gedam on 17-06-2023 
                 Reason - to design a discount ruppes and percentages error message
-            */}
-
-                {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
+                End of modifications code by :- Parineeta Gedam on 08-06-2023
               </View>
+               */}
+
+              {/* End of commente code by :- Parineeta Gedam on 26-07-2023  */}
+
+              {/* Added by :- Parineeta Gedam on 26-07-2023 
+              reason :- changes in discount */}
+              <>
+                {settingData && settingData.discount_in == "Discount in (₹)" ?
+                  <View style={{ width: "20%" }}>
+                    <TextInput style={styles.discoutAmount}
+                      numeric
+                      keyboardType={'numeric'}
+                      value={discountRupees}
+                      editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
+                      onChangeText={(e) => handleChangeDiscountRupees(e)} />
+                  </View>
+                  :
+                  <Text style={styles.totalPrices}>{discountRupees}</Text>
+                }
+              </>
             </View>
+            {/* End of Added by :- Parineeta Gedam on 26-07-2023 reason :- changes in discount  */}
+
             {/* Added by Parineeta Gedam on 17-06-2023
                 Reason - to design a discount ruppes and percentages error message
             */}
             <View style={styles.discountErrorMsg}>
 
-            {/* Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
-            {/* {discountRupeesErrorMsg &&
+              {/* Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {/* {discountRupeesErrorMsg &&
                 <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than Sub-Total</Text>
               } */}
-            {/* End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {/* End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
 
-            {/* Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
-             {discountRupeesErrorMsg &&
-              <Text style={{ color: "red", fontSize: 10 }}>
-                {(discountRupees == null || discountRupees == "") ? "Please enter discount." 
-                 : "Discount should not be greater than Sub-Total."}
+              {/* Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {discountRupeesErrorMsg &&
+                <Text style={{ color: "red", fontSize: 10 }}>
+                  {(discountRupees == null || discountRupees == "") ? "Please enter discount."
+                    : "Discount should not be greater than Sub-Total."}
                 </Text>
-            }
-            {/* End of added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              }
+              {/* End of added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
 
             </View>
             {/* End of Added by :-  Parineeta Gedam on 17-06-2023
@@ -2475,49 +2500,77 @@ const printKot = async()=>{
 
               </View>
               <Text>:</Text>
-              <View style={{ width: "20%" }}>
-                {/* Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
+
+              {/* Commented by :- Parineeta Gedam on 26-07-2023 
+              reason :- changes in discount  */}
+
+              {/* <View style={{ width: "20%" }}>
+                Modified by :- Parineeta Gedam by :- Parineeta Gedam on 08-06-2023
                     reason :- if payment is completed then disable that fields
-                */}
+               
                 <TextInput style={styles.discoutAmount}
                   numeric
                   keyboardType={'numeric'}
                   value={discountPercentage}
-                  // Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid and order status is cancelled then admin can not add discount T.no :- 307  
+                  Added by :- Parineeta Gedam on 10-06-2023 reason :- if payment is completed or paid and order status is cancelled then admin can not add discount T.no :- 307  
                   editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
-                  // End of added code by :- Parineeta Gedam on 10-06-2023
+                  End of added code by :- Parineeta Gedam on 10-06-2023
                   onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
-                {/* Commented by Parineeta Gedam on 17-06-2023
+                Commented by Parineeta Gedam on 17-06-2023
                 Reason - to design a discount ruppes and percentages error message
-            */}
-                {/* {discountPercentageErrorMsg &&
+           
+                {discountPercentageErrorMsg &&
                   <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100</Text>
-                } */}
-                {/* End of Commented by :-  Parineeta Gedam on 17-06-2023
+                }
+                End of Commented by :-  Parineeta Gedam on 17-06-2023
                 Reason - to design a discount ruppes and percentages error message
-            */}
-                {/* End of modifications code by :- Parineeta Gedam on 08-06-2023 */}
-              </View>
+           
+                End of modifications code by :- Parineeta Gedam on 08-06-2023
+              </View> */}
+
+              {/* End of commente code by :- Parineeta Gedam on 26-07-2023  */}
+
+              {/* Added by :- Parineeta Gedam on 26-07-2023 
+              reason :- changes in discount */}
+              <>
+                {settingData && settingData.discount_in == "Discount in (₹)" ?
+                  <Text style={styles.totalPrices}>{discountPercentage}</Text>
+                  :
+                  <View style={{ width: "20%" }}>
+                    <TextInput style={styles.discoutAmount}
+                      numeric
+                      keyboardType={'numeric'}
+                      value={discountPercentage}
+                      editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
+                      onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
+                  </View>
+                }
+              </>
+              {/* End of Added by :- Parineeta Gedam on 26-07-2023 reason :- changes in discount  */}
+
+
+              {/* End of Added by :- Parineeta Gedam on 26-07-2023 reason :- changes in discount  */}
+
             </View>
             {/* Added by Parineeta Gedam on 17-06-2023
                 Reason - to design a discount ruppes and percentages error message
             */}
             <View style={styles.discountErrorMsg}>
 
-            {/* Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {/* Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
               {/* {discountPercentageErrorMsg &&
                 <Text style={{ color: "red", fontSize: 10 }}>Discount should not be greater than 100%.</Text>
               } */}
-            {/* End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {/* End of Commented by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
 
-            {/* Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
-            {discountPercentageErrorMsg &&
-            <Text style={{ color: "red", fontSize: 10 }}>
-              {(discountPercentage == null || discountPercentage == "") ? "Please enter discount."
-                : "Discount should not be greater than 100%." }
-              </Text>
-            }
-            {/* End of added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {/* Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
+              {discountPercentageErrorMsg &&
+                <Text style={{ color: "red", fontSize: 10 }}>
+                  {(discountPercentage == null || discountPercentage == "") ? "Please enter discount."
+                    : "Discount should not be greater than 100%."}
+                </Text>
+              }
+              {/* End of added code by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed. */}
 
             </View>
 

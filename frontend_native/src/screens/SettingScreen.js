@@ -23,6 +23,8 @@ import { useIsFocused } from "@react-navigation/native";
 import Footer from "../../src/components/Footer/Footer";
 import { Formik } from "formik";
 import { settingSchema } from "../validation/ValidationSchema";
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+
 
 export default function SettingScreen({ navigation }) {
   // var { render, setRender, settings,setSettings, getSettingData } =
@@ -44,6 +46,11 @@ export default function SettingScreen({ navigation }) {
   // Reason - to set default value for setting
   var [defaultValue, setDefaultValue] = useState({});
   // End of addition
+
+  // Added by :- Parineeta Gedam on :- 26-07-2023
+  // reason :- This react hooks is used to set discount in.
+  var [discountIn, setDiscountIn] = useState("Discount in (?)");
+  // End of added code on 08-05-2023
 
   /**
    * Added by Yuvraj Sahu on 03-05-2023
@@ -125,6 +132,11 @@ export default function SettingScreen({ navigation }) {
         // End of addition by Yuvraj sahu on 06-07-2023
         // End of addition by Om Shrivastava on 05-06-23
 
+        // Added and modification by Yuvraj Sahu on 06-07-2023
+        // Reason - to set half price
+        setDiscountIn(response.setting.discount_in);
+        // End of addition by Yuvraj sahu on 06-07-2023
+
         // Added by Yuvraj Sahu on 27-4-2023
         // Reason - to set default value from setting
         setDefaultValue({
@@ -138,7 +150,7 @@ export default function SettingScreen({ navigation }) {
               : "",
           per_loyality_point_value: response.setting.per_loyality_point_value != undefined ? response.setting.per_loyality_point_value : "",
           amount_for_single_loyality_point: response.setting.amount_for_single_loyality_point != undefined ? response.setting.amount_for_single_loyality_point : "",
-          
+
         });
         // End of addition
       }
@@ -263,7 +275,12 @@ export default function SettingScreen({ navigation }) {
     // Reason : Save the loyality point field in setting table
     values["allow_loyality_points"] = allowLoyalityPoint;
     // End of addition by Om Shrivastava on 05-06-23
-    
+
+    // Added by Parineeta gedam on 26-07-23
+    // Reason : Save the discount field in setting table
+    values["discount_in"] = discountIn;
+    // End of Added by Parineeta gedam on 26-07-23
+
     var tenant = JSON.parse(
       await SecureStore.getItemAsync("tenantInfo")
     ).tenant_name;
@@ -1123,6 +1140,30 @@ export default function SettingScreen({ navigation }) {
                     )}
                   </View>
 
+                  {/* Added by :- PArineeta Gedam on 26-07-2023 
+                    reason :- admin can check any discount type */}
+
+                  <View>
+                    <Text style={styles.labels}>
+                      <Text style={{ color: "red", fontWeight: "650" }}> </Text>
+                      Discount In.
+                    </Text>
+
+                    <View style={styles.radioButton}>
+                    <RadioButtonGroup
+                      containerStyle={{ marginBottom: 10,  flexDirection: "row", marginTop:5}}
+                      selected={discountIn}
+                      onSelected={(value) => {setDiscountIn(value)}}
+                      radioBackground="#4630EB"
+                      size={15}
+                      >
+                      <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (?)" label="Discount in (?)" />
+                      <RadioButtonItem style={{ borderWidth: 1, marginLeft:10 }} value="Discount in (%)" label="Discount in (%)" />
+                    </RadioButtonGroup>
+                    </View>
+                  </View>
+                  {/* End of added code by parineeta gedam on 26-07-2023 */}
+
                   <View style={styles.activeStatus}>
                     <Checkbox
                       // style={styles.checkbox}
@@ -1141,11 +1182,13 @@ export default function SettingScreen({ navigation }) {
                   {/* Added by Om Shrivastava on 04-06-23
                   Reason : Add some fields in setting table */}
 
-                  <View style={{display: "flex",
+                  <View style={{
+                    display: "flex",
                     flexDirection: "row",
                     width: "93%",
                     alignSelf: "center",
-                    marginTop: 15}}>
+                    marginTop: 15
+                  }}>
                     <Checkbox
                       value={allowLoyalityPoint}
                       onValueChange={setAllowLoyalityPoint}
@@ -1158,7 +1201,7 @@ export default function SettingScreen({ navigation }) {
                     </Pressable>
                   </View>
 
-                  <View style={{marginTop:12}}>
+                  <View style={{ marginTop: 12 }}>
                     <Text style={styles.labels}>
                       <Text style={{ color: "red", fontWeight: "650" }}> </Text>
                       Value of single loyality point(Rs.)
@@ -1233,7 +1276,7 @@ export default function SettingScreen({ navigation }) {
                         width: 150,
                         alignSelf: "center",
                       }}
-                      // End of modified code 24/04/2023
+                    // End of modified code 24/04/2023
                     >
                       <Text
                         style={{
@@ -1372,4 +1415,12 @@ const styles = StyleSheet.create({
   activeLable: {
     marginLeft: 10,
   },
+
+  // Added by :- PArineeta Gedam on 26-07-2023 reason :- design radio button
+  radioButton:{
+    marginLeft: 10,
+  },
+
+  // End of Added by :- PArineeta Gedam on 26-07-2023 reason :- design radio button
+
 });
