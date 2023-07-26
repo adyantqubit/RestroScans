@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import "./checkboxNcoin.scss"
 import AddOrderItemForm from '../../Order/AddOrderItemForm'
 import { FaGrinAlt } from 'react-icons/fa'
+import PrintBill from "./PrintBill"
 
 
 // Modified by Rohan kansari - 29/6/23
@@ -278,17 +279,17 @@ const TodayOrder = () => {
 
     // uses - This function is call at time of status change and it will allow to move 
     // step by step If not then it pass an error
-    function statusValidation(orderStatus, paymentStatus, m) {
+    function statusValidation(order_status, payment_status, m) {
         // Modified by ROhan Kansari - 26/5/23
         // Reason - To pass validion message if served is not done done payment want to completed by admin
 
         // Modified By ROhan Kansari - 26/5/23
         // Reason - To pass proper validation on each change and admin can able move backward after changing order status
-        // if (orderStatus != "Served" && paymentStatus == "Completed") {
+        // if (order_status != "Served" && payment_status == "Completed") {
         //     Message("You can not change the status to completed until this order is severd.", "error")
         //     return false
         // }
-        // else if (orderStatus == "Served" && paymentStatus == "Completed") {
+        // else if (order_status == "Served" && payment_status == "Completed") {
         //     return true
         // }
         // else
@@ -298,32 +299,33 @@ const TodayOrder = () => {
         // Reason - To add cancel feature in status check
         // Changes by Rohan kansari - 28/6/23
         // Reason - admin can able to change cancle status in any time
-        if (m.order.order_status == "Placed" && (orderStatus == "Cooked" || orderStatus == "Served")) {
+        if (m.order_status == "Placed" && (order_status == "Cooked" || order_status == "Served")) {
             Message("Please first change order status to confirm ", "error")
             return false;
         }
-        else if (m.order.order_status == "Confirm" && (orderStatus == "Placed")) {
+        
+        else if (m.order_status == "Confirm" && (order_status == "Placed")) {
             Message("You cant change order status confirm to placed", "error")
             return false;
         }
-        else if (m.order.order_status == "Confirm" && (orderStatus == "Served")) {
-            Message(`You cant change order status confirm to ${orderStatus}`, "error")
+        else if (m.order_status == "Confirm" && (order_status == "Served")) {
+            Message(`You cant change order status confirm to ${order_status}`, "error")
             return false;
         }
-        else if (m.order.order_status == "Cooked" && (orderStatus == "Confirm" || orderStatus == "Placed")) {
-            Message(`You cant change order status cooked to ${orderStatus}`, "error")
+        else if (m.order_status == "Cooked" && (order_status == "Confirm" || order_status == "Placed")) {
+            Message(`You cant change order status cooked to ${order_status}`, "error")
             return false;
         }
-        else if (m.order.order_status == "Served" && (orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked")) {
-            Message(`You cant change order status cooked to ${orderStatus}`, "error")
+        else if (m.order_status == "Served" && (order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked")) {
+            Message(`You cant change order status served to ${order_status}`, "error")
             return false;
         }
-        else if (m.order.order_status == "Cancelled" && (orderStatus == "Pending" || orderStatus == "Confirm" || orderStatus == "Placed" || orderStatus == "Cooked" || orderStatus == "Served")) {
-            Message(`You cant change order status cancel to ${orderStatus}`, "error")
+        else if (m.order_status == "Cancelled" && (order_status == "Pending" || order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked" || order_status == "Served")) {
+            Message(`You cant change order status cancel to ${order_status}`, "error")
             return false;
         }
-        else if (m.order.payment_status == "Completed" && (paymentStatus == "Pending")) {
-            Message(`You cant change payment status completed to ${paymentStatus}`, "error")
+        else if (m.payment_status == "Completed" && (payment_status == "Pending")) {
+            Message(`You cant change payment status completed to ${payment_status}`, "error")
             return false;
         }
         // End of code - ROhan kansari - 28/6/23
@@ -347,7 +349,7 @@ const TodayOrder = () => {
 
     // function model(m, i) {
     //     var paymentStatus = m.payment_status
-    //     var orderStatus = m.order_status
+    //     var order_status = m.order_status
 
     //     // Modified by Rohan Kansari - 24/6/23
     //     // Reason - To
@@ -547,6 +549,14 @@ const TodayOrder = () => {
         }
         else {
             updatedStatus.current.value = []
+            printKot(selectedOrderData.order_item.filter((o) => { 
+                     if(o.order_id == openActionPopupModal.order_detail.order_id && 
+                         o.kot_print_status==false && 
+                         o.item_status== "Confirm" && 
+                         o.item_status != "Cancelled") 
+                         return o 
+                        }
+                        ))
             updateStatus(filteredOrderItemList);
         }
     
@@ -564,6 +574,8 @@ const TodayOrder = () => {
             updatedStatus.current.value = []
             var newOrderItemList = []
 
+            console.log("backend order item",r.order_items.filter(o=>o.order_id==filteredOrderItemList[0].order_id))
+
             r.order_items.filter(e => {
 
                 updatedStatus.current.value.push({ "quantity": e.quantity, "item_status": e.item_status, "price": e.price });
@@ -579,7 +591,7 @@ const TodayOrder = () => {
                 // uses - setting other order_id order item first then setting updated order_item which we got from backend 
                 // So old data will also not affected and new data is also get
                 newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
-                ...orderItemList.filter(o => { if (o.id == e.id) return o.item_status = e.item_status })]
+                ...orderItemList.filter(o => { if (o.id == e.id){o.item_status=e.item_status; o.kot_print_status= e.kot_print_status; return o;}})]
                 //  ENd of code - ROhan Kansari - 24/6/23
                 /**
                  * End of code modifciation by - Ashish Dewangan on 18-06-2023
@@ -605,17 +617,18 @@ const TodayOrder = () => {
                 setSelectedOrder(r.todays_completed_orders)
             }
 
+            console.log("--------------newly placed",newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
+
             // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
             var all_orders = [...r.todays_completed_orders, ...r.todays_pending_orders, ...r.todays_newly_placed_orders]
             var order = all_orders.filter(o => o.order_id == selectedOrderData.order_detail.order_id)[0]
             setSelectedorderData({
                 ...{
                     "order_detail": order
-                    , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
+                    , "order_item": newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id)
                 }
             })
             //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
-
 
             updatedStatus.current.value = []
 
@@ -626,10 +639,11 @@ const TodayOrder = () => {
                 {
                     ...{
                         "order_detail": order
-                        , "order_item": newOrderItemList.filter(i => i.order_id == order.order_id)
+                        , "order_item": filteredOrderItemList[0].order_id
                     }
                 }
             )
+            
             // Added by ROhan kansari - 23/7/23
             // Reason - To save updated order in orderdetail state and all other prices
             UpdatingOpenedOrder(order)
@@ -891,11 +905,12 @@ const TodayOrder = () => {
     // var [kotData, setKot] = useState({})
     var kotData = {}
 
-    function printKot() {
+    function printKot(kotItems) {
         // Modified by Rohan KAnsari - 26/6/23
         // Reason - To dont print cancelled items
-        var filterKotItems = orderItemList.filter((o) => { return o.order_id == openActionPopupModal.order_id && o.item_status != "Cancelled" })
-        var state = { gstFssai: gstFssai, restro_detail: restroDetail, order: openActionPopupModal, orderItem: filterKotItems }
+        console.log()
+        var filterKotItems = kotItems
+        var state = { gstFssai: gstFssai, restro_detail: restroDetail, order: openActionPopupModal.order_detail, orderItem: filterKotItems }
         // setKot(state)   
         kotData = state
 
@@ -1302,14 +1317,7 @@ const TodayOrder = () => {
         if (response.msg) {
             Message("order detail saved successfully.", "success");
             UpdatingOpenedOrder(response.orderData)
-            OldOrdervalue.current.value = JSON.stringify(
-                {
-                    ...{
-                        "order_detail": response.orderData
-                        , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
-                    }
-                }
-            )
+            setSelectedOrderItemList(response.orderItems)
         } else {
             Message("Something went wrong", "error");
         }
@@ -1324,7 +1332,7 @@ const TodayOrder = () => {
         updatedOrderData.append("id", selectedOrderData.order_detail.id);
 
         // Added by Rohan kansari - 30/6/23 - To update table no. also
-        updatedOrderData.append("table_number", tablenumber);
+       updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
         updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
         updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
         updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
@@ -1340,19 +1348,49 @@ const TodayOrder = () => {
         if (response.msg) {
             Message("Table number saved successfully.", "success");
             UpdatingOpenedOrder(response.orderData)
-            OldOrdervalue.current.value = JSON.stringify(
-                {
-                    ...{
-                        "order_detail": response.orderData
-                        , "order_item": selectedOrderData.order_item.filter(i => i.order_id == selectedOrderData.order_detail.order_id)
-                    }
-                }
-            )
+            setSelectedOrderItemList(response.orderItems)
         } else {
             Message("Something went wrong", "error");
         }
     }
 
+
+    async function UpdateOrderStatusDetail(status) {
+
+        const updatedOrderData = new FormData();
+
+        updatedOrderData.append("id", selectedOrderData.order_detail.id);
+        updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
+        updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
+        updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
+        updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
+        if(status.order_status){
+        updatedOrderData.append("order_status", status.order_status);
+        updatedOrderData.append("payment_status",paymentStatus);
+        }
+        else{
+            updatedOrderData.append("order_status", orderStatus);
+            updatedOrderData.append("payment_status",status.payment_status);
+        }
+        updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+        updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
+        updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
+
+        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+        const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+        if (response.msg) {
+            Message("order detail saved successfully.", "success");
+            UpdatingOpenedOrder(response.orderData)
+            setSelectedOrderItemList(response.orderItems)
+
+        } else {
+            Message("Something went wrong", "error");
+        }
+
+    }
+
+
+    
     // Added by ROhan kansari - 20/7/23
     // Reason - To add all order object data in their usestate to perform on change functionality
 
@@ -1443,7 +1481,7 @@ const TodayOrder = () => {
     // Reason - adding status method to get status frequently
 
     function getOrderStatus() {
-        console.log(selectedOrderData)
+        // console.log(selectedOrderData)
         if (selectedOrderData?.order_detail?.order_status != "Cancelled"
             && selectedOrderData?.order_detail?.payment_status == "Pending") {
             return true;
@@ -1949,7 +1987,22 @@ const TodayOrder = () => {
 
                         <div className={style.CustomerInformationBox}>
                             {/* This content is fixed it not scrolled up */}
+                            <div className={style.topHeading}>
                             <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
+                            <div>
+                                <button className={style.KotBtn} onClick={e=>{
+                                     printKot(selectedOrderData.order_item.filter((o) => { 
+                                        if(o.order_id == openActionPopupModal.order_detail.order_id && 
+                                            o.item_status== "Confirm" ) 
+                                            return o 
+                                           }
+                                           ))
+                                }}>Kot</button>
+                                <button className={style.getbill} 
+                                 onClick={e=>PrintBill(selectedOrderData.order_detail,selectedOrderData.order_item,"lkdkdk","kdkdkd","kdkdkdk")}>Get Bill</button>
+                            </div>
+                            </div>
+                            
 
                             <div className={style.flex}>
                                 <div className={style.informationContainer}>
@@ -2066,9 +2119,9 @@ const TodayOrder = () => {
                             <div className={style.orderItemContainer}>
                                 <div style={{ width: "100%", overflow: "auto" }}>
                                     <div className={style.orderItemHeader}>
-                                        <div className={style.priceHeading} style={{ marginLeft: "30px" }}>
+                                        {/* <div className={style.priceHeading} style={{ marginLeft: "30px" }}>
                                             SNo.
-                                        </div>
+                                        </div> */}
                                         <div className={style.item_heading}>
                                             Item Name
                                         </div>
@@ -2124,7 +2177,9 @@ const TodayOrder = () => {
                                                                     <span></span>
                                                                 </label>
                                                             </div>
-                                                            <div className={style.title}><div className={style.index}>{index}. </div> {item.item} ({item.serving_size})</div>
+                                                            <div className={style.title}>
+                                                                {/* <div className={style.index}>{index}. </div>  */}
+                                                                {item.item} ({item.serving_size})</div>
                                                         </div>
                                                         <div className={style.quantityNPriceFlex}>
                                                             <div className={style.quantity}>
@@ -2226,9 +2281,11 @@ const TodayOrder = () => {
                                 <div className={style.WhiteLabel} style={{ textAlign: "end", width: "40%", padding: "8px 0" }}>Subtotal : {selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
                             </div>
 
-                            <div className={style.TotalContainer}>
+                            <div className={style.TotalContainer} >
                             <div className={style.PricingContainer}>
-                                <div className={style.DiscountNCancelSection}>
+                                <div className={`${style.DiscountNCancelSection} 
+                                        ${getOrderStatus() 
+                                        ?null: style.disbaleBtn }`}>
                                     <div className={style.inputContainerFlex}>
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Discount </label>
@@ -2242,7 +2299,6 @@ const TodayOrder = () => {
                                                             <input id="discount_rupees" type="text" className={style.inputBox} value={discountRupee}
                                                                 onChange={e => {
                                                                     inputIvalidationDiscountRupees(e)
-                                                                    // console.log(parseFloat(e.target.value))
                                                                 }} />
                                                         </div>
                                                         <div className={style.Column}>
@@ -2365,19 +2421,57 @@ const TodayOrder = () => {
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
                                 <div className={style.OrderstatusBtnContainer}>
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button className={`btn-right ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}><a href="#">Placed</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}><a href="#">Confirm</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}><a href="#">Cooked</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Served" ? 'activeStatusBtn' : null}`}><a href="#">Served</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}
+                                            onClick={e=>{
+                                                if(statusValidation("Placed",paymentStatus,selectedOrderData.order_detail))
+                                                UpdateOrderStatusDetail({
+                                                "order_status":"Placed"
+                                            })
+                                        }
+                                            }><a href="#">Placed</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
+                                           onClick={e=>{
+                                            if(statusValidation("Confirm",paymentStatus,selectedOrderData.order_detail))
+                                            UpdateOrderStatusDetail({
+                                            "order_status":"Confirm"
+                                            })}}><a href="#">Confirm</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
+                                        onClick={e=>{
+                                            if(statusValidation("Cooked",paymentStatus,selectedOrderData.order_detail))
+                                            UpdateOrderStatusDetail({
+                                            "order_status":"Cooked"
+                                        })
+                                        }}><a href="#">Cooked</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Served" ? 'activeStatusBtn' : null}`}
+                                           onClick={e=>{
+                                            if(statusValidation("Served",paymentStatus,selectedOrderData.order_detail))
+                                            UpdateOrderStatusDetail({
+                                            "order_status":"Served"
+                                        })}}><a href="#">Served</a></button></p>
                                     </div>
-                                    <button className={style.orderCancelBtn} >Cancel</button>
+                                    <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled"?"CancelStatusBtn":null}`} 
+                                    onClick={e=>{
+                                        if(statusValidation("Cancelled",paymentStatus,selectedOrderData.order_detail))
+                                        UpdateOrderStatusDetail({
+                                        "order_status":"Cancelled"
+                                    })}}>Cancel</button>
                                 </div>
 
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button class="btn-right"><a href="#">Pending</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Completed" ? 'activeStatusBtn' : null}`}><a href="#">Completed</a></button></p>
+                                        <p><button class="btn-right"><a href="#" 
+                                           onClick={e=>{
+                                            if(statusValidation(orderStatus,"Pending",selectedOrderData.order_detail))
+                                            UpdateOrderStatusDetail({
+                                            "payment_status":"Pending"
+                                        })}}>Pending</a></button></p>
+                                        <p><button className={`btn-right ${orderStatus == "Completed" ? 'activeStatusBtn' : null}`}
+                                           onClick={e=>{
+                                            if(statusValidation(orderStatus,"Completed",selectedOrderData.order_detail))
+                                            UpdateOrderStatusDetail({
+                                            "payment_status":"Completed"
+                                        })}}><a href="#">Completed</a></button></p>
                                     </div>
                                 </div>
 

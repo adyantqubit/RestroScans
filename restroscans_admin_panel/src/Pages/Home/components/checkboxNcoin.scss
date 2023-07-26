@@ -325,22 +325,22 @@
   
   &:hover::before,
   &:hover::after {
-    background: lighten(#c7c7c7,100%);
+    background: #07d410;
   }
   
   &:focus {
       &::before,
       &::after {
-        background: lighten(#c7c7c7,100%);
+        background: lighten(#727272,100%);
       }
       outline: 0;
   }
 }
 
 /* How to include it */
-.btn-right {
+.btn-right { 
   @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 8em, 2em, right);
-}
+} 
 /* Page styling */
 
 .activeStatusBtn{
@@ -355,22 +355,29 @@
   &::after {
     background: #07d410;
   }
-
   
-  &:hover::before,
-  &:hover::after {
-    background: lighten(#07d410,100%);
-  }
+  // &:hover::before,
+  // &:hover::after {
+  //   background: lighten(#07d410,100%);
+  // }
   
   &:focus {
       &::before,
       &::after {
-        background: lighten(#07d410,100%);
+        background:#07d410;
       }
       outline: 0;
   }
 }
 
+// Added by Rohan kansari - 26/7/23 - To design cancel btn highlight design
+
+.CancelStatusBtn{
+  background-color: tomato;
+  color: white;
+}
+
+// ENd of code - Rohan kansari - 26/7/23 - To design cancel btn highlight design
 
 
 // item multiple select checkboxes design
