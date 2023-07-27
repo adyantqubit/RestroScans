@@ -130,7 +130,12 @@ const Billing = () => {
                    Reason - Added new labels in bill ( name and contact number)*/}
                 <div className={style.inLineContainer}>
                     <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Name</div><div>:</div>  </div><div className={style.text}>{billingData.customer_detail.name.length ? billingData.customer_detail.name : " --- "}</div></div>
-                    <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Phone</div><div>:</div> </div><div className={style.text}>{billingData.customer_detail.contact_number}</div></div>
+                    {/* Modification and addition by Om Shrivastava on 27-07-23
+                    Reason : Set the label of phone */}
+                    {/* <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Phone</div><div>:</div> </div><div className={style.text}>{billingData.customer_detail.contact_number}</div></div> */}
+                    <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Mob No.</div><div>:</div> </div><div className={style.text}>{billingData.customer_detail.contact_number}</div></div>
+                   {/* End of modification and addition by Om Shrivastava on 27-07-23
+                    Reason : Set the label of phone*/}
                 </div>
                 {/* End of code - Rohan - 10/5/23 */}
 
@@ -139,9 +144,13 @@ const Billing = () => {
                         Reason - To align all label */}
                     {/* Modified on - 3/5/23 - To align colons */}
                     {/* Modified on - 10/5/23 - Getting payment date */}
-                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Bill</div><div>:</div>  </div><div className={style.text}>{billingData.detail.order_id}</div></div>
+                    {/* Modification and addition by Om Shrivastava on 27-07-23
+                    Reason : Set the label of phone */}
+                    {/* <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Bill </div><div>:</div>  </div><div className={style.text}>{billingData.detail.order_id}</div></div> */}
+                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Bill No.</div><div>:</div>  </div><div className={style.text}>{billingData.detail.order_id}</div></div>
+                    {/* End of Modification and addition by Om Shrivastava on 27-07-23
+                    Reason : Set the label of phone */}
                     <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Payment</div><div>:</div>  </div><div className={style.text}>{billingData.detail.payment_mode}</div></div>
-
                     {/* ENd of code - Rohan - 24/4/23 */}
                 </div>
                 <div className={style.inLineContainer}>

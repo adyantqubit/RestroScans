@@ -23,10 +23,10 @@ import ReactReadMoreReadLess from "react-read-more-read-less";
 const RatingReview = () => {
     const [backenRatingReviewCount, setBackendRatingReviewCount] = useState(0);
     const [ratingReviewList, setRatingReviewList] = useState([]);
-    // Modified by Rohan Kansari - 22/6/23 - To Get Selected List page from localstorage on Reload 
+    // Modified by Om Shrivastava - 26-07-23 - To Get Selected List page from localstorage on Reload 
     // const [listPerPage, setListPerPage] = useState(localStorage.getItem(10));
     const [listPerPage, setListPerPage] = useState(localStorage.getItem("listPerPage"));
-    // End of code - ROhan kansari - 22/6/23
+    // End of code - Om Shrivastava - 26-07-23
 
     const [columnToSort, setColumnToSort] = useState("contact_number");
     const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
@@ -34,32 +34,32 @@ const RatingReview = () => {
     var [currentPage, setCurrentPage] = useState(1);
 
     /**
-     * Added by - Ashish Dewangan on 14-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - To have search functionality
      */
     const [searchText, setSearchText] = useState("");
     const { Search } = Input;
     /**
-     * End of code addition by - Ashish Dewangan on 14-06-2023
+     * End of code addition by - Om Shrivastava on 26-07-23
      * Reason - To have search functionality
      */
 
     /**
-     * Added by - Ashish Dewangan on 03-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - method that will execute when page loads. this method will call cutomer list api
      */
     useEffect(() => {
-        // Added By Rohan Kansari - 25/6/23
+        // Added By Om Shrivastava - 26-07-23
         // Reason - To enable headerSiderbar
         enableHeader()
-        // End of code - Rohan kansari - 25/6/23
-        // Added By Rohan Kansari - 22/6/23
+        // End of code - Om Shrivastava - 26-07-23
+        // Added By Om Shrivastava - 26-07-23
         // Reason - To set global Page index Whenever its index updated
         if (localStorage.getItem("globalPageIndex")) {
             currentPage = parseInt(localStorage.getItem("globalPageIndex"))
             setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
         }
-        // End of code - Rohan kansari - 22/6/23
+        // End of code - Om Shrivastava - 26-07-23
 
         getCountOfCutomers();
         getListOfRatingReview();
@@ -67,12 +67,12 @@ const RatingReview = () => {
 
 
     /**
-     * End of code addition by - Ashish Dewangan on 03-06-2023
+     * End of code addition by - Om Shrivastava on 26-07-23
      * Reason - method that will execute when page loads. this method will call cutomer list api
      */
 
     /**
-     * Added by - Ashish Dewangan on 03-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - method that will execute when sorting on column is applied or page number is changed.
      *  this method will call customer list api
      */
@@ -80,29 +80,29 @@ const RatingReview = () => {
         getListOfRatingReview();
 
         /**
-         * Commented and modified by - Ashish Dewangan on 14-06-2023
+         * Commented and modified by - Om Shrivastava on 26-07-23
          * Reason - To reflect changes when seach text is changed
          */
         // }, [columnToSort, columnSortingOrder, currentPage]);  
-        // Modified by ROhan KAnsari - 22/6/23 - To add listPerPage Change call 
+        // Modified by Om Shrivastava - 26-07-23 - To add listPerPage Change call 
         // }, [columnToSort, columnSortingOrder, currentPage, searchText]);
     }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
 
-    // End of code - Modification - ROhan KAnsari - 22/6/23
+    // End of code - Modification - Om Shrivastava - 26-07-23
 
     /**
-     * End of code modification by - Ashish Dewangan on 14-06-2023
+     * End of code modification by - Om Shrivastava on 26-07-23
      * Reason - To reflect changes when seach text is changed
      */
 
     /**
-     * End of code addition by - Ashish Dewangan on 03-06-2023
+     * End of code addition by - Om Shrivastava on 26-07-23
      * Reason - method that will execute when sorting on column is applied or page number is changed.
      *  this method will call customer list api
      */
 
     /**
-     * Added by - Ashish Dewangan on 05-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - created api to get count of customers
      */
     const getCountOfCutomers = async () => {
@@ -111,12 +111,12 @@ const RatingReview = () => {
         setBackendRatingReviewCount(response.ratingCount);
     };
     /**
-     * Added by - Ashish Dewangan on 05-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - created api to get count of customers
      */
 
     /**
-     * Added by - Ashish Dewangan on 03-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - created api to get list of customers
      */
     const getListOfRatingReview = async () => {
@@ -130,59 +130,59 @@ const RatingReview = () => {
             columnToSort: columnToSort,
             columnSortingOrder: columnSortingOrder,
             /**
-             * Added by - Ashish Dewangan on 14-06-2023
+             * Added by - Om Shrivastava on 26-07-23
              * Reason - To send search data on backend
              */
             /**
-             * Commented and modified by - Ashish Dewangan on 17-06-2023
+             * Commented and modified by - Om Shrivastava on 26-07-23
              * Reason - To trim search text before sending it to backend
              */
             // searchText: searchText,
             searchText: searchText.trim(),
             /**
-             * End of code modification and modified by - Ashish Dewangan on 17-06-2023
+             * End of code modification and modified by - Om Shrivastava on 26-07-23
              * Reason - To trim search text before sending it to backend
              */
             /**
-             * End of code addition by - Ashish Dewangan on 14-06-2023
+             * End of code addition by - Om Shrivastava on 26-07-23
              * Reason - To send search data on backend
              */
         };
         const response = await getRestaurantRatingReviewList(tenant, filteringCriteria);
         setRatingReviewList(response.ratingReviewList);
         /**
-         * Added by - Ashish Dewangan on 14-06-2023
+         * Added by - Om Shrivastava on 26-07-23
          * Reason - To recalculate page numbers
          */
         setBackendRatingReviewCount(response.ratingReviewListCount)
         /**
-         * End of code addition by - Ashish Dewangan on 14-06-2023
+         * End of code addition by - Om Shrivastava on 26-07-23
          * Reason - To recalculate page numbers
          */
     };
     /**
-     * End of code addition by - Ashish Dewangan on 03-06-2023
+     * End of code addition by - Om Shrivastava on 26-07-23
      * Reason - created api to get list of customers
      */
 
     /**
-     * Added by - Ashish Dewangan on 05-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason -  When user changes page number, this method will set page number which will be sent to backend.
      */
     const handlePageChange = async (pageNumber) => {
-        //Added by ROhan KAnsari - 22/6/23
+        //Added by Om Shrivastava - 26-07-23
         // Reason - to set currentpage to global
         localStorage.setItem("globalPageIndex", pageNumber)
-        // End of code - Rohan Kansari - 22/6/23
+        // End of code - Om Shrivastava - 26-07-23
         setCurrentPage(pageNumber);
     };
     /**
-     * End of code addition by - Ashish Dewangan on 05-06-2023
+     * End of code addition by - Om Shrivastava on 26-07-23
      * Reason -  When user changes page number, this method will set page number which will be sent to backend.
      */
 
     /**
-     * Added by - Ashish Dewangan on 06-06-2023
+     * Added by - Om Shrivastava on 26-07-23
      * Reason - Method that will set sorting criteria
      */
     const sortratingReviewList = (columnName) => {
@@ -196,11 +196,11 @@ const RatingReview = () => {
         setColumnToSort(columnName);
     };
     /**
-     * End of code addition by - Ashish Dewangan on 06-06-2023
+     * End of code addition by - Om Shrivastava on 26-07-23
      * Reason - Method that will set sorting criteria
      */
 
-    // Added by Rohan kansari - 22/6/23
+    // Added by Om Shrivastava - 26-07-23
     // Reason - To toggle dropdown visiblity on click
     function toggelDropdown() {
         if (document.getElementById("dropdown").style.display.length == 0)
@@ -212,10 +212,10 @@ const RatingReview = () => {
     function hideDropdown() {
         document.getElementById("dropdown").style.display = ""
     }
-    // End of code - Rohan Kansari - 22/6/23
+    // End of code - Om Shrivastava - 26-07-23
 
     return (
-        // Modified by Rohan Kansari - 25/6/23
+        // Modified by Om Shrivastava - 26-07-23
         // Reason - removing header from each page and making it global
         // <Header>
         <div className={style.container}>
@@ -227,7 +227,7 @@ const RatingReview = () => {
                 <div className={style.tableContainer}>
                     <div className={style.table}>
 
-                        {/* Added by - Ashish Dewangan on 14-06-2023
+                        {/* Added by - Om Shrivastava on 26-07-23
               Reason - To have search functionality */}
                         {/* <div
                 style={{
@@ -246,15 +246,15 @@ const RatingReview = () => {
                   className={style.searchBox}
                 />
               </div> */}
-                        {/* End of code addition by - Ashish Dewangan on 14-06-2023
+                        {/* End of code addition by - Om Shrivastava on 26-07-23
               Reason - To have search functionality */}
 
                         <div className={style.tableHeadingContainer}
-                            // Added by Rohan Kansari - 22/6/23
+                            // Added by Om Shrivastava - 26-07-23
                             // Reason- To hide page size dropdown on outer click
                             onClick={hideDropdown}
                             onTouchStart={hideDropdown}
-                        // End of code - ROhan KAnsari - 22/6/23
+                        // End of code - Om Shrivastava - 26-07-23
                         >
 
                             <div
@@ -262,7 +262,7 @@ const RatingReview = () => {
                             >
                                 SNo.
                             </div>
-                            {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                            {/* End of code modification by - Om Shrivastava on - 26-07-23
                 Reason - To sort only when we click on label */}
 
                             <div
@@ -313,7 +313,7 @@ const RatingReview = () => {
                                     )}
                                 </span>
                             </div>
-                            {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                            {/* End of code modification by - Om Shrivastava on - 26-07-23
                 Reason - To sort only when we click on label */}
 
                             <div
@@ -366,7 +366,7 @@ const RatingReview = () => {
                   )}
                   </span> */}
                             </div>
-                            {/* End of code modification by - Ashish Dewangan on - 17-06-2023
+                            {/* End of code modification by - Om Shrivastava on - 26-07-23
                 Reason - To sort only when we click on label */}
 
                         </div>
@@ -375,11 +375,11 @@ const RatingReview = () => {
                             style={{
                                 backgroundColor: "#efefef",
                             }}
-                            // Added by Rohan Kansari - 22/6/23
+                            // Added by Om Shrivastava - 26-07-23
                             // Reason- To hide page size dropdown on outer click
                             onClick={hideDropdown}
                             onTouchStart={hideDropdown}
-                        // End of code - ROhan KAnsari - 22/6/23
+                        // End of code - Om Shrivastava - 26-07-23
                         >
                             {ratingReviewList != null && ratingReviewList.length > 0 ? (
                                 ratingReviewList.map((RatingReviews, index) => {
@@ -436,18 +436,18 @@ const RatingReview = () => {
 
             <div className={style.paginationContainer}>
                 {ratingReviewList && ratingReviewList.length > 0 ? (
-                    // Modified by Rohan kansari - 22/6/23 
+                    // Modified by Om Shrivastava - 26-07-23 
                     // Reason - To divide container into two part for page selector
                     < div className={style.paginationContent}>
                         <Pagination
-                            // Modified by Rohan Kansari- 22/6/23
+                            // Modified by Om Shrivastava- 26-07-23
                             // Reason - To open Updated page
                             // defaultCurrent={1}
                             defaultCurrent={currentPage}
                             current={currentPage}
                             total={backenRatingReviewCount}
                             defaultPageSize={listPerPage}
-                            // Added by Rohan Kansari- 22/6/23 - to set item per page
+                            // Added by Om Shrivastava- 26-07-23 - to set item per page
                             pageSize={listPerPage}
                             onChange={handlePageChange}
                             simple
@@ -455,18 +455,18 @@ const RatingReview = () => {
                         <div className={style.dropdown} onClick={toggelDropdown}>
                             <button className={style.dropbtn}>{listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
                             <div className={style.dropdown_content} id="dropdown">
-                                {/* Modified by ROhan kansari - 26/6/23 
+                                {/* Modified by Om Shrivastava - 26-07-23 
                       Reason - To change condition for showing list */}
                                 {backenRatingReviewCount > 40 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
                                 {backenRatingReviewCount > 30 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
                                 {backenRatingReviewCount > 20 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
                                 <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span>
                                 <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
-                                {/* End of code - Rohan kansari - 26/6/23 */}
+                                {/* End of code - Om Shrivastava - 26-07-23 */}
                             </div>
                         </div>
                     </div>
-                    //  End of code - Modification - 22/6/23 - Rohan Kansari
+                    //  End of code - Modification - 26-07-23 - Om Shrivastava
                 ) : null}
             </div>
         </div>

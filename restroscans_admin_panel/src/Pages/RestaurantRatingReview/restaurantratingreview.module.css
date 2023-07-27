@@ -1,5 +1,5 @@
 /**
-* Added by - Ashish Dewangan on 03-06-2023
+* Added by - Om Shrivastava on 26-07-23
 * Reason - Create to have styling details of rating details page
 */
 @import "../../App.css";
@@ -11,14 +11,14 @@
 
 .container {
   width: 100%;
-  /* commented and modified by suman sahu on 17/06/2023 
+  /* commented and modified by Om Shrivastava on 26-07-23 
      reason - adjust page according to sidebar, header and footer in the full screen*/
   height: 86.5vh;
   /* overflow: auto; */
   overflow: scroll;
   background-color: white;
   /* margin-bottom: 9vh; */
-  /* end of code by - suman sahu on 17/06/2023 */
+  /* end of code by - Om Shrivastava on 26-07-23 */
 
 }
 
@@ -64,12 +64,12 @@
   padding: 3px;
 }
 
-  /* Added by - Ashish Dewangan on 15-06-2023
+  /* Added by - Om Shrivastava on 15-06-2023
   Reason - To have styling for search box */
 .searchBox{
   width:60%;
 }
-  /* End of code addition by - Ashish Dewangan on 15-06-2023
+  /* End of code addition by - Om Shrivastava on 15-06-2023
   Reason - To have styling for search box */
 
 .tableDataContainer {
@@ -185,7 +185,7 @@
   height: 20px;
 }
 
-/* Added by ROhan kansari - 22/6/23
+/* Added by Om Shrivastava - 26-07-23
    Reason - To design dropdown container for page selector Added on Pagination */
 
 /*Adding pagination content into flex for responsive manage  */
@@ -253,17 +253,17 @@
   background-color: #f2f2f2;
 }
 
-/* End of code - 22/6/23 - ROhan kansari */
+/* End of code - 26-07-23 - Om Shrivastava */
 
 @media screen and (max-width: 4000px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 300px;
     --common-column-min-width: 300px; */
     --common-column-width: 18vw;
     --common-column-min-width: 18vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     
     --common-column-display: unset;
@@ -272,34 +272,34 @@
 
 @media screen and (max-width: 1150px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 270px;
     --common-column-min-width: 270px; */
     --common-column-width: 18vw;
     --common-column-min-width: 18vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
-  /* Added by - Ashish Dewangan on 15-06-2023
+  /* Added by - Om Shrivastava on 15-06-2023
   Reason - To have styling for search box */
   .searchBox{
     width:100%;
   }
-  /* End of code addition by - Ashish Dewangan on 15-06-2023
+  /* End of code addition by - Om Shrivastava on 15-06-2023
   Reason - To have styling for search box */
 }
 
 @media screen and (max-width: 1050px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 220px;
     --common-column-min-width: 220px; */
     --common-column-width: 18vw;
     --common-column-min-width: 18vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
@@ -307,13 +307,13 @@
 
 @media screen and (max-width: 900px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 200px;
     --common-column-min-width: 200px; */
     --common-column-width: 18vw;
     --common-column-min-width: 18vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
@@ -321,13 +321,13 @@
 
 @media screen and (max-width: 850px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 190px;
     --common-column-min-width: 190px; */
     --common-column-width: 18vw;
     --common-column-min-width: 18vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
@@ -335,26 +335,26 @@
 
 @media screen and (max-width: 770px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 180px;
     --common-column-min-width: 180px; */
     --common-column-width: 25vw;
     --common-column-min-width: 25vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
 }
 
-/* added by suman sahu on 17/06/2023 
+/* added by Om Shrivastava on 26-07-23 
    reason - adjust page according to sidebar, header and footer in the responsive*/
    @media screen and (max-width: 768px) {
     .container {
       height:73vh;
     }
 
-    /* Modified by ROhan kansari - 1/7/23
+    /* Modified by Om Shrivastava - 1/7/23
      Reason - To align page list in mobile view also */
   .paginationContent{
     flex-direction: row;
@@ -362,17 +362,17 @@
       gap: 10px;
     }
   }
-/* end of code by - suman sahu on 17/06/2023 */
+/* end of code by - Om Shrivastava on 26-07-23 */
 
 @media screen and (max-width: 720px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 170px;
     --common-column-min-width: 170px; */
     --common-column-width: 25vw;
     --common-column-min-width: 25vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
@@ -391,13 +391,13 @@
 
 @media screen and (max-width: 600px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 120px;
     --common-column-min-width: 120px; */
     --common-column-width: 25vw;
     --common-column-min-width: 25vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
@@ -416,13 +416,13 @@
 }
 @media screen and (max-width: 500px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 80px;
     --common-column-min-width: 80px; */
     --common-column-width: 30vw;
     --common-column-min-width: 30vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }
@@ -437,13 +437,13 @@
 }
 @media screen and (max-width: 430px) {
   .container {
-    /* commented and modified by - Ashish Dewangan on 14-06-2023
+    /* commented and modified by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
   	/* --common-column-width: 100px;
     --common-column-min-width: 100px; */
     --common-column-width: 30vw;
     --common-column-min-width: 30vw;
-    /* End of code modification by - Ashish Dewangan on 14-06-2023
+    /* End of code modification by - Om Shrivastava on 26-07-23
        Reason - To make width responsive */
     --common-column-display: unset;
   }

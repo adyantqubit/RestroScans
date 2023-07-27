@@ -83,7 +83,7 @@ export default function CustomerListScreen({ route, navigation }) {
 
   /**
    * Added by Om Shrivastava on 26-07-2023
-   * Reason - to search menu using name wise
+   * Reason - to search review and rating
    */
   const handleSearch = (searchKey) => {
     var splitedWord = searchKey.trimStart().replace(".", " ").split(" ");
@@ -119,7 +119,7 @@ export default function CustomerListScreen({ route, navigation }) {
    * Reason - to set payment status (asc or desc) send
    * props for sorting functionality
    */
-  const handleSetName = () => {
+  const handleSetRating = () => {
     if (nameSortVal == "") {
       setNameSortVal("ascending");
       handleNameSort("ascending");
@@ -212,7 +212,7 @@ export default function CustomerListScreen({ route, navigation }) {
 
               <Pressable
                 style={styles.tableColHeading3}
-                onPress={handleSetName}
+                onPress={handleSetRating}
               >
                 <Text
                   style={{

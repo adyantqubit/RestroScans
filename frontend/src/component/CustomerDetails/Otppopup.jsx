@@ -101,13 +101,24 @@ const Otppopup = () => {
         // ...
       }).catch((error) => {
        setLoading(false)
+      //  Modification and addition by Om Shrivastava on 27-07-23
+      //  Reason : Set the error message
+      //  alert(error)
+       if(error=="FirebaseError: Firebase: The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code sms and be sure to use the verification code provided by the user. (auth/invalid-verification-code)."){
+        // console.log('helllo')
+        notify(" OTP is wrong. Please try again","error")
+       }
+       else{
         //  Modification and added by Om Shrivastava on 19-05-23
         //  Reason : Need to change the OTP message
-        // notify(" OTP dosen't match. Please try again","error")
-        notify(" OTP is expired ","error")
+        notify(" OTP is expired.","error")
+        // notify(" OTP is expired ","error")
         // End of addition by Om Shrivastava on 19-05-23
         // User couldn't sign in (bad verification code?)
         // ...
+       }
+       // End of addition by Om Shrivastava on 27-07-23
+       //  Reason : Need to change the OTP message
       });
     }
     // If enterted length is 0 then this notification message is shown
