@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Button, Pressable, Alert, Modal } from "react-n
 import React from "react";
 import {
   getOrderItemsApi,
-  updateOrderAndPaymentStatus, deleteOrderItemApi, postUpdateOrderItemsApi,
+  updateOrderAndPaymentStatus, deleteOrderItemApi, postUpdateOrderItemsApi, updateOrderStatus, updatePaymentStatus,
 } from "../../api/Services";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -102,6 +102,25 @@ export default function OrderItemsScreen({ route, navigation }) {
   const [originalResponseOrderItem, setOriginalResponseOrderItem] = useState([]);
   const [originalResponseOrder, setOriginalResponseOrder] = useState({});
   // End of code by :- Parineeta Gedam on 18-06-2023 Reason - set origin response
+
+  /**
+   * Added by yuvraj Sahu on 23-07-2023
+   * Reason - to set the cancel reason model visibility
+   */
+  const [isCancelVisible, setIsCancelVisible] = useState(false)
+  /**
+   * End of addition by yuvraj sahu on 23-07-2023
+   */
+
+  /**
+   * Added by yuvraj Sahu on 24-07-2023
+   * Reason - to set the cancel reason in pop box
+   */
+  const [orderCancelReasonInput, setOrderCancelReasonInput] = useState("");
+   /**
+   * End of addition by yuvraj sahu on 24-07-2023
+   */
+
 
   // Added by Yuvraj Sahu on 14-4-2023
   // Reason - to store order status data
@@ -1943,6 +1962,258 @@ const printKot = async()=>{
     // End of addition by yuvraj Sahu on 29-06-2023
   // ------------------------------------- End kot print functionality ------------------------------------
 
+  /**
+   * Added by Yuvraj Sahu on 03-07-2023
+   * Reason - to update the order status
+   */
+  const handleOrderUpdate = async (orderStatus, orderID)=>{
+    if (orderStatus == "Confirm"  && orderItems.filter(e=>e.item_status == "Pending").length > 0){
+      handlePrintKot()
+    }
+    /**
+     * Modified by yuvraj Sahu on 24-07-2023
+     * Reason - send data to backend for change the order status 24-07-2023
+     */
+    if (orderStatus != "Cancelled"){
+      var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+      var orderUpdateData = {
+        order_status: orderStatus,
+        order_id: orderID
+      }
+      var response = await updateOrderStatus(tenantName, orderUpdateData)
+      if (response.msg){
+        Alert.alert(response.msg)
+        navigation.pop()
+      }
+    } else {
+      if (isCancelVisible == false){
+      setIsCancelVisible(true)
+      } else {
+        var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+        var orderUpdateData = {
+          order_status: orderStatus,
+          order_id: orderID,
+          cancel_reason: orderCancelReasonInput,
+        }
+      var response = await updateOrderStatus(tenantName, orderUpdateData)
+      if (response.msg){
+        Alert.alert(response.msg)
+        navigation.pop()
+      }
+      }
+    }
+    /**
+     * End of modification by yuvraj Sahu on 24-07-2023
+     */
+  }
+  /**
+   * End of addition by Yuvraj Sahu on 03-07-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 03-07-2023
+   * Reason - to update the order status
+   */
+  const handlePaymentUpdate = async (paymentStatus, orderID)=>{
+    // alert(orderID)
+    var tenantName = JSON.parse(await SecureStore.getItemAsync("tenantInfo")).tenant_name;
+    var paymentUpdateData = {
+      payment_status: paymentStatus,
+      order_id: orderID
+    }
+    var response = await updatePaymentStatus(tenantName, paymentUpdateData)
+    if (response.msg){
+      Alert.alert(response.msg)
+      navigation.pop()
+    }
+  }
+  /**
+   * End of addition by Yuvraj Sahu on 03-07-2023
+   */
+
+  // --------------------------------------- press confirm print kot ----------------------------------------
+  // ------------------------------------------ Kot print remove from update button ------------------------
+  const handlePrintKot = async ()=>{
+    var restaurantName = JSON.parse(
+      await SecureStore.getItemAsync("userData")
+    ).restaurant_name;
+
+    var orderItem = "";
+    var SNumberIncreasing = 1;
+
+  for (var i = 0; i < orderItems.length; i++) {
+    if (orderItems[i].item_status == "Pending")
+      orderItem =
+        orderItem +
+        `<div class="tableContents ">
+            <div class="quantityText">${SNumberIncreasing++}</div>
+            <div class="titleText">${orderItems[i].item} (${orderItems[i].serving_size
+        })</div>
+            <div class="rateText">${orderItems[i].quantity}</div>
+          </div>`;
+  }
+  str = `<div class="billingContainer">
+          <div class="inLineContainer" >
+            <div class="Hotellabel"  style="text-align:center;"> ${restaurantName}</div>
+          </div>
+          <hr>
+          <div class="inLineContainer">
+          <div class="label">Date</div>
+           <div class="text">: ${ExtractDateTime(orderDetail.date).date}</div>
+          <div class="label">Time</div>
+          <div class="text">: ${ExtractDateTime(orderDetail.date).time}</div>
+
+        </div>
+        <div class="inLineContainer">
+          <div class="label">Order id</div>
+          <div class="text">: ${orderDetail.order_id}</div>
+          <div class="label">Table</div>
+          <div class="text">: ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
+    }</div>
+          
+        </div>
+        <div class="tableHeader">
+            <div class="serialNo"> SNo   </div>
+            <div class="titleHeading">Item Name</div>
+            <div class="qtyHeading">   Qty   </div>
+          </div>
+          ${orderItem} 
+  </div>`;
+
+  str = str + `</div>`;
+  html = `
+  <html>
+  <head>
+  <style>
+  .billingContainer {
+    font-family:monospace;
+    letter-spacing: 0.6px;
+    width: 320px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 2px 0;
+    padding-bottom: 150px;
+    border: 1px solid black;
+  }
+  .inLineContainer {
+    min-width: 100%;
+    min-height: 10px;
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .Hotellabel{
+    min-width: 100%;
+    font-size: 17px;
+    font-weight: 900;
+    padding: 0 3%;
+    text-align: center;
+  }
+  .centerLabel{
+    min-width: 100%;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .label {
+    min-width: 15%;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 0 2%;
+    text-align: start;
+    white-space: nowrap;
+  }
+  .text {
+    min-width: 22%;
+    word-break: break-all;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: left;
+  }
+  .tableHeader {
+    height: 30px;
+    width: 95%;
+    margin: auto;
+    border-top: 1px solid black;
+    margin-top: 20px;
+    border-bottom: 1px solid black;
+    display: flex;
+    gap: 8px;
+  }
+  .serialNo {
+    font-size: 12px;
+    width: 20%;
+    padding: 2% 0%;
+    font-weight: 700;
+  }
+  .titleHeading {
+    font-size: 12px;
+    width: 50%;
+    padding: 2% 0%;
+    padding-right: 8%;
+    font-weight: 700;
+    text-align: start;
+  }
+  
+  .qtyHeading {
+    font-size: 12px;
+    width: 30%;
+    padding: 2% 0% 0% 0%;
+    font-weight: 700;
+  }
+  
+  .tableContents {
+    min-height: 30px;
+    width: 95%;
+    margin:0 auto;
+    margin: 1px 0;
+    display: flex;
+    gap: 4px;
+  }
+  .quantityText {
+    font-size: 10px;
+    width: 10%;
+    padding: 2% 0% 0% 5%;
+    font-weight: 600;
+  }
+  .titleText {
+    font-size: 10px;
+    width: 70%;
+    font-weight: 600;
+    padding: 2% 0% 0% 8%;
+    text-align:left
+  }
+  .rateText {
+    font-size: 12px;
+    width: 15%;
+    font-weight: 600;
+    text-align: end;
+    white-space: nowrap;
+    padding: 2% 0% 0% 5%;
+    text-align:left
+  }
+  .totalText {
+    font-size: 12px;
+    width: 30%;
+    padding: 2% 2%;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+  }
+  </style>
+  </head>
+    <body style="text-align: center;">
+        <h1 >
+        ${str}
+      </h1>
+    </body>
+  </html>
+  `;
+    printDoc();
+}
+  // ----------------------------------- End of print kot -----------------------------------------------
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -2871,6 +3142,330 @@ const printKot = async()=>{
             {/* End of addition */}
           </View>
         </View>
+
+        
+        {/* ============================================ Button design ===================================== */}
+        <View>
+          {/* <Button title="Save"/> */}
+          {/* Modification by Om on 26-04-23
+          Reason : Fix the button designin  */}
+          {orderDetail.order_status == "Served" &&
+            orderDetail.payment_status == "Completed" ? (
+            <View style={styles.mainButtonDiv}>
+              <Pressable
+                onPress={handleUpdate}
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  // width: "48%",
+                  width: "30%"
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Update
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={printBill}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  // width: "48%",
+                  width: "30%"
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {/* Content changes by Om on 27-04-23 */}
+                  Print bill
+                </Text>
+              </Pressable>
+
+              <Pressable
+                onPress={printKot}
+                // Modified by Yuvraj Sahu on 12-07-2023
+                // disabled={orderDetail.order_status == "Placed" ? true : false}
+                // disabled ={orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? false : true}
+                disabled ={isDuplicateKotDisable}
+                style={{
+                  // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
+                  // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
+                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
+                  // backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%"
+                  // width: "48%",
+                  width: "30%"
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Duplicate kot
+                </Text>
+              </Pressable>
+
+            </View>
+          ) : (
+            <>
+             {/* Added by :- Parineeta Gedam on 19-06-2023 reason :- reset the data */}
+             <View style={styles.mainButtonDiv}>
+              <Pressable
+                onPress={(e) =>{getOrderItems()
+                }}
+                style={{
+                // Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then reset button will be disable 
+                // backgroundColor: colors.btnColor,
+                backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
+                // End of Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then update button will be disable 
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  // width: "48%",
+                  width: "30%"
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+                // Added by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
+                disabled={orderDetail.order_status == "Cancelled" ? true : false}
+                // End of Added code by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
+
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Reset
+                </Text>
+              </Pressable>
+              {/* </View> */}
+
+              {/*End of Added code  by :- Parineeta Gedam on 19-06-2023 reason :- reset the data */}
+
+              {/* <View style={styles.btns}> */}
+              <Pressable
+                // Modified by :- Parineeta Gedam on 17-06-2023
+                // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
+                // onPress={handleUpdate}
+                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate()}
+                // End of modified code by :- Parineeta Gedam on 17-06-2023  reason :-  when admin select the order status = "cancelled" then show the confirmation message.
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+
+                  // Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
+                  // backgroundColor: colors.btnColor,
+                  backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
+                  // End of Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
+
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%",
+                  // width: "48%",
+                  width: "30%"
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+                disabled={orderDetail.order_status == "Cancelled" ? true : false}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Update
+                </Text>
+              </Pressable>
+
+              {/* ----------------------------- New ------------------------- */}
+              <Pressable
+                onPress={printKot}
+                // Modified by Yuvraj Sahu on 12-07-2023
+                // disabled={orderDetail.order_status == "Placed" ? true : false}
+                // disabled ={orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? false : true}
+                disabled ={isDuplicateKotDisable}
+                style={{
+                  // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
+                  // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
+                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
+                  // backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%"
+                  // width: "48%",
+                  width: "30%"
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Duplicate kot
+                </Text>
+              </Pressable>
+              {/* ----------------------- End new ---------------------------- */}
+
+
+            </View>
+            </>
+          )}
+        </View>
+        {/* Added by Om  on 21-04-23
+      Reason : When order status is served than payent status is completed functionality */}
+        {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
+        <>
+          <View style={styles.btns}>
+            <Pressable
+              onPress={printBill}
+              style={{
+                backgroundColor: colors.anotherButton,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 10,
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+              >
+                Get bill
+              </Text>
+            </Pressable>
+          </View>
+        </>
+      ) : null} */}
+        {/* End of the addition */}
+        {/* Added by Yuvraj Sahu on 29-06-2023
+        Reason - to give button for print kot */}
+
+        {/* -------------------------------------- 23-07-2023 comment duplicate kot ------------------------- */}
+        {/* <View style={styles.mainButtonDiv}>
+              <Pressable
+                onPress={printKot}
+                // Modified by Yuvraj Sahu on 12-07-2023
+                // disabled={orderDetail.order_status == "Placed" ? true : false}
+                // disabled ={orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? false : true}
+                disabled ={isDuplicateKotDisable}
+                style={{
+                  // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
+                  // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
+                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
+                  // backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // Modified by yuvraj Sahu on 16-07-2023
+                  // Reason - to arrange button
+                  // width: "35%"
+                  width: "48%",
+                  // End of addition by yuvraj Sahu pon 16-07-2023
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Duplicate kot
+                </Text>
+              </Pressable>
+            </View> */}
+              {/* ------------------------------------ 23-07-2023 end duplicate kot ----------------------------------- */}
+
+              {/* <Pressable
+                onPress={printKot}
+                style={{
+                  backgroundColor: orderDetail.order_status == "Pending" ? "grey" : colors.btnColor,
+                  // backgroundColor: colors.btnColor,
+                  height: 30,
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  width: "35%",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Duplicate kot
+                </Text>
+              </Pressable> */}
+          {/* =========================================== End Button ======================================== */}
+
+
+
         <View style={styles.statusContainer}>
           <View style={{ marginTop: 20 }}>
             {/* Added and modified by yuvraj Sahu on 28-06-2023
@@ -2976,6 +3571,7 @@ const printKot = async()=>{
                   return order.value;
                 }}
               /> */}
+              {/*
               {orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" || orderDetail.payment_status == "Paid"
                 ?
                   null
@@ -2997,25 +3593,247 @@ const printKot = async()=>{
                 {orderStatusData.map((dt,i)=>(
                 <RadioButtonItem style={{ borderWidth: 1, margin: 7, marginTop: 7, marginRight: 0, marginLeft: 5}} value={dt.value} label={dt.value} key={i}/>
               ))}
-                {/* <RadioButtonItem style={{ borderWidth: 1 }} value="Completed" label="Completed" /> */}
               </RadioButtonGroup>
-            }
+            } */}
+            {/* Added by Yuvraj Sahu on 03-07-2023
+            Reason - to add button for changing the order status */}
+            <View style={styles.buttonContainerStyle}>
+            <Pressable
+                onPress={(e)=>handleOrderUpdate("Placed", orderDetail.order_id)}
+                // disabled={isDisable}
+                disabled={orderStatusSelected == "Cancelled" ? true : false}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Placed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  marginHorizontal: 3,
+                  margin: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Placed
+                </Text>
+              </Pressable>
+              <MaterialIcons name="double-arrow" size={20} color="black" />
+              <Pressable
+              onPress={()=>handleOrderUpdate("Confirm", orderDetail.order_id)}
+                // onPress={handleUpdate}
+                // disabled={isDisable}
+                disabled = {orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Confirm" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  marginHorizontal: 3,
+                  margin: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Confirm
+                </Text>
+              </Pressable>
+              <MaterialIcons name="double-arrow" size={20} color="black" />
+              <Pressable
+              onPress={()=>handleOrderUpdate("Cooked", orderDetail.order_id)}
+                // onPress={handleUpdate}
+                // disabled={isDisable}
+                disabled = {orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Cooked" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  marginHorizontal: 3,
+                  margin: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Cooked
+                </Text>
+              </Pressable>
+              <MaterialIcons name="double-arrow" size={20} color="black" />
+              <Pressable
+              onPress={()=>handleOrderUpdate("Served", orderDetail.order_id)}
+                // onPress={handleUpdate}
+                // disabled={isDisable}
+                disabled = { orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false }
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Served" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  // marginHorizontal: 3,
+                  margin: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Served
+                </Text>
+              </Pressable>
+              {/* <MaterialIcons name="double-arrow" size={20} color="black" /> */}
+              <Text style={{fontWeight: "900", marginLeft: 3, marginRight: 3}}>Or</Text>
+              <Pressable
+              onPress={()=>handleOrderUpdate("Cancelled", orderDetail.order_id)}
+                // onPress={handleUpdate}
+                // disabled={isDisable}
+                disabled = { orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false }
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" ? colors.orderActiveBtnColor : paymentStatusSelected == "Completed" ? "grey" : colors.orderBtnColors,
+                  // backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : "green" : colors.btnColor,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  marginHorizontal: 3,
+                  margin: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Cancelled
+                </Text>
+              </Pressable>
               </View>
-              <View>
+              </View>
+
+              {/* <View>
                 <Text style={{color: colors.btnColor, fontWeight: "bold"}}>{orderStatusSelected}</Text>
-              </View>
+              </View> */}
+              {/* End of remove radio and add button */}
               {/* End of changing dropdown by Yuvraj Sahu on 28-06-2023 */}
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
+
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={isCancelVisible}
+            >
+              <View style={styles.cancelModalContainer}>
+                <View style={styles.cancelOrderScreen}>
+
+                  {/* -------------------------------------------------------------------- */}
+                  <View>
+                  <View>
+                    <View style={styles.orderStatusContainer}>
+                      <Text style={{ fontWeight: "bold", fontSize: 16 }}>Order cancel reason</Text>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.CancelReasonContainer}>
+                  <View style={styles.textAreaContainer}>
+                    <TextInput
+                      // style={styles.textArea}
+                      style={styles.cancelReasonText}
+                      // value={orderCancelReason}
+                      value={orderCancelReasonInput}
+                      // onChangeText={(txt) => handleInputOrderCancelReason(txt)}
+                      onChangeText={(txt) => setOrderCancelReasonInput(txt)}
+                      placeholder="Please enter cancel reason"
+                      placeholderTextColor="grey"
+                      multiline={true}
+                      editable={
+                        orderDetail.order_status == "Cancelled" ? false : true
+                      }
+                    />
+                  </View>
+                  {/* Added by :- Parineeta Gedam on 18-06-2023 reason :- show validations message */}
+                  {orderCancelReasonErrorMsg &&
+                    <Text style={{ color: "red", fontSize: 10, }}>Please enter order cancel reason</Text>
+                  }
+                  {/* End of Added by :- Parineeta Gedam on 18-06-2023 reason :- show validations message */}
+                </View>
+                  {/* ----------------------------------------------------------------- */}
+                  <Text>Are you sure you want to cancel this order ?</Text>
+                  <View style={styles.cancelButtonContainer}>
+                  <Pressable onPress={()=>setIsCancelVisible(false)} style={styles.cancelButtonStyle}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        textAlign: "center"
+                      }}
+                    >Cancel</Text>
+                  </Pressable>
+                  {/* Modified by Yuvraj Sahu on 24-07-2023
+                  Reason - to call the function for save the order cancellation */}
+                  <Pressable onPress={()=>handleOrderUpdate("Cancelled", orderDetail.order_id)} style={styles.cancelButtonStyle}>
+                  {/* End of modification by yuvraj Sahu on 24-07-2023 */}
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        textAlign: "center"
+                      }}
+                    >Ok</Text>
+                  </Pressable>
+                  </View>
+                </View>
+              </View>
+            </Modal>
 
             {/* Added by Parineeta Gedam on 13-05-2023
             Reason - to save and show order cancel reason */}
             {/* ---------------------------------------------------------------------------------------------- */}
             {orderStatusSelected == "Cancelled" ?
-              <>
+              <View>
                 <View >
                   <View>
-                    <View style={styles.orderStatusContainer}>
+                    <View>
+                    {/* <View style={styles.orderStatusContainer}> */}
                       <Text style={{ fontWeight: "bold" }}>Order cancel reason</Text>
                     </View>
                   </View>
@@ -3041,7 +3859,7 @@ const printKot = async()=>{
                   }
                   {/* End of Added by :- Parineeta Gedam on 18-06-2023 reason :- show validations message */}
                 </View>
-              </>
+              </View>
               : null}
             {/* End of addition by Parineeta Gedam on 13-05-2023 */}
 
@@ -3056,10 +3874,10 @@ const printKot = async()=>{
             <> */}
             {/* Commeted and added by yuvraj Sahu on 28-06-2023
               Reason - to remove dropdown and design radio */}
-            <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5}]}>
+            <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5, paddingBottom: 10}]}>
               {/* Font weight apply by Om on 27-04-23 */}
               <View>
-              <Text style={{ fontWeight: "bold" }}>Payment status</Text>
+              <Text style={{ fontWeight: "bold", marginBottom: 5 }}>Payment status</Text>
 
               {/* Commeted and added by Yuvraj Sahu on 04-05-2023
               Reason - to change the dropdown library */}
@@ -3156,7 +3974,9 @@ const printKot = async()=>{
                   return order.value;
                 }}
               /> */}
-              <RadioButtonGroup
+              {/* Commeted by Yuvraj Sahu on 03-07-2023
+              Reason - to remove the radio and add button for payment update */}
+              {/* <RadioButtonGroup
                 containerStyle={{ marginBottom: 10,flexDirection: "row", flexWrap: "wrap", width: 220, marginTop: 5 }}
                 selected={paymentStatusSelected}
                 // onSelected={(value) => { setDiscountType(value); setDiscountAmountErrorMsg(false); (discountAmount > 100) && setDiscountAmount(0) }}
@@ -3167,10 +3987,74 @@ const printKot = async()=>{
                 {paymentStatusData.map((dt,i)=>(
                 <RadioButtonItem style={{ borderWidth: 1, margin: 7, marginRight: 0, marginLeft: 5}} value={dt.value} label={dt.value} key={i}/>
               ))}
-                {/* <RadioButtonItem style={{ borderWidth: 1 }} value="Completed" label="Completed" /> */}
-              </RadioButtonGroup>
+              </RadioButtonGroup> */}
+              <View style={styles.buttonContainerStyle}>
+            <Pressable
+                onPress={(e)=>handlePaymentUpdate("Pending", orderDetail.order_id)}
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  // Added by yuvraj Sahu on 26-07-2023
+                  // Reason - to change the active color of payment status
+                  // backgroundColor: colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" ? "grey" : paymentStatusSelected == "Pending" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  // end of addition by yuvraj sahu on 26-07-2023
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  marginHorizontal: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Pending
+                </Text>
+              </Pressable>
+              {/* <AntDesign name="forward" size={15} color="black" /> */}
+              <MaterialIcons name="double-arrow" size={20} color="black" />
+              <Pressable
+              onPress={()=>handlePaymentUpdate("Completed", orderDetail.order_id)}
+                // onPress={handleUpdate}
+                // disabled={isDisable}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  // Added by yuvraj Sahu on 26-07-2023
+                  // Reason - to change the active color of payment status
+                  // backgroundColor: colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" ? "grey" : paymentStatusSelected == "Completed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  // end of addition by yuvraj sahu on 26-07-2023
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 5,
+                  marginHorizontal: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Completed
+                </Text>
+              </Pressable>
               </View>
-              <View>
+              </View>
+              {/* Commeted by yuvraj sahu on 03-06-2023
+              Reason - to remove checkbox for update payment status */}
+              {/* <View>
                 <Text style={{
                   color: colors.btnColor,
                   fontWeight: "bold"
@@ -3181,7 +4065,8 @@ const printKot = async()=>{
                     paymentStatusSelected
                   }
                 </Text>
-              </View>
+              </View> */}
+              {/* End of comment by Yuvraj sahu on 03-07-2023 */}
               {/* End of addition by yuvraj Sahu on 28-06-2023 */}
               {/* End of changing dropdown library by yuvraj Sahu on 04-05-2023 */}
             </View>
@@ -3218,243 +4103,6 @@ const printKot = async()=>{
 
         {/* End of added code by :- Parineeta gedam on 13-05-2023 */}
 
-
-        <View>
-          {/* <Button title="Save"/> */}
-          {/* Modification by Om on 26-04-23
-        Reason : Fix the button designin  */}
-          {orderDetail.order_status == "Served" &&
-            orderDetail.payment_status == "Completed" ? (
-            <View style={styles.mainButtonDiv}>
-              <Pressable
-                onPress={handleUpdate}
-                // disabled={isDisable}
-                style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  // Modified by yuvraj Sahu on 16-07-2023
-                  // Reason - to arrange button
-                  // width: "35%",
-                  width: "48%",
-                  // End of addition by yuvraj Sahu pon 16-07-2023
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Update
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={printBill}
-                style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  // Modified by yuvraj Sahu on 16-07-2023
-                  // Reason - to arrange button
-                  // width: "35%",
-                  width: "48%",
-                  // End of addition by yuvraj Sahu pon 16-07-2023
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {/* Content changes by Om on 27-04-23 */}
-                  Print bill
-                </Text>
-              </Pressable>
-            </View>
-          ) : (
-            <>
-             {/* Added by :- Parineeta Gedam on 19-06-2023 reason :- reset the data */}
-             <View style={styles.mainButtonDiv}>
-              <Pressable
-                onPress={(e) =>{getOrderItems()
-                }}
-                style={{
-                // Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then reset button will be disable 
-                // backgroundColor: colors.btnColor,
-                backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
-                // End of Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then update button will be disable 
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  // Modified by yuvraj Sahu on 16-07-2023
-                  // Reason - to arrange button
-                  // width: "35%",
-                  width: "48%",
-                  // End of addition by yuvraj Sahu pon 16-07-2023
-                }}
-                // Added by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
-                disabled={orderDetail.order_status == "Cancelled" ? true : false}
-                // End of Added code by :- Parineeta Gedam on 19-05-2023 reason :- if order cancel then reset btn will be disable
-
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Reset
-                </Text>
-              </Pressable>
-            {/* </View> */}
-
-            {/*End of Added code  by :- Parineeta Gedam on 19-06-2023 reason :- reset the data */}
-
-            {/* <View style={styles.btns}> */}
-              <Pressable
-                // Modified by :- Parineeta Gedam on 17-06-2023
-                // reason :-  when admin select the order status = "cancelled" then show the confirmation message.
-                // onPress={handleUpdate}
-                onPress={() => orderStatusSelected == "Cancelled" ? orderCancelPermission() : handleUpdate()}
-                // End of modified code by :- Parineeta Gedam on 17-06-2023  reason :-  when admin select the order status = "cancelled" then show the confirmation message.
-                // disabled={isDisable}
-                style={{
-                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
-
-                  // Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
-                  // backgroundColor: colors.btnColor,
-                  backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
-                  // End of Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
-
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  // Modified by yuvraj Sahu on 16-07-2023
-                  // Reason - to arrange button
-                  // width: "35%",
-                  width: "48%",
-                  // End of addition by yuvraj Sahu pon 16-07-2023
-                }}
-                disabled={orderDetail.order_status == "Cancelled" ? true : false}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Update
-                </Text>
-              </Pressable>
-            </View>
-            </>
-          )}
-        </View>
-        {/* Added by Om  on 21-04-23
-      Reason : When order status is served than payent status is completed functionality */}
-        {/* {orderDetail.order_status == "Served" && orderDetail.payment_status == "Completed" ? (
-        <>
-          <View style={styles.btns}>
-            <Pressable
-              onPress={printBill}
-              style={{
-                backgroundColor: colors.anotherButton,
-                height: 40,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 10,
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                }}
-              >
-                Get bill
-              </Text>
-            </Pressable>
-          </View>
-        </>
-      ) : null} */}
-        {/* End of the addition */}
-        {/* Added by Yuvraj Sahu on 29-06-2023
-        Reason - to give button for print kot */}
-        <View style={styles.mainButtonDiv}>
-              <Pressable
-                onPress={printKot}
-                // Modified by Yuvraj Sahu on 12-07-2023
-                // disabled={orderDetail.order_status == "Placed" ? true : false}
-                // disabled ={orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? false : true}
-                disabled ={isDuplicateKotDisable}
-                style={{
-                  // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
-                  // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
-                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
-                  // backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  // Modified by yuvraj Sahu on 16-07-2023
-                  // Reason - to arrange button
-                  // width: "35%"
-                  width: "48%",
-                  // End of addition by yuvraj Sahu pon 16-07-2023
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Duplicate kot
-                </Text>
-              </Pressable>
-              {/* <Pressable
-                onPress={printKot}
-                style={{
-                  backgroundColor: orderDetail.order_status == "Pending" ? "grey" : colors.btnColor,
-                  // backgroundColor: colors.btnColor,
-                  height: 30,
-                  alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  width: "35%",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Duplicate kot
-                </Text>
-              </Pressable> */}
-            </View>
         {/* End of koi print by yuvraj sahu on 29-06-2023 */}
       </ScrollView>
       {/* Added by Om on 18-04-23 For showing the footer*/}
@@ -3567,9 +4215,10 @@ tableNumberElseStyle: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    margin: 5,
+    // margin: 5,
     paddingRight: 10,
     paddingLeft: 10,
+    marginBottom: 10,
     // borderWidth:1.5,
     /**
      * Added by Yuvraj Sahu on 07-05-2023
@@ -3722,11 +4371,13 @@ tableNumberElseStyle: {
     alignSelf: "center",
     marginTop: 10,
     flexDirection: "row",
-    marginBottom: 12,
+    // marginBottom: 12,
     // Added by Yuvraj Sahu on 16-07-2023
     // Reason - to design button 
     justifyContent: "space-around",
-    width: 250
+    // width: 250
+    width: "100%",
+    paddingHorizontal: 10,
     // End of addition by Yuvraj Sahu on 16-07-2023
   },
   // End of table design
@@ -3768,7 +4419,8 @@ tableNumberElseStyle: {
     */
 
   CancelReasonContainer: {
-    paddingHorizontal: 12,
+    // paddingHorizontal: 5,
+    marginBottom: 10
   },
   textAreaContainer: {
     backgroundColor: "white",
@@ -3779,7 +4431,7 @@ tableNumberElseStyle: {
     borderRadius: 5,
   },
   textArea: {
-    height: 50,
+    minHeight: 50,
     justifyContent: "flex-start",
   },
   /**
@@ -3822,7 +4474,7 @@ tableNumberElseStyle: {
     flexDirection: "row",
     width: "100%",
     flexWrap: "wrap",
-    alignItems: "center"
+    alignItems: "center",
   },
   // End of addition by Yuvraj Sahu on 05-07-2023
 
@@ -3840,4 +4492,43 @@ tableNumberElseStyle: {
   /**
   * End of addition by Yuvraj Sahu on 14-06-2023
   */
+
+  /**
+   * Added by yuvraj Sahu on 23-07-2023
+   * Reason - to design the cancel modal container
+   */
+  cancelModalContainer: {
+    flex: 1,
+    // justifyContent: "center"
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+  },
+  cancelOrderScreen: {
+    borderRadius: 5,
+    backgroundColor: "white",
+    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 20
+  },
+  cancelButtonContainer: {
+    flexDirection: "row",
+    width: 250,
+    justifyContent: "space-around",
+    marginTop: 10,
+    alignSelf: "center"
+  },
+  cancelButtonStyle: {
+    backgroundColor: colors.btnColor,
+    borderRadius: 5,
+    padding: 5,
+    width: "40%"
+  },
+  cancelReasonText: {
+    minHeight: 50,
+    width: 250
+  }
+  /**
+   * End of additioin by Yuvraj Sahu on 23-07-2023
+   */
 });

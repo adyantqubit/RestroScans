@@ -1787,7 +1787,7 @@ class getCustomerList(APIView):
 # End of getting customer list
 """
 End of getting all customers
-""" 
+"""
 
 # Added by Om Shrivastava on 03-05-23 
 # Adding a generate_pdf button
@@ -3706,3 +3706,57 @@ class RestaurantRatingAPI(APIView):
     
 # End of code addition by - Om Shrivastava  on 24-07-2023
 # Reason - API to get list of rating for restaurant 
+
+"""
+Added by Yuvraj Sahu on 03-07-2023
+Reason - to update the order status
+"""
+class UpdateOrderStatus(APIView):
+    def post(self,request,tenant):
+        # Commeted and modified by yuvraj Sahu on 24-07-2023
+        # Reason - to update the order status from native side 
+        # Order.objects.filter(order_id = request.data["order_id"]).update(order_status = request.data["order_status"])
+        # if request.data["order_status"] == "Confirm" :
+        #       OrderItem.objects.filter(order_id__order_id = request.data["order_id"], item_status = "Pending").update(item_status = "Confirm", kot_print_status=True)
+        orderObj = Order.objects.get(order_id=request.data["order_id"])
+        orderSerializer = OrderSerializer(orderObj, data=request.data, partial=True)
+        if orderSerializer.is_valid() :
+            orderSerializer.save()
+            return Response({
+                "msg":"Order Status Updated"
+            })
+        return Response({
+            "msg":"error"
+        })
+        # End of modification by yuvraj Sahu on 24-07-2023
+"""
+End of addition by Yuvraj Sahu on 03-07-2023
+"""
+
+"""
+Added by Yuvraj Sahu on 03-07-2023
+Reason - to update the payment status
+"""
+class UpdatePaymentStatus(APIView):
+    def post(self,request,tenant):
+        # Commeted and added by Yuvraj Sahu on 26-07-2023
+        # Reason - to the payment status using save method
+        # Order.objects.filter(order_id = request.data["order_id"]).update(payment_status = request.data["payment_status"])
+        # return Response({
+        #     "msg":"Payment status Updated"
+        # })
+        orderObj = Order.objects.get(order_id=request.data["order_id"])
+        orderSerializer = OrderSerializer(orderObj, data=request.data, partial=True)
+        if orderSerializer.is_valid() :
+            orderSerializer.save()
+            return Response({
+                "msg":"Payment status Updated"
+            })
+        return Response({
+            "msg":"error"
+        })
+        # End of modification by yuvraj Sahu on 16-07-2023
+"""
+End of addition by Yuvraj Sahu on 03-07-2023
+"""
+"""

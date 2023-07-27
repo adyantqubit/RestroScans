@@ -411,4 +411,14 @@ urlpatterns = [
     path('<str:tenant>/restaurant-rating-list/',RestaurantRatingAPI.as_view()),
     # End of code addition by - Om Shrivastava on 24-07-23
     # Reason : To get list of restaurant rating and review.
+
+    # Added by Yuvraj Sahu on 03-07-23
+    # Reason : update order status 
+    path('<str:tenant>/update-order-status/',UpdateOrderStatus.as_view()),
+    # End of updating order status
+
+    # Added by Yuvraj Sahu on 03-07-23
+    # Reason : update payment status 
+    path('<str:tenant>/update-payment-status/',UpdatePaymentStatus.as_view()),
+    # End of updating order status
 ]   

@@ -648,3 +648,29 @@ export const getRestaurantRatingReview = async (tenant) => {
  * End of get all rating review for restaurant
  */
  
+ 
+ 
+ // Added by Yuvraj Sahu on 03-07-2023
+// Reason - to update order status
+export const updateOrderStatus = async (tenant, value) => {
+  const response = await API.post(`/api/v1/${tenant}/update-order-status/`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End updating order status by Yuvraj Sahu on 03-07-2023
+
+
+// Added by Yuvraj Sahu on 03-07-2023
+// Reason - to update payment status
+export const updatePaymentStatus = async (tenant, value) => {
+  const response = await API.post(`/api/v1/${tenant}/update-payment-status/`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End updating payment status by Yuvraj Sahu on 03-07-2023

@@ -18,6 +18,15 @@ export const colors = {
   /**
    * End of addition
    */
+  /**
+   * Added by Yuvraj Sahu on 27-07-2023
+   * Reason - to set color for order screen
+   */
+  orderBtnColors: "#009999",
+  orderActiveBtnColor: "#248f24"
+  /**
+   * End of addition by yuvraj Sahu on 27-07-2023
+   */
 };
 
 export const fonts = {
