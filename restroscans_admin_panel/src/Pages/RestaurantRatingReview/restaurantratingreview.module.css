@@ -45,6 +45,7 @@
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
+  
 }
 
 .tableContainer {
@@ -106,6 +107,11 @@
 .commonColumnTitle2{
     width: 10%;
     min-width: 15%;
+}
+.commonColumnTitle3{
+  /* width: 55%; */
+  min-width: 3%;
+  justify-content: left;
 }
 .commonColumnData {
   width: 35vw;
@@ -413,6 +419,12 @@
     padding-left: 3px;
     padding-right: 3px;
   }
+  .ratingListSection{
+    width: 90%;
+  }
+  /* .container{
+    width: 100%;
+  } */
 }
 @media screen and (max-width: 500px) {
   .container {
@@ -456,6 +468,16 @@
     justify-content: space-around;
   }
   .commonColumnTitle {
-    flex-direction: column;
+    /* flex-direction: column; */
+    /* width: 55%; */
+    min-width: 20%;
+  }
+  .commonColumnTitle3{
+min-width: 45%;
+justify-content: left;
+  }
+  .reviewContainer{
+    margin-left: 15px ;
+
   }
 }

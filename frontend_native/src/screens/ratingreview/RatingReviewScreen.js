@@ -14,6 +14,8 @@ import Footer from "../../components/Footer/Footer";
 import { useIsFocused } from "@react-navigation/native";
 import { colors, inputs } from "../../Colours/globalColor";
 import ReadMore from '@fawazahmed/react-native-read-more';
+import { FontAwesome } from "@expo/vector-icons";
+
 
 export default function CustomerListScreen({ route, navigation }) {
   const isFocused = useIsFocused();
@@ -247,7 +249,7 @@ export default function CustomerListScreen({ route, navigation }) {
                 <Text style={styles.td3}>
                   {RatingReviews.rating != null || RatingReviews.rating != undefined ?
                     <>
-                      {RatingReviews.rating}
+                      {RatingReviews.rating} <FontAwesome name="star" size={13} color="#ffd800" />
                     </> : '-'}
                 </Text>
 

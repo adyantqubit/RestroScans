@@ -19,7 +19,9 @@ import { Input, Space } from "antd";
 import { MdArrowDropUp } from "react-icons/md";
 import { enableHeader } from "../../App";
 import ReactReadMoreReadLess from "react-read-more-read-less";
-
+import {
+    StarFilled,
+  } from '@ant-design/icons';
 const RatingReview = () => {
     const [backenRatingReviewCount, setBackendRatingReviewCount] = useState(0);
     const [ratingReviewList, setRatingReviewList] = useState([]);
@@ -218,7 +220,7 @@ const RatingReview = () => {
         // Modified by Om Shrivastava - 26-07-23
         // Reason - removing header from each page and making it global
         // <Header>
-        <div className={style.container}>
+        <div className={style.container} >
             <div className={`${style.pageTitleContainer}`}>
                 <div className={style.pageTitle}>Rating & Review</div>
             </div>
@@ -317,7 +319,8 @@ const RatingReview = () => {
                 Reason - To sort only when we click on label */}
 
                             <div
-                                className={style.commonColumnTitle}
+                                // className={style.commonColumnTitle}
+                                className={`${style.commonColumnTitle} ${style.commonColumnTitle3}`}
 
                             >
                                 <span
@@ -335,7 +338,8 @@ const RatingReview = () => {
                                     //       setShowSortingIcon(false);
                                     //     }
                                     //   }}
-                                    style={{ wordBreak: "break-word" }}>Review{" "}</span>
+                                     className={style.reviewContainer}
+                                    style={{ wordBreak: "break-word",textAlign:'left' }}>Review{" "}</span>
                                 {/* <span  onClick={(e) => {
                     setShowSortingIcon(false);
                     sortratingReviewList("last_customer_name");
@@ -404,12 +408,15 @@ const RatingReview = () => {
                                             >
                                                 {RatingReviews.rating != null || RatingReviews.rating != undefined ?
                                                     <>
-                                                        {RatingReviews.rating}
+                                                      <span style={{fontWeight:'bold'}}>
+                                                      {RatingReviews.rating} 
+                                                        </span> <StarFilled style={{color:'#ffd800'}}/> 
                                                     </> : '-'}
                                             </div>
-                                            <div className={style.commonColumnData} style={{ textJustify: 'inter-word' }}>
+                                            <div className={style.commonColumnData} style={{ textJustify: 'inter-word',textAlign:'left'}}>
                                                 {RatingReviews.review != null || RatingReviews.review != undefined ?
                                                     <>
+                                                    
                                                         <ReactReadMoreReadLess
                                                             charLimit={55}
                                                             readMoreText={"more"}
