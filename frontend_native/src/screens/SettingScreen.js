@@ -49,7 +49,7 @@ export default function SettingScreen({ navigation }) {
 
   // Added by :- Parineeta Gedam on :- 26-07-2023
   // reason :- This react hooks is used to set discount in.
-  var [discountIn, setDiscountIn] = useState("Discount in (?)");
+  var [discountIn, setDiscountIn] = useState("Discount in (₹)");
   // End of added code on 08-05-2023
 
   /**
@@ -1157,7 +1157,7 @@ export default function SettingScreen({ navigation }) {
                       radioBackground="#4630EB"
                       size={15}
                       >
-                      <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (?)" label="Discount in (?)" />
+                      <RadioButtonItem style={{ borderWidth: 1 }} value="Discount in (₹)" label="Discount in (₹)" />
                       <RadioButtonItem style={{ borderWidth: 1, marginLeft:10 }} value="Discount in (%)" label="Discount in (%)" />
                     </RadioButtonGroup>
                     </View>
