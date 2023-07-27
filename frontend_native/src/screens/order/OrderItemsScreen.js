@@ -952,18 +952,24 @@ export default function OrderItemsScreen({ route, navigation }) {
     setDiscountRupees(e)
     var discountPercentages = (e / orderDetail.sub_total) * 100
 
+    // Commented by :- Parineeta Gedam on 28-07-2023 
+    // reason :- remove the validations
+
     // Added by :- Parineeta Gedam on 20-07-2023 
     // reason :- Discount validation came in both Discount in rs and discount in percentage sections but if rs decrease then validation message is removed from the “Discount in rupees” field but validation message for the percentage field not getting removed that's why unable to update discount.
-    if (discountPercentages > 100 || discountPercentages == null ) {
-      setDiscountPercentageErrorMsg(true)
-    }
+    // if (discountPercentages > 100 || discountPercentages == null ) {
+    //   setDiscountPercentageErrorMsg(true)
+    // }
     // if (discountPercentages < 100){
     //   setDiscountPercentageErrorMsg(false)
     // }
-    else {
-      setDiscountPercentageErrorMsg(false)
-    }
+    // else {
+    //   setDiscountPercentageErrorMsg(false)
+    // }
     // End of Added by :- Parineeta Gedam on 20-07-2023
+
+    // End of Commented by :- Parineeta Gedam on 28-07-2023 
+    // reason :- remove the validations
 
     setDiscountPercentage("" + discountPercentages.toFixed(2))
 
@@ -990,17 +996,23 @@ export default function OrderItemsScreen({ route, navigation }) {
     setDiscountPercentage(e)
     var discountRupees = (orderDetail.sub_total / 100) * e
 
+    // Commented by :- Parineeta Gedam on 28-07-2023 
+    // reason :- remove the validations
+
     // Added by :- Parineeta Gedam on 20-07-2023 
     // reason :- Discount validation came in both Discount in rs and discount in percentage sections but if rs decrease then validation message is removed from the “Discount in rupees” field but validation message for the percentage field not getting removed that's why unable to update discount.
     
-    if (discountRupees > orderDetail.sub_total || discountRupees == null ) {
-      setDiscountRupeesErrorMsg(true)
-    }
+    // if (discountRupees > orderDetail.sub_total || discountRupees == null ) {
+    //   setDiscountRupeesErrorMsg(true)
+    // }
    
-    else {
-        setDiscountRupeesErrorMsg(false)
-    }
+    // else {
+    //     setDiscountRupeesErrorMsg(false)
+    // }
     // End of Added by :- Parineeta Gedam on 20-07-2023
+
+    // End of Commented by :- Parineeta Gedam on 28-07-2023 
+    // reason :- remove the validations
 
     setDiscountRupees("" + discountRupees.toFixed(2))
 
