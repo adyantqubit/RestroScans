@@ -257,6 +257,12 @@ const Sidebar = ({sidebar, setSidebar}) => {
    * Reason - to navigate restaurant rating review
    */
 const navigateToRatingReviewList = () => {
+  // Added by Om Shrivastava on 26-07-23
+  // Reason : Set the list per page data
+  localStorage.setItem("globalPageIndex", 1);
+  localStorage.setItem("listPerPage", 10)
+  // End of addition by Om Shrivastava on 26-07-23
+  // Reason : Set the list per page data
   if (windowSize.innerWidth < 800)
      setSidebar(false)
   navigate("/RatingReview");
