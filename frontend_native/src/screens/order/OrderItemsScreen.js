@@ -3601,7 +3601,7 @@ const printKot = async()=>{
             <Pressable
                 onPress={(e)=>handleOrderUpdate("Placed", orderDetail.order_id)}
                 // disabled={isDisable}
-                disabled={orderStatusSelected == "Cancelled" ? true : false}
+                disabled={orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Placed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
