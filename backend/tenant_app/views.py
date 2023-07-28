@@ -3696,13 +3696,23 @@ class RestaurantRatingAPI(APIView):
         ratingReviewList=[]
 
         if columnToSort == "":
-            ratingReviewList = RatingReview.objects.all()
+            #  Added by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+            # ratingReviewList = RatingReview.objects.all()
+            ratingReviewList = RatingReview.objects.all().order_by('-id')
+            # End of addition by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
 
         if searchText:
             ratingReviewList=RatingReview.objects.filter(Q(review__icontains=searchText) | 
                                                        Q(rating__icontains=searchText))
         else:
-            ratingReviewList = RatingReview.objects.all()    
+            #  Added by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+            # ratingReviewList = RatingReview.objects.all()
+            ratingReviewList = RatingReview.objects.all().order_by('-id')
+            # End of addition by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant   
 
         if columnToSort == "review" and columnSortingOrder=="ascending":
             ratingReviewList = ratingReviewList.order_by('review')

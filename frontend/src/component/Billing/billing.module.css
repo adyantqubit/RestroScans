@@ -254,7 +254,11 @@
 .TotalBoxContainer{
     width: 100%;
     height: auto;
-    padding: 0 15%;
+    /* Commented by Om shrivastava on 28-06-23
+    Reason : Fix the bill attributes */
+    /* padding: 0 15%; */
+    /* End of commented code by Om Shrivastava on 28-06-23
+    Reason : Fix the bill attributes  */
     display: flex;
     flex-direction: column;
     justify-content: center;

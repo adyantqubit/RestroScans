@@ -374,9 +374,14 @@ const Billing = () => {
                                 {/* {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"45%"}}>Loyality Price     :</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null} */}
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Loyality Price</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.loyality_point_price).toFixed(2)}</div></div>:null}
                                 {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
+                                 
                                 
                                 {billingData?.detail.loyality_point_price>0 && billingData?.detail.loyality_point_price !=null?<div className={style.breakLine} style={{width:"98%",margin:'7px auto'}}/>:null}
                                 {/* Modification by Om Shrivastava on 10-06-23 Reason : When cgst or sgst show than this total is enable */}
+
+                                {/* Modified by :- Om Shrivastava on 28-07-2023 reason :- set the bill attributes */}
+                                {billingData?.detail.loyality_point_price > 0 || billingData.detail.discount_rupees > 0 ? (<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>T666otal</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>) : null}
+                                {/* End of Modified by :- Om Shrivastava on 28-07-2023 reason :- set the bill attributes */}
 
                                 {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
                                 
@@ -395,8 +400,12 @@ const Billing = () => {
                                {billingData?.detail.sgst>0?<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>SGST</div><div>({(billingData.detail.sgst/billingData.detail.sub_total*100).toFixed(2)}%) :</div> </div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.sgst).toFixed(2)}</div></div>:null}
                                </>}
                                 {billingData?.detail.cgst>0||billingData?.detail.sgst>0?<div className={style.breakLine} style={{width:"98%"}}/>:null}
-
-                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
+                                {/* Modification and addition by Om Shrivastava on 28-07-23 
+                                Reason : Fix the bill attributes */}
+                                {/* <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div> */}
+                                <div className={style.calculationLine}><div className={style.calculationLabel}><div style={{width:"98%"}}>Grand Total</div><div>:</div></div> <div className={style.calculationText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
+                                {/* End of Modification and addition by Om Shrivastava on 28-07-23 
+                                    Reason : Fix the bill attributes */}
                             </>
                         }
                     </div>
@@ -412,8 +421,12 @@ const Billing = () => {
 
                         {/* Modified by :- Parineeta Gedam on 10-05-2023 reason :- for re-calculations */}
                         {/* <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>{rupee_sign}{(SubtotalOfItems() + billingData.detail.cgst + billingData.detail.sgst).toFixed(2)}</div></div> */}
-                        <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
-
+                       {/* Modification and addition by Om Shrivastava on 28-07-23 
+                       Reason : Fix the bill attributes */}
+                        {/* <div className={style.calculationLine}><div className={style.TotalLabel}>Total :</div> <div className={style.TotalText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div> */}
+                        <div className={style.calculationLine}><div className={style.TotalLabel}>Payable Amount :</div> <div className={style.TotalText}>{rupee_sign}{(billingData.detail.final_amount).toFixed(2)}</div></div>
+                        {/* End of modifiacation and addition by Om Shrivastava on 28-07-23 
+                        Reason : Fix the bill attributes */}
                         {/* End of addition by Om Shrivastava on 08-05-23 */}
                          
                     </div>
