@@ -876,6 +876,12 @@ export default function OrderItemsScreen({ route, navigation }) {
   // Reason : Need to set the loyality point price error message
   var[loyalityPriceErrorMsg,setLoyalityPriceErrorMsg] = useState(false)
   // End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price error message
+
+  // Added by Om Shrivastava on 28-07-23
+  // Reason : Need to set the sum of loyality price and discount error message
+  var[loyalityDiscountErrorMsg,setLoyalityDiscountErrorMsg] = useState(false)
+  // End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the sum of loyality price and discount error message
+
   // Added by :- Parineeta Gedam on :- 07-06-2023
   // reason :- This react hooks is used to set discount amount in precentage
   var [discountPercentage, setDiscountPercentage] = useState(0);
@@ -959,7 +965,40 @@ export default function OrderItemsScreen({ route, navigation }) {
       else {
         setLoyalityPriceErrorMsg(false)
       }
+      // Added by Om Shrivastava on 29-06-23
+      // Reason : Set the validation message for sum of loyalty and discount
+
+      if((parseFloat(discountRupees)+parseFloat(loyalityPointPrice)) > orderDetail.sub_total){
+        setLoyalityDiscountErrorMsg(true)
       }
+      else{
+        setLoyalityDiscountErrorMsg(false)
+      }
+      // End of addition and modification by Om Shrivastava on 28-07-23
+      // Reason : Set the validation message for sum of loyalty and discount
+      }
+      // Added by Om Shrivastava on 29-06-23
+      // Reason : Set the validation message for sum of loyalty and discount
+      const discountLoyaltyCalculation = (e) => {
+        if((parseFloat(discountRupees)+parseFloat(loyalityPointPrice)) > orderDetail.sub_total){
+          setLoyalityDiscountErrorMsg(true)
+        }
+        else{
+          setLoyalityDiscountErrorMsg(false)
+        }
+        }
+        const discountLoyaltyPercentCalculation = (e) => {
+          if((parseFloat(discountRupees)+parseFloat(loyalityPointPrice)) > orderDetail.sub_total){
+            setLoyalityDiscountErrorMsg(true)
+          }
+          else{
+            setLoyalityDiscountErrorMsg(false)
+          }
+    
+          }
+      // End of addition and modification by Om Shrivastava on 28-07-23
+      // Reason : Set the validation message for sum of loyalty and discount
+      
     //  End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the loyality point price
       
     // End of addition by Om Shrivastava on 07-06-23
@@ -1005,6 +1044,16 @@ export default function OrderItemsScreen({ route, navigation }) {
     else {
       setDiscountRupeesErrorMsg(false)
     }
+    // Addition and modification by Om shrivastava on 28-07-23
+    // Reason : Set the validation message for loyalty and discount price
+    if((parseFloat(discountRupees)+parseFloat(loyalityPointPrice)) > orderDetail.sub_total){
+      setLoyalityDiscountErrorMsg(true)
+    }
+    else{
+      setLoyalityDiscountErrorMsg(false)
+    }
+    // End of code addition and modification by Om shrivastava on 28-07-23
+    // Reason : Set the validation message for loyalty and discount price
     // End of Added by :- Parineeta Gedam on 20-07-2023 reason :- If discount section is empty and tap on update button then validation message should be displayed
   }
   // End of added code by Parineeta Gedam on 07-06-2023
@@ -1353,8 +1402,13 @@ export default function OrderItemsScreen({ route, navigation }) {
     // Added by Om Shrivastava on 26-06-23
     // Reason : When loyality price is greater to subtotal than show the error message
     // Added by Om Shrivastava on 10-07-23 Reason : Set the error message for table number
-    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false&& tableNumberErrorMsg == false) {
-    // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
+    // Modification and addition by Om Shrivastava on 28-07-23 
+    // Reason : Need to set the sum of loyality price and discount error message
+    // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false&& tableNumberErrorMsg == false) {
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false&& tableNumberErrorMsg == false && loyalityDiscountErrorMsg == false) {
+    // End of addition by Om Shrivastava on 29-06-23 Reason : Need to set the sum of loyality price and discount error message
+   
+      // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
       // if ((checkConfirmOrder) || (checkConfirmOrderItems)){
       if (checkConfirmOrder){
       // End of modification by Yuvraj Sahu on 21-06-2023
@@ -1382,7 +1436,12 @@ export default function OrderItemsScreen({ route, navigation }) {
       // Added by Om Shrivastava on 26-06-23
       // Reason : When loyality price is greater to subtotal than show the error message 
     // Added by Om Shrivastava on 10-07-23 Reason : Set the error message for table number
-      if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false && tableNumberErrorMsg == false ) {
+    // Modification and addition by Om Shrivastava on 28-07-23 
+    // Reason : Need to set the sum of loyality price and discount error message
+    // if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false && tableNumberErrorMsg == false ) {
+    if (discountRupeesErrorMsg == false && discountPercentageErrorMsg == false && loyalityErrorMsg == false && loyalityPriceErrorMsg == false && orderCancelReasonErrorMsg == false && tableNumberErrorMsg == false && loyalityDiscountErrorMsg == false) {
+    // End of Modification and addition by Om Shrivastava on 28-07-23 
+    // Reason : Need to set the sum of loyality price and discount error message  
       // End of addition by Om Shrivastava on 26-06-23 Reason : When loyality price is greater to subtotal than show the error message
       
       // End of Commented and Modified by :- Parineeta Gedam on 18-06-2023 reason :- add order cancel validations msg false
@@ -2404,7 +2463,6 @@ const printKot = async()=>{
                 </Pressable>
               </View>}
 
-
             {/* End of added code by Parineeta Gedam on 24-05-2023 */}
           </View>
           {orderItems.length > 0 ? (
@@ -2634,7 +2692,10 @@ const printKot = async()=>{
           <View>
             {/* Modified by Yuvraj Sahu on 14-4-2023
             Reason - to show total price */}
-            {orderDetail.cgst || orderDetail.sgst ?
+            {/* Comment this condition by Om
+            Resaosn : Show subtotal */}
+            {/* {orderDetail.cgst || orderDetail.sgst ? */}
+            <>
               <View style={styles.amountRow}>
                 {/* Modified by Yuvraj Sahu on 06-05-2023
               Reason - to design total price area */}
@@ -2646,9 +2707,21 @@ const printKot = async()=>{
                 {/* // Added by Om Shrivastava on 08-05-23
                 // Reason : Create the rupee sign globally for use the context file */}
                 {/* <Text style={styles.totalPrices}>₹ {orderDetail.sub_total}</Text> */}
-                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total.toFixed(2)}</Text>
+                <Text style={styles.totalPrices}>{rupee_sign}{orderDetail.sub_total?.toFixed(2)}</Text>
                 {/* End of addition by Om shrivastava 08-05-23 */}
-              </View> : null}
+              </View>
+              {/* Addition and modification by Om Shrivastasva on 28-07-23
+              Reason : Set the validation message for loyalty point and discount*/}
+                <View style={styles.discountLoyaltyErrorMsg}>
+                  {loyalityDiscountErrorMsg && 
+                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Discount or loyality price should be less than to Sub-total </Text>
+                }
+                </View>
+                </>
+              {/* // End of addition and modification by Om Shrivastasva on 28-07-23
+              // Reason : Set the validation message for loyalty point and discount */}
+               {/* : null} */}
+              {/* End of uncommented code by Om shrivastava on 28-07-23 */}
             {/* Commented by Yuvraj Sahu on 17-4-2023
             Reason - to remove gst */}
             {/* <View style={styles.amountRow}>
@@ -2741,7 +2814,13 @@ const printKot = async()=>{
                       keyboardType={'numeric'}
                       value={discountRupees}
                       editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
-                      onChangeText={(e) => handleChangeDiscountRupees(e)} />
+                      onChangeText={(e) => handleChangeDiscountRupees(e)} 
+                      // Added by Om Shrivastava on 29-06-23
+                      // Reason : Set the validation message for sum of loyalty and discount
+                      onBlur={(e) => {  discountLoyaltyCalculation(e);  }}
+                      // End of addition by Om Shrivastava on 29-06-23
+                      // Reason : Set the validation message for sum of loyalty and discount
+                      />
                   </View>
                   :
                   <Text style={styles.totalPrices}>{discountRupees}</Text>
@@ -2825,7 +2904,13 @@ const printKot = async()=>{
                       keyboardType={'numeric'}
                       value={discountPercentage}
                       editable={orderDetail.payment_status == "Paid" || orderDetail.payment_status == "Completed" || orderDetail.order_status == "Cancelled" ? false : true}
-                      onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} />
+                      onChangeText={(e) => handleChangeDiscountAmountPercentage(e)} 
+                      // Added by Om Shrivastava on 29-06-23
+                      // Reason : Set the validation message for sum of loyalty and discount
+                    onBlur={(e) => {  discountLoyaltyPercentCalculation(e);  }}
+                      // End of addition by Om Shrivastava on 29-06-23
+                      // Reason : Set the validation message for sum of loyalty and discount
+                    />
                   </View>
                 }
               </>
@@ -2941,7 +3026,11 @@ const printKot = async()=>{
                   // loyalityHandleChange(e)
                   // }
                   onChangeText={(e) => {  loyalityHandleChange(e);  } }
+                  // Added by Om Shrivastava on 29-06-23
+                  // Reason : Set the validation message for sum of loyalty and discount
                   onBlur={(e) => {  loyalityPriceCalculation(e);  }}
+                  // End of addition by Om Shrivastava on 29-06-23
+                  // Reason : Set the validation message for sum of loyalty and discount
                   // End of code addition by Om Shrivastava on 29-06-23 Reason : Need to show error when loyality price is greater to subtotal
 
                   />
@@ -2950,15 +3039,37 @@ const printKot = async()=>{
                 }
                 {/* Modification and addition by Om Shrivastasva on 29-06-23
                 Reason : Need to show the loyality point price */}
-                {loyalityPriceErrorMsg &&
+                {loyalityPriceErrorMsg && 
                   <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Loyality price should be less than to sub-total </Text>
                 }
+                
                 {/* End of addition and modification by Om Shrivastasva on 29-06-23 */}
+                {/* {console.log((parseFloat(discountRupees)+parseFloat(loyalityPointPrice)),"sum")} */}
 
               </View>
             </View>
+            {/* Added by Om shrivastava on 27-07-23
+                Reason - to design to design a apply loyality point error message
+            */}
+              {/* <View style={styles.discountErrorMsg}> */}
+                {/* {discountRupeesErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>
+                    {(discountRupees == null || discountRupees == "") ? "Please enter discount."
+                      : "Discount should not be greater than Sub-Total."}
+                  </Text>
+                } */}
+                {/* {loyalityErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 }}>Please enter below the customer loyality point</Text>
+                }
+                {loyalityPriceErrorMsg &&
+                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Loyality price should be less than to sub-total </Text>
+                } */}
+                {/* </View> */}
+                {/* End of Added by :- Om shrivastava on 27-06-23
+                  Reason - to design a apply loyality point error message
+                */}
             </>
-:null}
+            :null}
             {/* End of modification by Om Shrivastava on 28-06-23 Reason : Change the alignment of customer earn point */}
             
             {/* Modification and addition by Om Shrivastava on 28-06-23
@@ -4491,6 +4602,21 @@ tableNumberElseStyle: {
   },
   /**
   * End of addition by Yuvraj Sahu on 14-06-2023
+  */
+
+   /**
+  * Added by :- Om Shrivastava on 28-07-2023
+  * Reason - to design a discount ruppes, percentages and loyalty price error message
+  */
+   discountLoyaltyErrorMsg: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+  /**
+  * End of addition by Om Shrivastava on 28-07-2023
   */
 
   /**
