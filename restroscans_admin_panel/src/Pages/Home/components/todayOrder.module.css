@@ -1087,12 +1087,13 @@ Reason - to design radio button container */
 }
 
 .KotBtn{
-    width: 60px;
+    min-width: 60px;
     height: 30px;
     border: 1px solid rgb(39,166,75);
     transition: all .3s;
     border-radius: 5px;
     margin: 0 10px;
+    padding: 0 8px;
 }
 
 .KotBtn:hover{
@@ -1101,12 +1102,13 @@ Reason - to design radio button container */
 }
 
 .getbill{
-    width: 60px;
+    min-width: 60px;
     height: 30px;
     border: 1px solid rgb(39,166,75);
     transition: all .3s;
     border-radius: 5px;
     margin: 0 10px;
+    padding: 0 8px;
     margin-right:20px;
 }
 

@@ -129,7 +129,7 @@ const TodayOrder = () => {
     // var selectedItemArr = useRef({ items: [] })
 
     // Added by Rohan kansari - 3/7/23 - To save selected order details
-    const [selectedOrderData, setSelectedorderData] = useState({ })
+    const [selectedOrderData, setSelectedorderData] = useState({})
     // End of code - Rohan kansari - 3/7/23
 
     // Added by Suman sahu - 11/06/2023
@@ -201,7 +201,7 @@ const TodayOrder = () => {
 
     // Added by Rohan kansari - 23/7/23 
     // Reason - To add Loyality price 
-    const [errorText,setErrorText]=useState({})
+    const [errorText, setErrorText] = useState({})
     // End of code - Rohan Kansari - 23/7/23 
 
     // End of code - Rohan kansari - 20/7/23 - Getting all thing of order and setting it all in use state for on change
@@ -303,15 +303,12 @@ const TodayOrder = () => {
             Message("Please first change order status to confirm ", "error")
             return false;
         }
-        
+
         else if (m.order_status == "Confirm" && (order_status == "Placed")) {
             Message("You cant change order status confirm to placed", "error")
             return false;
         }
-        else if (m.order_status == "Confirm" && (order_status == "Served")) {
-            Message(`You cant change order status confirm to ${order_status}`, "error")
-            return false;
-        }
+
         else if (m.order_status == "Cooked" && (order_status == "Confirm" || order_status == "Placed")) {
             Message(`You cant change order status cooked to ${order_status}`, "error")
             return false;
@@ -549,17 +546,17 @@ const TodayOrder = () => {
         }
         else {
             updatedStatus.current.value = []
-            printKot(selectedOrderData.order_item.filter((o) => { 
-                     if(o.order_id == openActionPopupModal.order_detail.order_id && 
-                         o.kot_print_status==false && 
-                         o.item_status== "Confirm" && 
-                         o.item_status != "Cancelled") 
-                         return o 
-                        }
-                        ))
+            printKot(selectedOrderData.order_item.filter((o) => {
+                if (o.order_id == openActionPopupModal.order_detail.order_id &&
+                    o.kot_print_status == false &&
+                    o.item_status == "Confirm" &&
+                    o.item_status != "Cancelled")
+                    return o
+            }
+            ))
             updateStatus(filteredOrderItemList);
         }
-    
+
 
     }
 
@@ -574,7 +571,7 @@ const TodayOrder = () => {
             updatedStatus.current.value = []
             var newOrderItemList = []
 
-            console.log("backend order item",r.order_items.filter(o=>o.order_id==filteredOrderItemList[0].order_id))
+            console.log("backend order item", r.order_items.filter(o => o.order_id == filteredOrderItemList[0].order_id))
 
             r.order_items.filter(e => {
 
@@ -591,7 +588,7 @@ const TodayOrder = () => {
                 // uses - setting other order_id order item first then setting updated order_item which we got from backend 
                 // So old data will also not affected and new data is also get
                 newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
-                ...orderItemList.filter(o => { if (o.id == e.id){o.item_status=e.item_status; o.kot_print_status= e.kot_print_status; return o;}})]
+                ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; return o; } })]
                 //  ENd of code - ROhan Kansari - 24/6/23
                 /**
                  * End of code modifciation by - Ashish Dewangan on 18-06-2023
@@ -617,7 +614,7 @@ const TodayOrder = () => {
                 setSelectedOrder(r.todays_completed_orders)
             }
 
-            console.log("--------------newly placed",newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
+            console.log("--------------newly placed", newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
 
             // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
             var all_orders = [...r.todays_completed_orders, ...r.todays_pending_orders, ...r.todays_newly_placed_orders]
@@ -643,7 +640,7 @@ const TodayOrder = () => {
                     }
                 }
             )
-            
+
             // Added by ROhan kansari - 23/7/23
             // Reason - To save updated order in orderdetail state and all other prices
             UpdatingOpenedOrder(order)
@@ -1247,11 +1244,11 @@ const TodayOrder = () => {
                 selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
                     (selectedOrderData.order_item[index].quantity + 1)) *
                     selectedOrderData.order_item[index].quantity
-                var subtotal = 0
+                // var subtotal = 0
                 // Only get prices of item which is not cancelled
-                selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
-                // then set ypdated subtotal into order detail
-                selectedOrderData.order_detail.sub_total = subtotal
+                // selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+                // then set updated subtotal into order detail
+                // selectedOrderData.order_detail.sub_total = subtotal
                 setSelectedorderData({
                     ...{
                         "order_detail": selectedOrderData.order_detail,
@@ -1266,9 +1263,9 @@ const TodayOrder = () => {
                 (selectedOrderData.order_item[index].quantity - 1)) *
                 selectedOrderData.order_item[index].quantity
 
-            var subtotal = 0
-            selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
-            selectedOrderData.order_detail.sub_total = subtotal
+            // var subtotal = 0
+            // selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+            // selectedOrderData.order_detail.sub_total = subtotal
             setSelectedorderData({
                 ...{
                     "order_detail": selectedOrderData.order_detail,
@@ -1332,7 +1329,7 @@ const TodayOrder = () => {
         updatedOrderData.append("id", selectedOrderData.order_detail.id);
 
         // Added by Rohan kansari - 30/6/23 - To update table no. also
-       updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
+        updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
         updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
         updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
         updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
@@ -1364,13 +1361,13 @@ const TodayOrder = () => {
         updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
         updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
         updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
-        if(status.order_status){
-        updatedOrderData.append("order_status", status.order_status);
-        updatedOrderData.append("payment_status",paymentStatus);
+        if (status.order_status) {
+            updatedOrderData.append("order_status", status.order_status);
+            updatedOrderData.append("payment_status", paymentStatus);
         }
-        else{
+        else {
             updatedOrderData.append("order_status", orderStatus);
-            updatedOrderData.append("payment_status",status.payment_status);
+            updatedOrderData.append("payment_status", status.payment_status);
         }
         updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
         updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
@@ -1390,7 +1387,7 @@ const TodayOrder = () => {
     }
 
 
-    
+
     // Added by ROhan kansari - 20/7/23
     // Reason - To add all order object data in their usestate to perform on change functionality
 
@@ -1499,25 +1496,25 @@ const TodayOrder = () => {
     function inputIvalidationDiscountRupees(e) {
         var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
         console.log(e.target.value)
-        
-        if (e.target.value.length > 0 && e.target.value<subTotal && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
+
+        if (e.target.value.length > 0 && e.target.value < subTotal && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
             var total_price = subtotal - e.target.value - loyalityPointPrice
-            var CGST = (cgst/(total /100))*total_price/100
-            var SGST=(sgst/(total /100))*total_price/100
+            var CGST = (cgst / (total / 100)) * total_price / 100
+            var SGST = (sgst / (total / 100)) * total_price / 100
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
-            
+
             var discount_percentage = e.target.value / (subtotal / 100)
             setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
             setDiscountPercentage(discount_percentage.toFixed(2))
             // we are using this for setting max decimal till 2 decimal point 
             setDiscountRupee(e.target.value.indexOf(".") >= 0 ? e.target.value.slice(0, e.target.value.indexOf(".") + 3) : e.target.value)
             setDiscountprice(parseFloat(e.target.value))
-            errorText["discount_price"]=""
-            setErrorText({...errorText})
-            document.getElementById("discount_rupees").style.border="1px solid black"
-            document.getElementById("discount_percentage").style.border="1px solid black"
+            errorText["discount_price"] = ""
+            setErrorText({ ...errorText })
+            document.getElementById("discount_rupees").style.border = "1px solid black"
+            document.getElementById("discount_percentage").style.border = "1px solid black"
 
         }
         else if (e.target.value.length == 0) {
@@ -1526,37 +1523,37 @@ const TodayOrder = () => {
             setDiscountprice(0.00)
             setDiscountPercentage(0.00)
             var total_price = subtotal - e.target.value - loyalityPointPrice
-            var CGST = (cgst/(total /100))*total_price/100
-            var SGST=(sgst/(total /100))*total_price/100
+            var CGST = (cgst / (total / 100)) * total_price / 100
+            var SGST = (sgst / (total / 100)) * total_price / 100
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
             setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
-            errorText["discount_price"]="Discount price sould not blank"
-            setErrorText({...errorText})
+            errorText["discount_price"] = "Discount price sould not blank"
+            setErrorText({ ...errorText })
 
-            document.getElementById("discount_rupees").style.border="1px solid red"
+            document.getElementById("discount_rupees").style.border = "1px solid red"
         }
         else if (! /^\d+$/.test(e.target.value)) {
-            errorText["discount_price"]="Discount price sould always in digit"
-            setErrorText({...errorText})
-            document.getElementById("discount_rupees").style.border="1px solid red"
+            errorText["discount_price"] = "Discount price sould always in digit"
+            setErrorText({ ...errorText })
+            document.getElementById("discount_rupees").style.border = "1px solid red"
         }
-        else if(e.target.value>subTotal){
-            errorText["discount_price"]="Discount price sould not greater than subtotal"
-            setErrorText({...errorText})
-            document.getElementById("discount_rupees").style.border="1px solid red"
+        else if (e.target.value > subTotal) {
+            errorText["discount_price"] = "Discount price sould not greater than subtotal"
+            setErrorText({ ...errorText })
+            document.getElementById("discount_rupees").style.border = "1px solid red"
         }
     }
 
     function inputValidationDiscountPercentage(e) {
         var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
-        
+
         if (e.target.value.length > 0 && e.target.value < 101 && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
             var discount_percentage = e.target.value * (subtotal / 100)
             var total_price = subtotal - discount_percentage - loyalityPointPrice
-            var CGST = (cgst/(total /100))*total_price/100
-            var SGST=(sgst/(total /100))*total_price/100
+            var CGST = (cgst / (total / 100)) * total_price / 100
+            var SGST = (sgst / (total / 100)) * total_price / 100
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
@@ -1564,10 +1561,10 @@ const TodayOrder = () => {
             setDiscountPercentage(e.target.value)
             setDiscountRupee(discount_percentage.toFixed(2))
             setDiscountprice(parseFloat(discount_percentage))
-            document.getElementById("discount_percentage").style.border="1px solid black"
-            document.getElementById("discount_rupees").style.border="1px solid black"
-            errorText["discount_price"]=""
-            setErrorText({...errorText})
+            document.getElementById("discount_percentage").style.border = "1px solid black"
+            document.getElementById("discount_rupees").style.border = "1px solid black"
+            errorText["discount_price"] = ""
+            setErrorText({ ...errorText })
         }
         else if (e.target.value.length == 0) {
             var discount_percentage = 0.00
@@ -1575,60 +1572,60 @@ const TodayOrder = () => {
             setDiscountprice(0.00)
             setDiscountPercentage("")
             var total_price = subtotal - discount_percentage - loyalityPointPrice
-            var CGST = (cgst/(total /100))*total_price/100
-            var SGST=(sgst/(total /100))*total_price/100
+            var CGST = (cgst / (total / 100)) * total_price / 100
+            var SGST = (sgst / (total / 100)) * total_price / 100
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
             setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
-            document.getElementById("discount_percentage").style.border="1px solid red"
-            errorText["discount_price"]="Discount price sould not blank"
-            setErrorText({...errorText})
+            document.getElementById("discount_percentage").style.border = "1px solid red"
+            errorText["discount_price"] = "Discount price sould not blank"
+            setErrorText({ ...errorText })
         }
         else if (! /^\d+$/.test(e.target.value)) {
-            errorText["discount_price"]="Discount price sould always in digit"
-            setErrorText({...errorText})
-            document.getElementById("discount_percentage").style.border="1px solid red"
+            errorText["discount_price"] = "Discount price sould always in digit"
+            setErrorText({ ...errorText })
+            document.getElementById("discount_percentage").style.border = "1px solid red"
         }
-        else if(e.target.value>100){
-            errorText["discount_price"]="Discount price sould not be greater than 100%"
-            setErrorText({...errorText})
-            document.getElementById("discount_percentage").style.border="1px solid red"
+        else if (e.target.value > 100) {
+            errorText["discount_price"] = "Discount price sould not be greater than 100%"
+            setErrorText({ ...errorText })
+            document.getElementById("discount_percentage").style.border = "1px solid red"
 
         }
     }
 
-    function validateLoyalityPoint(e){
+    function validateLoyalityPoint(e) {
         // if(e.target.value.length<applyLoyalityPoint.length){
         //     // console.log(applyLoyalityPoint[applyLoyalityPoint.length-1])
         //     setcustomerLoyalitypoint(parseInt(customerLoyalitypoint)+parseInt(applyLoyalityPoint[applyLoyalityPoint.length-1]))
         // }
-        var loyality_price= settings.per_loyality_point_value * e.target.value
-        var customer_earn=parseInt(customerLoyalitypoint)+JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point
-        if(e.target.value>-1 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value<customer_earn+1 && loyality_price < subTotal+1)
-        {setApplyLoyalityPoint(e.target.value)
-        var loyalityPrice = settings.per_loyality_point_value * e.target.value
-        setLoyalityPointPrice(loyalityPrice)
-        var total_price = subTotal - loyalityPrice - discountprice
-        var CGST = (cgst/(total /100))*total_price/100
-        var SGST=(sgst/(total /100))*total_price/100
-        setCGST(CGST)
-        setSGST(SGST)
-        setTotal(total_price)
-        setFinalAmount(subTotal - loyalityPointPrice - discountprice + SGST + CGST)
+        var loyality_price = settings.per_loyality_point_value * e.target.value
+        var customer_earn = parseInt(customerLoyalitypoint) + JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point
+        if (e.target.value > -1 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value < customer_earn + 1 && loyality_price < subTotal + 1) {
+            setApplyLoyalityPoint(e.target.value)
+            var loyalityPrice = settings.per_loyality_point_value * e.target.value
+            setLoyalityPointPrice(loyalityPrice)
+            var total_price = subTotal - loyalityPrice - discountprice
+            var CGST = (cgst / (total / 100)) * total_price / 100
+            var SGST = (sgst / (total / 100)) * total_price / 100
+            setCGST(CGST)
+            setSGST(SGST)
+            setTotal(total_price)
+            setFinalAmount(subTotal - loyalityPointPrice - discountprice + SGST + CGST)
 
 
-        errorText["loyality_point"]=""
-            setErrorText({...errorText})
-           
+            errorText["loyality_point"] = ""
+            setErrorText({ ...errorText })
+
         }
-        else if (e.target.value.length==0){
+        else if (e.target.value.length == 0) {
             setApplyLoyalityPoint("")
             var loyalityPrice = settings.per_loyality_point_value * e.target.value
             setLoyalityPointPrice(loyalityPrice)
             var total_price = subTotal - loyalityPrice - discountprice
-            var CGST = (cgst/(total /100))*total_price/100
-            var SGST=(sgst/(total /100))*total_price/100
+            var CGST = (cgst / (total / 100)) * total_price / 100
+            var SGST = (sgst / (total / 100)) * total_price / 100
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
@@ -1636,28 +1633,28 @@ const TodayOrder = () => {
 
         }
         else if (! /^\d+$/.test(e.target.value)) {
-            errorText["loyality_point"]="loyality point sould always in digit"
-            setErrorText({...errorText})
+            errorText["loyality_point"] = "loyality point sould always in digit"
+            setErrorText({ ...errorText })
         }
-       
-        else if(e.target.value>customer_earn){
-            errorText["loyality_point"]="loyality point sould not be less then earn point"
-            setErrorText({...errorText})
+
+        else if (e.target.value > customer_earn) {
+            errorText["loyality_point"] = "loyality point sould not be less then earn point"
+            setErrorText({ ...errorText })
         }
-        else if(loyality_price >= subTotal+1){
-            errorText["loyality_point"]="loyality point sould not be less then sub-total"
-            setErrorText({...errorText})
+        else if (loyality_price >= subTotal + 1) {
+            errorText["loyality_point"] = "loyality point sould not be less then sub-total"
+            setErrorText({ ...errorText })
         }
 
     }
-                                                
+
 
     // ENd of code - Rohan kansari - 21/7/23 
 
 
-    function settingClickedData(data){
-         // Sending all datas in openActionPopupModel variable
-         setOpenActionPopupModal({
+    function settingClickedData(data) {
+        // Sending all datas in openActionPopupModel variable
+        setOpenActionPopupModal({
             ...{
                 "order_detail": data
                 , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
@@ -1681,6 +1678,17 @@ const TodayOrder = () => {
         // Setting all order data seperatly in each usestate
         UpdatingOpenedOrder(data)
     }
+
+    // Added by Rohan kansari - 28/7/23 
+    // Reason - To arrange sending print data 
+
+    function sendPrintDatas() {
+        PrintBill(selectedOrderData.order_detail,
+                  selectedOrderData.order_item,
+                 restroDetail,gstFssai,settings)
+    }
+
+    // End of code - ROhan kansari - 28/7/23
 
 
     return (
@@ -1804,7 +1812,7 @@ const TodayOrder = () => {
                                     <button className={style.printBtn}>More</button></div> */}
 
                                     <div className={style.columnData7}
-                                        onClick={e => {settingClickedData(data)}}><button className={style.printBtn}>More</button>
+                                        onClick={e => { settingClickedData(data) }}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
                                     {/* end of modification on 12/06/2023 */}
@@ -1988,21 +1996,21 @@ const TodayOrder = () => {
                         <div className={style.CustomerInformationBox}>
                             {/* This content is fixed it not scrolled up */}
                             <div className={style.topHeading}>
-                            <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
-                            <div>
-                                <button className={style.KotBtn} onClick={e=>{
-                                     printKot(selectedOrderData.order_item.filter((o) => { 
-                                        if(o.order_id == openActionPopupModal.order_detail.order_id && 
-                                            o.item_status== "Confirm" ) 
-                                            return o 
-                                           }
-                                           ))
-                                }}>Kot</button>
-                                <button className={style.getbill} 
-                                 onClick={e=>PrintBill(selectedOrderData.order_detail,selectedOrderData.order_item,"lkdkdk","kdkdkd","kdkdkdk")}>Get Bill</button>
+                                <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
+                                <div>
+                                    <button className={style.KotBtn} onClick={e => {
+                                        printKot(selectedOrderData.order_item.filter((o) => {
+                                            if (o.order_id == openActionPopupModal.order_detail.order_id &&
+                                                o.item_status == "Confirm")
+                                                return o
+                                        }
+                                        ))
+                                    }}>Print Kot</button>
+                                    <button className={`${style.getbill} ${getOrderStatus() ? style.disbaleBtn:null}`}
+                                        onClick={e=>{if(!getOrderStatus())sendPrintDatas()}}>Get Bill</button>
+                                </div>
                             </div>
-                            </div>
-                            
+
 
                             <div className={style.flex}>
                                 <div className={style.informationContainer}>
@@ -2170,7 +2178,6 @@ const TodayOrder = () => {
 
                                                         <div className={style.checkboxNTitleFlex} >
 
-
                                                             <div class="checkbox-wrapper-24">
                                                                 <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
                                                                 <label for={`status0${index}`}>
@@ -2282,196 +2289,227 @@ const TodayOrder = () => {
                             </div>
 
                             <div className={style.TotalContainer} >
-                            <div className={style.PricingContainer}>
-                                <div className={`${style.DiscountNCancelSection} 
-                                        ${getOrderStatus() 
-                                        ?null: style.disbaleBtn }`}>
-                                    <div className={style.inputContainerFlex}>
-                                        <div className={style.inputBoxContainer}>
-                                            <label className={style.InputLabel}>Discount </label>
-                                            <div className={style.flexDoubleInput}>
-                                                <div className={style.discountColumn}>
-                                                    <div className={style.discountRow}>
-                                                        <div className={style.Column}>
-                                                            <label className={style.subInputLabel}>( In ₹ ) </label>
-                                                            {/* Added by Rohan kansari - 21/7/23
+                                <div className={style.PricingContainer}>
+                                    <div className={`${style.DiscountNCancelSection} 
+                                        ${getOrderStatus()
+                                            ? null : style.disbaleBtn}`}>
+                                        <div className={style.inputContainerFlex}>
+                                            <div className={style.inputBoxContainer}>
+                                                <label className={style.InputLabel}>Discount </label>
+                                                <div className={style.flexDoubleInput}>
+                                                    <div className={style.discountColumn}>
+                                                        <div className={style.discountRow}>
+                                                            <div className={style.Column}>
+                                                                <label className={style.subInputLabel}>( In ₹ ) </label>
+                                                                {/* Added by Rohan kansari - 21/7/23
                                                                 Reason - Discount rupees functionality added */}
-                                                            <input id="discount_rupees" type="text" className={style.inputBox} value={discountRupee}
-                                                                onChange={e => {
-                                                                    inputIvalidationDiscountRupees(e)
-                                                                }} />
-                                                        </div>
-                                                        <div className={style.Column}>
-                                                            <label className={style.subInputLabel}>( In % ) </label>
-                                                            <input id="discount_percentage" className={style.inputBox} value={discountPercentage}
-                                                                onChange={e => {
-                                                                    inputValidationDiscountPercentage(e)
-                                                                }} />
-                                                        </div>
+                                                                <input id="discount_rupees" type="text" className={style.inputBox} value={discountRupee}
+                                                                    onChange={e => {
+                                                                        inputIvalidationDiscountRupees(e)
+                                                                    }} />
+                                                            </div>
+                                                            <div className={style.Column}>
+                                                                <label className={style.subInputLabel}>( In % ) </label>
+                                                                <input id="discount_percentage" className={style.inputBox} value={discountPercentage}
+                                                                    onChange={e => {
+                                                                        inputValidationDiscountPercentage(e)
+                                                                    }} />
+                                                            </div>
 
-                                                    </div> 
-                                                    <div className={style.errorText}>{errorText.discount_price?errorText.discount_price:null}</div>
-                                                </div>
-                                                <div className={style.loyalityColumn} >
-                                                    <label className={style.subInputLabel}>Apply Loyalty Point </label>
-                                                    <input className={style.inputBox} value={applyLoyalityPoint}
-                                                        onChange={e => { validateLoyalityPoint(e) }}
-                                                    />
-                                                    <div className={style.errorText}>{errorText.loyality_point?errorText.loyality_point:null}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className={style.inputBoxContainer} >
-                                         <div className={style.discountRow} style={{justifyContent:"space-between"}}>
-                                            <div className={style.rewardbox}>
-                                                Earn Point &nbsp;
-                                                <div className={style.coinBox}>
-                                                    <div className={style.cointPoints}>{customerLoyalitypoint}</div>
-                                                    <div class="spinningasset coin is-sm">
-                                                        <div>
-                                                            <div></div>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <i></i>
-                                                            <em></em>
-                                                            <em></em>
-                                                            <div></div>
                                                         </div>
+                                                        <div className={style.errorText}>{errorText.discount_price ? errorText.discount_price : null}</div>
+                                                    </div>
+                                                    
+                                                    {settings.allow_loyality_points?<div className={style.loyalityColumn} >
+                                                        <label className={style.subInputLabel}>Apply Loyalty Point </label>
+                                                        <input className={style.inputBox} value={applyLoyalityPoint}
+                                                            onChange={e => { validateLoyalityPoint(e) }}
+                                                        />
+                                                        <div className={style.errorText}>{errorText.loyality_point ? errorText.loyality_point : null}</div>
+                                                    </div>:null}
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div className={style.inputBoxContainer} >
+                                                <div className={style.discountRow} style={{ justifyContent: "space-between" }}>
+                                                {settings.allow_loyality_points? <div className={style.rewardbox}>
+                                                        Earn Point &nbsp;
+                                                        <div className={style.coinBox}>
+                                                            <div className={style.cointPoints}>{customerLoyalitypoint}</div>
+                                                            <div class="spinningasset coin is-sm">
+                                                                <div>
+                                                                    <div></div>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <em></em>
+                                                                    <em></em>
+                                                                    <div></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>:null}
 
-                                        <div className={style.loyalityColumn} >
-                                                <label className={style.subInputLabel}>Cancelled By </label>
-                                                <select
-                                                    id="cancelled_by" 
-                                                    className={style.inputBox}
-                                                    name="cancelled_by"
-                                                    onChange={(e) => {
-                                                        setCancelledBy(e.target.value);
-                                                    }}
-                                                    >
-                                                    <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
-                                                    <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
+                                                    <div className={style.loyalityColumn} >
+                                                        <label className={style.subInputLabel}>Cancelled By </label>
+                                                        <select
+                                                            id="cancelled_by"
+                                                            className={style.inputBox}
+                                                            name="cancelled_by"
+                                                            onChange={(e) => {
+                                                                setCancelledBy(e.target.value);
+                                                            }}
+                                                        >
+                                                            <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
+                                                            <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
 
-                                                    </select>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <div className={style.inputContainerFlex}>
+                                            <div className={style.inputBoxContainer}>
+                                                <label className={style.InputLabel} >Cancel Reason </label>
+                                                <textarea className={style.TextInputBox} value={cancelReaon} id="cancelInput" onChange={e =>{
+                                                    e.target.style.border="1px solid #9c9c9c";
+                                                    errorText["cancelReason"]="";
+                                                    setErrorText(errorText)
+                                                    setCancelReason(e.target.value);
+                                                    }} />
+                                                <div className={style.errorText}>{errorText.cancelReason ? errorText.cancelReason : null}</div>
+    
+                                            </div>
+                                            <div className={style.inputBoxContainer}>
+                                                <label className={style.InputLabel}>Discount Reason </label>
+                                                <textarea className={style.TextInputBox} value={discountReason} onChange={e => setDiscountReason(e.target.value)} />
+                                            </div>
                                         </div>
+
+                                        <div className={style.inputContainerFlex}>
+                                            <div className={style.inputBoxContainer}>
+                                                <label className={style.InputLabel} />
+                                            </div>
+                                            <div className={style.UpdateDIscountBtn}>
+                                                <button className={style.ApplyBtn} onClick={e => UpdateorderDetail()}>Apply</button>
+                                            </div>
+                                        </div>
+
                                     </div>
 
-                                    <div className={style.inputContainerFlex}>
-                                        <div className={style.inputBoxContainer}>
-                                            <label className={style.InputLabel} >Cancel Reason </label>
-                                            <textarea className={style.TextInputBox} value={cancelReaon} onChange={e=>setCancelReason(e.target.value)}/>
+                                    <div className={style.pricingContent}>
+                                     {settings.allow_loyality_points?<div className={style.priceInformation}>
+                                            <label className={style.InputLabel}>Loyality Price :- </label>
+                                            <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
+                                        </div>:null}
+                                        <div className={style.priceInformation}>
+                                            <label className={style.InputLabel}>Discount Price :- </label>
+                                            <label className={style.InputLabel}>{discountprice.toFixed(2)}</label>
                                         </div>
-                                        <div className={style.inputBoxContainer}>
-                                            <label className={style.InputLabel}>Discount Reason </label>
-                                            <textarea className={style.TextInputBox} value={discountReason} onChange={e=>setDiscountReason(e.target.value)}/>
+                                        <div className={style.priceInformation} >
+                                            <label className={style.InputLabel}></label>
+                                            <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
+                                        </div>
+                                        <div className={style.priceInformation}>
+                                            <label className={style.InputLabel}>CGST :- </label>
+                                            <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
+                                        </div>
+                                        <div className={style.priceInformation}>
+                                            <label className={style.InputLabel}>SGST :- </label>
+                                            <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
+                                        </div>
+                                        <div className={style.priceInformation}>
+                                            <label className={style.InputLabel}></label>
+                                            <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
                                         </div>
                                     </div>
-
-                                    <div className={style.inputContainerFlex}>
-                                        <div className={style.inputBoxContainer}>
-                                            <label className={style.InputLabel} />
-                                        </div>
-                                        <div className={style.UpdateDIscountBtn}>
-                                            <button className={style.ApplyBtn} onClick={e => UpdateorderDetail()}>Apply</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className={style.pricingContent}>
-                                            <div className={style.priceInformation}>
-                                                <label className={style.InputLabel}>Loyality Price :- </label>
-                                                <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
-                                            </div>
-                                            <div className={style.priceInformation}>
-                                                <label className={style.InputLabel}>Discount Price :- </label>
-                                                <label className={style.InputLabel}>{discountprice.toFixed(2)}</label>
-                                            </div>
-                                            <div className={style.priceInformation} >
-                                                <label className={style.InputLabel}></label>
-                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
-                                            </div>
-                                            <div className={style.priceInformation}>
-                                                <label className={style.InputLabel}>Cgst :- </label>
-                                                <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
-                                            </div>
-                                            <div className={style.priceInformation}>
-                                                <label className={style.InputLabel}>Sgst :- </label>
-                                                <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
-                                            </div>
-                                            <div className={style.priceInformation}>
-                                                <label className={style.InputLabel}></label>
-                                                <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
-                                            </div>
-                                        </div>
                                 </div>
 
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
                                 <div className={style.OrderstatusBtnContainer}>
                                     <div className={style.StatusArrowBtnContainer}>
                                         <p><button className={`btn-right ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}
-                                            onClick={e=>{
-                                                if(statusValidation("Placed",paymentStatus,selectedOrderData.order_detail))
-                                                UpdateOrderStatusDetail({
-                                                "order_status":"Placed"
-                                            })
-                                        }
+                                            onClick={e => {
+                                                if (statusValidation("Placed", paymentStatus, selectedOrderData.order_detail))
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Placed"
+                                                    })
+                                            }
                                             }><a href="#">Placed</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
-                                           onClick={e=>{
-                                            if(statusValidation("Confirm",paymentStatus,selectedOrderData.order_detail))
-                                            UpdateOrderStatusDetail({
-                                            "order_status":"Confirm"
-                                            })}}><a href="#">Confirm</a></button></p>
+                                            onClick={e => {
+                                                if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail))
+                                                {    printKot(selectedOrderData.order_item.filter((o) => {
+                                                    if (o.order_id == openActionPopupModal.order_detail.order_id &&
+                                                        o.kot_print_status == false &&
+                                                        o.item_status == "Confirm" &&
+                                                        o.item_status != "Cancelled")
+                                                        return o
+                                                }
+                                                ))
+                                                UpdateOrderStatusDetail({
+                                                        "order_status": "Confirm"
+                                                    })
+                                                }
+                                            }}><a href="#">Confirm</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
-                                        onClick={e=>{
-                                            if(statusValidation("Cooked",paymentStatus,selectedOrderData.order_detail))
-                                            UpdateOrderStatusDetail({
-                                            "order_status":"Cooked"
-                                        })
-                                        }}><a href="#">Cooked</a></button></p>
+                                            onClick={e => {
+                                                if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail))
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Cooked"
+                                                    })
+                                            }}><a href="#">Cooked</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Served" ? 'activeStatusBtn' : null}`}
-                                           onClick={e=>{
-                                            if(statusValidation("Served",paymentStatus,selectedOrderData.order_detail))
-                                            UpdateOrderStatusDetail({
-                                            "order_status":"Served"
-                                        })}}><a href="#">Served</a></button></p>
+                                            onClick={e => {
+                                                if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail))
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Served"
+                                                    })
+                                            }}><a href="#">Served</a></button></p>
                                     </div>
-                                    <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled"?"CancelStatusBtn":null}`} 
-                                    onClick={e=>{
-                                        if(statusValidation("Cancelled",paymentStatus,selectedOrderData.order_detail))
-                                        UpdateOrderStatusDetail({
-                                        "order_status":"Cancelled"
-                                    })}}>Cancel</button>
+                                    <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
+                                        onClick={e => {
+                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)){
+                                                if( selectedOrderData.order_detail.cancel_reason.length==0 && orderStatus != "Cancelled"){
+                                                document.getElementById("cancelInput").scrollIntoView()
+                                                document.getElementById("cancelInput").style.border="1px solid red"
+                                                errorText["cancelReason"]="Please fill cancel reason and submit"
+                                                setErrorText({...errorText})
+                                                }else{
+                                                UpdateOrderStatusDetail({
+                                                    "order_status": "Cancelled"
+                                                })
+                                            }
+                                            }
+                                        }}>Cancel</button>
                                 </div>
 
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button class="btn-right"><a href="#" 
-                                           onClick={e=>{
-                                            if(statusValidation(orderStatus,"Pending",selectedOrderData.order_detail))
-                                            UpdateOrderStatusDetail({
-                                            "payment_status":"Pending"
-                                        })}}>Pending</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Completed" ? 'activeStatusBtn' : null}`}
-                                           onClick={e=>{
-                                            if(statusValidation(orderStatus,"Completed",selectedOrderData.order_detail))
-                                            UpdateOrderStatusDetail({
-                                            "payment_status":"Completed"
-                                        })}}><a href="#">Completed</a></button></p>
+                                        <p><button className={`btn-right ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
+                                         class="btn-right"><a href="#"
+                                            onClick={e => {
+                                                if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
+                                                    UpdateOrderStatusDetail({
+                                                        "payment_status": "Pending"
+                                                    })
+                                            }}>Pending</a></button></p>
+                                        <p><button className={`btn-right ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+                                                if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
+                                                    UpdateOrderStatusDetail({
+                                                        "payment_status": "Completed"
+                                                    })
+                                            }}><a href="#">Completed</a></button></p>
                                     </div>
                                 </div>
 
@@ -2480,7 +2518,7 @@ const TodayOrder = () => {
                                     <div className={style.inputContainerFlex}>
                                         {/* Commented by ROhan kansari - 24/7/23
                                             Reason - position changed  */}
-                                    {/* <div className={style.pricingContent}>
+                                        {/* <div className={style.pricingContent}>
                                             <div className={style.priceInformation}>
                                                 <label className={style.InputLabel}>Loyality Price :- </label>
                                                 <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
@@ -2508,7 +2546,6 @@ const TodayOrder = () => {
                                         </div> */}
                                         {/* End of code - Rohan kansari - 24/7/23 -position changed  */}
                                         <div className={style.PrintNBack}>
-                                            <button className={style.ApplyBtn}>Get Bill</button>
                                             <button className={style.BackBtn} onClick={e => setPopupOpen(false)}>Close</button>
                                         </div>
 

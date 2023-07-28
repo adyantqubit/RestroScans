@@ -1,10 +1,16 @@
   
-    function PrintBill(orderDetail,orderItems,restaurantAddress,restaurantName,tenant) {
-        // tenant,restaurantname,restaurantAddress,customerDetail
-        //Confirmed orderItem list,orderDetail,rupee_sign
-        var customerDetail={}
-        var rupee_sign="$"
-        var settingData=""
+    function PrintBill(orderDetail,orderItems,restaurantDetail,settings) {
+        
+        var restaurantName=restaurantDetail.name
+        var restaurantAddress=restaurantDetail.address
+        var customerDetail={
+          "last_customer_name":orderDetail.last_customer_name,
+          "contact_number":orderDetail.customer_number
+        }
+
+        console.log(orderDetail,restaurantAddress)
+        var rupee_sign="₹"
+
         function BillDateTime(format) {
             var date = format?.substring(0, 10)
             var time = format?.substring(11, 19)
@@ -63,36 +69,28 @@
         <div>:</div></div>
         <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price} </div>
       </div>
-      
-    
-      <hr>
-      <div class="calculationLine">
-      <div  class="calculationLabel" > 
-      <div style= "width:98%">Total</div>
-      <div>:</div></div>
-      <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}  </div>
-      </div>`
-    
-            : ``}  `
-    
-          discountCalculations = discountCalculations + `<div class="calculationLine">
+     `      : ``}  `
+            discountCalculations = discountCalculations + `
+            <hr>
+            <div class="calculationLine">
             <div  class="calculationLabel"> 
             <div style= "width:98%">Total</div>
             <div>:</div></div>
             <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}</div>
           </div>
-          <div class="calculationLine">
+          ${orderDetail.cgst>0?`<div class="calculationLine">
             <div  class="calculationLabel" > 
             <div style= "width:98%">CGST</div>
             <div> (%${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
             <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
-          </div>
-          <div class="calculationLine">
+          </div>`:``}
+          ${orderDetail.cgst>0?`<div class="calculationLine">
             <div  class="calculationLabel" > 
             <div style= "width:98%">SGST</div>
             <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
             <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
-          </div>`    
+          </div>`:``}` 
+       
         }
         else {
           discountCalculations =
@@ -116,18 +114,18 @@
     
               : ``}
     
-          <div class="calculationLine">
-          <div  class="calculationLabel" > 
-          <div style= "width:98%">CGST</div>
-          <div>(%${((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
-          <div  class="calculationText" >${rupee_sign}${orderDetail.cgst.toFixed(2)}  </div>
-          </div>
-          <div class="calculationLine">
-          <div  class="calculationLabel" > 
-          <div style= "width:98%">SGST</div>
-          <div>(%${((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2)}):</div></div>
-          <div  class="calculationText" >${rupee_sign}${orderDetail.sgst.toFixed(2)} </div>
-        </div>`
+              ${orderDetail.cgst>0?`<div class="calculationLine">
+              <div  class="calculationLabel" > 
+              <div style= "width:98%">CGST</div>
+              <div> (%${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+              <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+            </div>`:''}
+            ${orderDetail.cgst>0?`<div class="calculationLine">
+              <div  class="calculationLabel" > 
+              <div style= "width:98%">SGST</div>
+              <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+              <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+            </div>`:''}`
         }
     
         str = `<div class="billingContainer">
@@ -138,10 +136,10 @@
                   <div class="centerLabel">${restaurantAddress} </div>
                 </div>
                 <div class="inLineContainer">
-                  <div class="centerLabel">GSTIN :- ${settingData.gstin}</div>
+                  <div class="centerLabel">GSTIN :- ${settings.gstin}</div>
                 </div>
                 <div class="inLineContainer">
-                  <div class="centerLabel">FSSAI NO :- ${settingData.fssaino
+                  <div class="centerLabel">FSSAI NO :- ${settings.fssaino
           }</div>
                 </div>
                 <hr>
@@ -207,7 +205,7 @@
                   ${orderDetail.cgst || orderDetail.sgst ? `<hr>` : ``}
                   <div class="calculationLine">
                     <div  class="calculationLabel"> 
-                    <div style= "width:98%">Total</div>
+                    <div style= "width:98%">Grand Total</div>
                     <div>:</div></div>
                     <div  class="calculationText" >${rupee_sign}${(orderDetail.final_amount.toFixed(2))}</div>
                   </div>
@@ -217,7 +215,7 @@
               <div class="TotalBoxContainer">
                 <div class="TotalBox">
                     <div class="calculationLine">
-                      <div class="TotalLabel">Total </div>
+                      <div class="TotalLabel">Payble Amount</div>
                       <div class="TotalLabel">: </div>
                       <div class="grandTotalText">${rupee_sign}${(orderDetail.final_amount.toFixed(2))}
                       </div>
@@ -391,23 +389,23 @@
     }
     .TotalBoxContainer{
       width: 100%;
-      height: auto;
-      padding: 0 15%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    height: auto;
+    /* padding: 0 15%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     }
     .TotalBox{
-      width: 70%;
-      margin-right: 4%;
-      margin-bottom: 2%;
-      height: auto;  
+      width: 90%;
+    margin-bottom: 2%;
+    height: auto;
     }
     .TotalLabel{
-      font-size: 17px;
+      font-size: 14px;
       width: 20%;
       padding: 2% 4%;
       // font-weight: 800;
+      white-space:nowrap;
       width: 100%;
       letter-spacing: 2px;
     }
@@ -435,11 +433,10 @@
         var a = window.open('', '', 'height=800, width=1200');
 
         a.document.write(html)
-        a.document.close();
         
         if (orderItems.length > 0)
             a.print();
-        a.close();
+        a.close();    
       
       };
 
