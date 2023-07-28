@@ -1492,6 +1492,11 @@ export default function OrderItemsScreen({ route, navigation }) {
     const index = orderItems.indexOf(items);
     const allOrderItem = orderItems;
     var singalPrice = allOrderItem[index].price / allOrderItem[index].quantity;
+
+    // Added by :- Parineeta Gedam on 28-07-2023 reason :- showing error msg when qunatity less than one
+    var copyOrder = orderDetail
+    // End of added code by :- Parineeta Gedam on 28-07-2023 reason :- showing error msg when qunatity less than one
+    
     if (allOrderItem[index].quantity != 1) {
       var updateQuantity = allOrderItem[index].quantity -= 1;
       var updatePrice = allOrderItem[index].price = updateQuantity * singalPrice;
@@ -1538,7 +1543,12 @@ export default function OrderItemsScreen({ route, navigation }) {
 
       // Added  by :- Parineeta Gedam on 18-06-2023
       // reason :- add discount functionality and for code optimizations
-      var copyOrder = orderDetail
+
+      // Commented by :- Parineeta Gedam on 28-07-2023 reason :- showing error msg when qunatity less than one
+      // var copyOrder = orderDetail
+      // End of Commented code by :- Parineeta Gedam on 28-07-2023 reason :- showing error msg when qunatity less than one
+
+
       if (copyOrder.discount_rupees) {
         copyOrder.sub_total = newSubTotal;
         var total = newSubTotal - copyOrder.discount_rupees;
@@ -2462,6 +2472,7 @@ const printKot = async()=>{
                   </Text>
                 </Pressable>
               </View>}
+
 
             {/* End of added code by Parineeta Gedam on 24-05-2023 */}
           </View>

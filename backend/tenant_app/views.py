@@ -3513,15 +3513,41 @@ class GetAllOrderItemAPI(APIView):
         orderItemList=[]
 
         if columnToSort == "":
-            orderItemList = OrderItem.objects.all()
+
+            # Commented and modified by :- Parineeta gedam on 28-07-2023 
+            # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS.  
+                     
+            # orderItemList = OrderItem.objects.all()
+            orderItemList = OrderItem.objects.all().order_by('-id')
+
+            # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
+            # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
 
         if searchText:
             #To search by item name and category name 
+
+            # Commented and modified by :- Parineeta gedam on 28-07-2023 
+            # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS.  
+
+            # orderItemList=OrderItem.objects.filter(Q(order_id__order_id__icontains=searchText)| Q(item_status__icontains=searchText)
+            #                                         | Q(item__icontains=searchText)| Q(quantity__icontains=searchText)| Q(serving_size__icontains=searchText)).order_by('-id')
+
             orderItemList=OrderItem.objects.filter(Q(order_id__order_id__icontains=searchText)| Q(item_status__icontains=searchText)
-                                                    | Q(item__icontains=searchText)| Q(quantity__icontains=searchText)| Q(serving_size__icontains=searchText))
-                                                    
+                                                    | Q(item__icontains=searchText)| Q(quantity__icontains=searchText)| Q(serving_size__icontains=searchText)).order_by('-id')       
+
+            # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
+            # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
+                              
         else:
-            orderItemList = OrderItem.objects.all() 
+
+            # Commented and modified by :- Parineeta gedam on 28-07-2023 
+            # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS.  
+
+            # orderItemList = OrderItem.objects.all()
+            orderItemList = OrderItem.objects.all().order_by('-id')
+
+            # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
+            # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
 
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderItemList = orderItemList.order_by('order_id__order_id')

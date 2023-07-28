@@ -183,6 +183,16 @@ const PaymentMethod = () => {
       } else {
         allowDataPost = true;
       }
+      
+      // Added by :- Parineeta Gedam on 28-07-2023 
+      // reason :- If we add 11th digit in contact number and click on save button then Error message is display in page.
+      if (contactNumberError == "") {
+        allowDataPost = true;
+      } else {
+        allowDataPost = false;
+      }
+      // End of Added code by :- Parineeta Gedam on 28-07-2023 
+      // reason :- If we add 11th digit in contact number and click on save button then Error message is display in page.
     }
 
     if (allowDataPost) {
@@ -243,6 +253,14 @@ const PaymentMethod = () => {
     setIconError("");
     setNameError("");
     setContactNumberError("");
+
+    // Added by :- Parineeta Gedam on 28-07-2023 
+    // reason :- if we add above 200kb image in scanner section,then click on clear button then image is clear but still validation is display in page.
+    setIconSizeError("");
+    // End of Added by :- Parineeta Gedam on 28-07-2023 
+    // reason :- if we add above 200kb image in scanner section,then click on clear button then image is clear but still validation is display in page.
+
+
   };
   // End of added code by :- Parineeta gedam on 13-07-2023 reason :- Method to reset payment form
 

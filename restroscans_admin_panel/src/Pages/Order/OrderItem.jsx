@@ -36,7 +36,14 @@ const OrderItem = () => {
   const [listPerPage, setListPerPage] = useState(localStorage.getItem("listPerPage"));
   // End of code - ROhan kansari - 22/6/23
 
-  const [columnToSort, setColumnToSort] = useState("order_id");
+  // # Commented and modified by :- Parineeta gedam on 28-07-2023 
+  // # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS.  
+           
+  // const [columnToSort, setColumnToSort] = useState("order_id");
+  const [columnToSort, setColumnToSort] = useState("");
+
+  // # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
+  // # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
 
   // const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
   const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
