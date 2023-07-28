@@ -3634,7 +3634,11 @@ class RestaurantRatingAPI(APIView):
          ratingCount=RatingReview.objects.all().count() 
         #  Added by Om Shrivastava on 26-07-23
         #  Reason : get the rating and review for restaurant
-         allratingData = RatingReview.objects.all()
+        #  Added by Om Shrivastava on 26-07-23
+        #  Reason : get the rating by id, and new sent data show always upper
+        #  allratingData = RatingReview.objects.all()
+         allratingData = RatingReview.objects.all().order_by('-id')
+        # End of addition and modification get the rating by id, and new sent data show always upper
          ratingSerializer=RatingReviewSerializer(allratingData, many=True)
         #  End of addition by Om Shrivastava on 26-07-23
         #  Reason : get the rating and review for restaurant
