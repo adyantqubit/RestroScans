@@ -21,6 +21,7 @@ import { Input, Space } from "antd";
 import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
+import PrintBill from "../Home/components/PrintBill";
 
 const Order = () => {
 
@@ -820,8 +821,10 @@ const Order = () => {
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
 
                 >
+
                   Get Bill
                 </div>
+                
                 <div
                   className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
 
@@ -938,14 +941,24 @@ const Order = () => {
                         </div>
                           {/* Added by Om Shrivastava on 01-07-23
                         Reason : Need to show the print kot and bill */}
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                        {/* Modification and addition by Om Shrivastava on 29-07-23
+                        Reason : Sent the bill details in print bill file */}
+                        {/* <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
 
                         onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}}
                         
-                        > Get Bill</div> :'---'}
+                        > Get Bill</div> :'---'} */}
 
+                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                        {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
+
+                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); PrintBill(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
+                        // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
+                        > Get Bill</div> :'---'}
                         </div>
+                        {/* End of modification and addition by Om Shrivastava on 29-07-23
+                        Reason : Sent the bill details in print bill file  */}
                         <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}} 
                         onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }

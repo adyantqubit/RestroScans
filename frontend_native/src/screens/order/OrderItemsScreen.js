@@ -2734,7 +2734,7 @@ const printKot = async()=>{
               Reason : Set the validation message for loyalty point and discount*/}
                 <View style={styles.discountLoyaltyErrorMsg}>
                   {loyalityDiscountErrorMsg && 
-                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Discount or loyality price should be less than to Sub-total </Text>
+                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Discount or loyality price should be less than to Sub-Total </Text>
                 }
                 </View>
                 </>
@@ -3060,7 +3060,7 @@ const printKot = async()=>{
                 {/* Modification and addition by Om Shrivastasva on 29-06-23
                 Reason : Need to show the loyality point price */}
                 {loyalityPriceErrorMsg && 
-                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Loyality price should be less than to sub-total </Text>
+                  <Text style={{ color: "red", fontSize: 10 ,borderColor:'black'}}>Loyality price should be less than to sub-Total </Text>
                 }
                 
                 {/* End of addition and modification by Om Shrivastasva on 29-06-23 */}

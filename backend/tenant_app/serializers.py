@@ -167,6 +167,13 @@ class OrderSerializer(serializers.ModelSerializer):
 # Reason : to serializer orders
 class AllOrderSerializer(serializers.ModelSerializer):
     customer_name = serializers.CharField(source="customer_id.name")
+    # Added by Om Shrivastava on 29-07-23
+    # Reason - to get updated customer number and email id
+    customer_number = serializers.CharField(source="customer_id.contact_number",allow_null=True,required=False)
+    customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
+    # End of addition by Om Shrivastava on 29-07-23
+    # Reason - to get updated customer number and email id
+
     # Added by yuvraj Sahu on 04-05-2023
     # Reason - to get updated customer name
     last_customer_name = serializers.CharField(source="customer_id.last_customer_name")
