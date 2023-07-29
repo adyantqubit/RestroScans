@@ -146,6 +146,11 @@ class OrderSerializer(serializers.ModelSerializer):
     # Reason - Creating other serialzer becuase it is conflicting with current other
     customer_number = serializers.CharField(source="customer_id.contact_number",allow_null=True,required=False)
     customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
+    # Added by Rohan kansari - 28/7/23
+    # Reason - To add last customer name column in response
+    last_customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
+    # End of code - Rohan kansari - 28/7/23 
+
     # Added by ROhan kansari - 16/7/23 - to send email also in data 
     customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
     # ENd of code - Rohan kansari - 16/7/23

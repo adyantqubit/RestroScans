@@ -1741,7 +1741,7 @@ flex-direction: row-reverse;
     /* Modified by Rohan kansari - 24/7/23
        Reason - this section moved to form so designing is changed */
     width: 100%;
-    min-height: 30vh;
+    /* min-height: 30vh; */
     margin: 8px 0px;
     padding: 10px 0px;
     /* End of code - Rohan kansari - 24/7/23 - this section moved to form so designing is changed */

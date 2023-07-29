@@ -81,13 +81,13 @@
           ${orderDetail.cgst>0?`<div class="calculationLine">
             <div  class="calculationLabel" > 
             <div style= "width:98%">CGST</div>
-            <div> (%${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
-            <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+            <div> (${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}%):</div></div>
+            <div  class="calculationText" >${rupee_sign}${orderDetail.cgst} </div>
           </div>`:``}
-          ${orderDetail.cgst>0?`<div class="calculationLine">
+          ${orderDetail.sgst>0?`<div class="calculationLine">
             <div  class="calculationLabel" > 
             <div style= "width:98%">SGST</div>
-            <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+            <div> (${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}%):</div></div>
             <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
           </div>`:``}` 
        
@@ -117,13 +117,13 @@
               ${orderDetail.cgst>0?`<div class="calculationLine">
               <div  class="calculationLabel" > 
               <div style= "width:98%">CGST</div>
-              <div> (%${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+              <div> (${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}%):</div></div>
               <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
             </div>`:''}
-            ${orderDetail.cgst>0?`<div class="calculationLine">
+            ${orderDetail.sgst>0?`<div class="calculationLine">
               <div  class="calculationLabel" > 
               <div style= "width:98%">SGST</div>
-              <div> (%${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}):</div></div>
+              <div> (${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}%):</div></div>
               <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
             </div>`:''}`
         }
@@ -135,19 +135,19 @@
                 <div class="inLineContainer"  style="text-align:center;">
                   <div class="centerLabel">${restaurantAddress} </div>
                 </div>
-                <div class="inLineContainer">
+                ${settings.gstin.length>0?<div class="inLineContainer">
                   <div class="centerLabel">GSTIN :- ${settings.gstin}</div>
-                </div>
-                <div class="inLineContainer">
+                </div>:``}
+                ${settings.fssaino.length>0?<div class="inLineContainer">
                   <div class="centerLabel">FSSAI NO :- ${settings.fssaino
-          }</div>
-                </div>
+                }</div>
+                </div>:``}
                 <hr>
     
                 <div class="inLineContainer">
                   <div class="label">Name   </div>
                   <div class="text">  ${customerDetail.last_customer_name}</div>
-                  <div class="label">Contact   </div>
+                  <div class="label">Mob No.</div>
                   <div class="text">  ${customerDetail.contact_number}</div>
                 </div>
                 
@@ -166,7 +166,7 @@
                   <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
                 </div>
                 <div class="inLineContainer">
-                  <div class="label">Bill   </div>
+                  <div class="label">Bill No. </div>
                   <div class="text"> ${orderDetail.order_id}</div>
                   <div class="label">Table </div>
                   <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number

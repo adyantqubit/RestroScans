@@ -2086,11 +2086,16 @@ class UpdateItemStatus(APIView):
                     # orderItemObj=OrderItem.objects.get(id=data["id"])
                     # orderItemObj.item_status=data['item_status']
                     # orderItemObj.save()
-                
+                    
                     orderItem = OrderItem.objects.get(id=data['id'])
                     orderItem.quantity=data['quantity']
                     orderItem.price=data['price']
                     orderItem.item_status = data['item_status']
+                    #Added by ROhan kansari - 29/7/23
+                    #Reason - to set confirm kot true
+                    if(data['item_status']=="Confirm"):
+                        orderItem.kot_print_status=True
+                    #End of code additon - Rohan kansari - 29/7/23    
                     orderItem.save()
                     cartItem.append(orderItem)
                     itemsPrice.append(orderItem.price)
@@ -2142,7 +2147,7 @@ class UpdateItemStatus(APIView):
                 
         
         orderItem=OrderItem.objects.filter(order_id=orderObj.id).order_by("-id")
-        serializer=OrderItemSerializer(orderItem,many=True)
+        serializer=OrderItemWithOrderIdSerializer(orderItem,many=True)
         # ENd of code - ROhan kansari - 14/7/23 - To add cancellation feature
 
     #    Added by Rohan Kansari -25/6/23
@@ -3195,10 +3200,12 @@ class OrderDetailAPIView(APIView) :
         # serialized=AllOrderSerializer(orderObjs, many=True)
         if orderDetailSerailizer.is_valid():
             orderDetailSerailizer.save()
-            # Added by ROhan kansari - 23/7/23 
-            # Reason - To send updated order detail data
+            # Added by ROhan kansari - 27/7/23 
+            # Reason - To send updated order detail data and order item
             # return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
-            return Response({"msg": "Saved Successfully","orderData":orderDetailSerailizer.data}, status=status.HTTP_201_CREATED)
+            AllOrderItem=OrderItem.objects.filter(order_id=obj.id)
+            orderItemSerializer=OrderItemSerializer(AllOrderItem,many=True)
+            return Response({"msg": "Saved Successfully","orderData":orderDetailSerailizer.data,"orderItems":orderItemSerializer.data}, status=status.HTTP_201_CREATED)
         return Response({"error": orderDetailSerailizer.errors}, status=status.HTTP_400_BAD_REQUEST)
    
 """
@@ -3798,5 +3805,4 @@ class UpdatePaymentStatus(APIView):
         # End of modification by yuvraj Sahu on 16-07-2023
 """
 End of addition by Yuvraj Sahu on 03-07-2023
-"""
 """
