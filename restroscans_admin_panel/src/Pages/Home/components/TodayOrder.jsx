@@ -325,6 +325,17 @@ const TodayOrder = () => {
             Message(`You cant change payment status completed to ${payment_status}`, "error")
             return false;
         }
+        else if ((m.payment_status == "Completed" || m.payment_status == "Paid") && (order_status == "Cancelled")) {
+            Message(`You can't cancel order if payment is ${payment_status}`, "error")
+            return false;
+        }
+
+        else if (m.order_status == "Cancelled" && (payment_status == "Completed")) {
+            Message(`You can't complete payment if order is ${order_status}`, "error")
+            return false;
+        }
+
+
         // End of code - ROhan kansari - 28/6/23
         else
             return true;
@@ -588,7 +599,7 @@ const TodayOrder = () => {
                 // uses - setting other order_id order item first then setting updated order_item which we got from backend 
                 // So old data will also not affected and new data is also get
                 newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
-                ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; o.quantity=e.quantity; o.price=e.price; return o; } })]
+                ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; o.quantity = e.quantity; o.price = e.price; return o; } })]
                 //  ENd of code - ROhan Kansari - 24/6/23
                 /**
                  * End of code modifciation by - Ashish Dewangan on 18-06-2023
@@ -650,7 +661,7 @@ const TodayOrder = () => {
             // End of code - Rohan kansari - 23/7/23
             // End of code - 25/6/23 - ROhan kansari 
             setOrderItem(newOrderItemList)
-           
+
 
             // Modified by ROhan kansari - 26/6/23 - to delete persist data
             // selectedItemArr.current.items = []
@@ -665,7 +676,7 @@ const TodayOrder = () => {
             // }
 
 
-            console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id),"kjdkdkdkd")
+            console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id), "kjdkdkdkd")
             var CheckboxForItem = document.getElementsByClassName("checkbox-wrapper-24")
             for (var i = 0; i < CheckboxForItem.length; i++) {
                 CheckboxForItem[i].children[0].checked = false;
@@ -1299,6 +1310,12 @@ const TodayOrder = () => {
     // , cancel reason, discount reason 
     async function UpdateorderDetail() {
 
+        if (cancelReaon.length > 0) {
+            document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
+            errorText["cancelReason"] = ""
+            setErrorText({ ...errorText })
+        }
+
         const updatedOrderData = new FormData();
 
         updatedOrderData.append("id", selectedOrderData.order_detail.id);
@@ -1317,7 +1334,7 @@ const TodayOrder = () => {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
         if (response.msg) {
-            Message("order detail saved successfully.", "success");
+            Message("Order detail saved successfully", "success");
             UpdatingOpenedOrder(response.orderData)
             setSelectedOrderItemList(response.orderItems)
         } else {
@@ -1334,7 +1351,7 @@ const TodayOrder = () => {
         updatedOrderData.append("id", selectedOrderData.order_detail.id);
 
         // Added by Rohan kansari - 30/6/23 - To update table no. also
-        updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
+        updatedOrderData.append("table_number", tablenumber);
         updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
         updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
         updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
@@ -1381,7 +1398,7 @@ const TodayOrder = () => {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
         if (response.msg) {
-            Message("order detail saved successfully.", "success");
+            Message("Order detail saved successfully", "success");
             UpdatingOpenedOrder(response.orderData)
             setSelectedOrderItemList(response.orderItems)
 
@@ -1499,7 +1516,7 @@ const TodayOrder = () => {
         // console.log(selectedOrderData)
         // selectedOrderData?.order_detail?.order_status != "Cancelled"
         // &&
-        if ( selectedOrderData?.order_detail?.payment_status == "Completed" && selectedOrderData?.order_detail?.order_status != "Cancelled") {
+        if (selectedOrderData?.order_detail?.payment_status == "Completed" && selectedOrderData?.order_detail?.order_status != "Cancelled") {
             return true;
         }
         else {
@@ -1651,16 +1668,16 @@ const TodayOrder = () => {
 
         }
         else if (! /^\d+$/.test(e.target.value)) {
-            errorText["loyality_point"] = "loyality point sould always in digit"
+            errorText["loyality_point"] = "Loyality point should always in digit"
             setErrorText({ ...errorText })
         }
 
         else if (e.target.value > customer_earn) {
-            errorText["loyality_point"] = "loyality point sould not be less then earn point"
+            errorText["loyality_point"] = "Loyality point should not be less then earn point"
             setErrorText({ ...errorText })
         }
         else if (loyality_price >= subTotal + 1) {
-            errorText["loyality_point"] = "loyality point sould not be less then sub-total"
+            errorText["loyality_point"] = "Loyality point should not be greater then sub-total"
             setErrorText({ ...errorText })
         }
 
@@ -1702,8 +1719,8 @@ const TodayOrder = () => {
 
     function sendPrintDatas() {
         PrintBill(selectedOrderData.order_detail,
-                  selectedOrderData.order_item,
-                 restroDetail,gstFssai,settings)
+            selectedOrderData.order_item,
+            restroDetail, gstFssai, settings)
     }
 
     // End of code - ROhan kansari - 28/7/23
@@ -2024,8 +2041,8 @@ const TodayOrder = () => {
                                         }
                                         ))
                                     }}>Print Kot</button>
-                                    <button className={`${style.getbill} ${getbillStatus() ? null:style.disbaleBtn}`}
-                                        onClick={e=>{if(getbillStatus())sendPrintDatas()}}>Get Bill</button>
+                                    <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
+                                        onClick={e => { if (getbillStatus()) sendPrintDatas() }}>Get Bill</button>
                                 </div>
                             </div>
 
@@ -2048,6 +2065,7 @@ const TodayOrder = () => {
                                                 } onChange={e => {
                                                     selectedOrderData.order_detail.table_number = e.target.value
                                                     setSelectedorderData({ ...selectedOrderData })
+                                                    setTablenumber(e.target.value)
                                                 }}
                                                     value={selectedOrderData.order_detail.table_number}
                                                     onBlur={e => {
@@ -2093,7 +2111,7 @@ const TodayOrder = () => {
                                             Email :
                                         </div>
                                         <div className={style.data}>
-                                            {selectedOrderData?.order_detail?.customer_email?.split(",")[0]}
+                                            {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData.order_detail.customer_email.split(",").length - 1]}
                                         </div>
                                     </div>
                                 </div>
@@ -2111,7 +2129,7 @@ const TodayOrder = () => {
                                             Name :
                                         </div>
                                         <div className={style.data}>
-                                            {selectedOrderData?.order_detail?.customer_ame}
+                                            {selectedOrderData?.order_detail?.last_customer_name}
                                         </div>
                                     </div>
                                 </div>
@@ -2266,35 +2284,33 @@ const TodayOrder = () => {
                                     </Popconfirm>
                                     <div className={style.StatusBtnContainer}>
 
-                                        <button class="button" id="cut" ><span>Pending</span></button>
-                                        <button class="button" id="copy" onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
-                                            if (updatedStatus.current.value[i].item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
-                                                t.item_status = "Confirm"
-                                                console.log("update value send", t)
-                                                return t;
-                                            }
-                                            else {
-                                                t.item_status = updatedStatus.current.value[i].item_status
-                                                t.quantity = updatedStatus.current.value[i].quantity
-                                                t.price = updatedStatus.current.value[i].price
-                                                console.log("old value send", t)
-                                                return t;
-                                            }
-                                        }))}><span>Confirm</span></button>
-                                        <button class="button" id="paste" onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
-                                            if (t.item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
-                                                t.item_status = "Cancelled"
-                                                console.log("updated value send", t)
-                                                return t;
-                                            }
-                                            else {
-                                                t.item_status = updatedStatus.current.value[i].item_status
-                                                t.quantity = updatedStatus.current.value[i].quantity
-                                                t.price = updatedStatus.current.value[i].price
-                                                console.log("old value send", t)
-                                                return t;
-                                            }
-                                        }))}><span>Cancel</span></button>
+                                        <button class="button" id="cut" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}><span>Pending</span></button>
+                                        <button class="button" id="copy" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}
+                                            onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
+                                                if (updatedStatus.current.value[i].item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
+                                                    t.item_status = "Confirm"
+                                                    return t;
+                                                }
+                                                else {
+                                                    t.item_status = updatedStatus.current.value[i].item_status
+                                                    t.quantity = updatedStatus.current.value[i].quantity
+                                                    t.price = updatedStatus.current.value[i].price
+                                                    return t;
+                                                }
+                                            }))}><span>Confirm</span></button>
+                                        <button class="button" id="paste" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}
+                                            onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
+                                                if (t.item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
+                                                    t.item_status = "Cancelled"
+                                                    return t;
+                                                }
+                                                else {
+                                                    t.item_status = updatedStatus.current.value[i].item_status
+                                                    t.quantity = updatedStatus.current.value[i].quantity
+                                                    t.price = updatedStatus.current.value[i].price
+                                                    return t;
+                                                }
+                                            }))}><span>Cancel</span></button>
 
                                     </div>
                                 </div>
@@ -2321,40 +2337,39 @@ const TodayOrder = () => {
                                                                 <label className={style.subInputLabel}>( In ₹ ) </label>
                                                                 {/* Added by Rohan kansari - 21/7/23
                                                                 Reason - Discount rupees functionality added */}
-                                                                <input id="discount_rupees" 
-                                                                  type="text" 
-                                                                  className={`${style.inputBox} ${settings.discount_in=="Discount in (₹)"?null:style.disbaleBtn}`} value={discountRupee}
+                                                                <input id="discount_rupees"
+                                                                    type="text"
+                                                                    className={`${style.inputBox} ${settings.discount_in == "Discount in (₹)" ? null : style.disbaleBtn}`} value={discountRupee}
                                                                     onChange={e => {
                                                                         inputIvalidationDiscountRupees(e)
                                                                     }} />
                                                             </div>
                                                             <div className={style.Column}>
                                                                 <label className={style.subInputLabel}>( In % ) </label>
-                                                                <input id="discount_percentage" 
-                                                                className={`${style.inputBox} ${settings.discount_in=="Discount in (%)"?null:style.disbaleBtn}`} 
-                                                                value={discountPercentage}
+                                                                <input id="discount_percentage"
+                                                                    className={`${style.inputBox} ${settings.discount_in == "Discount in (%)" ? null : style.disbaleBtn}`}
+                                                                    value={discountPercentage}
                                                                     onChange={e => {
                                                                         inputValidationDiscountPercentage(e)
-                                                                    }} 
-                                                                    />
+                                                                    }}
+                                                                />
                                                             </div>
-
                                                         </div>
                                                         <div className={style.errorText}>{errorText.discount_price ? errorText.discount_price : null}</div>
                                                     </div>
-                                                    
-                                                    {settings.allow_loyality_points?<div className={style.loyalityColumn} >
+
+                                                    {settings.allow_loyality_points ? <div className={style.loyalityColumn} >
                                                         <label className={style.subInputLabel}>Apply Loyalty Point </label>
                                                         <input className={style.inputBox} value={applyLoyalityPoint}
                                                             onChange={e => { validateLoyalityPoint(e) }}
                                                         />
                                                         <div className={style.errorText}>{errorText.loyality_point ? errorText.loyality_point : null}</div>
-                                                    </div>:null}
+                                                    </div> : null}
                                                 </div>
                                             </div>
                                             <div className={style.inputBoxContainer} >
                                                 <div className={style.discountRow} style={{ justifyContent: "space-between" }}>
-                                                {settings.allow_loyality_points? <div className={style.rewardbox}>
+                                                    {settings.allow_loyality_points ? <div className={style.rewardbox}>
                                                         Earn Point &nbsp;
                                                         <div className={style.coinBox}>
                                                             <div className={style.cointPoints}>{customerLoyalitypoint}</div>
@@ -2378,7 +2393,7 @@ const TodayOrder = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>:null}
+                                                    </div> : null}
 
                                                     <div className={style.loyalityColumn} >
                                                         <label className={style.subInputLabel}>Cancelled By </label>
@@ -2402,14 +2417,14 @@ const TodayOrder = () => {
                                         <div className={style.inputContainerFlex}>
                                             <div className={style.inputBoxContainer}>
                                                 <label className={style.InputLabel} >Cancel Reason </label>
-                                                <textarea className={style.TextInputBox} value={cancelReaon} id="cancelInput" onChange={e =>{
-                                                    e.target.style.border="1px solid #9c9c9c";
-                                                    errorText["cancelReason"]="";
+                                                <textarea className={style.TextInputBox} value={cancelReaon} id="cancelInput" onChange={e => {
+                                                    e.target.style.border = "1px solid #9c9c9c";
+                                                    errorText["cancelReason"] = "";
                                                     setErrorText(errorText)
                                                     setCancelReason(e.target.value);
-                                                    }} />
+                                                }} />
                                                 <div className={style.errorText}>{errorText.cancelReason ? errorText.cancelReason : null}</div>
-    
+
                                             </div>
                                             <div className={style.inputBoxContainer}>
                                                 <label className={style.InputLabel}>Discount Reason </label>
@@ -2429,10 +2444,10 @@ const TodayOrder = () => {
                                     </div>
 
                                     <div className={style.pricingContent}>
-                                     {settings.allow_loyality_points?<div className={style.priceInformation}>
+                                        {settings.allow_loyality_points ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>Loyality Price :- </label>
                                             <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
-                                        </div>:null}
+                                        </div> : null}
                                         <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>Discount Price :- </label>
                                             <label className={style.InputLabel}>{discountprice.toFixed(2)}</label>
@@ -2469,18 +2484,17 @@ const TodayOrder = () => {
                                             }><a href="#">Placed</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
-                                                if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail))
-                                                {    printKot(selectedOrderData.order_item.filter((o) => {
-                                                    if (o.order_id == openActionPopupModal.order_detail.order_id &&
-                                                        o.kot_print_status == false &&
-                                                        o.item_status == "Confirm" &&
-                                                        o.item_status != "Cancelled")
-                                                        return o
-                                                }
-                                                ))
                                                 UpdateOrderStatusDetail({
-                                                        "order_status": "Confirm"
-                                                    })
+                                                    "order_status": "Confirm"
+                                                })
+                                                if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail)) {
+                                                    printKot(selectedOrderData.order_item.filter((o) => {
+                                                        if (o.order_id == openActionPopupModal.order_detail.order_id &&
+                                                            o.kot_print_status == false &&
+                                                            o.item_status != "Cancelled")
+                                                            return o
+                                                    }
+                                                    ))
                                                 }
                                             }}><a href="#">Confirm</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
@@ -2500,17 +2514,21 @@ const TodayOrder = () => {
                                     </div>
                                     <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
                                         onClick={e => {
-                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)){
-                                                if( selectedOrderData.order_detail.cancel_reason.length==0 && orderStatus != "Cancelled"){
-                                                document.getElementById("cancelInput").scrollIntoView()
-                                                document.getElementById("cancelInput").style.border="1px solid red"
-                                                errorText["cancelReason"]="Please fill cancel reason and submit"
-                                                setErrorText({...errorText})
-                                                }else{
-                                                UpdateOrderStatusDetail({
-                                                    "order_status": "Cancelled"
-                                                })
-                                            }
+                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)) {
+                                                if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
+                                                    document.getElementById("cancelInput").scrollIntoView()
+                                                    document.getElementById("cancelInput").style.border = "1px solid red"
+                                                    errorText["cancelReason"] = "Please enter reason and apply"
+                                                    setErrorText({ ...errorText })
+                                                } else {
+                                                    document.getElementById("cancelInput").scrollIntoView()
+                                                    document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
+                                                    errorText["cancelReason"] = ""
+                                                    setErrorText({ ...errorText })
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Cancelled"
+                                                    })
+                                                }
                                             }
                                         }}>Cancel</button>
                                 </div>
@@ -2518,16 +2536,15 @@ const TodayOrder = () => {
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
-                                        {console.log(paymentStatus,"[pauermm000000000000000000000")}
                                         <p><button className={`btn-right ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
-                                        onClick={e => {
-                                            if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
-                                                UpdateOrderStatusDetail({
-                                                    "payment_status": "Pending"
-                                                })
-                                        }}
-                                         ><a href="#"
-                                            >Pending</a></button></p>
+                                            onClick={e => {
+                                                if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
+                                                    UpdateOrderStatusDetail({
+                                                        "payment_status": "Pending"
+                                                    })
+                                            }}
+                                        ><a href="#"
+                                        >Pending</a></button></p>
                                         <p><button className={`btn-right ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
