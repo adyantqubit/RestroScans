@@ -171,10 +171,10 @@ export default function CustomerListScreen({ route, navigation }) {
     }
     if (sort == "remove sort") {
       var latest = seeratingReview.sort((a, b) => {
-        if (Number(a.id) < Number(b.id)) {
+        if (Number(a.id) > Number(b.id)) {
           return -1;
         }
-        if (Number(a.id) > Number(a.id)) {
+        if (Number(a.id) < Number(a.id)) {
           return 1;
         }
         return 0;

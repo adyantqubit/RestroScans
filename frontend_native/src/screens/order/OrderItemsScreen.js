@@ -457,7 +457,7 @@ export default function OrderItemsScreen({ route, navigation }) {
           <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price.toFixed(2)} </div>
           </div>
   
-  <hr>`
+  `
   :``}`
         // <div class="calculationLine">
         //   <div  class="calculationLabel" > 
@@ -470,28 +470,28 @@ export default function OrderItemsScreen({ route, navigation }) {
         // : ``}  `
 
       
-
-
-      discountCalculations = discountCalculations + `<div class="calculationLine">
+        discountCalculations = discountCalculations + `
+        <hr>
+      ${orderDetail.cgst>0||orderDetail.sgst>0?
+        `<div class="calculationLine">
         <div  class="calculationLabel"> 
         <div style= "width:98%">Total</div>
         <div>:</div></div>
         <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}</div>
-      </div>
-      <div class="calculationLine">
+      </div>`:``}
+      ${orderDetail.cgst>0?`<div class="calculationLine">
         <div  class="calculationLabel" > 
         <div style= "width:98%">CGST</div>
-        <div> (%${(Math.round((orderDetail.cgst / orderDetail.total * 100)).toFixed(2))}):</div></div>
-        <div  class="calculationText" >${rupee_sign}${orderDetail.cgst.toFixed(2)}  </div>
-      </div>
-      <div class="calculationLine">
+        <div> (${((orderDetail.cgst / orderDetail.total * 100)).toFixed(2)}%):</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.cgst}  </div>
+      </div>`:``}
+      ${orderDetail.sgst>0?`<div class="calculationLine">
         <div  class="calculationLabel" > 
         <div style= "width:98%">SGST</div>
-        <div> (%${(Math.round((orderDetail.sgst / orderDetail.total * 100)).toFixed(2))}):</div></div>
-        <div  class="calculationText" >${rupee_sign}${orderDetail.sgst.toFixed(2)} </div>
-      </div>`
-    // End of Added code by :- Parineeta Gedam on 07-06-2023
-
+        <div> (${((orderDetail.sgst / orderDetail.total * 100)).toFixed(2)}%):</div></div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.sgst} </div>
+      </div>`:``}` 
+   
     }
     else {
       discountCalculations =
@@ -517,20 +517,24 @@ export default function OrderItemsScreen({ route, navigation }) {
     </div>`
 
           : ``}
+    ${orderDetail?.cgst > 0  ?
 
-      <div class="calculationLine">
+      `<div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">CGST</div>
-      <div>(%${(Math.round((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2))}):</div></div>
+      <div>(${(Math.round((orderDetail.cgst / SubtotalOfItems() * 100)).toFixed(2))}%):</div></div>
       <div  class="calculationText" >${rupee_sign}${orderDetail.cgst.toFixed(2)}  </div>
-      </div>
-      <div class="calculationLine">
+      </div>`
+      :``}
+    ${orderDetail?.sgst > 0  ?
+      `<div class="calculationLine">
       <div  class="calculationLabel" > 
       <div style= "width:98%">SGST</div>
-      <div>(%${(Math.round((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2))}):</div></div>
+      <div>(${(Math.round((orderDetail.sgst / SubtotalOfItems() * 100)).toFixed(2))}%):</div></div>
       <div  class="calculationText" >${rupee_sign}${orderDetail.sgst.toFixed(2)} </div>
     </div>`
-    }
+    :``}`
+  }
     // End of added code on 11-05-2023
 
     str = `<div class="billingContainer">
@@ -540,19 +544,24 @@ export default function OrderItemsScreen({ route, navigation }) {
             <div class="inLineContainer"  style="text-align:center;">
               <div class="centerLabel">${restaurantAddress} </div>
             </div>
-            <div class="inLineContainer">
+            ${settingData.gstin?.length > 0 ?
+
+            `<div class="inLineContainer">
               <div class="centerLabel">GSTIN :- ${settingData.gstin}</div>
-            </div>
-            <div class="inLineContainer">
-              <div class="centerLabel">FSSAI NO :- ${settingData.fssaino
-      }</div>
-            </div>
+            </div>`:``}
+
+            ${settingData.fssaino?.length > 0 ?
+
+            `<div class="inLineContainer">
+              <div class="centerLabel">FSSAI NO :- ${settingData.fssaino}</div>
+            </div>`:``}
+
             <hr>
 
             <div class="inLineContainer">
               <div class="label">Name   </div>
               <div class="text">  ${customerDetail.last_customer_name}</div>
-              <div class="label">Contact   </div>
+              <div class="label">Mob No.   </div>
               <div class="text">  ${customerDetail.contact_number}</div>
             </div>
             
@@ -571,9 +580,9 @@ export default function OrderItemsScreen({ route, navigation }) {
               <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
             </div>
             <div class="inLineContainer">
-              <div class="label">Bill   </div>
-              <div class="text"> ${orderDetail.order_id}</div>
-              <div class="label">Table </div>
+              <div class="label">Bill No.  </div>
+              <div class="text" > ${orderDetail.order_id}</div>
+              <div class="label" style= "margin-right:2%">Table </div>
               <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
       }</div>
               
@@ -610,17 +619,17 @@ export default function OrderItemsScreen({ route, navigation }) {
               ${orderDetail.cgst || orderDetail.sgst ? `<hr>` : ``}
               <div class="calculationLine">
                 <div  class="calculationLabel"> 
-                <div style= "width:98%">Total</div>
+                <div style= "width:98%">Grand Total</div>
                 <div>:</div></div>
                 <div  class="calculationText" >${rupee_sign}${(orderDetail.final_amount.toFixed(2))}</div>
               </div>
             </div>
           </div> 
-          <hr>
+          <hr style= "border:1px solid black">
           <div class="TotalBoxContainer">
             <div class="TotalBox">
                 <div class="calculationLine">
-                  <div class="TotalLabel">Total </div>
+                  <div class="TotalLabel">Payable Amount </div>
                   <div class="TotalLabel">: </div>
                   <div class="grandTotalText">${rupee_sign}${(orderDetail.final_amount.toFixed(2))}
                   </div>

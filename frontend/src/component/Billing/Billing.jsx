@@ -143,6 +143,18 @@ const Billing = () => {
                     {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}
                     {/* Modified on - 3/5/23 - To align colons */}
+                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Date</div><div>:</div>  </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).date}</div></div>
+
+                    {/* <div className={style.column1}> <div className={style.label}><div style={{ width: "90%" }}>Table</div><div>:</div>   </div><div className={style.text}>{billingData.detail.table_number ? billingData.detail.table_number : 'N/A'}</div></div> */}
+                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).time}</div></div>
+                    
+                    {/* ENd of code - Rohan - 24/4/23 */}
+                </div>
+
+                <div className={style.inLineContainer}>
+                    {/* Modiefied by Rohan kansari - 24/4/23
+                        Reason - To align all label */}
+                    {/* Modified on - 3/5/23 - To align colons */}
                     {/* Modified on - 10/5/23 - Getting payment date */}
                     {/* Modification and addition by Om Shrivastava on 27-07-23
                     Reason : Set the label of phone */}
@@ -150,18 +162,13 @@ const Billing = () => {
                     <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Bill No.</div><div>:</div>  </div><div className={style.text}>{billingData.detail.order_id}</div></div>
                     {/* End of Modification and addition by Om Shrivastava on 27-07-23
                     Reason : Set the label of phone */}
-                    <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Payment</div><div>:</div>  </div><div className={style.text}>{billingData.detail.payment_mode}</div></div>
-                    {/* ENd of code - Rohan - 24/4/23 */}
-                </div>
-                <div className={style.inLineContainer}>
-                    {/* Modiefied by Rohan kansari - 24/4/23
-                        Reason - To align all label */}
-                    {/* Modified on - 3/5/23 - To align colons */}
-                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Date</div><div>:</div>  </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).date}</div></div>
-
+                    
+                    {/* <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Payment</div><div>:</div>  </div><div className={style.text}>{billingData.detail.payment_mode}</div></div> */}
                     <div className={style.column1}> <div className={style.label}><div style={{ width: "90%" }}>Table</div><div>:</div>   </div><div className={style.text}>{billingData.detail.table_number ? billingData.detail.table_number : 'N/A'}</div></div>
+                    
                     {/* ENd of code - Rohan - 24/4/23 */}
                 </div>
+                
                 {/* <div className={style.inLineContainer}> */}
                 {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}
@@ -184,7 +191,8 @@ const Billing = () => {
                     {/* Modiefied by Rohan kansari - 24/4/23
                         Reason - To align all label */}
                     {/* Modified on - 3/5/23 - To align colons */}
-                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).time}</div></div>
+                    {/* <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div className={style.text}>{ExtractDateTime(billingData.detail.payment_confirmation_date_time).time}</div></div> */}
+                    <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Payment</div><div>:</div>  </div><div className={style.text}>{billingData.detail.payment_mode}</div></div>
 
                     {/* Commented by - Rohan Kansari - 10/5/23
                     Reason - New requirement is to hide status column */}
@@ -380,7 +388,7 @@ const Billing = () => {
                                 {/* Modification by Om Shrivastava on 10-06-23 Reason : When cgst or sgst show than this total is enable */}
 
                                 {/* Modified by :- Om Shrivastava on 28-07-2023 reason :- set the bill attributes */}
-                                {billingData?.detail.loyality_point_price > 0 || billingData.detail.discount_rupees > 0 ? (<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>T666otal</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>) : null}
+                                {billingData?.detail.loyality_point_price > 0 || billingData.detail.discount_rupees > 0 ? (<div className={style.calculationLine}><div className={style.calculationLabel}><div style={{ width: "98%" }}>Total</div><div>:</div> </div> <div className={style.calculationText}>{rupee_sign}{billingData.detail.total.toFixed(2)}</div></div>) : null}
                                 {/* End of Modified by :- Om Shrivastava on 28-07-2023 reason :- set the bill attributes */}
 
                                 {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
