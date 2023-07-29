@@ -386,6 +386,14 @@
       display: flex;
       gap: 4px;
     }
+    .TotalLabel{
+      font-size: 17px;
+      width: 20%;
+      padding: 2% 4%;
+      // font-weight: 800;
+      width: 100%;
+      letter-spacing: 2px;
+    }
     .titleText {
       font-size: 10px;
       width: 58% !important;
@@ -448,25 +456,22 @@
     }
     .TotalBoxContainer{
       width: 100%;
-    height: auto;
-    /* padding: 0 15%; */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+      height: auto;
+      padding: 0 15%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     .TotalBox{
       width: 90%;
     margin-bottom: 2%;
     height: auto;
     }
-    .TotalLabel{
-      font-size: 14px;
-      width: 20%;
-      padding: 2% 4%;
-      // font-weight: 800;
-      white-space:nowrap;
-      width: 100%;
-      letter-spacing: 2px;
+    .TotalBox{
+      width: 70%;
+      margin-right: 4%;
+      margin-bottom: 2%;
+      height: auto;  
     }
     .grandTotalText{
       font-size: 17px;
