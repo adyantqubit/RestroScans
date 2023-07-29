@@ -67,17 +67,18 @@
         <div  class="calculationLabel" > 
         <div style= "width:98%">Loyality Price</div>
         <div>:</div></div>
-        <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price} </div>
+        <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price.toFixed(2)} </div>
       </div>
      `      : ``}  `
             discountCalculations = discountCalculations + `
             <hr>
-            <div class="calculationLine">
+            ${orderDetail.cgst>0 || orderDetail.sgst>0 ?
+            `<div class="calculationLine">
             <div  class="calculationLabel"> 
             <div style= "width:98%">Total</div>
             <div>:</div></div>
             <div  class="calculationText" >${rupee_sign}${orderDetail.total.toFixed(2)}</div>
-          </div>
+          </div>`:``}
           ${orderDetail.cgst>0?`<div class="calculationLine">
             <div  class="calculationLabel" > 
             <div style= "width:98%">CGST</div>
@@ -100,7 +101,7 @@
           <div  class="calculationLabel" > 
           <div style= "width:98%">Loyality Price</div>
           <div>:</div></div>
-          <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price} </div>
+          <div  class="calculationText" >${rupee_sign}${orderDetail.loyality_point_price.toFixed(2)} </div>
         </div>
         
     
@@ -176,7 +177,9 @@
              
                 <div class="inLineContainer">
                   <div class="label">Payment   </div>
-                  <div class="text" style= "margin-right:53%">  ${orderDetail.payment_mode}</div>
+                  <div class="text" style= "margin-right:53%">  
+                  ${orderDetail.payment_mode==null||orderDetail.payment_mode==undefined?"":orderDetail.payment_mode}
+                  </div>
                   
                 </div>
                 <div class="tableHeader">
@@ -211,11 +214,11 @@
                   </div>
                 </div>
               </div> 
-              <hr>
+              <hr style= "border:0.5px solid black">
               <div class="TotalBoxContainer">
                 <div class="TotalBox">
                     <div class="calculationLine">
-                      <div class="TotalLabel">Payble Amount</div>
+                      <div class="TotalLabel">Payable Amount</div>
                       <div class="TotalLabel">: </div>
                       <div class="grandTotalText">${rupee_sign}${(orderDetail.final_amount.toFixed(2))}
                       </div>
