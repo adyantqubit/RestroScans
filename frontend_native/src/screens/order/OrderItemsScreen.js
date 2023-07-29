@@ -1560,6 +1560,21 @@ export default function OrderItemsScreen({ route, navigation }) {
 
       if (copyOrder.discount_rupees) {
         copyOrder.sub_total = newSubTotal;
+
+          // Added by  :- PArineeta Gedam on 29-07-2023 
+          // reason :- discounts should reflect on change, when increasing and decreasing the quantity of items
+          if(settingData && settingData.discount_in == "Discount in (₹)" ){
+            var percentage = ( copyOrder.discount_rupees / copyOrder.sub_total) * 100
+            copyOrder.discount_percentage = percentage
+            setDiscountPercentage(percentage.toFixed(2))
+          }else{
+            var rupees = (copyOrder.sub_total / 100) * copyOrder.discount_percentage
+            copyOrder.discount_rupees = rupees
+            setDiscountRupees(rupees)
+          }
+          // End of Added by  :- PArineeta Gedam on 29-07-2023 
+          // reason :- discounts should reflect on change, when increasing and decreasing the quantity of items
+
         var total = newSubTotal - copyOrder.discount_rupees;
         copyOrder.total = total;
         copyOrder.cgst = (total * settingData.cgst) / 100;
@@ -1596,6 +1611,7 @@ export default function OrderItemsScreen({ route, navigation }) {
     else {
       Alert.alert("Quantity can't be less than 1");
     }
+
     setOrderItems([...allOrderItem])
     setOrderDetail(copyOrder)
     // End of added code by :- Parineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
@@ -1654,6 +1670,20 @@ export default function OrderItemsScreen({ route, navigation }) {
       var copyOrder = orderDetail
       if (copyOrder.discount_rupees) {
           copyOrder.sub_total = newSubTotal;
+          // Added by  :- PArineeta Gedam on 29-07-2023 
+          // reason :- discounts should reflect on change, when increasing and decreasing the quantity of items
+          if(settingData && settingData.discount_in == "Discount in (₹)" ){
+            var percentage = ( copyOrder.discount_rupees / copyOrder.sub_total) * 100
+            copyOrder.discount_percentage = percentage
+            setDiscountPercentage(percentage.toFixed(2))
+          }else{
+            var rupees = (copyOrder.sub_total / 100) * copyOrder.discount_percentage          
+            copyOrder.discount_rupees = rupees
+            setDiscountRupees(rupees)
+          }
+          // End of Added by  :- PArineeta Gedam on 29-07-2023 
+          // reason :- discounts should reflect on change, when increasing and decreasing the quantity of items
+
           var total = newSubTotal - copyOrder.discount_rupees;
           copyOrder.total = total;
           copyOrder.cgst = (total * settingData.cgst) / 100;

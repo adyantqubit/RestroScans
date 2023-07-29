@@ -19,6 +19,23 @@ const Billing = () => {
     const [billingData, setBillingData] = useState(null)
 
 
+    // Added by :- Parineeta Gedam on 29-07-2023
+    // reason :- Customer UI >> Page is going blank when we go back in rate us page.
+
+    useEffect(() => {
+        window.onpopstate = () => {
+            secureLocalStorage.removeItem("order");
+            secureLocalStorage.removeItem("orderItem");
+            secureLocalStorage.removeItem("invoice_detail");
+            navigate("/menu-item")
+        }
+    }, [])
+ 
+    // End of added code by :- Parineeta Gedam on 29-07-2023
+    // reason :- Customer UI >> Page is going blank when we go back in rate us page.
+
+
+
     // Commented by :- Parineeta Gedam  on 29-05-2023
     // useEffect(() => {
     //     var data = {
