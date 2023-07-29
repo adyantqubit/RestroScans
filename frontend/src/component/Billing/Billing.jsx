@@ -146,7 +146,15 @@ const Billing = () => {
                 {/* Added by Rohan kansari - 10/5/23
                    Reason - Added new labels in bill ( name and contact number)*/}
                 <div className={style.inLineContainer}>
-                    <div className={style.column1}><div className={style.label1}><div style={{ width: "90%" }}>Name</div><div>:</div>  </div><div className={style.text}>{billingData.customer_detail.name.length ? billingData.customer_detail.name : " --- "}</div></div>
+                    <div className={style.column1} >
+                        <div className={style.label1}>
+                            <div style={{ width: "90%" }}>Name</div>
+                            <div>:</div>  
+                        </div>
+                        <div className={style.text}>
+                            {billingData.customer_detail.name.length ? billingData.customer_detail.name : " --- "}
+                        </div>
+                    </div>
                     {/* Modification and addition by Om Shrivastava on 27-07-23
                     Reason : Set the label of phone */}
                     {/* <div className={style.column1}><div className={style.label}><div style={{ width: "90%" }}>Phone</div><div>:</div> </div><div className={style.text}>{billingData.customer_detail.contact_number}</div></div> */}

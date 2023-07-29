@@ -145,43 +145,86 @@
                 </div>:``}
                 <hr>
     
-                <div class="inLineContainer">
-                  <div class="label">Name   </div>
-                  <div class="text">  ${customerDetail.last_customer_name}</div>
-                  <div class="label">Mob No.</div>
-                  <div class="text">  ${customerDetail.contact_number}</div>
-                </div>
                 
                 <div class="inLineContainer">
-                  <div class="label">Date </div>
-                  <div class="text">
-                  <!-- Eddited By Rohan Kansari - 12/5/23
-                  Reason - To show payment confirmation time in bill --!>
-                  ${
-                    BillDateTime(orderDetail.payment_confirmation_date_time).date
-                  }
-                  </div>
-                  <div class="label">Time  </div>
-                  <div class="text">  ${BillDateTime(orderDetail.payment_confirmation_date_time).time
-          }</div>
-                  <!-- ENd of code - 12/5/23 - Rohan Kansari --!>
+                    <div class="column1" >
+                        <div class="label1">
+                            <div style= "width:90%" >Name</div>
+                            <div>:</div>  
+                        </div>
+                        <div class="text">
+                        ${customerDetail.last_customer_name.length ? customerDetail.last_customer_name:"---"}
+                        </div>
+                    </div>
+                    <div class="column1" >
+                      <div class="label">
+                        <div style= "width:90%" >
+                          Mob No.
+                          </div>
+                          <div>:</div> 
+                        </div>
+                      <div class="text">
+                      ${customerDetail.contact_number}
+                      </div>
+                    </div>
                 </div>
+
                 <div class="inLineContainer">
-                  <div class="label">Bill No. </div>
-                  <div class="text"> ${orderDetail.order_id}</div>
-                  <div class="label">Table </div>
-                  <div class="text">  ${!orderDetail.table_number ? "N/A" : orderDetail.table_number
-          }</div>
-                  
+                    <div class="column1" >
+                        <div class="label1">
+                            <div style= "width:90%" >Date</div>
+                            <div>:</div>  
+                        </div>
+                        <div class="text">
+                        ${
+                          BillDateTime(orderDetail.payment_confirmation_date_time).date
+                        }
+                        </div>
+                    </div>
+                    <div class="column1" >
+                      <div class="label">
+                        <div style= "width:90%" >
+                          Time
+                          </div>
+                          <div>:</div> 
+                        </div>
+                      <div class="text">
+                      ${
+                        BillDateTime(orderDetail.payment_confirmation_date_time).date
+                      }
+                      </div>
+                    </div>
                 </div>
-             
+
                 <div class="inLineContainer">
-                  <div class="label">Payment   </div>
-                  <div class="text" style= "margin-right:53%">  
+                    <div class="column1" >
+                        <div class="label1">
+                            <div style= "width:90%" >Bill No.</div>
+                            <div>:</div>  
+                        </div>
+                        <div class="text">
+                        ${orderDetail.order_id}
+                        </div>
+                    </div>
+                    <div class="column1" >
+                      <div class="label">
+                        <div style= "width:90%" >
+                        Table
+                          </div>
+                          <div>:</div> 
+                        </div>
+                      <div class="text">
+                      ${!orderDetail.table_number ? "N/A" : orderDetail.table_number}
+                      </div>
+                    </div>
+                </div>
+
+                <div class="inLineContainer">
+                  <div class="column1"><div class="label"><div style= "width:90%">Payment</div><div>:</div>  </div><div class="text">
                   ${orderDetail.payment_mode==null||orderDetail.payment_mode==undefined?"":orderDetail.payment_mode}
-                  </div>
-                  
+                  </div></div>
                 </div>
+
                 <div class="tableHeader">
                   <div class="titleHeading"> Item Name   </div>
                   <div class="quantityHeading">Qty</div>
@@ -252,12 +295,25 @@
       border: 1px solid black;
     }
     .inLineContainer {
-      min-width: 100%;
-      min-height: 10px;
-      margin: 4px 0;
-      display: flex;
-      justify-content: space-between;
+    width: 95%;
+    min-height: 10px;
+    margin: 4px auto;
+    display: flex;
+    justify-content: flex-start;
+    gap:2px;
     }
+    .column1{
+      min-width:50%;
+      display: flex;
+    }
+    .label1{
+      min-width: 45%;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: start;
+      white-space: nowrap;
+      display: flex;
+  }
     .Hotellabel{
       min-width: 100%;
       font-size: 17px;
@@ -272,20 +328,20 @@
       text-align: center;
     }
     .label {
-      min-width: 15%;
-      font-size: 10px;
+      min-width: 45%;
+      font-size: 12px;
       font-weight: 700;
-      padding: 0 2%;
       text-align: start;
       white-space: nowrap;
-    }
+      display: flex;
+  }
     .text {
-      min-width: 22%;
+      min-width: 50%;
       word-break: break-all;
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 600;
       text-align: left;
-    }
+  }
     .tableHeader {
       height: 30px;
       width: 95%;
