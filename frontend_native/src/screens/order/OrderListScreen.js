@@ -139,8 +139,11 @@ export default function OrderListScreen({ route, navigation }) {
   function ExtractDateTime(format) {
     var d = new Date(format);
     var time = d.toLocaleTimeString();
-
-    return { time };
+    // Added by Yuvraj Sahu on 28-07-2023
+    // Reason - to show the date 
+    var date = d.toLocaleDateString();
+    return { time, date };
+    // End of modification by Yuvraj Sahu on 18-07-2023
   }
   // End of addition 29-4-2023
 
@@ -161,6 +164,10 @@ export default function OrderListScreen({ route, navigation }) {
     setOrderIdSort("");
     setOrderStatusSortVal("");
     setPaymentStatusSortVal("");
+    // Added by yuvraj Sahu on 28-07-2023
+    // Reason - to clear the date sort
+    setDateSort("")
+    // end of addition by yuvraj Sahu on 28-07-2023
     if (tableNoSort == "") {
       setTableNoSort("ascending");
       tableSort("ascending");
@@ -241,6 +248,10 @@ export default function OrderListScreen({ route, navigation }) {
     setTableNoSort("");
     setOrderStatusSortVal("");
     setPaymentStatusSortVal("");
+    // Added by yuvraj Sahu on 28-07-2023
+    // Reason - to clear the date sort
+    setDateSort("")
+    // end of addition by yuvraj Sahu on 28-07-2023
     if (orderIdSort == "") {
       setOrderIdSort("ascending");
       handleOrderIdSort("ascending");
@@ -321,6 +332,10 @@ export default function OrderListScreen({ route, navigation }) {
     setTableNoSort("");
     setOrderIdSort("");
     setPaymentStatusSortVal("");
+    // Added by yuvraj Sahu on 28-07-2023
+    // Reason - to clear the date sort
+    setDateSort("")
+    // end of addition by yuvraj Sahu on 28-07-2023
     if (orderStatusSortVal == "") {
       setOrderStatusSortVal("ascending");
       handleOrderStatusSort("ascending");
@@ -401,6 +416,10 @@ export default function OrderListScreen({ route, navigation }) {
     setTableNoSort("");
     setOrderIdSort("");
     setOrderStatusSortVal("");
+    // Added by yuvraj Sahu on 28-07-2023
+    // Reason - to clear the date sort
+    setDateSort("")
+    // end of addition by yuvraj Sahu on 28-07-2023
     if (paymentStatusSortVal == "") {
       setPaymentStatusSortVal("ascending");
       handlePaymentStatusSort("ascending");
@@ -464,6 +483,88 @@ export default function OrderListScreen({ route, navigation }) {
    * End of sorting from payment status by Yuvraj Sahu on 03-06-2023
    */
 
+  /**
+   * Added by Yuvraj Sahu on 28-07-2023
+   * Reason - to set date sorting value
+   */
+  var [dateSort, setDateSort] = useState("");
+  /**
+   * End of addition by Yuvraj Sahu on 28-07-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 28-07-2023
+   * Reason - to sort data according to date
+   */
+  const handleDateSort = (sort) => {
+    if (sort == "ascending") {
+      var latest = seeOrders.sort((a, b) => {
+        if (a.date.toLowerCase() < b.date.toLowerCase()) {
+          return -1;
+        }
+        if (a.date.toLowerCase() > a.date.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+      setSeeOrders(latest);
+    }
+    if (sort == "descending") {
+      var latest = seeOrders.sort((a, b) => {
+        if (a.date.toLowerCase() > b.date.toLowerCase()) {
+          return -1;
+        }
+        if (a.date.toLowerCase() < a.date.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+      setSeeOrders(latest);
+    }
+    if (sort == "remove sort") {
+      var latest = seeOrders.sort((a, b) => {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < a.date) {
+          return 1;
+        }
+        return 0;
+      });
+      setSeeOrders(latest);
+    }
+  };
+  /**
+   * End of sorting from order id by Yuvraj Sahu on 03-06-2023
+   */
+
+  /**
+   * Added by Yuvraj Sahu on 28-07-2023
+   * Reason - to set orders (asc or desc) send
+   * props for sorting functionality
+   */
+  const handleSetDate = () => {
+    setTableNoSort("");
+    setOrderStatusSortVal("");
+    setPaymentStatusSortVal("");
+    setOrderIdSort("");
+    if (dateSort == "") {
+      setDateSort("ascending");
+      handleDateSort("ascending");
+    }
+    if (dateSort == "ascending") {
+      setDateSort("descending");
+      handleDateSort("descending");
+    }
+    if (dateSort == "descending") {
+      setDateSort("");
+      handleDateSort("remove sort");
+    }
+  };
+  /**
+   * End of setting orders by Yuvraj Sahu on 28-07-2023
+   */
+
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -487,6 +588,7 @@ export default function OrderListScreen({ route, navigation }) {
         {/* End given search functionality by Yuvraj Sahu on 22-05-2023 */}
 
         {seeOrders.length > 0 ? (
+          <ScrollView horizontal={true}>
           <View style={styles.orderTableContainer}>
             {/* {seeOrders.map((order, id) => (
               <Pressable
@@ -536,6 +638,24 @@ export default function OrderListScreen({ route, navigation }) {
             {/* ----------------------- Design tabular format ------------------------ */}
             <View style={styles.orderHeadingContainer}>
               <Text style={styles.tableColHeading1}>#</Text>
+              {/* Added by yuvraj Sahu on 28-07-2023
+              Reason - to add date in order list */}
+              <Pressable
+                style={styles.tableColHeading1_A}
+                onPress={handleSetDate}
+              >
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Date{dateSort == "" && "↓↑"}
+                  {dateSort == "ascending" && "↑"}
+                  {dateSort == "descending" && "↓"}
+                </Text>
+              </Pressable>
+              {/* End of addition by yuvraj Sahu on 28-07-2023 */}
               <Pressable
                 style={styles.tableColHeading2}
                 onPress={handleTableOrder}
@@ -605,6 +725,19 @@ export default function OrderListScreen({ route, navigation }) {
                 onPress={(e) => handleOrder(order.id, order.order_id)}
               >
                 <Text style={styles.td1}>{id + 1}</Text>
+                {/* Added by yuvraj Sahu on 28-07-2023
+                Reason - to add date in order list */}
+                {/* <Text>{ExtractDateTime(order.date).date}</Text> */}
+                <Text style={styles.td1_A}>
+                    {" "}
+                    {new Date(order.date)
+                      .toISOString()
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                  </Text>
+                {/* End of addition by yuvraj Sahu on 28-07-2023 */}
                 <Text style={styles.td2}>{order.table_number}</Text>
                 <Text style={styles.td3}>{order.order_id}</Text>
                 <Text style={styles.td4}>{order.order_status}</Text>
@@ -612,6 +745,7 @@ export default function OrderListScreen({ route, navigation }) {
               </Pressable>
             ))}
           </View>
+          </ScrollView>
         ) : (
           <Text style={{ textAlign: "center", marginTop: 20 }}>
             No data available
@@ -720,20 +854,47 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   tableColHeading1: {
-    width: "5%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "5%",
+    width: 50,
+    textAlign: "center",
+    // end of Modification by yuvraj Sahu on 28-07-2023
     fontWeight: "bold",
-    // borderWidth: 1
   },
+  // Modified by Yuvraj Sahu on 28-07-2023
+  // Reason - to adjust the width of columns
+  tableColHeading1_A: {
+    // minWidth: "25%",
+    width: 100,
+    textAlign: "center",
+    paddingHorizontal: 3
+  },
+  // end of Modification by yuvraj Sahu on 28-07-2023
   tableColHeading2: {
-    width: "25%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "25%",
+    width: 80,
+    textAlign: "center",
+    // end of Modification by yuvraj Sahu on 28-07-2023
   },
   tableColHeading3: {
-    width: "23%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "23%",
+    width: 100,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     fontWeight: "bold",
     textAlign: "center",
   },
   tableColHeading4: {
-    width: "23%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "23%",
+    width: 90,
+    paddingHorizontal: 3,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     fontWeight: "bold",
   },
   /**
@@ -741,16 +902,25 @@ const styles = StyleSheet.create({
    * Reason - to add order id space
    */
   tableColHeading5: {
-    width: "23%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "23%",
+    width: 100,
+    paddingHorizontal: 3,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     fontWeight: "bold",
   },
   /**
    * End of adding order id space by Yuvraj Sahu on 03-06-2023
    */
   tdContainer: {
-    height: 40,
+    // modified by yuvraj Sahu on 28-07-2023
+    // reason - to adjust height
+    // height: 40,
+    // marginHorizontal: 10,
+    minHeight: 40,
+    // end of modification by yuvraj Sahu on 28-07-2023
     width: "100%",
-    marginHorizontal: 10,
     alignSelf: "center",
     display: "flex",
     flexDirection: "row",
@@ -759,19 +929,46 @@ const styles = StyleSheet.create({
     borderColor: "grey",
   },
   td1: {
-    width: "5%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "5%",
+    minWidth: 50,
+    paddingHorizontal: 3,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     textAlign: "center",
   },
+  // Modified by Yuvraj Sahu on 28-07-2023
+  // Reason - to adjust the width of columns
+  td1_A: {
+    // minWidth: "25%",
+    width: 100,
+    textAlign: "center",
+    paddingHorizontal: 3
+  },
+  // end of Modification by yuvraj Sahu on 28-07-2023
   td2: {
-    width: "25%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // minWidth: "25%",
+    width: 80,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     textAlign: "center",
   },
   td3: {
-    width: "23%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "23%",
+    width: 100,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     textAlign: "center",
   },
   td4: {
-    width: "23%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "23%",
+    width: 90,
+    paddingHorizontal: 3,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     textAlign: "center",
   },
   /**
@@ -779,7 +976,12 @@ const styles = StyleSheet.create({
    * Reason - to add order id space
    */
   td5: {
-    width: "23%",
+    // Modified by Yuvraj Sahu on 28-07-2023
+    // Reason - to adjust the width of columns
+    // width: "23%",
+    width: 100,
+    paddingHorizontal: 3,
+    // end of Modification by yuvraj Sahu on 28-07-2023
     textAlign: "center",
   },
   /**
