@@ -1553,8 +1553,14 @@ class OrderItem(models.Model):
         # Added by Yuvraj Sahu on 21-06-2023
         # Reason - to update print kot button
         # if self.item_status == "Confirm":
-        if self.item_status == "Confirm" and self.kot_print_status == False:
-            self.kot_print_status=True
+        #if self.item_status == "Confirm" and self.kot_print_status == False:
+            #self.kot_print_status=True
+        #Added by Rohan kansari - 29/7/23
+        #Reason - To set order confirm when completing one by one confirm    
+        if self.item_status == "Confirm":
+            if self.kot_print_status == False:
+                self.kot_print_status=True
+        #End of code - Rohan Kansari - 29/7/23       
             # End of addition by Yuvraj Sahu on 21-06-2023
             orderItemObj = OrderItem.objects.filter(order_id = self.order_id)
             obj = orderItemObj.filter(item_status = "Pending").count()

@@ -588,7 +588,7 @@ const TodayOrder = () => {
                 // uses - setting other order_id order item first then setting updated order_item which we got from backend 
                 // So old data will also not affected and new data is also get
                 newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
-                ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; return o; } })]
+                ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; o.quantity=e.quantity; o.price=e.price; return o; } })]
                 //  ENd of code - ROhan Kansari - 24/6/23
                 /**
                  * End of code modifciation by - Ashish Dewangan on 18-06-2023
@@ -641,6 +641,8 @@ const TodayOrder = () => {
                 }
             )
 
+            setSelectedOrderItemList([...newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id)])
+
             // Added by ROhan kansari - 23/7/23
             // Reason - To save updated order in orderdetail state and all other prices
             UpdatingOpenedOrder(order)
@@ -648,6 +650,7 @@ const TodayOrder = () => {
             // End of code - Rohan kansari - 23/7/23
             // End of code - 25/6/23 - ROhan kansari 
             setOrderItem(newOrderItemList)
+           
 
             // Modified by ROhan kansari - 26/6/23 - to delete persist data
             // selectedItemArr.current.items = []
@@ -661,6 +664,8 @@ const TodayOrder = () => {
             //     option[i].value = r.order_items[i].item_status
             // }
 
+
+            console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id),"kjdkdkdkd")
             var CheckboxForItem = document.getElementsByClassName("checkbox-wrapper-24")
             for (var i = 0; i < CheckboxForItem.length; i++) {
                 CheckboxForItem[i].children[0].checked = false;
@@ -1488,6 +1493,19 @@ const TodayOrder = () => {
         }
     }
 
+    // Added by ROhan kansari - 29/5/23
+    // Reason - To continuously checking bill print allow
+    function getbillStatus() {
+        // console.log(selectedOrderData)
+        // selectedOrderData?.order_detail?.order_status != "Cancelled"
+        // &&
+        if ( selectedOrderData?.order_detail?.payment_status == "Completed" && selectedOrderData?.order_detail?.order_status != "Cancelled") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     // ENd of code - Rohan kansari - 21/7/23
 
 
@@ -1529,18 +1547,18 @@ const TodayOrder = () => {
             setSGST(SGST)
             setTotal(total_price)
             setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
-            errorText["discount_price"] = "Discount price sould not blank"
+            errorText["discount_price"] = "Please enter discount"
             setErrorText({ ...errorText })
 
             document.getElementById("discount_rupees").style.border = "1px solid red"
         }
         else if (! /^\d+$/.test(e.target.value)) {
-            errorText["discount_price"] = "Discount price sould always in digit"
+            errorText["discount_price"] = "Discount price should be in digit"
             setErrorText({ ...errorText })
             document.getElementById("discount_rupees").style.border = "1px solid red"
         }
         else if (e.target.value > subTotal) {
-            errorText["discount_price"] = "Discount price sould not greater than subtotal"
+            errorText["discount_price"] = "Discount price should not be greater than Subtotal"
             setErrorText({ ...errorText })
             document.getElementById("discount_rupees").style.border = "1px solid red"
         }
@@ -1579,16 +1597,16 @@ const TodayOrder = () => {
             setTotal(total_price)
             setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
             document.getElementById("discount_percentage").style.border = "1px solid red"
-            errorText["discount_price"] = "Discount price sould not blank"
+            errorText["discount_price"] = "Please enter discount"
             setErrorText({ ...errorText })
         }
         else if (! /^\d+$/.test(e.target.value)) {
-            errorText["discount_price"] = "Discount price sould always in digit"
+            errorText["discount_price"] = "Discount price should be in digit"
             setErrorText({ ...errorText })
             document.getElementById("discount_percentage").style.border = "1px solid red"
         }
         else if (e.target.value > 100) {
-            errorText["discount_price"] = "Discount price sould not be greater than 100%"
+            errorText["discount_price"] = "Discount price should not be greater than 100%"
             setErrorText({ ...errorText })
             document.getElementById("discount_percentage").style.border = "1px solid red"
 
@@ -2006,8 +2024,8 @@ const TodayOrder = () => {
                                         }
                                         ))
                                     }}>Print Kot</button>
-                                    <button className={`${style.getbill} ${getOrderStatus() ? style.disbaleBtn:null}`}
-                                        onClick={e=>{if(!getOrderStatus())sendPrintDatas()}}>Get Bill</button>
+                                    <button className={`${style.getbill} ${getbillStatus() ? null:style.disbaleBtn}`}
+                                        onClick={e=>{if(getbillStatus())sendPrintDatas()}}>Get Bill</button>
                                 </div>
                             </div>
 
@@ -2285,7 +2303,7 @@ const TodayOrder = () => {
 
                             <div className={style.UpdateItemContainer}>
                                 <button className={`${style.UpdateItemBTN} ${getOrderStatus() ? null : style.disbaleBtn}`} onClick={e => setAddMoreItemModalVisible(true)} disable={!getOrderStatus()}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
-                                <div className={style.WhiteLabel} style={{ textAlign: "end", width: "40%", padding: "8px 0" }}>Subtotal : {selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
+                                <div className={style.WhiteLabel} >Subtotal : {selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
                             </div>
 
                             <div className={style.TotalContainer} >
@@ -2303,17 +2321,22 @@ const TodayOrder = () => {
                                                                 <label className={style.subInputLabel}>( In ₹ ) </label>
                                                                 {/* Added by Rohan kansari - 21/7/23
                                                                 Reason - Discount rupees functionality added */}
-                                                                <input id="discount_rupees" type="text" className={style.inputBox} value={discountRupee}
+                                                                <input id="discount_rupees" 
+                                                                  type="text" 
+                                                                  className={`${style.inputBox} ${settings.discount_in=="Discount in (₹)"?null:style.disbaleBtn}`} value={discountRupee}
                                                                     onChange={e => {
                                                                         inputIvalidationDiscountRupees(e)
                                                                     }} />
                                                             </div>
                                                             <div className={style.Column}>
                                                                 <label className={style.subInputLabel}>( In % ) </label>
-                                                                <input id="discount_percentage" className={style.inputBox} value={discountPercentage}
+                                                                <input id="discount_percentage" 
+                                                                className={`${style.inputBox} ${settings.discount_in=="Discount in (%)"?null:style.disbaleBtn}`} 
+                                                                value={discountPercentage}
                                                                     onChange={e => {
                                                                         inputValidationDiscountPercentage(e)
-                                                                    }} />
+                                                                    }} 
+                                                                    />
                                                             </div>
 
                                                         </div>
@@ -2495,14 +2518,16 @@ const TodayOrder = () => {
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
+                                        {console.log(paymentStatus,"[pauermm000000000000000000000")}
                                         <p><button className={`btn-right ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
-                                         class="btn-right"><a href="#"
-                                            onClick={e => {
-                                                if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
-                                                    UpdateOrderStatusDetail({
-                                                        "payment_status": "Pending"
-                                                    })
-                                            }}>Pending</a></button></p>
+                                        onClick={e => {
+                                            if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
+                                                UpdateOrderStatusDetail({
+                                                    "payment_status": "Pending"
+                                                })
+                                        }}
+                                         ><a href="#"
+                                            >Pending</a></button></p>
                                         <p><button className={`btn-right ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
