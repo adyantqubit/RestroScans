@@ -3350,7 +3350,7 @@ const printKot = async()=>{
                 style={{
                   // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
                   // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
-                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
+                  backgroundColor: isDuplicateKotDisable ? colors.btnDisableBackgroundColor : colors.btnColor,
                   // backgroundColor: colors.btnColor,
                   height: 30,
                   alignItems: "center",
@@ -3386,7 +3386,7 @@ const printKot = async()=>{
                 style={{
                 // Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then reset button will be disable 
                 // backgroundColor: colors.btnColor,
-                backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
+                backgroundColor: orderDetail.order_status == "Cancelled" ? colors.btnDisableBackgroundColor : colors.btnColor,
                 // End of Commented and modified code by :- Parineeta Gedam on 19-06-2023 reason :- if order status is cancelled then update button will be disable 
                   height: 30,
                   alignSelf: "center",
@@ -3407,7 +3407,8 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
+                    // color: "white",
+                    color : orderDetail.order_status == "Cancelled" ? colors.btnDisableTextColor : "white",
                     fontSize: 16,
                     fontWeight: "bold",
                   }}
@@ -3432,7 +3433,7 @@ const printKot = async()=>{
 
                   // Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
                   // backgroundColor: colors.btnColor,
-                  backgroundColor: orderDetail.order_status == "Cancelled" ? "grey" : colors.btnColor,
+                  backgroundColor: orderDetail.order_status == "Cancelled" ? colors.btnDisableBackgroundColor : colors.btnColor,
                   // End of Commented and modified code by :- Parineeta Gedam on 18-06-2023 reason :- if order status is cancelled then update button will be disable 
 
                   height: 30,
@@ -3451,7 +3452,8 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
+                    // color: "white",
+                    color : orderDetail.order_status == "Cancelled" ? colors.btnDisableTextColor : "white",
                     fontSize: 16,
                     fontWeight: "bold",
                   }}
@@ -3470,7 +3472,7 @@ const printKot = async()=>{
                 style={{
                   // backgroundColor: orderDetail.order_status == "Placed" ? "grey" : colors.btnColor,
                   // backgroundColor: orderItems.filter(e=>e.item_status == "Confirm").length > 0 ? colors.btnColor : "grey",
-                  backgroundColor: isDuplicateKotDisable ? "grey" : colors.btnColor,
+                  backgroundColor: isDuplicateKotDisable ? colors.btnDisableBackgroundColor : colors.btnColor,
                   // backgroundColor: colors.btnColor,
                   height: 30,
                   alignItems: "center",
@@ -3486,7 +3488,8 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
+                    // color: "white",
+                    color: isDuplicateKotDisable ? colors.btnDisableTextColor : "white",
                     fontSize: 16,
                     fontWeight: "bold",
                   }}
@@ -3603,7 +3606,7 @@ const printKot = async()=>{
               reason - to design radio buttons */}
             <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5}]}>
               {/* Font weight apply by Om on 27-04-23 */}
-              <View>
+              <View style={{width: "100%"}}>
               <Text style={{ fontWeight: "bold" }}>Order status</Text>
 
               {/* Commeted and added by Yuvraj Sahu on 04-05-2023
@@ -3735,7 +3738,7 @@ const printKot = async()=>{
                 disabled={orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Placed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Placed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   height: 30,
                   alignItems: "center",
                   justifyContent: "center",
@@ -3748,8 +3751,12 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontSize: 16,
+                    // Modified by yuvraj Sahu on 29-07-2023
+                    // Reason - to change the text color
+                    // color: "white",
+                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : "white",
+                    // End of addition by yuvraj Sahu on 29-07-2023
+                    fontSize: 15,
                     fontWeight: "bold",
                   }}
                 >
@@ -3764,7 +3771,7 @@ const printKot = async()=>{
                 disabled = {orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Confirm" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Confirm" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   height: 30,
                   alignItems: "center",
                   justifyContent: "center",
@@ -3777,8 +3784,12 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontSize: 16,
+                    // Modified by yuvraj Sahu on 29-07-2023
+                    // Reason - to change the text color
+                    // color: "white",
+                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : "white",
+                    // End of addition by yuvraj Sahu on 29-07-2023
+                    fontSize: 15,
                     fontWeight: "bold",
                   }}
                 >
@@ -3793,7 +3804,7 @@ const printKot = async()=>{
                 disabled = {orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Cooked" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Cooked" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   height: 30,
                   alignItems: "center",
                   justifyContent: "center",
@@ -3806,8 +3817,12 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontSize: 16,
+                    // Modified by yuvraj Sahu on 29-07-2023
+                    // Reason - to change the text color
+                    // color: "white",
+                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : "white",
+                    // End of addition by yuvraj Sahu on 29-07-2023
+                    fontSize: 15,
                     fontWeight: "bold",
                   }}
                 >
@@ -3822,7 +3837,7 @@ const printKot = async()=>{
                 disabled = { orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false }
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : orderStatusSelected == "Served" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Served" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   height: 30,
                   alignItems: "center",
                   justifyContent: "center",
@@ -3835,8 +3850,12 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontSize: 16,
+                    // Modified by yuvraj Sahu on 29-07-2023
+                    // Reason - to change the text color
+                    // color: "white",
+                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : "white",
+                    // End of addition by yuvraj Sahu on 29-07-2023
+                    fontSize: 15,
                     fontWeight: "bold",
                   }}
                 >
@@ -3852,7 +3871,7 @@ const printKot = async()=>{
                 disabled = { orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false }
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" ? colors.orderActiveBtnColor : paymentStatusSelected == "Completed" ? "grey" : colors.orderBtnColors,
+                  backgroundColor: orderStatusSelected == "Cancelled" ? colors.orderActiveBtnColor : paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : colors.orderBtnColors,
                   // backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : "green" : colors.btnColor,
                   height: 30,
                   alignItems: "center",
@@ -3866,8 +3885,12 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontSize: 16,
+                    // Modified by yuvraj Sahu on 29-07-2023
+                    // Reason - to change the text color
+                    // color: "white",
+                    color: orderStatusSelected == "Cancelled" ? "white" : paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : "white",
+                    // End of addition by yuvraj Sahu on 29-07-2023
+                    fontSize: 15,
                     fontWeight: "bold",
                   }}
                 >
@@ -4122,13 +4145,13 @@ const printKot = async()=>{
               <View style={styles.buttonContainerStyle}>
             <Pressable
                 onPress={(e)=>handlePaymentUpdate("Pending", orderDetail.order_id)}
-                // disabled={isDisable}
+                disabled={orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   // Added by yuvraj Sahu on 26-07-2023
                   // Reason - to change the active color of payment status
                   // backgroundColor: colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" ? "grey" : paymentStatusSelected == "Pending" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : paymentStatusSelected == "Pending" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   // end of addition by yuvraj sahu on 26-07-2023
                   height: 30,
                   alignItems: "center",
@@ -4141,7 +4164,8 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
+                    // color: "white",
+                    color : orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : paymentStatusSelected == "Pending" ? "white" : "white",
                     fontSize: 16,
                     fontWeight: "bold",
                   }}
@@ -4149,18 +4173,58 @@ const printKot = async()=>{
                   Pending
                 </Text>
               </Pressable>
-              {/* <AntDesign name="forward" size={15} color="black" /> */}
-              <MaterialIcons name="double-arrow" size={20} color="black" />
+
+              { paymentStatusSelected == "Paid" && <MaterialIcons name="double-arrow" size={20} color="black" /> }
+
+              {/* Added by yuvraj Sahu on 28-07-2023
+              Reason - to add paid button  */}
+              {paymentStatusSelected == "Paid" &&
               <Pressable
-              onPress={()=>handlePaymentUpdate("Completed", orderDetail.order_id)}
-                // onPress={handleUpdate}
+                // onPress={(e)=>handlePaymentUpdate("Pending", orderDetail.order_id)}
                 // disabled={isDisable}
+                disabled={true}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   // Added by yuvraj Sahu on 26-07-2023
                   // Reason - to change the active color of payment status
                   // backgroundColor: colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" ? "grey" : paymentStatusSelected == "Completed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  // backgroundColor: orderStatusSelected == "Cancelled" ? "grey" : paymentStatusSelected == "Pending" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  backgroundColor: colors.orderActiveBtnColor,
+                  // end of addition by yuvraj sahu on 26-07-2023
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  // width: "35%",
+                  paddingHorizontal: 10,
+                  marginHorizontal: 3
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 15,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Paid
+                </Text>
+              </Pressable>
+            }
+              {/* End of addition by yuvraj sahu on 28-07-2023 */}
+
+              {/* <AntDesign name="forward" size={15} color="black" /> */}
+              <MaterialIcons name="double-arrow" size={20} color="black" />
+              <Pressable
+              onPress={()=>handlePaymentUpdate("Completed", orderDetail.order_id)}
+                // onPress={handleUpdate}
+                disabled={orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? true : false}
+                style={{
+                  // backgroundColor: isDisable ? "grey" : colors.btnColor,
+                  // Added by yuvraj Sahu on 26-07-2023
+                  // Reason - to change the active color of payment status
+                  // backgroundColor: colors.btnColor,
+                  backgroundColor: orderStatusSelected == "Cancelled" ? colors.btnDisableBackgroundColor : paymentStatusSelected == "Completed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   // end of addition by yuvraj sahu on 26-07-2023
                   height: 30,
                   alignItems: "center",
@@ -4173,7 +4237,8 @@ const printKot = async()=>{
               >
                 <Text
                   style={{
-                    color: "white",
+                    // color: "white",
+                    color : orderStatusSelected == "Cancelled" ? colors.btnDisableTextColor : paymentStatusSelected == "Completed" ? "white" : "white",
                     fontSize: 16,
                     fontWeight: "bold",
                   }}
@@ -4335,7 +4400,7 @@ tableNumberElseStyle: {
    * Reason - to reduce gap between status lables and dropdown box
    */
   statusContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
   },
   /**
    * End of addition  by Yuvraj Sahu on 07-05-2023
@@ -4347,8 +4412,8 @@ tableNumberElseStyle: {
     flexDirection: "row",
     justifyContent: "space-between",
     // margin: 5,
-    paddingRight: 10,
-    paddingLeft: 10,
+    paddingRight: 5,
+    paddingLeft: 5,
     marginBottom: 10,
     // borderWidth:1.5,
     /**
@@ -4606,6 +4671,7 @@ tableNumberElseStyle: {
     width: "100%",
     flexWrap: "wrap",
     alignItems: "center",
+    // borderWidth: 2
   },
   // End of addition by Yuvraj Sahu on 05-07-2023
 

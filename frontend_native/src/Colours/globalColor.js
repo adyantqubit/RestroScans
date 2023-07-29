@@ -22,8 +22,10 @@ export const colors = {
    * Added by Yuvraj Sahu on 27-07-2023
    * Reason - to set color for order screen
    */
-  orderBtnColors: "#009999",
-  orderActiveBtnColor: "#248f24"
+  orderBtnColors: "#6d8279",
+  orderActiveBtnColor: "#b6c954",
+  btnDisableTextColor: "#e6e6e6",
+  btnDisableBackgroundColor: "#a6a6a6"
   /**
    * End of addition by yuvraj Sahu on 27-07-2023
    */
