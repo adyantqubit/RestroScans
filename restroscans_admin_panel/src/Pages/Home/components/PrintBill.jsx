@@ -136,13 +136,15 @@
                 <div class="inLineContainer"  style="text-align:center;">
                   <div class="centerLabel">${restaurantAddress} </div>
                 </div>
-                ${settings.gstin.length>0?<div class="inLineContainer">
+                ${settings.gstin?.length>0?
+                  `<div class="inLineContainer">
                   <div class="centerLabel">GSTIN :- ${settings.gstin}</div>
-                </div>:``}
-                ${settings.fssaino.length>0?<div class="inLineContainer">
-                  <div class="centerLabel">FSSAI NO :- ${settings.fssaino
-                }</div>
-                </div>:``}
+                </div>`:``}
+                ${settings.fssaino?.length>0?
+                
+            `<div class="inLineContainer">
+            <div class="centerLabel">FSSAI NO :- ${settings.fssaino}</div>
+          </div>`:``}
                 <hr>
     
                 
