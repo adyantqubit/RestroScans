@@ -161,7 +161,6 @@ export default function PaymentMethod() {
      * End of comment by Yuvraj Sahu on 05-05-2023
      */
 
-    alert(fileSize);
     if (fileSize > 200000) {
       setFileSizeError(true);
     } else {
