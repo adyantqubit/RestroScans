@@ -67,8 +67,12 @@ const OrderForm = () => {
   // Reason : Set the validation in all fields
 
   const [validationErrors, setValidationErrors] = useState({
-    discount_rupees: "",
-    discount_percentage: "",
+    // Commented code by Om Shrivastava on 30-07-23
+    // Reason : Set new usestate for validation 
+    // discount_rupees: "",
+    // discount_percentage: "",
+    // End of commented code by Om Shrivastava on 30-07-23
+    // Reason : Set new usestate for validation 
     apply_loyality_point: "",
     order_status: "",
     payment_status: "",
@@ -76,6 +80,16 @@ const OrderForm = () => {
     // cancel_reason:"",
     discount_reason: ""
   });
+
+    // Addition by Om Shrivastava on 30-07-23
+    // Reason : Set new usestate for validation 
+  const [validationDiscountErrors, setDiscountValidationErrors] = useState({
+    discount_rupees: "",
+    discount_percentage: "",
+  });
+  // End of Addition by Om Shrivastava on 30-07-23
+  // Reason : Set new usestate for validation 
+
   const [validationForOrderCancel, setValidationForOrderCancel] = useState("")
   // End of addition by Om Shrivastava on 18-06-23
 
@@ -249,28 +263,59 @@ const OrderForm = () => {
     if (inputName == "discount_rupees") {
       if (value.toString().length > 0) {
         if (!isNaN(value)) {
-          if (value < 0 || finalAmount < value) {
+
+          // if (value < 0 || finalAmount < value) {
+          if (value < 0 || subTotal < value) {
+
             const error = {
-              discount_rupees: "Discount must be greater than or equal to 0 and below the grand total.",
+              
+              // discount_rupees: "Discount must be greater than or equal to 0 and below the grand total.",
+              discount_rupees: "Discount should not be greater than to Sub-Total.",
+
             };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+            // setValidationErrors({ ...validationErrors, ...error });
+            setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+            // End of addition and modification by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+
           } else {
             const error = {
               discount_rupees: "",
             };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+            // setValidationErrors({ ...validationErrors, ...error });
+            setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+            // End of addition and modification by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+
           }
         } else {
           const error = {
             discount_rupees: "discount must be a number.",
           };
-          setValidationErrors({ ...validationErrors, ...error });
+          // Modification and addition by Om Shrivastava on 30-07-23
+          // Reason : Set new usestate for validation 
+          // setValidationErrors({ ...validationErrors, ...error });
+          setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+          // End of addition and modification by Om Shrivastava on 30-07-23
+          // Reason : Set new usestate for validation 
+
+
         }
       } else {
         const error = {
           discount_rupees: "Please enter discount.",
         };
-        setValidationErrors({ ...validationErrors, ...error });
+        // Modification and addition by Om Shrivastava on 30-07-23
+        // Reason : Set new usestate for validation 
+        // setValidationErrors({ ...validationErrors, ...error });
+        setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+        // End of Modification and addition by Om Shrivastava on 30-07-23
+        // Reason : Set new usestate for validation 
+
       }
     }
 
@@ -279,26 +324,53 @@ const OrderForm = () => {
         if (!isNaN(value)) {
           if (value < 0 || value >= 100) {
             const error = {
+              
               discount_percentage: "Discount in percentage must be greater than or equal to 0 and 100",
+
             };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+            // setValidationErrors({ ...validationErrors, ...error });
+            setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+            // End of modification  // Modification and addition by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+            
+
           } else {
             const error = {
               discount_percentage: "",
             };
-            setValidationErrors({ ...validationErrors, ...error });
+            // Modification and addition by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+            // setValidationErrors({ ...validationErrors, ...error });
+            setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+            // End of modification  // Modification and addition by Om Shrivastava on 30-07-23
+            // Reason : Set new usestate for validation 
+
           }
         } else {
           const error = {
             discount_percentage: "discount in percentage must be a number.",
           };
-          setValidationErrors({ ...validationErrors, ...error });
+          // Modification and addition by Om Shrivastava on 30-07-23
+          // Reason : Set new usestate for validation 
+          // setValidationErrors({ ...validationErrors, ...error });
+          setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+          // End of modification  // Modification and addition by Om Shrivastava on 30-07-23
+          // Reason : Set new usestate for validation 
+
         }
       } else {
         const error = {
           discount_percentage: "Please enter discount in percentage",
         };
-        setValidationErrors({ ...validationErrors, ...error });
+        // Modification and addition by Om Shrivastava on 30-07-23
+        // Reason : Set new usestate for validation 
+        // setValidationErrors({ ...validationErrors, ...error });
+        setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
+        // End of modification  // Modification and addition by Om Shrivastava on 30-07-23
+        // Reason : Set new usestate for validation 
+
       }
     }
 
@@ -422,7 +494,7 @@ const OrderForm = () => {
 
     var allowDataPost = false;
 
-    if (validationErrors.apply_loyality_point == "") {
+    if (validationErrors.apply_loyality_point == "" ) {
       allowDataPost = true;
     }
     else {
@@ -456,6 +528,18 @@ const OrderForm = () => {
 
       // console.log('if part')
     }
+    // Addition by Om Shrivastava on 31-07-23
+    // Reason : Set the validation error for discount percentage and discount rupee
+    if(validationDiscountErrors.discount_percentage!="" || validationDiscountErrors.discount_rupees!=""){
+      allowDataPost=false
+    }
+    else{
+      allowDataPost=true
+
+    }
+    // End of addition by Om Shrivastava on 31-07-23
+    // Reason : Set the validation error for discount percentage and discount rupee
+
     // else {
     //   allowDataPost = false
 
@@ -514,6 +598,17 @@ const OrderForm = () => {
     }
   }, [discountRupee, discountPercentage])
   // End of code - Rohan kansari - 28/6/23
+
+  // Addition by Om Shrivastava on 31-07-23
+  // Reason : Set the validation error for discount percentage and discount rupee
+  const resetValidation = () => {
+    setValidationErrors("")
+    // setDiscountValidationErrors("")
+    setValidationForOrderCancel("")
+};
+  // End of addition by Om Shrivastava on 31-07-23
+  // Reason : Set the validation error for discount percentage and discount rupee
+
 
   return (
     // Modified by Rohan Kansari - 25/6/23
@@ -1031,15 +1126,29 @@ const OrderForm = () => {
                   // Reason - To make tabel no. editable
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount when payment status is Paid
-                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // Added by Om Shrivastava on 31-07-23 
+                  // Reason : Cannot enter discount when payment status is Paid and order status is cancelled
+                  // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in!="Discount in (₹)" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // End of addition by Om Shrivastava on 31-07-23
+                  // Reason : Set the validation error for discount percentage and discount rupee
+
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Need to disable the field when payment status is Paid
-                  type="text"
+                 
+                  // type="text"
+                  type="number"
+
                   name="discount_rupees"
                   style={{ width: "200px" }}
                   value={discountRupee}
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Need to disable the field when payment status is Paid
-                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                  // Added by Om Shrivastava on 31-07-23 
+                  // Reason : Cannot enter discount when payment status is Paid and order status is cancelled
+                  // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled"  ? true : false}
+                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || settings.discount_in!="Discount in (₹)" ? true : false}
+                  // End of addition by Om Shrivastava on 31-07-23 Reason : Need to disable the field when payment status is Paid
+                  
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Need to disable the field when payment status is Paid
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
@@ -1078,6 +1187,11 @@ const OrderForm = () => {
                     //   e.target.value
                     // );
                   }}
+                  // Added by Om Shrivastava on 30-07-23
+                  // Reason - to disable the encrease and decrease discount amount
+                  onWheel={(e) => e.target.blur()}
+                  // End of addition by Om Shrivastava on 30-07-23
+                  // Added by Yuvraj Sahu on 15-07-2023
                   onBlur={(e) => {
                     validateOnBlur(
                       "discount_rupees",
@@ -1087,7 +1201,12 @@ const OrderForm = () => {
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {validationErrors.discount_rupees}
+                {/* // Added by Om Shrivastava on 31-07-23 
+                 // Reason : Set the validation for error discount */}
+                {/* {validationErrors.discount_rupees} */}
+                {validationDiscountErrors.discount_rupees}
+                {/* End of addition by Om Shrivastava on 31-07-23 
+                 // Reason : Set the validation for error discount*/}
               </div>
             </div>
             <div className={`${style.inputContainer}`}>
@@ -1098,7 +1217,13 @@ const OrderForm = () => {
                   // Reason - To make tabel no. editable
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount percentage when payment status is Paid
-                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+
+                  // Added by Om Shrivastava on 31-07-23 
+                  // Reason : Cannot enter discount percentage when payment status is Paid
+                  // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in=="Discount in (₹)"? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // End of addition by Om Shrivastava on 31-07-23 Reason : Cannot enter discount percentage when payment status is Paid
+                 
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount percentage when payment status is Paid
                   type="number"
                   name="discount_percentage"
@@ -1106,7 +1231,13 @@ const OrderForm = () => {
                   value={discountPercentage}
                   // Added by Om Shrivastava on 08-07-23 
                   // Reason : Cannot enter discount percentage when payment status is Paid
-                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                  // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" ? true : false}
+                  // Added by Om Shrivastava on 31-07-23 
+                  // Reason : Cannot enter discount percentage when payment status is Paid
+                  // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || settings.discount_in=="Discount in (₹)"? true : false}
+                  disabled={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in=="Discount in (₹)"? true : false}
+                  // End of addition by Om Shrivastava on 31-07-23 Reason : Cannot enter discount percentage when payment status is Paid
+                  
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount percentage when payment status is Paid
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
@@ -1144,13 +1275,24 @@ const OrderForm = () => {
                     // Reason : Set the cgst and sgst
                     // validateOnInput("cgst", e.target.value);
                   }}
+                  // Added by Om Shrivastava on 30-07-23
+                  // Reason - to disable the encrease and decrease discount amount
+                  onWheel={(e) => e.target.blur()}
+                  // End of addition by Om Shrivastava on 30-07-23
+                  // Added by Yuvraj Sahu on 15-07-2023
                   onBlur={(e) => {
                     validateOnBlur("discount_percentage", e.target.value);
                   }}
+                  
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {validationErrors.discount_percentage}
+                {/* Modification and addition by Om Shrivastava on 31-07-23
+                Reason : Set the  validation for discount percentage*/}
+                {/* {validationErrors.discount_percentage} */}
+                {validationDiscountErrors.discount_percentage}
+                {/* // End of addition by Om Shrivastava on 31-07-23 Reason : Set the validation for error for discount percentage  */}
+
               </div>
             </div>
             {/* Modification and addition by Om Shrivastava on 22-07-23
@@ -1702,6 +1844,11 @@ const OrderForm = () => {
             }}
             onClick={(e) => {
               getOrderDetail();
+              // Addition by Om Shrivastava on 30-07-23
+              // Reason : Reset the validation for when user hit the clear button
+              resetValidation();
+              // End of Addition by Om Shrivastava on 30-07-23
+              // Reason : Reset the validation for when user hit the clear button
             }}
           >
             Clear
