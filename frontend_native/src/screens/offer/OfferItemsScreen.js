@@ -289,7 +289,6 @@ export default function OfferItemsScreen({ route, navigation }) {
       }
     });
   };
-
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -500,13 +499,22 @@ export default function OfferItemsScreen({ route, navigation }) {
               * Modified by Yuvraj Sahju on 08-05-2023
               * Resson - to set not null value
               */
-              discount:
-                "" +
-                  (offerObj.discount != undefined ||
-                    offerObj.discount != null) ==
-                false
-                  ? offerObj.discount
-                  : "",
+              // Modification and addition by Om shrivastava on 02-08-23
+              // Reason : Set the discount amount
+              // discount:
+              //   "" +
+              //     (offerObj.discount != undefined ||
+              //       offerObj.discount != null) ==
+              //   false
+              //     ?
+              //      offerObj.discount
+              //     : "",
+
+                  discount:
+                  "" + (offerObj.discount ==null ? "" : offerObj.discount),
+              //  End of modification and addition by Om shrivastava on 02-08-23
+              // Reason : Set the discount amount
+
                  /**
                  * End of modification by Yuvraj Sahu on 08-05-2023
                  */
@@ -609,8 +617,9 @@ export default function OfferItemsScreen({ route, navigation }) {
                     <Text style={styles.textdanger}>{errors.video_link}</Text>
                   )}
                 </View>
-
-                <View>
+                {/* Commented by Om Shrivastasva on 02-08-23
+                Reason : It can't need yet */}
+                {/* <View>
                   <Text style={styles.labels}>{"  "} Description</Text>
                   <TextInput
                     style={styles.input}
@@ -626,8 +635,9 @@ export default function OfferItemsScreen({ route, navigation }) {
                   {errors.description && touched.description && (
                     <Text style={styles.textdanger}>{errors.description}</Text>
                   )}
-                </View>
-
+                </View> */}
+                {/* End of addition by Om Shrivastasva on 02-08-23
+                Reason : Not need yet the field of description inside offer  */}
                 {/* End of addition */}
 
                 <View
