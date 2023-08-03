@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import style from "./orderform.module.css";
 import Header from "../GlobalComponent/Header";
 import { Message } from "../../App";
-import { Input, Button, Modal, notification, Drawer, Form, message, Rate, } from 'antd';
+import { Input, Button, Modal, notification, Drawer, Form, message, Rate, Popconfirm, } from 'antd';
 import { enableHeader } from "../../App";
 
 
@@ -38,8 +38,8 @@ const OrderForm = () => {
   const [cancelledBy, setCancelledBy] = useState(null);
   const [cancelReaon, setCancelReason] = useState(null);
 
-  const [discountRupee, setDiscountRupee] = useState(null);
-  const [discountPercentage, setDiscountPercentage] = useState(null);
+  const [discountRupee, setDiscountRupee] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   /* Added by ROhan kansari - 28/6/23 */
   const [discountprice, setDiscountprice] = useState(null)
   /* Modified by ROhan kansari - 30/6/23 */
@@ -63,6 +63,11 @@ const OrderForm = () => {
   var [orderItems, setOrderItems] = useState([]);
   // const [orderStatusSelected, setOrderStatus] = useState("");
 
+  // Added by Rohan knasari - 4/8/23
+  // Reason - To Make table number changable otherwise show as label
+  var [IsTableEditable, setTableEditable] = useState(false)
+  // End of code - Rohan kansari - 4/8/23 
+
 
   // Added by Om Shrivatava on on 18-06-23
   // Reason : Set the validation in all fields
@@ -82,8 +87,8 @@ const OrderForm = () => {
     discount_reason: ""
   });
 
-    // Addition by Om Shrivastava on 30-07-23
-    // Reason : Set new usestate for validation 
+  // Addition by Om Shrivastava on 30-07-23
+  // Reason : Set new usestate for validation 
   const [validationDiscountErrors, setDiscountValidationErrors] = useState({
     discount_rupees: "",
     discount_percentage: "",
@@ -234,17 +239,17 @@ const OrderForm = () => {
             //   apply_loyality_point: "",
             // };
             // setValidationErrors({ ...validationErrors, ...error });
-                if ( subTotal < loyalityPointPrice) {
-                  const error = {
-                    apply_loyality_point: "Loyality price should be less than to sub-total.",
-                  };
-                  setValidationErrors({ ...validationErrors, ...error });
-                } else {
-                  const error = {
-                    apply_loyality_point: "",
-                  };
-                  setValidationErrors({ ...validationErrors, ...error });
-                }
+            if (subTotal < loyalityPointPrice) {
+              const error = {
+                apply_loyality_point: "Loyality price should be less than to sub-total.",
+              };
+              setValidationErrors({ ...validationErrors, ...error });
+            } else {
+              const error = {
+                apply_loyality_point: "",
+              };
+              setValidationErrors({ ...validationErrors, ...error });
+            }
             //End of Modification and addition by Om Shrivastava on 12-07-23 Reason :Set the validation when loyality price is greater to subtotal
           }
         } else {
@@ -269,7 +274,7 @@ const OrderForm = () => {
           if (value < 0 || subTotal < value) {
 
             const error = {
-              
+
               // discount_rupees: "Discount must be greater than or equal to 0 and below the grand total.",
               discount_rupees: "Discount should not be greater than to Sub-Total.",
 
@@ -325,7 +330,7 @@ const OrderForm = () => {
         if (!isNaN(value)) {
           if (value < 0 || value >= 100) {
             const error = {
-              
+
               discount_percentage: "Discount in percentage must be greater than or equal to 0 and 100",
 
             };
@@ -335,7 +340,7 @@ const OrderForm = () => {
             setDiscountValidationErrors({ ...validationDiscountErrors, ...error });
             // End of modification  // Modification and addition by Om Shrivastava on 30-07-23
             // Reason : Set new usestate for validation 
-            
+
 
           } else {
             const error = {
@@ -495,7 +500,7 @@ const OrderForm = () => {
 
     var allowDataPost = false;
 
-    if (validationErrors.apply_loyality_point == "" ) {
+    if (validationErrors.apply_loyality_point == "") {
       allowDataPost = true;
     }
     else {
@@ -531,11 +536,13 @@ const OrderForm = () => {
     }
     // Addition by Om Shrivastava on 31-07-23
     // Reason : Set the validation error for discount percentage and discount rupee
-    if(validationDiscountErrors.discount_percentage!="" || validationDiscountErrors.discount_rupees!=""){
-      allowDataPost=false
+    if (validationDiscountErrors.discount_percentage != "" || validationDiscountErrors.discount_rupees != ""  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="")  ) {
+      allowDataPost = false
+      console.log("validation error false",validationErrors.table_number)
     }
-    else{
-      allowDataPost=true
+    else {
+      allowDataPost = true
+      console.log("validation error true")
 
     }
     // End of addition by Om Shrivastava on 31-07-23
@@ -588,16 +595,17 @@ const OrderForm = () => {
 
   // Added by Rohan kansari - 28/6/23
   // Reason - To validate field again
-  useEffect(() => {
-    if (discountRupee != null)
-      validateOnBlur(
-        "discount_rupees",
-        discountRupee
-      );
-    if (discountPercentage != null) {
-      validateOnBlur("discount_percentage", discountPercentage);
-    }
-  }, [discountRupee, discountPercentage])
+  // useEffect(() => {
+  //   if (discountPercentage != null) {
+  //     validateOnBlur("discount_percentage", discountPercentage);
+  //   }
+  //   if (discountRupee != null)
+  //     validateOnBlur(
+  //       "discount_rupees",
+  //       discountRupee
+  //     );
+   
+  // }, [discountRupee, discountPercentage])
   // End of code - Rohan kansari - 28/6/23
 
   // Addition by Om Shrivastava on 31-07-23
@@ -606,7 +614,7 @@ const OrderForm = () => {
     setValidationErrors("")
     // setDiscountValidationErrors("")
     setValidationForOrderCancel("")
-};
+  };
   // End of addition by Om Shrivastava on 31-07-23
   // Reason : Set the validation error for discount percentage and discount rupee
 
@@ -677,31 +685,73 @@ const OrderForm = () => {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Table number</div>
-                <input
-                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  type="text"
-                  name="table_number"
-                  value={tablenumber}
-                  // Modifed by ROhan kansari - 30/6/23
-                  // Reason - To make tabel no. editable
-                  onChange={e => setTablenumber(e.target.value)}
-                  style={{ width: "200px" }}
-                  // onFocus={(e)=>{
-                  //   if(whatsappNumber.length==13)
-                  //     setWhatsappNumber(whatsappNumber.substring(3,13))
-                  // }}
-                  // onChange={(e) => {
-                  //   setWhatsappNumber(e.target.value);
-                  //   validateOnInput("whatsapp_number", e.target.value);
-                  // }}
-                  // onBlur={(e) => {
-                  //   validateOnBlur("whatsapp_number", e.target.value);
-                  // }}
-                  maxLength={10}
-                />
+                {/* Added by ROhan kansari - 4/8/23 
+                    Reason - To send table number change alert message  */}
+                {IsTableEditable ?
+                  <><input
+                    className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                    type="text"
+                    name="table_number"
+                    value={tablenumber}
+                    // Modifed by ROhan kansari - 30/6/23
+                    // Reason - To make tabel no. editable
+                    onChange={e => {
+                      if(e.target.value.length==0){
+                        validationErrors.table_number="Table should not be blank."
+                        setValidationErrors({...validationErrors})
+                        setTablenumber(e.target.value)
+                      }else{
+                        validationErrors.table_number=""
+                        setValidationErrors({...validationErrors})
+                        setTablenumber(e.target.value)
+                      }
+                    }}
+                    style={{ width: "200px" }}
+                    // onFocus={(e)=>{
+                    //   if(whatsappNumber.length==13)
+                    //     setWhatsappNumber(whatsappNumber.substring(3,13))
+                    // }}
+                    // onChange={(e) => {
+                    //   setWhatsappNumber(e.target.value);
+                    //   validateOnInput("whatsapp_number", e.target.value);
+                    // }}
+                    onKeyUp={e => {
+                      if (e.key == "Enter" || e.keyCode == 13) {
+                        if(tablenumber.length>0)
+                        setTableEditable(false)
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if(tablenumber.length>0)
+                      setTableEditable(false)
+                    }}
+                    maxLength={10}
+                  />
+                  </>
+                  :
+                  <>
+                    {tablenumber}
+                    <Popconfirm
+                      title="Are you sure you want to change table number?"
+                      onConfirm={e => { setTableEditable(true) }}
+                      // onCancel={e => { setTableConfirm(false) }}
+                      cancelText="Cancel"
+                      okText="Ok"
+                      placement='bottomLeft'
+                    >
+                      <BsPencilSquare onClick={e => {
+                        // if (inputEnable != "tableEdit") {
+
+                        // }
+                        // else setInputEnable(null)
+                      }
+                      } style={{ margin: "5px 10px" }} />
+                    </Popconfirm>
+                  </>}
+                  {/* ENd of code - ROhan kansari - 4/8/23 */}
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {/* {validationErrors.whatsapp_number} */}
+                {validationErrors.table_number}
               </div>
             </div>
 
@@ -747,9 +797,9 @@ const OrderForm = () => {
                   type="text"
                   name="cancel_reason"
                   value={cancelReaon}
-                  style={orderDetailsObj.payment_status == "Completed" && 
-                  orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px" ,resize:'none'} : 
-                   { width: "200px", height: "100px", resize: 'none' }}
+                  style={orderDetailsObj.payment_status == "Completed" &&
+                    orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px", resize: 'none' } :
+                    { width: "200px", height: "100px", resize: 'none' }}
                   disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
@@ -787,13 +837,6 @@ const OrderForm = () => {
                     // validateOnInput("app_theme", e.target.value);
                   }}
                 >
-                  {/* Added by Om Shrivastava on 04-08-23
-                  Reason : Set the payment status paid  */}
-                  {orderDetailsObj.payment_status == "Paid" ?
-                    <option value="Paid" disabled selected={paymentStatus == "Paid" ? true : false}>Paid</option>
-                    :null}
-                  {/* End of addition by Om Shrivastava on 04-08-23
-                  Reason : Set the payment status paid */}
                   <option value="Pending" selected={paymentStatus == "Pending" ? true : false}>Pending</option>
                   <option value="Completed" selected={paymentStatus == "Completed" ? true : false}>Completed</option>
 
@@ -924,7 +967,7 @@ const OrderForm = () => {
                       // Modification and addition by Om Shrivastava on 21-07-23
                       // Reason : When payment status is paid or completed then loyality field is disable
                       // className={orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                      className={ orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                      className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                       // End of addition and modification and addition by Om Shrivastava on 21-07-23
                       // Reason : When payment status is paid or completed then loyality field is disable
                       // End of addition and modification by Om Shrivastava on 15-07-23 
@@ -944,7 +987,7 @@ const OrderForm = () => {
                       // Modification and addition by Om Shrivastava on 21-07-23
                       // Reason : When payment status is paid or completed then loyality field is disable
                       // disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || orderDetailsObj.loyality_point_status == "is used" || orderDetailsObj.payment_status == "Paid" ? true : false}
-                      disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled"  || orderDetailsObj.payment_status == "Paid" ? true : false}
+                      disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || orderDetailsObj.payment_status == "Paid" ? true : false}
                       // Reason : Set the validation for apply loyality point
                       // End of addition by Om Shrivastava on 01-07-23 Reason :  When payment status is paid than this field is disable
                       // End of addition and modification by Om Shrivastava on 15-07-23 
@@ -959,19 +1002,19 @@ const OrderForm = () => {
 
                         //Modification and Added by Om shrivastava on 22-07-23
                         // Reason : Set the cgst and sgst
-                        var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
-                        var cgst = (total/100) *get_cgst
+                        var get_cgst = (orderDetailsObj.cgst / orderDetailsObj.total) * 100
+                        var cgst = (total / 100) * get_cgst
                         setCGST(cgst)
                         // Added by Om Shrivastava on 23-07-23 
                         // Reason : Set the sgst new value in onchange
-                        var get_sgst = (orderDetailsObj.sgst/orderDetailsObj.total)*100
-                        var sgst = (total/100) *get_sgst
+                        var get_sgst = (orderDetailsObj.sgst / orderDetailsObj.total) * 100
+                        var sgst = (total / 100) * get_sgst
                         setSGST(sgst)
                         // End of addition by Om Shrivastava on 23-07-23 
                         // Reason : Set the sgst new value in onchange
                         var final = total + cgst + sgst
                         setFinalAmount(final)
-                         // End of addition by Om shrivastava on 22-07-23
+                        // End of addition by Om shrivastava on 22-07-23
                         // Reason : Set the cgst and sgst
 
                         // validateOnInput(
@@ -1137,12 +1180,12 @@ const OrderForm = () => {
                   // Added by Om Shrivastava on 31-07-23 
                   // Reason : Cannot enter discount when payment status is Paid and order status is cancelled
                   // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in!="Discount in (₹)" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in != "Discount in (₹)" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   // End of addition by Om Shrivastava on 31-07-23
                   // Reason : Set the validation error for discount percentage and discount rupee
 
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Need to disable the field when payment status is Paid
-                 
+
                   // type="text"
                   type="number"
 
@@ -1154,9 +1197,9 @@ const OrderForm = () => {
                   // Added by Om Shrivastava on 31-07-23 
                   // Reason : Cannot enter discount when payment status is Paid and order status is cancelled
                   // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled"  ? true : false}
-                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || settings.discount_in!="Discount in (₹)" ? true : false}
+                  disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || settings.discount_in != "Discount in (₹)" ? true : false}
                   // End of addition by Om Shrivastava on 31-07-23 Reason : Need to disable the field when payment status is Paid
-                  
+
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Need to disable the field when payment status is Paid
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
@@ -1165,29 +1208,33 @@ const OrderForm = () => {
                       e.target.value = 0
                     // End of code - ROhan kansari - 30/6/23
                     setDiscountRupee(e.target.value);
-                    setDiscountprice(e.target.value)
-                    setDiscountPercentage(0)
+                    setDiscountprice(e.target.value);
+                    var percentage=e.target.value/(orderDetailsObj.sub_total/100)
+                    setDiscountPercentage(percentage.toFixed(2))
                     // subtracting subtotal - to loyality point then we get total
                     var total = orderDetailsObj.sub_total - loyalityPointPrice - e.target.value
                     setTotal(total)
 
                     // Added by Om shrivastava on 22-07-23
                     // Reason : Set the cgst and sgst
-                    var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
-                    var cgst = (total/100) *get_cgst
+                    var get_cgst = (orderDetailsObj.cgst / orderDetailsObj.total) * 100
+                    var cgst = (total / 100) * get_cgst
                     setCGST(cgst)
 
                     // Added by Om Shrivastava on 23-07-23 
                     // Reason : Set the sgst new value in onchange
-                    var get_sgst = (orderDetailsObj.sgst/orderDetailsObj.total)*100
-                    var sgst = (total/100) *get_sgst
+                    var get_sgst = (orderDetailsObj.sgst / orderDetailsObj.total) * 100
+                    var sgst = (total / 100) * get_sgst
                     setSGST(sgst)
                     // End of addition by Om Shrivastava on 23-07-23 
                     // Reason : Set the sgst new value in onchange
 
                     var final = total + cgst + sgst
                     setFinalAmount(final)
-                    
+                    validateOnBlur(
+                      "discount_rupees",
+                      e.target.value
+                    );
                     // End of addition by Om shrivastava on 22-07-23
                     // Reason : Set the cgst and sgst
                     // validateOnInput(
@@ -1229,9 +1276,9 @@ const OrderForm = () => {
                   // Added by Om Shrivastava on 31-07-23 
                   // Reason : Cannot enter discount percentage when payment status is Paid
                   // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in=="Discount in (₹)"? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in == "Discount in (₹)" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
                   // End of addition by Om Shrivastava on 31-07-23 Reason : Cannot enter discount percentage when payment status is Paid
-                 
+
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount percentage when payment status is Paid
                   type="number"
                   name="discount_percentage"
@@ -1243,9 +1290,9 @@ const OrderForm = () => {
                   // Added by Om Shrivastava on 31-07-23 
                   // Reason : Cannot enter discount percentage when payment status is Paid
                   // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || settings.discount_in=="Discount in (₹)"? true : false}
-                  disabled={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in=="Discount in (₹)"? true : false}
+                  disabled={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || settings.discount_in == "Discount in (₹)" ? true : false}
                   // End of addition by Om Shrivastava on 31-07-23 Reason : Cannot enter discount percentage when payment status is Paid
-                  
+
                   // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount percentage when payment status is Paid
                   onChange={(e) => {
                     // Added by Rohan kansari -30/6/23
@@ -1254,31 +1301,32 @@ const OrderForm = () => {
                       e.target.value = 0
                     // End of code - ROhan kansari - 30/6/23
                     setDiscountPercentage(e.target.value);
-                    setDiscountRupee(0)
-
                     var percantagePrice = (subTotal / 100) * e.target.value
-                    setDiscountprice(percantagePrice)
+                    setDiscountRupee(percantagePrice.toFixed(2))
+
+                    
+                    setDiscountprice(percantagePrice.toFixed(2))
 
                     // subtracting subtotal - to loyality point then we get total
                     var total = orderDetailsObj.sub_total - loyalityPointPrice - percantagePrice
                     setTotal(total)
                     // Added by Om shrivastava on 22-07-23
                     // Reason : Set the cgst and sgst
-                    var get_cgst = (orderDetailsObj.cgst/orderDetailsObj.total)*100
-                    var cgst = (total/100) *get_cgst
+                    var get_cgst = (orderDetailsObj.cgst / orderDetailsObj.total) * 100
+                    var cgst = (total / 100) * get_cgst
                     setCGST(cgst)
 
                     // Added by Om Shrivastava on 23-07-23 
                     // Reason : Set the sgst new value in onchange
-                    var get_sgst = (orderDetailsObj.sgst/orderDetailsObj.total)*100
-                    var sgst = (total/100) *get_sgst
+                    var get_sgst = (orderDetailsObj.sgst / orderDetailsObj.total) * 100
+                    var sgst = (total / 100) * get_sgst
                     setSGST(sgst)
                     // End of addition by Om Shrivastava on 23-07-23 
                     // Reason : Set the sgst new value in onchange
 
                     var final = total + cgst + sgst
                     setFinalAmount(final)
-                    
+                    validateOnBlur("discount_percentage", e.target.value);
                     // End of addition by Om shrivastava on 22-07-23
                     // Reason : Set the cgst and sgst
                     // validateOnInput("cgst", e.target.value);
@@ -1291,7 +1339,7 @@ const OrderForm = () => {
                   onBlur={(e) => {
                     validateOnBlur("discount_percentage", e.target.value);
                   }}
-                  
+
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>
@@ -1305,62 +1353,62 @@ const OrderForm = () => {
             </div>
             {/* Modification and addition by Om Shrivastava on 22-07-23
             Reason : When user enter discount rupee or percent then discount reason block is open */}
-            {discountRupee!= 0 || discountPercentage!=0?
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>Discount reason</div>
-                <textarea
-                  // Modifed by ROhan kansari - 30/6/23
-                  // Reason - To make tabel no. editable
-                  // Added by Om Shrivastava on 08-07-23 
-                  // Reason : Cannot enter discount reason when payment status is Paid
-                  // Modification and addition by Om Shrivastava on 22-07-23
-                  // Reason : Set the validation for discount reason 
-                  // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status  == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
-                  //  End of Modification and addition by Om Shrivastava on 22-07-23
-                  // Reason : Set the validation for discount reason 
-                  // End of addition by Om Shrivastava on 08-07-23
-                  type="text"
-                  name="discount_reason"
+            {discountRupee != 0 || discountPercentage != 0 ?
+              <div className={`${style.inputContainer}`}>
+                <div className={`${style.inputArea}`}>
+                  <div className={`${style.inputLabel}`}>Discount reason</div>
+                  <textarea
+                    // Modifed by ROhan kansari - 30/6/23
+                    // Reason - To make tabel no. editable
+                    // Added by Om Shrivastava on 08-07-23 
+                    // Reason : Cannot enter discount reason when payment status is Paid
+                    // Modification and addition by Om Shrivastava on 22-07-23
+                    // Reason : Set the validation for discount reason 
+                    // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                    // className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                    className={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                    //  End of Modification and addition by Om Shrivastava on 22-07-23
+                    // Reason : Set the validation for discount reason 
+                    // End of addition by Om Shrivastava on 08-07-23
+                    type="text"
+                    name="discount_reason"
 
-                  // Modification and addition by Om Shrivastava on 22-07-23
-                  // Reason : Set the validation for discount reason 
-                  // style={orderDetailsObj.payment_status == "Completed"
-                  //   || orderDetailsObj.order_status == "Cancelled"
-                  //   ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}
-                  style={orderDetailsObj.payment_status== "Completed"|| orderDetailsObj.payment_status== "Paid"||
-                  orderDetailsObj.order_status == "Cancelled"
-                    ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}  
-                  //  End of Modification and addition by Om Shrivastava on 22-07-23
+                    // Modification and addition by Om Shrivastava on 22-07-23
+                    // Reason : Set the validation for discount reason 
+                    // style={orderDetailsObj.payment_status == "Completed"
+                    //   || orderDetailsObj.order_status == "Cancelled"
+                    //   ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}
+                    style={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.payment_status == "Paid" ||
+                      orderDetailsObj.order_status == "Cancelled"
+                      ? { resize: 'none' } : { width: "200px", height: "100px", resize: 'none' }}
+                    //  End of Modification and addition by Om Shrivastava on 22-07-23
 
-                  value={discountReason == null ? "----" : discountReason}
-                  // Added by Om Shrivastava on 08-07-23 
-                  // Reason : Cannot enter discount reason when payment status is Paid
+                    value={discountReason == null ? "----" : discountReason}
+                    // Added by Om Shrivastava on 08-07-23 
+                    // Reason : Cannot enter discount reason when payment status is Paid
 
-                  // Modification and addition by Om Shrivastava on 22-07-23
-                  // Reason : Set the validation for discount reason 
-                  // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
-                  disabled={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || discountReason == undefined ? true : false}
-                  //  End of Modification and addition by Om Shrivastava on 22-07-23
-                 
-                  // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount reason when payment status is Paid
-                  onChange={(e) => {
-                    setDiscountReason(e.target.value);
-                    // validateOnInput("sgst", e.target.value);
-                  }}
-                  // onBlur={(e) => {
-                  //   validateOnBlur("sgst", e.target.value);
-                  // }}
-                  maxLength={255}
-                />
+                    // Modification and addition by Om Shrivastava on 22-07-23
+                    // Reason : Set the validation for discount reason 
+                    // disabled={paymentStatus == "Paid" || paymentStatus == "Completed" || orderStatus == "Cancelled" || discountReason == undefined ? true : false}
+                    disabled={orderDetailsObj.payment_status == "Paid" || orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status == "Cancelled" || discountReason == undefined ? true : false}
+                    //  End of Modification and addition by Om Shrivastava on 22-07-23
+
+                    // End of addition by Om Shrivastava on 08-07-23 Reason : Cannot enter discount reason when payment status is Paid
+                    onChange={(e) => {
+                      setDiscountReason(e.target.value);
+                      // validateOnInput("sgst", e.target.value);
+                    }}
+                    // onBlur={(e) => {
+                    //   validateOnBlur("sgst", e.target.value);
+                    // }}
+                    maxLength={255}
+                  />
+                </div>
+                <div className={`${style.inputErrorArea}`}>
+                  {validationErrors.discount_reason}
+                </div>
               </div>
-              <div className={`${style.inputErrorArea}`}>
-                {validationErrors.discount_reason}
-              </div>
-            </div>
-            :null}
+              : null}
             {/* End of addition and modifciation by Om Shrivastava on 22-07-23  Reason : When user enter discount rupee or percent then discount reason block is open */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
@@ -1393,16 +1441,16 @@ const OrderForm = () => {
             {settings.allow_loyality_points && settings.allow_loyality_points == true ?
               <>
                 <div className={`${style.inputContainer}`}>
-              {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
+                  {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
                   <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-              {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
+                    {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
                     <div className={`${style.inputLabel} `}>
                       Loyality point price
                     </div>
                     <input
-              // {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
+                      // {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                       className={`${style.textInputBox} ${style.disabledInputBox}`}
-              // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
+                      // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                       type="text"
                       name="loyality_point_price"
                       style={{ width: "100px" }}
@@ -1424,15 +1472,15 @@ const OrderForm = () => {
             <div className={`${style.inputContainer}`}>
               {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-              {/* // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
+                {/* // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */}
 
                 <div className={`${style.inputLabel}`}>
                   Discount
                 </div>
                 <input
-              // {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
+                  // {/* Added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                   className={`${style.textInputBox} ${style.disabledInputBox}`}
-              // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
+                  // {/* End of added by Om Shrivastava on 20-07-23 Reason : Add classname in mobileview */
                   type="text"
                   name="discount"
                   style={{ width: "100px" }}
@@ -1673,9 +1721,9 @@ const OrderForm = () => {
               </div>
             </div> */}
 
-            {/* Added by ROhan kansari - 28/6/23
+          {/* Added by ROhan kansari - 28/6/23
                   Reason - To show loyality point below sub total */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
                   Loyality point price
@@ -1695,7 +1743,7 @@ const OrderForm = () => {
               <div className={`${style.inputErrorArea}`}>
               </div>
             </div> */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
                   Discount
@@ -1710,7 +1758,7 @@ const OrderForm = () => {
                 />
               </div>
             </div> */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
                 <input
@@ -1724,8 +1772,8 @@ const OrderForm = () => {
                 />
               </div>
             </div> */}
-            {/* End of code - Rohan kansari - 28/6/23 */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* End of code - Rohan kansari - 28/6/23 */}
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>CGST</div>
                 <input
@@ -1746,7 +1794,7 @@ const OrderForm = () => {
 
 
 
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>SGST</div>
                 <input
@@ -1764,9 +1812,9 @@ const OrderForm = () => {
               <div className={`${style.inputErrorArea}`}>
               </div>
             </div> */}
-            {/* Commented by Rohan Kansari - 28/6/23
+          {/* Commented by Rohan Kansari - 28/6/23
                   Reason - to change position  */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                   <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
                   <input
@@ -1787,12 +1835,12 @@ const OrderForm = () => {
                   // }}
                   />
                 </div> */}
-            {/* <div className={`${style.inputErrorArea}`}> */}
-            {/* {validationErrors.gstin} */}
-            {/* </div>
+          {/* <div className={`${style.inputErrorArea}`}> */}
+          {/* {validationErrors.gstin} */}
+          {/* </div>
               </div> */}
-            {/* ENd of code - Rohan kansari - 28/6/23 */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* ENd of code - Rohan kansari - 28/6/23 */}
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Grand Total</div>
                 <input
@@ -1809,7 +1857,7 @@ const OrderForm = () => {
               <div className={`${style.inputErrorArea}`}>
               </div>
             </div> */}
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Rating</div>
                 <input
@@ -1826,7 +1874,7 @@ const OrderForm = () => {
               </div>
             </div> */}
 
-            {/* <div className={`${style.inputContainer}`}>
+          {/* <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                 <div className={`${style.inputLabel} ${style.inputLabel2}`}>Review</div>
                 
