@@ -3393,7 +3393,7 @@ const printKot = async()=>{
                 <Text
                   style={{
                     color: paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3421,7 +3421,7 @@ const printKot = async()=>{
                 <Text
                   style={{
                     color: "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3456,7 +3456,7 @@ const printKot = async()=>{
                 <Text
                   style={{
                     color: paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3498,7 +3498,7 @@ const printKot = async()=>{
                   style={{
                     // color: "white",
                     color : orderDetail.order_status == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3543,7 +3543,7 @@ const printKot = async()=>{
                   style={{
                     // color: "white",
                     color : orderDetail.order_status == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3579,7 +3579,7 @@ const printKot = async()=>{
                   style={{
                     // color: "white",
                     color: isDuplicateKotDisable || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3696,7 +3696,10 @@ const printKot = async()=>{
             <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5}]}>
               {/* Font weight apply by Om on 27-04-23 */}
               <View style={{width: "100%"}}>
-              <Text style={{ fontWeight: "bold" }}>Order status</Text>
+              {/* Added by Yuvraj Sahu on 02-08-2023
+              Reason - to center the lable */}
+              <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 15}}>Order status</Text>
+              {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
 
               {/* Commeted and added by Yuvraj Sahu on 04-05-2023
               Reason - to change the dropdown library */}
@@ -3821,21 +3824,32 @@ const printKot = async()=>{
             {/* Added by Yuvraj Sahu on 03-07-2023
             Reason - to add button for changing the order status */}
             <View style={styles.buttonContainerStyle}>
+            {/* Modification by Yuvraj Sahu on 03-08-2023
+            Reason - to make buttons design and make disable and enabled */}
             <Pressable
                 onPress={(e)=>handleOrderUpdate("Placed", orderDetail.order_id)}
                 // disabled={isDisable}
-                disabled={orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? true : false}
+                disabled={orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Placed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
-                  height: 30,
+                  backgroundColor: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Placed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
-                  margin: 3
+                  margin: 3,
+                  padding: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Placed" ? 7 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Placed" ? "#000" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
@@ -3843,9 +3857,9 @@ const printKot = async()=>{
                     // Modified by yuvraj Sahu on 29-07-2023
                     // Reason - to change the text color
                     // color: "white",
-                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
+                    color: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3857,18 +3871,27 @@ const printKot = async()=>{
               onPress={()=>handleOrderUpdate("Confirm", orderDetail.order_id)}
                 // onPress={handleUpdate}
                 // disabled={isDisable}
-                disabled = {orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? true : false}
+                disabled = {orderStatusSelected == "Cancelled" || orderStatusSelected == "Cooked" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Confirm" ? colors.orderActiveBtnColor : colors.orderBtnColors,
-                  height: 30,
+                  backgroundColor: orderStatusSelected == "Cancelled" || orderStatusSelected == "Cooked" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Confirm" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
-                  margin: 3
+                  margin: 3,
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Confirm" ? 7 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Confirm" ? "#000" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
@@ -3876,9 +3899,9 @@ const printKot = async()=>{
                     // Modified by yuvraj Sahu on 29-07-2023
                     // Reason - to change the text color
                     // color: "white",
-                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
+                    color: orderStatusSelected == "Cancelled" || orderStatusSelected == "Cooked" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3890,18 +3913,27 @@ const printKot = async()=>{
               onPress={()=>handleOrderUpdate("Cooked", orderDetail.order_id)}
                 // onPress={handleUpdate}
                 // disabled={isDisable}
-                disabled = {orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? true : false}
+                disabled = {orderStatusSelected == "Cancelled" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? true : false}
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
-                  backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Cooked" ? colors.orderActiveBtnColor : colors.orderBtnColors,
-                  height: 30,
+                  backgroundColor: orderStatusSelected == "Cancelled" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Cooked" ? colors.orderActiveBtnColor : colors.orderBtnColors,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
-                  margin: 3
+                  margin: 3,
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Cooked" ? 7 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Cooked" ? "#000" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
@@ -3909,9 +3941,9 @@ const printKot = async()=>{
                     // Modified by yuvraj Sahu on 29-07-2023
                     // Reason - to change the text color
                     // color: "white",
-                    color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
+                    color: orderStatusSelected == "Cancelled" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3927,14 +3959,23 @@ const printKot = async()=>{
                 style={{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : orderStatusSelected == "Served" ? colors.orderActiveBtnColor : colors.orderBtnColors,
-                  height: 30,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
                   // marginHorizontal: 3,
-                  margin: 3
+                  margin: 3,
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Served" ? 7 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Served" ? "#000" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
@@ -3944,7 +3985,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -3962,14 +4003,23 @@ const printKot = async()=>{
                   // backgroundColor: isDisable ? "grey" : colors.btnColor,
                   backgroundColor: orderStatusSelected == "Cancelled" ? colors.orderActiveBtnColor : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableBackgroundColor : colors.orderBtnColors,
                   // backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "grey" : "green" : colors.btnColor,
-                  height: 30,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
-                  margin: 3
+                  margin: 3,
+                  padding: orderStatusSelected == "Cancelled" ? 7 : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected == "Cancelled" ? "#000" : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
@@ -3979,7 +4029,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected == "Cancelled" ? "white" : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -4119,8 +4169,9 @@ const printKot = async()=>{
               Reason - to remove dropdown and design radio */}
             <View style={[styles.orderStatusContainer, {borderWidth: 1.5, borderRadius: 5, paddingBottom: 10}]}>
               {/* Font weight apply by Om on 27-04-23 */}
+              <Text style={{ fontWeight: "bold", marginBottom: 5, textAlign: "center", fontSize: 15}}>Payment status</Text>
               <View>
-              <Text style={{ fontWeight: "bold", marginBottom: 5 }}>Payment status</Text>
+              {/* <Text style={{ fontWeight: "bold", marginBottom: 5, }}>Payment status</Text> */}
 
               {/* Commeted and added by Yuvraj Sahu on 04-05-2023
               Reason - to change the dropdown library */}
@@ -4242,20 +4293,29 @@ const printKot = async()=>{
                   // backgroundColor: colors.btnColor,
                   backgroundColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableBackgroundColor : paymentStatusSelected == "Pending" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   // end of addition by yuvraj sahu on 26-07-2023
-                  height: 30,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
-                  marginHorizontal: 3
+                  marginHorizontal: 3,
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? 0 : paymentStatusSelected == "Pending" ? 7 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "#fff" : paymentStatusSelected == "Pending" ? "#000" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
                   style={{
                     // color: "white",
                     color : orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : paymentStatusSelected == "Pending" ? "white" : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -4286,13 +4346,22 @@ const printKot = async()=>{
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 10,
-                  marginHorizontal: 3
+                  marginHorizontal: 3,
+                  padding: 7,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: "#000",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
                   style={{
                     color: "white",
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -4315,20 +4384,29 @@ const printKot = async()=>{
                   // backgroundColor: colors.btnColor,
                   backgroundColor: orderStatusSelected == "Cancelled" ? colors.btnDisableBackgroundColor : paymentStatusSelected == "Completed" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   // end of addition by yuvraj sahu on 26-07-2023
-                  height: 30,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
                   // width: "35%",
                   paddingHorizontal: 5,
-                  marginHorizontal: 3
+                  marginHorizontal: 3,
+                  padding: orderStatusSelected == "Cancelled" ? 0 : paymentStatusSelected == "Completed" ? 7 : 0,
+                  shadowOffset: {
+                    width: 5,
+                    height: 10,
+                  },
+                  shadowColor: orderStatusSelected == "Cancelled" ? "#fff" : paymentStatusSelected == "Completed" ? "#000" : "#fff",
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
                 }}
               >
                 <Text
                   style={{
                     // color: "white",
                     color : orderStatusSelected == "Cancelled" ? colors.btnDisableTextColor : paymentStatusSelected == "Completed" ? "white" : "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: "bold",
                   }}
                 >
@@ -4498,7 +4576,7 @@ tableNumberElseStyle: {
     // Commented and modified by yuvraj Sahu on 28-06-2023
     // Reason - to change design of order and payment status
     display: "flex",
-    flexDirection: "row",
+    // flexDirection: "row",
     justifyContent: "space-between",
     // margin: 5,
     paddingRight: 5,
