@@ -572,11 +572,34 @@
     margin: 0 auto;
     /* justify-content: space-between; */
     /* Modified by ROhan kansari - 29/6/23 */
-    border: 1px solid #000;
+    /* Modified by yuvraj Sahu on 03-08-2023
+    Reason - to remove border */
+    /* border: 1px solid #000; */
+    /* End of addition by Yuvraj Sahu on 03-08-2023 */
     border-radius: 5px;
     padding: 0 10px;
+}
+
+/* Added by Yuvraj Sahu on cancel the button */
+.checkOrderCancelBtn {
+    border: 2px solid #f8857d;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #f8857d;
+    display: flex;
+    justify-content: center;
+    /* text-align: center; */
+    align-items: center;
+    width: 90px;
+    transition: all .3s;
+    height: 30px;
 
 }
+
+.order-btn-design{
+    margin-bottom: 10px !important;
+}
+/* End of addition by Yuvraj Sahu on 03-08-2023 */
 
 .selctedContentBox select {
     background-color: #faf5f5;
@@ -1733,6 +1756,15 @@ Reason - to design radio button container */
     width: 80%;
     /* padding: 0 10px; */
 }
+
+/* Added by yuvraj Sahu on 03-08-2023
+Reason - to design button */
+.orderStatusArrowBtnContainerDashboard {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+/* End of addition by yuvraj sahu on 03-08-2023 */
 
 .OrderstatusBtnContainer {
     display: flex;

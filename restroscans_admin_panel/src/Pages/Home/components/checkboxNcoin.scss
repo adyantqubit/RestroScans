@@ -323,11 +323,22 @@
     @else { bottom: 0; }
   }
   
-  &:hover::before,
-  &:hover::after {
-    background: #07d410;
+  // Commeted and modifed by yuvraj Shau on 03-08-2023
+  // Reason - to check width and remove the hover property in update all order status
+  // &:hover::before,
+  // &:hover::after {
+  //   background: #07d410;
+  // }
+  @if $width > 6em {
+    &:hover::before,
+    &:hover::after {
+      background: #07d410;
+    }
+  } @else {
+    // margin-top: 5px;
   }
-  
+  // end of comment by Yuvraj Sahu on 03-08-2023
+
   &:focus {
       &::before,
       &::after {
@@ -342,6 +353,16 @@
   @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 8em, 2em, right);
 } 
 /* Page styling */
+
+// Added by Yuvraj Sahu on 03-08-2023
+// Reason - to design order and payment status button
+.payment-btn-right {
+  @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 6em, 2em, right);
+}
+.order-btn-right {
+  @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 5em, 2em, right);
+}
+// End of addition by Yuvraj Sahu on 03-08-2023
 
 .activeStatusBtn{
 

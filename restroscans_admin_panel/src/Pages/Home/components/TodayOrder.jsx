@@ -735,29 +735,48 @@ const TodayOrder = () => {
         console.log(checkedItems)
     }
 
-    async function updateAll() {
+    async function updateAll(status) {
+
+        /**
+         * Added by Yuvraj Sahu on 02-08-2023
+         * Reason - to update the order and payment status 
+         */
+
+        // const data = {
+        //     /**
+        //      * Commeted and modified by Yuvraj Sahu on 28-06-2023
+        //      * Reason - to replace dropdown with radio value
+        //      */
+        //     // order_status: document.getElementById("all_order_status_selected").value,
+        //     // payment_status: document.getElementById("all_payment_status_selected").value,
+        //     order_status: selectedOrderStatus != "" ? selectedOrderStatus : document.getElementById("all_order_status_selected").value,
+        //     payment_status: selectedPaymentStatus != "" ? selectedPaymentStatus : document.getElementById("all_payment_status_selected").value,
+        //     /**
+        //      * End of modification by yuvraj sahu on 28-06-2023
+        //      */
+        //     orders: checkedItems
+        // }
 
         const data = {
-            /**
-             * Commeted and modified by Yuvraj Sahu on 28-06-2023
-             * Reason - to replace dropdown with radio value
-             */
-            // order_status: document.getElementById("all_order_status_selected").value,
-            // payment_status: document.getElementById("all_payment_status_selected").value,
-            order_status: selectedOrderStatus != "" ? selectedOrderStatus : document.getElementById("all_order_status_selected").value,
-            payment_status: selectedPaymentStatus != "" ? selectedPaymentStatus : document.getElementById("all_payment_status_selected").value,
-            /**
-             * End of modification by yuvraj sahu on 28-06-2023
-             */
             orders: checkedItems
         }
+        if ("order_status" in status){
+            data["order_status"] = status.order_status
+        }
+        if ("payment_status" in status){
+            data["payment_status"] = status.payment_status
+        }
 
-        if (selectedOrderStatus == "") {
-            delete data.order_status
-        }
-        if (selectedPaymentStatus == "") {
-            delete data.payment_status
-        }
+        // if (selectedOrderStatus == "") {
+        //     delete data.order_status
+        // }
+        // if (selectedPaymentStatus == "") {
+        //     delete data.payment_status
+        // }
+
+        /**
+         * End of modification by yuvraj Sahu on 02-08-2023
+         */
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
@@ -1773,7 +1792,12 @@ const TodayOrder = () => {
                             <div className={style.row} >
                                 <div className={style.columnData1}>
                                     <input className={style.checkbox} id="checkbox"
-                                        onChange={e => setCheckedItems(data, e.target.checked)} type="checkbox" />
+                                        onChange={e => setCheckedItems(data, e.target.checked)} type="checkbox"
+                                        // Added by Yuvraj Sahu on 03-08-2023
+                                        // Reason - to disable the order checkbox
+                                        disabled={data.order_status == "Cancelled" ? true : false}
+                                        // End of addition by Yuvraj Sahu on 03-08-2023
+                                        />
                                     {i + 1}
                                 </div>
                                 {/* <input className={style.checkbox} id="checkbox"
@@ -1869,17 +1893,113 @@ const TodayOrder = () => {
             </div>
             <div className={style.MultiupdateContainer} id="allupdate">
                 <div className={style.updateflexContainer}>
-                    <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order status</div>
+                    {/* Commeted and added by yuvraj Sahu on 03-08-2023
+                    Reason - to change the lable stayle give button for update order */}
+                    {/* <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order status</div> */}
+                    <div className={style.statusLable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order status</div>
                     <div className={style.selctedContentBox}>
                         {/* Added and commeted by Yuvraj Sahu on 28-06-2023
-                    Reason - to replace dropdown with radio */}
-                        <Radio.Group onChange={handleOrderStatus} value={selectedOrderStatus} id="all_order_status_selected">
+                        Reason - to replace dropdown with radio */}
+                        {/* Added And modified by Yuvraj Sahu on 02-08-2023
+                        Reason - to design radio to button */}
+                        {/* <Radio.Group onChange={handleOrderStatus} value={selectedOrderStatus} id="all_order_status_selected">
                             <Radio value="Placed">Placed</Radio>
                             <Radio value="Confirm">Confirm</Radio>
                             <Radio value="Cooked">Cooked</Radio>
                             <Radio value="Served">Served</Radio>
                             <Radio value="Cancelled">Cancelled</Radio>
-                        </Radio.Group>
+                        </Radio.Group> */}
+                        {/* Modifed by Yuvraj Sahu on 03-08-2023
+                            Reason - to disable the area when order not chekced */}
+                        {/* <div className={style.updateAllOrderstatusBtnContainer}> */}
+                        <div className={style.updateAllOrderstatusBtnContainer} >
+                        {/* End of disable button colors by Yuvraj Sahu on 03-08-2023 */}
+                            <div className={style.orderStatusArrowBtnContainerDashboard}>
+                                {/* Modified by Yuvraj Sahu on 03-08-2023
+                                Reason - to design a button  */}
+                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                    onClick={e => {
+                                        // if (statusValidation("Placed", paymentStatus, selectedOrderData.order_detail))
+                                            updateAll({
+                                                "order_status": "Placed"
+                                            })
+                                    }
+                                    }
+                                    style={{opacity : 0.5}}
+                                    // Added by Yuvraj Sahu on 03-08-2023
+                                    // Reason - to disable the button
+                                    disabled ={true}
+                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                    ><a href="#">Placed</a></button></p>
+                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                    onClick={e => {
+                                        updateAll({
+                                            "order_status": "Confirm"
+                                        })
+                                        // if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail)) {
+                                        //     printKot(selectedOrderData.order_item.filter((o) => {
+                                        //         if (o.order_id == openActionPopupModal.order_detail.order_id &&
+                                        //             o.kot_print_status == false &&
+                                        //             o.item_status != "Cancelled")
+                                        //             return o
+                                        //     }
+                                        //     ))
+                                        // }
+                                    }}
+                                    // Added by Yuvraj Sahu on 03-08-2023
+                                    // Reason - to disable the button
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    disabled ={checkedItems.length > 0 ? false : true}
+                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                    ><a href="#">Confirm</a></button></p>
+                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                    onClick={e => {
+                                        // if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail))
+                                            updateAll({
+                                                "order_status": "Cooked"
+                                            })
+                                    }}
+                                    // Added by Yuvraj Sahu on 03-08-2023
+                                    // Reason - to disable the button
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    disabled ={checkedItems.length > 0 ? false : true}
+                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                    ><a href="#">Cooked</a></button></p>
+                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                    onClick={e => {
+                                        // if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail))
+                                            updateAll({
+                                                "order_status": "Served"
+                                            })
+                                    }}
+                                    // Added by Yuvraj Sahu on 03-08-2023
+                                    // Reason - to disable the button
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    disabled ={checkedItems.length > 0 ? false : true}
+                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                    ><a href="#">Served</a></button></p>
+                            </div>
+                            {/* <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
+                                onClick={e => {
+                                    if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)) {
+                                        if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
+                                            document.getElementById("cancelInput").scrollIntoView()
+                                            document.getElementById("cancelInput").style.border = "1px solid red"
+                                            errorText["cancelReason"] = "Please enter reason and apply"
+                                            setErrorText({ ...errorText })
+                                        } else {
+                                            document.getElementById("cancelInput").scrollIntoView()
+                                            document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
+                                            errorText["cancelReason"] = ""
+                                            setErrorText({ ...errorText })
+                                            UpdateOrderStatusDetail({
+                                                "order_status": "Cancelled"
+                                            })
+                                        }
+                                    }
+                                }}>Cancel</button> */}
+                                </div>
+                        {/* End of designing by Yuvraj Sahu on 02-08-2023 */}
                         {/* <select id="all_order_status_selected" onChange={e => document.getElementById("all_order_status_selected").value = e.target.value}>
                             <option value="Placed" className={style.options}>Placed</option>
                             <option value="Confirm" className={style.options}>Confirm</option>
@@ -1890,14 +2010,58 @@ const TodayOrder = () => {
                     </div>
                 </div>
                 <div className={style.updateflexContainer}>
-                    <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Payment status</div>
-                    <div className={style.selctedContentBox}>
+                    {/* Commeted and modified by Yuvraj Sahu on 03-08-2023
+                    Reason - to design a payment button and remove radio */}
+                    {/* <div className={style.lable} style={{ fontWeight: "500", marginLeft: "20px" }}>Payment status</div> */}
+                    <div className={style.statusLable} style={{ fontWeight: "500", marginLeft: "20px" }}>Payment status</div>
+
+                    {/* Modifed by Yuvraj Sahu on 03-08-2023
+                        Reason - to disable the area when order not chekced */}
+                    {/* <div className={style.selctedContentBox}> */}
+                    <div className={style.selctedContentBox} >
+                    {/* End of disable button colors by Yuvraj Sahu on 03-08-2023 */}
                         {/* Added and commeted by Yuvraj Sahu on 28-06-2023
-                    Reason - to replace dropdown with radio */}
-                        <Radio.Group onChange={handlePaymentStatus} value={selectedPaymentStatus} id="all_payment_status_selected">
+                        Reason - to replace dropdown with radio */}
+
+                        {/* Commeted and modified by yuvraj Sahu on 02-08-2023
+                        Reason - to update the payment status  */}
+                        {/* <Radio.Group onChange={handlePaymentStatus} value={selectedPaymentStatus} id="all_payment_status_selected">
                             <Radio value="Pending">Pending</Radio>
                             <Radio value="Completed">Completed</Radio>
-                        </Radio.Group>
+                        </Radio.Group> */}
+                        <div className={style.updateAllOrderstatusBtnContainer} >
+                            <div className={style.orderStatusArrowBtnContainerDashboard}>
+                                <p style={{paddingBottom: "8px"}}><button className={`payment-btn-right`}
+                                    onClick={e => {
+                                        // if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
+                                            updateAll({
+                                                "payment_status": "Pending"
+                                            })
+                                    }}
+                                    // Added by Yuvraj Sahu on 03-08-2023
+                                    // Reason - to disable the button
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    disabled ={checkedItems.length > 0 ? false : true}
+                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                ><a href="#"
+                                >Pending</a></button></p>
+                                <p style={{paddingBottom: "8px"}}><button className={`payment-btn-right`}
+                                    onClick={e => {
+                                        // if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
+                                            updateAll({
+                                                "payment_status": "Completed"
+                                            })
+                                    }}
+                                    // Added by Yuvraj Sahu on 03-08-2023
+                                    // Reason - to disable the button
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    disabled ={checkedItems.length > 0 ? false : true}
+                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                    ><a href="#">Completed</a></button></p>
+                            </div>
+                        </div>
+                        {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
+
                         {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
                             <option value="Pending" className={style.options}>Pending</option>
                             <option value="Completed" className={style.options}>Completed</option>
@@ -1905,7 +2069,71 @@ const TodayOrder = () => {
                         {/* End of modification by yuvraj Sahu on 28-06-2023 */}
                     </div>
                 </div>
-                <div className={style.updateBtn} onClick={e => updateAll()}>Update All</div>
+
+                {/* Added by Yuvraj Sahu on 03-08-2023
+                Reason - to cancel the order */}
+                <div className={style.updateflexContainer}>
+                    <div className={style.statusLable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order</div>
+                    <div className={style.selctedContentBox} >
+                        {/* <div className={style.updateAllOrderstatusBtnContainer} >
+                            <div className={style.orderStatusArrowBtnContainerDashboard}>
+                                <p><button className={`cancel-btn-right`}
+                                    onClick={e => {
+                                        // if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
+                                            updateAll({
+                                                "order_status": "Cancelled"
+                                            })
+                                    }}
+                                    // style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    // disabled ={checkedItems.length > 0 ? false : true}
+                                ><a href="#"
+                                >Cancel</a></button></p>
+                            </div>
+                        </div> */}
+
+                        <button className={`${style.checkOrderCancelBtn}`}
+                            onClick={e => {
+                                updateAll({
+                                    "order_status": "Cancelled"
+                                })
+                                // if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)) {
+                                //     if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
+                                //         document.getElementById("cancelInput").scrollIntoView()
+                                //         document.getElementById("cancelInput").style.border = "1px solid red"
+                                //         errorText["cancelReason"] = "Please enter reason and apply"
+                                //         setErrorText({ ...errorText })
+                                //     } else {
+                                //         document.getElementById("cancelInput").scrollIntoView()
+                                //         document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
+                                //         errorText["cancelReason"] = ""
+                                //         setErrorText({ ...errorText })
+                                //         UpdateOrderStatusDetail({
+                                //             "order_status": "Cancelled"
+                                //         })
+                                //     }
+                                // }
+                            }}
+                            // Added by Yuvraj Sahu on 03-08-2023
+                            // Reason - to disable the button
+                            style={{opacity : checkedItems.length > 0 ? 1 : 0.3}}
+                            disabled ={checkedItems.length > 0 ? false : true}
+                            // End of addition by yuvraj Sahu on 03-08-2023
+                            >Cancel</button>
+                        {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
+
+                        {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
+                            <option value="Pending" className={style.options}>Pending</option>
+                            <option value="Completed" className={style.options}>Completed</option>
+                        </select> */}
+                        {/* End of modification by yuvraj Sahu on 28-06-2023 */}
+                    </div>
+                </div>
+                {/* End of addition by Yuvraj Sahu on 03-08-2023 */}
+
+                {/* Commeted by Yuvraj Sahu on 02-08-2023
+                Reason - to remove the update button */}
+                {/* <div className={style.updateBtn} onClick={e => updateAll()}>Update All</div> */}
+                {/* End of modification by yuvraj Sahu on 02-08-2023 */}
 
                 {/* added by - suman sahu on 10/06/2023
                     reason - change the popup when click the data of table no. in the dashbord */}
