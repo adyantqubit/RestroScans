@@ -3,14 +3,14 @@
  * Reason - To have offer creation section show all offer list, and create form save the data.
 */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import style from "./banneroffer.module.css";
 import Header from "../GlobalComponent/Header";
 import { enableHeader } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { Input, Pagination } from "antd";
 import { AiOutlineClose } from "react-icons/ai";
-import { getOfferBannerCount, getOfferBannerList } from "../../Api/services";
+import { getOfferBannerCount, getOfferBannerList, postOfferBannerDetails } from "../../Api/services";
 import {
   BsSortAlphaDownAlt,
   BsSortAlphaDown,
@@ -19,19 +19,27 @@ import {
 } from "react-icons/bs";
 import config from "../../Api/config";
 import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
+import BannerOfferForm from './BannerOfferForm';
+import { GlobalContext } from "../../Context/Context";
 
 
 const BannerOffer = () => {
   
-  const removeDiv = () => {
-   document.getElementById('offer_form').style.display = 'block'
+//   const removeDiv = () => {
+//    document.getElementById('offer_form').style.display = 'block'
 
-};
+// };
+var {
+  showOfferForm,
+  setShowOfferForm,
+  disabled, setDisabled
+} = useContext(GlobalContext);
 
 const removeOfferFormDiv = () => {
   document.getElementById('offer_form').style.display = 'none'
 
 };
+const navigate = useNavigate();
 
 const [backendOfferBannerCount, setBackendOfferBannerCount] = useState(0);
 const [bannerOfferList, setOfferBannerList] = useState([]);
@@ -44,6 +52,14 @@ const [columnToSort, setColumnToSort] = useState("contact_number");
 const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
 const [showSortingIcon, setShowSortingIcon] = useState(false);
 var [currentPage, setCurrentPage] = useState(1);
+
+const[id, setId] = useState(null)
+
+useEffect(()=>{
+console.log(bannerOfferList)
+
+},[bannerOfferList])
+// const[showOfferForm,setShowOfferForm] =useState(false)
 
 /**
  * Added by - Om Shrivastava on 26-07-23
@@ -78,7 +94,7 @@ useEffect(() => {
 }, []);
 
 
-console.log(bannerOfferList)
+console.log(id)
 
 /**
  * End of code addition by - Om Shrivastava on 26-07-23
@@ -194,7 +210,7 @@ const handlePageChange = async (pageNumber) => {
  * End of code addition by - Om Shrivastava on 26-07-23
  * Reason -  When user changes page number, this method will set page number which will be sent to backend.
  */
-
+console.log(showOfferForm)
 /**
  * Added by - Om Shrivastava on 26-07-23
  * Reason - Method that will set sorting criteria
@@ -228,6 +244,13 @@ function hideDropdown() {
 }
 // End of code - Om Shrivastava - 26-07-23
 
+const openCategoryDetails = (id) => {
+  setShowOfferForm(true)
+  setDisabled(true)
+  // navigate("/BannerOffer", { state: { id: id?id:null } });
+  setId(id)
+};
+
 
   return (
     // Modified by Om Shrivastava - 25/6/23
@@ -236,7 +259,8 @@ function hideDropdown() {
     <div className={style.Container} >
       <div className={style.ContainerDiv}>
         <div
-          className={style.offerFormListDiv}
+          className={ showOfferForm==true? `${style.offerFormListDiv}`:`${style.offerFormListFullDiv}`}
+          
         >
           <div className={style.OfferListcontainer}
             // style={{ border: '1px dotted black' }}
@@ -263,12 +287,13 @@ function hideDropdown() {
                   setSearchText(value);
                 }}
                 style={{
-                  width: "50%",
+                  width: "60%",
                 }}
                 className={style.SearchBar}
               />
-              <div
-                className={`${style.primaryButton}`}
+              <button 
+                disabled={disabled} 
+                className={ disabled==false? `${style.primaryButton}`:`${style.primaryDisabledButton}`}
 
                 // onClick={() => openAddItemForm()}
                 style={{
@@ -277,11 +302,14 @@ function hideDropdown() {
                   textAlign: "center",
                 }}
                 onClick={(e) => {
-                    removeDiv();
+                    // removeDiv();
+                   
+                      openCategoryDetails()
+                    
                   }}
               >
                 Add offer
-              </div>
+              </button>
             </div>
 
             <div className={style.itemListSection}>
@@ -387,73 +415,18 @@ function hideDropdown() {
                         // width:'12%',minWidth:'12%'
                       }}
 
-                    // onClick={(e) => {
-                    //   setShowSortingIcon(false);
-                    //   sortItemList("priceFull");
-                    // }}
-                    // onMouseEnter={(e) => {
-                    //   if (columnToSort != "priceFull") {
-                    //     setShowSortingIcon(true);
-                    //   }
-                    // }}
-                    // onMouseLeave={(e) => {
-                    //   if (columnToSort != "priceFull") {
-                    //     setShowSortingIcon(false);
-                    //   }
-                    // }}
                     >
                       Video link
 
-                      {/* {columnToSort == "priceFull" &&
-                      columnSortingOrder == "ascending" && (
-                        <BsSortNumericDown className={style.sortingIcon} />
-                      )}
-                    {columnToSort == "priceFull" &&
-                      columnSortingOrder == "descending" && (
-                        <BsSortNumericDownAlt className={style.sortingIcon} />
-                      )}
-                    {columnToSort != "priceFull" && showSortingIcon && (
-                      <BsSortNumericDown
-                        color="grey"
-                        className={style.sortingIcon}
-                      />
-                    )} */}
                     </div>
 
                     <div
                       className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
 
-                    // onClick={(e) => {
-                    //   setShowSortingIcon(false);
-                    //   sortItemList("priceHalf");
-                    // }}
-                    // onMouseEnter={(e) => {
-                    //   if (columnToSort != "priceHalf") {
-                    //     setShowSortingIcon(true);
-                    //   }
-                    // }}
-                    // onMouseLeave={(e) => {
-                    //   if (columnToSort != "priceHalf") {
-                    //     setShowSortingIcon(false);
-                    //   }
-                    // }}
+                   
                     >
                       Show video
 
-                      {/* {columnToSort == "priceHalf" &&
-                      columnSortingOrder == "ascending" && (
-                        <BsSortNumericDown className={style.sortingIcon} />
-                      )}
-                    {columnToSort == "priceHalf" &&
-                      columnSortingOrder == "descending" && (
-                        <BsSortNumericDownAlt className={style.sortingIcon} />
-                      )}
-                    {columnToSort != "priceHalf" && showSortingIcon && (
-                      <BsSortNumericDown
-                        color="grey"
-                        className={style.sortingIcon}
-                      />
-                    )} */}
                     </div>
 
 
@@ -594,15 +567,22 @@ function hideDropdown() {
                           // width:'7%',minWidth:'8%'
                         }}
                       >
-                        <div
-                          className={` ${style.primaryButton}`}
+                        <button
+                        disabled={disabled} 
+                        className={ disabled==false? `${style.primaryButton}`:`${style.primaryDisabledButton}`}
+        
                           onClick={(e) => {
-                            removeDiv();
+                            openCategoryDetails(bannerOfferDetails.id)
+
+                            // removeDiv();
+                            // BannerOfferForm(bannerOfferDetails.id)
                           }}
+                          
                         // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
                         >
                           Edit
-                        </div>
+
+                        </button>
                       </div>
                     </div>
                     ); 
@@ -701,254 +681,16 @@ function hideDropdown() {
           </div>
           </div>
         </div>
-        <div className={style.offerFormDiv} 
+      {showOfferForm==true ?
+        <BannerOfferForm 
+        id={id}
+        setData={setOfferBannerList}
+        dataList={bannerOfferList}
+        // id={bannerOfferList} setData={setOfferBannerList}
+        />
+        :<></>}
+
         
-        id="offer_form">
-          {/* mango */}
-          {/* Added by Om Shrivastava on 04-08-23
-          Reason : Show the offer form data */}
-          <div className={style.offerFormContainer}>
-            <div className={style.titleContainer}>
-              <div className={style.pageTitle}>Offer form</div>
-            </div>
-            <div>
-            <div  style={{float:'right'}}>
-              <AiOutlineClose color="black" size={20}  style={{ border:"1px dotted green",borderRadius:'100px',cursor:'pointer',height:'22px',width:'22px' }} 
-              onClick={(e) => {
-                removeOfferFormDiv();
-              }}
-              />
-              </div>
-            <form className={style.menuSection} >
-              
-              <div className={style.formContainer}>
-                <div className={`${style.sectionInsideForm}`}>
-                  <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel}`}>
-                        <span className={style.mendatoryField}></span>Name
-                      </div>
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="text"
-                        name="name"
-                        // value={name}
-                        style={{ width: "200px" }}
-                        // onChange={(e) => {
-                        //   setName(e.target.value.toString());
-                        //   validateOnInput("name", e.target.value.toString());
-                        // }}
-                        maxLength={30}
-                      />
-                    </div>
-                    <div className={`${style.inputErrorArea}`}>
-                      {/* {nameError} */}
-                    </div>
-                  </div>
-
-                  <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel}`}>
-                        <span className={style.mendatoryField}></span>
-                        {/* Contact number */}
-                        Discount(%)
-                      </div>
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="number"
-                        name="contact_number"
-                        ng-pattern="/^[0-9]{10}$/"
-                        // value={contactNumber}
-                        style={{ width: "200px" }}
-                        // onChange={(e) => {
-                        //   setContactNumber(e.target.value);
-                        //   validateOnInput("contact_number", e.target.value);
-                        // }}
-                        maxLength={10}
-                      />
-                    </div>
-                    <div className={`${style.inputErrorArea}`}>
-                      {/* {contactNumberError} */}
-                    </div>
-                  </div>
-
-                  <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel}`}>
-                        <span className={style.mendatoryField}></span>
-                        {/* Contact number */}
-                        {/* Discount(%) */}
-                        Video link
-                      </div>
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="number"
-                        name="contact_number"
-                        ng-pattern="/^[0-9]{10}$/"
-                        // value={contactNumber}
-                        style={{ width: "200px" }}
-                        // onChange={(e) => {
-                        //   setContactNumber(e.target.value);
-                        //   validateOnInput("contact_number", e.target.value);
-                        // }}
-                        maxLength={10}
-                      />
-                    </div>
-                    <div className={`${style.inputErrorArea}`}>
-                      {/* {contactNumberError} */}
-                    </div>
-                  </div>
-
-                  <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel}`}>
-                        <span className={style.mendatoryField}> </span>Image
-                      </div>
-                      <div className={style.menuImageContainer}>
-                        {/* {selectedImageName ? (
-                    selectedImageName
-                  ) : icon ? ( */}
-                        <img
-                          // src={config.staticBaseURL + icon}
-                          className={style.menuImage}
-                          width={"100px"}
-                          height={"100px"}
-                        />
-                        {/* ) : null}  */}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel}`}>
-                        <span className={style.optionalField}> </span>Select new
-                        image
-                      </div>
-
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="file"
-                        name="icon"
-                        id="icon"
-                        accept="image/png,image/jpg,image/jpeg"
-                        style={{ width: "300px" }}
-                      // onChange={(e) => {
-                      //   if (e.target.files[0]) {
-                      //     validateOnFileInput("icon", e.target.files[0]);
-                      //   } else {
-                      //     setSelectedImageName(null);
-                      //     setSelectedImage(null);
-                      //   }
-                      // }}
-                      />
-                    </div>
-
-                    <div className={`${style.inputErrorArea}`}><p>
-                      {/* {iconError} */}
-                    </p><p>
-                        {/* {iconSizeError} */}
-                      </p></div>
-                  </div>
-
-                  <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel}`}>
-                        <span className={style.mendatoryField}></span>
-                        {/* Contact number */}
-                        {/* Discount(%) */}
-                        Video link
-                      </div>
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="number"
-                        name="contact_number"
-                        ng-pattern="/^[0-9]{10}$/"
-                        // value={contactNumber}
-                        style={{ width: "200px" }}
-                        // onChange={(e) => {
-                        //   setContactNumber(e.target.value);
-                        //   validateOnInput("contact_number", e.target.value);
-                        // }}
-                        maxLength={10}
-                      />
-                    </div>
-                    <div className={`${style.inputErrorArea}`}>
-                      {/* {contactNumberError} */}
-                    </div>
-                  </div>
-
-                  <div className={`${style.inputContainer}`} >
-                    <div className={`${style.inputArea}`}>
-                      <div className={`${style.inputLabel} ${style.inputLabel2}`} 
-                      // style={{ width: '155px' }}
-                      >
-                        <span className={style.optionalField}></span>Show video
-                      </div>
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="checkbox"
-                        name="is_available"
-                        style={{ 
-                          width: "18px",
-                           height: "18px"
-                         }}
-                      // checked={isActive}
-                      // onChange={(e) => {
-                      //   setIsActive(e.target.checked);
-                      //   validateOnInput("is_available", e.target.value);
-                      // }}
-                      />
-                    </div>
-                    <div className={`${style.inputErrorArea}`}>
-                      {/* {validationErrors.is_active} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={style.actionContainer}>
-                {/* <div
-                  className={` ${style.backButton}`}
-                  style={{
-                    marginRight: "10px",
-                  }}
-                  onClick={(e) => {
-                    navigate("/dashboard");
-                  }}
-                >
-                  Back
-                </div> */}
-
-                <div
-                  className={` ${style.proceedButton}`}
-                // onClick={() => {
-                //   postPaymentData();
-                //   window.scrollTo(0, 0);
-                // }}
-                >
-                  Save
-                </div>
-                <div
-                  className={` ${style.cancelButton}`}
-                  style={{
-                    marginRight: "10px",
-                  }}
-                // onClick={(e) => {
-                //   resetPaymentForm();
-                //   window.scrollTo(0, 0);
-                // }}
-                >
-                  Clear
-                </div>
-              </div>
-            </form>
-          </div>
-
-            {/* Added by Om Shrivastava on 04-08-23
-          Reason : Show the offer form data */}
-          </div>
-        </div>
         {/* <h1 className={style.heading}>BannerOffer</h1> */}
       </div>
     </div>

@@ -433,4 +433,17 @@ urlpatterns = [
     path('<str:tenant>/offer-banner-list/',OfferBannerAPI.as_view()),
     # End of code addition by - Om Shrivastava on 05-08-23
     # Reason : To get list of banner/offer details
+
+    # Added by Om Shrivastava on 06-08-23
+    # Reason : To save and update of banner/offer details
+    path('<str:tenant>/offer-banner-details/<int:offerId>',BannerOfferAPIView.as_view()),
+
+    path('<str:tenant>/offer-banner-save/',BannerOfferAPIView.as_view()),
+
+    # path('<str:tenant>/offer-banner-details/',BannerOfferAPIView.as_view()),
+
+    # path('<str:tenant>/create-offer-banner/',BannerOfferAPIView.as_view()),
+    # path('<str:tenant>/update-offer-banner/',BannerOfferAPIView.as_view()),
+    # End of addition by Om Shrivastava on 06-08-23
+    # Reason : To get list of banner/offer details
 ]   

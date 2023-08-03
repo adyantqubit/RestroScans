@@ -800,3 +800,33 @@ export const getOfferBannerList = async (tenant,filteringCriteria) => {
  * End of code addition by Om Shrivastava on 05-08-23.
  * Reason - To get offer/banner banner list
  */ 
+
+/**
+ * Added by - Om Shrivastava on 06-08-23
+ * Reason - To save the offer data
+ */
+export const getofferDetails = async (tenantId,offerId) => {
+  const response = await API.get(`/api/v1/${tenantId}/offer-banner-details/${offerId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response)
+  return response ? response.data : {};
+};
+
+export const postOfferBannerDetails = async (tenant,values) => {
+  const response = await API.post(`/api/v1/${tenant}/offer-banner-save/`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response)
+
+  return response ? response.data : {};
+};
+
+/**
+ * End of code addition by - Om Shrivastava on 06-08-23.
+ * Reason - To update item details
+ */
