@@ -175,6 +175,10 @@ class Category(models.Model):
                 Item.objects.filter(category = self.id).update(is_active = False)
             else : 
                 Menu.objects.filter(id=self.menu.id).update(is_active = True)
+                # Added by Yuvraj Sahu on 04-08-2023
+                # Reason - to active all items inside this category
+                Item.objects.filter(category = self.id).update(is_active = True)
+                # end of addition by Yuvraj Sahu on 04-08-2023
         super().save( *args, **kwargs)
 # Added by yuvraj Sahu on 22-07-2023
 # Reason - when make the categories inactive then linked menu will be inactive
