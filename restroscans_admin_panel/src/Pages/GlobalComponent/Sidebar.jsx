@@ -72,7 +72,15 @@ const Sidebar = ({sidebar, setSidebar}) => {
     if (windowSize.innerWidth < 800)
        setSidebar(false)
     // ENd of code - ROhan Kansari - 26/6/23
-    navigate('/OrderReport');
+
+    // Commented and modified by :- Parineeta Gedam on :- 02-08-2023 
+    // reason :- create a new component for order report
+    // navigate('/OrderReport');
+    navigate('/NewOrderReport');
+    // Commented and modified by :- Parineeta Gedam on :- 02-08-2023 
+    // reason :- create a new component for order report
+    
+
   };
   const navigateToOrderItemReport = () => {
     // Added by Rohan Kansari - 23/6/23
