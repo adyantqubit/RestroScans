@@ -2081,8 +2081,9 @@ class UpdateItemStatus(APIView):
                 # Reason - To update item status from save method Not from update method becuase many thing happening on 
                 # Model save middlware
                 # OrderItem.objects.filter(id=data["id"]).update(item_status=data['item_status'])
-                 
+                
                 if(data['item_status'] != "Cancelled") : 
+                    
                     # orderItemObj=OrderItem.objects.get(id=data["id"])
                     # orderItemObj.item_status=data['item_status']
                     # orderItemObj.save()
@@ -2093,8 +2094,10 @@ class UpdateItemStatus(APIView):
                     orderItem.item_status = data['item_status']
                     #Added by ROhan kansari - 29/7/23
                     #Reason - to set confirm kot true
-                    if(data['item_status']=="Confirm"):
-                        orderItem.kot_print_status=True
+                    # commenting by Rohan kansari - 4/8/23
+                    # Reason - handeling it in order save method
+                    # if(data['item_status']=="Confirm"):
+                    #     orderItem.kot_print_status=True 
                     #End of code additon - Rohan kansari - 29/7/23    
                     orderItem.save()
                     cartItem.append(orderItem)

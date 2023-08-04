@@ -1043,7 +1043,10 @@ class Order(models.Model):
 
 
         if self.order_status == "Confirm" :
-           OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
+        #  Modified by Rohan kansari - 3/8/23 - To setting their kot true also because otherwise it is sending false in 
+        # kot status and it cause repeat same item in kot   
+        # OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
+          OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm",kot_print_status=True)
 
         # Added by Rohan kansari- 10/5/23
         if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
@@ -1559,12 +1562,11 @@ class OrderItem(models.Model):
         # if self.item_status == "Confirm":
         #if self.item_status == "Confirm" and self.kot_print_status == False:
             #self.kot_print_status=True
-        #Added by Rohan kansari - 29/7/23
+        #Added by Rohan kansari - 3/4/23
         #Reason - To set order confirm when completing one by one confirm    
-        if self.item_status == "Confirm":
-            if self.kot_print_status == False:
-                self.kot_print_status=True
-        #End of code - Rohan Kansari - 29/7/23       
+        if self.item_status == "Confirm" and self.kot_print_status == False:
+            self.kot_print_status=True
+            #End of code - Rohan Kansari - 3/4/23       
             # End of addition by Yuvraj Sahu on 21-06-2023
             orderItemObj = OrderItem.objects.filter(order_id = self.order_id)
             obj = orderItemObj.filter(item_status = "Pending").count()

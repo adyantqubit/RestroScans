@@ -17,6 +17,7 @@ import "./checkboxNcoin.scss"
 import AddOrderItemForm from '../../Order/AddOrderItemForm'
 import { FaGrinAlt } from 'react-icons/fa'
 import PrintBill from "./PrintBill"
+import { PrintKot } from './PrintKot'
 
 
 // Modified by Rohan kansari - 29/6/23
@@ -203,6 +204,13 @@ const TodayOrder = () => {
     // Reason - To add Loyality price 
     const [errorText, setErrorText] = useState({})
     // End of code - Rohan Kansari - 23/7/23 
+
+
+    // Added by Rohan kansari - 4/8/23 
+    // Reason - To set wether cancellred button is already clicked then no need to press
+    //  again after submit cancel reason. directly on saving of cancela reason cancel status hits
+    const [IsCancelClicked, setCancelClicked] = useState(false)
+    // End of code - Rohan Kansari - 4/8/23 
 
     // End of code - Rohan kansari - 20/7/23 - Getting all thing of order and setting it all in use state for on change
 
@@ -557,14 +565,21 @@ const TodayOrder = () => {
         }
         else {
             updatedStatus.current.value = []
-            printKot(selectedOrderData.order_item.filter((o) => {
-                if (o.order_id == openActionPopupModal.order_detail.order_id &&
+            var kotItems=selectedOrderData.order_item.filter((o)=>
                     o.kot_print_status == false &&
-                    o.item_status == "Confirm" &&
-                    o.item_status != "Cancelled")
-                    return o
-            }
-            ))
+                    o.item_status=="Confirm"
+            )
+            PrintKot(selectedOrderData.order_detail,kotItems,restroDetail, gstFssai, settings)
+
+            // printKot(selectedOrderData.order_item.filter((o) => {
+            //     if (o.kot_print_status == false &&
+            //         o.item_status=="Confirm"){
+            //         console.log(o)
+            //        return o;}
+            // }
+            // ))
+            
+
             updateStatus(filteredOrderItemList);
         }
 
@@ -578,11 +593,12 @@ const TodayOrder = () => {
     async function updateStatus(filteredOrderItemList) {
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
+        console.log(filteredOrderItemList)
         await updateItemStatus(tenant, filteredOrderItemList, filteredOrderItemList[0].order_id).then(r => {
             updatedStatus.current.value = []
             var newOrderItemList = []
 
-            console.log("backend order item", r.order_items.filter(o => o.order_id == filteredOrderItemList[0].order_id))
+            // console.log("backend order item" , r.order_items.filter(o => o.order_id == filteredOrderItemList[0].order_id))
 
             r.order_items.filter(e => {
 
@@ -597,7 +613,7 @@ const TodayOrder = () => {
                 // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
 
                 // uses - setting other order_id order item first then setting updated order_item which we got from backend 
-                // So old data will also not affected and new data is also get
+                // So old data will alsos not affected and new data is also get
                 newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
                 ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; o.quantity = e.quantity; o.price = e.price; return o; } })]
                 //  ENd of code - ROhan Kansari - 24/6/23
@@ -625,7 +641,7 @@ const TodayOrder = () => {
                 setSelectedOrder(r.todays_completed_orders)
             }
 
-            console.log("--------------newly placed", newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
+            // console.log("--------------newly placed", newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
 
             // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
             var all_orders = [...r.todays_completed_orders, ...r.todays_pending_orders, ...r.todays_newly_placed_orders]
@@ -676,7 +692,7 @@ const TodayOrder = () => {
             // }
 
 
-            console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id), "kjdkdkdkd")
+            // console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id), "kjdkdkdkd")
             var CheckboxForItem = document.getElementsByClassName("checkbox-wrapper-24")
             for (var i = 0; i < CheckboxForItem.length; i++) {
                 CheckboxForItem[i].children[0].checked = false;
@@ -935,277 +951,277 @@ const TodayOrder = () => {
      * Reason - to print kot from dashboard (Completed section)
      */
     // var [kotData, setKot] = useState({})
-    var kotData = {}
+    // var kotData = {}
 
-    function printKot(kotItems) {
-        // Modified by Rohan KAnsari - 26/6/23
-        // Reason - To dont print cancelled items
-        console.log()
-        var filterKotItems = kotItems
-        var state = { gstFssai: gstFssai, restro_detail: restroDetail, order: openActionPopupModal.order_detail, orderItem: filterKotItems }
-        // setKot(state)   
-        kotData = state
+    // function printKot(kotItems) {
+    //     // Modified by Rohan KAnsari - 26/6/23
+    //     // Reason - To dont print cancelled items
+    //     console.log()
+    //     var filterKotItems = kotItems
+    //     var state = { gstFssai: gstFssai, restro_detail: restroDetail, order: openActionPopupModal.order_detail, orderItem: filterKotItems }
+    //     // setKot(state)   
+    //     kotData = state
 
-        console.log(kotData)
+    //     console.log(kotData)
 
-        function ExtractDateTime(format) {
-            var date = format.substring(0, 10)
-            var time = format.substring(11, 19)
-            return { date, time }
-        }
+    //     function ExtractDateTime(format) {
+    //         var date = format.substring(0, 10)
+    //         var time = format.substring(11, 19)
+    //         return { date, time }
+    //     }
 
-        var a = window.open('', '', 'height=800, width=1200');
+    //     var a = window.open('', '', 'height=800, width=1200');
 
-        a.document.write(`<html>
-        <head>
-        <style>
+    //     a.document.write(`<html>
+    //     <head>
+    //     <style>
         
-        .container{
-            width: 100%;
-            height: auto;
-            position: relative;
-        }
+    //     .container{
+    //         width: 100%;
+    //         height: auto;
+    //         position: relative;
+    //     }
 
 
-        .kotContainer {
-            font-family:monospace;
-            letter-spacing: 0.6px;
-            width: 300px;   
-            height:auto;
-            margin:auto auto;
-            border-radius: 5px;
-            padding: 2px 0;
-            overflow-x: hidden;
-            padding-bottom: 50px;
-            padding-top: 60px;
-            border: 1px solid black
-        }
-        .billingContainer {
-            font-family:monospace;
-            letter-spacing: 0.6px;
-            width: 320px;
-            height: auto;
-            margin: 0 auto;
-            border-radius: 5px;
-            padding: 2px 0;
-            padding-bottom: 150px;
-            border: 1px solid black;
-        }
-        .inLineContainer {
-            min-width: 100%;
-            min-height: 10px;
-            margin: 4px 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .Hotellabel{
-            min-width: 100%;
-            font-size: 17px;
-            font-weight: 900;
-            padding: 0 3%;
-            text-align: center;
-        }
-        .centerLabel{
-            min-width: 100%;
-            font-size: 12px;
-            font-weight: 700;
-            text-align: center;
-        }
-        .column1{
-            min-width:50%;
-            display: flex;
-        }
+    //     .kotContainer {
+    //         font-family:monospace;
+    //         letter-spacing: 0.6px;
+    //         width: 300px;   
+    //         height:auto;
+    //         margin:auto auto;
+    //         border-radius: 5px;
+    //         padding: 2px 0;
+    //         overflow-x: hidden;
+    //         padding-bottom: 50px;
+    //         padding-top: 60px;
+    //         border: 1px solid black
+    //     }
+    //     .billingContainer {
+    //         font-family:monospace;
+    //         letter-spacing: 0.6px;
+    //         width: 320px;
+    //         height: auto;
+    //         margin: 0 auto;
+    //         border-radius: 5px;
+    //         padding: 2px 0;
+    //         padding-bottom: 150px;
+    //         border: 1px solid black;
+    //     }
+    //     .inLineContainer {
+    //         min-width: 100%;
+    //         min-height: 10px;
+    //         margin: 4px 5px;
+    //         display: flex;
+    //         justify-content: space-between;
+    //     }
+    //     .Hotellabel{
+    //         min-width: 100%;
+    //         font-size: 17px;
+    //         font-weight: 900;
+    //         padding: 0 3%;
+    //         text-align: center;
+    //     }
+    //     .centerLabel{
+    //         min-width: 100%;
+    //         font-size: 12px;
+    //         font-weight: 700;
+    //         text-align: center;
+    //     }
+    //     .column1{
+    //         min-width:50%;
+    //         display: flex;
+    //     }
         
-        .label {
-            min-width: 45%;
-            font-size: 12px;
-            font-weight: 700;
-            text-align: start;
-            white-space: nowrap;
-            display: flex;
-            }
+    //     .label {
+    //         min-width: 45%;
+    //         font-size: 12px;
+    //         font-weight: 700;
+    //         text-align: start;
+    //         white-space: nowrap;
+    //         display: flex;
+    //         }
 
-        .label1{
-            min-width: 32%;
-            font-size: 12px;
-            font-weight: 700;
-            text-align: start;
-            white-space: nowrap;
-            display: flex;
-        }
+    //     .label1{
+    //         min-width: 32%;
+    //         font-size: 12px;
+    //         font-weight: 700;
+    //         text-align: start;
+    //         white-space: nowrap;
+    //         display: flex;
+    //     }
         
-        .text {
-            min-width: 50%;
-            word-break: break-all;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: left;
-        }
+    //     .text {
+    //         min-width: 50%;
+    //         word-break: break-all;
+    //         font-size: 12px;
+    //         font-weight: 600;
+    //         text-align: left;
+    //     }
 
-        .tableHeader {
-            height: 30px;
-            width: 95%;
-            margin: auto;
-            border-top: 1px solid black;
-            margin-top: 20px;
-            border-bottom: 1px solid black;
-            display: flex;
-            gap: 8px;
-        }
-        .serialNo {
-            font-size: 12px;
-            width: 15%;
-            padding: 2% 0%;
-            font-weight: 700;
-        }
-        .titleHeading {
-            font-size: 12px;
-            width: 67%;
-            padding: 2% 0%;
-            padding-right: 8%;
-            font-weight: 700;
-            text-align: start;
-        }
+    //     .tableHeader {
+    //         height: 30px;
+    //         width: 95%;
+    //         margin: auto;
+    //         border-top: 1px solid black;
+    //         margin-top: 20px;
+    //         border-bottom: 1px solid black;
+    //         display: flex;
+    //         gap: 8px;
+    //     }
+    //     .serialNo {
+    //         font-size: 12px;
+    //         width: 15%;
+    //         padding: 2% 0%;
+    //         font-weight: 700;
+    //     }
+    //     .titleHeading {
+    //         font-size: 12px;
+    //         width: 67%;
+    //         padding: 2% 0%;
+    //         padding-right: 8%;
+    //         font-weight: 700;
+    //         text-align: start;
+    //     }
         
-        .qtyHeading {
-            font-size: 12px;
-            width: 17%;
-            padding: 2% 0% 0% 0%;
-            font-weight: 700;
-        }
+    //     .qtyHeading {
+    //         font-size: 12px;
+    //         width: 17%;
+    //         padding: 2% 0% 0% 0%;
+    //         font-weight: 700;
+    //     }
         
-        .tableContents {
-            min-height: 30px;
-            width: 95%;
-            margin:0 auto;
-            margin: 1px 0;
-            display: flex;
-            gap: 4px;
-        }
-        .quantityText {
-            font-size: 10px;
-            width: 10%;
-            padding: 2% 0% 0% 5%;
-            font-weight: 600;
-        }
-        .titleText {
-            font-size: 10px;
-            width: 70%;
-            font-weight: 600;
-            padding: 2% 0% 0% 8%;
-            text-align:left
-        }
-        .rateText {
-            font-size: 12px;
-            width: 15%;
-            font-weight: 600;
-            text-align: end;
-            white-space: nowrap;
-            padding: 2% 0% 0% 5%;
-            text-align:left
-        }
-        .totalText {
-            font-size: 12px;
-            width: 30%;
-            padding: 2% 2%;
-            font-weight: 700;
-            text-align: center;
-            white-space: nowrap;
-        }
-        #line{
-            background-color: black;
-            height: .5px;
-            width: 95%;
-            margin: 0 auto;
-            border: .5px solid #9c9c9c;
-        }
+    //     .tableContents {
+    //         min-height: 30px;
+    //         width: 95%;
+    //         margin:0 auto;
+    //         margin: 1px 0;
+    //         display: flex;
+    //         gap: 4px;
+    //     }
+    //     .quantityText {
+    //         font-size: 10px;
+    //         width: 10%;
+    //         padding: 2% 0% 0% 5%;
+    //         font-weight: 600;
+    //     }
+    //     .titleText {
+    //         font-size: 10px;
+    //         width: 70%;
+    //         font-weight: 600;
+    //         padding: 2% 0% 0% 8%;
+    //         text-align:left
+    //     }
+    //     .rateText {
+    //         font-size: 12px;
+    //         width: 15%;
+    //         font-weight: 600;
+    //         text-align: end;
+    //         white-space: nowrap;
+    //         padding: 2% 0% 0% 5%;
+    //         text-align:left
+    //     }
+    //     .totalText {
+    //         font-size: 12px;
+    //         width: 30%;
+    //         padding: 2% 2%;
+    //         font-weight: 700;
+    //         text-align: center;
+    //         white-space: nowrap;
+    //     }
+    //     #line{
+    //         background-color: black;
+    //         height: .5px;
+    //         width: 95%;
+    //         margin: 0 auto;
+    //         border: .5px solid #9c9c9c;
+    //     }
+    
+    //     .btnContainer{
+    //         width: 280px;
+    //         min-height: 40px;
+    //         position: fixed;
+    //         top: 8px;
+    //         left: 0;
+    //         right: 0;
+    //         margin: 0 auto;
+    //         background-color:#fff ;
+    //         display: flex;
+    //         justify-content: space-around;
+    //     }
+    
+    //     .btn{
+    //         width: 45%;
+    //         height: 100%;
+    //         background-color: #185ee0;
+    //         border-radius: 5px;
+    //         color: #e6eef9;
+    //         margin: auto 0;
+    //     }
+    
+    //     .btn:hover{
+    //         background-color: #e6eef9;
+    //         color: #185ee0;
+    //         border: 1px solid #185ee0;
+    //     }
+    //     @media print{
+    //         .btn{
+    //             display: none;
+    //         }
 
-        .btnContainer{
-            width: 280px;
-            min-height: 40px;
-            position: fixed;
-            top: 8px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            background-color:#fff ;
-            display: flex;
-            justify-content: space-around;
-        }
+    //         .kotContainer{
+    //         padding-top: 0;
+    //         }
 
-        .btn{
-            width: 45%;
-            height: 100%;
-            background-color: #185ee0;
-            border-radius: 5px;
-            color: #e6eef9;
-            margin: auto 0;
-        }
+    //         .btnContainer{
+    //         display: none;
+    //         }
+    //         @page{margin:0;}
+    //     }
+    //     </style>
+    //     </head>
+    //     <body>
+    //     <div class="container" style={{ paddingBottom: "50px", background: "grey" }} >
+    //         <div class="kotContainer" style={{ background: "white", border: "2px solid black" }}>
+    //             <div class="inLineContainer" >
+    //                 <div class="Hotellabel" style={{ textAlign: "center" }}>${kotData.restro_detail.name.toUpperCase()}</div>
+    //             </div>
+    //             <hr />
+    //             <div class="inLineContainer">
+    //                 <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Date</div><div>:</div>  </div><div class="text">${new Date(
+    //         kotData.order.date
+    //     ).toLocaleDateString("en-GB")}</div></div>
+    //                 <div class="column1"><div class="label"><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div class="text"> ${ExtractDateTime(kotData.order.date).time}</div></div>
+    //             </div>
+    //             <div class="inLineContainer">
+    //                 <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Order id</div><div>:</div>  </div><div class="text"> ${kotData.order.order_id}</div></div>
+    //                 <div class="column1"><div class="label"><div style={{ width: "90%" }}>Table</div><div>:</div>  </div><div class="text">${!kotData.order.table_number ? "N/A" : kotData.order.table_number
+    //         }</div></div>
 
-        .btn:hover{
-            background-color: #e6eef9;
-            color: #185ee0;
-            border: 1px solid #185ee0;
-        }
-        @media print{
-            .btn{
-                display: none;
-            }
-
-            .kotContainer{
-            padding-top: 0;
-            }
-
-            .btnContainer{
-            display: none;
-            }
-            @page{margin:0;}
-        }
-        </style>
-        </head>
-        <body>
-        <div class="container" style={{ paddingBottom: "50px", background: "grey" }} >
-            <div class="kotContainer" style={{ background: "white", border: "2px solid black" }}>
-                <div class="inLineContainer" >
-                    <div class="Hotellabel" style={{ textAlign: "center" }}>${kotData.restro_detail.name.toUpperCase()}</div>
-                </div>
-                <hr />
-                <div class="inLineContainer">
-                    <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Date</div><div>:</div>  </div><div class="text">${new Date(
-            kotData.order.date
-        ).toLocaleDateString("en-GB")}</div></div>
-                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div class="text"> ${ExtractDateTime(kotData.order.date).time}</div></div>
-                </div>
-                <div class="inLineContainer">
-                    <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Order id</div><div>:</div>  </div><div class="text"> ${kotData.order.order_id}</div></div>
-                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Table</div><div>:</div>  </div><div class="text">${!kotData.order.table_number ? "N/A" : kotData.order.table_number
-            }</div></div>
-
-                </div>
-                <div class="tableHeader">
-                    <div class="serialNo"> SNo   </div>
-                    <div class="titleHeading">Item Name</div>
-                    <div class="qtyHeading">   Qty   </div>
-                </div>`+
-            kotData.orderItem.map((item, i) =>
-                `<div class="tableContents">
-                        <div class="quantityText">${i + 1}</div>
-                        <div class="titleText">${item.item} (${item.serving_size
-                })</div>
-                        <div class="rateText">${item.quantity}</div>
-                    </div>`
-            ).join("")
-            + `</div>
+    //             </div>
+    //             <div class="tableHeader">
+    //                 <div class="serialNo"> SNo   </div>
+    //                 <div class="titleHeading">Item Name</div>
+    //                 <div class="qtyHeading">   Qty   </div>
+    //             </div>`+
+    //         kotData.orderItem.map((item, i) =>
+    //             `<div class="tableContents">
+    //                     <div class="quantityText">${i + 1}</div>
+    //                     <div class="titleText">${item.item} (${item.serving_size
+    //             })</div>
+    //                     <div class="rateText">${item.quantity}</div>
+    //                 </div>`
+    //         ).join("")
+    //         + `</div>
                
-        </div>
-        </body>
-        </html>`)
-        a.document.close();
+    //     </div>
+    //     </body>
+    //     </html>`)
+    //     a.document.close();
 
-        if (filterKotItems.length > 0)
-            a.print();
-        a.close();
-    }
+    //     if (filterKotItems.length > 0)
+    //         a.print();
+    //     a.close();
+    // }
     /**
      * End of addition by Yuvraj Sahu on 22-06-2023
      */
@@ -1308,6 +1324,7 @@ const TodayOrder = () => {
                 }
             })
         }
+
     }
 
 
@@ -1344,23 +1361,52 @@ const TodayOrder = () => {
         updatedOrderData.append("discount_rupees", discountprice);
         updatedOrderData.append("discount_percentage", discountPercentage);
         updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
-        updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
         updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
         updatedOrderData.append("cancelled_by", cancelledBy);
+
+        var IsProceed=true;
+        if (IsCancelClicked){
+         if(cancelReaon.length==0){
+            document.getElementById("cancelInput").style.border = "1px solid red"
+            errorText["cancelReason"] = "Please enter reason and apply"
+            setErrorText({ ...errorText })
+            IsProceed=false
+         }
+         else{
+            document.getElementById("cancelInput").style.border = "1px solid black"
+            errorText["cancelReason"] = ""
+            setErrorText({...errorText})
+            updatedOrderData.append("order_status", "Cancelled");
+            IsProceed=true;
+         }
+        }
+        else{
+            
+            updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
+        }
+
         updatedOrderData.append("cancel_reason", cancelReaon);
         updatedOrderData.append("discount_reason", discountReason);
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+        if(IsProceed){
         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
         if (response.msg) {
             Message("Order detail saved successfully", "success");
             UpdatingOpenedOrder(response.orderData)
             setSelectedOrderItemList(response.orderItems)
+            document.getElementById("discount_rupees").style.border = "1px solid black"
+            document.getElementById("discount_percentage").style.border = "1px solid black"
+            setErrorText({})
         } else {
             Message("Something went wrong", "error");
         }
+        }
+        
 
     }
+
+    
 
 
     // Uses - this only update table table and sending all old data
@@ -1387,6 +1433,7 @@ const TodayOrder = () => {
             Message("Table number saved successfully.", "success");
             UpdatingOpenedOrder(response.orderData)
             setSelectedOrderItemList(response.orderItems)
+
         } else {
             Message("Something went wrong", "error");
         }
@@ -1410,7 +1457,12 @@ const TodayOrder = () => {
             updatedOrderData.append("order_status", orderStatus);
             updatedOrderData.append("payment_status", status.payment_status);
         }
+
+
         updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+        if(status.order_status=="Cancelled")
+        updatedOrderData.append("cancel_reason",cancelReaon);
+        else   
         updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
         updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
 
@@ -1420,6 +1472,9 @@ const TodayOrder = () => {
             Message("Order detail saved successfully", "success");
             UpdatingOpenedOrder(response.orderData)
             setSelectedOrderItemList(response.orderItems)
+            setErrorText({})
+            document.getElementById("discount_rupees").style.border = "1px solid black"
+            document.getElementById("discount_percentage").style.border = "1px solid black"
 
         } else {
             Message("Something went wrong", "error");
@@ -1459,6 +1514,7 @@ const TodayOrder = () => {
         setFinalAmount(data.final_amount);
         setRating(data.rating);
         setReview(data.review);
+        
     }
 
 
@@ -1558,9 +1614,9 @@ const TodayOrder = () => {
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
-
-            var discount_percentage = e.target.value / (subtotal / 100)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
+            
+            var discount_percentage=e.target.value/(subtotal/100)
+            setFinalAmount(total_price + SGST + CGST)
             setDiscountPercentage(discount_percentage.toFixed(2))
             // we are using this for setting max decimal till 2 decimal point 
             setDiscountRupee(e.target.value.indexOf(".") >= 0 ? e.target.value.slice(0, e.target.value.indexOf(".") + 3) : e.target.value)
@@ -1582,7 +1638,7 @@ const TodayOrder = () => {
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
+            setFinalAmount(total + SGST + CGST)
             errorText["discount_price"] = "Please enter discount"
             setErrorText({ ...errorText })
 
@@ -1731,6 +1787,16 @@ const TodayOrder = () => {
 
         // Setting all order data seperatly in each usestate
         UpdatingOpenedOrder(data)
+
+        // Added by Rohan kansari - 4/8/23
+        // Reason - to reset cancel reason
+
+
+
+        console.log({
+            "order_detail": data
+            , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+        })
     }
 
     // Added by Rohan kansari - 28/7/23 
@@ -2262,12 +2328,7 @@ const TodayOrder = () => {
                                 <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
                                 <div>
                                     <button className={style.KotBtn} onClick={e => {
-                                        printKot(selectedOrderData.order_item.filter((o) => {
-                                            if (o.order_id == openActionPopupModal.order_detail.order_id &&
-                                                o.item_status == "Confirm")
-                                                return o
-                                        }
-                                        ))
+                                        PrintKot(selectedOrderData.order_detail,selectedOrderData.order_item,restroDetail, gstFssai, settings)
                                     }}>Print Kot</button>
                                     <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
                                         onClick={e => { if (getbillStatus()) sendPrintDatas() }}>Get Bill</button>
@@ -2313,7 +2374,6 @@ const TodayOrder = () => {
                                                     {selectedOrderData?.order_detail?.table_number}
                                                     <Popconfirm
                                                         className={style.link}
-
                                                         title="Are you sure you want to change table number?"
                                                         onConfirm={e => { setInputEnable("tableEdit"); }}
                                                         // onCancel={e => { setTableConfirm(false) }}
@@ -2458,7 +2518,7 @@ const TodayOrder = () => {
                                                                     <AiOutlineMinus />
                                                                 </div>
                                                                 <div className={style.quantityValue}>{item.quantity}</div>
-                                                                <div className={style.increase} onClick={e => { increaseAndDecrease("+", index, selectedOrderData.order_detail.order_id); console.log(updatedStatus.current.value) }}>
+                                                                <div className={style.increase} onClick={e => { increaseAndDecrease("+", index, selectedOrderData.order_detail.order_id); }}>
                                                                     <AiOutlinePlus />
                                                                 </div>
                                                             </div>
@@ -2494,9 +2554,7 @@ const TodayOrder = () => {
                                                 </div>
                                             ))}
                                         </div>
-
                                     </div>
-
                                 </div>
                                 <div className={style.AllStatusContainer}>
                                     <Popconfirm
@@ -2511,7 +2569,6 @@ const TodayOrder = () => {
                                         <button className={style.AllUpdateButton} >Update Items</button>
                                     </Popconfirm>
                                     <div className={style.StatusBtnContainer}>
-
                                         <button class="button" id="cut" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}><span>Pending</span></button>
                                         <button class="button" id="copy" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}
                                             onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
@@ -2539,7 +2596,6 @@ const TodayOrder = () => {
                                                     return t;
                                                 }
                                             }))}><span>Cancel</span></button>
-
                                     </div>
                                 </div>
                             </div>
@@ -2665,7 +2721,9 @@ const TodayOrder = () => {
                                                 <label className={style.InputLabel} />
                                             </div>
                                             <div className={style.UpdateDIscountBtn}>
-                                                <button className={style.ApplyBtn} onClick={e => UpdateorderDetail()}>Apply</button>
+                                                <button className={style.ApplyBtn} onClick={e => {
+                                                    UpdateorderDetail(); 
+                                                    }}>Apply</button>
                                             </div>
                                         </div>
 
@@ -2685,11 +2743,11 @@ const TodayOrder = () => {
                                             <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
                                         </div>
                                         <div className={style.priceInformation}>
-                                            <label className={style.InputLabel}>CGST :- </label>
+                                            <label className={style.InputLabel}>CGST ( {settings.cgst}% ):- </label>
                                             <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
                                         </div>
                                         <div className={style.priceInformation}>
-                                            <label className={style.InputLabel}>SGST :- </label>
+                                            <label className={style.InputLabel}>SGST ( {settings.sgst}% ) :- </label>
                                             <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
                                         </div>
                                         <div className={style.priceInformation}>
@@ -2716,13 +2774,9 @@ const TodayOrder = () => {
                                                     "order_status": "Confirm"
                                                 })
                                                 if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail)) {
-                                                    printKot(selectedOrderData.order_item.filter((o) => {
-                                                        if (o.order_id == openActionPopupModal.order_detail.order_id &&
-                                                            o.kot_print_status == false &&
-                                                            o.item_status != "Cancelled")
-                                                            return o
-                                                    }
-                                                    ))
+                                                    PrintKot(selectedOrderData.order_detail
+                                                        ,selectedOrderData.order_item.filter(e=>e.item_status!="Cancelled"&&e.kot_print_status==false)
+                                                        ,restroDetail, gstFssai, settings)
                                                 }
                                             }}><a href="#">Confirm</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
@@ -2748,6 +2802,7 @@ const TodayOrder = () => {
                                                     document.getElementById("cancelInput").style.border = "1px solid red"
                                                     errorText["cancelReason"] = "Please enter reason and apply"
                                                     setErrorText({ ...errorText })
+                                                    setCancelClicked(true)
                                                 } else {
                                                     document.getElementById("cancelInput").scrollIntoView()
                                                     document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
@@ -2830,7 +2885,7 @@ const TodayOrder = () => {
 
 
                     {/* Adding by Rohan kansari -  20/7/23
-                reason - To add -  add more item model here and open up on button click */}
+                        reason - To add -  add more item model here and open up on button click */}
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -2843,7 +2898,6 @@ const TodayOrder = () => {
                         <AddOrderItemForm orderId={orderDetailsObj.order_id} id={orderDetailsObj.id} modalvisibilityFn={setAddMoreItemModalVisible} modalvisibility={AddMoreItemmodalVisible} onCancel={handlemoreItemCancel}
                             setOrderItems={setSelectedOrderItemList}
                             setOrderDetail={setorderDetailsObj} setOrderStatus={setOrderStatus} getOrderDetail={UpdatingOpenedOrder} />
-
                     </Modal>
 
                     {/* End of code - Rohan kansari - 20/7/23*/}
