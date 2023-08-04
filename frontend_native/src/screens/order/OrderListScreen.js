@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import { View, Text, StyleSheet, Pressable, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
 import { getOrdersApi } from "../../api/Services";
 import * as SecureStore from "expo-secure-store";
@@ -7,7 +7,9 @@ import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import Footer from "../../components/Footer/Footer";
 import { useIsFocused } from "@react-navigation/native";
-import { inputs } from "../../Colours/globalColor";
+import { colors, inputs } from "../../Colours/globalColor";
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { Ionicons } from "@expo/vector-icons";
 
 
 export default function OrderListScreen({ route, navigation }) {
@@ -15,6 +17,22 @@ export default function OrderListScreen({ route, navigation }) {
   // Reason - to re render the screen
   const isFocused = useIsFocused();
   // End of re render
+
+  /**
+   * Added by Yuvraj Sahu on 04-08-2023
+   * Reason - to set start and end date
+   */
+  const [showStartDate, setShowStartDate] = useState("")
+  const [showEndDate, setShowEndDate] = useState("")
+
+  const [startDateSelected, setStartDateSelected] = useState(new Date());
+  const [endDateSelected, setEndDateSelected] = useState(new Date());
+
+  const [filterDisable, setFilterDisable] = useState(true);
+
+  /**
+   * End of addition by Yuvraj Sahu on 04-08-2023
+   */
 
   // Added by Yuvraj Sahu on 9-4-2023
   // Reason - to call function when page is render
@@ -99,6 +117,18 @@ export default function OrderListScreen({ route, navigation }) {
    * Reason - to search menu using name wise
    */
   const handleSearch = (searchKey) => {
+    /**
+     * Added by Yuvraj Sahu on 04-08-2023
+     * Reason - to remove the filters
+     */
+    setEndDateSelected(new Date())
+    setShowEndDate("")
+    setStartDateSelected(new Date())
+    setShowStartDate("")
+    setFilterDisable(true)
+    /**
+     * End of addition by Yuvraj Sahu on 04-08-2023
+     */
     var splitedWord = searchKey.trim().replace(".", " ").split(" ");
     var sapratedWord = splitedWord.reverse().join().replace(",", " ");
     setSearch(searchKey.replace(".", " "));
@@ -565,6 +595,68 @@ export default function OrderListScreen({ route, navigation }) {
    * End of setting orders by Yuvraj Sahu on 28-07-2023
    */
 
+  /**
+   * Added by Yuvraj Sahu on 04-08-2023
+   * Reason - to set the start and end date in date picker
+   */
+  function convertStartDate(str) {
+    setStartDateSelected(new Date(str))
+    setEndDateSelected(new Date())
+    setShowEndDate("")
+    setFilterDisable(true)
+    setSeeOrders(orders)
+    setSearch("")
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    var date = [date.getFullYear(), mnth, day].join("-")
+    setShowStartDate(`${date}`)
+  }
+
+  function convertEndDate(str) {
+    setEndDateSelected(new Date(str))
+    setFilterDisable(false)
+    setSearch("")
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    var date = [date.getFullYear(), mnth, day].join("-")
+    setShowEndDate(`${date}`)
+  }
+  /**
+   * End of addition by Yuvraj Sahu on 04-08-2023
+   */
+
+  const handleFilter = () => {
+    console.log(startDateSelected)
+    var newData = orders.filter((dt)=> {
+      let date = new Date(dt.date);
+      if (date >= startDateSelected && date <= endDateSelected){
+        return dt
+      }
+    })
+    setSeeOrders(newData)
+  }
+
+  /**
+   * Added by Yuvraj Sahu on 04-08-2023
+   * Reason - to remove the filters
+   */
+  const clearFilter = () => {
+    setEndDateSelected(new Date())
+    setShowEndDate("")
+    setStartDateSelected(new Date())
+    setShowStartDate("")
+    setFilterDisable(true)
+    setSeeOrders(orders)
+    setSearch("")
+  }
+  /**
+   * End of addition by Yuvraj Sahu on 04-08-2023
+   */
+
+
+  
   return (
     <>
       {/* Added byYuvraj Sahu on 27-4-2023
@@ -586,6 +678,118 @@ export default function OrderListScreen({ route, navigation }) {
           />
         </View>
         {/* End given search functionality by Yuvraj Sahu on 22-05-2023 */}
+
+        {/* Added by Yuvraj Sahu on 04-08-2023
+        Reason - to add filter design */}
+        <View 
+          style={styles.dateContainer}
+        >
+          <Pressable
+            // style={[styles.input, styles.datePickerContainer]}
+            style={styles.startDateContainer}
+            placeholderTextColor="#A4A4A4"
+            placeholder="Please enter date"
+            autoCapitalize="none"
+            autoCorrect={false}
+            // disabled={object.id != "add new data" ? false : true}
+          >
+            {/* <Text style = {{color : (object.id)!= "add new data" ? "grey" : "black"}}>{values.date ? values.date.split("-").reverse().join("/") : "Please enter date"}</Text> */}
+            <Text>{showStartDate == "" ? "Select date" : showStartDate.split("-").reverse().join("/")}</Text>
+            <TouchableOpacity
+              // disabled={object.id != "add new data" ? true : false}
+              onPress={() => {
+                DateTimePickerAndroid.open({
+                  value: startDateSelected,
+                  onChange: (event, selectedDate) => {
+                    convertStartDate(selectedDate)
+                  },
+                  mode: "date",
+                  is24Hour: true,
+                  maximumDate: new Date(),
+                  placeholder: "Please enter date",
+                });
+              }}
+            >
+              <Ionicons
+                name="calendar"
+                size={15}
+                // color={(object.id)!= "add new data" ? "grey" : "black"}
+                // style={styles.passIcon}
+              />
+            </TouchableOpacity>
+          </Pressable>
+
+          <Pressable
+            style={styles.endDateContainer}
+          >
+            <Text>{showEndDate == "" ? "Select date" : showEndDate.split("-").reverse().join("/")}</Text>
+            <TouchableOpacity
+              // disabled={object.id != "add new data" ? true : false}
+              onPress={() => {
+                DateTimePickerAndroid.open({
+                  value: endDateSelected,
+                  onChange: (event, selectedDate) => {
+                    convertEndDate(selectedDate)
+                  },
+                  mode: "date",
+                  is24Hour: true,
+                  minimumDate: startDateSelected,
+                  maximumDate: new Date(),
+                  placeholder: "Please enter date",
+                });
+              }}
+            >
+              <Ionicons
+                name="calendar"
+                size={15}
+                // color={(object.id)!= "add new data" ? "grey" : "black"}
+                // style={styles.passIcon}
+              />
+            </TouchableOpacity>
+          </Pressable>
+          {/* {errors.date && touched.date && (
+          <Text style={styles.textdanger}>{errors.date}</Text>
+          )} */}
+        </View>
+
+        <View style={styles.filterButtonContainer}>
+        <Pressable
+            onPress={clearFilter}
+            style={[styles.filterButtonStyle, {backgroundColor: "#d2a479"}]}
+            // disabled = {filterDisable}
+          >
+          <Text
+            style={
+              [styles.filterText,
+                {
+                  color: "white"
+                }
+              ]
+            }
+          >
+            Clear filter
+          </Text>
+          </Pressable>
+
+        <Pressable
+          onPress={handleFilter}
+          style={[styles.filterButtonStyle, {backgroundColor: filterDisable ? colors.btnDisableBackgroundColor : "#996633"}]}
+          disabled = {filterDisable}
+        >
+          <Text
+            style={
+              [styles.filterText,
+                {
+                  color: filterDisable ? colors.btnDisableTextColor : "white"
+                }
+              ]
+            }
+          >
+            Filter
+          </Text>
+          </Pressable>
+        </View>
+        {/* End of addition by Yuvraj Sahu on 04-08-2023 */}
 
         {seeOrders.length > 0 ? (
           <ScrollView horizontal={true}>
@@ -840,6 +1044,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderLeftWidth: 1,
     borderTopWidth: 1,
+    marginTop: 0
   },
   orderHeadingContainer: {
     height: 45,
@@ -989,5 +1194,71 @@ const styles = StyleSheet.create({
    */
   /**
    * End of addition by Yuvraj Sahu on 02-06-2023
+   */
+  /**
+   * Added by Yuvraj Sahu on 04-08-2023
+   * Reason - to design date container
+   */
+  dateContainer: {
+    flexDirection : "row",
+    alignSelf: "center",
+    width: "100%",
+    paddingHorizontal: 20,
+    justifyContent: "space-around"
+  },
+  endDateContainer : {
+    width: "40%",
+    height: 30,
+    borderWidth: 1,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 5,
+    alignItems: "center"
+  },
+  startDateContainer : {
+    width: "40%",
+    height: 30,
+    borderWidth: 1,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 5,
+    alignItems: "center"
+  },
+  filterButtonContainer: {
+    paddingHorizontal: 10,
+    width: "100%",
+    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  filterButtonStyle: {
+    minWidth: 70,
+    marginHorizontal: 5,
+    paddingHorizontal: 5,
+    height: 27,
+    backgroundColor: "grey",
+    borderRadius: 5,
+    alignSelf: "center",
+    textAlign: "center",
+    alignContent: "center",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  filterText: {
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
+    // height: "100%"
+  }
+  /**
+   * End of addition by yuvraj sahu on 04-08-2023
    */
 });
