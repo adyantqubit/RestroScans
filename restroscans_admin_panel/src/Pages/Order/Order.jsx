@@ -22,6 +22,7 @@ import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
 import PrintBill from "../Home/components/PrintBill";
+import { PrintKot } from "../Home/components/PrintKot";
 
 const Order = () => {
 
@@ -961,11 +962,15 @@ const Order = () => {
                         Reason : Sent the bill details in print bill file  */}
                         <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}} 
-                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }
-                        // onClick={printKot(orderDetail)}
+                        // Modified by Rohan kansari- 4/8/23 
+                        // Reason - To remove cancelled item from kot 
+                        // onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }
+                        onClick={e=>PrintKot(orderDetail,
+                          orderItems?.filter((o) =>o.item_status!="cancelled"&&o.order_id==orderDetail.order_id )
+                          ,restroDetail,gstFssai)}
                         // onClick={e => {openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); printKot() }}
                         > Print KOT</div> :'---'}
-
+                        {/* End of code - Rohan kansari - 4/8/23 - To remove cancelled item from kot  */}
                         </div>
                        {/* End of addition by Om shrivastava on 01-07-23 */}
 
