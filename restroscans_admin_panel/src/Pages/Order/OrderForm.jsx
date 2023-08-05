@@ -500,12 +500,18 @@ const OrderForm = () => {
 
     var allowDataPost = false;
 
-    if (validationErrors.apply_loyality_point == "") {
-      allowDataPost = true;
-    }
-    else {
-      allowDataPost = false
-    }
+    // Commented by Rohan kansari - 4/8/23
+    // Reason - To make only one condition block
+    // if (validationErrors.apply_loyality_point == "") {
+    //   allowDataPost = true;
+    //   console.log("validation error true")
+
+    // }
+    // else {
+    //   allowDataPost = false
+    //   console.log("validation error false")
+
+    // }
     // Commented by Om Shrivastava on 21-06-23
     // Reason : Need to change the usestsate of this fields to another usestate
     // if (validationErrors.discount_rupees == "") {
@@ -523,28 +529,43 @@ const OrderForm = () => {
     // }
     // End of commented by Om Shrivastava on 21-06-23
 
-    if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
-      allowDataPost = false;
+    // if ((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled") {
+    //   allowDataPost = false;
 
-      // const error = {
-      //   cancel_reason: "Please enter cancel reason"
-      // };
-      setValidationForOrderCancel("Please enter cancel reason");
-      // setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
+    //   // const error = {
+    //   //   cancel_reason: "Please enter cancel reason"
+    //   // };
+    //   setValidationForOrderCancel("Please enter cancel reason");
+    //   // setValidationForOrderCancel({ ...validationForOrderCancel, ...error });
 
-      // console.log('if part')
-    }
+    //   console.log('if part')
+    // }
+
+    // End of commeting - Rohan kansari - 4/8/23
+
+
     // Addition by Om Shrivastava on 31-07-23
     // Reason : Set the validation error for discount percentage and discount rupee
-    if (validationDiscountErrors.discount_percentage != "" || validationDiscountErrors.discount_rupees != ""  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="")  ) {
+    // Modified by Rohan kansari - 4/8/23
+    // Reason - To change validation and make only one condition block for all error
+    // if (validationDiscountErrors.discount_percentage != "" || validationDiscountErrors.discount_rupees != ""  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="")  ) {
+    if (validationDiscountErrors.discount_percentage != "" || validationDiscountErrors.discount_rupees != ""  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="") || validationErrors.apply_loyality_point != "" ) {
+      if((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled"){
+        setValidationForOrderCancel("Please enter cancel reason");
+      }
       allowDataPost = false
       console.log("validation error false",validationErrors.table_number)
     }
     else {
       allowDataPost = true
       console.log("validation error true")
-
+      if((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled"){
+        setValidationForOrderCancel("Please enter cancel reason");
+        allowDataPost=false
+      }
     }
+    // End of Modification - Rohan kansari - 4/8/23 - To change validation and make only one condition block for all error
+
     // End of addition by Om Shrivastava on 31-07-23
     // Reason : Set the validation error for discount percentage and discount rupee
 
@@ -1207,10 +1228,13 @@ const OrderForm = () => {
                     if (e.target.value.includes("-") && e.target.value.length > 1)
                       e.target.value = 0
                     // End of code - ROhan kansari - 30/6/23
+                    // Modified by ROhan kansari - 4/8/23
+                    // Reason - To make percentage reflect on change
                     setDiscountRupee(e.target.value);
                     setDiscountprice(e.target.value);
                     var percentage=e.target.value/(orderDetailsObj.sub_total/100)
                     setDiscountPercentage(percentage.toFixed(2))
+                    // End of code - Rohan kansari - 4/8/23
                     // subtracting subtotal - to loyality point then we get total
                     var total = orderDetailsObj.sub_total - loyalityPointPrice - e.target.value
                     setTotal(total)
@@ -1231,10 +1255,13 @@ const OrderForm = () => {
 
                     var final = total + cgst + sgst
                     setFinalAmount(final)
+                    // Added by Rohan kansari - 4/8/23
+                    // Reason - To call validation function on change
                     validateOnBlur(
                       "discount_rupees",
                       e.target.value
                     );
+                    // ENd of code - Rohan kansari - 4/8/23
                     // End of addition by Om shrivastava on 22-07-23
                     // Reason : Set the cgst and sgst
                     // validateOnInput(
@@ -1246,7 +1273,6 @@ const OrderForm = () => {
                   // Reason - to disable the encrease and decrease discount amount
                   onWheel={(e) => e.target.blur()}
                   // End of addition by Om Shrivastava on 30-07-23
-                  // Added by Yuvraj Sahu on 15-07-2023
                   onBlur={(e) => {
                     validateOnBlur(
                       "discount_rupees",
@@ -1300,12 +1326,14 @@ const OrderForm = () => {
                     if (e.target.value < 0)
                       e.target.value = 0
                     // End of code - ROhan kansari - 30/6/23
+
+                    // Modified by ROhan kansari - 4/8/23
+                    // Reason - To make rupees reflect on change
                     setDiscountPercentage(e.target.value);
                     var percantagePrice = (subTotal / 100) * e.target.value
                     setDiscountRupee(percantagePrice.toFixed(2))
-
-                    
                     setDiscountprice(percantagePrice.toFixed(2))
+                    // End of code - Rohan kansari - 4/8/23
 
                     // subtracting subtotal - to loyality point then we get total
                     var total = orderDetailsObj.sub_total - loyalityPointPrice - percantagePrice
@@ -1326,6 +1354,8 @@ const OrderForm = () => {
 
                     var final = total + cgst + sgst
                     setFinalAmount(final)
+                    // Added by ROhan kansari - 4/8/23
+                    // Reason - To call validation function in on change
                     validateOnBlur("discount_percentage", e.target.value);
                     // End of addition by Om shrivastava on 22-07-23
                     // Reason : Set the cgst and sgst
