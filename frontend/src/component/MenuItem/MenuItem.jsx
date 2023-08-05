@@ -1224,7 +1224,12 @@ function MenuItem() {
           // accountName={restaurant_name}
           accountName={restaurant_name.toUpperCase()}
           // End of modification and additon by Om Shrivastava on 19-05-23
-          avatar={siteConfig.siteURL + tenantDetails.restaurant_logo}
+          // Modification and addition by Om Shrivastava on 04-08-23
+          // Reason : Set the data set for avatar
+          // avatar={siteConfig.siteURL + tenantDetails.restaurant_logo}
+          avatar={tenantDetails.restaurant_logo && siteConfig.siteURL + tenantDetails.restaurant_logo}
+          // Modification and addition by Om Shrivastava on 04-08-23
+          // Reason : Set the data set for avatar
           />
         </div>
         :null}
