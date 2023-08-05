@@ -41,6 +41,7 @@ import MenuForm from './Pages/Menu/MenuForm';
 import CategoryForm from './Pages/Menu/CategoryForm';
 import EditItemForm from './Pages/Menu/EditItemForm';
 import RestaurantRatingReview from './Pages/RestaurantRatingReview/RestaurantRatingReview'
+import NewOrderReport from './Pages/Report/NewOrderReport';
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
@@ -179,9 +180,13 @@ function App() {
 
         {/* Added by Rohan Kansari - 26/5/23
           Reason - Report page added */}
-        <Route path="/OrderReport" element={!tokenExist ? <Navigate to="/Login" /> : <OrderReport />} />
-        {/*End of code- Rohan Kansari - 26/5/23  */}
 
+          {/* Commented and modified by Parineeta Gedam - 05-08-2023
+          Reason - Report page added */}
+        {/* <Route path="/OrderReport" element={!tokenExist ? <Navigate to="/Login" /> : <OrderReport />} /> */}
+        <Route path="/NewOrderReport" element={!tokenExist ? <Navigate to="/Login" /> : <NewOrderReport />} />
+       {/* End of Commented and modified by Parineeta Gedam - 05-08-2023
+          Reason - Report page added */}
         {/* Added by Rohan Kansari - 26/5/23
           Reason - Report page added */}
         <Route path="/OrderItemReport" element={!tokenExist ? <Navigate to="/Login" /> : <OrderItemReport />} />
