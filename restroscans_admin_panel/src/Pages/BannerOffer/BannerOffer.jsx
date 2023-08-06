@@ -3,27 +3,26 @@
  * Reason - To have offer creation section show all offer list, and create form save the data.
 */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./banneroffer.module.css";
 import Header from "../GlobalComponent/Header";
 import { enableHeader } from "../../App";
 import { useNavigate } from "react-router-dom";
-import { Input } from "antd";
-import {  MdCheckCircle } from "react-icons/md";
+import { Input, Pagination } from "antd";
 import { AiOutlineClose } from "react-icons/ai";
+import { getOfferBannerCount, getOfferBannerList } from "../../Api/services";
+import {
+  BsSortAlphaDownAlt,
+  BsSortAlphaDown,
+  BsSortNumericDownAlt,
+  BsSortNumericDown,
+} from "react-icons/bs";
+import config from "../../Api/config";
+import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
 
 
 const BannerOffer = () => {
-  const navigate = useNavigate();
-  const { Search } = Input;
-
-  useEffect(() => {
-    // Added By Om Shrivastava - 25/6/23
-    // Reason - To enable headerSiderbar
-    enableHeader()
-    // End of code - Om Shrivastava - 25/6/23
-  }, [])
-
+  
   const removeDiv = () => {
    document.getElementById('offer_form').style.display = 'block'
 
@@ -33,6 +32,202 @@ const removeOfferFormDiv = () => {
   document.getElementById('offer_form').style.display = 'none'
 
 };
+
+const [backendOfferBannerCount, setBackendOfferBannerCount] = useState(0);
+const [bannerOfferList, setOfferBannerList] = useState([]);
+// Modified by Om Shrivastava - 26-07-23 - To Get Selected List page from localstorage on Reload 
+// const [listPerPage, setListPerPage] = useState(localStorage.getItem(10));
+const [listPerPage, setListPerPage] = useState(localStorage.getItem("listPerPage"));
+// End of code - Om Shrivastava - 26-07-23
+
+const [columnToSort, setColumnToSort] = useState("contact_number");
+const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
+const [showSortingIcon, setShowSortingIcon] = useState(false);
+var [currentPage, setCurrentPage] = useState(1);
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - To have search functionality
+ */
+const [searchText, setSearchText] = useState("");
+const { Search } = Input;
+/**
+ * End of code addition by - Om Shrivastava on 26-07-23
+ * Reason - To have search functionality
+ */
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - method that will execute when page loads. this method will call cutomer list api
+ */
+useEffect(() => {
+    // Added By Om Shrivastava - 26-07-23
+    // Reason - To enable headerSiderbar
+    enableHeader()
+    // End of code - Om Shrivastava - 26-07-23
+    // Added By Om Shrivastava - 26-07-23
+    // Reason - To set global Page index Whenever its index updated
+    if (localStorage.getItem("globalPageIndex")) {
+        currentPage = parseInt(localStorage.getItem("globalPageIndex"))
+        setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
+    }
+    // End of code - Om Shrivastava - 26-07-23
+
+    getCountOfOffers();
+    getListOfOfferBannerData();
+}, []);
+
+
+console.log(bannerOfferList)
+
+/**
+ * End of code addition by - Om Shrivastava on 26-07-23
+ * Reason - method that will execute when page loads. this method will call cutomer list api
+ */
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - method that will execute when sorting on column is applied or page number is changed.
+ *  this method will call customer list api
+ */
+useEffect(() => {
+    getListOfOfferBannerData();
+
+    /**
+     * Commented and modified by - Om Shrivastava on 26-07-23
+     * Reason - To reflect changes when seach text is changed
+     */
+    // }, [columnToSort, columnSortingOrder, currentPage]);  
+    // Modified by Om Shrivastava - 26-07-23 - To add listPerPage Change call 
+    // }, [columnToSort, columnSortingOrder, currentPage, searchText]);
+}, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
+
+// End of code - Modification - Om Shrivastava - 26-07-23
+
+/**
+ * End of code modification by - Om Shrivastava on 26-07-23
+ * Reason - To reflect changes when seach text is changed
+ */
+
+/**
+ * End of code addition by - Om Shrivastava on 26-07-23
+ * Reason - method that will execute when sorting on column is applied or page number is changed.
+ *  this method will call customer list api
+ */
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - created api to get count of customers
+ */
+const getCountOfOffers = async () => {
+    const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    const response = await getOfferBannerCount(tenant);
+    setBackendOfferBannerCount(response.offerBannerCount);
+};
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - created api to get count of customers
+ */
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - created api to get list of customers
+ */
+const getListOfOfferBannerData = async () => {
+    const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    const paginationDetails = {
+        currentPage: currentPage,
+        listPerPage: listPerPage,
+    };
+    const filteringCriteria = {
+        paginationDetails: paginationDetails,
+        columnToSort: columnToSort,
+        columnSortingOrder: columnSortingOrder,
+        /**
+         * Added by - Om Shrivastava on 26-07-23
+         * Reason - To send search data on backend
+         */
+        /**
+         * Commented and modified by - Om Shrivastava on 26-07-23
+         * Reason - To trim search text before sending it to backend
+         */
+        // searchText: searchText,
+        searchText: searchText.trim(),
+        /**
+         * End of code modification and modified by - Om Shrivastava on 26-07-23
+         * Reason - To trim search text before sending it to backend
+         */
+        /**
+         * End of code addition by - Om Shrivastava on 26-07-23
+         * Reason - To send search data on backend
+         */
+    };
+    const response = await getOfferBannerList(tenant, filteringCriteria);
+    setOfferBannerList(response.offerBannerList);
+    /**
+     * Added by - Om Shrivastava on 26-07-23
+     * Reason - To recalculate page numbers
+     */
+    setBackendOfferBannerCount(response.offerBannerListCount)
+    /**
+     * End of code addition by - Om Shrivastava on 26-07-23
+     * Reason - To recalculate page numbers
+     */
+};
+/**
+ * End of code addition by - Om Shrivastava on 26-07-23
+ * Reason - created api to get list of customers
+ */
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason -  When user changes page number, this method will set page number which will be sent to backend.
+ */
+const handlePageChange = async (pageNumber) => {
+    //Added by Om Shrivastava - 26-07-23
+    // Reason - to set currentpage to global
+    localStorage.setItem("globalPageIndex", pageNumber)
+    // End of code - Om Shrivastava - 26-07-23
+    setCurrentPage(pageNumber);
+};
+/**
+ * End of code addition by - Om Shrivastava on 26-07-23
+ * Reason -  When user changes page number, this method will set page number which will be sent to backend.
+ */
+
+/**
+ * Added by - Om Shrivastava on 26-07-23
+ * Reason - Method that will set sorting criteria
+ */
+const sortOfferBannerList = (columnName) => {
+    if (columnToSort == columnName) {
+        if (columnSortingOrder == "ascending") {
+            setColumnSortingOrder("descending");
+        } else {
+            setColumnSortingOrder("ascending");
+        }
+    }
+    setColumnToSort(columnName);
+};
+/** 
+ * End of code addition by - Om Shrivastava on 26-07-23
+ * Reason - Method that will set sorting criteria
+ */
+
+// Added by Om Shrivastava - 26-07-23
+// Reason - To toggle dropdown visiblity on click
+function toggelDropdown() {
+    if (document.getElementById("dropdown").style.display.length == 0)
+        document.getElementById("dropdown").style.display = "block"
+    else
+        document.getElementById("dropdown").style.display = ""
+}
+
+function hideDropdown() {
+    document.getElementById("dropdown").style.display = ""
+}
+// End of code - Om Shrivastava - 26-07-23
+
 
   return (
     // Modified by Om Shrivastava - 25/6/23
@@ -44,7 +239,7 @@ const removeOfferFormDiv = () => {
           className={style.offerFormListDiv}
         >
           <div className={style.OfferListcontainer}
-            style={{ border: '1px dotted black' }}
+            // style={{ border: '1px dotted black' }}
           >
             <div className={`${style.pageTitleContainer}`}>
               <div className={style.pageTitle}>Offer List</div>
@@ -63,13 +258,13 @@ const removeOfferFormDiv = () => {
                 placeholder="Search by Offer name and discount"
                 allowClear
                 enterButton
-                // onSearch={(value) => {
-                //   setCurrentPage(1);
-                //   setSearchText(value);
-                // }}
-                // style={{
-                //   width: "50%",
-                // }}
+                onSearch={(value) => {
+                  setCurrentPage(1);
+                  setSearchText(value);
+                }}
+                style={{
+                  width: "50%",
+                }}
                 className={style.SearchBar}
               />
               <div
@@ -96,8 +291,8 @@ const removeOfferFormDiv = () => {
                   <div
                     className={style.tableHeadingContainer}
 
-                  // onClick={hideDropdown}
-                  // onTouchStart={hideDropdown}
+                  onClick={hideDropdown}
+                  onTouchStart={hideDropdown}
                   >
                     <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth} ${style.responsiveWidth} `}
                     >
@@ -105,7 +300,7 @@ const removeOfferFormDiv = () => {
                         className={style.checkbox}
                         // className={style.checkbox}
                         id="ParentCheckbox" type="checkbox"
-                      // onChange={e => checkAndUncheckAll(e.target.checked)} 
+                        // onChange={e => checkAndUncheckAll(e.target.checked)} 
                       />
                       SNo. </div>
 
@@ -114,73 +309,73 @@ const removeOfferFormDiv = () => {
                     >Icon </div>
                     <div
                       className={style.commonColumnTitle}
-                    // onClick={(e) => {
-                    //   setShowSortingIcon(false);
-                    //   sortItemList("name");
-                    // }}
-                    // onMouseEnter={(e) => {
-                    //   if (columnToSort != "name") {
-                    //     setShowSortingIcon(true);
-                    //   }
-                    // }}
-                    // onMouseLeave={(e) => {
-                    //   if (columnToSort != "name") {
-                    //     setShowSortingIcon(false);
-                    //   }
-                    // }}
+                    onClick={(e) => {
+                      setShowSortingIcon(false);
+                      sortOfferBannerList("offer_name");
+                    }}
+                    onMouseEnter={(e) => {
+                      if (columnToSort != "offer_name") {
+                        setShowSortingIcon(true);
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (columnToSort != "offer_name") {
+                        setShowSortingIcon(false);
+                      }
+                    }}
                     >
                       Offer Name{" "}
-                      {/* {columnToSort == "name" &&
+                      {columnToSort == "offer_name" &&
                       columnSortingOrder == "ascending" && (
                         <BsSortAlphaDown className={style.sortingIcon} />
                       )}
-                    {columnToSort == "name" &&
+                    {columnToSort == "offer_name" &&
                       columnSortingOrder == "descending" && (
                         <BsSortAlphaDownAlt className={style.sortingIcon} />
                       )}
-                    {columnToSort != "name" && showSortingIcon && (
+                    {columnToSort != "offer_name" && showSortingIcon && (
                       <BsSortAlphaDown
                         color="grey"
                         className={style.sortingIcon}
                       />
-                    )} */}
+                    )}
                     </div>
 
                     <div
                       // className={style.commonColumnTitle}
-                      className={`${style.commonColumnTitle} ${style.mediumColoumnWidth} ${style.responsiveWidth}`}
+                      className={`${style.commonColumnTitle} ${style.mediumColoumnWidth} ${style.responsiveWidth} ${style.responsiveDiscountWidth}`}
 
-                    // onClick={(e) => {
-                    //   setShowSortingIcon(false);
-                    //   sortItemList("category");
-                    // }}
-                    // onMouseEnter={(e) => {
-                    //   if (columnToSort != "category") {
-                    //     setShowSortingIcon(true);
-                    //   }
-                    // }}
-                    // onMouseLeave={(e) => {
-                    //   if (columnToSort != "category") {
-                    //     setShowSortingIcon(false);
-                    //   }
-                    // }}
+                    onClick={(e) => {
+                      setShowSortingIcon(false);
+                      sortOfferBannerList("discount");
+                    }}
+                    onMouseEnter={(e) => {
+                      if (columnToSort != "discount") {
+                        setShowSortingIcon(true);
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (columnToSort != "discount") {
+                        setShowSortingIcon(false);
+                      }
+                    }}
                     >
                       Discount(%)
-                      {/*                    
-                    {columnToSort == "category" &&
+                                         
+                    {columnToSort == "discount" &&
                       columnSortingOrder == "ascending" && (
-                        <BsSortAlphaDown className={style.sortingIcon} />
+                        <BsSortNumericDown className={style.sortingIcon} />
                       )}
-                    {columnToSort == "category" &&
+                    {columnToSort == "discount" &&
                       columnSortingOrder == "descending" && (
-                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                        <BsSortNumericDownAlt className={style.sortingIcon} />
                       )}
-                    {columnToSort != "category" && showSortingIcon && (
-                      <BsSortAlphaDown
+                    {columnToSort != "discount" && showSortingIcon && (
+                      <BsSortNumericDown
                         color="grey"
                         className={style.sortingIcon}
                       />
-                    )} */}
+                    )}
                     </div>
 
                     <div
@@ -272,20 +467,20 @@ const removeOfferFormDiv = () => {
                       backgroundColor: "#efefef",
                     }}
 
-                  // onClick={hideDropdown}
-                  // onTouchStart={hideDropdown}
+                  onClick={hideDropdown}
+                  onTouchStart={hideDropdown}
                   >
-                    {/* {itemList != null && itemList.length > 0 ? (
-                    itemList.map((itemDetails, index) => { */}
-                    {/* return ( */}
+                    {bannerOfferList != null && bannerOfferList.length > 0 ? (
+                    bannerOfferList.map((bannerOfferDetails, index) => {
+                    return ( 
                     <div
                       // key={index}
                       className={style.tableData}
                       style={{
                         padding: "2px",
                         marginTop: "2px",
-                        // marginBottom:
-                        //   itemList.length == index + 1 ? "2px" : "0px",
+                        marginBottom:
+                        bannerOfferList.length == index + 1 ? "2px" : "0px",
                       }}
                     >
                       <div
@@ -298,13 +493,15 @@ const removeOfferFormDiv = () => {
                           // width:'7%',minWidth:'8%'
                         }}
                       >
-                        {/* {itemDetails.name} */}
+                        {/* {bannerOfferDetails.name} */}
                         <input
                           className={style.checkbox}
                           // className={style.checkbox}
                           id="ParentCheckbox" type="checkbox"
                         // onChange={e => checkAndUncheckAll(e.target.checked)} 
-                        />1
+                        />
+                          {(currentPage*listPerPage-listPerPage)+index+1}
+
                       </div>
 
                       <div
@@ -314,13 +511,15 @@ const removeOfferFormDiv = () => {
                       >
                         <img
                           className={style.itemImage}
-                          src="https://pbs.twimg.com/media/EMds5mPUYAIwukb.jpg"
+                          // src="https://pbs.twimg.com/media/EMds5mPUYAIwukb.jpg"
 
-                        // src={
-                        //   itemDetails.icon
-                        //     ? config.staticBaseURL + itemDetails.icon
-                        //     : defaultIcon
-                        // }
+                        src={
+                          bannerOfferDetails.offer_image
+
+                            ? config.staticBaseURL + bannerOfferDetails.offer_image
+
+                            : "---"
+                        }
                         />
                       </div>
 
@@ -328,15 +527,14 @@ const removeOfferFormDiv = () => {
                         className={style.commonColumnData}
                         style={{ wordBreak: "break-word" }}
                       >
-                        {/* {itemDetails.name} */}
-                        Holi offer
+                        {bannerOfferDetails.offer_name}
                       </div>
 
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth} ${style.responsiveWidth}`}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth} ${style.responsiveWidth} ${style.responsiveDiscountWidth}`}
                       >
-                        {/* {itemDetails.category_name} */}
-                        5
+                        {bannerOfferDetails.discount}
+                        {/* 5 */}
                       </div>
 
                       <div
@@ -347,10 +545,10 @@ const removeOfferFormDiv = () => {
                           // width:'12%',minWidth:'12%'
                         }}
                       >
-                        {/* {itemDetails.price_full
-                              ? itemDetails.price_full
-                              : "-"} */}
-                        https://www.youtube.com/embed/0usc_HTnUBQ
+                        {bannerOfferDetails.video_link
+                              ? bannerOfferDetails.video_link
+                              : "-"}
+                        {/* https://www.youtube.com/embed/0usc_HTnUBQ */}
                       </div>
 
                       <div
@@ -363,14 +561,7 @@ const removeOfferFormDiv = () => {
                         }}
 
                       >
-                        {/* {itemDetails.price_half
-                              ? itemDetails.price_half
-                              : "-"} */}
-                        <MdCheckCircle className={style.yesIcon} />
-
-                      </div>
-
-                      {/* {itemDetails.is_active == true ? (
+                         {bannerOfferDetails.show_video_Hide_Image == true ? (
                             <div className={style.commonColumnData}>
                               <MdCheckCircle className={style.yesIcon} />
                             </div>
@@ -378,9 +569,13 @@ const removeOfferFormDiv = () => {
                             <div className={style.commonColumnData}>
                               <MdCancel className={style.noIcon} />
                             </div>
-                          )} */}
+                          )}
 
-                      {/* {itemDetails.best_seller == true ? (
+                      </div>
+
+                     
+
+                      {/* {bannerOfferDetails.best_seller == true ? (
                             <div className={style.commonColumnData}>
                               <MdCheckCircle className={style.yesIcon} />
                             </div>
@@ -404,24 +599,24 @@ const removeOfferFormDiv = () => {
                           onClick={(e) => {
                             removeDiv();
                           }}
-                        // onClick={() => openItemDetails(itemDetails.id)}
+                        // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
                         >
                           Edit
                         </div>
                       </div>
                     </div>
-                    {/* ); */}
-                    {/* })
+                    ); 
+                     })
                   ) : (
                     <div style={{ textAlign: "center" }}>No records found!</div>
-                  )} */}
+                  )} 
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* <div className={style.paginationContainer}>
-            {itemList && itemList.length > 0 ? (
+            <div className={style.paginationContainer}>
+            {bannerOfferList && bannerOfferList.length > 0 ? (
              
               <div className={style.paginationContent}>
                 <Pagination
@@ -429,7 +624,7 @@ const removeOfferFormDiv = () => {
                   
                   current={currentPage}
                   
-                  total={backendItemCount}
+                  total={backendOfferBannerCount}
                   defaultPageSize={listPerPage}
                   pageSize={listPerPage}
                   simple
@@ -443,7 +638,7 @@ const removeOfferFormDiv = () => {
                   </button>
                   <div className={style.dropdown_content} id="dropdown">
                     
-                    {backendItemCount > 40 ? (
+                    {backendOfferBannerCount > 40 ? (
                       <span
                         href="#"
                         onClick={(e) => {
@@ -455,7 +650,7 @@ const removeOfferFormDiv = () => {
                         50 / Page
                       </span>
                     ) : null}
-                    {backendItemCount > 30 ? (
+                    {backendOfferBannerCount > 30 ? (
                       <span
                         href="#"
                         onClick={(e) => {
@@ -467,7 +662,7 @@ const removeOfferFormDiv = () => {
                         40 / Page
                       </span>
                     ) : null}
-                    {backendItemCount > 20 ? (
+                    {backendOfferBannerCount > 20 ? (
                       <span
                         href="#"
                         onClick={(e) => {
@@ -503,7 +698,7 @@ const removeOfferFormDiv = () => {
               </div>
             ) : 
               null}
-          </div> */}
+          </div>
           </div>
         </div>
         <div className={style.offerFormDiv} 
@@ -516,6 +711,7 @@ const removeOfferFormDiv = () => {
             <div className={style.titleContainer}>
               <div className={style.pageTitle}>Offer form</div>
             </div>
+            <div>
             <div  style={{float:'right'}}>
               <AiOutlineClose color="black" size={20}  style={{ border:"1px dotted green",borderRadius:'100px',cursor:'pointer',height:'22px',width:'22px' }} 
               onClick={(e) => {
@@ -747,6 +943,8 @@ const removeOfferFormDiv = () => {
                 </div>
               </div>
             </form>
+          </div>
+
             {/* Added by Om Shrivastava on 04-08-23
           Reason : Show the offer form data */}
           </div>

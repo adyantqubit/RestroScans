@@ -858,6 +858,13 @@ const OrderForm = () => {
                     // validateOnInput("app_theme", e.target.value);
                   }}
                 >
+                  {/* Added by Om Shrivastava on 04-08-23
+                  Reason : Set the payment status paid  */}
+                  {orderDetailsObj.payment_status == "Paid" ?
+                    <option value="Paid" disabled selected={paymentStatus == "Paid" ? true : false}>Paid</option>
+                    :null}
+                  {/* End of addition by Om Shrivastava on 04-08-23
+                  Reason : Set the payment status paid */}
                   <option value="Pending" selected={paymentStatus == "Pending" ? true : false}>Pending</option>
                   <option value="Completed" selected={paymentStatus == "Completed" ? true : false}>Completed</option>
 

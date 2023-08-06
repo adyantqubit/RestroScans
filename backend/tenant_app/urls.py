@@ -421,4 +421,16 @@ urlpatterns = [
     # Reason : update payment status 
     path('<str:tenant>/update-payment-status/',UpdatePaymentStatus.as_view()),
     # End of updating order status
+
+    # Added by Om Shrivastava on 05-08-23
+    # Reason : To get count of banner/offer details.
+    path('<str:tenant>/offer-banner-count/',OfferBannerAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 05-08-23
+    # Reason : To get count of banner/offer details.
+
+    # Added by Om Shrivastava on 05-08-23
+    # Reason : To get list of banner/offer details
+    path('<str:tenant>/offer-banner-list/',OfferBannerAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 05-08-23
+    # Reason : To get list of banner/offer details
 ]   

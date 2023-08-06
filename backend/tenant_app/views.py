@@ -3809,3 +3809,96 @@ class UpdatePaymentStatus(APIView):
 """
 End of addition by Yuvraj Sahu on 03-07-2023
 """
+
+# Added by Om Shrivastava  on 05-08-23
+# Reason - API for CRUD operation on offer details
+class OfferBannerAPI(APIView):
+    
+    # Added by Om Shrivastava  on 05-08-23
+    # Reason - To get count of offer/banner 
+    def get(self,request,tenant):
+         offerBannerCount=Offer.objects.all().count() 
+        #  Added by Om Shrivastava on 26-07-23
+        #  Reason : get the offer/banner by id, and new sent data show always upper
+         allOfferBanner = Offer.objects.all().order_by('-id')
+        # End of addition and modification get the rating by id, and new sent data show always upper
+         offerSerializer=OfferBannerSerializer(allOfferBanner, many=True)
+        
+         return Response({
+            "msg":"success",
+            "offerBannerCount":offerBannerCount,
+             #  Added by Om Shrivastava on 26-07-23
+             #  Reason : get the rating and review for restaurant
+            "allOfferBanner":offerSerializer.data
+             #  End of addition by Om Shrivastava on 26-07-23
+             #  Reason : get the rating and review for restaurant
+        })
+    # End of code addition by - Om Shrivastava  on 05-08-23
+    # Reason - To get count of rating for restaurant
+    
+    # Added by - Om Shrivastava  on 05-08-23
+    # Reason - To get list of rating for restaurant using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Commented and modified by - Om Shrivastava  on 05-08-23
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        offerBannerList=[]
+
+        if columnToSort == "":
+            #  Added by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+            # offerBannerList = RatingReview.objects.all()
+            offerBannerList = Offer.objects.all().order_by('-id')
+            # End of addition by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+
+        if searchText:
+            offerBannerList=Offer.objects.filter(Q(offer_name__icontains=searchText) | 
+                                                       Q(discount__icontains=searchText))
+        else:
+            #  Added by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+            # offerBannerList = RatingReview.objects.all()
+            offerBannerList = Offer.objects.all().order_by('-id')
+            # End of addition by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant   
+
+        if columnToSort == "offer_name" and columnSortingOrder=="ascending":
+            offerBannerList = offerBannerList.order_by('offer_name')
+        if columnToSort == "offer_name" and columnSortingOrder=="descending":
+            offerBannerList = offerBannerList.order_by('-offer_name')
+
+        if columnToSort == "discount" and columnSortingOrder=="ascending":
+            offerBannerList = offerBannerList.order_by('discount')
+        if columnToSort == "discount" and columnSortingOrder=="descending":
+            offerBannerList = offerBannerList.order_by('-discount')
+
+        offerBannerListCount=offerBannerList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(offerBannerList, listPerPage)
+        filteredofferBannerList = paginator.page(currentPage)
+
+        offerBannerSerializer = OfferBannerSerializer(filteredofferBannerList, many =True)
+        return Response({
+            "msg":"success",
+            "offerBannerList":offerBannerSerializer.data,
+            "offerBannerListCount":offerBannerListCount,
+            
+        })
+        # End of code modification by - Om Shrivastava  on 05-08-23
+        # Reason - To enhance and add basic search functionality
+
+    # End of code addition by - Om Shrivastava  on 05-08-23
+    # Reason - To get list of rating for restaurant using backend pagination
+    
+# End of code addition by - Om Shrivastava  on 05-08-23
+# Reason - API to get list of rating for restaurant 

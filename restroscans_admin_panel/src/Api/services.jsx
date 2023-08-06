@@ -766,3 +766,37 @@ export const getRestaurantRatingReviewList = async (tenant,filteringCriteria) =>
  * End of code addition by Om Shrivastava on 24-07-2023.
  * Reason - To get rating and review list of tenant.
  */ 
+
+/**
+ * Added by - Om Shrivastava on 24-07-2023
+ * Reason - To get offer/banner count for restaurant
+ */
+export const getOfferBannerCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/offer-banner-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/** 
+ * Ent of code adition by - Om Shrivastava on 24-07-2023
+ * Reason - To get offer/banner count for restaurant
+ */
+ 
+/**
+ * Added by - Om Shrivastava on 05-08-23
+ * Reason - To get offer/banner banner list
+ */
+export const getOfferBannerList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/offer-banner-list/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Om Shrivastava on 05-08-23.
+ * Reason - To get offer/banner banner list
+ */ 

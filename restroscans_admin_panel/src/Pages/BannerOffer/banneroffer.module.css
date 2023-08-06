@@ -29,7 +29,7 @@
 .offerFormDiv{
 /* width: 30%; */
 width: 29%;
-
+margin-top: 1%;
 display: none;
 /* border: 2px solid red; */
 }
@@ -207,7 +207,8 @@ border: #1f2937;
 .OfferListcontainer {
   width: 100%;
   background-color: white;
-  /* height: 86.5vh; */
+  /* height: 86.5vh;
+  overflow: scroll; */
   /* overflow-y: scroll; */
 }
 
@@ -317,7 +318,10 @@ Add css for pagination and all offer list data */
   min-width: 7%;
   width: 8%
 }
-
+.responsiveDiscountWidth{
+  min-width: 7vw;
+  width: 8%;
+}
 
 .itemImage{
     width:45px;
@@ -457,9 +461,27 @@ Add css for pagination and all offer list data */
 
 @media screen and (max-width: 4000px) {
   .OfferListcontainer {
-    --common-column-width: 10vw;
+    /* --common-column-width: 10vw;
     --common-column-min-width: 10vw;
+    --common-column-display: unset; */
+
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
     --common-column-display: unset;
+
+    --common-column-small-width : 13%;
+    --common-column-small-min-width : 100px;
+
+    --common-column-medium-width : 25%;
+    --common-column-medium-min-width : 180px;
+
+    --common-column-large-width : 12%;
+    --common-column-large-min-width : 120px;
+
+
+  
   }
   .container {
     --common-column-width: 15%;
@@ -757,6 +779,7 @@ Add css for pagination and all offer list data */
     width: 17vw;
     min-width: 18vw;
     }
+    
 }
 
 
