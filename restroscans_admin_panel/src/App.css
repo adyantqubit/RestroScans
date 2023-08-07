@@ -96,6 +96,13 @@ body {
 	/* border: 1px solid white; */
 }
 
+/* Added by Yuvraj Sahu on 07-08-2023
+Reason - to design date border */
+.react-date-picker__wrapper{
+  border-radius: 5px !important;
+}
+/* End of addition by Yuvraj Sahu on 07-08-2023 */
+
 
 /* Added by Rohan Kansari - 14/5/23 
    Reason- Input box drop file css changes  */

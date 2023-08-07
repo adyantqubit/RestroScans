@@ -2199,6 +2199,11 @@ class UpdateAllOrderStatus(APIView):
             # End of addition by yuvraj sahu on 29-06-2023
                 if request.data["order_status"] == "Confirm":
                     OrderItem.objects.filter(order_id__order_id=data['order_id'], item_status="Pending").update(item_status="Confirm")
+                # Added by Yuvraj Sahu on 07-08-2023
+                # Reason - to update the cancel the order items
+                if request.data["order_status"] == "Cancelled":
+                    OrderItem.objects.filter(order_id__order_id=data['order_id']).update(item_status="Cancelled")
+                # End of addition by Yuvraj Sahu on 07-08-2023
             
             Order.objects.filter(order_id = data['order_id']).update(order_status=data["order_status"],payment_status=data['payment_status'])
           
@@ -3112,6 +3117,12 @@ class OrderAPI(APIView):
         # if columnToSort == "is_active" and columnSortingOrder=="":
         #     orderList=Order.objects.all()
 
+        # Added by Yuvraj Sahu on 07-08-2023
+        # Reason - to filter the order list when start date and end will come
+        if request.data['startDate'] != None and request.data['endDate'] != None :
+            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        # end of addition by Yuvraj Sahu on 07-08-2023
+
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderList = orderList.order_by('order_id')
         if columnToSort == "order_id" and columnSortingOrder=="descending":
@@ -3558,6 +3569,13 @@ class GetAllOrderItemAPI(APIView):
 
             # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
             # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
+
+        # Added by Yuvraj Sahu on 07-08-2023
+        # Reason - to filter the order item list when start date and end will come
+        if "startDate" and "endDate" in request.data :
+        # if request.data['startDate'] != None and request.data['endDate'] != None :
+            orderItemList = OrderItem.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        # end of addition by Yuvraj Sahu on 07-08-2023
 
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderItemList = orderItemList.order_by('order_id__order_id')
