@@ -257,7 +257,7 @@ export function PrintKot(order_detail,order_item,restroDetail,gstFssai) {
     </div>
     </body>
     </html>`)
-    a.document.open();
+    a.document.close();
 
     if (kotData.orderItem.filter(e=>e.item_status!="Cancelled").length > 0)
         a.print();
