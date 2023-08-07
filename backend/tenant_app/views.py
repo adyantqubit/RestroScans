@@ -3119,7 +3119,8 @@ class OrderAPI(APIView):
 
         # Added by Yuvraj Sahu on 07-08-2023
         # Reason - to filter the order list when start date and end will come
-        if request.data['startDate'] != None and request.data['endDate'] != None :
+        # if request.data['startDate'] != None and request.data['endDate'] != None :
+        if "startDate" and "endDate" in request.data :
             orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
         # end of addition by Yuvraj Sahu on 07-08-2023
 

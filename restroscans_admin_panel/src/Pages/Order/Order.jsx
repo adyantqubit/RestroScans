@@ -200,12 +200,18 @@ const Order = () => {
        * Added by Yuvraj Sahu on 07-08-2023
        * Reason - to filter the order using date wise
        */
-      startDate: fromDate,
-      endDate: toDate
+      // startDate: fromDate,
+      // endDate: toDate
       /**
        * End of addition by Yuvraj Sahu on 07-08-2023
        */
     };
+
+    if (fromDate != null && toDate != null) {
+      filteringCriteria["startDate"] = fromDate;
+      filteringCriteria["endDate"] = toDate
+    }
+
     var response = await getOrdersApi(tenant, filteringCriteria);
     setOrders(response.orderList);
     // console.log(orders)
