@@ -830,3 +830,15 @@ export const postOfferBannerDetails = async (tenant,values) => {
  * End of code addition by - Om Shrivastava on 06-08-23.
  * Reason - To update item details
  */
+
+// added by Rohan kansari - 7/8/23 
+// Reason - To post newly created order
+export const postCustomerDetails = async(formdata,tenantId) => {
+ 
+    const response = await API.post(`api/v1/${tenantId}/customer-details/`,formdata,
+    {headers : {'Content-Type':'application/json'}}).catch(
+        err => console.log(err))
+    return response ? response.data: {}
+  }
+
+// End of code - Rohan kansari - 7/8/23
