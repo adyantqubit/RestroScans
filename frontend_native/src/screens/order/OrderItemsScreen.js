@@ -3841,11 +3841,16 @@ const printKot = async()=>{
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
                   margin: 3,
-                  padding: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Placed" ? 7 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Placed" ? 2 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Placed" ? 10 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Placed" ? "#000" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,
@@ -3883,11 +3888,16 @@ const printKot = async()=>{
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
                   margin: 3,
-                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Confirm" ? 7 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Confirm" ? 2 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Confirm" ? 10 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Confirm" ? "#000" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,
@@ -3925,11 +3935,16 @@ const printKot = async()=>{
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
                   margin: 3,
-                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Cooked" ? 7 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Cooked" ? 2 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Cooked" ? 10 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Cooked" ? "#000" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,
@@ -3967,11 +3982,16 @@ const printKot = async()=>{
                   paddingHorizontal: 5,
                   // marginHorizontal: 3,
                   margin: 3,
-                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Served" ? 7 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Served" ? 2 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : orderStatusSelected == "Served" ? 10 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : orderStatusSelected == "Served" ? "#000" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,
@@ -4011,11 +4031,16 @@ const printKot = async()=>{
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
                   margin: 3,
-                  padding: orderStatusSelected == "Cancelled" ? 7 : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected == "Cancelled" ? 2 : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected == "Cancelled" ? 10 : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? 0 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected == "Cancelled" ? "#000" : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? "#fff" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,
@@ -4300,11 +4325,16 @@ const printKot = async()=>{
                   // width: "35%",
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
-                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? 0 : paymentStatusSelected == "Pending" ? 7 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? 0 : paymentStatusSelected == "Pending" ? 2 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? 0 : paymentStatusSelected == "Pending" ? 10 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? "#fff" : paymentStatusSelected == "Pending" ? "#000" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,
@@ -4347,10 +4377,12 @@ const printKot = async()=>{
                   // width: "35%",
                   paddingHorizontal: 10,
                   marginHorizontal: 3,
-                  padding: 7,
+                  padding: 10,
+                  borderWidth: 2,
+                  borderColor: "#800080",
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
                   shadowColor: "#000",
                   shadowOpacity: 0.25,
@@ -4391,11 +4423,16 @@ const printKot = async()=>{
                   // width: "35%",
                   paddingHorizontal: 5,
                   marginHorizontal: 3,
-                  padding: orderStatusSelected == "Cancelled" ? 0 : paymentStatusSelected == "Completed" ? 7 : 0,
+                  // Added and modified by yuvraj Sahu on 09-08-2023
+                  // Reason - to design active button
+                  borderWidth: orderStatusSelected == "Cancelled" ? 0 : paymentStatusSelected == "Completed" ? 2 : 0,
+                  borderColor: "#800080",
+                  padding: orderStatusSelected == "Cancelled" ? 0 : paymentStatusSelected == "Completed" ? 10 : 0,
                   shadowOffset: {
-                    width: 5,
-                    height: 10,
+                    width: 10,
+                    height: 20,
                   },
+                  // End of modification by yuvraj Sahu on 09-08-2023
                   shadowColor: orderStatusSelected == "Cancelled" ? "#fff" : paymentStatusSelected == "Completed" ? "#000" : "#fff",
                   shadowOpacity: 0.25,
                   shadowRadius: 4,

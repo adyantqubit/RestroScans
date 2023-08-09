@@ -357,11 +357,14 @@
 // Added by Yuvraj Sahu on 03-08-2023
 // Reason - to design order and payment status button
 .payment-btn-right {
-  @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 6em, 2em, right);
+  // Modified by yuvraj Sahu on 09-08-2023
+  // Reason - to change the color
+  @include arrow-button(#d4d4d4, #6d8279, #e0e0e0, 22px, 6em, 2em, right);
 }
 .order-btn-right {
-  @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 5em, 2em, right);
+  @include arrow-button(#d4d4d4, #6d8279, #e0e0e0, 22px, 5em, 2em, right);
 }
+  // End of modification by yuvraj Sahu on 09-08-2023
 // End of addition by Yuvraj Sahu on 03-08-2023
 
 .activeStatusBtn{

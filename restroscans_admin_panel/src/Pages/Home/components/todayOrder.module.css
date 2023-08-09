@@ -590,10 +590,13 @@
     justify-content: center;
     /* text-align: center; */
     align-items: center;
-    width: 90px;
+    /* Modified by yuvraj Sahu on 09-08-2023
+    Reason - to change the width of calcel button */
+    /* width: 90px; */
+    min-width: 90px;
+    /* End of modification by Yuvraj Sahu on 09-08-2023 */
     transition: all .3s;
     height: 30px;
-
 }
 
 .order-btn-design{
@@ -818,6 +821,7 @@ input[type="radio"]:checked+.tabLabel {
 .updateflexContainer {
     display: flex;
     gap: 15px;
+    align-items: center;
 }
 
 .checkbox {
@@ -1083,6 +1087,14 @@ input[type="radio"]:checked+.tabLabel {
 
 /* added by - Suman sahu On 15-06-2023 */
 @media screen and (max-width:500px) {
+
+    /* Added by Yuvraj Sahu on 09-08-2023
+    Reason - to design a order button */
+    .statusBtnDesign{
+        margin-bottom: 6px;
+    }
+    /* End of addition by Yuvraj Sahu on 09-08-2023 */
+
     .title {
         width: auto;
     }

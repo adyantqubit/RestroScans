@@ -1983,7 +1983,9 @@ const TodayOrder = (props) => {
                             <div className={style.orderStatusArrowBtnContainerDashboard}>
                                 {/* Modified by Yuvraj Sahu on 03-08-2023
                                 Reason - to design a button  */}
-                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                {/* Modified by Yuvraj Sahu on 09-08-2023
+                                Reason - to design button */}
+                                <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Placed", paymentStatus, selectedOrderData.order_detail))
                                             updateAll({
@@ -1991,13 +1993,13 @@ const TodayOrder = (props) => {
                                             })
                                     }
                                     }
-                                    style={{opacity : 0.5}}
+                                    style={{opacity : 0.4}}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
                                     disabled ={true}
                                     // End of addition by yuvraj Sahu on 03-08-2023
                                     ><a href="#">Placed</a></button></p>
-                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         updateAll({
                                             "order_status": "Confirm"
@@ -2014,11 +2016,11 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
                                     disabled ={checkedItems.length > 0 ? false : true}
                                     // End of addition by yuvraj Sahu on 03-08-2023
                                     ><a href="#">Confirm</a></button></p>
-                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail))
                                             updateAll({
@@ -2027,11 +2029,11 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
                                     disabled ={checkedItems.length > 0 ? false : true}
                                     // End of addition by yuvraj Sahu on 03-08-2023
                                     ><a href="#">Cooked</a></button></p>
-                                <p style={{paddingBottom: "8px"}}><button className={`order-btn-right`}
+                                <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail))
                                             updateAll({
@@ -2040,7 +2042,7 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
                                     disabled ={checkedItems.length > 0 ? false : true}
                                     // End of addition by yuvraj Sahu on 03-08-2023
                                     ><a href="#">Served</a></button></p>
@@ -2097,7 +2099,7 @@ const TodayOrder = (props) => {
                         </Radio.Group> */}
                         <div className={style.updateAllOrderstatusBtnContainer} >
                             <div className={style.orderStatusArrowBtnContainerDashboard}>
-                                <p style={{paddingBottom: "8px"}}><button className={`payment-btn-right`}
+                                <p className={style.statusBtnDesign}><button className={`payment-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
                                             updateAll({
@@ -2106,12 +2108,12 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
                                     disabled ={checkedItems.length > 0 ? false : true}
                                     // End of addition by yuvraj Sahu on 03-08-2023
                                 ><a href="#"
                                 >Pending</a></button></p>
-                                <p style={{paddingBottom: "8px"}}><button className={`payment-btn-right`}
+                                <p className={style.statusBtnDesign}><button className={`payment-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
                                             updateAll({
@@ -2120,10 +2122,11 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.5}}
+                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
                                     disabled ={checkedItems.length > 0 ? false : true}
                                     // End of addition by yuvraj Sahu on 03-08-2023
                                     ><a href="#">Completed</a></button></p>
+                                    {/* End of modification by Yuvraj Sahu on 09-08-2023 */}
                             </div>
                         </div>
                         {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
@@ -2139,7 +2142,7 @@ const TodayOrder = (props) => {
                 {/* Added by Yuvraj Sahu on 03-08-2023
                 Reason - to cancel the order */}
                 <div className={style.updateflexContainer}>
-                    <div className={style.statusLable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order</div>
+                    {/* <div className={style.statusLable} style={{ fontWeight: "500", marginLeft: "20px" }}>Order</div> */}
                     <div className={style.selctedContentBox} >
                         {/* <div className={style.updateAllOrderstatusBtnContainer} >
                             <div className={style.orderStatusArrowBtnContainerDashboard}>
@@ -2184,7 +2187,7 @@ const TodayOrder = (props) => {
                             style={{opacity : checkedItems.length > 0 ? 1 : 0.3}}
                             disabled ={checkedItems.length > 0 ? false : true}
                             // End of addition by yuvraj Sahu on 03-08-2023
-                            >Cancel</button>
+                            >Order cancel</button>
                         {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
 
                         {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>

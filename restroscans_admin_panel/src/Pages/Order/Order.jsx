@@ -208,8 +208,11 @@ const Order = () => {
     };
 
     if (fromDate != null && toDate != null) {
+      let copyToDate = new Date(toDate)
+      copyToDate.setDate(copyToDate.getDate() + 1)
+      
       filteringCriteria["startDate"] = fromDate;
-      filteringCriteria["endDate"] = toDate
+      filteringCriteria["endDate"] = copyToDate
     }
 
     var response = await getOrdersApi(tenant, filteringCriteria);
