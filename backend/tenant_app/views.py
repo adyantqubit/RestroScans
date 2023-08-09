@@ -2199,6 +2199,11 @@ class UpdateAllOrderStatus(APIView):
             # End of addition by yuvraj sahu on 29-06-2023
                 if request.data["order_status"] == "Confirm":
                     OrderItem.objects.filter(order_id__order_id=data['order_id'], item_status="Pending").update(item_status="Confirm")
+                # Added by Yuvraj Sahu on 07-08-2023
+                # Reason - to update the cancel the order items
+                if request.data["order_status"] == "Cancelled":
+                    OrderItem.objects.filter(order_id__order_id=data['order_id']).update(item_status="Cancelled")
+                # End of addition by Yuvraj Sahu on 07-08-2023
             
             Order.objects.filter(order_id = data['order_id']).update(order_status=data["order_status"],payment_status=data['payment_status'])
           
@@ -3112,6 +3117,13 @@ class OrderAPI(APIView):
         # if columnToSort == "is_active" and columnSortingOrder=="":
         #     orderList=Order.objects.all()
 
+        # Added by Yuvraj Sahu on 07-08-2023
+        # Reason - to filter the order list when start date and end will come
+        # if request.data['startDate'] != None and request.data['endDate'] != None :
+        if "startDate" and "endDate" in request.data :
+            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        # end of addition by Yuvraj Sahu on 07-08-2023
+
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderList = orderList.order_by('order_id')
         if columnToSort == "order_id" and columnSortingOrder=="descending":
@@ -3559,6 +3571,13 @@ class GetAllOrderItemAPI(APIView):
             # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
             # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
 
+        # Added by Yuvraj Sahu on 07-08-2023
+        # Reason - to filter the order item list when start date and end will come
+        if "startDate" and "endDate" in request.data :
+        # if request.data['startDate'] != None and request.data['endDate'] != None :
+            orderItemList = OrderItem.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        # end of addition by Yuvraj Sahu on 07-08-2023
+
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderItemList = orderItemList.order_by('order_id__order_id')
         if columnToSort == "order_id" and columnSortingOrder=="descending":
@@ -3902,3 +3921,110 @@ class OfferBannerAPI(APIView):
     
 # End of code addition by - Om Shrivastava  on 05-08-23
 # Reason - API to get list of rating for restaurant 
+
+# Added by Om Shrivastava on 06-08-23
+# Reason - to save, delete and edit the offer/banner details
+class BannerOfferAPIView(APIView):
+
+    logger=logging.getLogger("custom_logger")
+    def get(self,request,tenant,offerId):
+        self.logger.info(request.data)
+        if offerId:
+            offer=Offer.objects.get(id=offerId)
+        else:
+            offer= None
+
+        if offer:
+            offerSerializer=OfferBannerSerializer(offer)
+            offerData=offerSerializer.data
+        else:
+            offerData={}  
+       
+        return Response({"msg":"success","offer":offerData})
+   
+    # def post(self,request,tenant):
+    #     serializedData = OfferBannerSerializer(data=request.data)
+    #     if serializedData.is_valid():
+    #         serializedData.save()
+    #         offerList= Offer.objects.all().order_by("-id")
+    #         offerListSerailizer = OfferBannerSerializer(offerList,many=True)
+    #         # return Response({"msg": "Banner/Offer Added Successfully"}, status=status.HTTP_201_CREATED)
+    #         return Response({
+    #         "msg":"Saved Successfully",
+    #         "offerBannerList":offerListSerailizer.data
+    #         },200)
+    #     return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def post(self,request,tenant):
+        if "id" in request.data :
+            obj = Offer.objects.get(id=request.data["id"])
+            offerBannerSave = OfferBannerSerializer(obj, data=request.data,partial=True)
+        else :
+            offerBannerSave = OfferBannerSerializer(data=request.data)
+        if offerBannerSave.is_valid():
+            offerBannerSave.save()
+        
+            # allOfferBanner = Offer.objects.all().order_by('-id')
+            # offerSerializer=OfferBannerSerializer(allOfferBanner, many=True)
+        
+            return Response({"msg": "Saved Successfully","data":offerBannerSave.data }, status=status.HTTP_201_CREATED)
+        return Response({"error": offerBannerSave.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Added by Om on 06-08-2023
+    # Reason - to update offer name
+    def put(self,request,tenant):
+        item = Offer.objects.get(id=request.data["id"])
+        offerSerializer = OfferBannerSerializer(item, data=request.data,partial=True)
+        if offerSerializer.is_valid():
+            offerSerializer.save()
+            itemList=Offer.objects.all().order_by("-id")
+            itemListSerializer=OfferBannerSerializer(itemList,many=True)
+            return Response({
+            "msg":"Saved Successfully",
+            "offerBannerList":itemListSerializer.data
+            })
+        return Response({"error": offerSerializer.errors}, status=200)
+
+    # def put(self, request,tenant, pk):
+    #     id = pk
+    #     print("update method",request.data)
+    #     offerBanner=Offer.objects.all()
+    #     offerbannerSerializer=OfferBannerSerializer(offerBanner,many=True)
+    #     offerItemList=OfferItem.objects.filter(item_name__is_active=True, item_name__category__is_active=True,item_name__category__menu__is_active=True)
+    #     offeritemsSerializer=OfferItemsSerializer(offerItemList,many=True)
+        
+    #     offerObj = Offer.objects.get(id = id)
+    #     serializedData = OfferBannerSerializer(offerObj, data=request.data)
+    #     if serializedData.is_valid(raise_exception=True):
+    #         serializedData.save()
+    #         return Response({
+    #             "msg": "Updated Successfully",
+    #             "offerBanner": offerbannerSerializer.data,
+    #             "offerItemList": offeritemsSerializer.data,
+    #         })
+    #     return Response({"error": "Something Went Wrong"}, status=status.HTTP_400_BAD_REQUEST)
+    # End of addition
+    def put(self,request,tenant):
+        item = Item.objects.get(id=request.data["id"])
+        itemSerializer = ItemSerializer(item, data=request.data,partial=True)
+        if itemSerializer.is_valid():
+            itemSerializer.save()
+            itemList=Item.objects.all().order_by("-id")
+            itemListSerializer=ItemListSerializer(itemList,many=True)
+            return Response({
+            "msg":"Saved Successfully",
+            "itemList":itemListSerializer.data
+            })
+        return Response({"error": itemSerializer.errors}, status=200)
+
+
+    def delete(self, request,tenant, pk):
+        id = pk
+        category = Offer.objects.get(id=id)
+        if category :
+            category.delete()
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
+
+# End of addition by Om Shrivastava on 06-08-23
+# Reason - to save, delete and edit the offer/banner details

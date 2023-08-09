@@ -781,7 +781,10 @@ function EditItemForm() {
                   type="text"
                   name="description"
                   value={description}
-                  style={{ width: "200px" }}
+                  // modified by yuvraj Sahu on 07-08-2023
+                  // Reason - to design input box
+                  style={{ width: "200px", resize: "none", height: "100px" }}
+                  // end of modification by yuvraj Sahu on 07-08-2023
                   onChange={(e) => {
                     setDescription(e.target.value.toString());
                     validateOnInput("description", e.target.value.toString());
@@ -789,7 +792,11 @@ function EditItemForm() {
                   onBlur={(e) =>
                     validateOnBlur("description", e.target.value.toString())
                   }
-                  maxLength={30}
+                  // Modified by Yuvraj Sahu on 07-08-2023
+                  // Reason - to increase the maxLength
+                  // maxLength={30}
+                  maxLength={500}
+                  // end of modification by yuvraj Sahu on 07-08-2023
                 />
               </div>
               <div className={`${style.inputErrorArea}`}>

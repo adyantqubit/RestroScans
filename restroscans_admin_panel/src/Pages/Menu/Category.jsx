@@ -200,7 +200,7 @@ const Category = () => {
 
   /**
    * Added by - Yuvraj Sahu on 16-06-2023
-   * Reason - Method that will open edit menu form of selected category
+   * Reason - Method that will open edit category form of selected category
    */
   const openCategoryDetails = (id) => {
     /**

@@ -129,6 +129,56 @@
     min-width: var(--common-column-medium-min-width);
 }
 
+/* Added by Yuvraj Sahu on 07-08-2023
+Reason - to design date filter */
+.dateFilterContainer{
+  display: flex;
+  width: 70%;
+  margin: auto;
+  justify-content: center;
+  margin-top: 5px;
+}
+.dateContainer{
+  display: flex;
+}
+.filterButtonSpace{
+  /* padding: 0px 5px 0px 5px; */
+  min-width: 70px;
+  height: 30px;
+  padding: 4px 8px;
+  margin: 0 10px;
+  background-color: rgb(88, 146, 88);
+  border-radius: 5px;
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  /* margin: auto 0; */
+}
+.datepicker1{
+  padding: 0px 5px 0px 5px;
+}
+.filterButtonContainer{
+  /* min-width: 70px;
+  height: 30px;
+  padding: 4px 8px;
+  margin: 0 20px;
+  background-color: rgb(88, 146, 88);
+  border-radius: 5px;
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin: auto 0; */
+}
+.dateValidation{
+  color: red;
+  padding: 0px 10px;
+}
+/* End of addition by Yuvraj Sahu on 07-08-2023 */
+
 .menuImage{
     width:45px;
     height:45px;
@@ -327,6 +377,24 @@
 }
 
 @media screen and (max-width: 950px) {
+
+  /* Added by Yuvraj Sahu on 07-08-2023
+  Reason - to design a date filter container in responsive */
+  .dateFilterContainer{
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .filterButtonContainer{
+    margin: auto;
+    margin-top: 5px;
+  }
+
+  .dateValidationContainer{
+    margin: auto;
+  }
+  /* End of addition by Yuvraj Sahu on 07-08-2023 */
+
   .container {
     /* commented and modified by - Om Shrivastava on 15-06-23
        Reason - To make width responsive */

@@ -30,12 +30,16 @@
 /* width: 30%; */
 width: 29%;
 margin-top: 1%;
-display: none;
+/* display: none; */
 /* border: 2px solid red; */
 }
 .offerFormListDiv{
 width: 70%;
 border: #1f2937;
+}
+.offerFormListFullDiv{
+  width: 90%;
+  border: #1f2937;
 }
 .offerFormContainer {
   width: 100%;
@@ -64,18 +68,19 @@ border: #1f2937;
   padding: 3px;
   border-radius: 10px;
   /* border: 2px solid #9c9c9c; */
-  background-color: white;
+  background-color: #e6f0f0;
+
   /* width: fit-content; */
   margin: auto auto;
   margin-bottom: 20px;
   /* padding: 20px 80px; */
   /* box-shadow:
       var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25)); */
-  box-shadow: 5px 10px #888888;    
+  /* box-shadow: 5px 10px #888888;     */
   
 }
 .sectionInsideForm{
-    background-color: #e6f0f0;
+    /* background-color: #e6f0f0; */
     padding: 10px;
     border-radius: 5px;
     /* box-shadow:
@@ -116,6 +121,14 @@ border: #1f2937;
   padding: 2px;
   background-color: white;
 }
+.textInputBoxImage{
+  width: 280px;
+  border: 1px solid black;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 2px;
+  background-color: white;
+}
 
 .menuImageContainer{
   width: 200px;
@@ -126,7 +139,8 @@ border: #1f2937;
 }
 
 .inputErrorArea {
-  margin-left: 250px;
+  margin-left: 155px;
+  font-size: 14px;
   width: 200px;
   color: red;
   display: flex;
@@ -307,12 +321,13 @@ Add css for pagination and all offer list data */
 
 }
 .commonColumnTitle2{
-  /* min-width: 17vw;
-  width: 20vw; */
+  min-width: 17vw;
+  width: 20vw;
   /* min-width: 27vw;
   width: 33vw; */
-  min-width: 22vw;
-  width: 30vw;
+  /* min-width: 22vw;
+  width: 30vw; */
+  /* border: 1px solid black; */
 }
 .mediumColoumnWidth{
   min-width: 7%;
@@ -333,6 +348,7 @@ Add css for pagination and all offer list data */
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  
   margin-bottom: 20px;
   padding-bottom: 50px;
 }
@@ -350,6 +366,20 @@ Add css for pagination and all offer list data */
   cursor: pointer;
   background-color: #1f871b;
 }
+.primaryDisabledButton {
+  background-color: #cbd6cb;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: all 0.3s;
+  width: fit-content;
+  cursor: not-allowed;
+}
+
+/* .primaryDisabledButton:hover {
+  cursor: pointer;
+  background-color: #cbd6cb;
+} */
 
 .secondaryButton {
   background-color: red;
@@ -461,14 +491,13 @@ Add css for pagination and all offer list data */
 
 @media screen and (max-width: 4000px) {
   .OfferListcontainer {
-    /* --common-column-width: 10vw;
+    --common-column-width: 10vw;
     --common-column-min-width: 10vw;
-    --common-column-display: unset; */
+    --common-column-display: unset;
 
-    --common-column-width: 15vw;
+    /* --common-column-width: 15vw;
     --common-column-min-width: 15vw;
-    /* End of code modification by - Om Shrivastava on 15-06-23
-       Reason - To make width responsive */
+   
     --common-column-display: unset;
 
     --common-column-small-width : 13%;
@@ -478,7 +507,7 @@ Add css for pagination and all offer list data */
     --common-column-medium-min-width : 180px;
 
     --common-column-large-width : 12%;
-    --common-column-large-min-width : 120px;
+    --common-column-large-min-width : 120px; */
 
 
   
@@ -499,12 +528,15 @@ Add css for pagination and all offer list data */
     height: auto;
   }
 .ContainerDiv{
-  border: 2px solid aqua;
+  /* border: 2px solid aqua; */
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: auto;
   height: auto;
+}
+.inputErrorArea{
+  margin-left: 250px;
 }
 
 .offerFormListDiv{
@@ -565,6 +597,9 @@ Add css for pagination and all offer list data */
   .textInputBox {
     width: 200px;
   }
+  .textInputBoxImage{
+    width: 200px;
+  }
   .inputErrorArea {
     margin-left: 250px;
     width: 200px;
@@ -596,7 +631,7 @@ Add css for pagination and all offer list data */
   }
 
   .paginationContainer{
-    padding-bottom: 100px;
+    padding-bottom: 20px;
   }
   .container {
     --common-column-width: 15%;
@@ -611,6 +646,9 @@ Add css for pagination and all offer list data */
     width: 300px;
   }
   .textInputBox {
+    width: 200px;
+  }
+  .textInputBoxImage{
     width: 200px;
   }
   .inputErrorArea {
@@ -665,6 +703,9 @@ Add css for pagination and all offer list data */
   .textInputBox {
     width: 200px;
   }
+  .textInputBoxImage{
+    width: 200px;
+  }
   .inputErrorArea {
     margin-left: 250px;
     width: 200px;
@@ -686,6 +727,10 @@ Add css for pagination and all offer list data */
   .textInputBox {
     align-self: flex-start;
     width: 100%;
+  }
+  .textInputBoxImage{
+    align-self: flex-start;
+    width: 45%;
   }
   .inputErrorArea {
     margin-left: 0px;
@@ -722,6 +767,17 @@ Add css for pagination and all offer list data */
   }
 }
 @media screen and (max-width: 500px) {
+  .tableContainer{
+    width: 170vw;
+    /* min-width: 65vw; */
+  }
+  .commonColumnTitle2{
+    /* width: 45vw; */
+    width: 25vw;
+    min-width: 38vw;
+  }
+ 
+  
   .OfferListcontainer {
     --common-column-width: 20vw;
     --common-column-min-width: 20vw;
@@ -750,6 +806,10 @@ Add css for pagination and all offer list data */
   .textInputBox {
     align-self: flex-start;
     width: 100%;
+  }
+  .textInputBoxImage {
+    align-self: flex-start;
+    width: 67%;
   }
   .proceedButton,.cancelButton,.backButton{
     width:90px;
@@ -799,6 +859,10 @@ Add css for pagination and all offer list data */
   .textInputBox {
     align-self: flex-start;
     width: 100%;
+  }
+  .textInputBoxImage {
+    align-self: flex-start;
+    width: 75%;
   }
   .inputErrorArea {
     margin-left: 0px;

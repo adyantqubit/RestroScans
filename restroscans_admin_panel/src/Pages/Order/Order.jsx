@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import style from "./order.module.css";
 import Header from "../GlobalComponent/Header";
 import { Pagination } from "antd";
-import { getDashboardData, getOrderCount, getOrderItemCountApi, getOrderItemDataShowApi, getOrderItemsApi, getOrdersApi } from "../../Api/services";
+import { OrderFilterQueryAPI, getDashboardData, getOrderCount, getOrderItemCountApi, getOrderItemDataShowApi, getOrderItemsApi, getOrdersApi } from "../../Api/services";
 import {
   BsSortAlphaDownAlt,
   BsSortAlphaDown,
@@ -23,8 +23,40 @@ import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
 import PrintBill from "../Home/components/PrintBill";
 import { PrintKot } from "../Home/components/PrintKot";
+import DatePicker from 'react-date-picker';
+import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
+
 
 const Order = () => {
+
+  /**
+   * Added by Yuvraj Sahu on 04-08-2023
+   * Reason - to set the date for filter the order list
+   */
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  /**
+   * End of addition by Yuvraj Sahu on 04-08-2023
+   */
+
+  /**
+   * Added by yuvraj Sahu on 07-08-2023
+   * Reason - to set the allow filter permission
+   */
+  const [allowFilter, setAllowFilter] = useState(false)
+  /**
+   * End of addition by Yuvraj Sahu on 07-08-2023
+   */
+
+  
+  /**
+   * Added by Yuvraj Sahu on 07-08-2023
+   * Reason - to show validation message of filter date
+   */
+  const [dateValidation, setDateValidation] = useState(false)
+  /**
+   * End of addition by Yuvraj Sahu on 07-08-2023
+   */
 
   const navigate = useNavigate();
 
@@ -99,6 +131,7 @@ const Order = () => {
    *  this method will call order list api
    */
 
+
   useEffect(() => {
     allOrders();
      //Added by ROhan KAnsari - 22/6/23
@@ -106,7 +139,12 @@ const Order = () => {
     localStorage.setItem("globalPageIndex", currentPage)
     
     // End of code - Rohan Kansari - 22/6/23
-  }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
+    // Commeted and modified by yuvraj Sahu on 07-08-2023
+    // Reason - to refresh the api component for api calling
+    // }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
+    setDateValidation(false)
+  }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage, allowFilter]);
+   // End of modificaion by Yuvraj Sahu on 07-08-2023
   /**
    
 
@@ -158,7 +196,22 @@ const Order = () => {
        * End of code modification and modified by - Om Shrivastava on 18-06-23
        * Reason - To trim search text before sending it to backend
        */
+      /**
+       * Added by Yuvraj Sahu on 07-08-2023
+       * Reason - to filter the order using date wise
+       */
+      // startDate: fromDate,
+      // endDate: toDate
+      /**
+       * End of addition by Yuvraj Sahu on 07-08-2023
+       */
     };
+
+    if (fromDate != null && toDate != null) {
+      filteringCriteria["startDate"] = fromDate;
+      filteringCriteria["endDate"] = toDate
+    }
+
     var response = await getOrdersApi(tenant, filteringCriteria);
     setOrders(response.orderList);
     // console.log(orders)
@@ -541,6 +594,43 @@ const Order = () => {
         a.close();
     }
 
+
+    /**
+     * Added by Yuvraj Sahu on 04-08-2023
+     * Reason - to filter the order by date
+     */
+    const handleFilterData = async() => {
+      if (fromDate == null || toDate == null){
+        setDateValidation(true)
+      } else {
+        setDateValidation(false)
+        setAllowFilter(!allowFilter)
+      }
+      // const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+      // const queryData = {
+      //   dateTo: toDate,
+      //   dateFrom: fromDate,
+      //   // amountSort: isAmountSort,
+      //   amountSort: true,
+      //   pageIndex: 1
+      // }
+      // console.log(queryData)
+      // await OrderFilterQueryAPI(tenant, queryData).then(r => {
+      //   // setOrder(r)
+      //   setOrders(r)
+      //   console.log(r)
+      // })
+    }
+
+    const handleClearFilter = () => {
+      setFromDate(null)
+      setToDate(null)
+      setAllowFilter(!allowFilter)
+    }
+    /**
+     * End of addition by Yuvraj Sahu on 04-08-2023
+     */
+
   return (
    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
@@ -570,6 +660,58 @@ const Order = () => {
                   }}
                 />
               </div>
+
+              {/* Added by Yuvraj Sahu on 04-08-2023
+              Reason - to design filter variable */}
+              {/* Modified by Yuvraj Sahu on 07-08-2023
+              Reason - to design and validation apply in date */}
+              <div className={style.dateFilterContainer}>
+                <div className={style.filterButtonContainer}>
+                  <div className={style.dateContainer}>
+                    <div className={style.datepicker1}>
+                      <DatePicker
+                        calendarClassName={style.calendar}
+                        className={style.dateInput}
+                        calendarIcon={<AiOutlineCalendar />}
+                        clearIcon={<AiOutlineClose />}
+                        onChange={setFromDate}
+                        // Added by yuvraj Sahu on 07-08-2023
+                        // Reason - to validate the date 
+                        value={fromDate}
+                        format="dd/MM/yyyy"
+                        maxDate={new Date()}
+                        // end of addition by yuvraj Sahu on 07-08-2023
+                      />
+                    </div>
+                    <div className={style.datepicker1}>
+                      <DatePicker
+                        calendarClassName={style.calendar}
+                        className={style.dateInput}
+                        calendarIcon={<AiOutlineCalendar />}
+                        clearIcon={<AiOutlineClose />}
+                        // onChange={setToDate}
+                        onChange={(value)=> {setToDate(value); setDateValidation(false);}}
+                        // Added by yuvraj Sahu on 07-08-2023
+                        // Reason - to validate the date 
+                        value={toDate}
+                        maxDate={new Date()}
+                        minDate={fromDate}
+                        disabled={fromDate != null ? false : true}
+                        format="dd/MM/yyyy"
+                        // end of addition by yuvraj Sahu on 07-08-2023
+                        />
+                      </div>
+                  </div>
+                <div className={style.dateValidation}>{dateValidation && "Please enter start and end date!"} </div>
+              </div>
+                <div className={style.filterButtonContainer}>
+                  <button onClick={handleFilterData} className={style.filterButtonSpace}>Filter</button>
+                  <button onClick={handleClearFilter} className={style.filterButtonSpace}>Clear filter</button>
+                </div>
+                {/* End of additin by Yuvraj Sahu on 07-08-2023 */}
+              </div>
+              {/* End of addition by Yuvraj Sahu on 04-08-2023 */}
+
         <div className={style.orderListSection} >
           <div className={style.tableContainer}>
             <div className={style.table}>
