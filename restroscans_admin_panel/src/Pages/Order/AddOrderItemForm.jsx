@@ -367,13 +367,13 @@ export default function AddOrderItemForm(orderId) {
         // Modification and addition by Om Shrivastava on 09-07-23
         // Reason : Set the validation for quantity
 
-            if (isNaN(quantitySelected)) {
+           
+            if (isNaN(quantitySelected) ) {
                 // Modification and addition by Om shrivastava on 16-07-23
                 // Reason : set the condition for validation in the field of quantity
                 // setquantityValidation("Quantity must be a number. ");
                 setquantityValidation("Please enter quantity. ");
                 // End of Modification and addition by Om shrivastava on 16-07-23
-
                 allowDataPost=false
                
             } else {
@@ -392,6 +392,13 @@ export default function AddOrderItemForm(orderId) {
                    
                 }
 
+            }
+
+            
+        // Modified by Rohan kansari - 6/8/23
+        // Reason - to manage only add new data and dont call backend save 
+            if(typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false){
+                allowDataPost=false
             }
             // End of addition by Om Shrivastava on 09-07-23
         
@@ -437,7 +444,27 @@ export default function AddOrderItemForm(orderId) {
             orderId.setOrderItems(response.orderItems);
         }
         else {
-            // Message("Please provide value for this field", "info");
+            // Added by Rohan kansari - 6/8/23
+            // Reason - to add data in orderitem list and it will not set backend
+            if(typeof orderId.setOrderItemList != "undefined"){
+                if(servingSizeData=="Half")
+                servingSizeData="Half Plate"
+                else
+                servingSizeData="Full Plate"
+                const data={
+                name: itemNameSelected,
+                id: itemIdSelected,
+                serve_size: servingSizeData,
+                quantity: parseInt(quantitySelected),
+                price:price
+                }
+                console.log(orderId.orderItemList)
+                orderId.modalvisibilityFn(false)
+                orderId.setOrderItemList([...orderId.orderItemList,data])
+
+            }
+
+            // End of code - ROhan kansari - 6/8/23 
         }
     }
 
@@ -452,6 +479,27 @@ export default function AddOrderItemForm(orderId) {
                     flexWrap: 'wrap'
                 }}>
                     <div className={`${style.sectionInsideForm}`}>
+                        {/* Modified by Rohan kansari - 7/8/23 
+                            Reason - If creating new order then their will be no need to show order id */}
+                            {/* <div className={`${style.inputContainer}`}>
+                            <div className={`${style.inputArea}`}>
+                                <div className={`${style.inputLabel}`}>Order Id</div>
+                                <input
+                                    className={`${style.textInputBox} ${style.disabledInputBox}`}
+                                    type="text"
+                                    name="order_id"
+                                    value={orderId.orderId}
+                                    disabled
+                                    maxLength={10}
+                                />
+                            </div>
+                            <div className={`${style.inputErrorArea}`}>
+                                 //{validationErrors.whatsapp_number} 
+                            </div>
+                        </div> */}
+                       {typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false
+                       ?
+                        null: 
                         <div className={`${style.inputContainer}`}>
                             <div className={`${style.inputArea}`}>
                                 <div className={`${style.inputLabel}`}>Order Id</div>
@@ -467,7 +515,8 @@ export default function AddOrderItemForm(orderId) {
                             <div className={`${style.inputErrorArea}`}>
                                 {/* {validationErrors.whatsapp_number} */}
                             </div>
-                        </div>
+                        </div>}
+                        {/* End of code - ROhan kansari - 7/8/23 */}
 
                         <div className={`${style.inputContainer}`}>
                             <div className={`${style.inputArea}`}>

@@ -89,7 +89,7 @@ function getStatusBtn(status) {
 
 // End of code - Rohan kansari - 29/6/23
 
-const TodayOrder = () => {
+const TodayOrder = (props) => {
 
     /**
      * Added by yuvraj Sahu on 28-06-2023
@@ -240,8 +240,8 @@ const TodayOrder = () => {
         if (JSON.parse(localStorage.getItem("tenantInfo"))?.tenant_name)
             // End of addition by Om Shrivastava on 02-06-23
             BackendCall()
-
-    }, [])
+    //    Added by ROhan kansari -Given dependency in useEffect to recall backend whenver needed
+    }, [props.recall])
 
 
     // this function is used to get all today's updated order from backend
@@ -2770,13 +2770,15 @@ const TodayOrder = () => {
                                             }><a href="#">Placed</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
-                                                UpdateOrderStatusDetail({
-                                                    "order_status": "Confirm"
-                                                })
+                                               
                                                 if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail)) {
                                                     PrintKot(selectedOrderData.order_detail
                                                         ,selectedOrderData.order_item.filter(e=>e.item_status!="Cancelled"&&e.kot_print_status==false)
                                                         ,restroDetail, gstFssai, settings)
+
+                                                        UpdateOrderStatusDetail({
+                                                            "order_status": "Confirm"
+                                                        })
                                                 }
                                             }}><a href="#">Confirm</a></button></p>
                                         <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
