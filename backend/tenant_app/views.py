@@ -594,7 +594,14 @@ def orderCreation(tenant, request):
     # Added by :- Parineeta gedam on 25-06-2023 reason :- if new item added by customer then order status will be placed.
     cartData['order_status'] = "Placed"
     # End of Added by :- Parineeta gedam on 25-06-2023 reason :- if new item added by customer then order status will be placed.
-
+    
+    # Added by Rohan kansari - 9/8/23
+    # Reason - To set payment mode if key is present
+    if request.data.get("payment_mode")!=None:
+        cartData['payment_mode']=request.data.get("payment_mode")
+    else :
+        pass    
+    # End of code - Rohan kansari - 9/8/23 -To set payment mode if key is present
     # Commented by :- Parineeta Gedam on 24-05-2023 
     # tax = Setting.objects.first()
 
@@ -843,6 +850,18 @@ def orderItemsCreation(request, order_obj):
 # ==================================================================================================================================
 
 
+# Added by ROahn kansari - 9/8/23
+# Reason - to validate today order 
+def validateTable(tabelNumber):
+    print("ldldl")
+    from django.utils.timezone import datetime
+    today=datetime.today().date()
+    totalOrders = Order.objects.filter(date__gte=today,payment_status="Pending").values("table_number")
+    for obj in totalOrders:
+        if(tabelNumber==obj["table_number"]):
+           return False
+    return True
+
 # Added by :- Parineeta Gedam
 # Date :- 06-04-2023
 # Reason : method for get data in frontend
@@ -877,6 +896,20 @@ class PostCustomerDetailsAPIView(APIView):
         # End of code addition by Ashish Dewangan for phone number save to FcmNotification on 30-04-2023
 
         # try :
+        # Added by Rohan kansari - 9/8/23
+        # Reason - To validate tabel number if validate_table key is present
+        try:
+            if request.data.get("validate_table")==True:
+              if validateTable(request.data.get("table_number")) == True:
+                 pass
+              else:
+                 return Response({"tabel_error":"Tabel number is already running"})   
+            else:
+              pass
+        except Exception as e:
+               pass
+        # End of code - Rohan kansari - 9/8/23-To validate tabel number if validate_table key is present
+        
         try:
             # Commented by :- Parineeta Gedam
             # Date :- 14-04-2023

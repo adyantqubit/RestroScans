@@ -52,8 +52,9 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
         }
     }
 
-    function removeItem(){
-        
+    function removeItem(index){
+        orderItemList.splice(index,1)
+        setOrderItemList([...orderItemList])
     }
 
 
@@ -98,6 +99,12 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
 
     const SubmitOrder=async ()=>{
 
+        if(table_number.length==0)
+        errorText.table_number="Table number should not be blank"
+
+        if(contact.length==0){
+            errorText.contact_number="Contact Number should not be blank";
+        }
         if(contact.length<10){
             errorText.contact_number="Contact Number should not be less than 10";
         }
@@ -121,17 +128,23 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
             email:email,
             name:name,
             table_number:table_number,
+            validate_table:true
         }
 
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
-        if(Object.keys(errorText).length==0 && orderItemList.length>0);
+        if(Object.keys(errorText).length==0 && orderItemList.length>0)
         await postCustomerDetails(formData, tenant).then(r=>{
-            Message("Succefully Created","success");
+            if(r.tabel_error){
+
+               Message("This tabel is not vacant","error");
+            }else{
+            Message("Successfully order created","success");
             setRecall([...[""]])
             clearData()
             setOrderPopupvisible(false)
+            }
         });
 
     }
@@ -230,7 +243,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
                     </div>
                     <div className={style.inputBox}>
                         <label className={style.inputLabel}>Payment Mode </label>
-                        <select defaultValue={payment} onChange={e=>setPayment(e)} className={style.inputfield} >
+                        <select defaultValue={payment} onChange={e=>setPayment(e.target.value)} className={style.inputfield} >
                             <option value={null}>*------*</option>
                             <option value="cash">Cash</option>
                             <option value="scanner">Scanner</option>
@@ -268,7 +281,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
                                     <div className={style.priceColumn}>{e.price}</div>
                                     <div className={style.action}>
                                         {/* <div className={style.resposivePrice}>340000</div> */}
-                                        <button className={style.removeBtn}><span className={style.responsiveBTNText}>Remove</span><span className={style.mobileBtnText}><AiOutlineDelete className={style.deletebtn} /></span></button>
+                                        <button className={style.removeBtn} onClick={e=>removeItem(i)}><span className={style.responsiveBTNText}>Remove</span><span className={style.mobileBtnText}><AiOutlineDelete className={style.deletebtn} /></span></button>
                                     </div>
                                 </div>
                             ) :
