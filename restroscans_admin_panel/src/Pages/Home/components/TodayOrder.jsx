@@ -178,7 +178,8 @@ const TodayOrder = (props) => {
     const [orderStatus, setOrderStatus] = useState(null);
     const [paymentStatus, setPaymemntStatus] = useState(null);
     const [paymentMode, setPaymentMode] = useState(null);
-    const [cancelledBy, setCancelledBy] = useState(null);
+    // Modified by Rohan kansari - 13/8/23 - giving default value admin
+    const [cancelledBy, setCancelledBy] = useState("Admin");
     const [cancelReaon, setCancelReason] = useState(null);
 
     const [discountRupee, setDiscountRupee] = useState(null);
@@ -240,7 +241,7 @@ const TodayOrder = (props) => {
         if (JSON.parse(localStorage.getItem("tenantInfo"))?.tenant_name)
             // End of addition by Om Shrivastava on 02-06-23
             BackendCall()
-    //    Added by ROhan kansari -Given dependency in useEffect to recall backend whenver needed
+        //    Added by ROhan kansari -Given dependency in useEffect to recall backend whenver needed
     }, [props.recall])
 
 
@@ -287,7 +288,7 @@ const TodayOrder = (props) => {
 
     // uses - This function is call at time of status change and it will allow to move 
     // step by step If not then it pass an error
-    function statusValidation(order_status, payment_status, m) {
+    function statusValidation(order_status, payment_status, m, msgEnable) {
         // Modified by ROhan Kansari - 26/5/23
         // Reason - To pass validion message if served is not done done payment want to completed by admin
 
@@ -307,39 +308,47 @@ const TodayOrder = (props) => {
         // Reason - To add cancel feature in status check
         // Changes by Rohan kansari - 28/6/23
         // Reason - admin can able to change cancle status in any time
-        if (m.order_status == "Placed" && (order_status == "Cooked" || order_status == "Served")) {
-            Message("Please first change order status to confirm ", "error")
+        if (m?.order_status == "Placed" && (order_status == "Cooked" || order_status == "Served")) {
+            if (msgEnable)
+                Message("Please first change order status to confirm ", "error")
             return false;
         }
 
-        else if (m.order_status == "Confirm" && (order_status == "Placed")) {
-            Message("You cant change order status confirm to placed", "error")
+        else if (m?.order_status == "Confirm" && (order_status == "Placed")) {
+            if (msgEnable)
+                Message("You cant change order status confirm to placed", "error")
             return false;
         }
 
-        else if (m.order_status == "Cooked" && (order_status == "Confirm" || order_status == "Placed")) {
-            Message(`You cant change order status cooked to ${order_status}`, "error")
+        else if (m?.order_status == "Cooked" && (order_status == "Confirm" || order_status == "Placed")) {
+            if (msgEnable)
+                Message(`You cant change order status cooked to ${order_status}`, "error")
             return false;
         }
-        else if (m.order_status == "Served" && (order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked")) {
-            Message(`You cant change order status served to ${order_status}`, "error")
+        else if (m?.order_status == "Served" && (order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked")) {
+            if (msgEnable)
+                Message(`You cant change order status served to ${order_status}`, "error")
             return false;
         }
-        else if (m.order_status == "Cancelled" && (order_status == "Pending" || order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked" || order_status == "Served")) {
-            Message(`You cant change order status cancel to ${order_status}`, "error")
+        else if (m?.order_status == "Cancelled" && (order_status == "Pending" || order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked" || order_status == "Served")) {
+            if (msgEnable)
+                Message(`You cant change order status cancel to ${order_status}`, "error")
             return false;
         }
-        else if (m.payment_status == "Completed" && (payment_status == "Pending")) {
-            Message(`You cant change payment status completed to ${payment_status}`, "error")
+        else if (m?.payment_status == "Completed" && (payment_status == "Pending")) {
+            if (msgEnable)
+                Message(`You cant change payment status completed to ${payment_status}`, "error")
             return false;
         }
-        else if ((m.payment_status == "Completed" || m.payment_status == "Paid") && (order_status == "Cancelled")) {
-            Message(`You can't cancel order if payment is ${payment_status}`, "error")
+        else if ((m?.payment_status == "Completed" || m?.payment_status == "Paid") && (order_status == "Cancelled")) {
+            if (msgEnable)
+                Message(`You can't cancel order if payment is ${payment_status}`, "error")
             return false;
         }
 
-        else if (m.order_status == "Cancelled" && (payment_status == "Completed")) {
-            Message(`You can't complete payment if order is ${order_status}`, "error")
+        else if (m?.order_status == "Cancelled" && (payment_status == "Completed")) {
+            if (msgEnable)
+                Message(`You can't complete payment if order is ${order_status}`, "error")
             return false;
         }
 
@@ -565,11 +574,11 @@ const TodayOrder = (props) => {
         }
         else {
             updatedStatus.current.value = []
-            var kotItems=selectedOrderData.order_item.filter((o)=>
-                    o.kot_print_status == false &&
-                    o.item_status=="Confirm"
+            var kotItems = selectedOrderData.order_item.filter((o) =>
+                o.kot_print_status == false &&
+                o.item_status == "Confirm"
             )
-            PrintKot(selectedOrderData.order_detail,kotItems,restroDetail, gstFssai, settings)
+            PrintKot(selectedOrderData.order_detail, kotItems, restroDetail, gstFssai, settings)
 
             // printKot(selectedOrderData.order_item.filter((o) => {
             //     if (o.kot_print_status == false &&
@@ -578,7 +587,7 @@ const TodayOrder = (props) => {
             //        return o;}
             // }
             // ))
-            
+
 
             updateStatus(filteredOrderItemList);
         }
@@ -776,10 +785,10 @@ const TodayOrder = (props) => {
         const data = {
             orders: checkedItems
         }
-        if ("order_status" in status){
+        if ("order_status" in status) {
             data["order_status"] = status.order_status
         }
-        if ("payment_status" in status){
+        if ("payment_status" in status) {
             data["payment_status"] = status.payment_status
         }
 
@@ -975,7 +984,7 @@ const TodayOrder = (props) => {
     //     a.document.write(`<html>
     //     <head>
     //     <style>
-        
+
     //     .container{
     //         width: 100%;
     //         height: auto;
@@ -1031,7 +1040,7 @@ const TodayOrder = (props) => {
     //         min-width:50%;
     //         display: flex;
     //     }
-        
+
     //     .label {
     //         min-width: 45%;
     //         font-size: 12px;
@@ -1049,7 +1058,7 @@ const TodayOrder = (props) => {
     //         white-space: nowrap;
     //         display: flex;
     //     }
-        
+
     //     .text {
     //         min-width: 50%;
     //         word-break: break-all;
@@ -1082,14 +1091,14 @@ const TodayOrder = (props) => {
     //         font-weight: 700;
     //         text-align: start;
     //     }
-        
+
     //     .qtyHeading {
     //         font-size: 12px;
     //         width: 17%;
     //         padding: 2% 0% 0% 0%;
     //         font-weight: 700;
     //     }
-        
+
     //     .tableContents {
     //         min-height: 30px;
     //         width: 95%;
@@ -1135,7 +1144,7 @@ const TodayOrder = (props) => {
     //         margin: 0 auto;
     //         border: .5px solid #9c9c9c;
     //     }
-    
+
     //     .btnContainer{
     //         width: 280px;
     //         min-height: 40px;
@@ -1148,7 +1157,7 @@ const TodayOrder = (props) => {
     //         display: flex;
     //         justify-content: space-around;
     //     }
-    
+
     //     .btn{
     //         width: 45%;
     //         height: 100%;
@@ -1157,7 +1166,7 @@ const TodayOrder = (props) => {
     //         color: #e6eef9;
     //         margin: auto 0;
     //     }
-    
+
     //     .btn:hover{
     //         background-color: #e6eef9;
     //         color: #185ee0;
@@ -1212,7 +1221,7 @@ const TodayOrder = (props) => {
     //                 </div>`
     //         ).join("")
     //         + `</div>
-               
+
     //     </div>
     //     </body>
     //     </html>`)
@@ -1362,26 +1371,28 @@ const TodayOrder = (props) => {
         updatedOrderData.append("discount_percentage", discountPercentage);
         updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
         updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
-        updatedOrderData.append("cancelled_by", cancelledBy);
+        // updatedOrderData.append("cancelled_by", cancelledBy);
+        updatedOrderData.append("cancelled_by",JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
 
-        var IsProceed=true;
-        if (IsCancelClicked){
-         if(cancelReaon.length==0){
-            document.getElementById("cancelInput").style.border = "1px solid red"
-            errorText["cancelReason"] = "Please enter reason and apply"
-            setErrorText({ ...errorText })
-            IsProceed=false
-         }
-         else{
-            document.getElementById("cancelInput").style.border = "1px solid black"
-            errorText["cancelReason"] = ""
-            setErrorText({...errorText})
-            updatedOrderData.append("order_status", "Cancelled");
-            IsProceed=true;
-         }
+        var IsProceed = true;
+        if (IsCancelClicked) {
+            if (cancelReaon.length == 0) {
+                document.getElementById("cancelInput").style.borderBottom = "1px solid red"
+                errorText["cancelReason"] = "Please enter reason and apply"
+                setErrorText({ ...errorText })
+                IsProceed = false
+            }
+            else {
+                document.getElementById("cancelInput").style.borderBottom = "1px solid black"
+                errorText["cancelReason"] = ""
+                setErrorText({ ...errorText })
+                updatedOrderData.append("order_status", "Cancelled");
+                updatedOrderData.append("cancelled_by","Admin");
+                IsProceed = true;
+            }
         }
-        else{
-            
+        else {
+
             updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
         }
 
@@ -1389,24 +1400,24 @@ const TodayOrder = (props) => {
         updatedOrderData.append("discount_reason", discountReason);
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-        if(IsProceed){
-        const response = await saveOrderDetailsApi(tenant, updatedOrderData);
-        if (response.msg) {
-            Message("Order detail saved successfully", "success");
-            UpdatingOpenedOrder(response.orderData)
-            setSelectedOrderItemList(response.orderItems)
-            document.getElementById("discount_rupees").style.border = "1px solid black"
-            document.getElementById("discount_percentage").style.border = "1px solid black"
-            setErrorText({})
-        } else {
-            Message("Something went wrong", "error");
+        if (IsProceed) {
+            const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+            if (response.msg) {
+                Message("Order detail saved successfully", "success");
+                UpdatingOpenedOrder(response.orderData)
+                setSelectedOrderItemList(response.orderItems)
+                document.getElementById("discount_rupees").style.border = "1px solid black"
+                document.getElementById("discount_percentage").style.border = "1px solid black"
+                setErrorText({})
+            } else {
+                Message("Something went wrong", "error");
+            }
         }
-        }
-        
+
 
     }
 
-    
+
 
 
     // Uses - this only update table table and sending all old data
@@ -1460,10 +1471,13 @@ const TodayOrder = (props) => {
 
 
         updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
-        if(status.order_status=="Cancelled")
-        updatedOrderData.append("cancel_reason",cancelReaon);
-        else   
-        updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
+        if (status.order_status == "Cancelled"){
+            updatedOrderData.append("cancel_reason", cancelReaon);
+            updatedOrderData.append("cancelled_by", "Admin");
+
+        }
+        else
+            updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
         updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
@@ -1514,7 +1528,7 @@ const TodayOrder = (props) => {
         setFinalAmount(data.final_amount);
         setRating(data.rating);
         setReview(data.review);
-        
+
     }
 
 
@@ -1614,8 +1628,8 @@ const TodayOrder = (props) => {
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
-            
-            var discount_percentage=e.target.value/(subtotal/100)
+
+            var discount_percentage = e.target.value / (subtotal / 100)
             setFinalAmount(total_price + SGST + CGST)
             setDiscountPercentage(discount_percentage.toFixed(2))
             // we are using this for setting max decimal till 2 decimal point 
@@ -1722,9 +1736,7 @@ const TodayOrder = (props) => {
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
-            setFinalAmount(subTotal - loyalityPointPrice - discountprice + SGST + CGST)
-
-
+            setFinalAmount(total_price + SGST + CGST)
             errorText["loyality_point"] = ""
             setErrorText({ ...errorText })
 
@@ -1739,7 +1751,7 @@ const TodayOrder = (props) => {
             setCGST(CGST)
             setSGST(SGST)
             setTotal(total_price)
-            setFinalAmount(subTotal - loyalityPointPrice - discountprice + SGST + CGST)
+            setFinalAmount(total_price + SGST + CGST)
 
         }
         else if (! /^\d+$/.test(e.target.value)) {
@@ -1862,8 +1874,8 @@ const TodayOrder = (props) => {
                                         // Added by Yuvraj Sahu on 03-08-2023
                                         // Reason - to disable the order checkbox
                                         disabled={data.order_status == "Cancelled" ? true : false}
-                                        // End of addition by Yuvraj Sahu on 03-08-2023
-                                        />
+                                    // End of addition by Yuvraj Sahu on 03-08-2023
+                                    />
                                     {i + 1}
                                 </div>
                                 {/* <input className={style.checkbox} id="checkbox"
@@ -1979,7 +1991,7 @@ const TodayOrder = (props) => {
                             Reason - to disable the area when order not chekced */}
                         {/* <div className={style.updateAllOrderstatusBtnContainer}> */}
                         <div className={style.updateAllOrderstatusBtnContainer} >
-                        {/* End of disable button colors by Yuvraj Sahu on 03-08-2023 */}
+                            {/* End of disable button colors by Yuvraj Sahu on 03-08-2023 */}
                             <div className={style.orderStatusArrowBtnContainerDashboard}>
                                 {/* Modified by Yuvraj Sahu on 03-08-2023
                                 Reason - to design a button  */}
@@ -1988,17 +2000,17 @@ const TodayOrder = (props) => {
                                 <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Placed", paymentStatus, selectedOrderData.order_detail))
-                                            updateAll({
-                                                "order_status": "Placed"
-                                            })
+                                        updateAll({
+                                            "order_status": "Placed"
+                                        })
                                     }
                                     }
-                                    style={{opacity : 0.4}}
+                                    style={{ opacity: 0.4 }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    disabled ={true}
-                                    // End of addition by yuvraj Sahu on 03-08-2023
-                                    ><a href="#">Placed</a></button></p>
+                                    disabled={true}
+                                // End of addition by yuvraj Sahu on 03-08-2023
+                                ><a href="#">Placed</a></button></p>
                                 <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         updateAll({
@@ -2016,36 +2028,36 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
-                                    disabled ={checkedItems.length > 0 ? false : true}
-                                    // End of addition by yuvraj Sahu on 03-08-2023
-                                    ><a href="#">Confirm</a></button></p>
+                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 ? false : true}
+                                // End of addition by yuvraj Sahu on 03-08-2023
+                                ><a href="#">Confirm</a></button></p>
                                 <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail))
-                                            updateAll({
-                                                "order_status": "Cooked"
-                                            })
+                                        updateAll({
+                                            "order_status": "Cooked"
+                                        })
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
-                                    disabled ={checkedItems.length > 0 ? false : true}
-                                    // End of addition by yuvraj Sahu on 03-08-2023
-                                    ><a href="#">Cooked</a></button></p>
+                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 ? false : true}
+                                // End of addition by yuvraj Sahu on 03-08-2023
+                                ><a href="#">Cooked</a></button></p>
                                 <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail))
-                                            updateAll({
-                                                "order_status": "Served"
-                                            })
+                                        updateAll({
+                                            "order_status": "Served"
+                                        })
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
-                                    disabled ={checkedItems.length > 0 ? false : true}
-                                    // End of addition by yuvraj Sahu on 03-08-2023
-                                    ><a href="#">Served</a></button></p>
+                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 ? false : true}
+                                // End of addition by yuvraj Sahu on 03-08-2023
+                                ><a href="#">Served</a></button></p>
                             </div>
                             {/* <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
                                 onClick={e => {
@@ -2066,7 +2078,7 @@ const TodayOrder = (props) => {
                                         }
                                     }
                                 }}>Cancel</button> */}
-                                </div>
+                        </div>
                         {/* End of designing by Yuvraj Sahu on 02-08-2023 */}
                         {/* <select id="all_order_status_selected" onChange={e => document.getElementById("all_order_status_selected").value = e.target.value}>
                             <option value="Placed" className={style.options}>Placed</option>
@@ -2087,7 +2099,7 @@ const TodayOrder = (props) => {
                         Reason - to disable the area when order not chekced */}
                     {/* <div className={style.selctedContentBox}> */}
                     <div className={style.selctedContentBox} >
-                    {/* End of disable button colors by Yuvraj Sahu on 03-08-2023 */}
+                        {/* End of disable button colors by Yuvraj Sahu on 03-08-2023 */}
                         {/* Added and commeted by Yuvraj Sahu on 28-06-2023
                         Reason - to replace dropdown with radio */}
 
@@ -2102,31 +2114,31 @@ const TodayOrder = (props) => {
                                 <p className={style.statusBtnDesign}><button className={`payment-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
-                                            updateAll({
-                                                "payment_status": "Pending"
-                                            })
+                                        updateAll({
+                                            "payment_status": "Pending"
+                                        })
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
-                                    disabled ={checkedItems.length > 0 ? false : true}
-                                    // End of addition by yuvraj Sahu on 03-08-2023
+                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 ? false : true}
+                                // End of addition by yuvraj Sahu on 03-08-2023
                                 ><a href="#"
                                 >Pending</a></button></p>
                                 <p className={style.statusBtnDesign}><button className={`payment-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
-                                            updateAll({
-                                                "payment_status": "Completed"
-                                            })
+                                        updateAll({
+                                            "payment_status": "Completed"
+                                        })
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{opacity : checkedItems.length > 0 ? 1 : 0.4}}
-                                    disabled ={checkedItems.length > 0 ? false : true}
-                                    // End of addition by yuvraj Sahu on 03-08-2023
-                                    ><a href="#">Completed</a></button></p>
-                                    {/* End of modification by Yuvraj Sahu on 09-08-2023 */}
+                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 ? false : true}
+                                // End of addition by yuvraj Sahu on 03-08-2023
+                                ><a href="#">Completed</a></button></p>
+                                {/* End of modification by Yuvraj Sahu on 09-08-2023 */}
                             </div>
                         </div>
                         {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
@@ -2184,10 +2196,10 @@ const TodayOrder = (props) => {
                             }}
                             // Added by Yuvraj Sahu on 03-08-2023
                             // Reason - to disable the button
-                            style={{opacity : checkedItems.length > 0 ? 1 : 0.3}}
-                            disabled ={checkedItems.length > 0 ? false : true}
-                            // End of addition by yuvraj Sahu on 03-08-2023
-                            >Order cancel</button>
+                            style={{ opacity: checkedItems.length > 0 ? 1 : 0.3 }}
+                            disabled={checkedItems.length > 0 ? false : true}
+                        // End of addition by yuvraj Sahu on 03-08-2023
+                        >Order cancel</button>
                         {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
 
                         {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
@@ -2329,12 +2341,33 @@ const TodayOrder = (props) => {
                             {/* This content is fixed it not scrolled up */}
                             <div className={style.topHeading}>
                                 <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
-                                <div>
+                                <div className={style.ActionBtn}>
+                                    <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
+                                        onClick={e => {
+                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)) {
+                                                if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
+                                                    document.getElementById("cancelInput").scrollIntoView()
+                                                    document.getElementById("cancelInput").style.borderBottom = "1px solid red"
+                                                    errorText["cancelReason"] = "Please enter reason and apply"
+                                                    setErrorText({ ...errorText })
+                                                    setCancelClicked(true)
+                                                } else {
+                                                    document.getElementById("cancelInput").scrollIntoView()
+                                                    document.getElementById("cancelInput").style.borderBottom = "1px solid #9c9c9c"
+                                                    errorText["cancelReason"] = ""
+                                                    setErrorText({ ...errorText })
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Cancelled"
+                                                    })
+                                                }
+                                            }
+                                        }}>Cancel Order</button>
                                     <button className={style.KotBtn} onClick={e => {
-                                        PrintKot(selectedOrderData.order_detail,selectedOrderData.order_item,restroDetail, gstFssai, settings)
+                                        PrintKot(selectedOrderData.order_detail, selectedOrderData.order_item.filter(e => e.item_status == "Confirm"), restroDetail, gstFssai, settings)
                                     }}>Print Kot</button>
                                     <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
                                         onClick={e => { if (getbillStatus()) sendPrintDatas() }}>Get Bill</button>
+
                                 </div>
                             </div>
 
@@ -2447,6 +2480,81 @@ const TodayOrder = (props) => {
                             </div>
                         </div>
                         {/* End of fixed content  */}
+
+
+                        {/* Added by Rohan kansari - 11/8/23 
+                            Reason - enhancement part */}
+                        <div style={{ display: "flex", flexWrap: "wrap", columnGap: "20px", marginBottom: "10px" }}>
+                            <div>
+                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
+                                <div className={style.OrderstatusBtnContainer}>
+                                    <div className={style.StatusArrowBtnContainer}>
+                                        <p><button className={` ${statusValidation("Placed", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+                                                if (statusValidation("Placed", paymentStatus, selectedOrderData.order_detail, true))
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Placed"
+                                                    })
+                                            }
+                                            }><a href="#">Placed</a></button></p>
+                                        <p><button className={`${statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+
+                                                if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail, true)) {
+                                                    PrintKot(selectedOrderData.order_detail
+                                                        , selectedOrderData.order_item.filter(e => e.item_status != "Cancelled" && e.kot_print_status == false)
+                                                        , restroDetail, gstFssai, settings)
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Confirm"
+                                                    })
+                                                }
+                                            }}><a href="#">Confirm</a></button></p>
+                                        <p><button className={`${statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+                                                if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail, true))
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Cooked"
+                                                    })
+                                            }}><a href="#">Cooked</a></button></p>
+                                        <p><button className={`${statusValidation("Served", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${orderStatus == "Served" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+                                                if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail, true))
+                                                    UpdateOrderStatusDetail({
+                                                        "order_status": "Served"
+                                                    })
+                                            }}><a href="#">Served</a></button></p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
+                                <div className={style.OrderstatusBtnContainer} >
+                                    <div className={style.StatusArrowBtnContainer}>
+                                        <p><button className={`${statusValidation("Pending", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+                                                if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail, true))
+                                                    UpdateOrderStatusDetail({
+                                                        "payment_status": "Pending"
+                                                    })
+                                            }}
+                                        ><a href="#"
+                                        >Pending</a></button></p>
+                                        <p><button className={`${statusValidation("Completed", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
+                                            onClick={e => {
+                                                if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, true))
+                                                    UpdateOrderStatusDetail({
+                                                        "payment_status": "Completed"
+                                                    })
+                                            }}><a href="#">Completed</a></button></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {/* ENd of code - ROhan kansari - 11/8/23 */}
 
                         <div className={style.scrollContainer}>
 
@@ -2572,8 +2680,8 @@ const TodayOrder = (props) => {
                                         <button className={style.AllUpdateButton} >Update Items</button>
                                     </Popconfirm>
                                     <div className={style.StatusBtnContainer}>
-                                        <button class="button" id="cut" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}><span>Pending</span></button>
-                                        <button class="button" id="copy" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}
+                                        <button class="button" id="cut" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)", pointerEvents: "none" }}><span>Pending</span></button>
+                                        <button class="button" id="copy" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)", pointerEvents: "none" }}
                                             onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
                                                 if (updatedStatus.current.value[i].item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
                                                     t.item_status = "Confirm"
@@ -2586,7 +2694,7 @@ const TodayOrder = (props) => {
                                                     return t;
                                                 }
                                             }))}><span>Confirm</span></button>
-                                        <button class="button" id="paste" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)" }}
+                                        <button class="button" id="paste" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)", pointerEvents: "none" }}
                                             onClick={e => orderItemModel(selectedOrderData.order_item.filter((t, i) => {
                                                 if (t.item_status == "Pending" && tickedItems.findIndex(d => d.id == t.id) != -1) {
                                                     t.item_status = "Cancelled"
@@ -2684,7 +2792,12 @@ const TodayOrder = (props) => {
 
                                                     <div className={style.loyalityColumn} >
                                                         <label className={style.subInputLabel}>Cancelled By </label>
-                                                        <select
+                                                        <input id="cancelled_by"
+                                                            type="text"
+                                                            className={`${style.inputBox} ${style.disbaleBtn}`}
+                                                            value={cancelledBy}
+                                                        />
+                                                        {/* <select
                                                             id="cancelled_by"
                                                             className={style.inputBox}
                                                             name="cancelled_by"
@@ -2695,7 +2808,7 @@ const TodayOrder = (props) => {
                                                             <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
                                                             <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
 
-                                                        </select>
+                                                        </select> */}
                                                     </div>
                                                 </div>
                                             </div>
@@ -2705,7 +2818,7 @@ const TodayOrder = (props) => {
                                             <div className={style.inputBoxContainer}>
                                                 <label className={style.InputLabel} >Cancel Reason </label>
                                                 <textarea className={style.TextInputBox} value={cancelReaon} id="cancelInput" onChange={e => {
-                                                    e.target.style.border = "1px solid #9c9c9c";
+                                                    e.target.style.borderBottom = "1px solid #9c9c9c";
                                                     errorText["cancelReason"] = "";
                                                     setErrorText(errorText)
                                                     setCancelReason(e.target.value);
@@ -2725,8 +2838,8 @@ const TodayOrder = (props) => {
                                             </div>
                                             <div className={style.UpdateDIscountBtn}>
                                                 <button className={style.ApplyBtn} onClick={e => {
-                                                    UpdateorderDetail(); 
-                                                    }}>Apply</button>
+                                                    UpdateorderDetail();
+                                                }}>Apply</button>
                                             </div>
                                         </div>
 
@@ -2745,103 +2858,25 @@ const TodayOrder = (props) => {
                                             <label className={style.InputLabel}></label>
                                             <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
                                         </div>
-                                        <div className={style.priceInformation}>
+                                        {settings.cgst>0?<div className={style.priceInformation}>
                                             <label className={style.InputLabel}>CGST ( {settings.cgst}% ):- </label>
                                             <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
-                                        </div>
-                                        <div className={style.priceInformation}>
+                                        </div>:null}
+                                        {settings.sgst>0? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>SGST ( {settings.sgst}% ) :- </label>
                                             <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
-                                        </div>
-                                        <div className={style.priceInformation}>
+                                        </div>:null}
+                                        {settings.sgst>0||settings.cgst>0?<div className={style.priceInformation}>
                                             <label className={style.InputLabel}></label>
                                             <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
-                                        </div>
+                                        </div>:null}
                                     </div>
                                 </div>
 
-                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
-                                <div className={style.OrderstatusBtnContainer}>
-                                    <div className={style.StatusArrowBtnContainer}>
-                                        <p><button className={`btn-right ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}
-                                            onClick={e => {
-                                                if (statusValidation("Placed", paymentStatus, selectedOrderData.order_detail))
-                                                    UpdateOrderStatusDetail({
-                                                        "order_status": "Placed"
-                                                    })
-                                            }
-                                            }><a href="#">Placed</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
-                                            onClick={e => {
-                                               
-                                                if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail)) {
-                                                    PrintKot(selectedOrderData.order_detail
-                                                        ,selectedOrderData.order_item.filter(e=>e.item_status!="Cancelled"&&e.kot_print_status==false)
-                                                        ,restroDetail, gstFssai, settings)
+                                {/* Modified by ROhan kansari - 11/8/23 - I shifted this section at the top */}
+                                {/* Order status button section */}
 
-                                                        UpdateOrderStatusDetail({
-                                                            "order_status": "Confirm"
-                                                        })
-                                                }
-                                            }}><a href="#">Confirm</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Cooked" ? 'activeStatusBtn' : null}`}
-                                            onClick={e => {
-                                                if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail))
-                                                    UpdateOrderStatusDetail({
-                                                        "order_status": "Cooked"
-                                                    })
-                                            }}><a href="#">Cooked</a></button></p>
-                                        <p><button className={`btn-right ${orderStatus == "Served" ? 'activeStatusBtn' : null}`}
-                                            onClick={e => {
-                                                if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail))
-                                                    UpdateOrderStatusDetail({
-                                                        "order_status": "Served"
-                                                    })
-                                            }}><a href="#">Served</a></button></p>
-                                    </div>
-                                    <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
-                                        onClick={e => {
-                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)) {
-                                                if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
-                                                    document.getElementById("cancelInput").scrollIntoView()
-                                                    document.getElementById("cancelInput").style.border = "1px solid red"
-                                                    errorText["cancelReason"] = "Please enter reason and apply"
-                                                    setErrorText({ ...errorText })
-                                                    setCancelClicked(true)
-                                                } else {
-                                                    document.getElementById("cancelInput").scrollIntoView()
-                                                    document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
-                                                    errorText["cancelReason"] = ""
-                                                    setErrorText({ ...errorText })
-                                                    UpdateOrderStatusDetail({
-                                                        "order_status": "Cancelled"
-                                                    })
-                                                }
-                                            }
-                                        }}>Cancel</button>
-                                </div>
 
-                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
-                                <div className={style.OrderstatusBtnContainer} >
-                                    <div className={style.StatusArrowBtnContainer}>
-                                        <p><button className={`btn-right ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
-                                            onClick={e => {
-                                                if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail))
-                                                    UpdateOrderStatusDetail({
-                                                        "payment_status": "Pending"
-                                                    })
-                                            }}
-                                        ><a href="#"
-                                        >Pending</a></button></p>
-                                        <p><button className={`btn-right ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
-                                            onClick={e => {
-                                                if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail))
-                                                    UpdateOrderStatusDetail({
-                                                        "payment_status": "Completed"
-                                                    })
-                                            }}><a href="#">Completed</a></button></p>
-                                    </div>
-                                </div>
 
 
                                 <div className={style.PricingContainer}>

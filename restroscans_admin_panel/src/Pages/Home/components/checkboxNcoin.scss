@@ -1,293 +1,289 @@
-
-
-
-
 ._checkbox {
-    display: none;
-  }
+  display: none;
+}
 
-  #_checkbox2 {
-    display: none;
-  }
-  #_checkbox3 {
-    display: none;
-  }
-  
-  .statuslabel {
-    position: absolute;
-    top: 20px;
-    left:0;
-    right:0;
-    width: 22px;
-    height: 22px;
-    margin: 0 auto;
-    background-color: #f8857d;
-    transform: translateY(-50%);
-    border-radius: 50%;
-    box-shadow: 0 2px 8px #ffbeb8;
-    cursor: pointer;
-    transition: 0.2s ease transform, 0.2s ease background-color,
-      0.2s ease box-shadow;
-    overflow: hidden;
-    z-index: 1;
-  }
-  
-  .statuslabel:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 0;
-    left: 0;
-    width: 14px;
-    height: 14px;
-    margin: 0 auto;
-    background-color: #fff;
-    transform: translateY(-50%);
-    border-radius: 50%;
-    /* box-shadow: inset 0 2px 8px #ffbeb8; */
-    transition: 0.2s ease width, 0.2s ease height;
-  }
-  
-  .statuslabel:hover:before {
-    width: 18px;
-    height: 18px;
-    box-shadow: inset 0 2px 5px #ff9d96;
-  }
-  
-  .statuslabel:active {
-    transform: translateY(-50%) scale(0.9);
-  }
-  
-  #tick_mark {
-    position: absolute;
-    top: -1px;
-    right: 0;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    margin: 0 auto;
-    margin-left: 14px;
-    transform: rotateZ(-50deg);
-  }
-  
-  #tick_mark:before,
-  #tick_mark:after {
-    content: "";
-    position: absolute;
-    background-color: #fff;
-    border-radius: 2px;
-    opacity: 0;
-    transition: 0.2s ease transform, 0.2s ease opacity;
-  }
-  
-  #tick_mark:before {
-    left: -1px;
-    bottom: 28px;
-    width: 4px;
-    height: 8px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
-    transform: translateY(-200px);
-  }
-  
-  #tick_mark:after {
-    left: -1px;
-    bottom: 27px;
-    width: 50%;
-    height: 4px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
-    transform: translateX(90px);
-  }
+#_checkbox2 {
+  display: none;
+}
 
-  // Added by ROhan kansari - 17/7/23
-  // Reason - To design cross sign also
+#_checkbox3 {
+  display: none;
+}
 
-  #cross {
-    position: absolute;
-    top: -1px;
-    right: 0;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    margin: 0 auto;
-    margin-left: 14px;
-    transform: rotateZ(-47deg);
-  }
-  
-  #cross:before,
-  #cross:after {
-    content: "";
-    position: absolute;
-    background-color: #fff;
-    border-radius: 2px;
-    opacity: 0;
-    transition: 0.2s ease transform, 0.2s ease opacity;
-  }
-  
-  #cross:before {
-    left: 3px;
-    bottom: 22px;
-    width: 4px;
-    height: 16px;
-    // box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
-    transform: translateY(-200px);
-  }
-  
-  #cross:after {
-    left: -3px;
-    bottom: 27.7px;
-    width: 16px;
-    height: 4px;
-    // box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
-    transform: translateX(90px);
-  }
+.statuslabel {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0 auto;
+  background-color: #7c7c7c;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px #7c7c7c;
+  cursor: pointer;
+  transition: 0.2s ease transform, 0.2s ease background-color,
+    0.2s ease box-shadow;
+  overflow: hidden;
+  z-index: 1;
+}
 
-  // End of code - Rohan kansari - 18/7/23
+.statuslabel:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: 0 auto;
+  background-color: #fff;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  /* box-shadow: inset 0 2px 8px #ffbeb8; */
+  transition: 0.2s ease width, 0.2s ease height;
+}
 
+.statuslabel:hover:before {
+  width: 18px;
+  height: 18px;
+  box-shadow: inset 0 2px 2px #7c7c7c;
+}
 
-  /* label 1 checkbox */
-  ._checkbox:checked + .statuslabel {
-    background-color: #07d410;
-    box-shadow: 0 3px 10px #92ff97;
-  }
-  
-  ._checkbox:checked + .statuslabel:before {
-    width: 0;
-    height: 0;
-  }
-  
-  ._checkbox:checked + .statuslabel #tick_mark:before,
-  ._checkbox:checked + .statuslabel #tick_mark:after {
-    transform: translate(0);
-    opacity: 1;
-  }
+.statuslabel:active {
+  transform: translateY(-50%) scale(0.9);
+}
 
-  ._checkbox:checked + .cancelled {
-    background-color: tomato;
-    box-shadow: 0 3px 10px tomato;
-  }
-  
+#tick_mark {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  margin-left: 14px;
+  transform: rotateZ(-50deg);
+}
 
-  ._checkbox:checked + .statuslabel #cross:before,
-  ._checkbox:checked + .statuslabel #cross:after {
-    transform: translate(0);
-    opacity: 1;
-  }
+#tick_mark:before,
+#tick_mark:after {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  border-radius: 2px;
+  opacity: 0;
+  transition: 0.2s ease transform, 0.2s ease opacity;
+}
+
+#tick_mark:before {
+  left: -1px;
+  bottom: 28px;
+  width: 4px;
+  height: 8px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
+  transform: translateY(-200px);
+}
+
+#tick_mark:after {
+  left: -1px;
+  bottom: 27px;
+  width: 50%;
+  height: 4px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
+  transform: translateX(90px);
+}
+
+// Added by ROhan kansari - 17/7/23
+// Reason - To design cross sign also
+
+#cross {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  margin-left: 14px;
+  transform: rotateZ(-47deg);
+}
+
+#cross:before,
+#cross:after {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  border-radius: 2px;
+  opacity: 0;
+  transition: 0.2s ease transform, 0.2s ease opacity;
+}
+
+#cross:before {
+  left: 3px;
+  bottom: 22px;
+  width: 4px;
+  height: 16px;
+  // box-shadow: -2px 0 5px rgba(0, 0, 0, 0.23);
+  transform: translateY(-200px);
+}
+
+#cross:after {
+  left: -3px;
+  bottom: 27.7px;
+  width: 16px;
+  height: 4px;
+  // box-shadow: 0 3px 5px rgba(0, 0, 0, 0.23);
+  transform: translateX(90px);
+}
+
+// End of code - Rohan kansari - 18/7/23
 
 
+/* label 1 checkbox */
+._checkbox:checked+.statuslabel {
+  background-color: #92ff97;
+  box-shadow: 0 3px 10px #92ff97;
+}
 
-  
+._checkbox:checked+.statuslabel:before {
+  width: 0;
+  height: 0;
+}
 
-  /* Buttons  */
+._checkbox:checked+.statuslabel #tick_mark:before,
+._checkbox:checked+.statuslabel #tick_mark:after {
+  transform: translate(0);
+  opacity: 1;
+}
 
-  .multi-button {
-    background-color: white;
-    border: 1px solid white;
-    border-radius: 14px;
-    padding: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 15px 0 rgba(0, 0, 0, 0.1);
-      place-items: center;
-  }
-  
-  #cut {
-    background-color: rgb(85,131,241);
-    border: 1px solid rgb(85,131,241);
-    letter-spacing: 1.3px;
-  }
-  
-  #cut {
-    background-color: rgb(85,131,241);
-    border: 1px solid rgb(85,131,241);
-    letter-spacing: 1.3px;
-  }
-  
-  #copy {
-    background-color: rgb(39,166,75);
-    border: 1px solid rgb(39,166,75);
-    letter-spacing: 1.3px;
-  }
-  
-  #paste {
-    background-color: rgb(242,185,42);
-    border: 1px solid rgb(242,185,42);
-    
-  }
-  
-  
-  .button { 
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 15px 0 rgba(0, 0, 0, 0.09);
-    padding: 7px 14px 10px 14px;
-      font: 15px Ubuntu;
-    color: white;
-    border-radius: 7px;
-  }
-  
-  .button span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-  }
-  
-  .button span:after {
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-  }
-  
-  .button:hover span {
-    padding-right: 25px;
-  }
-  
-  .button:hover span:after {
-    opacity: 1;
-    right: 0;
-  }
-  
-  #cut span:after {
-    font-family: FontAwesome;
-    content: "\f071";
-  }
-  
-  #copy span:after {
-    font-family: FontAwesome;
-    content: "\f00c";
-  }
-  
-  #paste span:after {
-    font-family: FontAwesome;
-    content: "\f00d";
-  }
-  
+._checkbox:checked+.cancelled {
+  background-color: tomato;
+  box-shadow: 0 3px 10px tomato;
+}
 
 
-  /* Buttons style */
-  
+._checkbox:checked+.statuslabel #cross:before,
+._checkbox:checked+.statuslabel #cross:after {
+  transform: translate(0);
+  opacity: 1;
+}
+
+
+
+
+
+/* Buttons  */
+
+.multi-button {
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 14px;
+  padding: 7px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 15px 0 rgba(0, 0, 0, 0.1);
+  place-items: center;
+}
+
+
+#cut {
+  background-color: rgb(64, 100, 185);
+  border: 1px solid rgb(85, 131, 241);
+  letter-spacing: 1.3px;
+}
+
+#copy {
+  background-color: rgb(34, 150, 67);
+  border: 1px solid rgb(39, 166, 75);
+  letter-spacing: 1.3px;
+}
+
+#paste {
+  background-color: rgb(197, 80, 34);
+  border: 1px solid rgb(242, 185, 42);
+
+}
+
+
+.button {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 15px 0 rgba(0, 0, 0, 0.09);
+  padding: 7px 14px 10px 14px;
+  font: 15px Ubuntu;
+  color: white;
+  border-radius: 7px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#cut span:after {
+  font-family: FontAwesome;
+  content: "\f071";
+}
+
+#copy span:after {
+  font-family: FontAwesome;
+  content: "\f00c";
+}
+
+#paste span:after {
+  font-family: FontAwesome;
+  content: "\f00d";
+}
+
+
+
+/* Buttons style */
+
 /* The button-maker */
-@mixin arrow-button($color, $background, $shadow, $font-size, $width, $height, $direction) {  
+@mixin arrow-button($color, $background, $shadow, $font-size, $width, $height, $direction) {
   background: none;
   border: 0;
-  font-size: 16px;
+  font-size: 14px;
   margin: 0 5px;
   position: relative;
-  width: $width;
+  // Changed by Rohan kansari - 13/8/23
+  width: fit-content;
   height: $height;
+  padding-left: 5px;
   font-weight: 500;
-  
-  @if $direction == "up" {
+
+  @if $direction =="up" {
     transform: rotate(-90deg);
-  }  @else if $direction == "down" {
+  }
+
+  @else if $direction =="down" {
     transform: rotate(90deg);
   }
-  
+
   a {
     color: black;
     text-decoration: none;
     position: relative;
     z-index: 10;
   }
-  
+
   &::before,
   &::after {
     background: $background;
@@ -295,63 +291,111 @@
     content: '';
     display: block;
     position: absolute;
-      left: 0;
-      right: 0;
+    left: 0;
+    right: 0;
     transition: all 1s;
     height: $height/2;
   }
-  
 
-  &::before { 
-    box-shadow: 
+
+  &::before {
+    box-shadow:
       -1px 1px 0 $shadow,
       -2px 2px 0 $shadow,
       -3px 3px 0 $shadow,
       -4px 4px 0 $shadow;
     transform: skew(45deg);
-    @if $direction == "left" { bottom: 0; z-index: 1 }
-    @else { top: 0; }
+
+    @if $direction =="left" {
+      bottom: 0;
+      z-index: 1
+    }
+
+    @else {
+      top: 0;
+    }
   }
 
   &::after {
-    box-shadow: 1px 1px 0 $shadow, 
+    box-shadow: 1px 1px 0 $shadow,
       2px 2px 0 $shadow,
-      3px 3px 0 $shadow, 
+      3px 3px 0 $shadow,
       4px 4px 0 $shadow;
     transform: skew(-45deg);
-    @if $direction == "left" { top: 0;}
-    @else { bottom: 0; }
+
+    @if $direction =="left" {
+      top: 0;
+    }
+
+    @else {
+      bottom: 0;
+    }
   }
-  
+
   // Commeted and modifed by yuvraj Shau on 03-08-2023
   // Reason - to check width and remove the hover property in update all order status
   // &:hover::before,
   // &:hover::after {
   //   background: #07d410;
   // }
-  @if $width > 6em {
+  @if $width >6em {
+
     &:hover::before,
     &:hover::after {
       background: #07d410;
     }
-  } @else {
+  }
+
+  @else {
     // margin-top: 5px;
   }
+
   // end of comment by Yuvraj Sahu on 03-08-2023
 
   &:focus {
-      &::before,
-      &::after {
-        background: lighten(#727272,100%);
-      }
-      outline: 0;
+
+    &::before,
+    &::after {
+      background: lighten(#727272, 100%);
+    }
+
+    outline: 0;
   }
 }
 
 /* How to include it */
-.btn-right { 
-  @include arrow-button(#d4d4d4, #e2e2e2, #e0e0e0, 22px, 8em, 2em, right);
-} 
+// Modified by Rohan kansari - 13/8/23
+// Reason - desiging btn to auto width 
+.btn-right {
+  @include arrow-button(#d4d4d4,#c5c4c4, #e0e0e0, 22px, 6em, 2em, right);
+  margin-bottom: 10px;
+}
+
+.btn-disable {
+  @include arrow-button(#d4d4d4,#999898, #e0e0e0, 22px, 6em, 2em, right);
+  margin-bottom: 10px;
+  pointer-events: none;
+
+}
+
+.btn-disable a{
+  margin: 0px 6px;
+}
+
+.btn-right a {
+  margin: 0px 6px;
+}
+
+.payment-btn-right a{
+  margin: 0px 6px;
+}
+
+.order-btn-right a{
+  margin: 0px 6px;
+}
+
+// ENd of code - Rohan kansari - 13/8/23
+
 /* Page styling */
 
 // Added by Yuvraj Sahu on 03-08-2023
@@ -361,42 +405,46 @@
   // Reason - to change the color
   @include arrow-button(#d4d4d4, #6d8279, #e0e0e0, 22px, 6em, 2em, right);
 }
+
 .order-btn-right {
   @include arrow-button(#d4d4d4, #6d8279, #e0e0e0, 22px, 5em, 2em, right);
 }
-  // End of modification by yuvraj Sahu on 09-08-2023
+
+// End of modification by yuvraj Sahu on 09-08-2023
 // End of addition by Yuvraj Sahu on 03-08-2023
 
-.activeStatusBtn{
+.activeStatusBtn {
 
   background: none;
-  
+
   a {
     color: black;
   }
-  
+
   &::before,
   &::after {
-    background: #07d410;
+    background: #dbf365;
   }
-  
+
   // &:hover::before,
   // &:hover::after {
   //   background: lighten(#07d410,100%);
   // }
-  
+
   &:focus {
-      &::before,
-      &::after {
-        background:#07d410;
-      }
-      outline: 0;
+
+    &::before,
+    &::after {
+      background: #07d410;
+    }
+
+    outline: 0;
   }
 }
 
 // Added by Rohan kansari - 26/7/23 - To design cancel btn highlight design
 
-.CancelStatusBtn{
+.CancelStatusBtn {
   background-color: tomato;
   color: white;
 }
@@ -420,6 +468,7 @@
   cursor: pointer;
   position: relative;
 }
+
 .checkbox-wrapper-24 label span {
   display: inline-block;
   position: relative;
@@ -433,6 +482,7 @@
   margin-right: 5px;
   transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
 }
+
 .checkbox-wrapper-24 label span:before {
   content: "";
   width: 0px;
@@ -446,6 +496,7 @@
   transition: width 50ms ease 50ms;
   transform-origin: 0% 0%;
 }
+
 .checkbox-wrapper-24 label span:after {
   content: "";
   width: 0;
@@ -459,10 +510,12 @@
   transition: width 50ms ease;
   transform-origin: 0% 0%;
 }
+
 .checkbox-wrapper-24 label:hover span:before {
   width: 5px;
   transition: width 100ms ease;
 }
+
 .checkbox-wrapper-24 label:hover span:after {
   width: 10px;
   transition: width 150ms ease 100ms;
@@ -471,30 +524,36 @@
 .checkbox-wrapper-24 input[type=checkbox] {
   display: none;
 }
-.checkbox-wrapper-24 input[type=checkbox]:checked + label span {
+
+.checkbox-wrapper-24 input[type=checkbox]:checked+label span {
   background-color: #333;
   transform: scale(1);
 }
-.checkbox-wrapper-24 input[type=checkbox]:checked + label span:after {
+
+.checkbox-wrapper-24 input[type=checkbox]:checked+label span:after {
   width: 10px;
   background: #fff;
   transition: width 150ms ease 100ms;
 }
-.checkbox-wrapper-24 input[type=checkbox]:checked + label span:before {
+
+.checkbox-wrapper-24 input[type=checkbox]:checked+label span:before {
   width: 5px;
   background: #fff;
   transition: width 150ms ease 100ms;
 }
-.checkbox-wrapper-24 input[type=checkbox]:checked + label:hover span {
+
+.checkbox-wrapper-24 input[type=checkbox]:checked+label:hover span {
   background-color: #333;
   transform: scale(1.25);
 }
-.checkbox-wrapper-24 input[type=checkbox]:checked + label:hover span:after {
+
+.checkbox-wrapper-24 input[type=checkbox]:checked+label:hover span:after {
   width: 10px;
   background: #fff;
   transition: width 150ms ease 100ms;
 }
-.checkbox-wrapper-24 input[type=checkbox]:checked + label:hover span:before {
+
+.checkbox-wrapper-24 input[type=checkbox]:checked+label:hover span:before {
   width: 5px;
   background: #fff;
   transition: width 150ms ease 100ms;
@@ -506,22 +565,16 @@
 
 
 @keyframes brightness {
+
   0%,
   50%,
   100% {
-    filter: blur(0px) brightness(120%)
-      drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.1))
-      drop-shadow(0 0 5px rgba(255, 255, 255, 0.075))
-      drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.045))
-      drop-shadow(0 0 10px rgba(255, 255, 255, 0.025));
+    filter: blur(0px) brightness(120%) drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.075)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.045)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.025));
   }
+
   25%,
   75% {
-    filter: blur(1px) brightness(50%)
-      drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.1))
-      drop-shadow(0 0 5px rgba(255, 255, 255, 0.075))
-      drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.045))
-      drop-shadow(0 0 10px rgba(255, 255, 255, 0.025));
+    filter: blur(1px) brightness(50%) drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.075)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.045)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.025));
   }
 }
 
@@ -529,15 +582,18 @@
   0% {
     transform: rotateY(-180deg);
   }
+
   100% {
     transform: rotateY(180deg);
   }
 }
+
 .spinningasset {
   text-align: left;
   transition: all 0.4s ease-out;
   cursor: pointer;
   animation: brightness 2.5s infinite linear;
+
   &::after {
     content: "";
     position: absolute;
@@ -552,14 +608,16 @@
     background-size: 100px 400%;
     background-position: center;
   }
-  > div {
+
+  >div {
     position: relative;
     z-index: 2;
     perspective: 10000px;
     transform-style: preserve-3d;
     transform-origin: center;
     animation: spin 2.5s infinite linear;
-    > * {
+
+    >* {
       width: 100%;
       height: 100%;
       position: absolute;
@@ -567,54 +625,70 @@
       background-size: cover;
     }
 
-    > div:first-child {
+    >div:first-child {
       transform: translateZ(-6px);
     }
-    > div:last-child {
+
+    >div:last-child {
       transform: translateZ(6px);
       background-image: url(https://res.cloudinary.com/gloot/image/upload/v1632752594/Marketing/202109_gloot2/Coins_side_front.svg);
     }
+
     em {
       filter: blur(0.5px);
+
       &:first-of-type {
         transform: translateZ(0px) rotateY(-6deg);
       }
+
       &:last-of-type {
         transform: translateZ(0px) rotateY(6deg);
       }
     }
+
     i {
       filter: blur(0.5px);
+
       &:nth-of-type(1) {
         transform: translateZ(-5px);
       }
+
       &:nth-of-type(2) {
         transform: translateZ(-4px);
       }
+
       &:nth-of-type(3) {
         transform: translateZ(-3px);
       }
+
       &:nth-of-type(4) {
         transform: translateZ(-2px);
       }
+
       &:nth-of-type(5) {
         transform: translateZ(-1px);
       }
+
       &:nth-of-type(6) {
         transform: translateZ(0px);
       }
+
       &:nth-of-type(7) {
         transform: translateZ(1px);
       }
+
       &:nth-of-type(8) {
         transform: translateZ(2px);
       }
+
       &:nth-of-type(9) {
         transform: translateZ(3px);
       }
+
       &:nth-of-type(10) {
         transform: translateZ(4px);
       }
+
       &:nth-of-type(11) {
         transform: translateZ(5px);
       }
@@ -627,20 +701,22 @@
     transform: scale(0.24);
     transform-origin: left top;
     filter: none;
+
     &,
-    > div {
-    }
+    >div {}
   }
 
   &.coin {
-    > div {
+    >div {
       width: 60px;
       height: 60px;
       padding: 15px 0;
-      > div:first-child {
+
+      >div:first-child {
         background-image: url(https://res.cloudinary.com/gloot/image/upload/v1632752594/Marketing/202109_gloot2/Coins_side_back.svg);
       }
-      > div:last-child,
+
+      >div:last-child,
       &::after,
       i,
       em {
@@ -650,23 +726,21 @@
   }
 
   &.token {
-    filter: drop-shadow(0 0 3px rgba(236, 121, 254, 0.3))
-      drop-shadow(0 0 6px rgba(236, 121, 254, 0.2))
-      drop-shadow(0 0 20px rgba(236, 121, 254, 0.1))
-      drop-shadow(0 0 30px rgba(236, 121, 254, 0.05));
+    filter: drop-shadow(0 0 3px rgba(236, 121, 254, 0.3)) drop-shadow(0 0 6px rgba(236, 121, 254, 0.2)) drop-shadow(0 0 20px rgba(236, 121, 254, 0.1)) drop-shadow(0 0 30px rgba(236, 121, 254, 0.05));
+
     &:hover {
-      filter: drop-shadow(0 0 3px rgba(236, 121, 254, 0.8))
-        drop-shadow(0 0 6px rgba(236, 121, 254, 0.6))
-        drop-shadow(0 0 20px rgba(236, 121, 254, 0.4))
-        drop-shadow(0 0 30px rgba(236, 121, 254, 0.2));
+      filter: drop-shadow(0 0 3px rgba(236, 121, 254, 0.8)) drop-shadow(0 0 6px rgba(236, 121, 254, 0.6)) drop-shadow(0 0 20px rgba(236, 121, 254, 0.4)) drop-shadow(0 0 30px rgba(236, 121, 254, 0.2));
     }
-    > div {
+
+    >div {
       width: 100px;
       height: 112px;
-      > div:first-child {
+
+      >div:first-child {
         background-image: url(https://res.cloudinary.com/gloot/image/upload/v1632768480/Marketing/202109_gloot2/Tokens_side_back.svg);
       }
-      > div:last-child,
+
+      >div:last-child,
       &::after,
       i,
       em {
@@ -681,41 +755,43 @@
 
   &.ticket {
     transform: translate;
-    filter: drop-shadow(0 0 3px rgba(250, 234, 148, 0.4))
-      drop-shadow(0 0 6px rgba(250, 234, 148, 0.3))
-      drop-shadow(0 0 20px rgba(250, 234, 148, 0.2))
-      drop-shadow(0 0 30px rgba(250, 234, 148, 0.1));
+    filter: drop-shadow(0 0 3px rgba(250, 234, 148, 0.4)) drop-shadow(0 0 6px rgba(250, 234, 148, 0.3)) drop-shadow(0 0 20px rgba(250, 234, 148, 0.2)) drop-shadow(0 0 30px rgba(250, 234, 148, 0.1));
 
     &:hover {
-      filter: drop-shadow(0 0 3px rgba(250, 234, 148, 0.6))
-        drop-shadow(0 0 6px rgba(250, 234, 148, 0.4))
-        drop-shadow(0 0 20px rgba(250, 234, 148, 0.2))
-        drop-shadow(0 0 30px rgba(250, 234, 148, 0.1));
+      filter: drop-shadow(0 0 3px rgba(250, 234, 148, 0.6)) drop-shadow(0 0 6px rgba(250, 234, 148, 0.4)) drop-shadow(0 0 20px rgba(250, 234, 148, 0.2)) drop-shadow(0 0 30px rgba(250, 234, 148, 0.1));
     }
-    > div {
+
+    >div {
       width: 150px;
       height: 80px;
-      > div:first-child {
+
+      >div:first-child {
         transform: translateZ(-1px);
       }
-      > div:last-child {
+
+      >div:last-child {
         transform: translateZ(1px);
       }
+
       i {
         display: none;
       }
+
       em {
         &:first-of-type {
           transform: translateZ(0px) rotateY(-1deg);
         }
+
         &:last-of-type {
           transform: translateZ(0px) rotateY(1deg);
         }
       }
-      > div:first-child {
+
+      >div:first-child {
         background-image: url(https://res.cloudinary.com/gloot/image/upload/v1632816242/Marketing/202109_gloot2/ticket_side_back.svg);
       }
-      > div:last-child,
+
+      >div:last-child,
       &::after,
       i,
       em {
@@ -726,30 +802,38 @@
 
   &.ticket2 {
     transform: translate;
-    > div {
+
+    >div {
       width: 173px;
       height: 150px;
-      > div:first-child {
+
+      >div:first-child {
         transform: translateZ(-1px);
       }
-      > div:last-child {
+
+      >div:last-child {
         transform: translateZ(1px);
       }
+
       i {
         display: none;
       }
+
       em {
         &:first-of-type {
           transform: translateZ(0px) rotateY(-1deg);
         }
+
         &:last-of-type {
           transform: translateZ(0px) rotateY(1deg);
         }
       }
-      > div:first-child {
+
+      >div:first-child {
         background-image: url(https://res.cloudinary.com/gloot/image/upload/v1632818517/Marketing/202109_gloot2/ticket_2_back.svg);
       }
-      > div:last-child,
+
+      >div:last-child,
       &::after,
       i,
       em {
@@ -769,16 +853,15 @@
 /*----------------------------*/
 
 .card {
-  background: radial-gradient(
-    100% 100% at 50% 5%,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
+  background: radial-gradient(100% 100% at 50% 5%,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.03) 100%);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 1rem;
   padding: 0.5rem;
   backdrop-filter: blur(4px);
-  > div {
+
+  >div {
     position: relative;
     z-index: 2;
     background: #2d2d59;
@@ -794,9 +877,11 @@
   &.is-alt {
     background: transparent;
     border: none;
-    > .card-content {
+
+    >.card-content {
       background: #191a2f;
     }
+
     &::before,
     &::after {
       content: "";
@@ -809,10 +894,12 @@
       border-radius: 0.25rem;
       transition: all 0.6s ease-out 0.22s;
     }
+
     &::before {
       left: 0;
       transform: translateX(1rem);
     }
+
     &::after {
       right: 0;
       transform: translateX(-1rem);

@@ -585,7 +585,8 @@
     border: 2px solid #f8857d;
     border-radius: 5px;
     padding: 5px 10px;
-    color: #f8857d;
+    background-color:#f8857d ;
+    color: #fff;
     display: flex;
     justify-content: center;
     /* text-align: center; */
@@ -597,6 +598,13 @@
     /* End of modification by Yuvraj Sahu on 09-08-2023 */
     transition: all .3s;
     height: 30px;
+}
+
+.checkOrderCancelBtn:hover{
+    background-color: transparent;
+    border: 2px solid #f8857d;
+    color: #f8857d;
+
 }
 
 .order-btn-design{
@@ -1152,13 +1160,21 @@ Reason - to design radio button container */
 .topHeading {
     display: flex;
     justify-content: space-between;
+    width: 95%;
+}
 
+.ActionBtn {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
 }
 
 .KotBtn {
     min-width: 60px;
     height: 30px;
     border: 1px solid rgb(39, 166, 75);
+    background-color: rgb(39, 166, 75);
+    color:#fff;
     transition: all .3s;
     border-radius: 5px;
     margin: 0 10px;
@@ -1166,35 +1182,40 @@ Reason - to design radio button container */
 }
 
 .KotBtn:hover {
-    background-color: rgb(39, 166, 75);
-    color: #fff;
+    background-color: transparent;
+    border: 1px solid rgb(39, 166, 75);
+    color: rgb(39, 166, 75);
 }
 
 .getbill {
     min-width: 60px;
     height: 30px;
     border: 1px solid rgb(39, 166, 75);
+    background-color: rgb(39, 166, 75);
+    color:#fff;
     transition: all .3s;
     border-radius: 5px;
-    margin: 0 10px;
+    /* margin: 0 10px; */
     padding: 0 8px;
-    margin-right: 20px;
+    /* margin-right: 20px; */
 }
 
 .getbill:hover {
-    background-color: rgb(39, 166, 75);
-    color: #fff;
+    background-color: transparent;
+    border: 1px solid rgb(39, 166, 75);
+    color: rgb(39, 166, 75);
 }
 
 .Order_idText {
     color: #000;
-    text-align: start;
-    font-size: 20px;
+    text-align: center;
+    font-size: 16px;
     padding: 5px 10px;
     border-bottom: 1px solid white;
     margin-bottom: 10px;
     background-color: #e7e7e7;
     border-radius: 5px;
+    font-weight: 600;
 }
 
 .informationContainer {
@@ -1506,11 +1527,14 @@ Reason - to design radio button container */
 
 .UpdateItemBTN {
     width: 40%;
+    max-width: 240px;
     height: 100%;
     font-size: 18px;
     letter-spacing: 1.4px;
-    color: var(--primary-box-bg-color);
-    border: 2px solid var(--primary-box-bg-color);
+    color: #fff;
+    font-weight: 600;
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
     /* background: var(--primary-box-bg-color); */
     font-weight: bold;
     padding: 5px 5px;
@@ -1523,8 +1547,9 @@ Reason - to design radio button container */
 }
 
 .UpdateItemBTN:hover {
-    background: var(--primary-box-bg-color);
-    color: white;
+    border: 1px solid rgb(39, 166, 75);
+    background-color: transparent;
+    color: rgb(39, 166, 75);
 }
 
 .TotalContainer {
@@ -1579,16 +1604,18 @@ Reason - to design radio button container */
     letter-spacing: 1.3px;
     border-radius: 5px;
     height: 30px;
-    color: #000;
+    color: #fff;
     background-color: transparent;
     font-weight: 600;
+    background-color: rgb(39, 166, 75);
     border: 1px solid rgb(39, 166, 75);
     transition: all .3s;
 }
 
 .AllUpdateButton:hover {
-    background-color: rgb(39, 166, 75);
-    color: #000;
+    border: 1px solid rgb(39, 166, 75);
+    background-color: transparent;
+    color: rgb(39, 166, 75);
 }
 
 .checkboxContainer {
@@ -1617,7 +1644,8 @@ Reason - to design radio button container */
 .DiscountNCancelSection {
     width: 60%;
     min-height: 30vh;
-    background-color: #f8f7f7;
+    background-color: #fff;
+    border: 1px solid #9c9c9c;
     margin: 8px 8px;
     padding: 10px 8px;
     border-radius: 8px;
@@ -1670,10 +1698,10 @@ Reason - to design radio button container */
     min-width: 70px;
     height: 30px;
     margin: 3px 0;
-    background-color: transparent;
+    background-color: #f8f7f7;
     outline: none;
     border: none;
-    border: 1px solid #9c9c9c;
+    border-bottom: 1px solid #9c9c9c;
     border-radius: 5px;
     padding: 0 5px;
 }
@@ -1701,10 +1729,10 @@ Reason - to design radio button container */
     min-width: 90px;
     height: 53px;
     margin: 3px 0;
-    background-color: transparent;
+    background-color: #f8f7f7;
     outline: none;
     border: none;
-    border: 1px solid #9c9c9c;
+    border-bottom: 1px solid #9c9c9c;
     border-radius: 5px;
     padding: 0 6px;
 }
@@ -1749,23 +1777,24 @@ Reason - to design radio button container */
     border-radius: 5px;
     height: 30px;
     padding: 0 8px;
-    color: rgb(39, 166, 75);
+    color:#fff ;
     background-color: transparent;
     font-weight: 600;
+    background-color: rgb(39, 166, 75);
     border: 1px solid rgb(39, 166, 75);
     transition: all .3s;
 }
 
 .ApplyBtn:hover {
-    background-color: rgb(39, 166, 75);
-    color: #fff;
+    background-color: transparent;
+    color: rgb(39, 166, 75);
 }
 
 .StatusArrowBtnContainer {
     display: flex;
     flex-wrap: wrap;
 
-    width: 80%;
+    width: fit-content;
     /* padding: 0 10px; */
 }
 
@@ -1774,7 +1803,7 @@ Reason - to design button */
 .orderStatusArrowBtnContainerDashboard {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: fit-content;
 }
 /* End of addition by yuvraj sahu on 03-08-2023 */
 
@@ -1783,16 +1812,18 @@ Reason - to design button */
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0 10px;
-    margin-bottom: 20px;
+    width: fit-content;
+    /* margin-bottom: 20px; */
     /* justify-content: center;
     align-items: center; */
 }
 
 .orderCancelBtn {
     border: 2px solid #f8857d;
+    background-color: #f8857d;
     border-radius: 5px;
-    padding: 5px 10px;
-    color: #f8857d;
+    padding: 5px 2px;
+    color: #fff;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -1805,8 +1836,8 @@ Reason - to design button */
 
 .orderCancelBtn:hover {
     border: 2px solid #f8857d;
-    color: #fff;
-    background-color: #f8857d;
+    color: #f8857d;
+    background-color: transparent;
 }
 
 .PricingContainer {
@@ -1832,7 +1863,8 @@ Reason - to design button */
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    background: #f8f7f7;
+    border: 1px solid #9c9c9c;
+    background: #fff;
 
 }
 
@@ -1873,20 +1905,22 @@ Reason - to design button */
     border-radius: 5px;
     height: 30px;
 
-    color: rgb(0, 0, 0);
+    color: #fff;
     background-color: transparent;
     font-weight: 600;
+    background-color: rgb(0, 0, 0);
     border: 1px solid rgb(0, 0, 0);
     transition: all .3s;
 }
 
 .BackBtn:hover {
-    background-color: rgb(0, 0, 0);
-    color: white;
+    background-color: transparent;
+    color: rgb(0, 0, 0);
 }
 
 .disbaleBtn {
     pointer-events: none;
+    color: #9c9c9c;
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -1997,6 +2031,10 @@ Reason - to design button */
         font-size: 16px;
         padding: 0 5px;
         height: unset;
+    }
+
+    .topHeading{
+        flex-direction: column;
     }
 
     .itemList {
@@ -2110,10 +2148,10 @@ Reason - to design button */
         width: 100%;
     }
 
-    .StatusArrowBtnContainer {
-        width: 100%;
+    /* .StatusArrowBtnContainer {
+         width: 100%; 
         justify-content: center;
-    }
+    } */
 
     .OrderstatusBtnContainer {
         justify-content: center;
@@ -2178,10 +2216,10 @@ Reason - to design button */
     margin: 0;
    }
 
-   .getbill{
+   /* .getbill{
     margin:0 5px;
     margin-right: 20px;
-   }
+   } */
 
 }
 
