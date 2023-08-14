@@ -815,7 +815,11 @@ class Order(models.Model):
     # Modification and addition by Om Shrivastava on 23-06-23
     # Reason : Remove the null= true property
     # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
-    cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin")
+    # Modified by Rohan kansari - 13/8/23
+    # Reason - To make it Char field and able to set any string
+    # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin")
+    cancelled_by = models.CharField(max_length=100,default="---")
+    # ENd of code - Rohan kansari - 13/8/23
     # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,null=True,blank=True)
     # End of addition by Om Shrivastava on 23-06-23 Reason : Remove the null= true property
     
