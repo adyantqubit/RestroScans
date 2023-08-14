@@ -2224,21 +2224,33 @@ class UpdateAllOrderStatus(APIView):
             # print(request.data["order_status"],request.data['payment_status'],data['order_status'],data["payment_status"])
             # Added by yuvraj Sahu on 29-06-2023
             # Reason - to update data when order and payment status is comming from front end
+            orderObj = Order.objects.get(order_id=data["order_id"])
             if "order_status" in request.data :
-                data['order_status']=request.data["order_status"]
+                # Added by Yuvraj Sahu on 14-08-2023
+                # Reason - to update the order status
+                # data['order_status']=request.data["order_status"]
+                updateOrder = {"order_status" : request.data['order_status']}
+                serializedData = OrderSerializer(orderObj, data=updateOrder, partial=True)
+                if serializedData.is_valid() :
+                    serializedData.save()
             if "payment_status" in request.data :
-                data["payment_status"]=request.data['payment_status']
-            if "order_status" in request.data :
+                # Added by Yuvraj Sahu on 14-08-2023
+                # Reason - to update the order status
+                # data["payment_status"]=request.data['payment_status']
+                updateOrder = {"payment_status" : request.data['payment_status']}
+                serializedData = OrderSerializer(orderObj, data=updateOrder, partial=True)
+                if serializedData.is_valid(raise_exception=True) :
+                    serializedData.save()
+            # if "order_status" in request.data :
             # End of addition by yuvraj sahu on 29-06-2023
-                if request.data["order_status"] == "Confirm":
-                    OrderItem.objects.filter(order_id__order_id=data['order_id'], item_status="Pending").update(item_status="Confirm")
+                # if request.data["order_status"] == "Confirm":
+                #     OrderItem.objects.filter(order_id__order_id=data['order_id'], item_status="Pending").update(item_status="Confirm")
                 # Added by Yuvraj Sahu on 07-08-2023
                 # Reason - to update the cancel the order items
-                if request.data["order_status"] == "Cancelled":
-                    OrderItem.objects.filter(order_id__order_id=data['order_id']).update(item_status="Cancelled")
+                # if request.data["order_status"] == "Cancelled":
+                #     OrderItem.objects.filter(order_id__order_id=data['order_id']).update(item_status="Cancelled")
                 # End of addition by Yuvraj Sahu on 07-08-2023
-            
-            Order.objects.filter(order_id = data['order_id']).update(order_status=data["order_status"],payment_status=data['payment_status'])
+            # Order.objects.filter(order_id = data['order_id']).update(order_status=data["order_status"],payment_status=data['payment_status'])
           
 
 

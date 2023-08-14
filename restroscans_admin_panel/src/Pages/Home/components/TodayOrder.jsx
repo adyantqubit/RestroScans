@@ -785,10 +785,10 @@ const TodayOrder = (props) => {
         const data = {
             orders: checkedItems
         }
-        if ("order_status" in status) {
+        if ("order_status" in status){
             data["order_status"] = status.order_status
         }
-        if ("payment_status" in status) {
+        if ("payment_status" in status){
             data["payment_status"] = status.payment_status
         }
 
