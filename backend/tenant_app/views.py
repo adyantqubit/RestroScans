@@ -864,8 +864,12 @@ def orderItemsCreation(request, order_obj):
 def validateTable(tabelNumber):
     print("ldldl")
     from django.utils.timezone import datetime
+    from django.db.models import Q
     today=datetime.today().date()
-    totalOrders = Order.objects.filter(date__gte=today,payment_status="Pending").values("table_number")
+    # Modified by Rohan kansari - 17/8/23
+    # Reason - To dont get data of cancelled orders
+    totalOrders = Order.objects.filter(~Q(order_status="Cancelled"),date__gte=today,payment_status="Pending").values("table_number")
+    # ENd of code - Rohan kansari - 17/8/23
     for obj in totalOrders:
         if(tabelNumber==obj["table_number"]):
            return False

@@ -17,7 +17,11 @@ export default function AddOrderItemForm(orderId) {
 
     useEffect(() => {
         getSettingData()
-    }, [])
+
+    // Modified by ROhan kansari - 17/8/23
+    // Reason to reset form on closing and adding
+    }, [orderId.modalvisibility])
+    // ENd of code - Rohan kansari - 17/8/23
 
     // Added by :- Om shrivastava on 14-06-2023
     // Reason :- to set and show half and full  
@@ -107,13 +111,18 @@ export default function AddOrderItemForm(orderId) {
 
 
     useEffect(() => {
+        
+        resetForm()
         setItemNameRequired(false);
         setservingSizeRequired(false);
         getAllMenus();
 
         getAllOffers()
 
-    }, []);
+    // Modified by ROhan kansari - 17/8/23
+    // Reason to reset form on closing and adding
+    }, [orderId.modalvisibility,orderId.orderItemList]);
+    // ENd of code - Rohan kansari - 17/8/23
     // End of added code by :- Om shrivastava on 24-06-2023
 
 
@@ -362,6 +371,7 @@ export default function AddOrderItemForm(orderId) {
     const submitOrderItems = async () => {
 
         var allowDataPost = false;
+        var IsDataPosted=true;
         // Modification and addition by Om Shrivastava on 07-07-23
         // Reason : Set the validation for Quantity
         // Modification and addition by Om Shrivastava on 09-07-23
@@ -397,8 +407,12 @@ export default function AddOrderItemForm(orderId) {
             
         // Modified by Rohan kansari - 6/8/23
         // Reason - to manage only add new data and dont call backend save 
+        // Modified by Rohan kansari - 17/8/23
             if(typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false){
-                allowDataPost=false
+                IsDataPosted=false
+            }
+            else{
+                IsDataPosted=true
             }
             // End of addition by Om Shrivastava on 09-07-23
         
@@ -413,7 +427,9 @@ export default function AddOrderItemForm(orderId) {
 
         // End of addition and modification by Om Shrivastava on 07-07-23 Reason : Set the valdation for quantity
 
-        if (allowDataPost) {
+        // Modified by Rohan kansari - 17/8/23
+        // Reason to disable postine and only return added data
+        if (allowDataPost && IsDataPosted) {
 
             const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
@@ -446,7 +462,8 @@ export default function AddOrderItemForm(orderId) {
         else {
             // Added by Rohan kansari - 6/8/23
             // Reason - to add data in orderitem list and it will not set backend
-            if(typeof orderId.setOrderItemList != "undefined"){
+            // Modified by Rohan kansari - 17/8/23
+            if(typeof orderId.setOrderItemList != "undefined" && allowDataPost){
                 if(servingSizeData=="Half")
                 servingSizeData="Half Plate"
                 else

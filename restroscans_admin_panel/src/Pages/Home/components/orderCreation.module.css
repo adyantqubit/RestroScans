@@ -4,10 +4,23 @@
     --data-font-size: 14px;
 }
 
+.modelContainer{
+    width: 65vw !important;
+    top: 10vh !important;
+
+}
+
 .header{
     width: 100%;
     height: 23px;
     /* background-color: aqua; */
+}
+
+.customerDetailForm{
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .formHeading{
@@ -33,7 +46,8 @@
 
 .inputLabel{
     font-size: 16px;
-    color: #212121;
+    font-weight: 400;
+    color: #000;
     margin: 5px 0;
 }
 
@@ -170,7 +184,7 @@
     padding: 3px 10px;
     border-radius: 5px;
     margin-top: 2px;
-    background-color: #F1EDED;
+    background-color: #f1f1f1c2;
 
 }
 
@@ -185,6 +199,7 @@
     width: 40%;
     height: 100%;
     min-width: 70px;
+    color: #000;
     font-size: var(--data-font-size);
 }
 
@@ -193,13 +208,15 @@
     height: fit-content;
     min-width: 40px;
     display: flex;
+    color: #000;
     font-size: var(--data-font-size);
 }
 
 .priceColumn{
     width: 15%;
     height: 100%;
-    min-width: 40px;
+    min-width: 50px;
+    color: #000;
     font-size: var(--data-font-size);
 }
 
@@ -251,11 +268,12 @@ display: block;
 }
 
 .quantityAdded{
-    width: 15px;
+    width: 25px;
     height: 15px; 
     font-size: 13px;
     padding-left: 4px;
      position: relative;
+     text-align: center;
     top: -4px;
     /* background-color: cornsilk;  */
 }
@@ -365,6 +383,17 @@ display: block;
         
     }
 
+    .modelContainer{
+        width: 80vw !important;
+    }
+
+}
+
+@media screen and (max-width: 900px){
+
+    .modelContainer{
+        width: 90vw !important;
+    }
 }
 
 @media screen and (max-width: 500px){
@@ -405,11 +434,11 @@ display: block;
 
     /* .quantity{
         min-width: 30px;
-    }
+    }*/
 
     .quantityColumn{
-        min-width: 30px;
-    } */
+        width: fit-content;
+    } 
 
     .action{
         min-width: 15px;
@@ -431,6 +460,10 @@ display: block;
 
     .priceData{
         font-size: 14px;
+    }
+
+    .modelContainer{
+        width: 95vw !important;
     }
 
 }

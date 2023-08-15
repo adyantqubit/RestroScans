@@ -7,21 +7,21 @@ import AddOrderItemForm from '../../Order/AddOrderItemForm'
 import { getSettingsDetails, postCustomerDetails } from '../../../Api/services'
 import { json } from 'react-router-dom'
 import { Message } from '../../../App'
-function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,recall}) {
+function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, recall }) {
 
     const [AddMoreItemmodalVisible, setAddMoreItemModalVisible] = useState(false)
     var [orderItemList, setOrderItemList] = useState([])
-    var [errorText,setErrorText]=useState({})
+    var [errorText, setErrorText] = useState({})
     var [settings, setSettings] = useState({});
     var [subtotal, setSubtotal] = useState(0);
     var [cgst, setCGST] = useState(0);
     var [sgst, setSGST] = useState(0);
     var [total, setTotal] = useState(0);
-    var [contact,setContact]=useState("");
-    const [table_number,setTableNumber]=useState("")
-    const [email,setEmail]=useState("")
-    const [payment,setPayment]=useState(null)
-    const [name,setName]=useState("")
+    var [contact, setContact] = useState("");
+    const [table_number, setTableNumber] = useState("")
+    const [email, setEmail] = useState("")
+    const [payment, setPayment] = useState(null)
+    const [name, setName] = useState("")
 
 
     useEffect(() => {
@@ -52,8 +52,8 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
         }
     }
 
-    function removeItem(index){
-        orderItemList.splice(index,1)
+    function removeItem(index) {
+        orderItemList.splice(index, 1)
         setOrderItemList([...orderItemList])
     }
 
@@ -64,16 +64,16 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
         orderItemList.filter(e => {
             subtotal += parseFloat(e.price);
         })
-        subtotal=subtotal.toFixed(2)
-        if (settings.cgst){
+        subtotal = subtotal
+        if (settings.cgst) {
             var cgst = settings.cgst * (subtotal / 100);
-            setCGST(cgst);
+            setCGST(cgst.toFixed(2));
         }
 
 
-        if (settings.sgst){
+        if (settings.sgst) {
             var sgst = settings.sgst * (subtotal / 100);
-            setSGST(sgst);
+            setSGST(sgst.toFixed(2));
         }
 
 
@@ -90,67 +90,67 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
             var total = subtotal;
         }
 
-        setSubtotal(subtotal);
-        setTotal(total)
-        
+        setSubtotal(subtotal.toFixed(2));
+        setTotal(total.toFixed(2))
+
     }, [orderItemList])
 
 
 
-    const SubmitOrder=async ()=>{
+    const SubmitOrder = async () => {
 
-        if(table_number.length==0)
-        errorText.table_number="Table number should not be blank"
+        if (table_number.length == 0)
+            errorText.table_number = "Please enter table number";
 
-        if(contact.length==0){
-            errorText.contact_number="Contact Number should not be blank";
+        if (contact.length == 0) {
+            errorText.contact_number = "Please enter contact number";
         }
-        if(contact.length<10){
-            errorText.contact_number="Contact Number should not be less than 10";
+        else if (contact.length < 10) {
+            errorText.contact_number = "Contact Number should not be less than 10 digits";
         }
-        else if(contact.length>10){
-            errorText.contact_number="Contact Number should not be more than 10";
+        else if (contact.length > 10) {
+            errorText.contact_number = "Contact Number should not be more than 10 digits";
         }
-        else{
+        else {
             delete errorText.contact_number;
         }
 
-        if(orderItemList.length==0){
-            Message("Please add item !","error")
+        if (orderItemList.length == 0) {
+            Message("Please add item !", "error")
         }
 
-        setErrorText({...errorText})
+        setErrorText({ ...errorText })
 
-        const formData={
-            cart:orderItemList,
-            contact_number:contact,
-            payment_mode:payment,
-            email:email,
-            name:name,
-            table_number:table_number,
-            validate_table:true
+        const formData = {
+            cart: orderItemList,
+            contact_number: contact,
+            payment_mode: payment,
+            email: email,
+            name: name,
+            table_number: table_number,
+            validate_table: true
         }
 
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
-        if(Object.keys(errorText).length==0 && orderItemList.length>0)
-        await postCustomerDetails(formData, tenant).then(r=>{
-            if(r.tabel_error){
+        if (Object.keys(errorText).length == 0 && orderItemList.length > 0)
+            await postCustomerDetails(formData, tenant).then(r => {
+                if (r.tabel_error) {
 
-               Message("This tabel is not vacant","error");
-            }else{
-            Message("Successfully order created","success");
-            setRecall([...[""]])
-            clearData()
-            setOrderPopupvisible(false)
-            }
-        });
+                    Message("This tabel is not vacant", "error");
+                } else {
+                    Message("Successfully order created", "success");
+                    setRecall([...[""]])
+                    clearData()
+                    setOrderPopupvisible(false)
+                }
+            });
 
     }
 
 
-    function clearData(){
+    function clearData() {
         setOrderItemList([])
         setErrorText({})
         setSubtotal(0)
@@ -165,9 +165,11 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
     }
 
 
-    return <Modal open={IsOrderPopupVisible} onCancel={e => {setOrderPopupvisible(false); clearData()}}
-        width="80vw" style={{ height: "80vh", top: "10vh", bottom: "10vh" }}
+    return <Modal open={IsOrderPopupVisible} onCancel={e => { setOrderPopupvisible(false); clearData() }}
+        // width="70vw" style={{ height: "80vh", top: "10vh", bottom: "10vh" }}
+        height="50vh"
         okText="Create"
+        className={style.modelContainer}
         onOk={SubmitOrder}
     >
         <div className={style.container}>
@@ -187,68 +189,70 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
                 </Modal>
             </div>
             <div className={style.customerDetailForm}>
-                <div className={style.formHeading}>Please fill Customer Details</div>
-                <div className={style.inputBoxContains}>
-                    <div className={style.inputBox}>
-                        <label className={style.inputLabel}>Tabel Number *</label>
-                        <input className={style.inputfield} value={table_number} onChange={e=>{
-                            if(e.target.value.length){
-                               delete errorText.table_number
-                            }else{
-                                errorText.table_number="Table Number should not be blank."
-                            }
+                <div>
+                    <div className={style.formHeading}>Please fill Customer Details</div>
+                    <div className={style.inputBoxContains}>
+                        <div className={style.inputBox}> 
+                            <label className={style.inputLabel}>Table Number *</label>
+                            <input className={style.inputfield} value={table_number} onChange={e => {
+                                if (e.target.value.length) {
+                                    delete errorText.table_number
+                                } else {
+                                    errorText.table_number = "Table Number should not be blank."
+                                }
 
-                            setErrorText({...errorText})
-                            setTableNumber(e.target.value);
-                            }}/>
-                        <div className={style.errorText}>{errorText?.table_number}</div>
-                    </div>
-                    <div className={style.inputBox}>
-                        <label className={style.inputLabel}>Contact Number *</label>
-                        <input className={style.inputfield} value={contact} onChange={e=>{
-                            if(e.target.value.length&&/^\d+$/.test(e.target.value)){
-                             delete errorText.contact_number
-                            }
-                            else {
-                             errorText.contact_number="contact number should not be blank."
-                            }
-                            
-                            setErrorText({...errorText});
-                            if(/^\d+$/.test(e.target.value)||e.target.value.length==0)
-                            setContact(e.target.value);
-                            
-                            }}/>
-                        <div className={style.errorText}>{errorText?.contact_number}</div>
-                    </div>
-                    <div className={style.inputBox}>
-                        <label className={style.inputLabel}>Name </label>
-                        <input className={style.inputfield} value={name} onChange={e=>setName(e.target.value)}/>
-                        {/* <div className={style.errorText}>Tabel number should not be blank</div> */}
-                    </div>
-                    <div className={style.inputBox}>
-                        <label className={style.inputLabel}>Email </label>
-                        <input className={style.inputfield} value={email} onChange={e=>{
-                            var emailRegex =
-                            new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+                                setErrorText({ ...errorText })
+                                setTableNumber(e.target.value);
+                            }} />
+                            <div className={style.errorText}>{errorText?.table_number}</div>
+                        </div>
+                        <div className={style.inputBox}>
+                            <label className={style.inputLabel}>Contact Number *</label>
+                            <input className={style.inputfield} value={contact} onChange={e => {
+                                if (e.target.value.length && /^\d+$/.test(e.target.value)) {
+                                    delete errorText.contact_number
+                                }
+                                else {
+                                    errorText.contact_number = "contact number should not be blank."
+                                }
 
-                            if(e.target.value.length&&emailRegex.test(e.target.value))
-                            delete errorText.email
-                            else
-                             errorText.email="Enter valid email example@gmail.com"
+                                setErrorText({ ...errorText });
+                                if (/^\d+$/.test(e.target.value) || e.target.value.length == 0)
+                                    setContact(e.target.value);
 
-                             setErrorText({...errorText})
-                            setEmail(e.target.value)
-                            }}/>
-                        <div className={style.errorText}>{errorText?.email}</div>
-                    </div>
-                    <div className={style.inputBox}>
-                        <label className={style.inputLabel}>Payment Mode </label>
-                        <select defaultValue={payment} onChange={e=>setPayment(e.target.value)} className={style.inputfield} >
-                            <option value={null}>*------*</option>
-                            <option value="cash">Cash</option>
-                            <option value="scanner">Scanner</option>
-                        </select>
-                        {/* <div className={style.errorText}>Payment mode should not be blank</div> */}
+                            }} />
+                            <div className={style.errorText}>{errorText?.contact_number}</div>
+                        </div>
+                        <div className={style.inputBox}>
+                            <label className={style.inputLabel}>Name </label>
+                            <input className={style.inputfield} value={name} onChange={e => setName(e.target.value)} />
+                            {/* <div className={style.errorText}>Tabel number should not be blank</div> */}
+                        </div>
+                        <div className={style.inputBox}>
+                            <label className={style.inputLabel}>Email </label>
+                            <input className={style.inputfield} value={email} onChange={e => {
+                                var emailRegex =
+                                    new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+
+                                if (e.target.value.length && emailRegex.test(e.target.value))
+                                    delete errorText.email
+                                else
+                                    errorText.email = "Enter valid email example@gmail.com"
+
+                                setErrorText({ ...errorText })
+                                setEmail(e.target.value)
+                            }} />
+                            <div className={style.errorText}>{errorText?.email}</div>
+                        </div>
+                        <div className={style.inputBox}>
+                            <label className={style.inputLabel}>Payment Mode </label>
+                            <select defaultValue={payment} onChange={e => setPayment(e.target.value)} className={style.inputfield} >
+                                <option value={null}> --- </option>
+                                <option value="cash">Cash</option>
+                                <option value="scanner">Scanner</option>
+                            </select>
+                            {/* <div className={style.errorText}>Payment mode should not be blank</div> */}
+                        </div>
                     </div>
                 </div>
                 <div className={style.listNPricingFlexBox}>
@@ -281,7 +285,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
                                     <div className={style.priceColumn}>{e.price}</div>
                                     <div className={style.action}>
                                         {/* <div className={style.resposivePrice}>340000</div> */}
-                                        <button className={style.removeBtn} onClick={e=>removeItem(i)}><span className={style.responsiveBTNText}>Remove</span><span className={style.mobileBtnText}><AiOutlineDelete className={style.deletebtn} /></span></button>
+                                        <button className={style.removeBtn} onClick={e => removeItem(i)}><span className={style.responsiveBTNText}>Remove</span><span className={style.mobileBtnText}><AiOutlineDelete className={style.deletebtn} /></span></button>
                                     </div>
                                 </div>
                             ) :
@@ -299,19 +303,19 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible ,setRecall,re
                         </div>
                         <div className={style.priceContains}>
                             <div className={style.priceRow}>
-                                <div className={style.priceData}>SubTotal -:</div>
+                                <div className={style.priceData}>SubTotal :-</div>
                                 <div className={style.priceData}>{subtotal}</div>
                             </div>
-                            <div className={style.priceRow}>
-                                <div className={style.priceData}>CGST -:</div>
+                            { settings.cgst>0?<div className={style.priceRow}>
+                                <div className={style.priceData}>CGST ({settings.cgst}%) :-</div>
                                 <div className={style.priceData}>{cgst}</div>
-                            </div>
-                            <div className={style.priceRow}>
-                                <div className={style.priceData}>SGST -:</div>
+                            </div>:null}
+                            { settings.sgst>0?<div className={style.priceRow}>
+                                <div className={style.priceData}>SGST ({settings.sgst}%) :-</div>
                                 <div className={style.priceData}>{sgst}</div>
-                            </div>
+                            </div>:null}
                             <div className={style.priceRow}>
-                                <div className={style.priceData}>Total -:</div>
+                                <div className={style.priceData}>Total :-</div>
                                 <div className={style.priceData}>{total}</div>
                             </div>
                         </div>
