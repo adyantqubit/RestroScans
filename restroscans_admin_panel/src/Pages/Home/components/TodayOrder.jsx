@@ -2423,7 +2423,15 @@ const TodayOrder = (props) => {
 
                                                 <input className={style.EditableInput} onKeyUp={e => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
+                                                    // Modified by Rohan kansari - 19/8/23
+                                                    // Reason - to send error message for blank table number
+                                                    if(tablenumber.length>0){    
                                                         updateTableNumberOnly(); setInputEnable(null);
+                                                    }else{
+                                                        Message("Please enter table number","warning")
+                                                    }
+                                                    // End of Modification by Rohan kansari - 19/8/23
+                                                    // Reason - to send error message for blank table number
                                                     }
                                                 }
 
@@ -2441,7 +2449,15 @@ const TodayOrder = (props) => {
                                                     maxLength={6}
                                                 />
                                                 <TiTick className={style.inputChecked} onClick={e => {
+                                                    // Modified by Rohan kansari - 19/8/23
+                                                    // Reason - to send error message for blank table number
+                                                    if(tablenumber.length>0){
                                                     updateTableNumberOnly(); setInputEnable(null);
+                                                    }else{
+                                                        Message("Please enter table number","warning")
+                                                    }
+                                                    // End of Modification by Rohan kansari - 19/8/23
+                                                    // Reason - to send error message for blank table number
                                                 }} />
 
                                             </>

@@ -2744,7 +2744,9 @@ class OrderFilterAPIView(APIView):
 
         # Added by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
         # print("request", request.data)
-        
+
+        # Modified by Rohan kansari - 19/8/23
+        # Reason To apply multiple filter functionality
         paginationDetails=request.data['paginationDetails']
         columnToSort=request.data['columnToSort']
         columnSortingOrder=request.data['columnSortingOrder']
@@ -2754,13 +2756,15 @@ class OrderFilterAPIView(APIView):
         orderStatus=request.data['orderStatus'] 
         quickSelect = request.data['quickSelect']
         # print("orderStatus",orderStatus)
-        orderList = []
+        orderList = Order.objects.none().filter()
+        print("---------------------",request.data)
 
         if columnToSort == "":
             orderList = Order.objects.all()  
         # if request.data['dateFrom'] :
         #     orderList = Order.objects.filter(date__range=[request.data['dateFrom'], request.data['dateTo']])
-
+    
+        print("--------------------- after column sort",request.data)
 
         if quickSelect['today'] == True :
             todayDate = datetime.today().date()
@@ -2768,30 +2772,40 @@ class OrderFilterAPIView(APIView):
             orderList = Order.objects.filter(date__gte=todayDate)
             print("orderList today", orderList)
 
-
+        print("--------------------- after today",request.data)
+        
         if quickSelect['week'] == True :
+            one_week_ago = datetime.today() - timedelta(days=7)
+            orderList = Order.objects.filter(date__gte=one_week_ago)
             # print("===============================", datetime.date.today().week)
-            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+            # orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
         if quickSelect['month'] == True :
             # print("===============================", datetime.date.today().month)
-            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+            orderList = Order.objects.filter(date__month=datetime.now().month) 
         if quickSelect['year'] == True :
-            # print("===============================",datetime.date.today().year)
-            orderList = Order.objects.filter(date__range=[datetime.date.today().year])
+            # # print("===============================",datetime.date.today().year)
+            # Order.objects.filter(created_at__year=today.year)
+            orderList = Order.objects.filter(date__year=datetime.now().year)
+            print("try''''''''''''''''''''''''''''' ",orderList)    
 
+        print("--------------------- after week",orderList)
 
         print(request.data['startDate'], request.data['endDate'])
+
         if request.data['startDate'] :
-            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+            orderList = Order.objects.filter(date__gte=request.data['startDate'],date__lt=request.data['endDate'])
         # else :
         #     orderList = Order.objects.all()
         # print("====================",orderList)
+        print("------------K",orderList)    
 
-        
+        # here is some issue
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderList = orderList.order_by('order_id')
         if columnToSort == "order_id" and columnSortingOrder=="descending":
             orderList = orderList.order_by('-order_id')
+
+        print("------------second k",orderList)    
 
         pendingOrder = []
         completedOrder = []
@@ -2801,60 +2815,60 @@ class OrderFilterAPIView(APIView):
         servedOrder = []
         cancelledOrder = []
 
-        if paymentStatus['pending'] == True :
-            pendingOrder = orderList.filter(payment_status = "Pending")
+        orderPaymentList=[]
 
-        if paymentStatus['completed'] == True :
-            completedOrder = orderList.filter(payment_status = "Completed")
+        print("------------declaration",orderList) 
+       
+        if paymentStatus['pending'] == False and paymentStatus['completed'] == True :
+           orderPaymentList= orderList.filter(payment_status = "Completed")
+        elif paymentStatus['pending'] == True and paymentStatus['completed'] == False :
+            orderPaymentList = orderList.filter(payment_status = "Pending")
+        else :
+            orderPaymentList = orderList
 
+        
+     
         if orderStatus['placed'] == True :
-            placedOrder = orderList.filter(order_status = "Placed")
+            placedOrder = orderPaymentList.filter(order_status = "Placed")
            
         if orderStatus['confirm'] == True :
-            confirmOrder = orderList.filter(order_status = "Confirm")
+            confirmOrder = orderPaymentList.filter(order_status = "Confirm")
 
         if orderStatus['cooked'] == True :
-            cookedOrder = orderList.filter(order_status = "Cooked")
+            cookedOrder = orderPaymentList.filter(order_status = "Cooked")
 
         if orderStatus['served'] == True :
-            servedOrder = orderList.filter(order_status = "Served")
+            servedOrder = orderPaymentList.filter(order_status = "Served")
 
         if orderStatus['cancelled'] == True :
-            cancelledOrder = orderList.filter(order_status = "Cancelled")
+            cancelledOrder = orderPaymentList.filter(order_status = "Cancelled")
+      
+        print("------------initialize",orderList) 
+        
+        orderStatusList=Order.objects.none()
 
-        orderList1 =[]
-        for x in placedOrder:
-            orderList1.append(x)
-        for x in confirmOrder:
-            orderList1.append(x)
-        for x in cookedOrder:
-            orderList1.append(x)
-        for x in servedOrder:
-            orderList1.append(x)
-        for x in cancelledOrder:
-            orderList1.append(x)
-        # print("====================",orderList1)
-
-        # today date filter
-        for x in orderList:
-            orderList1.append(x)
-
-
-        for x in pendingOrder:
-            # print("x=====", x)
-            if x not in orderList1:
-                orderList1.append(x)
-        for x in completedOrder:
-            if x not in orderList1:
-                orderList1.append(x)
+        if len(placedOrder):
+            orderStatusList=orderStatusList | placedOrder
+        if len(confirmOrder):
+            orderStatusList=orderStatusList | confirmOrder    
+        if len(cookedOrder):
+            orderStatusList=orderStatusList | cookedOrder    
+        if len(servedOrder):
+            orderStatusList=orderStatusList | servedOrder
+        if len(cancelledOrder):
+            orderStatusList=orderStatusList | cancelledOrder
+        if len(orderStatusList)==0:
+           orderStatusList=orderPaymentList
+        
         
        
         # print("orderlist", orderList1)
-        orderListCount = len(orderList1)
-        paginator = Paginator(orderList1, listPerPage)
+        orderListCount = len(orderStatusList)
+        paginator = Paginator(orderStatusList, listPerPage)
         filteredOrderList = paginator.page(currentPage)
         orderListSerializer = OrderSerializer(filteredOrderList, many=True)
-       
+        # End of modification by Rohan kansari - 19/8/23
+        # Reason To apply multiple filter functionality
         return Response({
             "msg":"success",
             "orderList":orderListSerializer.data,

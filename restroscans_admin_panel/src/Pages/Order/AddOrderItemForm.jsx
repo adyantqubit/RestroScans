@@ -480,7 +480,9 @@ export default function AddOrderItemForm(orderId) {
                 orderId.modalvisibilityFn(false)
                 // Modify by Rohan Kansari - 9/8/23
                 // To enter quantity in existing data 
-                if (orderId.orderItemList.findIndex(e => e.id == data.id) != -1) {
+                // Modified by Rohan kansari - 19/8/23
+                // Reason - to find order item with it plates 
+                if (orderId.orderItemList.findIndex(e => e.id == data.id && e.serve_size == data.serve_size) != -1) {
                     orderId.orderItemList[orderId.orderItemList.findIndex(e => e.id == data.id && e.serve_size == data.serve_size)].quantity += parseInt(quantitySelected)
                     orderId.setOrderItemList([...orderId.orderItemList])
                 } else

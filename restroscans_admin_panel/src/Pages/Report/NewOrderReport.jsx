@@ -43,8 +43,13 @@ const NewOrderReport = () => {
         month : false,
         year : true,
     });
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+
+    // Modofication by ROhan kansari - 19/8/23
+    // Reason - To set date by Default null
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    //ENd of Modification by ROhan kansari - 19/8/23
+    // Reason - To set date by Default null
 
     // ============================================
 
@@ -584,7 +589,7 @@ const NewOrderReport = () => {
                    <div className={style.fromDate}>
                        {/* <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeFrom} value={fromDate} format="dd/MM/yyyy" /></div>
                        <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeTo} value={toDate} format="dd/MM/yyyy" /></div> */}
-                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy" dayPlaceholder="dd/mm/yyyy"  /></div>
+                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy" /></div>
                        <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeToDate} value={endDate} disabled = {disable} format="dd/MM/yyyy" minDate={endDate} /></div>
                    </div>
                </div>
@@ -627,7 +632,11 @@ const NewOrderReport = () => {
                             <div className={style.selectContainer}>
                                 <div>
                                     {/* <input type="checkbox" id="year" defaultChecked={true} onChange={e => setThisYear(e.target.checked)} /> */}
-                                    <input type="radio" id="year" name="quick_select" value="year" defaultChecked={true} onChange={e => {handleQuickSelect(e.target.value); handleCustomSelect(e)}} />
+                                    <input type="radio" id="year" name="quick_select" value="year" defaultChecked={true} onChange={e => {handleQuickSelect(e.target.value); 
+                                    // Modofication by ROhan kansari - 19/8/23
+                                     // Reason - dont open date 
+                                    // handleCustomSelect(e)
+                                    }} />
                                     </div>
                                 <div className={style.label}>This Year</div>
                             </div>

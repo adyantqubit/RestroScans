@@ -248,8 +248,8 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                             <label className={style.inputLabel}>Payment Mode </label>
                             <select defaultValue={payment} onChange={e => setPayment(e.target.value)} className={style.inputfield} >
                                 <option value={null}> --- </option>
-                                <option value="cash">Cash</option>
-                                <option value="scanner">Scanner</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Scanner">Scanner</option>
                             </select>
                             {/* <div className={style.errorText}>Payment mode should not be blank</div> */}
                         </div>
