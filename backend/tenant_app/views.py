@@ -632,6 +632,15 @@ def orderCreation(tenant, request):
     #     cartData['total'] =round( float("{:.2f}".format((sum(itemsPrice)))),2)
     # End of commented code 
 
+
+    # Added by ROhan kansari - 16/8/23
+    # Reason - To add entered customer name and email
+    cartData["customer_name"]=request.data["name"]
+    cartData["customer_email"]=request.data["email"]
+    # End of code - Rohan kansari - 16/8/23 - 
+
+   
+
     orderSerializer = OrderSerializer(data=cartData)
     order_obj = 0
 

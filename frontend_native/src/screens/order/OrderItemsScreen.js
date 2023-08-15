@@ -565,7 +565,8 @@ export default function OrderItemsScreen({ route, navigation }) {
                     <div>:</div>  
                 </div>
                 <div class="text">
-                ${customerDetail.last_customer_name.length ? customerDetail.last_customer_name:"---"}
+                
+                ${orderDetail.customer_name.length ? orderDetail.customer_name:"---"}
                 </div>
             </div>
             <div class="column1" >
@@ -2440,7 +2441,13 @@ const printKot = async()=>{
               {/* Modification and addition by Om Shrivastava on 17-05-23
               Reason : When customer name is not show than show the "---" */}
               {/* <Text>Name</Text> : {customerDetail.last_customer_name} */}
-              <Text>Name</Text> : {customerDetail.last_customer_name != undefined && customerDetail.last_customer_name != null && customerDetail.last_customer_name.length > 0 ? customerDetail.last_customer_name : "---"}
+              <Text>Name</Text> : 
+              {  
+              // Modified by Rohan kansari - 16/8/23 - To show entered email and name 
+              // customerDetail.last_customer_name != undefined && customerDetail.last_customer_name != null && customerDetail.last_customer_name.length > 0 ? customerDetail.last_customer_name 
+              orderDetail.customer_name != undefined && orderDetail.customer_name != null && orderDetail.customer_name.length > 0 ? orderDetail.customer_name 
+              : "---"}
+              {/* ENd of modification - Rohan kansari - 16/8/23  */}
               {/* End of modification and addition by Om Shrivastava on 17-05-23 */}
               {/* End of modification 30/04/2023 */}
             </Text>
@@ -2451,7 +2458,13 @@ const printKot = async()=>{
                 {/* Added and modified by yuvraj Sahu on 05-05-2023
                 Reason - to get latest email  */}
                 {/* <Text>Email</Text> : {customerDetail.email} */}
-                <Text>Email</Text> : {customerDetail.last_email ? customerDetail.last_email : "---"}
+                <Text>Email</Text> : {
+                  // Modified by Rohan kansari - 16/8/23 - To show entered email and name 
+              // customerDetail.last_customer_name != undefined && customerDetail.last_customer_name != null && customerDetail.last_customer_name.length > 0 ? customerDetail.last_customer_name 
+                // customerDetail.last_email ? customerDetail.last_email 
+                orderDetail.customer_email?orderDetail.customer_email
+                : "---"}
+                {/* ENd of modification - Rohan kansari - 16/8/23  */}
                 {/* End of addition by Yuvraj Sahu on 05-05-2023 */}
               </Text>
             {/* )} */}

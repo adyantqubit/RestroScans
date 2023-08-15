@@ -4,8 +4,11 @@
         var restaurantName=restaurantDetail.name
         var restaurantAddress=restaurantDetail.address
         var customerDetail={
-          "last_customer_name":orderDetail.last_customer_name,
+          // Modiified by Rohan kansari - 16/8/23
+          // "last_customer_name":orderDetail.last_customer_name,
+          "last_customer_name":orderDetail.customer_name,
           "contact_number":orderDetail.customer_number
+          // End of code - Rohan kansari - 16/8/23
         }
 
         console.log(orderDetail,restaurantAddress)

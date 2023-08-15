@@ -145,14 +145,18 @@ class OrderSerializer(serializers.ModelSerializer):
     # Added by Rohan Kansari - 25/5/23
     # Reason - Creating other serialzer becuase it is conflicting with current other
     customer_number = serializers.CharField(source="customer_id.contact_number",allow_null=True,required=False)
-    customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
+    # Commented by ROhan kansari - 16/8/23 - because we created this field field in order table so no need 
+    # to extract from customer detail
+    # customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
     # Added by Rohan kansari - 28/7/23
     # Reason - To add last customer name column in response
     last_customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
     # End of code - Rohan kansari - 28/7/23 
 
     # Added by ROhan kansari - 16/7/23 - to send email also in data 
-    customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
+    # Commented by ROhan kansari - 16/8/23 - because we created this field field in order table so no need 
+    # to extract from customer detail
+    # customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
     # ENd of code - Rohan kansari - 16/7/23
      # Added by ROhan kansari - 21/7/23 - to send customer laylity point also in data 
     customer_loyality_point = serializers.IntegerField(source="customer_id.loyality_points",allow_null=True,required=False)
@@ -166,11 +170,16 @@ class OrderSerializer(serializers.ModelSerializer):
 # Added by Yuvraj Sahu on 11-04-2023
 # Reason : to serializer orders
 class AllOrderSerializer(serializers.ModelSerializer):
-    customer_name = serializers.CharField(source="customer_id.name")
+     # Commented by ROhan kansari - 16/8/23 - because we created this field field in order table so no need 
+    # to extract from customer detail
+    # customer_name = serializers.CharField(source="customer_id.name")
     # Added by Om Shrivastava on 29-07-23
     # Reason - to get updated customer number and email id
     customer_number = serializers.CharField(source="customer_id.contact_number",allow_null=True,required=False)
-    customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
+     # Commented by ROhan kansari - 16/8/23 - because we created this field field in order table so no need 
+    # to extract from customer detail
+    # customer_email = serializers.CharField(source="customer_id.email",allow_null=True,required=False)
+
     # End of addition by Om Shrivastava on 29-07-23
     # Reason - to get updated customer number and email id
 

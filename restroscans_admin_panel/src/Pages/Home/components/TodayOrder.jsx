@@ -201,6 +201,12 @@ const TodayOrder = (props) => {
     const [rating, setRating] = useState(null);
     const [review, setReview] = useState(null);
 
+    const [name, setName] = useState("")
+    const [IsnameEditable, setNameEditable] = useState(false)
+
+    const [email, setEmail] = useState("")
+    const [IsemailEditable, setEmailEditable] = useState(false)
+
     // Added by Rohan kansari - 23/7/23 
     // Reason - To add Loyality price 
     const [errorText, setErrorText] = useState({})
@@ -335,7 +341,7 @@ const TodayOrder = (props) => {
                 Message(`You cant change order status cancel to ${order_status}`, "error")
             return false;
         }
-        else if(m?.order_status == "Placed" && payment_status=="Completed"){
+        else if (m?.order_status == "Placed" && payment_status == "Completed") {
             if (msgEnable)
                 Message(`You cant change payment status completed till order is not confirmed.`, "error")
             return false;
@@ -357,6 +363,12 @@ const TodayOrder = (props) => {
             return false;
         }
 
+        else if(m?.order_status == "Cancelled"){
+            if (msgEnable)
+            Message("You Can't change status if order is cancelled","error")
+
+            return false;
+        }
 
         // End of code - ROhan kansari - 28/6/23
         else
@@ -636,6 +648,8 @@ const TodayOrder = (props) => {
                  * Reason - Fixed issue where when we change item status then some items were not appearing on modal
                  */
             })
+
+            setTickedItems([])
 
             // Added by Rohan Kansari - 25/6/23
             // Reason - To get latest all data order data set it to slected order
@@ -1377,7 +1391,7 @@ const TodayOrder = (props) => {
         updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
         updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
         // updatedOrderData.append("cancelled_by", cancelledBy);
-        updatedOrderData.append("cancelled_by",JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+        updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
 
         var IsProceed = true;
         if (IsCancelClicked) {
@@ -1392,7 +1406,7 @@ const TodayOrder = (props) => {
                 errorText["cancelReason"] = ""
                 setErrorText({ ...errorText })
                 updatedOrderData.append("order_status", "Cancelled");
-                updatedOrderData.append("cancelled_by","Admin");
+                updatedOrderData.append("cancelled_by", "Admin");
                 IsProceed = true;
             }
         }
@@ -1410,7 +1424,7 @@ const TodayOrder = (props) => {
             if (response.msg) {
                 Message("Order detail saved successfully", "success");
                 UpdatingOpenedOrder(response.orderData)
-                setSelectedOrderItemList(response.orderItems)
+                setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
                 document.getElementById("discount_rupees").style.border = "1px solid black"
                 document.getElementById("discount_percentage").style.border = "1px solid black"
                 setErrorText({})
@@ -1433,6 +1447,11 @@ const TodayOrder = (props) => {
 
         // Added by Rohan kansari - 30/6/23 - To update table no. also
         updatedOrderData.append("table_number", tablenumber);
+        updatedOrderData.append("customer_name", name);
+        updatedOrderData.append("customer_email", email);
+
+        updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
+
         updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
         updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
         updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
@@ -1448,7 +1467,7 @@ const TodayOrder = (props) => {
         if (response.msg) {
             Message("Table number saved successfully.", "success");
             UpdatingOpenedOrder(response.orderData)
-            setSelectedOrderItemList(response.orderItems)
+            setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
 
         } else {
             Message("Something went wrong", "error");
@@ -1476,7 +1495,7 @@ const TodayOrder = (props) => {
 
 
         updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
-        if (status.order_status == "Cancelled"){
+        if (status.order_status == "Cancelled") {
             updatedOrderData.append("cancel_reason", cancelReaon);
             updatedOrderData.append("cancelled_by", "Admin");
 
@@ -1490,7 +1509,7 @@ const TodayOrder = (props) => {
         if (response.msg) {
             Message("Order detail saved successfully", "success");
             UpdatingOpenedOrder(response.orderData)
-            setSelectedOrderItemList(response.orderItems)
+            setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
             setErrorText({})
             document.getElementById("discount_rupees").style.border = "1px solid black"
             document.getElementById("discount_percentage").style.border = "1px solid black"
@@ -1534,6 +1553,9 @@ const TodayOrder = (props) => {
         setRating(data.rating);
         setReview(data.review);
 
+        setName(data.customer_name);
+        setEmail(data.customer_email);
+
     }
 
 
@@ -1549,6 +1571,7 @@ const TodayOrder = (props) => {
 
 
             BackendCall()
+            setTickedItems([])
 
             // setting selected order with new data
             setSelectedorderData({
@@ -2337,7 +2360,7 @@ const TodayOrder = (props) => {
                         // oldOrderDataReverting() 
                     }}
 
-                    style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw", padding: "0" }}
+                    // style={{ top: 0, bottom: 0, margin: "10px auto", minWidth: "60vw", padding: "0" }}
                     // width="60vw"
                     footer={null} className={style.modalContainer} closeIcon={<AiOutlineClose />}>
                     {popupOpen ? <div className={style.popupContainer}>
@@ -2347,10 +2370,10 @@ const TodayOrder = (props) => {
                             <div className={style.topHeading}>
                                 <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
                                 <div className={style.ActionBtn}>
-                                    <button className={` ${getOrderStatus()? null:style.disbaleBtn } ${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
+                                    <button className={`${style.orderCancelBtn} ${getOrderStatus() ? null : style.disbaleBtn}`}
                                         onClick={e => {
                                             // console.log(statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail))
-                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail,true)) {
+                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail, true)) {
                                                 if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
                                                     document.getElementById("cancelInput").scrollIntoView()
                                                     document.getElementById("cancelInput").style.borderBottom = "1px solid red"
@@ -2368,7 +2391,7 @@ const TodayOrder = (props) => {
                                                 }
                                             }
                                         }}>Cancel Order</button>
-                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled"? style.disbaleBtn:null } ${style.KotBtn}`} onClick={e => {
+                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled" ? style.disbaleBtn : null} ${style.KotBtn}`} onClick={e => {
                                         PrintKot(selectedOrderData.order_detail, selectedOrderData.order_item.filter(e => e.item_status == "Confirm"), restroDetail, gstFssai, settings)
                                     }}>Print Kot</button>
                                     <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
@@ -2415,7 +2438,7 @@ const TodayOrder = (props) => {
                                                 <>
                                                     {selectedOrderData?.order_detail?.table_number}
                                                     <Popconfirm
-                                                        className={`${getOrderStatus()? null:style.disbaleBtn } ${style.link}`}
+                                                        className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
                                                         title="Are you sure you want to change table number?"
                                                         onConfirm={e => { setInputEnable("tableEdit"); }}
                                                         // onCancel={e => { setTableConfirm(false) }}
@@ -2441,7 +2464,70 @@ const TodayOrder = (props) => {
                                             Email :
                                         </div>
                                         <div className={style.data}>
-                                            {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData.order_detail.customer_email.split(",").length - 1]}
+                                            {/* {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData.order_detail.customer_email.split(",").length - 1]} */}
+                                            {inputEnable == "emailEdit" ? <>
+
+                                                <input className={style.EditableInput} onKeyUp={e => {
+                                                    if (e.key == "Enter" || e.keyCode == 13) {
+                                                        let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+                                                        if (regex.test(email)) {
+                                                            updateTableNumberOnly();
+                                                            setInputEnable(null);
+                                                        }
+                                                        else {
+                                                            Message("Please enter valid email", "error")
+                                                        }
+                                                    }
+                                                }
+
+                                                } onChange={e => {
+                                                    selectedOrderData.order_detail.customer_email = e.target.value
+                                                    setSelectedorderData({ ...selectedOrderData })
+                                                    setEmail(e.target.value)
+                                                }}
+                                                    value={selectedOrderData.order_detail.customer_email}
+                                                    onBlur={e => {
+                                                        selectedOrderData.order_detail.customer_email = JSON.parse(OldOrdervalue.current.value).order_detail.customer_email
+                                                        setSelectedorderData({ ...selectedOrderData })
+                                                        setInputEnable(null)
+                                                    }}
+
+                                                />
+                                                <TiTick className={style.inputChecked} onClick={e => {
+                                                    let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+                                                    if (regex.test(email)) {
+                                                        updateTableNumberOnly();
+                                                        setInputEnable(null);
+                                                    } else {
+                                                        Message("Please enter valid email", "error")
+                                                    }
+                                                }} />
+
+                                            </>
+                                                :
+                                                <>
+                                                    {selectedOrderData?.order_detail?.customer_email}
+                                                    {/* <Popconfirm
+                                                        className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
+                                                        title="Are you sure you want to change table number?"
+                                                        onConfirm={e => { setInputEnable("emailEdit"); }}
+                                                        // onCancel={e => { setTableConfirm(false) }}
+                                                        cancelText="Cancel"
+                                                        okText="Ok"
+                                                        placement='bottomLeft'
+                                                    > */}
+                                                    {selectedOrderData?.order_detail?.customer_email?.length>0?<BsPencilSquare
+                                                        className={`${getOrderStatus() ? null : style.disbaleBtn}`}
+                                                        onClick={e => {
+                                                            if (inputEnable != "emailEdit") {
+                                                                setInputEnable("emailEdit")
+                                                            }
+                                                            else setInputEnable(null)
+                                                        }
+                                                        } style={{ margin: "5px 10px" }} />:null}
+                                                    {/* </Popconfirm> */}
+                                                </>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -2459,12 +2545,72 @@ const TodayOrder = (props) => {
                                             Name :
                                         </div>
                                         <div className={style.data}>
-                                            {selectedOrderData?.order_detail?.last_customer_name}
+                                            {/* Modified by ROhan kansari - 16/8/23 - set ordered customer name  */}
+                                            {/* {selectedOrderData?.order_detail?.last_customer_name} */}
+                                            {inputEnable == "nameEdit" ? <>
+
+                                                <input className={style.EditableInput} onKeyUp={e => {
+                                                    if (e.key == "Enter" || e.keyCode == 13) {
+                                                        if (!(name.length > 50)) {
+                                                            updateTableNumberOnly(); setInputEnable(null);
+                                                        }
+                                                        else {
+                                                            Message("Name should not be greater than 50 characters", "error")
+                                                        }
+                                                    }
+                                                }
+
+                                                } onChange={e => {
+                                                    selectedOrderData.order_detail.customer_name = e.target.value
+                                                    setSelectedorderData({ ...selectedOrderData })
+                                                    setName(e.target.value)
+                                                }}
+                                                    value={selectedOrderData?.order_detail?.customer_name}
+                                                    onBlur={e => {
+                                                        selectedOrderData.order_detail.customer_name = JSON.parse(OldOrdervalue.current.value).order_detail.customer_name
+                                                        setSelectedorderData({ ...selectedOrderData })
+                                                        setInputEnable(null)
+                                                    }}
+
+                                                />
+                                                <TiTick className={style.inputChecked} onClick={e => {
+                                                    if (!(name.length > 50)) {
+                                                        updateTableNumberOnly(); setInputEnable(null);
+                                                    } else {
+                                                        Message("Name should not be greater than 50 characters", "error")
+                                                    }
+                                                }} />
+
+                                            </>
+                                                :
+                                                <>
+                                                    {selectedOrderData?.order_detail?.customer_name}
+                                                    {/* <Popconfirm
+                                                        className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
+                                                        title="Are you sure you want to change table number?"
+                                                        onConfirm={e => { setInputEnable("emailEdit"); }}
+                                                        // onCancel={e => { setTableConfirm(false) }}
+                                                        cancelText="Cancel"
+                                                        okText="Ok"
+                                                        placement='bottomLeft'
+                                                    > */}
+                                                    {selectedOrderData?.order_detail?.customer_name?.length>0?<BsPencilSquare
+                                                        className={`${getOrderStatus() ? null : style.disbaleBtn}`}
+                                                        onClick={e => {
+                                                            if (inputEnable != "nameEdit") {
+                                                                setInputEnable("nameEdit")
+                                                            }
+                                                            else setInputEnable(null)
+                                                        }
+                                                        } style={{ margin: "5px 10px" }} />:null}
+                                                    {/* </Popconfirm> */}
+                                                </>
+                                            }
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className={style.informationContainer}>
+                                <div className={`${style.informationContainer}`}>
                                     <div className={style.information}>
                                         <div className={style.WhiteLabel}>
                                             Date & Time:
@@ -2492,7 +2638,7 @@ const TodayOrder = (props) => {
                             Reason - enhancement part */}
                         <div style={{ display: "flex", flexWrap: "wrap", columnGap: "20px", marginBottom: "10px" }}>
                             <div>
-                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status -</label>
+                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status </label>
                                 <div className={style.OrderstatusBtnContainer}>
                                     <div className={style.StatusArrowBtnContainer}>
                                         <p><button className={` ${statusValidation("Placed", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${orderStatus == "Placed" ? 'activeStatusBtn' : null}`}
@@ -2535,10 +2681,10 @@ const TodayOrder = (props) => {
                             </div>
 
                             <div>
-                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
+                                <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status </label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button className={`${statusValidation(orderStatus, "Pending", selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
+                                        <p><button className={`${paymentStatus == "Pending" ? 'activeStatusBtn' : null} ${statusValidation(orderStatus, "Pending", selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} `}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail, true))
                                                     UpdateOrderStatusDetail({
@@ -2547,10 +2693,10 @@ const TodayOrder = (props) => {
                                             }}
                                         ><a href="#"
                                         >Pending</a></button></p>
-                                        {selectedOrderData.order_detail?.payment_status=="Paid"?<p><button className='btn-right activeStatusBtn'
+                                        {selectedOrderData.order_detail?.payment_status == "Paid" ? <p><button className='btn-right activeStatusBtn'
                                         ><a href="#"
-                                        >Paid</a></button></p>:null}
-                                        <p><button className={`${statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, false)? 'btn-right' : "btn-disable"} ${selectedOrderData.order_detail?.order_status =="Cancelled"?style.disbaleBtn:null} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
+                                        >Paid</a></button></p> : null}
+                                        <p><button className={`${statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${selectedOrderData.order_detail?.order_status == "Cancelled" ? style.disbaleBtn : null} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, true))
                                                     UpdateOrderStatusDetail({
@@ -2623,7 +2769,7 @@ const TodayOrder = (props) => {
                                                         <div className={style.checkboxNTitleFlex} >
 
                                                             <div class="checkbox-wrapper-24">
-                                                                <input type="checkbox" id={`status0${index}`} name="check" value="" onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
+                                                                <input type="checkbox" id={`status0${index}`} name="check" checked={tickedItems.filter(i=>i.id==item.id).length>0} onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
                                                                 <label for={`status0${index}`}>
                                                                     <span></span>
                                                                 </label>
@@ -2678,7 +2824,7 @@ const TodayOrder = (props) => {
                                 </div>
                                 <div className={style.AllStatusContainer}>
                                     <Popconfirm
-                                        className={`${getOrderStatus()? null:style.disbaleBtn } ${style.link}`}
+                                        className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
                                         style={{ maxWidth: "150px" }}
                                         title="Are you sure you want to update?"
                                         onConfirm={e => { orderItemModel(selectedOrderData.order_item) }}
@@ -2867,18 +3013,18 @@ const TodayOrder = (props) => {
                                             <label className={style.InputLabel}></label>
                                             <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
                                         </div>
-                                        {settings.cgst>0?<div className={style.priceInformation}>
+                                        {settings.cgst > 0 ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>CGST ( {settings.cgst}% ):- </label>
                                             <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
-                                        </div>:null}
-                                        {settings.sgst>0? <div className={style.priceInformation}>
+                                        </div> : null}
+                                        {settings.sgst > 0 ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>SGST ( {settings.sgst}% ) :- </label>
                                             <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
-                                        </div>:null}
-                                        {settings.sgst>0||settings.cgst>0?<div className={style.priceInformation}>
+                                        </div> : null}
+                                        {settings.sgst > 0 || settings.cgst > 0 ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}></label>
                                             <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
-                                        </div>:null}
+                                        </div> : null}
                                     </div>
                                 </div>
 

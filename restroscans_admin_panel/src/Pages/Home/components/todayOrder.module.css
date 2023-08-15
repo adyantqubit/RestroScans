@@ -107,6 +107,8 @@
     text-align: center;
     color: var(--label-color);
     letter-spacing: 1.3px;
+    position: relative;
+    left: 10px;
     /* font-family: var(--font-faimly); */
 }
 
@@ -861,12 +863,16 @@ input[type="radio"]:checked+.tabLabel {
 
 /* added by - suman sahu on 15/06/2023 */
 .modalContainer {
-    margin-left: 39%;
+    /* margin-left: 39%; */
+    width: 60vw !important;
+    top: 0;
+    bottom: 0;
+     margin: 10px auto;
 }
 
 @media screen and (max-width:1400px) {
     .modalContainer {
-        margin-left: 36%;
+        /* margin-left: 36%; */
     }
 }
 
@@ -902,9 +908,9 @@ input[type="radio"]:checked+.tabLabel {
     }
 
     /* added by - suman sahu on 15/06/2023 */
-    .modalContainer {
+    /* .modalContainer {
         margin-left: 34%;
-    }
+    } */
 
     /* end of addition - 15/06/2023 */
 }
@@ -940,9 +946,9 @@ input[type="radio"]:checked+.tabLabel {
     }
 
     /* added by - suman sahu on 15/06/2023 */
-    .modalContainer {
+    /* .modalContainer {
         margin-left: 32%;
-    }
+    } */
 
     /* end of addition - 15/06/2023 */
 }
@@ -950,21 +956,10 @@ input[type="radio"]:checked+.tabLabel {
 /* added by - suman sahu on 15/06/2023 */
 @media screen and (max-width:850px) {
     .modalContainer {
-        margin-left: 30%;
+      width: 70vw !important;
     }
 }
 
-@media screen and (max-width:800px) {
-    .modalContainer {
-        margin-left: 29%;
-    }
-}
-
-@media screen and (max-width:768px) {
-    .modalContainer {
-        margin: auto;
-    }
-}
 
 /* end of addition - 15/06/2023 */
 
@@ -1436,7 +1431,7 @@ Reason - to design radio button container */
 }
 
 .ItemInformation {
-    width: 70%;
+    width: 63%;
     min-height: 25px;
     margin-left: 10px;
     display: flex;
@@ -1451,16 +1446,17 @@ Reason - to design radio button container */
 }
 
 .checkboxNTitleFlex {
-    width: 60%;
+    width: 65%;
     min-width: 140px;
     display: flex;
     gap: 10px;
 }
 
 .quantityNPriceFlex {
-    width: 40%;
+    width: 38%;
     min-width: 140px;
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
@@ -1473,6 +1469,8 @@ Reason - to design radio button container */
 }
 
 .quantity {
+    max-width: 70px;
+    min-width: 70px;
     width: 50%;
     height: 25px;
     /* min-width: 80px; */
@@ -1527,9 +1525,9 @@ Reason - to design radio button container */
 
 .UpdateItemBTN {
     width: 40%;
-    max-width: 240px;
+    max-width: 200px;
     height: 100%;
-    font-size: 18px;
+    font-size: 16px;
     letter-spacing: 1.4px;
     color: #fff;
     font-weight: 600;
@@ -1571,7 +1569,9 @@ Reason - to design radio button container */
     caret-color: black;
     letter-spacing: 1.2px;
     height: 18px;
-    max-width: 80px;
+    max-width: 130px;
+
+    padding-right: 10px;
 }
 
 .flex {
@@ -1935,7 +1935,9 @@ Reason - to design button */
 
 
 .cointPoints {
-    color: blue
+    color: blue;
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width: 1000px) {
@@ -1950,6 +1952,10 @@ Reason - to design button */
 
     .rewardbox {
         font-size: 12px;
+    }
+
+    .ItemInformation{
+        width: 53%;
     }
 
     /* .quantityNPriceFlex{
@@ -2027,7 +2033,12 @@ Reason - to design button */
 
 @media screen and (max-width: 500px) {
 
+    .modalContainer{
+        width: 100vw !important;
+    }
+
     .Order_idText {
+        width: 98%;
         font-size: 16px;
         padding: 0 5px;
         height: unset;
@@ -2035,6 +2046,7 @@ Reason - to design button */
 
     .topHeading{
         flex-direction: column;
+        margin-bottom: 8px;
     }
 
     .itemList {
@@ -2072,7 +2084,7 @@ Reason - to design button */
 
     .ItemInformation {
         width: 100%;
-        max-width: 300px;
+        max-width: 309px;
         gap: 15px;
     }
 
@@ -2112,7 +2124,7 @@ Reason - to design button */
 
     .AllStatusContainer {
         flex-direction: column;
-        gap: 4px;
+        gap: 8px;
     }
 
     .StatusBtnContainer {
@@ -2134,7 +2146,7 @@ Reason - to design button */
     }
 
     .PricingContainer {
-
+        padding: unset;
         flex-direction: column;
     }
 
@@ -2177,7 +2189,7 @@ Reason - to design button */
 
     .checkboxContainer {
         width: 100%;
-        max-width: 160px;
+        max-width: 180px;
     }
 
     .itemrow {
@@ -2200,6 +2212,8 @@ Reason - to design button */
     .UpdateItemContainer {
         flex-direction: column;
         align-items: center;
+        gap: 8px;
+        height: unset;
     }
 
     .UpdateItemBTN {

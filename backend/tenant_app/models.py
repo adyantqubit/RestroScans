@@ -868,6 +868,12 @@ class Order(models.Model):
     send_notifications_on_amount_update = models.BooleanField(default=False)
     # End of addition by Parineeta Gedam on 22-06-2023
 
+    # Added by Rohan kansari - 16/8/23 
+    # Reason - To save entered name and email
+    customer_name=models.CharField(max_length=50,null=True,blank=True)
+    customer_email=models.CharField(max_length=50,null=True,blank=True)
+    # ENd of code - Rohan kansari - 16/8/23
+
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100
     def clean(self):

@@ -5,6 +5,8 @@
      reason - adjust page according to sidebar, header and footer in the full screen*/
   /* height: 90vh; */
   height: 86.5vh;
+  /* Added by ROhan kansari - 17/8/23 */
+  padding-bottom: 20px;
   overflow: scroll;
   /* end of code by - suman sahu on 17/06/2023 */
 }

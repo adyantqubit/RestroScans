@@ -342,7 +342,7 @@
 
     &:hover::before,
     &:hover::after {
-      background: #07d410;
+      background: #dbf365;
     }
   }
 
@@ -416,7 +416,7 @@
 .activeStatusBtn {
 
   background: none;
-
+  pointer-events: none;
   a {
     color: black;
   }
@@ -435,7 +435,7 @@
 
     &::before,
     &::after {
-      background: #07d410;
+      background: #dbf365;
     }
 
     outline: 0;
