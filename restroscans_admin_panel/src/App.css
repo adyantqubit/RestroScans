@@ -396,3 +396,19 @@ a {
   }
 }
 /* end of addition 12/06/2023 */
+
+/* Modified by ROhan kansari -  20/8/23
+   Reason - To style date input text */
+
+.react-date-picker__inputGroup__input{
+  font-size: 14px !important;
+}
+
+.react-date-picker__inputGroup__leadingZero{
+ font-size: 14px !important;
+}
+
+/* ENd of code - Rohan kansari - 20/8/23 */
+
+
+

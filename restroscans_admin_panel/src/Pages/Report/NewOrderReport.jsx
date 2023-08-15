@@ -1162,7 +1162,12 @@ const NewOrderReport = () => {
                     </div>
                     <div className={style.scrollContainer}>
                         <div className={style.orderItemContainer}>
-                            <div style={{ width: "100%", overflow: "auto" }}>
+                            {/* Modified by ROhan kansari - 20/8/23 
+                                Reason - To set same height of item list container*/}
+                            {/* <div style={{ width: "100%", overflow: "auto" , minHeight:"20vh" }}> */}
+                            <div style={{ width: "100%", overflow: "auto" , minHeight:"20vh",maxHeight:"40vh" }}>
+                                {/* End of code modification by Rohan kansari - 20/8/23 
+                                Reason - To set same height of item list container*/}
                                 <div className={style.orderItemHeader}>
                                     <div className={style.SnoHeading}>
                                         {/* SNo. */}
