@@ -965,7 +965,8 @@ input[type="checkbox"]:checked+.sortingLabel {
    reason - adjust page according to sidebar, header and footer in the responsive*/
   @media screen and (max-width: 768px) {
   .orderListSection {
-    height: 73vh;
+    /* Modified by Rohan kansari - 21/8/23*/
+    height: auto;
   }
 
   .paginationContent{

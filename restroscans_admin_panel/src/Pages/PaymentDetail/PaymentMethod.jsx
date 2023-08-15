@@ -178,22 +178,28 @@ const PaymentMethod = () => {
         }
       }
     } else {
-      if (iconSizeError != ""){
+      // Modified by Rohan kansari - 21/8/23 
+      // Reason - To validate all field in one place
+      if (iconSizeError != "" || contactNumberError != ""){
         allowDataPost = false;
       } else {
         allowDataPost = true;
       }
-      
+      // End of Modification by Rohan kansari - 21/8/23 
+      // Reason - To validate all field in one place
+
       // Added by :- Parineeta Gedam on 28-07-2023 
       // reason :- If we add 11th digit in contact number and click on save button then Error message is display in page.
-      if (contactNumberError == "") {
-        allowDataPost = true;
-      } else {
-        allowDataPost = false;
-      }
+      // if (contactNumberError == "") {
+      //   allowDataPost = true;
+      // } else {
+      //   allowDataPost = false;
+      // }
       // End of Added code by :- Parineeta Gedam on 28-07-2023 
       // reason :- If we add 11th digit in contact number and click on save button then Error message is display in page.
     }
+
+    
 
     if (allowDataPost) {
       const updatedMenuData = new FormData();
@@ -276,7 +282,7 @@ const PaymentMethod = () => {
     // End of commented code by :- Parineeta Gedam on 12-07-2023 reason :- payment method implementations
 
     // Added by :- PArineeta Gedam on 12-07-2023 reason :- payment method implementations
-    <div className={style.container}>
+    <div className={style.Container}>
       <div className={style.titleContainer}>
         <div className={style.pageTitle}>Payment Method</div>
       </div>

@@ -549,7 +549,8 @@ const OrderForm = () => {
     // Modified by Rohan kansari - 4/8/23
     // Reason - To change validation and make only one condition block for all error
     // if (validationDiscountErrors.discount_percentage != "" || validationDiscountErrors.discount_rupees != ""  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="")  ) {
-    if (validationDiscountErrors.discount_percentage != "" || validationDiscountErrors.discount_rupees != ""  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="") || validationErrors.apply_loyality_point != "" ) {
+    // Modified by Rohan kansari -21/8/23- To check is there is key present or not  
+    if ((typeof validationErrors.discount_percentage !="undefined" &&  validationDiscountErrors.discount_percentage != "") || (typeof validationErrors.discount_rupees !="undefined" && validationDiscountErrors.discount_rupees != "")  || (typeof validationErrors.table_number !="undefined" && validationErrors.table_number!="") || (typeof validationErrors.apply_loyality_point !="undefined" && validationErrors.apply_loyality_point != "") ) {
       if((cancelReaon == null || cancelReaon == undefined || cancelReaon.toString().trim() == '') && orderStatus == "Cancelled"){
         setValidationForOrderCancel("Please enter cancel reason");
       }

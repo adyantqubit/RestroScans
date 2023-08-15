@@ -474,7 +474,7 @@ export default function AddOrderItemForm(orderId) {
                     id: itemIdSelected,
                     serve_size: servingSizeData,
                     quantity: parseInt(quantitySelected),
-                    price: price
+                    price: parseFloat(price)
                 }
                 console.log(orderId.orderItemList)
                 orderId.modalvisibilityFn(false)
@@ -484,6 +484,9 @@ export default function AddOrderItemForm(orderId) {
                 // Reason - to find order item with it plates 
                 if (orderId.orderItemList.findIndex(e => e.id == data.id && e.serve_size == data.serve_size) != -1) {
                     orderId.orderItemList[orderId.orderItemList.findIndex(e => e.id == data.id && e.serve_size == data.serve_size)].quantity += parseInt(quantitySelected)
+                    // Added by rohan kansari - 21/8/23 - update price of existing data
+                    orderId.orderItemList[orderId.orderItemList.findIndex(e => e.id == data.id && e.serve_size == data.serve_size)].price += parseFloat(price)
+                    // End of addition - Rohan kansari - 21/8/23 - update price of existing data
                     orderId.setOrderItemList([...orderId.orderItemList])
                 } else
                     // End of modification - Rohan kansari - 9/8/23

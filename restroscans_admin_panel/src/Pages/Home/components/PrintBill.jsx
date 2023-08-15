@@ -195,7 +195,7 @@
                         </div>
                       <div class="text">
                       ${
-                        BillDateTime(orderDetail.payment_confirmation_date_time).date
+                        BillDateTime(orderDetail.payment_confirmation_date_time).time
                       }
                       </div>
                     </div>
@@ -262,12 +262,12 @@
                   </div>
                 </div>
               </div> 
-              <hr style= "border:0.5px solid black">
+              <hr>
               <div class="TotalBoxContainer">
                 <div class="TotalBox">
                     <div class="calculationLine">
-                      <div class="TotalLabel">Payable Amount</div>
-                      <div class="TotalLabel">: </div>
+                      <div class="TotalLabel" style="min-width:140px; ">Payable Amount</div>
+                      <div class="TotalLabel" style="width:10px">: </div>
                       <div class="grandTotalText">${rupee_sign}${(orderDetail.final_amount.toFixed(2))}
                       </div>
                     </div>
@@ -275,7 +275,7 @@
               </div>
               <hr>
               <div class="calculationLine">
-                <div class="calculationLabel">
+                <div class="calculationLabel" >
                 ****** THANK YOU VISIT AGAIN ******
                 </div>
               </div>
@@ -392,11 +392,11 @@
       gap: 4px;
     }
     .TotalLabel{
-      font-size: 17px;
-      width: 20%;
-      padding: 2% 4%;
-      // font-weight: 800;
-      width: 100%;
+      font-size: 14px;
+      width: 50%;
+      padding: 2% 4px;
+      font-weight: 800;
+      width: 60%;
       letter-spacing: 2px;
     }
     .titleText {
@@ -447,7 +447,7 @@
       width: 20%;
       padding: 2% 2%;
       font-weight: 600;
-      width: 100%;
+      width: 50%;
       white-space: nowrap;
       display: flex;
     }
@@ -462,31 +462,28 @@
     .TotalBoxContainer{
       width: 100%;
       height: auto;
-      padding: 0 15%;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
+   
     .TotalBox{
       width: 90%;
-    margin-bottom: 2%;
-    height: auto;
-    }
-    .TotalBox{
-      width: 70%;
       margin-right: 4%;
       margin-bottom: 2%;
       height: auto;  
+      margin: auto;
     }
     .grandTotalText{
       font-size: 17px;
-      width: 80%;
       text-align: end;
       padding: 2% 4%;
       font-weight: 800;
-      width: 100%;
       letter-spacing: 2px;
     }
+
+
+    @media print{@page{margin:0;}}
     
     </style>
     </head>

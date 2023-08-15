@@ -278,7 +278,9 @@ const NewOrderReport = () => {
     const handleChangeFromDate = (value) => {
         setEndDate("")
         setStartDate(value)
-        setEndDate(value)
+        // modified by Rohan kansari - 21/8/23
+        // Reason - To dont save end date in time of from date set
+        // setEndDate(value)
         setDisable(false)
       };
 

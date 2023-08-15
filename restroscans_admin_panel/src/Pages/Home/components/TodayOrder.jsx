@@ -1444,7 +1444,8 @@ const TodayOrder = (props) => {
 
 
     // Uses - this only update table table and sending all old data
-    async function updateTableNumberOnly() {
+    // Modified by Rohan kansari- 21/8/23 - To give proper function name
+    async function updateCustomerDetail(field) {
         const updatedOrderData = new FormData();
 
         updatedOrderData.append("id", selectedOrderData.order_detail.id);
@@ -1469,7 +1470,9 @@ const TodayOrder = (props) => {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
         if (response.msg) {
-            Message("Table number saved successfully.", "success");
+            // Modified by Rohan kansari - 21/8/23 - To show error message according to filed updation
+            // Message(`Table number saved successfully.`, "success");
+            Message(`${field} saved successfully.`, "success");
             UpdatingOpenedOrder(response.orderData)
             // Modified by Rohan kansari - 17/8/23 - To arrange order item 
             // setSelectedOrderItemList(response.orderItems)
@@ -2426,7 +2429,7 @@ const TodayOrder = (props) => {
                                                     // Modified by Rohan kansari - 19/8/23
                                                     // Reason - to send error message for blank table number
                                                     if(tablenumber.length>0){    
-                                                        updateTableNumberOnly(); setInputEnable(null);
+                                                        updateCustomerDetail("Table Number"); setInputEnable(null);
                                                     }else{
                                                         Message("Please enter table number","warning")
                                                     }
@@ -2452,7 +2455,7 @@ const TodayOrder = (props) => {
                                                     // Modified by Rohan kansari - 19/8/23
                                                     // Reason - to send error message for blank table number
                                                     if(tablenumber.length>0){
-                                                    updateTableNumberOnly(); setInputEnable(null);
+                                                    updateCustomerDetail("Table Number"); setInputEnable(null);
                                                     }else{
                                                         Message("Please enter table number","warning")
                                                     }
@@ -2500,7 +2503,7 @@ const TodayOrder = (props) => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
                                                         let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
                                                         if (regex.test(email)) {
-                                                            updateTableNumberOnly();
+                                                            updateCustomerDetail("Email");
                                                             setInputEnable(null);
                                                         }
                                                         else {
@@ -2525,7 +2528,7 @@ const TodayOrder = (props) => {
                                                 <TiTick className={style.inputChecked} onClick={e => {
                                                     let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
                                                     if (regex.test(email)) {
-                                                        updateTableNumberOnly();
+                                                        updateCustomerDetail("Email");
                                                         setInputEnable(null);
                                                     } else {
                                                         Message("Please enter valid email", "error")
@@ -2585,7 +2588,7 @@ const TodayOrder = (props) => {
                                                 <input className={style.EditableInput} onKeyUp={e => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
                                                         if (!(name.length > 50)) {
-                                                            updateTableNumberOnly(); setInputEnable(null);
+                                                            updateCustomerDetail("Name"); setInputEnable(null);
                                                         }
                                                         else {
                                                             Message("Name should not be greater than 50 characters", "error")
@@ -2608,7 +2611,7 @@ const TodayOrder = (props) => {
                                                 />
                                                 <TiTick className={style.inputChecked} onClick={e => {
                                                     if (!(name.length > 50)) {
-                                                        updateTableNumberOnly(); setInputEnable(null);
+                                                        updateCustomerDetail("Name"); setInputEnable(null);
                                                     } else {
                                                         Message("Name should not be greater than 50 characters", "error")
                                                     }

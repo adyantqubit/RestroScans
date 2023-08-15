@@ -2125,11 +2125,17 @@ Reason - to design button */
     .AllStatusContainer {
         flex-direction: column;
         gap: 8px;
+        /* Modified by Rohan kansari - 21/8/23*/
+        /* Reason - To change div position  */
+        margin-top: 8px;
     }
 
     .StatusBtnContainer {
         width: 100%;
         margin: 0 auto;
+        /* Modified by Rohan kansari - 21/8/23*/
+        /* Reason - To change div position  */
+        justify-content: center;
     }
 
     .AllUpdateButton {

@@ -153,7 +153,7 @@
 }
 
 @media screen and (max-width: 4000px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -161,7 +161,7 @@
 }
 
 @media screen and (max-width: 1120px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -172,7 +172,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -193,7 +193,7 @@
 }
 
 @media screen and (max-width: 770px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -230,8 +230,9 @@
 /* end of code by - suman sahu on 17/06/2023 */
 
 /* =============== */
+/* Modified by Rohan kansari - 21/8/23 - To correct container name */
 @media screen and (max-width: 720px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -253,7 +254,7 @@
 }
 
 @media screen and (max-width: 610px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -282,7 +283,7 @@
 }
 
 @media screen and (max-width: 500px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -305,7 +306,7 @@
   }
 }
 @media screen and (max-width: 400px) {
-  .container {
+  .Container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;

@@ -40,13 +40,13 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
     function increaseDecrease(sign, index) {
         if (sign == "+") {
             orderItemList[index].quantity = parseInt(orderItemList[index].quantity) + 1;
-            orderItemList[index].price = (orderItemList[index].quantity * (orderItemList[index].price / (orderItemList[index].quantity - 1))).toFixed(2)
+            orderItemList[index].price = (orderItemList[index].quantity * (orderItemList[index].price / (orderItemList[index].quantity - 1)))
             setOrderItemList([...orderItemList])
 
         } else {
             if (orderItemList[index].quantity != 1) {
                 orderItemList[index].quantity = parseInt(orderItemList[index].quantity) - 1;
-                orderItemList[index].price = (orderItemList[index].quantity * (orderItemList[index].price / (orderItemList[index].quantity + 1))).toFixed(2)
+                orderItemList[index].price = (orderItemList[index].quantity * (orderItemList[index].price / (orderItemList[index].quantity + 1)))
                 setOrderItemList([...orderItemList])
             }
         }
@@ -282,7 +282,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                                         <span className={style.quantityAdded}>{e.quantity}</span>
                                         <span className={style.minus} onClick={e => increaseDecrease("+", i)}><BiPlus /></span>
                                     </div>
-                                    <div className={style.priceColumn}>{e.price}</div>
+                                    <div className={style.priceColumn}>{e.price.toFixed(2)}</div>
                                     <div className={style.action}>
                                         {/* <div className={style.resposivePrice}>340000</div> */}
                                         <button className={style.removeBtn} onClick={e => removeItem(i)}><span className={style.responsiveBTNText}>Remove</span><span className={style.mobileBtnText}><AiOutlineDelete className={style.deletebtn} /></span></button>

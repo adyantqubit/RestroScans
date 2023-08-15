@@ -204,6 +204,7 @@ export function PrintKot(order_detail,order_item,restroDetail,gstFssai) {
         color: #185ee0;
         border: 1px solid #185ee0;
     }
+    
     @media print{
         .btn{
             display: none;
@@ -216,7 +217,8 @@ export function PrintKot(order_detail,order_item,restroDetail,gstFssai) {
         .btnContainer{
         display: none;
         }
-        @page{margin:0;}
+
+       @page{margin:0;}
     }
     </style>
     </head>
