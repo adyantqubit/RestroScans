@@ -1200,24 +1200,30 @@ const NewOrderReport = () => {
                                     <div className={style.itemList}>
                                         {orderItems?.map((item, index) => (
                                             <div className={style.orderItemHeader}>
-                                                <div className={style.SnoHeading}>
+                                                {/* Modified by Rohan kansari- 20/8/23 
+                                                    Reason - to change font style
+                                                */}
+                                                <div className={`${style.SnoHeading} ${style.dataText}`}>
                                                     {orderItemsSerialNo++}
                                                 </div>
-                                                <div className={style.item_heading}>
+                                                <div className={`${style.item_heading} ${style.dataText}`}>
                                                     {item.item}
                                                 </div>
-                                                <div className={style.serving_heading}>
+                                                <div className={`${style.serving_heading} ${style.dataText}`}>
                                                     {item.serving_size}
                                                 </div>
 
                                                 <div className={style.QtyNPriceHeadings}>
-                                                    <div className={style.quantityHeading}>
+                                                    <div className={`${style.quantityHeading} ${style.dataText}`}>
                                                         {item.quantity}
                                                     </div>
-                                                    <div className={style.priceHeading}>
+                                                    <div className={`${style.priceHeading} ${style.dataText}`}>
                                                         {item.price}
                                                     </div>
                                                 </div>
+                                                {/* End of code  Modification Rohan kansari- 20/8/23 
+                                                    Reason - to change font style
+                                                 */}
 
                                                 <div className={style.status_list}>
                                                     <div className={style.status}>

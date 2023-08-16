@@ -889,6 +889,10 @@ input[type="checkbox"]:checked+.sortingLabel {
 
 /* End of code - 22/6/23 - ROhan kansari */
 
+.dataText{
+  font-weight: 400 !important;
+}
+
 @media screen and (max-width: 4000px) {
   .orderListSection {
     --common-column-width: 15vw;
@@ -1029,7 +1033,10 @@ input[type="checkbox"]:checked+.sortingLabel {
     justify-content: space-around;
   }
   .calculationsContainer{
-    flex-direction: column;
+    /* Modified by Rohan kansari - 20/8/23
+       Reason - To resolve multiple section  */
+    /* flex-direction: column; */
+    flex-direction: row;
   }
 }
 @media screen and (max-width: 430px) {
@@ -1237,7 +1244,7 @@ input[type="checkbox"]:checked+.sortingLabel {
 .inputLabel {
 
   /* min-width: 180px; */
-  min-width: 100px;
+  min-width: 80px;
   
   max-width: 180px;
   font-weight: bold;
@@ -1258,7 +1265,7 @@ input[type="checkbox"]:checked+.sortingLabel {
 .disabledInputBox {
   border: none;
   background-color: unset;
-  width: 120px;
+  width: 80px;
 }
 
 /* particular orderId,  order container
