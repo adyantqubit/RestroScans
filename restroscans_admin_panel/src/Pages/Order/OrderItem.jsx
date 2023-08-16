@@ -232,6 +232,20 @@ const OrderItem = () => {
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const handlePageChange = async (pageNumber) => {
+
+    /**
+     * Added by Yuvraj Sahu on 16-08-2023
+     * Reason - to change the remove the filter
+     */
+    if (pageNumber != 1){
+      setFromDate(null)
+      setToDate(null)
+    }
+    /**
+     * End of modification by 
+     * Yuvraj Sahu on 16-08-2023
+     */
+
     //Added by ROhan KAnsari - 22/6/23
     // Reason - to set currentpage to global
     localStorage.setItem("globalPageIndex", pageNumber)
@@ -310,7 +324,18 @@ const OrderItem = () => {
       setDateValidation(true)
     } else {
       setDateValidation(false)
-      setAllowFilter(!allowFilter)
+      /**
+       * Added by yuvraj Sahu on 16-08-2023
+       * Reason - to change the page number when filter apply
+       */
+      if (currentPage != 1){
+        handlePageChange(1)
+      } else {
+        setAllowFilter(!allowFilter)
+      }
+      /**
+       * End of addition by yuvraj Sahu on 16-08-2023
+       */
     }
   }
 

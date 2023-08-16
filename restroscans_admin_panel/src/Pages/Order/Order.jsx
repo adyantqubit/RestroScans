@@ -255,6 +255,27 @@ const Order = () => {
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const handlePageChange = async (pageNumber) => {
+
+    /**
+     * Added by Yuvraj Sahu on 11-8-2023
+     * Reason - to remove date filter
+     */
+    /**
+     * modified by Yuvraj Sahu on 16-08-2023
+     * Reason - to change the filter the 
+     */
+    if (pageNumber != 1){
+      setFromDate(null)
+      setToDate(null)
+    }
+    /**
+     * End of modification by 
+     * Yuvraj Sahu on 16-08-2023
+     */
+    /**
+     * End of addition by Yuvraj Sahu on 11-08-2023
+     */
+
     //Added by ROhan KAnsari - 22/6/23
     // Reason - to set currentpage to global
     localStorage.setItem("globalPageIndex", pageNumber)
@@ -607,7 +628,18 @@ const Order = () => {
         setDateValidation(true)
       } else {
         setDateValidation(false)
-        setAllowFilter(!allowFilter)
+        /**
+         * Added by yuvraj sahu on 16-08-2023
+         * Reason - to set the first page when filter apply
+         */
+        if (currentPage != 1){
+          handlePageChange(1)
+        } else {
+          setAllowFilter(!allowFilter)
+        }
+        /**
+         * End of addition by yuvraj Sahu on 16-08-2023
+         */
       }
       // const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       // const queryData = {
