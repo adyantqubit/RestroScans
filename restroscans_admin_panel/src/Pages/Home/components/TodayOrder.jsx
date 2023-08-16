@@ -335,6 +335,11 @@ const TodayOrder = (props) => {
                 Message(`You cant change order status cancel to ${order_status}`, "error")
             return false;
         }
+        else if(m?.order_status == "Placed" && payment_status=="Completed"){
+            if (msgEnable)
+                Message(`You cant change payment status completed till order is not confirmed.`, "error")
+            return false;
+        }
         else if (m?.payment_status == "Completed" && (payment_status == "Pending")) {
             if (msgEnable)
                 Message(`You cant change payment status completed to ${payment_status}`, "error")
@@ -785,10 +790,10 @@ const TodayOrder = (props) => {
         const data = {
             orders: checkedItems
         }
-        if ("order_status" in status){
+        if ("order_status" in status) {
             data["order_status"] = status.order_status
         }
-        if ("payment_status" in status){
+        if ("payment_status" in status) {
             data["payment_status"] = status.payment_status
         }
 
@@ -2342,9 +2347,10 @@ const TodayOrder = (props) => {
                             <div className={style.topHeading}>
                                 <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
                                 <div className={style.ActionBtn}>
-                                    <button className={`${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
+                                    <button className={` ${getOrderStatus()? null:style.disbaleBtn } ${style.orderCancelBtn} ${orderStatus == "Cancelled" ? "CancelStatusBtn" : null}`}
                                         onClick={e => {
-                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail)) {
+                                            // console.log(statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail))
+                                            if (statusValidation("Cancelled", paymentStatus, selectedOrderData.order_detail,true)) {
                                                 if (selectedOrderData.order_detail.cancel_reason.length == 0 && orderStatus != "Cancelled") {
                                                     document.getElementById("cancelInput").scrollIntoView()
                                                     document.getElementById("cancelInput").style.borderBottom = "1px solid red"
@@ -2352,7 +2358,7 @@ const TodayOrder = (props) => {
                                                     setErrorText({ ...errorText })
                                                     setCancelClicked(true)
                                                 } else {
-                                                    document.getElementById("cancelInput").scrollIntoView()
+                                                    // document.getElementById("cancelInput").scrollIntoView()
                                                     document.getElementById("cancelInput").style.borderBottom = "1px solid #9c9c9c"
                                                     errorText["cancelReason"] = ""
                                                     setErrorText({ ...errorText })
@@ -2362,7 +2368,7 @@ const TodayOrder = (props) => {
                                                 }
                                             }
                                         }}>Cancel Order</button>
-                                    <button className={style.KotBtn} onClick={e => {
+                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled"? style.disbaleBtn:null } ${style.KotBtn}`} onClick={e => {
                                         PrintKot(selectedOrderData.order_detail, selectedOrderData.order_item.filter(e => e.item_status == "Confirm"), restroDetail, gstFssai, settings)
                                     }}>Print Kot</button>
                                     <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
@@ -2409,7 +2415,7 @@ const TodayOrder = (props) => {
                                                 <>
                                                     {selectedOrderData?.order_detail?.table_number}
                                                     <Popconfirm
-                                                        className={style.link}
+                                                        className={`${getOrderStatus()? null:style.disbaleBtn } ${style.link}`}
                                                         title="Are you sure you want to change table number?"
                                                         onConfirm={e => { setInputEnable("tableEdit"); }}
                                                         // onCancel={e => { setTableConfirm(false) }}
@@ -2532,7 +2538,7 @@ const TodayOrder = (props) => {
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Payment Status -</label>
                                 <div className={style.OrderstatusBtnContainer} >
                                     <div className={style.StatusArrowBtnContainer}>
-                                        <p><button className={`${statusValidation("Pending", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
+                                        <p><button className={`${statusValidation(orderStatus, "Pending", selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${paymentStatus == "Pending" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Pending", selectedOrderData.order_detail, true))
                                                     UpdateOrderStatusDetail({
@@ -2541,7 +2547,10 @@ const TodayOrder = (props) => {
                                             }}
                                         ><a href="#"
                                         >Pending</a></button></p>
-                                        <p><button className={`${statusValidation("Completed", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
+                                        {selectedOrderData.order_detail?.payment_status=="Paid"?<p><button className='btn-right activeStatusBtn'
+                                        ><a href="#"
+                                        >Paid</a></button></p>:null}
+                                        <p><button className={`${statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, false)? 'btn-right' : "btn-disable"} ${selectedOrderData.order_detail?.order_status =="Cancelled"?style.disbaleBtn:null} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, true))
                                                     UpdateOrderStatusDetail({
@@ -2669,7 +2678,7 @@ const TodayOrder = (props) => {
                                 </div>
                                 <div className={style.AllStatusContainer}>
                                     <Popconfirm
-                                        className={style.link}
+                                        className={`${getOrderStatus()? null:style.disbaleBtn } ${style.link}`}
                                         style={{ maxWidth: "150px" }}
                                         title="Are you sure you want to update?"
                                         onConfirm={e => { orderItemModel(selectedOrderData.order_item) }}
@@ -2677,7 +2686,7 @@ const TodayOrder = (props) => {
                                         cancelText="Cancel"
                                         okText="Ok"
                                     >
-                                        <button className={style.AllUpdateButton} >Update Items</button>
+                                        <button className={`${style.AllUpdateButton}`} >Update Items</button>
                                     </Popconfirm>
                                     <div className={style.StatusBtnContainer}>
                                         <button class="button" id="cut" style={tickedItems.length > 0 ? null : { background: "rgba(0,0,0,0.2)", pointerEvents: "none" }}><span>Pending</span></button>
@@ -2837,7 +2846,7 @@ const TodayOrder = (props) => {
                                                 <label className={style.InputLabel} />
                                             </div>
                                             <div className={style.UpdateDIscountBtn}>
-                                                <button className={style.ApplyBtn} onClick={e => {
+                                                <button className={`${style.ApplyBtn} ${getOrderStatus() ? null : style.disbaleBtn}`} onClick={e => {
                                                     UpdateorderDetail();
                                                 }}>Apply</button>
                                             </div>

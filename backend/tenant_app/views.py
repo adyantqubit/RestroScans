@@ -3260,6 +3260,11 @@ class OrderDetailAPIView(APIView) :
         # serialized=AllOrderSerializer(orderObjs, many=True)
         if orderDetailSerailizer.is_valid():
             orderDetailSerailizer.save()
+            # Added by Rohan kansari - 14/8/23
+            # Reason - To get update customer loyality point from serializer
+            obj=Order.objects.get(id=orderDetailSerailizer.data["id"])
+            orderDetailSerailizer = AllOrderSerializer(obj)
+            # ENd of code - Rohan kansari - 14/8/23 - To get update customer loyality point from serializer
             # Added by ROhan kansari - 27/7/23 
             # Reason - To send updated order detail data and order item
             # return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
