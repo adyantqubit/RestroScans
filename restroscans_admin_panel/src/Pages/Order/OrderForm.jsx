@@ -632,7 +632,12 @@ const OrderForm = () => {
   // Addition by Om Shrivastava on 31-07-23
   // Reason : Set the validation error for discount percentage and discount rupee
   const resetValidation = () => {
-    setValidationErrors("")
+
+    // modified by - Rohan kansari - 18/8/23
+    // Reason - To set object type in resetting
+    // setValidationErrors("")
+    setValidationErrors({})
+    // End of code by - Rohan kansari - 18/8/23
     // setDiscountValidationErrors("")
     setValidationForOrderCancel("")
   };

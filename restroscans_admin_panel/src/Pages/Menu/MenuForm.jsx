@@ -56,7 +56,7 @@ function MenuForm() {
     enableHeader()
     // End of code - Rohan kansari - 25/6/23
     window.scrollTo(0, 0);
-    if (location.state.id != null) {
+    if (location?.state?.id != null) {
       setMenuId(location.state.id);
     }
   }, []);
@@ -227,17 +227,17 @@ function MenuForm() {
     } else {
       if (nameError != "" || iconError != "") {
         allowDataPost = false;
-      }else{
+      } else {
         allowDataPost = true;
       }
     }
-      /**
-   * Commented and modified by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
+    /**
+ * Commented and modified by - Ashish dewangan on 17-06-2023
+ * Reason - To handle validation differently
+ */
 
     if (allowDataPost) {
-      
+
       const updatedMenuData = new FormData();
       if (menuId) {
         updatedMenuData.append("id", menuId);
@@ -256,18 +256,18 @@ function MenuForm() {
       } else {
         Message("Something went wrong", "error");
       }
-    } 
-     /**
-   * Commented by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
+    }
+    /**
+  * Commented by - Ashish dewangan on 17-06-2023
+  * Reason - To handle validation differently
+  */
     // else {
     //   Message("Please provide values for all mandatory fields", "info");
     // }
-     /**
-   * End of code comment  by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
+    /**
+  * End of code comment  by - Ashish dewangan on 17-06-2023
+  * Reason - To handle validation differently
+  */
 
 
     /**
@@ -289,7 +289,7 @@ function MenuForm() {
     // setIsActive(menuData.is_active ?  true:false);
     // Modification by Om Shrivastava on 08-07-23
     // Reason : set the checkbox value
-    setIsActive(typeof menuData.is_active==='boolean' ? menuData.is_active ?true : false:true );
+    setIsActive(typeof menuData.is_active === 'boolean' ? menuData.is_active ? true : false : true);
     // End of addition and modification by Om Shrivastava on 08-07-23
     // setIsActive(menuData.is_active); 
     // End of addition by Om Shrivastava on 07-07-2023
@@ -316,8 +316,8 @@ function MenuForm() {
     // };
     // setValidationErrors({ ...validationErrors, ...error });
 
-   setIconError("")
-   setNameError("")
+    setIconError("")
+    setNameError("")
   };
   /**
    * End of code modification by - Ashish dewangan on 17-06-2023
@@ -329,172 +329,182 @@ function MenuForm() {
    */
 
   return (
-   // Modified by Rohan Kansari - 25/6/23
+    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
     // <Header>
-      <div className={style.container}>
-        <div className={style.titleContainer}>
-          <div className={style.pageTitle}>Menu</div>
-        </div>
-        <form className={style.menuSection}>
-          <div className={style.formContainer}>
-            <div className={`${style.sectionInsideForm}`}>
+    <div className={style.container}>
+      <div className={style.titleContainer}>
+        <div className={style.pageTitle}>Menu</div>
+      </div>
+      <form className={style.menuSection}>
+        <div className={style.formContainer}>
+          <div className={`${style.sectionInsideForm}`}>
 
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    <span className={style.mendatoryField}>* </span>Icon
-                  </div>
-                  <div className={style.menuImageContainer}>
-                    {selectedImageName ? (
-                      selectedImageName
-                    ) : icon ? (
-                      <img
-                        src={config.staticBaseURL + icon}
-                        className={style.menuImage}
-                        width={"200px"}
-                        height={"200px"}
-                      />
-                    ) : null}
-                  </div>
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  <span className={style.mendatoryField}>* </span>Icon
+                </div>
+                <div className={style.menuImageContainer}>
+                  {selectedImageName ? (
+                    selectedImageName
+                  ) : icon ? (
+                    <img
+                      src={config.staticBaseURL + icon}
+                      className={style.menuImage}
+                      width={"200px"}
+                      height={"200px"}
+                    />
+                  ) : null}
                 </div>
               </div>
+            </div>
 
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    <span className={style.optionalField}>* </span>Select new
-                    icon
-                  </div>
-
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="file"
-                    name="icon"
-                    id="icon"
-                    accept="image/png,image/jpg,image/jpeg"
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      if (e.target.files[0]) {
-                        setSelectedImageName(e.target.files[0].name);
-                        setSelectedImage(e.target.files[0]);
-                        validateOnFileInput("icon", e.target.files[0]);
-                      }
-                      else{
-                        setSelectedImageName(null);
-                        setSelectedImage(null)}
-                    }}
-                  />
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  <span className={style.optionalField}>* </span>Select new
+                  icon
                 </div>
 
-                <div className={`${style.inputErrorArea}`}>
-                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                  {/* {validationErrors.icon} */}
-                  {iconError}
-                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                </div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="file"
+                  name="icon"
+                  id="icon"
+                  accept="image/png,image/jpg,image/jpeg"
+                  style={{ width: "200px" }}
+                  onChange={(e) => {
+                    if (e.target.files[0]) {
+                      setSelectedImageName(e.target.files[0].name);
+                      setSelectedImage(e.target.files[0]);
+                      validateOnFileInput("icon", e.target.files[0]);
+                    }
+                    else {
+                      setSelectedImageName(null);
+                      setSelectedImage(null)
+                    }
+                  }}
+                />
               </div>
 
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    <span className={style.mendatoryField}>* </span>Name
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="name"
-                    value={name}
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      setName(e.target.value.toString());
-                      validateOnInput("name", e.target.value.toString());
-                    }}
-                    maxLength={30}
-                  />
+              <div className={`${style.inputErrorArea}`}>
+                {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                {/* {validationErrors.icon} */}
+                {iconError}
+                {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+              </div>
+            </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  <span className={style.mendatoryField}>* </span>Name
                 </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                <input
+                  className={`${style.textInputBox}`}
+                  type="text"
+                  name="name"
+                  value={name}
+                  // Added by Rohan kansari - 18/8/23
+                  // Reason - to prevent form reload
+                  onKeyPress={e => {
+                    if (e.which == 13) {
+                      e.preventDefault();
+                      //do something   
+                    }
+                  }}
+                  // ENd of code ROhan kansari - 18/8/23 - to prevent form reload
+                  style={{ width: "200px" }}
+                  onChange={(e) => {
+                    setName(e.target.value.toString());
+                    validateOnInput("name", e.target.value.toString());
+                  }}
+                  maxLength={30}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {/* Commented and modified by - Ashish Dewangan on 17-06-2023
                   Reason - To handle validation differently */}
                 {/* {validationErrors.name} */}
-                  {nameError}
-                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                {nameError}
+                {/* End of code modification by - Ashish Dewangan on 17-06-2023
                   Reason - To handle validation differently */}
-                </div>
               </div>
-
-              <div className={`${style.inputContainer}`}>
-                <div className={`${style.inputArea}`}>
-                  <div className={`${style.inputLabel}`}>
-                    <span className={style.optionalField}>* </span>Is Available
-                  </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="checkbox"
-                    name="is_available"
-                    style={{ width: "18px", height: "18px" }}
-                    checked={isActive}
-                    onChange={(e) => {
-                      setIsActive(e.target.checked);
-                      validateOnInput("is_available", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className={`${style.inputErrorArea}`}>
-                  {/* Commented and modified by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                  {/* {validationErrors.is_active} */}
-                  {""}
-                  {/* End of code modification by - Ashish Dewangan on 17-06-2023
-                  Reason - To handle validation differently */}
-                </div>
-              </div>
-
-            
-              
             </div>
+
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  <span className={style.optionalField}>* </span>Is Available
+                </div>
+                <input
+                  className={`${style.textInputBox}`}
+                  type="checkbox"
+                  name="is_available"
+                  style={{ width: "18px", height: "18px" }}
+                  checked={isActive}
+                  onChange={(e) => {
+                    setIsActive(e.target.checked);
+                    validateOnInput("is_available", e.target.value);
+                  }}
+                />
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {/* Commented and modified by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+                {/* {validationErrors.is_active} */}
+                {""}
+                {/* End of code modification by - Ashish Dewangan on 17-06-2023
+                  Reason - To handle validation differently */}
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+        <div className={style.actionContainer}>
+          <div
+            className={` ${style.backButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              navigate(-1);
+            }}
+          >
+            Back
           </div>
 
-          <div className={style.actionContainer}>
-            <div
-              className={` ${style.backButton}`}
-              style={{
-                marginRight: "10px",
-              }}
-              onClick={(e) => {
-                navigate(-1);
-              }}
-            >
-              Back
-            </div>
-
-            <div
-              className={` ${style.cancelButton}`}
-              style={{
-                marginRight: "10px",
-              }}
-              onClick={(e) => {
-                resetMenuForm();
-                window.scrollTo(0, 0);
-              }}
-            >
-              Clear
-            </div>
-
-            <div
-              className={` ${style.proceedButton}`}
-              onClick={() => {
-                saveMenu();
-                window.scrollTo(0, 0);
-              }}
-            >
-              Save
-            </div>
+          <div
+            className={` ${style.cancelButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              resetMenuForm();
+              window.scrollTo(0, 0);
+            }}
+          >
+            Clear
           </div>
-        </form>
-      </div>
+
+          <div
+            className={` ${style.proceedButton}`}
+            onClick={() => {
+              saveMenu();
+              window.scrollTo(0, 0);
+            }}
+          >
+            Save
+          </div>
+        </div>
+      </form>
+    </div>
     //</Header>
   );
 }

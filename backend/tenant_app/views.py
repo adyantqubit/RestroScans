@@ -882,7 +882,6 @@ def orderItemsCreation(request, order_obj):
 # Added by ROahn kansari - 9/8/23
 # Reason - to validate today order 
 def validateTable(tabelNumber):
-    print("ldldl")
     from django.utils.timezone import datetime
     from django.db.models import Q
     today=datetime.today().date()

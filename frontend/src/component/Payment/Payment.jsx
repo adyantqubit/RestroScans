@@ -161,10 +161,13 @@ export default function Payment() {
         // Added by :- Parineeta Gedam 
         // Date :- 28-05-2023
         // Reason :- remove the data from local stroage
-        secureLocalStorage.removeItem('order')
-        secureLocalStorage.removeItem('orderItem')
-        secureLocalStorage.removeItem('setting_data')
-        secureLocalStorage.removeItem('invoice_detail')
+        // Commented by ROhan kansari - 18/8/23 
+        // Reason - To remove all data in back click only
+        // secureLocalStorage.removeItem('order')
+        // secureLocalStorage.removeItem('orderItem')
+        // secureLocalStorage.removeItem('setting_data')
+        // secureLocalStorage.removeItem('invoice_detail')
+        // ENd of commenting 18/8/23 - Rohan kansari - To remove all data in back click only
         // End of added code by :- Parineeta Gedam on 28-05-2023
       }
     }

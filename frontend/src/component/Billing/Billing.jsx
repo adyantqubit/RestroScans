@@ -21,13 +21,17 @@ const Billing = () => {
 
     // Added by :- Parineeta Gedam on 29-07-2023
     // reason :- Customer UI >> Page is going blank when we go back in rate us page.
-
+ 
     useEffect(() => {
         window.onpopstate = () => {
+            navigate("/menu-item")
+            // Modified by Rohan kansari - 18/8/23 
+            // Reason - To  remove data after navigation 
             secureLocalStorage.removeItem("order");
             secureLocalStorage.removeItem("orderItem");
             secureLocalStorage.removeItem("invoice_detail");
-            navigate("/menu-item")
+            secureLocalStorage.removeItem('setting_data');
+            // ENd of code - Rohan kansari - 18/8/23
         }
     }, [])
  
@@ -93,11 +97,11 @@ const Billing = () => {
     function ExtractDateTime(format) {
         var d = new Date(format);
         // Modified by rohankansari - 10/5/23 - extracting date
-        var date = format.substring(0, 10)
+        var date = format?.substring(0, 10)
         // Modified by Yuvraj Sahu on 09-06-2023
         // Reason - to change date and time format
         // var time = format.substring(11, 16)
-        var time = format.substring(11, 19)
+        var time = format?.substring(11, 19)
         // end of changing date time format by Yuvraj Sahu on 09-06-2023
 
         return { date, time }

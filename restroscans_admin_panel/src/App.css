@@ -381,9 +381,18 @@ a {
    reason - adjust size of antd Modal in dashboard */
 
 @media screen and (max-width:500px){
+	/* Added by Rohan kansari - 18/7/23
+     Reason - To remove padding in antd model */
   .ant-modal .ant-modal-content{
-    width: 90% !important;
-    margin: auto !important;
+    padding: 10px 8px !important;
+  }
+
+  .ant-modal .ant-modal-close{
+    inset-inline-end: 5px !important;
+  }
+
+  .ant-modal .ant-modal-body{
+    overflow: auto;
   }
 }
 /* end of addition 12/06/2023 */

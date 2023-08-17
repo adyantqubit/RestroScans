@@ -18,8 +18,8 @@ export default function AddOrderItemForm(orderId) {
     useEffect(() => {
         getSettingData()
 
-    // Modified by ROhan kansari - 17/8/23
-    // Reason to reset form on closing and adding
+        // Modified by ROhan kansari - 17/8/23
+        // Reason to reset form on closing and adding
     }, [orderId.modalvisibility])
     // ENd of code - Rohan kansari - 17/8/23
 
@@ -106,22 +106,22 @@ export default function AddOrderItemForm(orderId) {
 
     // Added by ROhan kansari - 21/7/23
     // Reason - To save search value and remove spacing
-     const [searchValue,setSearchValue]=useState("")
+    const [searchValue, setSearchValue] = useState("")
     // End of code - Rohan kansari - 21/7/23
 
 
     useEffect(() => {
-        
+
         resetForm()
         setItemNameRequired(false);
         setservingSizeRequired(false);
         getAllMenus();
 
-        getAllOffers()
+        getAllOffers();
 
-    // Modified by ROhan kansari - 17/8/23
-    // Reason to reset form on closing and adding
-    }, [orderId.modalvisibility,orderId.orderItemList]);
+        // Modified by ROhan kansari - 17/8/23
+        // Reason to reset form on closing and adding
+    }, [orderId.modalvisibility, orderId.orderItemList]);
     // ENd of code - Rohan kansari - 17/8/23
     // End of added code by :- Om shrivastava on 24-06-2023
 
@@ -156,19 +156,19 @@ export default function AddOrderItemForm(orderId) {
         // formRef.current.handleChange("quantity")(dt.target.value)
         // Modification and addition by Om Shrivastava on 16-07-23
         // Reason : Add condition for quantity
-        if(dt.target.value.length>0 && dt.target.value>0){
-        setQuantitySelected(dt.target.value)
-        handleCalculations(dt.target.value)
+        if (dt.target.value.length > 0 && dt.target.value > 0) {
+            setQuantitySelected(dt.target.value)
+            handleCalculations(dt.target.value)
         }
-        else{
-        setQuantitySelected("")
-        setSingalItemprice(0)
-        setPrice(0)
+        else {
+            setQuantitySelected("")
+            setSingalItemprice(0)
+            setPrice(0)
 
         }
         // End of Modification and addition by Om Shrivastava on 16-07-23
         // Reason : Add condition for quantity
-        
+
     }
     // Modification and addition by Om Shrivastava on 02-07-23
     // Reason : When offer data shown than price is correct shown
@@ -371,51 +371,51 @@ export default function AddOrderItemForm(orderId) {
     const submitOrderItems = async () => {
 
         var allowDataPost = false;
-        var IsDataPosted=true;
+        var IsDataPosted = true;
         // Modification and addition by Om Shrivastava on 07-07-23
         // Reason : Set the validation for Quantity
         // Modification and addition by Om Shrivastava on 09-07-23
         // Reason : Set the validation for quantity
 
-           
-            if (isNaN(quantitySelected) ) {
+
+        if (isNaN(quantitySelected)) {
+            // Modification and addition by Om shrivastava on 16-07-23
+            // Reason : set the condition for validation in the field of quantity
+            // setquantityValidation("Quantity must be a number. ");
+            setquantityValidation("Please enter quantity. ");
+            // End of Modification and addition by Om shrivastava on 16-07-23
+            allowDataPost = false
+
+        } else {
+            if (quantitySelected <= 0) {
                 // Modification and addition by Om shrivastava on 16-07-23
                 // Reason : set the condition for validation in the field of quantity
-                // setquantityValidation("Quantity must be a number. ");
+                // setquantityValidation("Quantity must be greater than 0 ");
                 setquantityValidation("Please enter quantity. ");
                 // End of Modification and addition by Om shrivastava on 16-07-23
-                allowDataPost=false
-               
-            } else {
-                if (quantitySelected <=0) {
-                    // Modification and addition by Om shrivastava on 16-07-23
-                    // Reason : set the condition for validation in the field of quantity
-                    // setquantityValidation("Quantity must be greater than 0 ");
-                    setquantityValidation("Please enter quantity. ");
-                    // End of Modification and addition by Om shrivastava on 16-07-23
 
-                    allowDataPost=false
-                    
-                } else {
-                    setquantityValidation("");
-                    allowDataPost=true
-                   
-                }
+                allowDataPost = false
+
+            } else {
+                setquantityValidation("");
+                allowDataPost = true
 
             }
 
-            
+        }
+
+
         // Modified by Rohan kansari - 6/8/23
         // Reason - to manage only add new data and dont call backend save 
         // Modified by Rohan kansari - 17/8/23
-            if(typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false){
-                IsDataPosted=false
-            }
-            else{
-                IsDataPosted=true
-            }
-            // End of addition by Om Shrivastava on 09-07-23
-        
+        if (typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false) {
+            IsDataPosted = false
+        }
+        else {
+            IsDataPosted = true
+        }
+        // End of addition by Om Shrivastava on 09-07-23
+
         // if (quantitySelected != "" && quantitySelected != 0 && quantityValidation == "") {
         //     allowDataPost = true;
         // }
@@ -463,28 +463,29 @@ export default function AddOrderItemForm(orderId) {
             // Added by Rohan kansari - 6/8/23
             // Reason - to add data in orderitem list and it will not set backend
             // Modified by Rohan kansari - 17/8/23
-            if(typeof orderId.setOrderItemList != "undefined" && allowDataPost){
-                if(servingSizeData=="Half")
-                servingSizeData="Half Plate"
+            // if(typeof orderId.setOrderItemList != "undefined") {
+            if (typeof orderId.setOrderItemList != "undefined" && allowDataPost) {
+                if (servingSizeData == "Half")
+                    servingSizeData = "Half Plate"
                 else
-                servingSizeData="Full Plate"
-                const data={
-                name: itemNameSelected,
-                id: itemIdSelected,
-                serve_size: servingSizeData,
-                quantity: parseInt(quantitySelected),
-                price:price
+                    servingSizeData = "Full Plate"
+                const data = {
+                    name: itemNameSelected,
+                    id: itemIdSelected,
+                    serve_size: servingSizeData,
+                    quantity: parseInt(quantitySelected),
+                    price: price
                 }
                 console.log(orderId.orderItemList)
                 orderId.modalvisibilityFn(false)
                 // Modify by Rohan Kansari - 9/8/23
                 // To enter quantity in existing data 
-                if(orderId.orderItemList.findIndex(e=>e.id==data.id)!=-1){
-                    orderId.orderItemList[orderId.orderItemList.findIndex(e=>e.id==data.id&&e.serve_size==data.serve_size)].quantity+=parseInt(quantitySelected)
+                if (orderId.orderItemList.findIndex(e => e.id == data.id) != -1) {
+                    orderId.orderItemList[orderId.orderItemList.findIndex(e => e.id == data.id && e.serve_size == data.serve_size)].quantity += parseInt(quantitySelected)
                     orderId.setOrderItemList([...orderId.orderItemList])
-                }else
-                // End of modification - Rohan kansari - 9/8/23
-                orderId.setOrderItemList([...orderId.orderItemList,data])
+                } else
+                    // End of modification - Rohan kansari - 9/8/23
+                    orderId.setOrderItemList([...orderId.orderItemList, data])
 
             }
 
@@ -505,7 +506,7 @@ export default function AddOrderItemForm(orderId) {
                     <div className={`${style.sectionInsideForm}`}>
                         {/* Modified by Rohan kansari - 7/8/23 
                             Reason - If creating new order then their will be no need to show order id */}
-                            {/* <div className={`${style.inputContainer}`}>
+                        {/* <div className={`${style.inputContainer}`}>
                             <div className={`${style.inputArea}`}>
                                 <div className={`${style.inputLabel}`}>Order Id</div>
                                 <input
@@ -521,25 +522,25 @@ export default function AddOrderItemForm(orderId) {
                                  //{validationErrors.whatsapp_number} 
                             </div>
                         </div> */}
-                       {typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false
-                       ?
-                        null: 
-                        <div className={`${style.inputContainer}`}>
-                            <div className={`${style.inputArea}`}>
-                                <div className={`${style.inputLabel}`}>Order Id</div>
-                                <input
-                                    className={`${style.textInputBox} ${style.disabledInputBox}`}
-                                    type="text"
-                                    name="order_id"
-                                    value={orderId.orderId}
-                                    disabled
-                                    maxLength={10}
-                                />
-                            </div>
-                            <div className={`${style.inputErrorArea}`}>
-                                {/* {validationErrors.whatsapp_number} */}
-                            </div>
-                        </div>}
+                        {typeof orderId.doICallBackend != "undefined" && orderId.doICallBackend == false
+                            ?
+                            null :
+                            <div className={`${style.inputContainer}`}>
+                                <div className={`${style.inputArea}`}>
+                                    <div className={`${style.inputLabel}`}>Order Id</div>
+                                    <input
+                                        className={`${style.textInputBox} ${style.disabledInputBox}`}
+                                        type="text"
+                                        name="order_id"
+                                        value={orderId.orderId}
+                                        disabled
+                                        maxLength={10}
+                                    />
+                                </div>
+                                <div className={`${style.inputErrorArea}`}>
+                                    {/* {validationErrors.whatsapp_number} */}
+                                </div>
+                            </div>}
                         {/* End of code - ROhan kansari - 7/8/23 */}
 
                         <div className={`${style.inputContainer}`}>
@@ -555,7 +556,7 @@ export default function AddOrderItemForm(orderId) {
                                     showSearch
                                     // Added by ROhan kansari - 21/7/23
                                     // Reason - To add search value with trimmed space
-                                    onSearch={e=>{setSearchValue(e.trimStart().replace(/\s+/g, ' '))}}
+                                    onSearch={e => { setSearchValue(e.trimStart().replace(/\s+/g, ' ')) }}
                                     searchValue={searchValue}
                                     optionFilterProp="children"
                                     // ENd of code - Rohan kanari - 21/7/23 - To add search value with trimmed space
@@ -591,10 +592,10 @@ export default function AddOrderItemForm(orderId) {
                                         // Reason : When user select the item name than quantity is set to empty
                                         // setItemNameSelected(e.target.value)
                                     }}
-                                    // optionFilterProp="children"
-                                    // filterOption={(input, option) =>
-                                    //     (itemData?.name  ?? '').toLowerCase().includes(input.toLowerCase())
-                                    //   }
+                                // optionFilterProp="children"
+                                // filterOption={(input, option) =>
+                                //     (itemData?.name  ?? '').toLowerCase().includes(input.toLowerCase())
+                                //   }
                                 >
                                     {/* <option disabled selected value>
                       Select an item

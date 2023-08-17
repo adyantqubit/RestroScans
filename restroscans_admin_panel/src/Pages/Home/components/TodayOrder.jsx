@@ -649,6 +649,8 @@ const TodayOrder = (props) => {
                  */
             })
 
+            // Added by Rohan kansari - 16/8/23
+            // Reason - To uncheck all selected multiple items
             setTickedItems([])
 
             // Added by Rohan Kansari - 25/6/23
@@ -1424,6 +1426,8 @@ const TodayOrder = (props) => {
             if (response.msg) {
                 Message("Order detail saved successfully", "success");
                 UpdatingOpenedOrder(response.orderData)
+                // Modified by Rohan kansari - 17/8/23 - To arrange order item 
+                // setSelectedOrderItemList(response.orderItems)
                 setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
                 document.getElementById("discount_rupees").style.border = "1px solid black"
                 document.getElementById("discount_percentage").style.border = "1px solid black"
@@ -1467,6 +1471,8 @@ const TodayOrder = (props) => {
         if (response.msg) {
             Message("Table number saved successfully.", "success");
             UpdatingOpenedOrder(response.orderData)
+            // Modified by Rohan kansari - 17/8/23 - To arrange order item 
+            // setSelectedOrderItemList(response.orderItems)
             setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
 
         } else {
@@ -1509,6 +1515,8 @@ const TodayOrder = (props) => {
         if (response.msg) {
             Message("Order detail saved successfully", "success");
             UpdatingOpenedOrder(response.orderData)
+            // Modified by Rohan kansari - 17/8/23 - To arrange order item 
+            // setSelectedOrderItemList(response.orderItems)
             setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
             setErrorText({})
             document.getElementById("discount_rupees").style.border = "1px solid black"
@@ -1571,6 +1579,9 @@ const TodayOrder = (props) => {
 
 
             BackendCall()
+
+            // Added by Rohan kansari - 16/8/23
+            // Reason - To uncheck all selected multiple items
             setTickedItems([])
 
             // setting selected order with new data
@@ -2463,6 +2474,8 @@ const TodayOrder = (props) => {
                                         <div className={style.WhiteLabel}>
                                             Email :
                                         </div>
+                                        {/* Modified by Rohan kansari - 16/8/23
+                                            Reason - To make email editable*/}
                                         <div className={style.data}>
                                             {/* {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData.order_detail.customer_email.split(",").length - 1]} */}
                                             {inputEnable == "emailEdit" ? <>
@@ -2516,7 +2529,7 @@ const TodayOrder = (props) => {
                                                         okText="Ok"
                                                         placement='bottomLeft'
                                                     > */}
-                                                    {selectedOrderData?.order_detail?.customer_email?.length>0?<BsPencilSquare
+                                                    <BsPencilSquare
                                                         className={`${getOrderStatus() ? null : style.disbaleBtn}`}
                                                         onClick={e => {
                                                             if (inputEnable != "emailEdit") {
@@ -2524,11 +2537,13 @@ const TodayOrder = (props) => {
                                                             }
                                                             else setInputEnable(null)
                                                         }
-                                                        } style={{ margin: "5px 10px" }} />:null}
+                                                        } style={{ margin: "5px 10px" }} />
                                                     {/* </Popconfirm> */}
                                                 </>
                                             }
                                         </div>
+                                        {/* End of code by Rohan kansari - 16/8/23
+                                            Reason - To make email editable*/}
                                     </div>
                                 </div>
                                 <div className={style.informationContainer}>
@@ -2544,6 +2559,8 @@ const TodayOrder = (props) => {
                                         <div className={style.WhiteLabel}>
                                             Name :
                                         </div>
+                                          {/* Modified by Rohan kansari - 16/8/23
+                                                    Reason - To make name editable*/}
                                         <div className={style.data}>
                                             {/* Modified by ROhan kansari - 16/8/23 - set ordered customer name  */}
                                             {/* {selectedOrderData?.order_detail?.last_customer_name} */}
@@ -2594,7 +2611,7 @@ const TodayOrder = (props) => {
                                                         okText="Ok"
                                                         placement='bottomLeft'
                                                     > */}
-                                                    {selectedOrderData?.order_detail?.customer_name?.length>0?<BsPencilSquare
+                                                    <BsPencilSquare
                                                         className={`${getOrderStatus() ? null : style.disbaleBtn}`}
                                                         onClick={e => {
                                                             if (inputEnable != "nameEdit") {
@@ -2602,11 +2619,13 @@ const TodayOrder = (props) => {
                                                             }
                                                             else setInputEnable(null)
                                                         }
-                                                        } style={{ margin: "5px 10px" }} />:null}
+                                                        } style={{ margin: "5px 10px" }} />
                                                     {/* </Popconfirm> */}
                                                 </>
                                             }
                                         </div>
+                                        {/* End of modification Rohan kansari - 16/8/23
+                                            Reason - To make name editable*/}
                                     </div>
                                 </div>
 
@@ -2693,9 +2712,13 @@ const TodayOrder = (props) => {
                                             }}
                                         ><a href="#"
                                         >Pending</a></button></p>
+                                        {/* Added by ROhan kansari - 16/8/23 
+                                            Reason - To add paid btn in payment status section */}
                                         {selectedOrderData.order_detail?.payment_status == "Paid" ? <p><button className='btn-right activeStatusBtn'
                                         ><a href="#"
                                         >Paid</a></button></p> : null}
+                                        {/* End of code - ROhan kansari - 16/8/23 
+                                            Reason - To add paid btn in payment status section */}
                                         <p><button className={`${statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${selectedOrderData.order_detail?.order_status == "Cancelled" ? style.disbaleBtn : null} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, true))

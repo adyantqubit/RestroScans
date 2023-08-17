@@ -81,6 +81,7 @@ export default function InvoiceDetail() {
       order: orders.order_id,
     };
     const response = await getOrderItemsAndOrderAPI(data, tenantName);
+    console.log("-------------------",response.order)
     if (response) {
       setLoading(true);
       if (
@@ -89,6 +90,7 @@ export default function InvoiceDetail() {
       ) {
         secureLocalStorage.removeItem("order");
         secureLocalStorage.removeItem("orderItem");
+        console.log(response.order)
         secureLocalStorage.setItem("order", response.order);
         secureLocalStorage.setItem("orderItem", response.orderItem);
         setOrderItem(secureLocalStorage.getItem("orderItem"));
@@ -154,17 +156,32 @@ export default function InvoiceDetail() {
                 <div className="inv_details_1">
                   <span className="inv_details_heading">Name </span>
                   <span className="inv_details_colon">: </span>
-                  {customerDetail.name ? (
+                  {/* Modified by Rohan kansari - 18/8/23
+                      Reason - To show entered name in order and it can be editable from dashbaord */}
+                  {/* {customerDetail.name ? (
                     <>
-                      <span className="inv_details_value">
+                      <span className="invoice_details_value">
                         {customerDetail.name}
                       </span>
                     </>
                   ) : (
                     <>
-                      <span className="inv_details_value">-</span>
+                      <span className="invoice_details_value">-</span>
+                    </>
+                  )} */}
+                  {orders.customer_name ? (
+                    <>
+                      <span className="invoice_details_value">
+                        {orders.customer_name}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="invoice_details_value">-</span>
                     </>
                   )}
+                  {/* end of Modified code by Rohan kansari - 18/8/23
+                      Reason - To show entered name in order and it can be editable from dashbaord */}
                 </div>
                 <div className="inv_details_1">
                   <span className="inv_details_heading">Contact Number </span>

@@ -95,6 +95,8 @@ export default function OrderDetails() {
       order:orders.order_id,
     };
     const response = await getOrderItemsAndOrderAPI(data, tenantName);
+    console.log("-------------------",response.order)
+
     if (response) {
       // Modified by :- PArineeta Gedam on 11-06-2023 reason :- if order is cancelled then navigate to the menu page.
       setLoading(true);
@@ -585,7 +587,9 @@ export default function OrderDetails() {
 
                   {/* Added by :- Parineeta Gedam on 17-04-2023 */}
                   {/* modiefied by rohan -18/4/23 - reason - changes in customer json object*/}
-                  {customerDetail.name ? (
+                  {/* Modified by Rohan kansari - 18/8/23
+                      Reason - To show entered name in order and it can be editable from dashbaord */}
+                  {/* {customerDetail.name ? (
                     <>
                       <span className="invoice_details_value">
                         {customerDetail.name}
@@ -595,7 +599,20 @@ export default function OrderDetails() {
                     <>
                       <span className="invoice_details_value">-</span>
                     </>
+                  )} */}
+                  {orders.customer_name ? (
+                    <>
+                      <span className="invoice_details_value">
+                        {orders.customer_name}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="invoice_details_value">-</span>
+                    </>
                   )}
+                  {/* end of Modified code by Rohan kansari - 18/8/23
+                      Reason - To show entered name in order and it can be editable from dashbaord */}
                   {/* End of commented code on 17-04-2023  */}
                 </div>
                 <div className="invoice_details_1">
