@@ -2702,16 +2702,142 @@ End of addition by Yuvraj Sahu on 25-05-2023
 # Added by :- Rohan Kansari
 # Date :- 28-05-2023
 # Reason : API for post for filter query in order report
-
+import datetime
+from django.utils.timezone import datetime
 
 class OrderFilterAPIView(APIView):
     def post(self, request, tenant):
-        object = Order.objects.filter(
-            date__range=[request.data['dateFrom'], request.data['dateTo']])
-        if (request.data["amountSort"]):
-            object = object.order_by("-total")
-        serialize = OrderSerializer(object, many=True)
-        return Response(serialize.data)
+
+        # Commented by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
+        # print("request", request.data)
+        # object = Order.objects.filter(
+        #     date__range=[request.data['dateFrom'], request.data['dateTo']])
+        # if (request.data["amountSort"]):
+        #     object = object.order_by("-total")
+        # print("object", object)
+        # serialize = OrderSerializer(object, many=True)
+        # return Response(serialize.data)
+        # Commented by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
+
+        # Added by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
+        # print("request", request.data)
+        
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+        paymentStatus=request.data['paymentStatus'] 
+        orderStatus=request.data['orderStatus'] 
+        quickSelect = request.data['quickSelect']
+        # print("orderStatus",orderStatus)
+        orderList = []
+
+        if columnToSort == "":
+            orderList = Order.objects.all()  
+        # if request.data['dateFrom'] :
+        #     orderList = Order.objects.filter(date__range=[request.data['dateFrom'], request.data['dateTo']])
+
+
+        if quickSelect['today'] == True :
+            todayDate = datetime.today().date()
+            print("todayDate",todayDate)
+            orderList = Order.objects.filter(date__gte=todayDate)
+            print("orderList today", orderList)
+
+
+        if quickSelect['week'] == True :
+            # print("===============================", datetime.date.today().week)
+            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        if quickSelect['month'] == True :
+            # print("===============================", datetime.date.today().month)
+            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        if quickSelect['year'] == True :
+            # print("===============================",datetime.date.today().year)
+            orderList = Order.objects.filter(date__range=[datetime.date.today().year])
+
+
+        print(request.data['startDate'], request.data['endDate'])
+        if request.data['startDate'] :
+            orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+        # else :
+        #     orderList = Order.objects.all()
+        # print("====================",orderList)
+
+        
+        if columnToSort == "order_id" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('order_id')
+        if columnToSort == "order_id" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-order_id')
+
+        pendingOrder = []
+        completedOrder = []
+        placedOrder = []
+        confirmOrder = []
+        cookedOrder = []
+        servedOrder = []
+        cancelledOrder = []
+
+        if paymentStatus['pending'] == True :
+            pendingOrder = orderList.filter(payment_status = "Pending")
+
+        if paymentStatus['completed'] == True :
+            completedOrder = orderList.filter(payment_status = "Completed")
+
+        if orderStatus['placed'] == True :
+            placedOrder = orderList.filter(order_status = "Placed")
+           
+        if orderStatus['confirm'] == True :
+            confirmOrder = orderList.filter(order_status = "Confirm")
+
+        if orderStatus['cooked'] == True :
+            cookedOrder = orderList.filter(order_status = "Cooked")
+
+        if orderStatus['served'] == True :
+            servedOrder = orderList.filter(order_status = "Served")
+
+        if orderStatus['cancelled'] == True :
+            cancelledOrder = orderList.filter(order_status = "Cancelled")
+
+        orderList1 =[]
+        for x in placedOrder:
+            orderList1.append(x)
+        for x in confirmOrder:
+            orderList1.append(x)
+        for x in cookedOrder:
+            orderList1.append(x)
+        for x in servedOrder:
+            orderList1.append(x)
+        for x in cancelledOrder:
+            orderList1.append(x)
+        # print("====================",orderList1)
+
+        # today date filter
+        for x in orderList:
+            orderList1.append(x)
+
+
+        for x in pendingOrder:
+            # print("x=====", x)
+            if x not in orderList1:
+                orderList1.append(x)
+        for x in completedOrder:
+            if x not in orderList1:
+                orderList1.append(x)
+        
+       
+        # print("orderlist", orderList1)
+        orderListCount = len(orderList1)
+        paginator = Paginator(orderList1, listPerPage)
+        filteredOrderList = paginator.page(currentPage)
+        orderListSerializer = OrderSerializer(filteredOrderList, many=True)
+       
+        return Response({
+            "msg":"success",
+            "orderList":orderListSerializer.data,
+            "orderListCount":orderListCount,
+        })
+    #  End of Added code by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
 # End of added code by :- Rohan Kansari on 28-05-2023
 
 

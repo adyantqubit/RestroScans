@@ -11,6 +11,9 @@
 
 
 /* ================================================================================ */
+.calculationsContainer{
+  display: flex;
+}
 .orderContainer {
     width: 100%;
     height: 86.5vh;
@@ -147,7 +150,10 @@
     display: flex;
     flex-direction: column;
     height: 50%;
-    margin: auto 0;
+    /* Added by :- Parineeta Gedam on 06-08-2023 reason :- Order status → cooked should be aligned with placed status  */
+    /* margin: auto 0; */
+    /* End of added code by :- Parineeta Gedam on 06-08-2023 reason :- Order status → cooked should be aligned with placed status  */
+
     row-gap: -2px;
     position: relative;
     top: -8px;
@@ -225,10 +231,21 @@
     font-size: 14px;
     font-weight: 600;
     text-align: center;
-    margin-bottom: 8px;
+
+    /* Added by :- PArineeta Gedam on 06-08-2023 reason :- Please add space at the bottom of quick select, order status, and Payment status.. */
+    /* margin-bottom: 8px; */
+    margin-bottom: 15px;
+    /* End of Added code by :- PArineeta Gedam on 06-08-2023 reason :- Please add space at the bottom of quick select, order status, and Payment status */
+
+
     letter-spacing: 0.5px;
     text-decoration: underline;
-    font-family: ui-serif;
+    /* Added by :- PArineeta Gedam on 06-08-2023 reason :- Apply “myfont” in Quick Select, order status, and Payment status. */
+    /* font-family: ui-serif; */
+    font-family: "myfont";
+    /* End of Added by :- PArineeta Gedam on 06-08-2023 reason :- Apply “myfont” in Quick Select, order status, and Payment status. */
+
+
 }
 
 
@@ -691,7 +708,7 @@ input[type="checkbox"]:checked+.sortingLabel {
   padding: 3px;
 }
 .tableData {
-  background-color: white;
+  /* background-color: white; */
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -1011,6 +1028,9 @@ input[type="checkbox"]:checked+.sortingLabel {
   .tableDataContainer {
     justify-content: space-around;
   }
+  .calculationsContainer{
+    flex-direction: column;
+  }
 }
 @media screen and (max-width: 430px) {
   .orderListSection {
@@ -1042,6 +1062,8 @@ input[type="checkbox"]:checked+.sortingLabel {
 .flex{
     display:flex;
     flex-wrap: wrap;
+    background-color: #1677ff14;
+
 }
 .informationContainer{
     padding: 0 10px;
@@ -1213,7 +1235,10 @@ input[type="checkbox"]:checked+.sortingLabel {
   align-items: center;
 }
 .inputLabel {
-  min-width: 180px;
+
+  /* min-width: 180px; */
+  min-width: 100px;
+  
   max-width: 180px;
   font-weight: bold;
   font-size: 12px;
@@ -1239,3 +1264,7 @@ input[type="checkbox"]:checked+.sortingLabel {
 /* particular orderId,  order container
   Added by :- Parineeta Gedam on 04-08-2023
 */
+
+.ant-modal-content{
+  width: fit-content;
+}
