@@ -87,28 +87,92 @@ const FooterDescription = () => {
   };
 
   return (
-    <div className={style.Container}>
+    <div className={style.container}>
       <div className={style.titleContainer}>
         <div className={style.pageTitle}>Footer Description</div>
       </div>
-      <form method="post" className={style.formContainer}>
-        <div className={style.insideFormContainer}>
-          <div>Content:</div>
-            <textarea 
-              type="text"
-              name="content"
-              value={inputText}
-              placeholder="Enter Footer Description.."
-              onChange={onChange} 
-              className={style.inputCotent}
-              style={{resize:'none'}}
-            />
+      {/* Commented by Pratap sahu 
+      Reason : The css classname not working properly */}
+      {/* <form method="post" className={style.footerSection}>
+        <div className={style.formContainer}>
+          <div className={style.sectionInsideForm}>
+            <div className={`${style.inputContainer}`}>
+              <div>
+                <div>Content:</div>
+                <textarea
+                  type="text"
+                  name="content"
+                  value={inputText}
+                  placeholder="Enter Footer Description.."
+                  onChange={onChange}
+                  className={style.inputCotent}
+                  style={{ resize: "none" }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div className={style.buttonContainer}>
-          <div onClick={saveFooterDescription} className={style.buttonS}>Save</div>
-          <div onClick={() => clearFooterDescription()} className={style.buttonC}>Clear</div>
+          <div onClick={saveFooterDescription} className={style.buttonS}>
+            Save
+          </div>
+          <div
+            onClick={() => clearFooterDescription()}
+            className={style.buttonC}>
+            Clear
+          </div>
+        </div>
+      </form> */}
+      {/* End of Commented code by Pratap sahu 
+      Reason : The css classname not working properly */}
+
+      <form method="post" className={style.footerSection}>
+        <div className={style.formContainer}>
+          <div className={`${style.sectionInsideForm}`}>
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>
+                  <span className={style.mendatoryField}> </span>Content
+                </div> 
+
+                <textarea
+                  type="text"
+                  name="content"
+                  value={inputText}
+                  onChange={onChange}
+                  className={`${style.textInputBox}`}
+                  style={{ resize: "none" }}
+                />
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className={style.actionContainer}>
+          <div
+            className={` ${style.cancelButton}`}
+            style={{
+              marginRight: "10px",
+            }}
+            onClick={(e) => {
+              clearFooterDescription();
+              window.scrollTo(0, 0);
+            }}>
+            Clear
+          </div>
+
+          <div
+            className={` ${style.proceedButton}`}
+            onClick={() => {
+              saveFooterDescription();
+              window.scrollTo(0, 0);
+            }}>
+            Save
+          </div>
         </div>
       </form>
+
     </div>
   );
 };
