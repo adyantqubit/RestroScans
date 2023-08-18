@@ -38,10 +38,12 @@ urlpatterns = [
 
     # End of addition
 
-    # Added by Om on 11-03-23
+    # Added by - Om on 11-03-23   
+    # #Modified By - Pratap Sahu on 13-08-2023
     # Reason : Show the Footer & Description details
     path('<str:tenant>/footer-description/',FooterandDescriptionAPIView.as_view()),
-    # End of addition
+    # End Of Addition By pratap Sahu on 13-08-2023
+    # Reason : Show the Footer & Description details
 
     # Added by Om on 15-03-23
     # Reason : Show the Footer & Description details

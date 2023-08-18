@@ -478,13 +478,24 @@ Reason - To create footer and description table to show data in footer section
 
 class Description(models.Model):
     id = models.AutoField(primary_key=True)
-    content =models.TextField()
-    
-    def __str__(self):
+    # Commented And Addition By Pratap Sahu on 14-08-2023
+    # Reason:Need to Save Empty Data
+    # content =models.TextField()
+    content =models.TextField(null=True,blank=True)
+    # End of Modification by pratap sahu on 14-08-2023
+    # Reason:Need to Save Empty Data
+
+    # def __str__(self):
         # Commented and modified by Ashish Dewangan on 03-05-2023
         # Reason - To hide footer content as a label when we open footer model
         # return self.content 
-        return '' 
+        
+        # Commented by pratap sahu on 14-08-2023
+        # Reason: No need To Pass the value in Text Form
+        # return '' 
+        # End of Commented by pratap sahu on 14-08-2023
+        # Reason: No need To Pass the value in Text Form
+        
         # End of code modification by Ashish Dewangan on 03-05-2023
     class Meta:
         verbose_name_plural = 'g) Footer Description'

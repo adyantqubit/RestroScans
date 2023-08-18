@@ -25,7 +25,7 @@ import Menu from "./Pages/Menu/Menu";
 // End of code modification by - Ashish Dewangan on 14-06-2023
 import Category from "./Pages/Menu/Category";
 import Item from "./Pages/Menu/Item";
-import FooterDescription from "./Pages/Home/FooterDescription";
+import FooterDescription from './Pages/FooterDescription/FooterDescription';
 import CustomerDetail from "./Pages/CustomerDetail/CustomerDetail";
 import Order from "./Pages/Order/Order";
 import OrderItem from "./Pages/Order/OrderItem";

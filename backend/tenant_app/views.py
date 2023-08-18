@@ -436,23 +436,43 @@ class OfferItemsAPIView(APIView):
         return Response({"error": "error"}, 404)
 # End of addition
 
-# Added by Om on 11-03-23
-# Reason : Show the footer and description details
+
+# Added by Om on 11-03-23  
+# modified by- Pratap Sahu on 14-08-2013
+# Reason : get the footer and description details
+# ---------------------------------------------------------------------------------
 class FooterandDescriptionAPIView(APIView):
     def get(self,request,tenant):
-        print('gfagfgf', tenant)
+        # print('gfagfgf', tenant)
         # footer=Footer.objects.all()
         # footerSerializer=FooterSerializer(footer,many=True)
         descriptionList=Description.objects.all()
-        descriptionSerializer=DescriptionSerializer(descriptionList,many=True)
+        # print("++++++++++++++++++++++++++",descriptionList)
+        descriptionSerializedObj=DescriptionSerializer(descriptionList,many=True)
 
         return Response({
             "msg":"success",
-            # "footer":footerSerializer.data,
-            "descriptionList":descriptionSerializer.data,
+            "descriptionList":descriptionSerializedObj.data,
             })
-    
+        
+#Added By - Pratap Sahu on 13-08-2023
+# Reason : save & update the footer description details
+    def post(self,request,tenant):
+        if "id" in request.data :
+            obj = Description.objects.get(id=request.data["id"])
+            serializedObj = DescriptionSerializer(obj, data=request.data,partial=True)
+        else :
+            serializedObj = DescriptionSerializer(data=request.data)
+        if serializedObj.is_valid():
+            serializedObj.save()
+            return Response({
+                "msg": "Updated Successfully",
+                "serilizedData": serializedObj.data,
+            }, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedObj.errors}, status=status.HTTP_400_BAD_REQUEST)
 # End of addition
+# End of addition by pratap sahu on 13-08-2023
+# Reason: to save And Update the Footer Description Details
 
 # Added by Om on 11-03-23
 # Reason : Show the footer and description details

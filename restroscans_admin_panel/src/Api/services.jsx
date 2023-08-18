@@ -842,3 +842,40 @@ export const postCustomerDetails = async(formdata,tenantId) => {
   }
 
 // End of code - Rohan kansari - 7/8/23
+
+
+/**
+ * Added by - Pratap sahu on 13-08-2023
+ * Reason - To save,update & get the footer description details.
+ * ------------------------------------------------------------------------------
+ */
+export const saveFooterDescriptionApi = async (tenant, value) => {
+  const response = await API.post(`/api/v1/${tenant}/footer-description/`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const updateFooterDescriptionApi = async (value, tenant,id) => {
+  const response = await API.put(`/api/v1/${tenant}/footer-description/${id}`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const getFooterDescriptionApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/footer-description/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Pratap sahu on 13-08-2023
+ * Reason - To save,update & get the footer description.
+ */ 

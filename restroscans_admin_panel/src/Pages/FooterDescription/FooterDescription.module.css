@@ -1,0 +1,89 @@
+/**
+ * Created by - Pratap Sahu on 12-08-2023
+ * Reason - To give styling on Footer Description Page
+ */
+.Container {
+  width: 100%;
+  background-color: #e7f1f1;
+  overflow: scroll;
+  height: 86.5vh;
+  background-color: #e7f1f1;
+
+  }
+  .titleContainer{
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .pageTitle {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+  
+.formContainer{
+  min-height: auto;
+  background-color: transparent;
+  margin: auto 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #9c9c9c;
+  background-color: white;
+  width: fit-content;
+  margin: auto auto;
+  margin-bottom: 20px;
+  padding: 20px 80px;
+  
+}
+
+.insideFormContainer{
+  width: fit-content;
+  display: flex;
+  /* border: 1px solid; */
+  padding: 50px;
+  background-color: #e7f1f1;
+  font-weight: 500;
+  border-radius: 10px;
+
+}
+
+.inputCotent{
+  width: 200px;
+  border: 1px solid;
+  padding: 2px;
+  border-radius: 5px;
+  margin-left: 10px;
+  height: 100px;
+}
+
+.buttonContainer{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.buttonS{
+  padding: 2px 15px;
+  border-radius: 5px;
+  background-color: #51c14b;
+  color: white;
+  font-weight: 500;
+}
+.buttonC{
+  padding: 2px 15px;
+  border-radius: 5px;
+  background-color: #1f2937;
+  
+  color: white;
+  font-weight: 500;
+}
+/**
+ * Ent of code adition by -Pratap sahu on 17-08-2023
+ * Reason - To give styling on footer description page
+ */
