@@ -330,7 +330,11 @@ class ItemAPIView(APIView):
 class OfferAPIView(APIView):
     def get(self,request,tenant):
         print('gfagfgf', tenant)
-        offerBanner=Offer.objects.all()
+        # Added and modified by Yuvraj Sahu on 18-08-2023
+        # Reason - to sort of banner list
+        # offerBanner=Offer.objects.all()
+        offerBanner=Offer.objects.all().order_by("offer_name")
+        # End of modification by Yuvraj Sahu on 18-08-2023
         offerbannerSerializer=OfferBannerSerializer(offerBanner,many=True)
         # offerItemList=OfferItem.objects.all()
         offerItemList=OfferItem.objects.filter(item_name__is_active=True, item_name__category__is_active=True,item_name__category__menu__is_active=True)

@@ -295,6 +295,20 @@ function SocialMediaForm(props) {
         allowDataPost = true;
       }
     }
+
+    /**
+     * Added by Yuvraj Sahu on 18-08-2023
+     * Reason - to validate the logo
+     */
+    if (validationErrors.social_media_icon != "") {
+      allowDataPost = false;
+    } else {
+      allowDataPost = true;
+    }
+    /**
+     * End of addition byc Yuvraj Sahu on 18-08-2023
+     */
+
     if (allowDataPost) {
       // const updatedSettingsData = {
       //   social_media_name: socialMediaName,
