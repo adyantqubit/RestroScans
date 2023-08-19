@@ -58,6 +58,15 @@ const OrderItem = () => {
     * End of addition by Yuvraj Sahu on 07-08-2023
     */
 
+   /**
+   * Added by Yuvraj Sahu on 19-08-2023
+   * Reason - to allow date filter
+   */
+   const [allDateFilter, setAllDateFilter] = useState(false);
+   /**
+    * End of addition by Yuvraj Sahu on 19-08-2023
+    */
+
 
   const [backendOrderItemCount, setOrderItemCount] = useState(0);
 
@@ -202,10 +211,21 @@ const OrderItem = () => {
        */
     };
 
-    if (fromDate != null && toDate != null) {
-      filteringCriteria["startDate"] = fromDate;
-      filteringCriteria["endDate"] = toDate
-    }
+    /**
+     * Adde and modified by Yuvraj Sahu on 19-08-2023
+     * Reason - to filter allow when we click filter button
+     */
+    // if (fromDate != null && toDate != null) {
+      if (allDateFilter) {
+        /**
+         * End of modification by Yuvraj Allow date filter apply
+         */
+        let copyToDate = new Date(toDate)
+        copyToDate.setDate(copyToDate.getDate() + 1)
+        
+        filteringCriteria["startDate"] = fromDate;
+        filteringCriteria["endDate"] = copyToDate
+      }
 
     var response = await getOrdersItemDetailApi(tenant, filteringCriteria);
     setOrderItems(response.orderItemList);
@@ -237,7 +257,15 @@ const OrderItem = () => {
      * Added by Yuvraj Sahu on 16-08-2023
      * Reason - to change the remove the filter
      */
-    if (pageNumber != 1){
+     /**
+     * Modified by Yuvraj Sahu on 19-08-2023
+     * Reason - to render when click date filter
+     */
+    // if (pageNumber != 1){
+    if (allDateFilter == false){
+       /**
+       * End of modification by Yuvraj Sahu on 19-08-2023
+       */
       setFromDate(null)
       setToDate(null)
     }
@@ -310,7 +338,16 @@ const OrderItem = () => {
   }
 
   function hideDropdown() {
-    document.getElementById("dropdown").style.display = ""
+    /**
+     * Added and modified by yuvraj Sahu on 19-08-2023
+     * Reason - to remove error when we click no record found
+     */
+    if (orderItems && orderItems.length > 0){
+      document.getElementById("dropdown").style.display = ""
+    }
+    /**
+     * End of amodification by Yuvraj Sahu on 19-08-2023
+     */
   }
   // End of code - Rohan Kansari - 22/6/23
 
@@ -323,6 +360,14 @@ const OrderItem = () => {
     if (fromDate == null || toDate == null){
       setDateValidation(true)
     } else {
+      /**
+       * Added by Yuvraj Sahu on 19-08-2023
+       * Reason - to filter date allow
+       */
+      setAllDateFilter(true)
+      /**
+       * End of addition by yuvraj Sahu on 19-08-2023
+       */
       setDateValidation(false)
       /**
        * Added by yuvraj Sahu on 16-08-2023
@@ -342,6 +387,14 @@ const OrderItem = () => {
   const handleClearFilter = () => {
     setFromDate(null)
     setToDate(null)
+    /**
+       * Added by Yuvraj Sahu on 19-08-2023
+       * Reason - to all the date filteration
+       */
+    setAllDateFilter(false)
+    /**
+     * End addition by Yuvraj Sahu on 19-08-2023
+     */
     setAllowFilter(!allowFilter)
   }
   /**
