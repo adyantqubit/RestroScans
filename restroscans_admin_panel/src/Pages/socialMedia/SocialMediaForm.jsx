@@ -283,7 +283,15 @@ function SocialMediaForm(props) {
     */
 
     if (id != 0) {
-      if (socialMediaLinkValue == "") {
+      /**
+       * Modified by yuvraj Sahu on 20-08-2023
+       * Reason - to validate the icon
+       */
+      // if (socialMediaLinkValue == "") {
+      if (socialMediaLinkValue == "" || validationErrors.social_media_icon != "") {
+       /**
+        * End of modification by yuvraj Sahu on 20-08-2023
+        */
         allowDataPost = false;
       } else {
         allowDataPost = true;
@@ -295,19 +303,6 @@ function SocialMediaForm(props) {
         allowDataPost = true;
       }
     }
-
-    /**
-     * Added by Yuvraj Sahu on 18-08-2023
-     * Reason - to validate the logo
-     */
-    if (validationErrors.social_media_icon != "") {
-      allowDataPost = false;
-    } else {
-      allowDataPost = true;
-    }
-    /**
-     * End of addition byc Yuvraj Sahu on 18-08-2023
-     */
 
     if (allowDataPost) {
       // const updatedSettingsData = {
@@ -417,12 +412,27 @@ function SocialMediaForm(props) {
       setValidationErrors({ ...validationErrors, ...error });
     }
     else {
-      setImg(text);
-      const error = {
-        social_media_icon: "",
-      };
-      setValidationErrors({ ...validationErrors, ...error });
+
+      /**
+       * Added and modified by yuvraj Sahu on 11-08-2023
+       * Reason - to save sort image file name
+       */
+      if (text.name.toString().length > 65) {
+        const error = {
+          social_media_icon: "Image name should be short",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        setImg(text);
+        const error = {
+          social_media_icon: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
     }
+    /**
+     * End of addition by yuvraj Sahu on 11-08-2023
+     */
     /**
      * End of addition by Yuvraj Sahu on 18-06-2023
      */

@@ -675,7 +675,15 @@ const Order = () => {
          * Reason - to set the first page when filter apply
          */
         if (currentPage != 1){
-          handlePageChange(1)
+          /**
+           * Added and modified by yuvraj Sahu on 20-08-2023
+           * Reason - to set first page when apply filter
+           */
+            localStorage.setItem("globalPageIndex", 1)
+            setCurrentPage(1);
+            /**
+             * End of addition by yuvraj Sahu on 20-08-2023
+             */
         } else {
           setAllowFilter(!allowFilter)
         }
@@ -703,12 +711,13 @@ const Order = () => {
       setFromDate(null)
       setToDate(null)
       /**
-       * Added by Yuvraj Sahu on 19-08-2023
+       * Added by Yuvraj Sahu on 20-08-2023
        * Reason - to all the date filteration
        */
       setAllDateFilter(false)
+      handlePageChange(1)
       /**
-       * End addition by Yuvraj Sahu on 19-08-2023
+       * End addition by Yuvraj Sahu on 20-08-2023
        */
       setAllowFilter(!allowFilter)
     }

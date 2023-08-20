@@ -374,7 +374,15 @@ const OrderItem = () => {
        * Reason - to change the page number when filter apply
        */
       if (currentPage != 1){
-        handlePageChange(1)
+        /**
+         * Added and modified by yuvraj Sahu on 20-08-2023
+         * Reason - to set first page when apply filter
+         */
+        localStorage.setItem("globalPageIndex", 1)
+        setCurrentPage(1);
+        /**
+         * End of addition by yuvraj Sahu on 20-08-2023
+         */
       } else {
         setAllowFilter(!allowFilter)
       }
@@ -388,10 +396,11 @@ const OrderItem = () => {
     setFromDate(null)
     setToDate(null)
     /**
-       * Added by Yuvraj Sahu on 19-08-2023
-       * Reason - to all the date filteration
-       */
+     * Added by Yuvraj Sahu on 19-08-2023
+     * Reason - to all the date filteration
+     */
     setAllDateFilter(false)
+    handlePageChange(1)
     /**
      * End addition by Yuvraj Sahu on 19-08-2023
      */
