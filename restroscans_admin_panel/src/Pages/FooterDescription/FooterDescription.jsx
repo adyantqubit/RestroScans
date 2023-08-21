@@ -151,7 +151,10 @@ const FooterDescription = () => {
 
         <div className={style.actionContainer}>
           <div
-            className={` ${style.cancelButton}`}
+            //Modified and commented by Pratap Sahu on 21-08-2023
+            // Reason: correction on Button Name
+            // className={` ${style.cancelButton}`}
+            className={` ${style.clearButton}`}
             style={{
               marginRight: "10px",
             }}

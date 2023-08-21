@@ -858,14 +858,19 @@ export const saveFooterDescriptionApi = async (tenant, value) => {
   return response ? response.data : {};
 };
 
-export const updateFooterDescriptionApi = async (value, tenant,id) => {
-  const response = await API.put(`/api/v1/${tenant}/footer-description/${id}`, value, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).catch((err) => console.log(err));
-  return response ? response.data : {};
-};
+// commented by Pratap Sahu on 21-08-2023
+// Reason : No need of this Api
+
+// export const updateFooterDescriptionApi = async (value, tenant,id) => {
+//   const response = await API.put(`/api/v1/${tenant}/footer-description/${id}`, value, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   }).catch((err) => console.log(err));
+//   return response ? response.data : {};
+// };
+// End of commented by Pratap Sahu on 21-08-2023
+// Reason : No need of this Api
 
 export const getFooterDescriptionApi = async (tenant) => {
   const response = await API.get(`/api/v1/${tenant}/footer-description/`, {

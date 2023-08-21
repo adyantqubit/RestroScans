@@ -36,6 +36,8 @@ import SocialLinkScreen from "../screens/socialMedia/SocialLinkScreen";
 import { Feather } from "@expo/vector-icons";
 import SocialMediaNavigation from "./SocialMediaNavigation";
 import RatingReviewScreen from "../screens/ratingreview/RatingReviewScreen";
+import FooterDescriptionScreen from "../screens/FooterDescriptionScreen";
+
 
 
 export default function DrawerNavigation({ navigation }) {
@@ -387,6 +389,21 @@ export default function DrawerNavigation({ navigation }) {
         }}
       />
       {/* End of addition by Om Shrivastava on 26-07-2023 */}
+
+      {/* Added by Pratap sahu on 18-08-2023
+      Reason - to show Footer Description navigation */}
+      <Drawer.Screen
+        name="FooterDescriptionScreen"
+        component={FooterDescriptionScreen}
+        options={{
+          drawerLabel: "Footer Description",
+          title: "Footer Description",
+          drawerIcon: (config) => (
+            <MaterialCommunityIcons name="format-letter-case-lower" size={20} color="black" />
+          ),
+        }}
+      />
+      {/* End of addition by Pratap sahu on 18-08-2023 */}
 
       {/* End of addition */}
     </Drawer.Navigator>

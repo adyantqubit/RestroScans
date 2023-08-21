@@ -674,3 +674,31 @@ export const updatePaymentStatus = async (tenant, value) => {
   return response ? response.data : {};
 };
 // End updating payment status by Yuvraj Sahu on 03-07-2023
+
+
+/**
+ * Added by - Pratap sahu on 18-08-2023
+ * Reason - To save,update & get the footer description details.
+ * ------------------------------------------------------------------------------
+ */
+export const saveFooterDescriptionApi = async (tenant, value) => {
+  const response = await API.post(`/api/v1/${tenant}/footer-description/`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+export const getFooterDescriptionApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/footer-description/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Pratap sahu on 18-08-2023
+ * Reason - To save,update & get the footer description.
+ */ 
