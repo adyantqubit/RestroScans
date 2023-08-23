@@ -592,7 +592,7 @@ const NewOrderReport = () => {
                        {/* <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeFrom} value={fromDate} format="dd/MM/yyyy" /></div>
                        <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeTo} value={toDate} format="dd/MM/yyyy" /></div> */}
                        <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy" /></div>
-                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeToDate} value={endDate} disabled = {disable} format="dd/MM/yyyy" minDate={endDate} /></div>
+                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeToDate} value={endDate} disabled = {disable} format="dd/MM/yyyy"  /></div>
                    </div>
                </div>
                 )}

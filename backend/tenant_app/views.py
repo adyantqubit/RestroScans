@@ -2857,7 +2857,15 @@ class OrderFilterAPIView(APIView):
             orderStatusList=orderStatusList | servedOrder
         if len(cancelledOrder):
             orderStatusList=orderStatusList | cancelledOrder
-        if len(orderStatusList)==0:
+        #Modified by Rohan kansari - 21/8/23
+        #Reason - To dont set default value if any one is selected    
+        if  (orderStatus['placed'] | orderStatus['confirm'] 
+                                        | orderStatus['cooked'] | orderStatus['served'] 
+                                        | orderStatus['cancelled']):
+           pass
+        else:
+        #End of modification by Rohan kansari - 21/8/23
+        #Reason - To dont set default value if any one is selected    
            orderStatusList=orderPaymentList
         
         
