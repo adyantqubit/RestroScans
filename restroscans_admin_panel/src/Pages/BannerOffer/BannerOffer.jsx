@@ -21,7 +21,7 @@ import config from "../../Api/config";
 import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
 import BannerOfferForm from './BannerOfferForm';
 import { GlobalContext } from "../../Context/Context";
-
+import defaultIcon from '../../../src/images/no-offer.jpg'
 
 const BannerOffer = () => {
   
@@ -490,9 +490,14 @@ const openCategoryDetails = (id) => {
                           bannerOfferDetails.offer_image
 
                             ? config.staticBaseURL + bannerOfferDetails.offer_image
-
-                            : "---"
+                          // Added by Om Shrivastava on 26-06-23
+                          // Reason : Set the default image
+                          // "---"
+                            : defaultIcon
+                            // End of addition by Om Shrivastava on 26-06-23
+                          // Reason : Set the default image
                         }
+
                         />
                       </div>
 

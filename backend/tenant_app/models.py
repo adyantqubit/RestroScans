@@ -389,8 +389,13 @@ class Offer(models.Model):
     # Reason : Fix the discount value
     # discount = models.IntegerField(validators=[MinValueValidator(0),
     #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
-    discount = models.IntegerField(validators=[MinValueValidator(1),
-                                       MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    # Modified by Om on - 26-08-23
+    # Reason : Change the integer field to charfield
+    # discount = models.IntegerField(validators=[MinValueValidator(1),
+    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
+    discount = models.CharField(null=True,blank=True,max_length=20, verbose_name="Discount(%)")
+    # Modified by Om on - 26-08-23
+    # Reason : Change the integer field to charfield
     # End of addition by Om Shrivastava on 24-05-23
 
     # discount = models.DecimalField(validators=[MinValueValidator(0),

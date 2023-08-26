@@ -52,6 +52,8 @@ border: #1f2937;
 .titleContainer{
   display: flex;
   justify-content: center;
+  /* border: 1px solid black; */
+  /* padding-top: 12%; */
 }
 
 .pageTitle {
@@ -139,7 +141,7 @@ border: #1f2937;
 }
 
 .inputErrorArea {
-  margin-left: 155px;
+  margin-left: 165px;
   font-size: 14px;
   width: 200px;
   color: red;

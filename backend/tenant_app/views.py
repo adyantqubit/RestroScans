@@ -4176,19 +4176,6 @@ class BannerOfferAPIView(APIView):
        
         return Response({"msg":"success","offer":offerData})
    
-    # def post(self,request,tenant):
-    #     serializedData = OfferBannerSerializer(data=request.data)
-    #     if serializedData.is_valid():
-    #         serializedData.save()
-    #         offerList= Offer.objects.all().order_by("-id")
-    #         offerListSerailizer = OfferBannerSerializer(offerList,many=True)
-    #         # return Response({"msg": "Banner/Offer Added Successfully"}, status=status.HTTP_201_CREATED)
-    #         return Response({
-    #         "msg":"Saved Successfully",
-    #         "offerBannerList":offerListSerailizer.data
-    #         },200)
-    #     return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
     def post(self,request,tenant):
         if "id" in request.data :
             obj = Offer.objects.get(id=request.data["id"])
@@ -4238,19 +4225,23 @@ class BannerOfferAPIView(APIView):
     #         })
     #     return Response({"error": "Something Went Wrong"}, status=status.HTTP_400_BAD_REQUEST)
     # End of addition
-    def put(self,request,tenant):
-        item = Item.objects.get(id=request.data["id"])
-        itemSerializer = ItemSerializer(item, data=request.data,partial=True)
-        if itemSerializer.is_valid():
-            itemSerializer.save()
-            itemList=Item.objects.all().order_by("-id")
-            itemListSerializer=ItemListSerializer(itemList,many=True)
-            return Response({
-            "msg":"Saved Successfully",
-            "itemList":itemListSerializer.data
-            })
-        return Response({"error": itemSerializer.errors}, status=200)
 
+    # Commented by Om Shrivastava on 21-08-23
+    # Reason : Not working this put API
+    # def put(self,request,tenant):
+    #     item = Item.objects.get(id=request.data["id"])
+    #     itemSerializer = ItemSerializer(item, data=request.data,partial=True)
+    #     if itemSerializer.is_valid():
+    #         itemSerializer.save()
+    #         itemList=Item.objects.all().order_by("-id")
+    #         itemListSerializer=ItemListSerializer(itemList,many=True)
+    #         return Response({
+    #         "msg":"Saved Successfully",
+    #         "itemList":itemListSerializer.data
+    #         })
+    #     return Response({"error": itemSerializer.errors}, status=200)
+    # End of commented code by Om Shrivastava on 21-08-23
+    # Reason : Not working this put API
 
     def delete(self, request,tenant, pk):
         id = pk
