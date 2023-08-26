@@ -291,20 +291,20 @@ const NewOrderReport = () => {
     function handleCustomSelect(e) {
     setcustomDisable(true);
     }
-    
+
     const handleQuickSelect = (e) => {
         if (e == "today") {
             setcustomDisable(false)
             setStartDate("")
             setEndDate("")
-            if (document.getElementById("today").checked == true){
+            if (document.getElementById("today").checked == true) {
                 setQuickSelect((select) => {
                     select.today = true
                     select.week = false
                     select.month = false
                     select.year = false
                     select.custom = false
-                    return {... select}
+                    return { ...select }
                 })
             }
         }
@@ -312,14 +312,14 @@ const NewOrderReport = () => {
             setcustomDisable(false)
             setStartDate("")
             setEndDate("")
-            if (document.getElementById("week").checked == true){
+            if (document.getElementById("week").checked == true) {
                 setQuickSelect((select) => {
                     select.week = true
                     select.today = false
                     select.month = false
                     select.year = false
                     select.custom = false
-                    return {... select}
+                    return { ...select }
                 })
             }
         }
@@ -327,14 +327,14 @@ const NewOrderReport = () => {
             setcustomDisable(false)
             setStartDate("")
             setEndDate("")
-            if (document.getElementById("month").checked == true){
+            if (document.getElementById("month").checked == true) {
                 setQuickSelect((select) => {
                     select.month = true
                     select.week = false
                     select.today = false
                     select.year = false
                     select.custom = false
-                    return {... select}
+                    return { ...select }
                 })
             }
         }
@@ -342,27 +342,27 @@ const NewOrderReport = () => {
             setcustomDisable(false)
             setStartDate("")
             setEndDate("")
-            if (document.getElementById("year").checked == true){
+            if (document.getElementById("year").checked == true) {
                 setQuickSelect((select) => {
                     select.year = true
                     select.today = false
                     select.week = false
                     select.month = false
                     select.custom = false
-                    return {... select}
+                    return { ...select }
                 })
             }
         }
         if (e == "custom") {
             setcustomDisable(true)
-            if (document.getElementById("custom").checked == true){
+            if (document.getElementById("custom").checked == true) {
                 setQuickSelect((select) => {
                     select.custom = true
                     select.year = false
                     select.today = false
                     select.week = false
                     select.month = false
-                    return {... select}
+                    return { ...select }
                 })
             }
         }
@@ -376,67 +376,67 @@ const NewOrderReport = () => {
     function handleOrderStatus(e) {
         console.log("e", e)
         if (e == "Placed") {
-            if (document.getElementById("placed").checked == true){
+            if (document.getElementById("placed").checked == true) {
                 setOrderStatus((orderStatus) => {
                     orderStatus.placed = true
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
-            }else{
+            } else {
                 setOrderStatus((orderStatus) => {
                     orderStatus.placed = false
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
             }
         }
         if (e == "Confirm") {
-            if (document.getElementById("confirm").checked == true){
+            if (document.getElementById("confirm").checked == true) {
                 setOrderStatus((orderStatus) => {
                     orderStatus.confirm = true
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
-            }else{
+            } else {
                 setOrderStatus((orderStatus) => {
                     orderStatus.confirm = false
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
             }
         }
         if (e == "Cooked") {
-            if (document.getElementById("cooked").checked == true){
+            if (document.getElementById("cooked").checked == true) {
                 setOrderStatus((orderStatus) => {
                     orderStatus.cooked = true
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
-            }else{
+            } else {
                 setOrderStatus((orderStatus) => {
                     orderStatus.cooked = false
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
             }
         }
         if (e == "Served") {
-            if (document.getElementById("served").checked == true){
+            if (document.getElementById("served").checked == true) {
                 setOrderStatus((orderStatus) => {
                     orderStatus.served = true
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
-            }else{
+            } else {
                 setOrderStatus((orderStatus) => {
                     orderStatus.served = false
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
             }
         }
         if (e == "Cancelled") {
-            if (document.getElementById("cancelled").checked == true){
+            if (document.getElementById("cancelled").checked == true) {
                 setOrderStatus((orderStatus) => {
                     orderStatus.cancelled = true
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
-            }else{
+            } else {
                 setOrderStatus((orderStatus) => {
                     orderStatus.cancelled = false
-                    return {... orderStatus}
+                    return { ...orderStatus }
                 })
             }
         }
@@ -451,40 +451,40 @@ const NewOrderReport = () => {
     // reason :- if change the payment status then call this handleChnagePaymentStatus method for set the payment status.
     function handlePaymentStatus(e) {
         console.log("e", e)
-        if (e == "Pending" ) {
-            if (document.getElementById("pending").checked == true){
+        if (e == "Pending") {
+            if (document.getElementById("pending").checked == true) {
                 setPaymentStatus((paymentStatus) => {
                     paymentStatus.pending = true
-                    return {... paymentStatus}
+                    return { ...paymentStatus }
                 })
             }
             else {
                 setPaymentStatus((paymentStatus) => {
                     paymentStatus.pending = false
-                    return {... paymentStatus}
+                    return { ...paymentStatus }
                 })
             }
         }
         if (e == "Completed") {
-            if (document.getElementById("completed").checked == true){
-            setPaymentStatus((paymentStatus) => {
-                paymentStatus.completed = true
-                return {... paymentStatus}
-            })
-        }
-        else{
-            document.getElementById("completed").checked = false
-            setPaymentStatus((paymentStatus) => {
-                paymentStatus.completed = false
-                return {... paymentStatus}
-            })
-        }
+            if (document.getElementById("completed").checked == true) {
+                setPaymentStatus((paymentStatus) => {
+                    paymentStatus.completed = true
+                    return { ...paymentStatus }
+                })
+            }
+            else {
+                document.getElementById("completed").checked = false
+                setPaymentStatus((paymentStatus) => {
+                    paymentStatus.completed = false
+                    return { ...paymentStatus }
+                })
+            }
         }
     }
     // End of Added code by :- Parineeta Gedam on 05-08-2023 
     // reason :- if change the payment status then call this handleChnagePaymentStatus method for set the payment status.
     // End of Added code by :- Parineeta Gedam on 06-08-2023 
-    
+
     // Added by Parineeta Gedam on 03-08-2023 
     // Reason - To open selected orders in the modal of more button in the action of dashboard
     const [orderByOrderId, setOrderByOrderId] = useState({})
@@ -583,18 +583,18 @@ const NewOrderReport = () => {
             <div className={style.filterContainer}>
                 {/* FIlter 3 */}
                 {customeDisable === true && (
-                   <div className={style.dateContainer}>
-                   <div className={style.toDate}>
-                       <div className={style.label} style={{ fontFamily: "ui-serif" }}>Date From :</div>
-                       <div className={style.label} style={{ fontFamily: "ui-serif" }}>Date To :</div>
-                   </div>
-                   <div className={style.fromDate}>
-                       {/* <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeFrom} value={fromDate} format="dd/MM/yyyy" /></div>
+                    <div className={style.dateContainer}>
+                        <div className={style.toDate}>
+                            <div className={style.label} style={{ fontFamily: "ui-serif" }}>Date From :</div>
+                            <div className={style.label} style={{ fontFamily: "ui-serif" }}>Date To :</div>
+                        </div>
+                        <div className={style.fromDate}>
+                            {/* <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeFrom} value={fromDate} format="dd/MM/yyyy" /></div>
                        <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeTo} value={toDate} format="dd/MM/yyyy" /></div> */}
-                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy" /></div>
-                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeToDate} value={endDate} disabled = {disable} format="dd/MM/yyyy"  /></div>
-                   </div>
-               </div>
+                            <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy" /></div>
+                            <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeToDate} value={endDate} disabled={disable} format="dd/MM/yyyy" /></div>
+                        </div>
+                    </div>
                 )}
                 <div className={style.quickSelectConatiner}>
                     <div className={style.quickHeading}>Quick Select</div>
@@ -628,18 +628,19 @@ const NewOrderReport = () => {
                                 <div>
                                     {/* <input type="checkbox" id="month" onChange={e => setThisMonthDate(e.target.checked)} /> */}
                                     <input type="radio" id="month" name="quick_select" value="month" onChange={e => handleQuickSelect(e.target.value)} />
-                                    </div>
+                                </div>
                                 <div className={style.label}>This Month</div>
                             </div>
                             <div className={style.selectContainer}>
                                 <div>
                                     {/* <input type="checkbox" id="year" defaultChecked={true} onChange={e => setThisYear(e.target.checked)} /> */}
-                                    <input type="radio" id="year" name="quick_select" value="year" defaultChecked={true} onChange={e => {handleQuickSelect(e.target.value); 
-                                    // Modofication by ROhan kansari - 19/8/23
-                                     // Reason - dont open date 
-                                    // handleCustomSelect(e)
+                                    <input type="radio" id="year" name="quick_select" value="year" defaultChecked={true} onChange={e => {
+                                        handleQuickSelect(e.target.value);
+                                        // Modofication by ROhan kansari - 19/8/23
+                                        // Reason - dont open date 
+                                        // handleCustomSelect(e)
                                     }} />
-                                    </div>
+                                </div>
                                 <div className={style.label}>This Year</div>
                             </div>
                         </div>
@@ -714,6 +715,7 @@ const NewOrderReport = () => {
                     <button className={style.GenerateBtn} onClick={postOrderQuery}>Generate Report</button>
                 </div>
                 <div className={style.BtnContainer}>
+                    {/*<ExportToExcel apiData={order} fileName="MyFile" /> */}
                     <button className={style.PrintBtn}>Print Report</button>
                 </div>
             </div>
@@ -731,7 +733,12 @@ const NewOrderReport = () => {
                         // onTouchStart={hideDropdown}
                         // End of code - ROhan KAnsari - 22/6/23
                         >
-                            <div className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}>
+                            {/* Modified by Rohan kansari - 25/8/23 
+                                Reason - To change column width according to columns needs*/}
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.smallColumnWidth} ${style.sNoColumn}`}
+                                className={style.sNoColumn}
+                            >
                                 S.No{" "}
                             </div>
                             <div className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}>
@@ -968,7 +975,8 @@ const NewOrderReport = () => {
                                             }}
                                         >
                                             <div
-                                                className={`${style.commonColumnData} ${style.smallColumnWidth}`}
+                                                // className={`${style.commonColumnData} ${style.smallColumnWidth}`}
+                                                className={style.sNoColumn}
                                             >
                                                 {/* Added by Parineeta Gedam - 05/08/23 
                                                 Reason - Serial no. impact from list perpage so i set serial no. according to list per page */}
@@ -1088,6 +1096,8 @@ const NewOrderReport = () => {
                 animationType="slide"
                 transparent={true}
                 visible={isModalOpen}
+                className={style.modelContainer}
+                closeIcon={<AiOutlineClose className={style.closeIcon} />}
                 onOk={handleOk} onCancel={handleCancel}
                 footer={null}
             >
@@ -1095,28 +1105,51 @@ const NewOrderReport = () => {
                     <div className={style.flex}>
                         <div className={style.informationContainer}>
                             <div className={style.information} >
-                                <div className={style.WhiteLabel}>
+                                <div className={style.WhiteLabel1}>
                                     {/* Order No : */}
-                                    Order ID :
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Order ID</div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
                                     {orderByOrderId?.order_detail?.order_id}
                                 </div>
                             </div>
                             <div className={style.information} >
-                                <div className={style.WhiteLabel}>
-                                    Name :
+                                <div className={style.WhiteLabel1}>
+                                    {/* Name : */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Name</div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
                                     {orderByOrderId?.order_detail?.customer_name}
                                 </div>
                             </div>
                             <div className={style.information} >
-                                <div className={style.WhiteLabel}>
-                                    Email :
+                                <div className={style.WhiteLabel1}>
+                                    {/* Email : */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Email</div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
+                                    {/* seemapreetiTesterbusraise@gmail.com */}
                                     {orderByOrderId?.order_detail?.customer_email?.split(",")[0]}
+                                </div>
+                            </div>
+
+                            {/*  */}
+                            <div className={style.information}>
+                                <div className={style.WhiteLabel1}>
+                                    {/* Date & Time: */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Date </div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                </div>
+                                <div className={style.data}>
+                                    {orderByOrderId?.order_detail?.date.substring(0, 10)}
+                                    {/* {new Date(orderByOrderId?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(orderByOrderId?.order_detail?.date).toTimeString().substring(0, 5)} */}
                                 </div>
                             </div>
                         </div>
@@ -1124,7 +1157,10 @@ const NewOrderReport = () => {
 
                             <div className={style.information} >
                                 <div className={style.WhiteLabel}>
-                                    Table :
+                                    {/* Table : */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Table</div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
                                     {orderByOrderId?.order_detail?.table_number}
@@ -1132,7 +1168,10 @@ const NewOrderReport = () => {
                             </div>
                             <div className={style.information} >
                                 <div className={style.WhiteLabel}>
-                                    Contact :
+                                    {/* Contact : */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Contact</div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
                                     {orderByOrderId?.order_detail?.customer_number}
@@ -1141,23 +1180,33 @@ const NewOrderReport = () => {
 
                             <div className={style.information}>
                                 <div className={style.WhiteLabel}>
-                                    Payment Mode :
+                                    {/* Payment Mode : */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Payment Mode</div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
                                     {orderByOrderId?.order_detail?.payment_mode}
                                 </div>
                             </div>
+
+                            {/*  */}
+                            <div className={style.information}>
+                                <div className={style.WhiteLabel}>
+                                    {/* Date & Time: */}
+                                    {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    <div className={style.labelName}>Time </div> <div className={style.labelColon}>:</div>
+                                    {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                </div>
+                                <div className={style.data}>
+                                    {orderByOrderId?.order_detail?.date.substring(11, 16)}
+                                    {/* {new Date(orderByOrderId?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(orderByOrderId?.order_detail?.date).toTimeString().substring(0, 5)} */}
+                                </div>
+                            </div>
                         </div>
 
                         <div className={style.informationContainer}>
-                            <div className={style.information}>
-                                <div className={style.WhiteLabel}>
-                                    Date & Time:
-                                </div>
-                                <div className={style.data}>
-                                    {new Date(orderByOrderId?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(orderByOrderId?.order_detail?.date).toTimeString().substring(0, 5)}
-                                </div>
-                            </div>
+
 
 
                         </div>
@@ -1167,10 +1216,13 @@ const NewOrderReport = () => {
                             {/* Modified by ROhan kansari - 20/8/23 
                                 Reason - To set same height of item list container*/}
                             {/* <div style={{ width: "100%", overflow: "auto" , minHeight:"20vh" }}> */}
-                            <div style={{ width: "100%", overflow: "auto" , minHeight:"20vh",maxHeight:"40vh" }}>
+                            <div style={{ width: "100%", overflow: "auto", minHeight: "20vh", maxHeight: "40vh" }}>
                                 {/* End of code modification by Rohan kansari - 20/8/23 
                                 Reason - To set same height of item list container*/}
                                 <div className={style.orderItemHeader}>
+                                    <div className={style.quantityHeadingRes}>
+                                        #
+                                    </div>
                                     <div className={style.SnoHeading}>
                                         {/* SNo. */}
                                         S.No.
@@ -1178,16 +1230,20 @@ const NewOrderReport = () => {
                                     <div className={style.item_heading}>
                                         Item Name
                                     </div>
-                                    <div className={style.serving_heading}>
+
+                                    {/* <div className={style.serving_heading}>
                                         Serving size
-                                    </div>
+                                    </div> */}
 
                                     <div className={style.QtyNPriceHeadings}>
+                                        <div className={style.quantityHeadingRes}>
+                                            Qty
+                                        </div>
                                         <div className={style.quantityHeading}>
                                             Quantity
                                         </div>
                                         <div className={style.priceHeading}>
-                                            Price
+                                            Price (₹)
                                         </div>
                                     </div>
 
@@ -1205,17 +1261,23 @@ const NewOrderReport = () => {
                                                 {/* Modified by Rohan kansari- 20/8/23 
                                                     Reason - to change font style
                                                 */}
+                                                <div className={style.quantityHeadingRes}>
+                                                {++index}
+                                                </div>
                                                 <div className={`${style.SnoHeading} ${style.dataText}`}>
-                                                    {orderItemsSerialNo++}
+                                                    {++index}
                                                 </div>
                                                 <div className={`${style.item_heading} ${style.dataText}`}>
-                                                    {item.item}
+                                                    {item.item} ({item.serving_size})
                                                 </div>
-                                                <div className={`${style.serving_heading} ${style.dataText}`}>
+                                                {/* <div className={`${style.serving_heading} ${style.dataText}`}>
                                                     {item.serving_size}
-                                                </div>
+                                                </div> */}
 
                                                 <div className={style.QtyNPriceHeadings}>
+                                                    <div className={style.quantityHeadingRes}>
+                                                        {item.quantity}
+                                                    </div>
                                                     <div className={`${style.quantityHeading} ${style.dataText}`}>
                                                         {item.quantity}
                                                     </div>
@@ -1223,6 +1285,7 @@ const NewOrderReport = () => {
                                                         {item.price}
                                                     </div>
                                                 </div>
+
                                                 {/* End of code  Modification Rohan kansari- 20/8/23 
                                                     Reason - to change font style
                                                  */}
@@ -1245,7 +1308,12 @@ const NewOrderReport = () => {
                         <div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>Subtotal</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* Subtotal */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>Subtotal </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"
@@ -1257,7 +1325,13 @@ const NewOrderReport = () => {
                             </div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>Loyality</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* Loyality */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>Loyalty </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"
@@ -1269,7 +1343,13 @@ const NewOrderReport = () => {
                             </div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>Discount</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* Discount */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>Discount </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"
@@ -1281,7 +1361,12 @@ const NewOrderReport = () => {
                             </div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* Total */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>Total </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"
@@ -1296,7 +1381,12 @@ const NewOrderReport = () => {
 
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>CGST</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* CGST */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>CGST </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"
@@ -1308,7 +1398,12 @@ const NewOrderReport = () => {
                             </div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>SGST</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* SGST */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>SGST </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"
@@ -1320,7 +1415,12 @@ const NewOrderReport = () => {
                             </div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
-                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>Total</div>
+                                    <div className={`${style.inputLabel} ${style.inputLabel2}`}>
+                                        {/* Grand Total */}
+                                        {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
+                                        <div className={style.labelName}>Grand Total </div> <div className={style.labelColon}>:</div>
+                                        {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
+                                    </div>
                                     <input
                                         className={`${style.textInputBox} ${style.disabledInputBox}`}
                                         type="text"

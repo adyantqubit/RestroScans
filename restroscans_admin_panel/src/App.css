@@ -377,6 +377,13 @@ a {
 } */
 /* end of addition 11/06/2023 */
 
+/* added by - Rohan kansari On 25/08/2023
+   reason - To change hover effect of close btn */
+   
+.ant-modal .ant-modal-close:hover{
+    background-color: transparent !important;
+}
+
 /* added by - Suman sahu On 12/06/2023
    reason - adjust size of antd Modal in dashboard */
 
@@ -394,6 +401,8 @@ a {
   .ant-modal .ant-modal-body{
     overflow: auto;
   }
+
+ 
 }
 /* end of addition 12/06/2023 */
 
