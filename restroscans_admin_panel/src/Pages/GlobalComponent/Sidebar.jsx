@@ -406,7 +406,7 @@ const navigateToRatingReviewList = () => {
                 }
                 onClick={navigateToOrderReport}
                 // end of modification by - Suman sahu on - 17/06/2023
-                to="/OrderReport"
+                to="/NewOrderReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
                 // Removed By ROhan kansari - 23/6/23 
