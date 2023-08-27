@@ -18,10 +18,18 @@ const FooterDescription = () => {
   const [inputText, setInputText] = useState("");
   const [footerDescriptionDetails, setFooterDescriptionDetails] = useState({});
 
+  /**
+   * Added by - Pratap sahu on 12-08-2023
+   * Reason - created to read text change on input box
+   */
   const onChange = (event) => {
     const newText = event.target.value;
     setInputText(newText);
   };
+  /**
+   * end of Addition by - Pratap sahu on 12-08-2023
+   * Reason - created to read text change on input box
+   */
 
   useEffect(() => {
     enableHeader();
@@ -133,7 +141,7 @@ const FooterDescription = () => {
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
                   <span className={style.mendatoryField}> </span>Content
-                </div> 
+                </div>
 
                 <textarea
                   type="text"
@@ -143,7 +151,6 @@ const FooterDescription = () => {
                   className={`${style.textInputBox}`}
                   style={{ resize: "none" }}
                 />
-
               </div>
             </div>
           </div>
@@ -175,7 +182,6 @@ const FooterDescription = () => {
           </div>
         </div>
       </form>
-
     </div>
   );
 };

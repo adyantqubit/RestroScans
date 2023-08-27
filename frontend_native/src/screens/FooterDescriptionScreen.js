@@ -186,8 +186,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width: "100%",
     borderWidth: 1,
-    // minHeight: 60,
-    alignSelf: "flex-end",
+    // modified by Pratap Sahu on 23-08-2023
+    // Reason: to fix the input Box height
+    minHeight: 150,
+    // alignSelf: "flex-end",
     backgroundColor: "white",
     paddingHorizontal: 5,
     paddingVertical: 5, 

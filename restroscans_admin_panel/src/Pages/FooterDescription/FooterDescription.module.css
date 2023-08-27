@@ -16,7 +16,7 @@
   height: 86.5vh;
 }
 
-.titleContainer{
+.titleContainer {
   display: flex;
   justify-content: center;
 }
@@ -43,13 +43,12 @@
   padding: 20px 80px;
 }
 
-.sectionInsideForm{
-    margin-top: 30px;
-    background-color: #e6f0f0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow:
-      var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+.sectionInsideForm {
+  margin-top: 30px;
+  background-color: #e6f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
 }
 .inputContainer {
   display: flex;
@@ -82,7 +81,6 @@ Reason: correction on Input Box Styling */
   resize: vertical;
 }
 
-
 .inputErrorArea {
   margin-left: 250px;
   width: 200px;
@@ -103,13 +101,13 @@ Reason: correction on Input Box Styling */
   padding: 5px 20px;
   transition: all 0.3s;
   font-size: 18px;
-  width:100px;
+  width: 100px;
   margin-top: 10px;
   text-align: center;
 }
 .backButton:hover {
   cursor: pointer;
-  background-color:#62686c;
+  background-color: #62686c;
 }
 
 .clearButton {
@@ -120,14 +118,20 @@ Reason: correction on Input Box Styling */
   padding: 5px 20px;
   transition: all 0.3s;
   font-size: 18px;
-  width:100px;
+  width: 100px;
   margin-top: 10px;
   text-align: center;
 }
-.cancelButton:hover {
+
+/* Modified And commented by Pratap sahu on 23-08-2023
+  reason:hover was not working because of different Naming */
+/* .cancelButton:hover { */
+.clearButton:hover {
   cursor: pointer;
-  background-color:#a7b4bd;
+  background-color: #a7b4bd;
 }
+/* End of Modification by Pratap sahu on 23-08-2023
+  reason:hover was not working because of different Naming */
 
 .proceedButton {
   background-color: #51c14b;
@@ -136,7 +140,7 @@ Reason: correction on Input Box Styling */
   padding: 5px 20px;
   transition: all 0.3s;
   font-size: 18px;
-  width:100px;
+  width: 100px;
   margin-top: 10px;
   text-align: center;
 }
@@ -145,10 +149,10 @@ Reason: correction on Input Box Styling */
   background-color: #1f871b;
 }
 
-.mendatoryField{
-  color:red;
+.mendatoryField {
+  color: red;
 }
-.optionalField{
+.optionalField {
   visibility: hidden;
 }
 
@@ -218,7 +222,7 @@ Reason: correction on Input Box Styling */
 
 /* added by suman sahu on 17/06/2023 
    reason - adjust page according to sidebar, header and footer in the responsive*/
-  @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .container {
     height: 73vh;
   }
@@ -269,8 +273,6 @@ Reason: correction on Input Box Styling */
     width: 100%;
     margin-right: 0px;
   }
- 
-
 }
 
 @media screen and (max-width: 500px) {
@@ -290,10 +292,12 @@ Reason: correction on Input Box Styling */
     align-self: flex-start;
     width: 100%;
   }
-  .proceedButton,.cancelButton,.backButton{
-    width:90px;
+  .proceedButton,
+  .cancelButton,
+  .backButton {
+    width: 90px;
     font-size: 17px;
-    padding:3px 3px;
+    padding: 3px 3px;
   }
 }
 @media screen and (max-width: 400px) {
