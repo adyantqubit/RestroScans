@@ -13,6 +13,7 @@
 /* ================================================================================ */
 .calculationsContainer {
   display: flex;
+  gap: 15px;
   padding: 0 10px;
 }
 
@@ -681,8 +682,8 @@ input[type="checkbox"]:checked+.sortingLabel {
 }
 
 .tableContainer {
-  /* width: 100%; */
-  width: fit-content;
+  min-width: 100%;
+  width: max-content;
   padding: 4px;
   background-color: #efefef;
   /* Added */
@@ -734,22 +735,22 @@ input[type="checkbox"]:checked+.sortingLabel {
 }
 
 .commonColumnData {
-  width: var(--common-column-width);
+  /* width: var(--common-column-width);
   min-width: var(--common-column-min-width);
   padding: 5px 0px;
   height: 100%;
-  display: var(--common-column-display);
+  display: var(--common-column-display); */
   font-weight: 600;
-  font-size: 12px;
+  font-size: 12px !important;
   text-align: center;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .data {
-    max-width: 130px;
-    word-break: break-all; 
+  max-width: 150px;
+  word-break: break-all;
 }
 
 .eyeIcon {
@@ -916,11 +917,12 @@ input[type="checkbox"]:checked+.sortingLabel {
   padding-bottom: 10px;
 }
 
-.flex {
+.flexContainer {
   display: flex;
   flex-wrap: wrap;
   background-color: #1677ff14;
-  padding : 8px 0;
+  padding: 8px 0;
+  /* gap: 10px; */
 }
 
 .informationContainer {
@@ -1015,6 +1017,7 @@ input[type="checkbox"]:checked+.sortingLabel {
   justify-content: space-between;
 }
 
+
 .SnoHeading {
   width: 60px;
   /* max-width: 100px; */
@@ -1030,7 +1033,7 @@ input[type="checkbox"]:checked+.sortingLabel {
 }
 
 .priceHeading {
-  width: 70px;
+  width: 60px;
   padding: 4px 0;
   /* margin: 0 8px; */
   border-bottom-left-radius: 10px;
@@ -1050,7 +1053,8 @@ input[type="checkbox"]:checked+.sortingLabel {
   color: black;
   font-size: 14px;
   font-weight: 500;
-  padding: 4px 8px;
+  padding: 4px 0;
+  padding-right: 5px;
 }
 
 .serving_heading {
@@ -1124,7 +1128,7 @@ Added by :- Parineeta Gedam on 04-08-2023
 .inputLabel {
 
   /* min-width: 180px; */
-  min-width: 80px;
+  min-width: 85px;
   max-width: 180px;
   font-weight: bold;
   font-size: 12px;
@@ -1148,7 +1152,7 @@ Added by :- Parineeta Gedam on 04-08-2023
 .disabledInputBox {
   border: none;
   background-color: unset;
-  width: 80px;
+  width: 50px;
 }
 
 /* particular orderId,  order container
@@ -1159,32 +1163,155 @@ Added by :- Parineeta Gedam on 04-08-2023
   width: fit-content;
 }
 
-.closeIcon{
+.closeIcon {
   position: relative;
   right: -15px;
   top: -15px;
 }
 
-.quantityHeadingRes{
+.quantityHeadingRes {
   display: none;
-  width: 40px;
+  width: 30px;
   padding: 4px 0;
-    /* margin: 0 8px; */
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: black;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    overflow: auto;
+  /* margin: 0 8px; */
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  overflow: auto;
 }
 
-.sNoColumn{
+/* Added by Rohan kansari - 26/8/23
+   Reason - To set column width according to its need */
+
+.sNoColumn {
   min-width: 40px;
   text-align: center;
   font-size: 14px;
   padding: 4px 0;
 }
+
+.actionColumn {
+  min-width: 60px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.OrderIdColumn {
+  min-width: 80px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.tableNoColumn{
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.dateColumn{
+  min-width: 75px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.orderStatusColumn{
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.paymentStatusColumn{
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.subtotalColumn{
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.discountColumn{
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.loayltyColumn{
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.totalColumn{
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.cgstColumn{
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.sgstColumn{
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.finalRupees{
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+/* End of addition by Rohan kansari - 26/8/23
+   Reason - To set column width according to its need */
 
 @media screen and (max-width: 4000px) {
   .orderListSection {
@@ -1343,29 +1470,33 @@ Added by :- Parineeta Gedam on 04-08-2023
     display: flex;
   }
 
-  .closeIcon{
+  .closeIcon {
     right: 3px;
     top: -8px;
   }
 
-  .orderItemHeader{
+  .orderItemHeader {
     justify-content: flex-start;
   }
 
-  .QtyNPriceHeadings{
+  .QtyNPriceHeadings {
     min-width: 70px;
   }
 
-  .quantityHeadingRes{
+  .quantityHeadingRes {
     display: block;
   }
 
-  .quantityHeading{
+  .quantityHeading {
     display: none;
   }
 
-  .SnoHeading{
+  .SnoHeading {
     display: none;
+  }
+
+  .dataText {
+    font-size: 13px;
   }
 
 }

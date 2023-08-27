@@ -394,7 +394,9 @@ const navigateToRatingReviewList = () => {
 
         {ReportSubVisible ? (
           <ul style={{ marginTop: "-10px" }}>
-            <li className={style.Sublinks_div} onClick={navigateToOrderReport}>
+            {/* Modified by ROhan kansari - 26/8/23 - 
+                Reason - this men is not selected o=in on click so need to change on click position */}
+            <li className={style.Sublinks_div} >
               <NavLink
                 // commented and modified by - Suman sahu on - 17/06/2023
                 // reason- for design active link
@@ -402,6 +404,7 @@ const navigateToRatingReviewList = () => {
                 className={({ isActive }) =>
                   isActive ? style.active : style.sublink
                 }
+                onClick={navigateToOrderReport}
                 // end of modification by - Suman sahu on - 17/06/2023
                 to="/OrderReport"
                 // Added by Rohan kansari - 22/6/23

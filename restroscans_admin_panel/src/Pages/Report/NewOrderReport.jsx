@@ -37,11 +37,11 @@ const NewOrderReport = () => {
     // Reason :- first time show the data from this year
 
     // ===========================================
-    const[quickSelect, setQuickSelect] = useState({
-        today : false,
-        week : false,
-        month : false,
-        year : true,
+    const [quickSelect, setQuickSelect] = useState({
+        today: false,
+        week: false,
+        month: false,
+        year: true,
     });
 
     // Modofication by ROhan kansari - 19/8/23
@@ -62,11 +62,11 @@ const NewOrderReport = () => {
     // Reason :- set the order status
     // const [orderStatus, setOrderStatus] = useState("")
     const [orderStatus, setOrderStatus] = useState({
-        placed : false,
-        confirm : false,
-        cooked : false,
-        served : false,
-        cancelled : false,
+        placed: false,
+        confirm: false,
+        cooked: false,
+        served: false,
+        cancelled: false,
     })
     // End of Added code by :- Parineeta Gedam on 02-08-2023
     // Reason :- set the order status
@@ -78,8 +78,8 @@ const NewOrderReport = () => {
     // Reason :- set the order status
     // const [paymentStatus, setPaymentStatus] = useState("Completed")
     const [paymentStatus, setPaymentStatus] = useState({
-        pending : false,
-        completed : true,
+        pending: false,
+        completed: true,
     })
 
     // End of Added code by :- Parineeta Gedam on 02-08-2023
@@ -171,9 +171,9 @@ const NewOrderReport = () => {
 
             // Added by :- Parineeta Gedam on 03-08-2023 
             // reason :- arrange the data in key value pair. 
-            quickSelect : quickSelect,
-            startDate : startDate,
-            endDate : endDate,
+            quickSelect: quickSelect,
+            startDate: startDate,
+            endDate: endDate,
             paginationDetails: paginationDetails,
             columnToSort: columnToSort,
             columnSortingOrder: columnSortingOrder,
@@ -185,7 +185,7 @@ const NewOrderReport = () => {
         }
         console.log(queryData)
         await OrderFilterQueryAPI(tenant, queryData).then(r => {
-                setOrder(r)
+            setOrder(r)
             console.log(r)
 
             setOrder(r.orderList)
@@ -274,7 +274,7 @@ const NewOrderReport = () => {
     const [disable, setDisable] = useState(true);
     const [customeDisable, setcustomDisable] = useState(false);
 
-    
+
     const handleChangeFromDate = (value) => {
         setEndDate("")
         setStartDate(value)
@@ -282,14 +282,14 @@ const NewOrderReport = () => {
         // Reason - To dont save end date in time of from date set
         // setEndDate(value)
         setDisable(false)
-      };
+    };
 
     const handleChangeToDate = (value) => {
         setEndDate(value)
-      };
+    };
 
     function handleCustomSelect(e) {
-    setcustomDisable(true);
+        setcustomDisable(true);
     }
 
     const handleQuickSelect = (e) => {
@@ -725,6 +725,8 @@ const NewOrderReport = () => {
             {/*============================================================================================= */}
             <div className={style.orderListSection} >
                 <div className={style.tableContainer}>
+                    {/* Modified by Rohan kansari - 26/8/23 
+                        Reason - To give heading according to column name size*/}
                     <div className={style.table}>
                         <div className={style.tableHeadingContainer}
                         // Added by Rohan Kansari - 22/6/23
@@ -741,12 +743,15 @@ const NewOrderReport = () => {
                             >
                                 S.No{" "}
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}>
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+                                className={style.actionColumn}
+                            >
                                 Action
                             </div>
                             <div
-                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.OrderIdColumn}
                                 onClick={(e) => {
                                     setShowSortingIcon(false);
                                     sortOrderId("order_id");
@@ -780,7 +785,8 @@ const NewOrderReport = () => {
                             </div>
                             {/* End of modifciation by Om Shrivastava on 21-06-23 */}
                             <div
-                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.tableNoColumn}
 
                             //   onClick={(e) => {
                             //     setShowSortingIcon(false);
@@ -814,7 +820,8 @@ const NewOrderReport = () => {
                                 )} */}
                             </div>
                             <div
-                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.dateColumn}
                             //   onClick={(e) => {
                             //     setShowSortingIcon(false);
                             //     sortOrderId("date");
@@ -848,7 +855,9 @@ const NewOrderReport = () => {
                             </div>
 
                             <div
-                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.orderStatusColumn}
+
                             //   onClick={(e) => {
                             //     setShowSortingIcon(false);
                             //     sortOrderId("order_status");
@@ -883,7 +892,8 @@ const NewOrderReport = () => {
                             </div>
 
                             <div
-                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.paymentStatusColumn}
                             // Added by Om Shrivatava on 16-06-23
                             // Reason : Apply sorting through the payment status
                             //   onClick={(e) => {
@@ -922,25 +932,46 @@ const NewOrderReport = () => {
                                 {/* // End of addition by Om Shrivastava on 16-06-23 */}
 
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.subtotalColumn}
+                            >
                                 Sub Total
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.discountColumn}
+                            >
                                 Discount
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div 
+                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                            className={style.loayltyColumn}
+                            >
                                 Loyality
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div 
+                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                            className={style.totalColumn}
+                            >
                                 Total
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div 
+                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                            className={style.cgstColumn}
+                            >
                                 CGST
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div 
+                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                            className={style.sgstColumn}
+                            >
                                 SGST
                             </div>
-                            <div className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}>
+                            <div 
+                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                            className={style.finalRupees}
+                            >
                                 Final Amount
                             </div>
 
@@ -975,8 +1006,8 @@ const NewOrderReport = () => {
                                             }}
                                         >
                                             <div
-                                                // className={`${style.commonColumnData} ${style.smallColumnWidth}`}
-                                                className={style.sNoColumn}
+                                                // className={`${style.commonColumnData} ${style.sNoColumn}`}
+                                                className={`${style.sNoColumn} ${style.commonColumnData} `}
                                             >
                                                 {/* Added by Parineeta Gedam - 05/08/23 
                                                 Reason - Serial no. impact from list perpage so i set serial no. according to list per page */}
@@ -985,7 +1016,11 @@ const NewOrderReport = () => {
                                                 {/* End of code - Parineeta Gedam - 05/08/23 */}
 
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`} onClick={e => { showModal(orderDetail) }}>
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`} 
+                                                className={`${style.actionColumn} ${style.commonColumnData} `}
+                                                onClick={e => { showModal(orderDetail) }}
+                                            >
 
                                                 {/* Added by :- Parineeta Gedam on 06-08-2023 reason :- increase the eye icon size  */}
                                                 {/* <AiFillEye/> */}
@@ -995,7 +1030,8 @@ const NewOrderReport = () => {
                                             </div>
 
                                             <div
-                                                className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.OrderIdColumn} ${style.commonColumnData} `}
                                             // Modification and added by Om Shrivastava on 27-06-23
                                             // Reason : Need to remove onclick by div than added in span tag
 
@@ -1017,7 +1053,9 @@ const NewOrderReport = () => {
 
                                             {/* End of Modification by Om Shrivastava on 21-06-23 */}
                                             {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.tableNoColumn} ${style.commonColumnData} `}
                                             // Added by Om Shrivastava on 21-06-23
                                             // Reason : Need to navigate when user click the table no
                                             // onClick={() => {
@@ -1037,12 +1075,16 @@ const NewOrderReport = () => {
                                                 {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
 
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.dateColumn } ${style.commonColumnData} `}
+                                            >
                                                 {ExtractDateTime(orderDetail.date).date}
                                             </div>
 
                                             <div
-                                                className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.orderStatusColumn} ${style.commonColumnData} `}
                                                 style={{ display: "flex", justifyContent: "center" }}
                                             >
                                                 {orderDetail.order_status}
@@ -1053,28 +1095,52 @@ const NewOrderReport = () => {
                                                     View
                                                 </div> */}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.paymentStatusColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.payment_status}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.subtotalColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.sub_total}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.discountColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.discount_rupees}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div 
+                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                            className={`${style.loayltyColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.loyality_point_price}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div 
+                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                            className={`${style.totalColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.total}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div 
+                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                            className={`${style.cgstColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.cgst}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div 
+                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                            className={`${style.sgstColumn} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.sgst}
                                             </div>
-                                            <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                                            <div 
+                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                            className={`${style.finalRupees} ${style.commonColumnData} `}
+                                            >
                                                 {orderDetail.final_amount}
                                             </div>
 
@@ -1086,6 +1152,8 @@ const NewOrderReport = () => {
                             )}
                         </div>
                     </div>
+                    {/* End of modification by Rohan kansari - 26/8/23 
+                        Reason - To give heading according to column name size*/}
                 </div>
             </div>
 
@@ -1102,7 +1170,7 @@ const NewOrderReport = () => {
                 footer={null}
             >
                 <div className={style.CustomerInformationBox}>
-                    <div className={style.flex}>
+                    <div className={style.flexContainer}>
                         <div className={style.informationContainer}>
                             <div className={style.information} >
                                 <div className={style.WhiteLabel1}>
@@ -1134,8 +1202,7 @@ const NewOrderReport = () => {
                                     {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
-                                    {/* seemapreetiTesterbusraise@gmail.com */}
-                                    {orderByOrderId?.order_detail?.customer_email?.split(",")[0]}
+                                   {orderByOrderId?.order_detail?.customer_email?.split(",")[0]} 
                                 </div>
                             </div>
 
@@ -1148,7 +1215,7 @@ const NewOrderReport = () => {
                                     {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
-                                    {orderByOrderId?.order_detail?.date.substring(0, 10)}
+                                    {orderByOrderId?.order_detail?.date.substring(0, 10).split("-").reverse().join("/")}
                                     {/* {new Date(orderByOrderId?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(orderByOrderId?.order_detail?.date).toTimeString().substring(0, 5)} */}
                                 </div>
                             </div>
@@ -1262,10 +1329,10 @@ const NewOrderReport = () => {
                                                     Reason - to change font style
                                                 */}
                                                 <div className={style.quantityHeadingRes}>
-                                                {++index}
+                                                    {index + 1}
                                                 </div>
                                                 <div className={`${style.SnoHeading} ${style.dataText}`}>
-                                                    {++index}
+                                                    {index + 1}
                                                 </div>
                                                 <div className={`${style.item_heading} ${style.dataText}`}>
                                                     {item.item} ({item.serving_size})
@@ -1282,7 +1349,7 @@ const NewOrderReport = () => {
                                                         {item.quantity}
                                                     </div>
                                                     <div className={`${style.priceHeading} ${style.dataText}`}>
-                                                        {item.price}
+                                                        {item.price.toFixed(2)}
                                                     </div>
                                                 </div>
 
@@ -1311,7 +1378,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* Subtotal */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>Subtotal </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>Subtotal (₹)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input
@@ -1328,7 +1395,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* Loyality */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>Loyalty </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>Loyalty (₹)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
 
                                     </div>
@@ -1346,7 +1413,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* Discount */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>Discount </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>Discount (₹)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
 
                                     </div>
@@ -1364,7 +1431,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* Total */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>Total </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>Total (₹)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input
@@ -1379,12 +1446,12 @@ const NewOrderReport = () => {
                         </div>
                         <div>
 
-                            <div className={`${style.inputContainer}`}>
+                            {orderByOrderId?.order_detail?.cgst > 0 ? <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* CGST */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>CGST </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>CGST ({(orderByOrderId?.order_detail?.cgst / (orderByOrderId?.order_detail?.sub_total / 100)).toFixed(2)}%)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input
@@ -1395,13 +1462,14 @@ const NewOrderReport = () => {
                                         disabled
                                     />
                                 </div>
-                            </div>
-                            <div className={`${style.inputContainer}`}>
+                            </div> : null}
+
+                            {orderByOrderId?.order_detail?.sgst > 0 ? <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* SGST */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>SGST </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>SGST ({(orderByOrderId?.order_detail?.sgst / (orderByOrderId?.order_detail?.sub_total / 100)).toFixed(2)}%)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input
@@ -1412,8 +1480,9 @@ const NewOrderReport = () => {
                                         disabled
                                     />
                                 </div>
-                            </div>
-                            <div className={`${style.inputContainer}`}>
+                            </div> : null}
+
+                            {orderByOrderId?.order_detail?.sgst > 0 || orderByOrderId?.order_detail?.cgst > 0 ? <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* Grand Total */}
@@ -1429,7 +1498,7 @@ const NewOrderReport = () => {
                                         disabled
                                     />
                                 </div>
-                            </div>
+                            </div> : null}
                         </div>
                     </div>
                     {/* Amount sections */}
@@ -1483,3 +1552,5 @@ const NewOrderReport = () => {
 }
 
 export default NewOrderReport;
+
+
