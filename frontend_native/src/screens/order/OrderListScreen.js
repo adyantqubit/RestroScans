@@ -628,7 +628,6 @@ export default function OrderListScreen({ route, navigation }) {
    */
 
   const handleFilter = () => {
-    console.log(startDateSelected)
     var newData = orders.filter((dt)=> {
       let date = new Date(dt.date);
       if (date >= startDateSelected && date <= endDateSelected){

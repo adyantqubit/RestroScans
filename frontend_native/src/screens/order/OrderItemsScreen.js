@@ -604,7 +604,7 @@ export default function OrderItemsScreen({ route, navigation }) {
                 </div>
               <div class="text">
               ${
-                BillDateTime(orderDetail.payment_confirmation_date_time).date
+                BillDateTime(orderDetail.payment_confirmation_date_time).time
               }
               </div>
             </div>
@@ -3877,7 +3877,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected != "Placed" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -3924,7 +3924,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected == "Cancelled" || orderStatusSelected == "Cooked" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -3971,7 +3971,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected == "Cancelled" || orderStatusSelected == "Served" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -4018,7 +4018,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -4067,7 +4067,7 @@ const printKot = async()=>{
                     // color: "white",
                     color: orderStatusSelected == "Cancelled" ? "white" : paymentStatusSelected == "Completed" || paymentStatusSelected == "Paid" ? colors.btnDisableTextColor : "white",
                     // End of addition by yuvraj Sahu on 29-07-2023
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -4358,7 +4358,7 @@ const printKot = async()=>{
                   style={{
                     // color: "white",
                     color : orderStatusSelected == "Cancelled" || paymentStatusSelected == "Completed" ? colors.btnDisableTextColor : paymentStatusSelected == "Pending" ? "white" : "white",
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -4383,7 +4383,7 @@ const printKot = async()=>{
                   // backgroundColor: orderStatusSelected == "Cancelled" ? "grey" : paymentStatusSelected == "Pending" ? colors.orderActiveBtnColor : colors.orderBtnColors,
                   backgroundColor: colors.orderActiveBtnColor,
                   // end of addition by yuvraj sahu on 26-07-2023
-                  height: 30,
+                  minHeight: 30,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 10,
@@ -4406,7 +4406,7 @@ const printKot = async()=>{
                 <Text
                   style={{
                     color: "white",
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -4456,7 +4456,7 @@ const printKot = async()=>{
                   style={{
                     // color: "white",
                     color : orderStatusSelected == "Cancelled" ? colors.btnDisableTextColor : paymentStatusSelected == "Completed" ? "white" : "white",
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: "bold",
                   }}
                 >
@@ -4790,7 +4790,12 @@ tableNumberElseStyle: {
     justifyContent: "space-around",
     // width: 250
     width: "100%",
-    paddingHorizontal: 10,
+    // Added and modifies by yuvraj Sahu on 11-08-2023
+    // Reason - to give padding
+    // paddingHorizontal: 10,
+    paddingHorizontal: 30,
+    // borderWidth: 2
+    // End of modification by Yuvraj Sahu on 11-08-2023
     // End of addition by Yuvraj Sahu on 16-07-2023
   },
   // End of table design

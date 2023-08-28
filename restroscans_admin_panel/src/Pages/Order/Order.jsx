@@ -710,6 +710,9 @@ const Order = () => {
     const handleClearFilter = () => {
       setFromDate(null)
       setToDate(null)
+      
+      document.getElementById("fromDate").value = ""
+      document.getElementById("toDate").value = ""
       /**
        * Added by Yuvraj Sahu on 20-08-2023
        * Reason - to all the date filteration
@@ -763,7 +766,7 @@ const Order = () => {
                 <div className={style.filterButtonContainer}>
                   <div className={style.dateContainer}>
                     <div className={style.datepicker1}>
-                      <DatePicker
+                      {/* <DatePicker
                         calendarClassName={style.calendar}
                         className={style.dateInput}
                         calendarIcon={<AiOutlineCalendar />}
@@ -772,17 +775,44 @@ const Order = () => {
                         // Added by yuvraj Sahu on 07-08-2023
                         // Reason - to validate the date 
                         value={fromDate}
+                   
                         format="dd/MM/yyyy"
                         maxDate={new Date()}
                         // end of addition by yuvraj Sahu on 07-08-2023
+                      /> */}
+                      <input
+                        type="date"
+                        // min={fromDate == null ? null : fromDate.toISOString().split("T")[0]}
+                        // min={new Date().toISOString().split("T")[0]}
+                        max={new Date().toISOString().split("T")[0]}
+                        onChange={(e) => {setFromDate(new Date(e.target.value)); setDateValidation(false);}}
+                        style={{border: "1px solid", padding: "2px", borderRadius: "5px"}}
+                        // defaultValue="dd-mm-yyyy"
+                        id="fromDate"
+                        className={style.calendar}
                       />
                     </div>
                     <div className={style.datepicker1}>
-                      <DatePicker
+                    <input
+                        type="date"
+                        // min={fromDate == null ? null : fromDate.toISOString().split("T")[0]}
+                        min={fromDate != null ? fromDate.getFullYear()+"-"+
+                        ("0"+(fromDate.getMonth()+1)).slice(-2)+"-"+
+                        ("0"+(fromDate.getDate())).slice(-2) : null}
+                        max={new Date().toISOString().split("T")[0]}
+                        onChange={e=> {setToDate(new Date(e.target.value)); setDateValidation(false);}}
+                        style={{border: "1px solid", padding: "2px", borderRadius: "5px"}}
+                        // defaultValue="dd-mm-yyyy"
+                        id="toDate"
+                        disabled={fromDate != null ? false : true}
+                        className={style.calendar}
+                    />
+                      {/* <DatePicker
                         calendarClassName={style.calendar}
                         className={style.dateInput}
                         calendarIcon={<AiOutlineCalendar />}
                         clearIcon={<AiOutlineClose />}
+                        
                         // onChange={setToDate}
                         onChange={(value)=> {setToDate(value); setDateValidation(false);}}
                         // Added by yuvraj Sahu on 07-08-2023
@@ -793,7 +823,7 @@ const Order = () => {
                         disabled={fromDate != null ? false : true}
                         format="dd/MM/yyyy"
                         // end of addition by yuvraj Sahu on 07-08-2023
-                        />
+                        /> */}
                       </div>
                   </div>
                 <div className={style.dateValidation}>{dateValidation && "Please enter start and end date!"} </div>
