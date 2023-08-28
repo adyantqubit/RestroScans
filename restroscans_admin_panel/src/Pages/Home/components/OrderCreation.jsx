@@ -167,7 +167,6 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
 
     return <Modal open={IsOrderPopupVisible} onCancel={e => { setOrderPopupvisible(false); clearData() }}
         // width="70vw" style={{ height: "80vh", top: "10vh", bottom: "10vh" }}
-        height="50vh"
         okText="Create"
         className={style.modelContainer}
         onOk={SubmitOrder}
@@ -192,9 +191,11 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                 <div>
                     <div className={style.formHeading}>Please fill Customer Details</div>
                     <div className={style.inputBoxContains}>
+                        {/* Modified by Rohan kansari - 27/8/23
+                            Reason - To change input fields according to requirements */}
                         <div className={style.inputBox}> 
-                            <label className={style.inputLabel}>Table Number *</label>
-                            <input className={style.inputfield} value={table_number} onChange={e => {
+                            <label className={style.inputLabel}>Table Number <span className={style.mandatory}>*</span></label>
+                            <input className={style.tableInputfield} value={table_number} onChange={e => {
                                 if (e.target.value.length) {
                                     delete errorText.table_number
                                 } else {
@@ -204,11 +205,11 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                                 setErrorText({ ...errorText })
                                 setTableNumber(e.target.value);
                             }} />
-                            <div className={style.errorText}>{errorText?.table_number}</div>
+                            <div className={style.tableErrorText}>{errorText?.table_number}</div>
                         </div>
                         <div className={style.inputBox}>
-                            <label className={style.inputLabel}>Contact Number *</label>
-                            <input className={style.inputfield} value={contact} onChange={e => {
+                            <label className={style.inputLabel}>Contact Number <span className={style.mandatory}>*</span></label>
+                            <input className={style.contactInputfield} value={contact} onChange={e => {
                                 if (e.target.value.length && /^\d+$/.test(e.target.value)) {
                                     delete errorText.contact_number
                                 }
@@ -221,16 +222,16 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                                     setContact(e.target.value);
 
                             }} />
-                            <div className={style.errorText}>{errorText?.contact_number}</div>
+                            <div className={style.contactErrorText}>{errorText?.contact_number}</div>
                         </div>
                         <div className={style.inputBox}>
                             <label className={style.inputLabel}>Name </label>
-                            <input className={style.inputfield} value={name} onChange={e => setName(e.target.value)} />
+                            <input className={style.nameInputfield} value={name} onChange={e => setName(e.target.value)} />
                             {/* <div className={style.errorText}>Tabel number should not be blank</div> */}
                         </div>
                         <div className={style.inputBox}>
                             <label className={style.inputLabel}>Email </label>
-                            <input className={style.inputfield} value={email} onChange={e => {
+                            <input className={style.emailInputfield} value={email} onChange={e => {
                                 var emailRegex =
                                     new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
 
@@ -242,17 +243,19 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                                 setErrorText({ ...errorText })
                                 setEmail(e.target.value)
                             }} />
-                            <div className={style.errorText}>{errorText?.email}</div>
+                            <div className={style.emailErrorText}>{errorText?.email}</div>
+                            {/* MEnd of code by Rohan kansari - 27/8/23
+                            Reason - To change input fields according to requirements */}
                         </div>
-                        <div className={style.inputBox}>
+                        {/* <div className={style.inputBox}>
                             <label className={style.inputLabel}>Payment Mode </label>
                             <select defaultValue={payment} onChange={e => setPayment(e.target.value)} className={style.inputfield} >
                                 <option value={null}> --- </option>
                                 <option value="Cash">Cash</option>
                                 <option value="Scanner">Scanner</option>
                             </select>
-                            {/* <div className={style.errorText}>Payment mode should not be blank</div> */}
-                        </div>
+                            {/* <div className={style.errorText}>Payment mode should not be blank</div> 
+                        </div> */}
                     </div>
                 </div>
                 <div className={style.listNPricingFlexBox}>
@@ -274,7 +277,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                         <div className={style.listRow}>
 
                             {orderItemList.length > 0 ? orderItemList.map((e, i) =>
-                                <div className={style.row}>
+                                <div className={style.row} style={{background:i%2==0?"#f1f1f1c2":"#fff"}}>
                                     <div className={style.sNoColumn}>{i + 1}</div>
                                     <div className={style.itemNameColumn}>{e.name} ( {e.serve_size} )</div>
                                     <div className={style.quantityColumn}>

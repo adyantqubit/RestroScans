@@ -1,13 +1,17 @@
+/* Modified by Rohan kansari - 27/8/23 
+   Reason - To rearrange all styling */
+
 .container{
     height: 70vh;
+    max-height: 550px;
     --row-font-size: 14px;
     --data-font-size: 14px;
+    padding-bottom: 50px;
 }
 
 .modelContainer{
-    width: 65vw !important;
+    width: 55vw !important;
     top: 10vh !important;
-
 }
 
 .header{
@@ -35,7 +39,7 @@
 }
 
 .inputBox{
-    width: 150px;
+    min-width: 100px;
     /* min-height: 70px;
     margin: 5px 0px; */
     margin-right: 15px;
@@ -45,7 +49,7 @@
 }
 
 .inputLabel{
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
     color: #000;
     margin: 5px 0;
@@ -58,6 +62,65 @@
     outline: none;
     padding: 0 5px;
     border: 1px solid black;
+}
+
+.tableInputfield{
+    max-width: 60px;
+    height: 30px;
+    margin: 0 20px;
+    border-radius: 5px;
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.contactInputfield{
+    max-width: 130px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.nameInputfield{
+    max-width: 140px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.emailInputfield {
+    max-width: 180px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.tableErrorText{
+    max-width: 110px;
+    font-size: 12px;
+    color:red ;
+    margin: 2px 0;
+}
+
+.contactErrorText{
+    max-width: 130px;
+    font-size: 12px;
+    color:red ;
+    margin: 2px 0;
+}
+
+.emailErrorText{
+    max-width: 190px;
+    font-size: 12px;
+    color:red ;
+    margin: 2px 0;
+    /* word-break: break-all; */
 }
 
 .errorText{
@@ -108,6 +171,7 @@
 
 .sNo{
     width: 12%;
+    max-width: 50px;
     height: 100%;
     min-width: 30px;
     font-size: var(--row-font-size);
@@ -141,6 +205,7 @@
 .action{
     min-width: 50px;
     width: 8%;
+    margin: auto 0;
 }
 
 .listRow{
@@ -149,7 +214,7 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
-    
+    overflow-x: hidden;
 }
 
 
@@ -173,6 +238,10 @@
     
 }
 
+.mandatory{
+    color:red;
+}
+
 
 
 .row{
@@ -180,7 +249,7 @@
     height: fit-content;
     justify-content: space-between;
     width: 100%;
-    gap: 5px;
+    gap: 9px;
     padding: 3px 10px;
     border-radius: 5px;
     margin-top: 2px;
@@ -190,6 +259,7 @@
 
 .sNoColumn{
     width: 12%;
+    max-width: 40px;
     height: 100%;
     min-width: 30px;
     font-size: var(--data-font-size);
@@ -199,6 +269,7 @@
     width: 40%;
     height: 100%;
     min-width: 70px;
+    padding-left: 13px;
     color: #000;
     font-size: var(--data-font-size);
 }
@@ -207,6 +278,7 @@
     width: 15%;
     height: fit-content;
     min-width: 40px;
+    margin: auto;
     display: flex;
     color: #000;
     font-size: var(--data-font-size);
@@ -218,6 +290,7 @@
     min-width: 50px;
     color: #000;
     font-size: var(--data-font-size);
+    margin : auto 0;
 }
 
 .resposivePrice{
@@ -232,6 +305,7 @@
     /* border: 1px solid tomato; */
     border-radius: 5px;
     /* color:#000; */
+    margin: auto 0;
     color: tomato;
     transition: all .3s ease;
 }
@@ -243,6 +317,7 @@
 
 .responsiveBTNText{
 display: block;
+margin: auto 0;
 }
 
 .mobileBtnText{
@@ -316,7 +391,7 @@ display: block;
      margin-top: 5px;
      background-color: #F1EDED;
 }
-
+   
 .priceRow{
     display: flex;
     justify-content: space-between;
@@ -324,7 +399,7 @@ display: block;
 }
 
 .priceData{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     margin: 5px 0;
 }
@@ -338,6 +413,18 @@ display: block;
     align-self: center;
 }
 
+@media screen and (max-width:1300px){
+    .modelContainer{
+        width: 70vw !important;
+    }
+}
+
+@media screen and (max-width: 900px){
+
+    .modelContainer{
+        width: 90vw !important;
+    }
+}
 
 @media screen and (max-width: 700px){
     .container{
@@ -389,12 +476,7 @@ display: block;
 
 }
 
-@media screen and (max-width: 900px){
 
-    .modelContainer{
-        width: 90vw !important;
-    }
-}
 
 @media screen and (max-width: 500px){
     /* .price{
@@ -403,6 +485,10 @@ display: block;
     .priceColumn{
         display: none;
     } */
+
+    .itemNameColumn{
+        padding-left: 3px;
+    }
 
     .inputLabel{
         font-size: 14px;
@@ -464,6 +550,11 @@ display: block;
 
     .modelContainer{
         width: 95vw !important;
+    }
+     
+    .row {
+        gap: 5px;
+        justify-content: space-between;
     }
 
 }

@@ -1487,7 +1487,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* Grand Total */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>Grand Total </div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>Grand Total (₹) </div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input

@@ -36,7 +36,7 @@ const Dashboard = () => {
         <button className={style.orderCreateBtn} onClick={e => {
           setOrderPopupvisible(true)
         }}>
-          Order Create
+        Create Order 
         </button>
       </div>
 

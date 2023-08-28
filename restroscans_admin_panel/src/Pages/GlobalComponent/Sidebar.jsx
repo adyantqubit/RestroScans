@@ -396,7 +396,7 @@ const navigateToRatingReviewList = () => {
           <ul style={{ marginTop: "-10px" }}>
             {/* Modified by ROhan kansari - 26/8/23 - 
                 Reason - this men is not selected o=in on click so need to change on click position */}
-            <li className={style.Sublinks_div} >
+            <li className={style.Sublinks_div} onClick={navigateToOrderReport}>
               <NavLink
                 // commented and modified by - Suman sahu on - 17/06/2023
                 // reason- for design active link
@@ -404,8 +404,10 @@ const navigateToRatingReviewList = () => {
                 className={({ isActive }) =>
                   isActive ? style.active : style.sublink
                 }
-                onClick={navigateToOrderReport}
+                
                 // end of modification by - Suman sahu on - 17/06/2023
+                // Modified by Rohan kansari - 27/8/23 - To correct link mnaming
+                // to="/OrderReport"
                 to="/NewOrderReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
@@ -692,7 +694,9 @@ const navigateToRatingReviewList = () => {
         <li className={style.links_div} onClick={navigateToRatingReviewList}>
           <NavLink
             className={({ isActive }) => (isActive ? style.active : style.link)}
-            to="/social-media"
+             // Modified by ROhan kansari 27/8/23 - To correct link naming 
+            //  to="/social-media"
+             to="/RatingReview"
           >
             {" "}
            Rating & Review{" "}
