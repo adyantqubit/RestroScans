@@ -267,17 +267,17 @@ function SocialMediaForm(props) {
     * Added by Yuvraj Sahu on 12-06-2023
     * Reason - to show error message for social media validation
     */
-    if (!socialMediaLinkValue && img == null) {
-      validateOnInput("social_media_link", "social_media_icon");
-    }
-    else {
-    if (img == null && imageUrl == ""){
-      validateOnInput("social_media_icon", img);
-    }
-    else {
-      validateOnInput("social_media_link", socialMediaLinkValue);
-    }
-  }
+  //   if (!socialMediaLinkValue && img == null) {
+  //     validateOnInput("social_media_link", "social_media_icon");
+  //   }
+  //   else {
+  //   if (img == null && imageUrl == ""){
+  //     validateOnInput("social_media_icon", img);
+  //   }
+  //   else {
+  //     validateOnInput("social_media_link", socialMediaLinkValue);
+  //   }
+  // }
     /**
     * End of addition by Yuvraj Sahu on 12-06-2023
     */
@@ -302,6 +302,25 @@ function SocialMediaForm(props) {
       } else {
         allowDataPost = true;
       }
+
+      /**
+      * Added by Yuvraj Sahu on 12-06-2023
+      * Reason - to show error message for social media validation
+      */
+      if (!socialMediaLinkValue && img == null) {
+        validateOnInput("social_media_link", "social_media_icon");
+      }
+      else {
+        if (img == null && imageUrl == ""){
+          validateOnInput("social_media_icon", img);
+        }
+        else {
+          validateOnInput("social_media_link", socialMediaLinkValue);
+        }
+      }
+      /**
+      * End of addition by Yuvraj Sahu on 12-06-2023
+      */
     }
 
     if (allowDataPost) {
