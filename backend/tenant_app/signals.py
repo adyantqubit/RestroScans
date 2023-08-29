@@ -68,6 +68,15 @@ def on_order_status_update(sender,instance,created,**kwargs):
                     fcmRegisteredObject.send_message(Message(notification=Notification(title='Restroscans.com', body='Order Status'),data={"order":data1, "orderItem" : data2}))
                 # print("success order status Completed -----")
                 # Added by :- Parineeta Gedam on 23-06-2023 reason :- send notifications for order cancelled
+
+                # Added by Rohan kansari - 28/8/23 - To send notification in table update
+                if order.send_notification_on_tableNum_update== True:
+                    data1=serializers.serialize('json', [ order,])
+                    data2=serializers.serialize('json', orderItem)
+                    fcmRegisteredObject.send_message(Message(notification=Notification(title='Restroscans.com', body='Order Status'),data={"order":data1, "orderItem" : data2}))
+                # ENd of code - Rohan kansari - 28/8/23 - To send notification in table update
+
+
                 if order.order_status == "Cancelled" :
                     data1=serializers.serialize('json', [ order,])
                     data2=serializers.serialize('json', orderItem)

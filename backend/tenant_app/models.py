@@ -884,6 +884,11 @@ class Order(models.Model):
     send_notifications_on_amount_update = models.BooleanField(default=False)
     # End of addition by Parineeta Gedam on 22-06-2023
 
+    # Added by Rohan Kansari - 28/8/23 
+    # Reason - To add push notification on table number update
+    send_notification_on_tableNum_update=models.BooleanField(default=True)
+    # End of code - Rohan kansari - 28/9/23
+
     # Added by Rohan kansari - 16/8/23 
     # Reason - To save entered name and email
     customer_name=models.CharField(max_length=50,null=True,blank=True)
@@ -1027,6 +1032,8 @@ class Order(models.Model):
         self.old_payment_status = self.payment_status
         self.old_apply_loyality_point = self.apply_loyality_point
         self.old_final_amount = self.final_amount
+        # Added by Rohan kansari - 28/8/23 - To set old table number
+        self.old_tableNum=self.table_number
     # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refereance.
 
     # Added by Yuvraj Sahu on 24-4-2023
@@ -1046,6 +1053,12 @@ class Order(models.Model):
         self.send_notifications_on_order_update = False
         self.send_notifications_on_payment_update = False
 
+        # Added by Rohan kansari - 28/8/23 - To send notification allow in order table
+        self.send_notification_on_tableNum_update=False
+
+        if self.old_tableNum!=self.table_number:
+           self.send_notification_on_tableNum_update=True
+        # ENd of code - ROhan kansari -28/8/23 - To send notification allow in order table  
         # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
         # try:
         #     order = Order.objects.get(order_id = self.order_id)

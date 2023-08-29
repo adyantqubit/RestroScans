@@ -127,6 +127,7 @@
 /* Added by Rohan kansari  */
 .open_sidebar{
   padding: 10px 0;
+  padding-bottom: 25px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -158,6 +159,7 @@
   }
   .drawer{
     width: 25% !important;
+    height: 82% !important;
   }
 
 }
@@ -284,7 +286,7 @@
     /* max-width: 200px; */
     width: 50% !important;
     background-color: var(--sidebar-color) !important;
-    height: 80%;
+    height: 73vh !important;
   }
 
 
@@ -311,7 +313,7 @@
       /* max-width: 200px; */
       width: 30% !important;
       background-color: var(--sidebar-color) !important;
-      height: 80% !important;
+      height: 75% !important;
     }
   
   
@@ -323,7 +325,7 @@
         /* max-width: 200px; */
         width: 30% !important;
         background-color: var(--sidebar-color) !important;
-        height: 80% !important;
+        height: 75% !important;
       }
   
     

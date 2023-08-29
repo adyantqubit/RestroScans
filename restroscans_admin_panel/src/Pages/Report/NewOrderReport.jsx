@@ -1371,7 +1371,7 @@ const NewOrderReport = () => {
                     </div>
                     {/* Amount sections */}
                     {/* Modified by :- Parineeta Gedam on 06-08-2023 reason :- UI desiging chances */}
-                    <div className={`${style.calculationsContainer}`}>
+                    <div className={`${style.calculationsContainer}`} >
                         <div>
                             <div className={`${style.inputContainer}`}>
                                 <div className={`${style.inputArea} ${style.inputAreaForResponsive}`}>

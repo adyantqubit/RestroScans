@@ -265,7 +265,9 @@ export default function ReaservationForm({ route, navigation }) {
                        disabled={object.id != "add new data" ? true : false}
                         onPress={() => {
                           DateTimePickerAndroid.open({
-                            value: values.date ? new Date(values.date) : new Date(),
+                            // Modified by Rohan kansari - 28/8/23 - To send perfect date
+                            // value: values.date?new Date(values.date): new Date(),
+                            value: new Date(),
                             onChange: (event, selectedDate) => {
                               handleChange("date", convert(selectedDate));
                             },
@@ -346,7 +348,9 @@ export default function ReaservationForm({ route, navigation }) {
                       disabled={object.id != "add new data" ? true : false}
                         onPress={() => {
                           DateTimePickerAndroid.open({
-                            value: values.time ? new Date(values.time) : new Date(),
+                            // Modified by Rohan kansari - 28/8/23 - To send perfect date
+                            // value: values.time?new Date(values.time): new Date(),
+                            value: new Date(),
                             onChange: (event, selectedDate) => {
                               handleChange("time", convertTime(selectedDate));
                             },

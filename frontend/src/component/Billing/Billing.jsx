@@ -156,7 +156,10 @@ const Billing = () => {
                             <div>:</div>  
                         </div>
                         <div className={style.text}>
-                            {billingData.customer_detail.name.length ? billingData.customer_detail.name : " --- "}
+                            {/* Modified by Rohan kansari - 28/8/23 - To show name from order table */}
+                            {/* {billingData.customer_detail.name.length ? billingData.customer_detail.name : " --- "} */}
+                            {billingData.detail.customer_name.length?billingData.detail.customer_name:"---"}
+                            {/* End of code - Rohan kansari - 28/8/23 - To show name from order table  */}
                         </div>
                     </div>
                     {/* Modification and addition by Om Shrivastava on 27-07-23
