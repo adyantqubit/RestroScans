@@ -37,7 +37,7 @@ const NewOrderReport = () => {
     // Reason :- first time show the data from this year
 
     // ===========================================
-    const [quickSelect, setQuickSelect] = useState({
+    var [quickSelect, setQuickSelect] = useState({
         today: false,
         week: false,
         month: false,
@@ -67,7 +67,7 @@ const NewOrderReport = () => {
         cooked: false,
         served: false,
         cancelled: false,
-    })
+    })  
     // End of Added code by :- Parineeta Gedam on 02-08-2023
     // Reason :- set the order status
     // Modified by :- Parineeta Gedam on 06-09-2023 reason :- apply multiple filter
@@ -77,7 +77,7 @@ const NewOrderReport = () => {
     // Added by :- Parineeta Gedam on 02-08-2023
     // Reason :- set the order status
     // const [paymentStatus, setPaymentStatus] = useState("Completed")
-    const [paymentStatus, setPaymentStatus] = useState({
+    var [paymentStatus, setPaymentStatus] = useState({
         pending: false,
         completed: true,
     })
@@ -109,7 +109,7 @@ const NewOrderReport = () => {
     // End of Added code by :- Parineeta Gedam on 05-08-2023
     // Reason :-  used for paginations
 
-
+     const state=useLocation()
     // Added By Parineeta Gedam on 05-08-2023
     // Reason - To set global Page index Whenever its index updated
     useEffect(() => {
@@ -118,6 +118,23 @@ const NewOrderReport = () => {
             currentPage = parseInt(localStorage.getItem("globalPageIndex"))
             setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
         }
+
+        // Added by Rohan kansari - 28/8/23 - 
+        // if filter data is coming from other page through navigation so set it of filter
+        if(state.state){
+        quickSelect=state.state
+        setQuickSelect({...state.state})
+        paymentStatus={
+            pending: false,
+            completed: false,
+        }
+        setPaymentStatus({
+            pending: false,
+            completed: false,
+        })
+        }
+        // End of code addition by Rohan kansari - 28/8/23 
+        // if filter data is coming from other page through navigation so set it of filter
     }, [])
     // Added By Parineeta Gedam on 05-08-2023
     // Reason - To set global Page index Whenever its index updated
@@ -596,6 +613,7 @@ const NewOrderReport = () => {
                         </div>
                     </div>
                 )}
+                {/* Modified by Rohan kansari - 28/8/23 - To modify checkbox and radio button to checked according to usestate value */}
                 <div className={style.quickSelectConatiner}>
                     <div className={style.quickHeading}>Quick Select</div>
                     <div className={style.quickOptions}>
@@ -604,14 +622,14 @@ const NewOrderReport = () => {
                                 {/* Commented and modified by :- Parineeta Gedam on 03-08-2023 reason :- remove the default checked */}
                                 {/* <div><input type="checkbox" defaultChecked={true} id="today" onChange={e => setTodayDate(e.target.checked)} /></div> */}
                                 {/* <div><input type="checkbox" id="today" onChange={e => setTodayDate(e.target.checked)} /></div> */}
-                                <div><input type="radio" id="today" name="quick_select" value="today" onChange={e => handleQuickSelect(e.target.value)} /></div>
+                                <div><input type="radio" id="today" name="quick_select" value="today" checked={quickSelect.today} onChange={e => handleQuickSelect(e.target.value)} /></div>
                                 {/* Commented and modified by :- Parineeta Gedam on 03-08-2023 reason :- remove the default checked */}
                                 <div className={style.label}>Today</div>
                             </div>
                             <div className={style.selectContainer}>
                                 <div>
                                     {/* <input type="checkbox" id="week" onChange={e => setThisWeak(e.target.checked)} /> */}
-                                    <input type="radio" id="week" name="quick_select" value="week" onChange={e => handleQuickSelect(e.target.value)} />
+                                    <input type="radio" id="week" name="quick_select" value="week" checked={quickSelect.week} onChange={e => handleQuickSelect(e.target.value)} />
                                 </div>
                                 <div className={style.label}>This Week</div>
                             </div>
@@ -627,14 +645,14 @@ const NewOrderReport = () => {
                             <div className={style.selectContainer}>
                                 <div>
                                     {/* <input type="checkbox" id="month" onChange={e => setThisMonthDate(e.target.checked)} /> */}
-                                    <input type="radio" id="month" name="quick_select" value="month" onChange={e => handleQuickSelect(e.target.value)} />
+                                    <input type="radio" id="month" name="quick_select" value="month" checked={quickSelect.month} onChange={e => handleQuickSelect(e.target.value)} />
                                 </div>
                                 <div className={style.label}>This Month</div>
                             </div>
                             <div className={style.selectContainer}>
                                 <div>
                                     {/* <input type="checkbox" id="year" defaultChecked={true} onChange={e => setThisYear(e.target.checked)} /> */}
-                                    <input type="radio" id="year" name="quick_select" value="year" defaultChecked={true} onChange={e => {
+                                    <input type="radio" id="year" name="quick_select" value="year" checked={quickSelect.year}  onChange={e => {
                                         handleQuickSelect(e.target.value);
                                         // Modofication by ROhan kansari - 19/8/23
                                         // Reason - dont open date 
@@ -692,12 +710,13 @@ const NewOrderReport = () => {
                     <div className={style.quickOptions}>
                         <div className={style.parentSelectContainer}>
                             <div className={style.selectContainer}>
-                                <div><input type="checkbox" id="pending" value="Pending" onChange={e => handlePaymentStatus(e.target.value)} /></div>
+                                <div><input type="checkbox" id="pending" value="Pending"
+                                checked={paymentStatus.pending} onChange={e => handlePaymentStatus(e.target.value)} /></div>
                                 <div className={style.label}>Pending</div>
                             </div>
                             <div className={style.selectContainer}>
                                 <div><input type="checkbox" id="completed"
-                                    defaultChecked={true}
+                                    checked={paymentStatus.completed}
                                     value="Completed" onChange={e => handlePaymentStatus(e.target.value)} /></div>
                                 <div className={style.label}>Completed</div>
                             </div>
@@ -707,6 +726,7 @@ const NewOrderReport = () => {
                 {/* End of Added by :- Parineeta Gedam on 02-08-2023 
                     reason :- Add filter by Payment status */}
             </div>
+            {/* End of Modification by Rohan kansari - 28/8/23 - To modify checkbox and radio button to checked according to usestate value */}
 
             {/* Added by :- Parineeta Gedam on 02-08-2023 
                     reason :- change the positions of button */}

@@ -1563,9 +1563,13 @@ const TodayOrder = (props) => {
         setFinalAmount(data.final_amount);
         setRating(data.rating);
         setReview(data.review);
-
-        setName(data.customer_name);
-        setEmail(data.customer_email);
+        
+        // Modified by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
+        // setName(data.customer_name);
+        // setEmail(data.customer_email);
+        setName(capitalizeFLetter(data.customer_name));
+        setEmail(data.customer_email.toLowerCase());
+        // End of Modification by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
 
     }
 
@@ -1864,6 +1868,17 @@ const TodayOrder = (props) => {
 
     // End of code - ROhan kansari - 28/7/23
 
+    // Added by Rohan kansari - 28/8/23 - To capitalize first letetr of each word
+    function capitalizeFLetter(string) {
+        var stringArr=string.split(" ").map(e=>{
+        if(e.length>1)
+            return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()
+        else
+         return e.toUpperCase()})
+        
+        return stringArr.join(" ");
+    }
+    // End of modification - Rohan kansari - 28/8/23 - To capitalize first letetr of each word
 
     return (
         <>
@@ -2405,7 +2420,7 @@ const TodayOrder = (props) => {
                                                 }
                                             }
                                         }}>Cancel Order</button>
-                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled" ? style.disbaleBtn : null} ${style.KotBtn}`} onClick={e => {
+                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled" || selectedOrderData.order_detail?.order_status =="Placed" ? style.disbaleBtn : null} ${style.KotBtn}`} onClick={e => {
                                         PrintKot(selectedOrderData.order_detail, selectedOrderData.order_item.filter(e => e.item_status == "Confirm"), restroDetail, gstFssai, settings)
                                     }}>Print Kot</button>
                                     <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
@@ -2513,9 +2528,12 @@ const TodayOrder = (props) => {
                                                 }
 
                                                 } onChange={e => {
-                                                    selectedOrderData.order_detail.customer_email = e.target.value
+                                                    // Added by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
+                                                    selectedOrderData.order_detail.customer_email = e.target.value.toLowerCase()
                                                     setSelectedorderData({ ...selectedOrderData })
-                                                    setEmail(e.target.value)
+                                                    setEmail(e.target.value.toLowerCase())
+                                                    // End of addition by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
+
                                                 }}
                                                     value={selectedOrderData.order_detail.customer_email}
                                                     onBlur={e => {
@@ -2597,9 +2615,12 @@ const TodayOrder = (props) => {
                                                 }
 
                                                 } onChange={e => {
-                                                    selectedOrderData.order_detail.customer_name = e.target.value
+                                                    // Added by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
+                                                    selectedOrderData.order_detail.customer_name =capitalizeFLetter(e.target.value)
                                                     setSelectedorderData({ ...selectedOrderData })
-                                                    setName(e.target.value)
+                                                    setName(capitalizeFLetter(e.target.value))
+                                                    // End of addition by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
+
                                                 }}
                                                     value={selectedOrderData?.order_detail?.customer_name}
                                                     onBlur={e => {
@@ -3044,7 +3065,7 @@ const TodayOrder = (props) => {
 
                                     <div className={style.pricingContent}>
                                         {settings.allow_loyality_points ? <div className={style.priceInformation}>
-                                            <label className={style.InputLabel}>Loyality Price :- </label>
+                                            <label className={style.InputLabel}>Loyalty Price :- </label>
                                             <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
                                         </div> : null}
                                         <div className={style.priceInformation}>
@@ -3056,11 +3077,11 @@ const TodayOrder = (props) => {
                                             <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
                                         </div>
                                         {settings.cgst > 0 ? <div className={style.priceInformation}>
-                                            <label className={style.InputLabel}>CGST ( {settings.cgst}% ):- </label>
+                                            <label className={style.InputLabel}>CGST ({settings.cgst}%):- </label>
                                             <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
                                         </div> : null}
                                         {settings.sgst > 0 ? <div className={style.priceInformation}>
-                                            <label className={style.InputLabel}>SGST ( {settings.sgst}% ) :- </label>
+                                            <label className={style.InputLabel}>SGST ({settings.sgst}%) :- </label>
                                             <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
                                         </div> : null}
                                         {settings.sgst > 0 || settings.cgst > 0 ? <div className={style.priceInformation}>

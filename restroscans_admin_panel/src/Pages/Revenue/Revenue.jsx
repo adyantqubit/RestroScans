@@ -5,6 +5,7 @@ import { getOrderReport, getTotalRevenueDetails } from "../../Api/services";
 import { FaRupeeSign } from "react-icons/fa";
 import { Select, Space } from "antd";
 import { enableHeader } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Revenue = () => {
   const [data, setData] = useState();
@@ -13,6 +14,7 @@ const Revenue = () => {
   const [thisMonthSummary, setThisMonthSummary] = useState(null);
   const [thisYearSummary, setThisYearSummary] = useState(null);
   const [totalDashboardRevenue, setTotalDashboardRevenue] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Added By Rohan Kansari - 25/6/23
@@ -53,7 +55,7 @@ const Revenue = () => {
   // end of addition by - Suman sahu On 28/05/2023
 
   return (
-   // Modified by Rohan Kansari - 25/6/23
+    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
     // <Header>
     <div className={style.Container}>
@@ -89,7 +91,9 @@ const Revenue = () => {
         </div>
       </div>
       <h1 className={style.heading}>Revenue Details</h1>
-      <div className={style.custom_container}>
+
+      {/* Commented by Rohan kansari - 29/8/23 - To hide custom revenue for now  */}
+      {/* <div className={style.custom_container}>
         <label className={style.custom_label}>Custom</label>
         <div>
           <span>From:&nbsp;</span>{" "}
@@ -107,7 +111,9 @@ const Revenue = () => {
             name="fav_language"
           />
         </div>
-      </div>
+      </div> */}
+      {/* End of commenting by Rohan kansari - 29/8/23 - To hide custom revenue for now  */}
+
       <div className={style.revenue_main_section}>
         <div className={style.revenue_first_div}>
           <div className={style.revenue_container}>
@@ -129,7 +135,16 @@ const Revenue = () => {
               </div>
             ) : null}
             <div className={style.btn_div}>
-              <button className={style.order_report_btn}>
+              {/* Modified by Rohan kansari - 29/8/23 - To send selected filter to order report page*/}
+              <button className={style.order_report_btn} onClick={e => navigate("/NewOrderReport", {
+                state: {
+                  today: true,
+                  week: false,
+                  month: false,
+                  year: false,
+                }
+              })}>
+                {/* End of modification -Rohan kansari - To send Selected filter to order report page */}
                 View Order Report
               </button>
             </div>
@@ -159,7 +174,16 @@ const Revenue = () => {
               </p>
             ) : null}
             <div className={style.btn_div}>
-              <button className={style.order_report_btn}>
+                {/* Modified by Rohan kansari - 29/8/23 - To send selected filter to order report page*/}
+              <button className={style.order_report_btn} onClick={e => navigate("/NewOrderReport", {
+                state: {
+                  today: false,
+                  week: true,
+                  month: false,
+                  year: false,
+                }
+              })}>
+                {/* End of modification -Rohan kansari - To send Selected filter to order report page */}
                 View Order Report
               </button>
             </div>
@@ -191,7 +215,16 @@ const Revenue = () => {
               </p>
             ) : null}
             <div className={style.btn_div}>
-              <button className={style.order_report_btn}>
+              {/* Modified by Rohan kansari - 29/8/23 - To send selected filter to order report page*/}
+              <button className={style.order_report_btn} onClick={e => navigate("/NewOrderReport", {
+                state: {
+                  today: false,
+                  week: false,
+                  month: true,
+                  year: false,
+                }
+              })}>
+                {/* End of modification -Rohan kansari - To send Selected filter to order report page */}
                 View Order Report
               </button>
             </div>
@@ -221,7 +254,16 @@ const Revenue = () => {
               </p>
             ) : null}
             <div className={style.btn_div}>
-              <button className={style.order_report_btn}>
+              {/* Modified by Rohan kansari - 29/8/23 - To send selected filter to order report page*/}
+              <button className={style.order_report_btn} onClick={e => navigate("/NewOrderReport", {
+                state: {
+                  today: false,
+                  week: false,
+                  month: false,
+                  year: true,
+                }
+              })}>
+                {/* End of modification -Rohan kansari - To send Selected filter to order report page */}
                 View Order Report
               </button>
             </div>

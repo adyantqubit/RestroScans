@@ -257,6 +257,10 @@
   .active{
     font-size: 1rem;
   }
+
+  .sublink{
+    font-size: 0.9rem;
+  }
   /* .Sublinks_div {
     width: 10rem;
   } */

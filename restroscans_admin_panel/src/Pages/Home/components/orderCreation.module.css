@@ -249,7 +249,7 @@
     height: fit-content;
     justify-content: space-between;
     width: 100%;
-    gap: 9px;
+    gap: 5px;
     padding: 3px 10px;
     border-radius: 5px;
     margin-top: 2px;
@@ -259,7 +259,7 @@
 
 .sNoColumn{
     width: 12%;
-    max-width: 40px;
+    max-width: 50px;
     height: 100%;
     min-width: 30px;
     font-size: var(--data-font-size);
@@ -269,7 +269,7 @@
     width: 40%;
     height: 100%;
     min-width: 70px;
-    padding-left: 13px;
+    /* padding-left: 13px; */
     color: #000;
     font-size: var(--data-font-size);
 }
@@ -278,7 +278,7 @@
     width: 15%;
     height: fit-content;
     min-width: 40px;
-    margin: auto;
+    margin: auto 0;
     display: flex;
     color: #000;
     font-size: var(--data-font-size);
@@ -472,6 +472,15 @@ margin: auto 0;
 
     .modelContainer{
         width: 80vw !important;
+    }
+
+    .inputBoxContains{
+        flex-direction: column;
+    }
+
+    .tableInputfield{
+        margin:unset;
+    
     }
 
 }
