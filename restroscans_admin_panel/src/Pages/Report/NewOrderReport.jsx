@@ -7,16 +7,78 @@ import 'react-calendar/dist/Calendar.css';
 import { AiFillCalendar, AiFillEye, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending, } from 'react-icons/ai';
 import "./checkbox.scss"
 import { OrderFilterQueryAPI, getOrdersItemDetailApi, getOrderItemsApi, getOrderCount } from '../../Api/services';
-import { enableHeader } from '../../App';
+import { Message, enableHeader } from '../../App';
 import { Modal } from 'antd'
 import {
     BsSortAlphaDownAlt, BsSortAlphaDown, BsSortNumericDownAlt, BsSortNumericDown,
 } from "react-icons/bs";
 import { Pagination } from "antd";
 import { MdArrowDropUp } from "react-icons/md";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 import { useLocation } from 'react-router-dom';
 
 
+// Added by Rohan Kansari - 1/9/23 - To download report in excel sheet
+export const ExportToExcel = ({ apiData, fileName }) => {
+    const fileType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+    
+    var filteredData=apiData.map(e=>{
+        delete e["last_customer_name"]
+        delete Object.assign(e, {"Customer Number": e["customer_number"] })["customer_number"];
+        delete Object.assign(e, {"Customer Loyality Point": e["customer_loyality_point"] })["customer_loyality_point"];
+        delete Object.assign(e, {"Order Id": e["order_id"] })["order_id"];
+        delete Object.assign(e, {"Table Number": e["table_number"] })["table_number"];
+        delete Object.assign(e, {"Sub Total": e["sub_total"] })["sub_total"];
+        delete Object.assign(e, {"Total": e["total"] })["total"];
+        delete Object.assign(e, {"CGST": e["cgst"] })["cgst"];
+        delete Object.assign(e, {"SGST": e["sgst"] })["sgst"];
+        delete Object.assign(e, {"Order Status": e["order_status"] })["order_status"];
+        delete Object.assign(e, {"Payment Status": e["payment_status"] })["payment_status"];
+        delete Object.assign(e, {"Date": e["date"] })["date"]
+        delete Object.assign(e, {"Payment Mode": e["payment_mode"] })["payment_mode"]
+        delete Object.assign(e, {"Discount Rupees": e["discount_rupees"] })["discount_rupees"]
+        delete Object.assign(e, {"Discount Percentage": e["discount_percentage"] })["discount_percentage"]
+        delete e["discount_reason"]
+        delete Object.assign(e, {"Final Amount": e["final_amount"] })["final_amount"]
+        delete e["review"]
+        delete e["rating"]
+        delete Object.assign(e, {"Payment Confirmation Date Time": e["payment_confirmation_date_time"] })["payment_confirmation_date_time"]
+        delete Object.assign(e, {"Cancelled By": e["cancelled_by"] })["cancelled_by"]
+        delete Object.assign(e, {"Cancel Reason": e["cancel_reason"] })["cancel_reason"]
+        delete Object.assign(e, {"Apply Loyality Point": e["apply_loyality_point"] })["apply_loyality_point"]
+        delete Object.assign(e, {"Loyality Point Price": e["loyality_point_price"] })["loyality_point_price"]
+        delete e["loyality_point_status"]
+        delete e["loyality_point_calculated"]
+        delete e["send_notifications_on_order_update"]
+        delete e["send_notifications_on_payment_update"]
+        delete e["send_notifications_on_amount_update"]
+        delete e["send_notification_on_tableNum_update"]
+        delete Object.assign(e, {"Customer Name": e["customer_name"] })["customer_name"]
+        delete Object.assign(e, {"Customer Email": e["customer_email"] })["customer_email"]
+        delete Object.assign(e, {"Customer Id": e["customer_id"] })["customer_id"]
+               
+        return e;
+    })
+    
+    const exportToCSV = (filteredData, fileName) => {
+        if(filteredData.length){
+        const ws = XLSX.utils.json_to_sheet(filteredData);
+        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data, fileName + fileExtension);
+        }else{
+            Message("No Data is Found","warning")
+        }
+    };
+    return (
+        <button className={style.PrintBtn} onClick={(e) => exportToCSV(apiData, fileName)}>Export</button>
+    );
+};
+// End of code addition - Rohan kansari - 1/9/23 - To download data in excel sheet
 
 const NewOrderReport = () => {
 
@@ -106,6 +168,10 @@ const NewOrderReport = () => {
 
     var [currentPage, setCurrentPage] = useState(1);
     const [backendOrderCount, setOrderCount] = useState(0);
+    
+    // Added by Rohan kansari - 1/9/23 - To set all data of report list
+    const [allReportData,setAllReportData]=useState([])
+    // ENd of code - Rohan kansari - 1/9/23 - To set all data of report list
 
     // End of Added code by :- Parineeta Gedam on 05-08-2023
     // Reason :-  used for paginations
@@ -208,7 +274,8 @@ const NewOrderReport = () => {
 
             setOrder(r.orderList)
             setOrderCount(r.orderListCount)
-
+            // Added by Rohan kansari - 1/9/23 - To set all order report 
+            setAllReportData(r.allReportList)
         })
     }
 
@@ -736,8 +803,11 @@ const NewOrderReport = () => {
                     <button className={style.GenerateBtn} onClick={postOrderQuery}>Generate Report</button>
                 </div>
                 <div className={style.BtnContainer}>
-                    {/*<ExportToExcel apiData={order} fileName="MyFile" /> */}
-                    <button className={style.PrintBtn}>Print Report</button>
+                 {/* Added by Rohan Kansari - 1/9/23 - To download report in excel sheet */}
+                    <ExportToExcel apiData={allReportData} fileName="MyFile" />
+                    {/* <button className={style.PrintBtn}>Print Report</button> */}
+                 {/* End of Addition by Rohan Kansari - 1/9/23 - To download report in excel sheet */}
+   
                 </div>
             </div>
             {/* End of Added by :- Parineeta Gedam on 02-08-2023 

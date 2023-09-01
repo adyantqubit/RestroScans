@@ -29,7 +29,10 @@ export default function AddOrderItemForm({ route, navigation }) {
     // Reason :- after submit button will be disable 
     var [submitBtnDisable, setSubmitBtnDisable] = useState(false);
     // End of added code by :- Parineeta Gedam on 23-06-2023
-
+    // Added by Rohan kansari -1/9/23 -To add search feature in dropdown
+    var [searchText,setSearchText]=useState("")
+    var [searchItemList,setSearchItemList]=useState([])
+    // End of addition by Rohan kansari -1/9/23 -To add search feature in dropdown
 
     // Added by :- Parineeta Gedam on 09-06-2023
     // reason :- get setting data\
@@ -169,6 +172,8 @@ export default function AddOrderItemForm({ route, navigation }) {
             // Added by :- Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items.
             var activeItemList = response.itemList.filter((item) => item.is_active == true)
             setItemList(activeItemList);
+            // Added by Rohan kansari -1/9/23 -To add search feature in dropdown
+            setSearchItemList(activeItemList)
             // End of added code by :- Parineeta Gedam on 07-07-2023 reason :- Inactive item should not shown, when admin add new items
 
         }
@@ -405,6 +410,33 @@ export default function AddOrderItemForm({ route, navigation }) {
     };
     // End of Added by  Parineeta Gedam on 14-07-23
     // Reason : if full price is there but half plate price is not available for that item. Then also serving size should not be shown in the dropdown
+ 
+
+    // Added by Rohan kansari - 1/9/23 -To add search feature in dropdown
+    useEffect(()=>{
+        // console.log(searchText.length,searchItemList)
+        var text = searchText.toLowerCase();
+        var searchKeys = text.trim().split(" ");
+        var regString = "/|";
+        searchKeys.forEach((e) => {
+          if (e != "") {
+            regString = regString + e + "+" + "|";
+          }
+        });
+        regString = regString + "/gi";  
+
+      if(searchText.length!=0){
+        var dataList=itemList.map(o=>
+            { 
+              if(o.name.toLowerCase().match(regString))
+              return o;
+            })
+        setSearchItemList(dataList)    
+      }else{
+        setSearchItemList([...itemList])
+      }
+    },[searchText])
+    // End of code - Rohan kansari - 1/9/23 -To add search feature in dropdown
 
     return (
         <ScrollView keyboardShouldPersistTaps="handled">
@@ -466,13 +498,18 @@ export default function AddOrderItemForm({ route, navigation }) {
                                         </Text>
 
                                         <SelectDropdown
+
+                                            
                                             // Added by :- Parineeta Gedam on  21-07-2023 reason :-  Add more item >>Add search field in Item select box
                                             search={true}
                                             searchPlaceHolder="Search by item name"
+                                            
+                                            // Added by Rohan kansari - 1/9/23 - To add search feature in dropdown
+                                            onChangeSearchInputText={(searchText)=>{setSearchText(searchText)}}
                                             renderSearchInputRightIcon={() => { return <EvilIcons name="search" size={20} color="black" /> }}
                                             // End of Added code by :- Parineeta Gedam on 21-07-2023 reason :-  Add more item >>Add search field in Item select box
-
-                                            data={itemList}
+                                            data={searchItemList}
+                                            // End of code - Rohan kansari - 1/9/23 - To add search feature in dropdown
                                             dropdownOverlayColor="rgba(0,0,0,0)"
                                             buttonTextStyle={{ fontSize: 16 }}
                                             rowTextStyle={{ fontSize: 16 }}
