@@ -14,6 +14,7 @@ import {
 } from "react-icons/bs";
 import { Pagination } from "antd";
 import { MdArrowDropUp } from "react-icons/md";
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -1471,7 +1472,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* CGST */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>CGST ({(orderByOrderId?.order_detail?.cgst / (orderByOrderId?.order_detail?.sub_total / 100)).toFixed(2)}%)</div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>CGST ({(orderByOrderId?.order_detail?.cgst / (orderByOrderId?.order_detail?.total / 100)).toFixed(2)}%)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input
@@ -1489,7 +1490,7 @@ const NewOrderReport = () => {
                                     <div className={`${style.inputLabel} ${style.inputLabel2}`}>
                                         {/* SGST */}
                                         {/* Modified by Rohan kansari - 25/8/23 - To change colon alignment */}
-                                        <div className={style.labelName}>SGST ({(orderByOrderId?.order_detail?.sgst / (orderByOrderId?.order_detail?.sub_total / 100)).toFixed(2)}%)</div> <div className={style.labelColon}>:</div>
+                                        <div className={style.labelName}>SGST ({(orderByOrderId?.order_detail?.sgst / (orderByOrderId?.order_detail?.total / 100)).toFixed(2)}%)</div> <div className={style.labelColon}>:</div>
                                         {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                     </div>
                                     <input
