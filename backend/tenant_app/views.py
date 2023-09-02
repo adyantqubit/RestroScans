@@ -2875,12 +2875,14 @@ class OrderFilterAPIView(APIView):
         paginator = Paginator(orderStatusList, listPerPage)
         filteredOrderList = paginator.page(currentPage)
         orderListSerializer = OrderSerializer(filteredOrderList, many=True)
+        allOrderListSerializer= OrderSerializer(orderStatusList, many=True)
         # End of modification by Rohan kansari - 19/8/23
         # Reason To apply multiple filter functionality
         return Response({
             "msg":"success",
             "orderList":orderListSerializer.data,
             "orderListCount":orderListCount,
+            "allReportList":allOrderListSerializer.data
         })
     #  End of Added code by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
 # End of added code by :- Rohan Kansari on 28-05-2023
