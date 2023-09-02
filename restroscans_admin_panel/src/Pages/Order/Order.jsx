@@ -7,7 +7,15 @@ import React, { useEffect, useState } from "react";
 import style from "./order.module.css";
 import Header from "../GlobalComponent/Header";
 import { Pagination } from "antd";
-import { OrderFilterQueryAPI, getDashboardData, getOrderCount, getOrderItemCountApi, getOrderItemDataShowApi, getOrderItemsApi, getOrdersApi } from "../../Api/services";
+import {
+  OrderFilterQueryAPI,
+  getDashboardData,
+  getOrderCount,
+  getOrderItemCountApi,
+  getOrderItemDataShowApi,
+  getOrderItemsApi,
+  getOrdersApi,
+} from "../../Api/services";
 import {
   BsSortAlphaDownAlt,
   BsSortAlphaDown,
@@ -15,7 +23,12 @@ import {
   BsSortNumericDown,
 } from "react-icons/bs";
 
-import { MdArrowDropDown, MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
+import {
+  MdArrowDropDown,
+  MdArrowDropUp,
+  MdCancel,
+  MdCheckCircle,
+} from "react-icons/md";
 
 import { Input, Space } from "antd";
 import config from "../../Api/config";
@@ -23,12 +36,16 @@ import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
 import PrintBill from "../Home/components/PrintBill";
 import { PrintKot } from "../Home/components/PrintKot";
-import DatePicker from 'react-date-picker';
-import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
-
+import DatePicker from "react-date-picker";
+import {
+  AiFillCalendar,
+  AiFillEye,
+  AiOutlineCalendar,
+  AiOutlineClose,
+  AiOutlineSortAscending,
+} from "react-icons/ai";
 
 const Order = () => {
-
   /**
    * Added by Yuvraj Sahu on 04-08-2023
    * Reason - to set the date for filter the order list
@@ -52,31 +69,31 @@ const Order = () => {
    * Added by yuvraj Sahu on 07-08-2023
    * Reason - to set the allow filter permission
    */
-  const [allowFilter, setAllowFilter] = useState(false)
+  const [allowFilter, setAllowFilter] = useState(false);
   /**
    * End of addition by Yuvraj Sahu on 07-08-2023
    */
 
-  
   /**
    * Added by Yuvraj Sahu on 07-08-2023
    * Reason - to show validation message of filter date
    */
-  const [dateValidation, setDateValidation] = useState(false)
+  const [dateValidation, setDateValidation] = useState(false);
   /**
    * End of addition by Yuvraj Sahu on 07-08-2023
    */
 
   const navigate = useNavigate();
 
-
   const [backendOrderCount, setOrderCount] = useState(0);
 
   var [orders, setOrders] = useState([]);
 
-  // Modified by Rohan Kansari - 22/6/23 - To Get Selected List page from localstorage on Reload 
+  // Modified by Rohan Kansari - 22/6/23 - To Get Selected List page from localstorage on Reload
   // const [listPerPage, setListPerPage] = useState(localStorage.getItem(10));
-  const [listPerPage, setListPerPage] = useState(localStorage.getItem("listPerPage"));
+  const [listPerPage, setListPerPage] = useState(
+    localStorage.getItem("listPerPage")
+  );
   // End of code - ROhan kansari - 22/6/23
 
   const [columnToSort, setColumnToSort] = useState("order_id");
@@ -90,13 +107,13 @@ const Order = () => {
 
   const [searchText, setSearchText] = useState("");
   // Added by Om shrivastava on 01-07-23 Reason : Set the restaurant details
-  const [restroDetail, setRestroDetail] = useState(null)
-  const [gstFssai, setGstFsaai] = useState(null)
-// End of addition by Om Shrivastava on 01-07-23 Reason : Set the restaurant details
+  const [restroDetail, setRestroDetail] = useState(null);
+  const [gstFssai, setGstFsaai] = useState(null);
+  // End of addition by Om Shrivastava on 01-07-23 Reason : Set the restaurant details
 
   var [orderItems, setOrderItems] = useState(null);
 
-  var [openActionPopupModal, setOpenActionPopupModal] = useState({})
+  var [openActionPopupModal, setOpenActionPopupModal] = useState({});
 
   const { Search } = Input;
 
@@ -105,17 +122,15 @@ const Order = () => {
   useEffect(() => {
     // Added By Rohan Kansari - 25/6/23
     // Reason - To enable headerSiderbar
-    enableHeader()
+    enableHeader();
     // End of code - Rohan kansari - 25/6/23
 
     if (localStorage.getItem("globalPageIndex")) {
-      currentPage =parseInt(localStorage.getItem("globalPageIndex"))
-      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")))
+      currentPage = parseInt(localStorage.getItem("globalPageIndex"));
+      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")));
     }
-
-  }, [])
+  }, []);
   // End of code - Rohan kansari - 22/6/23
-
 
   /**
    * Added by - Om Shrivastava on 15-06-23
@@ -126,7 +141,7 @@ const Order = () => {
     // getAllOrder();
     allOrders();
 
-    getOrderItems()
+    getOrderItems();
   }, []);
 
   /**
@@ -140,20 +155,26 @@ const Order = () => {
    *  this method will call order list api
    */
 
-
   useEffect(() => {
     allOrders();
-     //Added by ROhan KAnsari - 22/6/23
+    //Added by ROhan KAnsari - 22/6/23
     // Reason - to set currentpage to global
-    localStorage.setItem("globalPageIndex", currentPage)
-    
+    localStorage.setItem("globalPageIndex", currentPage);
+
     // End of code - Rohan Kansari - 22/6/23
     // Commeted and modified by yuvraj Sahu on 07-08-2023
     // Reason - to refresh the api component for api calling
     // }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage]);
-    setDateValidation(false)
-  }, [columnToSort, columnSortingOrder, currentPage, searchText, listPerPage, allowFilter]);
-   // End of modificaion by Yuvraj Sahu on 07-08-2023
+    setDateValidation(false);
+  }, [
+    columnToSort,
+    columnSortingOrder,
+    currentPage,
+    searchText,
+    listPerPage,
+    allowFilter,
+  ]);
+  // End of modificaion by Yuvraj Sahu on 07-08-2023
   /**
    
 
@@ -256,15 +277,16 @@ const Order = () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     // const response = await getOrderItemDataShowApi(tenant);
     // setOrderItems(response.orderItemData);
-  // Added by Om shrivastava on 01-07-23 Reason : Set the restaurant details
-    const response = await getDashboardData(JSON.parse(localStorage.getItem("tenantInfo")).tenant_name);
+    // Added by Om shrivastava on 01-07-23 Reason : Set the restaurant details
+    const response = await getDashboardData(
+      JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
+    );
     if (response) {
-      setGstFsaai(response.setting)
-      setRestroDetail(response.tenant)
-      setOrderItems(response.order_item)
+      setGstFsaai(response.setting);
+      setRestroDetail(response.tenant);
+      setOrderItems(response.order_item);
     }
-// End of addition by Om Shrivastava on 01-07-23 Reason : Set the restaurant details
-
+    // End of addition by Om Shrivastava on 01-07-23 Reason : Set the restaurant details
   };
   // console.log(restroDetail,"orderitem data=====>>>>>")
   /**
@@ -272,26 +294,25 @@ const Order = () => {
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const handlePageChange = async (pageNumber) => {
-
     /**
      * Added by Yuvraj Sahu on 11-8-2023
      * Reason - to remove date filter
      */
     /**
      * modified by Yuvraj Sahu on 16-08-2023
-     * Reason - to change the filter the 
+     * Reason - to change the filter the
      */
     /**
      * Modified by Yuvraj Sahu on 19-08-2023
      * Reason - to render when click date filter
      */
     // if (pageNumber != 1 && fromDate == null && toDate == null){
-    if (allDateFilter == false){
+    if (allDateFilter == false) {
       /**
        * End of modification by Yuvraj Sahu on 19-08-2023
        */
-      setFromDate(null)
-      setToDate(null)
+      setFromDate(null);
+      setToDate(null);
     }
     /**
      * End of modification by 
@@ -303,7 +324,7 @@ const Order = () => {
 
     //Added by ROhan KAnsari - 22/6/23
     // Reason - to set currentpage to global
-    localStorage.setItem("globalPageIndex", pageNumber)
+    localStorage.setItem("globalPageIndex", pageNumber);
     // End of code - Rohan Kansari - 22/6/23
 
     setCurrentPage(pageNumber);
@@ -313,8 +334,8 @@ const Order = () => {
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
    */
   const openMenuDetails = (id) => {
-    alert(id)
-  }
+    alert(id);
+  };
   /**
    * Added by - Om Shrivastava on 15-06-23
    * Reason - Method that will set sorting criteria
@@ -346,9 +367,9 @@ const Order = () => {
 
   function ExtractDateTime(format) {
     var d = new Date(format);
-    var date = format.substring(0, 10).split('-').reverse().join('/')
-    var time = format.substring(11, 19)
-    return { date, time }
+    var date = format.substring(0, 10).split("-").reverse().join("/");
+    var time = format.substring(11, 19);
+    return { date, time };
   }
   /**
    * Added by - Om Shrivastava on 15-06-23
@@ -836,79 +857,51 @@ const Order = () => {
               </div>
               {/* End of addition by Yuvraj Sahu on 04-08-2023 */}
 
-        <div className={style.orderListSection} >
-          <div className={style.tableContainer}>
-            <div className={style.table}>
-              
-              <div className={style.tableHeadingContainer}
-                // Added by Rohan Kansari - 22/6/23
+      <div
+        className={style.orderListSection}
+      >
+        <div className={style.tableContainer}>
+          <div className={style.table}>
+            <div
+              className={style.tableHeadingContainer}
+             // Added by Rohan Kansari - 22/6/23
                 // Reason- To hide page size dropdown on outer click
                 onClick={hideDropdown}
                 onTouchStart={hideDropdown}
               // End of code - ROhan KAnsari - 22/6/23
+            >
+              {/* Modified by Rohan kansari - 25/8/23 
+                                Reason - To change column width according to columns needs*/}
+              <div
+                // className={`${style.commonColumnTitle} ${style.smallColumnWidth} ${style.sNoColumn}`}
+                className={style.sNoColumn}
               >
-
-                <div
-                  className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
-                >
-                  S.No{" "}
-                </div>
-                {/* Mofication by Om Shrivastava on 21-06-23 
-                because need to change the sequence of table number and order id */}
-                <div
-                  className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
-
-                  onClick={(e) => {
+                S.No{" "}
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+              >
+                Action
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortOrderId("order_id");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "order_id") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "order_id") {
                     setShowSortingIcon(false);
-                    sortOrderId("table_number");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "table_number") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "table_number") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                >
-                  Table No{" "}
-                  {columnToSort == "table_number" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "table_number" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "table_number" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
-                  )}
-                </div>
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortOrderId("order_id");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "order_id") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "order_id") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                >
-                  Order ID{" "}
-                  {columnToSort == "order_id" &&
+                  }
+                }}
+              >
+                Order ID{" "}
+                {columnToSort == "order_id" &&
                     columnSortingOrder == "ascending" && (
                       <BsSortNumericDown className={style.sortingIcon} />
                     )}
@@ -922,27 +915,63 @@ const Order = () => {
                       className={style.sortingIcon}
                     />
                   )}
-                </div>
-                {/* End of modifciation by Om Shrivastava on 21-06-23 */}
+              </div>
+              {/* End of modifciation by Om Shrivastava on 21-06-23 */}
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
 
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                  onClick={(e) => {
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortOrderId("table_number");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "table_number") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "table_number") {
                     setShowSortingIcon(false);
-                    sortOrderId("order_status");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "order_status") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "order_status") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
+                  }
+                }}
+              >
+                Table No{" "}
+                {columnToSort == "table_number" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "table_number" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "table_number" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+              </div>
+              
 
-                > Order Status 
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortOrderId("order_status");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "order_status") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "order_status") {
+                    setShowSortingIcon(false);
+                  }
+                }}
+              >
+                {" "}
+                Order Status
                 {columnToSort == "order_status" &&
                     columnSortingOrder == "ascending" && (
                       <BsSortAlphaDown className={style.sortingIcon} />
@@ -958,11 +987,11 @@ const Order = () => {
                     />
                   )}
                 
-                </div>
+              </div>
 
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                  // Added by Om Shrivatava on 16-06-23
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                 // Added by Om Shrivatava on 16-06-23
                   // Reason : Apply sorting through the payment status
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -979,9 +1008,9 @@ const Order = () => {
                     }
                   }}
                   // End of addition by Om Shrivastava on 16-06-23
-                >
-                  Payment status
-                  {/* // Added by Om Shrivatava on 16-06-23
+              >
+                Payment Status
+              {/* // Added by Om Shrivatava on 16-06-23
                   // Reason : Apply sorting through the payment status */}
                   {columnToSort == "payment_status" &&
                     columnSortingOrder == "ascending" && (
@@ -998,70 +1027,53 @@ const Order = () => {
                     />
                   )}
                   {/* // End of addition by Om Shrivastava on 16-06-23 */}
-
-                </div><div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
-                >
-                  Final amount
-                </div><div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                  // Added by Om Shrivatava on 16-06-23
-                  // Reason : Apply sorting through the payment mode
-                  onClick={(e) => {
+              </div>
+              
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                Discount
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                Loyality
+              </div>
+              
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                CGST
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                SGST
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                Final Amount
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortOrderId("date");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "date") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "date") {
                     setShowSortingIcon(false);
-                    sortOrderId("payment_mode");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "payment_mode") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "payment_mode") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                  // End of addition by Om Shrivastava on 16-06-23
-                >
-                  Payment mode
-                  {/* // Added by Om Shrivatava on 16-06-23
-                  // Reason : Apply sorting through the payment status */}
-                  {columnToSort == "payment_mode" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortAlphaDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "payment_mode" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortAlphaDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "payment_mode" && showSortingIcon && (
-                    <BsSortAlphaDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
-                  )}
-                  {/* // End of addition by Om Shrivastava on 16-06-23 */}
-                </div>
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortOrderId("date");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "date") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "date") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                >
-                  Date
-                  {columnToSort == "date" &&
+                  }
+                }}
+              >
+                Date
+                {columnToSort == "date" &&
                     columnSortingOrder == "ascending" && (
                       <BsSortNumericDown className={style.sortingIcon} />
                     )}
@@ -1075,158 +1087,199 @@ const Order = () => {
                       className={style.sortingIcon}
                     />
                   )}
-                </div>
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
-                >
-                  Time
-                </div>
-                {/* Added by Om Shrivastava on 01-07-23
-                Reason : Need to show the print kot and bill */}
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
-                >
-
-                  Get Bill
-                </div>
-                
-                <div
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
-                >
-                  Get KOT
-                </div>
               </div>
-              {/* End of addition by Om shrivastava on 01-07-23 */}
-              <div
-                className={style.tableDataContainer}
-                style={{
-                  backgroundColor: "#efefef",
-                }}
-                // Added by Rohan Kansari - 22/6/23
-                // Reason- To hide page size dropdown on outer click
-                onClick={hideDropdown}
-                onTouchStart={hideDropdown}
-              // End of code - ROhan KAnsari - 22/6/23
+               <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
               >
-                {orders && orders.length > 0 ? (
-                  orders.map((orderDetail, index) => {
-                    return (
+                Time
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                Get Bill
+              </div>
+              <div
+                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+              >
+                Get KOT
+              </div>
+            </div>
+            {/* End of addition by Om shrivastava on 01-07-23 */}
+            <div
+              className={style.tableDataContainer}
+              style={{
+                backgroundColor: "#efefef",
+              }}
+              // Added by Rohan Kansari - 22/6/23
+              // Reason- To hide page size dropdown on outer click
+              // onClick={hideDropdown}
+              // onTouchStart={hideDropdown}
+              // End of code - ROhan KAnsari - 22/6/23
+            >
+              {orders && orders.length > 0 ? (
+                orders.map((orderDetail, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={style.tableData}
+                      style={{
+                        padding: "2px",
+                        marginTop: "2px",
+                        marginBottom: orders.length == index + 1 ? "2px" : "0px",
+                        // Added by :- Parineeta Gedam on 06-08-2023 reason :- Add color in rows.
+                        background:
+                          backgroundColor++ % 2 == 0 ? "white" : "#1677ff14",
+                        // End of Added by :- Parineeta Gedam on 06-08-2023 reason :- Add color in rows.
+                      }}
+                    >
                       <div
-                        key={index}
-                        className={style.tableData}
-                        style={{
-                          padding: "2px",
-                          marginTop: "2px",
-                          marginBottom:
-                            orders.length == index + 1 ? "2px" : "0px",
-                        }}
+                        // className={`${style.commonColumnData} ${style.smallColumnWidth}`}
+                        className={style.sNoColumn}
                       >
-                        <div
-                          className={`${style.commonColumnData} ${style.smallColumnWidth}`}
-                        >
-                          {/* Added by Rohan kansari - 23/6/23 
+                        {/* Added by Rohan kansari - 23/6/23 
                               Reason - Serial no. impact from list perpage so i set serial no. according to list per page */}
                           {(currentPage*listPerPage-listPerPage)+index+1}
                           {/* End of code- Rohan Kansari - 23/6/23 */}
-                              
-                        </div>
-                        {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}
-                        <div className={`${style.commonColumnData} ${style.smallColumnWidth}`}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
+                        // onClick={(e) => {
+                        //   showModal(orderDetail);
+                        // }}
+                      >
+                       <AiFillEye style={{ fontSize: 15, color: "rgb(24, 94, 224)" }} 
+                       onClick={() => {
+                        navigate(`/update-order/${orderDetail.id}`, {
+                          state: { id: orderDetail.id },
+                         });
+                      }}
+                       />
+
+                      </div>
+
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // Modification and added by Om Shrivastava on 27-06-23
+                        // Reason : Need to remove onclick by div than added in span tag
+
+                        // onClick={() => {
+                        //   navigate(`/update-order/${orderDetail.id}`, {
+                        //     state: { id: orderDetail.id },
+                        //    });
+                        // }}
+                      >
+                        <span
+                        // onClick={() => {
+                        //     navigate(`/update-order/${orderDetail.id}`, {
+                        //         state: { id: orderDetail.id },
+                        //     });
+                        // }}
+                        >
+                          {" "}
+                          {orderDetail.order_id}
+                        </span>
+                      </div>
+                      {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
+
+                      {/* End of Modification by Om Shrivastava on 21-06-23 */}
+                      {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         // Added by Om Shrivastava on 21-06-23
                         // Reason : Need to navigate when user click the table no
-                        style={{color:'#185ee0',}}
-                          onClick={() => {
-                            navigate(`/update-order/${orderDetail.id}`, {
-                              state: { id: orderDetail.id },
-                             });
-                          }}
-                          // End of addition by Om Shrivastava on 21-06-23
-                        >
-                        <span style={{cursor:'pointer'}} onClick={() => {
-                            navigate(`/update-order/${orderDetail.id}`, {
-                              state: { id: orderDetail.id },
-                             });
-                          }}> {orderDetail.table_number}  </span> 
-                          {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
-
-                        </div>
-                        <div
-                          className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                           // Modification and added by Om Shrivastava on 27-06-23
-                           // Reason : Need to remove onclick by div than added in span tag
-                          style={{color:'#185ee0'}}
-                          // onClick={() => {
-                          //   navigate(`/update-order/${orderDetail.id}`, {
-                          //     state: { id: orderDetail.id },
-                          //    });
-                          // }}
-                        >
-                        <span style={{cursor:'pointer'}} onClick={() => {
-                            navigate(`/update-order/${orderDetail.id}`, {
-                              state: { id: orderDetail.id },
-                             });
-                          }}> {orderDetail.order_id}</span> 
-                        </div>
-                          {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
-
-                        {/* End of Modification by Om Shrivastava on 21-06-23 */}
-
-                        <div
-                          className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                          style={{ display: "flex", justifyContent: "center" }}
-                        >
-                          {orderDetail.order_status}
-
-                          {/* <div
-                        className={` ${style.primaryButton}`}
-                        onClick={() => openOrderDetails(orderDetail.id)}
+                        // onClick={() => {
+                        //     navigate(`/update-order/${orderDetail.id}`, {
+                        //         state: { id: orderDetail.id },
+                        //     });
+                        // }}
+                        // End of addition by Om Shrivastava on 21-06-23
                       >
-                        View
-                      </div> */}
-                        </div>
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                          {orderDetail.payment_status}
-                        </div><div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                          {orderDetail.final_amount}
-                        </div><div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                                // onClick={() => openMenuDetails(orderDetail.id)}
-
+                        <span
+                        // onClick={() => {
+                        //     navigate(`/update-order/${orderDetail.id}`, {
+                        //         state: { id: orderDetail.id },
+                        //     });
+                        // }}
                         >
-                          {orderDetail.payment_mode != null || orderDetail.payment_mode != undefined ?
-                            <>
-                              {orderDetail.payment_mode}
-                            </> : '-'}
-                        </div>
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                          {ExtractDateTime(orderDetail.date).date}
-                        </div>
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                          {ExtractDateTime(orderDetail.date).time}
-                        </div>
-                          {/* Added by Om Shrivastava on 01-07-23
-                        Reason : Need to show the print kot and bill */}
-                        {/* Modification and addition by Om Shrivastava on 29-07-23
-                        Reason : Sent the bill details in print bill file */}
-                        {/* <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                        {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
+                          {" "}
+                          {orderDetail.table_number}{" "}
+                        </span>
+                        {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
+                      </div>
+                      
 
-                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })}}
-                        
-                        > Get Bill</div> :'---'} */}
-
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        {orderDetail.order_status}
+                        {/* <div
+                                                    className={` ${style.primaryButton}`}
+                                                    onClick={() => openOrderDetails(orderDetail.id)}
+                                                >
+                                                    View
+                                                </div> */}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.payment_status}
+                      </div>
+                      
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {(orderDetail.discount_rupees).toFixed(2)}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.loyality_point_price}
+                      </div>
+                      
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.cgst}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.sgst}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.final_amount}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {ExtractDateTime(orderDetail.date).date}
+                      </div>
+                      <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                      {ExtractDateTime(orderDetail.date).time}
+                      </div>
+                      {/* <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.sub_total}
+                      </div> */}
+                      <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
 
                         onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); PrintBill(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
                         // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
                         > Get Bill</div> :'---'}
                         </div>
-                        {/* End of modification and addition by Om Shrivastava on 29-07-23
-                        Reason : Sent the bill details in print bill file  */}
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                      {/* <div
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      >
+                        {orderDetail.total}
+                      </div> */}
+                      <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}} 
                         // Modified by Rohan kansari- 4/8/23 
                         // Reason - To remove cancelled item from kot 
@@ -1238,59 +1291,106 @@ const Order = () => {
                         > Print KOT</div> :'---'}
                         {/* End of code - Rohan kansari - 4/8/23 - To remove cancelled item from kot  */}
                         </div>
-                       {/* End of addition by Om shrivastava on 01-07-23 */}
-
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div style={{ textAlign: "center" }}>No records found!</div>
-                )}
-              </div>
-
+                    </div>
+                  );
+                })
+              ) : (
+                <div style={{ textAlign: "center" }}>No records found!</div>
+              )}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className={style.paginationContainer}>
-          {orders && orders.length > 0 ? (
+      <div className={style.paginationContainer}>
+        {orders && orders.length > 0 ? (
+          // Modified by Rohan kansari - 22/6/23
+          // Reason - To divide container into two part for page selector
+          <div className={style.paginationContent}>
+            <Pagination
+              // Modified by Rohan Kansari- 22/6/23
+              defaultCurrent={currentPage}
+              current={currentPage}
+              simple
+              total={backendOrderCount}
+              defaultPageSize={listPerPage}
+              // To set page per item
+              pageSize={listPerPage}
+              onChange={handlePageChange}
+            />
 
-            // Modified by Rohan kansari - 22/6/23 
-            // Reason - To divide container into two part for page selector
-            < div className={style.paginationContent}>
-              <Pagination
-                // Modified by Rohan Kansari- 22/6/23
-                defaultCurrent={currentPage}
-                current={currentPage}
-                simple
-                total={backendOrderCount}
-                defaultPageSize={listPerPage}
-                // To set page per item 
-                pageSize={listPerPage}
-                onChange={handlePageChange}
-              />
-
-              <div className={style.dropdown} onClick={toggelDropdown}>
-                <button className={style.dropbtn}>{listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
-                <div className={style.dropdown_content} id="dropdown">
-                  {/* Modified by ROhan kansari - 26/6/23 
+            <div className={style.dropdown} onClick={toggelDropdown}>
+              <button className={style.dropbtn}>
+                {listPerPage} / Page{" "}
+                <MdArrowDropUp style={{ margin: "5px 0" }} />
+              </button>
+              <div className={style.dropdown_content} id="dropdown">
+                {/* Modified by ROhan kansari - 26/6/23 
                       Reason - To change condition for showing list */}
-                  {backendOrderCount > 40 ? <span href="#" onClick={e => { setListPerPage(50); setCurrentPage(1); localStorage.setItem("listPerPage", 50) }} >50 / Page</span> : null}
-                  {backendOrderCount > 30 ? <span href="#" onClick={e => { setListPerPage(40); setCurrentPage(1); localStorage.setItem("listPerPage", 40) }} >40 / Page</span> : null}
-                  {backendOrderCount > 20 ? <span href="#" onClick={e => { setListPerPage(30); setCurrentPage(1); localStorage.setItem("listPerPage", 30) }} >30 / Page</span> : null}
-                  <span href="#" onClick={e => { setListPerPage(20); setCurrentPage(1); localStorage.setItem("listPerPage", 20) }}>20 / Page</span>
-                  <span href="#" onClick={e => { setListPerPage(10); localStorage.setItem("listPerPage", 10) }}>10 / Page</span>
-                  {/* End of code - Rohan kansari - 26/6/23 */}
-                </div>
+                {backendOrderCount > 40 ? (
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(50);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 50);
+                    }}
+                  >
+                    50 / Page
+                  </span>
+                ) : null}
+                {backendOrderCount > 30 ? (
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(40);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 40);
+                    }}
+                  >
+                    40 / Page
+                  </span>
+                ) : null}
+                {backendOrderCount > 20 ? (
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(30);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 30);
+                    }}
+                  >
+                    30 / Page
+                  </span>
+                ) : null}
+                <span
+                  href="#"
+                  onClick={(e) => {
+                    setListPerPage(20);
+                    setCurrentPage(1);
+                    localStorage.setItem("listPerPage", 20);
+                  }}
+                >
+                  20 / Page
+                </span>
+                <span
+                  href="#"
+                  onClick={(e) => {
+                    setListPerPage(10);
+                    localStorage.setItem("listPerPage", 10);
+                  }}
+                >
+                  10 / Page
+                </span>
+                {/* End of code - Rohan kansari - 26/6/23 */}
               </div>
             </div>
-            // End of code - Modification - 22/6/23 - Rohan Kansari
-            // Reason - To separate div and add Selection box for page item size 
-          ) : null}
-
-        </div>
-
+          </div>
+        ) : // End of code - Modification - 22/6/23 - Rohan Kansari
+        // Reason - To separate div and add Selection box for page item size
+        null}
       </div>
+    </div>
 
     // </Header>
   );

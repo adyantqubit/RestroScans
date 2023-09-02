@@ -8,7 +8,7 @@
   font-family: "MyFont";
   src: url("../../assets/font/Carlito-Bold.ttf") format("opentype");
 }
-
+ 
 .container {
   width: 100%;
   /* width: 100vw; */
@@ -38,8 +38,17 @@
   margin-left: auto;
   margin-right: auto;
 }
+/* CSS changes by Om Shrivastava on 28-08-23 
+Reason : Need to decrease the size of table list */
 
 .itemListSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
   min-height: auto;
   margin: auto 10px;
   margin-top: 10px;
@@ -55,6 +64,7 @@
   width: fit-content;
   padding: 4px;
   background-color: #efefef;
+  /* Added */
   margin: auto;
 }
 
@@ -78,8 +88,9 @@
   border-bottom: 1px solid #f2f2f2;
   padding: 3px;
 }
+
 .tableData {
-  background-color: white;
+  /* background-color: white; */
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -89,11 +100,12 @@
 
 .commonColumnTitle {
   width: var(--common-column-width);
+  /* width: 8%; */
   min-width: var(--common-column-min-width);
   padding: 5px 0px;
   height: 100%;
   display: var(--common-column-display);
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -103,20 +115,42 @@
 .commonColumnData {
   width: var(--common-column-width);
   min-width: var(--common-column-min-width);
-  padding: 3px 0px;
+  padding: 5px 0px;
   height: 100%;
   display: var(--common-column-display);
   font-weight: 600;
-  /* Modified by Om shrivastava on 24-06-2023
-  Reason - to change font size */
-  /* font-size: 14px; */
-  font-size: 15px;
-  /* End of addition by Om shrivastava on 24-06-2023 */
+  font-size: 12px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.data {
+    max-width: 130px;
+    word-break: break-all; 
+}
+
+.eyeIcon {
+  cursor: pointer;
+}
+
+.smallColumnWidth {
+  /* width: var(--common-column-small-width) ; */
+  min-width: var(--common-column-small-min-width);
+}
+
+.mediumColoumnWidth {
+  width: var(--common-column-medium-width);
+  min-width: var(--common-column-medium-min-width);
+}
+.sNoColumn{
+  min-width: 40px;
+  text-align: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+/* End of  */
 
 /* Added by Yuvraj Sahu on 09-07-2023
 Reason - to set width of search container */
@@ -307,6 +341,20 @@ Reason - to design date filter */
 
 
 @media screen and (max-width: 4000px) {
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+
+    --common-column-medium-width: 20%;
+    --common-column-medium-min-width: 80px;
+
+    --common-column-large-width: 12%;
+    --common-column-large-min-width: 120px;
+  }
   .container {
     /* commented and modified by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
@@ -347,6 +395,11 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
 }
 
 @media screen and (max-width: 1150px) {
@@ -369,6 +422,11 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
 }
 
 @media screen and (max-width: 1060px) {
@@ -389,6 +447,11 @@ Reason - to design date filter */
     /* End of addition by Om shrivastava on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
     --common-column-display: unset;
   }
 }
@@ -431,6 +494,11 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
 }
 
 @media screen and (max-width: 850px) {
@@ -451,6 +519,11 @@ Reason - to design date filter */
     /* End of addition by Om shrivastava on 23-06-2023 */
     /* End of code modification by - Ashish Dewangan on 14-06-2023
        Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
     --common-column-display: unset;
   }
 }
@@ -474,6 +547,14 @@ Reason - to design date filter */
     padding-bottom: 100px;
   }
   /* End of addition by Om shrivastava on 18-06-2023 */
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 30px;
+    --common-column-small-color: "red";
+  }
 }
 
 /* added by suman sahu on 17/06/2023 
@@ -488,6 +569,10 @@ Reason - to design date filter */
       flex-direction: row;
     justify-content: space-around;
     gap: 10px;
+  }
+  .itemListSection {
+    /* Modified by Rohan kansari - 21/8/23*/
+    height: auto;
   }
 }
 /* end of code by - suman sahu on 17/06/2023 */
@@ -512,6 +597,13 @@ Reason - to design date filter */
 
   .tableDataContainer {
     justify-content: space-around;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+    --common-column-display: unset;
   }
 }
 
@@ -541,6 +633,13 @@ Reason - to design date filter */
   }
   .SearchBar{
     width: 65%;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
   }
 }
 @media screen and (max-width: 500px) {
@@ -579,6 +678,13 @@ Reason - to design date filter */
     width: 80%;
   }
   /* End of addition by Yuvraj Sahu on 09-07-2023 */
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
 }
 @media screen and (max-width: 430px) {
   .container {
@@ -602,5 +708,10 @@ Reason - to design date filter */
   }
   .commonColumnTitle {
     flex-direction: column;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
   }
 }

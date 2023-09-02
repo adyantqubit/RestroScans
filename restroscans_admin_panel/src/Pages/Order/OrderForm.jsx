@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import style from "./orderform.module.css";
 import Header from "../GlobalComponent/Header";
 import { Message } from "../../App";
-import { Input, Button, Modal, notification, Drawer, Form, message, Rate, Popconfirm, } from 'antd';
+import { Input, Button, Modal, notification, Drawer, Form, message, Rate, Popconfirm,Select } from 'antd';
 import { enableHeader } from "../../App";
 
 
@@ -15,9 +15,11 @@ import {
 import { useState } from "react";
 import AddOrderItemForm from "./AddOrderItemForm";
 import { BsPencilSquare } from "react-icons/bs";
+import Loader from "../../../src/Pages/GlobalComponent/Loader";
 
 const OrderForm = () => {
   const navigate = useNavigate();
+  const { Option } = Select;
 
   /**
    * Added by Om Shrivastava on 16-06-23
@@ -32,10 +34,27 @@ const OrderForm = () => {
 
   const [tablenumber, setTablenumber] = useState(null);
   const [orderId, setOrderId] = useState(null);
-  const [orderStatus, setOrderStatus] = useState(null);
-  const [paymentStatus, setPaymemntStatus] = useState(null);
+  // Modification and addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
+  // const [orderStatus, setOrderStatus] = useState(null);
+  const [orderStatus, setOrderStatus] = useState("Placed");
+  // End of Modification and addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
+
+  // Modification and addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
+  // const [paymentStatus, setPaymemntStatus] = useState(null);
+  const [paymentStatus, setPaymemntStatus] = useState("Pending");
+  // End of Modification and addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
   const [paymentMode, setPaymentMode] = useState(null);
-  const [cancelledBy, setCancelledBy] = useState(null);
+
+  // Modification and addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
+  // const [cancelledBy, setCancelledBy] = useState(null);
+  const [cancelledBy, setCancelledBy] = useState("Admin");
+  // End of Modification and addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
   const [cancelReaon, setCancelReason] = useState(null);
 
   const [discountRupee, setDiscountRupee] = useState(0);
@@ -68,6 +87,10 @@ const OrderForm = () => {
   var [IsTableEditable, setTableEditable] = useState(false)
   // End of code - Rohan kansari - 4/8/23 
 
+  // Added by Om on 02-09-23
+  // Reason : Add Loader whenever the data enter from backend site
+  const [isLoader, setIsLoader] = useState(true)
+  // End of addition by Om Shrivastava on 02-09-23
 
   // Added by Om Shrivatava on on 18-06-23
   // Reason : Set the validation in all fields
@@ -174,8 +197,11 @@ const OrderForm = () => {
         var filterOrderObj = response.orderData.filter(
           (dt) => dt.id == id
         )[0];
+        // Added by Om on 02-09-23
+        // Reason : Add Loader whenever the data enter from backend site
+        setIsLoader(false)
+        // End of addition by Om Shrivastava on 02-09-23
         setorderDetailsObj(filterOrderObj);
-
         setOrderId(filterOrderObj.order_id);
         setTablenumber(filterOrderObj.table_number);
 
@@ -495,7 +521,22 @@ const OrderForm = () => {
     //   }
     // }
   };
-
+  // Added by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
+  const handleChangeCancellStatus = (value) => {
+    setCancelledBy(value);
+   
+  };
+  const handleChangeOrderStatus = (value) => {
+    setOrderStatus(value);
+   
+  };
+  const handleChangePaymentStatus = (value) => {
+    setPaymemntStatus(value);
+   
+  };
+  // End of addition by Om Shrivastava on 02-09-23
+  // Reason : Set the data in onchange
   const saveOrder = async () => {
 
     var allowDataPost = false;
@@ -655,6 +696,12 @@ const OrderForm = () => {
         {/* <div className={style.backButton}><BiArrowBack style={{width:"30px",height:"30px"}}/></div> */}
         <div className={style.pageTitle} style={{ fontSize: "25px" }}>Order</div>
       </div>
+      {/* // Addition by Om Shrivastava on 02-09-23
+    // Reason : Apply the loader in order form page */}
+      {isLoader == true ? <Loader/> :  
+    <div >
+      {/* End of addition by Om Shrivastava on 02-09-23
+    // Reason : Apply the loader in order form page */}
       <form className={style.settingSection}>
         {/* Added by Om Shrivastava on 30-06-23 Reason : Need to show the add more item in top right corner */}
         {/* <div style={{display:'flex',justifyContent:'end',margin:'-5px',}}>
@@ -786,26 +833,38 @@ const OrderForm = () => {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Order Status</div>
-                <select
+                <Select
                   className={`${style.textInputBox}`}
                   name="order_status"
                   style={{ width: "200px" }}
 
-                  // value={orderStatus}
+                  value={orderStatus}
                   // defaultValue={orderStatus ? orderStatus : null}
-
-                  onChange={(e) => {
-                    setOrderStatus(e.target.value);
-                    //   validateOnInput("app_theme", e.target.value);
-                  }}
+                  // Modification and additon by Om Shrivastava on 02-09-23
+                  // Reason : Set the data in onchange of order cancell by status
+                  // onChange={(e) => {
+                  //   setOrderStatus(e.target.value);
+                  //   //   validateOnInput("app_theme", e.target.value);
+                  // }}
+                  onChange={handleChangeOrderStatus}
+                  // End of Modification and additon by Om Shrivastava on 02-09-23
+                  // Reason : Set the data in onchange of order cancell by status
                 >
-                  <option value="Placed" selected={orderStatus == "Placed" ? true : false}>Placed</option>
+                   {/* Modification and addition by Om Shrivastava on 31-08-23
+                  Reason : change the option html tag to antd option tag */}
+                  {/* <option value="Placed" selected={orderStatus == "Placed" ? true : false}>Placed</option>
                   <option value="Confirm" selected={orderStatus == "Confirm" ? true : false}>Confirm</option>
                   <option value="Cooked" selected={orderStatus == "Cooked" ? true : false}>Cooked</option>
                   <option value="Served" selected={orderStatus == "Served" ? true : false} >Served</option>
-                  <option value="Cancelled" selected={orderStatus == "Cancelled" ? true : false} >Cancelled</option>
-
-                </select>
+                  <option value="Cancelled" selected={orderStatus == "Cancelled" ? true : false} >Cancelled</option> */}
+                  <Option value="Placed">Placed</Option> 
+                  <Option value="Confirm">Confirm</Option> 
+                  <Option value="Cooked">Cooked</Option> 
+                  <Option value="Served">Served</Option> 
+                  <Option value="Cancelled">Cancelled</Option>
+                  {/* End of modification and addition by Om Shrivastava on 31-08-23
+                  Reason : change the option html tag to antd option tag  */}
+                </Select>
               </div>
               <div className={`${style.inputErrorArea}`}>
                 {validationErrors.order_status}
@@ -854,27 +913,36 @@ const OrderForm = () => {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Payment Status</div>
-                <select
+                <Select
                   className={`${style.textInputBox}`}
                   name="payment_status"
                   style={{ width: "200px" }}
+                  // Modification and addition by Om Shrivastava on 02-09-23
+                  // Reason : Set the payment status in usestate 
+                  value={paymentStatus}
                   // defaultValue={paymentStatus ? paymentStatus : null}
-                  onChange={(e) => {
-                    setPaymemntStatus(e.target.value);
-                    // validateOnInput("app_theme", e.target.value);
-                  }}
+                  // onChange={(e) => {
+                  //   setPaymemntStatus(e.target.value);
+                  //   // validateOnInput("app_theme", e.target.value);
+                  // }}
+                  onChange={handleChangePaymentStatus} 
+                  // End of Modification and addition by Om Shrivastava on 02-09-23
+                  // Reason : Set the payment status in usestate  
                 >
                   {/* Added by Om Shrivastava on 04-08-23
                   Reason : Set the payment status paid  */}
-                  {orderDetailsObj.payment_status == "Paid" ?
+                  {/* {orderDetailsObj.payment_status == "Paid" ?
                     <option value="Paid" disabled selected={paymentStatus == "Paid" ? true : false}>Paid</option>
-                    :null}
+                    :null} */}
                   {/* End of addition by Om Shrivastava on 04-08-23
                   Reason : Set the payment status paid */}
-                  <option value="Pending" selected={paymentStatus == "Pending" ? true : false}>Pending</option>
-                  <option value="Completed" selected={paymentStatus == "Completed" ? true : false}>Completed</option>
-
-                </select>
+                  {/* <option value="Pending" selected={paymentStatus == "Pending" ? true : false}>Pending</option>
+                  <option value="Completed" selected={paymentStatus == "Completed" ? true : false}>Completed</option> */}
+                  <Option value="Pending">Pending</Option> 
+                  <Option value="Completed">Completed</Option>
+                  {/* // End of Modification and addition by Om Shrivastava on 02-09-23
+                  // Reason : Set the payment status in usestate and change the option html tag to antd option tag */}
+                </Select>
               </div>
               <div className={`${style.inputErrorArea}`}>
                 {validationErrors.payment_status}
@@ -915,20 +983,31 @@ const OrderForm = () => {
                 <div className={`${style.inputLabel}`}>Order cancelled by </div>
                 {/* Addition and Modification by Om Shrivastava on 23-06-23
                   Reason : Show the cancel field, only read only */}
-                <select
+                <Select
                   className={`${style.textInputBox}`}
                   name="cancelled_by"
                   style={{ width: "200px" }}
-                  onChange={(e) => {
-                    setCancelledBy(e.target.value);
-                    // validateOnInput("app_theme", e.target.value);
-                  }}
+                  value={cancelledBy}
+                  // Modification and additon by Om Shrivastava on 02-09-23
+                  // Reason : Set the data in onchange of order cancell by status
+                  // onChange={(e) => {
+                  //   setCancelledBy(e.target.value);
+                  //   // validateOnInput("app_theme", e.target.value);
+                  // }}
+                  onChange={handleChangeCancellStatus}
+                  // End of Modification and additon by Om Shrivastava on 02-09-23
+                  // Reason : Set the data in onchange of order cancell by status
                 >
                   {/* <option value=""  selected={cancelledBy && cancelledBy ||cancelledBy == ""||cancelledBy == null||cancelledBy == undefined ? true : false}>---</option> */}
-                  <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
-                  <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
-
-                </select>
+                  {/* Modification and addition by Om Shrivastava on 31-08-23
+                  Reason : change the option html tag to antd option tag */}
+                  {/* <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
+                  <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option> */}
+                  <Option value="Admin">Admin</Option> 
+                  <Option value="Customer">Customer</Option>
+                  {/* End of modification and addition by Om Shrivastava on 31-08-23
+                  Reason : change the option html tag to antd option tag  */}
+                </Select>
                 {/* <input
                     className={`${style.textInputBox} ${style.disabledInputBox}`}
                     type="text"
@@ -2012,6 +2091,12 @@ const OrderForm = () => {
           </div> */}
         </div>
       </form>
+      {/* // Addition by Om Shrivastava on 02-09-23
+    // Reason : Apply the loader in order form page */}
+    </div>
+    }
+{/* // End of addition by Om Shrivastava on 02-09-23
+    // Reason : Apply the loader in order form page */}
 
       {/* Added by Om Shrivastava on 14-06-23
  Reason: When user add more item than show the modal  */}

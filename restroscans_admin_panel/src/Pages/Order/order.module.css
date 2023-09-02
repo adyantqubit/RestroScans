@@ -36,6 +36,8 @@
   margin-left: auto;
   margin-right: auto;
 }
+/* CSS changes by Om Shrivastava on 28-08-23 
+Reason : Need to decrease the size of table list */
 
 .orderListSection {
   min-height: auto;
@@ -60,7 +62,7 @@
   width: fit-content;
   padding: 4px;
   background-color: #efefef;
-/* Added */
+  /* Added */
   margin: auto;
 }
 
@@ -84,8 +86,9 @@
   border-bottom: 1px solid #f2f2f2;
   padding: 3px;
 }
+
 .tableData {
-  background-color: white;
+  /* background-color: white; */
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -100,7 +103,7 @@
   padding: 5px 0px;
   height: 100%;
   display: var(--common-column-display);
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -114,21 +117,38 @@
   height: 100%;
   display: var(--common-column-display);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.smallColumnWidth{
-    width: var(--common-column-small-width) ;
-    min-width: var(--common-column-small-min-width);
-}
-.mediumColoumnWidth{
-    width: var(--common-column-medium-width) ;
-    min-width: var(--common-column-medium-min-width);
+
+.data {
+    max-width: 130px;
+    word-break: break-all; 
 }
 
+.eyeIcon {
+  cursor: pointer;
+}
+
+.smallColumnWidth {
+  /* width: var(--common-column-small-width) ; */
+  min-width: var(--common-column-small-min-width);
+}
+
+.mediumColoumnWidth {
+  width: var(--common-column-medium-width);
+  min-width: var(--common-column-medium-min-width);
+}
+.sNoColumn{
+  min-width: 40px;
+  text-align: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+/* End of  */
 /* Added by Yuvraj Sahu on 07-08-2023
 Reason - to design date filter */
 .dateFilterContainer{
@@ -314,6 +334,20 @@ Reason - to design date filter */
 /* End of code - 22/6/23 - ROhan kansari */
 
 @media screen and (max-width: 4000px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+
+    --common-column-medium-width: 20%;
+    --common-column-medium-min-width: 80px;
+
+    --common-column-large-width: 12%;
+    --common-column-large-min-width: 120px;
+  }
   .container {
     /* commented and modified by - Om Shrivastava on 15-06-23
        Reason - To make width responsive */
@@ -346,6 +380,11 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
 }
 
 @media screen and (max-width: 1150px) {
@@ -360,6 +399,11 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
 }
 
 @media screen and (max-width: 1060px) {
@@ -372,6 +416,11 @@ Reason - to design date filter */
     --common-column-min-width: 15vw;
     /* End of code modification by - Om Shrivastava on 15-06-23
        Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
     --common-column-display: unset;
   }
 }
@@ -406,6 +455,11 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
 }
 
 @media screen and (max-width: 850px) {
@@ -418,6 +472,11 @@ Reason - to design date filter */
     --common-column-min-width: 15vw;
     /* End of code modification by - Om Shrivastava on 15-06-23
        Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
     --common-column-display: unset;
   }
 }
@@ -434,6 +493,14 @@ Reason - to design date filter */
        Reason - To make width responsive */
     --common-column-display: unset;
   }
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 30px;
+    --common-column-small-color: "red";
+  }
 }
 
 /* added by suman sahu on 17/06/2023 
@@ -447,6 +514,10 @@ Reason - to design date filter */
     flex-direction: column;
     justify-content: space-around;
     gap: 10px;
+  }
+  .orderListSection {
+    /* Modified by Rohan kansari - 21/8/23*/
+    height: auto;
   }
 }
 /* end of code by - suman sahu on 17/06/2023 */
@@ -471,6 +542,13 @@ Reason - to design date filter */
 
   .tableDataContainer {
     justify-content: space-around;
+  }
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+    --common-column-display: unset;
   }
 }
 
@@ -498,6 +576,13 @@ Reason - to design date filter */
     padding-left: 3px;
     padding-right: 3px;
   }
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
 }
 @media screen and (max-width: 500px) {
   .container {
@@ -519,6 +604,14 @@ Reason - to design date filter */
   .tableDataContainer {
     justify-content: space-around;
   }
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+
 }
 @media screen and (max-width: 430px) {
   .container {
@@ -542,5 +635,10 @@ Reason - to design date filter */
   }
   .commonColumnTitle {
     flex-direction: column;
+  }
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
   }
 }

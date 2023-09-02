@@ -22,7 +22,7 @@ import config from "../../Api/config";
 import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
 import DatePicker from 'react-date-picker';
-import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
+import { AiFillCalendar, AiFillEye, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
 
 
 
@@ -292,6 +292,7 @@ const OrderItem = () => {
    * Added by - Om Shrivastava on 30-06-23
    * Reason - Method that will set sorting criteria
    */
+  var backgroundColor = 1;
 
   const sortOrderId = (columnName) => {
     if (columnToSort == columnName) {
@@ -522,7 +523,7 @@ const OrderItem = () => {
           </div>
         {/* End of addition by Yuvraj Sahu on 07-08-2023 */}
 
-        <div className={style.itemListSection}>
+        <div className={style.itemListSection}> 
           <div className={style.tableContainer}>
             <div className={style.table}>
               
@@ -536,9 +537,14 @@ const OrderItem = () => {
 
                 // End of code - Om Shrivastava on 30-06-23
               >
-                <div className={style.commonColumnTitle}>S.No</div>
+                <div className={style.sNoColumn}>S.No</div>
                 <div
-                  className={style.commonColumnTitle}
+                className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+              >
+                Action
+              </div>
+                <div
+                  className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortOrderId("order_id");
@@ -575,7 +581,8 @@ const OrderItem = () => {
                   // Added and commeted by Yuvraj Sahu on 09-07-2023
                   // Reason - to set the width of item name collumn
                   // className={style.commonColumnTitle}
-                  className={`${style.commonColumnTitle} ${style.itemNameCollumn}`}
+                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+
                   // End of addition by Yuvraj Sahu on 09-07-2023
                   // Added by Om Shrivastava on 30-06-23
                   // Reason - to sort data item name
@@ -618,7 +625,8 @@ const OrderItem = () => {
                 <div
                   // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by Full price
-                  className={style.commonColumnTitle}
+                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortOrderId("item_status");
@@ -654,7 +662,9 @@ const OrderItem = () => {
                   )}
                   {/* End of addition by Om shrivastava on 30-06-23 */}
                 </div>
-                <div className={style.commonColumnTitle}
+                <div 
+                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+
                 // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by Half price
                   onClick={(e) => {
@@ -693,7 +703,8 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                  className={style.commonColumnTitle}
+                                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+
                   // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by Half price
                   onClick={(e) => {
@@ -733,7 +744,8 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                  className={style.commonColumnTitle}
+                                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+
                   // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by active status
                   onClick={(e) => {
@@ -767,7 +779,8 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                  className={style.commonColumnTitle}
+                                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortOrderId("date");
@@ -800,7 +813,8 @@ const OrderItem = () => {
                   )}
                 </div>
 
-                <div className={style.commonColumnTitle}> Time </div>
+                <div                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+> Time </div>
               </div>
 
               <div
@@ -825,49 +839,89 @@ const OrderItem = () => {
                           marginTop: "2px",
                           marginBottom:
                             orderItems.length == index + 1 ? "2px" : "0px",
+                          background:
+                          backgroundColor++ % 2 == 0 ? "white" : "#1677ff14",
                         }}
                       >
-                        <div className={style.commonColumnData}>
+                        <div 
+                        // className={style.commonColumnData}
+                        className={style.sNoColumn}
+                        >
                           
                         {(currentPage*listPerPage-listPerPage)+index+1}
                         </div>
+
+                        <div
+                        className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
+                        // onClick={(e) => {
+                        //   showModal(orderDetail);
+                        // }}
+                      >
+                       <AiFillEye style={{ fontSize: 15, color: "rgb(24, 94, 224)" }} 
+                      onClick={() => {
+                        navigate(`/update-order-item/${orderDetail.id}`, {
+                          state: { id: orderDetail.id },
+                         });
+                        }}
+                       />
+
+                      </div>
+
                         {/* Modified by Om Shrivastava on 30-06-23
                         Reason - to arrange the word */}
                         <div
-                          className={style.commonColumnData}
+                          // className={style.commonColumnData}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                          
                           style={{ wordBreak: "break-word"}}
                           
                         >
                           {/* End of modification by Om Shrivastava on 30-06-23 */}
-                        <span style={{cursor:'pointer',color:'blue'}} onClick={() => {
+                        {/* <span style={{cursor:'pointer',color:'blue'}} onClick={() => {
                             navigate(`/update-order-item/${orderDetail.id}`, {
                               state: { id: orderDetail.id },
                              });
-                            }}> {orderDetail.order_id}</span> 
+                            }}>  */}
+                            {orderDetail.order_id}
+                            {/* </span>  */}
                         </div>
                         {/* Added and commeted by Yuvraj Sahu on 09-07-2023
                         Reason - to set the witdh of item name collumn */}
                         {/* <div className={style.commonColumnData}> */}
-                        <div className={`${style.commonColumnData} ${style.itemNameCollumn}`}>
+                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {/* End of addition by yuvraj Sahu on 09-07-2023 */}
-                        <span style={{cursor:'pointer',color:'blue'}} onClick={() => {
+                        {/* <span style={{cursor:'pointer',color:'blue'}} onClick={() => {
                             navigate(`/update-order-item/${orderDetail.id}`, {
                               state: { id: orderDetail.id },
                              });
-                            }}>  {orderDetail.item}</span>
+                            }}>   */}
+                            {orderDetail.item}
+                            {/* </span> */}
                         </div>
 
-                        <div className={style.commonColumnData}>
+                        <div 
+                        // className={style.commonColumnData}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        
+                        >
                         {orderDetail.item_status}
 
                         </div>
 
                         
-                        <div className={style.commonColumnData}>
+                        <div 
+                        // className={style.commonColumnData}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        
+                        >
                         {orderDetail.serving_size}
 
                         </div>
-                        <div className={style.commonColumnData}>
+                        <div 
+                        // className={style.commonColumnData}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        
+                        >
                         {orderDetail.quantity}
 
                         </div>
@@ -875,14 +929,22 @@ const OrderItem = () => {
                         
 
                         {/* {itemDetails.is_active == true ? ( */}
-                          <div className={style.commonColumnData}>
+                          <div 
+                          // className={style.commonColumnData}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+
+                          >
                           {orderDetail.price.toFixed(2)}
 
                           </div>
                      
 
                         {/* {itemDetails.best_seller == true ? ( */}
-                          <div className={style.commonColumnData}>
+                          <div 
+                          // className={style.commonColumnData}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                          
+                          >
                           {ExtractDateTime(orderDetail.date).date}
 
 
@@ -890,11 +952,15 @@ const OrderItem = () => {
                      
 
                         <div
-                          className={`${style.commonColumnData}`}
+                          // className={`${style.commonColumnData}`}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+
                           style={{ display: "flex", justifyContent: "center" }}
                         >
                           <div
-                            className={`${style.commonColumnData}`}
+                            // className={`${style.commonColumnData}`}
+                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+
                           >
                                 {ExtractDateTime(orderDetail.date).time}
 
