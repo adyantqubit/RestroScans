@@ -356,6 +356,7 @@ const Order = () => {
    * End of code addition by - Om Shrivastava on 15-06-23
    * Reason - Method that will set sorting criteria
    */
+  var backgroundColor = 1;
 
   /**
    * Added by - Om Shrivastava on 15-06-23
