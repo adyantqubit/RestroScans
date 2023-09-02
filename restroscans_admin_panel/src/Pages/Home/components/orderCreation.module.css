@@ -486,7 +486,7 @@ margin: auto 0;
 
     .inputBox{
         flex-direction: row;
-        gap: 20px;
+        /* gap: 10px; */
     }
 
     .inputLabel{
