@@ -363,9 +363,9 @@ const TodayOrder = (props) => {
             return false;
         }
 
-        else if(m?.order_status == "Cancelled"){
+        else if (m?.order_status == "Cancelled") {
             if (msgEnable)
-            Message("You Can't change status if order is cancelled","error")
+                Message("You Can't change status if order is cancelled", "error")
 
             return false;
         }
@@ -1428,7 +1428,7 @@ const TodayOrder = (props) => {
                 UpdatingOpenedOrder(response.orderData)
                 // Modified by Rohan kansari - 17/8/23 - To arrange order item 
                 // setSelectedOrderItemList(response.orderItems)
-                setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
+                setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
                 document.getElementById("discount_rupees").style.border = "1px solid black"
                 document.getElementById("discount_percentage").style.border = "1px solid black"
                 setErrorText({})
@@ -1476,7 +1476,7 @@ const TodayOrder = (props) => {
             UpdatingOpenedOrder(response.orderData)
             // Modified by Rohan kansari - 17/8/23 - To arrange order item 
             // setSelectedOrderItemList(response.orderItems)
-            setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
+            setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
 
         } else {
             Message("Something went wrong", "error");
@@ -1520,7 +1520,7 @@ const TodayOrder = (props) => {
             UpdatingOpenedOrder(response.orderData)
             // Modified by Rohan kansari - 17/8/23 - To arrange order item 
             // setSelectedOrderItemList(response.orderItems)
-            setSelectedOrderItemList(response.orderItems.sort((a,b)=>b.id-a.id))
+            setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
             setErrorText({})
             document.getElementById("discount_rupees").style.border = "1px solid black"
             document.getElementById("discount_percentage").style.border = "1px solid black"
@@ -1563,7 +1563,7 @@ const TodayOrder = (props) => {
         setFinalAmount(data.final_amount);
         setRating(data.rating);
         setReview(data.review);
-        
+
         // Modified by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
         // setName(data.customer_name);
         // setEmail(data.customer_email);
@@ -1870,12 +1870,13 @@ const TodayOrder = (props) => {
 
     // Added by Rohan kansari - 28/8/23 - To capitalize first letetr of each word
     function capitalizeFLetter(string) {
-        var stringArr=string.split(" ").map(e=>{
-        if(e.length>1)
-            return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()
-        else
-         return e.toUpperCase()})
-        
+        var stringArr = string.split(" ").map(e => {
+            if (e.length > 1)
+                return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()
+            else
+                return e.toUpperCase()
+        })
+
         return stringArr.join(" ");
     }
     // End of modification - Rohan kansari - 28/8/23 - To capitalize first letetr of each word
@@ -2420,7 +2421,7 @@ const TodayOrder = (props) => {
                                                 }
                                             }
                                         }}>Cancel Order</button>
-                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled" || selectedOrderData.order_detail?.order_status =="Placed" ? style.disbaleBtn : null} ${style.KotBtn}`} onClick={e => {
+                                    <button className={`${selectedOrderData.order_detail?.order_status == "Cancelled" || selectedOrderData.order_detail?.order_status == "Placed" ? style.disbaleBtn : null} ${style.KotBtn}`} onClick={e => {
                                         PrintKot(selectedOrderData.order_detail, selectedOrderData.order_item.filter(e => e.item_status == "Confirm"), restroDetail, gstFssai, settings)
                                     }}>Print Kot</button>
                                     <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
@@ -2441,15 +2442,15 @@ const TodayOrder = (props) => {
 
                                                 <input className={style.EditableInput} onKeyUp={e => {
                                                     if (e.key == "Enter" || e.keyCode == 13) {
-                                                    // Modified by Rohan kansari - 19/8/23
-                                                    // Reason - to send error message for blank table number
-                                                    if(tablenumber.length>0){    
-                                                        updateCustomerDetail("Table Number"); setInputEnable(null);
-                                                    }else{
-                                                        Message("Please enter table number","warning")
-                                                    }
-                                                    // End of Modification by Rohan kansari - 19/8/23
-                                                    // Reason - to send error message for blank table number
+                                                        // Modified by Rohan kansari - 19/8/23
+                                                        // Reason - to send error message for blank table number
+                                                        if (tablenumber.length > 0) {
+                                                            updateCustomerDetail("Table Number"); setInputEnable(null);
+                                                        } else {
+                                                            Message("Please enter table number", "warning")
+                                                        }
+                                                        // End of Modification by Rohan kansari - 19/8/23
+                                                        // Reason - to send error message for blank table number
                                                     }
                                                 }
 
@@ -2469,10 +2470,10 @@ const TodayOrder = (props) => {
                                                 <TiTick className={style.inputChecked} onClick={e => {
                                                     // Modified by Rohan kansari - 19/8/23
                                                     // Reason - to send error message for blank table number
-                                                    if(tablenumber.length>0){
-                                                    updateCustomerDetail("Table Number"); setInputEnable(null);
-                                                    }else{
-                                                        Message("Please enter table number","warning")
+                                                    if (tablenumber.length > 0) {
+                                                        updateCustomerDetail("Table Number"); setInputEnable(null);
+                                                    } else {
+                                                        Message("Please enter table number", "warning")
                                                     }
                                                     // End of Modification by Rohan kansari - 19/8/23
                                                     // Reason - to send error message for blank table number
@@ -2529,7 +2530,7 @@ const TodayOrder = (props) => {
 
                                                 } onChange={e => {
                                                     // Added by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
-                                                    selectedOrderData.order_detail.customer_email = e.target.value.toLowerCase()
+                                                    selectedOrderData.order_detail.customer_email = e.target.value
                                                     setSelectedorderData({ ...selectedOrderData })
                                                     setEmail(e.target.value.toLowerCase())
                                                     // End of addition by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
@@ -2596,7 +2597,7 @@ const TodayOrder = (props) => {
                                         <div className={style.WhiteLabel}>
                                             Name :
                                         </div>
-                                          {/* Modified by Rohan kansari - 16/8/23
+                                        {/* Modified by Rohan kansari - 16/8/23
                                                     Reason - To make name editable*/}
                                         <div className={style.data}>
                                             {/* Modified by ROhan kansari - 16/8/23 - set ordered customer name  */}
@@ -2616,7 +2617,7 @@ const TodayOrder = (props) => {
 
                                                 } onChange={e => {
                                                     // Added by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
-                                                    selectedOrderData.order_detail.customer_name =capitalizeFLetter(e.target.value)
+                                                    selectedOrderData.order_detail.customer_name = capitalizeFLetter(e.target.value)
                                                     setSelectedorderData({ ...selectedOrderData })
                                                     setName(capitalizeFLetter(e.target.value))
                                                     // End of addition by Rohan kansari - 29/8/23 - To change capitaliztion accoridng to requirement
@@ -2710,7 +2711,6 @@ const TodayOrder = (props) => {
                                             }><a href="#">Placed</a></button></p>
                                         <p><button className={`${statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${orderStatus == "Confirm" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
-
                                                 if (statusValidation("Confirm", paymentStatus, selectedOrderData.order_detail, true)) {
                                                     PrintKot(selectedOrderData.order_detail
                                                         , selectedOrderData.order_item.filter(e => e.item_status != "Cancelled" && e.kot_print_status == false)
@@ -2783,16 +2783,18 @@ const TodayOrder = (props) => {
                                         {/* <div className={style.priceHeading} style={{ marginLeft: "30px" }}>
                                             SNo.
                                         </div> */}
-                                        <div className={style.item_heading}>
-                                            Item Name
-                                        </div>
-
-                                        <div className={style.QtyNPriceHeadings}>
-                                            <div className={style.quantityHeading}>
-                                                Quantity
+                                        <div className={style.ItemInformation}>
+                                            <div className={style.item_heading}>
+                                                Item Name
                                             </div>
-                                            <div className={style.priceHeading}>
-                                                Price
+
+                                            <div className={style.QtyNPriceHeadings}>
+                                                <div className={style.quantityHeading}>
+                                                    Quantity
+                                                </div>
+                                                <div className={style.priceHeading}>
+                                                    Price
+                                                </div>
                                             </div>
                                         </div>
 
@@ -2832,7 +2834,7 @@ const TodayOrder = (props) => {
                                                         <div className={style.checkboxNTitleFlex} >
 
                                                             <div class="checkbox-wrapper-24">
-                                                                <input type="checkbox" id={`status0${index}`} name="check" checked={tickedItems.filter(i=>i.id==item.id).length>0} onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
+                                                                <input type="checkbox" id={`status0${index}`} name="check" checked={tickedItems.filter(i => i.id == item.id).length > 0} onChange={e => AddTickedOrderitem(e.target.checked, item, index)} />
                                                                 <label for={`status0${index}`}>
                                                                     <span></span>
                                                                 </label>
@@ -2983,9 +2985,9 @@ const TodayOrder = (props) => {
                                             <div className={style.inputBoxContainer} >
                                                 <div className={style.discountRow} style={{ justifyContent: "space-between" }}>
                                                     {settings.allow_loyality_points ? <div className={style.rewardbox}>
-                                                        Earn Point &nbsp; 
+                                                        Earn Point &nbsp;
                                                         <div className={style.coinBox}>
-                                                            <div className={style.cointPoints}>{999+customerLoyalitypoint}</div>
+                                                            <div className={style.cointPoints}>{999 + customerLoyalitypoint}</div>
                                                             <div class="spinningasset coin is-sm">
                                                                 <div>
                                                                     <div></div>

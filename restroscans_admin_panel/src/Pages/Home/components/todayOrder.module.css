@@ -1302,7 +1302,7 @@ Reason - to design radio button container */
     min-width: 140px;
     height:100%;
     margin-left:20px;
-    margin-right: 8px;
+    margin-right: 62px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: #e7e7e7;
@@ -1313,6 +1313,7 @@ Reason - to design radio button container */
 }
 
 .QtyNPriceHeadings {
+    width: 35%;
     min-width: 150px;
     height: 100%;
     margin: 0 0px;
@@ -2034,6 +2035,10 @@ Reason - to design button */
     .quantityNPriceFlex{
         max-width: unset;
         min-width: 140px;
+    }
+
+    .item_heading{
+        margin-right: 40px;
     }
 
 
