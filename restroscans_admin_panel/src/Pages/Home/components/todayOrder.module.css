@@ -1944,12 +1944,12 @@ Reason - to design button */
 
 @media (max-width: 1200px){
     .ItemInformation{
-      width: 51%;
+      width: 56%;
     }
     
     .checkboxContainer{
         width: 49%;
-        max-width: 280px;
+        max-width: 250px;
     }
 }
 
@@ -1965,6 +1965,7 @@ Reason - to design button */
 
     .rewardbox {
         font-size: 12px;
+        min-width: 155px;
     }
 
     .ItemInformation{
@@ -2013,12 +2014,12 @@ Reason - to design button */
     }
 
     .itemrow {
-        gap: 15px
+        gap: 15px;
     }
 
 
     .statusRow {
-        gap: 18px
+        gap: 18px;
     }
 
 

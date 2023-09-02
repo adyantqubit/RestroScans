@@ -114,6 +114,14 @@ const Sidebar = ({sidebar, setSidebar}) => {
     if (windowSize.innerWidth < 800)
        setSidebar(false)
     // ENd of code - ROhan Kansari - 26/6/23
+    
+    // Added by Rohan Kansari - 2/9/23
+    // Reason - To save page data in page opening
+    localStorage.setItem("globalPageIndex", 1);
+    localStorage.setItem("listPerPage", 10);
+    // End of code addition by Rohan Kansari - 2/9/23
+    // Reason - To save page data in page opening
+    
     navigate('/Revenue');
   };
   const navigateToBannerItems = () => {

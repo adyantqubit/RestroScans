@@ -2932,7 +2932,7 @@ const TodayOrder = (props) => {
 
                             <div className={style.UpdateItemContainer}>
                                 <button className={`${style.UpdateItemBTN} ${getOrderStatus() ? null : style.disbaleBtn}`} onClick={e => setAddMoreItemModalVisible(true)} disable={!getOrderStatus()}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
-                                <div className={style.WhiteLabel} >Subtotal : {selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
+                                <div className={style.WhiteLabel} >Subtotal : ₹{selectedOrderData?.order_detail?.sub_total.toFixed(2)}</div>
                             </div>
 
                             <div className={style.TotalContainer} >
@@ -2983,9 +2983,9 @@ const TodayOrder = (props) => {
                                             <div className={style.inputBoxContainer} >
                                                 <div className={style.discountRow} style={{ justifyContent: "space-between" }}>
                                                     {settings.allow_loyality_points ? <div className={style.rewardbox}>
-                                                        Earn Point &nbsp;
+                                                        Earn Point &nbsp; 
                                                         <div className={style.coinBox}>
-                                                            <div className={style.cointPoints}>{customerLoyalitypoint}</div>
+                                                            <div className={style.cointPoints}>{999+customerLoyalitypoint}</div>
                                                             <div class="spinningasset coin is-sm">
                                                                 <div>
                                                                     <div></div>
@@ -3066,27 +3066,27 @@ const TodayOrder = (props) => {
                                     <div className={style.pricingContent}>
                                         {settings.allow_loyality_points ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>Loyalty Price :- </label>
-                                            <label className={style.InputLabel}>{loyalityPointPrice.toFixed(2)}</label>
+                                            <label className={style.InputLabel}>₹{loyalityPointPrice.toFixed(2)}</label>
                                         </div> : null}
                                         <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>Discount Price :- </label>
-                                            <label className={style.InputLabel}>{discountprice.toFixed(2)}</label>
+                                            <label className={style.InputLabel}>₹{discountprice.toFixed(2)}</label>
                                         </div>
                                         <div className={style.priceInformation} >
                                             <label className={style.InputLabel}></label>
-                                            <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- {total.toFixed(2)}</label>
+                                            <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- ₹{total.toFixed(2)}</label>
                                         </div>
                                         {settings.cgst > 0 ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>CGST ({settings.cgst}%):- </label>
-                                            <label className={style.InputLabel}> {cgst.toFixed(2)}</label>
+                                            <label className={style.InputLabel}> ₹{cgst.toFixed(2)}</label>
                                         </div> : null}
                                         {settings.sgst > 0 ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}>SGST ({settings.sgst}%) :- </label>
-                                            <label className={style.InputLabel}>{sgst.toFixed(2)}</label>
+                                            <label className={style.InputLabel}>₹{sgst.toFixed(2)}</label>
                                         </div> : null}
                                         {settings.sgst > 0 || settings.cgst > 0 ? <div className={style.priceInformation}>
                                             <label className={style.InputLabel}></label>
-                                            <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
+                                            <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- ₹{finalAmount.toFixed(2)}</label>
                                         </div> : null}
                                     </div>
                                 </div>

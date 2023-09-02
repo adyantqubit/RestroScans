@@ -193,36 +193,41 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                     <div className={style.inputBoxContains}>
                         {/* Modified by Rohan kansari - 27/8/23
                             Reason - To change input fields according to requirements */}
-                        <div className={style.inputBox}> 
+                        <div className={style.inputBox}>
                             <label className={style.inputLabel}>Table Number <span className={style.mandatory}>*</span></label>
-                            <input className={style.tableInputfield} value={table_number} onChange={e => {
-                                if (e.target.value.length) {
-                                    delete errorText.table_number
-                                } else {
-                                    errorText.table_number = "Table Number should not be blank."
-                                }
+                            {/*Added by Rohna kansari - 2/9/23 - To align input field */}
+                            <div>
+                                <input className={style.tableInputfield} value={table_number} onChange={e => {
+                                    if (e.target.value.length) {
+                                        delete errorText.table_number
+                                    } else {
+                                        errorText.table_number = "Table Number should not be blank."
+                                    }
 
-                                setErrorText({ ...errorText })
-                                setTableNumber(e.target.value);
-                            }} />
-                            <div className={style.tableErrorText}>{errorText?.table_number}</div>
+                                    setErrorText({ ...errorText })
+                                    setTableNumber(e.target.value);
+                                }} />
+                                <div className={style.tableErrorText}>{errorText?.table_number}</div>
+                            </div>
                         </div>
                         <div className={style.inputBox}>
                             <label className={style.inputLabel}>Contact Number <span className={style.mandatory}>*</span></label>
-                            <input className={style.contactInputfield} value={contact} onChange={e => {
-                                if (e.target.value.length && /^\d+$/.test(e.target.value)) {
-                                    delete errorText.contact_number
-                                }
-                                else {
-                                    errorText.contact_number = "contact number should not be blank."
-                                }
+                            <div>
+                                <input className={style.contactInputfield} value={contact} onChange={e => {
+                                    if (e.target.value.length && /^\d+$/.test(e.target.value)) {
+                                        delete errorText.contact_number
+                                    }
+                                    else {
+                                        errorText.contact_number = "contact number should not be blank."
+                                    }
 
-                                setErrorText({ ...errorText });
-                                if (/^\d+$/.test(e.target.value) || e.target.value.length == 0)
-                                    setContact(e.target.value);
+                                    setErrorText({ ...errorText });
+                                    if (/^\d+$/.test(e.target.value) || e.target.value.length == 0)
+                                        setContact(e.target.value);
 
-                            }} />
-                            <div className={style.contactErrorText}>{errorText?.contact_number}</div>
+                                }} />
+                                <div className={style.contactErrorText}>{errorText?.contact_number}</div>
+                            </div>
                         </div>
                         <div className={style.inputBox}>
                             <label className={style.inputLabel}>Name </label>
@@ -231,19 +236,21 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                         </div>
                         <div className={style.inputBox}>
                             <label className={style.inputLabel}>Email </label>
-                            <input className={style.emailInputfield} value={email} onChange={e => {
-                                var emailRegex =
-                                    new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+                            <div>
+                                <input className={style.emailInputfield} value={email} onChange={e => {
+                                    var emailRegex =
+                                        new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
 
-                                if (e.target.value.length && emailRegex.test(e.target.value))
-                                    delete errorText.email
-                                else
-                                    errorText.email = "Enter valid email example@gmail.com"
+                                    if (e.target.value.length && emailRegex.test(e.target.value))
+                                        delete errorText.email
+                                    else
+                                        errorText.email = "Enter valid email example@gmail.com"
 
-                                setErrorText({ ...errorText })
-                                setEmail(e.target.value)
-                            }} />
-                            <div className={style.emailErrorText}>{errorText?.email}</div>
+                                    setErrorText({ ...errorText })
+                                    setEmail(e.target.value)
+                                }} />
+                                <div className={style.emailErrorText}>{errorText?.email}</div>
+                            </div>
                             {/* MEnd of code by Rohan kansari - 27/8/23
                             Reason - To change input fields according to requirements */}
                         </div>
@@ -277,9 +284,9 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                         <div className={style.listRow}>
 
                             {orderItemList.length > 0 ? orderItemList.map((e, i) =>
-                                <div className={style.row} style={{background:i%2==0?"#f1f1f1c2":"#fff"}}>
+                                <div className={style.row} style={{ background: i % 2 == 0 ? "#f1f1f1c2" : "#fff" }}>
                                     <div className={style.sNoColumn}>{i + 1}</div>
-                                    <div className={style.itemNameColumn}>{e.name} ( {e.serve_size} )</div>
+                                    <div className={style.itemNameColumn}>{e.name} ({e.serve_size})</div>
                                     <div className={style.quantityColumn}>
                                         <span className={style.plus} onClick={e => increaseDecrease("-", i)}><BiMinus /></span>
                                         <span className={style.quantityAdded}>{e.quantity}</span>
@@ -309,14 +316,14 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                                 <div className={style.priceData}>SubTotal :-</div>
                                 <div className={style.priceData}>{subtotal}</div>
                             </div>
-                            { settings.cgst>0?<div className={style.priceRow}>
+                            {settings.cgst > 0 ? <div className={style.priceRow}>
                                 <div className={style.priceData}>CGST ({settings.cgst}%) :-</div>
                                 <div className={style.priceData}>{cgst}</div>
-                            </div>:null}
-                            { settings.sgst>0?<div className={style.priceRow}>
+                            </div> : null}
+                            {settings.sgst > 0 ? <div className={style.priceRow}>
                                 <div className={style.priceData}>SGST ({settings.sgst}%) :-</div>
                                 <div className={style.priceData}>{sgst}</div>
-                            </div>:null}
+                            </div> : null}
                             <div className={style.priceRow}>
                                 <div className={style.priceData}>Total :-</div>
                                 <div className={style.priceData}>{total}</div>
