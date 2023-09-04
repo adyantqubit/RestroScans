@@ -2244,7 +2244,7 @@ class UpdateItemStatus(APIView):
                 
 
     # ENd of code - Rohan kansari - 25/6/23
-    #    return Response(serializer.data)                     
+    #    return Response(serializer.data)                      
 
 
 # End of code - Rohan Kansari - 22/5/23
@@ -3301,9 +3301,32 @@ class OrderAPI(APIView):
     # Reason - To get count of order
     def get(self,request,tenant):
          orderCount=Order.objects.all().count() 
+         # Added by Om Shrivastava on 04-09-23
+         # Reason : Set the data in order table
+         todays_order_item=OrderItem.objects.all().order_by("-id")
+         todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
+         
+         settingserailize = SettingSaveSerializer(Setting.objects.last())
+         from admin_app.models import Tenant, RestaurantRequest
+         tenant = Tenant.objects.get(tenant_name=tenant)
+         tenant_detail = {
+            "name": tenant.restaurant_name.restaurant_name,
+            "address": tenant.restaurant_name.address
+         }
+         # End of Added by Om Shrivastava on 04-09-23
+         # Reason : Set the data in order table
+
          return Response({
             "msg":"success",
             "orderCount":orderCount,
+            # Added by Om Shrivastava on 04-09-23
+            # Reason : Set the data in order table
+            "order_item":todays_order_item_serializer.data,
+            "setting": settingserailize.data, 
+            "tenant": tenant_detail,
+            # End of Added by Om Shrivastava on 04-09-23
+            # Reason : Set the data in order table
+
         })
     # End of code addition by - Om Shrivastava on 15-06-23
     # Reason - To get count of order
@@ -4165,6 +4188,8 @@ class BannerOfferAPIView(APIView):
     logger=logging.getLogger("custom_logger")
     def get(self,request,tenant,offerId):
         self.logger.info(request.data)
+        offerBannerCount=Offer.objects.all().count() 
+
         if offerId:
             offer=Offer.objects.get(id=offerId)
         else:
@@ -4176,9 +4201,12 @@ class BannerOfferAPIView(APIView):
         else:
             offerData={}  
        
-        return Response({"msg":"success","offer":offerData})
+        return Response({"msg":"success","offer":offerData,
+                              "offerBannerCount":offerBannerCount,
+                         })
    
     def post(self,request,tenant):
+        
         if "id" in request.data :
             obj = Offer.objects.get(id=request.data["id"])
             offerBannerSave = OfferBannerSerializer(obj, data=request.data,partial=True)
@@ -4186,11 +4214,14 @@ class BannerOfferAPIView(APIView):
             offerBannerSave = OfferBannerSerializer(data=request.data)
         if offerBannerSave.is_valid():
             offerBannerSave.save()
-        
+
+            # offerBannerCount=Offer.objects.all().count() 
             # allOfferBanner = Offer.objects.all().order_by('-id')
             # offerSerializer=OfferBannerSerializer(allOfferBanner, many=True)
         
-            return Response({"msg": "Saved Successfully","data":offerBannerSave.data }, status=status.HTTP_201_CREATED)
+            return Response({"msg": "Saved Successfully","data":offerBannerSave.data
+                            #   "offerBannerCount":offerBannerCount,
+                              }, status=status.HTTP_201_CREATED)
         return Response({"error": offerBannerSave.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     # Added by Om on 06-08-2023

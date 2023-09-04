@@ -158,7 +158,7 @@
                             <div>:</div>  
                         </div>
                         <div class="text">
-                        ${customerDetail.last_customer_name.length ? customerDetail.last_customer_name:"---"}
+                        ${customerDetail.last_customer_name?.length ? customerDetail.last_customer_name:"---"}
                         </div>
                     </div>
                     <div class="column1" >
@@ -169,7 +169,7 @@
                           <div>:</div> 
                         </div>
                       <div class="text">
-                      ${customerDetail.contact_number}
+                      ${customerDetail?.contact_number}
                       </div>
                     </div>
                 </div>

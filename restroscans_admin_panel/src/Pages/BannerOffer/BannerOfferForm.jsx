@@ -194,7 +194,7 @@ function BannerOfferForm(props) {
         if (flag) {
           setValidationErrors((previousList) => {
             previousList.discount =
-              "Discount can't be less then 1 and greater then 99";
+              "Discount can't be greater than 99";
             return { ...previousList };
           });
           return flag;
@@ -354,7 +354,7 @@ function BannerOfferForm(props) {
     validateOnBlur("name", offerName);
     validateOnBlur("discount", discount);
     // validateOnBlur("icon", offerImage);
-    validateOnBlur("video_link", videoLink);
+    // validateOnBlur("video_link", videoLink);
     // validateOnFileInput("icon",offerImage)
     // validateOnBlur("is_active", poValue);
   };
@@ -367,7 +367,7 @@ function BannerOfferForm(props) {
     if (
       offerName != "" &&
       validateOnBlur("discount", discount) == false &&
-      videoLink != "" &&
+      // videoLink != "" &&
       iconError == ""
     ) {
       allowDataPost = true;
@@ -425,7 +425,37 @@ function BannerOfferForm(props) {
     document.getElementById("offer_form").style.display = "none";
     setShowOfferForm(false);
     setDisabled(false);
+
   };
+  // Addition by Om Shrivastava on 04-09-23
+  // Reason : Reset the clear form of offer
+  const resetOfferForm = (event) => {
+
+    setOfferName(offerDetails.offer_name ? offerDetails.offer_name : "")
+    setDiscount(offerDetails.discount ? offerDetails.discount : "")
+    setIcon(offerDetails.offer_image? offerDetails.offer_image : "");
+    setvideoLink(offerDetails.video_link? offerDetails.video_link : "")
+    setShowVideo(offerDetails.show_video_Hide_Image == false || offerDetails.show_video_Hide_Image == true ? offerDetails.show_video_Hide_Image : false);
+
+    setSelectedOfferImage(null);
+    setOfferImage(null);
+
+    document.getElementById("icon").value = "";
+    setIconError("");
+    // setNameError("");
+    setValidationErrors("")
+    const error = {
+      name: "",
+      discount: "",
+      icon: "",
+      video_link: "",
+      is_active: "",
+    };
+    setValidationErrors({ ...validationErrors, ...error });
+
+  };
+  // End of addition by Om Shrivastava on 04-09-23
+  // Reason : Reset the clear form of offer
 
   return (
     <div className={style.offerFormDiv} id="offer_form">
@@ -469,10 +499,12 @@ function BannerOfferForm(props) {
                       onChange={(e) => {
                         setOfferName(e.target.value.toString());
                         //   validateOnInput("name", e.target.value.toString());
-                      }}
-                      onBlur={(e) =>
                         validateOnBlur("name", e.target.value.toString())
-                      }
+
+                      }}
+                      // onBlur={(e) =>
+                      //   validateOnBlur("name", e.target.value.toString())
+                      // }
                       maxLength={30}
                     />
                   </div>
@@ -497,10 +529,12 @@ function BannerOfferForm(props) {
                       onChange={(e) => {
                         setDiscount(e.target.value);
                         //   validateOnInput("contact_number", e.target.value);
-                      }}
-                      onBlur={(e) =>
                         validateOnBlur("discount", e.target.value.toString())
-                      }
+
+                      }}
+                      // onBlur={(e) =>
+                      //   validateOnBlur("discount", e.target.value.toString())
+                      // }
                       onKeyDown={(evt) => {
                         if (
                           (evt.which != 8 &&
@@ -559,9 +593,11 @@ function BannerOfferForm(props) {
                           setSelectedOfferImage(e.target.files[0].name);
                           setOfferImage(e.target.files[0]);
                           validateOnFileInput("icon", e.target.files[0]);
+
+                          validateOnBlur("icon", e.target.value)
                         }
                       }}
-                      onBlur={(e) => validateOnBlur("icon", e.target.value)}
+                      // onBlur={(e) => validateOnBlur("icon", e.target.value)}
                     />
                   </div>
 
@@ -574,7 +610,7 @@ function BannerOfferForm(props) {
                 <div className={`${style.inputContainer}`}>
                   <div className={`${style.inputArea}`}>
                     <div className={`${style.inputLabel}`}>
-                      <span className={style.mendatoryField}>*</span>
+                      <span className={style.optionalField}>*</span>
                       Video link
                     </div>
                     <textarea
@@ -583,7 +619,7 @@ function BannerOfferForm(props) {
                       name="video_link"
                       value={videoLink}
                       style={{
-                        width: "200px",
+                        width: "280px",
                         height: "100px",
                         resize: "none",
                       }}
@@ -591,14 +627,14 @@ function BannerOfferForm(props) {
                         setvideoLink(e.target.value);
                         //   validateOnInput("contact_number", e.target.value);
                       }}
-                      onBlur={(e) =>
-                        validateOnBlur("video_link", e.target.value.toString())
-                      }
+                      // onBlur={(e) =>
+                      //   validateOnBlur("video_link", e.target.value.toString())
+                      // }
                       maxLength={2000}
                     />
                   </div>
                   <div className={`${style.inputErrorArea}`}>
-                    {validationErrors.video_link}
+                    {/* {validationErrors.video_link} */}
                   </div>
                 </div>
                 {videoLink != "" ? (
@@ -661,21 +697,25 @@ function BannerOfferForm(props) {
               >
                 Save
               </div>
+              {/* // Modification and addition by Om Shrivastava on 04-09-23
+              // Reason : Reset the clear form of offer */}
               <div
                 className={` ${style.cancelButton}`}
                 style={{
                   marginRight: "10px",
                 }}
-                onClick={(e) => {
-                  removeOfferFormDiv();
-                }}
                 // onClick={(e) => {
-                //   resetPaymentForm();
-                //   window.scrollTo(0, 0);
+                //   removeOfferFormDiv();
                 // }}
+                onClick={(e) => {
+                  resetOfferForm();
+                  window.scrollTo(0, 0);
+                }}
               >
-                Back
+                clear
               </div>
+              {/* //End of modification and addition by Om Shrivastava on 04-09-23
+              // Reason : Reset the clear form of offer */}
             </div>
           </form>
         </div>

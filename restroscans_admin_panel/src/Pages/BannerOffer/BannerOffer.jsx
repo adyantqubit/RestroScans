@@ -240,14 +240,24 @@ function toggelDropdown() {
 }
 
 function hideDropdown() {
-    document.getElementById("dropdown").style.display = ""
+  /**
+     * Added and modified by Om Shrivastava on 04-09-2023
+     * Reason - to remove error when we click no record found
+     */
+  // document.getElementById("dropdown").style.display = ""
+  if (bannerOfferList && bannerOfferList.length > 0) {
+    document.getElementById("dropdown").style.display = "";
+  }
+  /**
+   * End of amodification by Om Shrivastava on 04-09-2023
+   */
 }
 // End of code - Om Shrivastava - 26-07-23
 
 const openCategoryDetails = (id) => {
   setShowOfferForm(true)
   setDisabled(true)
-  // navigate("/BannerOffer", { state: { id: id?id:null } });
+  // navigate("/BannerOffer", { state: { id: id?id:null } }); 
   setId(id)
 };
 

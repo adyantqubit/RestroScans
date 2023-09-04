@@ -1026,7 +1026,13 @@ function MenuItem() {
                       !item.show_video_Hide_Image ?
                         <>
                           <img
-                            src={siteConfig.siteURL + item.offer_image}
+                            // Modified and addition by Om shirvastava on 04-09-23
+                            // Reason : When offer image is not there then show the welcome bydefault image
+                            // src={siteConfig.siteURL + item.offer_image}
+                            src={item.offer_image?  siteConfig.siteURL + item.offer_image:welcome_banner}
+                            // End of modification and addition by Om shirvastava on 04-09-23
+                            // Reason : When offer image is not there then show the welcome bydefault image
+
                             className='offer_banner'
                           />
                           <h2

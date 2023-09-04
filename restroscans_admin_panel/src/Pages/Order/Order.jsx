@@ -193,6 +193,14 @@ const Order = () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getOrderCount(tenant);
     setOrderCount(response.orderCount);
+    // Added by Om Shrivastava on 04-09-23
+    // Reason : Set the order item details
+    setGstFsaai(response.setting);
+    setRestroDetail(response.tenant);
+    // console.log(response.order_item)
+    setOrderItems(response.order_item);
+    // End of addition by Om Shrivastava on 04-09-23
+    // Reason : Set the order item details
   };
 
   /**
@@ -278,14 +286,19 @@ const Order = () => {
     // const response = await getOrderItemDataShowApi(tenant);
     // setOrderItems(response.orderItemData);
     // Added by Om shrivastava on 01-07-23 Reason : Set the restaurant details
-    const response = await getDashboardData(
-      JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
-    );
-    if (response) {
-      setGstFsaai(response.setting);
-      setRestroDetail(response.tenant);
-      setOrderItems(response.order_item);
-    }
+    // Commented by Om Shrivastava on 04-09-23
+    // Reason : Currently not use this API 
+    // const response = await getDashboardData(
+    //   JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
+    // );
+    // if (response) {
+    //   setGstFsaai(response.setting);
+    //   setRestroDetail(response.tenant);
+    //   console.log(response.order_item)
+    //   setOrderItems(response.order_item);
+    // }
+    // End of commented by Om Shrivastava on 04-09-23
+    // Reason : Currently not use this API 
     // End of addition by Om Shrivastava on 01-07-23 Reason : Set the restaurant details
   };
   // console.log(restroDetail,"orderitem data=====>>>>>")
@@ -1030,7 +1043,7 @@ const Order = () => {
                   {/* // End of addition by Om Shrivastava on 16-06-23 */}
               </div>
               
-              <div
+              {/* <div
                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
               >
                 Discount
@@ -1039,7 +1052,7 @@ const Order = () => {
                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
               >
                 Loyality
-              </div>
+              </div> */}
               
               <div
                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
@@ -1227,7 +1240,7 @@ const Order = () => {
                         {orderDetail.payment_status}
                       </div>
                       
-                      <div
+                      {/* <div
                         className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                       >
                         {(orderDetail.discount_rupees).toFixed(2)}
@@ -1237,7 +1250,7 @@ const Order = () => {
                       >
                         {orderDetail.loyality_point_price}
                       </div>
-                      
+                       */}
                       <div
                         className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                       >
@@ -1271,7 +1284,9 @@ const Order = () => {
                       <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
                         {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
 
-                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); PrintBill(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
+                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail);
+                          // console.log(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }));
+                           PrintBill(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
                         // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
                         > Get Bill</div> :'---'}
                         </div>
