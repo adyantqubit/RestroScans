@@ -34,6 +34,9 @@ const Header = (props) => {
     // Modification and addition by Om Shrivastava on 02-06-23
     // Reason : Fix the logout issue
     localStorage.removeItem("token");
+    // Added by Rohan kansari - 4/9/23 - To close header menu on logout
+    setMenuOpen(!menuOpen);
+    // End of code by Rohan kansari - 4/9/23 - To close header menu on logout
     navigate("/login");
     localStorage.clear();
     tokenRecheck();
