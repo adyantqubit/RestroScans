@@ -1286,7 +1286,7 @@ const Order = () => {
 
                         onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail);
                           // console.log(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }));
-                           PrintBill(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
+                           PrintBill(openActionPopupModal,orderItems?.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
                         // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
                         > Get Bill</div> :'---'}
                         </div>

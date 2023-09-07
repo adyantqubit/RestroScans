@@ -14,7 +14,7 @@
 .ContainerDiv{
   display: flex;
   justify-content: center;
-  /* border: 2px solid black; */
+/* border: 2px solid black; */
   flex-direction: row;
 }
 .heading {
@@ -269,7 +269,9 @@ border: #1f2937;
   justify-content: space-between;
   border-bottom: 1px solid #cad0d0;
   font-family: "MyFont";
-  padding: 3px;
+  /* padding: 3px; */
+  padding-left: 13.5px;
+
 }
 
 .tableDataContainer {
@@ -313,7 +315,9 @@ Add css for pagination and all offer list data */
   padding: 5px 0px;
   height: 100%;
   display: var(--common-column-display);
-  font-weight: 600;
+  /* font-weight: 600; */
+  font-weight: normal;
+
   font-size: 14px;
   text-align: center;
   display: flex;
@@ -536,7 +540,7 @@ Add css for pagination and all offer list data */
   align-items: center;
   overflow: auto;
   height: auto;
-}
+} 
 .inputErrorArea{
   margin-left: 250px;
 }
@@ -685,6 +689,7 @@ Add css for pagination and all offer list data */
   .tableHeadingContainer {
     justify-content: space-around;
     gap: 10px;
+    padding-left: 10px;
   }
 
   .tableDataContainer {
@@ -788,6 +793,8 @@ Add css for pagination and all offer list data */
 
   .tableHeadingContainer {
     justify-content: space-around;
+    padding-left: 10px;
+
   }
 
   .tableDataContainer {
@@ -828,6 +835,8 @@ Add css for pagination and all offer list data */
 
   .tableHeadingContainer {
     justify-content: space-around;
+    padding-left: 10px;
+
   }
 
   .tableDataContainer {

@@ -49,6 +49,11 @@ function BannerOfferForm(props) {
 
   const [nameError, setNameError] = useState("");
   const [iconError, setIconError] = useState("");
+// Added by Om Shrivastava on 06-09-23
+// Reason : Set the total data count 
+const [offerDataCount, setOfferDataCount] = useState(0);
+// End of addition by Om Shrivastava on 07-09-23
+// Reason : Set the total data count 
 
   const [validationErrors, setValidationErrors] = useState({
     name: "",
@@ -92,9 +97,11 @@ function BannerOfferForm(props) {
 
     // }
     if (props.id != null) {
-      setOfferId(props.id);
+      setOfferId(props.id); 
     }
   }, []);
+
+  // console.log(offerDataCount,'counttt')
 
   useEffect(() => {
     if (offerId) {
@@ -130,6 +137,11 @@ function BannerOfferForm(props) {
       //   setOfferImage(response.offer.offer_image);
       setvideoLink(response.offer.video_link);
       setShowVideo(response.offer.show_video_Hide_Image);
+      // Added by Om Shrivastava on 06-09-23
+      // Reason : Set the total data count 
+      setOfferDataCount(response.offerBannerCount);
+      // End of addition by Om Shrivastava on 06-09-23
+      // Reason : Set the total data count 
     }
   };
   /**
@@ -346,7 +358,7 @@ function BannerOfferForm(props) {
   /**
    * End of addition by Om shrivastava on 24-06-2023
    */
-  console.log(iconError);
+  // console.log(iconError);
   // Added by Om Shrivastava on 06-08-23
   // Reason : sava the data
 
@@ -389,6 +401,12 @@ function BannerOfferForm(props) {
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await postOfferBannerDetails(tenant, updatedOfferData);
       // alert(props.setBannerOffer(updatedOfferData))
+      // Added by Om Shrivastava on 06-09-23
+      // Reason : Get the total data number in form page
+      props.setBackendOfferBannerCount(response.offerBannerCount)
+      // End of addition by Om Shrivastava on 06-09-23
+      // Reason : Get the total data number in form page
+      // setOfferDataCount(response.offerBannerCount);
 
       if (response.msg) {
         Message("Offer saved successfully.", "success");
@@ -397,6 +415,10 @@ function BannerOfferForm(props) {
         document.getElementById("offer_form").style.display = "none";
         setShowOfferForm(false);
         setDisabled(false);
+
+      // setOfferDataCount(response.offerBannerCount);
+
+
         // End of Addition by Om Shrivastava on 26-08-23
         // Reason : Set the div position in save button
         // props.setData(response.allOfferData)
@@ -406,6 +428,13 @@ function BannerOfferForm(props) {
         var index = props.dataList.findIndex((e) => e.id == response.data.id);
         console.log(index, props.dataList, response.data);
         if (index == -1) {
+        // Added by Om Shrivastava on 06-09-23
+        // Reason : Get the total data number in form page
+          if(props.dataList.length>=props.listPerPage){
+            props.dataList.pop()
+          }
+        // End of addition by Om Shrivastava on 06-09-23
+        // Reason : Get the total data number in form page
           props.setData([response.data, ...props.dataList]);
         } else {
           props.dataList[index] = response.data;

@@ -4208,19 +4208,27 @@ class BannerOfferAPIView(APIView):
     def post(self,request,tenant):
         
         if "id" in request.data :
-            obj = Offer.objects.get(id=request.data["id"])
+            obj = Offer.objects.get(id=request.data["id"]) 
             offerBannerSave = OfferBannerSerializer(obj, data=request.data,partial=True)
         else :
             offerBannerSave = OfferBannerSerializer(data=request.data)
         if offerBannerSave.is_valid():
             offerBannerSave.save()
-
-            # offerBannerCount=Offer.objects.all().count() 
+            # Addition by Om Shrivastava on 06-09-23
+            # Reason : Set the all offer data
+            offerBannerCount=Offer.objects.all().count() 
+            # End of addition by Om Shrivastava on 06-09-23
+            # Reason : Set the all offer data
             # allOfferBanner = Offer.objects.all().order_by('-id')
             # offerSerializer=OfferBannerSerializer(allOfferBanner, many=True)
         
-            return Response({"msg": "Saved Successfully","data":offerBannerSave.data
-                            #   "offerBannerCount":offerBannerCount,
+            return Response({"msg": "Saved Successfully","data":offerBannerSave.data,
+                              # Addition by Om Shrivastava on 06-09-23
+                              # Reason : Set the all offer data
+                              "offerBannerCount":offerBannerCount
+                              # End of addition by Om Shrivastava on 06-09-23
+                              # Reason : Set the all offer data
+
                               }, status=status.HTTP_201_CREATED)
         return Response({"error": offerBannerSave.errors}, status=status.HTTP_400_BAD_REQUEST)
 
