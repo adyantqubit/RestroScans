@@ -884,3 +884,19 @@ export const getFooterDescriptionApi = async (tenant) => {
  * End of code addition by - Pratap sahu on 13-08-2023
  * Reason - To save,update & get the footer description.
  */ 
+
+
+// Added by Rohan kansari - 7/9/23 
+// Reason - To get admin setting data
+
+export const getAdminAppSettings = async () => {
+  const response = await API.get(`/admin_app/${domainURL}/app-settings/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+// End of code addition by Rohan kansari - 7/9/23 
+// Reason - To get admin setting data

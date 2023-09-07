@@ -893,7 +893,11 @@ class Order(models.Model):
     # Reason - To save entered name and email
     customer_name=models.CharField(max_length=50,null=True,blank=True)
     customer_email=models.CharField(max_length=50,null=True,blank=True)
-    # ENd of code - Rohan kansari - 16/8/23
+    # End of code - Rohan kansari - 16/8/23
+
+    # Added by Rohan kansari - 4/9/23 - To set order created by 
+    order_created_by=models.CharField(max_length=50,null=True,blank=True)
+    # End of code - Rohan kansari - 4/9/23 - To set order created by 
 
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100

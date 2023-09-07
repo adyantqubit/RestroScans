@@ -15,15 +15,23 @@ import { RiLogoutBoxFill } from "react-icons/ri";
 import { Popconfirm, message } from "antd";
 import Footer from "./Footer";
 import { Message, tokenRecheck } from "../../App";
+import { getAdminAppSettings } from "../../Api/services";
 
 const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   // Added by Rohan Kansari - 25/6/23
   // Reason - To manage sidebar from header
   const [sidebar, setSidebar] = useState(true);
-  
+  // Added by ROhan kansari - 7/9/23 
+  // Reason - To set setting datas of admin
+  const [adminSetting,setAdminSettings]=useState(null)
 
   const navigate = useNavigate();
+
+
+  useEffect(()=>{
+    getAdminSettingData()
+  },[])
 
   // Reason:- When click on "Support" link, open in new tab
   const linkOpen = (url) => {
@@ -35,7 +43,7 @@ const Header = (props) => {
     // Reason : Fix the logout issue
     localStorage.removeItem("token");
     // Added by Rohan kansari - 4/9/23 - To close header menu on logout
-    setMenuOpen(!menuOpen);
+    setMenuOpen(false);
     // End of code by Rohan kansari - 4/9/23 - To close header menu on logout
     navigate("/login");
     localStorage.clear();
@@ -86,6 +94,15 @@ const Header = (props) => {
       setSidebar(true)
     }
   }, [windowSize])
+  
+  
+// Added by ROhan kansari - 7/9/23 
+  // Reason - To set setting datas of admin
+ async function getAdminSettingData(){
+  await getAdminAppSettings().then(r=>{setAdminSettings(r); console.log(r)})
+ }
+
+  
 
   // End of code - Rohan kansari - 25/6/23
   return (
@@ -160,7 +177,9 @@ const Header = (props) => {
               <NavLink
                 className={style.link}
                 onClick={() =>{
-                  linkOpen("https://adyant.co.in/contact-us-india-1");
+                // Added by ROhan kansari - 7/9/23 
+                // Reason - To redirect to adyant support link getting from backend
+                  linkOpen(`${adminSetting?.adyant_support_link}`);
 
                   // Modified by Rohan kansari - 5/7/23
                   // Reason - To change mobile view menu list in below 767px width

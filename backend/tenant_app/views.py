@@ -662,7 +662,10 @@ def orderCreation(tenant, request):
     cartData["customer_name"]=request.data["name"]
     cartData["customer_email"]=request.data["email"]
     # End of code - Rohan kansari - 16/8/23 - 
-
+    
+    # Added by Rohan kansari - 4/9/23
+    # Reason - To save order created by
+    cartData["order_created_by"]=request.data["order_created_by"]
    
 
     orderSerializer = OrderSerializer(data=cartData)
@@ -1333,6 +1336,16 @@ class AppThemeAPI(APIView):
         # settingObj=Setting.objects.get(id=7)
         # themeSerializer=AppThemeSerializer(theme,many=True)
         # return Response({"msg":"success","themeData":themeSerializer.data})
+        
+        # Added by Rohan Kansari - 7/9/23 
+        # Reason - To send tenant contact number for order creation
+        from admin_app.models import Tenant, RestaurantRequest
+        tenantObj = Tenant.objects.get(tenant_name=tenant)
+
+        restaurantObj={
+            "contact_number":tenantObj.restaurant_name.mobile_number
+        }
+
         setting=Setting.objects.last()
         theme=AppTheme.objects.all()
         themeSerializer=AppThemeSerializer(theme,many=True)
@@ -1350,7 +1363,7 @@ class AppThemeAPI(APIView):
         else:
             data["themeOptions"]=[] 
 
-        return Response({"msg":"success","setting":data["setting"],"themeOptions":data["themeOptions"]})
+        return Response({"msg":"success","setting":data["setting"],"themeOptions":data["themeOptions"],"restaurant":restaurantObj})
         # if setting or theme is not None:
         #    settingSerializer=SettingSerializer(setting)
         #    return Response({
@@ -2244,7 +2257,7 @@ class UpdateItemStatus(APIView):
                 
 
     # ENd of code - Rohan kansari - 25/6/23
-    #    return Response(serializer.data)                      
+    #    return Response(serializer.data)                     
 
 
 # End of code - Rohan Kansari - 22/5/23
@@ -2757,14 +2770,14 @@ class OrderFilterAPIView(APIView):
         quickSelect = request.data['quickSelect']
         # print("orderStatus",orderStatus)
         orderList = Order.objects.none().filter()
-        print("---------------------",request.data)
+        # print("---------------------",request.data)
 
         if columnToSort == "":
             orderList = Order.objects.all()  
         # if request.data['dateFrom'] :
         #     orderList = Order.objects.filter(date__range=[request.data['dateFrom'], request.data['dateTo']])
     
-        print("--------------------- after column sort",request.data)
+        # print("--------------------- after column sort",request.data)
 
         if quickSelect['today'] == True :
             todayDate = datetime.today().date()
@@ -2772,7 +2785,7 @@ class OrderFilterAPIView(APIView):
             orderList = Order.objects.filter(date__gte=todayDate)
             print("orderList today", orderList)
 
-        print("--------------------- after today",request.data)
+        # print("--------------------- after today",request.data)
         
         if quickSelect['week'] == True :
             one_week_ago = datetime.today() - timedelta(days=7)
@@ -2786,9 +2799,9 @@ class OrderFilterAPIView(APIView):
             # # print("===============================",datetime.date.today().year)
             # Order.objects.filter(created_at__year=today.year)
             orderList = Order.objects.filter(date__year=datetime.now().year)
-            print("try''''''''''''''''''''''''''''' ",orderList)    
+            # print("try''''''''''''''''''''''''''''' ",orderList)    
 
-        print("--------------------- after week",orderList)
+        # print("--------------------- after week",orderList)
 
         print(request.data['startDate'], request.data['endDate'])
 
@@ -2797,15 +2810,52 @@ class OrderFilterAPIView(APIView):
         # else :
         #     orderList = Order.objects.all()
         # print("====================",orderList)
-        print("------------K",orderList)    
+        print("------------K",orderList[0])    
 
         # here is some issue
         if columnToSort == "order_id" and columnSortingOrder=="ascending":
             orderList = orderList.order_by('order_id')
-        if columnToSort == "order_id" and columnSortingOrder=="descending":
+        elif columnToSort == "order_id" and columnSortingOrder=="descending":
             orderList = orderList.order_by('-order_id')
-
-        print("------------second k",orderList)    
+        #Added by Rohan kansari - 4/9/23 - To arrange other selected column  
+        elif columnToSort == "table_number" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('table_number')    
+        elif columnToSort == "table_number" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-table_number')   
+        elif columnToSort == "date" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('date')    
+        elif columnToSort == "date" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-date')  
+        elif columnToSort == "subtotal" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('sub_total')    
+        elif columnToSort == "subtotal" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-sub_total')    
+        elif columnToSort == "discount" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('discount_rupees')    
+        elif columnToSort == "discount" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-discount_rupees')
+        elif columnToSort == "loyalty" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('loyality_point_price')    
+        elif columnToSort == "loyalty" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-loyality_point_price')     
+        elif columnToSort == "total" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('total')    
+        elif columnToSort == "total" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-total')      
+        elif columnToSort == "cgst" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('cgst')    
+        elif columnToSort == "cgst" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-cgst')      
+        elif columnToSort == "sgst" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('sgst')    
+        elif columnToSort == "sgst" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-sgst') 
+        elif columnToSort == "final_amount" and columnSortingOrder=="ascending":
+            orderList = orderList.order_by('final_amount')    
+        elif columnToSort == "final_amount" and columnSortingOrder=="descending":
+            orderList = orderList.order_by('-final_amount')                        
+        #End of code by Rohan kansari - 4/9/23 - To arrange other selected column  
+        # print("------------second k",orderList)    
 
         pendingOrder = []
         completedOrder = []
@@ -2817,7 +2867,7 @@ class OrderFilterAPIView(APIView):
 
         orderPaymentList=[]
 
-        print("------------declaration",orderList) 
+        # print("------------declaration",orderList) 
        
         if paymentStatus['pending'] == False and paymentStatus['completed'] == True :
            orderPaymentList= orderList.filter(payment_status = "Completed")
@@ -2843,7 +2893,7 @@ class OrderFilterAPIView(APIView):
         if orderStatus['cancelled'] == True :
             cancelledOrder = orderPaymentList.filter(order_status = "Cancelled")
       
-        print("------------initialize",orderList) 
+        # print("------------initialize",orderList) 
         
         orderStatusList=Order.objects.none()
 

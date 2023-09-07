@@ -1,7 +1,7 @@
 /**
  * Created by - Om Shrivastava on 03-08-23
  * Reason - To have offer creation section show all offer list, and create form save the data.
- */
+*/
 
 import React, { useEffect, useState, useContext } from "react";
 import style from "./banneroffer.module.css";

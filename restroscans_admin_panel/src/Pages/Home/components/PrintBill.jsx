@@ -151,7 +151,7 @@
                 <hr>
     
                 
-                <div class="inLineContainer">
+                ${orderDetail.order_created_by=="Admin"?``:<div class="inLineContainer">
                     <div class="column1" >
                         <div class="label1">
                             <div style= "width:90%" >Name</div>
@@ -172,7 +172,7 @@
                       ${customerDetail?.contact_number}
                       </div>
                     </div>
-                </div>
+                </div>}
 
                 <div class="inLineContainer">
                     <div class="column1" >

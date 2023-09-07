@@ -24,56 +24,58 @@ export const ExportToExcel = ({ apiData, fileName }) => {
     const fileType =
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
-    
-    
-    
+
+
+
     const exportToCSV = (apiData, fileName) => {
-        var filteredData=apiData.map(e=>{
+        var filteredData = apiData.map(e => {
             delete e["last_customer_name"]
-            delete Object.assign(e, {"Customer Number": e["customer_number"] })["customer_number"];
-            delete Object.assign(e, {"Customer Loyality Point": e["customer_loyality_point"] })["customer_loyality_point"];
-            delete Object.assign(e, {"Order Id": e["order_id"] })["order_id"];
-            delete Object.assign(e, {"Table Number": e["table_number"] })["table_number"];
-            delete Object.assign(e, {"Sub Total": e["sub_total"] })["sub_total"];
-            delete Object.assign(e, {"Total": e["total"] })["total"];
-            delete Object.assign(e, {"CGST": e["cgst"] })["cgst"];
-            delete Object.assign(e, {"SGST": e["sgst"] })["sgst"];
-            delete Object.assign(e, {"Order Status": e["order_status"] })["order_status"];
-            delete Object.assign(e, {"Payment Status": e["payment_status"] })["payment_status"];
-            delete Object.assign(e, {"Date": e["date"] })["date"]
-            delete Object.assign(e, {"Payment Mode": e["payment_mode"] })["payment_mode"]
-            delete Object.assign(e, {"Discount Rupees": e["discount_rupees"] })["discount_rupees"]
-            delete Object.assign(e, {"Discount Percentage": e["discount_percentage"] })["discount_percentage"]
+            delete Object.assign(e, { "Customer Number": e["customer_number"] })["customer_number"];
+            delete Object.assign(e, { "Customer Loyality Point": e["customer_loyality_point"] })["customer_loyality_point"];
+            delete Object.assign(e, { "Order Id": e["order_id"] })["order_id"];
+            delete Object.assign(e, { "Table Number": e["table_number"] })["table_number"];
+            delete Object.assign(e, { "Sub Total": e["sub_total"] })["sub_total"];
+            delete Object.assign(e, { "Total": e["total"] })["total"];
+            delete Object.assign(e, { "CGST": e["cgst"] })["cgst"];
+            delete Object.assign(e, { "SGST": e["sgst"] })["sgst"];
+            delete Object.assign(e, { "Order Status": e["order_status"] })["order_status"];
+            delete Object.assign(e, { "Payment Status": e["payment_status"] })["payment_status"];
+            delete Object.assign(e, { "Date": e["date"] })["date"]
+            delete Object.assign(e, { "Payment Mode": e["payment_mode"] })["payment_mode"]
+            delete Object.assign(e, { "Discount Rupees": e["discount_rupees"] })["discount_rupees"]
+            delete Object.assign(e, { "Discount Percentage": e["discount_percentage"] })["discount_percentage"]
             delete e["discount_reason"]
-            delete Object.assign(e, {"Final Amount": e["final_amount"] })["final_amount"]
+            delete Object.assign(e, { "Final Amount": e["final_amount"] })["final_amount"]
             delete e["review"]
             delete e["rating"]
-            delete Object.assign(e, {"Payment Confirmation Date Time": e["payment_confirmation_date_time"] })["payment_confirmation_date_time"]
-            delete Object.assign(e, {"Cancelled By": e["cancelled_by"] })["cancelled_by"]
-            delete Object.assign(e, {"Cancel Reason": e["cancel_reason"] })["cancel_reason"]
-            delete Object.assign(e, {"Apply Loyality Point": e["apply_loyality_point"] })["apply_loyality_point"]
-            delete Object.assign(e, {"Loyality Point Price": e["loyality_point_price"] })["loyality_point_price"]
+            delete Object.assign(e, { "Payment Confirmation Date Time": e["payment_confirmation_date_time"] })["payment_confirmation_date_time"]
+            delete Object.assign(e, { "Cancelled By": e["cancelled_by"] })["cancelled_by"]
+            delete Object.assign(e, { "Cancel Reason": e["cancel_reason"] })["cancel_reason"]
+            delete Object.assign(e, { "Apply Loyality Point": e["apply_loyality_point"] })["apply_loyality_point"]
+            delete Object.assign(e, { "Loyality Point Price": e["loyality_point_price"] })["loyality_point_price"]
             delete e["loyality_point_status"]
             delete e["loyality_point_calculated"]
             delete e["send_notifications_on_order_update"]
             delete e["send_notifications_on_payment_update"]
             delete e["send_notifications_on_amount_update"]
             delete e["send_notification_on_tableNum_update"]
-            delete Object.assign(e, {"Customer Name": e["customer_name"] })["customer_name"]
-            delete Object.assign(e, {"Customer Email": e["customer_email"] })["customer_email"]
-            delete Object.assign(e, {"Customer Id": e["customer_id"] })["customer_id"]
-                   
+            delete Object.assign(e, { "Customer Name": e["customer_name"] })["customer_name"]
+            delete Object.assign(e, { "Customer Email": e["customer_email"] })["customer_email"]
+            delete Object.assign(e, { "Customer Id": e["customer_id"] })["customer_id"]
+
             return e;
         })
 
-        if(filteredData.length){
-        const ws = XLSX.utils.json_to_sheet(filteredData);
-        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-        const data = new Blob([excelBuffer], { type: fileType });
-        FileSaver.saveAs(data, fileName + fileExtension);
-        }else{
-            Message("No Data is Found","warning")
+
+
+        if (filteredData.length) {
+            const ws = XLSX.utils.json_to_sheet(filteredData);
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+            const data = new Blob([excelBuffer], { type: fileType });
+            FileSaver.saveAs(data, fileName + fileExtension);
+        } else {
+            Message("No Data is Found", "warning")
         }
     };
     return (
@@ -132,7 +134,7 @@ const NewOrderReport = () => {
         cooked: false,
         served: false,
         cancelled: false,
-    })  
+    })
     // End of Added code by :- Parineeta Gedam on 02-08-2023
     // Reason :- set the order status
     // Modified by :- Parineeta Gedam on 06-09-2023 reason :- apply multiple filter
@@ -170,15 +172,15 @@ const NewOrderReport = () => {
 
     var [currentPage, setCurrentPage] = useState(1);
     const [backendOrderCount, setOrderCount] = useState(0);
-    
+
     // Added by Rohan kansari - 1/9/23 - To set all data of report list
-    const [allReportData,setAllReportData]=useState([])
+    const [allReportData, setAllReportData] = useState([])
     // ENd of code - Rohan kansari - 1/9/23 - To set all data of report list
 
     // End of Added code by :- Parineeta Gedam on 05-08-2023
     // Reason :-  used for paginations
 
-     const state=useLocation()
+    const state = useLocation()
     // Added By Parineeta Gedam on 05-08-2023
     // Reason - To set global Page index Whenever its index updated
     useEffect(() => {
@@ -190,17 +192,17 @@ const NewOrderReport = () => {
 
         // Added by Rohan kansari - 28/8/23 - 
         // if filter data is coming from other page through navigation so set it of filter
-        if(state.state){
-        quickSelect=state.state
-        setQuickSelect({...state.state})
-        paymentStatus={
-            pending: false,
-            completed: false,
-        }
-        setPaymentStatus({
-            pending: false,
-            completed: false,
-        })
+        if (state.state) {
+            quickSelect = state.state
+            setQuickSelect({ ...state.state })
+            paymentStatus = {
+                pending: false,
+                completed: false,
+            }
+            setPaymentStatus({
+                pending: false,
+                completed: false,
+            })
         }
         // End of code addition by Rohan kansari - 28/8/23 
         // if filter data is coming from other page through navigation so set it of filter
@@ -677,8 +679,8 @@ const NewOrderReport = () => {
                         </div>
                         <div className={style.fromDate}>
                             {/* <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeFrom} value={fromDate} format="dd/MM/yyyy" /></div>
-                       <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeTo} value={toDate} format="dd/MM/yyyy" /></div> */}
-                            <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy" /></div>
+                                <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={onChangeTo} value={toDate} format="dd/MM/yyyy" /></div> */}
+                            <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeFromDate} value={startDate} format="dd/MM/yyyy"  showTi /></div>
                             <div className={style.datepicker1}><DatePicker calendarClassName={style.calendar} className={style.dateInput} calendarIcon={<AiOutlineCalendar />} clearIcon={<AiOutlineClose />} onChange={handleChangeToDate} value={endDate} disabled={disable} format="dd/MM/yyyy" /></div>
                         </div>
                     </div>
@@ -722,7 +724,7 @@ const NewOrderReport = () => {
                             <div className={style.selectContainer}>
                                 <div>
                                     {/* <input type="checkbox" id="year" defaultChecked={true} onChange={e => setThisYear(e.target.checked)} /> */}
-                                    <input type="radio" id="year" name="quick_select" value="year" checked={quickSelect.year}  onChange={e => {
+                                    <input type="radio" id="year" name="quick_select" value="year" checked={quickSelect.year} onChange={e => {
                                         handleQuickSelect(e.target.value);
                                         // Modofication by ROhan kansari - 19/8/23
                                         // Reason - dont open date 
@@ -781,7 +783,7 @@ const NewOrderReport = () => {
                         <div className={style.parentSelectContainer}>
                             <div className={style.selectContainer}>
                                 <div><input type="checkbox" id="pending" value="Pending"
-                                checked={paymentStatus.pending} onChange={e => handlePaymentStatus(e.target.value)} /></div>
+                                    checked={paymentStatus.pending} onChange={e => handlePaymentStatus(e.target.value)} /></div>
                                 <div className={style.label}>Pending</div>
                             </div>
                             <div className={style.selectContainer}>
@@ -805,11 +807,10 @@ const NewOrderReport = () => {
                     <button className={style.GenerateBtn} onClick={postOrderQuery}>Generate Report</button>
                 </div>
                 <div className={style.BtnContainer}>
-                 {/* Added by Rohan Kansari - 1/9/23 - To download report in excel sheet */}
+                    {/* Added by Rohan Kansari - 1/9/23 - To download report in excel sheet */}
                     <ExportToExcel apiData={allReportData} fileName="MyFile" />
                     {/* <button className={style.PrintBtn}>Print Report</button> */}
-                 {/* End of Addition by Rohan Kansari - 1/9/23 - To download report in excel sheet */}
-   
+                    {/* End of Addition by Rohan Kansari - 1/9/23 - To download report in excel sheet */}
                 </div>
             </div>
             {/* End of Added by :- Parineeta Gedam on 02-08-2023 
@@ -851,12 +852,12 @@ const NewOrderReport = () => {
                                 }}
                                 onMouseEnter={(e) => {
                                     if (columnToSort != "order_id") {
-                                        setShowSortingIcon(true);
+                                        setShowSortingIcon("order_id");
                                     }
                                 }}
                                 onMouseLeave={(e) => {
                                     if (columnToSort != "order_id") {
-                                        setShowSortingIcon(false);
+                                        setShowSortingIcon("");
                                     }
                                 }}
                             >
@@ -869,7 +870,7 @@ const NewOrderReport = () => {
                                     columnSortingOrder == "descending" && (
                                         <BsSortNumericDownAlt className={style.sortingIcon} />
                                     )}
-                                {columnToSort != "order_id" && showSortingIcon && (
+                                {columnToSort != "order_id" && showSortingIcon == "order_id" && (
                                     <BsSortNumericDown
                                         color="grey"
                                         className={style.sortingIcon}
@@ -877,27 +878,32 @@ const NewOrderReport = () => {
                                 )}
                             </div>
                             {/* End of modifciation by Om Shrivastava on 21-06-23 */}
+
+                            {/* Added and modified by Rohan kansari - 4/9/23 
+                                Reason - To add sorting in all pricing column , date and table number */}
                             <div
                                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                                 className={style.tableNoColumn}
 
-                            //   onClick={(e) => {
-                            //     setShowSortingIcon(false);
-                            //     sortOrderId("table_number");
-                            //   }}
-                            //   onMouseEnter={(e) => {
-                            //     if (columnToSort != "table_number") {
-                            //       setShowSortingIcon(true);
-                            //     }
-                            //   }}
-                            //   onMouseLeave={(e) => {
-                            //     if (columnToSort != "table_number") {
-                            //       setShowSortingIcon(false);
-                            //     }
-                            //   }}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("table_number");
+                                }}
+
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "table_number") {
+                                        setShowSortingIcon("table_number");
+                                    }
+                                }}
+
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "table_number") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Table No{" "}
-                                {/* {columnToSort == "table_number" &&
+                                {columnToSort == "table_number" &&
                                     columnSortingOrder == "ascending" && (
                                         <BsSortNumericDown className={style.sortingIcon} />
                                     )}
@@ -905,46 +911,48 @@ const NewOrderReport = () => {
                                     columnSortingOrder == "descending" && (
                                         <BsSortNumericDownAlt className={style.sortingIcon} />
                                     )}
-                                {columnToSort != "table_number" && showSortingIcon && (
+                                {columnToSort != "table_number" && showSortingIcon == "table_number" && (
                                     <BsSortNumericDown
                                         color="grey"
                                         className={style.sortingIcon}
                                     />
-                                )} */}
+                                )}
                             </div>
+
                             <div
                                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                                 className={style.dateColumn}
-                            //   onClick={(e) => {
-                            //     setShowSortingIcon(false);
-                            //     sortOrderId("date");
-                            //   }}
-                            //   onMouseEnter={(e) => {
-                            //     if (columnToSort != "date") {
-                            //       setShowSortingIcon(true);
-                            //     }
-                            //   }}
-                            //   onMouseLeave={(e) => {
-                            //     if (columnToSort != "date") {
-                            //       setShowSortingIcon(false);
-                            //     }
-                            //   }}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("date");
+                                }}
+                                onMouseEnter={(e) => {
+                                    console.log(columnToSort)
+                                    if (columnToSort != "date") {
+                                        setShowSortingIcon("date");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "date") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Date
-                                {/* {columnToSort == "date" &&
+                                {columnToSort == "date" &&
                                     columnSortingOrder == "ascending" && (
-                                    <BsSortNumericDown className={style.sortingIcon} />
+                                        <BsSortNumericDown className={style.sortingIcon} />
                                     )}
                                 {columnToSort == "date" &&
                                     columnSortingOrder == "descending" && (
-                                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                                        <BsSortNumericDownAlt className={style.sortingIcon} />
                                     )}
-                                {columnToSort != "date" && showSortingIcon && (
+                                {columnToSort != "date" && showSortingIcon == "date" && (
                                     <BsSortNumericDown
-                                    color="grey"
-                                    className={style.sortingIcon}
-                                    /> */}
-                                {/* )} */}
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                    />
+                                )}
                             </div>
 
                             <div
@@ -1028,46 +1036,243 @@ const NewOrderReport = () => {
                             <div
                                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                                 className={style.subtotalColumn}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("subtotal");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "subtotal") {
+                                        setShowSortingIcon("subtotal");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "subtotal") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Sub Total
+                                {columnToSort == "subtotal" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "subtotal" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "subtotal" && showSortingIcon=="subtotal" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        />
+                                    )}
                             </div>
                             <div
                                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                                 className={style.discountColumn}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("discount");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "discount") {
+                                        setShowSortingIcon("discount");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "discount") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Discount
+                                {columnToSort == "discount" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "discount" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "discount" && showSortingIcon=="discount" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        />
+                                    )}
                             </div>
-                            <div 
-                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                            className={style.loayltyColumn}
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.loayltyColumn}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("loyalty");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "loyalty") {
+                                        setShowSortingIcon("loyalty");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "loyalty") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Loyality
+                                {columnToSort == "loyalty" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "loyalty" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "loyalty" && showSortingIcon=="loyalty" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        />
+                                    )}
                             </div>
-                            <div 
-                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                            className={style.totalColumn}
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.totalColumn}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("total");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "total") {
+                                        setShowSortingIcon("total");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "total") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Total
+                                {columnToSort == "total" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "total" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "total" && showSortingIcon=="total" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        />
+                                    )}
                             </div>
-                            <div 
-                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                            className={style.cgstColumn}
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.cgstColumn}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("cgst");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "cgst") {
+                                        setShowSortingIcon("cgst");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "cgst") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 CGST
+                                {columnToSort == "cgst" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "cgst" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "cgst" && showSortingIcon=="cgst" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        />
+                                    )}
                             </div>
-                            <div 
-                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                            className={style.sgstColumn}
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.sgstColumn}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("sgst");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "sgst") {
+                                        setShowSortingIcon("sgst");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "sgst") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 SGST
+                                {columnToSort == "sgst" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "sgst" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "sgst" && showSortingIcon=="sgst" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        />
+                                    )}
                             </div>
-                            <div 
-                            // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-                            className={style.finalRupees}
+                            <div
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.finalRupees}
+                                onClick={(e) => {
+                                    setShowSortingIcon(false);
+                                    sortOrderId("final_amount");
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (columnToSort != "final_amount") {
+                                        setShowSortingIcon("final_amount");
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (columnToSort != "final_amount") {
+                                        setShowSortingIcon("");
+                                    }
+                                }}
                             >
                                 Final Amount
+                                {columnToSort == "final_amount" &&
+                                        columnSortingOrder == "ascending" && (
+                                        <BsSortAlphaDown className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort == "final_amount" &&
+                                        columnSortingOrder == "descending" && (
+                                        <BsSortAlphaDownAlt className={style.sortingIcon} />
+                                        )}
+                                    {columnToSort != "final_amount" && showSortingIcon=="final_amount" && (
+                                        <BsSortAlphaDown
+                                        color="grey"
+                                        className={style.sortingIcon}
+                                        /> 
+                                    )}
                             </div>
-
+                        {/* End of addition and modification by Rohan kansari - 4/9/23 
+                                Reason - To add sorting in all pricing column , date and table number */}
 
                         </div>
                         {/* End of addition by Om shrivastava on 01-07-23 */}
@@ -1170,7 +1375,7 @@ const NewOrderReport = () => {
                                             </div>
                                             <div
                                                 // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                                className={`${style.dateColumn } ${style.commonColumnData} `}
+                                                className={`${style.dateColumn} ${style.commonColumnData} `}
                                             >
                                                 {ExtractDateTime(orderDetail.date).date}
                                             </div>
@@ -1206,33 +1411,33 @@ const NewOrderReport = () => {
                                             >
                                                 {orderDetail.discount_rupees}
                                             </div>
-                                            <div 
-                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                            className={`${style.loayltyColumn} ${style.commonColumnData} `}
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.loayltyColumn} ${style.commonColumnData} `}
                                             >
                                                 {orderDetail.loyality_point_price}
                                             </div>
-                                            <div 
-                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                            className={`${style.totalColumn} ${style.commonColumnData} `}
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.totalColumn} ${style.commonColumnData} `}
                                             >
                                                 {orderDetail.total}
                                             </div>
-                                            <div 
-                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                            className={`${style.cgstColumn} ${style.commonColumnData} `}
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.cgstColumn} ${style.commonColumnData} `}
                                             >
                                                 {orderDetail.cgst}
                                             </div>
-                                            <div 
-                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                            className={`${style.sgstColumn} ${style.commonColumnData} `}
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.sgstColumn} ${style.commonColumnData} `}
                                             >
                                                 {orderDetail.sgst}
                                             </div>
-                                            <div 
-                                            // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                                            className={`${style.finalRupees} ${style.commonColumnData} `}
+                                            <div
+                                                // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                                                className={`${style.finalRupees} ${style.commonColumnData} `}
                                             >
                                                 {orderDetail.final_amount}
                                             </div>
@@ -1295,7 +1500,7 @@ const NewOrderReport = () => {
                                     {/* End of code - Rohan kansari - 25/8/23 - To change colon alignment */}
                                 </div>
                                 <div className={style.data}>
-                                   {orderByOrderId?.order_detail?.customer_email?.split(",")[0]} 
+                                    {orderByOrderId?.order_detail?.customer_email?.split(",")[0]}
                                 </div>
                             </div>
 

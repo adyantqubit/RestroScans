@@ -154,7 +154,7 @@ function App() {
         Reason - To validate token in all page  */}
       <Routes>
         {/* Added by Rohan kansari - 27/8/23 - To navigate blank link to dashboard */}
-        <Route path="/" element={<Navigate to="/Dashboard"/>}></Route>
+        <Route path="/" element={<Navigate to="/Revenue"/>}></Route>
         {/* End of code - Rohan kansari - 27/8/23 - To navigate blank link to dashboard  */}
         <Route path='/Registration' element={tokenExist ? <Navigate to="/Dashboard" /> : <Registration />} />
         <Route path="/Login" element={tokenExist ? <Navigate to="/Dashboard" /> : <Login />} />

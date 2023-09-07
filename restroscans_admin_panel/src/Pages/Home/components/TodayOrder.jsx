@@ -1817,7 +1817,7 @@ const TodayOrder = (props) => {
     }
 
 
-    // ENd of code - Rohan kansari - 21/7/23 
+    // End of code - Rohan kansari - 21/7/23 
 
 
     function settingClickedData(data) {

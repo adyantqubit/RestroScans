@@ -280,7 +280,7 @@
   }
 
   a {
-    color: black;
+    color: $color;
     text-decoration: none;
     position: relative;
     z-index: 10;
@@ -369,15 +369,14 @@
 // Modified by Rohan kansari - 13/8/23
 // Reason - desiging btn to auto width 
 .btn-right {
-  @include arrow-button(#d4d4d4,#c5c4c4, #e0e0e0, 22px, 6em, 2em, right);
+  @include arrow-button(#000,#aaa9a9, #e0e0e0, 22px, 6em, 2em, right);
   margin-bottom: 10px;
 }
 
 .btn-disable {
-  @include arrow-button(#d4d4d4,#999898, #e0e0e0, 22px, 6em, 2em, right);
+  @include arrow-button(#9c9c9c,#dfdfdf, #e0e0e0, 22px, 6em, 2em, right);
   margin-bottom: 10px;
   pointer-events: none;
-
 }
 
 .btn-disable a{

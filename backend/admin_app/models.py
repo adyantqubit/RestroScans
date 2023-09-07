@@ -279,6 +279,9 @@ class AppSetting(models.Model):
      title=models.CharField(max_length=30, default='')
      bottom_text=models.CharField(max_length=30, default='')
      adyant_webite_link=models.CharField(max_length=255, default='')
+    # Added by Rohan kansari - 7/9/23 
+    # Reason - To make support link editable
+     adyant_support_link=models.CharField(max_length=255,default='',blank=True,null=True)  
      def __str__(self):
          return self.title
 """

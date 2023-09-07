@@ -13,6 +13,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
     var [orderItemList, setOrderItemList] = useState([])
     var [errorText, setErrorText] = useState({})
     var [settings, setSettings] = useState({});
+    var [restaurant, setRestaurant] = useState(null)
     var [subtotal, setSubtotal] = useState(0);
     var [cgst, setCGST] = useState(0);
     var [sgst, setSGST] = useState(0);
@@ -34,6 +35,7 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
         var response = await getSettingsDetails(tenant);
         if (response) {
             setSettings(response.setting);
+            setRestaurant(response.restaurant)
         }
     };
 
@@ -101,11 +103,13 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
 
         if (table_number.length == 0)
             errorText.table_number = "Please enter table number";
-
-        if (contact.length == 0) {
-            errorText.contact_number = "Please enter contact number";
-        }
-        else if (contact.length < 10) {
+         //Modified by Rohan kansari - 7/9/23
+        // Reason - To validate number if entered otherwise get from backend admin table
+        
+        // if (contact.length == 0) {
+        //     errorText.contact_number = "Please enter contact number";
+        // }
+        if (contact.length != 0 && contact.length < 10) {
             errorText.contact_number = "Contact Number should not be less than 10 digits";
         }
         else if (contact.length > 10) {
@@ -119,6 +123,20 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
             Message("Please add item !", "error")
         }
 
+        if (contact.length == 0) { 
+            contact = restaurant.contact_number % 1e10
+            if (contact.length < 10) {
+                errorText.contact_number = "Admin Contact Number should not be less than 10 digits";
+            }
+            else {
+                delete errorText.contact_number;
+            }
+        }
+        // else
+        //     contact = restaurant.contact_number % 1e10
+        
+        setContact(contact)    
+        // console.log(contact)
         setErrorText({ ...errorText })
 
         const formData = {
@@ -128,9 +146,12 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
             email: email,
             name: name,
             table_number: table_number,
-            validate_table: true
+            validate_table: true,
+            order_created_by: "Admin"
         }
-
+         //End of Modification by Rohan kansari - 7/9/23
+        // Reason - To validate number if entered otherwise get from backend admin table
+       
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 
@@ -214,18 +235,28 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                             <label className={style.inputLabel}>Contact Number <span className={style.mandatory}>*</span></label>
                             <div>
                                 <input className={style.contactInputfield} value={contact} onChange={e => {
-                                    if (e.target.value.length && /^\d+$/.test(e.target.value)) {
-                                        delete errorText.contact_number
-                                    }
-                                    else {
-                                        errorText.contact_number = "contact number should not be blank."
-                                    }
+                                
+                                     //Modified by Rohan kansari - 7/9/23
+                                     // Reason - To validate number if entered otherwise get from backend admin table
+       
+                                    // if (e.target.value.length && /^\d+$/.test(e.target.value)) {
+                                    //     delete errorText.contact_number
+                                    // }
+                                    // else {
+                                    //     errorText.contact_number = "contact number should not be blank."
+                                    // }
 
-                                    setErrorText({ ...errorText });
+                                    // setErrorText({ ...errorText });
+                                    // if (/^\d+$/.test(e.target.value) || e.target.value.length == 0)
+                                    //     setContact(e.target.value);
+                                    //End of Modification by Rohan kansari - 7/9/23
+                                    // Reason - To validate number if entered otherwise get from backend admin table
+       
                                     if (/^\d+$/.test(e.target.value) || e.target.value.length == 0)
                                         setContact(e.target.value);
 
-                                }} />
+                                }
+                                } />
                                 <div className={style.contactErrorText}>{errorText?.contact_number}</div>
                             </div>
                         </div>

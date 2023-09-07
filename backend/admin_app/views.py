@@ -226,7 +226,10 @@ class AppSettingAPI(APIView):
             "adyant_logo":settings["adyant_logo"],
             "title":settings["title"],
             "bottom_text":settings["bottom_text"],
-            "adyant_webite_link":settings["adyant_webite_link"]},200)
+            "adyant_webite_link":settings["adyant_webite_link"],
+            # Added by Rohan kansari - 7/9/23 - To send support link also
+            "adyant_support_link":settings["adyant_support_link"],
+            },200)
 
 
 """
