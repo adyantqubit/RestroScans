@@ -40,7 +40,9 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
       table_number: formdata.table_number,
       cart: cart,
       //added by rohan- 18/4/23 - to set tenant validation
-      tenant:restaurant_name
+      tenant:restaurant_name,
+      // Added by Rohan kansari - 4/9/23 - To set admin is valid or not
+      order_created_by: "User"
     };
 
     
