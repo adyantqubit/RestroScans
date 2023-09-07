@@ -349,6 +349,22 @@ const navigateToRatingReviewList = () => {
       <ul
         className={sidebar == true ? style.open_sidebar : style.close_sidebar}
       >
+        {/* Added by Rohan kansari - 7/9/23
+            Reason - To change it place */}
+        <li className={style.links_div} onClick={navigateToRevenue}>
+          <NavLink
+            // commented and modified by - Suman sahu on - 17/06/2023
+            // reason- for design active link
+            // className={style.link}
+            className={({ isActive }) => (isActive ? style.active : style.link)}
+            // end of modification by - Suman sahu on - 17/06/2023
+            to="/Revenue"
+          >
+            {" "}
+            Revenue{" "}
+          </NavLink>
+        </li>
+
         <li className={style.links_div} onClick={navigateToDashboard}>
           <NavLink
             // commented and modified by - Suman sahu on - 17/06/2023
@@ -477,7 +493,8 @@ const navigateToRatingReviewList = () => {
         ) : null}
         {/* End of code - Rohan Kansari - 26/5/23*/}
         {/* Added by Suman - To open revenue page - 27/5/23*/}
-        <li className={style.links_div} onClick={navigateToRevenue}>
+        {/* Commented by Rohan kansari - 7/9/23 - Revenue Place changed */}
+        {/* <li className={style.links_div} onClick={navigateToRevenue}>
           <NavLink
             // commented and modified by - Suman sahu on - 17/06/2023
             // reason- for design active link
@@ -489,7 +506,7 @@ const navigateToRatingReviewList = () => {
             {" "}
             Revenue{" "}
           </NavLink>
-        </li>
+        </li> */}
         {/* End of code - Suman Sahu - 27/5/23*/}
         <li className={style.links_div} onClick={navigateToBannerItems}>
           <NavLink
