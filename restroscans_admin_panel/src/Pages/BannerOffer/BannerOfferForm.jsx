@@ -454,7 +454,7 @@ const [offerDataCount, setOfferDataCount] = useState(0);
     document.getElementById("offer_form").style.display = "none";
     setShowOfferForm(false);
     setDisabled(false);
-
+    window.scroll(0,0)
   };
   // Addition by Om Shrivastava on 04-09-23
   // Reason : Reset the clear form of offer
@@ -487,7 +487,7 @@ const [offerDataCount, setOfferDataCount] = useState(0);
   // Reason : Reset the clear form of offer
 
   return (
-    <div className={style.offerFormDiv} id="offer_form">
+    <div  id="offer_form">
       {/* Added by Om Shrivastava on 04-08-23
             Reason : Show the offer form data */}
       <div className={style.offerFormContainer}>

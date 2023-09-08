@@ -62,6 +62,25 @@ const BannerOffer = () => {
   }, [bannerOfferList]);
   // const[showOfferForm,setShowOfferForm] =useState(false)
 
+  // Added by Om Shrivastava on 07-09-23
+  // Reason : Set the window width for mobile view
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // End of addition by Om Shrivastava on 07-09-23
+  // Reason : Set the window width for mobile view
+
   /**
    * Added by - Om Shrivastava on 26-07-23
    * Reason - To have search functionality
@@ -267,7 +286,7 @@ const BannerOffer = () => {
     // document.getElementById("offerListDiv").scroll(250,110)
     // window.scrollTo(0,500);
     // window.scrollTo({top: 2060, left: 0, behavior: 'smooth' });
-    document.getElementById("container").scrollTo(0,200);
+    document.getElementById("container").scrollTo(0, 200);
     // objDiv.scrollBy(0,objDiv.scrollHeight)
     // document.getElementById("offerListDiv").scrollBy(0, 500);
     // if (element) {
@@ -288,7 +307,7 @@ const BannerOffer = () => {
     // Reason - removing header from each page and making it global
     // <Header>
     <div id="container" className={style.Container}>
-      <div  className={style.ContainerDiv}>
+      <div className={style.ContainerDiv}>
         <div
           className={
             showOfferForm == true
@@ -326,28 +345,62 @@ const BannerOffer = () => {
                 }}
                 className={style.SearchBar}
               />
-              <button
-                disabled={disabled}
-                className={
-                  disabled == false
-                    ? `${style.primaryButton}`
-                    : `${style.primaryDisabledButton}`
-                }
-                // onClick={() => openAddItemForm()}
-                style={{
-                  marginLeft: "10px",
-                  // minWidth: "100px",
-                  textAlign: "center",
-                }}
-                onClick={(e) => {
-                  // removeDiv();
-                  // scrollBehaviour();
+              {/* Modification and addition by Om Shrivastava on 07-09-23
+              Reason : Need to scroll the div */}
+              {/* <button */}
 
-                  openCategoryDetails();
-                }}
-              >
-                Add offer
-              </button>
+              {windowWidth  < 1250 ? (
+                  <>
+                <a
+                  href="#C4"
+                  disabled={disabled}
+                  className={
+                    disabled == false
+                      ? `${style.primaryButton}`
+                      : `${style.primaryDisabledButton}`
+                  }
+                  // onClick={() => openAddItemForm()}
+                  style={{
+                    marginLeft: "10px",
+                    // minWidth: "100px",
+                    textAlign: "center",
+                  }}
+                  onClick={(e) => {
+                    // removeDiv();
+                    // scrollBehaviour();
+
+                    openCategoryDetails();
+                  }}
+                >
+                  Add offer
+                  {/* </button> */}
+                </a>
+                </>
+              ) : (
+                <>
+                <button
+                  disabled={disabled}
+                  className={
+                    disabled == false
+                      ? `${style.primaryButton}`
+                      : `${style.primaryDisabledButton}`
+                  }
+                  style={{
+                    marginLeft: "10px",
+                    // minWidth: "100px",
+                    textAlign: "center",
+                  }}
+                  onClick={(e) => {
+                    openCategoryDetails();
+                  }}
+                >
+                  Add offer
+                </button>
+                </>
+              )}
+              {/* Modification and addition by Om Shrivastava on 07-09-23
+              Reason : Need to scroll the div */}
+              {/* <a href="#C4">Jump to Chapter 4</a> */}
             </div>
 
             <div
@@ -607,7 +660,33 @@ const BannerOffer = () => {
                                 // width:'7%',minWidth:'8%'
                               }}
                             >
-                              <button
+                             {/* Modification and addition by Om Shrivastava on 07-09-23
+                              Reason : Need to scroll the div */} 
+                              {windowWidth  < 1250 ? (
+                  <>
+                              <a
+                                href="#C4"
+                                disabled={disabled}
+                                className={
+                                  disabled == false
+                                    ? `${style.primaryButton}`
+                                    : `${style.primaryDisabledButton}`
+                                }
+                                onClick={(e) => {
+                                  openCategoryDetails(bannerOfferDetails.id);
+
+                                  // removeDiv();
+                                  // BannerOfferForm(bannerOfferDetails.id)
+                                }}
+
+                                // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
+                              >
+                                Edit 
+                              </a>
+                              </> 
+                               ) : (
+                                <>
+                                <button
                                 disabled={disabled}
                                 className={
                                   disabled == false
@@ -625,6 +704,7 @@ const BannerOffer = () => {
                               >
                                 Edit
                               </button>
+                                </>)}
                             </div>
                           </div>
                         );
@@ -720,7 +800,8 @@ const BannerOffer = () => {
             </div>
           </div>
         </div>
-        {showOfferForm==true ?
+        {showOfferForm == true ? (
+          <div className={style.offerFormDiv} id="C4">
             <BannerOfferForm
               id={id}
               setData={setOfferBannerList}
@@ -733,9 +814,11 @@ const BannerOffer = () => {
               // Reason : Send the total data number in form page
               // id={bannerOfferList} setData={setOfferBannerList}
             />
-:<></>}
-         
-        
+          </div>
+        ) : (
+          <></>
+        )}
+
         {/* <h1 className={style.heading}>BannerOffer</h1> */}
       </div>
     </div>
