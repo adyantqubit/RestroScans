@@ -97,7 +97,12 @@ export default function OfferItemsScreen({ route, navigation }) {
       setOfferObj(offerObj);
       var showVideoChecked = offerObj.show_video_Hide_Image;
       setIsShowVideo(showVideoChecked);
-      // End of addition
+      // Added by Om Shrivastava on 09-08-23
+      // Reason : Set the is active offer section
+      var showOffer = offerObj.is_active;
+      setIsActive(showOffer)
+      // End of addition by Om Shrivastava on 09-08-23
+      // Reason : Set the is active offer section
     }
   };
 
@@ -147,6 +152,12 @@ export default function OfferItemsScreen({ route, navigation }) {
   const [isShowVideo, setIsShowVideo] = useState(false);
   // End of addition
 
+  // Added by Om Shrivastava on 09-08-23
+  // Reason : Set the is active offer section
+  const [isactive, setIsActive] = useState(false);
+  // End of addition by Om Shrivastava on 09-08-23
+  // Reason : Set the is active offer section
+
   // Update the valuesss
   const handleRegister = async (formValues) => {
     var tenant = JSON.parse(
@@ -167,6 +178,9 @@ export default function OfferItemsScreen({ route, navigation }) {
     formData.append("video_link", formValues.video_link);
     formData.append("description", formValues.description);
     formData.append("show_video_Hide_Image", isShowVideo);
+    // Added
+    formData.append("is_active", isactive);
+    // End 
 
     // Modify by- Suman sahu  On 29/04/2023
     // Reason- add condition for image field when user upload image above 200kb form not saved
@@ -577,7 +591,11 @@ export default function OfferItemsScreen({ route, navigation }) {
 
                 <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}>
-                    {/* <Text style={{ color: "red", fontWeight: "650" }}> *</Text> */}
+                    {/* Uncommented by Om Shrivastasva on 27-08-23
+                    Reason : Show the mandatory field of discount */}
+                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
+                    {/* End of Uncommented code by Om Shrivastasva on 27-08-23
+                    Reason : Show the mandatory field of discount */}
                     {"  "}Discount
                   </Text>
                   <TextInput
@@ -600,23 +618,7 @@ export default function OfferItemsScreen({ route, navigation }) {
                 {/* Added by Yuvraj Sahu on 26-4-2023
                 Reason - to add more fields */}
 
-                <View>
-                  <Text style={styles.labels}>{"  "} Video Link</Text>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={handleChange("video_link")}
-                    onBlur={handleBlur("video_link")}
-                    value={values.video_link}
-                    placeholderTextColor="#A4A4A4"
-                    placeholder="Enter Video Link"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-
-                  {errors.video_link && touched.video_link && (
-                    <Text style={styles.textdanger}>{errors.video_link}</Text>
-                  )}
-                </View>
+                
                 {/* Commented by Om Shrivastasva on 02-08-23
                 Reason : It can't need yet */}
                 {/* <View>
@@ -728,8 +730,29 @@ export default function OfferItemsScreen({ route, navigation }) {
                 )}
                 {/* End of addition  29-04-2023*/}
 
+                <View style={{paddingTop:'2%'}}>
+                  <Text style={styles.labels}>{"  "} Video Link</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange("video_link")}
+                    onBlur={handleBlur("video_link")}
+                    value={values.video_link}
+                    placeholderTextColor="#A4A4A4"
+                    placeholder="Enter Video Link"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+
+                  {errors.video_link && touched.video_link && (
+                    <Text style={styles.textdanger}>{errors.video_link}</Text>
+                  )}
+                </View>
+
                 {/* Added by Yuvraj Sahu on 26-4-2023
                 Reason - to add more fields */}
+                {/* Added by Om Shrivastasva on 27-08-23
+                Reason : Set the video check box when user enter the video link */}
+                {values.video_link!=""?
                 <View style={styles.showVideo}>
                   <Checkbox
                     value={isShowVideo}
@@ -745,7 +768,29 @@ export default function OfferItemsScreen({ route, navigation }) {
                     </Text>
                   </Pressable>
                 </View>
+                :""}
+                {/* End of addition by Om Shrivastasva on 27-08-23
+                Reason : Set the video check box when user enter the video link */}
                 {/* End of addition */}
+                {/* // Added by Om Shrivastava on 09-08-23
+                // Reason : Set the is active offer section */}
+                <View style={styles.showVideo}>
+                  <Checkbox
+                    value={isactive}
+                    onValueChange={setIsActive}
+                    color={isactive ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setIsActive(!isactive)}>
+                    <Text style={styles.showVideoLable}>
+                      {/* Modified by yuvraj Sahu on 05-05-2023
+                      Reason - to change the video checkbox lable */}
+                      is Available
+                      {/* End of Modification by Yuvraj Sahu on 05-05-2023 */}
+                    </Text>
+                  </Pressable>
+                </View>
+                {/* // End of addition by Om Shrivastava on 09-08-23
+                // Reason : Set the is active offer section */}
 
                 <View style={styles.btns}>
                   <Pressable

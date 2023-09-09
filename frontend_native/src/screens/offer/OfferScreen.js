@@ -6,22 +6,42 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  TextInput
 } from "react-native";
 import { getAllOfferList } from "../../api/Services";
 import config from "../../config/config";
 import * as SecureStore from "expo-secure-store";
 import { useIsFocused } from "@react-navigation/native";
 import Footer from "../../components/Footer/Footer";
+import { inputs } from "../../Colours/globalColor";
 
 export default function MenuListScreen({ navigation }) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
     getAllOffers();
+    /**
+     * Added by Yuvraj Sahu on 21-05-2023
+     * Reason - to clear the state
+     */
+    setSearch("");
+    /**
+     * End of addition by Yuvraj Sahu on 21-05-2023
+     */
   }, [isFocused]);
 
   // Set the banner name and banner items name in this state
   var [bannerList, setBannerList] = useState([]);
+
+  /**
+   * Added by Yuvraj Sahu on 21-05-2023
+   * Reason - to set searched objects and search keyword
+   */
+  var [seeMenus, setSeeMenus] = useState([]);
+  var [search, setSearch] = useState("");
+  /**
+   * End of addition by Yuvraj Sahu on 21-05-2023
+   */
 
   // GET all banner data in this method
   const getAllOffers = async () => {
@@ -31,6 +51,14 @@ export default function MenuListScreen({ navigation }) {
     const response = await getAllOfferList(tenant);
     if (response) {
       setBannerList(response.offerBanner);
+      /**
+       * Added by Yuvraj Sahu on 21-05-2023
+       * Reson - to set value for search
+       */
+      setSeeMenus(response.offerBanner);
+      /**
+       * End of addition by Yuvraj Sahu on 21-05-2023
+       */
     }
   };
 
@@ -43,16 +71,59 @@ export default function MenuListScreen({ navigation }) {
     });
   }
 
+  /**
+   * Added by Yuvraj Sahu on 21-05-2023
+   * Reason - to search menu using name wise
+   */
+  const handleSearch = (searchKey) => {
+    // Commeted and modified by Yuvraj Sahu on 04-06-2023
+    // Reason - to trim searched word from start and end
+    // var splitedWord = searchKey.trimStart().replace(".", " ").split(" ");
+    var splitedWord = searchKey.trim().replace(".", " ").split(" ");
+    // End of trimming word by Yuvraj Sahu on 04-06-2023
+    var sapratedWord = splitedWord.reverse().join().replace(",", " ");
+    setSearch(searchKey.replace(".", " "));
+    if (searchKey == "") {
+      setSeeMenus(bannerList);
+    } else {
+      var searchedMenus = bannerList.filter(
+        (dt) =>
+          dt.offer_name.toLowerCase().includes(searchKey.toLowerCase()) || // search by word (left-right)
+          dt.offer_name.toLowerCase().includes(sapratedWord.toLowerCase()) || // search word with space and reverse
+          splitedWord.includes(dt.offer_name.toLowerCase()) // search for multiple object
+      );
+      setSeeMenus(searchedMenus);
+    }
+  };
+  /**
+   * End of addition by Yuvraj Sahu on 21-05-2023
+   */
+
   return (
     <View style={{ height: "100%" }}>
       {/* Added by Yuvraj Sahu on 27-4-2023
     Reason - to click at one time on button when cursor stays on input */}
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* End of addition - button click */}
+        {/* Added by Yuvraj Sahu on 21-05-2023
+          Reason - to give search functionality */}
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.input}
+              onChangeText={(e) => handleSearch(e)}
+              value={search}
+              placeholderTextColor="#A4A4A4"
+              placeholder="Search by offer/banner name"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          {/* End given search functionality by Yuvraj Sahu on 21-05-2023 */}
+
         <View style={styles.menuContainer}>
-          {bannerList.length > 0 ? (
+          {seeMenus.length > 0 ? (
             <>
-              {bannerList.map((bannerData, id) => (
+              {seeMenus.map((bannerData, id) => (
                 <Pressable
                   style={styles.menuPress}
                   onPress={(e) => onOfferClick(bannerData.id)}
@@ -79,13 +150,13 @@ export default function MenuListScreen({ navigation }) {
                 height: 600,
               }}
             >
-              <Image
+              {/* <Image
                 source={require("../../../assets/Welcome.jpg")} // Change the image by Om on 24-04-23
                 style={styles.tinyLogo}
-              />
+              /> */}
 
               <Text style={{ fontSize: 14, marginTop: 22, fontWeight: "bold" }}>
-                Currently no banner/offer are listed
+                No offer/banner are present
               </Text>
             </View>
           )}
@@ -131,4 +202,21 @@ const styles = StyleSheet.create({
     width: 390,
     height: 150,
   },
+  /**
+   * Modified by yuvraj Sahu on 21-05-2023
+   * Reason - to design search field
+   */
+  input: {
+    height: inputs.inputBoxHeight,
+    margin: 12,
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    marginTop: 0,
+    fontSize: 16,
+    borderRadius: 25,
+  },
+  searchContainer: {
+    marginTop: 10,
+  },
+
 });

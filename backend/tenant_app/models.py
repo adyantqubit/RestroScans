@@ -424,6 +424,12 @@ class Offer(models.Model):
      #End of modification - 07/05/2023
 
     #End of code - RohanKansari - 23/4/23
+
+    # Added by Om Shrivastava on 07-09-23
+    # Reason - to give active and inactive
+    is_active=models.BooleanField(default=False)
+    # End of addition by Om Shrivastava on 07-09-23
+    # Reason - to give active and inactive
     
     def __str__(self):
         return self.offer_name

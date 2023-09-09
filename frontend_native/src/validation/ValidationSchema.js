@@ -285,13 +285,19 @@ export const addItemSchema = yup.object().shape({
 export const addOfferSchema = yup.object().shape({
   offer_name: yup
     .string()
-    .required("Offer name is required!")
+    // Modification and addition by Om shrivastava on 27-08-23
+    // Reason : Change the validation for offer name
+    // .required("Offer name is required!")
+    .required("Please enter offer name")
+    // End of Modification and addition by Om shrivastava on 27-08-23
+    // Reason : Change the validation for offer name
     .max(
       40,
       ({ max }) => `Offer name should not be more than ${max} characters`
     ),
   video_link: yup
     .string()
+    
     /**
      * Added by Yuvraj Sahu on 08-05-2023
      * Reason - to validate video url
@@ -309,11 +315,29 @@ export const addOfferSchema = yup.object().shape({
     // Reason to not allow decimal value
     // .number("Offer name should be number")
     .string()
+    // Modification and addition by Om shrivastava on 27-08-23
+    // Reason : Change the validation for offer name
+    .required("Please enter discount")
+    // End of Modification and addition by Om shrivastava on 27-08-23
+    // Reason : Change the validation for offer name
+
     // .max(100, ({ max }) => `Discount should not be more than ${max}`)
     .matches(
-      /^[0-9]{1,2}$/g,
-      "Discount should not be more than 100 and decimal value"
+      // Modification and addition by Om Shrivastava on 27-08-23
+      // Reason : Set the validation for discount field
+      // /^[1-9]{1,2}$/g,
+      /^(?:[1-9]|[1-9][0-9]|99)$/g,
+      // End of addition and modification by Om Shrivastava on 27-08-23
+      // Reason : Set the validation for discount field
+      // Modification and addition by Om shrivastava on 27-08-23
+      // Reason : Change the validation message
+      // "Discount should not be more than 100 and decimal value"
+      "Discount should not be less than 0 and greater than 99"
+      // End of addition and modification by Om Shrivastava on 27-08-23
+      // Reason : Set the validation for discount field
+
     ),
+    
   // end of addition by yuvraj Sahu on 05-05-2023
 });
 // End of addition

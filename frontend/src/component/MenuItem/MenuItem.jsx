@@ -994,8 +994,14 @@ function MenuItem() {
               // End of code - Rohan kansari- 8/5/23
 
             >
-
-              {offerBanner.map((item, id) => (
+              {/* Added by Om Shrivastava on 09-09-23
+              Reason : When the is active false than don't need to show this image */}
+              {offerBanner.filter(e=>e.is_active).length>0?
+              offerBanner.map((item, id) => (
+                <>
+                {item.is_active!=false?
+                // End of addition by Om Shrivastava on 09-09-23
+              // Reason : When the is active false than don't need to show this image
                 <SwiperSlide>
                   <div
                     className='offer_div'
@@ -1077,12 +1083,35 @@ function MenuItem() {
                     {/* End of code - 23/4/23 - Rohan kansari */}
 
                   </div>
+
                 </SwiperSlide>
-              ))}
+                // Modification and addition by Om Shrivastava on 09-09-23
+                // Reason : When the offer is active then this div is show
+                :
+                null}
+                </>
+              ))
+            
+            : 
+            <SwiperSlide>
+            <div style={{ height: '15vh' }}>
+            {/* <h3 color="red">yupp</h3> */}
+            {/* modified by :- Parineeta Gedam on 19-04-2023 */}
+            <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
+              // src={nodataOffer}
+              // src={offer_comming_soon_img}
+              src={welcome_banner}
+              alt="bydefault_img" />
+            {/* End of modified code on 19-04-2023 */}
+          </div>
+          </SwiperSlide>
+          }
+           {/* // Modification and addition by Om Shrivastava on 09-09-23
+                // Reason : When the offer is active then this div is show */}
             </Swiper>
           </div>
           :
-          <div style={{ height: '15vh', }}>
+          <div style={{ height: '15vh' }}>
             {/* <h3 color="red">yupp</h3> */}
             {/* modified by :- Parineeta Gedam on 19-04-2023 */}
             <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}

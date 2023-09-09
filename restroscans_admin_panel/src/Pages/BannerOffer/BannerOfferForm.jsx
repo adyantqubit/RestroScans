@@ -54,6 +54,11 @@ function BannerOfferForm(props) {
 const [offerDataCount, setOfferDataCount] = useState(0);
 // End of addition by Om Shrivastava on 07-09-23
 // Reason : Set the total data count 
+// Added by Om Shrivastava on 08-09-23
+// Reason : Set the is active data in this usestate 
+const [showOffer, setShowOffer] = useState(true);
+// End of addition by Om Shrivastava on 08-09-23
+// Reason : Set the is active data in this usestate 
 
   const [validationErrors, setValidationErrors] = useState({
     name: "",
@@ -142,6 +147,11 @@ const [offerDataCount, setOfferDataCount] = useState(0);
       setOfferDataCount(response.offerBannerCount);
       // End of addition by Om Shrivastava on 06-09-23
       // Reason : Set the total data count 
+      // Added by Om Shrivastava on 08-09-23
+      // Reason : Set the is active offer data
+      setShowOffer(response.offer.is_active);
+      // End of addition by Om Shrivastava on 08-09-23
+      // Reason : Set the is active offer data
     }
   };
   /**
@@ -397,7 +407,11 @@ const [offerDataCount, setOfferDataCount] = useState(0);
       }
       updatedOfferData.append("video_link", videoLink);
       updatedOfferData.append("show_video_Hide_Image", showVideo);
-
+      // Added by Om Shrivastava on 09-08-23
+      // Reason : Set the is active offer
+      updatedOfferData.append("is_active", showOffer);
+      // End of addition by Om Shrivastava on 09-08-23
+      // Reason : Set the is active offer
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await postOfferBannerDetails(tenant, updatedOfferData);
       // alert(props.setBannerOffer(updatedOfferData))
@@ -465,7 +479,9 @@ const [offerDataCount, setOfferDataCount] = useState(0);
     setIcon(offerDetails.offer_image? offerDetails.offer_image : "");
     setvideoLink(offerDetails.video_link? offerDetails.video_link : "")
     setShowVideo(offerDetails.show_video_Hide_Image == false || offerDetails.show_video_Hide_Image == true ? offerDetails.show_video_Hide_Image : false);
-
+    // Added by Om Shrivastava for reset the is active checkbox
+    setShowOffer(offerDetails.is_active == true || offerDetails.is_active == false ? offerDetails.is_active : true);
+    // End of addition by Om Shrivastava for reset the is active checkbox 
     setSelectedOfferImage(null);
     setOfferImage(null);
 
@@ -697,6 +713,37 @@ const [offerDataCount, setOfferDataCount] = useState(0);
                 ) : (
                   ""
                 )}
+                {/* Added by Om Shrivastava on 08-09-23
+                Reason : Show the is active of offer */}
+                <div className={`${style.inputContainer}`}>
+                    <div className={`${style.inputArea}`}>
+                      <div
+                        className={`${style.inputLabel} ${style.inputLabel2}`}
+                        // style={{ width: '155px' }}
+                      >
+                        <span className={style.optionalField}>*</span>Is Available
+                      </div>
+                      <input
+                        className={`${style.textInputBox}`}
+                        type="checkbox"
+                        name="is_active"
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                        }}
+                        checked={showOffer}
+                        onChange={(e) => {
+                          setShowOffer(e.target.checked);
+                          //   validateOnInput("is_available", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className={`${style.inputErrorArea}`}>
+                      {/* {validationErrors.is_active} */}
+                    </div>
+                  </div>
+                  {/* End of addition by Om Shrivastava on 08-09-23
+                  Reason : Show the is active of offer*/}
               </div>
             </div>
 
