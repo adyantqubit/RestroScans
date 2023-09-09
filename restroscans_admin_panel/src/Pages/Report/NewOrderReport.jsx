@@ -67,7 +67,6 @@ export const ExportToExcel = ({ apiData, fileName }) => {
         })
 
 
-
         if (filteredData.length) {
             const ws = XLSX.utils.json_to_sheet(filteredData);
             const wb = { Sheets: { data: ws }, SheetNames: ["data"] };

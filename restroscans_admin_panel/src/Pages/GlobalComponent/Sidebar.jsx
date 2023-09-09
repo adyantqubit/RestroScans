@@ -272,7 +272,8 @@ const Sidebar = ({sidebar, setSidebar}) => {
    * Added by Om Shrivastava on 24-07-2023
    * Reason - to navigate restaurant rating review
    */
-const navigateToRatingReviewList = () => {
+
+  const navigateToRatingReviewList = () => {
   // Added by Om Shrivastava on 26-07-23
   // Reason : Set the list per page data
   localStorage.setItem("globalPageIndex", 1);
@@ -289,6 +290,13 @@ const navigateToRatingReviewList = () => {
  */
   // Added by ROhan kansari - 25/6/23
   // Reason - getting widowsize 
+  
+  const navigateToWaiter = () => {
+    
+    if (windowSize.innerWidth < 800)
+      setSidebar(false) 
+    navigate('/Waiter');
+  };
 
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
@@ -327,13 +335,13 @@ const navigateToRatingReviewList = () => {
 
       <Drawer
         open={sidebar}
-        onClose={e=>setSidebar(!sidebar)}
+        onClose={e => setSidebar(!sidebar)}
         direction='left'
         className={style.drawer}
         enableOverlay={overlayEnable}
-        // style={{width:"20%"}}
+      // style={{width:"20%"}}
       >
-{/*         
+        {/*         
          <div className={style.sidebar_open_div}>
         <FaCaretRight
           onClick={() => {
@@ -346,155 +354,155 @@ const navigateToRatingReviewList = () => {
           }
         />
       </div> */}
-      <ul
-        className={sidebar == true ? style.open_sidebar : style.close_sidebar}
-      >
-        {/* Added by Rohan kansari - 7/9/23
+        <ul
+          className={sidebar == true ? style.open_sidebar : style.close_sidebar}
+        >
+          {/* Added by Rohan kansari - 7/9/23
             Reason - To change it place */}
-        <li className={style.links_div} onClick={navigateToRevenue}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/Revenue"
-          >
-            {" "}
-            Revenue{" "}
-          </NavLink>
-        </li>
+          <li className={style.links_div} onClick={navigateToRevenue}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/Revenue"
+            >
+              {" "}
+              Revenue{" "}
+            </NavLink>
+          </li>
 
-        <li className={style.links_div} onClick={navigateToDashboard}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/Dashboard"
+          <li className={style.links_div} onClick={navigateToDashboard}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/Dashboard"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
             // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
-          // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Dashboard{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToBanner}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/BannerOffer"
+            // End of code - Rohan kansari - 22/6/23
+            >
+              {" "}
+              Dashboard{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToBanner}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/BannerOffer"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-           // Removed By ROhan kansari - 23/6/23 
+            // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
-          // End of code - Rohan kansari - 22/6/23
+            // End of code - Rohan kansari - 22/6/23
+            >
+              {" "}
+              Banner/Offer{" "}
+            </NavLink>
+          </li>
+          {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
+          <li
+            className={`${style.links_div} ${style.link}`}
+            onClick={(e) => setReportSubVisible(!ReportSubVisible)}
           >
-            {" "}
-            Banner/Offer{" "}
-          </NavLink>
-        </li>
-        {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
-        <li
-          className={`${style.links_div} ${style.link}`}
-          onClick={(e) => setReportSubVisible(!ReportSubVisible)}
-        >
-          Report
-          {/* commented and modified by - Suman sahu on 15/06/2023 
+            Report
+            {/* commented and modified by - Suman sahu on 15/06/2023 
               reason - for change icon*/}
-          {/* <AiOutlinePlus color="white" /> */}
-          <FaCaretDown className={style.dropdown_icon} />
-          {/* end of modification by suman sahu on 15/06/2023 */}
-        </li>
+            {/* <AiOutlinePlus color="white" /> */}
+            <FaCaretDown className={style.dropdown_icon} />
+            {/* end of modification by suman sahu on 15/06/2023 */}
+          </li>
 
-        {ReportSubVisible ? (
-          <ul style={{ marginTop: "-10px" }}>
-            {/* Modified by ROhan kansari - 26/8/23 - 
+          {ReportSubVisible ? (
+            <ul style={{ marginTop: "-10px" }}>
+              {/* Modified by ROhan kansari - 26/8/23 - 
                 Reason - this men is not selected o=in on click so need to change on click position */}
-            <li className={style.Sublinks_div} onClick={navigateToOrderReport}>
-              <NavLink
-                // commented and modified by - Suman sahu on - 17/06/2023
-                // reason- for design active link
-                // className={style.sublink}
-                className={({ isActive }) =>
-                  isActive ? style.active : style.sublink
-                }
-                
-                // end of modification by - Suman sahu on - 17/06/2023
-                // Modified by Rohan kansari - 27/8/23 - To correct link mnaming
-                // to="/OrderReport"
-                to="/NewOrderReport"
+              <li className={style.Sublinks_div} onClick={navigateToOrderReport}>
+                <NavLink
+                  // commented and modified by - Suman sahu on - 17/06/2023
+                  // reason- for design active link
+                  // className={style.sublink}
+                  className={({ isActive }) =>
+                    isActive ? style.active : style.sublink
+                  }
+
+                  // end of modification by - Suman sahu on - 17/06/2023
+                  // Modified by Rohan kansari - 27/8/23 - To correct link mnaming
+                  // to="/OrderReport"
+                  to="/NewOrderReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
                 // Removed By ROhan kansari - 23/6/23 
-            // Reason - place changed and calling it on li function
-            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // Reason - place changed and calling it on li function
+                // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
                 // End of code - Rohan kansari - 22/6/23
+                >
+                  Order Report
+                </NavLink>
+              </li>
+              <li
+                className={style.Sublinks_div}
+                onClick={navigateToOrderItemReport}
               >
-                Order Report
-              </NavLink>
-            </li>
-            <li
-              className={style.Sublinks_div}
-              onClick={navigateToOrderItemReport}
-            >
-              <NavLink
-                // commented and modified by - Suman sahu on - 17/06/2023
-                // reason- for design active link
-                // className={style.sublink}
-                className={({ isActive }) =>
-                  isActive ? style.active : style.sublink
-                }
-                // end of modification by - Suman sahu on - 17/06/2023
-                to="/OrderItemReport"
+                <NavLink
+                  // commented and modified by - Suman sahu on - 17/06/2023
+                  // reason- for design active link
+                  // className={style.sublink}
+                  className={({ isActive }) =>
+                    isActive ? style.active : style.sublink
+                  }
+                  // end of modification by - Suman sahu on - 17/06/2023
+                  to="/OrderItemReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
                 // Removed By ROhan kansari - 23/6/23 
-            // Reason - place changed and calling it on li function
-            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // Reason - place changed and calling it on li function
+                // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
                 // End of code - Rohan kansari - 22/6/23
+                >
+                  Order Item Report
+                </NavLink>
+              </li>
+              <li
+                className={style.Sublinks_div}
+                onClick={navigateToCustomerReport}
               >
-                Order Item Report
-              </NavLink>
-            </li>
-            <li
-              className={style.Sublinks_div}
-              onClick={navigateToCustomerReport}
-            >
-              <NavLink
-                // commented and modified by - Suman sahu on - 17/06/2023
-                // reason- for design active link
-                // className={style.sublink}
-                className={({ isActive }) =>
-                  isActive ? style.active : style.sublink
-                }
-                // end of modification by - Suman sahu on - 17/06/2023
-                to="/CustomerReport"
+                <NavLink
+                  // commented and modified by - Suman sahu on - 17/06/2023
+                  // reason- for design active link
+                  // className={style.sublink}
+                  className={({ isActive }) =>
+                    isActive ? style.active : style.sublink
+                  }
+                  // end of modification by - Suman sahu on - 17/06/2023
+                  to="/CustomerReport"
                 // Added by Rohan kansari - 22/6/23
                 // Reason - To set page index by default 1 on side bar page link
                 // Removed By ROhan kansari - 23/6/23 
-            // Reason - place changed and calling it on li function
-            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+                // Reason - place changed and calling it on li function
+                // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
                 // End of code - Rohan kansari - 22/6/23
-              >
-                Customer Report
-              </NavLink>
-            </li>
-          </ul>
-        ) : null}
-        {/* End of code - Rohan Kansari - 26/5/23*/}
-        {/* Added by Suman - To open revenue page - 27/5/23*/}
-        {/* Commented by Rohan kansari - 7/9/23 - Revenue Place changed */}
-        {/* <li className={style.links_div} onClick={navigateToRevenue}>
+                >
+                  Customer Report
+                </NavLink>
+              </li>
+            </ul>
+          ) : null}
+          {/* End of code - Rohan Kansari - 26/5/23*/}
+          {/* Added by Suman - To open revenue page - 27/5/23*/}
+          {/* Commented by Rohan kansari - 7/9/23 - Revenue Place changed */}
+          {/* <li className={style.links_div} onClick={navigateToRevenue}>
           <NavLink
             // commented and modified by - Suman sahu on - 17/06/2023
             // reason- for design active link
@@ -507,243 +515,267 @@ const navigateToRatingReviewList = () => {
             Revenue{" "}
           </NavLink>
         </li> */}
-        {/* End of code - Suman Sahu - 27/5/23*/}
-        <li className={style.links_div} onClick={navigateToBannerItems}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/BannerOfferItem"
+          {/* End of code - Suman Sahu - 27/5/23*/}
+          <li className={style.links_div} onClick={navigateToBannerItems}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/BannerOfferItem"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
             // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Banner/Offer Items{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToMenu}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/Menu"
+            >
+              {" "}
+              Banner/Offer Items{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToMenu}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/Menu"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
             // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Menu{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToCategory}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/Category"
+            >
+              {" "}
+              Menu{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToCategory}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/Category"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-           // Removed By ROhan kansari - 23/6/23 
+            // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Category{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToItem}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/item"
+            >
+              {" "}
+              Category{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToItem}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/item"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
-           // Removed By ROhan kansari - 23/6/23 
+            // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Item{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToSetting}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/SettingForm"
+            >
+              {" "}
+              Item{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToSetting}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/SettingForm"
+            >
+              {" "}
+              Setting{" "}
+            </NavLink>
+          </li>
 
-          >
-            {" "}
-            Setting{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToFooter}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/FooterDescription"
-          >
-            {" "}
-            Footer Description{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToCustomerDetail}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/CustomerDetail"
+          {/* Modified By Rohan kansari - 8/9/23 - change footer description page */}
+
+          {/* Added by - Rohan kansari - 8/9/23 - To link waiter page */}
+          <li className={style.links_div} onClick={navigateToWaiter}>
+            <NavLink
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              to="/Waiter"
+            >
+              {" "}
+              Waiter Details
+              {" "}
+            </NavLink>
+          </li>
+          {/* End of code addition - Rohan kansari - 8/9/23 - To link waiter page */}
+
+
+          <li className={style.links_div} onClick={navigateToCustomerDetail}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/CustomerDetail"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
             // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Customer Detail{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToOrder}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/Order"
-            // Added by Rohan kansari - 22/6/23
-            // Reason - To set page index by default 1 on side bar page link
-           // Removed By ROhan kansari - 23/6/23 
-            // Reason - place changed and calling it on li function
-            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
-            // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Order{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToOrderItem}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/OrderItem"
+            >
+              {" "}
+              Customer Detail{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToOrder}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/Order"
             // Added by Rohan kansari - 22/6/23
             // Reason - To set page index by default 1 on side bar page link
             // Removed By ROhan kansari - 23/6/23 
             // Reason - place changed and calling it on li function
             // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
             // End of code - Rohan kansari - 22/6/23
-          >
-            {" "}
-            Order Item{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToPayment}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/PaymentMethod"
-          >
-            {" "}
-            Payment Method{" "}
-          </NavLink>
-        </li>
-        <li className={style.links_div} onClick={navigateToQR}>
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/QRcode"
-          >
-            {" "}
-            QR Code{" "}
-          </NavLink>
-        </li>
-        {/* Added by Yuvraj Sahu on 29-05-2023
+            >
+              {" "}
+              Order{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToOrderItem}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/OrderItem"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
+            >
+              {" "}
+              Order Item{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToPayment}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/PaymentMethod"
+            >
+              {" "}
+              Payment Method{" "}
+            </NavLink>
+          </li>
+          <li className={style.links_div} onClick={navigateToQR}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/QRcode"
+            >
+              {" "}
+              QR Code{" "}
+            </NavLink>
+          </li>
+          {/* Added by Yuvraj Sahu on 29-05-2023
         	Reason - to add sidebar link for social media  */}
-        {/* Modified by Yuvraj Sahu on 12-06-2023
+          {/* Modified by Yuvraj Sahu on 12-06-2023
         	Reason - to navigate after clicking box  */}
-        <li className={style.links_div} onClick={navigateToSocialList}>
-          {/* End of modification by Yuvraj Sahu on 12-06-2023 */}
-          <NavLink
-            // commented and modified by - Suman sahu on - 17/06/2023
-            // reason- for design active link
-            // className={style.link}
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-            // end of modification by - Suman sahu on - 17/06/2023
-            to="/social-media"
-          >
-            {" "}
-            Social Media{" "}
-          </NavLink>
-        </li>
-        {/* End of addition social media by yuvraj Sahu on 29-05-2023 */}
+          <li className={style.links_div} onClick={navigateToSocialList}>
+            {/* End of modification by Yuvraj Sahu on 12-06-2023 */}
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/social-media"
+            >
+              {" "}
+              Social Media{" "}
+            </NavLink>
+          </li>
+          {/* End of addition social media by yuvraj Sahu on 29-05-2023 */}
 
-        {/* Added by Om Shrivastava on 24-07-23 
+          {/* Added by Om Shrivastava on 24-07-23 
         REason : Show the restaurant rating and review */}
-        <li className={style.links_div} onClick={navigateToRatingReviewList}>
-          <NavLink
-            className={({ isActive }) => (isActive ? style.active : style.link)}
-             // Modified by ROhan kansari 27/8/23 - To correct link naming 
-            //  to="/social-media"
-             to="/RatingReview"
-          >
-            {" "}
-           Rating & Review{" "}
-          </NavLink>
-        </li>
-        {/* End of  Added by Om Shrivastava on 24-07-23 
+          <li className={style.links_div} onClick={navigateToRatingReviewList}>
+            <NavLink
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // Modified by ROhan kansari 27/8/23 - To correct link naming 
+              //  to="/social-media"
+              to="/RatingReview"
+            >
+              {" "}
+              Rating & Review{" "}
+            </NavLink>
+          </li>
+          {/* End of  Added by Om Shrivastava on 24-07-23 
         REason : Show the restaurant rating and review */}
-      </ul>
 
-      <div className={style.sidebar_close_div}>
-        <FaCaretLeft
-          // added by - suman sahu on 16/06/2023
-          style={{ height: "6vh" }}
-          // end of addition by - suman sahu on 16/06/2023
-          onClick={closeSidebar}
-          className={
-            sidebar == true
-              ? style.show_sidebar_closearrow
-              : style.hide_sidebar_closearrow
-          }
-        />
-      </div>
+          {/* Added by Rohan kansari - 8/9/23 
+          Reason - change footer description place */}
+          <li className={style.links_div} onClick={navigateToFooter}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/FooterDescription"
+            >
+              {" "}
+              Footer Description{" "}
+            </NavLink>
+          </li>
+          {/* End of addition by Rohan kansari - 8/9/23 
+          Reason - change footer description place */}
+
+        </ul>
+
+        <div className={style.sidebar_close_div}>
+          <FaCaretLeft
+            // added by - suman sahu on 16/06/2023
+            style={{ height: "6vh" }}
+            // end of addition by - suman sahu on 16/06/2023
+            onClick={closeSidebar}
+            className={
+              sidebar == true
+                ? style.show_sidebar_closearrow
+                : style.hide_sidebar_closearrow
+            }
+          />
+        </div>
+
+
       </Drawer>
     </div>
   );

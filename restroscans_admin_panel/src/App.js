@@ -3,9 +3,9 @@ import { Routes,Route, Navigate } from 'react-router-dom';
 import Registration from './Pages/Auth/Registration';
 import Login from './Pages/Auth/Login';
 import Forget from './Pages/Auth/ForgetPassword';
-import style from "./app.module.css"
+import style from "./app.module.css";
 import { useEffect, useState } from 'react';
-import { Alert, AlertIcon } from '@chakra-ui/react'
+import { Alert, AlertIcon } from '@chakra-ui/react';
 import Dashboard from './Pages/Home/Dashboard';
 import Header from './Pages/GlobalComponent/Header';
 import Billing from './Pages/Billing/Billing';
@@ -42,6 +42,7 @@ import CategoryForm from './Pages/Menu/CategoryForm';
 import EditItemForm from './Pages/Menu/EditItemForm';
 import RestaurantRatingReview from './Pages/RestaurantRatingReview/RestaurantRatingReview'
 import NewOrderReport from './Pages/Report/NewOrderReport';
+import Waiter from './Pages/Waiter/Waiter';
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
@@ -156,9 +157,12 @@ function App() {
         {/* Added by Rohan kansari - 27/8/23 - To navigate blank link to dashboard */}
         <Route path="/" element={<Navigate to="/Revenue"/>}></Route>
         {/* End of code - Rohan kansari - 27/8/23 - To navigate blank link to dashboard  */}
-        <Route path='/Registration' element={tokenExist ? <Navigate to="/Dashboard" /> : <Registration />} />
-        <Route path="/Login" element={tokenExist ? <Navigate to="/Dashboard" /> : <Login />} />
-        <Route path="/Forget" element={tokenExist ? <Navigate to="/Dashboard" /> : <Forget />} />
+        {/* Added by Rohan kansari - 8/9/23 - To make revenue page default */}
+        <Route path='/Registration' element={tokenExist ? <Navigate to="/Revenue" /> : <Registration />} />
+        <Route path="/Login" element={tokenExist ? <Navigate to="/Revenue" /> : <Login />} />
+        <Route path="/Forget" element={tokenExist ? <Navigate to="/Revenue" /> : <Forget />} />
+        {/* End of code addition by Rohan kansari - 8/9/23 - To make revenue page default */}
+        
         {/* Added by ROhan kansari - 25/6/23 - To because non header containing pages define in other part  */}
         <Route path="/kot" element={!tokenExist ? <Navigate to="/Login" /> : <Kot />} />
         <Route path="/Billing" element={!tokenExist ? <Navigate to="/Login" /> : <Billing />} />
@@ -256,7 +260,7 @@ function App() {
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* end of addition by - Suman sahu On 26/05/2023 */}
 
-        <Route path="/Revenue" element={<Revenue />} />
+        <Route path="/Revenue" element={!tokenExist ? <Navigate to="/Login" /> : <Revenue />} />
 
         {/* Added by Yuvraj Sahu on 29-05-2023
       	Reason - to define route of social media page */}
@@ -291,6 +295,7 @@ function App() {
         <Route path="/RatingReview" element={<RestaurantRatingReview />} />
       	{/* End of addition by Om shrivastava on 24-07-23 Reason : Show the restaurant rating and review */}
 
+        <Route path="/Waiter" element={<Waiter/>} />
       </Routes>
       {/* <Footer /> */}
       </Header>

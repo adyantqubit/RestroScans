@@ -232,7 +232,11 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                             </div>
                         </div>
                         <div className={style.inputBox}>
-                            <label className={style.inputLabel}>Contact Number <span className={style.mandatory}>*</span></label>
+                            <label className={style.inputLabel}>Contact Number 
+                            {/* Removed by Rohan kansari - 8/9/23 
+                                Reason - Now contact number is not mandatory */}
+                            {/* <span className={style.mandatory}>*</span> */}
+                            </label>
                             <div>
                                 <input className={style.contactInputfield} value={contact} onChange={e => {
                                 

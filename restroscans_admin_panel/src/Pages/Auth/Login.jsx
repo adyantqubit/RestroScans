@@ -125,7 +125,9 @@ const Login = () => {
                     // Reason : Need to fix the logout issue
                     tokenRecheck()
                     // End of addition by Om Shrivastava on 03-06-23
-                    nav("/Dashboard")
+                    
+                    // Added by Rohan kansari - 8/9/23 
+                    nav("/Revenue")
                 }
                 else if(res.notAproved){
                     Message(res.notAproved, "warning")
