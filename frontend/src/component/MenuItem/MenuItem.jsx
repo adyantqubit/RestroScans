@@ -31,6 +31,7 @@ import ReactReadMoreReadLess from "react-read-more-read-less";
 import welcome_banner from '../../images/welcome_banner.jpg';
 import Draggable from 'react-draggable';
 import { FloatingWhatsApp } from "react-floating-whatsapp";
+import welcome_banner2 from '../../images/default.jpg';
 
 
 // Import Swiper styles
@@ -1035,7 +1036,12 @@ function MenuItem() {
                             // Modified and addition by Om shirvastava on 04-09-23
                             // Reason : When offer image is not there then show the welcome bydefault image
                             // src={siteConfig.siteURL + item.offer_image}
-                            src={item.offer_image?  siteConfig.siteURL + item.offer_image:welcome_banner}
+                            // Modification and addition by Om shrivastava on 10-09-23
+                            // Reason : Need to change the image
+                            // src={item.offer_image?  siteConfig.siteURL + item.offer_image:welcome_banner}
+                            src={item.offer_image?  siteConfig.siteURL + item.offer_image:welcome_banner2}
+                            // End of modification and addition by Om shrivastava on 10-09-23
+                            // Reason : Need to change the image
                             // End of modification and addition by Om shirvastava on 04-09-23
                             // Reason : When offer image is not there then show the welcome bydefault image
 
@@ -1100,7 +1106,10 @@ function MenuItem() {
             <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
               // src={nodataOffer}
               // src={offer_comming_soon_img}
+             
               src={welcome_banner}
+
+              
               alt="bydefault_img" />
             {/* End of modified code on 19-04-2023 */}
           </div>

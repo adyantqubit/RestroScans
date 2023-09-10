@@ -58,8 +58,9 @@ Reason : Need to decrease the size of table list */
 }
 
 .tableContainer {
-  /* width: 100%; */
-  width: fit-content;
+  /* min-width: 100%; */
+  min-width: 80%;
+  width: max-content;
   padding: 4px;
   background-color: #efefef;
   /* Added */
@@ -111,17 +112,17 @@ Reason : Need to decrease the size of table list */
 }
 
 .commonColumnData {
-  width: var(--common-column-width);
+ /* width: var(--common-column-width);
   min-width: var(--common-column-min-width);
   padding: 5px 0px;
   height: 100%;
-  display: var(--common-column-display);
+  display: var(--common-column-display); */
   font-weight: 600;
-  font-size: 12px;
+  font-size: 12px !important;
   text-align: center;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .data {
@@ -141,7 +142,19 @@ Reason : Need to decrease the size of table list */
 .mediumColoumnWidth {
   width: var(--common-column-medium-width);
   min-width: var(--common-column-medium-min-width);
+  /* width: 32%;
+  min-width: 90px; */
 }
+
+.paymentStatusColumn{
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
 .sNoColumn{
   min-width: 40px;
   text-align: center;
@@ -332,6 +345,160 @@ Reason - to design date filter */
 }
 
 /* End of code - 22/6/23 - ROhan kansari */
+/* Added by Om Shrivastava on 10-09-23
+Reason : Set the width and height for the order list */
+.sNoColumn {
+  min-width: 40px;
+  text-align: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.actionColumn {
+  min-width: 35px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.OrderIdColumn {
+  min-width: 80px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.tableNoColumn{
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.dateColumn{
+  min-width: 75px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.orderStatusColumn{
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.paymentStatusColumn{
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.subtotalColumn{
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.discountColumn{
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.loayltyColumn{
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.totalColumn{
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.cgstColumn{
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.sgstColumn{
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+
+.finalRupees{
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+
+}
+/* End of addition by Om Shrivastava on 10-09-23
+Reason : Set the width and height for the order list */
 
 @media screen and (max-width: 4000px) {
   .orderListSection {

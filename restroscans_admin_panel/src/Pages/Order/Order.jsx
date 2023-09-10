@@ -893,12 +893,15 @@ const Order = () => {
                 S.No{" "}
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
-              >
+                // className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+                className={style.actionColumn}
+>
                 Action
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.OrderIdColumn}
+
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortOrderId("order_id");
@@ -932,8 +935,8 @@ const Order = () => {
               </div>
               {/* End of modifciation by Om Shrivastava on 21-06-23 */}
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
-
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.tableNoColumn}
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortOrderId("table_number");
@@ -968,7 +971,9 @@ const Order = () => {
               
 
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.orderStatusColumn}
+
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortOrderId("order_status");
@@ -1004,9 +1009,24 @@ const Order = () => {
               </div>
 
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.paymentStatusColumn}
                  // Added by Om Shrivatava on 16-06-23
                   // Reason : Apply sorting through the payment status
+                  // onClick={(e) => {
+                  //   setShowSortingIcon(false);
+                  //   sortOrderId("payment_status");
+                  // }}
+                  // onMouseEnter={(e) => {
+                  //   if (columnToSort != "payment_status") {
+                  //     setShowSortingIcon(true);
+                  //   }
+                  // }}
+                  // onMouseLeave={(e) => {
+                  //   if (columnToSort != "payment_status") {
+                  //     setShowSortingIcon(false);
+                  //   }
+                  // }}
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortOrderId("payment_status");
@@ -1026,7 +1046,21 @@ const Order = () => {
                 Payment Status
               {/* // Added by Om Shrivatava on 16-06-23
                   // Reason : Apply sorting through the payment status */}
+                  {/* {columnToSort == "payment_status" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
                   {columnToSort == "payment_status" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "payment_status" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )} */}
+{columnToSort == "payment_status" &&
                     columnSortingOrder == "ascending" && (
                       <BsSortAlphaDown className={style.sortingIcon} />
                     )}
@@ -1053,24 +1087,33 @@ const Order = () => {
               >
                 Loyality
               </div> */}
+               <div
+                                className={style.subtotalColumn}
               
+              >
+                Sub-Total
+              </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.cgstColumn}
               >
                 CGST
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.sgstColumn}
               >
                 SGST
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.finalRupees}
               >
                 Final Amount
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.dateColumn}
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortOrderId("date");
@@ -1103,20 +1146,25 @@ const Order = () => {
                   )}
               </div>
                <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.totalColumn}
               >
                 Time
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.discountColumn}
               >
                 Get Bill
               </div>
               <div
-                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.loayltyColumn}
               >
                 Get KOT
               </div>
+
+             
             </div>
             {/* End of addition by Om shrivastava on 01-07-23 */}
             <div
@@ -1148,7 +1196,9 @@ const Order = () => {
                     >
                       <div
                         // className={`${style.commonColumnData} ${style.smallColumnWidth}`}
-                        className={style.sNoColumn}
+                        // className={style.sNoColumn}
+                        className={`${style.sNoColumn} ${style.commonColumnData} `}
+
                       >
                         {/* Added by Rohan kansari - 23/6/23 
                               Reason - Serial no. impact from list perpage so i set serial no. according to list per page */}
@@ -1156,7 +1206,9 @@ const Order = () => {
                           {/* End of code- Rohan Kansari - 23/6/23 */}
                       </div>
                       <div
-                        className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
+                        // className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
+                        className={`${style.actionColumn} ${style.commonColumnData} `}
+                        
                         // onClick={(e) => {
                         //   showModal(orderDetail);
                         // }}
@@ -1172,7 +1224,9 @@ const Order = () => {
                       </div>
 
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.OrderIdColumn} ${style.commonColumnData} `}
+                        
                         // Modification and added by Om Shrivastava on 27-06-23
                         // Reason : Need to remove onclick by div than added in span tag
 
@@ -1198,7 +1252,9 @@ const Order = () => {
                       {/* End of Modification by Om Shrivastava on 21-06-23 */}
                       {/* Modofication by Om Shrivastava on 21-06-23 because need to change the sequence of table number and order id  */}
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.tableNoColumn} ${style.commonColumnData} `}
+                        
                         // Added by Om Shrivastava on 21-06-23
                         // Reason : Need to navigate when user click the table no
                         // onClick={() => {
@@ -1223,7 +1279,9 @@ const Order = () => {
                       
 
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.orderStatusColumn} ${style.commonColumnData} `}
+                        
                         style={{ display: "flex", justifyContent: "center" }}
                       >
                         {orderDetail.order_status}
@@ -1235,7 +1293,9 @@ const Order = () => {
                                                 </div> */}
                       </div>
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.paymentStatusColumn} ${style.commonColumnData} `}
+                        
                       >
                         {orderDetail.payment_status}
                       </div>
@@ -1251,28 +1311,44 @@ const Order = () => {
                         {orderDetail.loyality_point_price}
                       </div>
                        */}
+                        <div
+                          // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                          className={`${style.subtotalColumn} ${style.commonColumnData} `}
+                      >
+                        {orderDetail.sub_total}
+                      </div>
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.cgstColumn} ${style.commonColumnData} `}
+                      
                       >
                         {orderDetail.cgst}
                       </div>
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.sgstColumn} ${style.commonColumnData} `}
+                      
                       >
                         {orderDetail.sgst}
                       </div>
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.finalRupees} ${style.commonColumnData} `}
+                      
                       >
                         {orderDetail.final_amount}
                       </div>
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                      >
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.dateColumn} ${style.commonColumnData} `}
+                     
+                     >
                         {ExtractDateTime(orderDetail.date).date}
                       </div>
                       <div
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.totalColumn} ${style.commonColumnData} `}
+                      
                       >
                       {ExtractDateTime(orderDetail.date).time}
                       </div>
@@ -1281,22 +1357,32 @@ const Order = () => {
                       >
                         {orderDetail.sub_total}
                       </div> */}
-                      <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                        {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}}
+                      <div
+                      //  className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      className={`${style.discountColumn} ${style.commonColumnData} `}
+                      
+                      >
+                        {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "3px 8px",borderRadius : "50px",cursor:'pointer',fontSize:'10px'}}
 
                         onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail);
                           // console.log(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }));
                            PrintBill(openActionPopupModal,orderItems?.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
                         // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
                         > Get Bill</div> :'---'}
+
+                       
                         </div>
                       {/* <div
                         className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                       >
                         {orderDetail.total}
                       </div> */}
-                      <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
-                        {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "5px 10px",borderRadius : "50px",cursor:'pointer'}} 
+                      <div 
+                      // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                      className={`${style.loayltyColumn} ${style.commonColumnData} `}
+                      
+                      >
+                        {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "3px 8px",borderRadius : "50px",cursor:'pointer',fontSize:'10px'}} 
                         // Modified by Rohan kansari- 4/8/23 
                         // Reason - To remove cancelled item from kot 
                         // onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }
@@ -1305,8 +1391,10 @@ const Order = () => {
                           ,restroDetail,gstFssai)}
                         // onClick={e => {openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); printKot() }}
                         > Print KOT</div> :'---'}
+                        
                         {/* End of code - Rohan kansari - 4/8/23 - To remove cancelled item from kot  */}
                         </div>
+                       
                     </div>
                   );
                 })

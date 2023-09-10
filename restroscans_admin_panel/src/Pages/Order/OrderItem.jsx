@@ -523,7 +523,7 @@ const OrderItem = () => {
           </div>
         {/* End of addition by Yuvraj Sahu on 07-08-2023 */}
 
-        <div className={style.itemListSection}> 
+        <div className={style.itemListSection}>  
           <div className={style.tableContainer}>
             <div className={style.table}>
               
@@ -539,12 +539,15 @@ const OrderItem = () => {
               >
                 <div className={style.sNoColumn}>S.No</div>
                 <div
-                className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+                // className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+                className={style.actionColumn}
               >
                 Action
               </div>
                 <div
-                  className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+                  // className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
+                className={style.OrderIdColumn}
+
                   onClick={(e) => {
                     setShowSortingIcon(false);
                     sortOrderId("order_id");
@@ -581,7 +584,9 @@ const OrderItem = () => {
                   // Added and commeted by Yuvraj Sahu on 09-07-2023
                   // Reason - to set the width of item name collumn
                   // className={style.commonColumnTitle}
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                  // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.orderStatusColumn}
+
 
                   // End of addition by Yuvraj Sahu on 09-07-2023
                   // Added by Om Shrivastava on 30-06-23
@@ -601,6 +606,7 @@ const OrderItem = () => {
                     }
                   }}
                   // End of addition by Om Shrivastava on 30-06-23
+                 
                 >
                   Item name
                   {/* Added by Om Shrivastava on 30-06-23
@@ -620,12 +626,14 @@ const OrderItem = () => {
                     />
                   )}
                   {/* End of addition by Om Shrivastava on 30-06-23 */}
+                
                 </div>
 
                 <div
                   // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by Full price
-                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                  // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                  className={style.orderStatusColumn}
 
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -663,7 +671,8 @@ const OrderItem = () => {
                   {/* End of addition by Om shrivastava on 30-06-23 */}
                 </div>
                 <div 
-                                className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.paymentStatusColumn}
 
                 // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by Half price
@@ -703,7 +712,8 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                  // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                  className={style.subtotalColumn}
 
                   // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by Half price
@@ -744,7 +754,8 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                                  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                  // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                  className={style.cgstColumn}
 
                   // Added by Om shrivastava on 30-06-23
                   // Reason - to sort data by active status
@@ -779,7 +790,9 @@ const OrderItem = () => {
                 </div>
 
                 <div
-                                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                //  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                                className={style.dateColumn}
+
 
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -813,7 +826,10 @@ const OrderItem = () => {
                   )}
                 </div>
 
-                <div                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                <div              
+                  //  className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                className={style.totalColumn}
+
 > Time </div>
               </div>
 
@@ -845,14 +861,18 @@ const OrderItem = () => {
                       >
                         <div 
                         // className={style.commonColumnData}
-                        className={style.sNoColumn}
+                        // className={style.sNoColumn}
+                        className={`${style.sNoColumn} ${style.commonColumnData} `}
+
                         >
                           
                         {(currentPage*listPerPage-listPerPage)+index+1}
                         </div>
 
                         <div
-                        className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
+                        // className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
+                        className={`${style.actionColumn} ${style.commonColumnData} `}
+                       
                         // onClick={(e) => {
                         //   showModal(orderDetail);
                         // }}
@@ -871,7 +891,8 @@ const OrderItem = () => {
                         Reason - to arrange the word */}
                         <div
                           // className={style.commonColumnData}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.OrderIdColumn} ${style.commonColumnData} `}
                           
                           style={{ wordBreak: "break-word"}}
                           
@@ -888,7 +909,11 @@ const OrderItem = () => {
                         {/* Added and commeted by Yuvraj Sahu on 09-07-2023
                         Reason - to set the witdh of item name collumn */}
                         {/* <div className={style.commonColumnData}> */}
-                        <div className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}>
+                        <div 
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.orderStatusColumn} ${style.commonColumnData} `}
+                        style={{wordBreak:'break-word'}}
+                        >
                         {/* End of addition by yuvraj Sahu on 09-07-2023 */}
                         {/* <span style={{cursor:'pointer',color:'blue'}} onClick={() => {
                             navigate(`/update-order-item/${orderDetail.id}`, {
@@ -901,7 +926,8 @@ const OrderItem = () => {
 
                         <div 
                         // className={style.commonColumnData}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.orderStatusColumn} ${style.commonColumnData} `}
                         
                         >
                         {orderDetail.item_status}
@@ -911,7 +937,8 @@ const OrderItem = () => {
                         
                         <div 
                         // className={style.commonColumnData}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.paymentStatusColumn} ${style.commonColumnData} `}
                         
                         >
                         {orderDetail.serving_size}
@@ -919,7 +946,8 @@ const OrderItem = () => {
                         </div>
                         <div 
                         // className={style.commonColumnData}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.subtotalColumn} ${style.commonColumnData} `}
                         
                         >
                         {orderDetail.quantity}
@@ -931,7 +959,8 @@ const OrderItem = () => {
                         {/* {itemDetails.is_active == true ? ( */}
                           <div 
                           // className={style.commonColumnData}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.cgstColumn} ${style.commonColumnData} `}
 
                           >
                           {orderDetail.price.toFixed(2)}
@@ -942,7 +971,8 @@ const OrderItem = () => {
                         {/* {itemDetails.best_seller == true ? ( */}
                           <div 
                           // className={style.commonColumnData}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.dateColumn} ${style.commonColumnData} `}
                           
                           >
                           {ExtractDateTime(orderDetail.date).date}
@@ -953,18 +983,14 @@ const OrderItem = () => {
 
                         <div
                           // className={`${style.commonColumnData}`}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.totalColumn} ${style.commonColumnData} `}
 
-                          style={{ display: "flex", justifyContent: "center" }}
+                          // style={{ display: "flex", justifyContent: "center" }}
                         >
-                          <div
-                            // className={`${style.commonColumnData}`}
-                        className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-
-                          >
+                          
                                 {ExtractDateTime(orderDetail.date).time}
 
-                          </div>
                         </div>
                       </div>
                     );
