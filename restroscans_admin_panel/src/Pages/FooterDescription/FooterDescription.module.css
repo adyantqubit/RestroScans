@@ -70,15 +70,29 @@ Reason: correction on Input Box Styling */
   font-weight: bold;
 }
 
+/* Modified By Pratap sahu on 11-09-2023
+Reason:to increase the area of input box */
 .textInputBox {
-  width: 350px;
+  /* width: 350px;
   height: 130px;
   border: 1px solid black;
   margin-top: 5px;
   border-radius: 10px;
   padding: 2px;
   background-color: white;
-  resize: vertical;
+  resize: vertical; */
+
+  width: 430px;
+  height: 170px;
+  border: 1px solid black;
+  margin-top: 5px;
+  border-radius: 10px;
+  padding: 2px;
+  background-color: white;
+  /* resize: vertical; */
+  overflow: hidden;
+/* End of Modification By Pratap sahu on 11-09-2023
+Reason:to increase the area of input box */
 }
 
 .inputErrorArea {

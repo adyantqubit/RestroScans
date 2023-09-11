@@ -214,15 +214,25 @@ function MenuForm() {
     if (menuId == null || menuId == undefined) {
       if (selectedImage == null || selectedImage == undefined) {
         setIconError("Please select image")
-      } else {
-        setIconError("")
+      } 
+      // //Added By Pratap Sahu on 11-09-2023
+      // Reason: To show Validation Error when uploaded Image size is larger than 200KB
+      else if(selectedImage/1024>200){
+          setIconError=("File size must be below 200 KB")
       }
+      //End of Addition By Pratap Sahu on 11-09-2023
+      // Reason: To show Validation Error when uploaded Image size is larger than 200KB
     } else {
       setIconError("")
     }
 
     if (name == null || name == undefined || name.trim() == "" ||
-      ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined))) {
+  // Commented by pratap sahu on 11-09-2023
+  // Reason:to Restrict menu creation when image size is larger than 200KB
+    // ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined))) {
+  // End Of Comment by pratap sahu on 11-09-2023
+  // Reason:to Restrict menu creation when image size is larger than 200KB
+      ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined)) || (selectedImage.size/1024>200)) {
       allowDataPost = false
     } else {
       if (nameError != "" || iconError != "") {
