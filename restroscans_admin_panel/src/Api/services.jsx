@@ -885,6 +885,21 @@ export const getFooterDescriptionApi = async (tenant) => {
  * Reason - To save,update & get the footer description.
  */ 
 
+// Added by  Pratap sahu on 21-08-2023
+// Reason - to update Table Reservation details
+export const updateReservationApi = async (tenant,value) => {
+  const response = await API.post(`/api/v1/${tenant}/update-reservation/`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response,'checkkk')
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Pratap sahu on 21-08-2023
+ * Reason - To update Table Reservation details
+ */
 
 // Added by Rohan kansari - 7/9/23 
 // Reason - To get admin setting data
@@ -897,10 +912,6 @@ export const getAdminAppSettings = async () => {
   }).catch((err) => console.log(err));
   return response ? response.data : {};
 };
-
-
-// End of code addition by Rohan kansari - 7/9/23 
-// Reason - To get admin setting data
 
 // End of code addition by Rohan kansari - 7/9/23 
 // Reason - To get waiter data
@@ -933,3 +944,37 @@ export const postWaiterListApi = async (tenant,data) => {
 // End of code addition by Rohan kansari - 8/9/23 
 // Reason - To get,post waiter data
 
+/**
+ * Added by -Pratap Sahu on 06-09-2023
+ * Reason - To get Table Reservation list of tenant.
+ */
+export const getReservationListApi = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/post_reservations/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by -Pratap Sahu on 06-09-2023
+ * Reason - To get Table Reservation list of tenant.
+ */ 
+
+/**
+ * Added by - Pratap Sahu on 07-09-2023
+ * Reason - To get customer Report list
+ */
+export const getCustomerReportApi = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/get-customer-report/`, filteringCriteria,{
+ 
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by - Pratap Sahu on 07-09-2023
+ * Reason - To get customer Report list of tenant
+ */ 

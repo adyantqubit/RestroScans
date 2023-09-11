@@ -444,7 +444,7 @@ urlpatterns = [
 
 
     # Added by Rohan kansari - 9/9/23 - To do crud operation in waiter table
-    path('<str:tenant>/waiter-list/',WaiterAPI.as_view())
+    path('<str:tenant>/waiter-list/',WaiterAPI.as_view()),
     # End of addition by Rohan kansari - 9/9/23 - To do crud operation in waiter table
 
     # path('<str:tenant>/offer-banner-details/',BannerOfferAPIView.as_view()),
@@ -453,4 +453,13 @@ urlpatterns = [
     # path('<str:tenant>/update-offer-banner/',BannerOfferAPIView.as_view()),
     # End of addition by Om Shrivastava on 06-08-23
     # Reason : To get list of banner/offer details
+    
+    
+    # Added by Pratap Sahu on 08-09-23
+    # Reason : To get list of Customer reort details
+    path('<str:tenant>/get-customer-report/',CustomerReportAPI.as_view()),
+    # End of code addition by -  Pratap Sahu on 26-08-23
+    # Reason : To get list of Customer reort details
 ]   
+
+

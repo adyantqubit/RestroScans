@@ -3135,11 +3135,92 @@ class CustomerAPI(APIView):
 # Reason : API for post the reservations data for react js (Customer ui)
 class PostReservationAPIView(APIView):
     def post(self, request, tenant, *args,**kwargs):
-        ReservationsSerializedData = ReservationSerializer(data=request.data)
-        if ReservationsSerializedData.is_valid():
-            ReservationsSerializedData.save()
-        return Response({"msg": "success","reservation":ReservationsSerializedData.data})
-# End of added code by :- Parineeta Gedam on 01-06-2023
+# Commented by pratap sahu on 07-09-2023
+    # Reason: to add sorting,searching and pagination functionality on Reservation page in jS       
+        # ReservationsSerializedData = ReservationSerializer(data=request.data)
+        # if ReservationsSerializedData.is_valid():
+        #     ReservationsSerializedData.save()
+        # return Response({"msg": "success","reservation":ReservationsSerializedData.data})
+    # End of added code by :- Parineeta Gedam on 01-06-2023
+# End of Comment by pratap sahu on 07-09-2023
+
+# Added By pratap sahu on 07-09-2023
+# Reason: to add sorting,searching and pagination functionality on Reservation page in jS       
+# ------------------------------------------------------------------------
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Added by - pratap sahu on 07-09-2023
+        # Reason - To add search functionality
+        searchText=request.data['searchText']
+
+        reservationList=[]
+
+        if columnToSort == "":
+            reservationList = Reservation.objects.all()
+
+        if searchText:
+            reservationList=Reservation.objects.filter(Q(name__icontains=searchText) | 
+                                                       Q(table_number__icontains=searchText) |
+                                                       Q(contact_number__icontains=searchText) 
+                                                        )
+        else:
+            reservationList = Reservation.objects.all()    
+        # End of Addition by - pratap sahu on 07-09-2023
+        # Reason - To add search functionality
+        
+        # Added by - pratap sahu on 07-09-2023
+        # Reason - To add sorting functionality in respective columns
+        if columnToSort == "name" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('name')
+        if columnToSort == "name" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-name')
+
+        if columnToSort == "contact_number" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('contact_number')
+        if columnToSort == "contact_number" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-contact_number')
+            
+        if columnToSort == "table_number" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('table_number')
+        if columnToSort == "table_number" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-table_number')
+        
+        if columnToSort == "reservation_status" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('reservation_status')
+        if columnToSort == "reservation_status" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-reservation_status')
+            
+        if columnToSort == "date" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('date')
+        if columnToSort == "date" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-date')
+            
+        if columnToSort == "number_of_person" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('number_of_person')
+        if columnToSort == "number_of_person" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-number_of_person')
+        # End of Addition by - pratap sahu on 07-09-2023
+        # Reason - To add sorting functionality in respective columns
+        
+        reservationListCount=reservationList.count()
+
+        # from django.core.paginator import Paginator
+        paginator = Paginator(reservationList, listPerPage)
+        filteredReservationList = paginator.page(currentPage)
+        ReservationsSerializedData = ReservationSerializer(filteredReservationList, many =True)
+        
+        return Response({
+            "msg":"success",
+            "reservation":ReservationsSerializedData.data,
+            "reservationListCount":reservationListCount,
+        })
+# End of addition by pratap sahu on 07-09-2023
+# Reason: to add sorting,searching and pagination functionality on Reservation page in jS
+# ----------------------------------------------
 
 # Added by :- Parineeta Gedam
 # Date :- 26-05-2023
@@ -3149,14 +3230,27 @@ class GetReservationsAPIView(APIView):
 
         # Modified by :- Parineeta Gedam on 16-06-2023 
         # reason :- In reservation table newly request should be displayed at top in table.
-
         # reservationList = Reservation.objects.all()
         reservationList = Reservation.objects.all().order_by('-id')
         
         # End of modified code  by :- Parineeta Gedam on 16-06-2023 reason :- In reservation table newly request should be displayed at top in table.
         reservationSerializer = ReservationSerializer(reservationList, many=True)
         return Response({"msg": "success", "reservationList": reservationSerializer.data})
-# End of added code by :- Parineeta Gedam on 26-05-2023
+        
+        # Added by Pratap Sahu on 08-09-2023
+        # Reason: to get single reservation detail by id
+    def get(self,request,tenant,reservationId):
+        if reservationId:
+            reservtion=Reservation.objects.get(id=reservationId)
+        else:
+            reservtion= None
+        if reservtion:
+            reservationSerializer=ReservationSerializer(reservtion)
+            reservationSerializedData=reservationSerializer.data
+            
+        return Response({"msg":"success","reservation":reservationSerializedData})
+    
+# End of addition by- Pratap Sahu on 08-09-2023,To get single reservation detail by id
 
 # Added by :- Parineeta Gedam
 # Date :- 28-05-2023
@@ -4371,4 +4465,131 @@ class WaiterAPI(APIView):
         if waiterSerialize.is_valid():
             waiterSerialize.save()
             return Response({"data":waiterSerialize.data}, status=status.HTTP_200_OK) 
-        return Response({"error":waiterSerialize.errors})    
+        return Response({"error":waiterSerialize.errors})
+
+# Added by Pratap Sahu on 27-08-23
+# Reason - API to to get Customer Report Details
+def getFilteredCustomerReport(customerList):
+    
+         arrayOfCustReport=list()
+        #  customerList=CustomerDetail.objects.all()
+         for customer in customerList:
+
+            setdata = dict()
+            name=customer.last_customer_name
+            contactNumber=customer.contact_number
+            
+            if customer.last_email is None:
+                email=customer.email
+            else:
+                email=customer.last_email
+            
+            numberOfOrders=Order.objects.filter(customer_id=customer.id).count()
+            cancelledOrder=Order.objects.filter(customer_id=customer.id,order_status="Cancelled").count()
+            completedOrder=Order.objects.filter(customer_id=customer.id,payment_status="Completed").count()
+            loyaltyPoints=customer.loyality_points
+            total=Order.objects.filter(customer_id=customer.id).values('total')
+            totalAmount=0
+            for x in total:
+                totalAmount+=x['total']
+                
+            setdata['last_customer_name']=name
+            setdata['contact_number']=contactNumber
+            setdata['email']=email
+            setdata['numberOfOrders']=numberOfOrders
+            setdata['cancelledOrder']=cancelledOrder
+            setdata['completedOrder']=completedOrder
+            setdata['loyality_points']=loyaltyPoints
+            setdata['totalAmount']=totalAmount
+            
+            arrayOfCustReport.append(setdata)
+         return arrayOfCustReport
+
+class CustomerReportAPI(APIView):
+
+    # Added by pratap sahu on 28-08-2023
+    # Reason: to get Customer report list when sorting,searching or pagination appied
+    def post(self,request,tenant):
+        
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+        searchText=request.data['searchText']
+        customerList=[]
+
+        if columnToSort == "":
+            customerList = CustomerDetail.objects.all()
+
+        if searchText :
+            customerList=CustomerDetail.objects.filter(Q(last_customer_name__icontains=searchText) | 
+                                                       Q(last_email__icontains=searchText) |
+                                                       Q(contact_number__icontains=searchText) 
+                                                        )        
+        else:
+            customerList = CustomerDetail.objects.all()
+        
+        arraylist=getFilteredCustomerReport(customerList)
+        # Added by pratap sahu on 29-08-23
+        # Reason: to get sorted list details from backend
+        if columnToSort == "last_customer_name" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["last_customer_name"].lower())
+        if columnToSort == "last_customer_name" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["last_customer_name"].lower(),reverse=True)
+         
+        if columnToSort == "contact_number" and columnSortingOrder=="ascending":
+            customerList =sorted(arraylist,key=lambda x:x["contact_number"])
+            
+        if columnToSort == "contact_number" and columnSortingOrder=="descending":
+            customerList =sorted(arraylist,key=lambda x:x["contact_number"],reverse=True)
+                       
+        if columnToSort == "email" and columnSortingOrder=="ascending":
+            customerList =sorted(arraylist,key=lambda x:x["email"].lower())
+        if columnToSort == "email" and columnSortingOrder=="descending":
+            customerList =sorted(arraylist,key=lambda x:x["email"].lower(),reverse=True)
+        
+        if columnToSort == "totalAmount" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["totalAmount"])
+        if columnToSort == "totalAmount" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["totalAmount"],reverse=True)
+                 
+        if columnToSort == "numberOfOrders" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["numberOfOrders"])
+        if columnToSort == "numberOfOrders" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["numberOfOrders"],reverse=True) 
+           
+        if columnToSort == "cancelledOrder" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["cancelledOrder"])
+        if columnToSort == "cancelledOrder" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["cancelledOrder"],reverse=True)          
+            
+        if columnToSort == "completedOrder" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["completedOrder"])
+        if columnToSort == "completedOrder" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["completedOrder"],reverse=True) 
+                        
+        if columnToSort == "loyality_points" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["loyality_points"])
+        if columnToSort == "loyality_points" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["loyality_points"],reverse=True) 
+      
+        #  code addition by -  Pratap Sahu on 29-08-2023
+        # Reason - To get list of customers using backend pagination
+ 
+        if currentPage>1:
+           startindex=int(listPerPage*(currentPage-1))
+        else:
+            startindex=0
+        endIndex=startindex+int(listPerPage)
+        filteredCutomerList=customerList[startindex:endIndex]
+        print(filteredCutomerList,listPerPage,currentPage,startindex,endIndex)
+        customerListCount=CustomerDetail.objects.all().count()
+        return Response({
+            "customerList":filteredCutomerList,
+            "customerListCount":customerListCount,
+            # "allcustomerList":filteredCutomerList
+        },200)
+        # End of code addition by -  Pratap Sahu on 29-08-2023
+        # Reason - To get list of customers using backend pagination & Add search functionality
+            

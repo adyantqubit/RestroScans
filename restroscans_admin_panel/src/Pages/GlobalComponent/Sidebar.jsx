@@ -288,6 +288,28 @@ const Sidebar = ({sidebar, setSidebar}) => {
  * End of addition by Om Shrivastava on 24-07-2023
  * Reason - to navigate restaurant rating review
  */
+
+/**
+   * Added by Pratap Sahu on 21-08-2-23
+   * Reason - to navigate ReservationList
+   */
+const navigateToReservationList = () => {
+  // Added by Om Shrivastava on 26-07-23
+  // Reason : Set the list per page data
+  localStorage.setItem("globalPageIndex", 1);
+  localStorage.setItem("listPerPage", 10)
+  // End of addition by Pratap Sahu on 21-08-2-23
+  // Reason : Set the list per page data
+  if (windowSize.innerWidth < 800)
+     setSidebar(false)
+  navigate("/ReservationList");
+};
+/**
+ * End of addition by Pratap Sahu on 21-08-2-23
+ * Reason - to navigate ReservationList
+ */
+
+
   // Added by ROhan kansari - 25/6/23
   // Reason - getting widowsize 
   
@@ -621,8 +643,9 @@ const Sidebar = ({sidebar, setSidebar}) => {
           </li>
           {/* End of code addition - Rohan kansari - 8/9/23 - To link waiter page */}
 
-
-          <li className={style.links_div} onClick={navigateToCustomerDetail}>
+        {/* Commented by Pratap Sahu on 11-09-2023
+        Reason:No Longer Needed as already Details are Available in Customer Report */}
+          {/* <li className={style.links_div} onClick={navigateToCustomerDetail}>
             <NavLink
               // commented and modified by - Suman sahu on - 17/06/2023
               // reason- for design active link
@@ -640,7 +663,10 @@ const Sidebar = ({sidebar, setSidebar}) => {
               {" "}
               Customer Detail{" "}
             </NavLink>
-          </li>
+          </li> */}
+        {/* End of Comment by Pratap Sahu on 11-09-2023
+        Reason:No Longer Needed as already Details are Available in Customer Report
+
           <li className={style.links_div} onClick={navigateToOrder}>
             <NavLink
               // commented and modified by - Suman sahu on - 17/06/2023
@@ -758,6 +784,21 @@ const Sidebar = ({sidebar, setSidebar}) => {
           </li>
           {/* End of addition by Rohan kansari - 8/9/23 
           Reason - change footer description place */}
+          
+               {/* Added by Pratap Sahu on 21-08-2-23
+        REason : to Display the Table Reservation option in side bar */}
+        <li className={style.links_div} onClick={navigateToReservationList}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? style.active : style.link
+              }
+              to="/ReservationList">
+              {" "}
+              Table Reservation{" "}
+            </NavLink>
+          </li>
+          {/* End of  Added by Pratap Sahu on 21-08-2-23
+        REason :to Display the Table Reservation option in side bar*/}
 
         </ul>
 

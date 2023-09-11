@@ -43,6 +43,8 @@ import EditItemForm from './Pages/Menu/EditItemForm';
 import RestaurantRatingReview from './Pages/RestaurantRatingReview/RestaurantRatingReview'
 import NewOrderReport from './Pages/Report/NewOrderReport';
 import Waiter from './Pages/Waiter/Waiter';
+import ReservationForm from './Pages/TableReservation/ReservationForm';
+import ReservationList from './Pages/TableReservation/ReservationList';
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
@@ -295,7 +297,13 @@ function App() {
         <Route path="/RatingReview" element={<RestaurantRatingReview />} />
       	{/* End of addition by Om shrivastava on 24-07-23 Reason : Show the restaurant rating and review */}
 
-        <Route path="/Waiter" element={<Waiter/>} />
+       <Route path="/Waiter" element={<Waiter/>} />
+       
+        {/* {/* Added by Pratap Sahu on 21-08-23 Reason : To Display Table Reservation Form & List *} */}
+        <Route path="/ReservationForm" element={<ReservationForm/>}/>
+        <Route path="/ReservationList" element={<ReservationList/>}/>
+         {/* end of modification by -  Pratap Sahu on 21-08-23 */}
+
       </Routes>
       {/* <Footer /> */}
       </Header>
