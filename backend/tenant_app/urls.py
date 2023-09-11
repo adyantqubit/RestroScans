@@ -442,6 +442,11 @@ urlpatterns = [
 
     path('<str:tenant>/offer-banner-save/',BannerOfferAPIView.as_view()),
 
+
+    # Added by Rohan kansari - 9/9/23 - To do crud operation in waiter table
+    path('<str:tenant>/waiter-list/',WaiterAPI.as_view())
+    # End of addition by Rohan kansari - 9/9/23 - To do crud operation in waiter table
+
     # path('<str:tenant>/offer-banner-details/',BannerOfferAPIView.as_view()),
 
     # path('<str:tenant>/create-offer-banner/',BannerOfferAPIView.as_view()),

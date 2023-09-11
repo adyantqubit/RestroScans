@@ -229,12 +229,10 @@
   display: block;
 }
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
   background-color: #f2f2f2;
 }
 
-/* End of code - 22/6/23 - ROhan kansari */
 
 @media screen and (max-width: 4000px) {
   .container {

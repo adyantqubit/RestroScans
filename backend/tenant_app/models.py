@@ -1,6 +1,6 @@
 from fcm_django.models import AbstractFCMDevice
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator ,MinLengthValidator ,MaxLengthValidator
 from django.utils.translation import ugettext_lazy as _
 from admin_app.models import *
 from django.db.models import Avg
@@ -1886,3 +1886,13 @@ class RatingReview(models.Model):
         return 'Rating & Review' 
 
 # End of addition by Om Shrivastava on 14-06-23
+
+
+# Added by Rohan kansari - 9/9/23
+# Reason - Creating waiter fields
+class Waiter(models.Model):
+    name = models.CharField(max_length=50)
+    contact_number = models.CharField(max_length=15,unique=True)   
+    is_active=models.BooleanField(default=True)
+    password = models.CharField(max_length=255)
+# End of code - Rohan kansari - 9/9/23

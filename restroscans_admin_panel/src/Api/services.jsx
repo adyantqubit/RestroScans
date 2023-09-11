@@ -898,5 +898,38 @@ export const getAdminAppSettings = async () => {
   return response ? response.data : {};
 };
 
+
 // End of code addition by Rohan kansari - 7/9/23 
 // Reason - To get admin setting data
+
+// End of code addition by Rohan kansari - 7/9/23 
+// Reason - To get waiter data
+
+
+
+// Added by Rohan kansari - 7/9/23 
+// Reason - To get,post admin setting data
+
+export const getWaiterListApi = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/waiter-list/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+
+export const postWaiterListApi = async (tenant,data) => {
+  const response = await API.post(`/api/v1/${tenant}/waiter-list/`,data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+
+
+// End of code addition by Rohan kansari - 8/9/23 
+// Reason - To get,post waiter data
+

@@ -25,7 +25,8 @@
 }
 
 .inputField{
-    min-width: 150px;
+    min-width: 180px;
+    max-width: 180px;
     border: 1px solid #9c9c9c;
     outline: none;
     font-size: 15px;
@@ -42,6 +43,21 @@
     font-weight: 500;
 }
 
+.checkboxField{
+    min-width: 20px;
+    max-width: 20px;
+    border: 1px solid #9c9c9c;
+    outline: none;
+    font-size: 15px;
+    margin-top: 7px;
+    padding: 3px 4px;
+    border-radius: 5px;
+}
+
+.astrik{
+    color: red;
+}
+
 @media screen and (max-width:500px){
 
     .label{
@@ -49,7 +65,8 @@
         min-width: 130px;
     }
     .inputField{
-        max-width: 130px;
+        min-width: unset;
+        max-width: 140px;
     }
 
     .container{
@@ -58,6 +75,6 @@
     }
 
     .errorText{
-        font-size: 14px;
+        font-size: 13px;
     }
 }

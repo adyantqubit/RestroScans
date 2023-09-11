@@ -262,3 +262,13 @@ class RatingReviewSerializer(serializers.ModelSerializer):
         model=RatingReview
         fields='__all__'
 # End of addition by Om Shrivastava on 14-06-23
+
+
+# Added by Rohan kansari - 9/9/23
+# Reason - To serialize waiter table data
+class WaiterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Waiter
+        fields='__all__'
+# End of addition by Rohan kansari - 9/9/23
+# Reason - To serialize waiter table data

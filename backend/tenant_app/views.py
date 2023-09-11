@@ -4344,3 +4344,31 @@ class BannerOfferAPIView(APIView):
 
 # End of addition by Om Shrivastava on 06-08-23
 # Reason - to save, delete and edit the offer/banner details
+
+
+# Added by ROhan kansari - 9/9/23 
+# Reason - - To get waiter detail 
+
+class WaiterAPI(APIView):
+    def get(self,request,tenant):
+        waiterList=Waiter.objects.all().order_by("-id")
+        waiterSerialize=WaiterSerializer(waiterList,many=True)
+        return Response({"data":waiterSerialize.data})
+    
+    def post(self,request,tenant):
+        from django.contrib.auth.hashers import make_password,check_password
+        print(request.data)
+        if request.data["id"]:
+            waiterObj=Waiter.objects.get(id=request.data["id"])
+            # if check_password(request.data["password"],waiterObj.password) == False:
+            request.data["password"]=make_password(request.data["password"])
+            waiterSerialize=WaiterSerializer(waiterObj,data=request.data,partial=True)
+        else:
+            request.data["password"]=make_password(request.data["password"])
+            waiterSerialize= WaiterSerializer(data=request.data)
+            
+       
+        if waiterSerialize.is_valid():
+            waiterSerialize.save()
+            return Response({"data":waiterSerialize.data}, status=status.HTTP_200_OK) 
+        return Response({"error":waiterSerialize.errors})    
