@@ -982,7 +982,7 @@ export const getCustomerReportApi = async (tenant,filteringCriteria) => {
 /**
  * End of code addition by - Pratap Sahu on 07-09-2023
  * Reason - To get customer Report list of tenant 
-
+ */
 // Added by Rohan Kansari - 11/9/23 
 // Reason - To authenticate waiter 
 

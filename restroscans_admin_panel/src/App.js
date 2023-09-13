@@ -45,6 +45,8 @@ import NewOrderReport from './Pages/Report/NewOrderReport';
 import Waiter from './Pages/Waiter/Waiter';
 import WaiterLogin from './Pages/Auth/WaiterLogin';
 import WaiterDashboard from './Pages/Waiter/WaiterDashboard';
+import ReservationForm from './Pages/TableReservation/ReservationForm';
+import ReservationList from './Pages/TableReservation/ReservationList';
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
