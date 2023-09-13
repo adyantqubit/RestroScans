@@ -111,7 +111,11 @@ function MenuForm() {
      * Reason - added validation for name
      */
     if (inputName == "name") {
-      if (value != null || value != undefined || value.trim() != "") {
+      // Modified By pratap Sahu on 13-09-2023 To Prevent null exception because of value
+      // if (value != null || value != undefined || value.trim() != "") {
+        if (value != null || value != undefined || value?.trim() != "") {
+      // End of Modification By pratap Sahu on 13-09-2023 To Prevent null exception because of value
+
         setNameError("")
       }
     }
@@ -156,7 +160,10 @@ function MenuForm() {
     // }
     if (inputName == "icon") {
       if (value != null && value != undefined) {
-        if (value.size / 1024 > 200) {
+     //Modification By Pratap Sahu on 13-09-2023 To Prevent null exception because of value
+      // if (value.size / 1024 > 200) {
+        if (value?.size / 1024 > 200) {
+      // End of Modification By Pratap Sahu on 13-09-2023 To Prevent null exception because of value            
           setIconError("File size must be below 200 KB")
         } else {
           setIconError("")
@@ -215,24 +222,24 @@ function MenuForm() {
       if (selectedImage == null || selectedImage == undefined) {
         setIconError("Please select image")
       } 
-      // //Added By Pratap Sahu on 11-09-2023
+      //Commented And Added By Pratap Sahu on 13-09-2023
       // Reason: To show Validation Error when uploaded Image size is larger than 200KB
-      else if(selectedImage/1024>200){
-          setIconError=("File size must be below 200 KB")
-      }
-      //End of Addition By Pratap Sahu on 11-09-2023
-      // Reason: To show Validation Error when uploaded Image size is larger than 200KB
-    } else {
-      setIconError("")
-    }
+    // } else {
+    //   setIconError("")    
+    //   }
+        else if(selectedImage?.selectedImage/1024>200){
+      setIconError=("File size must be below 200 KB")
+    }}
+    //End of Addition By Pratap Sahu on 13-09-2023
+    // Reason: To show Validation Error when uploaded Image size is larger than 200KB
 
     if (name == null || name == undefined || name.trim() == "" ||
-  // Commented by pratap sahu on 11-09-2023
+  // Commented And added by pratap sahu on 11-09-2023
   // Reason:to Restrict menu creation when image size is larger than 200KB
     // ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined))) {
-  // End Of Comment by pratap sahu on 11-09-2023
-  // Reason:to Restrict menu creation when image size is larger than 200KB
-      ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined)) || (selectedImage.size/1024>200)) {
+      ((menuId == null || menuId == undefined) && (selectedImage == null || selectedImage == undefined)) || (selectedImage?.size/1024>200)) {
+        // End Of Comment by pratap sahu on 11-09-2023
+        // Reason:to Restrict menu creation when image size is larger than 200KB
       allowDataPost = false
     } else {
       if (nameError != "" || iconError != "") {
@@ -429,8 +436,8 @@ function MenuForm() {
                   // ENd of code ROhan kansari - 18/8/23 - to prevent form reload
                   style={{ width: "200px" }}
                   onChange={(e) => {
-                    setName(e.target.value.toString());
-                    validateOnInput("name", e.target.value.toString());
+                    setName(e.target.value?.toString());
+                    validateOnInput("name", e.target.value?.toString());
                   }}
                   maxLength={30}
                 />
