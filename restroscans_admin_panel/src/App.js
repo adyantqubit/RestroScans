@@ -43,8 +43,8 @@ import EditItemForm from './Pages/Menu/EditItemForm';
 import RestaurantRatingReview from './Pages/RestaurantRatingReview/RestaurantRatingReview'
 import NewOrderReport from './Pages/Report/NewOrderReport';
 import Waiter from './Pages/Waiter/Waiter';
-import ReservationForm from './Pages/TableReservation/ReservationForm';
-import ReservationList from './Pages/TableReservation/ReservationList';
+import WaiterLogin from './Pages/Auth/WaiterLogin';
+import WaiterDashboard from './Pages/Waiter/WaiterDashboard';
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
@@ -163,6 +163,11 @@ function App() {
         <Route path='/Registration' element={tokenExist ? <Navigate to="/Revenue" /> : <Registration />} />
         <Route path="/Login" element={tokenExist ? <Navigate to="/Revenue" /> : <Login />} />
         <Route path="/Forget" element={tokenExist ? <Navigate to="/Revenue" /> : <Forget />} />
+
+        {/* Added by Rohan kansari - 9/8/23 - To add waiter pages */}
+        <Route path="/WaiterLogin" element={tokenExist ? <Navigate to="/WaiterDashboard" />:<WaiterLogin/>} />
+        {/* End of code Addition by Rohan kansari - 9/8/23 - To add waiter pages */}
+
         {/* End of code addition by Rohan kansari - 8/9/23 - To make revenue page default */}
         
         {/* Added by ROhan kansari - 25/6/23 - To because non header containing pages define in other part  */}
@@ -297,13 +302,15 @@ function App() {
         <Route path="/RatingReview" element={<RestaurantRatingReview />} />
       	{/* End of addition by Om shrivastava on 24-07-23 Reason : Show the restaurant rating and review */}
 
-       <Route path="/Waiter" element={<Waiter/>} />
+        {/* Added by Rohan kansari - 9/8/23 - To add waiter pages */}
+        <Route path="/Waiter" element={!tokenExist ? <Navigate to="/WaiterLogin" />:<Waiter/>} />
+        <Route path="/waiterDashboard" element={!tokenExist ? <Navigate to="/WaiterLogin" />:<WaiterDashboard/>} />
+        {/* End of code - Rohan kansari - 9/8/23 - To add Waiter pages */}
        
         {/* {/* Added by Pratap Sahu on 21-08-23 Reason : To Display Table Reservation Form & List *} */}
         <Route path="/ReservationForm" element={<ReservationForm/>}/>
         <Route path="/ReservationList" element={<ReservationList/>}/>
          {/* end of modification by -  Pratap Sahu on 21-08-23 */}
-
       </Routes>
       {/* <Footer /> */}
       </Header>

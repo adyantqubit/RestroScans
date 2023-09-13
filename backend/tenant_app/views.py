@@ -4593,3 +4593,26 @@ class CustomerReportAPI(APIView):
         # End of code addition by -  Pratap Sahu on 29-08-2023
         # Reason - To get list of customers using backend pagination & Add search functionality
             
+
+class WaiterAuthenticateAPI(APIView):
+    def post(self,request,tenant):
+        restaurant = Tenant.objects.get(tenant_name = tenant).restaurant_name
+        try:
+          waiterObj=Waiter.objects.get(contact_number=request.data["contact_number"])
+        except:
+            return Response({"error":"Please enter valid contact number"})
+        
+        from django.contrib.auth.hashers import check_password
+
+        if(check_password(request.data["password"],waiterObj.password)):
+          from admin_app.authentication import create_access_token,create_refresh_token
+          access_token = create_access_token(waiterObj.id)
+          refresh_token = create_refresh_token(waiterObj.id)
+          waiterSerialize=WaiterSerializer(waiterObj)
+          
+          return Response({"token":access_token,"refresh_token":refresh_token,
+                           "waiter":waiterSerialize.data,
+                           'tenantInfo': Tenant.objects.filter(tenant_name = tenant).values().first(),
+            })
+        else:
+          return Response({"error":"Please enter valid password"})  

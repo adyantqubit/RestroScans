@@ -4,16 +4,16 @@ import style from "./waiterForm.module.css"
 import { postWaiterListApi } from '../../Api/services'
 import { Message } from '../../App'
 
-const WaiterForm = ({ IsModalOpen, setModelVisiblity, selectedWaiter, setWaiterList, waiterList }) => {
+const WaiterForm = ({ IsModalOpen, setModelVisiblity,setSelectedWaiter, selectedWaiter, setWaiterList, waiterList }) => {
 
     const [errortext, setErrorText] = useState({})
 
     var [formData, setFormData] = useState({
         "id": null,
-        "name": null,
-        "contact_number": null,
-        "password": null,
-        "is_active": null,
+        "name": "",
+        "contact_number": "",
+        "password": "",
+        "is_active": true,
     })
 
     useEffect(() => {
@@ -48,8 +48,10 @@ const WaiterForm = ({ IsModalOpen, setModelVisiblity, selectedWaiter, setWaiterL
             await postWaiterListApi(tenant, formData).then(r => {
                 if (r.data) {
                     if (formData.id) {
-                        waiterList = waiterList.filter(e => e.id != r.data.id)
-                        setWaiterList([r.data, ...waiterList])
+                        var waiterData=[]
+                        waiterList.map(e => {if(e.id != r.data.id) waiterData.push(e); else waiterData.push(r.data)})
+                        console.log(waiterData)
+                        setWaiterList([...waiterData])
                     } else {
                         setWaiterList([r.data, ...waiterList])
                     }
@@ -71,10 +73,10 @@ const WaiterForm = ({ IsModalOpen, setModelVisiblity, selectedWaiter, setWaiterL
             {
                 ...{
                     "id": null,
-                    "name": null,
-                    "contact_number": null,
-                    "password": null,
-                    "is_active": null,
+                    "name": "",
+                    "contact_number": "",
+                    "password": "",
+                    "is_active": true,
                 }
             }
         )
@@ -135,7 +137,7 @@ const WaiterForm = ({ IsModalOpen, setModelVisiblity, selectedWaiter, setWaiterL
 
    return (
         < Modal
-            onCancel={e => { setModelVisiblity(!IsModalOpen); }}
+            onCancel={e => { setModelVisiblity(!IsModalOpen); setSelectedWaiter(null);  resetForm();}}
             onOk={e => { postWaiterData() }}
             open={IsModalOpen}
         >

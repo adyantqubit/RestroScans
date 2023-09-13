@@ -165,6 +165,14 @@
     /* End of addition by Om Shrivastava on 11-06-23 */
 }
 
+/* Added by Rohan kansari - 11/9/23 - To add waiter text styling */
+.waiterloginText{
+    margin-top: 10px;
+    text-align: center;
+    font-size: var(--label-font-size);
+}
+/* End of code - Rohan kansari - 11/9/23 - To add waiter text styling*/
+
 .highlightCreate{
     color: blue;
     cursor: pointer;

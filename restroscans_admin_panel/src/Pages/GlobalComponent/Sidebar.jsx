@@ -388,6 +388,8 @@ const navigateToReservationList = () => {
         />
       </div> */}
         <ul
+        // Added by Rohan kansari - 13/9/23 - To hide sidebar for waiter 
+         id={localStorage.getItem("waiterData") ? style.hideSidebar : null}
           className={sidebar == true ? style.open_sidebar : style.close_sidebar}
         >
           {/* Added by Rohan kansari - 7/9/23
@@ -676,7 +678,7 @@ const navigateToReservationList = () => {
             </NavLink>
           </li> */}
         {/* End of Comment by Pratap Sahu on 11-09-2023
-        Reason:No Longer Needed as already Details are Available in Customer Report
+        Reason:No Longer Needed as already Details are Available in Customer Report*/}
 
           <li className={style.links_div} onClick={navigateToOrder}>
             <NavLink
@@ -812,6 +814,25 @@ const navigateToReservationList = () => {
         REason :to Display the Table Reservation option in side bar*/}
 
         </ul>
+
+
+        {/* Added by Rohan kansari - 13/9/23 - To show all wanted list according to waiter needs */}
+        <ul id={localStorage.getItem("waiterData") ? null: style.hideSidebar }
+          className={sidebar == true ? style.open_sidebar : style.close_sidebar}
+        >
+          <li className={style.links_div} onClick={navigateToDashboard}>
+            <NavLink
+              
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+             
+              to="/Dashboard"
+            >
+              {" "}
+              Dashboard{" "}
+            </NavLink>
+          </li>
+        </ul>
+        {/* End of code addition by Rohan kansari - 13/9/23 - To show all wanted list according to waiter needs */}
 
         <div className={style.sidebar_close_div}>
           <FaCaretLeft

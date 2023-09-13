@@ -447,6 +447,9 @@ urlpatterns = [
     path('<str:tenant>/waiter-list/',WaiterAPI.as_view()),
     # End of addition by Rohan kansari - 9/9/23 - To do crud operation in waiter table
 
+
+    # Added by Rohan kansari - 11/9/23 - To authenticate waiter
+    path('<str:tenant>/waiter-login/',WaiterAuthenticateAPI.as_view()),
     # path('<str:tenant>/offer-banner-details/',BannerOfferAPIView.as_view()),
 
     # path('<str:tenant>/create-offer-banner/',BannerOfferAPIView.as_view()),

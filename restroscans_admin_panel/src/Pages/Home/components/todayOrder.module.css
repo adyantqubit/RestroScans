@@ -864,7 +864,7 @@ input[type="radio"]:checked+.tabLabel {
 /* added by - suman sahu on 15/06/2023 */
 .modalContainer {
     /* margin-left: 39%; */
-    width: 60vw !important;
+    width: 70vw !important;
     top: 0;
     bottom: 0;
      margin: 10px auto;
@@ -956,7 +956,7 @@ input[type="radio"]:checked+.tabLabel {
 /* added by - suman sahu on 15/06/2023 */
 @media screen and (max-width:850px) {
     .modalContainer {
-      width: 70vw !important;
+      width: 80vw !important;
     }
 }
 

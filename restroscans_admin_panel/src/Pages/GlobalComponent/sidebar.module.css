@@ -336,3 +336,8 @@
  }
 
  /* End of code - Rohan kansari - 1/6/23 */
+
+
+ #hideSidebar{
+  display: none;
+ }

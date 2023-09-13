@@ -222,6 +222,11 @@ const Login = () => {
                         <button className={style.submitBtn} type='submit'>Login</button>
 
                         <div className={style.registrationText}>Don't have an account ? <span className={style.highlightCreate} onClick={e => nav("/Registration")}> Create account</span></div>
+                    
+                        {/* Added by Rohan kansari - 11/9/23 - added text to jump waiter login page*/ }
+                        <div className={style.waiterloginText}>Login as waiter? <span className={style.highlightCreate} onClick={e => nav("/WaiterLogin")}>Login</span></div>
+                        {/* End of code addition by Rohan kansari - 11/9/23 - added text to jump waiter login page*/ }
+
                     </form>
                 </div>
             </div>

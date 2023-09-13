@@ -25,7 +25,7 @@ const Waiter = () => {
     }
 
     return (<div className={style.container}>
-        <WaiterForm IsModalOpen={IsModalOpen} setModelVisiblity={setModelVisiblity} selectedWaiter={selectedWaiter}
+        <WaiterForm IsModalOpen={IsModalOpen} setSelectedWaiter={setSelectedWaiter} setModelVisiblity={setModelVisiblity} selectedWaiter={selectedWaiter}
          setWaiterList={setWaiterList} waiterList={waiterList}
          />
         <div className={`${style.pageTitleContainer}`}>
