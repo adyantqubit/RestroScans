@@ -1,8 +1,8 @@
   
     function PrintBill(orderDetail,orderItems,restaurantDetail,settings) {
         
-        var restaurantName=restaurantDetail.name
-        var restaurantAddress=restaurantDetail.address
+        var restaurantName=restaurantDetail?.name
+        var restaurantAddress=restaurantDetail?.address
         var customerDetail={
           // Modiified by Rohan kansari - 16/8/23
           // "last_customer_name":orderDetail.last_customer_name,

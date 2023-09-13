@@ -156,7 +156,12 @@ export default function MenuListScreen({ navigation }) {
               /> */}
 
               <Text style={{ fontSize: 14, marginTop: 22, fontWeight: "bold" }}>
-                No offer/banner are present
+                {/* Modification and addition by Om Shrivastasva on 11-09-23
+                Reason : Need to change the message */}
+                {/* No offer/banner are present */}
+                No records found
+                {/* Modification and addition by Om Shrivastasva on 11-09-23
+                Reason : Need to change the message */}
               </Text>
             </View>
           )}

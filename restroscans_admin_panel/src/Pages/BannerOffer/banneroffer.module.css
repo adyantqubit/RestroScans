@@ -120,8 +120,9 @@ border: #1f2937;
   border: 1px solid black;
   margin-top: 5px;
   border-radius: 5px;
-  padding: 2px;
+  /* padding: 2px; */
   background-color: white;
+  padding: 3px 5px;
 }
 .textInputBoxImage{
   width: 280px;
@@ -175,9 +176,8 @@ border: #1f2937;
 }
 
 .cancelButton {
-  /* background-color: #797b7c; */
-  background-color: #0BC5EA;
-
+  background-color: #797b7c;
+  /* background-color: #0BC5EA; */
   
   color: white;
   border-radius: 5px;
@@ -880,6 +880,7 @@ Add css for pagination and all offer list data */
     width: 90%;
     margin-right: 0px;
   }
+ 
 }
 
 /* End of addition by Om Shrivastava on 05-08-23

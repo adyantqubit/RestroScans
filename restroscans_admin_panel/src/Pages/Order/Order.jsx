@@ -44,6 +44,7 @@ import {
   AiOutlineClose,
   AiOutlineSortAscending,
 } from "react-icons/ai";
+import Loader from "../GlobalComponent/Loader";
 
 const Order = () => {
   /**
@@ -116,6 +117,11 @@ const Order = () => {
   var [openActionPopupModal, setOpenActionPopupModal] = useState({});
 
   const { Search } = Input;
+
+  // Added by Om on 11-09-23
+  // Reason : Add Loader whenever the data enter from backend site
+  const [isLoader, setIsLoader] = useState(true);
+  // End of addition by Om Shrivastava on 11-09-23
 
   // Added By Rohan Kansari - 22/6/23
   // Reason - To set global Page index Whenever its index updated
@@ -214,7 +220,6 @@ const Order = () => {
    */
 
   const allOrders = async () => {
-
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const paginationDetails = {
       currentPage: currentPage,
@@ -244,7 +249,7 @@ const Order = () => {
        * End of addition by Yuvraj Sahu on 07-08-2023
        */
     };
-    
+
     /**
      * Adde and modified by Yuvraj Sahu on 19-08-2023
      * Reason - to filter allow when we click filter button
@@ -254,14 +259,18 @@ const Order = () => {
       /**
        * End of modification by Yuvraj Allow date filter apply
        */
-      let copyToDate = new Date(toDate)
-      copyToDate.setDate(copyToDate.getDate() + 1)
-      
+      let copyToDate = new Date(toDate);
+      copyToDate.setDate(copyToDate.getDate() + 1);
+
       filteringCriteria["startDate"] = fromDate;
-      filteringCriteria["endDate"] = copyToDate
+      filteringCriteria["endDate"] = copyToDate;
     }
 
     var response = await getOrdersApi(tenant, filteringCriteria);
+    // Added by Om on 11-09-23
+    // Reason : Add Loader whenever the data enter from backend site
+    setIsLoader(false);
+    // End of addition by Om Shrivastava on 11-09-23
     setOrders(response.orderList);
     // console.log(orders)
 
@@ -270,7 +279,7 @@ const Order = () => {
      * Reason - To recalculate page numbers
      */
 
-    setOrderCount(response.orderListCount)
+    setOrderCount(response.orderListCount);
 
     /**
      * End of code addition by - Om Shrivastava on 15-06-23
@@ -287,7 +296,7 @@ const Order = () => {
     // setOrderItems(response.orderItemData);
     // Added by Om shrivastava on 01-07-23 Reason : Set the restaurant details
     // Commented by Om Shrivastava on 04-09-23
-    // Reason : Currently not use this API 
+    // Reason : Currently not use this API
     // const response = await getDashboardData(
     //   JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
     // );
@@ -298,7 +307,7 @@ const Order = () => {
     //   setOrderItems(response.order_item);
     // }
     // End of commented by Om Shrivastava on 04-09-23
-    // Reason : Currently not use this API 
+    // Reason : Currently not use this API
     // End of addition by Om Shrivastava on 01-07-23 Reason : Set the restaurant details
   };
   // console.log(restroDetail,"orderitem data=====>>>>>")
@@ -328,7 +337,7 @@ const Order = () => {
       setToDate(null);
     }
     /**
-     * End of modification by 
+     * End of modification by
      * Yuvraj Sahu on 16-08-2023
      */
     /**
@@ -376,8 +385,8 @@ const Order = () => {
    * Reason - Method that will open edit order form of selected order
    */
   const openOrderDetails = (id) => {
-    alert(id)
-  }
+    alert(id);
+  };
 
   function ExtractDateTime(format) {
     var d = new Date(format);
@@ -394,9 +403,8 @@ const Order = () => {
   // Reason - To toggle dropdown visiblity on click
   function toggelDropdown() {
     if (document.getElementById("dropdown").style.display.length == 0)
-      document.getElementById("dropdown").style.display = "block"
-    else
-      document.getElementById("dropdown").style.display = ""
+      document.getElementById("dropdown").style.display = "block";
+    else document.getElementById("dropdown").style.display = "";
   }
 
   function hideDropdown() {
@@ -404,8 +412,8 @@ const Order = () => {
      * Added and modified by yuvraj Sahu on 19-08-2023
      * Reason - to remove error when we click no record found
      */
-    if (orders && orders.length > 0){
-      document.getElementById("dropdown").style.display = ""
+    if (orders && orders.length > 0) {
+      document.getElementById("dropdown").style.display = "";
     }
     /**
      * End of amodification by Yuvraj Sahu on 19-08-2023
@@ -414,27 +422,36 @@ const Order = () => {
   // End of code - Rohan Kansari - 22/6/23
 
   // Added by Om shrivastava on 01-07-23
-  // Reason : Need to show the print kot and print bill 
-  var kotData = {}
+  // Reason : Need to show the print kot and print bill
+  var kotData = {};
 
-    function printKot() {
-       
-        var filterKotItems = orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id && o.item_status != "Cancelled" })
-        var state = { order: openActionPopupModal, restro_detail: restroDetail, orderItem: filterKotItems }
-       
-        kotData = state
+  function printKot() {
+    var filterKotItems = orderItems.filter((o) => {
+      return (
+        o.order_id == openActionPopupModal.order_id &&
+        o.item_status != "Cancelled"
+      );
+    });
+    var state = {
+      order: openActionPopupModal,
+      restro_detail: restroDetail,
+      orderItem: filterKotItems,
+    };
 
-        // console.log(kotData)
+    kotData = state;
 
-        function ExtractDateTime(format) {
-            var date = format.substring(0, 10)
-            var time = format.substring(11, 19)
-            return { date, time }
-        }
+    // console.log(kotData)
 
-        var a = window.open('', '', 'height=800, width=1200');
+    function ExtractDateTime(format) {
+      var date = format.substring(0, 10);
+      var time = format.substring(11, 19);
+      return { date, time };
+    }
 
-        a.document.write(`<html>
+    var a = window.open("", "", "height=800, width=1200");
+
+    a.document.write(
+      `<html>
         <head>
         <style>
         
@@ -652,156 +669,173 @@ const Order = () => {
                 <hr />
                 <div class="inLineContainer">
                     <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Date</div><div>:</div>  </div><div class="text">${new Date(
-            kotData.order.date
-        ).toLocaleDateString("en-GB")}</div></div>
-                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div class="text"> ${ExtractDateTime(kotData.order.date).time}</div></div>
+                      kotData.order.date
+                    ).toLocaleDateString("en-GB")}</div></div>
+                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Time</div><div>:</div> </div><div class="text"> ${
+                      ExtractDateTime(kotData.order.date).time
+                    }</div></div>
                 </div>
                 <div class="inLineContainer">
-                    <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Order id</div><div>:</div>  </div><div class="text"> ${kotData.order.order_id}</div></div>
-                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Table</div><div>:</div>  </div><div class="text">${!kotData.order.table_number ? "N/A" : kotData.order.table_number
-            }</div></div>
+                    <div class="column1"><div class="label1"><div style={{ width: "90%" }}>Order id</div><div>:</div>  </div><div class="text"> ${
+                      kotData.order.order_id
+                    }</div></div>
+                    <div class="column1"><div class="label"><div style={{ width: "90%" }}>Table</div><div>:</div>  </div><div class="text">${
+                      !kotData.order.table_number
+                        ? "N/A"
+                        : kotData.order.table_number
+                    }</div></div>
 
                 </div>
                 <div class="tableHeader">
                     <div class="serialNo"> SNo   </div>
                     <div class="titleHeading">Item Name</div>
                     <div class="qtyHeading">   Qty   </div>
-                </div>`+
-            kotData.orderItem.map((item, i) =>
-                `<div class="tableContents">
+                </div>` +
+        kotData.orderItem
+          .map(
+            (item, i) =>
+              `<div class="tableContents">
                         <div class="quantityText">${i + 1}</div>
-                        <div class="titleText">${item.item} (${item.serving_size
-                })</div>
+                        <div class="titleText">${item.item} (${
+                item.serving_size
+              })</div>
                         <div class="rateText">${item.quantity}</div>
                     </div>`
-            ).join("")
-            + `</div>
+          )
+          .join("") +
+        `</div>
                
         </div>
         </body>
-        </html>`)
-        a.document.close();
+        </html>`
+    );
+    a.document.close();
 
-        if (filterKotItems.length > 0)
-            a.print();
-        a.close();
-    }
+    if (filterKotItems.length > 0) a.print();
+    a.close();
+  }
 
-
-    /**
-     * Added by Yuvraj Sahu on 04-08-2023
-     * Reason - to filter the order by date
-     */
-    const handleFilterData = async() => {
-      if (fromDate == null || toDate == null){
-        setDateValidation(true)
+  /**
+   * Added by Yuvraj Sahu on 04-08-2023
+   * Reason - to filter the order by date
+   */
+  const handleFilterData = async () => {
+    if (fromDate == null || toDate == null) {
+      setDateValidation(true);
+    } else {
+      /**
+       * Added by Yuvraj Sahu on 19-08-2023
+       * Reason - to filter date allow
+       */
+      setAllDateFilter(true);
+      /**
+       * End of addition by yuvraj Sahu on 19-08-2023
+       */
+      setDateValidation(false);
+      /**
+       * Added by yuvraj sahu on 16-08-2023
+       * Reason - to set the first page when filter apply
+       */
+      if (currentPage != 1) {
+        /**
+         * Added and modified by yuvraj Sahu on 20-08-2023
+         * Reason - to set first page when apply filter
+         */
+        localStorage.setItem("globalPageIndex", 1);
+        setCurrentPage(1);
+        /**
+         * End of addition by yuvraj Sahu on 20-08-2023
+         */
       } else {
-        /**
-         * Added by Yuvraj Sahu on 19-08-2023
-         * Reason - to filter date allow
-         */
-        setAllDateFilter(true)
-        /**
-         * End of addition by yuvraj Sahu on 19-08-2023
-         */
-        setDateValidation(false)
-        /**
-         * Added by yuvraj sahu on 16-08-2023
-         * Reason - to set the first page when filter apply
-         */
-        if (currentPage != 1){
-          /**
-           * Added and modified by yuvraj Sahu on 20-08-2023
-           * Reason - to set first page when apply filter
-           */
-            localStorage.setItem("globalPageIndex", 1)
-            setCurrentPage(1);
-            /**
-             * End of addition by yuvraj Sahu on 20-08-2023
-             */
-        } else {
-          setAllowFilter(!allowFilter)
-        }
-        /**
-         * End of addition by yuvraj Sahu on 16-08-2023
-         */
+        setAllowFilter(!allowFilter);
       }
-      // const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-      // const queryData = {
-      //   dateTo: toDate,
-      //   dateFrom: fromDate,
-      //   // amountSort: isAmountSort,
-      //   amountSort: true,
-      //   pageIndex: 1
-      // }
-      // console.log(queryData)
-      // await OrderFilterQueryAPI(tenant, queryData).then(r => {
-      //   // setOrder(r)
-      //   setOrders(r)
-      //   console.log(r)
-      // })
+      /**
+       * End of addition by yuvraj Sahu on 16-08-2023
+       */
     }
+    // const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    // const queryData = {
+    //   dateTo: toDate,
+    //   dateFrom: fromDate,
+    //   // amountSort: isAmountSort,
+    //   amountSort: true,
+    //   pageIndex: 1
+    // }
+    // console.log(queryData)
+    // await OrderFilterQueryAPI(tenant, queryData).then(r => {
+    //   // setOrder(r)
+    //   setOrders(r)
+    //   console.log(r)
+    // })
+  };
 
-    const handleClearFilter = () => {
-      setFromDate(null)
-      setToDate(null)
-      
-      document.getElementById("fromDate").value = ""
-      document.getElementById("toDate").value = ""
-      /**
-       * Added by Yuvraj Sahu on 20-08-2023
-       * Reason - to all the date filteration
-       */
-      setAllDateFilter(false)
-      handlePageChange(1)
-      /**
-       * End addition by Yuvraj Sahu on 20-08-2023
-       */
-      setAllowFilter(!allowFilter)
-    }
+  const handleClearFilter = () => {
+    setFromDate(null);
+    setToDate(null);
+
+    document.getElementById("fromDate").value = "";
+    document.getElementById("toDate").value = "";
     /**
-     * End of addition by Yuvraj Sahu on 04-08-2023
+     * Added by Yuvraj Sahu on 20-08-2023
+     * Reason - to all the date filteration
      */
+    setAllDateFilter(false);
+    handlePageChange(1);
+    /**
+     * End addition by Yuvraj Sahu on 20-08-2023
+     */
+    setAllowFilter(!allowFilter);
+  };
+  /**
+   * End of addition by Yuvraj Sahu on 04-08-2023
+   */
 
   return (
-   // Modified by Rohan Kansari - 25/6/23
+    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
     // <Header>
-      <div className={style.container} >
-        <div className={`${style.pageTitleContainer}`}>
-          <div className={style.pageTitle}>Order</div>
-        </div>
-        <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "white",
-                  padding: "4px",
-                }}
-              >
-                <Search
-                  placeholder="Search by Order id, Table no, Order status and Payment status"
-                  allowClear
-                  enterButton
-                  onSearch={(value) => { setCurrentPage(1); setSearchText(value); }}
+    <div className={style.container}>
+      <div className={`${style.pageTitleContainer}`}>
+        <div className={style.pageTitle}>Order</div>
+      </div>
+      {/* // Addition by Om Shrivastava on 11-09-23
+    // Reason : Apply the loader in order list page */}
+      {isLoader == true ? <Loader/> :  
+    <div >
+      {/* End of addition by Om Shrivastava on 11-09-23
+    // Reason : Apply the loader in order list page */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+          padding: "4px",
+        }}
+      >
+        <Search
+          placeholder="Search by Order id, Table no, Order status and Payment status"
+          allowClear
+          enterButton
+          onSearch={(value) => {
+            setCurrentPage(1);
+            setSearchText(value);
+          }}
+          style={{
+            width: "45%",
+          }}
+        />
+      </div>
 
-
-                  style={{
-                    width: "45%",
-                  }}
-                />
-              </div>
-
-              {/* Added by Yuvraj Sahu on 04-08-2023
+      {/* Added by Yuvraj Sahu on 04-08-2023
               Reason - to design filter variable */}
-              {/* Modified by Yuvraj Sahu on 07-08-2023
+      {/* Modified by Yuvraj Sahu on 07-08-2023
               Reason - to design and validation apply in date */}
-              <div className={style.dateFilterContainer}>
-                <div className={style.filterButtonContainer}>
-                  <div className={style.dateContainer}>
-                    <div className={style.datepicker1}>
-                      {/* <DatePicker
+      <div className={style.dateFilterContainer}>
+        <div className={style.filterButtonContainer}>
+          <div className={style.dateContainer}>
+            <div className={style.datepicker1}>
+              {/* <DatePicker
                         calendarClassName={style.calendar}
                         className={style.dateInput}
                         calendarIcon={<AiOutlineCalendar />}
@@ -815,34 +849,54 @@ const Order = () => {
                         maxDate={new Date()}
                         // end of addition by yuvraj Sahu on 07-08-2023
                       /> */}
-                      <input
-                        type="date"
-                        // min={fromDate == null ? null : fromDate.toISOString().split("T")[0]}
-                        // min={new Date().toISOString().split("T")[0]}
-                        max={new Date().toISOString().split("T")[0]}
-                        onChange={(e) => {setFromDate(new Date(e.target.value)); setDateValidation(false);}}
-                        style={{border: "1px solid", padding: "2px", borderRadius: "5px"}}
-                        // defaultValue="dd-mm-yyyy"
-                        id="fromDate"
-                        className={style.calendar}
-                      />
-                    </div>
-                    <div className={style.datepicker1}>
-                    <input
-                        type="date"
-                        // min={fromDate == null ? null : fromDate.toISOString().split("T")[0]}
-                        min={fromDate != null ? fromDate.getFullYear()+"-"+
-                        ("0"+(fromDate.getMonth()+1)).slice(-2)+"-"+
-                        ("0"+(fromDate.getDate())).slice(-2) : null}
-                        max={new Date().toISOString().split("T")[0]}
-                        onChange={e=> {setToDate(new Date(e.target.value)); setDateValidation(false);}}
-                        style={{border: "1px solid", padding: "2px", borderRadius: "5px"}}
-                        // defaultValue="dd-mm-yyyy"
-                        id="toDate"
-                        disabled={fromDate != null ? false : true}
-                        className={style.calendar}
-                    />
-                      {/* <DatePicker
+              <input
+                type="date"
+                // min={fromDate == null ? null : fromDate.toISOString().split("T")[0]}
+                // min={new Date().toISOString().split("T")[0]}
+                max={new Date().toISOString().split("T")[0]}
+                onChange={(e) => {
+                  setFromDate(new Date(e.target.value));
+                  setDateValidation(false);
+                }}
+                style={{
+                  border: "1px solid",
+                  padding: "2px",
+                  borderRadius: "5px",
+                }}
+                // defaultValue="dd-mm-yyyy"
+                id="fromDate"
+                className={style.calendar}
+              />
+            </div>
+            <div className={style.datepicker1}>
+              <input
+                type="date"
+                // min={fromDate == null ? null : fromDate.toISOString().split("T")[0]}
+                min={
+                  fromDate != null
+                    ? fromDate.getFullYear() +
+                      "-" +
+                      ("0" + (fromDate.getMonth() + 1)).slice(-2) +
+                      "-" +
+                      ("0" + fromDate.getDate()).slice(-2)
+                    : null
+                }
+                max={new Date().toISOString().split("T")[0]}
+                onChange={(e) => {
+                  setToDate(new Date(e.target.value));
+                  setDateValidation(false);
+                }}
+                style={{
+                  border: "1px solid",
+                  padding: "2px",
+                  borderRadius: "5px",
+                }}
+                // defaultValue="dd-mm-yyyy"
+                id="toDate"
+                disabled={fromDate != null ? false : true}
+                className={style.calendar}
+              />
+              {/* <DatePicker
                         calendarClassName={style.calendar}
                         className={style.dateInput}
                         calendarIcon={<AiOutlineCalendar />}
@@ -859,29 +913,39 @@ const Order = () => {
                         format="dd/MM/yyyy"
                         // end of addition by yuvraj Sahu on 07-08-2023
                         /> */}
-                      </div>
-                  </div>
-                <div className={style.dateValidation}>{dateValidation && "Please enter start and end date!"} </div>
-              </div>
-                <div className={style.filterButtonContainer}>
-                  <button onClick={handleFilterData} className={style.filterButtonSpace}>Filter</button>
-                  <button onClick={handleClearFilter} className={style.filterButtonSpace}>Clear filter</button>
-                </div>
-                {/* End of additin by Yuvraj Sahu on 07-08-2023 */}
-              </div>
-              {/* End of addition by Yuvraj Sahu on 04-08-2023 */}
+            </div>
+          </div>
+          <div className={style.dateValidation}>
+            {dateValidation && "Please enter start and end date!"}{" "}
+          </div>
+        </div>
+        <div className={style.filterButtonContainer}>
+          <button
+            onClick={handleFilterData}
+            className={style.filterButtonSpace}
+          >
+            Filter
+          </button>
+          <button
+            onClick={handleClearFilter}
+            className={style.filterButtonSpace}
+          >
+            Clear filter
+          </button>
+        </div>
+        {/* End of additin by Yuvraj Sahu on 07-08-2023 */}
+      </div>
+      {/* End of addition by Yuvraj Sahu on 04-08-2023 */}
 
-      <div
-        className={style.orderListSection}
-      >
-        <div className={style.tableContainer}>
+      <div className={style.orderListSection}>
+        <div className={style.tableContainer}> 
           <div className={style.table}>
             <div
               className={style.tableHeadingContainer}
-             // Added by Rohan Kansari - 22/6/23
-                // Reason- To hide page size dropdown on outer click
-                onClick={hideDropdown}
-                onTouchStart={hideDropdown}
+              // Added by Rohan Kansari - 22/6/23
+              // Reason- To hide page size dropdown on outer click
+              onClick={hideDropdown}
+              onTouchStart={hideDropdown}
               // End of code - ROhan KAnsari - 22/6/23
             >
               {/* Modified by Rohan kansari - 25/8/23 
@@ -895,13 +959,12 @@ const Order = () => {
               <div
                 // className={`${style.commonColumnTitle} ${style.smallColumnWidth}`}
                 className={style.actionColumn}
->
+              >
                 Action
               </div>
               <div
                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                 className={style.OrderIdColumn}
-
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortOrderId("order_id");
@@ -919,19 +982,19 @@ const Order = () => {
               >
                 Order ID{" "}
                 {columnToSort == "order_id" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "order_id" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "order_id" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
                   )}
+                {columnToSort == "order_id" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "order_id" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
               </div>
               {/* End of modifciation by Om Shrivastava on 21-06-23 */}
               <div
@@ -954,26 +1017,24 @@ const Order = () => {
               >
                 Table No{" "}
                 {columnToSort == "table_number" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "table_number" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "table_number" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
                   )}
+                {columnToSort == "table_number" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "table_number" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
               </div>
-              
 
               <div
                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                 className={style.orderStatusColumn}
-
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortOrderId("order_status");
@@ -992,61 +1053,57 @@ const Order = () => {
                 {" "}
                 Order Status
                 {columnToSort == "order_status" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortAlphaDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "order_status" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortAlphaDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "order_status" && showSortingIcon && (
-                    <BsSortAlphaDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                  columnSortingOrder == "ascending" && (
+                    <BsSortAlphaDown className={style.sortingIcon} />
                   )}
-                
+                {columnToSort == "order_status" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortAlphaDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "order_status" && showSortingIcon && (
+                  <BsSortAlphaDown color="grey" className={style.sortingIcon} />
+                )}
               </div>
 
               <div
                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                 className={style.paymentStatusColumn}
-                 // Added by Om Shrivatava on 16-06-23
-                  // Reason : Apply sorting through the payment status
-                  // onClick={(e) => {
-                  //   setShowSortingIcon(false);
-                  //   sortOrderId("payment_status");
-                  // }}
-                  // onMouseEnter={(e) => {
-                  //   if (columnToSort != "payment_status") {
-                  //     setShowSortingIcon(true);
-                  //   }
-                  // }}
-                  // onMouseLeave={(e) => {
-                  //   if (columnToSort != "payment_status") {
-                  //     setShowSortingIcon(false);
-                  //   }
-                  // }}
-                  onClick={(e) => {
+                // Added by Om Shrivatava on 16-06-23
+                // Reason : Apply sorting through the payment status
+                // onClick={(e) => {
+                //   setShowSortingIcon(false);
+                //   sortOrderId("payment_status");
+                // }}
+                // onMouseEnter={(e) => {
+                //   if (columnToSort != "payment_status") {
+                //     setShowSortingIcon(true);
+                //   }
+                // }}
+                // onMouseLeave={(e) => {
+                //   if (columnToSort != "payment_status") {
+                //     setShowSortingIcon(false);
+                //   }
+                // }}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortOrderId("payment_status");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "payment_status") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "payment_status") {
                     setShowSortingIcon(false);
-                    sortOrderId("payment_status");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "payment_status") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "payment_status") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                  // End of addition by Om Shrivastava on 16-06-23
+                  }
+                }}
+                // End of addition by Om Shrivastava on 16-06-23
               >
                 Payment Status
-              {/* // Added by Om Shrivatava on 16-06-23
+                {/* // Added by Om Shrivatava on 16-06-23
                   // Reason : Apply sorting through the payment status */}
-                  {/* {columnToSort == "payment_status" &&
+                {/* {columnToSort == "payment_status" &&
                     columnSortingOrder == "ascending" && (
                       <BsSortAlphaDown className={style.sortingIcon} />
                     )}
@@ -1060,23 +1117,20 @@ const Order = () => {
                       className={style.sortingIcon}
                     />
                   )} */}
-{columnToSort == "payment_status" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortAlphaDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "payment_status" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortAlphaDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "payment_status" && showSortingIcon && (
-                    <BsSortAlphaDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                {columnToSort == "payment_status" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortAlphaDown className={style.sortingIcon} />
                   )}
-                  {/* // End of addition by Om Shrivastava on 16-06-23 */}
+                {columnToSort == "payment_status" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortAlphaDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "payment_status" && showSortingIcon && (
+                  <BsSortAlphaDown color="grey" className={style.sortingIcon} />
+                )}
+                {/* // End of addition by Om Shrivastava on 16-06-23 */}
               </div>
-              
+
               {/* <div
                 className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
               >
@@ -1087,12 +1141,7 @@ const Order = () => {
               >
                 Loyality
               </div> */}
-               <div
-                                className={style.subtotalColumn}
-              
-              >
-                Sub-Total
-              </div>
+              <div className={style.subtotalColumn}>Sub-Total</div>
               <div
                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                 className={style.cgstColumn}
@@ -1131,21 +1180,21 @@ const Order = () => {
               >
                 Date
                 {columnToSort == "date" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "date" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "date" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
                   )}
+                {columnToSort == "date" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "date" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
               </div>
-               <div
+              <div
                 // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                 className={style.totalColumn}
               >
@@ -1163,8 +1212,6 @@ const Order = () => {
               >
                 Get KOT
               </div>
-
-             
             </div>
             {/* End of addition by Om shrivastava on 01-07-23 */}
             <div
@@ -1187,7 +1234,8 @@ const Order = () => {
                       style={{
                         padding: "2px",
                         marginTop: "2px",
-                        marginBottom: orders.length == index + 1 ? "2px" : "0px",
+                        marginBottom:
+                          orders.length == index + 1 ? "2px" : "0px",
                         // Added by :- Parineeta Gedam on 06-08-2023 reason :- Add color in rows.
                         background:
                           backgroundColor++ % 2 == 0 ? "white" : "#1677ff14",
@@ -1198,35 +1246,34 @@ const Order = () => {
                         // className={`${style.commonColumnData} ${style.smallColumnWidth}`}
                         // className={style.sNoColumn}
                         className={`${style.sNoColumn} ${style.commonColumnData} `}
-
                       >
                         {/* Added by Rohan kansari - 23/6/23 
                               Reason - Serial no. impact from list perpage so i set serial no. according to list per page */}
-                          {(currentPage*listPerPage-listPerPage)+index+1}
-                          {/* End of code- Rohan Kansari - 23/6/23 */}
+                        {currentPage * listPerPage - listPerPage + index + 1}
+                        {/* End of code- Rohan Kansari - 23/6/23 */}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.smallColumnWidth} ${style.eyeIcon}`}
                         className={`${style.actionColumn} ${style.commonColumnData} `}
-                        
+
                         // onClick={(e) => {
                         //   showModal(orderDetail);
                         // }}
                       >
-                       <AiFillEye style={{ fontSize: 15, color: "rgb(24, 94, 224)" }} 
-                       onClick={() => {
-                        navigate(`/update-order/${orderDetail.id}`, {
-                          state: { id: orderDetail.id },
-                         });
-                      }}
-                       />
-
+                        <AiFillEye
+                          style={{ fontSize: 15, color: "rgb(24, 94, 224)" }}
+                          onClick={() => {
+                            navigate(`/update-order/${orderDetail.id}`, {
+                              state: { id: orderDetail.id },
+                            });
+                          }}
+                        />
                       </div>
 
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.OrderIdColumn} ${style.commonColumnData} `}
-                        
+
                         // Modification and added by Om Shrivastava on 27-06-23
                         // Reason : Need to remove onclick by div than added in span tag
 
@@ -1254,7 +1301,7 @@ const Order = () => {
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.tableNoColumn} ${style.commonColumnData} `}
-                        
+
                         // Added by Om Shrivastava on 21-06-23
                         // Reason : Need to navigate when user click the table no
                         // onClick={() => {
@@ -1276,12 +1323,10 @@ const Order = () => {
                         </span>
                         {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
                       </div>
-                      
 
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.orderStatusColumn} ${style.commonColumnData} `}
-                        
                         style={{ display: "flex", justifyContent: "center" }}
                       >
                         {orderDetail.order_status}
@@ -1295,11 +1340,10 @@ const Order = () => {
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.paymentStatusColumn} ${style.commonColumnData} `}
-                        
                       >
                         {orderDetail.payment_status}
                       </div>
-                      
+
                       {/* <div
                         className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                       >
@@ -1311,46 +1355,41 @@ const Order = () => {
                         {orderDetail.loyality_point_price}
                       </div>
                        */}
-                        <div
-                          // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                          className={`${style.subtotalColumn} ${style.commonColumnData} `}
+                      <div
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.subtotalColumn} ${style.commonColumnData} `}
                       >
                         {orderDetail.sub_total}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.cgstColumn} ${style.commonColumnData} `}
-                      
                       >
                         {orderDetail.cgst}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.sgstColumn} ${style.commonColumnData} `}
-                      
                       >
                         {orderDetail.sgst}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.finalRupees} ${style.commonColumnData} `}
-                      
                       >
                         {orderDetail.final_amount}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.dateColumn} ${style.commonColumnData} `}
-                     
-                     >
+                      >
                         {ExtractDateTime(orderDetail.date).date}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.totalColumn} ${style.commonColumnData} `}
-                      
                       >
-                      {ExtractDateTime(orderDetail.date).time}
+                        {ExtractDateTime(orderDetail.date).time}
                       </div>
                       {/* <div
                         className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
@@ -1358,43 +1397,90 @@ const Order = () => {
                         {orderDetail.sub_total}
                       </div> */}
                       <div
-                      //  className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                      className={`${style.discountColumn} ${style.commonColumnData} `}
-                      
+                        //  className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.discountColumn} ${style.commonColumnData} `}
                       >
-                        {orderDetail.payment_status=="Completed" && orderDetail.order_status!="Cancelled" ?<div style={{backgroundColor : "green", color: "white", padding: "3px 8px",borderRadius : "50px",cursor:'pointer',fontSize:'10px'}}
-
-                        onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail);
-                          // console.log(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }));
-                           PrintBill(openActionPopupModal,orderItems?.filter((o) => { return o.order_id == openActionPopupModal.order_id }),restroDetail,gstFssai)}}
-                        // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
-                        > Get Bill</div> :'---'}
-
-                       
-                        </div>
+                        {orderDetail.payment_status == "Completed" &&
+                        orderDetail.order_status != "Cancelled" ? (
+                          <div
+                            style={{
+                              backgroundColor: "green",
+                              color: "white",
+                              padding: "3px 8px",
+                              borderRadius: "50px",
+                              cursor: "pointer",
+                              fontSize: "10px",
+                            }}
+                            onClick={(e) => {
+                              openActionPopupModal = orderDetail;
+                              setOpenActionPopupModal(orderDetail);
+                              // console.log(openActionPopupModal,orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }));
+                              PrintBill(
+                                openActionPopupModal,
+                                orderItems?.filter((o) => {
+                                  return (
+                                    o.order_id == openActionPopupModal.order_id
+                                  );
+                                }),
+                                restroDetail,
+                                gstFssai
+                              );
+                            }}
+                            // navigate("/Billing", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order": openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })
+                          >
+                            {" "}
+                            Get Bill
+                          </div>
+                        ) : (
+                          "---"
+                        )}
+                      </div>
                       {/* <div
                         className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                       >
                         {orderDetail.total}
                       </div> */}
-                      <div 
-                      // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
-                      className={`${style.loayltyColumn} ${style.commonColumnData} `}
-                      
+                      <div
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.loayltyColumn} ${style.commonColumnData} `}
                       >
-                        {orderDetail.order_status!="Placed" && orderDetail.order_status!="Cancelled"?<div style={{backgroundColor : "green", color: "white", padding: "3px 8px",borderRadius : "50px",cursor:'pointer',fontSize:'10px'}} 
-                        // Modified by Rohan kansari- 4/8/23 
-                        // Reason - To remove cancelled item from kot 
-                        // onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }
-                        onClick={e=>PrintKot(orderDetail,
-                          orderItems?.filter((o) =>o.item_status!="cancelled"&&o.order_id==orderDetail.order_id )
-                          ,restroDetail,gstFssai)}
-                        // onClick={e => {openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); printKot() }}
-                        > Print KOT</div> :'---'}
-                        
+                        {orderDetail.order_status != "Placed" &&
+                        orderDetail.order_status != "Cancelled" ? (
+                          <div
+                            style={{
+                              backgroundColor: "green",
+                              color: "white",
+                              padding: "3px 8px",
+                              borderRadius: "50px",
+                              cursor: "pointer",
+                              fontSize: "10px",
+                            }}
+                            // Modified by Rohan kansari- 4/8/23
+                            // Reason - To remove cancelled item from kot
+                            // onClick={e =>{openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); navigate("/kot", { state: { "gstFssai": gstFssai, "restro_detail": restroDetail, "order":openActionPopupModal, "orderItem": orderItems.filter((o) => { return o.order_id == openActionPopupModal.order_id }) } })} }
+                            onClick={(e) =>
+                              PrintKot(
+                                orderDetail,
+                                orderItems?.filter(
+                                  (o) =>
+                                    o.item_status != "cancelled" &&
+                                    o.order_id == orderDetail.order_id
+                                ),
+                                restroDetail,
+                                gstFssai
+                              )
+                            }
+                            // onClick={e => {openActionPopupModal=orderDetail; setOpenActionPopupModal(orderDetail); printKot() }}
+                          >
+                            {" "}
+                            Print KOT
+                          </div>
+                        ) : (
+                          "---"
+                        )}
+
                         {/* End of code - Rohan kansari - 4/8/23 - To remove cancelled item from kot  */}
-                        </div>
-                       
+                      </div>
                     </div>
                   );
                 })
@@ -1494,6 +1580,12 @@ const Order = () => {
         // Reason - To separate div and add Selection box for page item size
         null}
       </div>
+      {/* // Addition by Om Shrivastava on 11-09-23
+    // Reason : Apply the loader in order list page */}
+    </div>
+    }
+{/* // End of addition by Om Shrivastava on 11-09-23
+    // Reason : Apply the loader in order list page */}
     </div>
 
     // </Header>

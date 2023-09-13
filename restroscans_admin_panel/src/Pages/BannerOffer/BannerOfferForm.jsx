@@ -760,19 +760,8 @@ const [showOffer, setShowOffer] = useState(true);
      Back
    </div> */}
 
-              <div
-                className={` ${style.proceedButton}`}
-                onClick={() => {
-                  saveOffer();
-                  // Added by Om Shrivastava on 26-08-23
-                  // Reason : Set the div position in save button
-                  window.scrollTo(0, 0);
-                  // End of Addition by Om Shrivastava on 26-08-23
-                  // Reason : Set the div position in save button
-                }}
-              >
-                Save
-              </div>
+               {/* // Modification and addition by Om Shrivastava on 11-09-23
+              // Reason : Need to change the position of div */}
               {/* // Modification and addition by Om Shrivastava on 04-09-23
               // Reason : Reset the clear form of offer */}
               <div
@@ -788,8 +777,23 @@ const [showOffer, setShowOffer] = useState(true);
                   window.scrollTo(0, 0);
                 }}
               >
-                clear
+                Clear
               </div>
+              <div
+                className={` ${style.proceedButton}`}
+                onClick={() => {
+                  saveOffer();
+                  // Added by Om Shrivastava on 26-08-23
+                  // Reason : Set the div position in save button
+                  window.scrollTo(0, 0);
+                  // End of Addition by Om Shrivastava on 26-08-23
+                  // Reason : Set the div position in save button
+                }}
+              >
+                Save
+              </div>
+              {/* //End of modification and addition by Om Shrivastava on11-09-23
+              // Reason : Need to change the position of div */}
               {/* //End of modification and addition by Om Shrivastava on 04-09-23
               // Reason : Reset the clear form of offer */}
             </div>

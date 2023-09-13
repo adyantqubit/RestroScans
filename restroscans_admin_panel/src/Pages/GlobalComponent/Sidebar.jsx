@@ -1,7 +1,7 @@
 // Created by- Suman sahu On 24/05/2023
 // reason- create sidebar for react js admin panel
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./sidebar.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
@@ -12,9 +12,14 @@ import Drawer from 'react-modern-drawer'
 
 //import styles 👇
 import 'react-modern-drawer/dist/index.css'
+import { GlobalContext } from "../../Context/Context";
 
 const Sidebar = ({sidebar, setSidebar}) => {
   const navigate = useNavigate();
+
+  var { showOfferForm, setShowOfferForm, disabled, setDisabled } =
+    useContext(GlobalContext);
+
   {/* Modified by Rohan Kansari - 26/5/23 
       Reason -To add sub menu functionality in report menu */}
   const [ReportSubVisible, setReportSubVisible] = useState(false)
@@ -59,6 +64,12 @@ const Sidebar = ({sidebar, setSidebar}) => {
     if (windowSize.innerWidth < 800)
        setSidebar(false)
     // ENd of code - ROhan Kansari - 26/6/23
+    // Added by Om Shrivastava on 11-09-23
+    // Reason : When user click the offer page then form should be automatic closed.
+    setShowOfferForm(false);
+    setDisabled(false);
+    // End of addition by Om Shrivastava on 11-09-23
+    // Reason : When user click the offer page then form should be automatic closed.
     navigate('/BannerOffer');
   };
   const navigateToOrderReport = () => {
