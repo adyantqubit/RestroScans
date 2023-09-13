@@ -130,6 +130,11 @@ export default function AddOfferScreen() {
     setFileSizeError(false);
     setIsVideoError(false);
     setImgRequired(false);
+    // Added by Om Shrivastava on 11-09-23
+    // Reason : Set the is active feature for the offer section
+    setIsActive(true)
+    // End of addition by Om Shrivastava on 11-09-23
+    // Reason : Set the is active feature for the offer section
     /**
      * End of refreshing validation msg
      */
@@ -151,6 +156,12 @@ export default function AddOfferScreen() {
   // Reason - to add show image hide image
   const [isShowVideo, setIsShowVideo] = useState(false);
   // End of addition
+
+  // Added by Om Shrivastava on 11-09-23
+  // Reason - to set the is active for the offer section
+  const [isActive, setIsActive] = useState(true);
+  // End of addition by Om Shrivastava on 11-09-23
+  // Reason - to set the is active for the offer section
 
   // Post method call in this functiona
   //   Modified by Yuvraj Sahu on 26-4-2023
@@ -197,6 +208,11 @@ export default function AddOfferScreen() {
     formData.append("video_link", formValues.video_link);
     formData.append("description", formValues.description);
     formData.append("show_video_Hide_Image", isShowVideo);
+    // Addition by Om Shrivastava on 11-09-23
+    // Reason : Set the is active for the offer section
+    formData.append("is_active", isActive);
+    // End of addition by Om Shrivastava on 11-09-23
+    // Reason : Set the is active for the offer section
     // formData.append("offer_name", formValues.offer_name);
     // End of addition
 
@@ -220,7 +236,11 @@ export default function AddOfferScreen() {
           resetForm("");
           setIsShowVideo(false);
           // end of reset form
-
+          // Added by Om Shrivastava on 11-08-23
+          // Reason : Set the is active offer section
+          setIsActive(true)
+          // End of addition by Om Shrivastava on 11-08-23
+          // Reason : Set the is active offer section
           setImage(null);
         }
         // if (response.err) {
@@ -490,7 +510,7 @@ export default function AddOfferScreen() {
 
                 <View style={{ marginTop: 10 }}>
                   <Text style={styles.labels}>
-                    {/* <Text style={{ color: "red", fontWeight: "650" }}> *</Text> */}
+                    <Text style={{ color: "red", fontWeight: "650" }}> *</Text>
                     {"  "}Discount
                   </Text>
                   <TextInput
@@ -662,6 +682,27 @@ export default function AddOfferScreen() {
                   </Pressable>
                 </View>
                 {/* End of addition */}
+
+                {/* Added by Om Shrivastava on 11-09-2023
+                Reason - to set is active feature */}
+                <View style={styles.showVideo}>
+                  <Checkbox
+                    value={isActive}
+                    onValueChange={setIsActive}
+                    color={isActive ? "#4630EB" : undefined}
+                  />
+                  <Pressable onPress={() => setIsActive(!isActive)}>
+                    <Text style={styles.showVideoLable}>
+                      {/* Modified by Om Shrivastava on 11-09-2023
+                      Reason - to set is active feature  */}
+                      is Available
+                      {/* End of Modification by Yuvraj Sahu on 05-05-2023 */}
+                    </Text>
+                  </Pressable>
+                </View>
+                {/* End of addition */}
+
+                {/* kjh */}
 
                 <View style={styles.btns}>
                   <Pressable
