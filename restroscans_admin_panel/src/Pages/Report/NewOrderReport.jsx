@@ -260,7 +260,16 @@ const NewOrderReport = () => {
             // reason :- arrange the data in key value pair. 
             quickSelect: quickSelect,
             startDate: startDate,
-            endDate: endDate,
+            /**
+             * Code commented and added by - Ashlekh on 11-09-2023
+             * Reason - Custom report generation increasing end date by 1
+             */
+            // endDate: endDate,
+            endDate: endDate ? new Date(endDate.getTime() + (3600 * 1000 * 24)) : null,
+            /**
+             * End of comment and code addition by - Ashlekh on 11-09-2023
+             * Reason - Custom report generation increasing end date by 1
+             */
             paginationDetails: paginationDetails,
             columnToSort: columnToSort,
             columnSortingOrder: columnSortingOrder,

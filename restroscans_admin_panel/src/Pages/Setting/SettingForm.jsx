@@ -26,6 +26,16 @@ function SettingForm() {
     useState(null);
   const [whatsappNumber, setWhatsappNumber] = useState(null);
 
+  /**
+   * Added by - Ashlekh on 09-09-2023
+   * Reason - To have discount
+   */
+  const [discount, setDiscount] = useState(null);
+  /**
+   * End of code addition by - Ashlekh on 09-09-2023
+   * Reason - To have discount
+   */
+
   const [validationErrors, setValidationErrors] = useState({
     app_theme: "",
     cgst: "",
@@ -85,6 +95,15 @@ function SettingForm() {
       setAmountForSingleLoyalityPoint(
         response.setting.amount_for_single_loyality_point
       );
+      /**
+       * Added by - Ashlekh on 10-09-2023
+       * Reason - To add discount
+       */
+      setDiscount(response.setting.discount_in);
+      /**
+       * End of code addition by - Ashlekh on 10-09-2023
+       * Reason - To add discount
+       */
       setWhatsappNumber(response.setting.whatsapp_number);
       setAppTheme(response.setting.app_theme);
     }
@@ -546,6 +565,14 @@ function SettingForm() {
          * End of code Modification by - Ashish Dewangan on 05-06-2023
          * Reason - To save empty string rather than null
          */
+        /**
+         * Added by - Ashlekh on 10-09-2023
+         * Reason - To add discount
+         */
+        discount_in: discount,
+        /**End of code addition by - Ashlekh on 10-09-2023
+         * Reason - To add discount
+         */
       };
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await postSettingsDetails(updatedSettingsData, tenant);
@@ -839,6 +866,40 @@ function SettingForm() {
           </div>
 
           <div className={`${style.sectionInsideForm}`}>
+            {/*
+             * Added by - Ashlekh on 09-09-2023
+             * Reason - To add discount
+             * */}
+            <div className={`${style.inputContainer}`}>
+              <div className={`${style.inputArea}`}>
+                <div className={`${style.inputLabel}`}>Discount </div>
+                <select
+                  className={`${style.textInputBox}`}
+                  value={discount}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setDiscount(e.target.value);
+                  }}
+                >
+                  <option value="Discount in (₹)">Discount in (₹)</option>
+                  <option
+                    value="Discount in (%)"
+                    onChange={(e) => {
+                      setDiscount(e.target.value);
+                    }}
+                  >
+                    Discount in (%)
+                  </option>
+                </select>
+              </div>
+              <div className={`${style.inputErrorArea}`}>
+                {validationErrors.discount_in}
+              </div>
+            </div>
+            {/*
+             * End of code addition by - Ashlekh on 09-09-2023
+             * Reason - To add discount
+             * */}
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>CGST (%)</div>
