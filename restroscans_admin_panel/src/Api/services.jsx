@@ -1,5 +1,6 @@
+import axios from "axios";
 import API from "./api";
-import { domainURL } from "./config";
+import config, { domainURL } from "./config";
 
 
 
@@ -913,6 +914,10 @@ export const getAdminAppSettings = async () => {
   return response ? response.data : {};
 };
 
+
+// End of code addition by Rohan kansari - 7/9/23 
+// Reason - To get admin setting data
+
 // End of code addition by Rohan kansari - 7/9/23 
 // Reason - To get waiter data
 
@@ -960,7 +965,7 @@ export const getReservationListApi = async (tenant,filteringCriteria) => {
  * End of code addition by -Pratap Sahu on 06-09-2023
  * Reason - To get Table Reservation list of tenant.
  */ 
-
+ 
 /**
  * Added by - Pratap Sahu on 07-09-2023
  * Reason - To get customer Report list
@@ -976,5 +981,25 @@ export const getCustomerReportApi = async (tenant,filteringCriteria) => {
 };
 /**
  * End of code addition by - Pratap Sahu on 07-09-2023
- * Reason - To get customer Report list of tenant
- */ 
+ * Reason - To get customer Report list of tenant 
+
+// Added by Rohan Kansari - 11/9/23 
+// Reason - To authenticate waiter 
+
+export const waiterAuthentication = async (tenant,value) => {
+  
+  try{ const response = await axios.post(`${config.staticBaseURL}/api/v1/${tenant}/waiter-login/`, value, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  return response.data;
+ }
+ catch {
+  return null;
+ } 
+};
+
+// End of code - Rohan kansari - 11/9/23 
+// Reason - To authenticate waiter 
+ 
