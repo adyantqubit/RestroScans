@@ -93,8 +93,8 @@ const PaymentMethod = () => {
       // if (value != null || value != undefined || value.trim() != "") {
       //   setContactNumberError("");
       // }
-      if (value.length == 0)
-        setContactNumberError("Please enter contact number");
+      // if (value.length == 0)
+      //   setContactNumberError("Please enter contact number");
       if (value.length < 10)
         setContactNumberError(
           "Contact number should not be less than 10 digits"
@@ -103,11 +103,16 @@ const PaymentMethod = () => {
         setContactNumberError(
           "Contact number should not be greater than 10 digits"
         );
-      if (value.length == 10) setContactNumberError("");
-      // if (value.length > 10) {
+        // Added By pratap sahu on 15-09-2023
+        // Reason: to remove validation on empty contact number
+        // if (value.length == 10) setContactNumberError("");
+        if (value.length == 10 || value.length==0) setContactNumberError("");
+        // if (value.length > 10) {
       // } else {
       //   setContactNumberError(value);
       // }
+      // End of Addition By pratap sahu on 15-09-2023
+        // Reason: to remove validation on empty contact number
     }
   };
   /**
@@ -206,13 +211,23 @@ const PaymentMethod = () => {
       if (paymentMethodId) {
         updatedMenuData.append("id", paymentMethodId);
       }
-      if (name) {
-        updatedMenuData.append("name", name.trim());
-      }
+      // commented & Added By pratap sahu on 15-09-2023
+      // Reason: to save empty name
+      // if (name) {
+      //   updatedMenuData.append("name", name.trim());
+      // }
+      updatedMenuData.append("name", name?name:" ");
+      // End of comment & Addition By pratap sahu on 15-09-2023
+      // Reason: to save empty name
 
-      if (contactNumber) {
-        updatedMenuData.append("contact_number", contactNumber.trim());
-      }
+      // commented & Added By pratap sahu on 15-09-2023
+      // Reason: to save empty name
+      // if (contactNumber) {
+      //   updatedMenuData.append("contact_number", contactNumber.trim());
+      // }
+      updatedMenuData.append("contact_number", contactNumber?contactNumber:"");
+      // End of comment & Addition By pratap sahu on 15-09-2023
+      // Reason: to save empty name
 
       if (selectedImage != null || selectedImage != undefined) {
         updatedMenuData.append("scanner", selectedImage);
