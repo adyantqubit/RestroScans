@@ -944,8 +944,12 @@ const Order = () => {
               className={style.tableHeadingContainer}
               // Added by Rohan Kansari - 22/6/23
               // Reason- To hide page size dropdown on outer click
-              onClick={hideDropdown}
-              onTouchStart={hideDropdown}
+              // Commented by Om Shrivastava on 15-09-23
+              // Reason : No need to use this method here
+              // onClick={hideDropdown}
+              // onTouchStart={hideDropdown}
+              // Commented by Om Shrivastava on 15-09-23
+              // Reason : No need to use this method here
               // End of code - ROhan KAnsari - 22/6/23
             >
               {/* Modified by Rohan kansari - 25/8/23 
@@ -971,12 +975,20 @@ const Order = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (columnToSort != "order_id") {
-                    setShowSortingIcon(true);
+                    // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("order_id");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (columnToSort != "order_id") {
-                    setShowSortingIcon(false);
+                    // setShowSortingIcon(false);
+                    setShowSortingIcon("");
+
                   }
                 }}
               >
@@ -989,7 +1001,12 @@ const Order = () => {
                   columnSortingOrder == "descending" && (
                     <BsSortNumericDownAlt className={style.sortingIcon} />
                   )}
-                {columnToSort != "order_id" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "order_id" && showSortingIcon && ( */}
+                {columnToSort != "order_id" && showSortingIcon=="order_id" && (
+                // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                   <BsSortNumericDown
                     color="grey"
                     className={style.sortingIcon}
@@ -1006,12 +1023,23 @@ const Order = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (columnToSort != "table_number") {
-                    setShowSortingIcon(true);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("table_number");
+                    {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (columnToSort != "table_number") {
-                    setShowSortingIcon(false);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(false);
+                    setShowSortingIcon("");
+                    {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
               >
@@ -1024,7 +1052,13 @@ const Order = () => {
                   columnSortingOrder == "descending" && (
                     <BsSortNumericDownAlt className={style.sortingIcon} />
                   )}
-                {columnToSort != "table_number" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "table_number" && showSortingIcon && ( */}
+                {columnToSort != "table_number" && showSortingIcon=="table_number" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                  //   // Reason : Need to fix the blinking issue */}
+
                   <BsSortNumericDown
                     color="grey"
                     className={style.sortingIcon}
@@ -1041,12 +1075,24 @@ const Order = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (columnToSort != "order_status") {
-                    setShowSortingIcon(true);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("order_status");
+                    {/* //End of Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (columnToSort != "order_status") {
-                    setShowSortingIcon(false);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(false);
+                    setShowSortingIcon("");
+                    {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
               >
@@ -1060,7 +1106,9 @@ const Order = () => {
                   columnSortingOrder == "descending" && (
                     <BsSortAlphaDownAlt className={style.sortingIcon} />
                   )}
-                {columnToSort != "order_status" && showSortingIcon && (
+                {/* {columnToSort != "order_status" && showSortingIcon && ( */}
+                {columnToSort != "order_status" && showSortingIcon== "order_status"&& (
+
                   <BsSortAlphaDown color="grey" className={style.sortingIcon} />
                 )}
               </div>
@@ -1090,12 +1138,24 @@ const Order = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (columnToSort != "payment_status") {
-                    setShowSortingIcon(true);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("payment_status");
+                    {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (columnToSort != "payment_status") {
-                    setShowSortingIcon(false);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(false);
+                    setShowSortingIcon("");
+                    {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
                 // End of addition by Om Shrivastava on 16-06-23
@@ -1125,7 +1185,12 @@ const Order = () => {
                   columnSortingOrder == "descending" && (
                     <BsSortAlphaDownAlt className={style.sortingIcon} />
                   )}
-                {columnToSort != "payment_status" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "payment_status" && showSortingIcon && ( */}
+                {columnToSort != "payment_status" && showSortingIcon== "payment_status" && (
+// {/* // End of modification and addition by Om Shrivastava on 15-09-23
+//                     // Reason : Need to fix the blinking issue */}
                   <BsSortAlphaDown color="grey" className={style.sortingIcon} />
                 )}
                 {/* // End of addition by Om Shrivastava on 16-06-23 */}
@@ -1169,12 +1234,24 @@ const Order = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (columnToSort != "date") {
-                    setShowSortingIcon(true);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("date");
+                    {/* // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (columnToSort != "date") {
-                    setShowSortingIcon(false);
+                    {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                    // setShowSortingIcon(false);
+                    setShowSortingIcon("");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+
                   }
                 }}
               >
@@ -1187,7 +1264,12 @@ const Order = () => {
                   columnSortingOrder == "descending" && (
                     <BsSortNumericDownAlt className={style.sortingIcon} />
                   )}
-                {columnToSort != "date" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "date" && showSortingIcon && ( */}
+                {columnToSort != "date" && showSortingIcon== "date" && (
+              // {/* // End of modification and addition by Om Shrivastava on 15-09-23
+              // // Reason : Need to fix the blinking issue */}
                   <BsSortNumericDown
                     color="grey"
                     className={style.sortingIcon}
@@ -1283,16 +1365,16 @@ const Order = () => {
                         //    });
                         // }}
                       >
-                        <span
+                        {/* <span
                         // onClick={() => {
                         //     navigate(`/update-order/${orderDetail.id}`, {
                         //         state: { id: orderDetail.id },
                         //     });
                         // }}
-                        >
+                        > */}
                           {" "}
                           {orderDetail.order_id}
-                        </span>
+                        {/* </span> */}
                       </div>
                       {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
 
@@ -1311,16 +1393,16 @@ const Order = () => {
                         // }}
                         // End of addition by Om Shrivastava on 21-06-23
                       >
-                        <span
+                        {/* <span
                         // onClick={() => {
                         //     navigate(`/update-order/${orderDetail.id}`, {
                         //         state: { id: orderDetail.id },
                         //     });
                         // }}
-                        >
+                        > */}
                           {" "}
                           {orderDetail.table_number}{" "}
-                        </span>
+                        {/* </span> */}
                         {/* End of addition by Om Shrivastava on 27-06-23 Reason : Need to remove onclick by div than added in span tag*/}
                       </div>
 

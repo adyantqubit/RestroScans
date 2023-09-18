@@ -158,8 +158,8 @@ const [showOffer, setShowOffer] = useState(true);
    * End of code addition by - Om shrivastava on 17-06-2023
    * Reason - created api that will get category data
    */
-  console.log(offerDetails.discount, discount);
-  console.log(offerDetails.video_link, videoLink);
+  // console.log(offerDetails.discount, discount);
+  // console.log(offerDetails.video_link, videoLink);
 
   // console.log(offerImage,selectedOfferImage,icon)
   /**
@@ -313,35 +313,39 @@ const [showOffer, setShowOffer] = useState(true);
    * Added by - Om shrivastava on 17-06-2023
    * Reason - Method to reset category form
    */
-  const resetCategoryForm = (event) => {
-    setName(categoryData.name ? categoryData.name : "");
-    setIcon(categoryData.icon ? categoryData.icon : "");
+  // commented by Om Shrivastava on 18-09-23
+  // Reason : No need to use this method
+  // const resetCategoryForm = (event) => {
+  //   setName(categoryData.name ? categoryData.name : "");
+  //   setIcon(categoryData.icon ? categoryData.icon : "");
 
-    setIsActive(
-      categoryData.is_active == true || categoryData.is_active == false
-        ? categoryData.is_active
-        : true
-    );
+  //   setIsActive(
+  //     categoryData.is_active == true || categoryData.is_active == false
+  //       ? categoryData.is_active
+  //       : true
+  //   );
 
-    setSelectedImage(null);
+  //   setSelectedImage(null);
 
-    setMenu(categoryData.menu ? categoryData.menu : null);
+  //   setMenu(categoryData.menu ? categoryData.menu : null);
 
-    document.getElementById("icon").value = "";
+  //   document.getElementById("icon").value = "";
 
-    const error = {
-      name: "",
+  //   const error = {
+  //     name: "",
 
-      menu: "",
+  //     menu: "",
 
-      icon: "",
-      is_active: "",
-    };
-    setValidationErrors({ ...validationErrors, ...error });
+  //     icon: "",
+  //     is_active: "",
+  //   };
+  //   setValidationErrors({ ...validationErrors, ...error });
 
-    setIconError("");
-    setNameError("");
-  };
+  //   setIconError("");
+  //   setNameError("");
+  // };
+// commented by Om Shrivastava on 18-09-23
+  // Reason : No need to use this method
   /**
    * End of code addition by - Om shrivastava on 17-06-2023
    * Reason - To reset category form
@@ -402,7 +406,12 @@ const [showOffer, setShowOffer] = useState(true);
       }
       updatedOfferData.append("offer_name", offerName);
       updatedOfferData.append("discount", discount);
-      if (offerImage != null || offerImage != undefined) {
+      // Modification and addition by Om Shrivastava on 18-09-23
+      // Reason : When offer image is not present then apply the condition
+      // if (offerImage != null || offerImage != undefined) {
+      if (offerImage != "" ) {
+      // End of Modification and addition by Om Shrivastava on 18-09-23
+      // Reason : When offer image is not present then apply the condition
         updatedOfferData.append("offer_image", offerImage);
       }
       updatedOfferData.append("video_link", videoLink);
@@ -605,7 +614,7 @@ const [showOffer, setShowOffer] = useState(true);
                       <span className={style.optionalField}>* </span>Image
                     </div>
                     <div className={style.menuImageContainer}>
-                      {selectedOfferImage ? (
+                      {selectedOfferImage ? ( 
                         selectedOfferImage
                       ) : icon ? (
                         <img

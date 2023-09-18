@@ -455,6 +455,29 @@ const navigateToReservationList = () => {
               Banner/Offer{" "}
             </NavLink>
           </li>
+           {/* Addition by Om Shrivastava on 17-09-23
+          Reason : Need to change the position of banner/offer items  */}
+          <li className={style.links_div} onClick={navigateToBannerItems}>
+            <NavLink
+              // commented and modified by - Suman sahu on - 17/06/2023
+              // reason- for design active link
+              // className={style.link}
+              className={({ isActive }) => (isActive ? style.active : style.link)}
+              // end of modification by - Suman sahu on - 17/06/2023
+              to="/BannerOfferItem"
+            // Added by Rohan kansari - 22/6/23
+            // Reason - To set page index by default 1 on side bar page link
+            // Removed By ROhan kansari - 23/6/23 
+            // Reason - place changed and calling it on li function
+            // onClick={e=>{localStorage.setItem("globalPageIndex",1); localStorage.setItem("listPerPage",10)}}
+            // End of code - Rohan kansari - 22/6/23
+            >
+              {" "}
+              Banner/Offer Items{" "}
+            </NavLink>
+          </li>
+          {/* End of addition by Om Shrivastava on 17-09-23
+          Reason : Need to change the position of banner/offer items */}
           {/* Added by ROhan Kansari - To open report page - 26/5/23*/}
           <li
             className={`${style.links_div} ${style.link}`}
@@ -560,7 +583,9 @@ const navigateToReservationList = () => {
           </NavLink>
         </li> */}
           {/* End of code - Suman Sahu - 27/5/23*/}
-          <li className={style.links_div} onClick={navigateToBannerItems}>
+          {/* Commented by Om Shrivastava on 17-09-23
+          Reason : Need to change the position of offer/banner items */}
+          {/* <li className={style.links_div} onClick={navigateToBannerItems}>
             <NavLink
               // commented and modified by - Suman sahu on - 17/06/2023
               // reason- for design active link
@@ -578,7 +603,8 @@ const navigateToReservationList = () => {
               {" "}
               Banner/Offer Items{" "}
             </NavLink>
-          </li>
+          </li> */}
+          {/* End of commented code  */}
           <li className={style.links_div} onClick={navigateToMenu}>
             <NavLink
               // commented and modified by - Suman sahu on - 17/06/2023
