@@ -2810,7 +2810,6 @@ class OrderFilterAPIView(APIView):
         # else :
         #     orderList = Order.objects.all()
         # print("====================",orderList)
-        print("------------K",orderList[0])    
 
         # here is some issue
         if columnToSort == "order_id" and columnSortingOrder=="ascending":

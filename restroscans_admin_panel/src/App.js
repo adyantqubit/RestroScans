@@ -159,7 +159,8 @@ function App() {
         Reason - To validate token in all page  */}
       <Routes>
         {/* Added by Rohan kansari - 27/8/23 - To navigate blank link to dashboard */}
-        <Route path="/" element={<Navigate to="/Revenue"/>}></Route>
+        {/* Modified by Rohan kansari - 16/9/23 - to redirect login if not login */}
+        <Route path="/" element={!tokenExist ? <Navigate to="/Login" /> :<Navigate to="/Revenue"/>}></Route>
         {/* End of code - Rohan kansari - 27/8/23 - To navigate blank link to dashboard  */}
         {/* Added by Rohan kansari - 8/9/23 - To make revenue page default */}
         <Route path='/Registration' element={tokenExist ? <Navigate to="/Revenue" /> : <Registration />} />
@@ -305,7 +306,7 @@ function App() {
       	{/* End of addition by Om shrivastava on 24-07-23 Reason : Show the restaurant rating and review */}
 
         {/* Added by Rohan kansari - 9/8/23 - To add waiter pages */}
-        <Route path="/Waiter" element={!tokenExist ? <Navigate to="/WaiterLogin" />:<Waiter/>} />
+        <Route path="/Waiter" element={!tokenExist ? <Navigate to="/Login" /> :<Waiter/>}/>
         <Route path="/waiterDashboard" element={!tokenExist ? <Navigate to="/WaiterLogin" />:<WaiterDashboard/>} />
         {/* End of code - Rohan kansari - 9/8/23 - To add Waiter pages */}
        

@@ -52,6 +52,15 @@ const Sidebar = ({sidebar, setSidebar}) => {
     navigate('/Dashboard');
   };
 
+  // Added by Rohan kansari - 15/9/23 
+  // Reason - To naviagte waiter dashboard
+  function navigateToWaiterDashbaord() {
+    if (windowSize.innerWidth < 800)
+      setSidebar(false)
+    navigate("/WaiterDashboard")
+  }
+  // End of code - Rohan Kansari 15/9/23 - To naviagte waiter dashboard
+
   const navigateToBanner = () => {
     // Added by Rohan Kansari - 23/6/23
     // Reason - Save default value in localstorage of page index and list per page
@@ -817,15 +826,15 @@ const navigateToReservationList = () => {
 
 
         {/* Added by Rohan kansari - 13/9/23 - To show all wanted list according to waiter needs */}
-        <ul id={localStorage.getItem("waiterData") ? null: style.hideSidebar }
+        <ul id={localStorage.getItem("waiterData") ? null : style.hideSidebar}
           className={sidebar == true ? style.open_sidebar : style.close_sidebar}
         >
-          <li className={style.links_div} onClick={navigateToDashboard}>
+          <li className={style.links_div} onClick={navigateToWaiterDashbaord}>
             <NavLink
-              
+
               className={({ isActive }) => (isActive ? style.active : style.link)}
-             
-              to="/Dashboard"
+
+              to="/WaiterDashboard"
             >
               {" "}
               Dashboard{" "}
