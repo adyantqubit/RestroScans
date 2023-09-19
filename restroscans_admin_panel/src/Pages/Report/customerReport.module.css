@@ -9,9 +9,24 @@
   src: url("../../assets/font/Carlito-Bold.ttf") format("opentype");
 }
 
+.dataText {
+  font-weight: 400 !important;
+}
+.commonColumnData{
+  font-weight: 600;
+  font-size: 12px !important;
+  text-align: center;
+
+}
+
+
 .buttonSearchContainer {
-  margin-top: 2%;
-  width: 95%;
+  /*Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+  /* margin-top: 2%; */
+  margin-top: 1%;
+  /* width: 95%; */
+  width: 75%;  
+/*End Of Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
   display: flex;
   justify-content: flex-end;
 }
@@ -25,7 +40,11 @@
 }
 
 .searchBox{
-  width:80%;
+  /*Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+  /* width:80%; */
+  width:50%;
+  /*End of Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+
 }
 .PrintBtn {
   min-width: 70px;
@@ -160,7 +179,10 @@
 }
 /* 0000000000000000000000000000000000000000000000000000000000000 */
 .tableContainer {
-  min-width: 100%;
+/*Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+/* min-width: 100%; */
+  min-width: 70%;
+/*End of Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
   width: max-content;
   padding: 4px;
   background-color: #efefef;
@@ -173,7 +195,6 @@
   height: auto;
   width: 100%;
   display: flex;
-  justify-content: space-between;
   border-bottom: 1px solid #cad0d0;
   font-family: "MyFont";
   padding: 3px;
@@ -192,7 +213,6 @@
 .tableData {
   /* background-color: white; */
   display: flex;
-  justify-content: space-between;
   width: 100%;
   align-items: center;
   box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
@@ -341,7 +361,7 @@
 }
 
 .nameCol {
-  min-width: 60px;
+  min-width: 120px;
   text-align: center;
   font-size: 14px;
   display: flex;
@@ -350,15 +370,15 @@
 }
 
 .numberColumn{
-  min-width: 150px;
+  min-width: 100px;
   text-align: center;
   display: flex;
   justify-content: center;
   font-size: 14px;
   padding: 4px 0;
 }
-.emailcolumn{
-  min-width: 110px;
+.emailColumn{
+  min-width: 150px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -367,15 +387,6 @@
 }
 
 .NoOfOrdersColumn{
-  min-width: 60px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  font-size: 14px;
-  padding: 4px 0;
-}
-
-.totalColumn{
   min-width: 80px;
   text-align: center;
   display: flex;
@@ -384,8 +395,8 @@
   padding: 4px 0;
 }
 
-.cancelCol{
-  min-width: 50px;
+.totalColumn{
+  min-width: 100px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -393,8 +404,17 @@
   padding: 4px 0;
 }
 
-.complCol{
-  min-width: 50px;
+.cancelCol{
+  min-width: 120px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.compCol{
+  min-width: 120px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -403,7 +423,8 @@
 }
 
 .pointCol{
-  min-width: 60px;
+  /* min-width: 60px; */
+  min-width: 100px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -590,6 +611,8 @@
 
   .dataText {
     font-size: 13px;
+    /* font-weight: 400 !important; */
+
   }
 
 }

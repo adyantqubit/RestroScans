@@ -21,13 +21,18 @@ import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
 
 const ReservationList = () => {
+  // //Added By Pratap Sahu on 14-09-2023
+  // Reason:To give background colour in listing
+  var backgroundColor = 1;
+  // End of Addition By Pratap Sahu on 14-09-2023
+  // Reason:To give background colour in listing
   const [backendReservationCount, setBackendReservationCount] = useState(0);
   const [reservationList, setReservationList] = useState([]);
   const [listPerPage, setListPerPage] = useState(
     localStorage.getItem("listPerPage")
   );
   const [columnToSort, setColumnToSort] = useState("id");
-  const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
+  const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
   const [showSortingIcon, setShowSortingIcon] = useState(false);
   var [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState("");
@@ -129,11 +134,17 @@ const ReservationList = () => {
     else document.getElementById("dropdown").style.display = "";
   }
 
+  // Added by Pratap sahu 15-09-2023
+  // Reason - To validate dropdown whether list data is coming or not
   function hideDropdown() {
-    document.getElementById("dropdown").style.display = "";
+    // document.getElementById("dropdown").style.display = "";
+    if(document.getElementById("dropdown"))
+     document.getElementById("dropdown").style.display=""
   }
-  // console.log(currentPage,backendReservationCount,'counttttttt')
   // End of code -pratap Sahu on 06-09-2023
+  // Added by Pratap sahu 15-09-2023
+ // Reason - To validate dropdown whether list data is coming or not
+
   return (
     <div className={style.container}>
       <div className={`${style.pageTitleContainer}`}>
@@ -168,21 +179,31 @@ const ReservationList = () => {
             minWidth: "100px",
             textAlign: "center",
           }}>
-          Add Reservation
+          Add Table Reservation
         </div>
       </div>
-      <div className={style.itemListSection}>
+      <div className={style.listSection}>
         <div className={style.tableContainer}>
           <div className={style.table}>
             {/* -------------------------------------------------------------------------------------- */}
             <div
               className={style.tableHeadingContainer}
+            // Added by  Pratap Sahu on 15-09-2023
+            // Reason- To hide page size dropdown on outer click
+              onClick={hideDropdown}
+                onTouchStart={hideDropdown}
+          // End of Addition by Pratap sahu 15-09-2023
+          // Reason -To hide page size dropdown on outer click
             >
-              <div className={`${style.sNoColumn} ${style.smallColumnWidth}`}>
+             {/* Modified By Pratap sahu on 15-09-2023 To Enhance UI  */}
+             {/* <div className={`${style.commonColumn}`}> */}
+             <div className={`${style.sNoColumn}`}
+             >
+             {/* End of Modification By Pratap sahu on 15-09-2023 To Enhance UI  */}
                 S.No.{" "}
               </div>
               <div
-                className={style.commonColumnTitle}
+                className={style.nameColumn}
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortReservationList("name");
@@ -213,7 +234,7 @@ const ReservationList = () => {
               <div
                 // Added by Pratap Sahu on 07-09-2023
                 // Reason - to sort data by contact_number
-                className={style.contactNumberColTitle}
+                className={style.contactColumn}//new
                 onClick={(e) => {
                   setShowSortingIcon(false);
                   sortReservationList("contact_number");
@@ -230,7 +251,7 @@ const ReservationList = () => {
                 }}
                 // End of addition by Pratap Sahu on 07-09-2023
               >
-                Contact Number
+                Contact Number{" "}
                 {columnToSort == "contact_number" &&
                   columnSortingOrder == "ascending" && (
                     <BsSortNumericDown className={style.sortingIcon} />
@@ -249,7 +270,10 @@ const ReservationList = () => {
               </div>
 
               <div
-                className={style.commonColumnTitle}
+              /* Modified By Pratap sahu on 15-09-2023 To Enhance UI */
+                // className={style.commonColumnTitle}
+                className={style.tableNum}
+                /*End of Modification By Pratap sahu on 15-09-2023 To Enhance UI */
                 // Added by  Pratap Sahu on 07-09-2023
                 // Reason - to sort data table_number
                 onClick={(e) => {
@@ -267,7 +291,7 @@ const ReservationList = () => {
                   }
                 }}
              >
-                Table Number
+                Table Number{" "}
                 {columnToSort == "table_number" &&
                   columnSortingOrder == "ascending" && (
                     <BsSortAlphaDown className={style.sortingIcon} />
@@ -281,7 +305,7 @@ const ReservationList = () => {
                 )}
               </div>
               <div
-                className={style.commonColumnTitle}
+                className={style.numOfPerson}
                 // Added by  Pratap Sahu on 07-09-2023
                 // Reason - to sort data by number_of_person
                 onClick={(e) => {
@@ -299,7 +323,7 @@ const ReservationList = () => {
                   }
                 }}
              >
-                No Of Person
+                No Of Person{" "}
                 {columnToSort == "number_of_person" &&
                   columnSortingOrder == "ascending" && (
                     <BsSortNumericDown className={style.sortingIcon} />
@@ -317,7 +341,10 @@ const ReservationList = () => {
                 {/* End of addition by Pratap Sahu on 07-09-2023*/}
               </div>
               <div
-                className={style.commonColumnTitle}
+              /* Modified By Pratap sahu on 15-09-2023 To Enhance UI */           
+                // className={style.commonColumnTitle}
+                className={style.dateCol}
+              /* Ended by pratap sahu on 15-09-2023 To Enhance UI  */
                 // Added by Pratap Sahu on 07-09-2023
                 // Reason - to sort data by date
                 onClick={(e) => {
@@ -335,7 +362,7 @@ const ReservationList = () => {
                   }
                 }}
               >
-                Date
+                Date{" "}
                    {columnToSort == "date" &&
                   columnSortingOrder == "ascending" && (
                     <BsSortNumericDown className={style.sortingIcon} />
@@ -353,7 +380,10 @@ const ReservationList = () => {
                 {/* End of addition by Pratap Sahu on 07-09-2023 */}
               </div>
               <div
-                className={style.commonColumnTitle}
+              /* Modified By Pratap sahu on 15-09-2023 To Enhance UI */       
+                // className={style.commonColumnTitle}
+                className={style.resStatus}
+              /* Ended by pratap sahu on 15-09-2023 To Enhance UI  */
                 // Added by  Pratap Sahu on 07-09-2023
                 // Reason - to sort reservation Status
                 onClick={(e) => {
@@ -371,7 +401,7 @@ const ReservationList = () => {
                   }
                 }}
               >
-                Status
+                Status{" "}
                 {columnToSort == "reservation_status" &&
                   columnSortingOrder == "ascending" && (
                     <BsSortAlphaDown className={style.sortingIcon} />
@@ -385,7 +415,10 @@ const ReservationList = () => {
                 )}
                 {/* End of addition by Pratap Sahu on 07-09-2023*/}
               </div>
-              <div className={style.commonColumnTitle}> Action </div>
+              {/* Modified By Pratap sahu on 15-09-2023 To Enhance UI */}
+              {/* <div className={style.commonColumnTitle}> Action </div> */}
+              <div className={style.action}> Action </div>
+              {/* Ended by pratap sahu on 15-09-2023 To Enhance UI  */}
             </div>
 
             <div
@@ -410,38 +443,44 @@ const ReservationList = () => {
                         marginTop: "2px",
                         marginBottom:
                           reservationList.length == index + 1 ? "2px" : "0px",
+                           //Added By Pratap Sahu on 14-09-2023
+                          // Reason:To give background colour in listing
+                          background: backgroundColor++ % 2 == 0 ? "white" : "#1677ff14",
+                          //End of Addition By Pratap Sahu on 14-09-2023
+                          // Reason:To give background colour in listing
                       }}>
                         <div
-                        className={`${style.sNoColumn} ${style.smallColumnWidth}`}>
+                        className={`${style.sNoColumn} `}>
                         {currentPage * listPerPage - listPerPage + index + 1}
                       </div>
                       {/* Modified by Pratap Sahu on 07-09-2023
                          Reason - to arrange the word */}
                       <div
-                        className={style.commonColumnData}
-                        style={{ wordBreak: "break-word" }}>
+                        className={`${style.nameColumn} ${style.commonColumnData}`}
+                        >
                         {/* End of modification by  Pratap Sahu on 07-09-2023 */}
                         {reservationList.name}
                       </div>
 
-                      <div className={style.contactNumberColData}>
+                      <div className={`${style.contactColumn} ${style.commonColumnData}`}>
                         {reservationList.contact_number}
                       </div>
 
-                      <div className={style.commonColumnData}>
+                      {/* <div className={style.commonColumnData}> */}
+                      <div className={`${style.tableNum} ${style.commonColumnData}`}>
                         {reservationList.table_number
                           ? reservationList.table_number
                           : "-"}
                       </div>
-                      <div className={style.commonColumnData}>
+                      <div className={`${style.numOfPerson} ${style.commonColumnData}`}>
                         {reservationList.number_of_person
                           ? reservationList.number_of_person
                           : "-"}
                       </div>
-                      <div className={style.commonColumnData}>
+                      <div className={`${style.dateCol} ${style.commonColumnData}`}>
                         {reservationList.date}
                       </div>
-                      <div className={style.commonColumnData}>
+                      <div className={`${style.resStatus} ${style.commonColumnData}`}>
                         {reservationList.reservation_status}
                       </div>
 

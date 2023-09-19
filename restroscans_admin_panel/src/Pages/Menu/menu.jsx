@@ -209,18 +209,25 @@ const Menu = () => {
 
   // Added by Rohan kansari - 22/6/23
   // Reason - To toggle dropdown visiblity on click
-  function toggelDropdown(){
+  function toggleDropdown(){
     if(document.getElementById("dropdown").style.display.length==0 )
     document.getElementById("dropdown").style.display="block"
     else
     document.getElementById("dropdown").style.display=""
    }
- 
+   // Commented & Added by Pratap sahu 15-09-2023
+  // Reason - To validate dropdown whether list data is coming or not
+  //  function hideDropdown(){
+  //   document.getElementById("dropdown").style.display=""
+  // }
    function hideDropdown(){
+    if(document.getElementById("dropdown"))
      document.getElementById("dropdown").style.display=""
    }
    // End of code - Rohan Kansari - 22/6/23
-
+   // End of code by Pratap sahu 15-09-2023
+  // Reason - To validate dropdown whether list data is coming or not
+  
   return (
    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
@@ -578,7 +585,7 @@ const Menu = () => {
                 simple
               />
 
-              <div className={style.dropdown} onClick={toggelDropdown}>
+              <div className={style.dropdown} onClick={toggleDropdown}>
                 <button className={style.dropbtn}> {listPerPage} / Page <MdArrowDropUp style={{ margin: "5px 0" }} /></button>
                 <div className={style.dropdown_content} id="dropdown">
                 {/* Modified by ROhan kansari - 26/6/23 

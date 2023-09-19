@@ -227,11 +227,18 @@ const Category = () => {
       document.getElementById("dropdown").style.display = ""
   }
 
-  function hideDropdown() {
-    document.getElementById("dropdown").style.display = ""
-  }
-  // End of code - Rohan Kansari - 22/6/23
-
+  // Commented & Added by Pratap sahu 16-09-2023
+ // Reason - To validate dropdown whether list data is coming or not
+  // function hideDropdown() {
+  //   document.getElementById("dropdown").style.display = ""
+  // }
+  function hideDropdown(){
+    if(document.getElementById("dropdown"))
+     document.getElementById("dropdown").style.display=""
+   }
+   // End of code by Pratap sahu 16-09-2023
+  // Reason - To validate dropdown whether list data is coming or not
+  
   return (
    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global

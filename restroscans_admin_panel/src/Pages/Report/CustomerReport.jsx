@@ -103,7 +103,10 @@ const CustomerReport = () => {
       <button
         className={style.PrintBtn}
         onClick={(e) => exportToCSV(apiData, fileName)}>
-        Print Report
+        {/* Modification by- Pratap Sahu on 13/09/23 - To Change the Button Name */}
+        {/* Print Report */}
+        Download
+        {/* End Of Modification by- Pratap Sahu on 13/09/23 - To Change the Button Name */}
       </button>
     );
     // End Of Addition by- Pratap Sahu on 06/09/23 - To download report in excel sheet
@@ -183,7 +186,6 @@ const CustomerReport = () => {
       setCustomerReportDetails(response.customerList);
       setBackendReportCount(response.customerListCount);
     });
-
   }
   //End of Addition by :-Pratap sahu on 28-08-2023
   // reason :- making a data for sorting and paginations
@@ -209,10 +211,11 @@ const CustomerReport = () => {
   }
   // Added by Pratap sahu on 26-08-2023
   // Reason- To hide page size dropdown on outer click
-  // function hideDropdown(e) {
-  //   e.target.style.display = "none";
-  // }
-  // if (backendReportCount && backendReportCount.length > 0) {
+  function hideDropdown(){
+    if(document.getElementById("dropdown"))
+    document.getElementById("dropdown").style.display=""
+  }
+  // if(backendReportCount && backendReportCount.length > 0) {
   //   e.style.display = "";
   // }
   // End of Added code by Pratap Sahu on 26-08-2023 Reason- To hide page size dropdown on outer click
@@ -261,13 +264,22 @@ const CustomerReport = () => {
           <div className={style.table}>
             <div
               className={style.tableHeadingContainer}
+            // Modified by  Pratap Sahu on 15-09-2023
+            // Reason- To hide page size dropdown on outer click
               // onClick={(e)=>{hideDropdown(e)}}
               // onTouchStart={(e)=>{hideDropdown(e)}}
+              onClick={hideDropdown}
+              onTouchStart={hideDropdown}
+            //End of Modification by Pratap sahu 15-09-2023
+          // Reason To hide page size dropdown on outer click
+
             >
               <div className={`${style.sNoColumn} ${style.smallColumnWidth}`}>
                 S.No.{" "}
               </div>
-              <div className={style.nameCol}>
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              {/* <div className={style.nameCol}>
                 <span
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -283,7 +295,8 @@ const CustomerReport = () => {
                       setShowSortingIcon(false);
                     }
                   }}
-                  style={{ wordBreak: "break-word" }}>
+                  // style={{ wordBreak: "break-word" }}
+                >
                   Name{" "}
                 </span>
                 <span
@@ -316,112 +329,142 @@ const CustomerReport = () => {
                     />
                   )}
                 </span>
-              </div>
-              <div className={style.numberColumn}>
-                <span
+              </div> */}
+              <div className={style.nameCol}
                   onClick={(e) => {
                     setShowSortingIcon(false);
-                    sortCustomerReportList("contact_number");
+                    sortCustomerReportList("last_customer_name");
                   }}
                   onMouseEnter={(e) => {
-                    if (columnToSort != "contact_number") {
+                    if (columnToSort != "last_customer_name") {
                       setShowSortingIcon(true);
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (columnToSort != "contact_number") {
+                    if (columnToSort != "last_customer_name") {
                       setShowSortingIcon(false);
                     }
                   }}
-                  style={{ wordBreak: "break-word" }}>
-                  Contact Number{" "}
-                </span>
-                <span
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortCustomerReportList("contact_number");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "contact_number") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "contact_number") {
-                      setShowSortingIcon(false);
-                    }
-                  }}>
-                  {columnToSort == "contact_number" &&
+                >
+                  Name{" "}
+                  {columnToSort == "last_customer_name" &&
                     columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
+                      <BsSortAlphaDown className={style.sortingIcon} />
                     )}
-                  {columnToSort == "contact_number" &&
+                  {columnToSort == "last_customer_name" &&
                     columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "contact_number" && showSortingIcon && (
-                    <BsSortNumericDown
+                  {columnToSort != "last_customer_name" && showSortingIcon && (
+                    <BsSortAlphaDown
                       color="grey"
                       className={style.sortingIcon}
                     />
                   )}
-                </span>
               </div>
-              {/* End of code modification by -  Pratap Sahu on 25-08-2023
-                Reason - To sort only when we click on label */}
-              <div className={style.emailcolumn}>
-                <span
-                  onClick={(e) => {
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              <div
+                className={style.numberColumn}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("contact_number");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "contact_number") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "contact_number") {
                     setShowSortingIcon(false);
-                    sortCustomerReportList("email");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "email") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "email") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                  style={{ wordBreak: "break-word" }}>
-                  Email{" "}
-                </span>
-                <span
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortCustomerReportList("email");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "email") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "email") {
-                      setShowSortingIcon(false);
-                    }
-                  }}>
-                  {columnToSort == "email" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "email" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "email" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                  }
+                }}
+                // style={{ wordBreak: "break-word" }}
+              >
+                Contact Number{" "}
+                {columnToSort == "contact_number" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
                   )}
-                </span>
+                {columnToSort == "contact_number" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "contact_number" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
               </div>
               {/* End of code modification by -  Pratap Sahu on 25-08-2023
                 Reason - To sort only when we click on label */}
-              <div className={style.NoOfOrdersColumn}>
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              <div
+                className={style.emailColumn}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("email");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "email") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "email") {
+                    setShowSortingIcon(false);
+                  }
+                }}
+                // style={{ wordBreak: "break-word" }}
+              >
+                Email{" "}
+                {columnToSort == "email" &&
+                  columnSortingOrder == "ascending" && (
+                    /* Commented and added by pratap sahu on 13-09-2023
+                      Reason:To change sorting Icon */
+                    /* <BsSortNumericDown className={style.sortingIcon} /> */
+                    <BsSortAlphaDown className={style.sortingIcon} />
+                    /* End Of Comment and added by pratap sahu on 13-09-2023
+                      Reason:To change sorting Icon */
+                  )}
+                {columnToSort == "email" &&
+                  columnSortingOrder == "descending" && (
+                    /* Commented and added by pratap sahu on 13-09-2023
+                      Reason:To change sorting Icon */
+                    /* <BsSortNumericDownAlt className={style.sortingIcon} /> */
+                    <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    /* End Of Comment and added by pratap sahu on 13-09-2023
+                      Reason:To change sorting Icon */
+                  )}
+                {columnToSort != "email" && showSortingIcon && (
+                  /* Commented and added by pratap sahu on 13-09-2023
+                      Reason:To change sorting Icon */
+                  /* <BsSortNumericDown */
+                  <BsSortAlphaDown
+                    color="grey"
+                    className={style.sortingIcon}
+                    /* End Of Comment and added by pratap sahu on 13-09-2023
+                      Reason:To change sorting Icon */
+                  />
+                )}
+              </div>
+              {/* End of code modification by -  Pratap Sahu on 25-08-2023
+                Reason - To sort only when we click on label */}
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              {/* <div className={style.NoOfOrdersColumn}>
                 <span
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -437,7 +480,8 @@ const CustomerReport = () => {
                       setShowSortingIcon(false);
                     }
                   }}
-                  style={{ wordBreak: "break-word" }}>
+                  // style={{ wordBreak: "break-word" }}
+                >
                   Total Orders{" "}
                 </span>
                 <span
@@ -470,8 +514,46 @@ const CustomerReport = () => {
                     />
                   )}
                 </span>
+              </div> */}
+              <div className={style.NoOfOrdersColumn}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerReportList("numberOfOrders");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "numberOfOrders") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "numberOfOrders") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // style={{ wordBreak: "break-word" }}
+                >
+                  Total Orders{" "}
+                  {columnToSort == "numberOfOrders" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "numberOfOrders" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "numberOfOrders" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
               </div>
-              <div className={style.totalColumn}>
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              {/* <div className={style.pointCol}>
                 <span
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -487,7 +569,8 @@ const CustomerReport = () => {
                       setShowSortingIcon(false);
                     }
                   }}
-                  style={{ wordBreak: "break-word" }}>
+                  // style={{ wordBreak: "break-word" }}
+                  >
                   Total Amount{" "}
                 </span>
                 <span
@@ -520,58 +603,82 @@ const CustomerReport = () => {
                     />
                   )}
                 </span>
-              </div>
-              <div className={style.cancelCol}>
-                <span
-                  onClick={(e) => {
+              </div> */}
+              <div
+                className={style.totalColumn}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("totalAmount");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "totalAmount") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "totalAmount") {
                     setShowSortingIcon(false);
-                    sortCustomerReportList("cancelledOrder");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "cancelledOrder") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "cancelledOrder") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                  style={{ wordBreak: "break-word" }}>
-                  Cancelled Order{" "}
-                </span>
-                <span
-                  onClick={(e) => {
-                    setShowSortingIcon(false);
-                    sortCustomerReportList("cancelledOrder");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "cancelledOrder") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "cancelledOrder") {
-                      setShowSortingIcon(false);
-                    }
-                  }}>
-                  {columnToSort == "cancelledOrder" &&
-                    columnSortingOrder == "ascending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
-                    )}
-                  {columnToSort == "cancelledOrder" &&
-                    columnSortingOrder == "descending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
-                    )}
-                  {columnToSort != "cancelledOrder" && showSortingIcon && (
-                    <BsSortNumericDown
-                      color="grey"
-                      className={style.sortingIcon}
-                    />
+                  }
+                }}>
+                Total Amount{" "}
+                {columnToSort == "totalAmount" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
                   )}
-                </span>
+                {columnToSort == "totalAmount" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "totalAmount" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
               </div>
-              <div className={style.complCol}>
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              <div
+                className={style.cancelCol}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("cancelledOrder");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "cancelledOrder") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "cancelledOrder") {
+                    setShowSortingIcon(false);
+                  }
+                }}>
+                Cancelled Order{" "}
+                {columnToSort == "cancelledOrder" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
+                  )}
+                {columnToSort == "cancelledOrder" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "cancelledOrder" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
+              </div>
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              {/* <div className={style.pointCol}>
                 <span
                   onClick={(e) => {
                     setShowSortingIcon(false);
@@ -587,7 +694,8 @@ const CustomerReport = () => {
                       setShowSortingIcon(false);
                     }
                   }}
-                  style={{ wordBreak: "break-word" }}>
+                  // style={{ wordBreak: "break-word" }}
+                  >
                   Completed Order{" "}
                 </span>
                 <span
@@ -620,24 +728,49 @@ const CustomerReport = () => {
                     />
                   )}
                 </span>
-              </div>
-              <div className={style.pointCol}>
-                <span
-                  onClick={(e) => {
+              </div> */}
+              <div
+                className={style.compCol}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("completedOrder");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "completedOrder") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "completedOrder") {
                     setShowSortingIcon(false);
-                    sortCustomerReportList("loyality_points");
-                  }}
-                  onMouseEnter={(e) => {
-                    if (columnToSort != "loyality_points") {
-                      setShowSortingIcon(true);
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (columnToSort != "loyality_points") {
-                      setShowSortingIcon(false);
-                    }
-                  }}
-                  style={{ wordBreak: "break-word" }}>
+                  }
+                }}>
+                Completed Order{" "}
+                {columnToSort == "completedOrder" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
+                  )}
+                {columnToSort == "completedOrder" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "completedOrder" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
+              </div>
+              {/* End of Comment and Modification By pratap Sahu        
+              Reason: Blinking error when cursor is in b/w two column heading */}
+
+              {/* Commented and Modified By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
+              {/* <div className={style.pointCol}>
+                <span
+                  
+                  // style={{ wordBreak: "break-word" }}
+                  >
                   Loyalty Points{" "}
                 </span>
                 <span
@@ -670,9 +803,43 @@ const CustomerReport = () => {
                     />
                   )}
                 </span>
+              </div> */}
+              <div
+                className={style.pointCol}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("loyality_points");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "loyality_points") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "loyality_points") {
+                    setShowSortingIcon(false);
+                  }
+                }}>
+                Loyalty Points{" "}
+                {columnToSort == "loyality_points" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
+                  )}
+                {columnToSort == "loyality_points" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "loyality_points" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
               </div>
               {/* End of Table heading for sorting by - Pratap sahu on 25-08-2023
                 Reason - To sort only when we click on label */}
+              {/* End of Comment and Modification By pratap Sahu
+              Reason: Blinking error when cursor is in b/w two column heading */}
 
               {/* Added by - Pratap sahu on 25-08-2023
                 Reason - To Map the data on table */}
@@ -681,7 +848,14 @@ const CustomerReport = () => {
               className={style.tableDataContainer}
               style={{
                 backgroundColor: "#efefef",
-              }}>
+              }}
+            // Added by  Pratap Sahu on 15-09-2023
+            // Reason- To hide page size dropdown on outer click
+              onClick={hideDropdown}
+              onTouchStart={hideDropdown}
+            // Added by Pratap sahu 15-09-2023
+          // Reason - To validate dropdown whether list data is coming or not
+              >
               {customerReportDetails && customerReportDetails.length > 0 ? (
                 customerReportDetails.map((customerReportDetails, index) => {
                   return (
@@ -694,7 +868,7 @@ const CustomerReport = () => {
                         marginBottom:
                           customerReportDetails.length == index + 1
                             ? "2px"
-                            : "0px",
+                            : "px",
                         background:
                           backgroundColor++ % 2 == 0 ? "white" : "#1677ff14",
                       }}>
@@ -703,37 +877,38 @@ const CustomerReport = () => {
                         {currentPage * listPerPage - listPerPage + index + 1}
                       </div>
                       <div
-                        className={`${style.nameCol} ${style.mediumColoumnWidth}`}>
+                        className={`${style.nameCol} ${style.commonColumnData}`}>
                         {customerReportDetails.last_customer_name}
                       </div>
 
                       <div
-                        className={`${style.numberColumn} ${style.mediumColoumnWidth}`}>
+                        className={`${style.numberColumn} ${style.commonColumnData}`}>
                         <span> {customerReportDetails.contact_number}</span>
                       </div>
                       <div
-                        className={`${style.emailcolumn} ${style.mediumColoumnWidth}`}>
+                        className={`${style.emailColumn} ${style.commonColumnData}`}>
                         <span> {customerReportDetails.email} </span>
                       </div>
                       <div
-                        className={`${style.NoOfOrdersColumn} ${style.mediumColoumnWidth}`}
-                        style={{ display: "flex", justifyContent: "center" }}>
+                        className={`${style.NoOfOrdersColumn} ${style.commonColumnData}`}
+                        // style={{ display: "flex", justifyContent: "center" }}
+                      >
                         {customerReportDetails.numberOfOrders}
                       </div>
                       <div
-                        className={`${style.totalColumn} ${style.mediumColoumnWidth}`}>
+                        className={`${style.totalColumn} ${style.commonColumnData}`}>
                         {customerReportDetails.totalAmount}
                       </div>
                       <div
-                        className={`${style.cancelCol} ${style.mediumColoumnWidth}`}>
+                        className={`${style.cancelCol} ${style.commonColumnData}`}>
                         {customerReportDetails.cancelledOrder}
                       </div>
                       <div
-                        className={`${style.complCol} ${style.mediumColoumnWidth}`}>
+                        className={`${style.compCol} ${style.commonColumnData}`}>
                         {customerReportDetails?.completedOrder}
                       </div>
                       <div
-                        className={`${style.pointCol} ${style.mediumColoumnWidth}`}>
+                        className={`${style.pointCol} ${style.commonColumnData}`}>
                         {customerReportDetails.loyality_points}
                       </div>
                     </div>
@@ -782,7 +957,6 @@ const CustomerReport = () => {
                   </span>
                 ) : null}
                 {backendReportCount > 30 ? (
-                  
                   <span
                     href="#"
                     onClick={(e) => {

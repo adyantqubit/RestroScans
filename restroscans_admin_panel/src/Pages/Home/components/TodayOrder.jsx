@@ -1977,7 +1977,12 @@ const TodayOrder = (props) => {
                                 <div className={style.columnData8}>{data.order_id}</div>
                                 <div className={style.columnData3}>{getStatusBtn(data.order_status)}</div>
                                 <div className={style.columnData4}>{data.date.substring(11, 16)}</div>
-                                <div className={style.columnData5}>{data.total}</div>
+                                {/* Modified by pratap sahu on 16-09-2023
+                                To display grandTotal amount instead of subTotal */}
+                                {/* <div className={style.columnData5}>{data.total}</div> */}
+                                <div className={style.columnData5}>{data.final_amount}</div>
+                                {/* End of Modification by pratap sahu on 16-09-2023
+                                To display grandTotal amount instead of subTotal */}
                                 <div className={style.columnData6}>{getStatusBtn(data.payment_status)}</div>
                                 <div className={style.columnData7}>
                                     {/* // Commented and modification by - Suman sahu On 12/06/2023

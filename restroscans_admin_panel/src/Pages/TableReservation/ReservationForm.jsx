@@ -32,7 +32,12 @@ const ReservationForm = () => {
   const [email, setEmail] = useState(null);
   const [contactNumber, setContactNumber] = useState(null);
   const [numberOfPerson, setNumberOfPerson] = useState(null);
-  const [specialInstructions, setSpecialInstructions] = useState(null);
+  // Modified By Pratap Sahu on 14-09-2023
+  // Reason:to save Empty data instead of null
+  // const [specialInstructions, setSpecialInstructions] = useState(null);
+  const [specialInstructions, setSpecialInstructions] = useState("");
+  // End of Modification By Pratap Sahu on 14-09-2023
+  // Reason:to save Empty data instead of null
   
   // Added by pratap sahu on 10-09-2023
   //to change the date formate into yyyy-mm-dd
@@ -60,7 +65,7 @@ const ReservationForm = () => {
     name: "",
     email: "",
     contact_number: "",
-    number_of_person: "",
+    numberOfPerson: "",
     date: "",
     time: "",
     table_number: "",
@@ -140,43 +145,53 @@ const ReservationForm = () => {
         contact_number: "Please Enter Contact Number",
         numberOfPerson: "Please Enter Number Of Person",
         table_number: "Please Enter Table Number",
-        reservation_status:"please enter reservation status"
+      // Commented by Pratap sahu on 19-09-2023
+      // Reason - No need,bydefault selected as 'Pending'
+        // reservation_status:"please enter reservation status"
+      // End of Comment by Pratap sahu on 19-09-2023
+      // Reason - No need,bydefault selected as 'Pending'        
       };
       setValidationErrors({ ...validationErrors, ...error });
     }
      else {
       // Added by Pratap sahu on 08-09-2023
       // Reason - to show validation message after clicking the clear and save
+      // Modified by pratap sahu on 18-09-2023 To fix bug on validation during submit
       if (name == null || name == "") {
         const error = {
           name: "Please Enter Customer name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      if (email == null || email == "") {
-        const error = {
+      // else if (email == null || email == "") {
+        else if (email == null || email == "") {
+          const error = {
           email: "Please Enter email",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      if (contactNumber == null || contactNumber == "") {
-        const error = {
-          contactNumber: "Please Enter contact Number",
+      // else if (contactNumber == null || contactNumber == "") {
+        else if (contactNumber == null || contactNumber == "") {
+          const error = {
+          contact_number: "Please Enter contact Number",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      if (numberOfPerson == null || numberOfPerson == "") {
-        const error = {
+      // else if (numberOfPerson == null || numberOfPerson == "") {
+        else if (numberOfPerson == null || numberOfPerson == "") {
+          const error = {
           numberOfPerson: "Please Enter Number Of Person",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      if (tableNumber == null || tableNumber == "") {
-        const error = {
+      // else if (tableNumber == null || tableNumber == "") {
+        else if (tableNumber == null || tableNumber == "") {
+          const error = {
           table_number: "Please Enter Table Number",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
+      // Modified by pratap sahu on 18-09-2023 To fix bug on validation during submit
       // End showing validation message by Pratap sahu on 08-09-2023
     }
     if (
@@ -295,19 +310,63 @@ const ReservationForm = () => {
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
-    if (inputName == "reservationStatus") {
-      if (name != null || value) {
+    // Added And Commented by pratap sahu on 18-09-2023
+    // Reason: To have on change validation on these fields
+
+    // if (inputName == "reservationStatus") {
+    //   if (name != null || value) {
+    //     const error = {
+    //       reservationStatus: "",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   } else {
+    //     const error = {
+    //       reservationStatus: "Please Enter your name",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   }
+    // }
+    if (inputName == "email") {
+      if (email != null || value) {
         const error = {
-          reservationStatus: "",
+          email: "",
         };
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          reservationStatus: "Please Enter your name",
+          email: "Please Enter your mail",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
+    if (inputName == "numberOfPerson") {
+      if (numberOfPerson != null || value) {
+        const error = {
+          numberOfPerson: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          numberOfPerson: "Please Enter The Number of person ",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+    if (inputName == "tableNumber") {
+      if (tableNumber != null || value) {
+        const error = {
+          table_number: "",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      } else {
+        const error = {
+          table_number: "Please Enter The Table Number",
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+    }
+    // End of Addition by pratap sahu on 18-09-2023
+    // Reason: To have on change validation on these fields
   };
     /**
    * End of Addition by - Pratap sahu on 08-09-2023
@@ -372,19 +431,23 @@ const ReservationForm = () => {
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
-    if (inputName == "date") {
-      if (date != null || value) {
-        const error = {
-          date: "",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
-      } else {
-        const error = {
-          date: "Please Enter date",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
-      }
-    }
+    //Commented By pratap sahu on 18-09-2023
+    // Reason:bydefault date is selected,so no need to validate
+    // if (inputName == "date") {
+    //   if (date != null || value) {
+    //     const error = {
+    //       date: "",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   } else {
+    //     const error = {
+    //       date: "Please Enter date",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   }
+    // }
+    //Commented By pratap sahu on 18-09-2023
+    // Reason:bydefault date is selected,so no need to validate
     if (inputName == "numberOfPerson") {
       if (numberOfPerson != null || value) {
         const error = {
@@ -398,28 +461,38 @@ const ReservationForm = () => {
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
-    if (inputName == "time") {
-      if (time != null || value) {
-        const error = {
-          time: "",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
-      } else {
-        const error = {
-          time: "Please Enter time",
-        };
-        setValidationErrors({ ...validationErrors, ...error });
-      }
-    }
+    //Commented By pratap sahu on 18-09-2023
+    // Reason:bydefault time is selected,so no need to validate
+    // if (inputName == "time") {
+    //   if (time != null || value) {
+    //     const error = {
+    //       time: "",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   } else {
+    //     const error = {
+    //       time: "Please Enter time",
+    //     };
+    //     setValidationErrors({ ...validationErrors, ...error });
+    //   }
+    // }
+    //end of comment By pratap sahu on 18-09-2023
+    // Reason:bydefault time is selected,so no need to validate
     if (inputName == "tableNumber") {
       if (tableNumber != null || value) {
         const error = {
-          tableNumber: "",
+      //commented By pratap sahu on 18-09-2023
+    // Reason:correction in table number to validate when focused out
+          // tableNumber: "",
+          table_number: "",
         };
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          tableNumber: "Please Enter Table Number",
+          // tableNumber: "Please Enter Table Number",
+          table_number: "Please Enter Table Number",
+      //end of comment By pratap sahu on 18-09-2023
+    // Reason:correction in table number to validate when focused out      
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -456,7 +529,11 @@ const ReservationForm = () => {
     setReservationStatusSelected(
       reservationDetails.reservation_status
         ? reservationDetails.reservation_status
-        : "pending"
+        // Modified By pratap Sahu on 13-09-2023 
+        // : "pending"
+        : "Pending"
+        // Modified By pratap Sahu on 13-09-2023 
+
     );
     /**
      * Added by Pratap Sahu on 10-09-2023

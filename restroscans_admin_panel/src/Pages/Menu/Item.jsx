@@ -238,12 +238,19 @@ const Item = () => {
       document.getElementById("dropdown").style.display = "block";
     else document.getElementById("dropdown").style.display = "";
   }
-
-  function hideDropdown() {
-    document.getElementById("dropdown").style.display = "";
-  }
+  
+  // Commented & Added by Pratap sahu 16-09-2023
+ // Reason - To validate dropdown whether list data is coming or not
+  // function hideDropdown() {
+  //   document.getElementById("dropdown").style.display = "";
+  // }
   // End of code - Yuvraj Sahu on 23-06-2023
-
+  function hideDropdown(){
+    if(document.getElementById("dropdown"))
+     document.getElementById("dropdown").style.display=""
+   }
+   // End of code by Pratap sahu 16-09-2023
+  // Reason - To validate dropdown whether list data is coming or not
   return (
    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
