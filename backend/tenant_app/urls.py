@@ -463,6 +463,11 @@ urlpatterns = [
     path('<str:tenant>/get-customer-report/',CustomerReportAPI.as_view()),
     # End of code addition by -  Pratap Sahu on 26-08-23
     # Reason : To get list of Customer reort details
+
+    # Added by Rohan kansari - 11/9/23 - To get waiter data
+    path('<str:tenant>/waiter-dashboard-data/',WaiterDashboardAPI.as_view()),
+
+    
 ]   
 
 

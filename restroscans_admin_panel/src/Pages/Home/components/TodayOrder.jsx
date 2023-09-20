@@ -18,6 +18,7 @@ import AddOrderItemForm from '../../Order/AddOrderItemForm'
 import { FaGrinAlt } from 'react-icons/fa'
 import PrintBill from "./PrintBill"
 import { PrintKot } from './PrintKot'
+import OrderModel from '../../DashboardModel/OrderModel'
 
 
 // Modified by Rohan kansari - 29/6/23
@@ -239,6 +240,12 @@ const TodayOrder = (props) => {
     // const [OpenTableCofirmation, setTableConfirm] = useState(false)
 
     // End of code - 11/06/2023 by - Suman sahu
+
+    // Added by Rohan kansari - To add New Order model - 19/9/23
+    var [selectedOrderObject, setSelectedOrderObject] = useState({})
+    var [selectedOrderItemsObject, setSelectedOrderItemsObject] = useState([])
+    var [IsModalOpen, setModelVisiblity] = useState(false)
+    // End of code - Rohan kansari - To add new order model - 19/9/23
 
     useEffect(() => {
 
@@ -1821,6 +1828,8 @@ const TodayOrder = (props) => {
 
 
     function settingClickedData(data) {
+        setSelectedOrderObject({...data})
+        setSelectedOrderItemsObject([...orderItemList.filter(i => i.order_id == data.order_id)])
         // Sending all datas in openActionPopupModel variable
         setOpenActionPopupModal({
             ...{
@@ -1829,7 +1838,7 @@ const TodayOrder = (props) => {
             }
         });
 
-        setPopupOpen(true);
+        // setPopupOpen(true);
 
         // This line will push Original status in array and change only when update Order Item COmes from backend
         OldOrdervalue.current.value = JSON.stringify({
@@ -1881,8 +1890,13 @@ const TodayOrder = (props) => {
     }
     // End of modification - Rohan kansari - 28/8/23 - To capitalize first letetr of each word
 
+
+
+
     return (
         <>
+            <OrderModel isOpen={IsModalOpen} setting={settings} restroDetail={restroDetail} selectedOrder={selectedOrderObject} setSelectedOrder={setSelectedOrderObject} selectedOrderItems={selectedOrderItemsObject} setSelectedOrderItems={setSelectedOrderItemsObject} setModelVisiblity={setModelVisiblity} />
+
             {/* Added and modified by - ROhan Kansari - 25/5/23
             Reason - added checkbox and change name of mapped data  */}
             {/*modified by - ROhan Kansari - 26/5/23
@@ -2012,7 +2026,7 @@ const TodayOrder = (props) => {
                                     <button className={style.printBtn}>More</button></div> */}
 
                                     <div className={style.columnData7}
-                                        onClick={e => { settingClickedData(data) }}><button className={style.printBtn}>More</button>
+                                        onClick={e => { settingClickedData(data); setModelVisiblity(true);  }}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
                                     {/* end of modification on 12/06/2023 */}
@@ -2992,7 +3006,7 @@ const TodayOrder = (props) => {
                                                     {settings.allow_loyality_points ? <div className={style.rewardbox}>
                                                         Earn Point &nbsp;
                                                         <div className={style.coinBox}>
-                                                            <div className={style.cointPoints}>{999 + customerLoyalitypoint}</div>
+                                                            <div className={style.cointPoints}>{customerLoyalitypoint}</div>
                                                             <div class="spinningasset coin is-sm">
                                                                 <div>
                                                                     <div></div>

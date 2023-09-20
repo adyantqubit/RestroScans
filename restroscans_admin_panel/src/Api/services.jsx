@@ -1002,4 +1002,17 @@ export const waiterAuthentication = async (tenant,value) => {
 
 // End of code - Rohan kansari - 11/9/23 
 // Reason - To authenticate waiter 
- 
+
+
+// Added by Rohan Kansari - 15/9/23 
+// Reason - To get waiter dashboard data
+export const waiterDashboardData = async (tenant) => {
+  const response = await API.get(`/api/v1/${tenant}/waiter-dashboard-data/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  return response.data;
+ }
+// End of code - Rohan kansari - 11/9/23 
+// Reason - To get waiter dashboard data

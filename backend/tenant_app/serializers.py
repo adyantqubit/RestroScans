@@ -185,7 +185,11 @@ class AllOrderSerializer(serializers.ModelSerializer):
 
     # Added by yuvraj Sahu on 04-05-2023
     # Reason - to get updated customer name
-    last_customer_name = serializers.CharField(source="customer_id.last_customer_name")
+    # Modified by Rohan kansari - 19/9/23 
+    # Reason - To send and update null last customer detail if it is not present
+    last_customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
+    # End of code by Rohan kansari - 19/9/23 
+    # Reason - To send and update null last customer detail if it is not present
     # End of addition by yuvraj Sahu on 04-05-2023
     # Added by Om Shrivastava on 18-06-23
     # Reason - to get loyality points of customer

@@ -447,11 +447,17 @@ export default function AddOrderItemForm(orderId) {
             if (response.msg) {
                 orderId.setOrderItems(response.orderItems);
                 orderId.setOrderDetail(response.order);
+
+                // Added by Rohan kansari - 19/9/23 
+                // Reason - To set if this function is present
+                if(typeof orderId.setOrderStatus !="undefined")
                 orderId.setOrderStatus(response.order.order_status)
                 //Modified by ROhan kansari - 20/7/23
                 //Reason to - save order data in dashboard where it is taking parameter
                 //orderId.getOrderDetail()
+                if(typeof orderId.getOrderDetail !="undefined")
                 orderId.getOrderDetail(response.order)
+                // ENd of code - Rohan kansari - 19/9/23 - To set if this function is present
                 Message("Item added successfully.", "success");
                 resetForm()
                 orderId.modalvisibilityFn(false)

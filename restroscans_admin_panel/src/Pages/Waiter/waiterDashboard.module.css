@@ -1,5 +1,137 @@
 
 .container{
-    background-color: azure;
     height: 86.5vh;
+    max-height: 86.5vh;
+    overflow: auto;
+    width: 100%;
+    padding: 20px 10px;
+}
+
+.contains{
+    width: 100%;
+    height: 100%;
+}
+
+.containsHeading{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.dashboardHeading{
+    font-size: 20px;
+    font-weight: 500;
+    
+}
+
+.createBtn{
+    background-color: #C1FF3E;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.orderContainer{
+   width: 100%;
+   min-height: 20vh;
+   background-color: #f8fdfc;
+   margin-top: 10px;
+   border-radius: 5px;
+   padding-bottom: 10px;
+}
+
+.orderContainer2{
+   width: 100%;
+   min-height: 20vh;
+   background-color: #f8fdfc;
+   margin-top: 10px;
+   border-radius: 5px;
+   padding-bottom: 10px;
+}
+
+.orderContainer3{
+    width: 100%;
+    min-height: 20vh;
+    background-color: #f8fdfc;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding-bottom: 10px;
+ }
+
+.orderContainerHeading{
+    width: 98%;
+    margin: 0px 8px;
+    padding: 8px 0;
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 1px solid black;
+}
+
+.tableContainer{
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 8px;
+
+}
+
+.card{
+    min-width: 148px;
+    min-height: 100px;
+    padding: 8px 4px;
+    background-color: #BB9E37;
+    border-radius: 5px;
+}
+
+.card2{
+    min-width: 148px;
+    min-height: 60px;
+    padding: 8px 4px;
+    background-color: #377BBB;
+    border-radius: 5px;
+}
+
+.card3{
+    min-width: 148px;
+    min-height: 60px;
+    padding: 8px 4px;
+    background-color: #37bb54;
+    border-radius: 5px;
+}
+
+.tableLabel{
+    width: 95%;
+    font-size: 12px;
+    border-bottom: 1px solid #fff;
+    color: #f7f7f7;
+}
+
+.tabelNum{
+    font-size: 20px;
+    color: #f7f7f7;
+}
+
+.ItemLabel{
+    max-height: 18px;
+    width: 95%;
+    font-size: 12px;
+    color: #f7f7f7;
+    white-space: nowrap;
+}
+
+.Item{
+    font-size: 15px;
+    color: #f7f7f7;
+}
+
+.printBillBtn{
+    width: 98%;
+    font-size: 15px;
+    color: #fff;
+    background: #5fcf32;
+    border-radius: 4px;
+    padding: 0 8px;
+    margin-top: 8px;
+    border: 1px solid #fff;
 }

@@ -4615,3 +4615,43 @@ class WaiterAuthenticateAPI(APIView):
             })
         else:
           return Response({"error":"Please enter valid password"})  
+
+#Added by Rohan kansari - 16/9/23 
+#Reason - To send all waiter dashboard data
+
+class WaiterDashboardAPI(APIView):
+    def get(self,request,tenant):   
+        from django.utils.timezone import datetime
+
+        today=datetime.today().date()
+         
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
+        todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
+        
+        from django.db.models import Q
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
+
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
+        todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+
+        todays_order_item=OrderItem.objects.filter(date__gte=today).order_by("-id")
+        todays_order_item_serializer=OrderItemWithOrderIdSerializer(todays_order_item, many=True)
+
+        settingserailize = SettingSaveSerializer(Setting.objects.last())
+        from admin_app.models import Tenant, RestaurantRequest
+        tenant = Tenant.objects.get(tenant_name=tenant)
+        tenant_detail = {
+            "name": tenant.restaurant_name.restaurant_name,
+            "address": tenant.restaurant_name.address
+        }
+        
+        return Response({
+            "todays_pending_orders":todays_pending_orders_serializer.data,
+            "order_item":todays_order_item_serializer.data,
+            "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
+            "setting": settingserailize.data, 
+            "todays_completed_orders":todays_completed_orders_serializer.data,
+            "tenant": tenant_detail,
+        })
+       
