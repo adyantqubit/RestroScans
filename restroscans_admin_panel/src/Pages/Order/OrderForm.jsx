@@ -527,14 +527,78 @@ const OrderForm = () => {
     setCancelledBy(value);
    
   };
-  const handleChangeOrderStatus = (value) => {
-    setOrderStatus(value);
-   
-  };
-  const handleChangePaymentStatus = (value) => {
-    setPaymemntStatus(value);
-   
-  };
+
+  //Commented and Added by Pratap sahu on 19-09-2023
+  // Reason - To pass validation message on changing of order status
+
+  // const handleChangeOrderStatus = (value) => {
+  //   setOrderStatus(value);
+  // };
+  // const handleChangePaymentStatus = (value,) => {
+  //   setPaymemntStatus(value);
+ // };
+  function handleChangeStatus(order_status, payment_status, msgEnable) {
+    if (orderDetailsObj?.order_status == "Placed" && (order_status == "Cooked" || order_status == "Served")) {
+        if (msgEnable)
+            Message("Please first change order status to confirm ", "error")
+        return false;
+    }
+
+    else if (orderDetailsObj?.order_status == "Confirm" && (order_status == "Placed")) {
+        if (msgEnable)
+            Message("You cant change order status confirm to placed", "error")
+        return false;
+    }
+
+    else if (orderDetailsObj?.order_status == "Cooked" && (order_status == "Confirm" || order_status == "Placed")) {
+        if (msgEnable)
+            Message(`You cant change order status cooked to ${order_status}`, "error")
+        return false;
+    }
+    else if (orderDetailsObj?.order_status == "Served" && (order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked")) {
+        if (msgEnable)
+            Message(`You cant change order status served to ${order_status}`, "error")
+        return false;
+    }
+    else if (orderDetailsObj?.order_status == "Cancelled" && (order_status == "Pending" || order_status == "Confirm" || order_status == "Placed" || order_status == "Cooked" || order_status == "Served")) {
+        if (msgEnable)
+            Message(`You cant change order status cancel to ${order_status}`, "error")
+        return false;
+    }
+    else if (orderDetailsObj?.order_status == "Placed" && payment_status == "Completed") {
+        if (msgEnable)
+            Message(`You cant change payment status completed till order is not confirmed.`, "error")
+        return false;
+    }
+    else if (orderDetailsObj?.payment_status == "Completed" && (payment_status == "Pending")) {
+        if (msgEnable)
+            Message(`You cant change payment status completed to ${payment_status}`, "error")
+        return false;
+    }
+    else if ((orderDetailsObj?.payment_status == "Completed" || orderDetailsObj?.payment_status == "Paid") && (order_status == "Cancelled")) {
+        if (msgEnable)
+            Message(`You can't cancel order if payment is ${payment_status}`, "error")
+        return false;
+    }
+
+    else if (orderDetailsObj?.order_status == "Cancelled" && (payment_status == "Completed")) {
+        if (msgEnable)
+            Message(`You can't complete payment if order is ${order_status}`, "error")
+        return false;
+    }
+
+    else if (orderDetailsObj?.order_status == "Cancelled") {
+        if (msgEnable)
+            Message("You Can't change status if order is cancelled", "error")
+
+        return false;
+    }
+    else
+        return true;
+  }
+    // End of Addition by Pratap sahu on 19-09-2023
+    // Reason - To pass validation message on changing of order status
+  
   // End of addition by Om Shrivastava on 02-09-23
   // Reason : Set the data in onchange
   const saveOrder = async () => {
@@ -846,7 +910,16 @@ const OrderForm = () => {
                   //   setOrderStatus(e.target.value);
                   //   //   validateOnInput("app_theme", e.target.value);
                   // }}
-                  onChange={handleChangeOrderStatus}
+
+              // Addition by Pratap sahu on 19-09-2023
+              // Reason - To pass validation message on changing of order status
+                  // onChange={handleChangeOrderStatus}
+                  onChange={e=>{if(handleChangeStatus(e,orderDetailsObj.payment_status,true))setOrderStatus(e);}}
+                  disabled={orderDetailsObj.payment_status == "Completed"? true : false}
+
+              // End of Addition by Pratap sahu on 19-09-2023
+              // Reason - To pass validation message on changing of order status
+
                   // End of Modification and additon by Om Shrivastava on 02-09-23
                   // Reason : Set the data in onchange of order cancell by status
                 >
@@ -879,14 +952,25 @@ const OrderForm = () => {
                 <textarea
                   // Modifed by ROhan kansari - 30/6/23
                   // Reason - To make tabel no. editable
-                  className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                  // className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+
+                // commented and modified by pratap sahu on 20-09-2023
+                // Reason: for cancel reason input box syling when disabled
+                  // className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
+                  className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
+                // End of comment and modification by pratap sahu on 20-09-2023
+                // Reason: for cancel reason input box syling when disabled
+
                   type="text"
                   name="cancel_reason"
                   value={cancelReaon}
                   style={orderDetailsObj.payment_status == "Completed" &&
                     orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px", resize: 'none' } :
                     { width: "200px", height: "100px", resize: 'none' }}
-                  disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
+                    // Commented and modified by pratap sahu on 20-09-2023
+                    // Reason:To Disable the field when payment paymentStatus is completed & vise versa for orderStatus is canceled
+                  // disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
+                  disabled={orderDetailsObj.payment_status == "Completed"? true : false}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
                   //     setWhatsappNumber(whatsappNumber.substring(3,13))
@@ -924,8 +1008,15 @@ const OrderForm = () => {
                   // onChange={(e) => {
                   //   setPaymemntStatus(e.target.value);
                   //   // validateOnInput("app_theme", e.target.value);
-                  // }}
-                  onChange={handleChangePaymentStatus} 
+                  // }}              
+              // Addition by Pratap sahu on 19-09-2023
+              // Reason - To pass validation message on changing of order status & implement disable feature
+                  // onChange={handleChangePaymentStatus}
+                  onChange={e=>{if(handleChangeStatus(orderDetailsObj.order_status,e,true))setPaymemntStatus(e);}}
+                  disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status=="Cancelled"? true : false}
+              // End of Addition by Pratap sahu on 19-09-2023
+              // Reason - To pass validation message on changing of order status
+
                   // End of Modification and addition by Om Shrivastava on 02-09-23
                   // Reason : Set the payment status in usestate  
                 >

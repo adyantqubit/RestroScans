@@ -3205,6 +3205,14 @@ class PostReservationAPIView(APIView):
         # End of Addition by - pratap sahu on 07-09-2023
         # Reason - To add sorting functionality in respective columns
         
+        # Added by Pratap sahu on 14-09-2023
+        # Reason: To map recent entry on listing page
+        if columnToSort == "id" and columnSortingOrder=="ascending":
+            reservationList = reservationList.order_by('id')
+        if columnToSort == "id" and columnSortingOrder=="descending":
+            reservationList = reservationList.order_by('-id')
+        # End of Addition by Pratap sahu on 14-09-2023
+        # Reason: To map recent entry on listing page        
         reservationListCount=reservationList.count()
 
         # from django.core.paginator import Paginator
@@ -4487,11 +4495,16 @@ def getFilteredCustomerReport(customerList):
             cancelledOrder=Order.objects.filter(customer_id=customer.id,order_status="Cancelled").count()
             completedOrder=Order.objects.filter(customer_id=customer.id,payment_status="Completed").count()
             loyaltyPoints=customer.loyality_points
-            total=Order.objects.filter(customer_id=customer.id).values('total')
+            
+        # Modified by pratap sahu on 16-09-2023 Reason: To display final Amount
+            # total=Order.objects.filter(customer_id=customer.id).values('total')
+            total=Order.objects.filter(customer_id=customer.id).values('final_amount')
             totalAmount=0
             for x in total:
-                totalAmount+=x['total']
-                
+                # totalAmount+=x['total']
+                totalAmount+=x['final_amount']
+        # End of Modification by pratap sahu on 16-09-2023 Reason: To display final Amount
+               
             setdata['last_customer_name']=name
             setdata['contact_number']=contactNumber
             setdata['email']=email
