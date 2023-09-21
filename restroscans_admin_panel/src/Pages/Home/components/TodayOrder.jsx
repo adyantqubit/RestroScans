@@ -1575,7 +1575,7 @@ const TodayOrder = (props) => {
         // setName(data.customer_name);
         // setEmail(data.customer_email);
         setName(capitalizeFLetter(data.customer_name));
-        setEmail(data.customer_email.toLowerCase());
+        setEmail(data.customer_email?.toLowerCase());
         // End of Modification by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
 
     }
@@ -1879,14 +1879,14 @@ const TodayOrder = (props) => {
 
     // Added by Rohan kansari - 28/8/23 - To capitalize first letetr of each word
     function capitalizeFLetter(string) {
-        var stringArr = string.split(" ").map(e => {
+        var stringArr = string?.split(" ").map(e => {
             if (e.length > 1)
                 return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()
             else
                 return e.toUpperCase()
         })
 
-        return stringArr.join(" ");
+        return stringArr?.join(" ");
     }
     // End of modification - Rohan kansari - 28/8/23 - To capitalize first letetr of each word
 
@@ -1895,7 +1895,8 @@ const TodayOrder = (props) => {
 
     return (
         <>
-            <OrderModel isOpen={IsModalOpen} setting={settings} restroDetail={restroDetail} selectedOrder={selectedOrderObject} setSelectedOrder={setSelectedOrderObject} selectedOrderItems={selectedOrderItemsObject} setSelectedOrderItems={setSelectedOrderItemsObject} setModelVisiblity={setModelVisiblity} />
+            <OrderModel isOpen={IsModalOpen} setting={settings} restroDetail={restroDetail} selectedOrder={selectedOrderObject} setSelectedOrder={setSelectedOrderObject} selectedOrderItems={selectedOrderItemsObject} setSelectedOrderItems={setSelectedOrderItemsObject} setModelVisiblity={setModelVisiblity} 
+            />
 
             {/* Added and modified by - ROhan Kansari - 25/5/23
             Reason - added checkbox and change name of mapped data  */}

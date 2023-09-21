@@ -205,7 +205,7 @@ const WaiterForm = ({ IsModalOpen, setModelVisiblity,setSelectedWaiter, selected
                     <div className={style.label}>Active</div>
                     <div className={style.inputContains}>
                         <input type='checkbox' className={style.checkboxField}
-                            checked={formData.is_active ? formData.is_active : null}
+                            checked={formData.is_active}
                             onChange={e => { formData.is_active = e.target.checked; setFormData({ ...formData }) }}
                         />
                     </div>

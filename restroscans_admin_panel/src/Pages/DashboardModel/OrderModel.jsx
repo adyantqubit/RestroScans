@@ -147,6 +147,8 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
             setOrderItem([...response.order_items])
             setUnupdatedOrderItemObj(JSON.stringify(response.order_items))
             setTickedItems([])
+            setOrderobject(response.order)
+            setUnupdatedOrderObj(JSON.stringify(response.order))
             // r.order_items;
         })
 
@@ -332,7 +334,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
             var discount_percentage = 0.00
             // setDiscountRupee("")
             orderObject["discount_percentage"] = 0.00
-            orderObject["discount_rupees"] = 0.00
+            orderObject["discount_rupees"] = ""
             var total_price = orderObject.sub_total - discount_percentage - orderObject.loyality_point_price
             var CGST = (orderObject.cgst / (orderObject.total / 100)) * total_price / 100
             var SGST = (orderObject.sgst / (orderObject.total / 100)) * total_price / 100
@@ -386,7 +388,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
         else if (e.target.value.length == 0) {
             console.log("length 0")
             var discount_percentage = 0.00
-            orderObject["discount_percentage"] = 0.00
+            orderObject["discount_percentage"] = ""
             orderObject["discount_rupees"] = 0.00
             // setDiscountRupee(0)
             // setDiscountprice(0.00)
@@ -507,6 +509,9 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                                 }}
                             >Cancel Order</button>
                             <button className={`${JSON.parse(unUpdatedOrderObj)?.order_status == "Cancelled" || JSON.parse(unUpdatedOrderObj)?.order_status == "Placed" ? style.disbaleBtn : null} ${style.KotBtn}`}
+                            onClick={e=> PrintKot(orderObject
+                                , JSON.parse(unUpdatedOrderItemObj).filter(e => e.item_status == "Confirm")
+                                , restroDetail, setting)}
                             >Print Kot</button>
                             <button className={`${style.getbill} ${getbillStatus() ? null : style.disbaleBtn}`}
                                 onClick={e => { sendPrintDatas() }}
@@ -565,6 +570,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                                         {orderObject.table_number}
                                         <Popconfirm
                                             // className={style.disbaleBtn}
+                                            className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
                                             title="Are you sure you want to change table number?"
                                             cancelText="Cancel"
                                             okText="Ok"
@@ -625,6 +631,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                                         {orderObject.customer_email}
                                         < BsPencilSquare
                                             // className={style.disbaleBtn}
+                                            className={`${getOrderStatus() ? null : style.disbaleBtn}`}
                                             style={{ margin: "5px 10px" }}
                                             onClick={e => {
                                                 if (inputEnable != "emailEdit") {
@@ -697,6 +704,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                                         {orderObject.customer_name}
                                         <BsPencilSquare
                                             // className={style.disbaleBtn}
+                                            className={`${getOrderStatus() ? null : style.disbaleBtn}`}
                                             onClick={e => {
                                                 if (inputEnable != "nameEdit") {
                                                     setInputEnable("nameEdit")
@@ -871,12 +879,12 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                                                     </div>
                                                 </div>
                                                 <div className={style.quantityNPriceFlex}>
-                                                    <div className={style.quantity}>
+                                                    <div className={style.quantity} >
                                                         <div className={style.decrease}><AiOutlineMinus onClick={e => increaseAndDecrease("-", index, orderObject.order_id)} /></div>
                                                         <div className={style.quantityValue}>{data.quantity}</div>
                                                         <div className={style.increase} ><AiOutlinePlus onClick={e => increaseAndDecrease("+", index, orderObject.order_id)} /></div>
                                                     </div>
-                                                    <div className={style.price}>{data.price.toFixed(2)}</div>
+                                                    <div className={style.price} >{data.price.toFixed(2)}</div>
                                                 </div>
                                             </div>
                                             <div className={style.checkboxContainer}>
@@ -914,7 +922,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
 
                         <div className={style.AllStatusContainer}>
                             <Popconfirm
-                                // className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
+                                className={`${getOrderStatus() ? null : style.disbaleBtn} ${style.link}`}
                                 style={{ maxWidth: "150px" }}
                                 title="Are you sure you want to update?"
                                 onConfirm={e => { updateOrderItemStatus(orderItem) }}
@@ -948,7 +956,8 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
 
                     {/* Add more item and subtotal */}
                     <div className={style.UpdateItemContainer}>
-                        <button className={`${style.UpdateItemBTN}`} onClick={e => setAddMoreItemModalVisible(true)}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
+                        <button className={`${style.UpdateItemBTN} ${getOrderStatus() ? null : style.disbaleBtn}`}
+                         onClick={e => setAddMoreItemModalVisible(true)}>Add More items <MdAddCircleOutline style={{ fontSize: "18px" }} /></button>
                         <div className={style.WhiteLabel} >Subtotal : ₹{orderObject.sub_total} </div>
                     </div>
 
@@ -959,7 +968,9 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
 
                     <div className={style.TotalContainer} >
                         <div className={style.PricingContainer}>
-                            <div className={`${style.DiscountNCancelSection} `}>
+                            <div className={`${style.DiscountNCancelSection} 
+                                        ${getOrderStatus()
+                                            ? null : style.disbaleBtn}`}>
                                 <div className={style.inputContainerFlex}>
 
                                     {!localStorage.getItem("waiterData") ? <div className={style.inputBoxContainer}>
@@ -1081,11 +1092,13 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                                     <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Total :- ₹{orderObject.total?.toFixed(2)}</label>
                                 </div>
                                 <div className={style.priceInformation}>
-                                    <label className={style.InputLabel}>CGST ({(orderObject.cgst / (orderObject.total / 100))?.toFixed(2)}%):- </label>
+                                    <label className={style.InputLabel}>CGST ({isNaN(orderObject.cgst / (orderObject.total / 100))?0:
+                                    (orderObject.cgst / (orderObject.total / 100))?.toFixed(2)}%):- </label>
                                     <label className={style.InputLabel}> ₹ {orderObject.cgst?.toFixed(2)}</label>
                                 </div>
                                 <div className={style.priceInformation}>
-                                    <label className={style.InputLabel}>SGST ({(orderObject.sgst / (orderObject.total / 100))?.toFixed(2)}%) :- </label>
+                                    <label className={style.InputLabel}>SGST ({isNaN(orderObject.cgst / (orderObject.total / 100))?0:
+                                    (orderObject.cgst / (orderObject.total / 100))?.toFixed(2)}%) :- </label>
                                     <label className={style.InputLabel}>₹ {orderObject.sgst?.toFixed(2)}</label>
                                 </div>
                                 <div className={style.priceInformation}>
@@ -1096,7 +1109,7 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                         </div>
                     </div>
                     <div className={style.PrintNBack}>
-                        <button className={style.BackBtn} >Close</button>
+                        <button className={style.BackBtn} onClick={e=>setModelVisiblity(false)}>Close</button>
                     </div>
                 </div>
                 {/* scroller content are visible here */}

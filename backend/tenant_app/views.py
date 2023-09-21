@@ -2237,6 +2237,11 @@ class UpdateItemStatus(APIView):
 
     #    Added by Rohan Kansari -25/6/23
     #    Reason - to get Updated order in order item update also
+    # Modified by Rohan kansari - 20/9/23 - To get waiter data
+        orderObj = Order.objects.get(order_id = orderID)
+        orderSerializer=OrderSerializer(orderObj)
+
+         
         from django.utils.timezone import datetime
         today=datetime.today().date()
         
@@ -2249,8 +2254,9 @@ class UpdateItemStatus(APIView):
 
         todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
-
-        return Response({"success":"Updated status","order_items":serializer.data 
+        # Modified by Rohan kansari - 20/9/23 - To get waiter data
+        return Response({"success":"Updated status","order_items":serializer.data ,
+                             "order":orderSerializer.data
                             ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
                             ,"todays_pending_orders":todays_pending_orders_serializer.data
                             ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
@@ -2588,8 +2594,8 @@ class AddOrderItemsAPIView(APIView):
                 quantity = request.data["quantity"],
                 item_status = request.data["item_status"]
             ).save()
-
-        orderItemsSerializer=OrderItemSerializer(orderItemsList, many=True)
+        # Modified by Rohan kansari - 20/9/23 - To get order item with order id
+        orderItemsSerializer=OrderItemWithOrderIdSerializer(orderItemsList, many=True)
 
         itemsPrice = []
         for cart in orderItemsList:
@@ -4621,6 +4627,9 @@ class WaiterAuthenticateAPI(APIView):
           access_token = create_access_token(waiterObj.id)
           refresh_token = create_refresh_token(waiterObj.id)
           waiterSerialize=WaiterSerializer(waiterObj)
+          # Modified by Rohan kansari - 20/9/23 - To get waiter data
+          if waiterObj.is_active == False:
+             return Response({"error":"Waiter is not active"})
           
           return Response({"token":access_token,"refresh_token":refresh_token,
                            "waiter":waiterSerialize.data,
@@ -4633,8 +4642,14 @@ class WaiterAuthenticateAPI(APIView):
 #Reason - To send all waiter dashboard data
 
 class WaiterDashboardAPI(APIView):
-    def get(self,request,tenant):   
+    def get(self,request,tenant,waiterId):   
         from django.utils.timezone import datetime
+        # Modified by Rohan kansari - 20/9/23 - To check waiter active and inactive
+        if Waiter.objects.get(id=waiterId).is_active:
+            pass
+        else:
+            return Response({"waiter_error":"Waiter is not active"})
+        # End of code by Rohan kansari - 20/9/23 - To check waiter active and inactive
 
         today=datetime.today().date()
          

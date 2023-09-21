@@ -465,7 +465,8 @@ urlpatterns = [
     # Reason : To get list of Customer reort details
 
     # Added by Rohan kansari - 11/9/23 - To get waiter data
-    path('<str:tenant>/waiter-dashboard-data/',WaiterDashboardAPI.as_view()),
+    # Modified by Rohan kansari - 20/9/23 - To get only active waiter data
+    path('<str:tenant>/<str:waiterId>/waiter-dashboard-data/',WaiterDashboardAPI.as_view()),
 
     
 ]   

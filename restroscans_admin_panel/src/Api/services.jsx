@@ -1006,8 +1006,8 @@ export const waiterAuthentication = async (tenant,value) => {
 
 // Added by Rohan Kansari - 15/9/23 
 // Reason - To get waiter dashboard data
-export const waiterDashboardData = async (tenant) => {
-  const response = await API.get(`/api/v1/${tenant}/waiter-dashboard-data/`, {
+export const waiterDashboardData = async (tenant,waiterId) => {
+  const response = await API.get(`/api/v1/${tenant}/${waiterId}/waiter-dashboard-data/`, {
     headers: {
       "Content-Type": "application/json",
     },
