@@ -81,7 +81,12 @@ const OrderItem = () => {
   // # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS.  
            
   // const [columnToSort, setColumnToSort] = useState("order_id");
-  const [columnToSort, setColumnToSort] = useState("");
+// Modification and addition by Om Shrivastava on 20-09-23
+// Reason : Set the order id in usestate 
+  // const [columnToSort, setColumnToSort] = useState("");
+  const [columnToSort, setColumnToSort] = useState("order_id");
+  // End of Modification and addition by Om Shrivastava on 20-09-23
+// Reason : Set the order id in usestate
 
   // # End of Commented and modified by :- Parineeta gedam on 28-07-2023 
   // # reason :- When we run the 3rd flow of "Add more item" functionality then same items is not display in admin JS
@@ -554,12 +559,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "order_id") {
-                      setShowSortingIcon(true);
+                     // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("order_id");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "order_id") {
-                      setShowSortingIcon(false);
+                      // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                 >
@@ -572,7 +587,12 @@ const OrderItem = () => {
                       columnSortingOrder == "descending" && (
                         <BsSortNumericDownAlt className={style.sortingIcon} />
                       )}
-                    {columnToSort != "order_id" && showSortingIcon && (
+                     {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "order_id" && showSortingIcon && ( */}
+                {columnToSort != "order_id" && showSortingIcon=="order_id" && (
+                // End of modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue
                       <BsSortNumericDown
                         color="grey"
                         className={style.sortingIcon}
@@ -597,12 +617,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "item") {
-                      setShowSortingIcon(true);
+                      // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("item");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "item") {
-                      setShowSortingIcon(false);
+                      // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                   // End of addition by Om Shrivastava on 30-06-23
@@ -619,7 +649,12 @@ const OrderItem = () => {
                     columnSortingOrder == "descending" && (
                       <BsSortAlphaDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "item" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "item" && showSortingIcon && ( */}
+                {columnToSort != "item" && showSortingIcon=="item" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 20-09-23
+                  //   // Reason : Need to fix the blinking issue */}
                     <BsSortAlphaDown
                       color="grey"
                       className={style.sortingIcon}
@@ -641,12 +676,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "item_status") {
-                      setShowSortingIcon(true);
+                      // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("item_status");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "item_status") {
-                      setShowSortingIcon(false);
+                      // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                   // End of addition by Om shrivastava on 30-06-23
@@ -662,7 +707,12 @@ const OrderItem = () => {
                     columnSortingOrder == "descending" && (
                       <BsSortAlphaDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "item_status" && showSortingIcon && (
+                 {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "item_status" && showSortingIcon && ( */}
+                {columnToSort != "item_status" && showSortingIcon=="item_status" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 20-09-23
+                  //   // Reason : Need to fix the blinking issue */}
                     <BsSortAlphaDown
                       color="grey"
                       className={style.sortingIcon}
@@ -682,12 +732,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "serving_size") {
-                      setShowSortingIcon(true);
+                      // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("serving_size");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "serving_size") {
-                      setShowSortingIcon(false);
+                      // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                   // End of addition by Om shrivastava on 30-06-23
@@ -702,7 +762,12 @@ const OrderItem = () => {
                     columnSortingOrder == "descending" && (
                       <BsSortAlphaDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "serving_size" && showSortingIcon && (
+                 {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "serving_size" && showSortingIcon && ( */}
+                {columnToSort != "serving_size" && showSortingIcon=="serving_size" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 20-09-23
+                  //   // Reason : Need to fix the blinking issue */}
                     <BsSortAlphaDown
                       color="grey"
                       className={style.sortingIcon}
@@ -723,12 +788,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "quantity") {
-                      setShowSortingIcon(true);
+                      // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("quantity");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "quantity") {
-                      setShowSortingIcon(false);
+                      // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                   // End of addition by Om shrivastava on 30-06-23
@@ -744,7 +819,12 @@ const OrderItem = () => {
                     columnSortingOrder == "descending" && (
                       <BsSortNumericDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "quantity" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "quantity" && showSortingIcon && ( */}
+                {columnToSort != "quantity" && showSortingIcon=="quantity" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 20-09-23
+                  //   // Reason : Need to fix the blinking issue */}
                     <BsSortNumericDown
                       color="grey"
                       className={style.sortingIcon}
@@ -765,12 +845,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "price") {
-                      setShowSortingIcon(true);
+                     // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("price");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "price") {
-                      setShowSortingIcon(false);
+                     // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                   // End of addition by Om shrivastava on 30-06-23
@@ -784,7 +874,12 @@ const OrderItem = () => {
                     columnSortingOrder == "descending" && (
                       <BsSortNumericDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "price" && showSortingIcon && (
+                 {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "price" && showSortingIcon && ( */}
+                {columnToSort != "price" && showSortingIcon=="price" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 20-09-23
+                  //   // Reason : Need to fix the blinking issue */}
                     <BsSortNumericDown color="grey" className={style.sortingIcon} />
                   )}
                 </div>
@@ -800,12 +895,22 @@ const OrderItem = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (columnToSort != "date") {
-                      setShowSortingIcon(true);
+                      // Modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
+                    // setShowSortingIcon(true);
+                    setShowSortingIcon("date");
+                    // End of modification and addition by Om Shrivastava on 15-09-23
+                    // Reason : Need to fix the blinking issue
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (columnToSort != "date") {
-                      setShowSortingIcon(false);
+                     // Modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
+                      // setShowSortingIcon(false);
+                      setShowSortingIcon("");
+                      // End of modification and addition by Om Shrivastava on 20-09-23
+                      // Reason : Need to fix the blinking issue
                     }
                   }}
                 >
@@ -818,7 +923,12 @@ const OrderItem = () => {
                     columnSortingOrder == "descending" && (
                       <BsSortNumericDownAlt className={style.sortingIcon} />
                     )}
-                  {columnToSort != "date" && showSortingIcon && (
+                  {/* // Modification and addition by Om Shrivastava on 20-09-23
+                    // Reason : Need to fix the blinking issue */}
+                {/* {columnToSort != "date" && showSortingIcon && ( */}
+                {columnToSort != "date" && showSortingIcon=="date" && (
+                  // {/* // End of modification and addition by Om Shrivastava on 20-09-23
+                  //   // Reason : Need to fix the blinking issue */}
                     <BsSortNumericDown
                       color="grey"
                       className={style.sortingIcon}

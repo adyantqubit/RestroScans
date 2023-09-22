@@ -33,7 +33,7 @@ urlpatterns = [
 
     # Added by Om on 08-04-23
     # Reason : Show the Offer details
-    path('<str:tenant>/offer-items-details/',OfferItemsAPIView.as_view()),
+    path('<str:tenant>/offer-items-details/',OfferItemsAPIView.as_view()), 
     path('<str:tenant>/offer-items-details/<int:pk>/',OfferItemsAPIView.as_view()),
 
     # End of addition
@@ -171,7 +171,13 @@ urlpatterns = [
     # Reason : update order and payment status
     path('<str:tenant>/order-item-status/<str:orderID>/',UpdateItemStatus.as_view()),
     # End of addition - ROhan Kansari  22-5-23
-
+   
+#    // Addition by Om Shrivastava on 19-09-23
+# // Reason : Need to use this API for update the Order item status
+    path('<str:tenant>/order-item-update/<str:orderID>/',UpdateItemStatus.as_view()),
+#  // End of addition by Om Shrivastava on 19-09-23
+# // REason : Need to use this API for update the Order item status
+   
      # Added by Rohan Kansari on 22-5-23
     # Reason : update order and payment status
     path('<str:tenant>/all-order-status-update/',UpdateAllOrderStatus.as_view()),
@@ -188,7 +194,7 @@ urlpatterns = [
 
     # Added by :- Parineeta Gedam on 14-05-2023
     # Reason : post operation perform for update orders
-    path('<str:tenant>/update_order_items/',PostUpdateOrderItemsAPIView.as_view()),
+    path('<str:tenant>/update_order_items/',PostUpdateOrderItemsAPIView.as_view()), 
     # End of added code  by :- Parineeta Gedam on 14-05-2023
 
     # Added by :- Parineeta Gedam on 22-05-2023

@@ -84,6 +84,27 @@ export const postRestaurantDetail = async (value) => {
     return response ? response.data : {};
   };
 
+  export const postUpdateOrderItemsApio = async(tenantId,updateOrderItems) => {
+    const response = await API.put(`/api/v1/${tenantId}/update_order_items/`,updateOrderItems,
+    {headers : {'Content-Type':'application/json'}}).catch(
+        err => console.log(err))
+    return response ? response.data: {} 
+  }
+
+// Addition by Om Shrivastava on 19-09-23
+// Reason : Need to use this API for update the Order item status
+  export const updateOrderItemStatus = async (tenant,orderID, status,value ) => {
+    const response = await API.put(`/api/v1/${tenant}/order-item-update/${orderID}/`, status,value, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => console.log(err));
+    console.log(response.data)
+    return response ? response.data : {};
+  };
+// End of addition by Om Shrivastava on 19-09-23
+// REason : Need to use this API for update the Order item status
+
   // Added by :- Rohan kansari
 // Date :- 13-07-2023
 // Reason :- Post API for update orders
@@ -683,7 +704,7 @@ export const getOrderItemDataApi = async (tenant) => {
       "Content-Type": "application/json",
     },
   }).catch((err) => console.log(err));
-  console.log(response.data,'get order item details for post')
+  // console.log(response.data,'get order item details for post')
   return response ? response.data : {};
 };
 

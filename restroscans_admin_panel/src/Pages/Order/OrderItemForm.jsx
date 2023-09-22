@@ -13,9 +13,11 @@ import {
   getOrderItemsApi,
   saveOrderDetailsApi,
   saveOrderItemDetailsApi,
+  updateOrderItemStatus,
 } from "../../Api/services";
 import { useState } from "react";
 import Loader from "../GlobalComponent/Loader";
+import { message } from "antd";
 
 const OrderItemForm = () => {
   const navigate = useNavigate();
@@ -29,7 +31,8 @@ const OrderItemForm = () => {
   /**
    * End of addition by Om Shrivastava on 16-06-23
    */
-  const [orderItemDetailsObj, setorderItemDetailsObj] = useState({});
+  // const [orderItemDetailsObj, setorderItemDetailsObj] = useState({});
+  const [orderItemDetailsObj, setorderItemDetailsObj] = useState([]);
 
   const [orderId, setOrderId] = useState(null);
   const [itemName, setItemName] = useState(null);
@@ -103,7 +106,7 @@ const OrderItemForm = () => {
       }
     }
   };
-  // console.log(orderItemDetailsObj,'file')
+  // console.log(orderItemDetailsObj,orderId,'dataaaa')
 
   /**
    * End of code addition by - Om Shrivastava on 16-06-23
@@ -212,6 +215,7 @@ const OrderItemForm = () => {
     //     }
     //   }
   };
+  console.log(id,'idd')
 
   const saveOrderItem = async () => {
     //   var allowDataPost = false;
@@ -233,29 +237,49 @@ const OrderItemForm = () => {
 
     // if (allowDataPost) {
 
-    const updatedOrderData = new FormData();
-    if (id != 0) {
-      updatedOrderData.append("id", id);
-    }
+// Commented by Om Shrivastava on 16-09-23
+    // const updatedOrderData = new FormData();
+    // if (id != 0) {
+    //   updatedOrderData.append("id", id);
+    // }
 
-    updatedOrderData.append("item_status", itemStatus);
+    // updatedOrderData.append("item_status", itemStatus);
+    // // updatedOrderData.append("cancel_reason", cancelReaon);
+
+    // const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    // const response = await saveOrderItemDetailsApi(tenant, updatedOrderData);
+    // if (response.msg) {
+    //   Message("Order item saved successfully.", "success");
+    //   navigate(-1);
+    // } else {
+    //   Message("Something went wrong", "error");
+    // }
+  // End of commented code
+  const updatedOrderData = orderItemDetailsObj;
+  
+    updatedOrderData["item_status"]= itemStatus;
+    
     // updatedOrderData.append("cancel_reason", cancelReaon);
-
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-    const response = await saveOrderItemDetailsApi(tenant, updatedOrderData);
-    if (response.msg) {
+    console.log(updatedOrderData,'updated... data')
+    // Modification and addition by Om Shrivastava on 19-09-23
+    // Reason : Need to use this API for the update the item status
+    const response = await updateOrderItemStatus(tenant, orderId,[orderItemDetailsObj],updatedOrderData);
+    if (response.success) {
       Message("Order item saved successfully.", "success");
       navigate(-1);
     } else {
       Message("Something went wrong", "error");
     }
+    // End of modification and addition by Om Shrivastava on 22-09-23
+    // Reason : Need to use this API for the update the item status 
+
     // }
     // else {
     //     // Message("Please provide value for this field", "info");
     // }
   };
-  // console.log(discountReason, '55555')
-
+  
   // Added by Rohan kansari - 28/6/23
   // Reason - To validate filed again
   // useEffect(() => {
@@ -381,6 +405,7 @@ const OrderItemForm = () => {
                     setItemStatus(e.target.value);
                     // validateOnInput("app_theme", e.target.value);
                   }}
+                  value={itemStatus}
                 >
                   <option
                     value="Pending"
