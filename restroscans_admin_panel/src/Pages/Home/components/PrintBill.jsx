@@ -151,7 +151,7 @@
                 <hr>
     
                 
-                ${orderDetail.order_created_by=="Admin"?``:`<div class="inLineContainer">
+                ${orderDetail.order_created_by=="Admin"||orderDetail.order_created_by=="Waiter"?``:`<div class="inLineContainer">
                     <div class="column1" >
                         <div class="label1">
                             <div style= "width:90%" >Name</div>

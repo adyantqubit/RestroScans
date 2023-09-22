@@ -277,9 +277,9 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                 orderItem[index].quantity = --orderItem[index].quantity
                 orderItem[index].price = (orderItem[index].price /
                     (orderItem[index].quantity + 1)) *
-                    orderItem[index].quantity
+                    orderItem[index].quantity;
 
-                setOrderItem([...orderItem])
+                setOrderItem([...orderItem]);
             }
         } else {
             // Uses - same goes for increasing value
@@ -739,8 +739,29 @@ const OrderModel = ({ isOpen, setting, restroDetail, selectedOrder, setSelectedO
                         </div>
                     </div>
 
+                    {/* Added by Rohan kansari 21/9/23- To add waiter detail in order mdoel */}
+                    {orderObject.waiter_contact_number?.length==0?null:<div className={`${style.informationContainer}`}>
+                        <div className={style.information}>
+                            <div className={style.WhiteLabel}>
+                                Waiter Number:
+                            </div>
+                            <div className={style.data}>
+                                {orderObject.waiter_contact_number}
+                            </div>
+                        </div>
+                        <div className={style.information}>
+                            <div className={style.WhiteLabel}>
+                                Waiter Name:
+                            </div>
+                            <div className={style.data}>
+                            {orderObject.waiter_name}
+                            </div>
+                        </div>
+                    </div>}
+
 
                 </div>
+                 {/* End of code by Rohan kansari 21/9/23- To add waiter detail in order mdoel */}
                 {/* Customer Informations and able to edit some fields */}
 
 

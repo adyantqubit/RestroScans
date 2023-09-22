@@ -122,8 +122,14 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
         if (orderItemList.length == 0) {
             Message("Please add item !", "error")
         }
-
+        
+        // Addded by Rohan kansari - 22/9/23 
+        // Reason - To add waiter detail
+        var waiterData=JSON.parse(localStorage.getItem("waiterData"));
         if (contact.length == 0) { 
+            if(waiterData)
+            contact=waiterData.contact_number
+            else
             contact = restaurant.contact_number % 1e10
             if (contact.length < 10) {
                 errorText.contact_number = "Admin Contact Number should not be less than 10 digits";
@@ -147,11 +153,16 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
             name: name,
             table_number: table_number,
             validate_table: true,
-            order_created_by: "Admin"
+            order_created_by: waiterData?"Waiter":"Admin",
+           
         }
+
+        if(waiterData)
+        formData["waiter_contact_number"]=waiterData.contact_number
          //End of Modification by Rohan kansari - 7/9/23
         // Reason - To validate number if entered otherwise get from backend admin table
-       
+        // End of code by Rohan kansari - 22/9/23 
+        // Reason - To add waiter detail
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
 

@@ -666,6 +666,12 @@ def orderCreation(tenant, request):
     # Added by Rohan kansari - 4/9/23
     # Reason - To save order created by
     cartData["order_created_by"]=request.data["order_created_by"]
+    
+    # Added by Rohan kansari - 21/9/23 - To set waiter detail if present
+    if len(request.data['waiter_contact_number'])>0:
+        cartData["waiter_contact_number"]=request.data['waiter_contact_number']
+        cartData["waiter_name"]=Waiter.objects.get(contact_number=request.data['waiter_contact_number']).name
+
    
 
     orderSerializer = OrderSerializer(data=cartData)
@@ -4645,7 +4651,9 @@ class WaiterDashboardAPI(APIView):
     def get(self,request,tenant,waiterId):   
         from django.utils.timezone import datetime
         # Modified by Rohan kansari - 20/9/23 - To check waiter active and inactive
-        if Waiter.objects.get(id=waiterId).is_active:
+        # Modified by ROhan kansari - 21/9/23 - To separate
+        waiterObj=Waiter.objects.get(id=waiterId)
+        if waiterObj.is_active:
             pass
         else:
             return Response({"waiter_error":"Waiter is not active"})
@@ -4653,14 +4661,14 @@ class WaiterDashboardAPI(APIView):
 
         today=datetime.today().date()
          
-        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed').order_by("-id")
+        todays_newly_placed_orders=Order.objects.filter(date__gte=today,order_status='Placed',waiter_contact_number=waiterObj.contact_number).order_by("-id")
         todays_newly_placed_orders_serializer=OrderSerializer(todays_newly_placed_orders, many=True)
         
         from django.db.models import Q
-        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today,waiter_contact_number=waiterObj.contact_number).order_by("-id")
         todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
 
-        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
+        todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed',waiter_contact_number=waiterObj.contact_number).order_by("-id")
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
         todays_order_item=OrderItem.objects.filter(date__gte=today).order_by("-id")

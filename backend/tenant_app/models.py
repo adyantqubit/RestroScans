@@ -905,6 +905,11 @@ class Order(models.Model):
     order_created_by=models.CharField(max_length=50,null=True,blank=True)
     # End of code - Rohan kansari - 4/9/23 - To set order created by 
 
+    # Added by Rohan kansari - 21/9/23 - To set Waiter detail if they order
+    waiter_contact_number=models.CharField(max_length=15,blank=True,null=True,default="")
+    waiter_name=models.CharField(max_length=100,blank=True,null=True,default="")
+    # End of code by Rohan kansari - 21/9/23 - To set Waiter detail if they order
+
     # Added by :- Parineeta Gedam on 10-05-2023
     # Reason :- to check if discount type in (%) is should not be more then 100
     def clean(self):

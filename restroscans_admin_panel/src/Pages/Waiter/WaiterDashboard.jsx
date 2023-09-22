@@ -4,6 +4,7 @@ import { Message, enableHeader, tokenRecheck } from '../../App'
 import { waiterDashboardData } from '../../Api/services'
 import OrderModel from '../DashboardModel/OrderModel'
 import PrintBill from '../Home/components/PrintBill'
+import OrderCreation from '../Home/components/OrderCreation'
 
 const WaiterDashboard = () => {
 
@@ -18,10 +19,15 @@ const WaiterDashboard = () => {
   const [setting, setSettings] = useState(null)
   const [restroDetail, setRestroDetail] = useState(null)
 
+
+  const [IsOrderPopupVisible, setOrderPopupvisible] = useState(false)
+
+  const [recall, setRecall] = useState([]);
+
   useEffect(() => {
-    enableHeader()
-    getDashboardData()
-  }, [])
+    enableHeader();
+    getDashboardData();
+  }, [recall,IsOrderPopupVisible])
 
 
   async function getDashboardData() {
@@ -66,11 +72,16 @@ const WaiterDashboard = () => {
   return (
     <div className={style.container}>
       <OrderModel isOpen={IsModalOpen} setting={setting} restroDetail={restroDetail} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} selectedOrderItems={selectedOrderItems} setSelectedOrderItems={setSelectedOrderItems} setModelVisiblity={setModelVisiblity} />
+      <OrderCreation recall={recall} setRecall={setRecall} IsOrderPopupVisible={IsOrderPopupVisible} setOrderPopupvisible={setOrderPopupvisible} />
+      
       <div className={style.contains}>
 
         <div className={style.containsHeading}>
           <div className={style.dashboardHeading}>Dashboard</div>
-          <button className={style.createBtn}>create order +</button>
+          <button className={style.createBtn} 
+            onClick={e => {
+              setOrderPopupvisible(true)
+            }}>create order +</button>
         </div>
 
 
