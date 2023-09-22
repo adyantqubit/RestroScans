@@ -1,7 +1,15 @@
 from django.db import models
+from django.dispatch import receiver
 from tenant_schemas.models import TenantMixin
 from django.core.exceptions import ValidationError
 from ckeditor.fields import RichTextField
+from tenant_schemas.signals import post_schema_sync
+from django.db import connection
+# Added by pratap sahu on 18-09-2023
+# Reason:To create a default theme option for new Tenant
+from django.db.models.signals import post_save
+# End of Addition by pratap sahu on 18-09-2023
+# Reason:To create a default theme option for new Tenant
 
 #Added by Rohan Kansari- 16/4/23
 # Reason - To add plan Subcribtion feature where all feature is allow according to plan
@@ -225,7 +233,18 @@ class Tenant(TenantMixin):
 """
 End of code addition
 """
+# Added by pratap sahu on 22-09-2023
+# Reason to set default theme option when new tenant created
+def set_default_theme(sender, tenant, **kwargs):
+    app_theme=AppTheme.objects.first()
+    if(app_theme):
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT into "+tenant.tenant_name+
+                           ".tenant_app_setting(app_theme_id,allow_half_price,allow_loyality_points,discount_in) values("+str(app_theme.id)+",true,true,'Discount in (?)')")
 
+post_schema_sync.connect(set_default_theme, sender=TenantMixin)
+# End of Addition by pratap sahu on 22-09-2023
+# Reason to set default theme option when new tenant created
 
 """-------------------------------------------------------------------
 Added by - Yuvraj Sahu on 18-02-2023

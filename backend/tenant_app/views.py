@@ -4516,7 +4516,10 @@ def getFilteredCustomerReport(customerList):
             
         # Modified by pratap sahu on 16-09-2023 Reason: To display final Amount
             # total=Order.objects.filter(customer_id=customer.id).values('total')
-            total=Order.objects.filter(customer_id=customer.id).values('final_amount')
+        # Modified by pratap sahu on 22-09-2023 Reason: To display final Amount whose paid
+            # total=Order.objects.filter(customer_id=customer.id,).values('final_amount')
+            total=Order.objects.filter(customer_id=customer.id,payment_status="Completed").values('final_amount')
+        # End of Modification by pratap sahu on 22-09-2023 Reason: To display final Amount whose paid
             totalAmount=0
             for x in total:
                 # totalAmount+=x['total']
