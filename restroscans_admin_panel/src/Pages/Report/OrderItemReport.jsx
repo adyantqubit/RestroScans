@@ -1,207 +1,994 @@
-import React, { useEffect, useState } from 'react'
-import style from "./orderItem.module.css"
-import Header from '../GlobalComponent/Header'
-import DatePicker from 'react-date-picker';
-import 'react-date-picker/dist/DatePicker.css';
-import 'react-calendar/dist/Calendar.css';
-import { AiFillCalendar, AiOutlineCalendar, AiOutlineClose, AiOutlineSortAscending } from 'react-icons/ai';
-import {BsSortNumericDownAlt} from 'react-icons/bs'
-import "./checkbox.scss"
-import { OrderItemFilterQueryAPI } from '../../Api/services';
-import { enableHeader } from '../../App';
+import React, { useEffect, useState } from "react";
+import style from "./orderItem.module.css";
+import Header from "../GlobalComponent/Header";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
+import {
+  AiFillCalendar,
+  AiOutlineCalendar,
+  AiOutlineClose,
+  AiOutlineSortAscending,
+  AiOutlineSortDescending,
+} from "react-icons/ai";
+
+import {
+  TbSortAscendingLetters,
+  TbSortDescendingLetters,
+  TbSortAscendingNumbers,
+  TbSortDescendingNumbers,
+} from "react-icons/tb";
+import { BsSortNumericDown, BsSortNumericDownAlt } from "react-icons/bs";
+import "./checkbox.scss";
+import { OrderItemFilterQueryAPI } from "../../Api/services";
+import { Message, enableHeader } from "../../App";
+import { Input, Pagination } from "antd";
+import { MdArrowDropUp } from "react-icons/md";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 const OrderItemReport = () => {
-    const [value, onChange] = useState("");
-    var [itemNameIsSort, setItemNameSort] = useState(false)
-    var [orderCountIsSort, setOrderCountSort] = useState(false)
-    var [ratingIsSort, setRatingSort] = useState(false)
-    var [cancellationIsSort, setCancellationSort] = useState(false)
+  const [value, onChange] = useState("");
+  var [itemNameIsSort, setItemNameSort] = useState(false);
+  var [orderCountIsSort, setOrderCountSort] = useState(false);
+  var [ratingIsSort, setRatingSort] = useState(false);
+  var [cancellationIsSort, setCancellationSort] = useState(false);
 
-    var [reportOrderItem, setReportOrderItem] = useState(null)
+  var [reportOrderItem, setReportOrderItem] = useState(null);
 
+  var [totalAmountIsSort, setTotalAmountSort] = useState(false);
+  // added by - suman sahu on 28/08/2023
+  // reason - for set custom button enable or diable
+  const [disable, setDisable] = useState(true);
+  const [customeDisable, setcustomDisable] = useState(false);
 
-    useEffect(() => {
-        // Added By Rohan Kansari - 25/6/23
-        // Reason - To enable headerSiderbar
-        enableHeader()
-        // End of code - Rohan kansari - 25/6/23
-        postQuery()
-    }, [])
+  // Reason - To set date by Default null
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  // end of addition by suman sahu on 28/08/2023
+  // reason - for set custom button
 
-    async function postQuery() {
-        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-        const data = {
-            search: value,
-            itemSort: itemNameIsSort,
-            orderSort: orderCountIsSort,
-            ratingSort: ratingIsSort,
-            cancellationSort: cancellationIsSort
-        }
-        await OrderItemFilterQueryAPI(tenant, data).then(r => setReportOrderItem(r.item))
-    }    
+  /**
+   * Added by - Ashlekh on 15-09-2023
+   *
+   */
+  var [currentPage, setCurrentPage] = useState(1);
+  const [backendOrderItemCount, setBackendOrderItemCount] = useState(0);
+  const [listPerPage, setListPerPage] = useState(
+    localStorage.getItem("listPerPage")
+  );
+  const [pageIndex, setPageIndex] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [allReportData, setAllReportData] = useState([]);
+  const { Search } = Input;
+  // End of code addition by - Ashlekh on 15-09-2023
 
-    function cancellationSelect(value){
-        if (value){
-            itemNameIsSort=false
-            orderCountIsSort=false
-            ratingIsSort=false
-            cancellationIsSort=true
-            setItemNameSort(false)
-            setOrderCountSort(false)
-            setRatingSort(false)
-            setCancellationSort(true)
-        }else{
-            itemNameIsSort=false
-            orderCountIsSort=false
-            ratingIsSort=false
-            cancellationIsSort=false
-            setItemNameSort(false)
-            setOrderCountSort(false)
-            setRatingSort(false)
-            setCancellationSort(false)
-        }
-        postQuery()
+  // Added by - Ashlekh on 16-09-2023 Reason - For sorting
+  const [showSortingIcon, setShowSortingIcon] = useState(false);
+  const [columnToSort, setColumnToSort] = useState("item");
+  const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
+  // End of code addition by - Ashlekh on 16-09-2023
+  // Reason - For sorting
 
-    }
+  const [dateValidation, setDateValidation] = useState(false);
 
-    function ratingSelect(value){
-        if (value){
-            itemNameIsSort=false
-            orderCountIsSort=false
-            ratingIsSort=true
-            cancellationIsSort=false
-            setItemNameSort(false)
-            setOrderCountSort(false)
-            setRatingSort(true)
-            setCancellationSort(false)
-        }else{
-            itemNameIsSort=false
-            orderCountIsSort=false
-            ratingIsSort=false
-            cancellationIsSort=false
-            setItemNameSort(false)
-            setOrderCountSort(false)
-            setRatingSort(false)
-            setCancellationSort(false)
-        }
-        postQuery()
+  //Added by - Ashlekh on 19-09-2023
+  //Reason - For downloading report in excel sheet
+  const ExportToExcel = ({ apiData, fileName }) => {
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
 
-    }
+    const exportToCSV = (apiData, fileName) => {
+      var data = JSON.parse(apiData);
+      var filteredData = data.map((e) => {
+        delete Object.assign(e, { "Item Name": e["item"] })["item"];
+        delete Object.assign(e, { "Serving Size": e["serving_size"] })[
+          "serving_size"
+        ];
+        delete Object.assign(e, { "Order Count": e["item_count"] })[
+          "item_count"
+        ];
+        delete Object.assign(e, { "Average Rating": e["average_rating"] })[
+          "average_rating"
+        ];
+        delete Object.assign(e, { "Total Price": e["sum_price"] })["sum_price"];
+        delete Object.assign(e, {
+          "Cancellation Count": e["cancellation_count"],
+        })["cancellation_count"];
 
-    function orderCountSelect(value){
-        if (value){
-            itemNameIsSort=false
-            orderCountIsSort=true
-            ratingIsSort=false
-            cancellationIsSort=false
-            setItemNameSort(false)
-            setOrderCountSort(true)
-            setRatingSort(false)
-            setCancellationSort(false)
-        }else{
-            itemNameIsSort=false
-            orderCountIsSort=false
-            ratingIsSort=false
-            cancellationIsSort=false
-            setItemNameSort(false)
-            setOrderCountSort(false)
-            setRatingSort(false)
-            setCancellationSort(false)
-        }
-        postQuery()
-
-    }
-
-    function itemSelect(value){
-        if (value){
-            itemNameIsSort=true
-            orderCountIsSort=false
-            ratingIsSort=false
-            cancellationIsSort=false
-
-            setItemNameSort(true)
-            setOrderCountSort(false)
-            setRatingSort(false)
-            setCancellationSort(false)
-        }else{
-            itemNameIsSort=false
-            orderCountIsSort=false
-            ratingIsSort=false
-            cancellationIsSort=false
-
-            setItemNameSort(false)
-            setOrderCountSort(false)
-            setRatingSort(false)
-            setCancellationSort(false)
-        }
-        postQuery()
-
-    }
-
-
+        return e;
+      });
+      if (filteredData.length) {
+        const ws = XLSX.utils.json_to_sheet(filteredData);
+        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data, fileName + fileExtension);
+      } else {
+        Message("No Data is Found", "warning");
+      }
+    };
     return (
-     // Modified by Rohan Kansari - 25/6/23
+      <button
+        className={style.PrintBtn}
+        onClick={(e) => exportToCSV(apiData, fileName)}
+      >
+        Download
+      </button>
+    );
+  };
+  //End of code addition by - Ashlekh on 19-09-2023
+  //Reason - For downloading report in excel sheet
+  //Last updated by - Ashlekh on 20-09-2023
+
+  useEffect(() => {
+    // Added By Rohan Kansari - 25/6/23
+    // Reason - To enable headerSiderbar
+    enableHeader();
+    // End of code - Rohan kansari - 25/6/23
+    if (localStorage.getItem("globalPageIndex")) {
+      currentPage = parseInt(localStorage.getItem("globalPageIndex"));
+      setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")));
+    }
+    postQuery();
+  }, []);
+
+  useEffect(() => {
+    enableHeader();
+    postQuery();
+    localStorage.setItem("globalPageIndex", currentPage);
+  }, [columnToSort, columnSortingOrder, searchText, currentPage, listPerPage]);
+
+  async function postQuery() {
+    const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    //Added by - Ashlekh on 16-09-2023
+    //Reason - For pagination
+    const paginationDetails = {
+      currentPage: currentPage,
+      listPerPage: listPerPage,
+    };
+    //End of code addition by - Ashlekh on 16-09-2023
+    //Reason - For pagination
+    const filteringCriteria = {
+      search: value,
+      itemSort: itemNameIsSort,
+      orderSort: orderCountIsSort,
+      ratingSort: ratingIsSort,
+      cancellationSort: cancellationIsSort,
+      totalAmountSort: totalAmountIsSort,
+      //Added by - Ashlekh on 16-09-2023
+      pageIndex: pageIndex,
+      paginationDetails: paginationDetails,
+      columnToSort: columnToSort,
+      columnSortingOrder: columnSortingOrder,
+      searchText: searchText?.trim(),
+      //End of code addition by - Ashlekh on 16-09-2023
+      //Added by - Ashlekh on 19-09-2023
+      quickSelect: quickSelect,
+      startDate: startDate,
+      endDate: endDate ? new Date(endDate.getTime() + 3600 * 1000 * 24) : null,
+      //End of code addition by - Ashlekh on 19-09-2023
+    };
+    // console.log("lllll", searchText);
+    //Code modification by - Ashlekh on 21-09-2023
+    //Reason - For date validation
+    if (quickSelect.custom && (!startDate || !endDate)) {
+      setDateValidation("Please enter both start date and end date");
+      return;
+    } else {
+      setDateValidation(false);
+      const response = await OrderItemFilterQueryAPI(tenant, filteringCriteria);
+      setReportOrderItem(response.item);
+      setBackendOrderItemCount(response.orderItemCount);
+    }
+    //End of code modification by - Ashlekh on 21-09-2023
+    //Reason - For date validation
+  }
+
+  //Code modification by - Ashlekh on 18-09-2023
+  function cancellationSelect(value) {
+    if (value) {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      totalAmountIsSort = "";
+      cancellationIsSort = true;
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort("");
+      setTotalAmountSort("");
+      setCancellationSort(true);
+    } else {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      totalAmountIsSort = "";
+      cancellationIsSort = false;
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort("");
+      setTotalAmountSort = "";
+      setCancellationSort(false);
+    }
+    postQuery();
+  }
+
+  function ratingSelect(value) {
+    if (value) {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = true;
+      cancellationIsSort = "";
+      totalAmountIsSort = "";
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort(true);
+      setCancellationSort("");
+      setTotalAmountSort("");
+    } else {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = false;
+      cancellationIsSort = "";
+      totalAmountIsSort = "";
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort(false);
+      setCancellationSort("");
+      setTotalAmountSort = "";
+    }
+    postQuery();
+  }
+
+  function orderCountSelect(value) {
+    if (value) {
+      itemNameIsSort = "";
+      orderCountIsSort = true;
+      ratingIsSort = "";
+      cancellationIsSort = "";
+      totalAmountIsSort = "";
+      setItemNameSort("");
+      setOrderCountSort(true);
+      setRatingSort("");
+      setCancellationSort("");
+      setTotalAmountSort("");
+    } else {
+      itemNameIsSort = "";
+      orderCountIsSort = false;
+      ratingIsSort = "";
+      cancellationIsSort = "";
+      totalAmountIsSort = "";
+      setItemNameSort("");
+      setOrderCountSort(false);
+      setRatingSort("");
+      setCancellationSort("");
+      setTotalAmountSort("");
+    }
+    postQuery();
+  }
+
+  function itemSelect(value) {
+    if (value) {
+      itemNameIsSort = true;
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      cancellationIsSort = "";
+      totalAmountIsSort = "";
+
+      setItemNameSort(true);
+      setOrderCountSort("");
+      setRatingSort("");
+      setCancellationSort("");
+      setTotalAmountSort("");
+    } else {
+      itemNameIsSort = false;
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      cancellationIsSort = "";
+      totalAmountIsSort = "";
+
+      setItemNameSort(false);
+      setOrderCountSort("");
+      setRatingSort("");
+      setCancellationSort("");
+      setTotalAmountSort("");
+    }
+    postQuery();
+  }
+  //End of code modification by - Ashlekh on 18-09-2023
+
+  //Added by - Ashlekh on 18-09-2023
+  //Reason - To add sorting in total amount
+  function totalAmountSelect(value) {
+    if (value) {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      cancellationIsSort = "";
+      totalAmountIsSort = true;
+
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort("");
+      setCancellationSort("");
+      setTotalAmountSort(true);
+    } else {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      cancellationIsSort = "";
+      totalAmountIsSort = false;
+
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort("");
+      setCancellationSort("");
+      setTotalAmountSort(false);
+    }
+    postQuery();
+  }
+  //End of code addition by - Ashlekh on 18-09-2023
+  //Reason - For adding sorting in total amount
+
+  {
+    /* added by - Suman sahu on 28/08/2023 
+        reason - for set custom date in custom filter button */
+  }
+
+  const handleChangeFromDate = (value) => {
+    setEndDate("");
+    setStartDate(value);
+    setDisable(false);
+  };
+
+  const handleChangeToDate = (value) => {
+    setEndDate(value);
+  };
+
+  function handleCustomSelect(e) {
+    setcustomDisable(true);
+  }
+
+  const [quickSelect, setQuickSelect] = useState({
+    today: false,
+    week: false,
+    month: false,
+    year: true,
+  });
+
+  const handleQuickSelect = (e) => {
+    //Code added by - Ashlekh on 21-09-2023
+    //Reason - To Reset dateValidation when switching away from "custom" quick select
+    if (e == "today" || e == "week" || e == "month" || e == "year") {
+      setDateValidation(false);
+    }
+    //Code added by - Ashlekh on 21-09-2023
+    //Reason - To Reset dateValidation when switching away from "custom" quick select
+
+    if (e == "today") {
+      setcustomDisable(false);
+      setStartDate("");
+      setEndDate("");
+      if (document.getElementById("today").checked == true) {
+        setQuickSelect((select) => {
+          select.today = true;
+          select.week = false;
+          select.month = false;
+          select.year = false;
+          select.custom = false;
+          return { ...select };
+        });
+      }
+    }
+    if (e == "week") {
+      setcustomDisable(false);
+      setStartDate("");
+      setEndDate("");
+      if (document.getElementById("week").checked == true) {
+        setQuickSelect((select) => {
+          select.week = true;
+          select.today = false;
+          select.month = false;
+          select.year = false;
+          select.custom = false;
+          return { ...select };
+        });
+      }
+    }
+    if (e == "month") {
+      setcustomDisable(false);
+      setStartDate("");
+      setEndDate("");
+      if (document.getElementById("month").checked == true) {
+        setQuickSelect((select) => {
+          select.month = true;
+          select.week = false;
+          select.today = false;
+          select.year = false;
+          select.custom = false;
+          return { ...select };
+        });
+      }
+    }
+    if (e == "year") {
+      setcustomDisable(false);
+      setStartDate("");
+      setEndDate("");
+      if (document.getElementById("year").checked == true) {
+        setQuickSelect((select) => {
+          select.year = true;
+          select.today = false;
+          select.week = false;
+          select.month = false;
+          select.custom = false;
+          return { ...select };
+        });
+      }
+    }
+    if (e == "custom") {
+      setcustomDisable(true);
+      if (document.getElementById("custom").checked == true) {
+        setQuickSelect((select) => {
+          select.custom = true;
+          select.year = false;
+          select.today = false;
+          select.week = false;
+          select.month = false;
+          return { ...select };
+        });
+      }
+    }
+  };
+  {
+    /* end of addition by - Suman sahu on 28/08/2023 
+        reason - for set custom date */
+  }
+
+  var backgroundColor = 1;
+
+  /**
+   * Added by - Ashlekh on 15-09-2023
+   * Reason - When user changes page number, this method will set page number which will be sent to backend.
+   */
+  const handlePageChange = async (pageNumber) => {
+    localStorage.setItem("globalPageIndex", pageNumber);
+    setCurrentPage(pageNumber);
+  };
+  /**
+   * End of code addition by - Ashlekh on 15-09-2023
+   * Reason - When user changes page number, this method will set page number which will be sent to backend.
+   */
+
+  /**
+   * Added by - Ashlekh on 15-09-2023
+   * Reason - To toggle dropdown visiblity on click
+   */
+  function toggelDropdown() {
+    if (document.getElementById("dropdown").style.display.length == 0)
+      document.getElementById("dropdown").style.display = "block";
+    else document.getElementById("dropdown").style.display = "";
+  }
+  /**
+   * End of code addition by - Ashlekh on 15-09-2023
+   * Reason - To toggle dropdown visiblity on click
+   */
+
+  const [clearFilter, setClearFilter] = useState(false);
+  const handleClearFilter = () => {
+    // Clear custom date range and hide validation message
+    setStartDate("");
+    setEndDate("");
+    setDateValidation(false);
+
+    // Update the "Clear Filter" button click state
+    setClearFilter(true);
+  };
+
+  return (
+    // Modified by Rohan Kansari - 25/6/23
     // Reason - removing header from each page and making it global
-        // <Header>
-            <div className={style.orderContainer}>
-                <div className={style.filterContainer}>
-                    {/*Filter 1  */}
-                    <div className={style.statusContainer}>
-                        <div className={style.label}>Search By Item Name</div>
-                        <div className={style.selctedContentBox}>
-                            <input className={style.searchInput} type="text" onChange={e => onChange(e.target.value)} />
-                        </div>
-                    </div>
-
-                    <div className={style.BtnContainer}>
-                        <button className={style.GenerateBtn} onClick={postQuery}>Generate Report</button>
-                    </div>
+    // <Header>
+    <div className={style.orderContainer}>
+      <div className={style.filterContainer}>
+        {/* added by - Suman sahu on 28/08/2023 
+                    reason - add flter section on that page */}
+        <div className={style.dateValidationContainer}>
+          {customeDisable === true && (
+            <div className={style.dateContainer}>
+              <div className={style.toDate}>
+                <div className={style.label} style={{ fontFamily: "ui-serif" }}>
+                  Date From :
                 </div>
+                <div className={style.label} style={{ fontFamily: "ui-serif" }}>
+                  Date To :
+                </div>
+              </div>
+              <div className={style.fromDate}>
+                <div className={style.datepicker1}>
+                  <DatePicker
+                    calendarClassName={style.calendar}
+                    className={style.dateInput}
+                    calendarIcon={<AiOutlineCalendar />}
+                    clearIcon={<AiOutlineClose />}
+                    onChange={handleChangeFromDate}
+                    value={startDate}
+                    format="dd/MM/yyyy"
+                  />
+                </div>
+                <div className={style.datepicker1}>
+                  <DatePicker
+                    calendarClassName={style.calendar}
+                    className={style.dateInput}
+                    calendarIcon={<AiOutlineCalendar />}
+                    clearIcon={<AiOutlineClose />}
+                    onChange={handleChangeToDate}
+                    value={endDate}
+                    disabled={disable}
+                    format="dd/MM/yyyy"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Code added by - Ashlekh on 21-09-2023
+          Reason - For date validation */}
+          <div className={style.dateValidation}>
+            {dateValidation && "Please enter start and end date!"}{" "}
+          </div>
+          {/* End of code addition by - Ashlekh on 21-09-2023
+          Reason - For date validation */}
+        </div>
 
+        <div className={style.quickSelectConatiner}>
+          <div className={style.quickHeading}>Quick Select</div>
+          <div className={style.quickOptions}>
+            <div className={style.parentSelectContainer}>
+              <div className={style.selectContainer}>
+                <div>
+                  <input
+                    type="radio"
+                    id="today"
+                    name="quick_select"
+                    value="today"
+                    onChange={(e) => handleQuickSelect(e.target.value)}
+                  />
+                </div>
+                <div className={style.label}>Today</div>
+              </div>
+              <div className={style.selectContainer}>
+                <div>
+                  <input
+                    type="radio"
+                    id="week"
+                    name="quick_select"
+                    value="week"
+                    onChange={(e) => handleQuickSelect(e.target.value)}
+                  />
+                </div>
+                <div className={style.label}>This Week</div>
+              </div>
+              <div className={style.selectContainer}>
+                <div>
+                  <input
+                    type="radio"
+                    id="custom"
+                    name="quick_select"
+                    value="custom"
+                    onChange={(e) => handleQuickSelect(e.target.value)}
+                  />
+                </div>
+                <div className={style.label}>Custom</div>
+              </div>
+            </div>
+            <div className={style.parentSelectContainer}>
+              <div className={style.selectContainer}>
+                <div>
+                  <input
+                    type="radio"
+                    id="month"
+                    name="quick_select"
+                    value="month"
+                    onChange={(e) => handleQuickSelect(e.target.value)}
+                  />
+                </div>
+                <div className={style.label}>This Month</div>
+              </div>
+              <div className={style.selectContainer}>
+                <div>
+                  <input
+                    type="radio"
+                    id="year"
+                    name="quick_select"
+                    value="year"
+                    defaultChecked={true}
+                    onChange={(e) => handleQuickSelect(e.target.value)}
+                  />
+                </div>
+                <div className={style.label}>This Year</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* end of addition by - Suman sahu on 28/08/2023
+                    reason - add flter section on that page */}
+        {/*Filter 1  */}
 
-                <div className={style.tabelContainer}>
-                    <div className={style.container} >
-                        <div className={style.TabelContainer}>
+        <div className={style.statusContainer}>
+          {/**
+           * Code commented and added by - Ashlekh on 16-09-2023
+           * Reason - To add search bar
+           * */}
+          {/* commented by suman sahu on 28/08/2023
+                        reason - for change class name */}
+          {/* <div className={style.label}>Search By Item Name</div> */}
+          {/* <div className={style.searchHeading}>Search By Item Name</div> */}
+          {/* end of code by suman sahu on 28/08/2023 */}
+          {/* <div className={style.selctedContentBox}>
+                        <input className={style.searchInput} type="text" onChange={e => onChange(e.target.value)} />
+                    </div> */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "white",
+              padding: "4px",
+              width: "300px",
+            }}
+          >
+            <Search
+              placeholder="Search by item name"
+              allowClear
+              enterButton
+              onSearch={(value) => {
+                setCurrentPage(1);
+                setSearchText(value);
+              }}
+              className={style.SearchBar}
+            />
+          </div>
+          {/**
+           * End of comment and code addition by - Ashlekh on 16-09-2023
+           * Reason - To add search bar
+           * */}
+        </div>
 
-                            <div className={style.table}>
-                                <div className={style.tableHeading}>
-                                    <div className={style.column1}>Sno</div>
-                                    <div className={style.column2}><input type="checkbox" id="itemName" style={{display:"none"}} name='itemName' checked={itemNameIsSort} onChange={e =>itemSelect(e.target.checked)} /> <label className={style.sortingLabel} htmlFor='itemName'><AiOutlineSortAscending className={style.SortIcon}/> Item Name </label></div>
-                                    <div className={style.column3}> <input type="checkbox" id="orderCount" style={{display:"none"}} name="orderCount" checked={orderCountIsSort}  onChange={e =>orderCountSelect(e.target.checked)} /> <label className={style.sortingLabel} htmlFor='orderCount'> <BsSortNumericDownAlt className={style.SortIcon}/> Order Count</label></div>
-                                    <div className={style.column4}><input type="checkbox" id="rating" style={{display:"none"}} name="rating" checked={ratingIsSort} onChange={e =>ratingSelect(e.target.checked)} /><label className={style.sortingLabel} htmlFor='rating'> <BsSortNumericDownAlt className={style.SortIcon}/> Rating</label></div>
-                                    <div className={style.column5}>Price</div>
-                                    {/* <div className={style.column5}>Discount</div> */}
-                                    <div className={style.column6}><input type="checkbox" id="cancellation" style={{display:"none"}} name="cancellation" checked={cancellationIsSort} onChange={e =>cancellationSelect(e.target.checked)} /><label className={style.sortingLabel} htmlFor='cancellation'> <BsSortNumericDownAlt className={style.SortIcon}/>Cancellation Count</label></div>
-                                    {/* <div className={style.column7}>Last Review</div> */}
-                                </div>
+        <div className={style.BtnContainer}>
+          <button className={style.GenerateBtn} onClick={postQuery}>
+            Generate Report
+          </button>
+          {/* Code commented and added by - Ashlekh on 19-09-2023
+                     Reason - For downloading in excel sheet  */}
+          {/* added by - suman sahu on 28/08/2023 */}
+          <button className={style.GenerateBtn} onClick={handleClearFilter}>
+            Clear Filter
+          </button>
+          <button className={style.GenerateBtn}>
+            <ExportToExcel
+              apiData={JSON.stringify(reportOrderItem)}
+              fileName="Order_Item_Report"
+            />
+          </button>
+          {/* end of addition by - suman sahu on 28/08/2023 */}
+          {/* End of comment and code addition by - Ashlekh on 19-09-2023
+                    Reason - For downloading in excel sheet */}
+        </div>
+      </div>
 
+      {/* modified by - suman sahu on 28/08/2023 */}
+      <div className={style.orderListSection}>
+        <div className={style.tabelContainer}>
+          {/* <div className={style.container} > */}
+          {/* <div className={style.TabelContainer}> */}
 
-                                {reportOrderItem?.map((m, i) =>
-                                    <div className={style.row} >
-                                        <div className={style.columnData1}>{i+1}</div>
-                                        <div className={style.columnData2}>{m.item}({m.serving_size})</div>
-                                        <div className={style.columnData3}>{m.item_count}</div>
-                                        <div className={style.columnData4}>{m.average_rating?m.average_rating:" - "}</div>
-                                        <div className={style.columnData5}>{m.sum_price}</div>
-                                        {/* <div className={style.columnData5}>30</div> */}
-                                        <div className={style.columnData6}>{m.cancellation_count}</div>
-                                        {/* <div className={style.columnData7}>
+          <div className={style.table}>
+            <div className={style.tableHeading}>
+              <div
+                //Commented by - Ashlekh on 20-09-2023
+                //className={style.column1}
+                className={style.sNoColumn}
+              >
+                Sno
+              </div>
+              {/* Code modification by - Ashlekh on 20-09-2023
+                  Reason - Sorting Icon */}
+              <div
+                className={style.orderItemNameHeading}
+                // className={style.orderItemName}
+              >
+                <input
+                  type="checkbox"
+                  id="itemName"
+                  style={{ display: "none" }}
+                  name="itemName"
+                  checked={itemNameIsSort}
+                  onChange={(e) => itemSelect(e.target.checked)}
+                />{" "}
+                <label className={style.sortingLabel} htmlFor="itemName">
+                  Item Name{" "}
+                  {itemNameIsSort ? (
+                    <TbSortAscendingLetters className={style.SortIcon} />
+                  ) : (
+                    <TbSortDescendingLetters className={style.SortIcon} />
+                  )}
+                </label>
+              </div>
+              <div
+                //className={style.column3}
+                className={style.orderCountHeading}
+              >
+                <input
+                  type="checkbox"
+                  id="orderCount"
+                  style={{ display: "none" }}
+                  name="orderCount"
+                  checked={orderCountIsSort}
+                  onChange={(e) => orderCountSelect(e.target.checked)}
+                />{" "}
+                <label className={style.sortingLabel} htmlFor="orderCount">
+                  Order Count{" "}
+                  {orderCountIsSort ? (
+                    <BsSortNumericDown className={style.SortIcon} />
+                  ) : (
+                    <BsSortNumericDownAlt className={style.SortIcon} />
+                  )}
+                </label>
+              </div>
+              {/* commented and modified by - suman sahu on 28/08/2023 
+                                        reason - for change lable name */}
+              {/* Code commented and added by - Ashlekh on 18-09-2023
+                                        Reason - To add sorting in total amount */}
+              {/* <div className={style.column5}>Price</div> */}
+              {/* <div className={style.column5}>Total Amount</div> */}
+              <div className={style.totalAmountHeading}>
+                <input
+                  type="checkbox"
+                  id="totalAmount"
+                  style={{ display: "none" }}
+                  name="totalAmount"
+                  checked={totalAmountIsSort}
+                  onChange={(e) => totalAmountSelect(e.target.checked)}
+                />{" "}
+                <label className={style.sortingLabel} htmlFor="totalAmount">
+                  Total Amount{" "}
+                  {totalAmountIsSort ? (
+                    <BsSortNumericDown className={style.SortIcon} />
+                  ) : (
+                    <BsSortNumericDownAlt className={style.SortIcon} />
+                  )}
+                </label>
+              </div>
+              {/* End of comment and code addition by - Ashlekh on 18-09-2023
+                                    Reason - To add sorting in total amount */}
+              {/* end of code by suman sahu on 28/08/2023 */}
+              {/* <div className={style.column5}>Discount</div> */}
+              <div className={style.cancellationCountHeading}>
+                <input
+                  type="checkbox"
+                  id="cancellation"
+                  style={{ display: "none" }}
+                  name="cancellation"
+                  checked={cancellationIsSort}
+                  onChange={(e) => cancellationSelect(e.target.checked)}
+                />{" "}
+                <label className={style.sortingLabel} htmlFor="cancellation">
+                  Cancellation Count{" "}
+                  {cancellationIsSort ? (
+                    <BsSortNumericDown className={style.SortIcon} />
+                  ) : (
+                    <BsSortNumericDownAlt className={style.SortIcon} />
+                  )}
+                </label>
+              </div>
+              {/* <div className={style.column7}>Last Review</div> */}
+              {/* End of code modification by - Ashlekh on 20-09-2023
+              Reason - For sorting icon */}
+              <div
+                //    className={style.column4}
+                className={style.ratingColumnHeading}
+              >
+                <input
+                  type="checkbox"
+                  id="rating"
+                  style={{ display: "none" }}
+                  name="rating"
+                  checked={ratingIsSort}
+                  onChange={(e) => ratingSelect(e.target.checked)}
+                />{" "}
+                <label className={style.sortingLabel} htmlFor="rating">
+                  Rating{" "}
+                  {ratingIsSort ? (
+                    <BsSortNumericDown className={style.SortIcon} />
+                  ) : (
+                    <BsSortNumericDownAlt className={style.SortIcon} />
+                  )}
+                </label>
+              </div>
+            </div>
+
+            {/* commented and modified by - suman sahu on 28/08/2023 
+                                    reason - change layout design */}
+
+            {/* {reportOrderItem?.map((m, i) =>
+                                        <div className={style.row} >
+                                            <div className={style.columnData1}>{i + 1}</div>
+                                            <div className={style.columnData2}>{m.item}({m.serving_size})</div>
+                                            <div className={style.columnData3}>{m.item_count}</div>
+                                            <div className={style.columnData4}>{m.average_rating ? m.average_rating : " - "}</div>
+                                            <div className={style.columnData5}>{m.sum_price}</div>
+                                            <div className={style.columnData5}>30</div>
+                                            <div className={style.columnData6}>{m.cancellation_count}</div>
+                                            <div className={style.columnData7}>
                                             <button className={style.printBtn} >Late Service! Disappointed</button>
-                                        </div> */}
-                                    </div>
-                                )}
+                                        </div>
+                                        </div>
+                                    )} */}
 
-                                {/* <div className={style.row}>
+            <div
+              className={style.tableDataContainer}
+              style={{
+                backgroundColor: "#efefef",
+              }}
+            >
+              {reportOrderItem && reportOrderItem.length > 0 ? (
+                reportOrderItem.map((m, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={style.tableData}
+                      style={{
+                        padding: "0px",
+                        marginTop: "2px",
+                        marginBottom:
+                          reportOrderItem.length == i + 1 ? "2px" : "0px",
+                        background:
+                          backgroundColor++ % 2 == 0 ? "white" : "#1677ff14",
+                      }}
+                    >
+                      <div
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.sNoColumn} ${style.mediumColoumnWidth} `}
+                      >
+                        {currentPage * listPerPage - listPerPage + i + 1}
+                      </div>
+                      <div
+                        className={`${style.orderItemNameHeading} ${style.mediumColoumnWidth}`}
+                      >
+                        {m.item}({m.serving_size})
+                      </div>
+                      <div
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.orderCountHeading} ${style.mediumColoumnWidth}`}
+                      >
+                        {m.item_count}
+                      </div>
+                      <div
+                        className={`${style.totalAmountHeading} ${style.mediumColoumnWidth}`}
+                      >
+                        {m.sum_price}
+                      </div>
+                      <div
+                        className={`${style.cancellationCountHeading} ${style.mediumColoumnWidth}`}
+                        // style={{textAlign:"center"}}
+                      >
+                        {m.cancellation_count}
+                      </div>
+                      <div
+                        // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                        className={`${style.ratingColumnHeading} ${style.mediumColoumnWidth}`}
+                      >
+                        {m.average_rating ? m.average_rating : " - "}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div style={{ textAlign: "center" }}>No records found!</div>
+              )}
+            </div>
+            {/* end of addition by - suman sahu on 28/08/2023
+                                    reason - change layout design */}
+
+            {/* <div className={style.row}>
                                     <div className={style.EmptyText}> No order created yet !</div>
                                 </div> */}
-                            </div>
+          </div>
 
-                        </div>
-                    </div>
-                </div>
+          {/* </div> */}
+          {/* </div> */}
+        </div>
+      </div>
+      {/*
+       * Added by - Ashlekh on 15-09-2023
+       * Reason - To add pagination
+       * */}
+      <div className={style.paginationContainer}>
+        {reportOrderItem && reportOrderItem.length > 0 ? (
+          <div className={style.paginationContent}>
+            <Pagination
+              defaultCurrent={currentPage}
+              current={currentPage}
+              simple
+              total={backendOrderItemCount}
+              defaultPageSize={listPerPage}
+              pageSize={listPerPage}
+              onChange={handlePageChange}
+            />
+
+            <div className={style.dropdown} onClick={toggelDropdown}>
+              <button className={style.dropbtn}>
+                {listPerPage} / Page{" "}
+                <MdArrowDropUp style={{ margin: "5px 0" }} />
+              </button>
+              <div className={style.dropdown_content} id="dropdown">
+                {backendOrderItemCount > 40 ? (
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(50);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 50);
+                    }}
+                  >
+                    50 / Page
+                  </span>
+                ) : null}
+                {backendOrderItemCount > 30 ? (
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(40);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 40);
+                    }}
+                  >
+                    40 / Page
+                  </span>
+                ) : null}
+                {backendOrderItemCount > 20 ? (
+                  <span
+                    href="#"
+                    onClick={(e) => {
+                      setListPerPage(30);
+                      setCurrentPage(1);
+                      localStorage.setItem("listPerPage", 30);
+                    }}
+                  >
+                    30 / Page
+                  </span>
+                ) : null}
+                <span
+                  href="#"
+                  onClick={(e) => {
+                    setListPerPage(20);
+                    setCurrentPage(1);
+                    localStorage.setItem("listPerPage", 20);
+                  }}
+                >
+                  20 / Page
+                </span>
+                <span
+                  href="#"
+                  onClick={(e) => {
+                    setListPerPage(10);
+                    localStorage.setItem("listPerPage", 10);
+                  }}
+                >
+                  10 / Page
+                </span>
+              </div>
             </div>
-        // </Header>
-    )
-}
+          </div>
+        ) : null}
+      </div>
+      {/*
+       * End of code addition by - Ashlekh on 15-09-2023
+       * Reason - To add pagination
+       * */}
+    </div>
+    // </Header>
+  );
+};
 
-export default OrderItemReport
+export default OrderItemReport;

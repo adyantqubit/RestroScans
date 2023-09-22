@@ -884,9 +884,15 @@ function SettingForm() {
                   <option value="Discount in (₹)">Discount in (₹)</option>
                   <option
                     value="Discount in (%)"
-                    onChange={(e) => {
-                      setDiscount(e.target.value);
-                    }}
+                    /**
+                     * Code commented by - Ashlekh on 14-09-2023
+                     */
+                    // onChange={(e) => {
+                    //   setDiscount(e.target.value);
+                    // }}
+                    /**
+                     * End of comment by - Ashlekh on 14-09-2023
+                     */
                   >
                     Discount in (%)
                   </option>
