@@ -618,14 +618,20 @@ def orderCreation(tenant, request):
     # Added by :- Parineeta gedam on 25-06-2023 reason :- if new item added by customer then order status will be placed.
     cartData['order_status'] = "Placed"
     # End of Added by :- Parineeta gedam on 25-06-2023 reason :- if new item added by customer then order status will be placed.
-    
+
+  #Commented And Added By pratap sahu on 21-09-2023
+  # Reason:To set Payment mode as Cash By Default
     # Added by Rohan kansari - 9/8/23
     # Reason - To set payment mode if key is present
-    if request.data.get("payment_mode")!=None:
-        cartData['payment_mode']=request.data.get("payment_mode")
-    else :
-        pass    
+    # if request.data.get("payment_mode")!=None:
+    #     cartData['payment_mode']=request.data.get("payment_mode")
+    # else :
+    #     pass    
     # End of code - Rohan kansari - 9/8/23 -To set payment mode if key is present
+    cartData['payment_mode']="Cash"
+  # End of Comment And Addition By pratap sahu on 21-09-2023
+  # Reason:To set Payment mode as Cash By Default
+    
     # Commented by :- Parineeta Gedam on 24-05-2023 
     # tax = Setting.objects.first()
 

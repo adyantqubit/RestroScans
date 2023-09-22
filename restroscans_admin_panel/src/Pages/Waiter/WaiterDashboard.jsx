@@ -78,6 +78,7 @@ const WaiterDashboard = () => {
 
         <div className={style.containsHeading}>
           <div className={style.dashboardHeading}>Dashboard</div>
+
           <button className={style.createBtn} 
             onClick={e => {
               setOrderPopupvisible(true)
