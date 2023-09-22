@@ -194,14 +194,19 @@ const NewOrderReport = () => {
         if (state.state) {
             quickSelect = state.state
             setQuickSelect({ ...state.state })
+
+            // Added by Rohan kansari - 22/9/23 
+            // Reason - To add payment true if we redirect from revenue page
             paymentStatus = {
                 pending: false,
-                completed: false,
+                completed: true,
             }
             setPaymentStatus({
                 pending: false,
-                completed: false,
+                completed: true,
             })
+            // End of code by Rohan kansari - 22/9/23 
+            // Reason - To add payment true if we redirect from revenue page
         }
         // End of code addition by Rohan kansari - 28/8/23 
         // if filter data is coming from other page through navigation so set it of filter

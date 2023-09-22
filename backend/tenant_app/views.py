@@ -22,6 +22,41 @@ from django.db.models import Q
 import logging
 from django.core.paginator import Paginator
 
+
+# Added by Rohan kansari - 22/9/23 - To encrypt and decrypt text
+from cryptography.fernet import Fernet
+import base64
+import logging
+import traceback
+from django.conf import settings
+
+def encrypt(pas):
+    try:        
+        pas = str(pas)
+        cipher_pass = Fernet(settings.ENCRYPT_KEY)
+        encrypt_pass = cipher_pass.encrypt(pas.encode('ascii'))
+        encrypt_pass = base64.urlsafe_b64encode(encrypt_pass).decode("ascii") 
+        return encrypt_pass
+    except Exception as e:
+        print(e)
+        logging.getLogger("error_logger").error(traceback.format_exc())
+        return None
+
+
+def decrypt(pas):
+    try:
+        pas = base64.urlsafe_b64decode(pas)
+        cipher_pass = Fernet(settings.ENCRYPT_KEY)
+        decod_pass = cipher_pass.decrypt(pas).decode("ascii")     
+        return decod_pass
+    except Exception as e:
+        print(e)
+        logging.getLogger("error_logger").error(traceback.format_exc())
+        return None
+
+# End of addition by Rohan kansari - 22/9/23 - To encrypt and decrypt text
+
+
 """
 Added by - Ashish Dewangan on 08-02-2023
 Reason - To get menu
@@ -674,9 +709,14 @@ def orderCreation(tenant, request):
     cartData["order_created_by"]=request.data["order_created_by"]
     
     # Added by Rohan kansari - 21/9/23 - To set waiter detail if present
-    if len(request.data['waiter_contact_number'])>0:
-        cartData["waiter_contact_number"]=request.data['waiter_contact_number']
-        cartData["waiter_name"]=Waiter.objects.get(contact_number=request.data['waiter_contact_number']).name
+    # Modified by Rohan kansari - 22/9/23 - To fix uncuaght error
+    try:
+        if len(request.data['waiter_contact_number'])>0:
+            cartData["waiter_contact_number"]=request.data['waiter_contact_number']
+            cartData["waiter_name"]=Waiter.objects.get(contact_number=request.data['waiter_contact_number']).name
+    except:
+        pass        
+    # End of modification by Rohan kansari - 22/9/23 - To fix uncuaght error
 
    
 
@@ -2644,35 +2684,44 @@ class RevenueOrderReport(APIView):
             thisYear=today.year
 
             data=dict()
-
+            # Modified by Rohan kansari - 22/9/23 - To get same data on count and revenue price
             summary=dict()
-            totalOrders = Order.objects.filter(date__gte=today).count()
+            # totalOrders = Order.objects.filter(date__gte=today).count()
+            totalOrders = Order.objects.filter(date__gte=today,payment_status='Completed').count()
+
             summary["order_count"]=totalOrders
-            revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("total"))
-            summary["total_revenue"]=revenue["total__sum"]
+            revenue = Order.objects.filter(date__gte=today,payment_status='Completed').aggregate(Sum("final_amount"))
+            summary["total_revenue"]=revenue["final_amount__sum"]
             data["todays_summary"]=summary
 
             summary=dict()
-            totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
+            # totalOrders = Order.objects.filter(date__gte=startOfTheWeek).count()
+            totalOrders = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').count()
+
             summary["order_count"]=totalOrders
-            revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("total"))
-            summary["total_revenue"]=revenue["total__sum"]
+            revenue = Order.objects.filter(date__gte=startOfTheWeek,payment_status='Completed').aggregate(Sum("final_amount"))
+            summary["total_revenue"]=revenue["final_amount__sum"]
             data["this_weeks_summary"]=summary
 
             summary=dict()
-            totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
+            # totalOrders = Order.objects.filter(date__gte=startOfTheMonth).count()
+            totalOrders = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').count()
+
             summary["order_count"]=totalOrders
-            revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("total"))
-            summary["total_revenue"]=revenue["total__sum"]
+            revenue = Order.objects.filter(date__gte=startOfTheMonth,payment_status='Completed').aggregate(Sum("final_amount"))
+            summary["total_revenue"]=revenue["final_amount__sum"]
             data["this_months_summary"]=summary
 
             summary=dict()
-            totalOrders = Order.objects.filter(date__year=thisYear).count()
+            # totalOrders = Order.objects.filter(date__year=thisYear).count()
+            totalOrders = Order.objects.filter(date__year=thisYear,payment_status='Completed').count()
+
             summary["order_count"]=totalOrders
-            revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("total"))
-            summary["total_revenue"]=revenue["total__sum"]
+            revenue = Order.objects.filter(date__year=thisYear,payment_status='Completed').aggregate(Sum("final_amount"))
+            summary["total_revenue"]=revenue["final_amount__sum"]
             data["this_years_summary"]=summary
-           
+            # End of Modification by Rohan kansari - 22/9/23 - To get same data on count and revenue price
+
             return Response({
                 "revenue_details":data,
                 "date":today,
@@ -4480,10 +4529,14 @@ class WaiterAPI(APIView):
         if request.data["id"]:
             waiterObj=Waiter.objects.get(id=request.data["id"])
             # if check_password(request.data["password"],waiterObj.password) == False:
-            request.data["password"]=make_password(request.data["password"])
+            # Modified by Rohan kansari - 22/9/23 - To update password if password is sended
+            if(len(request.data["password"])>0):
+               request.data["password"]=encrypt(request.data["password"])
+            else:
+               request.data["password"]=waiterObj.password
             waiterSerialize=WaiterSerializer(waiterObj,data=request.data,partial=True)
         else:
-            request.data["password"]=make_password(request.data["password"])
+            request.data["password"]=encrypt(request.data["password"])
             waiterSerialize= WaiterSerializer(data=request.data)
             
        
@@ -4634,10 +4687,10 @@ class WaiterAuthenticateAPI(APIView):
           waiterObj=Waiter.objects.get(contact_number=request.data["contact_number"])
         except:
             return Response({"error":"Please enter valid contact number"})
-        
-        from django.contrib.auth.hashers import check_password
-
-        if(check_password(request.data["password"],waiterObj.password)):
+        #Modified by Rohan kansari - 22/9/23 - To check password through dcryption
+        # from django.contrib.auth.hashers import check_password
+        print(request.data["password"], decrypt(waiterObj.password))
+        if(request.data["password"] == decrypt(waiterObj.password)):
           from admin_app.authentication import create_access_token,create_refresh_token
           access_token = create_access_token(waiterObj.id)
           refresh_token = create_refresh_token(waiterObj.id)

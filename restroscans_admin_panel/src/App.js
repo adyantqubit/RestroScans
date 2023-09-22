@@ -71,7 +71,9 @@ function App() {
   // End of addition by Om Shrivastava on 04-06-23
 
   tokenRecheck = ()=>{
-    if (localStorage.getItem('token')){
+  	//Modfied by Rohan kansari - 22/9/23 - To check tenat info also in localstorage
+    //if (localStorage.getItem('token')){
+    if (localStorage.getItem('token')&&localStorage.getItem('tenantInfo')){
       setTokenExist(true)
       // console.log('token exist')
     }

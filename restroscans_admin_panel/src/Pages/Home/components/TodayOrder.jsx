@@ -255,7 +255,7 @@ const TodayOrder = (props) => {
             // End of addition by Om Shrivastava on 02-06-23
             BackendCall()
         //    Added by ROhan kansari -Given dependency in useEffect to recall backend whenver needed
-    }, [props.recall])
+    }, [props.recall,IsModalOpen])
 
 
     // this function is used to get all today's updated order from backend

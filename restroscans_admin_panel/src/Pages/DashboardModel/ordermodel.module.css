@@ -392,7 +392,7 @@
     width: 38%;
     max-width: 190px;
     min-width: 150px;
-    padding-left: 10px;
+    padding-left: 5px;
     display: flex;
     align-items: center;
 }
@@ -443,7 +443,7 @@
 }
 
 .price {
-    margin-left: 30px;
+    margin-left: 25px;
     width: 50%;
     max-width: min-content;
     /* min-width: 80px; */
@@ -860,6 +860,7 @@
     .quantityNPriceFlex {
         max-width: unset;
         min-width: 140px;
+        padding-left: 0px;
     }
 
     .checkboxContainer {
@@ -891,6 +892,10 @@
     .rewardbox {
         font-size: 12px;
         min-width: 155px;
+    }
+
+    .price{
+        margin-left: 20px;
     }
 }
 
@@ -925,6 +930,10 @@
     .OrderstatusBtnContainer {
         justify-content: center;
         row-gap: 14px;
+    }
+
+    .price{
+        margin-left: 15px;
     }
 
     .ItemInformation {
@@ -991,6 +1000,7 @@
         min-width: 45px;
         height: 18px;
         font-size: 12px;
+        max-width: 56px;
     }
 
     .decrease {
@@ -1011,6 +1021,7 @@
     
     .checkboxContainer {
         width: 100%;
+        min-width: 160px;
         max-width: 180px;
     }
 

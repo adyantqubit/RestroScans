@@ -186,7 +186,8 @@ const OrderModel = ({
     // }
     async function updateOrderItemStatus(items) {
         // Uses - Check whether old data is not equal to current changed data
-        if (JSON.stringify(orderItem) == unUpdatedOrderItemObj) {
+        // Modified by Rohan kansari - 22/9/23 - To check sended item not order item
+        if (JSON.stringify(items) == unUpdatedOrderItemObj) {
             Message("No Changes Detected", "error");
         } else {
             var kotItems = items.filter((o) => {
@@ -574,7 +575,7 @@ const OrderModel = ({
             setErrorText({ ...errorText });
         } else if (e.target.value > customer_earn) {
             errorText["loyality_point"] =
-                "Loyality point should not be less then earn point";
+                "Loyalty point should not be greater than earn point";
             setErrorText({ ...errorText });
         } else if (loyality_price >= orderObj.sub_total + 1) {
             errorText["loyality_point"] =
@@ -590,7 +591,8 @@ const OrderModel = ({
             open={isOpen}
             footer={null}
             className={style.modalContainer}
-            closeIcon={<AiOutlineClose onClick={(e) => setModelVisiblity(false)} />}>
+            closeIcon={<AiOutlineClose onClick={(e) => setModelVisiblity(false)} />}
+            onCancel={e => setModelVisiblity(false)}>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -896,8 +898,8 @@ const OrderModel = ({
                                 Reason: To Add Select DropDown Functionality in Payment Mode */}
                         </div>
                     </div>
-                     
-                    {/* Added by - Rohan kansari -To show waiter detail - 21/9/23 */} 
+
+                    {/* Added by - Rohan kansari -To show waiter detail - 21/9/23 */}
                     <div className={style.informationContainer}>
                         <div className={style.information}>
                             <div className={style.WhiteLabel}>Waiter Number :</div>
@@ -1353,6 +1355,8 @@ const OrderModel = ({
                                     }>
                                     <span>Pending</span>
                                 </button>
+                                {/* Modified by Rohan kansari - 22/9/23 
+                                    Reason - To send all order item woth updated status*/}
                                 <button
                                     class="button"
                                     id="copy"
@@ -1363,9 +1367,14 @@ const OrderModel = ({
                                     }
                                     onClick={(e) =>
                                         updateOrderItemStatus(
-                                            tickedItems.map((t, i) => {
-                                                t.item_status = "Confirm";
-                                                return t;
+                                            orderItem.map(o => {
+                                                var item = tickedItems.filter(e => e.id == o.id)
+                                                if (item.length > 0) {
+                                                    item[0].item_status = "Confirm";
+                                                    return item[0];
+                                                }
+                                                else
+                                                    return o;
                                             })
                                         )
                                     }>
@@ -1381,14 +1390,22 @@ const OrderModel = ({
                                     }
                                     onClick={(e) =>
                                         updateOrderItemStatus(
-                                            tickedItems.map((t, i) => {
-                                                t.item_status = "Cancelled";
-                                                return t;
+                                            orderItem.map(o => {
+                                                var item = tickedItems.filter(e => e.id == o.id)
+                                                if (item.length > 0) {
+                                                    item[0].item_status = "Cancelled";
+                                                    return item[0];
+                                                }
+                                                else
+                                                    return o;
                                             })
                                         )
                                     }>
                                     <span>Cancel</span>
                                 </button>
+                                {/* End of Modification by Rohan kansari - 22/9/23 
+                                    Reason - To send all order item woth updated status*/}
+                                
                             </div>
                         </div>
                     </div>
@@ -1625,11 +1642,9 @@ const OrderModel = ({
                                 <div className={style.priceInformation}>
                                     <label className={style.InputLabel}>
                                         SGST (
-                                        {isNaN(orderObject.cgst / (orderObject.total / 100))
+                                        {isNaN(orderObject.sgst / (orderObject.total / 100))
                                             ? 0
-                                            : (orderObject.cgst / (orderObject.total / 100))?.toFixed(
-                                                2
-                                            )}
+                                            : (orderObject.sgst / (orderObject.total / 100))?.toFixed(2)}
                                         %) :-{" "}
                                     </label>
                                     <label className={style.InputLabel}>
