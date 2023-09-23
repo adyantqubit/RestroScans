@@ -79,6 +79,7 @@ const ReservationList = () => {
     };
     const response = await getReservationListApi(tenant, filteringCriteria);
     setReservationList(response?.reservation);
+    console.log(reservationList.date)
     // Added by - pratap Sahu on 06-09-2023 Reason - To recalculate page numbers
     setBackendReservationCount(response.reservationListCount);
     // End of code addition by - pratap Sahu on 06-09-2023 Reason - To recalculate page numbers
@@ -478,14 +479,17 @@ const ReservationList = () => {
                           : "-"}
                       </div>
                       <div className={`${style.dateCol} ${style.commonColumnData}`}>
-                        {reservationList.date}
+                        {reservationList.date.split("-").reverse().join('-')}
                       </div>
                       <div className={`${style.resStatus} ${style.commonColumnData}`}>
                         {reservationList.reservation_status}
                       </div>
 
                       <div
-                        className={`${style.commonColumnData}`}
+                   // Modified by pratap sahu on 23-09-2023 To give styling on action column
+                        // className={`${style.commonColumnData}`}
+                        className={`{style.action} ${style.commonColumnData}`}
+                   // End of Modification by pratap sahu on 23-09-2023 To give styling on action column
                         style={{ display: "flex", justifyContent: "center" }}>
                         <div
                           className={` ${style.primaryButton}`}

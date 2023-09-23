@@ -121,7 +121,7 @@ const CustomerReport = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [showSortingIcon, setShowSortingIcon] = useState(false);
   const [columnToSort, setColumnToSort] = useState("last_customer_name");
-  const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
+  const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
   // End of Added code by :- Pratap sahu on 23-08-2023
   // Reason :-  used for shorting
 

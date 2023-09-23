@@ -124,26 +124,30 @@ const ReservationForm = () => {
     // added by Pratap sahu on 08-09-2023
     // Reason - to show validation message after clicking the clear and save
     if (
-      name == null ||
-      name == ""&& 
-      email == null ||
-      email == "" &&
-      contactNumber == null ||
-      contactNumber == "" &&
-      numberOfPerson == null ||
-      numberOfPerson == ""&&
-      date == null ||
-      date == "" &&
-      time == null ||
-      time == ""&& 
-      tableNumber == null ||
-      tableNumber == ""
+      (name == null ||
+      name == "")&& 
+      (email == null ||
+      email == "" )&&
+      (contactNumber == null ||
+      contactNumber == "" )&&
+      (numberOfPerson == null ||
+      numberOfPerson == "")&&
+      // Commented by pratap sahu on 23-09-20223
+      // Reason:To validate when all fields are empty
+      // date == null ||
+      // date == "" &&
+      // time == null ||
+      // time == ""&&
+      //End of Commented by pratap sahu on 23-09-20223
+      // Reason:To validate when all fields are empty
+      (tableNumber == null ||
+      tableNumber == "")
     ) {
       const error = {
         name: "Please Enter Name",
         email: "Please Enter Email",
         contact_number: "Please Enter Contact Number",
-        numberOfPerson: "Please Enter Number Of Person",
+        numberOfPerson: "Please Enter Number of Person",
         table_number: "Please Enter Table Number",
       // Commented by Pratap sahu on 19-09-2023
       // Reason - No need,bydefault selected as 'Pending'
@@ -156,56 +160,55 @@ const ReservationForm = () => {
      else {
       // Added by Pratap sahu on 08-09-2023
       // Reason - to show validation message after clicking the clear and save
-      // Modified by pratap sahu on 18-09-2023 To fix bug on validation during submit
-      if (name == null || name == "") {
+        if (name == null || name == "") {
         const error = {
-          name: "Please Enter Customer name",
+          name: "Please Enter Customer Name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      // else if (email == null || email == "") {
-        else if (email == null || email == "") {
+      if (email == null || email == "") {
           const error = {
           email: "Please Enter email",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      // else if (contactNumber == null || contactNumber == "") {
-        else if (contactNumber == null || contactNumber == "") {
+      if (contactNumber == null || contactNumber == "") {
           const error = {
           contact_number: "Please Enter contact Number",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      // else if (numberOfPerson == null || numberOfPerson == "") {
-        else if (numberOfPerson == null || numberOfPerson == "") {
+      if (numberOfPerson == null || numberOfPerson == "") {
           const error = {
           numberOfPerson: "Please Enter Number Of Person",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      // else if (tableNumber == null || tableNumber == "") {
-        else if (tableNumber == null || tableNumber == "") {
+      if (tableNumber == null || tableNumber == "") {
           const error = {
           table_number: "Please Enter Table Number",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-      // Modified by pratap sahu on 18-09-2023 To fix bug on validation during submit
       // End showing validation message by Pratap sahu on 08-09-2023
     }
-    if (
-      name == undefined ||
-      email == undefined ||
-      contactNumber == undefined ||
-      numberOfPerson == undefined ||
-      tableNumber == undefined ||
-      date == null ||
-      time == null ||
-      reservationStatus == null
-    ) {
-      allowDataPost = false;
-    } else {
+    //Commented by pratap sahu on 23-09-2023
+    // Reason:no use
+    // if (
+    //   name == undefined ||
+    //   email == undefined ||
+    //   contactNumber == undefined ||
+    //   numberOfPerson == undefined ||
+    //   tableNumber == undefined ||
+    //   date == null ||
+    //   time == null ||
+    //   reservationStatus == null
+    // ) {
+    //   allowDataPost = false;
+    // } else 
+    //Commented by pratap sahu on 23-09-2023
+    // Reason:no use
+    {
       // To create new reservation
       if (id == null || id == undefined) {
         if (
@@ -456,7 +459,7 @@ const ReservationForm = () => {
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          numberOfPerson: "Please Enter number of Person",
+          numberOfPerson: "Please Enter Number of Person",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -497,7 +500,7 @@ const ReservationForm = () => {
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
-  }; 
+}; 
   /**
   * End of Addition by -Pratap sahu on 08-09-2023
   * Reason -  method to validate inputs when input is focused out
@@ -546,7 +549,7 @@ const ReservationForm = () => {
       numberOfPerson:"",
       table_number: "",
     };
-    setValidationErrors({ ...validationErrors, ...error });
+    setValidationErrors({...validationErrors, ...error });
     /**
      * End of Addition by Pratap Sahu on 10-09-2023
      * Reason - to clear the validation message
@@ -790,11 +793,14 @@ const ReservationForm = () => {
                   // touchUi={false}
                   // inputComponent="input"
                   onChange={(value) => {
-                    setReservationStatusSelected(value.toString());
-                    validateOnInput(
-                      "reservationStatus",
-                      value.toString()
-                    );
+                    setReservationStatusSelected(value);
+                    // Commented by pratap sahu on 23-09-2023 To check delay Bug on form submission
+                    // validateOnInput(
+                    //   "reservationStatus",
+                    //   value.toString()
+                    // );
+                    //End of Comment by pratap sahu on 23-09-2023 To check delay Bug on form submission
+
                   }}
                   >
                   {reservationStatus.map((data) => {
