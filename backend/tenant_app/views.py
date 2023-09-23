@@ -3014,15 +3014,56 @@ class OrderItemFilterAPIView(APIView):
 
         # order_items_half = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm',serving_size='Half').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
         # order_items_full = OrderItem.objects.filter(date__year=thisYear,item_status='Confirm',serving_size='Full').values('item').order_by('item').annotate(count=Sum('quantity')).annotate(sum=Sum('price'))
+		
+		# Added by - Ashlekh on 16-09-2023
+        # Reason - To add pagination, filter date
+        paginationDetails=request.data['paginationDetails']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+        quickSelect = request.data['quickSelect']
 
-        duplicate_orderHalf = OrderItem.objects.filter(serving_size='Half').values('item', 'serving_size').annotate(
+        # Added by - Ashlekh on 21-09-2023
+        # Reason - For Handling UnboundLocalError: local variable 'duplicate_orderHalf' referenced before assignment
+        duplicate_orderHalf = OrderItem.objects.none()
+        duplicate_orderFull = OrderItem.objects.none()
+        # End of code addition by - Ashlekh on 21-09-2023
+        # Reason - For Handling UnboundLocalError: local variable 'duplicate_orderHalf' referenced before assignment
+
+        # End of code addition by - Ashlekh on 16-09-2023
+        # Reason - To add pagination, filter date
+        # Last modified on 19-09-2023
+        
+        # Added by - Ashlekh on 19-09-2023
+        # Reason - Filteration of orderItem by date, week, month, year
+        if quickSelect['today'] == True :
+            todayDate = datetime.today().date()
+            duplicate_orderHalf = OrderItem.objects.filter(date__gte=todayDate)
+            duplicate_orderFull = OrderItem.objects.filter(date__gte=todayDate)
+        elif quickSelect['week'] == True :
+            one_week_ago = datetime.today() - timedelta(days=7)
+            duplicate_orderHalf = OrderItem.objects.filter(date__gte=one_week_ago)
+            duplicate_orderFull = OrderItem.objects.filter(date__gte=one_week_ago)
+        elif quickSelect['month'] == True :
+            duplicate_orderHalf = OrderItem.objects.filter(date__month=datetime.now().month)
+            duplicate_orderFull = OrderItem.objects.filter(date__month=datetime.now().month) 
+        elif quickSelect['year'] == True :
+            duplicate_orderHalf = OrderItem.objects.filter(date__year=datetime.now().year)
+            duplicate_orderFull = OrderItem.objects.filter(date__year=datetime.now().year)
+
+        if request.data['startDate'] :
+            duplicate_orderHalf = OrderItem.objects.filter(date__gte=request.data['startDate'],date__lt=request.data['endDate'])
+            duplicate_orderFull = OrderItem.objects.filter(date__gte=request.data['startDate'],date__lt=request.data['endDate'])
+        # End of code addition by - Ashlekh on 19-09-2023
+        # Reason - Filteration of orderItem by date, week, month, year
+
+        duplicate_orderHalf = duplicate_orderHalf.filter(serving_size='Half').values('item', 'serving_size').annotate(
             item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
             cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
             sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
             average_rating=Avg('rating')
         )
 
-        duplicate_orderFull = OrderItem.objects.filter(serving_size='Full').values('item', 'serving_size').annotate(
+        duplicate_orderFull = duplicate_orderFull.filter(serving_size='Full').values('item', 'serving_size').annotate(
             item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
             cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
             sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
@@ -3030,31 +3071,60 @@ class OrderItemFilterAPIView(APIView):
         )
 
         duplicate_orders = duplicate_orderHalf | duplicate_orderFull
-
-        if request.data['itemSort']:
+        # Code modification by - Ashlekh on 16-09-2023
+        # Reason - For sortings in all columns
+      
+        if request.data['itemSort']==True:
             duplicate_orders = duplicate_orders.order_by("item")
-
-        if request.data['orderSort']:
+        elif request.data['itemSort']==False:
+             duplicate_orders = duplicate_orders.order_by("-item")   
+        elif request.data['orderSort']==True:
+            duplicate_orders = duplicate_orders.order_by("item_count")
+        elif request.data['orderSort']==False:
             duplicate_orders = duplicate_orders.order_by("-item_count")
-
-        if request.data['ratingSort']:
+        elif request.data['ratingSort']==True:
+            duplicate_orders = duplicate_orders.order_by("average_rating")
+        elif request.data['ratingSort']==False:
             duplicate_orders = duplicate_orders.order_by("-average_rating")
-
-        if request.data['cancellationSort']:
+        elif request.data['cancellationSort']==True:
+            duplicate_orders = duplicate_orders.order_by("cancellation_count")
+        elif request.data['cancellationSort']==False:
             duplicate_orders = duplicate_orders.order_by("-cancellation_count")
+        elif request.data['totalAmountSort']==True:
+            duplicate_orders = duplicate_orders.order_by("sum_price")
+        elif request.data['totalAmountSort']==False:
+            duplicate_orders = duplicate_orders.order_by("-sum_price")
+        
+        # End of code modification by - Ashlekh on 18-09-2023
+        # Reason - For sorting in all
 
-        if len(request.data['search']) > 0:
+        # Code modification by - Ashlekh on 18-09-2023
+        # Reason - For searching item
+        if len(request.data['searchText']) > 0:
             duplicate_orders = duplicate_orders.filter(
-                Q(item__icontains=request.data['search']))
+                Q(item__icontains=request.data['searchText']))
             print(duplicate_orders)
+        # End of code modification by - Ashlekh on 18-09-2023
+        # Reason - For searching
 
         # if(len(request.data['search'])>0):
         #    duplicate_orders=duplicate_orders.annotate(similarity=TrigramSimilarity("item", request.data['search']),).filter(similarity__gt=0.3).order_by("-similarity")
         #    print(duplicate_orders)
-
-        return Response({"item": duplicate_orders})
+        
+        
+        # Added by - Ashlekh on 16-09-2023
+        # Reason - For pagination
+        orderItemCount = duplicate_orders.count()
+        paginator = Paginator(duplicate_orders, listPerPage)
+        orderItemList = paginator.page(currentPage)
+        # print(list(orderItemList),type(duplicate_orders))
+        # Code modification by - Ashlekh on 20-09-2023
+        return Response({
+            "item": list(orderItemList),
+            "orderItemCount":orderItemCount,
+        })
+        # End of code modification by - Ashlekh on 20-09-2023
 # End of added code by :- Rohan Kansari on 28-05-2023
-
 
 # Added by Ashish Dewangan on 05-06-2023
 # Reason - API for CRUD operation on customer
