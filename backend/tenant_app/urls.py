@@ -442,6 +442,22 @@ urlpatterns = [
     # End of code addition by - Om Shrivastava on 05-08-23
     # Reason : To get list of banner/offer details
 
+    # Added by Om Shrivastava on 17-09-23
+    # Reason : To get count of banner/offer details.
+    path('<str:tenant>/offer-item-count/',OfferBannerItemAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 17-09-23
+    # Reason : To get count of banner/offer details.
+
+    # Added by Om Shrivastava on 17-09-23
+    # Reason : To get list of banner/offer details
+    path('<str:tenant>/offer-item-list/',OfferBannerItemAPI.as_view()),
+    # End of code addition by - Om Shrivastava on 17-09-23
+    # Reason : To get list of banner/offer details
+
+    path('<str:tenant>/offer-item-details/<int:offerItemId>',BannerItemAPIView.as_view()),
+
+    path('<str:tenant>/offer-item-save/',BannerItemAPIView.as_view()),
+
     # Added by Om Shrivastava on 06-08-23
     # Reason : To save and update of banner/offer details
     path('<str:tenant>/offer-banner-details/<int:offerId>',BannerOfferAPIView.as_view()),

@@ -75,7 +75,7 @@ export const postRestaurantDetail = async (value) => {
     return response ? response.data : {};
   };
 
-  export const updateItemStatus = async (tenant, status, orderID) => {
+  export const updateItemStatus = async (tenant, status, orderID) => { 
     const response = await API.put(`/api/v1/${tenant}/order-item-status/${orderID}/`, status, {
       headers: {
         "Content-Type": "application/json",
@@ -1025,7 +1025,71 @@ export const waiterAuthentication = async (tenant,value) => {
 // Reason - To authenticate waiter 
 
 
-// Added by Rohan Kansari - 15/9/23 
+/**
+ * Added by - Om Shrivastava on 18-09-2023
+ * Reason - To get offer/banner item count for restaurant
+ */
+export const getOfferBannerItemCount = async (tenantId) => {
+  const response = await API.get(`api/v1/${tenantId}/offer-item-count/`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/** 
+ * Ent of code adition by - Om Shrivastava on 18-09-2023
+ * Reason - To get offer/banner item count for restaurant
+ */
+ 
+/**
+ * Added by - Om Shrivastava on 18-09-2023
+ * Reason - To get offer/banner item list
+ */
+export const getOfferBannerItemList = async (tenant,filteringCriteria) => {
+  const response = await API.post(`api/v1/${tenant}/offer-item-list/`, filteringCriteria,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+/**
+ * End of code addition by Om Shrivastava on 18-09-2023.
+ * Reason - To get offer/banner item list
+ */ 
+
+/**
+ * Added by - Om Shrivastava on 06-08-23
+ * Reason - To save the offer data
+ */
+export const getofferitemDetails = async (tenantId,offerItemId) => {
+  const response = await API.get(`/api/v1/${tenantId}/offer-item-details/${offerItemId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response)
+  return response ? response.data : {};
+};
+
+export const postOfferitemBannerDetails = async (tenant,values) => {
+  const response = await API.post(`/api/v1/${tenant}/offer-item-save/`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }).catch((err) => console.log(err));
+  console.log(response)
+
+  return response ? response.data : {};
+};
+
+/**
+ * End of code addition by - Om Shrivastava on 06-08-23.
+ * Reason - To update item details
+ */
+ 
+ // Added by Rohan Kansari - 15/9/23 
 // Reason - To get waiter dashboard data
 export const waiterDashboardData = async (tenant,waiterId) => {
   const response = await API.get(`/api/v1/${tenant}/${waiterId}/waiter-dashboard-data/`, {
@@ -1037,3 +1101,5 @@ export const waiterDashboardData = async (tenant,waiterId) => {
  }
 // End of code - Rohan kansari - 11/9/23 
 // Reason - To get waiter dashboard data
+
+ 

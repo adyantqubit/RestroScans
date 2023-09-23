@@ -408,8 +408,12 @@ const [showOffer, setShowOffer] = useState(true);
       updatedOfferData.append("discount", discount);
       // Modification and addition by Om Shrivastava on 18-09-23
       // Reason : When offer image is not present then apply the condition
-      // if (offerImage != null || offerImage != undefined) {
-      if (offerImage != "" ) {
+      // Modification and addition by Om Shrivastava on 20-09-23
+      // Reason : When we hit the clear button then show the error then I need to fix this issue
+      if (offerImage != "" && offerImage != undefined) {
+      // if (offerImage != "" ) {
+      // End of modification and addition by Om Shrivastava on 20-09-23
+      // Reason : When we hit the clear button then show the error then I need to fix this issue
       // End of Modification and addition by Om Shrivastava on 18-09-23
       // Reason : When offer image is not present then apply the condition
         updatedOfferData.append("offer_image", offerImage);
@@ -485,12 +489,15 @@ const [showOffer, setShowOffer] = useState(true);
 
     setOfferName(offerDetails.offer_name ? offerDetails.offer_name : "")
     setDiscount(offerDetails.discount ? offerDetails.discount : "")
-    setIcon(offerDetails.offer_image? offerDetails.offer_image : "");
+    // setIcon(offerDetails.offer_image? offerDetails.offer_image : "");
+    setIcon(offerDetails.offer_image? offerDetails.offer_image : null);
+
     setvideoLink(offerDetails.video_link? offerDetails.video_link : "")
     setShowVideo(offerDetails.show_video_Hide_Image == false || offerDetails.show_video_Hide_Image == true ? offerDetails.show_video_Hide_Image : false);
     // Added by Om Shrivastava for reset the is active checkbox
     setShowOffer(offerDetails.is_active == true || offerDetails.is_active == false ? offerDetails.is_active : true);
     // End of addition by Om Shrivastava for reset the is active checkbox 
+    
     setSelectedOfferImage(null);
     setOfferImage(null);
 
@@ -730,7 +737,7 @@ const [showOffer, setShowOffer] = useState(true);
                         className={`${style.inputLabel} ${style.inputLabel2}`}
                         // style={{ width: '155px' }}
                       >
-                        <span className={style.optionalField}>*</span>Is Available
+                        <span className={style.optionalField}>*</span>Active
                       </div>
                       <input
                         className={`${style.textInputBox}`}

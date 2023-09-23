@@ -4753,3 +4753,152 @@ class WaiterDashboardAPI(APIView):
             "tenant": tenant_detail,
         })
        
+
+# Added by Om Shrivastava  on 17-09-23
+# Reason - API for CRUD operation on offer details
+class OfferBannerItemAPI(APIView):
+    
+    # Added by Om Shrivastava  on 17-09-23
+    # Reason - To get count of offer/banner 
+    def get(self,request,tenant):
+         offerBannerCount=OfferItem.objects.all().count() 
+         allOfferBanner = OfferItem.objects.all().order_by('-id')
+         offerItemSerializer=OfferItemsSerializer(allOfferBanner, many=True)
+
+        #  offerItemList=OfferItem.objects.filter(item_name__is_active=True, item_name__category__is_active=True,item_name__category__menu__is_active=True)
+        #  offeritemsSerializer=OfferItemsSerializer(offerItemList,many=True)
+        
+         return Response({
+            "msg":"success",
+            "offerItemCount":offerBannerCount,
+             #  Added by Om Shrivastava on 26-07-23
+             #  Reason : get the rating and review for restaurant
+            "allOfferItemBanner":offerItemSerializer.data
+             #  End of addition by Om Shrivastava on 26-07-23
+             #  Reason : get the rating and review for restaurant
+        })
+    # End of code addition by - Om Shrivastava  on 17-09-23
+    # Reason - To get count of rating for restaurant
+    
+    # Added by - Om Shrivastava  on 17-09-23
+    # Reason - To get list of rating for restaurant using backend pagination.
+    def post(self,request,tenant):
+        paginationDetails=request.data['paginationDetails']
+        columnToSort=request.data['columnToSort']
+        columnSortingOrder=request.data['columnSortingOrder']
+        currentPage=paginationDetails['currentPage']
+        listPerPage=paginationDetails['listPerPage']
+
+        # Commented and modified by - Om Shrivastava  on 17-09-23
+        # Reason - To enhance and add basic search functionality
+        searchText=request.data['searchText']
+
+        offerBannerList=[]
+
+        if columnToSort == "":
+            #  Added by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+            # offerBannerList = RatingReview.objects.all()
+            offerBannerList = OfferItem.objects.all().order_by('-id')
+            # End of addition by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+
+        if searchText:
+            offerBannerList=OfferItem.objects.filter(Q(offer_name__offer_name__icontains=searchText) | 
+                                                       Q(item_name__name__icontains=searchText))
+        else:
+            #  Added by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant
+            # offerBannerList = RatingReview.objects.all()
+            offerBannerList = OfferItem.objects.all().order_by('-id')
+            # End of addition by Om Shrivastava on 26-07-23
+            #  Reason : get the rating and review for restaurant   
+
+        if columnToSort == "offer_name" and columnSortingOrder=="ascending":
+            offerBannerList = offerBannerList.order_by('offer_name__offer_name')
+        if columnToSort == "offer_name" and columnSortingOrder=="descending":
+            offerBannerList = offerBannerList.order_by('-offer_name__offer_name')
+
+        if columnToSort == "item_name" and columnSortingOrder=="ascending":
+            offerBannerList = offerBannerList.order_by('item_name__name')
+        if columnToSort == "item_name" and columnSortingOrder=="descending":
+            offerBannerList = offerBannerList.order_by('-item_name__name')
+
+        offerBannerListCount=offerBannerList.count()
+
+        # from django.core.paginator import Paginator
+
+        paginator = Paginator(offerBannerList, listPerPage)
+        filteredofferBannerList = paginator.page(currentPage)
+
+        offerBannerSerializer = OfferItemsSerializer(filteredofferBannerList, many =True)
+        return Response({
+            "msg":"success",
+            "offerBannerItemList":offerBannerSerializer.data,
+            "offerBannerItemListCount":offerBannerListCount,
+            
+        })
+        # End of code modification by - Om Shrivastava  on 17-09-23
+        # Reason - To enhance and add basic search functionality
+
+    # End of code addition by - Om Shrivastava  on 17-09-23
+    # Reason - To get list of rating for restaurant using backend pagination
+    
+# End of code addition by - Om Shrivastava  on 17-09-23
+# Reason - API to get list of rating for restaurant 
+
+class BannerItemAPIView(APIView):
+
+    logger=logging.getLogger("custom_logger")
+    def get(self,request,tenant,offerItemId):
+        self.logger.info(request.data)
+        offerBannerCount=OfferItem.objects.all().count() 
+
+        if offerItemId:
+            offer=OfferItem.objects.get(id=offerItemId)
+        else:
+            offer= None
+
+        if offer:
+            offerSerializer=OfferItemsSerializer(offer)
+            offerData=offerSerializer.data
+        else:
+            offerData={}  
+       
+        return Response({"msg":"success","offerItem":offerData,
+                              "offerItemBannerCount":offerBannerCount,
+                         })
+   
+    def post(self,request,tenant):
+        
+        if "id" in request.data :
+            obj = OfferItem.objects.get(id=request.data["id"]) 
+            offerBannerSave = OfferallItemsSerializer(obj, data=request.data,partial=True)
+        else :
+            offerBannerSave = OfferallItemsSerializer(data=request.data)
+        if offerBannerSave.is_valid():
+            offerBannerSave.save()
+           
+            offerBannerCount=OfferItem.objects.all().count() 
+           
+        
+            return Response({"msg": "Saved Successfully","data":offerBannerSave.data,
+                             
+                              "offerItemBannerCount":offerBannerCount
+                            
+
+                              }, status=status.HTTP_201_CREATED)
+        return Response({"error": offerBannerSave.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+# def post(self,request,tenant):
+#         print(request.data)
+#         serializedData = OfferallItemsSerializer(data=request.data)
+     
+#         if serializedData.is_valid():
+#             serializedData.save()
+#             return Response({"msg": "Banner/Offer Item Added Successfully"}, status=status.HTTP_201_CREATED)
+        
+#         return Response({"error":"Banner/Offer with this item name already exists"}, status=status.HTTP_200_OK)
+        
+# End of addition by Om Shrivastava on 06-08-23
+# Reason - to save, delete and edit the offer/banner details
