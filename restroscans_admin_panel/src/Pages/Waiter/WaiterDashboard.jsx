@@ -82,9 +82,9 @@ const WaiterDashboard = () => {
           <button className={style.createBtn} 
             onClick={e => {
               setOrderPopupvisible(true)
-            }}>create order +</button>
+            }}>Create Order +</button>
         </div>
-
+   
 
         <div className={style.orderContainer}>
           <div className={style.orderContainerHeading}>Newly Placed Orders</div>
