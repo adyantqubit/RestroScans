@@ -500,9 +500,26 @@
 
         a.document.write(html)
         
-        if (orderItems.length > 0)
+        // if (orderItems.length > 0)
+        //     a.print();
+        // a.close();    
+
+
+        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i)) {
+          a.document.addEventListener('load', function () {
+            a.focus();
+            a.document.close();
             a.print();
-        a.close();    
+          }, true);
+    
+        } else {
+          a.document.addEventListener('load', function () {
+            a.focus();
+            a.document.close();
+            a.print();
+            a.close();
+          }, true);
+        }
       
       };
 

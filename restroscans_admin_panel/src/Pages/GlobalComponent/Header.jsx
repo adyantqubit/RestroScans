@@ -125,6 +125,8 @@ const Header = (props) => {
         {/* 2nd menu part  */}
         <div className={menuOpen ? style.mobile_menu_link : style.menu_link}>
           <ul>
+            {localStorage.getItem("waiterData")?
+           null: <>
             <li className={style.links_div}>
             {/* * Modified by ROhan kansari - 3/7/23  */}
               <NavLink className={style.link} onClick={e=>{
@@ -195,6 +197,8 @@ const Header = (props) => {
                 Support
               </NavLink>
             </li>
+            </>}
+
             <li className={style.logout_link_div}>
               {/* <NavLink className={style.link}>Logout</NavLink> */}
               <Popconfirm

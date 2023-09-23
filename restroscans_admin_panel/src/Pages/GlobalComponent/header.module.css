@@ -302,7 +302,7 @@ li {
   }
 
   .mobile_menu_link ul {
-    height: 13rem;
+    height: auto;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -406,7 +406,7 @@ li {
     padding-top: 13vh;
   }
   .menu_link ul, .btn_div ul{
-    height: 13vh;
+    height: auto;
   }
   .btn_div{
     height: 13vh;
