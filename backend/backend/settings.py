@@ -368,3 +368,5 @@ LOGGING_CONFIG=logging.config.dictConfig({
 })
 # End of code addition by - Ashish Dewangan on 10-06-2023
 # Reason - To have logging functionality
+
+ENCRYPT_KEY = b'tmzHcYuvLUhxjcxZ4k_iqfCx-HUq6PCvdbXr4vOC5B4='
