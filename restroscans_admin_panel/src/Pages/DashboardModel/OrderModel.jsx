@@ -202,7 +202,7 @@ const OrderModel = ({
                     setOrderItem([...response.order_items]);
                     setUnupdatedOrderItemObj(JSON.stringify(response.order_items));
                     setTickedItems([]);
-                    setOrderobject(response.order);
+                    setOrderobject({ ...response.order });
                     setUnupdatedOrderObj(JSON.stringify(response.order));
                     Message("Order Item Updated Successfully", "success");
                 }
@@ -393,25 +393,20 @@ const OrderModel = ({
     }, [orderItem]);
 
     function inputIvalidationDiscountRupees(e) {
-        // var orderObj = JSON.parse(unUpdatedOrderObj)
+        var orderObj = JSON.parse(unUpdatedOrderObj)
         // console.log(orderObj)
 
         if (
-            e.target.value.length > 0 &&
-            e.target.value < orderObject.sub_total &&
+            e.target.value.length > 0 && e.target.value < orderObject.sub_total &&
             (/^\d+$/.test(e.target.value) || e.target.value.includes("."))
         ) {
-            var total_price =
-                orderObject.sub_total -
-                e.target.value -
-                orderObject.loyality_point_price;
-            var CGST =
-                ((orderObject.cgst / (orderObject.total / 100)) * total_price) / 100;
-            var SGST =
-                ((orderObject.sgst / (orderObject.total / 100)) * total_price) / 100;
+            var total_price =orderObject.sub_total -e.target.value -orderObject.loyality_point_price;
+            // var total_price =orderObj.sub_total -discount_percentage -orderObject.loyality_point_price;
+            var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
+            var SGST = ((orderObj.sgst / (orderObj.total / 100)) * total_price) / 100;
             orderObject["cgst"] = CGST;
             orderObject["sgst"] = SGST;
-
+            orderObject["total"] = total_price;
             var discount_percentage = e.target.value / (orderObject.sub_total / 100);
             orderObject["final_amount"] = total_price + SGST + CGST;
             orderObject["discount_percentage"] = discount_percentage.toFixed(2);
@@ -432,14 +427,9 @@ const OrderModel = ({
             // setDiscountRupee("")
             orderObject["discount_percentage"] = 0.0;
             orderObject["discount_rupees"] = "";
-            var total_price =
-                orderObject.sub_total -
-                discount_percentage -
-                orderObject.loyality_point_price;
-            var CGST =
-                ((orderObject.cgst / (orderObject.total / 100)) * total_price) / 100;
-            var SGST =
-                ((orderObject.sgst / (orderObject.total / 100)) * total_price) / 100;
+            var total_price = orderObj.total;
+            var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
+            var SGST = ((orderObj.sgst / (orderObj.total / 100)) * total_price) / 100;
             orderObject["cgst"] = CGST;
             orderObject["sgst"] = SGST;
             orderObject["total"] = total_price;
@@ -475,10 +465,7 @@ const OrderModel = ({
         ) {
             console.log("discount apply");
             var discount_percentage = e.target.value * (orderObject.sub_total / 100);
-            var total_price =
-                orderObj.sub_total -
-                discount_percentage -
-                orderObject.loyality_point_price;
+            var total_price =orderObj.sub_total -discount_percentage -orderObject.loyality_point_price;
             var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
             var SGST = ((orderObj.sgst / (orderObj.total / 100)) * total_price) / 100;
             orderObject["cgst"] = CGST;
@@ -900,7 +887,7 @@ const OrderModel = ({
                     </div>
 
                     {/* Added by - Rohan kansari -To show waiter detail - 21/9/23 */}
-                    <div className={style.informationContainer}>
+                    {orderObject?.waiter_name?.length > 0 ? <div className={style.informationContainer}>
                         <div className={style.information}>
                             <div className={style.WhiteLabel}>Waiter Number :</div>
                             <div className={style.data}>{orderObject.waiter_contact_number}</div>
@@ -910,7 +897,13 @@ const OrderModel = ({
                             <div className={style.WhiteLabel}>Waiter Name :</div>
                             <div className={style.data}>{orderObject.waiter_name}</div>
                         </div>
-                    </div>
+                    </div> :
+                        <div className={style.informationContainer}>
+                            <div className={style.information}>
+                                <div className={style.WhiteLabel}>Order created by :</div>
+                                <div className={style.data}>{orderObject.order_created_by}</div>
+                            </div>
+                        </div>}
                     {/* End of code - Rohan kansari -To show waiter detail - 21/9/23 */}
 
 
@@ -1405,7 +1398,7 @@ const OrderModel = ({
                                 </button>
                                 {/* End of Modification by Rohan kansari - 22/9/23 
                                     Reason - To send all order item woth updated status*/}
-                                
+
                             </div>
                         </div>
                     </div>

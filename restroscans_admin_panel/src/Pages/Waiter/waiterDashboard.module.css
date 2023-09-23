@@ -78,8 +78,8 @@
 
 .card{
     min-width: 148px;
-    min-height: 100px;
-    padding: 8px 4px;
+    min-height: 80px;
+    padding: 4px 4px;
     background-color: #BB9E37;
     border-radius: 5px;
 }
@@ -134,4 +134,41 @@
     padding: 0 8px;
     margin-top: 8px;
     border: 1px solid #fff;
+}
+
+@media screen and (max-width:500px){
+    .orderContainerHeading{
+        font-size: 16px;
+    }
+
+    .card{
+        min-width: 110px;
+        max-height: 90px;
+        padding: 4px 4px;
+        background-color: #BB9E37;
+        border-radius: 5px;
+    }
+    
+    .card2{
+        min-width: 148px;
+        min-height: 60px;
+        padding: 8px 4px;
+        background-color: #377BBB;
+        border-radius: 5px;
+    }
+    
+    .card3{
+        min-width: 148px;
+        min-height: 60px;
+        padding: 8px 4px;
+        background-color: #37bb54;
+        border-radius: 5px;
+    }
+
+    .tabelNum{
+        font-size: 16px;
+    }
+    .tableLabel{
+        font-size:12px;
+    }
 }

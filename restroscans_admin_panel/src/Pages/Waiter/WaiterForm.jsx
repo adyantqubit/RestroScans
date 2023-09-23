@@ -43,7 +43,7 @@ const WaiterForm = ({ IsModalOpen, setModelVisiblity,setSelectedWaiter, selected
         // Reason - To set blank password is reset is not peform 
         if (formData.password_key && formData.reset_password?.length)
             formData.password = formData.reset_password
-        else
+        else if(formData.id!=null)
         formData.password=""
 
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;

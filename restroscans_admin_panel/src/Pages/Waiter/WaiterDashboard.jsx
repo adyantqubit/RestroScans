@@ -27,7 +27,7 @@ const WaiterDashboard = () => {
   useEffect(() => {
     enableHeader();
     getDashboardData();
-  }, [recall,IsOrderPopupVisible])
+  }, [recall,IsOrderPopupVisible,IsModalOpen])
 
 
   async function getDashboardData() {
