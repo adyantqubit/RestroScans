@@ -117,7 +117,7 @@ const Header = (props) => {
         {/* ENd of code - Rohan kansari - 25/6/23 */}
         {/* 1st logo part  */}
         <div className={style.logo_div}>
-          <Link to="/Dashboard" className={style.logo_link}>
+          <Link to={localStorage.getItem("waiterData")?"/waiterDashboard":"/Dashboard"} className={style.logo_link}>
             <img className={style.logo} src={RestroscansLogo} />
           </Link>
         </div>
