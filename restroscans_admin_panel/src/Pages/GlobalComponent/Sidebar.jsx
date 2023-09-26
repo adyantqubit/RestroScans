@@ -457,7 +457,9 @@ const navigateToReservationList = () => {
           </li>
            {/* Addition by Om Shrivastava on 17-09-23
           Reason : Need to change the position of banner/offer items  */}
-          <li className={style.links_div} onClick={navigateToBannerItems}>
+          {/* Commented by Om Shrivastava on 26-09-23
+          Reason : No longer required */}
+          {/* <li className={style.links_div} onClick={navigateToBannerItems}>
             <NavLink
               // commented and modified by - Suman sahu on - 17/06/2023
               // reason- for design active link
@@ -475,7 +477,9 @@ const navigateToReservationList = () => {
               {" "}
               Banner/Offer Items{" "}
             </NavLink>
-          </li>
+          </li> */}
+          {/*End of commented code by Om Shrivastava on 26-09-23
+          Reason : No longer required */}
           {/* End of addition by Om Shrivastava on 17-09-23
           Reason : Need to change the position of banner/offer items */}
           {/* Added by ROhan Kansari - To open report page - 26/5/23*/}

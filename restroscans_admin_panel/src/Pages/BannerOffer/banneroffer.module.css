@@ -13,7 +13,13 @@
 }
 .ContainerDiv{
   display: flex;
-  justify-content: center;
+  /* Modification and addition by Om Shrivastava on 26-09-23
+  Reason : Set the space between the offer form and offer list */
+  /* justify-content: center; */
+  justify-content: space-around;
+  /* End of modification and addition by Om Shrivastava on 26-09-23
+  Reason : Set the space between the offer form and offer list */
+
 /* border: 2px solid black; */
   flex-direction: row;
 }
@@ -138,7 +144,11 @@ border: #1f2937;
 }
 .menuImage{
   border-radius:5px;
-  /* border:1px solid black; */
+  /* Addition by Om Shrivastava on 26-09-23
+  Reason : Set the height for the image */
+  height: 120px;
+  /* End of addition by Om Shrivastava on 26-09-23
+  Reason : Set the height for the image */
 }
 
 .inputErrorArea {
@@ -327,8 +337,14 @@ Add css for pagination and all offer list data */
 
 }
 .commonColumnTitle2{
-  min-width: 17vw;
-  width: 20vw;
+  /* Modification and addition by Om Shrivastava on 26-09-23
+  Reason : Need to decrease the gap of the video link */
+  /* min-width: 17vw;
+  width: 20vw; */
+  min-width: 12vw;
+  width: 15vw;
+  /* End of modification and addition by Om Shrivastava on 26-09-23
+  Reason : Need to decrease the gap of the video link */
   /* min-width: 27vw;
   width: 33vw; */
   /* min-width: 22vw;

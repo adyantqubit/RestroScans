@@ -394,7 +394,9 @@ const OrderItemForm = () => {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>Item Status</div>
-                <select
+                {/* Modification and addition by Om Shrivastava on 26-09-23
+                Reason : No need to perform the updation functionality for the item status */}
+                {/* <select
                   className={`${style.textInputBox}`}
                   name="item_status"
                   // Modification by Om Shrivastava on 12-07-23 Reason : Decrease the width of Item status
@@ -425,7 +427,16 @@ const OrderItemForm = () => {
                   >
                     Cancelled
                   </option>
-                </select>
+                </select> */}
+                  <input
+                  className={`${style.textInputBox} ${style.disabledInputBox}`}
+                  type="text"
+                  name="item_status"
+                  value={itemStatus}
+                  disabled
+                />
+                {/* End of modificaion and addition by Om Shrivastava on 26-09-23
+                Reason : No need to perform the updation functionality for the item status */}
               </div>
               <div className={`${style.inputErrorArea}`}>
                 {/* {validationErrors.payment_status} */}
@@ -527,8 +538,9 @@ const OrderItemForm = () => {
           >
             Back
           </div>
-
-          <div
+          {/* Commented by Om Shrivastava on 26-09-23
+          Reason : No longer required */}
+          {/* <div
             className={` ${style.proceedButton}`}
             onClick={() => {
               saveOrderItem();
@@ -536,7 +548,9 @@ const OrderItemForm = () => {
             }}
           >
             Save
-          </div>
+          </div> */}
+          {/* Commented by Om Shrivastava on 26-09-23
+          Reason : No longer required */}
         </div>
       </form>
        {/* // Addition by Om Shrivastava on 02-09-23

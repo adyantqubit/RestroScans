@@ -516,7 +516,15 @@ const BannerOffer = () => {
                     >
                       Show video
                     </div>
-
+                    {/* Addition by Om Shrivastava on 26-09-23
+                    Reason : Set the is_active field for the offer */}
+                    <div
+                      className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                    >
+                      Active
+                    </div>
+                    {/* End of addition by Om Shrivastava on 26-09-23
+                    Reason : Set the is_active field for the offer */}
                     <div
                       className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
                     >
@@ -640,7 +648,30 @@ const BannerOffer = () => {
                                 </div>
                               )}
                             </div>
-
+                            {/* Addition by Om Shrivastava on 26-09-23
+                            Reason : Set the is_active field for the offer */}
+                            <div
+                              // className={style.commonColumnData}
+                              className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                              style={{
+                                wordBreak: "break-word",
+                                // border:'1px solid green',
+                                // width:'7%',minWidth:'8%'
+                              }}
+                            >
+                              {bannerOfferDetails.is_active ==
+                              true ? (
+                                <div className={style.commonColumnData}>
+                                  <MdCheckCircle className={style.yesIcon} />
+                                </div>
+                              ) : (
+                                <div className={style.commonColumnData}>
+                                  <MdCancel className={style.noIcon} />
+                                </div>
+                              )}
+                            </div>
+                            {/* End of addition by Om Shrivastava on 26-09-23
+                            Reason : Set the is_active field for the offer */}
                             {/* {bannerOfferDetails.best_seller == true ? (
                             <div className={style.commonColumnData}>
                               <MdCheckCircle className={style.yesIcon} />

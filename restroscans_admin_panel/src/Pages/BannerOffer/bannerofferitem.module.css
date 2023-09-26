@@ -28,13 +28,15 @@
 } */
 .offerFormDiv{
 /* width: 30%; */
-width: 29%;
+/* width: 29%; */
+width: 40%;
+
 margin-top: 1%;
 /* display: none; */
 /* border: 2px solid red; */
 }
 .offerFormListDiv{
-width: 70%;
+width: 60%;
 border: #1f2937;
 }
 .offerFormListFullDiv{
@@ -106,7 +108,9 @@ border: #1f2937;
   /* align-self: flex-start; */
 }
 .inputLabel {
-  width: 250px;
+  /* width: 250px; */
+  width: 162px;
+
   font-weight: bold;
   font-size: 14px;
   
@@ -152,7 +156,9 @@ border: #1f2937;
 
 .actionContainer {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
+  width: 60%;
+
   margin-top: 10px;
   /* justify-content: center; */
   justify-content: space-evenly;
@@ -270,7 +276,8 @@ border: #1f2937;
   border-bottom: 1px solid #cad0d0;
   font-family: "MyFont";
   /* padding: 3px; */
-  padding-left: 13.5px;
+
+  /* padding-left: 13.5px; */
 
 }
 
@@ -493,14 +500,24 @@ Add css for pagination and all offer list data */
 
 /* End of code - 05-08-23 - Om shrivastava  */
 
-.SearchBar{
+/* .SearchBar{
   width: 40%;
+} */
+/* Modification and addition by Om Shrivastava on 23-09-23
+Reason :  */
+.itemContainer{
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
 }
-
+/* End of addition and modification by Om Shrivastava on 23-09-23 */
 @media screen and (max-width: 4000px) {
   .OfferListcontainer {
-    --common-column-width: 10vw;
-    --common-column-min-width: 10vw;
+    /* --common-column-width: 10vw;
+    --common-column-min-width: 10vw; */
+    --common-column-width: 8vw;
+    --common-column-min-width: 8vw;
+    
     --common-column-display: unset;
 
     /* --common-column-width: 15vw;
@@ -558,7 +575,8 @@ Add css for pagination and all offer list data */
   width: unset ;
 }
 .inputLabel{
-  width: 255px;
+  /* width: 255px; */
+  width: 170px;
 }
 
 }
