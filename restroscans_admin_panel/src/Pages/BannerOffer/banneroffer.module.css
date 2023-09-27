@@ -161,6 +161,15 @@ border: #1f2937;
   flex-direction: column;
 }
 
+.inputErrorArea2 {
+  margin-left: 150px;
+  font-size: 14px;
+  width: 200px;
+  color: red;
+  display: flex;
+  flex-direction: column;
+}
+
 .actionContainer {
   display: flex;
   width: 100%;
@@ -561,7 +570,9 @@ Add css for pagination and all offer list data */
 .inputErrorArea{
   margin-left: 250px;
 }
-
+.inputErrorArea2{
+  margin-left: 250px;
+}
 .offerFormListDiv{
   width: 90%;
 }
@@ -627,6 +638,10 @@ Add css for pagination and all offer list data */
     margin-left: 250px;
     width: 200px;
   }
+  .inputErrorArea2 {
+    margin-left: 250px;
+    width: 200px;
+  }
 }
 
 @media screen and (max-width: 950px) {
@@ -675,6 +690,10 @@ Add css for pagination and all offer list data */
     width: 200px;
   }
   .inputErrorArea {
+    margin-left: 300px;
+    width: 200px;
+  }
+  .inputErrorArea2 {
     margin-left: 300px;
     width: 200px;
   }
@@ -734,6 +753,10 @@ Add css for pagination and all offer list data */
     margin-left: 250px;
     width: 200px;
   }
+  .inputErrorArea2 {
+    margin-left: 250px;
+    width: 200px;
+  }
 }
 @media screen and (max-width: 610px) {
   .container {
@@ -757,6 +780,11 @@ Add css for pagination and all offer list data */
     width: 45%;
   }
   .inputErrorArea {
+    margin-left: 0px;
+    width: 100%;
+    margin-right: 0px;
+  }
+  .inputErrorArea2 {
     margin-left: 0px;
     width: 100%;
     margin-right: 0px;
@@ -893,6 +921,11 @@ Add css for pagination and all offer list data */
     width: 69%;
   }
   .inputErrorArea {
+    margin-left: 0px;
+    width: 90%;
+    margin-right: 0px;
+  }
+  .inputErrorArea2 {
     margin-left: 0px;
     width: 90%;
     margin-right: 0px;

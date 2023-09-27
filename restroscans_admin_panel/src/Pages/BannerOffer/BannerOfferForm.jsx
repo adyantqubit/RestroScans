@@ -636,7 +636,7 @@ const [showOffer, setShowOffer] = useState(true);
                   </div>
                   {/* Addition by Om Shrivastava on 26-09-23
                   Reason : Show the message for image size */}
-                  <div className={`${style.inputErrorArea}`} style={{color:'blue',fontSize:'12px'}}>
+                  <div className={`${style.inputErrorArea2}`} style={{color:'blue',fontSize:'12px'}}>
                     <p>*Apply only Landscape mode image.</p>
                   </div>
                   {/* End of addition by Om Shrivastava on 26-09-23
