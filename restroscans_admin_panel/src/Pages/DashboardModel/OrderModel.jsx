@@ -867,6 +867,11 @@ const OrderModel = ({
                                 // type="option"
                                 name="payment"
                                 value={orderObject?.payment_mode}
+                                // Added By pratap sahu on 25-09-2023
+                                // Reason:To disable the field when amount is paid
+                                disabled={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"? true : false}
+                                // End of Addition By pratap sahu on 25-09-2023
+                                // Reason:To disable the field when amount is paid
                                 onChange={(value) => {
                                     orderObject.payment_mode = value;
                                     setOrderobject({ ...orderObject });
@@ -1443,10 +1448,13 @@ const OrderModel = ({
                                                             <input
                                                                 id="discount_rupees"
                                                                 type="text"
-                                                                className={`${style.inputBox} ${setting?.discount_in == "Discount in (₹)"
-                                                                    ? null
-                                                                    : style.disbaleBtn
-                                                                    }`}
+                                                                // className={`${style.inputBox} ${setting?.discount_in == "Discount in (₹)"
+                                                                //     ? null
+                                                                //     : style.disbaleBtn
+                                                                //     }`}
+                                                              // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
+                                                                className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`: `${style.disbaleBtn} ${style.inputBox}`}
+                                                                // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
                                                                 value={orderObject.discount_rupees}
                                                                 onChange={(e) => {
                                                                     inputIvalidationDiscountRupees(e);
@@ -1459,10 +1467,13 @@ const OrderModel = ({
                                                             </label>
                                                             <input
                                                                 id="discount_percentage"
-                                                                className={`${style.inputBox} ${setting?.discount_in == "Discount in (%)"
-                                                                    ? null
-                                                                    : style.disbaleBtn
-                                                                    }`}
+                                                                // className={`${style.inputBox} ${setting?.discount_in == "Discount in (%)"
+                                                                //     ? null
+                                                                //     : style.disbaleBtn
+                                                                //     }`}
+                                                     // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In %
+                                                                className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`: `${style.inputBox} ${style.disbaleBtn}`}
+                                                     // End of Code by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In %
                                                                 value={orderObject.discount_percentage}
                                                                 onChange={(e) => {
                                                                     inputValidationDiscountPercentage(e);

@@ -897,7 +897,11 @@ const CustomerReport = () => {
                       </div>
                       <div
                         className={`${style.totalColumn} ${style.commonColumnData}`}>
-                        {customerReportDetails.totalAmount}
+                      {/* Modified by pratap sahu on 27-09-2023 Reason to show amount upto 2decimal */}
+                        {/* {customerReportDetails.totalAmount} */}
+                        {(customerReportDetails.totalAmount).toFixed(2)}
+                      {/*End of Code by pratap sahu on 27-09-2023 Reason to show amount upto 2decimal */}
+
                       </div>
                       <div
                         className={`${style.cancelCol} ${style.commonColumnData}`}>
@@ -931,11 +935,11 @@ const CustomerReport = () => {
             <Pagination
               defaultCurrent={1}
               current={currentPage}
-              simple
               total={backendReportCount}
               defaultPageSize={listPerPage}
               pageSize={listPerPage}
               onChange={handlePageChange}
+              simple
             />
             <div className={style.dropdown} onClick={toggleDropdown}>
               <button className={style.dropbtn}>
@@ -984,6 +988,7 @@ const CustomerReport = () => {
                     setListPerPage(20);
                     setCurrentPage(1);
                     localStorage.setItem("listPerPage", 20);
+                console.log("ccccc",currentPage)
                   }}>
                   20 / Page
                 </span>

@@ -4,8 +4,6 @@ import Header from "../GlobalComponent/Header";
 import { Message } from "../../App";
 import { Input, Button, Modal, notification, Drawer, Form, message, Rate, Popconfirm,Select } from 'antd';
 import { enableHeader } from "../../App";
-
-
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   getOrderDetailsApi,
@@ -47,7 +45,12 @@ const OrderForm = () => {
   const [paymentStatus, setPaymemntStatus] = useState("Pending");
   // End of Modification and addition by Om Shrivastava on 02-09-23
   // Reason : Set the data in onchange
-  const [paymentMode, setPaymentMode] = useState(null);
+  // Modified by pratap sahu on 26-09-2023
+  // Reason:To set default mode as cash
+  // const [paymentMode, setPaymentMode] = useState(null);
+  const [paymentMode, setPaymentMode] = useState("Cash");
+  //End of Modification by pratap sahu on 26-09-2023
+  // Reason:To set default mode as cash
 
   // Modification and addition by Om Shrivastava on 02-09-23
   // Reason : Set the data in onchange
@@ -703,10 +706,15 @@ const OrderForm = () => {
       updatedOrderData.append("cancelled_by", cancelledBy);
       updatedOrderData.append("cancel_reason", cancelReaon);
       updatedOrderData.append("discount_reason", discountReason);
-
+        // Added by pratap sahu on 26-09-2023
+        // Reason: To Update Payment Mode
+      updatedOrderData.append("payment_mode",paymentMode);
+        // End of Addition by pratap sahu on 26-09-2023
+        // Reason: To Update Payment Mode
 
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+      console.log("tttttt",paymentMode)
       if (response.msg) {
         Message("Order saved successfully.", "success");
         navigate(-1);
@@ -828,6 +836,7 @@ const OrderForm = () => {
                 {IsTableEditable ?
                   <><input
                     className={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? `${style.disabledInputBox}` : `${style.textInputBox}`}
+                    disabled={orderDetailsObj.payment_status == "Completed"? true : false}
                     type="text"
                     name="table_number"
                     value={tablenumber}
@@ -957,20 +966,20 @@ const OrderForm = () => {
                 // commented and modified by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
                   // className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
-                  className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
+                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed" ? `${style.disabledReasonInputBox}` : `${style.textInputBox}`}
                 // End of comment and modification by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
 
                   type="text"
                   name="cancel_reason"
                   value={cancelReaon}
-                  style={orderDetailsObj.payment_status == "Completed" &&
-                    orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px", resize: 'none' } :
-                    { width: "200px", height: "100px", resize: 'none' }}
+                  // style={orderDetailsObj.payment_status == "Completed" &&
+                  //   orderDetailsObj.order_status == "Cancelled" ? { padding: "10px 0", minHeight: "20px", resize: 'none' } :
+                  //   { width: "200px", height: "100px", resize: 'none' }}
                     // Commented and modified by pratap sahu on 20-09-2023
                     // Reason:To Disable the field when payment paymentStatus is completed & vise versa for orderStatus is canceled
                   // disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
-                  disabled={orderDetailsObj.payment_status == "Completed"? true : false}
+                  disabled={orderDetailsObj.payment_status == "Completed"|| orderDetailsObj.order_status == "Cancelled"? true : false}
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
                   //     setWhatsappNumber(whatsappNumber.substring(3,13))
@@ -1042,7 +1051,9 @@ const OrderForm = () => {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel} `}>Payment mode</div>
-                <input
+              {/* Commented & Added by pratap sahu on 26-09-2023
+                  Reason: To Add Select DropDown Functionality in Payment Mode */}
+                {/* <input
                   className={`${style.textInputBox} ${style.disabledInputBox}`}
                   type="text"
                   name="payment_mode"
@@ -1062,7 +1073,28 @@ const OrderForm = () => {
                   //   validateOnBlur("whatsapp_number", e.target.value);
                   // }}
                   maxLength={10}
-                />
+                /> */}
+                  <Select
+                        name="payment"
+                        value={orderDetailsObj?.payment_mode}
+                        onChange={(value) => {
+                            setPaymentMode(value);
+                            orderDetailsObj.payment_mode = value;
+                        }}
+                        disabled={(orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status=="Cancelled")? true : false}
+                        style={{
+                            width: 200,
+                            height:35,
+                            border: "0.5px solid black",
+                            borderRadius: "5px",
+                            fontSize: "8px",
+                        }}>
+                        <Option value="Cash">Cash</Option>
+                        <Option value="Scanner">Scanner</Option>
+                    </Select>
+                    {/*End of Comment & Addition by pratap sahu on 26-09-2023
+                        Reason: To Add Select DropDown Functionality in Payment Mode */}
+
               </div>
               <div className={`${style.inputErrorArea}`}>
                 {/* {validationErrors.whatsapp_number} */}

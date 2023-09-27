@@ -127,8 +127,12 @@ Reason :  To blur the cancel reason input box field when disabled*/
 .disabledReasonInputBox{
   border: 1px solid black;
   background-color: #f5f5f5;
-  width: 120px;
+  width: 200px;
   border-radius: 5px;
+  /* Added by Pratap sahu on 28-09-23 */
+  height: 100px;
+  resize: 'none';
+/* End of Code by Pratap Sahu on 28-09-2023 */
 }
 /* End of Addition by Pratap sahu on 20-09-23
 Reason : To blur the cancel reason input box field when disabled */

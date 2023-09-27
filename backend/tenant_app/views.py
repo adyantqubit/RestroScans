@@ -4734,12 +4734,16 @@ class CustomerReportAPI(APIView):
         # Reason - To get list of customers using backend pagination
  
         if currentPage>1:
-           startindex=int(listPerPage*(currentPage-1))
+    # Modified by pratap sahu on 25-09-2023
+    # Reason: to fix pagination bug
+        #    startindex=listPerPage*(currentPage-1))
+           startindex=int(listPerPage)*(int(currentPage)-1)
         else:
             startindex=0
+    # End of Modification by pratap sahu on 25-09-2023
+    # Reason: to fix pagination bug
         endIndex=startindex+int(listPerPage)
         filteredCutomerList=customerList[startindex:endIndex]
-        print(filteredCutomerList,listPerPage,currentPage,startindex,endIndex)
         customerListCount=CustomerDetail.objects.all().count()
         return Response({
             "customerList":filteredCutomerList,

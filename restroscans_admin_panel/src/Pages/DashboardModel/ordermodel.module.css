@@ -566,7 +566,7 @@
 }
 
 .DiscountNCancelSection {
-    width: 60%;
+    width: 90%;
     min-height: 30vh;
     background-color: #fff;
     border: 1px solid #9c9c9c;
@@ -743,8 +743,14 @@
 
 .pricingContent {
     width: 50%;
-    max-width: 260px;
-    min-width: 180px;
+    /* Modified by pratap sahu on 27-09-2023
+    Reason:decimal values are coming out of the Area */
+    /* max-width: 260px; */
+    max-width: 290px;
+    /* min-width: 180px; */
+    min-width: 230px;
+    /*End of code by pratap sahu on 27-09-2023
+    Reason:decimal values are coming out of the Area */
     margin: 10px 0px;
     padding: 0 8px;
     border-radius: 5px;
@@ -1062,9 +1068,13 @@
         padding: unset;
         flex-direction: column;
     }
-
     .DiscountNCancelSection {
-        width: 95%;
+        /* Modified By pratap sahu on 27-09-2023
+        Reason: Cancelled by Coming outside the Are in Responsive */
+        /* width: 95%; */
+        width: 115%;
+    /* End of Modification By pratap sahu on 27-09-2023
+    Reason: Cancelled by Coming outside the Are in Responsive */
     }
 
     .inputBoxContainer {
@@ -1072,7 +1082,7 @@
     }
 
     .pricingContent {
-        width: 95%;
+        width: 100%;
         max-width: unset;
         margin: 0 10px;
     }
