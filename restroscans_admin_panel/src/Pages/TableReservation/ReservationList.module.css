@@ -411,8 +411,10 @@
   }
 
   .tableHeadingContainer {
+    /* Commented by pratap sahu on 23-09-2023 For Responsive */
     justify-content: space-around;
-    gap: 10px;
+    /* gap: 10px; */
+    /* End of Comment by pratap sahu on 23-09-2023 For Responsive */
   }
 
   .tableDataContainer {
@@ -467,6 +469,7 @@
 
   .tableHeadingContainer {
     justify-content: space-around;
+
   }
 
   .tableDataContainer {

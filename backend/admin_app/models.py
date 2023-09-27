@@ -239,9 +239,12 @@ def set_default_theme(sender, tenant, **kwargs):
     app_theme=AppTheme.objects.first()
     if(app_theme):
         with connection.cursor() as cursor:
+            # Modified by pratap sahu on 27-09-2023 to set default values on fields
+            # cursor.execute("INSERT into "+tenant.tenant_name+
+            #                ".tenant_app_setting(app_theme_id,allow_half_price,allow_loyality_points,discount_in) values("+str(app_theme.id)+",true,true,'Discount in (%)')")
             cursor.execute("INSERT into "+tenant.tenant_name+
-                           ".tenant_app_setting(app_theme_id,allow_half_price,allow_loyality_points,discount_in) values("+str(app_theme.id)+",true,true,'Discount in (?)')")
-
+                ".tenant_app_setting(app_theme_id,allow_half_price,allow_loyality_points,discount_in,per_loyality_point_value,amount_for_single_loyality_point,cgst,sgst,gstin,fssaino,whatsapp_number) values("+str(app_theme.id)+",true,true,'Discount in (%)',0,0,0.0,0.0,'','','')")
+            #End of Code by pratap sahu on 27-09-2023 to set default values on fields
 post_schema_sync.connect(set_default_theme, sender=TenantMixin)
 # End of Addition by pratap sahu on 22-09-2023
 # Reason to set default theme option when new tenant created
