@@ -49,16 +49,16 @@ function BannerOfferForm(props) {
 
   const [nameError, setNameError] = useState("");
   const [iconError, setIconError] = useState("");
-// Added by Om Shrivastava on 06-09-23
-// Reason : Set the total data count 
-const [offerDataCount, setOfferDataCount] = useState(0);
-// End of addition by Om Shrivastava on 07-09-23
-// Reason : Set the total data count 
-// Added by Om Shrivastava on 08-09-23
-// Reason : Set the is active data in this usestate 
-const [showOffer, setShowOffer] = useState(true);
-// End of addition by Om Shrivastava on 08-09-23
-// Reason : Set the is active data in this usestate 
+  // Added by Om Shrivastava on 06-09-23
+  // Reason : Set the total data count
+  const [offerDataCount, setOfferDataCount] = useState(0);
+  // End of addition by Om Shrivastava on 07-09-23
+  // Reason : Set the total data count
+  // Added by Om Shrivastava on 08-09-23
+  // Reason : Set the is active data in this usestate
+  const [showOffer, setShowOffer] = useState(true);
+  // End of addition by Om Shrivastava on 08-09-23
+  // Reason : Set the is active data in this usestate
 
   const [validationErrors, setValidationErrors] = useState({
     name: "",
@@ -102,7 +102,7 @@ const [showOffer, setShowOffer] = useState(true);
 
     // }
     if (props.id != null) {
-      setOfferId(props.id); 
+      setOfferId(props.id);
     }
   }, []);
 
@@ -143,10 +143,10 @@ const [showOffer, setShowOffer] = useState(true);
       setvideoLink(response.offer.video_link);
       setShowVideo(response.offer.show_video_Hide_Image);
       // Added by Om Shrivastava on 06-09-23
-      // Reason : Set the total data count 
+      // Reason : Set the total data count
       setOfferDataCount(response.offerBannerCount);
       // End of addition by Om Shrivastava on 06-09-23
-      // Reason : Set the total data count 
+      // Reason : Set the total data count
       // Added by Om Shrivastava on 08-09-23
       // Reason : Set the is active offer data
       setShowOffer(response.offer.is_active);
@@ -215,8 +215,7 @@ const [showOffer, setShowOffer] = useState(true);
         flag = checkIfGreaterThanMaxLength(value, 2);
         if (flag) {
           setValidationErrors((previousList) => {
-            previousList.discount =
-              "Discount can't be greater than 99";
+            previousList.discount = "Discount can't be greater than 99";
             return { ...previousList };
           });
           return flag;
@@ -238,7 +237,6 @@ const [showOffer, setShowOffer] = useState(true);
         }
       }
     }
-
 
     if (inputName == "video_link") {
       var flag = checkIsEmpty(value);
@@ -344,7 +342,7 @@ const [showOffer, setShowOffer] = useState(true);
   //   setIconError("");
   //   setNameError("");
   // };
-// commented by Om Shrivastava on 18-09-23
+  // commented by Om Shrivastava on 18-09-23
   // Reason : No need to use this method
   /**
    * End of code addition by - Om shrivastava on 17-06-2023
@@ -411,11 +409,11 @@ const [showOffer, setShowOffer] = useState(true);
       // Modification and addition by Om Shrivastava on 20-09-23
       // Reason : When we hit the clear button then show the error then I need to fix this issue
       if (offerImage != "" && offerImage != undefined) {
-      // if (offerImage != "" ) {
-      // End of modification and addition by Om Shrivastava on 20-09-23
-      // Reason : When we hit the clear button then show the error then I need to fix this issue
-      // End of Modification and addition by Om Shrivastava on 18-09-23
-      // Reason : When offer image is not present then apply the condition
+        // if (offerImage != "" ) {
+        // End of modification and addition by Om Shrivastava on 20-09-23
+        // Reason : When we hit the clear button then show the error then I need to fix this issue
+        // End of Modification and addition by Om Shrivastava on 18-09-23
+        // Reason : When offer image is not present then apply the condition
         updatedOfferData.append("offer_image", offerImage);
       }
       updatedOfferData.append("video_link", videoLink);
@@ -430,7 +428,7 @@ const [showOffer, setShowOffer] = useState(true);
       // alert(props.setBannerOffer(updatedOfferData))
       // Added by Om Shrivastava on 06-09-23
       // Reason : Get the total data number in form page
-      props.setBackendOfferBannerCount(response.offerBannerCount)
+      props.setBackendOfferBannerCount(response.offerBannerCount);
       // End of addition by Om Shrivastava on 06-09-23
       // Reason : Get the total data number in form page
       // setOfferDataCount(response.offerBannerCount);
@@ -443,8 +441,7 @@ const [showOffer, setShowOffer] = useState(true);
         setShowOfferForm(false);
         setDisabled(false);
 
-      // setOfferDataCount(response.offerBannerCount);
-
+        // setOfferDataCount(response.offerBannerCount);
 
         // End of Addition by Om Shrivastava on 26-08-23
         // Reason : Set the div position in save button
@@ -455,13 +452,13 @@ const [showOffer, setShowOffer] = useState(true);
         var index = props.dataList.findIndex((e) => e.id == response.data.id);
         console.log(index, props.dataList, response.data);
         if (index == -1) {
-        // Added by Om Shrivastava on 06-09-23
-        // Reason : Get the total data number in form page
-          if(props.dataList.length>=props.listPerPage){
-            props.dataList.pop()
+          // Added by Om Shrivastava on 06-09-23
+          // Reason : Get the total data number in form page
+          if (props.dataList.length >= props.listPerPage) {
+            props.dataList.pop();
           }
-        // End of addition by Om Shrivastava on 06-09-23
-        // Reason : Get the total data number in form page
+          // End of addition by Om Shrivastava on 06-09-23
+          // Reason : Get the total data number in form page
           props.setData([response.data, ...props.dataList]);
         } else {
           props.dataList[index] = response.data;
@@ -481,30 +478,38 @@ const [showOffer, setShowOffer] = useState(true);
     document.getElementById("offer_form").style.display = "none";
     setShowOfferForm(false);
     setDisabled(false);
-    window.scroll(0,0)
+    window.scroll(0, 0);
   };
   // Addition by Om Shrivastava on 04-09-23
   // Reason : Reset the clear form of offer
   const resetOfferForm = (event) => {
-
-    setOfferName(offerDetails.offer_name ? offerDetails.offer_name : "")
-    setDiscount(offerDetails.discount ? offerDetails.discount : "")
+    setOfferName(offerDetails.offer_name ? offerDetails.offer_name : "");
+    setDiscount(offerDetails.discount ? offerDetails.discount : "");
     // setIcon(offerDetails.offer_image? offerDetails.offer_image : "");
-    setIcon(offerDetails.offer_image? offerDetails.offer_image : null);
+    setIcon(offerDetails.offer_image ? offerDetails.offer_image : null);
 
-    setvideoLink(offerDetails.video_link? offerDetails.video_link : "")
-    setShowVideo(offerDetails.show_video_Hide_Image == false || offerDetails.show_video_Hide_Image == true ? offerDetails.show_video_Hide_Image : false);
+    setvideoLink(offerDetails.video_link ? offerDetails.video_link : "");
+    setShowVideo(
+      offerDetails.show_video_Hide_Image == false ||
+        offerDetails.show_video_Hide_Image == true
+        ? offerDetails.show_video_Hide_Image
+        : false
+    );
     // Added by Om Shrivastava for reset the is active checkbox
-    setShowOffer(offerDetails.is_active == true || offerDetails.is_active == false ? offerDetails.is_active : true);
-    // End of addition by Om Shrivastava for reset the is active checkbox 
-    
+    setShowOffer(
+      offerDetails.is_active == true || offerDetails.is_active == false
+        ? offerDetails.is_active
+        : true
+    );
+    // End of addition by Om Shrivastava for reset the is active checkbox
+
     setSelectedOfferImage(null);
     setOfferImage(null);
 
     document.getElementById("icon").value = "";
     setIconError("");
     // setNameError("");
-    setValidationErrors("")
+    setValidationErrors("");
     const error = {
       name: "",
       discount: "",
@@ -513,13 +518,12 @@ const [showOffer, setShowOffer] = useState(true);
       is_active: "",
     };
     setValidationErrors({ ...validationErrors, ...error });
-
   };
   // End of addition by Om Shrivastava on 04-09-23
   // Reason : Reset the clear form of offer
 
   return (
-    <div  id="offer_form">
+    <div id="offer_form">
       {/* Added by Om Shrivastava on 04-08-23
             Reason : Show the offer form data */}
       <div className={style.offerFormContainer}>
@@ -560,8 +564,7 @@ const [showOffer, setShowOffer] = useState(true);
                       onChange={(e) => {
                         setOfferName(e.target.value.toString());
                         //   validateOnInput("name", e.target.value.toString());
-                        validateOnBlur("name", e.target.value.toString())
-
+                        validateOnBlur("name", e.target.value.toString());
                       }}
                       // onBlur={(e) =>
                       //   validateOnBlur("name", e.target.value.toString())
@@ -590,8 +593,7 @@ const [showOffer, setShowOffer] = useState(true);
                       onChange={(e) => {
                         setDiscount(e.target.value);
                         //   validateOnInput("contact_number", e.target.value);
-                        validateOnBlur("discount", e.target.value.toString())
-
+                        validateOnBlur("discount", e.target.value.toString());
                       }}
                       // onBlur={(e) =>
                       //   validateOnBlur("discount", e.target.value.toString())
@@ -621,7 +623,7 @@ const [showOffer, setShowOffer] = useState(true);
                       <span className={style.optionalField}>* </span>Image
                     </div>
                     <div className={style.menuImageContainer}>
-                      {selectedOfferImage ? ( 
+                      {selectedOfferImage ? (
                         selectedOfferImage
                       ) : icon ? (
                         <img
@@ -632,13 +634,23 @@ const [showOffer, setShowOffer] = useState(true);
                         />
                       ) : null}
                     </div>
-                    
                   </div>
                   {/* Addition by Om Shrivastava on 26-09-23
                   Reason : Show the message for image size */}
-                  <div className={`${style.inputErrorArea2}`} style={{color:'blue',fontSize:'12px'}}>
-                    <p>*Apply only Landscape mode image.</p>
-                  </div>
+                  {/* Classname change by Om Shrivastava on 27-09-23
+                  Reason : Set the content width and height also */}
+                  {/* <div className={`${style.inputErrorArea2}`} style={{color:'blue',fontSize:'12px'}}> */}
+                  {/* End of classname change by Om Shrivastava on 27-09-23
+                  Reason : Set the content width and height also */}
+                  {/* <p> */}
+                  {/* Change the message by Om Shrivastava on 27-09-23
+                      Reason : Need to show appropraite message */}
+                  {/* *Apply only Landscape mode image. */}
+                  {/* "Image should be in landscape format" */}
+                  {/* Change the message by Om Shrivastava on 27-09-23
+                      Reason : Need to show appropraite message */}
+                  {/* </p> */}
+                  {/* </div> */}
                   {/* End of addition by Om Shrivastava on 26-09-23
                   Reason : Show the message for image size */}
                 </div>
@@ -663,7 +675,7 @@ const [showOffer, setShowOffer] = useState(true);
                           setOfferImage(e.target.files[0]);
                           validateOnFileInput("icon", e.target.files[0]);
 
-                          validateOnBlur("icon", e.target.value)
+                          validateOnBlur("icon", e.target.value);
                         }
                       }}
                       // onBlur={(e) => validateOnBlur("icon", e.target.value)}
@@ -672,8 +684,18 @@ const [showOffer, setShowOffer] = useState(true);
 
                   <div className={`${style.inputErrorArea}`}>
                     <p>{iconError}</p>
-                    {/* <p>{validationErrors.icon}</p> */}
                   </div>
+                  {/* Addition by Om Shrivastava on 27-09-23
+                    Reason : Show the message for image size  */}
+                  <div
+                    className={`${style.inputErrorArea2}`}
+                    style={{ color: "blue", fontSize: "12px" }}
+                  >
+                    <p>"Image should be in landscape format"</p>
+                  </div>
+                  {/* End of addition by Om Shrivastava on 27-09-23
+                   Reason : Show the message for image size  */}
+                  {/* <p>{validationErrors.icon}</p> */}
                 </div>
 
                 <div className={`${style.inputContainer}`}>
@@ -740,33 +762,33 @@ const [showOffer, setShowOffer] = useState(true);
                 {/* Added by Om Shrivastava on 08-09-23
                 Reason : Show the is active of offer */}
                 <div className={`${style.inputContainer}`}>
-                    <div className={`${style.inputArea}`}>
-                      <div
-                        className={`${style.inputLabel} ${style.inputLabel2}`}
-                        // style={{ width: '155px' }}
-                      >
-                        <span className={style.optionalField}>*</span>Active
-                      </div>
-                      <input
-                        className={`${style.textInputBox}`}
-                        type="checkbox"
-                        name="is_active"
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                        }}
-                        checked={showOffer}
-                        onChange={(e) => {
-                          setShowOffer(e.target.checked);
-                          //   validateOnInput("is_available", e.target.value);
-                        }}
-                      />
+                  <div className={`${style.inputArea}`}>
+                    <div
+                      className={`${style.inputLabel} ${style.inputLabel2}`}
+                      // style={{ width: '155px' }}
+                    >
+                      <span className={style.optionalField}>*</span>Active
                     </div>
-                    <div className={`${style.inputErrorArea}`}>
-                      {/* {validationErrors.is_active} */}
-                    </div>
+                    <input
+                      className={`${style.textInputBox}`}
+                      type="checkbox"
+                      name="is_active"
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                      }}
+                      checked={showOffer}
+                      onChange={(e) => {
+                        setShowOffer(e.target.checked);
+                        //   validateOnInput("is_available", e.target.value);
+                      }}
+                    />
                   </div>
-                  {/* End of addition by Om Shrivastava on 08-09-23
+                  <div className={`${style.inputErrorArea}`}>
+                    {/* {validationErrors.is_active} */}
+                  </div>
+                </div>
+                {/* End of addition by Om Shrivastava on 08-09-23
                   Reason : Show the is active of offer*/}
               </div>
             </div>
@@ -784,7 +806,7 @@ const [showOffer, setShowOffer] = useState(true);
      Back
    </div> */}
 
-               {/* // Modification and addition by Om Shrivastava on 11-09-23
+              {/* // Modification and addition by Om Shrivastava on 11-09-23
               // Reason : Need to change the position of div */}
               {/* // Modification and addition by Om Shrivastava on 04-09-23
               // Reason : Reset the clear form of offer */}

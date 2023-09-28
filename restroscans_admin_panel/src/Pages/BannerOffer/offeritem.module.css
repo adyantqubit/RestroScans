@@ -1,0 +1,346 @@
+.Container {
+    width: 100%;
+    height: 86.5vh;
+    overflow: scroll;
+    text-align: center;
+  }
+  .heading {
+    font-size: 3rem;
+  }
+  
+  .titleContainer{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pageTitle {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .menuSection {
+    min-height: auto;
+    background-color: transparent;
+    margin: auto 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #9c9c9c;
+    background-color: white;
+    /* width: fit-content; */
+    margin: auto auto;
+    margin-bottom: 20px;
+    /* padding: 20px 80px; */
+  }
+  
+  .sectionInsideForm{
+      /* margin-top: 30px; */
+      background-color: #e6f0f0;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow:
+        var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+  }
+
+  .menuCatItemContainer{
+    border: 1px solid aqua;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  .menuCatItemdropdown{
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: row; */
+    /* justify-content: space-around; */
+    border: 1px dotted gold;
+    gap: 7px;
+  }
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    border: 2px solid black;
+  }
+  
+  .inputArea {
+    display: flex;
+    align-items: center;
+    border: 1px dotted rgb(167, 32, 32);
+
+  }
+  
+  .inputLabel {
+    /* width: 250px; */
+    width: 100px;
+
+    font-weight: bold;
+
+    text-align: left;
+  }
+  
+  .textInputBox {
+    width: 200px;
+    border: 1px solid black;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 2px;
+    background-color: white;
+  }
+  
+  .menuImageContainer{
+    width: 200px;
+  }
+  .menuImage{
+    border-radius:5px;
+    border:1px solid black;
+  }
+  
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+    color: red;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .actionContainer {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .backButton {
+    background-color: #1f2937;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 20px;
+    transition: all 0.3s;
+    font-size: 18px;
+    width:100px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .backButton:hover {
+    cursor: pointer;
+    background-color:#62686c;
+  }
+  
+  .cancelButton {
+    background-color: #797b7c;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 20px;
+    transition: all 0.3s;
+    font-size: 18px;
+    width:100px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .cancelButton:hover {
+    cursor: pointer;
+    background-color:#a7b4bd;
+  }
+  
+  .proceedButton {
+    background-color: #51c14b;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 20px;
+    transition: all 0.3s;
+    font-size: 18px;
+    width:100px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .proceedButton:hover {
+    cursor: pointer;
+    background-color: #1f871b;
+  }
+  
+  .mendatoryField{
+    color:red;
+  }
+  .optionalField{
+    visibility: hidden;
+  }
+  
+  @media screen and (max-width: 4000px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+    }
+  }
+  
+  @media screen and (max-width: 1120px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+    }
+    .menuSection {
+      padding: 20px 40px;
+    }
+  }
+  
+  @media screen and (max-width: 900px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+    }
+    .menuSection {
+      padding: 20px 20px;
+    }
+    .inputLabel {
+      width: 250px;
+    }
+    .textInputBox {
+      width: 200px;
+    }
+    .inputErrorArea {
+      margin-left: 250px;
+      width: 200px;
+    }
+    .inputArea {
+        flex-direction: column;
+      }
+     
+  }
+  
+  @media screen and (max-width: 770px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+      /* min-height: 82vh; */
+      margin-bottom: 11vh;
+    }
+    .menuSection {
+      padding: 20px 20px;
+      /* margin-bottom: 11vh; */
+    }
+    .inputLabel {
+        align-self: flex-start;
+        width: 400px;
+      }
+    .textInputBox {
+      width: 200px;
+    }
+    .inputErrorArea {
+      margin-left: 300px;
+      width: 200px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .Container {
+      height: 73vh;
+    }
+  }
+ 
+  @media screen and (max-width: 720px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+      margin-bottom: 11vh;
+    }
+    .menuSection {
+      margin-bottom: 20px;
+    }
+    .inputLabel {
+        align-self: flex-start;
+        width: 400px;
+      }
+      .textInputBox {
+        align-self: flex-start;
+        width: 100%;
+      }
+    .inputErrorArea {
+      margin-left: 250px;
+      width: 200px;
+    }
+  }
+  
+  @media screen and (max-width: 610px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+    }
+    .inputArea {
+      flex-direction: column;
+    }
+    .inputLabel {
+      align-self: flex-start;
+      width: 400px;
+    }
+    .textInputBox {
+      align-self: flex-start;
+      width: 100%;
+    }
+    .inputErrorArea {
+      margin-left: 0px;
+      width: 100%;
+      margin-right: 0px;
+    }
+    .menuImageContainer{
+      margin-right: auto;
+      margin-left: 0;
+    }
+  }
+  
+  @media screen and (max-width: 500px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+    }
+    .inputArea {
+      flex-direction: column;
+    }
+    .inputLabel {
+      /* width: 300px; */
+      width: 60px;
+
+      align-self: flex-start;
+    }
+    .textInputBox {
+      align-self: flex-start;
+      width: 100%;
+    }
+    .proceedButton,.cancelButton,.backButton{
+      width:90px;
+      font-size: 17px;
+      padding:3px 3px;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    .Container {
+      --common-column-width: 15%;
+      --common-column-min-width: 15%;
+      --common-column-display: unset;
+    }
+    .inputArea {
+      flex-direction: column;
+    }
+    .inputLabel {
+      width: 250px;
+      align-self: flex-start;
+    }
+    .textInputBox {
+      align-self: flex-start;
+      width: 100%;
+    }
+    .inputErrorArea {
+      margin-left: 0px;
+      width: 90%;
+      margin-right: 0px;
+    }
+  }
+  

@@ -153,16 +153,20 @@ border: #1f2937;
 }
 
 .inputErrorArea {
+   /* Modification and addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   /* margin-left: 165px; */
   margin-left: 150px;
-
+ /*End of Modification and addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   font-size: 14px;
   width: 200px;
   color: red;
   display: flex;
   flex-direction: column;
 }
-
+ /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 .inputErrorArea2 {
   margin-left: 150px;
   font-size: 14px;
@@ -171,7 +175,8 @@ border: #1f2937;
   display: flex;
   flex-direction: column;
 }
-
+ /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 .actionContainer {
   display: flex;
   width: 100%;
@@ -363,6 +368,12 @@ Add css for pagination and all offer list data */
   width: 30vw; */
   /* border: 1px solid black; */
 }
+.commonColumnTitle3{
+  
+  min-width: 7vw;
+  width: 8vw;
+  
+}
 .mediumColoumnWidth{
   min-width: 7%;
   width: 8%
@@ -407,6 +418,52 @@ Add css for pagination and all offer list data */
   padding: 5px 10px;
   transition: all 0.3s;
   width: fit-content;
+  cursor: not-allowed;
+}
+
+.editButton {
+  color: green;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.editButton:hover {
+  cursor: pointer;
+  color: blue;
+}
+.editDisabledButton {
+  color: #cbd6cb;
+  cursor: not-allowed;
+}
+.viewButton {
+  color: black;
+  cursor: pointer;
+  width: 17px;
+  height: 17px;
+}
+
+.viewButton:hover {
+  cursor: pointer;
+  color: blue;
+}
+.viewDisabledButton {
+  color: #cbd6cb;
+  cursor: not-allowed;
+}
+.deleteButton {
+  color: red;
+  cursor: pointer;
+  width: 17px;
+  height: 17px;
+}
+
+.deleteButton:hover {
+  cursor: pointer;
+  color: blue;
+}
+.deleteDisabledButton {
+  color: #cbd6cb;
   cursor: not-allowed;
 }
 
@@ -572,9 +629,13 @@ Add css for pagination and all offer list data */
 .inputErrorArea{
   margin-left: 250px;
 }
+ /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 .inputErrorArea2{
   margin-left: 250px;
 }
+ /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 .offerFormListDiv{
   width: 90%;
 }
@@ -640,10 +701,14 @@ Add css for pagination and all offer list data */
     margin-left: 250px;
     width: 200px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   .inputErrorArea2 {
     margin-left: 250px;
     width: 200px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 }
 
 @media screen and (max-width: 950px) {
@@ -695,10 +760,14 @@ Add css for pagination and all offer list data */
     margin-left: 300px;
     width: 200px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   .inputErrorArea2 {
     margin-left: 300px;
     width: 200px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 }
 
 @media screen and (max-width: 768px) {
@@ -755,10 +824,14 @@ Add css for pagination and all offer list data */
     margin-left: 250px;
     width: 200px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   .inputErrorArea2 {
     margin-left: 250px;
     width: 200px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
 }
 @media screen and (max-width: 610px) {
   .container {
@@ -786,11 +859,15 @@ Add css for pagination and all offer list data */
     width: 100%;
     margin-right: 0px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   .inputErrorArea2 {
     margin-left: 0px;
     width: 100%;
     margin-right: 0px;
   }
+   /*Addition by Om Shrivastava on 27-09-23
+Reason : Set the content width and height also  */
   .menuImageContainer{
     margin-right: auto;
     margin-left: 0;
@@ -830,7 +907,11 @@ Add css for pagination and all offer list data */
     width: 25vw;
     min-width: 38vw;
   }
- 
+  .commonColumnTitle3{
+    min-width: 25vw;
+    width: 38vw;
+    
+  }
   
   .OfferListcontainer {
     --common-column-width: 20vw;
@@ -932,7 +1013,12 @@ Add css for pagination and all offer list data */
     width: 90%;
     margin-right: 0px;
   }
- 
+  .mediumColoumnWidth{
+    min-width: 5%;
+    width: 20%
+    /* min-width: 13vw;
+    width: 65vw; */
+  }
 }
 
 /* End of addition by Om Shrivastava on 05-08-23

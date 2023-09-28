@@ -47,6 +47,8 @@ import WaiterLogin from './Pages/Auth/WaiterLogin';
 import WaiterDashboard from './Pages/Waiter/WaiterDashboard';
 import ReservationForm from './Pages/TableReservation/ReservationForm';
 import ReservationList from './Pages/TableReservation/ReservationList';
+import OfferItem from './Pages/BannerOffer/OfferItem'
+
 var Message=0;
 var AutoValidateToken=0
 var tokenRecheck=0
@@ -316,6 +318,11 @@ function App() {
         <Route path="/ReservationForm" element={<ReservationForm/>}/>
         <Route path="/ReservationList" element={<ReservationList/>}/>
          {/* end of modification by -  Pratap Sahu on 21-08-23 */}
+         {/* Added by - Om Shrivastava on 27-09-23
+        Reason - Added route for offer item page */}
+        <Route path="/OfferItem" element={<OfferItem />} />
+        {/* End of code addition by - Om Shrivastava on 27-09-23
+        Reason - Added route for offer item page */}
       </Routes>
       {/* <Footer /> */}
       </Header>

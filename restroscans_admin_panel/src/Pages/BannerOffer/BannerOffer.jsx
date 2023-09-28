@@ -1,7 +1,7 @@
 /**
  * Created by - Om Shrivastava on 03-08-23
  * Reason - To have offer creation section show all offer list, and create form save the data.
-*/
+ */
 
 import React, { useEffect, useState, useContext } from "react";
 import style from "./banneroffer.module.css";
@@ -9,7 +9,9 @@ import Header from "../GlobalComponent/Header";
 import { enableHeader } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { Input, Pagination } from "antd";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiFillEdit, AiOutlineClose } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
+
 import {
   getOfferBannerCount,
   getOfferBannerList,
@@ -20,9 +22,16 @@ import {
   BsSortAlphaDown,
   BsSortNumericDownAlt,
   BsSortNumericDown,
+  BsEye,
+  BsEraser,
 } from "react-icons/bs";
 import config from "../../Api/config";
-import { MdArrowDropUp, MdCancel, MdCheckCircle } from "react-icons/md";
+import {
+  MdArrowDropUp,
+  MdCancel,
+  MdCheckCircle,
+  MdDelete,
+} from "react-icons/md";
 import BannerOfferForm from "./BannerOfferForm";
 import { GlobalContext } from "../../Context/Context";
 import defaultIcon from "../../../src/images/no-offer.jpg";
@@ -71,10 +80,10 @@ const BannerOffer = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -302,6 +311,18 @@ const BannerOffer = () => {
   // console.log(listPerPage,'kiffff')
   // console.log(backendOfferBannerCount,'ggggg')
 
+   /**
+   * Added by - Om Shrivastava on 27-09-23
+   * Reason - Method that will open banner offer data for selected offer
+   */
+   const openOfferItemDetails = (id) => {
+    navigate("/OfferItem", { state: { id: id } });
+  };
+  /**
+   * Added by - Om Shrivastava on 27-09-23
+   * Reason - Method that will open banner offer data for selected offer
+   */
+
   return (
     // Modified by Om Shrivastava - 25/6/23
     // Reason - removing header from each page and making it global
@@ -349,53 +370,64 @@ const BannerOffer = () => {
               Reason : Need to scroll the div */}
               {/* <button */}
 
-              {windowWidth  < 1250 ? (
-                  <>
-                <a
-                  href="#C4"
-                  disabled={disabled}
-                  className={
-                    disabled == false
-                      ? `${style.primaryButton}`
-                      : `${style.primaryDisabledButton}`
-                  }
-                  // onClick={() => openAddItemForm()}
-                  style={{
-                    marginLeft: "10px",
-                    // minWidth: "100px",
-                    textAlign: "center",
-                  }}
-                  onClick={(e) => {
-                    // removeDiv();
-                    // scrollBehaviour();
+              {windowWidth < 1250 ? (
+                <>
+                  <a
+                    href="#C4"
+                    disabled={disabled}
+                    className={
+                      disabled == false
+                        ? `${style.primaryButton}`
+                        : `${style.primaryDisabledButton}`
+                    }
+                    // onClick={() => openAddItemForm()}
+                    style={{
+                      marginLeft: "10px",
+                      // minWidth: "100px",
+                      textAlign: "center",
+                    }}
+                    onClick={(e) => {
+                      // removeDiv();
+                      // scrollBehaviour();
 
-                    openCategoryDetails();
-                  }}
-                >
-                  Add offer
-                  {/* </button> */}
-                </a>
+                      openCategoryDetails();
+                    }}
+                  >
+                    {/* Change the offer name by Om Shrivastava on 27-09-23
+                    Reason : Change the offer name  */}
+                    {/* Add offer */}
+                    Create offer
+
+                    {/* End of Change the offer name by Om Shrivastava on 27-09-23
+                    Reason : Change the offer name  */}
+                    {/* </button> */}
+                  </a>
                 </>
               ) : (
                 <>
-                <button
-                  disabled={disabled}
-                  className={
-                    disabled == false
-                      ? `${style.primaryButton}`
-                      : `${style.primaryDisabledButton}`
-                  }
-                  style={{
-                    marginLeft: "10px",
-                    // minWidth: "100px",
-                    textAlign: "center",
-                  }}
-                  onClick={(e) => {
-                    openCategoryDetails();
-                  }}
-                >
-                  Add offer
-                </button>
+                  <button
+                    disabled={disabled}
+                    className={
+                      disabled == false
+                        ? `${style.primaryButton}`
+                        : `${style.primaryDisabledButton}`
+                    }
+                    style={{
+                      marginLeft: "10px",
+                      // minWidth: "100px",
+                      textAlign: "center",
+                    }}
+                    onClick={(e) => {
+                      openCategoryDetails();
+                    }}
+                  >
+                    {/* Change the offer name by Om Shrivastava on 27-09-23
+                    Reason : Change the offer name  */}
+                    {/* Add offer */}
+                    Create offer
+                    {/* End of Change the offer name by Om Shrivastava on 27-09-23
+                    Reason : Change the offer name  */}
+                  </button>
                 </>
               )}
               {/* Modification and addition by Om Shrivastava on 07-09-23
@@ -417,13 +449,13 @@ const BannerOffer = () => {
                     <div
                       className={`${style.commonColumnTitle} ${style.mediumColoumnWidth} ${style.responsiveWidth} `}
                     >
-                      <input
+                      {/* <input
                         className={style.checkbox}
                         // className={style.checkbox}
                         id="ParentCheckbox"
                         type="checkbox"
                         // onChange={e => checkAndUncheckAll(e.target.checked)}
-                      />
+                      /> */}
                       SNo.{" "}
                     </div>
 
@@ -449,7 +481,7 @@ const BannerOffer = () => {
                         }
                       }}
                     >
-                      Offer Name{" "}
+                      Offer 
                       {columnToSort == "offer_name" &&
                         columnSortingOrder == "ascending" && (
                           <BsSortAlphaDown className={style.sortingIcon} />
@@ -526,7 +558,8 @@ const BannerOffer = () => {
                     {/* End of addition by Om Shrivastava on 26-09-23
                     Reason : Set the is_active field for the offer */}
                     <div
-                      className={`${style.commonColumnTitle} ${style.mediumColoumnWidth}`}
+                      // className={`${style.commonColumnTitle} ${style.mediumColoumnWidth} `}
+                      className={`${style.commonColumnTitle} ${style.commonColumnTitle3}`}
                     >
                       {" "}
                       Action{" "}
@@ -566,13 +599,13 @@ const BannerOffer = () => {
                               }}
                             >
                               {/* {bannerOfferDetails.name} */}
-                              <input
+                              {/* <input
                                 className={style.checkbox}
                                 // className={style.checkbox}
                                 id="ParentCheckbox"
                                 type="checkbox"
                                 // onChange={e => checkAndUncheckAll(e.target.checked)}
-                              />
+                              /> */}
                               {currentPage * listPerPage -
                                 listPerPage +
                                 index +
@@ -603,9 +636,17 @@ const BannerOffer = () => {
 
                             <div
                               className={style.commonColumnData}
-                              style={{ wordBreak: "break-word" }}
+                              style={{ wordBreak: "break-word"}}
+                           >
+                            {/* // Modification and addition by Om Shrivastava on 27-09-23
+                              // Reason : Change the designing and apply onclick */}
+                            <span style={{color:'blue',fontWeight:'500',cursor:'pointer'}}
+                              onClick={() => openOfferItemDetails(bannerOfferDetails.id)}
                             >
                               {bannerOfferDetails.offer_name}
+                              </span>
+                              {/* //  End of modification and addition by Om Shrivastava on 27-09-23
+                              // Reason : Change the designing and apply onclick */}
                             </div>
 
                             <div
@@ -659,8 +700,7 @@ const BannerOffer = () => {
                                 // width:'7%',minWidth:'8%'
                               }}
                             >
-                              {bannerOfferDetails.is_active ==
-                              true ? (
+                              {bannerOfferDetails.is_active == true ? (
                                 <div className={style.commonColumnData}>
                                   <MdCheckCircle className={style.yesIcon} />
                                 </div>
@@ -684,58 +724,128 @@ const BannerOffer = () => {
 
                             <div
                               // className={`${style.commonColumnData}`}
-                              className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
+                              // className={`${style.commonColumnData} ${style.mediumColoumnWidth} `}
+                              className={`${style.commonColumnTitle} ${style.commonColumnTitle3}`}
+                             
                               style={{
                                 display: "flex",
                                 justifyContent: "center",
                                 // width:'7%',minWidth:'8%'
                               }}
                             >
-                             {/* Modification and addition by Om Shrivastava on 07-09-23
-                              Reason : Need to scroll the div */} 
-                              {windowWidth  < 1250 ? (
-                  <>
-                              <a
-                                href="#C4"
-                                disabled={disabled}
-                                className={
-                                  disabled == false
-                                    ? `${style.primaryButton}`
-                                    : `${style.primaryDisabledButton}`
-                                }
-                                onClick={(e) => {
-                                  openCategoryDetails(bannerOfferDetails.id);
-
-                                  // removeDiv();
-                                  // BannerOfferForm(bannerOfferDetails.id)
-                                }}
-
-                                // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
-                              >
-                                Edit 
-                              </a>
-                              </> 
-                               ) : (
+                              {/* Modification and addition by Om Shrivastava on 07-09-23
+                              Reason : Need to scroll the div */}
+                              {windowWidth < 1250 ? (
                                 <>
-                                <button
-                                disabled={disabled}
-                                className={
-                                  disabled == false
-                                    ? `${style.primaryButton}`
-                                    : `${style.primaryDisabledButton}`
-                                }
-                                onClick={(e) => {
-                                  openCategoryDetails(bannerOfferDetails.id);
+                                  <a
+                                    href="#C4"
+                                    style={{
+                                      // border: "1px solid red",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "10px",
+                                    }}
 
-                                  // removeDiv();
-                                  // BannerOfferForm(bannerOfferDetails.id)
-                                }}
+                                    // disabled={disabled}
+                                    // // style={{border:'1px solid black'}}
+                                    // className={
+                                    //   disabled == false
+                                    //     ? `${style.primaryButton}`
+                                    //     : `${style.primaryDisabledButton}`
+                                    // }
 
-                                // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
-                              >
-                                Edit
-                              </button>
-                                </>)}
+                                    // Modification and addition by Om shrivastava on 27-09-23
+                                    // Reason : Set the offer name in place of eye icon
+                                    // onClick={(e) => {
+                                    //   openCategoryDetails(
+                                    //     bannerOfferDetails.id
+                                    //   );
+
+                                    //   // removeDiv();
+                                    //   // BannerOfferForm(bannerOfferDetails.id)
+                                    // }}
+
+                                    // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
+                                  >
+                                     {/* Addition by Om shrivastava on 27-09-23
+                                    Reason : Create the action functionality header */}
+                                    {/* Edit */}
+                                    <BsEye className={style.viewButton} 
+                              onClick={() => openOfferItemDetails(bannerOfferDetails.id)}
+                                    />
+                                    <FiEdit 
+                                    // className={style.sortingIcon} 
+                                    onClick={(e) => {
+                                      openCategoryDetails(
+                                        bannerOfferDetails.id
+                                      );
+                                    }}
+                                    disabled={disabled}
+                                    // style={{border:'1px solid black'}}
+                                    className={
+                                      disabled == false
+                                        ? `${style.editButton}`
+                                        : `${style.editDisabledButton}`
+                                    }
+                                    />
+                                    <MdDelete className={style.deleteButton} />
+                                    {/* End of addition by Om shrivastava on 27-09-23
+                                    Reason : Create the action functionality header */}
+                                  </a>
+                                </>
+                              ) : (
+                                <>
+                                  <div
+                                    style={{
+                                      // border: "1px solid red",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "10px",
+                                    }}
+                                    // disabled={disabled}
+                                    // className={
+                                    //   disabled == false
+                                    //     ? `${style.primaryButton}`
+                                    //     : `${style.primaryDisabledButton}`
+                                    // }
+                                    // onClick={(e) => {
+                                    //   openCategoryDetails(
+                                    //     bannerOfferDetails.id
+                                    //   );
+
+                                    //   // removeDiv();
+                                    //   // BannerOfferForm(bannerOfferDetails.id)
+                                    // }}
+
+                                    // onClick={() => openbannerOfferDetails(bannerOfferDetails.id)}
+                                  >
+                                    {/* Addition by Om shrivastava on 27-09-23
+                                    Reason : Create the action functionality header */}
+                                    {/* Edit */}
+                                    <BsEye className={style.viewButton} 
+                                      onClick={() => openOfferItemDetails(bannerOfferDetails.id)}
+                                    />
+                                    <FiEdit 
+                                    // className={style.sortingIcon} 
+                                    onClick={(e) => {
+                                      openCategoryDetails(
+                                        bannerOfferDetails.id
+                                      );
+                                    }}
+                                    disabled={disabled}
+                                    // style={{border:'1px solid black'}}
+                                    className={
+                                      disabled == false
+                                        ? `${style.editButton}`
+                                        : `${style.editDisabledButton}`
+                                    }
+                                    />
+                                    <MdDelete className={style.deleteButton} />
+                                    {/* End of addition by Om shrivastava on 27-09-23
+                                    Reason : Create the action functionality header */}
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                         );

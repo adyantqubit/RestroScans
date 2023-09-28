@@ -714,7 +714,6 @@ const OrderForm = () => {
 
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await saveOrderDetailsApi(tenant, updatedOrderData);
-      console.log("tttttt",paymentMode)
       if (response.msg) {
         Message("Order saved successfully.", "success");
         navigate(-1);
