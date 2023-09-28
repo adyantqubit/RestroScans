@@ -42,12 +42,13 @@ const OrderItemReport = () => {
   const [disable, setDisable] = useState(true);
   const [customeDisable, setcustomDisable] = useState(false);
 
-  // Reason - To set date by Default null
   const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [endDate, setEndDate] = useState("");  
+
   // end of addition by suman sahu on 28/08/2023
   // reason - for set custom button
 
+  
   /**
    * Added by - Ashlekh on 15-09-2023
    *
@@ -86,7 +87,7 @@ const OrderItemReport = () => {
         delete Object.assign(e, { "Serving Size": e["serving_size"] })[
           "serving_size"
         ];
-        delete Object.assign(e, { "Order Count": e["item_count"] })[
+        delete Object.assign(e, { "Total Order": e["item_count"] })[
           "item_count"
         ];
         delete Object.assign(e, { "Average Rating": e["average_rating"] })[
@@ -94,7 +95,7 @@ const OrderItemReport = () => {
         ];
         delete Object.assign(e, { "Total Price": e["sum_price"] })["sum_price"];
         delete Object.assign(e, {
-          "Cancellation Count": e["cancellation_count"],
+          "Cancelled Order": e["cancellation_count"],
         })["cancellation_count"];
 
         return e;
@@ -185,7 +186,6 @@ const OrderItemReport = () => {
     //End of code modification by - Ashlekh on 21-09-2023
     //Reason - For date validation
   }
-
   //Code modification by - Ashlekh on 18-09-2023
   function cancellationSelect(value) {
     if (value) {
@@ -337,7 +337,7 @@ const OrderItemReport = () => {
   }
 
   const handleChangeFromDate = (value) => {
-    setEndDate("");
+    setEndDate(null);
     setStartDate(value);
     setDisable(false);
   };
@@ -350,7 +350,7 @@ const OrderItemReport = () => {
     setcustomDisable(true);
   }
 
-  const [quickSelect, setQuickSelect] = useState({
+  var [quickSelect, setQuickSelect] = useState({
     today: false,
     week: false,
     month: false,
@@ -453,7 +453,7 @@ const OrderItemReport = () => {
    */
   const handlePageChange = async (pageNumber) => {
     localStorage.setItem("globalPageIndex", pageNumber);
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber); 
   };
   /**
    * End of code addition by - Ashlekh on 15-09-2023
@@ -474,15 +474,26 @@ const OrderItemReport = () => {
    * Reason - To toggle dropdown visiblity on click
    */
 
-  const [clearFilter, setClearFilter] = useState(false);
   const handleClearFilter = () => {
     // Clear custom date range and hide validation message
     setStartDate("");
     setEndDate("");
     setDateValidation(false);
-
+    // added By pratap sahu on 28-09-2023
+    // Reason:To remove filteration from every aspect
+    quickSelect={today: false,
+      week: false,
+      month: false,
+      year: true}
+    // setQuickSelect({...{today: false,
+    //   week: false,
+    //   month: false,
+    //   year: true}})
+      handlePageChange(1);
+    // added By pratap sahu on 28-09-2023
+    // Reason:To remove filteration from every aspect
     // Update the "Clear Filter" button click state
-    setClearFilter(true);
+    postQuery();
   };
 
   return (
@@ -526,6 +537,11 @@ const OrderItemReport = () => {
                     value={endDate}
                     disabled={disable}
                     format="dd/MM/yyyy"
+                    // Added by pratap sahu on 28-09-2023
+                    // Reason:to set today as Max range
+                    maxDate={new Date()}
+                    // End of Code by pratap sahu on 28-09-2023
+                    // Reason:to set today as Max range
                   />
                 </div>
               </div>
@@ -550,7 +566,10 @@ const OrderItemReport = () => {
                     type="radio"
                     id="today"
                     name="quick_select"
-                    value="today"
+                   // Added by pratap sahu on 28-09-2023 Reason:To Select today only at a time
+                    value={"today"}
+                    checked={quickSelect.today}
+                   // End of code by pratap sahu on 28-09-2023 Reason:To Select today only at a time
                     onChange={(e) => handleQuickSelect(e.target.value)}
                   />
                 </div>
@@ -562,6 +581,9 @@ const OrderItemReport = () => {
                     type="radio"
                     id="week"
                     name="quick_select"
+                    // Added by pratap sahu on 28-09-2023 Reason:To Select week only at a time
+                    checked={quickSelect.week}
+                     // End of code by pratap sahu on 28-09-2023 Reason:To Select week only at a time
                     value="week"
                     onChange={(e) => handleQuickSelect(e.target.value)}
                   />
@@ -575,6 +597,9 @@ const OrderItemReport = () => {
                     id="custom"
                     name="quick_select"
                     value="custom"
+                   // Added by pratap sahu on 28-09-2023 Reason:To Select month only at a time
+                    checked={quickSelect.custom}
+                   // End of code by pratap sahu on 28-09-2023 Reason:To Select month only at a time                    
                     onChange={(e) => handleQuickSelect(e.target.value)}
                   />
                 </div>
@@ -588,6 +613,9 @@ const OrderItemReport = () => {
                     type="radio"
                     id="month"
                     name="quick_select"
+                    // Added by pratap sahu on 28-09-2023 Reason:To Select month only at a time
+                    checked={quickSelect.month}
+                     // End of code by pratap sahu on 28-09-2023 Reason:To Select month only at a time
                     value="month"
                     onChange={(e) => handleQuickSelect(e.target.value)}
                   />
@@ -601,6 +629,9 @@ const OrderItemReport = () => {
                     id="year"
                     name="quick_select"
                     value="year"
+                    // Added by pratap sahu on 28-09-2023 Reason:To Select year only at a time
+                    checked={quickSelect.year}
+                     // End of code by pratap sahu on 28-09-2023 Reason:To Select year only at a time
                     defaultChecked={true}
                     onChange={(e) => handleQuickSelect(e.target.value)}
                   />
@@ -727,7 +758,7 @@ const OrderItemReport = () => {
                   onChange={(e) => orderCountSelect(e.target.checked)}
                 />{" "}
                 <label className={style.sortingLabel} htmlFor="orderCount">
-                  Order Count{" "}
+                  Total Order{" "}
                   {orderCountIsSort ? (
                     <BsSortNumericDown className={style.SortIcon} />
                   ) : (
@@ -773,7 +804,7 @@ const OrderItemReport = () => {
                   onChange={(e) => cancellationSelect(e.target.checked)}
                 />{" "}
                 <label className={style.sortingLabel} htmlFor="cancellation">
-                  Cancellation Count{" "}
+                  Cancelled Order{" "}
                   {cancellationIsSort ? (
                     <BsSortNumericDown className={style.SortIcon} />
                   ) : (
@@ -866,7 +897,9 @@ const OrderItemReport = () => {
                       <div
                         className={`${style.totalAmountHeading} ${style.mediumColoumnWidth}`}
                       >
+                  {/* Modified By Pratap sahu on 28-09-2023 Reason:To show Amount&Rating upto 2&1 decimal Values Respectively*/}
                         {m.sum_price}
+                        {/* {(m.sum_price).toFixed(2)} */}
                       </div>
                       <div
                         className={`${style.cancellationCountHeading} ${style.mediumColoumnWidth}`}
@@ -878,7 +911,9 @@ const OrderItemReport = () => {
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.ratingColumnHeading} ${style.mediumColoumnWidth}`}
                       >
-                        {m.average_rating ? m.average_rating : " - "}
+                        {/* {m.average_rating ? m.average_rating : " - "} */}
+                        {m.average_rating ? (m.average_rating).toFixed(1) : " - "}
+                  {/* End of code by Pratap sahu on 28-09-2023 Reason:To show Amount&Rating upto 2&1 decimal Values Respectively*/}
                       </div>
                     </div>
                   );

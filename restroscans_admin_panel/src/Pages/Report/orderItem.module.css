@@ -55,7 +55,10 @@
   padding: 4px;
   background-color: #efefef;
   margin: auto;
-  min-width: 55%;
+  /* Modified by pratap sahu on 28-09-2023 */
+  /* min-width: 55%; */
+  min-width: 40%;
+  /* End of Modified by pratap sahu on 28-09-2023 */
   /* end of code by - suman sahu on 28/08/2023 */
 }
 
@@ -716,8 +719,12 @@ input[type="checkbox"]:checked + .sortingLabel {
 }
 /* Added by - Ashlekh on 21-09-2023 */
 .orderItemNameHeading {
-  min-width: 180px;
+  /* Modified by - Pratap on 28-09-2023 for better alignment and spacing bw the columns */
+  /* min-width: 180px;
+  width: 70px; */
+  min-width: 130px;
   width: 70px;
+  max-width: 130px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -727,8 +734,10 @@ input[type="checkbox"]:checked + .sortingLabel {
   /* margin-left: 80px; */
 }
 .orderCountHeading {
-  min-width: 140px;
+  /* min-width: 140px; */
+  min-width: 110px;
   width: 70px;
+  max-width: 110px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -738,7 +747,7 @@ input[type="checkbox"]:checked + .sortingLabel {
   /* margin-left: 40px; */
 }
 .orderCountColumn {
-  min-width: 60px;
+  min-width: 80px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -748,8 +757,10 @@ input[type="checkbox"]:checked + .sortingLabel {
   margin-left: 0px;
 }
 .ratingColumnHeading {
-  min-width: 90px;
-  width: 70px;
+  /* min-width: 90px; */
+  min-width: 50px;
+  width: 40px;
+  max-width: 50px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -768,7 +779,9 @@ input[type="checkbox"]:checked + .sortingLabel {
   font-weight: normal;
 }
 .totalAmountHeading {
+  /* min-width: 120px; */
   min-width: 120px;
+  max-width: 120px;
   width: 70px;
   text-align: center;
   display: flex;
@@ -791,7 +804,10 @@ input[type="checkbox"]:checked + .sortingLabel {
   padding: 4px 0;
 }
 .cancellationCountHeading {
-  min-width: 130px;
+  /* min-width: 130px; */
+  min-width: 120px;
+  max-width: 120px;
+    /* End of Modification by - Pratap on 28-09-2023 for better alignment and spacing bw the columns */
   width: 70px;
   text-align: center;
   display: flex;
@@ -943,7 +959,9 @@ input[type="checkbox"]:checked + .sortingLabel {
 
   .tableHeading {
     justify-content: space-around;
-    gap: 10px;
+    /* Commented by pratap sahu on 28-09-2023 To enhance Ui in Responsive */
+    /* gap: 10px; */
+    /*End of Comment by pratap sahu on 28-09-2023 To enhance Ui in Responsive */
   }
 
   .row {
@@ -980,13 +998,15 @@ input[type="checkbox"]:checked + .sortingLabel {
   }
 
   .tableHeading {
-    justify-content: space-around;
-    gap: 10px;
+    justify-content: flex-start;
+    /* Commented by pratap sahu on 28-09-2023 To enhance Ui in Responsive */
+    /* gap: 10px; */
   }
 
   .row {
-    justify-content: space-around;
-    gap: 10px;
+    justify-content: flex-start;
+    /* gap: 10px; */
+    /* End of Comment by pratap sahu on 28-09-2023 To enhance Ui in Responsive */
   }
 
   .popupItemContainer {
@@ -1056,6 +1076,14 @@ input[type="checkbox"]:checked + .sortingLabel {
     min-width: var(--common-column-medium-min-width);
 } */
 /* end of commentation by suman sahu on 28/08/2023 */
+
+/* Added by pratap sahu on 28-09-2023 Reason:To change font styling of Table Data */
+.mediumColoumnWidth {
+font-weight: 600;
+font-size: 12px !important;
+text-align: center;
+}
+/* End of Code by pratap sahu on 28-09-2023 Reason:To change font styling of Table Data */
 
 @media screen and (max-width: 4000px) {
   .orderListSection {

@@ -923,8 +923,10 @@ const OrderForm = () => {
               // Reason - To pass validation message on changing of order status
                   // onChange={handleChangeOrderStatus}
                   onChange={e=>{if(handleChangeStatus(e,orderDetailsObj.payment_status,true))setOrderStatus(e);}}
-                  disabled={orderDetailsObj.payment_status == "Completed"? true : false}
-
+                // Modified by Pratap sahu on 28-09-2023
+                  // disabled={orderDetailsObj.payment_status == "Completed"? true : false}
+                  disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status=="Cancelled"? true : false}
+                // End of Modification by Pratap sahu on 28-09-2023 
               // End of Addition by Pratap sahu on 19-09-2023
               // Reason - To pass validation message on changing of order status
 
@@ -965,7 +967,7 @@ const OrderForm = () => {
                 // commented and modified by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
                   // className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
-                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed" ? `${style.disabledReasonInputBox}` : `${style.textInputBox}`}
+                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed" ? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
                 // End of comment and modification by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
 

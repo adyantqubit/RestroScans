@@ -113,6 +113,19 @@ Reason : Need to apply this css when some field is disable */
   padding: 2px;
   background-color: white;
 }
+/*Added by pratap sahu on 28-09-2023 */
+.textInputBox2{
+  width: 200px;
+  border: 1px solid black;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 2px;
+  background-color: white;
+  height: 100px;
+  min-height: 100px;
+  max-height:100px ;
+}
+/* End of code by pratap sahu on 28-09-2023 */
 /* Added by Om Shrivastava on 22-06-23
 Reason : Need to apply this css when some field is disable */
 .disabledInputBox {
@@ -129,9 +142,11 @@ Reason :  To blur the cancel reason input box field when disabled*/
   background-color: #f5f5f5;
   width: 200px;
   border-radius: 5px;
-  /* Added by Pratap sahu on 28-09-23 */
+  /* Added by Pratap sahu on 28-09-2023 */
   height: 100px;
   resize: 'none';
+  min-height: 100px;
+  max-height: 100px;
 /* End of Code by Pratap Sahu on 28-09-2023 */
 }
 /* End of Addition by Pratap sahu on 20-09-23
