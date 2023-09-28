@@ -2,6 +2,7 @@ import React from "react";
 
 // const baseURL="http://restroscans.com:8000"
 const baseURL=""
+export const webSocketIP="";
 
 
 const config={

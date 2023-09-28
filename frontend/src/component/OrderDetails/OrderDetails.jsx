@@ -27,7 +27,8 @@ import {
 } from "@ant-design/icons";
 import Spinner from "../../Spinner/Spinner";
 import SocialLinks from "../social_links/SocialLinks";
-
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { webSocketIP } from "../../config/config"
 export default function OrderDetails() {
   const [api, contextHolder] = notification.useNotification();
 
@@ -42,6 +43,29 @@ export default function OrderDetails() {
     orders,
   } = useContext(GlobalContext);
 
+  // Added by Rohan Kansari - 28/9/23
+  // Reason - Now wen socket is in use
+  // console.log(`ws://192.168.1.28:8000/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`)
+
+  const [messageHistory, setMessageHistory] = useState([]);
+
+  const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      setMessageHistory((prev) => prev.concat(lastMessage));
+      console.log("connect", JSON.parse(lastMessage.data).payload)
+      if (JSON.parse(lastMessage.data).payload) {
+        secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
+        setOrders({ ...JSON.parse(lastMessage.data).payload.order })
+        secureLocalStorage.setItem("orderItem", JSON.parse(lastMessage.data).payload.order_item);
+        setOrderItem([...JSON.parse(lastMessage.data).payload.order_item])
+      }
+    }
+  }, [lastMessage, setMessageHistory]);
+  // End of Addition by Rohan Kansari - 28/9/23
+  // Reason - Now wen socket is in use
+  
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
   var i = 1;
@@ -92,10 +116,10 @@ export default function OrderDetails() {
   const getOrderItemsAndOrder = async () => {
     var tenantName = localStorage.getItem("tenantName")
     const data = {
-      order:orders.order_id,
+      order: orders.order_id,
     };
     const response = await getOrderItemsAndOrderAPI(data, tenantName);
-    console.log("-------------------",response.order)
+    console.log("-------------------", response.order)
 
     if (response) {
       // Modified by :- PArineeta Gedam on 11-06-2023 reason :- if order is cancelled then navigate to the menu page.
@@ -333,8 +357,8 @@ export default function OrderDetails() {
       // End of Commented code by :- Parineeta Gedam on 23-06-2023 reason :- add discount functionality and code optimizations
 
       // Added  by :- Parineeta Gedam on 18-06-2023
-    // reason :- add discount functionality and for code optimizations
-    var copyOrder = orders
+      // reason :- add discount functionality and for code optimizations
+      var copyOrder = orders
       if (copyOrder.discount_rupees) {
         copyOrder.sub_total = newSubTotal;
         var total = newSubTotal - copyOrder.discount_rupees;
@@ -380,7 +404,7 @@ export default function OrderDetails() {
     setOrderItem([...allOrderItem]);
     setOrders(copyOrder)
 
-  // End of added code by :- PArineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
+    // End of added code by :- PArineeta Gedam on 18-06-2023 reason :- add discount functionality and for code optimizations
 
   }
   // End of added code by :- Parineeta Gedam on 14-05-2023
@@ -429,9 +453,9 @@ export default function OrderDetails() {
     };
 
     //  Added by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer.
-      if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1 ){
-        data["cancelled_by"] = "Customer"
-      }
+    if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1) {
+      data["cancelled_by"] = "Customer"
+    }
     // End of Added code by :- Parineeta Gedam on 24-06-2023 reason :- if customer cancel the order then cancelled by save as a customer.
 
     const response = await deleteOrderItems(tenantName, data);
@@ -445,21 +469,21 @@ export default function OrderDetails() {
       setLoading(false);
 
       // Modified by :- PArineeta Gedam on  28-06-2023 reason :- order cancel 
-      if (orderItems.filter((dt) => dt.item_status == "Confirm") ){
+      if (orderItems.filter((dt) => dt.item_status == "Confirm")) {
       } else {
-      // if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1 ) {
-      if (response.order.order_status == "Cancelled") {
-        // modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
-        secureLocalStorage.removeItem('order');
-        secureLocalStorage.removeItem('orderItem');
-        secureLocalStorage.removeItem("setting_data");
-        secureLocalStorage.removeItem("customer_details");
-        secureLocalStorage.removeItem("invoice_detail");
-        // End of modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
-        navigate("/menu-item");
+        // if (orderItems.filter((dt) => dt.item_status == "Pending").length == 1 ) {
+        if (response.order.order_status == "Cancelled") {
+          // modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
+          secureLocalStorage.removeItem('order');
+          secureLocalStorage.removeItem('orderItem');
+          secureLocalStorage.removeItem("setting_data");
+          secureLocalStorage.removeItem("customer_details");
+          secureLocalStorage.removeItem("invoice_detail");
+          // End of modified by :- Parineeta Gedam on 23-06-2023 reson - remove data from localstroage
+          navigate("/menu-item");
+        }
       }
-    }
-    // End of Modified by :- PArineeta Gedam on  28-06-2023 reason :- order cancel 
+      // End of Modified by :- PArineeta Gedam on  28-06-2023 reason :- order cancel 
 
       const rem = message.info({
         content: "Item has been removed from your cart",
@@ -715,7 +739,7 @@ export default function OrderDetails() {
                             // End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- if we delete any item then color not show in proper way.
 
                           }}
-                          // End of added code 14-04-2023
+                        // End of added code 14-04-2023
                         >
                           <div className="invoice_data_container">
                             <div className="invoice_serial_no_container">
@@ -813,10 +837,10 @@ export default function OrderDetails() {
                                   onConfirm={(e) => confirm(items)}
                                   okText="Yes"
                                   cancelText="No"
-                                  // okButtonProps={{ type: 'default' }}
-                                  // cancelButtonProps={{ type: 'default' }}
-                                  // okType={{ background: colors.bannerColor, color: colors.backgroundTheme }}
-                                  // style={{backgroundColor:"red"}}
+                                // okButtonProps={{ type: 'default' }}
+                                // cancelButtonProps={{ type: 'default' }}
+                                // okType={{ background: colors.bannerColor, color: colors.backgroundTheme }}
+                                // style={{backgroundColor:"red"}}
                                 >
                                   <span
                                     className="invoice_delete_action"
@@ -975,41 +999,41 @@ export default function OrderDetails() {
                         </div>
                         {/* Addition by Om Shrivastava on 14-06-23
                         Reason : Show the loyality price in invoice details page */}
-                        {orders.loyality_point_price > 0 ?(
-                            <>
-                              <div className="order-calculation-line">
-                                <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Loyality price</div>
-                                  <div>:</div>{" "}
-                                </div>{" "}
-                                <div className="order-calculation-text">
-                                  {rupee_sign}
-                                  {orders.loyality_point_price.toFixed(2)}
-                                </div>
+                        {orders.loyality_point_price > 0 ? (
+                          <>
+                            <div className="order-calculation-line">
+                              <div className="order-calculation-label">
+                                <div style={{ width: "98%" }}>Loyality price</div>
+                                <div>:</div>{" "}
+                              </div>{" "}
+                              <div className="order-calculation-text">
+                                {rupee_sign}
+                                {orders.loyality_point_price.toFixed(2)}
                               </div>
-                            </>):null}
+                            </div>
+                          </>) : null}
                         {/* End of addition by Om Shrivastava on 14-06-23 */}
 
                         {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
                         {orders?.cgst > 0 || orders?.sgst > 0 ? (
-                        <div className="order-calculation-line">
-                          <div className="order-calculation-label">
-                            <div style={{ width: "98%", fontWeight: 600 }}>
-                              Total
+                          <div className="order-calculation-line">
+                            <div className="order-calculation-label">
+                              <div style={{ width: "98%", fontWeight: 600 }}>
+                                Total
+                              </div>
+                              <div>:</div>{" "}
+                            </div>{" "}
+                            <div
+                              className="order-calculation-text"
+                              style={{ fontWeight: 600 }}
+                            >
+                              {rupee_sign}
+                              {orders.total.toFixed(2)}
                             </div>
-                            <div>:</div>{" "}
-                          </div>{" "}
-                          <div
-                            className="order-calculation-text"
-                            style={{ fontWeight: 600 }}
-                          >
-                            {rupee_sign}
-                            {orders.total.toFixed(2)}
                           </div>
-                        </div>
                         ) : null}
                         {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
-                          
+
 
                         {orders?.cgst > 0 ? (
                           <div className="order-calculation-line">
@@ -1036,10 +1060,10 @@ export default function OrderDetails() {
                               <div>
                                 (
                                 {(
-                                  Math.round((orders.sgst / orders.total) * 100).toFixed( 
-                                  2
-                                ))}{" "}
-                               %) :
+                                  Math.round((orders.sgst / orders.total) * 100).toFixed(
+                                    2
+                                  ))}{" "}
+                                %) :
                               </div>{" "}
                             </div>{" "}
                             <div className="order-calculation-text">
@@ -1072,49 +1096,49 @@ export default function OrderDetails() {
                       </>
                     ) : (
                       <>
-                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
-                        {orders?.cgst > 0 || orders?.sgst > 0  || orders.loyality_point_price > 0 ? (
+                        {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                        {orders?.cgst > 0 || orders?.sgst > 0 || orders.loyality_point_price > 0 ? (
                           // Modification and addition by Om Shrivastava on 14-06-23
                           // Reason : Save the loayality point price in order details page
                           <>
-                          <div className="order-calculation-line">
-                            <div className="order-calculation-label">
-                              <div style={{ width: "98%" }}>Sub-Total</div>
-                              <div>:</div>{" "}
-                            </div>{" "}
-                            <div className="order-calculation-text">
-                              {rupee_sign}
-                              {orders.sub_total.toFixed(2)}
+                            <div className="order-calculation-line">
+                              <div className="order-calculation-label">
+                                <div style={{ width: "98%" }}>Sub-Total</div>
+                                <div>:</div>{" "}
+                              </div>{" "}
+                              <div className="order-calculation-text">
+                                {rupee_sign}
+                                {orders.sub_total.toFixed(2)}
+                              </div>
                             </div>
-                          </div>
-                          
-                          {orders.loyality_point_price > 0 ?(
-                            <>
-                              <div className="order-calculation-line">
-                                <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Loyality price</div>
-                                  <div>:</div>{" "}
-                                </div>{" "}
-                                <div className="order-calculation-text">
-                                  {rupee_sign}
-                                  {orders.loyality_point_price.toFixed(2)}
-                                </div>
-                              </div>
 
-                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
-                              {orders?.cgst > 0 || orders?.sgst > 0  ?
-                              <div className="order-calculation-line">
-                                <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Total</div>
-                                  <div>:</div>{" "}
-                                </div>{" "}
-                                <div className="order-calculation-text">
-                                  {rupee_sign}
-                                  {orders.total.toFixed(2)}
+                            {orders.loyality_point_price > 0 ? (
+                              <>
+                                <div className="order-calculation-line">
+                                  <div className="order-calculation-label">
+                                    <div style={{ width: "98%" }}>Loyality price</div>
+                                    <div>:</div>{" "}
+                                  </div>{" "}
+                                  <div className="order-calculation-text">
+                                    {rupee_sign}
+                                    {orders.loyality_point_price.toFixed(2)}
+                                  </div>
                                 </div>
-                              </div>
-                              :null}
-                            </>):null}
+
+                                {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                                {orders?.cgst > 0 || orders?.sgst > 0 ?
+                                  <div className="order-calculation-line">
+                                    <div className="order-calculation-label">
+                                      <div style={{ width: "98%" }}>Total</div>
+                                      <div>:</div>{" "}
+                                    </div>{" "}
+                                    <div className="order-calculation-text">
+                                      {rupee_sign}
+                                      {orders.total.toFixed(2)}
+                                    </div>
+                                  </div>
+                                  : null}
+                              </>) : null}
                           </>
                         ) : null}
                         {/* End of addition and modification by Om Shrivastava on 14-06-23 */}
@@ -1127,23 +1151,23 @@ export default function OrderDetails() {
                                 {/* Modification and addition by Om Shrivastava on 13-07-23
                                 Reason : Set the gst and sgst heading when loyality point is there */}
                                 {orders.loyality_point_price > 0 ?
-                                <>
-                                (
-                                {(
-                                Math.round((orders.cgst / orders.total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>
-                               :<>
-                                (
-                                {(
-                                Math.round((orders.cgst / orders.sub_total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>}
-                               {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
+                                  <>
+                                    (
+                                    {(
+                                      Math.round((orders.cgst / orders.total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>
+                                  : <>
+                                    (
+                                    {(
+                                      Math.round((orders.cgst / orders.sub_total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>}
+                                {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
                               </div>{" "}
                             </div>{" "}
                             <div className="order-calculation-text">
@@ -1160,23 +1184,23 @@ export default function OrderDetails() {
                                 {/* Modification and addition by Om Shrivastava on 13-07-23
                                 Reason : Set the gst and sgst heading when loyality point is there */}
                                 {orders.loyality_point_price > 0 ?
-                                <>
-                                (
-                                {(
-                                Math.round((orders.sgst / orders.total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>
-                               :<>
-                                (
-                                {(
-                                Math.round((orders.sgst / orders.sub_total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>}
-                               {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
+                                  <>
+                                    (
+                                    {(
+                                      Math.round((orders.sgst / orders.total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>
+                                  : <>
+                                    (
+                                    {(
+                                      Math.round((orders.sgst / orders.sub_total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>}
+                                {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
                               </div>{" "}
                             </div>{" "}
                             <div className="order-calculation-text">
@@ -1282,7 +1306,7 @@ export default function OrderDetails() {
 
               {/* Modified by :- Parineeta Gedam on 19-06-2023 reason :- if in item nothinfg to update then disable update button */}
               {/* {orders.order_status == "Placed" ? ( */}
-                <button
+              <button
                 className="invoice_btn_update_order"
                 style={{
                   background: colors.bannerColor,

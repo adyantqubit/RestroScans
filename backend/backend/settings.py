@@ -49,7 +49,8 @@ TENANT_APPS = [
 ]
 
 INSTALLED_APPS = [
-    
+    'channels',
+    'daphne',
     'tenant_schemas',
     'admin_app',
     'tenant_app',
@@ -170,9 +171,21 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 End of code addition
 """
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+# WSGI_APPLICATION = 'backend.wsgi.application'
+# Added by Rohan kansari - 28/9/23
+# Reason - To set asgi default and setup redis database
+ASGI_APPLICATION = "backend.asgi.application"
 
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+# End of addition by Rohan kansari - 28/9/23
+# Reason - To set asgi default and setup redis database
 """---------------------------------------------------------------------------------------
 Commented and modified by - Ashish Dewangan on 08-02-2023
 Reason - To specify database related settings

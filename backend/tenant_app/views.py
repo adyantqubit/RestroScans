@@ -1088,10 +1088,11 @@ class PostCustomerDetailsAPIView(APIView):
                 # End of added code on 17-04-2023
                 "name": request.data['name'],
                 "email": request.data['email'],
+                'last_email':request.data['email'],
                 "contact_number": request.data['contact_number'],
             }
             CustomerSerializer = CustomerDetailSerializer(data=customerDetails)
-            if CustomerSerializer.is_valid():
+            if CustomerSerializer.is_valid(raise_exception=True):
                 CustomerSerializer.save()
 
         orderValue = orderCreation(tenant, request)

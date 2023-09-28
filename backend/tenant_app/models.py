@@ -10,7 +10,11 @@ from django.core.validators import validate_image_file_extension
 from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import math  
+import math 
+from asgiref.sync import async_to_sync
+import json
+import random
+from channels.layers import get_channel_layer
 
 # Create your models here.
 
@@ -660,14 +664,19 @@ class CustomerDetail(models.Model):
     # Added by :- Parineeta Gedam
     # Date :- 17-04-2023
     # Reason :- latest name show 
-
-    last_customer_name = models.CharField(max_length=255, null=True, blank=True)
+    # Modified by Rohan kansari - 28/9/23 
+    # Reason - To set customer name default blank
+    # last_customer_name = models.CharField(max_length=255, null=True,blank=True)
+    last_customer_name = models.CharField(max_length=255, default="",null=True,blank=True)
     # Added by Yuvraj Sahu on 05-05-2023
     # Reason - to save latest email id of customer
     # Modified and added by Om Shrivastava on 15-05-23
     # Reason : Change the verbose name of email to last email
     # last_email = models.EmailField(_('email address'), null=True, blank=True)
-    last_email = models.EmailField(_('Last email address'), null=True, blank=True)
+    # Modified by Rohan kansari - 28/9/23 
+    # Reason - To set customer email default blank
+    # last_email = models.EmailField(_('Last email address'), default="")
+    last_email=models.CharField(max_length=255, default="",null=True,blank=True)
     # End of modification and addition by Om Shrivastava on 15-05-23
     # End of addition by Yuvraj Sahu on 05-05-2023
     
@@ -1454,9 +1463,37 @@ class Order(models.Model):
             #     pass
             
         # End of added code on 06-05-2023
-        # End of modified code by :- PArineeta Gedam on 30-06-2023 reason :- remove the order refrences
+        # End of modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrences
+        # Created by Rohan kansari - 28/9/23 
+        # Reason - To get order detail statically 
+    @staticmethod
+    def give_order_details(order_idAndTenant):
+        import re
+        tenant = re.split("_",order_idAndTenant)
+        # instance = Order.objects.filter(order_id=order_id).first()
+        # tenant="restrocg04"
+        # with connection.cursor() as cursor:
+        #     value= cursor.execute("select * from "+tenant+
+        #                     ".tenant_app_order")
+        try:
+            values=Order.objects.raw('SELECT * FROM '+tenant[1]+'.tenant_app_order WHERE order_id=  %s',[tenant[0]])
+            values2=OrderItem.objects.raw("SELECT * FROM "+tenant[1]+".tenant_app_orderitem WHERE order_id_id=  %s",[values[0].id])
+            order={}
+            from tenant_app.serializers import OrderSerializer,OrderItemWithOrderIdSerializer
+            order["order"]=OrderSerializer(values,many=True).data[0]
+            order["order_item"]=OrderItemWithOrderIdSerializer(values2,many=True).data
+        except:
+            order=None 
 
+        # values=Order.objects.raw('SELECT * FROM '+tenant[1]+'.tenant_app_order WHERE order_id= %s',[tenant[0]])
+        # import json
+        # from tenant_app.serializers import OrderSerializer
+        # order=OrderSerializer(values[0]).data
+        # print(order)
+        return order
     # End of addition
+    # End of Created by Rohan kansari - 28/9/23 
+    # Reason - To get order detail statically 
 
     # Removed BY rohan kansari - 11/5/23 
     # Reason - directly assigning string date in organize way

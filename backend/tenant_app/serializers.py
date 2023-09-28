@@ -133,6 +133,9 @@ class OfferallItemsSerializer(serializers.ModelSerializer):
 # Added by Parineeta Gedam on 06-04-2023
 # Reason : show the Customer Detail
 class CustomerDetailSerializer(serializers.ModelSerializer):
+    #Added by Rohan kansari - 28/9/23 - last name is throwing issue so i set it to null true blank true
+    last_customer_name = serializers.CharField(allow_null=True,required=False)
+
     class Meta:
         model = CustomerDetail
         fields = '__all__'

@@ -11,6 +11,8 @@ import secureLocalStorage from "react-secure-storage";
 import Payment from "../Payment/Payment";
 import { getOrderItemsAndOrderAPI } from "../../api/Services";
 import Spinner from "../../Spinner/Spinner";
+import { webSocketIP } from '../../config/config';
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 
 export default function InvoiceDetail() {
   // get colors from context
@@ -53,7 +55,25 @@ export default function InvoiceDetail() {
   // var invoiceDetail = secureLocalStorage.getItem('invoice_detail');
   var customerDetail = secureLocalStorage.getItem('customer_details');
   // var tenantName = localStorage.getItem("tenantName");
+  // Added by Rohan Kansari - 28/9/23
+  // Reason - Now wen socket is in use
+  const [messageHistory, setMessageHistory] = useState([]);
 
+  const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      setMessageHistory((prev) => prev.concat(lastMessage));
+      console.log("connect", JSON.parse(lastMessage.data).payload)
+      if (JSON.parse(lastMessage.data).payload) {
+        secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
+        setOrders({ ...JSON.parse(lastMessage.data).payload.order })
+      }
+    }
+  }, [lastMessage, setMessageHistory]);
+  // End of Addition by Rohan Kansari - 28/9/23
+  // Reason - Now wen socket is in use
+  
   // Added by :- Parineeta Gedam
   // Date :- 14-04-2023
   // Reason :- Navigate to the payment page.  
@@ -81,7 +101,7 @@ export default function InvoiceDetail() {
       order: orders.order_id,
     };
     const response = await getOrderItemsAndOrderAPI(data, tenantName);
-    console.log("-------------------",response.order)
+    console.log("-------------------", response.order)
     if (response) {
       setLoading(true);
       if (
@@ -106,14 +126,14 @@ export default function InvoiceDetail() {
   };
 
   // End of added code by :- Parineeta Gedam on 09-06-2023
- /**
-   * Added by Yuvraj Sahu on 09-06-2023
-   * Reason - to change date format
-   */
+  /**
+    * Added by Yuvraj Sahu on 09-06-2023
+    * Reason - to change date format
+    */
   function ExtractDateTime(format) {
     var d = new Date(format);
     // var time = d.toLocaleTimeString();
-    var time = d.toLocaleTimeString('en-US', {hour12: false})
+    var time = d.toLocaleTimeString('en-US', { hour12: false })
     var date = `${orders.date}`.split("T")[0].split("-").reverse().join("/")
     return { time, date };
   }
@@ -144,7 +164,7 @@ export default function InvoiceDetail() {
                 <div className="inv_details_1">
                   <span className="inv_details_heading">Order Id </span>
                   <span className="inv_details_colon">: </span>
-                  <span className="inv_details_value">{orders.order_id}</span>
+                  <span className="inv_details_value">{orders?.order_id}</span>
                 </div>
                 <div className="inv_details_1">
                   <span className="inv_details_heading">Table Number </span>
@@ -193,20 +213,20 @@ export default function InvoiceDetail() {
                 <div className="inv_details_1">
                   <span className="inv_details_heading">Date </span>
                   <span className="inv_details_colon">: </span>
-                   {/* Commeted and modified by Yuvraj Sahu on 09-06-2023
+                  {/* Commeted and modified by Yuvraj Sahu on 09-06-2023
               Reason - to change the date format */}
-              {/* <span className='inv_details_value'>{new Date(orders.date).toLocaleDateString()}</span> */}
-              <span className='inv_details_value'>{ExtractDateTime(orders.date).date}</span>
-              {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
+                  {/* <span className='inv_details_value'>{new Date(orders.date).toLocaleDateString()}</span> */}
+                  <span className='inv_details_value'>{ExtractDateTime(orders.date).date}</span>
+                  {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
                 </div>
                 <div className="inv_details_1">
                   <span className="inv_details_heading">Time </span>
                   <span className="inv_details_colon">: </span>
                   {/* Commeted and modified by Yuvraj Sahu on 09-06-2023
               Reason - to change the time format */}
-              {/* <span className='inv_details_value'>{new Date(orders.date).toLocaleTimeString()}</span> */}
-              <span className='inv_details_value'>{ExtractDateTime(orders.date).time}</span>
-              {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
+                  {/* <span className='inv_details_value'>{new Date(orders.date).toLocaleTimeString()}</span> */}
+                  <span className='inv_details_value'>{ExtractDateTime(orders.date).time}</span>
+                  {/* End of modification by Yuvraj Sahu on 09-06-2023 */}
                 </div>
               </div>
 
@@ -391,34 +411,34 @@ export default function InvoiceDetail() {
                         </div>
                         {/* Addition by Om Shrivastava on 14-06-23
                         Reason : Show the loyality price in invoice details page */}
-                        {orders.loyality_point_price > 0 ?(
-                            <>
-                              <div className="order-calculation-line">
-                                <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Loyality price</div>
-                                  <div>:</div>{" "}
-                                </div>{" "}
-                                <div className="order-calculation-text">
-                                  {rupee_sign}
-                                  {orders.loyality_point_price.toFixed(2)}
-                                </div>
+                        {orders.loyality_point_price > 0 ? (
+                          <>
+                            <div className="order-calculation-line">
+                              <div className="order-calculation-label">
+                                <div style={{ width: "98%" }}>Loyality price</div>
+                                <div>:</div>{" "}
+                              </div>{" "}
+                              <div className="order-calculation-text">
+                                {rupee_sign}
+                                {orders.loyality_point_price.toFixed(2)}
                               </div>
-                            </>):null}
+                            </div>
+                          </>) : null}
                         {/* End of addition by Om Shrivastava on 14-06-23 */}
 
                         {/* Modified by :- Parineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
                         {orders?.cgst > 0 || orders?.sgst > 0 ? (
-                        <div className="calculationLine">
-                          <div className="calculationLabel">
-                            <div style={{ width: "98%" }}>Total</div>
-                            <div>:</div>{" "}
-                          </div>{" "}
-                          <div className="calculationText">
-                            {rupee_sign}
-                            {orders.total.toFixed(2)}
+                          <div className="calculationLine">
+                            <div className="calculationLabel">
+                              <div style={{ width: "98%" }}>Total</div>
+                              <div>:</div>{" "}
+                            </div>{" "}
+                            <div className="calculationText">
+                              {rupee_sign}
+                              {orders.total.toFixed(2)}
+                            </div>
                           </div>
-                        </div>
-                         ) : null}
+                        ) : null}
                         {/* End of Modified by :- PArineeta Gedam on 21-06-2023 reason :- if cgst sgst is greater then zero than show total */}
 
                         {orders?.cgst > 0 ? (
@@ -448,7 +468,7 @@ export default function InvoiceDetail() {
                                 {(Math.round((orders.sgst / orders.total) * 100).toFixed(
                                   2
                                 ))}
-                               %) :
+                                %) :
                               </div>{" "}
                             </div>{" "}
                             <div className="calculationText">
@@ -478,48 +498,48 @@ export default function InvoiceDetail() {
                       </>
                     ) : (
                       <>
-                      {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
-                        {orders?.cgst > 0 || orders?.sgst > 0 || orders.loyality_point_price>0? (
+                        {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                        {orders?.cgst > 0 || orders?.sgst > 0 || orders.loyality_point_price > 0 ? (
                           // Modification and addition by Om Shrivastava on 14-06-23
                           // Reason : Save the loayality point price in order details page
                           <>
-                          <div className="calculationLine">
-                            <div className="calculationLabel">
-                              <div style={{ width: "98%" }}>Sub-Total</div>
-                              <div>:</div>{" "}
-                            </div>{" "}
-                            <div className="calculationText">
-                              {rupee_sign}
-                              {orders.sub_total.toFixed(2)}
+                            <div className="calculationLine">
+                              <div className="calculationLabel">
+                                <div style={{ width: "98%" }}>Sub-Total</div>
+                                <div>:</div>{" "}
+                              </div>{" "}
+                              <div className="calculationText">
+                                {rupee_sign}
+                                {orders.sub_total.toFixed(2)}
+                              </div>
                             </div>
-                          </div>
 
-                          {orders.loyality_point_price > 0 ?(
-                            <>
-                              <div className="order-calculation-line">
-                                <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Loyality price</div>
-                                  <div>:</div>{" "}
-                                </div>{" "}
-                                <div className="order-calculation-text">
-                                  {rupee_sign}
-                                  {orders.loyality_point_price.toFixed(2)}
+                            {orders.loyality_point_price > 0 ? (
+                              <>
+                                <div className="order-calculation-line">
+                                  <div className="order-calculation-label">
+                                    <div style={{ width: "98%" }}>Loyality price</div>
+                                    <div>:</div>{" "}
+                                  </div>{" "}
+                                  <div className="order-calculation-text">
+                                    {rupee_sign}
+                                    {orders.loyality_point_price.toFixed(2)}
+                                  </div>
                                 </div>
-                              </div>
-                            {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
-                              {orders?.cgst > 0 || orders?.sgst > 0  ?
-                              <div className="order-calculation-line">
-                                <div className="order-calculation-label">
-                                  <div style={{ width: "98%" }}>Total</div>
-                                  <div>:</div>{" "}
-                                </div>{" "}
-                                <div className="order-calculation-text">
-                                  {rupee_sign}
-                                  {orders.total.toFixed(2)}
-                                </div>
-                              </div>
-                              :null}
-                            </>):null}
+                                {/* Add some condition when cgst and sgst is not apply by Om Shrivastava on 17-06-23 */}
+                                {orders?.cgst > 0 || orders?.sgst > 0 ?
+                                  <div className="order-calculation-line">
+                                    <div className="order-calculation-label">
+                                      <div style={{ width: "98%" }}>Total</div>
+                                      <div>:</div>{" "}
+                                    </div>{" "}
+                                    <div className="order-calculation-text">
+                                      {rupee_sign}
+                                      {orders.total.toFixed(2)}
+                                    </div>
+                                  </div>
+                                  : null}
+                              </>) : null}
                           </>
                         ) : null}
 
@@ -532,30 +552,30 @@ export default function InvoiceDetail() {
                               <div>
                                 {/* Modification and addition by Om Shrivastava on 13-07-23
                                 Reason : Set the gst and sgst heading when loyality point is there */}
-                                 {/* (
+                                {/* (
                                 {(
                                   (orders.cgst / orders.sub_total) *
                                   100
                                 ).toFixed(2)}
                                 %) : */}
                                 {orders.loyality_point_price > 0 ?
-                                <>
-                                (
-                                {(
-                                Math.round((orders.cgst / orders.total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>
-                               :<>
-                                (
-                                {(
-                                Math.round((orders.cgst / orders.sub_total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>}
-                               {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
+                                  <>
+                                    (
+                                    {(
+                                      Math.round((orders.cgst / orders.total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>
+                                  : <>
+                                    (
+                                    {(
+                                      Math.round((orders.cgst / orders.sub_total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>}
+                                {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
                               </div>{" "}
                             </div>{" "}
                             <div className="calculationText">
@@ -571,30 +591,30 @@ export default function InvoiceDetail() {
                               <div>
                                 {/* Modification and addition by Om Shrivastava on 13-07-23
                                 Reason : Set the gst and sgst heading when loyality point is there */}
-                                 {/* (
+                                {/* (
                                 {(
                                   (orders.sgst / orders.sub_total) *
                                   100
                                 ).toFixed(2)}
                                 %) : */}
                                 {orders.loyality_point_price > 0 ?
-                                <>
-                                (
-                                {(
-                                Math.round((orders.sgst / orders.total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>
-                               :<>
-                                (
-                                {(
-                                Math.round((orders.sgst / orders.sub_total) *
-                                  100
-                                ).toFixed(2))}
-                               %) :
-                               </>}
-                               {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
+                                  <>
+                                    (
+                                    {(
+                                      Math.round((orders.sgst / orders.total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>
+                                  : <>
+                                    (
+                                    {(
+                                      Math.round((orders.sgst / orders.sub_total) *
+                                        100
+                                      ).toFixed(2))}
+                                    %) :
+                                  </>}
+                                {/* End of addition by Om Shrivastava on 13-07-23 Reason : Set the gst and sgst heading when loyality point is there */}
                               </div>{" "}
                             </div>{" "}
                             <div className="calculationText">
@@ -618,7 +638,7 @@ export default function InvoiceDetail() {
                             style={{ fontWeight: 600 }}
                           >
                             {rupee_sign}
-                            {orders.final_amount.toFixed(2)}
+                            {orders.final_amount?.toFixed(2)}
                           </div>
                         </div>
                       </>
