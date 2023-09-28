@@ -1,3 +1,5 @@
+// Added by Om Shrivastava on 27-09-23
+// Reason : Create offer banner item page
 import { useEffect, useState } from "react";
 import style from "./offeritem.module.css";
 import Header from "../GlobalComponent/Header";
@@ -10,15 +12,10 @@ import {
 import { Message } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
+import { AiFillEye } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
 
 const OfferItem = () => {
-  // Commented by :- Parineeta Gedam on 12-07-2023
-  // Added By Rohan Kansari - 25/6/23
-  // Reason - To enable headerSiderbar
-  // enableHeader()
-  // End of code - Rohan kansari - 25/6/23
-  // End of Commented by :- Parineeta Gedam on 12-07-2023
-
   const navigate = useNavigate();
   const location = useLocation();
   const [paymentData, setPaymentData] = useState({});
@@ -29,37 +26,15 @@ const OfferItem = () => {
   const [selectedImageName, setSelectedImageName] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  /**
-   * Added by - Parineeta Gedam  on 13-07-2023
-   * Reason - To handle validation differently
-   */
   const [nameError, setNameError] = useState("");
   const [contactNumberError, setContactNumberError] = useState("");
   const [iconError, setIconError] = useState("");
   const [iconSizeError, setIconSizeError] = useState("");
-  /**
-   * End of code addition by - Ashish dewangan on 17-06-2023
-   * Reason - To handle validation differently
-   */
-
-  /**
-   * Added by - Parineeta Gedam  on 13-07-2023
-   * Reason - method that will execute when page loads and then call api
-   */
 
   useEffect(() => {
     getPaymentData();
   }, []);
 
-  /**
-   * End of code addition by - Parineeta Gedam on 13-07-2023
-   * Reason - method that will execute when page loads and then call api
-   */
-
-  /**
-   * Added by - Parineeta Gedam on 13-07-2023
-   * Reason - created api that will get payment data
-   */
   const getPaymentData = async () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     const response = await getPaymentMethodApi(tenant, paymentMethodId);
@@ -323,10 +298,8 @@ const OfferItem = () => {
               <div className={`${style.inputErrorArea}`}>{nameError}</div>
             </div>
 
-            <div className={`${style.menuCatItemContainer}`} >
-              <div
-                className={`${style.menuCatItemdropdown}`}
-              >
+            <div className={`${style.menuCatItemContainer}`}>
+              <div className={`${style.menuCatItemdropdown}`}>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
                     <span className={style.mendatoryField}></span>Menu
@@ -378,15 +351,176 @@ const OfferItem = () => {
                     maxLength={30}
                   />
                 </div>
-                
               </div>
 
-              <div
-            // className={` ${style.proceedButton}`}
-            style={{backgroundColor:'green',color:'white',width:'90px',padding:'2px 7px'}}
-          >
-            Add
+              <div className={` ${style.addButton}`}>Add</div>
+            </div>
           </div>
+        </div>
+
+        <div
+        style={{paddingTop:'3%' }}
+        >
+          <div className={style.titleContainer}>
+            <div className={style.pageTitle}>Added item list</div>
+          </div>
+
+          <div className={style.itemListSection}>
+            <div className={style.tableContainer}>
+              <div className={style.table}>
+                <div className={style.tableHeadingContainer}>
+                  <div className={style.sNoColumn}>Edit </div>
+                  <div className={style.actionColumn}>S.No</div>
+                  <div className={style.OrderIdColumn}>Menu</div>
+
+                  <div className={style.orderStatusColumn}>Category</div>
+
+                  <div className={style.orderStatusColumn}>Item</div>
+                  <div className={style.paymentStatusColumn}> Price full</div>
+
+                  <div className={style.subtotalColumn}>Price half</div>
+
+                  {/* <div
+                    className={style.cgstColumn}
+                  
+                  >
+                    Price
+                   
+                  </div> */}
+
+                  {/* <div
+                    className={style.dateColumn}
+                  >
+                    Date{" "}
+                  </div>
+
+                  <div
+                    className={style.totalColumn}
+                  >
+                    {" "}
+                    Time{" "}
+                  </div> */}
+                </div>
+
+                <div
+                  className={style.tableDataContainer}
+                  style={{
+                    backgroundColor: "#efefef",
+                  }}
+                >
+                  {/* {orderItems && orderItems.length > 0 ? (
+                    orderItems.map((orderDetail, index) => {
+                      return ( */}
+                  <div
+                    //   key={index}
+                    className={style.tableData}
+                    style={{
+                      padding: "2px",
+                      marginTop: "2px",
+                      // marginBottom:
+                      //   orderItems.length == index + 1 ? "2px" : "0px",
+                      // background:
+                      //   backgroundColor++ % 2 == 0
+                      //     ? "white"
+                      //     : "#1677ff14",
+                    }}
+                  >
+                    <div
+                      className={`${style.sNoColumn} ${style.commonColumnData} `}
+                    >
+                      <FiEdit
+                        // onClick={(e) => {
+                        //   openCategoryDetails(
+                        //     bannerOfferDetails.id
+                        //   );
+                        // }}
+                        // disabled={disabled}
+                        style={{
+                          //   border: "1px solid black",
+                          marginLeft: "12px",
+                          width: "14px",
+                          height: "14px",
+                        }}
+                      />
+                    </div>
+
+                    <div
+                      className={`${style.actionColumn} ${style.commonColumnData} `}
+                    >
+                      1
+                    </div>
+
+                    <div
+                      className={`${style.OrderIdColumn} ${style.commonColumnData} `}
+                      style={{ wordBreak: "break-word" }}
+                    >
+                      Maincourse
+                      {/* {orderDetail.order_id} */}
+                    </div>
+
+                    <div
+                      className={`${style.orderStatusColumn} ${style.commonColumnData} `}
+                      style={{ wordBreak: "break-word" }}
+                    >
+                      Chienese
+                      {/* {orderDetail.item} */}
+                    </div>
+
+                    <div
+                      className={`${style.orderStatusColumn} ${style.commonColumnData} `}
+                      style={{ wordBreak: "break-word" }}
+                    >
+                      Paneer corn soup
+                      {/* {orderDetail.item_status} */}
+                    </div>
+
+                    <div
+                      className={`${style.paymentStatusColumn} ${style.commonColumnData} `}
+                      style={{ wordBreak: "break-word" }}
+                    >
+                      <h4>
+                        {" "}
+                        <strike>500.00</strike>
+                      </h4>
+                      <h4> 380.00</h4>
+                      {/* {orderDetail.serving_size} */}
+                    </div>
+                    <div
+                      className={`${style.subtotalColumn} ${style.commonColumnData} `}
+                    >
+                      <h4>
+                        {" "}
+                        <strike>300.00</strike>
+                      </h4>
+                      <h4> 230.00</h4>
+                    </div>
+
+                    {/* <div
+                            className={`${style.cgstColumn} ${style.commonColumnData} `}
+                          >
+                            6575.00
+                          </div> */}
+
+                    {/* <div
+                            className={`${style.dateColumn} ${style.commonColumnData} `}
+                          >
+                            29/09/23
+                          </div>
+
+                          <div
+                          
+                            className={`${style.totalColumn} ${style.commonColumnData} `}
+                          >
+                            12.00.00
+                          </div> */}
+                  </div>
+                  {/* );
+                    })
+                  ) : (
+                    <div style={{ textAlign: "center" }}>No records found!</div>
+                  )} */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -398,7 +532,7 @@ const OfferItem = () => {
               marginRight: "10px",
             }}
             onClick={(e) => {
-                navigate(-1);
+              navigate(-1);
             }}
           >
             Back
@@ -419,10 +553,10 @@ const OfferItem = () => {
 
           <div
             className={` ${style.proceedButton}`}
-            onClick={() => {
-              postPaymentData();
-              window.scrollTo(0, 0);
-            }}
+            // onClick={() => {
+            //   postPaymentData();
+            //   window.scrollTo(0, 0);
+            // }}
           >
             Save
           </div>
@@ -435,3 +569,5 @@ const OfferItem = () => {
 };
 
 export default OfferItem;
+// End of addition by Om Shrivastava on 27-09-23
+// Reason : Create offer banner item page

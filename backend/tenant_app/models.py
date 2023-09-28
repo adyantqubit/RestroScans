@@ -430,6 +430,12 @@ class Offer(models.Model):
     is_active=models.BooleanField(default=False)
     # End of addition by Om Shrivastava on 07-09-23
     # Reason - to give active and inactive
+
+    # Added by Om Shrivastava on 28-09-23
+    # Reason - to add the date field for the offer section
+    date=models.DateTimeField(auto_now_add=True,verbose_name='Date & Time',null=True,blank=True)
+    # End of addition by Om Shrivastava on 28-09-23
+    # Reason - to add the date field for the offer section
     
     def __str__(self):
         return self.offer_name
