@@ -42,8 +42,8 @@ const OrderItemReport = () => {
   const [disable, setDisable] = useState(true);
   const [customeDisable, setcustomDisable] = useState(false);
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");  
+  var [startDate, setStartDate] = useState("");
+  var [endDate, setEndDate] = useState("");  
 
   // end of addition by suman sahu on 28/08/2023
   // reason - for set custom button
@@ -355,6 +355,9 @@ const OrderItemReport = () => {
     week: false,
     month: false,
     year: true,
+    // added By pratap sahu on 29-09-2023 To fetch all data on single click of cler filter button
+    custom:false
+    // End of code By pratap sahu on 29-09-2023 To fetch all data on single click of cler filter button
   });
 
   const handleQuickSelect = (e) => {
@@ -476,19 +479,28 @@ const OrderItemReport = () => {
 
   const handleClearFilter = () => {
     // Clear custom date range and hide validation message
+    // added By pratap sahu on 29-09-2023 To fetch all data on single click of cler filter button
+    startDate=""
     setStartDate("");
+    endDate=""
     setEndDate("");
+    // End of Addition by Pratp sahu on 28-09-2023 To fetch all data on single click of cler filter button
     setDateValidation(false);
-    // added By pratap sahu on 28-09-2023
+    // added By pratap sahu on 29-09-2023
     // Reason:To remove filteration from every aspect
     quickSelect={today: false,
       week: false,
       month: false,
-      year: true}
-    // setQuickSelect({...{today: false,
-    //   week: false,
-    //   month: false,
-    //   year: true}})
+      year: true,
+      custom:false}
+    // Uncommented By pratap sahu on 29-09-2023 To fetch all data on single click of cler filter button
+    setQuickSelect({...{today: false,
+      week: false,
+      month: false,
+      year: true,
+      custom:false
+    }})
+     // End of Uncomment by Pratp sahu on 29-09-2023 To fetch all data on single click of cler filter button
       handlePageChange(1);
     // added By pratap sahu on 28-09-2023
     // Reason:To remove filteration from every aspect

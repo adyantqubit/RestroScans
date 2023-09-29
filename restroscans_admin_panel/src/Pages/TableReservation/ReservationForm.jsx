@@ -6,6 +6,7 @@ import DatePicker from "react-date-picker";
 import TimePicker from "react-time-picker";
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import Loader from "../GlobalComponent/Loader";
 
 import {
   AiFillCalendar,
@@ -96,6 +97,11 @@ const ReservationForm = () => {
  * Reason - To get specific customer's Reservation details
  */
   
+  // Added by Pratap sahu on 29-09-23
+  // Reason : To add Loader animation when data coming from the Backend
+  const [isLoader, setIsLoader] = useState(false);
+  // End of code by Pratap sahu on 29-09-23
+
   /**
    * Added by - Pratap Sahu on 08-09-2023
    * Reason - method that will execute when page loads and then call api
@@ -251,18 +257,25 @@ const ReservationForm = () => {
       updatedReservationData.append("time", time);
       updatedReservationData.append("reservation_status", reservationStatusSelected);
       updatedReservationData.append("special_instructions",specialInstructions)
-
+      
+      // Added By Pratap sahu on 29-09-2023 To add Loader
+      setIsLoader(true)
+      // End of code By Pratap sahu on 29-09-2023 To add Loader
       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
       const response = await updateReservationApi(
         tenant,
         updatedReservationData
         );
-      if (response.msg) {
-        Message("Reservation saved successfully.", "success");
-        navigate(-1);
-      } else {
-        Message("Something went wrong", "error");
-      }
+        if (response.msg) {
+          Message("Reservation saved successfully.", "success");
+          navigate(-1);
+      // Added By Pratap sahu on 29-09-2023 To set Loader as False after Response
+          setIsLoader(false)
+        } else {
+          Message("Something went wrong", "error");
+          setIsLoader(false)
+          // End of code By Pratap sahu on 29-09-2023 To add Loader
+        }
     }
     /**
      * End of code addition by - Pratap sahu on 08-09-2023
@@ -555,8 +568,14 @@ const ReservationForm = () => {
      * Reason - to clear the validation message
      */
   };
+   // code By Pratap sahu on 29-09-2023 To add Loader
+  if (isLoader)
+  return <Loader/>
+  else
+   // End of code By Pratap sahu on 29-09-2023 To add Loader
   return (
     <div className={style.container}>
+    
       <div className={style.titleContainer}>
         <div className={style.pageTitle}>Reservation Form</div>
       </div>

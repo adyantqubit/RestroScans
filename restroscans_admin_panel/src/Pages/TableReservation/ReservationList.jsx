@@ -19,6 +19,7 @@ import { MdArrowDropUp} from "react-icons/md";
 import { Input, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import { enableHeader } from "../../App";
+import Loader from "../GlobalComponent/Loader";
 
 const ReservationList = () => {
   // //Added By Pratap Sahu on 14-09-2023
@@ -48,6 +49,11 @@ const ReservationList = () => {
       setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")));
     }
   }, []);
+  
+  // Added by Pratap sahu on 29-09-2023
+  // Reason : To add Loader animation when data coming from the Backend
+  const [isLoader, setIsLoader] = useState(true);
+  // End of code by Pratap sahu on 29-09-2023
 
   /**
    * Added by - pratap Sahu on 06-09-2023
@@ -78,6 +84,10 @@ const ReservationList = () => {
       searchText: searchText.trim(),
     };
     const response = await getReservationListApi(tenant, filteringCriteria);
+    // Added by Pratap sahu on 29-09-2023
+    // Reason : To add Loader animation when data coming from the Backend
+    setIsLoader(false);
+    // End of addition by Pratap sahu on 29-09-2023
     setReservationList(response?.reservation);
     console.log(reservationList.date)
     // Added by - pratap Sahu on 06-09-2023 Reason - To recalculate page numbers
@@ -151,6 +161,10 @@ const ReservationList = () => {
       <div className={`${style.pageTitleContainer}`}>
         <div className={style.pageTitle}>Table Reservation List</div>
       </div>
+  {/*Added by Pratap sahu on 29-09-2023
+   Reason : To add Loader animation when data coming from the Backend */}
+      {isLoader == true ? <Loader/> :
+      <div>
       <div
         style={{
           display: "flex",
@@ -599,6 +613,9 @@ const ReservationList = () => {
 
         null}
       </div>
+      </div> }
+    {/*End of code by Pratap sahu on 29-09-2023
+   Reason : To add Loader animation when data coming from the Backend */}
     </div>
     // </Header>
   );
