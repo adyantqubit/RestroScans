@@ -279,7 +279,7 @@
     transform: rotate(90deg);
   }
 
-  a {
+  p {
     color: $color;
     text-decoration: none;
     position: relative;
@@ -379,19 +379,19 @@
   pointer-events: none;
 }
 
-.btn-disable a{
+.btn-disable p{
   margin: 0px 6px;
 }
 
-.btn-right a {
+.btn-right p {
   margin: 0px 6px;
 }
 
-.payment-btn-right a{
+.payment-btn-right p{
   margin: 0px 6px;
 }
 
-.order-btn-right a{
+.order-btn-right p{
   margin: 0px 6px;
 }
 
@@ -418,7 +418,7 @@
 
   background: none;
   pointer-events: none;
-  a {
+  p {
     color: black;
   }
 

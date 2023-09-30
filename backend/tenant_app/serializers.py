@@ -134,7 +134,7 @@ class OfferallItemsSerializer(serializers.ModelSerializer):
 # Reason : show the Customer Detail
 class CustomerDetailSerializer(serializers.ModelSerializer):
     #Added by Rohan kansari - 28/9/23 - last name is throwing issue so i set it to null true blank true
-    last_customer_name = serializers.CharField(allow_null=True,required=False)
+    last_customer_name = serializers.CharField(default="",allow_null=True,allow_blank=True,required=False)
 
     class Meta:
         model = CustomerDetail
@@ -155,6 +155,7 @@ class OrderSerializer(serializers.ModelSerializer):
     # Reason - To add last customer name column in response
     last_customer_name = serializers.CharField(source="customer_id.last_customer_name",allow_null=True,required=False)
     # End of code - Rohan kansari - 28/7/23 
+    last_email = serializers.CharField(source="customer_id.last_email",allow_null=True,allow_blank=True,required=False)
 
     # Added by ROhan kansari - 16/7/23 - to send email also in data 
     # Commented by ROhan kansari - 16/8/23 - because we created this field field in order table so no need 
@@ -164,6 +165,9 @@ class OrderSerializer(serializers.ModelSerializer):
      # Added by ROhan kansari - 21/7/23 - to send customer laylity point also in data 
     customer_loyality_point = serializers.IntegerField(source="customer_id.loyality_points",allow_null=True,required=False)
     # end of code- Rohan kansari - 21/7/23 - to send customer laylity point also in data 
+    # Added by ROhan kansari - 29/9/23 - to send waiter detail also in data 
+    waiter_name = serializers.CharField(allow_null=True,allow_blank=True,required=False)
+    waiter_contact_number = serializers.CharField(allow_null=True,allow_blank=True,required=False)
     class Meta:
         model = Order
         fields = '__all__'
@@ -196,8 +200,11 @@ class AllOrderSerializer(serializers.ModelSerializer):
     # End of addition by yuvraj Sahu on 04-05-2023
     # Added by Om Shrivastava on 18-06-23
     # Reason - to get loyality points of customer
+    last_email = serializers.CharField(source="customer_id.last_email",allow_null=True,allow_blank=True,required=False)
     customer_loyality_point = serializers.IntegerField(source="customer_id.loyality_points")
     # End of addition by Om Shrivastava on 18-06-23
+    waiter_name = serializers.CharField(allow_null=True,allow_blank=True,required=False)
+    waiter_contact_number = serializers.CharField(allow_null=True,allow_blank=True,required=False)
     class Meta:
         model = Order
         fields = '__all__'

@@ -54,7 +54,7 @@ const OrderModel = ({
         setOrderItem([...selectedOrderItems]);
         setUnupdatedOrderObj(JSON.stringify(selectedOrder));
         setUnupdatedOrderItemObj(JSON.stringify(selectedOrderItems));
-        console.log(restroDetail);
+        // console.log(restroDetail);
     }, [selectedOrder]);
 
     // Writing a function to define whenever button is blocked and enable
@@ -212,9 +212,9 @@ const OrderModel = ({
     //End of Comment And Addition By pratap sahu on 21-09-2023
     // Reason:for proper validations on item added or status change
 
-    useEffect(() => {
-        console.log(orderObject.table_number, selectedOrder.table_number);
-    }, [orderObject]);
+    // useEffect(() => {
+    //     console.log(orderObject.table_number, selectedOrder.table_number);
+    // }, [orderObject]);
 
     function capitalizeFLetter(string) {
         var stringArr = string.split(" ").map((e) => {
@@ -233,7 +233,7 @@ const OrderModel = ({
             setTickedItems([...tickedItems.filter((t) => t.id != data.id)]);
         }
 
-        console.log(tickedItems);
+        // console.log(tickedItems);
     }
 
     function statusValidation(order_status, payment_status, m, msgEnable) {
@@ -386,10 +386,14 @@ const OrderModel = ({
     };
 
     useEffect(() => {
-        if (orderItem.length != JSON.parse(unUpdatedOrderItemObj).length) {
+    //Added by Rohan kansari - 29/9/23 - To update order in order item adding 
+        if (orderItem.length != JSON.parse(unUpdatedOrderItemObj).length || JSON.stringify(orderObject) != unUpdatedOrderObj) {
             console.log("run order item -----------------");
-            setUnupdatedOrderItemObj(JSON.stringify([...orderItem]));
+            setUnupdatedOrderItemObj(JSON.stringify(orderItem));
+            setUnupdatedOrderObj(JSON.stringify(orderObject));
         }
+       //End of addition by Rohan kansari - 29/9/23 - To update order in order item adding 
+    
     }, [orderItem]);
 
     function inputIvalidationDiscountRupees(e) {
@@ -463,7 +467,7 @@ const OrderModel = ({
             e.target.value < 101 &&
             (/^\d+$/.test(e.target.value) || e.target.value.includes("."))
         ) {
-            console.log("discount apply");
+            // console.log("discount apply");
             var discount_percentage = e.target.value * (orderObject.sub_total / 100);
             var total_price =orderObj.sub_total -discount_percentage -orderObject.loyality_point_price;
             var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
@@ -481,7 +485,7 @@ const OrderModel = ({
             errorText["discount_price"] = "";
             setErrorText({ ...errorText });
         } else if (e.target.value.length == 0) {
-            console.log("length 0");
+            // console.log("length 0");
             var discount_percentage = 0.0;
             orderObject["discount_percentage"] = "";
             orderObject["discount_rupees"] = 0.0;
@@ -956,7 +960,7 @@ const OrderModel = ({
                                             )
                                                 UpdateOrderStatusDetail("Placed", "Order status");
                                         }}>
-                                        <a href="#">Placed</a>
+                                        <p>Placed</p>
                                     </button>
                                 </p>
 
@@ -996,7 +1000,7 @@ const OrderModel = ({
                                                 UpdateOrderStatusDetail("Confirm", "Order status");
                                             }
                                         }}>
-                                        <a href="#">Confirm</a>
+                                        <p >Confirm</p>
                                     </button>
                                 </p>
 
@@ -1025,7 +1029,7 @@ const OrderModel = ({
                                             )
                                                 UpdateOrderStatusDetail("Cooked", "Order status");
                                         }}>
-                                        <a href="#">Cooked</a>
+                                        <p >Cooked</p>
                                     </button>
                                 </p>
 
@@ -1054,7 +1058,7 @@ const OrderModel = ({
                                             )
                                                 UpdateOrderStatusDetail("Served", "Order status");
                                         }}>
-                                        <a href="#">Served</a>
+                                        <p>Served</p>
                                     </button>
                                 </p>
                             </div>
@@ -1094,7 +1098,7 @@ const OrderModel = ({
                                             )
                                                 UpdatePaymentStatusDetail("Pending", "Payment status");
                                         }}>
-                                        <a href="#">Pending</a>
+                                        <p>Pending</p>
                                     </button>
                                 </p>
 
@@ -1124,7 +1128,7 @@ const OrderModel = ({
                                                 )
                                                     UpdatePaymentStatusDetail("Paid", "Payment status");
                                             }}>
-                                            <a href="#">Paid</a>
+                                            <p>Paid</p>
                                         </button>
                                     </p>
                                 ) : null}
@@ -1158,7 +1162,7 @@ const OrderModel = ({
                                                     "Payment status"
                                                 );
                                         }}>
-                                        <a href="#">Completed</a>
+                                        <p>Completed</p>
                                     </button>
                                 </p>
                             </div>
@@ -1192,8 +1196,8 @@ const OrderModel = ({
 
                             <div className={style.itemsContent}>
                                 <div className={style.itemList}>
-                                    {console.log(orderItem, JSON.parse(unUpdatedOrderItemObj))}
-                                    {orderItem.map((data, index) => (
+                                    {/* {console.log(orderItem, JSON.parse(unUpdatedOrderItemObj))} */}
+                                    {orderItem?.map((data, index) => (
                                         <div
                                             className={`${style.itemrow} 
                                         ${JSON.parse(unUpdatedOrderItemObj)[

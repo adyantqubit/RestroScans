@@ -98,8 +98,8 @@ const WaiterDashboard = () => {
               }}>
                 <div className={style.tableLabel}>Table No - <span className={style.tabelNum}>{data.table_number}</span></div>
                 <div className={style.ItemLabel}>Total Item - <span className={style.Item}>{data.total_item}</span></div>
-                <div className={style.ItemLabel}>Confirm Item - <span className={style.Item}>{data.confirm_item}</span></div>
-                <div className={style.ItemLabel}>Cancelled Item - <span className={style.Item}>{data.cancelled_item}</span></div>
+                <div className={style.ItemLabel}>Confirm - <span className={style.Item}>{data.confirm_item}</span></div>
+                <div className={style.ItemLabel}>Cancelled - <span className={style.Item}>{data.cancelled_item}</span></div>
               </div>
             )}
           </div>

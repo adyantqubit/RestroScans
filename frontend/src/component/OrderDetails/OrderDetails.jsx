@@ -56,10 +56,22 @@ export default function OrderDetails() {
       setMessageHistory((prev) => prev.concat(lastMessage));
       console.log("connect", JSON.parse(lastMessage.data).payload)
       if (JSON.parse(lastMessage.data).payload) {
+        //Added by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
+        if (JSON.parse(lastMessage.data).payload.order.order_status == "Cancelled") {
+          secureLocalStorage.removeItem("invoice_detail");
+          secureLocalStorage.removeItem("customer_details");
+          secureLocalStorage.removeItem("order");
+          secureLocalStorage.removeItem("orderItem");
+          secureLocalStorage.removeItem("setting_data");
+          navigate("/menu-item");
+        }
+        else{
+        //End of addition by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
         secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
         setOrders({ ...JSON.parse(lastMessage.data).payload.order })
         secureLocalStorage.setItem("orderItem", JSON.parse(lastMessage.data).payload.order_item);
         setOrderItem([...JSON.parse(lastMessage.data).payload.order_item])
+        }
       }
     }
   }, [lastMessage, setMessageHistory]);

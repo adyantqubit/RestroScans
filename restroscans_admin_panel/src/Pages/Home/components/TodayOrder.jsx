@@ -20,6 +20,8 @@ import PrintBill from "./PrintBill"
 import { PrintKot } from './PrintKot'
 import OrderModel from '../../DashboardModel/OrderModel'
 
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { webSocketIP } from "../../../Api/config"
 
 // Modified by Rohan kansari - 29/6/23
 // Reason - To remove icons 
@@ -247,6 +249,54 @@ const TodayOrder = (props) => {
     var [IsModalOpen, setModelVisiblity] = useState(false)
     // End of code - Rohan kansari - To add new order model - 19/9/23
 
+    // Added by Rohan Kansari - 28/9/23
+    // Reason - Now wen socket is in use
+    // console.log(`ws://192.168.1.28:8000/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`)
+
+    const [messageHistory, setMessageHistory] = useState([]);
+
+    const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/dashboard_data/${JSON.parse(localStorage.getItem("tenantInfo")).tenant_name}`);
+
+    useEffect(() => {
+        if (lastMessage !== null) {
+            setMessageHistory((prev) => prev.concat(lastMessage));
+            console.log("connect", JSON.parse(lastMessage.data).payload);
+            if (JSON.parse(lastMessage.data).payload) {
+                //     const [todaysPendingOrder, setPendingOrders] = useState(null)
+                // const [todaysCompletedOrder, setCompletedOrders] = useState(null)
+                // const [newlyPlaced, setNewlyPlacedOrders] = useState(null)
+                setPendingOrders(JSON.parse(lastMessage.data).payload.todays_pending_orders)
+                setNewlyPlacedOrders(JSON.parse(lastMessage.data).payload.todays_newly_placed_orders)
+                setCompletedOrders(JSON.parse(lastMessage.data).payload.todays_completed_orders)
+                setOrderItem(JSON.parse(lastMessage.data).payload.todays_order_item)
+                var tempOrderData = [...JSON.parse(lastMessage.data).payload.todays_pending_orders,
+                ...JSON.parse(lastMessage.data).payload.todays_newly_placed_orders,
+                ...JSON.parse(lastMessage.data).payload.todays_completed_orders]
+                var tempOrderItem = JSON.parse(lastMessage.data).payload.todays_order_item
+                if (selectedOrderObject.order_id) {
+                    var orderObj = tempOrderData.filter(e => e.order_id == selectedOrderObject.order_id)[0]
+                    var orderItemObj = tempOrderItem.filter(e => e.order_id == selectedOrderObject.order_id)
+                    setSelectedOrderObject({ ...orderObj })
+                    setSelectedOrderItemsObject([...orderItemObj])
+                }
+                if (localStorage.getItem("selectedTab") == "Newly_placed") {
+                    setSelectedOrder([...JSON.parse(lastMessage.data).payload.todays_newly_placed_orders])
+                }
+                else if (localStorage.getItem("selectedTab") == "Pending") {
+                    setSelectedOrder([...JSON.parse(lastMessage.data).payload.todays_pending_orders])
+                }
+                else if (localStorage.getItem("selectedTab") == "Completed") {
+                    setSelectedOrder([...JSON.parse(lastMessage.data).payload.todays_completed_orders])
+                    // Modified by ROhan kansari - 26/6/23- desable update all functionality in complete
+                    uncheckAll({ fade: true })
+                }
+            }
+        }
+    }, [lastMessage, setMessageHistory]);
+    // End of Addition by Rohan Kansari - 28/9/23
+    // Reason - Now wen socket is in use
+
+
     useEffect(() => {
 
         // Added by Om Shrivastava on 02-06-23
@@ -255,7 +305,10 @@ const TodayOrder = (props) => {
             // End of addition by Om Shrivastava on 02-06-23
             BackendCall()
         //    Added by ROhan kansari -Given dependency in useEffect to recall backend whenver needed
-    }, [props.recall,IsModalOpen])
+        // Commented by Rohan kansari - 29/8/23 - remove dependency all thing is comming from web socket 
+        // }, [props.recall,IsModalOpen])
+    }, [])
+
 
 
     // this function is used to get all today's updated order from backend
@@ -1828,7 +1881,7 @@ const TodayOrder = (props) => {
 
 
     function settingClickedData(data) {
-        setSelectedOrderObject({...data})
+        setSelectedOrderObject({ ...data })
         setSelectedOrderItemsObject([...orderItemList.filter(i => i.order_id == data.order_id)])
         // Sending all datas in openActionPopupModel variable
         setOpenActionPopupModal({
@@ -1895,7 +1948,7 @@ const TodayOrder = (props) => {
 
     return (
         <>
-            <OrderModel isOpen={IsModalOpen} setting={settings} restroDetail={restroDetail} selectedOrder={selectedOrderObject} setSelectedOrder={setSelectedOrderObject} selectedOrderItems={selectedOrderItemsObject} setSelectedOrderItems={setSelectedOrderItemsObject} setModelVisiblity={setModelVisiblity} 
+            <OrderModel isOpen={IsModalOpen} setting={settings} restroDetail={restroDetail} selectedOrder={selectedOrderObject} setSelectedOrder={setSelectedOrderObject} selectedOrderItems={selectedOrderItemsObject} setSelectedOrderItems={setSelectedOrderItemsObject} setModelVisiblity={setModelVisiblity}
             />
 
             {/* Added and modified by - ROhan Kansari - 25/5/23
@@ -2027,7 +2080,7 @@ const TodayOrder = (props) => {
                                     <button className={style.printBtn}>More</button></div> */}
 
                                     <div className={style.columnData7}
-                                        onClick={e => { settingClickedData(data); setModelVisiblity(true);  }}><button className={style.printBtn}>More</button>
+                                        onClick={e => { settingClickedData(data); setModelVisiblity(true); }}><button className={style.printBtn}>More</button>
                                     </div>
                                     {/* ENd of code - Rohan kansari - 13/7/23 */}
                                     {/* end of modification on 12/06/2023 */}

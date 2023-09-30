@@ -201,7 +201,14 @@ def update_order_instance(sender, instance,created, **kwargs):
                 'value': order
             }
         )
-
+    #Added by Rohan kansari - 29/9/23 - To connect with dashboard also
+    async_to_sync(channel_layer.group_send)(
+            'dashboard_data_%s'%schema_name,{
+                'type': 'update_dashbaord',
+                'value': schema_name
+            }
+        )    
+    #End of addition by Rohan kansari - 29/9/23 - To connect with dashboard also
 
 @receiver(post_save, sender=OrderItem)
 def update_order_item(sender,created,instance, **kwargs):

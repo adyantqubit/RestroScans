@@ -58,7 +58,7 @@ export default function InvoiceDetail() {
   // Added by Rohan Kansari - 28/9/23
   // Reason - Now wen socket is in use
   const [messageHistory, setMessageHistory] = useState([]);
-
+  const navigate =useNavigate()
   const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`);
 
   useEffect(() => {
@@ -66,8 +66,20 @@ export default function InvoiceDetail() {
       setMessageHistory((prev) => prev.concat(lastMessage));
       console.log("connect", JSON.parse(lastMessage.data).payload)
       if (JSON.parse(lastMessage.data).payload) {
+      //Added by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
+        if (JSON.parse(lastMessage.data).payload.order.order_status == "Cancelled") {
+          secureLocalStorage.removeItem("invoice_detail");
+          secureLocalStorage.removeItem("customer_details");
+          secureLocalStorage.removeItem("order");
+          secureLocalStorage.removeItem("orderItem");
+          secureLocalStorage.removeItem("setting_data");
+          navigate("/menu-item");
+        }
+        else{
+        //End of addition by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
         secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
         setOrders({ ...JSON.parse(lastMessage.data).payload.order })
+      }
       }
     }
   }, [lastMessage, setMessageHistory]);
