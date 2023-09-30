@@ -147,6 +147,9 @@ Reason :  To blur the cancel reason input box field when disabled*/
   resize: 'none';
   min-height: 100px;
   max-height: 100px;
+  /* added by pratap sahu on 30-09-2023 */
+  color: #9c9c9c; 
+  /* End of code by pratap sahu on 30-09-2023 */
 /* End of Code by Pratap Sahu on 28-09-2023 */
 }
 /* End of Addition by Pratap sahu on 20-09-23
