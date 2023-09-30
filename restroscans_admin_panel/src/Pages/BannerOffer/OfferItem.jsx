@@ -1,5 +1,6 @@
 // Added by Om Shrivastava on 27-09-23
 // Reason : Create offer banner item page
+import { MultiSelect } from "react-multi-select-component";
 import { useEffect, useState } from "react";
 import style from "./offeritem.module.css";
 import Header from "../GlobalComponent/Header";
@@ -15,7 +16,15 @@ import config from "../../Api/config";
 import { AiFillEye } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 
+const options = [
+  { label: "Grapes 🍇", value: "grapes" },
+  { label: "Mango 🥭", value: "mango" },
+  { label: "Strawberry 🍓", value: "strawberry", disabled: true },
+];
+
 const OfferItem = () => {
+  const [selected, setSelected] = useState([]);
+
   const navigate = useNavigate();
   const location = useLocation();
   const [paymentData, setPaymentData] = useState({});
@@ -279,15 +288,25 @@ const OfferItem = () => {
           <div className={`${style.sectionInsideForm}`}>
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`}>
+                <div className={`${style.inputLabel}`} style={{width:'100px'}}>
                   <span className={style.mendatoryField}></span>Offer name
                 </div>
                 <input
-                  className={`${style.textInputBox}`}
+                // Modification and addition by Om Shrivastava on 30-09-23
+                // Reason : Need to change the classname of the offer div
+                //   className={`${style.textInputBox}`}
+                  className={`${style.offerInputBox}`}
+                //   End of modification and addition by Om Shrivastava on 30-09-23
+                // Reason : Need to change the classname of the offer div
                   type="text"
                   name="name"
                   value={name}
-                  style={{ width: "200px" }}
+                    /* Added by Om Shrivastava on 30-09-23
+                    Reason : Set the width of offer input field */
+                //   style={{ width: "200px" }}
+                //   style={{ width: "300px" }}
+                //   End of addition by Om Shrivastava on 30-09-23
+                // Reason : Set the width of offer input field
                   onChange={(e) => {
                     setName(e.target.value.toString());
                     validateOnInput("name", e.target.value.toString());
@@ -350,6 +369,14 @@ const OfferItem = () => {
                     }}
                     maxLength={30}
                   />
+                  {/* <h1>Select Fruits</h1>
+                  <pre>{JSON.stringify(selected)}</pre>
+                  <MultiSelect
+                    options={options}
+                    value={selected}
+                    onChange={setSelected}
+                    labelledBy="Select"
+                  /> */}
                 </div>
               </div>
 
@@ -358,9 +385,7 @@ const OfferItem = () => {
           </div>
         </div>
 
-        <div
-        style={{paddingTop:'3%' }}
-        >
+        <div style={{ paddingTop: "3%" }}>
           <div className={style.titleContainer}>
             <div className={style.pageTitle}>Added item list</div>
           </div>
