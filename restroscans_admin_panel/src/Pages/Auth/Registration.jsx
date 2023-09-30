@@ -105,20 +105,22 @@ const Registration = () => {
     }
 
     function validateTelephone(text) {
-        errors = errors.filter(e => Object.keys(e) != "Telephone")
-        setError(errors)
-        if (text.length < 11 && text.length != 0)
-            errors=[...errors, { "Telephone": "Telephone number should not be less than 11 digits" }]
-        if (text.length > 11 && text.length != 0)
-        {
+    // Modified by Pratap sahu on 30-09-2023 To Remove Validations on Telephone Number
+      //   errors = errors.filter(e => Object.keys(e) != "Telephone")
+      //   setError(errors)
+      //   if (text.length < 11 && text.length != 0)
+      //       errors=[...errors, { "Telephone": "Telephone number should not be less than 11 digits" }]
+      //   if (text.length > 11 && text.length != 0)
+      //   {
 
-        }        
-       else
-        {
-            setTelephoneNumber(text)
-        }    
-        setError(errors)    
-
+      //   }        
+      //  else
+      //   {
+      //       setTelephoneNumber(text)
+      //   }    
+      //   setError(errors)
+      setTelephoneNumber(text)
+      // End of Modification by Pratap sahu on 30-09-2023 to remove validtions
     }
 
     function validatePassword(text) {
@@ -285,7 +287,7 @@ const Registration = () => {
                             </div>
                             <div className={style.halfInputContainer}>
                                 <label className={style.label} htmlFor='Name'>Telephone Number <label className={style.subLabel}>(Optional)</label> </label>
-                                <input name='Telephone' type='number' id="Telephone" className={style.inputBox} value={telephoneNumber}  onChange={e => scheduleTimer(0, validateTelephone, e.currentTarget.value.trimEnd().trimStart())} onBlur={e => validateTelephone(e.currentTarget.value.trimEnd().trimStart())} />
+                                <input name='Telephone' type='number' id="Telephone" className={style.inputBox} value={telephoneNumber}  onChange={e => scheduleTimer(0, validateTelephone ,e.currentTarget.value.trimEnd().trimStart())} onBlur={e => validateTelephone(e.currentTarget.value.trimEnd().trimStart())} />
                                 {errors.filter(e => Object.keys(e)[0] == "Telephone").length > 0 ? <span className={style.errorText}>{errors.filter(e => Object.keys(e)[0] == "Telephone")[0].Telephone}</span> : null}
                             </div>
                         </div>
