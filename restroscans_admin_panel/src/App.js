@@ -168,7 +168,11 @@ function App() {
         {/* End of code - Rohan kansari - 27/8/23 - To navigate blank link to dashboard  */}
         {/* Added by Rohan kansari - 8/9/23 - To make revenue page default */}
         <Route path='/Registration' element={tokenExist ? <Navigate to="/Revenue" /> : <Registration />} />
-        <Route path="/Login" element={tokenExist ? <Navigate to="/Revenue" /> : <Login />} />
+        {/* Added by Rohan kansari - 6/10/23 - To redirect in waiter dashboard if admin has waiter credential */}
+        {/* <Route path="/Login" element={tokenExist ? <Navigate to="/Revenue" /> : <Login />} /> */}
+        <Route path="/Login" element={tokenExist ? typeof localStorage.getItem("waiterData")!="undefined"?<Navigate to="/WaiterDashboard"/>:<Navigate to="/Revenue" /> : <Login />} />
+        {/* End of code by Rohan kansari - 6/10/23 - To redirect in waiter dashboard if admin has waiter credential */}
+
         <Route path="/Forget" element={tokenExist ? <Navigate to="/Revenue" /> : <Forget />} />
 
         {/* Added by Rohan kansari - 9/8/23 - To add waiter pages */}
