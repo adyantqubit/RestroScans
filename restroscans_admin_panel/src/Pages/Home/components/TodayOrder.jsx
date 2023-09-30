@@ -255,7 +255,9 @@ const TodayOrder = (props) => {
 
     const [messageHistory, setMessageHistory] = useState([]);
 
-    const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/dashboard_data/${JSON.parse(localStorage.getItem("tenantInfo")).tenant_name}`);
+    const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/dashboard_data/${JSON.parse(localStorage.getItem("tenantInfo")).tenant_name}`,{
+        shouldReconnect: (closeEvent) => true,
+      });
 
     useEffect(() => {
         if (lastMessage !== null) {
@@ -269,10 +271,14 @@ const TodayOrder = (props) => {
                 setNewlyPlacedOrders(JSON.parse(lastMessage.data).payload.todays_newly_placed_orders)
                 setCompletedOrders(JSON.parse(lastMessage.data).payload.todays_completed_orders)
                 setOrderItem(JSON.parse(lastMessage.data).payload.todays_order_item)
+
                 var tempOrderData = [...JSON.parse(lastMessage.data).payload.todays_pending_orders,
                 ...JSON.parse(lastMessage.data).payload.todays_newly_placed_orders,
                 ...JSON.parse(lastMessage.data).payload.todays_completed_orders]
+                
                 var tempOrderItem = JSON.parse(lastMessage.data).payload.todays_order_item
+
+
                 if (selectedOrderObject.order_id) {
                     var orderObj = tempOrderData.filter(e => e.order_id == selectedOrderObject.order_id)[0]
                     var orderItemObj = tempOrderItem.filter(e => e.order_id == selectedOrderObject.order_id)
@@ -296,7 +302,7 @@ const TodayOrder = (props) => {
     // End of Addition by Rohan Kansari - 28/9/23
     // Reason - Now wen socket is in use
 
-
+    
     useEffect(() => {
 
         // Added by Om Shrivastava on 02-06-23

@@ -6,36 +6,6 @@ import json
 from  tenant_app.models import *
 
 
-# class OrderConsumer(AsyncWebsocketConsumer):
-
-#     async def connect(self):
-#         self.group_name='order_data'
-#         await self.channel_layer.group_add(
-#             self.group_name,
-#             self.channel_name
-#         )
-
-#         await self.accept()
-
-#     async def disconnect(self,close_code):
-#         pass
-
-#     async def receive(self,text_data):
-#         # print (text_data)
-#         await self.channel_layer.group_send(
-#             self.group_name,
-#             {
-#                 'type':'send_order',
-#                 'value':text_data,
-#             }
-#         )
-
-#     async def send_order(self,event):
-#         print (event['value'])
-#         await self.send(event['value'])
-        
-        
-
 class OrderProgress(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['order_id']+"_"+self.scope['url_route']['kwargs']['tenant']
@@ -114,20 +84,18 @@ def DashboardDetails(tenant):
         return order
     except Exception as inst:
         order=None    
-        print("signal-dashboard",order,inst)
 
 class DashboardData(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['tenant']
         self.room_group_name = 'dashboard_data_%s' % self.room_name
-        print(self.room_group_name)
+       
         
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
         )
 
-        print("all runs")
         order = DashboardDetails(self.room_name)
         self.accept()
         

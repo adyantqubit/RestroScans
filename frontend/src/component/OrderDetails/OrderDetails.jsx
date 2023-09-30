@@ -43,13 +43,15 @@ export default function OrderDetails() {
     orders,
   } = useContext(GlobalContext);
 
-  // Added by Rohan Kansari - 28/9/23
+  // Added by Rohan Kansari - 27/9/23
   // Reason - Now wen socket is in use
   // console.log(`ws://192.168.1.28:8000/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`)
 
   const [messageHistory, setMessageHistory] = useState([]);
 
-  const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`);
+  const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`,{
+    shouldReconnect: (closeEvent) => true,
+  });
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -65,19 +67,19 @@ export default function OrderDetails() {
           secureLocalStorage.removeItem("setting_data");
           navigate("/menu-item");
         }
-        else{
-        //End of addition by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
-        secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
-        setOrders({ ...JSON.parse(lastMessage.data).payload.order })
-        secureLocalStorage.setItem("orderItem", JSON.parse(lastMessage.data).payload.order_item);
-        setOrderItem([...JSON.parse(lastMessage.data).payload.order_item])
+        else {
+          //End of addition by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
+          secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
+          setOrders({ ...JSON.parse(lastMessage.data).payload.order })
+          secureLocalStorage.setItem("orderItem", JSON.parse(lastMessage.data).payload.order_item);
+          setOrderItem([...JSON.parse(lastMessage.data).payload.order_item])
         }
       }
     }
   }, [lastMessage, setMessageHistory]);
-  // End of Addition by Rohan Kansari - 28/9/23
+  // End of Addition by Rohan Kansari - 27/9/23
   // Reason - Now wen socket is in use
-  
+
   // Added by Parineeta Date : 14-04-2022
   // Reason : Add serial no in invoice
   var i = 1;

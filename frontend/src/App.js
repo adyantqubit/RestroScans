@@ -40,7 +40,7 @@ function App() {
   // var seperatedWords = window.location.pathname.split('/') // Find the path of tenant name
   // var tenant = seperatedWords[1]
   // Commented by Rohan Kansari - 28/9/23
-  // Reason - Now wen socket is in use
+  // Reason - Now web socket is in use
   // useEffect(() => {
   /**
    * Added by - Om shrivastava on 01-05-2023
@@ -264,7 +264,7 @@ function App() {
    * End of code addition by Ashish Dewangan on 19-05-2023 to taking action for new order status
    */
   // Commented by Rohan Kansari - 28/9/23
-  // Reason - Now wen socket is in use
+  // Reason - Now web socket is in use
 
   return (
     <BrowserRouter>

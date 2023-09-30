@@ -59,7 +59,9 @@ export default function InvoiceDetail() {
   // Reason - Now wen socket is in use
   const [messageHistory, setMessageHistory] = useState([]);
   const navigate =useNavigate()
-  const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`);
+  const { sendMessage, lastMessage, readyState, } = useWebSocket(`ws://${webSocketIP}/ws/order/${secureLocalStorage.getItem("order")?.order_id}/${localStorage.getItem('tenantName')}`,{
+    shouldReconnect: (closeEvent) => true,
+  });
 
   useEffect(() => {
     if (lastMessage !== null) {

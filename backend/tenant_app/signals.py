@@ -160,12 +160,7 @@ import datetime
 
 # Added by Rohan kansari - 28/9/23 - To comment all firbase signal and connecting 
 # websocket for sending push notification
-class DateTimeEncoder(json.JSONEncoder):
-    def default(self, z):
-        if isinstance(z, datetime.datetime):
-            return (str(z))
-        else:
-            return super().default(z)
+
 
 @receiver(post_save, sender=Order)
 def update_order_instance(sender, instance,created, **kwargs):
@@ -189,7 +184,6 @@ def update_order_instance(sender, instance,created, **kwargs):
         # print("----------schema",order)
     except Exception as inst:
         order=None    
-        print("signal87",order,inst)
    
     channel_layer = get_channel_layer()
     # print('order_%s_%s'%(values.order_id,connection.schema_name))
@@ -222,7 +216,6 @@ def update_order_item(sender,created,instance, **kwargs):
             order["order_item"]=OrderItemWithOrderIdSerializer(values2,many=True).data
         except Exception as inst:
             order=None    
-            print("signal-orderitem",order,inst)
         
         channel_layer = get_channel_layer()
         # print('order_%s_%s'%(values.order_id,connection.schema_name))
