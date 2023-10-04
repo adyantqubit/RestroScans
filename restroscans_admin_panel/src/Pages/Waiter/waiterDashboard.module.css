@@ -142,7 +142,7 @@
     }
 
     .card{
-        min-width: 110px;
+        min-width: 100px;
         max-height: 90px;
         padding: 4px 4px;
         background-color: #BB9E37;

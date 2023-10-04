@@ -290,7 +290,10 @@ function OrderCreation({ IsOrderPopupVisible, setOrderPopupvisible, setRecall, r
                                     if (e.target.value.length && emailRegex.test(e.target.value))
                                         delete errorText.email
                                     else
+                                        if(e.target.value.length>0)
                                         errorText.email = "Enter valid email example@gmail.com"
+                                        else
+                                        delete errorText.email
 
                                     setErrorText({ ...errorText })
                                     setEmail(e.target.value)
