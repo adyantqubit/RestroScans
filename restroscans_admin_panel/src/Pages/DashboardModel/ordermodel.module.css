@@ -119,8 +119,10 @@
     gap: 10px;
     /* Modified by Pratap sahu on 22-09-2023
     Reason: To adjust payment mode dropdown */
-    /* row-gap: 0px; */
-    row-gap: 5px;
+    /* uncommented by pratap sahu on 28-09-2023 */
+    row-gap: 0px;
+    /* row-gap: 5px; */
+    /* End of code by pratap sahu on 28-09-2023 */
     /*End of Modification by Pratap sahu on 22-09-2023
     Reason: To adjust payment mode dropdown */
     flex-wrap: wrap;
@@ -745,10 +747,10 @@
     width: 50%;
     /* Modified by pratap sahu on 27-09-2023
     Reason:decimal values are coming out of the Area */
-    /* max-width: 260px; */
-    max-width: 290px;
-    /* min-width: 180px; */
-    min-width: 230px;
+    max-width: 260px;
+    /* max-width: 290px; */
+    min-width: 180px;
+    /* min-width: 230px; */
     /*End of code by pratap sahu on 27-09-2023
     Reason:decimal values are coming out of the Area */
     margin: 10px 0px;
@@ -1072,7 +1074,7 @@
         /* Modified By pratap sahu on 27-09-2023
         Reason: Cancelled by Coming outside the Are in Responsive */
         /* width: 95%; */
-        width: 115%;
+        width: 100%;
     /* End of Modification By pratap sahu on 27-09-2023
     Reason: Cancelled by Coming outside the Are in Responsive */
     }

@@ -1441,25 +1441,31 @@ const Order = () => {
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.subtotalColumn} ${style.commonColumnData} `}
                       >
-                        {orderDetail.sub_total}
+                      {/* Modified by pratap sahu on 28-09-2023 Reason:to display upto 2decimals */}
+                        {/* {orderDetail.sub_total} */}
+                        {(orderDetail.sub_total).toFixed(2)}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.cgstColumn} ${style.commonColumnData} `}
                       >
-                        {orderDetail.cgst}
+                        {/* {orderDetail.cgst} */}
+                        {(orderDetail.cgst).toFixed(2)}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.sgstColumn} ${style.commonColumnData} `}
                       >
-                        {orderDetail.sgst}
+                        {/* {orderDetail.sgst} */}
+                        {(orderDetail.sgst).toFixed(2)}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.finalRupees} ${style.commonColumnData} `}
                       >
-                        {orderDetail.final_amount}
+                         {/* {orderDetail.final_amount} */}
+                        {(orderDetail.final_amount).toFixed(2)}
+                        {/*End of Code by pratap sahu on 28-09-2023 Reason:to display upto 2decimals */}
                       </div>
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}

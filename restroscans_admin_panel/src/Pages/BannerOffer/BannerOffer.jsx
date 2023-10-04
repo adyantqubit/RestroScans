@@ -222,7 +222,7 @@ const BannerOffer = () => {
    * End of code addition by - Om Shrivastava on 26-07-23
    * Reason - created api to get list of customers
    */
-
+    console.log(bannerOfferList,'dataaaaa')
   /**
    * Added by - Om Shrivastava on 26-07-23
    * Reason -  When user changes page number, this method will set page number which will be sent to backend.
@@ -322,6 +322,16 @@ const BannerOffer = () => {
    * Added by - Om Shrivastava on 27-09-23
    * Reason - Method that will open banner offer data for selected offer
    */
+  // Addition by Om Shrivastava on 28-09-23
+  // Reason : Create the function for get the appropriate form of date
+  function ExtractDateTime(format) {
+    var d = new Date(format);
+    var date = format.substring(0, 10).split("-").reverse().join("/");
+    var time = format.substring(11, 19);
+    return { date, time };
+  }
+  // End of addition by Om Shrivastava on 28-09-23
+  // Reason : Create the function for get the appropriate form of date
 
   return (
     // Modified by Om Shrivastava - 25/6/23
@@ -540,7 +550,8 @@ const BannerOffer = () => {
                         // width:'12%',minWidth:'12%'
                       }}
                     >
-                      Video link
+                      {/* Video link */}
+                      Date
                     </div>
 
                     <div
@@ -663,10 +674,18 @@ const BannerOffer = () => {
                                 // width:'12%',minWidth:'12%'
                               }}
                             >
-                              {bannerOfferDetails.video_link
+                              {/* Modification and addition by Om Shrivastava on 28-09-23
+                              Reason :Change the Video link to date */}
+                              {/* {bannerOfferDetails.video_link
                                 ? bannerOfferDetails.video_link
-                                : "-"}
+                                : "-"} */}
                               {/* https://www.youtube.com/embed/0usc_HTnUBQ */}
+                              {/* {bannerOfferDetails.date} */}
+                              {ExtractDateTime(bannerOfferDetails.date).date}
+                              {/* {ExtractDateTime(bannerOfferDetails.date).time} */}
+
+                              {/* End of Modification and addition by Om Shrivastava on 28-09-23
+                              Reason :Change the Video link to date */}
                             </div>
 
                             <div

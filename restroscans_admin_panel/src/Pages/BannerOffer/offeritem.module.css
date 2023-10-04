@@ -1,346 +1,792 @@
 .Container {
-    width: 100%;
-    height: 86.5vh;
-    overflow: scroll;
-    text-align: center;
-  }
-  .heading {
-    font-size: 3rem;
-  }
-  
-  .titleContainer{
-    display: flex;
+  width: 100%;
+  height: 86.5vh;
+  overflow: scroll;
+  text-align: center;
+}
+.heading {
+  font-size: 3rem;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.pageTitle {
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.menuSection {
+  min-height: auto;
+  background-color: transparent;
+  margin: auto 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #9c9c9c;
+  background-color: white;
+  /* width: fit-content; */
+  margin: auto auto;
+  margin-bottom: 20px;
+  /* padding: 20px 80px; */
+}
+
+.sectionInsideForm {
+  /* margin-top: 30px; */
+  background-color: #e6f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+}
+
+.menuCatItemContainer {
+  /* border: 1px solid aqua; */
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-around;
+}
+.menuCatItemdropdown {
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: row; */
+  /* justify-content: space-around; */
+  /* border: 1px dotted gold; */
+  /* Modification and addition by Om Shrivastava on 30-09-23
+    Reason : Set the gap between div */
+  /* gap: 7px; */
+  gap: 47px;
+
+  /* End of modification and addition by Om Shrivastava on 30-09-23
+    Reason : Set the gap between div */
+  padding-top: 1%;
+}
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  /* border: 2px solid black; */
+
+  padding-left: 54px;
+}
+
+.inputArea {
+  display: flex;
+  align-items: center;
+  /* Added by Om Shrivastava on 30-09-23
+    Reason : Set the center property of offer div */
+  justify-content: center;
+  /* End of addition by Om Shrivastava on 30-09-23
+    Reason : Set the center property of offer div */
+  /* border: 1px dotted rgb(167, 32, 32); */
+}
+
+.inputLabel {
+  /* width: 250px; */
+/* Modification and addition by Om Shrivastava on 30-09-23
+Reason : Set the width of label */
+  /* width: 100px; */
+  width: 80px;
+/* End of modification and addition by Om Shrivastava on 30-09-23
+Reason : Set the width of label */
+
+  font-weight: bold;
+
+  text-align: left;
+}
+
+.textInputBox {
+  width: 200px;
+  border: 1px solid black;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 2px;
+  background-color: white;
+}
+/* Addition by Om Shrivastava on 30-09-23
+  Reason : Set the width and height of the offer input box */
+.offerInputBox {
+  width: 300px;
+  border: 1px solid black;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 2px;
+  background-color: white;
+}
+/* End of modification and addition by Om Shrivastava on on 30-09-23
+  Reason : Set the width and height of the offer input box  */
+.menuImageContainer {
+  width: 200px;
+}
+.menuImage {
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.inputErrorArea {
+  margin-left: 250px;
+  width: 200px;
+  color: red;
+  display: flex;
+  flex-direction: column;
+}
+
+.actionContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.backButton {
+  background-color: #1f2937;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width: 100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.backButton:hover {
+  cursor: pointer;
+  background-color: #62686c;
+}
+
+.cancelButton {
+  background-color: #797b7c;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width: 100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.cancelButton:hover {
+  cursor: pointer;
+  background-color: #a7b4bd;
+}
+/* Added by Om Shrivastava on 28-09-23
+  Reason : Add the css for the add button */
+.addButton {
+  background-color: #1cafbe;
+  color: white;
+  border-radius: 5px;
+  transition: all 0.3s;
+  margin-top: 10px;
+  text-align: center;
+  width: 90px;
+  font-size: 17px;
+  /* Modification and addition by Om Shrivastava on 30-09-23
+  Reason : Set the button padding */
+  /* padding: 3px 3px; */
+  padding: 6px 3px;
+/* End of modification and addition by Om Shrivastava on 30-09-23
+  Reason : Set the button padding */
+  cursor: pointer;
+}
+/* End of addition by Om Shrivastava on 28-09-23
+  Reason : Add the css for the add button  */
+.proceedButton {
+  background-color: #51c14b;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: 18px;
+  width: 100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.proceedButton:hover {
+  cursor: pointer;
+  background-color: #1f871b;
+}
+
+.mendatoryField {
+  color: red;
+}
+.optionalField {
+  visibility: hidden;
+}
+
+/* CSS changes by Om Shrivastava on 28-08-23 
+Reason : Need to decrease the size of table list */
+
+.itemListSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  /* width: fit-content; */
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+}
+
+.tableContainer {
+  /* min-width: 100%; */
+  min-width: 70%;
+
+  width: max-content;
+  padding: 4px;
+  background-color: #efefef;
+  /* Added */
+  margin: auto;
+}
+
+.tableHeadingContainer {
+  background-color: white;
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #cad0d0;
+  font-family: "MyFont";
+  padding: 3px;
+}
+
+.tableDataContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: white;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 3px;
+}
+
+.tableData {
+  /* background-color: white; */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+}
+
+.commonColumnTitle {
+  width: var(--common-column-width);
+  /* width: 8%; */
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commonColumnData {
+  /* width: var(--common-column-width);
+    min-width: var(--common-column-min-width);
+    padding: 5px 0px;
+    height: 100%;
+    display: var(--common-column-display); */
+  font-weight: 600;
+  font-size: 12px !important;
+  text-align: center;
+  /* display: flex;
     justify-content: center;
+    align-items: center; */
+}
+
+.data {
+  max-width: 130px;
+  word-break: break-all;
+}
+
+.eyeIcon {
+  cursor: pointer;
+}
+
+.smallColumnWidth {
+  /* width: var(--common-column-small-width) ; */
+  min-width: var(--common-column-small-min-width);
+}
+
+.mediumColoumnWidth {
+  width: var(--common-column-medium-width);
+  min-width: var(--common-column-medium-min-width);
+}
+.sNoColumn {
+  min-width: 40px;
+  text-align: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+/* Added by Om Shrivastava on 28-09-23
+Reason : Set the width and height for the offer banner item list */
+.sNoColumn {
+  min-width: 40px;
+  text-align: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.actionColumn {
+  min-width: 35px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.OrderIdColumn {
+  min-width: 80px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.tableNoColumn {
+  min-width: 70px;
+
+  width: 80px;
+
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.dateColumn {
+  min-width: 75px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.orderStatusColumn {
+  /* min-width: 90px;
+    width: 70px; */
+  min-width: 115px;
+  width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.paymentStatusColumn {
+  min-width: 110px;
+  width: 70px;
+  text-align: center;
+  /* display: flex; */
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.subtotalColumn {
+  min-width: 60px;
+  text-align: center;
+  /* display: flex; */
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.discountColumn {
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.loayltyColumn {
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.totalColumn {
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.cgstColumn {
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.sgstColumn {
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+
+.finalRupees {
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  padding: 4px 0;
+  font-weight: normal;
+}
+/* End of addition by Om Shrivastava on 28-09-23
+  Reason : Set the width and height for the offer banner item list */
+
+@media screen and (max-width: 4000px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
   }
-  
-  .pageTitle {
-    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    text-align: center;
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+
+    --common-column-medium-width: 20%;
+    --common-column-medium-min-width: 80px;
+
+    --common-column-large-width: 12%;
+    --common-column-large-min-width: 120px;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
   }
   .menuSection {
-    min-height: auto;
-    background-color: transparent;
-    margin: auto 10px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #9c9c9c;
-    background-color: white;
-    /* width: fit-content; */
-    margin: auto auto;
-    margin-bottom: 20px;
-    /* padding: 20px 80px; */
+    padding: 20px 40px;
   }
-  
-  .sectionInsideForm{
-      /* margin-top: 30px; */
-      background-color: #e6f0f0;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow:
-        var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
   }
+}
 
-  .menuCatItemContainer{
-    border: 1px solid aqua;
-    flex-direction: row;
-    display: flex;
-    flex-wrap: wrap;
-
+@media screen and (max-width: 900px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
   }
-  .menuCatItemdropdown{
-    display: flex;
-    flex-wrap: wrap;
-    /* flex-direction: row; */
-    /* justify-content: space-around; */
-    border: 1px dotted gold;
-    gap: 7px;
+  .menuSection {
+    padding: 20px 20px;
   }
-  .inputContainer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    border: 2px solid black;
-  }
-  
-  .inputArea {
-    display: flex;
-    align-items: center;
-    border: 1px dotted rgb(167, 32, 32);
-
-  }
-  
   .inputLabel {
-    /* width: 250px; */
-    width: 100px;
-
-    font-weight: bold;
-
-    text-align: left;
+    width: 250px;
   }
-  
   .textInputBox {
     width: 200px;
-    border: 1px solid black;
-    margin-top: 5px;
-    border-radius: 5px;
-    padding: 2px;
-    background-color: white;
   }
-  
-  .menuImageContainer{
-    width: 200px;
-  }
-  .menuImage{
-    border-radius:5px;
-    border:1px solid black;
-  }
-  
+
   .inputErrorArea {
     margin-left: 250px;
     width: 200px;
-    color: red;
-    display: flex;
+  }
+  .inputArea {
     flex-direction: column;
   }
-  
-  .actionContainer {
-    display: flex;
-    width: 100%;
-    margin-top: 10px;
-    justify-content: center;
+  .inputContainer {
+    padding-left: 0px;
   }
-  
-  .backButton {
-    background-color: #1f2937;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 20px;
-    transition: all 0.3s;
-    font-size: 18px;
-    width:100px;
-    margin-top: 10px;
-    text-align: center;
+  .itemListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
   }
-  .backButton:hover {
-    cursor: pointer;
-    background-color:#62686c;
+  /* Addition by Om Shrivastava on 30-09-23
+      Reason : Set the gap of the div in mobile view */
+  .menuCatItemdropdown {
+    gap: 10px;
   }
-  
-  .cancelButton {
-    background-color: #797b7c;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 20px;
-    transition: all 0.3s;
-    font-size: 18px;
-    width:100px;
-    margin-top: 10px;
-    text-align: center;
-  }
-  .cancelButton:hover {
-    cursor: pointer;
-    background-color:#a7b4bd;
-  }
-  
-  .proceedButton {
-    background-color: #51c14b;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 20px;
-    transition: all 0.3s;
-    font-size: 18px;
-    width:100px;
-    margin-top: 10px;
-    text-align: center;
-  }
-  .proceedButton:hover {
-    cursor: pointer;
-    background-color: #1f871b;
-  }
-  
-  .mendatoryField{
-    color:red;
-  }
-  .optionalField{
-    visibility: hidden;
-  }
-  
-  @media screen and (max-width: 4000px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-    }
-  }
-  
-  @media screen and (max-width: 1120px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-    }
-    .menuSection {
-      padding: 20px 40px;
-    }
-  }
-  
-  @media screen and (max-width: 900px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-    }
-    .menuSection {
-      padding: 20px 20px;
-    }
-    .inputLabel {
-      width: 250px;
-    }
-    .textInputBox {
-      width: 200px;
-    }
-    .inputErrorArea {
-      margin-left: 250px;
-      width: 200px;
-    }
-    .inputArea {
-        flex-direction: column;
-      }
-     
-  }
-  
-  @media screen and (max-width: 770px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-      /* min-height: 82vh; */
-      margin-bottom: 11vh;
-    }
-    .menuSection {
-      padding: 20px 20px;
-      /* margin-bottom: 11vh; */
-    }
-    .inputLabel {
-        align-self: flex-start;
-        width: 400px;
-      }
-    .textInputBox {
-      width: 200px;
-    }
-    .inputErrorArea {
-      margin-left: 300px;
-      width: 200px;
-    }
-  }
-  
-  @media screen and (max-width: 768px) {
-    .Container {
-      height: 73vh;
-    }
-  }
- 
-  @media screen and (max-width: 720px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-      margin-bottom: 11vh;
-    }
-    .menuSection {
-      margin-bottom: 20px;
-    }
-    .inputLabel {
-        align-self: flex-start;
-        width: 400px;
-      }
-      .textInputBox {
-        align-self: flex-start;
-        width: 100%;
-      }
-    .inputErrorArea {
-      margin-left: 250px;
-      width: 200px;
-    }
-  }
-  
-  @media screen and (max-width: 610px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-    }
-    .inputArea {
-      flex-direction: column;
-    }
-    .inputLabel {
-      align-self: flex-start;
-      width: 400px;
-    }
-    .textInputBox {
-      align-self: flex-start;
-      width: 100%;
-    }
-    .inputErrorArea {
-      margin-left: 0px;
-      width: 100%;
-      margin-right: 0px;
-    }
-    .menuImageContainer{
-      margin-right: auto;
-      margin-left: 0;
-    }
-  }
-  
-  @media screen and (max-width: 500px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-    }
-    .inputArea {
-      flex-direction: column;
-    }
-    .inputLabel {
-      /* width: 300px; */
-      width: 60px;
+  /* End of modification and addition by Om Shrivastava on 30-09-23
+      Reason : Set the gap of the div in mobile view */
+}
 
-      align-self: flex-start;
-    }
-    .textInputBox {
-      align-self: flex-start;
-      width: 100%;
-    }
-    .proceedButton,.cancelButton,.backButton{
-      width:90px;
-      font-size: 17px;
-      padding:3px 3px;
-    }
+@media screen and (max-width: 770px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    /* min-height: 82vh; */
+    margin-bottom: 11vh;
   }
-  @media screen and (max-width: 400px) {
-    .Container {
-      --common-column-width: 15%;
-      --common-column-min-width: 15%;
-      --common-column-display: unset;
-    }
-    .inputArea {
-      flex-direction: column;
-    }
-    .inputLabel {
-      width: 250px;
-      align-self: flex-start;
-    }
-    .textInputBox {
-      align-self: flex-start;
-      width: 100%;
-    }
-    .inputErrorArea {
-      margin-left: 0px;
-      width: 90%;
-      margin-right: 0px;
-    }
+  .menuSection {
+    padding: 20px 20px;
+    /* margin-bottom: 11vh; */
   }
-  
+  .inputLabel {
+    align-self: flex-start;
+    width: 400px;
+  }
+  .textInputBox {
+    width: 200px;
+  }
+  .inputErrorArea {
+    margin-left: 300px;
+    width: 200px;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 30px;
+    --common-column-small-color: "red";
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 73vh;
+  }
+  .itemListSection {
+    /* Modified by Rohan kansari - 21/8/23*/
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    margin-bottom: 11vh;
+  }
+  .menuSection {
+    margin-bottom: 20px;
+  }
+  .inputLabel {
+    align-self: flex-start;
+    width: 400px;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+    --common-column-display: unset;
+  }
+  .tableHeadingContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+  /* Addition by Om Shrivastava on 30-09-23
+  Reason : Set the width and height of the offer input box */
+  .offerInputBox {
+    align-self: flex-start;
+    width: 200px;
+  }
+  /* End of modification and addition by Om Shrivastava on on 30-09-23
+  Reason : Set the width and height of the offer input box  */
+}
+
+@media screen and (max-width: 610px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputLabel {
+    align-self: flex-start;
+    width: 400px;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  /* Addition by Om Shrivastava on 30-09-23
+  Reason : Set the width and height of the offer input box */
+  .offerInputBox {
+    align-self: flex-start;
+    width: 200px;
+
+  }
+  /* End of modification and addition by Om Shrivastava on on 30-09-23
+  Reason : Set the width and height of the offer input box  */
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 100%;
+    margin-right: 0px;
+  }
+  .menuImageContainer {
+    margin-right: auto;
+    margin-left: 0;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+  .tableHeadingContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputLabel {
+    /* width: 300px; */
+    /* Modification and addition by Om Shrivastava on 30-09-23
+    Reason : Set the width of the label */
+    /* width: 60px; */
+    width: 100px;
+    /* End of modification and addition by Om Shrivastava on 30-09-23
+    Reason : Set the width of the label */
+    align-self: flex-start;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  /* Addition by Om Shrivastava on 30-09-23
+  Reason : Set the width and height of the offer input box */
+  .offerInputBox {
+    align-self: flex-start;
+    width: 200px;
+
+  }
+  /* End of modification and addition by Om Shrivastava on on 30-09-23
+  Reason : Set the width and height of the offer input box  */
+  .proceedButton,
+  .cancelButton,
+  .backButton {
+    width: 90px;
+    font-size: 17px;
+    padding: 3px 3px;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+  /* Addition by Om Shrivastava on 30-09-23
+      Reason : Set the gap of the div in mobile view */
+  .menuCatItemdropdown {
+    gap: 10px;
+  }
+  /* End of modification and addition by Om Shrivastava on 30-09-23
+      Reason : Set the gap of the div in mobile view */
+}
+@media screen and (max-width: 400px) {
+  .Container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputLabel {
+    width: 250px;
+    align-self: flex-start;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  /* Addition by Om Shrivastava on 30-09-23
+  Reason : Set the width and height of the offer input box */
+  .offerInputBox {
+    align-self: flex-start;
+    width: 200px;
+
+  }
+  /* End of modification and addition by Om Shrivastava on on 30-09-23
+  Reason : Set the width and height of the offer input box  */
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 90%;
+    margin-right: 0px;
+  }
+  .itemListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+  }
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+}
