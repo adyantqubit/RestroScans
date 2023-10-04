@@ -93,12 +93,18 @@ def DashboardDetails(tenant):
     # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
     # todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
     # todays_order_item=OrderItem.objects.all().filter(date__gte=today).order_by("-id")
+    from django.db import connection
+    connection.set_schema(tenant)
     try:
+        from django.utils.timezone import datetime
+
+        today=datetime.today().date()
         order={}
-        newly_placed=Order.objects.raw('SELECT * FROM '+tenant+'.tenant_app_order WHERE order_status = %s AND date::date = now()::date',["Placed"])
-        pending=Order.objects.raw('SELECT * FROM '+tenant+'.tenant_app_order WHERE order_status != %s AND payment_status= %s AND date::date = now()::date',["Placed","Pending"])
-        Completed=Order.objects.raw('SELECT * FROM '+tenant+'.tenant_app_order WHERE payment_status= %s AND date::date = now()::date',["Completed"])
-        todays_order_item=OrderItem.objects.raw('SELECT * FROM '+tenant+'.tenant_app_orderitem WHERE date::date = now()::date')
+        newly_placed=Order.objects.filter(order_status ="Placed",date__gte=today)
+        from django.db.models import Q
+        pending=Order.objects.filter(~Q(order_status='Placed'), Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today)
+        Completed=Order.objects.filter(date__gte=today,payment_status='Completed' )
+        todays_order_item=OrderItem.objects.filter(date__gte=today)
         # values2=OrderItem.objects.raw("SELECT * FROM "+tenant[1]+".tenant_app_orderitem WHERE order_id_id=  %s",[values[0].id])
         from tenant_app.serializers import OrderSerializer,OrderItemWithOrderIdSerializer
         order["todays_newly_placed_orders"]=OrderSerializer(newly_placed,many=True).data    
@@ -106,8 +112,9 @@ def DashboardDetails(tenant):
         order["todays_completed_orders"]=OrderSerializer(Completed,many=True).data       
         order["todays_order_item"]=OrderItemWithOrderIdSerializer(todays_order_item,many=True).data
         return order
-    except:
-        return None
+    except Exception as inst:
+        order=None    
+        print("signal-dashboard",order,inst)
 
 class DashboardData(WebsocketConsumer):
     def connect(self):
@@ -138,7 +145,7 @@ class DashboardData(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         # Send message to room group
-        print("order_status send",text_data)
+        # print("order_status send",text_data)
         # text_data = DashboardDetails(self.room_name)
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
@@ -150,13 +157,9 @@ class DashboardData(WebsocketConsumer):
 
     # Receive message from room group
     def update_dashbaord(self, event):
-        print("update_dashbaord send",event["value"])
+        # print("update_dashbaord send",event["value"])
         schema = event['value']
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'payload': DashboardDetails(schema)
-        }))     
-        
-
-#End of code addition by Rohan kansari - 29/9/23 
-# Reason - To send dashboard data           
+        }))        

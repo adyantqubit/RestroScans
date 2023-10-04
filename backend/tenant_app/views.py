@@ -3756,7 +3756,7 @@ class OrderDetailAPIView(APIView) :
     # End of addition by Om Shrivastava on 16-06-23
         # orderObjs = Order.objects.all()
         # serialized=AllOrderSerializer(orderObjs, many=True)
-        if orderDetailSerailizer.is_valid():
+        if orderDetailSerailizer.is_valid(raise_exception=True):
             orderDetailSerailizer.save()
             # Added by Rohan kansari - 14/8/23
             # Reason - To get update customer loyality point from serializer

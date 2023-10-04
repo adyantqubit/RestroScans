@@ -170,9 +170,8 @@ class DateTimeEncoder(json.JSONEncoder):
 @receiver(post_save, sender=Order)
 def update_order_instance(sender, instance,created, **kwargs):
     from django.db import connection
-    schema_name=connection.schema_name 
+    connection.set_schema(connection.schema_name)
     try:
-        print("mksd",schema_name)
         # pass
         # with connection.cursor() as cursor:
         #     cursor.execute('SELECT * FROM '+schema_name+'.tenant_app_order WHERE order_id= %s',[instance.order_id])
@@ -182,59 +181,64 @@ def update_order_instance(sender, instance,created, **kwargs):
         #     cursor.execute('SELECT * FROM '+schema_name+'.tenant_app_orderitem WHERE order_id= %s',[instance.order_id])
         #     print(cursor.fetchall()[0])
             # print(value)
-        values=Order.objects.raw('SELECT * FROM '+schema_name+'.tenant_app_order WHERE order_id= %s',[instance.order_id])
-        values2=OrderItem.objects.raw('SELECT * FROM '+schema_name+'.tenant_app_orderitem WHERE order_id_id= %s',[values[0].id])
+        values=Order.objects.get(order_id=instance.order_id)
+        values2=OrderItem.objects.filter(order_id_id=values.id)
         order={}
-        order["order"]=OrderSerializer(values,many=True).data[0]
+        order["order"]=OrderSerializer(values).data
         order["order_item"]=OrderItemWithOrderIdSerializer(values2,many=True).data
-        print("----------schema",order)
+        # print("----------schema",order)
     except Exception as inst:
         order=None    
         print("signal87",order,inst)
    
     channel_layer = get_channel_layer()
-    print('order_%s_%s'%(instance.order_id,schema_name))
+    # print('order_%s_%s'%(values.order_id,connection.schema_name))
     if instance.order_created_by == "User" and order is not None:
         async_to_sync(channel_layer.group_send)(
-            'order_%s_%s'%(instance.order_id,schema_name),{
+            'order_%s_%s'%(values.order_id,connection.schema_name),{
                 'type': 'order_status',
                 'value': order
             }
         )
-    #Added by Rohan kansari - 29/9/23 - To connect with dashboard also
     async_to_sync(channel_layer.group_send)(
-            'dashboard_data_%s'%schema_name,{
+            'dashboard_data_%s'%connection.schema_name,{
                 'type': 'update_dashbaord',
-                'value': schema_name
+                'value': connection.schema_name
             }
         )    
-    #End of addition by Rohan kansari - 29/9/23 - To connect with dashboard also
+
 
 @receiver(post_save, sender=OrderItem)
 def update_order_item(sender,created,instance, **kwargs):
   
         from django.db import connection
-        schema_name=connection.schema_name 
+        connection.set_schema(connection.schema_name)
         try:
-            values=Order.objects.raw('SELECT * FROM '+schema_name+'.tenant_app_order WHERE order_id= %s',[instance.order_id.order_id])
-            values2=OrderItem.objects.raw('SELECT * FROM '+schema_name+'.tenant_app_orderitem WHERE order_id_id= %s',[values[0].id])
+            values=Order.objects.get(order_id=instance.order_id.order_id)
+            values2=OrderItem.objects.filter(order_id_id=values.id)
             order=dict()
             from tenant_app.serializers import OrderSerializer,OrderItemWithOrderIdSerializer
-            order["order"]=OrderSerializer(values[0]).data
+            order["order"]=OrderSerializer(values).data
             order["order_item"]=OrderItemWithOrderIdSerializer(values2,many=True).data
-        except:
+        except Exception as inst:
             order=None    
-            print(order)
+            print("signal-orderitem",order,inst)
         
         channel_layer = get_channel_layer()
-        print('order_%s_%s'%(values[0].order_id,schema_name))
-        if values[0].order_created_by == "User" and order is not None:
+        # print('order_%s_%s'%(values.order_id,connection.schema_name))
+        if values.order_created_by == "User" and order is not None:
             async_to_sync(channel_layer.group_send)(
-                'order_%s_%s'%(instance.order_id,schema_name),{
+                'order_%s_%s'%(values.order_id,connection.schema_name),{
                     'type': 'order_status',
                     'value': order
                 }
             )
+        # async_to_sync(channel_layer.group_send)(
+        #     'dashboard_data_%s'%connection.schema_name,{
+        #         'type': 'update_dashbaord',
+        #         'value': connection.schema_name
+        #     }
+        # )    
 
 # End of addition by Rohan kansari - 28/9/23 - To comment all firbase signal and connecting 
 # websocket for sending push notification

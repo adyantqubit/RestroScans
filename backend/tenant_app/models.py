@@ -1469,19 +1469,24 @@ class Order(models.Model):
     @staticmethod
     def give_order_details(order_idAndTenant):
         import re
-        tenant = re.split("_",order_idAndTenant)
+        tenant_orderid = re.split("_",order_idAndTenant)
+        from django.db import connection
+        # tenant_obj=Tenant.objects.get(tenant_name=order[1]).tenant_name
+        connection.set_schema(tenant_orderid[1])
         # instance = Order.objects.filter(order_id=order_id).first()
         # tenant="restrocg04"
         # with connection.cursor() as cursor:
         #     value= cursor.execute("select * from "+tenant+
         #                     ".tenant_app_order")
         try:
-            values=Order.objects.raw('SELECT * FROM '+tenant[1]+'.tenant_app_order WHERE order_id=  %s',[tenant[0]])
-            values2=OrderItem.objects.raw("SELECT * FROM "+tenant[1]+".tenant_app_orderitem WHERE order_id_id=  %s",[values[0].id])
-            order={}
+        # values=Order.objects.raw('SELECT * FROM '+connection.schema_name+'.tenant_app_order WHERE order_id=  %s',[tenant[0]])
+        # values2=OrderItem.objects.raw("SELECT * FROM "+connection.schema_name+".tenant_app_orderitem WHERE order_id_id=  %s",[values[0].id])
+            orderObj=Order.objects.get(order_id=tenant_orderid[0])
+            orderItemObj=OrderItem.objects.filter(order_id_id=orderObj.id)
+            order=dict()
             from tenant_app.serializers import OrderSerializer,OrderItemWithOrderIdSerializer
-            order["order"]=OrderSerializer(values,many=True).data[0]
-            order["order_item"]=OrderItemWithOrderIdSerializer(values2,many=True).data
+            order["order"]=OrderSerializer(orderObj).data
+            order["order_item"]=OrderItemWithOrderIdSerializer(orderItemObj,many=True).data
         except:
             order=None 
 
@@ -1489,7 +1494,7 @@ class Order(models.Model):
         # import json
         # from tenant_app.serializers import OrderSerializer
         # order=OrderSerializer(values[0]).data
-        # print(order)
+        print(order)
         return order
     # End of addition
     # End of Created by Rohan kansari - 28/9/23 
