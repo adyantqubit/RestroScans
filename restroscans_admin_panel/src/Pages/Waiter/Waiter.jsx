@@ -44,12 +44,13 @@ const Waiter = () => {
                         width: "100%",
                     }}
                     >
-                        <Search
+                        <div></div>
+                        {/* <Search
                             placeholder="Search menu name"
                             allowClear
                             enterButton
                             className={style.searchBox}
-                        />
+                        /> */}
                         <div className={`${style.primaryButton}`}
                             style={{ marginLeft: "10px", minWidth: "100px", textAlign: "center" }}
                             onClick={e => {setModelVisiblity(!IsModalOpen); setSelectedWaiter(null)}}
@@ -64,7 +65,7 @@ const Waiter = () => {
                                 setColumnSortingOrder(!columnSortingOrder);
                             }}
                                 style={{ wordBreak: "break-word" }}>Name{" "}</span>
-                            <span onClick={(e) => {
+                            {/* <span onClick={(e) => {
                                 setColumnSortingOrder(!columnSortingOrder)
                             }}>
                                 {columnSortingOrder ?
@@ -72,7 +73,7 @@ const Waiter = () => {
                                     :
                                     <BsSortAlphaDownAlt className={style.sortingIcon} />
                                 }
-                            </span>
+                            </span> */}
                         </div>
                         <div className={style.commonColumnTitle}>Contact Number </div>
                         <div className={style.commonColumnTitle} >

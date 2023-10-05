@@ -12,6 +12,7 @@ export const domainURL="restroscans";
 
 export const localURL='192.168.1.10:3001';
 export const HTTP_METHOD = "http://"
+export const webSocketIP="";
 
 // end of addition by - Suman sahu On 25/05/2023
 

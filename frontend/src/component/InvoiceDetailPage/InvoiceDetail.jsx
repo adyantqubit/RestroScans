@@ -79,6 +79,8 @@ export default function InvoiceDetail() {
         //End of addition by Rohan kansari - 29/9/23 - To send and reset app for new order on cancellation
         secureLocalStorage.setItem("order", JSON.parse(lastMessage.data).payload.order);
         setOrders({ ...JSON.parse(lastMessage.data).payload.order })
+        secureLocalStorage.setItem("orderItem", JSON.parse(lastMessage.data).payload.order_item);
+        setOrderItem([...JSON.parse(lastMessage.data).payload.order_item])
       }
       }
     }
