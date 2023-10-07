@@ -13,16 +13,9 @@ import {
 import { Message } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
-import { AiFillEye } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
-
-const options = [
-  { label: "Grapes DFGD  FSDFDS  FDSFDS SDF FDSFD SFDF DSFS 🍇", value: "grapes" },
-  { label: "Mango 🥭", value: "mango" },
-  { label: "FDSFDSF 🍓", value: "straDSFDAwberry", },
-  { label: "StrawDSFFberry 🍓", value: "straDSFSFwberry", },
-  { label: "StraDFSwberry 🍓", value: "straEWRRETwberry", },
-];
+import {
+    MdDelete,
+  } from "react-icons/md";
 
 const OfferItem = () => {
   const [selected, setSelected] = useState([]);
@@ -174,6 +167,8 @@ const OfferItem = () => {
   //   };
   console.log(menuSelected,'menu iddddd')
   console.log(categorySelected,'category iddddd')
+  console.log(itemSelected,'item selected ')
+
 
 // Addition by Om Shrivastava on 06-10-23
 // Reason : Set the category name related to its menu name
@@ -247,6 +242,7 @@ const OfferItem = () => {
                     value={categorySelected}
                     onChange={setcategorySelected}
                     labelledBy="Select the menu"
+                    
                 
                   />
                   {/* End of addition by Om Shrivastava on 06-10-23
@@ -265,13 +261,18 @@ const OfferItem = () => {
                     value={itemSelected}
                     onChange={setitemSelected}
                     labelledBy="Select the menu"
+                    shouldToggleOnHover={true}
+                    // disabled={true}
                   />
                      {/* End of addition by Om Shrivastava on 06-10-23
                  Reason : Set the item list in dropdown */}
                 </div>
               </div>
-
-              <div className={` ${style.addButton}`}>Add</div>
+            {/* Commented by Om Shrivastava on 07-10-23
+            Reason : Not required yet */}
+              {/* <div className={` ${style.addButton}`}>Add</div> */}
+              {/* End of commented by Om Shrivastava on 07-10-23
+            Reason : Not required yet*/}
             </div>
           </div>
         </div>
@@ -285,7 +286,11 @@ const OfferItem = () => {
             <div className={style.tableContainer}>
               <div className={style.table}>
                 <div className={style.tableHeadingContainer}>
-                  <div className={style.sNoColumn}>Edit </div>
+                {/* Modification and addition by Om Shrivastava on Shrivastava on 07-10-23
+                Reason : Change the position of the edit button and rename this button */}
+                  {/* <div className={style.sNoColumn}>Edit </div> */}
+                {/* End of modification and addition by Om Shrivastava on Shrivastava on 07-10-23
+                Reason : Change the position of the edit button and rename this button */}
                   <div className={style.actionColumn}>S.No</div>
                   <div className={style.OrderIdColumn}>Menu</div>
 
@@ -295,6 +300,11 @@ const OfferItem = () => {
                   <div className={style.paymentStatusColumn}> Price full</div>
 
                   <div className={style.subtotalColumn}>Price half</div>
+                  {/* Addition by Om Shrivastava on 07-10-23
+                  Reason : Remove the item name */}
+                  <div className={style.sNoColumn}>Remove </div>
+                    {/* End of addition by Om Shrivastava on 07-10-23
+                  Reason : Remove the item name  */}
 
                   {/* <div
                     className={style.cgstColumn}
@@ -324,11 +334,13 @@ const OfferItem = () => {
                     backgroundColor: "#efefef",
                   }}
                 >
-                  {/* {orderItems && orderItems.length > 0 ? (
-                    orderItems.map((orderDetail, index) => {
-                      return ( */}
+                     {/* Addition by Om Shrivastava on 07-10-23
+                  Reason : Remove the item name */}
+                  {itemSelected && itemSelected.length > 0 ? (
+                    itemSelected.map((orderDetail, index) => {
+                      return (
                   <div
-                    //   key={index}
+                      key={index}
                     className={style.tableData}
                     style={{
                       padding: "2px",
@@ -341,9 +353,12 @@ const OfferItem = () => {
                       //     : "#1677ff14",
                     }}
                   >
-                    <div
+                    {/* Modification and addition by Om Shrivastava on Shrivastava on 07-10-23
+                Reason : Change the position of the edit button and rename this button */}
+                    {/* <div
                       className={`${style.sNoColumn} ${style.commonColumnData} `}
                     >
+
                       <FiEdit
                         // onClick={(e) => {
                         //   openCategoryDetails(
@@ -358,36 +373,37 @@ const OfferItem = () => {
                           height: "14px",
                         }}
                       />
-                    </div>
-
+                    </div> */}
+  {/* End of modification and addition by Om Shrivastava on Shrivastava on 07-10-23
+                Reason : Change the position of the edit button and rename this button */}
                     <div
                       className={`${style.actionColumn} ${style.commonColumnData} `}
                     >
-                      1
+                      {index+1}
                     </div>
 
                     <div
                       className={`${style.OrderIdColumn} ${style.commonColumnData} `}
                       style={{ wordBreak: "break-word" }}
                     >
-                      Maincourse
-                      {/* {orderDetail.order_id} */}
+                      {/* Maincourse */}
+                      {orderDetail.menu_name}
                     </div>
 
                     <div
                       className={`${style.orderStatusColumn} ${style.commonColumnData} `}
                       style={{ wordBreak: "break-word" }}
                     >
-                      Chienese
-                      {/* {orderDetail.item} */}
+                      {/* Chienese */}
+                      {orderDetail.category_name}
                     </div>
 
                     <div
                       className={`${style.orderStatusColumn} ${style.commonColumnData} `}
                       style={{ wordBreak: "break-word" }}
                     >
-                      Paneer corn soup
-                      {/* {orderDetail.item_status} */}
+                      {/* Paneer corn soup */}
+                      {orderDetail.name}
                     </div>
 
                     <div
@@ -396,21 +412,44 @@ const OfferItem = () => {
                     >
                       <h4>
                         {" "}
-                        <strike>500.00</strike>
+                        {/* <strike>500.00</strike> */}
                       </h4>
-                      <h4> 380.00</h4>
-                      {/* {orderDetail.serving_size} */}
+                      {/* <h4> 380.00</h4> */}
+                      {orderDetail.price_full}
                     </div>
                     <div
                       className={`${style.subtotalColumn} ${style.commonColumnData} `}
                     >
                       <h4>
                         {" "}
-                        <strike>300.00</strike>
+                        {/* <strike>300.00</strike> */}
                       </h4>
-                      <h4> 230.00</h4>
+                      {/* <h4> 230.00</h4> */}
+                      {orderDetail.price_half}
                     </div>
-
+                    {/* Addition by Om Shrivastava on 07-10-23
+                    Reason : Add the remove button for remove the some item */}
+                    <div
+                      className={`${style.sNoColumn} ${style.commonColumnData} `}
+                    >
+                        
+                      <MdDelete
+                        // onClick={(e) => {
+                        //   openCategoryDetails(
+                        //     bannerOfferDetails.id
+                        //   );
+                        // }}
+                        // disabled={disabled}
+                        style={{
+                          //   border: "1px solid black",
+                          marginLeft: "12px",
+                          width: "14px",
+                          height: "14px",
+                        }}
+                      />
+                    </div>
+                    {/* End of addition by Om Shrivastava on 07-10-23
+                    Reason : Add the remove button for remove the some item */}
                     {/* <div
                             className={`${style.cgstColumn} ${style.commonColumnData} `}
                           >
@@ -430,11 +469,13 @@ const OfferItem = () => {
                             12.00.00
                           </div> */}
                   </div>
-                  {/* );
+                   );
                     })
                   ) : (
                     <div style={{ textAlign: "center" }}>No records found!</div>
-                  )} */}
+                  )} 
+                   {/* End of Addition by Om Shrivastava on 07-10-23
+                  Reason : Remove the item name */}
                 </div>
               </div>
             </div>
