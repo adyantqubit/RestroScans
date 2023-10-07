@@ -66,12 +66,17 @@
   padding-top: 1%;
 }
 .inputContainer {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+    /* Modification and addition by Om shrivastava on 05-10-23
+    Reason :  Set the designing part of the offer name*/
+  /* display: flex;
+  flex-direction: column; */
+  /* margin-top: 10px;
+  font-size: 15px;
+  font-weight: 15px; */
   /* border: 2px solid black; */
-
-  padding-left: 54px;
+  /* padding-left: 54px; */
+  /* Modification and addition by Om shrivastava on 05-10-23
+    Reason :  Set the designing part of the offer name*/
 }
 
 .inputArea {
@@ -79,7 +84,7 @@
   align-items: center;
   /* Added by Om Shrivastava on 30-09-23
     Reason : Set the center property of offer div */
-  justify-content: center;
+  /* justify-content: center; */
   /* End of addition by Om Shrivastava on 30-09-23
     Reason : Set the center property of offer div */
   /* border: 1px dotted rgb(167, 32, 32); */

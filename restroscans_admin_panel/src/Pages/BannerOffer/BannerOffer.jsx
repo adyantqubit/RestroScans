@@ -308,6 +308,8 @@ const BannerOffer = () => {
     // }
   }
 
+// console.log(bannerOfferList,'offer data')
+
   // console.log(listPerPage,'kiffff')
   // console.log(backendOfferBannerCount,'ggggg')
 

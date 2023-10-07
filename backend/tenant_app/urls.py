@@ -489,8 +489,11 @@ urlpatterns = [
     # Added by Rohan kansari - 11/9/23 - To get waiter data
     # Modified by Rohan kansari - 20/9/23 - To get only active waiter data
     path('<str:tenant>/<str:waiterId>/waiter-dashboard-data/',WaiterDashboardAPI.as_view()),
-
-    
+    # // Added by Om Shrivastava on 05-10-23
+    # // Reason : Get the menu, category, item and offer details
+    path('<str:tenant>/menu-category-item-offer/<int:offerItemId>',MenuCategoryItemAPIView.as_view()),
+    #     // End of addition by Om Shrivastava on 05-10-23
+    # // Reason : Get the menu, category, item and offer details
 ]   
 
 

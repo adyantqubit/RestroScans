@@ -4976,3 +4976,75 @@ class BannerItemAPIView(APIView):
         
 # End of addition by Om Shrivastava on 06-08-23
 # Reason - to save, delete and edit the offer/banner details
+
+# Added by Om Shrivastava on 29-09-23
+# Reason : Set the menu category and item data
+class MenuCategoryItemAPIView(APIView):
+    def get(self,request,tenant,offerItemId):
+        
+        # print('gfagfgf', tenant)
+        menuList=Menu.objects.all().order_by('name')
+        var = menuList.filter(is_active = True) 
+        menuData = MenuSerializer(var, many =True)
+
+        categoryList=Category.objects.filter(is_active=True, menu__is_active=True).order_by('name')
+        categoryListSerializer=CategorySerializer(categoryList,many=True)
+
+        # itemList=Item.objects.all().order_by('name')
+        itemList=Item.objects.filter(is_active=True, category__menu__is_active=True,category__is_active=True).order_by('name')
+        itemListSerializer=ItemSerializer(itemList,many=True)
+
+        offerItemList=OfferItem.objects.filter(item_name__is_active=True, item_name__category__is_active=True,item_name__category__menu__is_active=True,offer_name=offerItemId)
+        offeritemsSerializer=OfferItemsSerializer(offerItemList,many=True)
+
+        # list = getBestproduct()
+        return Response({
+            "msg":"success",
+            "menuList":menuData.data,
+            "categoryList": categoryListSerializer.data,
+            "itemList": itemListSerializer.data,
+            "offerItemList":offeritemsSerializer.data,
+            # "top_product": list
+
+        })
+    
+    def post(self,request,tenant):
+        # print(request.data)
+        serializedData = MenuListSerializer(data=request.data)
+        if serializedData.is_valid():
+            serializedData.save()
+            return Response({"msg": "Saved Successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"error": serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request,tenant, pk):
+        id = pk
+        # print("update method",request.data)
+        menuList=Menu.objects.all().order_by('name')
+        menuData = MenuListSerializer(menuList, many =True)
+        categoryList=Category.objects.all().order_by('name')
+        categoryListSerializer=CategoryListSerializer(categoryList,many=True)
+        itemList=Item.objects.all().order_by('name')
+        itemListSerializer=ItemListSerializer(itemList,many=True)
+        
+        menuObj = Menu.objects.get(id = id)
+        serializedData = MenuListSerializer(menuObj, data=request.data)
+        if serializedData.is_valid(raise_exception=True):
+            serializedData.save()
+            return Response({
+                "msg": "Updated Successfully",
+                "menuList": menuData.data,
+                "categoryList": categoryListSerializer.data,
+                "itemList": itemListSerializer.data
+            })
+        return Response({"error":serializedData.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request,tenant, pk):
+        id = pk
+        menu = Menu.objects.get(id=id)
+        if menu :
+            menu.delete()
+            return Response({"msg": "Deleted Successfully"}, 200)
+        return Response({"error": "error"}, 404)
+
+# End of addition by Om Shrivastava on 29-09-23
+# Reason : Set the menu category and item data

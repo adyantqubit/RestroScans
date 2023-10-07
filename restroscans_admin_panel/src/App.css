@@ -224,6 +224,14 @@ Reason : When popup is shown than its overlap in header page */
 .box select option {
   padding: 30px;
 }
+/* Addition by Om Shrivastava on 05-10-23
+Reason : Set the designing of the multiselect dropdown */
+.rmsc{
+  width: 200px;
+}
+/* End of addition by Om Shrivastava on 05-10-23
+Reason : Set the designing of the multiselect dropdown */
+
 @media screen and (max-width: 798px) {
   /* .ant-popconfirm .ant-popconfirm-inner-content {
     margin-top: 8rem !important;
@@ -254,6 +262,14 @@ Reason : When popup is shown than its overlap in header page */
 { 
   height: 75vh !important;
 }
+/* Addition by Om Shrivastava on 05-10-23
+Reason : Set the designing of the multiselect dropdown */
+.rmsc{
+  width: 200px;
+  margin-right: 25%;
+}
+/* End of addition by Om Shrivastava on 05-10-23
+Reason : Set the designing of the multiselect dropdown */
 }
 /* End of code- Rohan kansari 30/6/2023
 

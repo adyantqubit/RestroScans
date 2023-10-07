@@ -58,17 +58,35 @@ class OfferBannerSerializer(serializers.ModelSerializer):
         fields = '__all__' 
   
 class OfferItemsSerializer(serializers.ModelSerializer):
-    item_name = serializers.CharField(source='item_name.name')
-    offer_name = serializers.CharField(source = 'offer_name.offer_name')
-    item_discount = serializers.IntegerField(source='offer_name.discount')
-    item_fullprice = serializers.CharField(source='item_name.price_full')
-    item_halfprice = serializers.CharField(source='item_name.price_half')
-    item_image = serializers.ImageField(source='item_name.icon')
-    item_description = serializers.CharField(source='item_name.description')
-    item_type = serializers.CharField(source='item_name.item_type')
+    # Modification and addition by Om shrivastava on 30-09-23
+    # Reason : Need to set the allow null true and required false
+    # item_name = serializers.CharField(source='item_name.name')
+    # offer_name = serializers.CharField(source = 'offer_name.offer_name')
+    # item_discount = serializers.IntegerField(source='offer_name.discount')
+    # item_fullprice = serializers.CharField(source='item_name.price_full')
+    # item_halfprice = serializers.CharField(source='item_name.price_half')
+    # item_image = serializers.ImageField(source='item_name.icon')
+    # item_description = serializers.CharField(source='item_name.description')
+    # item_type = serializers.CharField(source='item_name.item_type')
+    # # Added by Om 
+    # item_id = serializers.CharField(source='item_name.id') 
+    # # End of addition
+    item_name = serializers.CharField(source='item_name.name',allow_null=True,required=False)
+    offer_name = serializers.CharField(source = 'offer_name.offer_name',allow_null=True,required=False)
+
+    offer_id = serializers.CharField(source = 'offer_name.id',allow_null=True,required=False)
+
+    item_discount = serializers.IntegerField(source='offer_name.discount',allow_null=True,required=False)
+    item_fullprice = serializers.CharField(source='item_name.price_full',allow_null=True,required=False)
+    item_halfprice = serializers.CharField(source='item_name.price_half',allow_null=True,required=False)
+    item_image = serializers.ImageField(source='item_name.icon',allow_null=True,required=False)
+    item_description = serializers.CharField(source='item_name.description',allow_null=True,required=False)
+    item_type = serializers.CharField(source='item_name.item_type',allow_null=True,required=False)
     # Added by Om 
-    item_id = serializers.CharField(source='item_name.id') 
+    item_id = serializers.CharField(source='item_name.id',allow_null=True,required=False) 
     # End of addition
+    # End of modification and addition by Om shrivastava on 30-09-23
+    # Reason : Need to set the allow null true and required false
     class Meta:
         model = OfferItem
         fields = '__all__'
@@ -276,3 +294,83 @@ class WaiterSerializer(serializers.ModelSerializer):
         fields='__all__'
 # End of addition by Rohan kansari - 9/9/23
 # Reason - To serialize waiter table data
+
+# Added by Om Shrivastava on 29-09-23
+# Reason : Set the Menu data, category and item data
+
+class MenuSerializer(serializers.ModelSerializer):
+    # Addition by Om Shrivastava on 05-10-23
+    # Reason : Set the label and value for the dropdown
+    label = serializers.CharField(source='name',allow_null=True,required=False)
+    value = serializers.CharField(source='id',allow_null=True,required=False)
+    # Addition by Om Shrivastava on 05-10-23
+    # Reason : Set the label and value for the dropdown
+    class Meta:
+        model=Menu
+        fields='__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    # Addition by Om Shrivastava on 05-10-23
+    # Reason : Set the label and value for the dropdown
+    # Commented by Om Shrivastava on 06-10-23
+    # Reason : Show the dropdown value with category and menu name
+    label = serializers.CharField(source='name',allow_null=True,required=False)
+    # End of commented code by Om Shrivastava on 06-10-23
+    # Reason : Show the dropdown value with category and menu name
+    value = serializers.CharField(source='id',allow_null=True,required=False)
+    # Addition by Om Shrivastava on 05-10-23
+    # Reason : Set the label and value for the dropdown
+    menu_name = serializers.CharField(source='menu.name',allow_null=True,required=False)
+    menu_id = serializers.CharField(source='menu.id',allow_null=True,required=False)
+    # Addition by Om Shrivastava on 06-10-23
+    # Reason : Set the category and related to menu name
+    # label = serializers.SerializerMethodField(allow_null=True,required=False)
+
+    # def get_label(self, obj):
+    #     return '{} | {}'.format(obj.menu.name, obj.name) 
+    # End of addition by Om Shrivastava on 06-10-23
+    # Reason : Set the category and related to menu name
+    
+    class Meta:
+        model=Category
+        fields='__all__'
+
+# class UserSerializer(serializers.ModelSerializer):
+#     full_name = serializers.SerializerMethodField()
+
+#     def get_full_name(self, obj):
+#         return '{} {}'.format(obj.first_name, obj.last_name) 
+
+class ItemSerializer(serializers.ModelSerializer):
+    # Addition by Om Shrivastava on 05-10-23
+    # Reason : Set the label and value for the dropdown
+    # Commented by Om Shrivastava on 06-10-23
+    # Reason : Show the dropdown value with category and menu name
+    label = serializers.CharField(source='name',allow_null=True,required=False)
+    # End of commented by Om Shrivastava on 06-10-23
+    # Reason : Show the dropdown value with category and menu name
+    value = serializers.CharField(source='id',allow_null=True,required=False)
+    # Addition by Om Shrivastava on 05-10-23
+    # Reason : Set the label and value for the dropdown
+    category_name = serializers.CharField(source='category.name',allow_null=True,required=False)
+    category_id = serializers.CharField(source='category.id',allow_null=True,required=False)
+    category_img = serializers.ImageField(source='category.icon',allow_null=True,required=False)
+    menu_name = serializers.CharField(source='category.menu.name',allow_null=True,required=False)
+    menu_id = serializers.CharField(source='category.menu.id',allow_null=True,required=False)
+    menu_img = serializers.ImageField(source='category.menu.icon',allow_null=True,required=False)
+    # # Addition by Om Shrivastava on 06-10-23
+    # # Reason : Set the category and related to menu name
+    # label = serializers.SerializerMethodField(allow_null=True,required=False)
+
+    # def get_label(self, obj):
+    #     return '{} | {}| {}'.format(obj.category.menu.name,obj.category.name,obj.name) 
+    # # End of addition by Om Shrivastava on 06-10-23
+    # # Reason : Set the category and related to menu name
+
+    class Meta:
+        model=Item
+        fields='__all__'   
+
+# End of addition and modification by Om Shrivastava on 29-09-23
+# Reason: Set the menu, category and item data
+

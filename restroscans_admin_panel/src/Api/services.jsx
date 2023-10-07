@@ -1102,4 +1102,16 @@ export const waiterDashboardData = async (tenant,waiterId) => {
 // End of code - Rohan kansari - 11/9/23 
 // Reason - To get waiter dashboard data
 
+// Added by Om Shrivastava on 05-10-23
+// Reason : Get the menu, category, item and offer details
+export const getMenuCategoryItemOfferDetails = async (tenantId,offerId) => {
+  const response = await API.get(`/api/v1/${tenantId}/menu-category-item-offer/${offerId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).catch((err) => console.log(err));
+  return response ? response.data : {};
+};
+// End of addition by Om Shrivastava on 05-10-23
+// Reason : Get the menu, category, item and offer details
  

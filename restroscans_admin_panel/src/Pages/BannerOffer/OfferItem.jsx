@@ -6,7 +6,7 @@ import style from "./offeritem.module.css";
 import Header from "../GlobalComponent/Header";
 import { enableHeader } from "../../App";
 import {
-  getMenuDetails,
+  getMenuCategoryItemOfferDetails,
   savePaymentMethodApi,
   getPaymentMethodApi,
 } from "../../Api/services";
@@ -17,268 +17,193 @@ import { AiFillEye } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 
 const options = [
-  { label: "Grapes 🍇", value: "grapes" },
+  { label: "Grapes DFGD  FSDFDS  FDSFDS SDF FDSFD SFDF DSFS 🍇", value: "grapes" },
   { label: "Mango 🥭", value: "mango" },
-  { label: "Strawberry 🍓", value: "strawberry", disabled: true },
+  { label: "FDSFDSF 🍓", value: "straDSFDAwberry", },
+  { label: "StrawDSFFberry 🍓", value: "straDSFSFwberry", },
+  { label: "StraDFSwberry 🍓", value: "straEWRRETwberry", },
 ];
 
 const OfferItem = () => {
   const [selected, setSelected] = useState([]);
 
+  // Addition by Om Shrivastava on 05-10-23
+  // Reason : Create the usestate for set the offer name, offer id, item name
   const navigate = useNavigate();
   const location = useLocation();
-  const [paymentData, setPaymentData] = useState({});
-  const [paymentMethodId, setPaymentMethodId] = useState(null);
+  const [offerItemId, setOfferId] = useState(null);
+  const [offerData, setOfferData] = useState(null);
+  const [offerName, setOfferName] = useState(null);
+
+  const[menuData, setMenuData] = useState([]);
+  const[categoryData, setCategoryData] = useState([]);
+  const[itemData, setItemData] = useState([]);
+
   const [name, setName] = useState(null);
-  const [contactNumber, setContactNumber] = useState(null);
-  const [icon, setIcon] = useState(null);
-  const [selectedImageName, setSelectedImageName] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
 
-  const [nameError, setNameError] = useState("");
-  const [contactNumberError, setContactNumberError] = useState("");
-  const [iconError, setIconError] = useState("");
-  const [iconSizeError, setIconSizeError] = useState("");
+  const [menuSelected, setMenuSelected] = useState([]);
+  const [categorySelected, setcategorySelected] = useState([]);
+  const [itemSelected, setitemSelected] = useState([]);
 
+
+  // End of addition by Om Shrivastava on 05-10-23
+  // Reason : Create the usestate for set the offer name, offer id, item name
+
+  // Addition by Om Shrivastava on 05-10-23
+  // Reason : Add useeffect for function calling when user enter enter the page
   useEffect(() => {
-    getPaymentData();
+    enableHeader();
+    window.scrollTo(0, 0);
+    if (location?.state?.id != null) {
+      setOfferId(location.state.id);
+    }
   }, []);
 
-  const getPaymentData = async () => {
+  useEffect(() => {
+    if (offerItemId) {
+      getOfferData();
+    }
+  }, [offerItemId]);
+  // End of addition by Om Shrivastava on 05-10-23
+  // Reason : Add useeffect for function calling when user enter enter the page
+
+  console.log(offerItemId, "offer id");
+  console.log(offerData, "offer data");
+  console.log(offerName, "offer name");
+  console.log(menuData,'menu data');
+  console.log(categoryData, "category data");
+  console.log(itemData, "item data");
+
+
+  // Addition by Om Shrivastava on 05-10-23
+  // Reason : Create function for the API calling
+  const getOfferData = async () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-    const response = await getPaymentMethodApi(tenant, paymentMethodId);
-    if (response.length > 0) {
-      // modified by :- Parineeta Gedam on 15-07-2023
-      setPaymentData(response[0]);
-      // End of modified code by :- Parineeta Gedam on 15-07-2023
-      setPaymentMethodId(response[0].id);
-      setName(response[0].name);
-      setContactNumber(response[0].contact_number);
-      setIcon(response[0].scanner);
+    const response = await getMenuCategoryItemOfferDetails(tenant, offerItemId);
+    if (response.msg) {
+      setOfferData(response.offerItemList);
+      setOfferId(response.offerItemList.id);
+      setOfferName(response.offerItemList[0]?.offer_name);
+
+        setMenuData(response?.menuList)
+        setCategoryData(response?.categoryList)
+        setItemData(response?.itemList)
+    //   setItemName(response?.item_name)
     }
   };
+  // End of addition by Om Shrivastava on 05-10-23
+  // Reason : Create function for the API calling
 
-  /**
-   * End of code addition by - Parineeta Gedam on 13-07-2023
-   * Reason - created api that will get payment data
-   */
+  //   const validateOnInput = (inputName, value) => {
+  //     if (inputName == "name") {
+  //       if (value != null || value != undefined || value.trim() != "") {
+  //         setNameError("");
+  //       }
+  //     }
+  //     if (inputName == "contact_number") {
+  //       if (value.length < 10)
+  //         setContactNumberError(
+  //           "Contact number should not be less than 10 digits"
+  //         );
+  //       if (value.length > 10)
+  //         setContactNumberError(
+  //           "Contact number should not be greater than 10 digits"
+  //         );
 
-  /**
-   * Added by - Parineeta Gedam on 13-07-2023
-   * Reason - method to validate inputs when user is entering some data
-   */
-  const validateOnInput = (inputName, value) => {
-    if (inputName == "name") {
-      if (value != null || value != undefined || value.trim() != "") {
-        setNameError("");
-      }
-    }
-    if (inputName == "contact_number") {
-      // if (value != null || value != undefined || value.trim() != "") {
-      //   setContactNumberError("");
-      // }
-      // if (value.length == 0)
-      //   setContactNumberError("Please enter contact number");
-      if (value.length < 10)
-        setContactNumberError(
-          "Contact number should not be less than 10 digits"
-        );
-      if (value.length > 10)
-        setContactNumberError(
-          "Contact number should not be greater than 10 digits"
-        );
-      // Added By pratap sahu on 15-09-2023
-      // Reason: to remove validation on empty contact number
-      // if (value.length == 10) setContactNumberError("");
-      if (value.length == 10 || value.length == 0) setContactNumberError("");
-      // if (value.length > 10) {
-      // } else {
-      //   setContactNumberError(value);
-      // }
-      // End of Addition By pratap sahu on 15-09-2023
-      // Reason: to remove validation on empty contact number
-    }
-  };
-  /**
-   * End of code addition by - Parineeta Gedam on 13-07-2023
-   * Reason -  method to validate input when user is entering some data
-   */
+  //       if (value.length == 10 || value.length == 0) setContactNumberError("");
+  //     }
+  //   };
 
-  /**
-   * Modified by  - Parineeta Gedam on 17-07-2023
-   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
-   */
-  /**
-   * Added by - Parineeta Gedam on 13-07-2023
-   * Reason - method to validate image when user is entering some data
-   */
-  const validateOnFileInput = (inputName, value) => {
-    if (inputName == "icon") {
-      setIconError("");
-      if (value != null && value != undefined) {
-        if (value.size / 1024 > 200) {
-          setIconSizeError("File size must be below 200 KB");
-          setSelectedImageName(null);
-        } else {
-          setSelectedImageName(value.name);
-          setSelectedImage(value);
-          setIconSizeError("");
-        }
-      } else {
-        setIconSizeError("");
-      }
-    }
-  };
-  /**
-   * End of code addition by - Parineeta Gedam on 13-07-2023
-   * Reason -  method to validate images when user is entering some data
-   */
-  /**
-   * End of code Modified by  - Parineeta Gedam on 17-07-2023
-   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
+  //   const postPaymentData = async () => {
+  //     var allowDataPost = false;
+  //     if (icon == null || icon == undefined) {
+  //       if (selectedImage == null || selectedImage == undefined) {
+  //         if (iconSizeError != "") {
+  //           setIconSizeError("File size must be below 200 KB");
+  //         } else {
+  //           setIconError("Please select image");
+  //         }
+  //         allowDataPost = false;
+  //       } else {
+  //         setIconError("");
+  //         if (contactNumberError == "" && iconSizeError == "") {
+  //           allowDataPost = true;
+  //         } else {
+  //           allowDataPost = false;
+  //         }
+  //       }
+  //     } else {
+  //       // Modified by Rohan kansari - 21/8/23
+  //       // Reason - To validate all field in one place
+  //       if (iconSizeError != "" || contactNumberError != "") {
+  //         allowDataPost = false;
+  //       } else {
+  //         allowDataPost = true;
+  //       }
 
-   */
+  //     }
 
-  /**
-   * Modified by  - Parineeta Gedam on 17-07-2023
-   * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
-   */
-  /**
-   * Added by - Parineeta Gedam on 13-07-2023
-   * Reason - created api to save payment data. After saving the payment data redirect to dashboard.
-   */
-  const postPaymentData = async () => {
-    var allowDataPost = false;
-    if (icon == null || icon == undefined) {
-      if (selectedImage == null || selectedImage == undefined) {
-        if (iconSizeError != "") {
-          setIconSizeError("File size must be below 200 KB");
-        } else {
-          setIconError("Please select image");
-        }
-        allowDataPost = false;
-      } else {
-        setIconError("");
-        if (contactNumberError == "" && iconSizeError == "") {
-          allowDataPost = true;
-        } else {
-          allowDataPost = false;
-        }
-      }
-    } else {
-      // Modified by Rohan kansari - 21/8/23
-      // Reason - To validate all field in one place
-      if (iconSizeError != "" || contactNumberError != "") {
-        allowDataPost = false;
-      } else {
-        allowDataPost = true;
-      }
-      // End of Modification by Rohan kansari - 21/8/23
-      // Reason - To validate all field in one place
+  //     if (allowDataPost) {
+  //       const updatedMenuData = new FormData();
+  //       if (paymentMethodId) {
+  //         updatedMenuData.append("id", paymentMethodId);
+  //       }
 
-      // Added by :- Parineeta Gedam on 28-07-2023
-      // reason :- If we add 11th digit in contact number and click on save button then Error message is display in page.
-      // if (contactNumberError == "") {
-      //   allowDataPost = true;
-      // } else {
-      //   allowDataPost = false;
-      // }
-      // End of Added code by :- Parineeta Gedam on 28-07-2023
-      // reason :- If we add 11th digit in contact number and click on save button then Error message is display in page.
-    }
+  //       updatedMenuData.append("name", name ? name : " ");
 
-    if (allowDataPost) {
-      const updatedMenuData = new FormData();
-      if (paymentMethodId) {
-        updatedMenuData.append("id", paymentMethodId);
-      }
-      // commented & Added By pratap sahu on 15-09-2023
-      // Reason: to save empty name
-      // if (name) {
-      //   updatedMenuData.append("name", name.trim());
-      // }
-      updatedMenuData.append("name", name ? name : " ");
-      // End of comment & Addition By pratap sahu on 15-09-2023
-      // Reason: to save empty name
+  //       updatedMenuData.append(
+  //         "contact_number",
+  //         contactNumber ? contactNumber : ""
+  //       );
+  //       // End of comment & Addition By pratap sahu on 15-09-2023
+  //       // Reason: to save empty name
 
-      // commented & Added By pratap sahu on 15-09-2023
-      // Reason: to save empty name
-      // if (contactNumber) {
-      //   updatedMenuData.append("contact_number", contactNumber.trim());
-      // }
-      updatedMenuData.append(
-        "contact_number",
-        contactNumber ? contactNumber : ""
-      );
-      // End of comment & Addition By pratap sahu on 15-09-2023
-      // Reason: to save empty name
+  //       if (selectedImage != null || selectedImage != undefined) {
+  //         updatedMenuData.append("scanner", selectedImage);
+  //       }
+  //       const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+  //       const response = await savePaymentMethodApi(tenant, updatedMenuData);
+  //       if (response.msg) {
+  //         Message("Payment Updated.", "success");
+  //         navigate("/dashboard");
+  //       } else {
+  //         Message("Something went wrong", "error");
+  //       }
+  //     }
 
-      if (selectedImage != null || selectedImage != undefined) {
-        updatedMenuData.append("scanner", selectedImage);
-      }
-      const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-      const response = await savePaymentMethodApi(tenant, updatedMenuData);
-      if (response.msg) {
-        Message("Payment Updated.", "success");
-        navigate("/dashboard");
-      } else {
-        Message("Something went wrong", "error");
-      }
-    }
-    /**
-     * End of code addition by - Parineeta Gedam on 12-07-2023
-     * Reason - created api to save menu. After saving the menu it will redirect to menu list page.
-     */
-    /**
-     * End of code Modified by  - Parineeta Gedam on 17-07-2023
-     * Reason - implementation of Payment Method >> Above 200 kb image is also taken in scanner.
-     */
-  };
+  //   };
+  console.log(menuSelected,'menu iddddd')
+  console.log(categorySelected,'category iddddd')
 
-  /**
-   * Added by - Parineeta Gedam on 13-07-2023
-   * Reason - Method to reset payment form
-   */
-  const resetPaymentForm = (event) => {
-    setName(paymentData.name ? paymentData.name : "");
-    // setContactNumber(paymentData.name ? paymentData.name : "");
-    // setIcon(paymentData.icon ? paymentData.icon : "");
-    setContactNumber(
-      paymentData.contact_number ? paymentData.contact_number : ""
-    );
+// Addition by Om Shrivastava on 06-10-23
+// Reason : Set the category name related to its menu name
+  function categoryGet(){
+    var temp=categoryData.filter((data) => {
+        // parseInt(data.menu_id) === menuSelected
+        if(menuSelected.filter(e=>e.id==parseInt(data.menu_id)).length)
+        return data;
+    })
 
-    // Modified by :- Parineeta Gedam on 15-07-2023
-    // setIcon(paymentData.scanner ? paymentData.scanner : "");
-    setIcon(paymentData.scanner ? paymentData.scanner : null);
-    // End of modified code by :- Parineeta Gedam on 15-07-2023
+    return temp;
+  }
+// End of addition by by Om Shrivastava on 06-10-23
+// Reason : Set the category name related to its menu name
 
-    setSelectedImageName(null);
-    setSelectedImage(null);
-    document.getElementById("icon").value = "";
-    setIconError("");
-    setNameError("");
-    setContactNumberError("");
+// Addition by Om Shrivastava on 06-10-23
+// Reason : Set the item name related to its category name
+  function itemGet(){
+    var temp=itemData.filter((data) => {
+        // parseInt(data.menu_id) === menuSelected
+        if(categorySelected.filter(e=>e.id==parseInt(data.category_id)).length)
+        return data;
+    })
 
-    // Added by :- Parineeta Gedam on 28-07-2023
-    // reason :- if we add above 200kb image in scanner section,then click on clear button then image is clear but still validation is display in page.
-    setIconSizeError("");
-    // End of Added by :- Parineeta Gedam on 28-07-2023
-    // reason :- if we add above 200kb image in scanner section,then click on clear button then image is clear but still validation is display in page.
-  };
-  // End of added code by :- Parineeta gedam on 13-07-2023 reason :- Method to reset payment form
+    return temp;
+  }
+// End of addition by by Om Shrivastava on 06-10-23
+// Reason : Set the item name related to its category name
 
   return (
-    // Commented by :- Parineeta Gedam on 12-07-2023 reason :- payment method implementations
-    // Modified by Rohan Kansari - 25/6/23
-    // Reason - removing header from each page and making it global
-    // <Header>
-    // <div className={style.Container}>
-    //   <h1 className={style.heading}>PaymentMethod</h1>
-    // </div>
-    //  </Header>
-    // End of commented code by :- Parineeta Gedam on 12-07-2023 reason :- payment method implementations
-
-    // Added by :- PArineeta Gedam on 12-07-2023 reason :- payment method implementations
     <div className={style.Container}>
       <div className={style.titleContainer}>
         <div className={style.pageTitle}>Offer-Banner Item</div>
@@ -286,35 +211,12 @@ const OfferItem = () => {
       <form className={style.menuSection}>
         <div className={style.formContainer}>
           <div className={`${style.sectionInsideForm}`}>
-            <div className={`${style.inputContainer}`}>
-              <div className={`${style.inputArea}`}>
-                <div className={`${style.inputLabel}`} style={{width:'100px'}}>
-                  <span className={style.mendatoryField}></span>Offer name
-                </div>
-                <input
-                // Modification and addition by Om Shrivastava on 30-09-23
-                // Reason : Need to change the classname of the offer div
-                //   className={`${style.textInputBox}`}
-                  className={`${style.offerInputBox}`}
-                //   End of modification and addition by Om Shrivastava on 30-09-23
-                // Reason : Need to change the classname of the offer div
-                  type="text"
-                  name="name"
-                  value={name}
-                    /* Added by Om Shrivastava on 30-09-23
-                    Reason : Set the width of offer input field */
-                //   style={{ width: "200px" }}
-                //   style={{ width: "300px" }}
-                //   End of addition by Om Shrivastava on 30-09-23
-                // Reason : Set the width of offer input field
-                  onChange={(e) => {
-                    setName(e.target.value.toString());
-                    validateOnInput("name", e.target.value.toString());
-                  }}
-                  maxLength={30}
-                />
-              </div>
-              <div className={`${style.inputErrorArea}`}>{nameError}</div>
+            <div className={`${style.inputContainer}`} style={{fontWeight:'bold',fontSize:'16px'}}>
+                {/* Modification and addition by Om Shrivastava on 05-10-23
+                Reason : Redesign the offer name, I remove the old structure */}
+            {offerName}
+            {/* End of modifciation and addition by Om Shrivastava on 05-10-23
+                Reason : Redesign the offer name, I remove the old structure  */}
             </div>
 
             <div className={`${style.menuCatItemContainer}`}>
@@ -323,60 +225,49 @@ const OfferItem = () => {
                   <div className={`${style.inputLabel}`}>
                     <span className={style.mendatoryField}></span>Menu
                   </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="name"
-                    value={name}
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      setName(e.target.value.toString());
-                      validateOnInput("name", e.target.value.toString());
-                    }}
-                    maxLength={30}
+                 {/* Addition by Om Shrivastava on 06-10-23
+                 Reason : Set the menu list in dropdown */}
+                   <MultiSelect
+                    options={menuData}
+                    value={menuSelected}
+                    onChange={setMenuSelected}
+                    labelledBy="Select the menu"
                   />
+                {/* End of addition by Om Shrivastava on 06-10-23
+                 Reason : Set the menu list in dropdown  */}
                 </div>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
                     <span className={style.mendatoryField}></span>Category
                   </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="name"
-                    value={name}
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      setName(e.target.value.toString());
-                      validateOnInput("name", e.target.value.toString());
-                    }}
-                    maxLength={30}
+                 {/* Addition by Om Shrivastava on 06-10-23
+                 Reason : Set the category list in dropdown */}
+                    <MultiSelect
+                    options={categoryGet()}
+                    value={categorySelected}
+                    onChange={setcategorySelected}
+                    labelledBy="Select the menu"
+                
                   />
+                  {/* End of addition by Om Shrivastava on 06-10-23
+                 Reason : Set the category list in dropdown */}
                 </div>
                 <div className={`${style.inputArea}`}>
                   <div className={`${style.inputLabel}`}>
                     <span className={style.mendatoryField}></span>Item
                   </div>
-                  <input
-                    className={`${style.textInputBox}`}
-                    type="text"
-                    name="name"
-                    value={name}
-                    style={{ width: "200px" }}
-                    onChange={(e) => {
-                      setName(e.target.value.toString());
-                      validateOnInput("name", e.target.value.toString());
-                    }}
-                    maxLength={30}
+
+                 {/* Addition by Om Shrivastava on 06-10-23
+                 Reason : Set the item list in dropdown */}
+                  {/* <pre>{JSON.stringify(selected)}</pre> */}
+                   <MultiSelect
+                    options={itemGet}
+                    value={itemSelected}
+                    onChange={setitemSelected}
+                    labelledBy="Select the menu"
                   />
-                  {/* <h1>Select Fruits</h1>
-                  <pre>{JSON.stringify(selected)}</pre>
-                  <MultiSelect
-                    options={options}
-                    value={selected}
-                    onChange={setSelected}
-                    labelledBy="Select"
-                  /> */}
+                     {/* End of addition by Om Shrivastava on 06-10-23
+                 Reason : Set the item list in dropdown */}
                 </div>
               </div>
 
@@ -588,8 +479,6 @@ const OfferItem = () => {
         </div>
       </form>
     </div>
-
-    // End of Added code by :- Parineeta Gedam on 12-07-2023 reason :- payment method implementations
   );
 };
 
