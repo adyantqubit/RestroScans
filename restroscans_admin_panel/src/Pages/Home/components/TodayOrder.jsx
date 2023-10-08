@@ -2277,7 +2277,10 @@ const TodayOrder = (props) => {
                             style={{ opacity: checkedItems.length > 0 ? 1 : 0.3 }}
                             disabled={checkedItems.length > 0 ? false : true}
                         // End of addition by yuvraj Sahu on 03-08-2023
-                        >Order cancel</button>
+                        // Modified By Pratap Sahu on 07-10-2023 To display as "Cancel Order"
+                        // >Order cancel</button>
+                        >Cancel Order</button>
+                         {/* End of Modification By Pratap Sahu on 07-10-2023 To display as "Cancel Order" */}
                         {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
 
                         {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>

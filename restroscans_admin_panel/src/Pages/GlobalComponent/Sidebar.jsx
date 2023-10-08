@@ -780,7 +780,10 @@ const navigateToReservationList = () => {
               to="/QRcode"
             >
               {" "}
-              QR Code{" "}
+              {/* commented and modified by - Pratap sahu on - 07-10-2023 */}
+              {/* QR Code{" "} */}
+              Print QR{" "}
+              {/* end of modification by - Pratap sahu on - 07-10-2023 */}
             </NavLink>
           </li>
           {/* Added by Yuvraj Sahu on 29-05-2023

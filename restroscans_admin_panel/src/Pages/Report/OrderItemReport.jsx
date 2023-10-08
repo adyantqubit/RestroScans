@@ -34,6 +34,10 @@ const OrderItemReport = () => {
   var [ratingIsSort, setRatingSort] = useState(false);
   var [cancellationIsSort, setCancellationSort] = useState(false);
 
+  // Added by Pratap sahu on 07-10-2023
+  var [completionIsSort, setCompletionIsSort] = useState(false);
+  // End of code by Pratap sahu on 07-10-2023
+  
   var [reportOrderItem, setReportOrderItem] = useState(null);
 
   var [totalAmountIsSort, setTotalAmountSort] = useState(false);
@@ -97,7 +101,11 @@ const OrderItemReport = () => {
         delete Object.assign(e, {
           "Cancelled Order": e["cancellation_count"],
         })["cancellation_count"];
-
+        // Added by Pratap sahu on 07-10-2023 To Add Completed Order detail in Excel Export
+        delete Object.assign(e, { "Completed Order": e["completion_count"] })[
+          "completion_count"
+        ];
+        // Added by Pratap sahu on 07-10-2023 To Add Completed Order detail in Excel Export
         return e;
       });
       if (filteredData.length) {
@@ -157,7 +165,11 @@ const OrderItemReport = () => {
       orderSort: orderCountIsSort,
       ratingSort: ratingIsSort,
       cancellationSort: cancellationIsSort,
+      //Added by - Pratap sahu on 07-10-2023
+      completionSort: completionIsSort,
+      //End of code by - Pratap sahu on 07-10-2023
       totalAmountSort: totalAmountIsSort,
+
       //Added by - Ashlekh on 16-09-2023
       pageIndex: pageIndex,
       paginationDetails: paginationDetails,
@@ -194,6 +206,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       totalAmountIsSort = "";
       cancellationIsSort = true;
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort("");
       setRatingSort("");
@@ -205,6 +221,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       totalAmountIsSort = "";
       cancellationIsSort = false;
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort("");
       setRatingSort("");
@@ -221,6 +241,10 @@ const OrderItemReport = () => {
       ratingIsSort = true;
       cancellationIsSort = "";
       totalAmountIsSort = "";
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort("");
       setRatingSort(true);
@@ -232,6 +256,10 @@ const OrderItemReport = () => {
       ratingIsSort = false;
       cancellationIsSort = "";
       totalAmountIsSort = "";
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort("");
       setRatingSort(false);
@@ -248,6 +276,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       cancellationIsSort = "";
       totalAmountIsSort = "";
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort(true);
       setRatingSort("");
@@ -259,6 +291,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       cancellationIsSort = "";
       totalAmountIsSort = "";
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort(false);
       setRatingSort("");
@@ -275,7 +311,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       cancellationIsSort = "";
       totalAmountIsSort = "";
-
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort(true);
       setOrderCountSort("");
       setRatingSort("");
@@ -287,7 +326,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       cancellationIsSort = "";
       totalAmountIsSort = "";
-
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort(false);
       setOrderCountSort("");
       setRatingSort("");
@@ -298,6 +340,39 @@ const OrderItemReport = () => {
   }
   //End of code modification by - Ashlekh on 18-09-2023
 
+    //Added by - Pratap sahu on 07-10-2023 for sorting
+  function completionSelect(value) {
+    if (value) {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      totalAmountIsSort = "";
+      cancellationIsSort = "";
+      completionIsSort = true;
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort("");
+      setTotalAmountSort("");
+      setCancellationSort("");
+      setCompletionIsSort(true);
+    } else {
+      itemNameIsSort = "";
+      orderCountIsSort = "";
+      ratingIsSort = "";
+      totalAmountIsSort = "";
+      cancellationIsSort = "";
+      completionIsSort = false;
+      setItemNameSort("");
+      setOrderCountSort("");
+      setRatingSort("");
+      setTotalAmountSort = "";
+      setCancellationSort("");
+      setCompletionIsSort(false);
+    }
+    postQuery();
+  }
+    //End of code by - Pratap sahu on 07-10-2023
+
   //Added by - Ashlekh on 18-09-2023
   //Reason - To add sorting in total amount
   function totalAmountSelect(value) {
@@ -307,7 +382,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       cancellationIsSort = "";
       totalAmountIsSort = true;
-
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort("");
       setRatingSort("");
@@ -319,7 +397,10 @@ const OrderItemReport = () => {
       ratingIsSort = "";
       cancellationIsSort = "";
       totalAmountIsSort = false;
-
+      // Added by pratap sahu on 07-10-2023
+      completionIsSort="";
+      setCompletionIsSort=""
+      // End of code by pratap sahu on 07-10-2023
       setItemNameSort("");
       setOrderCountSort("");
       setRatingSort("");
@@ -824,6 +905,28 @@ const OrderItemReport = () => {
                   )}
                 </label>
               </div>
+
+              {/* Added by Pratap sahu on 07-10-2023 To show Completed Order details */}
+              <div className={style.cancellationCountHeading}>
+                <input
+                  type="checkbox"
+                  id="completion"
+                  style={{ display: "none" }}
+                  name="completion"
+                  checked={completionIsSort}
+                  onChange={(e) => completionSelect(e.target.checked)}
+                />{" "}
+                <label className={style.sortingLabel} htmlFor="completion">
+                  Completed Order{" "}
+                  {completionIsSort ? (
+                    <BsSortNumericDown className={style.SortIcon} />
+                  ) : (
+                    <BsSortNumericDownAlt className={style.SortIcon} />
+                  )}
+                </label>
+              </div>
+            {/* End of Addition by Pratap sahu on 07-10-2023 To show Completed Order details */}
+
               {/* <div className={style.column7}>Last Review</div> */}
               {/* End of code modification by - Ashlekh on 20-09-2023
               Reason - For sorting icon */}
@@ -919,6 +1022,12 @@ const OrderItemReport = () => {
                       >
                         {m.cancellation_count}
                       </div>
+                        {/* Added by pratap sahu on 07-10-2023 To display Completed order details */}
+                      <div
+                        className={`${style.cancellationCountHeading} ${style.mediumColoumnWidth}`}>
+                        {m.completion_count}
+                      </div>
+                      {/* End of code by Pratap sahu on 07-10-2023 */}
                       <div
                         // className={`${style.commonColumnData} ${style.mediumColoumnWidth}`}
                         className={`${style.ratingColumnHeading} ${style.mediumColoumnWidth}`}

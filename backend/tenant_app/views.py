@@ -3056,19 +3056,35 @@ class OrderItemFilterAPIView(APIView):
         # End of code addition by - Ashlekh on 19-09-2023
         # Reason - Filteration of orderItem by date, week, month, year
 
+    # Commented and modified by Pratap sahu on 07-10-2023 Reason:To calculate Completed order details
+        # duplicate_orderHalf = duplicate_orderHalf.filter(serving_size='Half').values('item', 'serving_size').annotate(
+        #     item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
+        #     cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
+        #     sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
+        #     average_rating=Avg('rating')
+        # )
         duplicate_orderHalf = duplicate_orderHalf.filter(serving_size='Half').values('item', 'serving_size').annotate(
             item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
             cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
             sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
-            average_rating=Avg('rating')
-        )
+            average_rating=Avg('rating')).annotate(
+            completion_count=Count('order_id__payment_status', filter=Q(order_id__payment_status='Completed')))
+
+        # duplicate_orderFull = duplicate_orderFull.filter(serving_size='Full').values('item', 'serving_size').annotate(
+        #     item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
+        #     cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
+        #     sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
+        #     average_rating=Avg('rating')
+        # )
 
         duplicate_orderFull = duplicate_orderFull.filter(serving_size='Full').values('item', 'serving_size').annotate(
             item_count=(Sum('quantity')-Count('item_status', filter=Q(item_status='Cancelled')))).annotate(
             cancellation_count=Count('item_status', filter=Q(item_status='Cancelled'))).annotate(
             sum_price=Sum('price', filter=~Q(item_status='Cancelled'), field='price  * quantity')).annotate(
-            average_rating=Avg('rating')
-        )
+            average_rating=Avg('rating')).annotate(
+            completion_count=Count('order_id__payment_status', filter=Q(order_id__payment_status='Completed')))
+        
+    # End of code by Pratap sahu on 07-10-2023 Reason:To calculate Completed order details
 
         duplicate_orders = duplicate_orderHalf | duplicate_orderFull
         # Code modification by - Ashlekh on 16-09-2023
@@ -3094,7 +3110,13 @@ class OrderItemFilterAPIView(APIView):
             duplicate_orders = duplicate_orders.order_by("sum_price")
         elif request.data['totalAmountSort']==False:
             duplicate_orders = duplicate_orders.order_by("-sum_price")
-        
+            # code Added by Pratap sahu on 07-10-2023 Reason:To sort Completed order details
+        elif request.data['completionSort']==True:
+            duplicate_orders = duplicate_orders.order_by("completion_count")
+        elif request.data['completionSort']==False:
+            duplicate_orders = duplicate_orders.order_by("-completion_count")
+        # End of code by Pratap sahu on 07-10-2023 Reason:To sort Completed order details
+
         # End of code modification by - Ashlekh on 18-09-2023
         # Reason - For sorting in all
 
@@ -3733,11 +3755,11 @@ class OrderDetailAPIView(APIView) :
 
 
         # order_status = dict(Order.fields['order_status'].choices)[order_status]
-       
+
         return Response({
             "msg":"success",
             "orderData":serialized.data,
-            "setting":settingSerialize.data
+            "setting":settingSerialize.data,
             # "dropDown":order_status,
             })
     
@@ -4606,6 +4628,7 @@ class WaiterAPI(APIView):
                request.data["password"]=waiterObj.password
             waiterSerialize=WaiterSerializer(waiterObj,data=request.data,partial=True)
         else:
+            print(encrypt(request.data["password"]))
             request.data["password"]=encrypt(request.data["password"])
             waiterSerialize= WaiterSerializer(data=request.data)
             
@@ -5048,3 +5071,12 @@ class MenuCategoryItemAPIView(APIView):
 
 # End of addition by Om Shrivastava on 29-09-23
 # Reason : Set the menu category and item data
+
+#  Added by pratap sahu on 06-10-2023 
+#  Reason: To set default payment mode option on UI Invoice detail page
+class PaymentModeAPIView(APIView):
+    def get(self,request,tenant,id):
+        mode=Order.objects.get(id=id).payment_mode
+        return Response({"msg":"success","paymentMode":mode})
+#  End of code by pratap sahu on 06-10-2023 
+#  Reason: To set default payment mode option on UI Invoice detail page    

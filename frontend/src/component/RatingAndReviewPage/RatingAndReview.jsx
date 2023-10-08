@@ -207,7 +207,9 @@ export default function RatingAndReview() {
         {/* End of code- 4/5/23 - Rohan  */}
 
         <div className="rating_review_btn_container">
-          <button
+        {/* Modified by Pratap sahu on 07-10-2023 for some glitches in button */}
+          {/* <button */}
+          <Button
             className="rating_review_skip_btn"
             style={{
               background: colors.bannerColor,
@@ -217,7 +219,9 @@ export default function RatingAndReview() {
           >
             {" "}
             Skip{" "}
-          </button>
+          {/* </button> */}
+          </Button>
+          {/*End of code by Pratap sahu on 07-10-2023 for some glitches in button */}
 
           {/* Modification and addition by Om Shrivastava on 24-07-23 
           Reason : Change the button to div */}
@@ -232,7 +236,10 @@ export default function RatingAndReview() {
             {" "}
             Done{" "}
           </button> */}
-          <div
+
+        {/* Modified by Pratap sahu on 07-10-2023 for some glitches in button */}
+          {/* <div */}
+          <Button
             className="rating_review_done_heading"
             style={{
               background: colors.bannerColor,
@@ -243,7 +250,9 @@ export default function RatingAndReview() {
           >
             {" "}
             Done{" "}
-          </div>
+          </Button>
+          {/*End of code by Pratap sahu on 07-10-2023 for some glitches in button */}
+          
           {/* End of Modification and addition by Om Shrivastava on 24-07-23 
           Reason : Change the button to div  */}
         </div>

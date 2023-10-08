@@ -264,3 +264,13 @@ export const postRatingReview = async(formdata,tenantId) => {
   return response ? response.data: {}
 }
 // End of addition by Om Shrivastava on 14-06-23
+
+// Added by pratap sahu on 06-10-2023 
+// Reason: To set default payment mode option on UI Invoice detail page
+export const getPaymentModeApi = async(tenantName,id) => {
+  const response = await API.get(`/${tenantName}/get-payment-mode/${id}`,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of code by pratap sahu on 06-10-2023

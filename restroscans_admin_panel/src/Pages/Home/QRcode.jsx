@@ -171,12 +171,19 @@ const QRcode = () => {
           </div>
 
           <div id="qr_bottom_text">
+          {/* Modified & Added by Pratap sahu on 07-10-2023 for better enhancement */}
             <h6 className={style.bottom_text}>
-              Adyant Softtech Pvt Ltd Raipur{" "}
+              {/* Adyant Softtech Pvt Ltd Raipur{" "} */}
+              Adyant SoftTech Pvt Ltd, Raipur{" "}
             </h6>
             <h6 className={style.bottom_text}>
-              restroscans.com , Scan to see the menu
+            {/* restroscans.com , Scan to see the menu */}
+            www.restroscans.com , Table No:
             </h6>
+            <h6 className={style.bottom_text}>
+            Scan to see the menu
+            </h6>
+            {/* End of code by Pratap sahu on 07-10-2023 for better enhancement */}
           </div>
         </div>
 

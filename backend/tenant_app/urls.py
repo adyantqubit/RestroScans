@@ -494,6 +494,11 @@ urlpatterns = [
     path('<str:tenant>/menu-category-item-offer/<int:offerItemId>',MenuCategoryItemAPIView.as_view()),
     #     // End of addition by Om Shrivastava on 05-10-23
     # // Reason : Get the menu, category, item and offer details
+
+    # Added by pratap sahu on 06-10-2023
+    # To set default payment mode option on UI Invoice detail page
+    path('<str:tenant>/get-payment-mode/<int:id>',PaymentModeAPIView.as_view()),
+    # End of code by pratap sahu on 06-10-2023
 ]   
 
 

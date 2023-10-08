@@ -1,9 +1,9 @@
-import { React, useContext, useState } from 'react';
+import { React, useContext, useEffect, useState } from 'react';
 import { Radio, Space, Button, Modal, message } from "antd";
 import { GlobalContext } from "../../context/Context";
 import secureLocalStorage from "react-secure-storage";
 import './Payment.css';
-import { updatePaymentModeApi, postCheckPaymentStatus } from '../../api/Services';
+import { updatePaymentModeApi, postCheckPaymentStatus,getPaymentModeApi } from '../../api/Services';
 import { useNavigate } from "react-router-dom";
 import Scanner from '../Scanner/Scan';
 import cashPayment from "../../images/cashPayment.png";
@@ -12,6 +12,13 @@ import debitCard from "../../images/debitCard.png";
 import { CheckCircleOutlined } from '@ant-design/icons';
 
 export default function Payment() {
+
+// Added by pratap sahu on 06-10-2023 
+// Reason: To set default payment mode option on UI Invoice detail page
+  useEffect(()=>{
+    getPaymentMode();
+  },[]);
+  // End of code by pratap sahu on 06-10-2023
 
   // get colors from context 
   var { colors,  orders, setOrders, } = useContext(GlobalContext);
@@ -25,7 +32,12 @@ export default function Payment() {
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- click on cash radio options.
-  const [value, setValue] = useState("Cash");
+
+  // Modified by pratap sahu on 06-10-2023
+  // const [value, setValue] = useState("Cash");
+  const [value, setValue] = useState();
+  //  End of code by pratap sahu on 06-10-2023
+
   const onChange = (e) => {
     setValue(e.target.value);
   };
@@ -69,6 +81,14 @@ export default function Payment() {
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- check, which radio options select by user.
+
+  // Added by pratap sahu on 06-10-2023
+  const getPaymentMode=async()=>{
+    var tenantName = localStorage.getItem("tenantName")
+    const response = await getPaymentModeApi(tenantName,orders.id);
+    setValue(response.paymentMode)
+  }
+  // End of Code by Pratap sahu on 06-10-2023
 
   const submitPaymentMode = () => {
     if (document.getElementById("Cash").checked) {
@@ -261,7 +281,7 @@ export default function Payment() {
         <Radio.Group onChange={onChange} value={value}>
           <Space direction="vertical">
             <div className='payment_child_container'>
-              <Radio name="radio" id="Cash" value="Cash">
+              <Radio name="radio" id="Cash" value="Cash" onClick={onChange}>
                 <div className="payment_mode_container">
                   <div className='payment_mode_img_container'><img src={cashPayment} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
                   <span className='payment_mode_heading'>Cash</span>
@@ -269,7 +289,7 @@ export default function Payment() {
               </Radio>
             </div>
             <div className='payment_child_container'>
-              <Radio name="radio" id="Scanner" value="Scanner">
+              <Radio name="radio" id="Scanner" value="Scanner"onClick={onChange}>
                 <div className="payment_mode_container">
                   <div className='payment_mode_img_container'><img src={scan} style={{ width: '100%', height: '100%' }} alt="no img"></img></div>
                   <span className='payment_mode_heading'>Scanner</span>
