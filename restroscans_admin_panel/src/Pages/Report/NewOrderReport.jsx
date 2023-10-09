@@ -1516,6 +1516,7 @@ const NewOrderReport = () => {
                                     {orderByOrderId?.order_detail?.customer_email?.split(",")[0]}
                                 </div>
                             </div>
+                            
 
                             {/*  */}
                             <div className={style.information}>
@@ -1529,6 +1530,7 @@ const NewOrderReport = () => {
                                     {orderByOrderId?.order_detail?.date.substring(0, 10).split("-").reverse().join("/")}
                                     {/* {new Date(orderByOrderId?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(orderByOrderId?.order_detail?.date).toTimeString().substring(0, 5)} */}
                                 </div>
+                               
                             </div>
                         </div>
                         <div className={style.informationContainer}>
@@ -1583,11 +1585,17 @@ const NewOrderReport = () => {
                             </div>
                         </div>
 
-                        <div className={style.informationContainer}>
-
-
-
+                        <div className={style.informationContainer1}>
+                            <div className={style.WhiteLabel1}>
+                            {/* Added by Pratap sahu on 09-10-2023 - To Add cancel reason*/}
+                                <div className={style.labelName}>Cancel Reason :</div>
+                            </div>
+                            <div className={style.data1}>
+                                {orderByOrderId?.order_detail?.cancel_reason}
+                            </div>
+                            {/* End of code by Pratap sahu on 09-10-2023 - To Add cancel reason*/}
                         </div>
+                        
                     </div>
                     <div className={style.scrollContainer}>
                         <div className={style.orderItemContainer}>

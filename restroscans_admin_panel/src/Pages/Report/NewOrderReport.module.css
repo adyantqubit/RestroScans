@@ -753,7 +753,9 @@ input[type="checkbox"]:checked+.sortingLabel {
   max-width: 150px;
   word-break: break-all;
 }
-
+.data1 {
+  word-break: break-all;
+}
 .eyeIcon {
   cursor: pointer;
 }
@@ -935,6 +937,16 @@ input[type="checkbox"]:checked+.sortingLabel {
   flex-wrap: wrap;
   /* width: 100%; */
 }
+/* Added by pratap sahu on 09-10-2023 To add cancel reason box */
+.informationContainer1 {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  /* gap: 10px; */
+  row-gap: 0px;
+  flex-wrap: wrap;
+}
+/* End of code by pratap sahu on 09-10-2023 To add cancel reason box */
 
 .information {
   min-width: 30%;
@@ -963,7 +975,8 @@ input[type="checkbox"]:checked+.sortingLabel {
 /* Added by Rohan kansari - 25/8/23 - To align column  */
 
 .labelName {
-  width: 95%;
+  /* width: 95%; */
+  width: 150%;
 }
 
 .labelColon {

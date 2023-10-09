@@ -641,8 +641,11 @@
     margin: 3px 0;
     background-color: #f8f7f7;
     outline: none;
-    border: none;
-    border-bottom: 1px solid #9c9c9c;
+/* Commented & modified by Pratap sahu on 09-10-2023 To display fields like input box */
+    /* border: none; */
+    border: 1px solid #9c9c9c;
+    /* border-bottom: 1px solid #9c9c9c; */
+/* End of code by Pratap sahu on 09-10-2023 To display fields like input box */
     border-radius: 5px;
     padding: 0 5px;
 }
@@ -706,8 +709,13 @@
     margin: 3px 0;
     background-color: #f8f7f7;
     outline: none;
-    border: none;
-    border-bottom: 1px solid #9c9c9c;
+/* Commented & modified by Pratap sahu on 09-10-2023 To display fields like input box */
+    /* border: none; */
+    border: 1px solid #9c9c9c;
+    /* border-bottom: 1px solid #9c9c9c; */
+    min-height: 53px;
+    max-height: 53px;
+/* End of code by Pratap sahu on 09-10-2023 To display fields like input box */
     border-radius: 5px;
     padding: 0 6px;
 }
@@ -742,6 +750,23 @@
     background-color: transparent;
     color: rgb(39, 166, 75);
 }
+/* Added by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
+.ApplyBtnDisabled {
+    min-width: 100px;
+    font-size: 16px;
+    letter-spacing: 1.3px;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 8px;
+    color:#fff ;
+    background-color: transparent;
+    font-weight: 600;
+    pointer-events: none;
+    color: #9c9c9c;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all .3s;
+}
+/* End of code by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
 
 .pricingContent {
     width: 50%;
