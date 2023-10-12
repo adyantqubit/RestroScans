@@ -1003,8 +1003,9 @@ const OrderModel = ({
                                         <a href="#">Confirm</a>
                                     </button>
                                 </p>
-
-                                <p>
+                                {/* Cooked status comment by Om Shrivastava on 11-10-23
+                               Reason : No need to show cooked status */}
+                                {/* <p>
                                     <button
                                         className={` ${statusValidation(
                                             "Cooked",
@@ -1031,8 +1032,9 @@ const OrderModel = ({
                                         }}>
                                         <a href="#">Cooked</a>
                                     </button>
-                                </p>
-
+                                </p> */}
+                                {/* End of Cooked status comment by Om Shrivastava on 11-10-23
+                               Reason : No need to show cooked status */}
                                 <p>
                                     <button
                                         className={` ${statusValidation(

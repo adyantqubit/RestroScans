@@ -942,7 +942,11 @@ const OrderForm = () => {
                   <option value="Cancelled" selected={orderStatus == "Cancelled" ? true : false} >Cancelled</option> */}
                   <Option value="Placed">Placed</Option> 
                   <Option value="Confirm">Confirm</Option> 
-                  <Option value="Cooked">Cooked</Option> 
+                  {/* Cooked status comment by Om Shrivastava on 11-10-23
+                  Reason : No need to show cooked status */}
+                  {/* <Option value="Cooked">Cooked</Option>  */}
+                  {/* End of Cooked status comment by Om Shrivastava on 11-10-23
+                  Reason : No need to show cooked status */}
                   <Option value="Served">Served</Option> 
                   <Option value="Cancelled">Cancelled</Option>
                   {/* End of modification and addition by Om Shrivastava on 31-08-23

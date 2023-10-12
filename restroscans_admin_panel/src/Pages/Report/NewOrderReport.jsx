@@ -770,10 +770,14 @@ const NewOrderReport = () => {
                             </div>
                         </div>
                         <div className={style.parentSelectContainer}>
-                            <div className={style.selectContainer}>
+                            {/* Cooked status comment by Om Shrivastava on 11-10-23
+                            Reason : No need to show cooked status */}
+                            {/* <div className={style.selectContainer}>
                                 <div><input type="checkbox" id="cooked" value="Cooked" onChange={e => handleOrderStatus(e.target.value)} /></div>
                                 <div className={style.label}>Cooked</div>
-                            </div>
+                            </div> */}
+                            {/* End of cooked status comment by Om Shrivastava on 11-10-23
+                            Reason : No need to show cooked status */}
                             <div className={style.selectContainer}>
                                 <div><input type="checkbox" id="served" value="Served" onChange={e => handleOrderStatus(e.target.value)} /></div>
                                 <div className={style.label}>Served</div>
@@ -1516,7 +1520,6 @@ const NewOrderReport = () => {
                                     {orderByOrderId?.order_detail?.customer_email?.split(",")[0]}
                                 </div>
                             </div>
-                            
 
                             {/*  */}
                             <div className={style.information}>
@@ -1530,7 +1533,6 @@ const NewOrderReport = () => {
                                     {orderByOrderId?.order_detail?.date.substring(0, 10).split("-").reverse().join("/")}
                                     {/* {new Date(orderByOrderId?.order_detail?.date).toLocaleDateString('en-GB') + " " + new Date(orderByOrderId?.order_detail?.date).toTimeString().substring(0, 5)} */}
                                 </div>
-                               
                             </div>
                         </div>
                         <div className={style.informationContainer}>

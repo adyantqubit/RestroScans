@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import style from './todayOrder.module.css'
-import { TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Tfoot, PopoverTrigger, IconButton, FocusLock, PopoverArrow, PopoverContent, PopoverCloseButton } from '@chakra-ui/react'
-import { GrFormCheckmark, GrFormClose, GrAddCircle } from 'react-icons/gr'
-import { GiRiceCooker } from "react-icons/gi"
+// import { TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Tfoot, PopoverTrigger, IconButton, FocusLock, PopoverArrow, PopoverContent, PopoverCloseButton } from '@chakra-ui/react'
+// import { GrFormCheckmark, GrFormClose, GrAddCircle } from 'react-icons/gr'
+// import { GiRiceCooker } from "react-icons/gi"
 import { getDashboardData, saveOrderDetailsApi, updateAllOrderAPI, updateItemStatus, updateOrderAndPaymentStatus } from '../../../Api/services'
-import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus, AiOutlineRight } from 'react-icons/ai'
-import { MdKeyboardArrowDown, MdDownloading, MdArrowDropUp, MdAddCircleOutline } from "react-icons/md"
-import { RiErrorWarningLine } from "react-icons/ri"
-import { TiTick } from "react-icons/ti"
-import { BsPencilSquare } from "react-icons/bs"
-import { Popover, Modal, Radio, Popconfirm } from 'antd'
+// import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus, AiOutlineRight } from 'react-icons/ai'
+// import { MdKeyboardArrowDown, MdDownloading, MdArrowDropUp, MdAddCircleOutline } from "react-icons/md"
+// import { RiErrorWarningLine } from "react-icons/ri"
+// import { TiTick } from "react-icons/ti"
+// import { BsPencilSquare } from "react-icons/bs"
+// import { Popover, Modal, Radio, Popconfirm } from 'antd'
 import { Message } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 // import ReactPaginate from 'react-paginate';
 import "./checkboxNcoin.scss"
-import AddOrderItemForm from '../../Order/AddOrderItemForm'
-import { FaGrinAlt } from 'react-icons/fa'
+// import AddOrderItemForm from '../../Order/AddOrderItemForm'
+// import { FaGrinAlt } from 'react-icons/fa'
 import PrintBill from "./PrintBill"
-import { PrintKot } from './PrintKot'
+// import { PrintKot } from './PrintKot'
 import OrderModel from '../../DashboardModel/OrderModel'
 
 
@@ -114,16 +114,20 @@ const TodayOrder = (props) => {
     const [todaysCompletedOrder, setCompletedOrders] = useState(null)
     const [newlyPlaced, setNewlyPlacedOrders] = useState(null)
 
+    const [todaysServedOrder, setServedOrder] = useState(null)
+    const [todaysPaidOrder, setPaidOrder] = useState(null)
+
+
     // Uses - this state save to show where more button popup is opened or not
-    const [popupOpen, setPopupOpen] = useState(false)
+    // const [popupOpen, setPopupOpen] = useState(false)
     // uses - all order item of all order is saved here You can extract selected items from order_id
     var [orderItemList, setOrderItem] = useState(null)
 
     // Uses - saving current database order item status here and pushing only required field only
-    var updatedStatus = useRef({ value: [] })
+    // var updatedStatus = useRef({ value: [] })
 
-    // Added by Rohan kansari - 15/7/23 - To save order detail database value 
-    var OldOrdervalue = useRef({ value: {} })
+    // // Added by Rohan kansari - 15/7/23 - To save order detail database value 
+    // var OldOrdervalue = useRef({ value: {} })
 
     // Uses - Set checked order row in this use state ( multiple selection together data) 
     var [selectedOrder, setSelectedOrder] = useState([])
@@ -131,12 +135,12 @@ const TodayOrder = (props) => {
     // var selectedItemArr = useRef({ items: [] })
 
     // Added by Rohan kansari - 3/7/23 - To save selected order details
-    const [selectedOrderData, setSelectedorderData] = useState({})
-    // End of code - Rohan kansari - 3/7/23
+    // const [selectedOrderData, setSelectedorderData] = useState({})
+    // // End of code - Rohan kansari - 3/7/23
 
-    // Added by Suman sahu - 11/06/2023
-    // Reason - To open selected orders in the modal of more button in the action of dashboard
-    const [openActionPopupModal, setOpenActionPopupModal] = useState({})
+    // // Added by Suman sahu - 11/06/2023
+    // // Reason - To open selected orders in the modal of more button in the action of dashboard
+    // const [openActionPopupModal, setOpenActionPopupModal] = useState({})
     // End of code - 11/06/2023 by - suman sahu
 
     // Added by ROhan Kansari - 25/5/23
@@ -150,74 +154,74 @@ const TodayOrder = (props) => {
     // End of code - ROhan Kansari - 29/5/23
 
     // Added by Rohan kansari - 15/7/23 - To save selected order item
-    var [tickedItems, setTickedItems] = useState([])
+    // var [tickedItems, setTickedItems] = useState([])
     // End of code - ROhan kansari - 15/7/23
 
     // Billing data
     const [restroDetail, setRestroDetail] = useState(null)
-    const [gstFssai, setGstFsaai] = useState(null)
+    // const [gstFssai, setGstFsaai] = useState(null)
 
 
 
     // This state is use for table number is editable or not
-    const [inputEnable, setInputEnable] = useState(null)
+    // const [inputEnable, setInputEnable] = useState(null)
 
     // Added by ROhan kansari - 20/7/23 
     // Reason - Declaring useState for opening add more item model 
-    const [AddMoreItemmodalVisible, setAddMoreItemModalVisible] = useState(false)
+    // const [AddMoreItemmodalVisible, setAddMoreItemModalVisible] = useState(false)
     // ENd of code - ROhan kansari - 20/7/23
 
     // Added by ROhan kansari - 20/7/23
     // Reason - Getting all thing of order and setting it all in use state for on change
 
-    const [orderDetailsObj, setorderDetailsObj] = useState({});
+    // const [orderDetailsObj, setorderDetailsObj] = useState({});
 
-    const [selectedOrderItemList, setSelectedOrderItemList] = useState([])
+    // const [selectedOrderItemList, setSelectedOrderItemList] = useState([])
 
-    const [tablenumber, setTablenumber] = useState(null);
-    const [orderId, setOrderId] = useState(null);
-    const [orderStatus, setOrderStatus] = useState(null);
-    const [paymentStatus, setPaymemntStatus] = useState(null);
-    const [paymentMode, setPaymentMode] = useState(null);
-    // Modified by Rohan kansari - 13/8/23 - giving default value admin
-    const [cancelledBy, setCancelledBy] = useState("Admin");
-    const [cancelReaon, setCancelReason] = useState(null);
+    // const [tablenumber, setTablenumber] = useState(null);
+    // const [orderId, setOrderId] = useState(null);
+    // const [orderStatus, setOrderStatus] = useState(null);
+    // const [paymentStatus, setPaymemntStatus] = useState(null);
+    // const [paymentMode, setPaymentMode] = useState(null);
+    // // Modified by Rohan kansari - 13/8/23 - giving default value admin
+    // const [cancelledBy, setCancelledBy] = useState("Admin");
+    // const [cancelReaon, setCancelReason] = useState(null);
 
-    const [discountRupee, setDiscountRupee] = useState(null);
-    const [discountPercentage, setDiscountPercentage] = useState(null);
-    const [discountprice, setDiscountprice] = useState(null)
-    const [discountReason, setDiscountReason] = useState("");
-    const [applyLoyalityPoint, setApplyLoyalityPoint] = useState(null);
-    const [loyalityPointPrice, setLoyalityPointPrice] = useState(null);
-    const [loyalityPointStatus, setLoyalityPointStatus] = useState(null);
-    const [loyalityPointCalculated, setLoyalityPointCalculated] = useState(null);
-    const [customerLoyalitypoint, setcustomerLoyalitypoint] = useState(null);
+    // const [discountRupee, setDiscountRupee] = useState(null);
+    // const [discountPercentage, setDiscountPercentage] = useState(null);
+    // const [discountprice, setDiscountprice] = useState(null)
+    // const [discountReason, setDiscountReason] = useState("");
+    // const [applyLoyalityPoint, setApplyLoyalityPoint] = useState(null);
+    // const [loyalityPointPrice, setLoyalityPointPrice] = useState(null);
+    // const [loyalityPointStatus, setLoyalityPointStatus] = useState(null);
+    // const [loyalityPointCalculated, setLoyalityPointCalculated] = useState(null);
+    // const [customerLoyalitypoint, setcustomerLoyalitypoint] = useState(null);
     const [settings, setSettings] = useState({})
 
-    const [subTotal, setSubTotal] = useState(null);
-    const [cgst, setCGST] = useState(null);
-    const [total, setTotal] = useState(null);
-    const [sgst, setSGST] = useState(null);
-    const [finalAmount, setFinalAmount] = useState(null);
-    const [rating, setRating] = useState(null);
-    const [review, setReview] = useState(null);
+    // const [subTotal, setSubTotal] = useState(null);
+    // const [cgst, setCGST] = useState(null);
+    // const [total, setTotal] = useState(null);
+    // const [sgst, setSGST] = useState(null);
+    // const [finalAmount, setFinalAmount] = useState(null);
+    // const [rating, setRating] = useState(null);
+    // const [review, setReview] = useState(null);
 
-    const [name, setName] = useState("")
-    const [IsnameEditable, setNameEditable] = useState(false)
+    // const [name, setName] = useState("")
+    // const [IsnameEditable, setNameEditable] = useState(false)
 
-    const [email, setEmail] = useState("")
-    const [IsemailEditable, setEmailEditable] = useState(false)
+    // const [email, setEmail] = useState("")
+    // const [IsemailEditable, setEmailEditable] = useState(false)
 
     // Added by Rohan kansari - 23/7/23 
     // Reason - To add Loyality price 
-    const [errorText, setErrorText] = useState({})
+    // const [errorText, setErrorText] = useState({})
     // End of code - Rohan Kansari - 23/7/23 
 
 
     // Added by Rohan kansari - 4/8/23 
     // Reason - To set wether cancellred button is already clicked then no need to press
     //  again after submit cancel reason. directly on saving of cancela reason cancel status hits
-    const [IsCancelClicked, setCancelClicked] = useState(false)
+    // const [IsCancelClicked, setCancelClicked] = useState(false)
     // End of code - Rohan Kansari - 4/8/23 
 
     // End of code - Rohan kansari - 20/7/23 - Getting all thing of order and setting it all in use state for on change
@@ -247,6 +251,11 @@ const TodayOrder = (props) => {
     var [IsModalOpen, setModelVisiblity] = useState(false)
     // End of code - Rohan kansari - To add new order model - 19/9/23
 
+    console.log(newlyPlaced,'newly placedddddd')
+    console.log(todaysPendingOrder,'pending orderrrr(confirm, served) (Pending)')
+    console.log(todaysCompletedOrder,'completedd order(served) (Pending)')
+
+
     useEffect(() => {
 
         // Added by Om Shrivastava on 02-06-23
@@ -274,7 +283,15 @@ const TodayOrder = (props) => {
             setNewlyPlacedOrders(response.todays_newly_placed_orders);
             setPendingOrders(response.todays_pending_orders);
             setCompletedOrders(response.todays_completed_orders);
-            setGstFsaai(response.setting);
+
+            // Addition by Om Shrivastava on 09-10-23
+            // Reason : Set the confirm, served and paid status
+            setServedOrder(response.todays_served_orders);
+            setPaidOrder(response.todays_paid_orders);
+            // End of addition by Om Shrivastava on 09-10-23
+            // Reason : Set the confirm, served and paid status
+
+            // setGstFsaai(response.setting);
             setSettings(response.setting);
             setRestroDetail(response.tenant);
             setOrderItem(response.order_item);
@@ -288,6 +305,16 @@ const TodayOrder = (props) => {
             else if (localStorage.getItem("selectedTab") == "Pending") {
                 setSelectedOrder(response.todays_pending_orders)
             }
+            // Addition by Om Shrivastava on 09-10-23
+            // Reason : Set the confirm, served and paid status
+            else if (localStorage.getItem("selectedTab") == "Served") {
+                setSelectedOrder(response.todays_served_orders)
+            }
+            else if (localStorage.getItem("selectedTab") == "Paid") {
+                setSelectedOrder(response.todays_paid_orders)
+            } 
+            // End of addition by Om Shrivastava on 09-10-23
+            // Reason : Set the confirm, served and paid status
             else if (localStorage.getItem("selectedTab") == "Completed") {
                 setSelectedOrder(response.todays_completed_orders)
                 // Modified by ROhan kansari - 26/6/23- desable update all functionality in complete
@@ -391,9 +418,9 @@ const TodayOrder = (props) => {
     // added by - Suman sahu On 11/06/2023
     // reason - for close modal when click on cross icon or outside click on modal
 
-    const closePopupOpen = () => {
-        setPopupOpen(false);
-    };
+    // const closePopupOpen = () => {
+    //     setPopupOpen(false);
+    // };
     // end of addition - 11/06/2023 by - suman sahu
 
     // function model(m, i) {
@@ -590,167 +617,167 @@ const TodayOrder = (props) => {
     // end of addition by suman sahu on 10/06/2023
 
     // Uses - Check whether current data is doesnt equal to old one and then call update method to change order item
-    function orderItemModel(filteredOrderItemList, i) {
+    // function orderItemModel(filteredOrderItemList, i) {
 
-        // Uses - Check wheter your old data is not equal to current changed data
-        if (JSON.stringify(JSON.parse(OldOrdervalue.current.value).order_item) == JSON.stringify(filteredOrderItemList)) {
-            Message("No changes detected", "error")
-        }
-        else {
-            updatedStatus.current.value = []
-            var kotItems = selectedOrderData.order_item.filter((o) =>
-                o.kot_print_status == false &&
-                o.item_status == "Confirm"
-            )
-            PrintKot(selectedOrderData.order_detail, kotItems, restroDetail, gstFssai, settings)
+    //     // Uses - Check wheter your old data is not equal to current changed data
+    //     if (JSON.stringify(JSON.parse(OldOrdervalue.current.value).order_item) == JSON.stringify(filteredOrderItemList)) {
+    //         Message("No changes detected", "error")
+    //     }
+    //     else {
+    //         updatedStatus.current.value = []
+    //         var kotItems = selectedOrderData.order_item.filter((o) =>
+    //             o.kot_print_status == false &&
+    //             o.item_status == "Confirm"
+    //         )
+    //         PrintKot(selectedOrderData.order_detail, kotItems, restroDetail, gstFssai, settings)
 
-            // printKot(selectedOrderData.order_item.filter((o) => {
-            //     if (o.kot_print_status == false &&
-            //         o.item_status=="Confirm"){
-            //         console.log(o)
-            //        return o;}
-            // }
-            // ))
-
-
-            updateStatus(filteredOrderItemList);
-        }
+    //         // printKot(selectedOrderData.order_item.filter((o) => {
+    //         //     if (o.kot_print_status == false &&
+    //         //         o.item_status=="Confirm"){
+    //         //         console.log(o)
+    //         //        return o;}
+    //         // }
+    //         // ))
 
 
-    }
+    //         updateStatus(filteredOrderItemList);
+    //     }
+
+
+    // }
 
 
 
 
     // Uses this function updated all item chnages and resetting all updated value from backend
-    async function updateStatus(filteredOrderItemList) {
+    // async function updateStatus(filteredOrderItemList) {
 
-        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
-        console.log(filteredOrderItemList)
-        await updateItemStatus(tenant, filteredOrderItemList, filteredOrderItemList[0].order_id).then(r => {
-            updatedStatus.current.value = []
-            var newOrderItemList = []
+    //     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name
+    //     console.log(filteredOrderItemList)
+    //     await updateItemStatus(tenant, filteredOrderItemList, filteredOrderItemList[0].order_id).then(r => {
+    //         updatedStatus.current.value = []
+    //         var newOrderItemList = []
 
-            // console.log("backend order item" , r.order_items.filter(o => o.order_id == filteredOrderItemList[0].order_id))
+    //         // console.log("backend order item" , r.order_items.filter(o => o.order_id == filteredOrderItemList[0].order_id))
 
-            r.order_items.filter(e => {
+    //         r.order_items.filter(e => {
 
-                updatedStatus.current.value.push({ "quantity": e.quantity, "item_status": e.item_status, "price": e.price });
-                /**
-                 * Commented and modified by - Ashish Dewangan on 18-06-2023
-                 * Reason - Fixed issue where when we change item status then some items were not appearing on modal
-                 */
-                // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
-                // Modified by Rohan Kansari- 24/6/23
-                // Reason - To get updated value before it is setting old values 
-                // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
+    //             updatedStatus.current.value.push({ "quantity": e.quantity, "item_status": e.item_status, "price": e.price });
+    //             /**
+    //              * Commented and modified by - Ashish Dewangan on 18-06-2023
+    //              * Reason - Fixed issue where when we change item status then some items were not appearing on modal
+    //              */
+    //             // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), e]
+    //             // Modified by Rohan Kansari- 24/6/23
+    //             // Reason - To get updated value before it is setting old values 
+    //             // newOrderItemList = [...orderItemList.filter(o => o.id != e.id), ...orderItemList.filter(o => o.id==e.id )]
 
-                // uses - setting other order_id order item first then setting updated order_item which we got from backend 
-                // So old data will alsos not affected and new data is also get
-                newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
-                ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; o.quantity = e.quantity; o.price = e.price; return o; } })]
-                //  ENd of code - ROhan Kansari - 24/6/23
-                /**
-                 * End of code modifciation by - Ashish Dewangan on 18-06-2023
-                 * Reason - Fixed issue where when we change item status then some items were not appearing on modal
-                 */
-            })
+    //             // uses - setting other order_id order item first then setting updated order_item which we got from backend 
+    //             // So old data will alsos not affected and new data is also get
+    //             newOrderItemList = [...orderItemList.filter(o => o.id != e.id),
+    //             ...orderItemList.filter(o => { if (o.id == e.id) { o.item_status = e.item_status; o.kot_print_status = e.kot_print_status; o.quantity = e.quantity; o.price = e.price; return o; } })]
+    //             //  ENd of code - ROhan Kansari - 24/6/23
+    //             /**
+    //              * End of code modifciation by - Ashish Dewangan on 18-06-2023
+    //              * Reason - Fixed issue where when we change item status then some items were not appearing on modal
+    //              */
+    //         })
 
-            // Added by Rohan kansari - 16/8/23
-            // Reason - To uncheck all selected multiple items
-            setTickedItems([])
+    //         // Added by Rohan kansari - 16/8/23
+    //         // Reason - To uncheck all selected multiple items
+    //         setTickedItems([])
 
-            // Added by Rohan Kansari - 25/6/23
-            // Reason - To get latest all data order data set it to slected order
+    //         // Added by Rohan Kansari - 25/6/23
+    //         // Reason - To get latest all data order data set it to slected order
 
-            setNewlyPlacedOrders(r.todays_newly_placed_orders);
-            setPendingOrders(r.todays_pending_orders);
-            setCompletedOrders(r.todays_completed_orders);
-
-
-            if (document.getElementById("newly_placed").checked) {
-                setSelectedOrder(r.todays_newly_placed_orders)
-            }
-            else if (document.getElementById("pending_order").checked) {
-                setSelectedOrder(r.todays_pending_orders)
-            }
-            else if (document.getElementById("completed").checked) {
-                setSelectedOrder(r.todays_completed_orders)
-            }
-
-            // console.log("--------------newly placed", newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
-
-            // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
-            var all_orders = [...r.todays_completed_orders, ...r.todays_pending_orders, ...r.todays_newly_placed_orders]
-            var order = all_orders.filter(o => o.order_id == selectedOrderData.order_detail.order_id)[0]
-            setSelectedorderData({
-                ...{
-                    "order_detail": order
-                    , "order_item": newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id)
-                }
-            })
-            //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
-
-            updatedStatus.current.value = []
-
-            newOrderItemList.filter(i => { if (i.order_id == order.order_id) { updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id = orderDetailsObj.order_id; } })
+    //         setNewlyPlacedOrders(r.todays_newly_placed_orders);
+    //         setPendingOrders(r.todays_pending_orders);
+    //         setCompletedOrders(r.todays_completed_orders);
 
 
-            OldOrdervalue.current.value = JSON.stringify(
-                {
-                    ...{
-                        "order_detail": order
-                        , "order_item": filteredOrderItemList[0].order_id
-                    }
-                }
-            )
+    //         if (document.getElementById("newly_placed").checked) {
+    //             setSelectedOrder(r.todays_newly_placed_orders)
+    //         }
+    //         else if (document.getElementById("pending_order").checked) {
+    //             setSelectedOrder(r.todays_pending_orders)
+    //         }
+    //         else if (document.getElementById("completed").checked) {
+    //             setSelectedOrder(r.todays_completed_orders)
+    //         }
 
-            setSelectedOrderItemList([...newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id)])
+    //         // console.log("--------------newly placed", newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id))
 
-            // Added by ROhan kansari - 23/7/23
-            // Reason - To save updated order in orderdetail state and all other prices
-            UpdatingOpenedOrder(order)
+    //         // Added by ROhan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
+    //         var all_orders = [...r.todays_completed_orders, ...r.todays_pending_orders, ...r.todays_newly_placed_orders]
+    //         var order = all_orders.filter(o => o.order_id == selectedOrderData.order_detail.order_id)[0]
+    //         setSelectedorderData({
+    //             ...{
+    //                 "order_detail": order
+    //                 , "order_item": newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id)
+    //             }
+    //         })
+    //         //End of code - Rohan kansari - 13/7/23 - To get all order and reseting selected order in oped popup
 
-            // End of code - Rohan kansari - 23/7/23
-            // End of code - 25/6/23 - ROhan kansari 
-            setOrderItem(newOrderItemList)
+    //         updatedStatus.current.value = []
 
-
-            // Modified by ROhan kansari - 26/6/23 - to delete persist data
-            // selectedItemArr.current.items = []
-
-            // Modified by Rohan Kansari- 24/5/23
-            // Reason - Select box is not updated 
-            // var option = document.querySelectorAll("select option")
-            // var option = document.getElementsByClassName("item_selected");
-            // for (var i = 0; i < option.length; i++) {
-            //     // option[i].defaultSelected=option[i].selected
-            //     option[i].value = r.order_items[i].item_status
-            // }
+    //         newOrderItemList.filter(i => { if (i.order_id == order.order_id) { updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id = orderDetailsObj.order_id; } })
 
 
-            // console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id), "kjdkdkdkd")
-            var CheckboxForItem = document.getElementsByClassName("checkbox-wrapper-24")
-            for (var i = 0; i < CheckboxForItem.length; i++) {
-                CheckboxForItem[i].children[0].checked = false;
-            }
+    //         OldOrdervalue.current.value = JSON.stringify(
+    //             {
+    //                 ...{
+    //                     "order_detail": order
+    //                     , "order_item": filteredOrderItemList[0].order_id
+    //                 }
+    //             }
+    //         )
 
-            Message("Successfully status updated ", "success")
-        }
-        )
-    }
+    //         setSelectedOrderItemList([...newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id)])
+
+    //         // Added by ROhan kansari - 23/7/23
+    //         // Reason - To save updated order in orderdetail state and all other prices
+    //         UpdatingOpenedOrder(order)
+
+    //         // End of code - Rohan kansari - 23/7/23
+    //         // End of code - 25/6/23 - ROhan kansari 
+    //         setOrderItem(newOrderItemList)
+
+
+    //         // Modified by ROhan kansari - 26/6/23 - to delete persist data
+    //         // selectedItemArr.current.items = []
+
+    //         // Modified by Rohan Kansari- 24/5/23
+    //         // Reason - Select box is not updated 
+    //         // var option = document.querySelectorAll("select option")
+    //         // var option = document.getElementsByClassName("item_selected");
+    //         // for (var i = 0; i < option.length; i++) {
+    //         //     // option[i].defaultSelected=option[i].selected
+    //         //     option[i].value = r.order_items[i].item_status
+    //         // }
+
+
+    //         // console.log(newOrderItemList.filter(i => i.order_id == filteredOrderItemList[0].order_id), "kjdkdkdkd")
+    //         var CheckboxForItem = document.getElementsByClassName("checkbox-wrapper-24")
+    //         for (var i = 0; i < CheckboxForItem.length; i++) {
+    //             CheckboxForItem[i].children[0].checked = false;
+    //         }
+
+    //         Message("Successfully status updated ", "success")
+    //     }
+    //     )
+    // }
 
     // end of modification code on 10/06/2023
 
-    function selectboxReset() {
-        // This is to reseting the all value of select box on closing without updating
-        var option = document.querySelectorAll("select option");
-        for (var i = 0; i < option.length; i++) {
-            option[i].selected = option[i].defaultSelected;
-        }
+    // function selectboxReset() {
+    //     // This is to reseting the all value of select box on closing without updating
+    //     var option = document.querySelectorAll("select option");
+    //     for (var i = 0; i < option.length; i++) {
+    //         option[i].selected = option[i].defaultSelected;
+    //     }
 
-        // Reseting end code
-    }
+    //     // Reseting end code
+    // }
 
 
     //     // Pagination functionality
@@ -785,7 +812,7 @@ const TodayOrder = (props) => {
         else
             setCheckedItem(checkedItems.filter(e => e.id != data.id))
 
-        console.log(checkedItems)
+        // console.log(checkedItems)
     }
 
     async function updateAll(status) {
@@ -858,6 +885,12 @@ const TodayOrder = (props) => {
                      */
                     setNewlyPlacedOrders(r.todays_newly_placed_orders);
                     setPendingOrders(r.todays_pending_orders);
+                    // Addition by Om Shrivastava on 09-10-23
+                    // Reason : Set the confirm, served and paid status
+                    setServedOrder(r.todays_served_orders);
+                    setPaidOrder(r.todays_paid_orders);
+                    // End of addition by Om Shrivastava on 09-10-23
+                    // Reason : Set the confirm, served and paid status
                     setCompletedOrders(r.todays_completed_orders);
                     checkedItems = []
                     setCheckedItem(checkedItems)
@@ -894,6 +927,15 @@ const TodayOrder = (props) => {
                     else if (document.getElementById("pending_order").checked) {
                         setSelectedOrder(r.todays_pending_orders)
                     }
+                    // Addition by Om Shrivastava on 09-10-23
+                    // Reason : Set the confirm, served and paid status
+                    else if (document.getElementById("served_order").checked) {
+                        setSelectedOrder(r.todays_served_orders)
+                    } else if (document.getElementById("paid_order").checked) {
+                        setSelectedOrder(r.todays_paid_orders)
+                    }
+                    // End of addition by Om Shrivastava on 09-10-23
+                    // Reason : Set the confirm, served and paid status
                     else if (document.getElementById("completed").checked) {
                         setSelectedOrder(r.todays_completed_orders)
                     }
@@ -1308,330 +1350,330 @@ const TodayOrder = (props) => {
      * Reason - to handle radio group
      */
     // const [value, setValue] = useState(1);
-    const handlePaymentStatus = (e) => {
-        console.log('radio checked', e.target.value);
-        setSelectedPaymentStatus(e.target.value);
-    };
-    const handleOrderStatus = (e) => {
-        console.log('radio checked', e.target.value);
-        setSelectedOrderStatus(e.target.value);
-    };
-    /**
-     * End of addition by Yuvraj Sahu on 28-06-2023
-     */
+    // const handlePaymentStatus = (e) => {
+    //     console.log('radio checked', e.target.value);
+    //     setSelectedPaymentStatus(e.target.value);
+    // };
+    // const handleOrderStatus = (e) => {
+    //     console.log('radio checked', e.target.value);
+    //     setSelectedOrderStatus(e.target.value);
+    // };
+    // /**
+    //  * End of addition by Yuvraj Sahu on 28-06-2023
+    //  */
 
-    // Added by Rohan kansari - 14/7/23
-    // Reason - To Increase and decreasing Value
+    // // Added by Rohan kansari - 14/7/23
+    // // Reason - To Increase and decreasing Value
 
-    function increaseAndDecrease(sign, index, orderId) {
-        if (sign == "-") {
-            if (selectedOrderData.order_item[index].quantity != 1) {
-                // It will decrease value first then
-                selectedOrderData.order_item[index].quantity = --selectedOrderData.order_item[index].quantity
-                // getting price from updated quantity and price of one item of product
-                selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
-                    (selectedOrderData.order_item[index].quantity + 1)) *
-                    selectedOrderData.order_item[index].quantity
-                // var subtotal = 0
-                // Only get prices of item which is not cancelled
-                // selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
-                // then set updated subtotal into order detail
-                // selectedOrderData.order_detail.sub_total = subtotal
-                setSelectedorderData({
-                    ...{
-                        "order_detail": selectedOrderData.order_detail,
-                        "order_item": selectedOrderData.order_item
-                    }
-                })
-            }
-        } else {
-            // Uses - same goes for increasing value
-            selectedOrderData.order_item[index].quantity = ++selectedOrderData.order_item[index].quantity
-            selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
-                (selectedOrderData.order_item[index].quantity - 1)) *
-                selectedOrderData.order_item[index].quantity
+    // function increaseAndDecrease(sign, index, orderId) {
+    //     if (sign == "-") {
+    //         if (selectedOrderData.order_item[index].quantity != 1) {
+    //             // It will decrease value first then
+    //             selectedOrderData.order_item[index].quantity = --selectedOrderData.order_item[index].quantity
+    //             // getting price from updated quantity and price of one item of product
+    //             selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
+    //                 (selectedOrderData.order_item[index].quantity + 1)) *
+    //                 selectedOrderData.order_item[index].quantity
+    //             // var subtotal = 0
+    //             // Only get prices of item which is not cancelled
+    //             // selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+    //             // then set updated subtotal into order detail
+    //             // selectedOrderData.order_detail.sub_total = subtotal
+    //             setSelectedorderData({
+    //                 ...{
+    //                     "order_detail": selectedOrderData.order_detail,
+    //                     "order_item": selectedOrderData.order_item
+    //                 }
+    //             })
+    //         }
+    //     } else {
+    //         // Uses - same goes for increasing value
+    //         selectedOrderData.order_item[index].quantity = ++selectedOrderData.order_item[index].quantity
+    //         selectedOrderData.order_item[index].price = (selectedOrderData.order_item[index].price /
+    //             (selectedOrderData.order_item[index].quantity - 1)) *
+    //             selectedOrderData.order_item[index].quantity
 
-            // var subtotal = 0
-            // selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
-            // selectedOrderData.order_detail.sub_total = subtotal
-            setSelectedorderData({
-                ...{
-                    "order_detail": selectedOrderData.order_detail,
-                    "order_item": selectedOrderData.order_item
-                }
-            })
-        }
+    //         // var subtotal = 0
+    //         // selectedOrderData.order_item.filter(i => { if (i.item_status != "Cancelled") subtotal = subtotal + i.price })
+    //         // selectedOrderData.order_detail.sub_total = subtotal
+    //         setSelectedorderData({
+    //             ...{
+    //                 "order_detail": selectedOrderData.order_detail,
+    //                 "order_item": selectedOrderData.order_item
+    //             }
+    //         })
+    //     }
 
-    }
-
-
-    // Added by Rohan kansari - 15/7/23
-    // Reason - To add Selected Order item or Remove 
-    function AddTickedOrderitem(DoIAdd, data, index) {
-        if (DoIAdd) {
-            setTickedItems([...tickedItems, data])
-        } else {
-            setTickedItems([...tickedItems.filter(t => t.id != data.id)])
-        }
-
-        console.log(tickedItems)
-    }
-
-    // End of code - ROhan kansari - 15/7/23
-
-    // Uses - update form data which consist discount in rupees, in percentage , loyalty point 
-    // , cancel reason, discount reason 
-    async function UpdateorderDetail() {
-
-        if (cancelReaon.length > 0) {
-            document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
-            errorText["cancelReason"] = ""
-            setErrorText({ ...errorText })
-        }
-
-        const updatedOrderData = new FormData();
-
-        updatedOrderData.append("id", selectedOrderData.order_detail.id);
-
-        // Added by Rohan kansari - 30/6/23 - To update table no. also
-        updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
-        updatedOrderData.append("discount_rupees", discountprice);
-        updatedOrderData.append("discount_percentage", discountPercentage);
-        updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
-        updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
-        // updatedOrderData.append("cancelled_by", cancelledBy);
-        updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
-
-        var IsProceed = true;
-        if (IsCancelClicked) {
-            if (cancelReaon.length == 0) {
-                document.getElementById("cancelInput").style.borderBottom = "1px solid red"
-                errorText["cancelReason"] = "Please enter reason and apply"
-                setErrorText({ ...errorText })
-                IsProceed = false
-            }
-            else {
-                document.getElementById("cancelInput").style.borderBottom = "1px solid black"
-                errorText["cancelReason"] = ""
-                setErrorText({ ...errorText })
-                updatedOrderData.append("order_status", "Cancelled");
-                updatedOrderData.append("cancelled_by", "Admin");
-                IsProceed = true;
-            }
-        }
-        else {
-
-            updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
-        }
-
-        updatedOrderData.append("cancel_reason", cancelReaon);
-        updatedOrderData.append("discount_reason", discountReason);
-
-        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-        if (IsProceed) {
-            const response = await saveOrderDetailsApi(tenant, updatedOrderData);
-            if (response.msg) {
-                Message("Order detail saved successfully", "success");
-                UpdatingOpenedOrder(response.orderData)
-                // Modified by Rohan kansari - 17/8/23 - To arrange order item 
-                // setSelectedOrderItemList(response.orderItems)
-                setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
-                document.getElementById("discount_rupees").style.border = "1px solid black"
-                document.getElementById("discount_percentage").style.border = "1px solid black"
-                setErrorText({})
-            } else {
-                Message("Something went wrong", "error");
-            }
-        }
+    // }
 
 
-    }
+    // // Added by Rohan kansari - 15/7/23
+    // // Reason - To add Selected Order item or Remove 
+    // function AddTickedOrderitem(DoIAdd, data, index) {
+    //     if (DoIAdd) {
+    //         setTickedItems([...tickedItems, data])
+    //     } else {
+    //         setTickedItems([...tickedItems.filter(t => t.id != data.id)])
+    //     }
+
+    //     console.log(tickedItems)
+    // }
+
+    // // End of code - ROhan kansari - 15/7/23
+
+    // // Uses - update form data which consist discount in rupees, in percentage , loyalty point 
+    // // , cancel reason, discount reason 
+    // async function UpdateorderDetail() {
+
+    //     if (cancelReaon.length > 0) {
+    //         document.getElementById("cancelInput").style.border = "1px solid #9c9c9c"
+    //         errorText["cancelReason"] = ""
+    //         setErrorText({ ...errorText })
+    //     }
+
+    //     const updatedOrderData = new FormData();
+
+    //     updatedOrderData.append("id", selectedOrderData.order_detail.id);
+
+    //     // Added by Rohan kansari - 30/6/23 - To update table no. also
+    //     updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
+    //     updatedOrderData.append("discount_rupees", discountprice);
+    //     updatedOrderData.append("discount_percentage", discountPercentage);
+    //     updatedOrderData.append("apply_loyality_point", applyLoyalityPoint);
+    //     updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
+    //     // updatedOrderData.append("cancelled_by", cancelledBy);
+    //     updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+
+    //     var IsProceed = true;
+    //     if (IsCancelClicked) {
+    //         if (cancelReaon.length == 0) {
+    //             document.getElementById("cancelInput").style.borderBottom = "1px solid red"
+    //             errorText["cancelReason"] = "Please enter reason and apply"
+    //             setErrorText({ ...errorText })
+    //             IsProceed = false
+    //         }
+    //         else {
+    //             document.getElementById("cancelInput").style.borderBottom = "1px solid black"
+    //             errorText["cancelReason"] = ""
+    //             setErrorText({ ...errorText })
+    //             updatedOrderData.append("order_status", "Cancelled");
+    //             updatedOrderData.append("cancelled_by", "Admin");
+    //             IsProceed = true;
+    //         }
+    //     }
+    //     else {
+
+    //         updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
+    //     }
+
+    //     updatedOrderData.append("cancel_reason", cancelReaon);
+    //     updatedOrderData.append("discount_reason", discountReason);
+
+    //     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    //     if (IsProceed) {
+    //         const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+    //         if (response.msg) {
+    //             Message("Order detail saved successfully", "success");
+    //             UpdatingOpenedOrder(response.orderData)
+    //             // Modified by Rohan kansari - 17/8/23 - To arrange order item 
+    //             // setSelectedOrderItemList(response.orderItems)
+    //             setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
+    //             document.getElementById("discount_rupees").style.border = "1px solid black"
+    //             document.getElementById("discount_percentage").style.border = "1px solid black"
+    //             setErrorText({})
+    //         } else {
+    //             Message("Something went wrong", "error");
+    //         }
+    //     }
+
+
+    // }
 
 
 
 
     // Uses - this only update table table and sending all old data
     // Modified by Rohan kansari- 21/8/23 - To give proper function name
-    async function updateCustomerDetail(field) {
-        const updatedOrderData = new FormData();
+    // async function updateCustomerDetail(field) {
+    //     const updatedOrderData = new FormData();
 
-        updatedOrderData.append("id", selectedOrderData.order_detail.id);
+    //     updatedOrderData.append("id", selectedOrderData.order_detail.id);
 
-        // Added by Rohan kansari - 30/6/23 - To update table no. also
-        updatedOrderData.append("table_number", tablenumber);
-        updatedOrderData.append("customer_name", name);
-        updatedOrderData.append("customer_email", email);
+    //     // Added by Rohan kansari - 30/6/23 - To update table no. also
+    //     updatedOrderData.append("table_number", tablenumber);
+    //     updatedOrderData.append("customer_name", name);
+    //     updatedOrderData.append("customer_email", email);
 
-        updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
+    //     updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
 
-        updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
-        updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
-        updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
-        updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
-        updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
-        updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
-        updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
-        updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
-
-
-        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-        const response = await saveOrderDetailsApi(tenant, updatedOrderData);
-        if (response.msg) {
-            // Modified by Rohan kansari - 21/8/23 - To show error message according to filed updation
-            // Message(`Table number saved successfully.`, "success");
-            Message(`${field} saved successfully.`, "success");
-            UpdatingOpenedOrder(response.orderData)
-            // Modified by Rohan kansari - 17/8/23 - To arrange order item 
-            // setSelectedOrderItemList(response.orderItems)
-            setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
-
-        } else {
-            Message("Something went wrong", "error");
-        }
-    }
+    //     updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
+    //     updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
+    //     updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
+    //     updatedOrderData.append("order_status", JSON.parse(OldOrdervalue.current.value).order_detail.order_status);
+    //     updatedOrderData.append("payment_status", JSON.parse(OldOrdervalue.current.value).order_detail.payment_status);
+    //     updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+    //     updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
+    //     updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
 
 
-    async function UpdateOrderStatusDetail(status) {
+    //     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    //     const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+    //     if (response.msg) {
+    //         // Modified by Rohan kansari - 21/8/23 - To show error message according to filed updation
+    //         // Message(`Table number saved successfully.`, "success");
+    //         Message(`${field} saved successfully.`, "success");
+    //         UpdatingOpenedOrder(response.orderData)
+    //         // Modified by Rohan kansari - 17/8/23 - To arrange order item 
+    //         // setSelectedOrderItemList(response.orderItems)
+    //         setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
 
-        const updatedOrderData = new FormData();
-
-        updatedOrderData.append("id", selectedOrderData.order_detail.id);
-        updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
-        updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
-        updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
-        updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
-        if (status.order_status) {
-            updatedOrderData.append("order_status", status.order_status);
-            updatedOrderData.append("payment_status", paymentStatus);
-        }
-        else {
-            updatedOrderData.append("order_status", orderStatus);
-            updatedOrderData.append("payment_status", status.payment_status);
-        }
+    //     } else {
+    //         Message("Something went wrong", "error");
+    //     }
+    // }
 
 
-        updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
-        if (status.order_status == "Cancelled") {
-            updatedOrderData.append("cancel_reason", cancelReaon);
-            updatedOrderData.append("cancelled_by", "Admin");
+    // async function UpdateOrderStatusDetail(status) {
 
-        }
-        else
-            updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
-        updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
+    //     const updatedOrderData = new FormData();
 
-        const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
-        const response = await saveOrderDetailsApi(tenant, updatedOrderData);
-        if (response.msg) {
-            Message("Order detail saved successfully", "success");
-            UpdatingOpenedOrder(response.orderData)
-            // Modified by Rohan kansari - 17/8/23 - To arrange order item 
-            // setSelectedOrderItemList(response.orderItems)
-            setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
-            setErrorText({})
-            document.getElementById("discount_rupees").style.border = "1px solid black"
-            document.getElementById("discount_percentage").style.border = "1px solid black"
-
-        } else {
-            Message("Something went wrong", "error");
-        }
-
-    }
+    //     updatedOrderData.append("id", selectedOrderData.order_detail.id);
+    //     updatedOrderData.append("table_number", JSON.parse(OldOrdervalue.current.value).order_detail.table_number);
+    //     updatedOrderData.append("discount_rupees", JSON.parse(OldOrdervalue.current.value).order_detail.discount_rupees);
+    //     updatedOrderData.append("discount_percentage", JSON.parse(OldOrdervalue.current.value).order_detail.discount_percentage);
+    //     updatedOrderData.append("apply_loyality_point", JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point);
+    //     if (status.order_status) {
+    //         updatedOrderData.append("order_status", status.order_status);
+    //         updatedOrderData.append("payment_status", paymentStatus);
+    //     }
+    //     else {
+    //         updatedOrderData.append("order_status", orderStatus);
+    //         updatedOrderData.append("payment_status", status.payment_status);
+    //     }
 
 
+    //     updatedOrderData.append("cancelled_by", JSON.parse(OldOrdervalue.current.value).order_detail.cancelled_by);
+    //     if (status.order_status == "Cancelled") {
+    //         updatedOrderData.append("cancel_reason", cancelReaon);
+    //         updatedOrderData.append("cancelled_by", "Admin");
 
-    // Added by ROhan kansari - 20/7/23
-    // Reason - To add all order object data in their usestate to perform on change functionality
+    //     }
+    //     else
+    //         updatedOrderData.append("cancel_reason", JSON.parse(OldOrdervalue.current.value).order_detail.cancel_reason);
+    //     updatedOrderData.append("discount_reason", JSON.parse(OldOrdervalue.current.value).order_detail.discount_reason);
 
-    function UpdatingOpenedOrder(data) {
+    //     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
+    //     const response = await saveOrderDetailsApi(tenant, updatedOrderData);
+    //     if (response.msg) {
+    //         Message("Order detail saved successfully", "success");
+    //         UpdatingOpenedOrder(response.orderData)
+    //         // Modified by Rohan kansari - 17/8/23 - To arrange order item 
+    //         // setSelectedOrderItemList(response.orderItems)
+    //         setSelectedOrderItemList(response.orderItems.sort((a, b) => b.id - a.id))
+    //         setErrorText({})
+    //         document.getElementById("discount_rupees").style.border = "1px solid black"
+    //         document.getElementById("discount_percentage").style.border = "1px solid black"
 
-        console.log(data)
-        setorderDetailsObj(data);
-        setOrderId(data.order_id);
-        setTablenumber(data.table_number);
-        setOrderStatus(data.order_status);
-        setPaymemntStatus(data.payment_status);
-        setPaymentMode(data.payment_mode);
-        setCancelledBy(data.cancelled_by);
-        setCancelReason(data.cancel_reason);
-        setDiscountRupee(data.discount_rupees);
-        setDiscountprice(data.discount_rupees);
-        setDiscountPercentage(data.discount_percentage);
-        setDiscountReason(data.discount_reason);
-        setApplyLoyalityPoint(data.apply_loyality_point);
-        setLoyalityPointPrice(data.loyality_point_price);
-        setLoyalityPointStatus(data.loyality_point_status);
-        setLoyalityPointCalculated(data.loyality_point_calculated);
-        setcustomerLoyalitypoint(data.customer_loyality_point);
-        setSubTotal(data.sub_total);
-        setCGST(data.cgst);
-        setSGST(data.sgst);
-        setTotal(data.total);
-        setFinalAmount(data.final_amount);
-        setRating(data.rating);
-        setReview(data.review);
+    //     } else {
+    //         Message("Something went wrong", "error");
+    //     }
 
-        // Modified by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
-        // setName(data.customer_name);
-        // setEmail(data.customer_email);
-        setName(capitalizeFLetter(data.customer_name));
-        setEmail(data.customer_email?.toLowerCase());
-        // End of Modification by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
-
-    }
+    // }
 
 
-    const handlemoreItemCancel = () => {
-        setAddMoreItemModalVisible(false);
-    };
+
+    // // Added by ROhan kansari - 20/7/23
+    // // Reason - To add all order object data in their usestate to perform on change functionality
+
+    // function UpdatingOpenedOrder(data) {
+
+    //     console.log(data)
+    //     setorderDetailsObj(data);
+    //     setOrderId(data.order_id);
+    //     setTablenumber(data.table_number);
+    //     setOrderStatus(data.order_status);
+    //     setPaymemntStatus(data.payment_status);
+    //     setPaymentMode(data.payment_mode);
+    //     setCancelledBy(data.cancelled_by);
+    //     setCancelReason(data.cancel_reason);
+    //     setDiscountRupee(data.discount_rupees);
+    //     setDiscountprice(data.discount_rupees);
+    //     setDiscountPercentage(data.discount_percentage);
+    //     setDiscountReason(data.discount_reason);
+    //     setApplyLoyalityPoint(data.apply_loyality_point);
+    //     setLoyalityPointPrice(data.loyality_point_price);
+    //     setLoyalityPointStatus(data.loyality_point_status);
+    //     setLoyalityPointCalculated(data.loyality_point_calculated);
+    //     setcustomerLoyalitypoint(data.customer_loyality_point);
+    //     setSubTotal(data.sub_total);
+    //     setCGST(data.cgst);
+    //     setSGST(data.sgst);
+    //     setTotal(data.total);
+    //     setFinalAmount(data.final_amount);
+    //     setRating(data.rating);
+    //     setReview(data.review);
+
+    //     // Modified by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
+    //     // setName(data.customer_name);
+    //     // setEmail(data.customer_email);
+    //     setName(capitalizeFLetter(data.customer_name));
+    //     setEmail(data.customer_email?.toLowerCase());
+    //     // End of Modification by Rohan kansari- 29/8/23 - to capitalize and arrage according to requirement 
+
+    // }
+
+
+    // const handlemoreItemCancel = () => {
+    //     setAddMoreItemModalVisible(false);
+    // };
 
 
     // This is used for setting added item in list so, reseting with updated value in all required variable
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (selectedOrderItemList.length > 0) {
-
-
-            BackendCall()
-
-            // Added by Rohan kansari - 16/8/23
-            // Reason - To uncheck all selected multiple items
-            setTickedItems([])
-
-            // setting selected order with new data
-            setSelectedorderData({
-                ...{
-                    "order_detail": orderDetailsObj
-                    , "order_item": selectedOrderItemList
-                }
-            })
-
-            // Setting datas for containing json string we will not updating in 
-            // on change till we dosent get update value from backend
-            OldOrdervalue.current.value = JSON.stringify(
-                {
-                    "order_detail": orderDetailsObj
-                    , "order_item": selectedOrderItemList
-                }
-            )
-
-            // All containing status we goes blank because we need updated status according to new added item
-            updatedStatus.current.value = []
-            selectedOrderItemList.filter(i => { updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id = orderDetailsObj.order_id; })
+    //     if (selectedOrderItemList.length > 0) {
 
 
-            setOpenActionPopupModal(
-                {
-                    ...{
-                        "order_detail": orderDetailsObj
-                        , "order_item": selectedOrderItemList
-                    }
-                }
-            )
+    //         BackendCall()
 
-        }
+    //         // Added by Rohan kansari - 16/8/23
+    //         // Reason - To uncheck all selected multiple items
+    //         setTickedItems([])
 
-    }, [selectedOrderItemList])
+    //         // setting selected order with new data
+    //         setSelectedorderData({
+    //             ...{
+    //                 "order_detail": orderDetailsObj
+    //                 , "order_item": selectedOrderItemList
+    //             }
+    //         })
+
+    //         // Setting datas for containing json string we will not updating in 
+    //         // on change till we dosent get update value from backend
+    //         OldOrdervalue.current.value = JSON.stringify(
+    //             {
+    //                 "order_detail": orderDetailsObj
+    //                 , "order_item": selectedOrderItemList
+    //             }
+    //         )
+
+    //         // All containing status we goes blank because we need updated status according to new added item
+    //         updatedStatus.current.value = []
+    //         selectedOrderItemList.filter(i => { updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }); i.order_id = orderDetailsObj.order_id; })
+
+
+    //         setOpenActionPopupModal(
+    //             {
+    //                 ...{
+    //                     "order_detail": orderDetailsObj
+    //                     , "order_item": selectedOrderItemList
+    //                 }
+    //             }
+    //         )
+
+    //     }
+
+    // }, [selectedOrderItemList])
 
 
     // ENd of code - ROhan kansari - 20/7/23
@@ -1641,187 +1683,187 @@ const TodayOrder = (props) => {
     // Added by ROhan kansari -21/7/23
     // Reason - adding status method to get status frequently
 
-    function getOrderStatus() {
-        // console.log(selectedOrderData)
-        if (selectedOrderData?.order_detail?.order_status != "Cancelled"
-            && selectedOrderData?.order_detail?.payment_status == "Pending") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    // function getOrderStatus() {
+    //     // console.log(selectedOrderData)
+    //     if (selectedOrderData?.order_detail?.order_status != "Cancelled"
+    //         && selectedOrderData?.order_detail?.payment_status == "Pending") {
+    //         return true;
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
 
-    // Added by ROhan kansari - 29/5/23
-    // Reason - To continuously checking bill print allow
-    function getbillStatus() {
-        // console.log(selectedOrderData)
-        // selectedOrderData?.order_detail?.order_status != "Cancelled"
-        // &&
-        if (selectedOrderData?.order_detail?.payment_status == "Completed" && selectedOrderData?.order_detail?.order_status != "Cancelled") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    // ENd of code - Rohan kansari - 21/7/23
+    // // Added by ROhan kansari - 29/5/23
+    // // Reason - To continuously checking bill print allow
+    // function getbillStatus() {
+    //     // console.log(selectedOrderData)
+    //     // selectedOrderData?.order_detail?.order_status != "Cancelled"
+    //     // &&
+    //     if (selectedOrderData?.order_detail?.payment_status == "Completed" && selectedOrderData?.order_detail?.order_status != "Cancelled") {
+    //         return true;
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
+    // // ENd of code - Rohan kansari - 21/7/23
 
 
-    // Added by ROhan kansari - 23/7/23 
-    // Reason - to validate discount rupees and percantage
-    function inputIvalidationDiscountRupees(e) {
-        var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
-        console.log(e.target.value)
+    // // Added by ROhan kansari - 23/7/23 
+    // // Reason - to validate discount rupees and percantage
+    // function inputIvalidationDiscountRupees(e) {
+    //     var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
+    //     console.log(e.target.value)
 
-        if (e.target.value.length > 0 && e.target.value < subTotal && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
-            var total_price = subtotal - e.target.value - loyalityPointPrice
-            var CGST = (cgst / (total / 100)) * total_price / 100
-            var SGST = (sgst / (total / 100)) * total_price / 100
-            setCGST(CGST)
-            setSGST(SGST)
-            setTotal(total_price)
+    //     if (e.target.value.length > 0 && e.target.value < subTotal && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
+    //         var total_price = subtotal - e.target.value - loyalityPointPrice
+    //         var CGST = (cgst / (total / 100)) * total_price / 100
+    //         var SGST = (sgst / (total / 100)) * total_price / 100
+    //         setCGST(CGST)
+    //         setSGST(SGST)
+    //         setTotal(total_price)
 
-            var discount_percentage = e.target.value / (subtotal / 100)
-            setFinalAmount(total_price + SGST + CGST)
-            setDiscountPercentage(discount_percentage.toFixed(2))
-            // we are using this for setting max decimal till 2 decimal point 
-            setDiscountRupee(e.target.value.indexOf(".") >= 0 ? e.target.value.slice(0, e.target.value.indexOf(".") + 3) : e.target.value)
-            setDiscountprice(parseFloat(e.target.value))
-            errorText["discount_price"] = ""
-            setErrorText({ ...errorText })
-            document.getElementById("discount_rupees").style.border = "1px solid black"
-            document.getElementById("discount_percentage").style.border = "1px solid black"
+    //         var discount_percentage = e.target.value / (subtotal / 100)
+    //         setFinalAmount(total_price + SGST + CGST)
+    //         setDiscountPercentage(discount_percentage.toFixed(2))
+    //         // we are using this for setting max decimal till 2 decimal point 
+    //         setDiscountRupee(e.target.value.indexOf(".") >= 0 ? e.target.value.slice(0, e.target.value.indexOf(".") + 3) : e.target.value)
+    //         setDiscountprice(parseFloat(e.target.value))
+    //         errorText["discount_price"] = ""
+    //         setErrorText({ ...errorText })
+    //         document.getElementById("discount_rupees").style.border = "1px solid black"
+    //         document.getElementById("discount_percentage").style.border = "1px solid black"
 
-        }
-        else if (e.target.value.length == 0) {
-            var discount_percentage = 0.00
-            setDiscountRupee("")
-            setDiscountprice(0.00)
-            setDiscountPercentage(0.00)
-            var total_price = subtotal - e.target.value - loyalityPointPrice
-            var CGST = (cgst / (total / 100)) * total_price / 100
-            var SGST = (sgst / (total / 100)) * total_price / 100
-            setCGST(CGST)
-            setSGST(SGST)
-            setTotal(total_price)
-            setFinalAmount(total + SGST + CGST)
-            errorText["discount_price"] = "Please enter discount"
-            setErrorText({ ...errorText })
+    //     }
+    //     else if (e.target.value.length == 0) {
+    //         var discount_percentage = 0.00
+    //         setDiscountRupee("")
+    //         setDiscountprice(0.00)
+    //         setDiscountPercentage(0.00)
+    //         var total_price = subtotal - e.target.value - loyalityPointPrice
+    //         var CGST = (cgst / (total / 100)) * total_price / 100
+    //         var SGST = (sgst / (total / 100)) * total_price / 100
+    //         setCGST(CGST)
+    //         setSGST(SGST)
+    //         setTotal(total_price)
+    //         setFinalAmount(total + SGST + CGST)
+    //         errorText["discount_price"] = "Please enter discount"
+    //         setErrorText({ ...errorText })
 
-            document.getElementById("discount_rupees").style.border = "1px solid red"
-        }
-        else if (! /^\d+$/.test(e.target.value)) {
-            errorText["discount_price"] = "Discount price should be in digit"
-            setErrorText({ ...errorText })
-            document.getElementById("discount_rupees").style.border = "1px solid red"
-        }
-        else if (e.target.value > subTotal) {
-            errorText["discount_price"] = "Discount price should not be greater than Subtotal"
-            setErrorText({ ...errorText })
-            document.getElementById("discount_rupees").style.border = "1px solid red"
-        }
-    }
+    //         document.getElementById("discount_rupees").style.border = "1px solid red"
+    //     }
+    //     else if (! /^\d+$/.test(e.target.value)) {
+    //         errorText["discount_price"] = "Discount price should be in digit"
+    //         setErrorText({ ...errorText })
+    //         document.getElementById("discount_rupees").style.border = "1px solid red"
+    //     }
+    //     else if (e.target.value > subTotal) {
+    //         errorText["discount_price"] = "Discount price should not be greater than Subtotal"
+    //         setErrorText({ ...errorText })
+    //         document.getElementById("discount_rupees").style.border = "1px solid red"
+    //     }
+    // }
 
-    function inputValidationDiscountPercentage(e) {
-        var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
+    // function inputValidationDiscountPercentage(e) {
+    //     var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
 
-        if (e.target.value.length > 0 && e.target.value < 101 && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
-            var discount_percentage = e.target.value * (subtotal / 100)
-            var total_price = subtotal - discount_percentage - loyalityPointPrice
-            var CGST = (cgst / (total / 100)) * total_price / 100
-            var SGST = (sgst / (total / 100)) * total_price / 100
-            setCGST(CGST)
-            setSGST(SGST)
-            setTotal(total_price)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
-            setDiscountPercentage(e.target.value)
-            setDiscountRupee(discount_percentage.toFixed(2))
-            setDiscountprice(parseFloat(discount_percentage))
-            document.getElementById("discount_percentage").style.border = "1px solid black"
-            document.getElementById("discount_rupees").style.border = "1px solid black"
-            errorText["discount_price"] = ""
-            setErrorText({ ...errorText })
-        }
-        else if (e.target.value.length == 0) {
-            var discount_percentage = 0.00
-            setDiscountRupee(0)
-            setDiscountprice(0.00)
-            setDiscountPercentage("")
-            var total_price = subtotal - discount_percentage - loyalityPointPrice
-            var CGST = (cgst / (total / 100)) * total_price / 100
-            var SGST = (sgst / (total / 100)) * total_price / 100
-            setCGST(CGST)
-            setSGST(SGST)
-            setTotal(total_price)
-            setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
-            document.getElementById("discount_percentage").style.border = "1px solid red"
-            errorText["discount_price"] = "Please enter discount"
-            setErrorText({ ...errorText })
-        }
-        else if (! /^\d+$/.test(e.target.value)) {
-            errorText["discount_price"] = "Discount price should be in digit"
-            setErrorText({ ...errorText })
-            document.getElementById("discount_percentage").style.border = "1px solid red"
-        }
-        else if (e.target.value > 100) {
-            errorText["discount_price"] = "Discount price should not be greater than 100%"
-            setErrorText({ ...errorText })
-            document.getElementById("discount_percentage").style.border = "1px solid red"
+    //     if (e.target.value.length > 0 && e.target.value < 101 && (/^\d+$/.test(e.target.value) || e.target.value.includes("."))) {
+    //         var discount_percentage = e.target.value * (subtotal / 100)
+    //         var total_price = subtotal - discount_percentage - loyalityPointPrice
+    //         var CGST = (cgst / (total / 100)) * total_price / 100
+    //         var SGST = (sgst / (total / 100)) * total_price / 100
+    //         setCGST(CGST)
+    //         setSGST(SGST)
+    //         setTotal(total_price)
+    //         setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
+    //         setDiscountPercentage(e.target.value)
+    //         setDiscountRupee(discount_percentage.toFixed(2))
+    //         setDiscountprice(parseFloat(discount_percentage))
+    //         document.getElementById("discount_percentage").style.border = "1px solid black"
+    //         document.getElementById("discount_rupees").style.border = "1px solid black"
+    //         errorText["discount_price"] = ""
+    //         setErrorText({ ...errorText })
+    //     }
+    //     else if (e.target.value.length == 0) {
+    //         var discount_percentage = 0.00
+    //         setDiscountRupee(0)
+    //         setDiscountprice(0.00)
+    //         setDiscountPercentage("")
+    //         var total_price = subtotal - discount_percentage - loyalityPointPrice
+    //         var CGST = (cgst / (total / 100)) * total_price / 100
+    //         var SGST = (sgst / (total / 100)) * total_price / 100
+    //         setCGST(CGST)
+    //         setSGST(SGST)
+    //         setTotal(total_price)
+    //         setFinalAmount(subtotal - loyalityPointPrice - discount_percentage + SGST + CGST)
+    //         document.getElementById("discount_percentage").style.border = "1px solid red"
+    //         errorText["discount_price"] = "Please enter discount"
+    //         setErrorText({ ...errorText })
+    //     }
+    //     else if (! /^\d+$/.test(e.target.value)) {
+    //         errorText["discount_price"] = "Discount price should be in digit"
+    //         setErrorText({ ...errorText })
+    //         document.getElementById("discount_percentage").style.border = "1px solid red"
+    //     }
+    //     else if (e.target.value > 100) {
+    //         errorText["discount_price"] = "Discount price should not be greater than 100%"
+    //         setErrorText({ ...errorText })
+    //         document.getElementById("discount_percentage").style.border = "1px solid red"
 
-        }
-    }
+    //     }
+    // }
 
-    function validateLoyalityPoint(e) {
-        // if(e.target.value.length<applyLoyalityPoint.length){
-        //     // console.log(applyLoyalityPoint[applyLoyalityPoint.length-1])
-        //     setcustomerLoyalitypoint(parseInt(customerLoyalitypoint)+parseInt(applyLoyalityPoint[applyLoyalityPoint.length-1]))
-        // }
-        var loyality_price = settings.per_loyality_point_value * e.target.value
-        var customer_earn = parseInt(customerLoyalitypoint) + JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point
-        if (e.target.value > -1 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value < customer_earn + 1 && loyality_price < subTotal + 1) {
-            setApplyLoyalityPoint(e.target.value)
-            var loyalityPrice = settings.per_loyality_point_value * e.target.value
-            setLoyalityPointPrice(loyalityPrice)
-            var total_price = subTotal - loyalityPrice - discountprice
-            var CGST = (cgst / (total / 100)) * total_price / 100
-            var SGST = (sgst / (total / 100)) * total_price / 100
-            setCGST(CGST)
-            setSGST(SGST)
-            setTotal(total_price)
-            setFinalAmount(total_price + SGST + CGST)
-            errorText["loyality_point"] = ""
-            setErrorText({ ...errorText })
+    // function validateLoyalityPoint(e) {
+    //     // if(e.target.value.length<applyLoyalityPoint.length){
+    //     //     // console.log(applyLoyalityPoint[applyLoyalityPoint.length-1])
+    //     //     setcustomerLoyalitypoint(parseInt(customerLoyalitypoint)+parseInt(applyLoyalityPoint[applyLoyalityPoint.length-1]))
+    //     // }
+    //     var loyality_price = settings.per_loyality_point_value * e.target.value
+    //     var customer_earn = parseInt(customerLoyalitypoint) + JSON.parse(OldOrdervalue.current.value).order_detail.apply_loyality_point
+    //     if (e.target.value > -1 && (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) && e.target.value.length > 0 && e.target.value < customer_earn + 1 && loyality_price < subTotal + 1) {
+    //         setApplyLoyalityPoint(e.target.value)
+    //         var loyalityPrice = settings.per_loyality_point_value * e.target.value
+    //         setLoyalityPointPrice(loyalityPrice)
+    //         var total_price = subTotal - loyalityPrice - discountprice
+    //         var CGST = (cgst / (total / 100)) * total_price / 100
+    //         var SGST = (sgst / (total / 100)) * total_price / 100
+    //         setCGST(CGST)
+    //         setSGST(SGST)
+    //         setTotal(total_price)
+    //         setFinalAmount(total_price + SGST + CGST)
+    //         errorText["loyality_point"] = ""
+    //         setErrorText({ ...errorText })
 
-        }
-        else if (e.target.value.length == 0) {
-            setApplyLoyalityPoint("")
-            var loyalityPrice = settings.per_loyality_point_value * e.target.value
-            setLoyalityPointPrice(loyalityPrice)
-            var total_price = subTotal - loyalityPrice - discountprice
-            var CGST = (cgst / (total / 100)) * total_price / 100
-            var SGST = (sgst / (total / 100)) * total_price / 100
-            setCGST(CGST)
-            setSGST(SGST)
-            setTotal(total_price)
-            setFinalAmount(total_price + SGST + CGST)
+    //     }
+    //     else if (e.target.value.length == 0) {
+    //         setApplyLoyalityPoint("")
+    //         var loyalityPrice = settings.per_loyality_point_value * e.target.value
+    //         setLoyalityPointPrice(loyalityPrice)
+    //         var total_price = subTotal - loyalityPrice - discountprice
+    //         var CGST = (cgst / (total / 100)) * total_price / 100
+    //         var SGST = (sgst / (total / 100)) * total_price / 100
+    //         setCGST(CGST)
+    //         setSGST(SGST)
+    //         setTotal(total_price)
+    //         setFinalAmount(total_price + SGST + CGST)
 
-        }
-        else if (! /^\d+$/.test(e.target.value)) {
-            errorText["loyality_point"] = "Loyality point should always in digit"
-            setErrorText({ ...errorText })
-        }
+    //     }
+    //     else if (! /^\d+$/.test(e.target.value)) {
+    //         errorText["loyality_point"] = "Loyality point should always in digit"
+    //         setErrorText({ ...errorText })
+    //     }
 
-        else if (e.target.value > customer_earn) {
-            errorText["loyality_point"] = "Loyality point should not be less then earn point"
-            setErrorText({ ...errorText })
-        }
-        else if (loyality_price >= subTotal + 1) {
-            errorText["loyality_point"] = "Loyality point should not be greater then sub-total"
-            setErrorText({ ...errorText })
-        }
+    //     else if (e.target.value > customer_earn) {
+    //         errorText["loyality_point"] = "Loyality point should not be less then earn point"
+    //         setErrorText({ ...errorText })
+    //     }
+    //     else if (loyality_price >= subTotal + 1) {
+    //         errorText["loyality_point"] = "Loyality point should not be greater then sub-total"
+    //         setErrorText({ ...errorText })
+    //     }
 
-    }
+    // }
 
 
     // End of code - Rohan kansari - 21/7/23 
@@ -1830,64 +1872,64 @@ const TodayOrder = (props) => {
     function settingClickedData(data) {
         setSelectedOrderObject({...data})
         setSelectedOrderItemsObject([...orderItemList.filter(i => i.order_id == data.order_id)])
-        // Sending all datas in openActionPopupModel variable
-        setOpenActionPopupModal({
-            ...{
-                "order_detail": data
-                , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-            }
-        });
+        // // Sending all datas in openActionPopupModel variable
+        // setOpenActionPopupModal({
+        //     ...{
+        //         "order_detail": data
+        //         , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+        //     }
+        // });
 
-        // setPopupOpen(true);
+        // // setPopupOpen(true);
 
-        // This line will push Original status in array and change only when update Order Item COmes from backend
-        OldOrdervalue.current.value = JSON.stringify({
-            "order_detail": data
-            , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-        })
+        // // This line will push Original status in array and change only when update Order Item COmes from backend
+        // OldOrdervalue.current.value = JSON.stringify({
+        //     "order_detail": data
+        //     , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+        // })
 
-        // This state contain selected order item and sending in add mor eitem for new updation 
-        setSelectedOrderItemList(orderItemList.filter(i => i.order_id == data.order_id))
+        // // This state contain selected order item and sending in add mor eitem for new updation 
+        // setSelectedOrderItemList(orderItemList.filter(i => i.order_id == data.order_id))
 
-        // Updating  order item status in useRef state for save unchanged data for reverting value
-        orderItemList.filter(i => { if (i.order_id == data.order_id) return updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }) })
+        // // Updating  order item status in useRef state for save unchanged data for reverting value
+        // orderItemList.filter(i => { if (i.order_id == data.order_id) return updatedStatus.current.value.push({ "quantity": i.quantity, "item_status": i.item_status, "price": i.price }) })
 
-        // Setting all order data seperatly in each usestate
-        UpdatingOpenedOrder(data)
+        // // Setting all order data seperatly in each usestate
+        // UpdatingOpenedOrder(data)
 
-        // Added by Rohan kansari - 4/8/23
-        // Reason - to reset cancel reason
+        // // Added by Rohan kansari - 4/8/23
+        // // Reason - to reset cancel reason
 
 
 
-        console.log({
-            "order_detail": data
-            , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
-        })
+        // console.log({
+        //     "order_detail": data
+        //     , "order_item": orderItemList.filter(i => i.order_id == data.order_id)
+        // })
     }
 
     // Added by Rohan kansari - 28/7/23 
     // Reason - To arrange sending print data 
 
-    function sendPrintDatas() {
-        PrintBill(selectedOrderData.order_detail,
-            selectedOrderData.order_item,
-            restroDetail, gstFssai, settings)
-    }
+    // function sendPrintDatas() {
+    //     PrintBill(selectedOrderData.order_detail,
+    //         selectedOrderData.order_item,
+    //         restroDetail, gstFssai, settings)
+    // }
 
     // End of code - ROhan kansari - 28/7/23
 
     // Added by Rohan kansari - 28/8/23 - To capitalize first letetr of each word
-    function capitalizeFLetter(string) {
-        var stringArr = string?.split(" ").map(e => {
-            if (e.length > 1)
-                return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()
-            else
-                return e.toUpperCase()
-        })
+    // function capitalizeFLetter(string) {
+    //     var stringArr = string?.split(" ").map(e => {
+    //         if (e.length > 1)
+    //             return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()
+    //         else
+    //             return e.toUpperCase()
+    //     })
 
-        return stringArr?.join(" ");
-    }
+    //     return stringArr?.join(" ");
+    // }
     // End of modification - Rohan kansari - 28/8/23 - To capitalize first letetr of each word
 
 
@@ -1919,8 +1961,19 @@ const TodayOrder = (props) => {
                 <label className={style.tabLabel} htmlFor='newly_placed' onClick={e => { setSelectedOrder(newlyPlaced); localStorage.setItem("selectedTab", "Newly_placed"); uncheckAll({ fade: false }) }}>Newly Placed</label>
                 <input className={style.radioButton} id='pending_order' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Pending"} />
                 <label className={style.tabLabel} htmlFor='pending_order' onClick={e => { setSelectedOrder(todaysPendingOrder); localStorage.setItem("selectedTab", "Pending"); uncheckAll({ fade: false }) }}>Pending</label>
+               {/* Addition by Om Shrivastava on 09-10-23
+               Reason : add the served and paid status in dashboard site */}
+                <input className={style.radioButton} id='served_order' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Served"} />
+                <label className={style.tabLabel} htmlFor='served_order' onClick={e => { setSelectedOrder(todaysServedOrder); localStorage.setItem("selectedTab", "Served"); uncheckAll({ fade: false }) }}>Served</label>
+                
+                <input className={style.radioButton} id='paid_order' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Paid"} />
+                <label className={style.tabLabel} htmlFor='paid_order' onClick={e => { setSelectedOrder(todaysPaidOrder); localStorage.setItem("selectedTab", "Paid"); uncheckAll({ fade: false }) }}>Paid</label>
+                {/* End of addition by Om Shrivastava on 09-10-23
+               Reason : add the served and paid status in dashboard site  */}
                 <input className={style.radioButton} id='completed' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Completed"} />
                 <label className={style.tabLabel} htmlFor='completed' onClick={e => { setSelectedOrder(todaysCompletedOrder); localStorage.setItem("selectedTab", "Completed"); uncheckAll({ fade: true }) }}>Completed</label>
+            
+            
             </div>
             {/* End of code - ROhan kansari - 23/6/23 */}
 
@@ -2047,6 +2100,7 @@ const TodayOrder = (props) => {
 
                 </div>
             </div>
+            
             <div className={style.MultiupdateContainer} id="allupdate">
                 <div className={style.updateflexContainer}>
                     {/* Commeted and added by yuvraj Sahu on 03-08-2023
@@ -2106,11 +2160,22 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
-                                    disabled={checkedItems.length > 0 ? false : true}
+                                    // Modification and addition by Om Shrivastava on 12-10-23
+                                    // Reason : Apply some conditions to set the dashboard order details
+                                    // style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    // disabled={checkedItems.length > 0 ? false : true}
+                                    style={{ opacity: checkedItems.length > 0 && newlyPlaced[0]?.order_status=="Placed"? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 && newlyPlaced[0]?.order_status=="Placed" ? false : true}
+                                    // disabled={checkedItems.length > 0 ? true : false}
+                                    // End of modification and addition by Om Shrivastava on 12-10-23
+                                    // Reason : Apply some conditions to set the dashboard order details
                                 // End of addition by yuvraj Sahu on 03-08-2023
                                 ><a href="#">Confirm</a></button></p>
-                                <p className={style.statusBtnDesign}><button className={`order-btn-right`}
+                                {/* {console.log(todaysPendingOrder[0]?.order_status,'ststus')} */}
+
+                               {/* Cooked status comment by Om Shrivastava on 09-10-23
+                               Reason : No need to show cooked status */}
+                                {/* <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Cooked", paymentStatus, selectedOrderData.order_detail))
                                         updateAll({
@@ -2122,7 +2187,9 @@ const TodayOrder = (props) => {
                                     style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
                                     disabled={checkedItems.length > 0 ? false : true}
                                 // End of addition by yuvraj Sahu on 03-08-2023
-                                ><a href="#">Cooked</a></button></p>
+                                ><a href="#">Cooked</a></button></p> */}
+                                {/* End of Cooked status comment by Om Shrivastava on 09-10-23
+                               Reason : No need to show cooked status */}
                                 <p className={style.statusBtnDesign}><button className={`order-btn-right`}
                                     onClick={e => {
                                         // if (statusValidation("Served", paymentStatus, selectedOrderData.order_detail))
@@ -2132,8 +2199,15 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
-                                    disabled={checkedItems.length > 0 ? false : true}
+                                    // Modification and addition by Om Shrivastava on 12-10-23
+                                    // Reason : Apply some conditions to set the dashboard order details
+                                    // style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    // disabled={checkedItems.length > 0 ? false : true}
+                                    style={{ opacity: checkedItems.length > 0 && todaysPendingOrder[0]?.order_status=="Confirm"? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 && todaysPendingOrder[0]?.order_status=="Confirm" ? false : true}
+                                    // End of modification and addition by Om Shrivastava on 12-10-23
+                                    // Reason : Apply some conditions to set the dashboard order details
+
                                 // End of addition by yuvraj Sahu on 03-08-2023
                                 ><a href="#">Served</a></button></p>
                             </div>
@@ -2277,10 +2351,7 @@ const TodayOrder = (props) => {
                             style={{ opacity: checkedItems.length > 0 ? 1 : 0.3 }}
                             disabled={checkedItems.length > 0 ? false : true}
                         // End of addition by yuvraj Sahu on 03-08-2023
-                        // Modified By Pratap Sahu on 07-10-2023 To display as "Cancel Order"
-                        // >Order cancel</button>
-                        >Cancel Order</button>
-                         {/* End of Modification By Pratap Sahu on 07-10-2023 To display as "Cancel Order" */}
+                        >Order cancel</button>
                         {/* End of modification by Yuvraj Sahu on 02-08-2023 */}
 
                         {/* <select id="all_payment_status_selected" onChange={e => document.getElementById("all_payment_status_selected").value = e.target.value}>
@@ -2400,7 +2471,7 @@ const TodayOrder = (props) => {
 
                 {/* Modified by Rohan kansari- 11/7/23 
                     Reason - New Ui changes and Functionality  */}
-                <Modal open={popupOpen}
+                {/* <Modal open={popupOpen}
                     afterOpenChange={e => { if (e) setSelectedorderData(openActionPopupModal) }
                     }
 
@@ -2419,7 +2490,7 @@ const TodayOrder = (props) => {
                     {popupOpen ? <div className={style.popupContainer}>
 
                         <div className={style.CustomerInformationBox}>
-                            {/* This content is fixed it not scrolled up */}
+                            {/* This content is fixed it not scrolled up 
                             <div className={style.topHeading}>
                                 <div className={style.Order_idText}>{selectedOrderData?.order_detail?.order_id}</div>
                                 <div className={style.ActionBtn}>
@@ -2533,9 +2604,9 @@ const TodayOrder = (props) => {
                                             Email :
                                         </div>
                                         {/* Modified by Rohan kansari - 16/8/23
-                                            Reason - To make email editable*/}
+                                            Reason - To make email editable
                                         <div className={style.data}>
-                                            {/* {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData.order_detail.customer_email.split(",").length - 1]} */}
+                                            {/* {selectedOrderData?.order_detail?.customer_email?.split(",")[selectedOrderData.order_detail.customer_email.split(",").length - 1]} 
                                             {inputEnable == "emailEdit" ? <>
 
                                                 <input className={style.EditableInput} onKeyUp={e => {
@@ -2589,7 +2660,7 @@ const TodayOrder = (props) => {
                                                         cancelText="Cancel"
                                                         okText="Ok"
                                                         placement='bottomLeft'
-                                                    > */}
+                                                    > 
                                                     <BsPencilSquare
                                                         className={`${getOrderStatus() ? null : style.disbaleBtn}`}
                                                         onClick={e => {
@@ -2599,12 +2670,12 @@ const TodayOrder = (props) => {
                                                             else setInputEnable(null)
                                                         }
                                                         } style={{ margin: "5px 10px" }} />
-                                                    {/* </Popconfirm> */}
+                                                    {/* </Popconfirm> 
                                                 </>
                                             }
                                         </div>
                                         {/* End of code by Rohan kansari - 16/8/23
-                                            Reason - To make email editable*/}
+                                            Reason - To make email editable
                                     </div>
                                 </div>
                                 <div className={style.informationContainer}>
@@ -2621,10 +2692,10 @@ const TodayOrder = (props) => {
                                             Name :
                                         </div>
                                         {/* Modified by Rohan kansari - 16/8/23
-                                                    Reason - To make name editable*/}
+                                                    Reason - To make name editable
                                         <div className={style.data}>
                                             {/* Modified by ROhan kansari - 16/8/23 - set ordered customer name  */}
-                                            {/* {selectedOrderData?.order_detail?.last_customer_name} */}
+                                            {/* {selectedOrderData?.order_detail?.last_customer_name} 
                                             {inputEnable == "nameEdit" ? <>
 
                                                 <input className={style.EditableInput} onKeyUp={e => {
@@ -2674,7 +2745,7 @@ const TodayOrder = (props) => {
                                                         cancelText="Cancel"
                                                         okText="Ok"
                                                         placement='bottomLeft'
-                                                    > */}
+                                                    > 
                                                     <BsPencilSquare
                                                         className={`${getOrderStatus() ? null : style.disbaleBtn}`}
                                                         onClick={e => {
@@ -2684,12 +2755,12 @@ const TodayOrder = (props) => {
                                                             else setInputEnable(null)
                                                         }
                                                         } style={{ margin: "5px 10px" }} />
-                                                    {/* </Popconfirm> */}
+                                                    {/* </Popconfirm> 
                                                 </>
                                             }
                                         </div>
                                         {/* End of modification Rohan kansari - 16/8/23
-                                            Reason - To make name editable*/}
+                                            Reason - To make name editable
                                     </div>
                                 </div>
 
@@ -2714,11 +2785,11 @@ const TodayOrder = (props) => {
                                 </div>
                             </div>
                         </div>
-                        {/* End of fixed content  */}
+                        {/* End of fixed content  
 
 
                         {/* Added by Rohan kansari - 11/8/23 
-                            Reason - enhancement part */}
+                            Reason - enhancement part 
                         <div style={{ display: "flex", flexWrap: "wrap", columnGap: "20px", marginBottom: "10px" }}>
                             <div>
                                 <label className={style.InputLabel} style={{ padding: "0 10px" }}>Order Status </label>
@@ -2776,12 +2847,12 @@ const TodayOrder = (props) => {
                                         ><a href="#"
                                         >Pending</a></button></p>
                                         {/* Added by ROhan kansari - 16/8/23 
-                                            Reason - To add paid btn in payment status section */}
+                                            Reason - To add paid btn in payment status section 
                                         {selectedOrderData.order_detail?.payment_status == "Paid" ? <p><button className='btn-right activeStatusBtn'
                                         ><a href="#"
                                         >Paid</a></button></p> : null}
                                         {/* End of code - ROhan kansari - 16/8/23 
-                                            Reason - To add paid btn in payment status section */}
+                                            Reason - To add paid btn in payment status section 
                                         <p><button className={`${statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, false) ? 'btn-right' : "btn-disable"} ${selectedOrderData.order_detail?.order_status == "Cancelled" ? style.disbaleBtn : null} ${paymentStatus == "Completed" ? 'activeStatusBtn' : null}`}
                                             onClick={e => {
                                                 if (statusValidation(orderStatus, "Completed", selectedOrderData.order_detail, true))
@@ -2795,7 +2866,7 @@ const TodayOrder = (props) => {
 
                         </div>
 
-                        {/* ENd of code - ROhan kansari - 11/8/23 */}
+                        {/* ENd of code - ROhan kansari - 11/8/23
 
                         <div className={style.scrollContainer}>
 
@@ -2805,7 +2876,7 @@ const TodayOrder = (props) => {
                                     <div className={style.orderItemHeader}>
                                         {/* <div className={style.priceHeading} style={{ marginLeft: "30px" }}>
                                             SNo.
-                                        </div> */}
+                                        </div> 
                                         <div className={style.ItemInformation}>
                                             <div className={style.item_heading}>
                                                 Item Name
@@ -2863,7 +2934,7 @@ const TodayOrder = (props) => {
                                                                 </label>
                                                             </div>
                                                             <div className={style.title}>
-                                                                {/* <div className={style.index}>{index}. </div>  */}
+                                                                {/* <div className={style.index}>{index}. </div>  
                                                                 {item.item} ({item.serving_size})</div>
                                                         </div>
                                                         <div className={style.quantityNPriceFlex}>
@@ -2974,7 +3045,7 @@ const TodayOrder = (props) => {
                                                             <div className={style.Column}>
                                                                 <label className={style.subInputLabel}>( In ₹ ) </label>
                                                                 {/* Added by Rohan kansari - 21/7/23
-                                                                Reason - Discount rupees functionality added */}
+                                                                Reason - Discount rupees functionality added 
                                                                 <input id="discount_rupees"
                                                                     type="text"
                                                                     className={`${style.inputBox} ${settings.discount_in == "Discount in (₹)" ? null : style.disbaleBtn}`} value={discountRupee}
@@ -3051,7 +3122,7 @@ const TodayOrder = (props) => {
                                                             <option value="Admin" selected={cancelledBy == "Admin" ? true : false}>Admin</option>
                                                             <option value="Customer" selected={cancelledBy == "Customer" ? true : false}>Customer</option>
 
-                                                        </select> */}
+                                                        </select> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -3117,7 +3188,7 @@ const TodayOrder = (props) => {
                                 </div>
 
                                 {/* Modified by ROhan kansari - 11/8/23 - I shifted this section at the top */}
-                                {/* Order status button section */}
+                                {/* Order status button section 
 
 
 
@@ -3152,7 +3223,7 @@ const TodayOrder = (props) => {
                                                 <label className={style.InputLabel} style={{ borderTop: "1px solid black" }}>Grand Total :- {finalAmount.toFixed(2)}</label>
                                             </div>
                                         </div> */}
-                                        {/* End of code - Rohan kansari - 24/7/23 -position changed  */}
+                                        {/* End of code - Rohan kansari - 24/7/23 -position changed  
                                         <div className={style.PrintNBack}>
                                             <button className={style.BackBtn} onClick={e => setPopupOpen(false)}>Close</button>
                                         </div>
@@ -3162,13 +3233,13 @@ const TodayOrder = (props) => {
 
                             </div>
 
-                        </div>     {/* Scroller div end*/}
+                        </div>     {/* Scroller div end*
 
                     </div> : null}
 
 
                     {/* Adding by Rohan kansari -  20/7/23
-                        reason - To add -  add more item model here and open up on button click */}
+                        reason - To add -  add more item model here and open up on button click 
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -3183,12 +3254,12 @@ const TodayOrder = (props) => {
                             setOrderDetail={setorderDetailsObj} setOrderStatus={setOrderStatus} getOrderDetail={UpdatingOpenedOrder} />
                     </Modal>
 
-                    {/* End of code - Rohan kansari - 20/7/23*/}
-                </Modal >
+                    {/* End of code - Rohan kansari - 20/7/23
+                </Modal > */}
                 {/* End of code - ROhan kansari -  */}
                 {/* end of addition by - suman sahu on 11/06/2023 */}
 
-            </div >
+            </div>
         </>
     )
 }

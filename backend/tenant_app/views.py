@@ -1751,11 +1751,30 @@ class DashboardAPI(APIView):
         # Modified by Rohan Kansari- 30/5/23
         # Reason - To get paid payment also in pending list 
         # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed') ,date__gte=today, payment_status='Pending')
-        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        # Modification and addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        todays_pending_orders=Order.objects.filter(Q(order_status='Confirm'),Q(payment_status='Pending') ,date__gte=today).order_by("-id")
+        # End of addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
         # End of code addition - Rohan Kansari - 30/5/23
         todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
         #End of code modification by Ashish Dewangan on 19-04-2023
 
+        # Addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        todays_served_orders=Order.objects.filter(Q(order_status='Served'),Q(payment_status='Pending') ,date__gte=today).order_by("-id")
+        todays_served_orders_serializer=OrderSerializer(todays_served_orders, many=True)
+        # End of addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        
+        # Addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        todays_paid_orders=Order.objects.filter(date__gte=today,payment_status='Paid').order_by("-id")
+        todays_paid_orders_serializer=OrderSerializer(todays_paid_orders, many=True)
+        # End of addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        
         # Added by - Ashish Dewangan on 19-04-2023
         # Reason - To show todays completed orders
         todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
@@ -1787,6 +1806,13 @@ class DashboardAPI(APIView):
             # Reason - To show todays new orders
             "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
             # End of code addition
+
+            # Addition by Om Shrivastava on 08-10-23
+            # Reason : Save the served and paid status
+            "todays_served_orders":todays_served_orders_serializer.data,
+            "todays_paid_orders":todays_paid_orders_serializer.data,
+            # End of addition by Om Shrivastava on 08-10-23
+            # Reason : Save the served and paid status
 
             "setting": settingserailize.data, 
             "tenant": tenant_detail,
@@ -2306,11 +2332,15 @@ class UpdateItemStatus(APIView):
 
         todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
+
         # Modified by Rohan kansari - 20/9/23 - To get waiter data
         return Response({"success":"Updated status","order_items":serializer.data ,
                              "order":orderSerializer.data
                             ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
                             ,"todays_pending_orders":todays_pending_orders_serializer.data
+
+                           
+
                             ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
                 
 
@@ -2373,16 +2403,42 @@ class UpdateAllOrderStatus(APIView):
         # Modified by Rohan Kansari- 30/5/23
         # Reason - To get paid payment also in pending list 
         # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),date__gte=today,payment_status='Pending')
-        todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+       
+        # Modification and addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        # todays_pending_orders=Order.objects.filter(~Q(order_status='Placed'),Q(payment_status='Pending')|Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        todays_pending_orders=Order.objects.filter(Q(order_status='Confirm'),Q(payment_status='Pending') ,date__gte=today).order_by("-id")
+        # End of modification and addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
         # End of code addition - Rohan Kansari - 30/5/23
         todays_pending_orders_serializer=OrderSerializer(todays_pending_orders, many=True)
 
+        # Addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        todays_served_orders=Order.objects.filter(Q(order_status='Served'),Q(payment_status='Pending') ,date__gte=today).order_by("-id")
+        todays_served_orders_serializer=OrderSerializer(todays_served_orders, many=True)
+        # End of addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        
+        # Addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        todays_paid_orders=Order.objects.filter(date__gte=today,payment_status='Paid').order_by("-id")
+        todays_paid_orders_serializer=OrderSerializer(todays_paid_orders, many=True)
+        # End of addition by Om Shrivastava on 08-10-23
+        # Reason : Save the confirm status and paid status data
+        
         todays_completed_orders=Order.objects.filter(date__gte=today,payment_status='Completed').order_by("-id")
         todays_completed_orders_serializer=OrderSerializer(todays_completed_orders, many=True)
 
         return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
                             ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
-                            ,"todays_pending_orders":todays_pending_orders_serializer.data
+                            ,"todays_pending_orders":todays_pending_orders_serializer.data 
+                            # Addition by Om Shrivastava on 08-10-23
+                            # Reason : Save the served and paid status
+                            ,"todays_served_orders":todays_served_orders_serializer.data
+                            ,"todays_paid_orders":todays_paid_orders_serializer.data
+                            # End of addition by Om Shrivastava on 08-10-23
+                            # Reason : Save the served and paid status
                             ,"todays_completed_orders":todays_completed_orders_serializer.data},status=status.HTTP_201_CREATED)
                 
        
@@ -4628,7 +4684,6 @@ class WaiterAPI(APIView):
                request.data["password"]=waiterObj.password
             waiterSerialize=WaiterSerializer(waiterObj,data=request.data,partial=True)
         else:
-            print(encrypt(request.data["password"]))
             request.data["password"]=encrypt(request.data["password"])
             waiterSerialize= WaiterSerializer(data=request.data)
             
