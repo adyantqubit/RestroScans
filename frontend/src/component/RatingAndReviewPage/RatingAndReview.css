@@ -134,16 +134,14 @@
 
 .skip-button,
 .done-button {
- width: 30%;
- font-size: 18px;
- letter-spacing: 1px;
- font-family: "Times New Roman";
- padding: 5px 0;
- border-radius: 5px;
- border: none;
- box-shadow: 0 0 5px #000;
- cursor: pointer;
- transition-duration: 0.4s;
+    width: 30%;
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-family: "Times New Roman";
+    padding: 5px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px #000;
 }
 
 .skip-button:hover,

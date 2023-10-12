@@ -257,16 +257,30 @@ export default function RatingAndReview() {
           
           {/* End of Modification and addition by Om Shrivastava on 24-07-23 
           Reason : Change the button to div  */}
-        {/* </div> */} */
+        {/* </div> */}
 
         <div className="button-container">
-        <button className={skip ? 'skip-button-active' : 'skip-button'} onClick={(e) => navigations()}>
+                {/* modified &added by pratap on 12-10-2023 */}
+        {/* <button className={skip ? 'skip-button-active' : 'skip-button'} onClick={(e) => navigations()} */}
+        <button className="rating_review_skip_btn" onClick={(e) => navigations()}
+        style={{
+              background: colors.bannerColor,
+              color: colors.backgroundTheme,
+            }}>
           Skip
         </button>
-        <button className={done ? 'done-button-active' : 'done-button'} onClick={(e) => updateInvoiceData()}>
+        {/* <button className={done ? 'done-button-active' : 'done-button'} onClick={(e) => updateInvoiceData()} */}
+        <button className="rating_review_done_heading" onClick={(e) => updateInvoiceData()}
+        style={{
+              background: colors.bannerColor,
+              color: colors.backgroundTheme,
+              textAlign:'center'
+            }}>
           Done
         </button>
       </div>
+      
+            {/* modified by pratap on 12-10-2023 */}
         {/* End of Comment & code added by pratap sahu on 11-10-2023*/}
 
       </div>
