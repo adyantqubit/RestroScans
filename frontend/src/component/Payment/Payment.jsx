@@ -33,9 +33,10 @@ export default function Payment() {
   // Date :- 10-04-2023
   // Reason :- click on cash radio options.
 
-  // Modified by pratap sahu on 06-10-2023
-  // const [value, setValue] = useState("Cash");
-  const [value, setValue] = useState();
+  // Modified by pratap sahu on 06-10-2023 
+  // Uncommented by Pratap sahu on 11-10-2023
+  const [value, setValue] = useState("Cash");
+  // const [value, setValue] = useState();
   //  End of code by pratap sahu on 06-10-2023
 
   const onChange = (e) => {

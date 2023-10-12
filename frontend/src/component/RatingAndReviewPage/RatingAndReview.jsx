@@ -9,6 +9,10 @@ import SocialLinks from "../social_links/SocialLinks";
 import { useState } from "react";
 
 export default function RatingAndReview() {
+
+  const [skip, setSkip] = useState(false);
+  const [done, setDone] = useState(false);
+
   // get colors from context
   var { colors } = useContext(GlobalContext);
 
@@ -205,11 +209,11 @@ export default function RatingAndReview() {
           <textarea className="text_area"></textarea>
         </div>
         {/* End of code- 4/5/23 - Rohan  */}
-
-        <div className="rating_review_btn_container">
+        {/* Commented & code added by pratap sahu on 11-10-2023*/}
+    {/* <div className="rating_review_btn_container">
         {/* Modified by Pratap sahu on 07-10-2023 for some glitches in button */}
           {/* <button */}
-          <Button
+          {/* <Button
             className="rating_review_skip_btn"
             style={{
               background: colors.bannerColor,
@@ -217,10 +221,9 @@ export default function RatingAndReview() {
             }}
             onClick={(e) => navigations()}
           >
-            {" "}
             Skip{" "}
           {/* </button> */}
-          </Button>
+          {/* </Button> */}
           {/*End of code by Pratap sahu on 07-10-2023 for some glitches in button */}
 
           {/* Modification and addition by Om Shrivastava on 24-07-23 
@@ -239,7 +242,7 @@ export default function RatingAndReview() {
 
         {/* Modified by Pratap sahu on 07-10-2023 for some glitches in button */}
           {/* <div */}
-          <Button
+          {/* <Button
             className="rating_review_done_heading"
             style={{
               background: colors.bannerColor,
@@ -248,14 +251,24 @@ export default function RatingAndReview() {
             }}
             onClick={(e) => updateInvoiceData()}
           >
-            {" "}
             Done{" "}
-          </Button>
+          </Button> */}
           {/*End of code by Pratap sahu on 07-10-2023 for some glitches in button */}
           
           {/* End of Modification and addition by Om Shrivastava on 24-07-23 
           Reason : Change the button to div  */}
-        </div>
+        {/* </div> */} */
+
+        <div className="button-container">
+        <button className={skip ? 'skip-button-active' : 'skip-button'} onClick={(e) => navigations()}>
+          Skip
+        </button>
+        <button className={done ? 'done-button-active' : 'done-button'} onClick={(e) => updateInvoiceData()}>
+          Done
+        </button>
+      </div>
+        {/* End of Comment & code added by pratap sahu on 11-10-2023*/}
+
       </div>
       {/* Added by Yuvraj Sahu on 26-05-2023
                 Reason - to give social link */}

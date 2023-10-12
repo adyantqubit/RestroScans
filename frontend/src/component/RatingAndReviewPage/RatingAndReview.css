@@ -123,3 +123,32 @@
 }
 
 /* end of adition - rohankansari 4/5/23 */
+
+/* Commented & code added by pratap sahu on 11-10-2023*/
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 80px;
+    margin-top: 20px;
+}
+
+.skip-button,
+.done-button {
+ width: 30%;
+ font-size: 18px;
+ letter-spacing: 1px;
+ font-family: "Times New Roman";
+ padding: 5px 0;
+ border-radius: 5px;
+ border: none;
+ box-shadow: 0 0 5px #000;
+ cursor: pointer;
+ transition-duration: 0.4s;
+}
+
+.skip-button:hover,
+.done-button:hover {
+    cursor: pointer;
+    background-color:#62686c;
+}
+/* End of Comment & code added by pratap sahu on 11-10-2023*/

@@ -754,7 +754,12 @@ input[type="checkbox"]:checked+.sortingLabel {
   word-break: break-all;
 }
 .data1 {
-  word-break: break-all;
+  word-break: normal;
+  /* Added by pratap sahu on 11-10-2023 Reason To add Scroller */
+  overflow-y: auto; /*to enable vertical scrolling */
+  height: 70px;
+  padding-right: 1%;
+  /* End of code by pratap sahu on 11-10-2023 Reason To add Scroller */
 }
 .eyeIcon {
   cursor: pointer;
