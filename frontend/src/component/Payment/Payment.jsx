@@ -16,9 +16,18 @@ export default function Payment() {
 // Added by pratap sahu on 06-10-2023 
 // Reason: To set default payment mode option on UI Invoice detail page
   useEffect(()=>{
-    getPaymentMode();
+    // commented &modified by pratap on 13-10-2023 to get data from local storage
+    // getPaymentMode();
+    var order = secureLocalStorage.getItem("order");
+    if(order.payment_mode=="Cash"){
+      document.getElementById("Cash").checked=true
+    }else{
+      document.getElementById("Scanner").checked=true
+    }
   },[]);
   // End of code by pratap sahu on 06-10-2023
+  //  End of code by pratap on 13-10-2023 to get data from local storage
+
 
   // get colors from context 
   var { colors,  orders, setOrders, } = useContext(GlobalContext);
@@ -82,14 +91,17 @@ export default function Payment() {
   // Added by :- Parineeta Gedam
   // Date :- 10-04-2023
   // Reason :- check, which radio options select by user.
-
+ 
+  //   Commented by pratap sahu on 13-10-2023
   // Added by pratap sahu on 06-10-2023
-  const getPaymentMode=async()=>{
-    var tenantName = localStorage.getItem("tenantName")
-    const response = await getPaymentModeApi(tenantName,orders.id);
-    setValue(response.paymentMode)
-  }
+  // const getPaymentMode=async()=>{
+  //   var tenantName = localStorage.getItem("tenantName")
+  //   const response = await getPaymentModeApi(tenantName,orders.id);
+  //   console.log('response-----',orders.id)
+  //   setValue(response.paymentMode)
+  // }
   // End of Code by Pratap sahu on 06-10-2023
+  // End of Comment by pratap sahu on 13-10-2023
 
   const submitPaymentMode = () => {
     if (document.getElementById("Cash").checked) {
