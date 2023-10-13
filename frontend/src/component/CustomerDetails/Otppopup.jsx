@@ -192,6 +192,9 @@ const Otppopup = () => {
 
     const SubmitOrder=async ()=>{
       var tenantName = localStorage.getItem("tenantName")
+      // Added by pratap sahu on 13-10-2023 To validate table number when already booked
+      state.state["validate_table"]=true
+      // End of code by pratap sahu on 13-10-2023 To validate table number when already booked
       const response = await postCustomerDetails(state.state, tenantName);
       if (response.msg) {
         secureLocalStorage.setItem("invoice_detail", response.data)
@@ -212,7 +215,58 @@ const Otppopup = () => {
         setCart([])
         navigate("/order")
     }
+// Added by pratap sahu on 13-10-2023 To validate table number when already booked
+    else if(response.tabel_error )
+    {         setLoading(false)
 
+      api.error({
+          
+        message: `Table number is not vacant,please try other`,
+        RadiusUprightOutlined,
+        duration:3,
+        style:{
+          // Modified by ROhan - 7/5/23
+          // Reason- to centeralized message box
+            top:"8vh",
+            background:colors.subheadingBackgroundColor,
+            color:colors.subHeadingColor,
+            width: "max-content",
+            right: "0px",
+            left: "0px",
+            position: "fixed",
+            minHeight: "50px",
+            margin:"auto",
+            fontFamily:"Times New Roman"
+            // End of code - 7/5/23
+        },
+          key: 1,
+        }
+        )
+    } 
+    else {
+      api.error({
+        message: `Something went wrong . please contact to admin `,
+        RadiusUprightOutlined,
+        duration:3,
+        style:{
+          // Modified by ROhan - 7/5/23
+          // Reason- to centeralized message box
+            top:"8vh",
+            background:colors.subheadingBackgroundColor,
+            color:colors.subHeadingColor,
+            width: "max-content",
+            right: "0px",
+            left: "0px",
+            position: "fixed",
+            minHeight: "50px",
+            margin:"auto",
+            fontFamily:"Times New Roman"
+            // End of code - 7/5/23
+        },
+          key: 1,
+      });
+    }
+// End of code by pratap sahu on 13-10-2023 To validate table number when already booked
   }
 
   // added by Rohan kansari- 3/5/23

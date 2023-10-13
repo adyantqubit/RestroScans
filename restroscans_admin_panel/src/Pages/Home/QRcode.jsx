@@ -8,7 +8,11 @@ import { QRCode } from "react-qrcode-logo";
 import Adyant from "../../assets/adyant1.png";
 import { HTTP_METHOD, localURL, domainURL } from "../../Api/config";
 import { enableHeader } from "../../App";
-
+// Added by pratap on 13-10-2023 to display glob icon
+import {
+  BsGlobe
+} from "react-icons/bs";
+// End of code by pratap on 13-10-2023 to display glob icon
 const QRcode = () => {
 
 
@@ -178,7 +182,10 @@ const QRcode = () => {
             </h6>
             <h6 className={style.bottom_text}>
             {/* restroscans.com , Scan to see the menu */}
-            www.restroscans.com , Table No:
+            {/* Modified by pratap on 13-10-2023 To display globe */}
+            {/* www.restroscans.com , Table No: */}
+            <BsGlobe style={{display:'inline',fontSize:'15px',paddingTop:'3px'}}/> www.restroscans.com , Table No:
+            {/* End of code by pratap on 13-10-2023 */}
             </h6>
             <h6 className={style.bottom_text}>
             Scan to see the menu

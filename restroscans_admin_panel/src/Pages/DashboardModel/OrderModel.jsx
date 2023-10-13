@@ -93,14 +93,30 @@ const OrderModel = ({
                 "1px solid #9c9c9c";
             errorText["cancelReason"] = "";
             setErrorText({ ...errorText });
-            const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+    //Modified by pratap sahu on 13-10-2023 To dsiplay no changes Apply Button
+        //     const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+        //     if (localStorage.getItem("waiterData"))
+        //         updatedOrderData["cancelled_by"] = "Waiter";
+        //     else updatedOrderData["cancelled_by"] = "Admin";
+        //     updatedOrderData["cancel_reason"] = orderObject.cancel_reason;
+        //     updatedOrderData["order_status"] = "Cancelled";
+        //     updatedOrderDetailAPI(updatedOrderData, field);
+        // } else updatedOrderDetailAPI(orderObject, field);}  
             if (localStorage.getItem("waiterData"))
-                updatedOrderData["cancelled_by"] = "Waiter";
-            else updatedOrderData["cancelled_by"] = "Admin";
-            updatedOrderData["cancel_reason"] = orderObject.cancel_reason;
-            updatedOrderData["order_status"] = "Cancelled";
-            updatedOrderDetailAPI(updatedOrderData, field);
-        } else updatedOrderDetailAPI(orderObject, field);
+                orderObject["cancelled_by"] = "Waiter";
+            else orderObject["cancelled_by"] = "Admin";
+            orderObject["cancel_reason"] = orderObject.cancel_reason;
+            orderObject["order_status"] = "Cancelled";
+            updatedOrderDetailAPI(orderObject, field);
+        } 
+        else {
+            if (unUpdatedOrderObj == JSON.stringify(orderObject) ) {
+                Message("No changes detected", "error")
+            }else{
+            updatedOrderDetailAPI(orderObject, field);
+            }
+        }
+    //End of Modification by pratap sahu on 13-10-2023 To dsiplay no changes Apply Button
     }
 
     function cancelOrder(field) {
@@ -136,23 +152,24 @@ const OrderModel = ({
             }
         }
     }
+// console.log(OldOrdervalue,'old order value')
 
     async function updatedOrderDetailAPI(order, sectionName) {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, order);
-        if (response.msg) {
-            Message(`${sectionName} saved successfully`, "success");
-            setOrderobject(response.orderData);
-            setUnupdatedOrderObj(JSON.stringify(response.orderData));
-            setOrderItem(response.orderItems.sort((a, b) => b.id - a.id));
-            setUnupdatedOrderItemObj(
+            if(response.msg){
+                Message(`${sectionName} saved successfully`, "success");
+                setOrderobject(response.orderData);
+                setUnupdatedOrderObj(JSON.stringify(response.orderData));
+                setOrderItem(response.orderItems.sort((a, b) => b.id - a.id));
+                setUnupdatedOrderItemObj(
                 JSON.stringify(response.orderItems.sort((a, b) => b.id - a.id))
-            );
-        } else {
-            Message("Something went wrong", "error");
-        }
-    }
+                );
+            }else{
+                Message("No changes detected", "error");
 
+            }
+        }
     //Commented And Added By pratap sahu on 21-09-2023
     // Reason:for proper validations on item added or status change
     // async function updateOrderItemStatus(items) {
@@ -388,7 +405,7 @@ const OrderModel = ({
     useEffect(() => {
     //Added by Rohan kansari - 29/9/23 - To update order in order item adding 
         if (orderItem.length != JSON.parse(unUpdatedOrderItemObj).length || JSON.stringify(orderObject) != unUpdatedOrderObj) {
-            console.log("run order item -----------------");
+            // console.log("run order item -----------------");
             setUnupdatedOrderItemObj(JSON.stringify(orderItem));
             setUnupdatedOrderObj(JSON.stringify(orderObject));
         }
@@ -1602,7 +1619,10 @@ const OrderModel = ({
                                         </div>
                                         <div className={style.UpdateDIscountBtn}>
                                             <button
-                                                className={`${style.ApplyBtn}`}
+                                            /* Added by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
+                                                // className={`${style.ApplyBtn}`}
+                                                className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.ApplyBtnDisabled:style.ApplyBtn}
+                                            /* End of code by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
                                                 onClick={(e) => {
                                                     updateOrderDetail("Order details");
                                                 }}>
