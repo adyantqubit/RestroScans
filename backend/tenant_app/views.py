@@ -1768,9 +1768,26 @@ class DashboardAPI(APIView):
         # End of addition by Om Shrivastava on 08-10-23
         # Reason : Save the confirm status and paid status data
         
+        # Addition by Om Shrivastava on 12-10-23
+        # Reason : Save the cancelled order status data
+        # Modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
+        # todays_cancelled_orders=Order.objects.filter(date__gte=today,order_status='Cancelled').order_by("-id")
+        todays_cancelled_orders=Order.objects.filter(Q(order_status='Cancelled'),~Q(payment_status='Completed') ,date__gte=today).order_by("-id")
+        # End of modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
+        todays_cancelled_orders_serializer=OrderSerializer(todays_cancelled_orders, many=True)
+        # End of addition by Om Shrivastava on 12-10-23
+        # Reason : Save the cancelled order status data
+        
         # Addition by Om Shrivastava on 08-10-23
         # Reason : Save the confirm status and paid status data
-        todays_paid_orders=Order.objects.filter(date__gte=today,payment_status='Paid').order_by("-id")
+        # Modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
+        # todays_paid_orders=Order.objects.filter(date__gte=today,payment_status='Paid').order_by("-id")
+        todays_paid_orders=Order.objects.filter(~Q(order_status='Cancelled'),Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        # End of Modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled 
         todays_paid_orders_serializer=OrderSerializer(todays_paid_orders, many=True)
         # End of addition by Om Shrivastava on 08-10-23
         # Reason : Save the confirm status and paid status data
@@ -1807,6 +1824,12 @@ class DashboardAPI(APIView):
             "todays_newly_placed_orders":todays_newly_placed_orders_serializer.data,
             # End of code addition
 
+            # Addition by Om Shrivastava on 12-10-23
+            # Reason : Save the cancelled order status
+            "todays_cancelled_orders":todays_cancelled_orders_serializer.data,
+            # End of addition by Om Shrivastava on 12-10-23
+            # Reason : Save the cancelled order status
+            
             # Addition by Om Shrivastava on 08-10-23
             # Reason : Save the served and paid status
             "todays_served_orders":todays_served_orders_serializer.data,
@@ -2420,9 +2443,26 @@ class UpdateAllOrderStatus(APIView):
         # End of addition by Om Shrivastava on 08-10-23
         # Reason : Save the confirm status and paid status data
         
+        # Addition by Om Shrivastava on 12-10-23
+        # Reason : Save the cancelled order status data
+        # Modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
+        # todays_cancelled_orders=Order.objects.filter(date__gte=today,order_status='Cancelled').order_by("-id")
+        todays_cancelled_orders=Order.objects.filter(Q(order_status='Cancelled'),~Q(payment_status='Completed') ,date__gte=today).order_by("-id")
+        # End of modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
+        todays_cancelled_orders_serializer=OrderSerializer(todays_cancelled_orders, many=True)
+        # End of addition by Om Shrivastava on 12-10-23
+        # Reason : Save the cancelled order status data
+
         # Addition by Om Shrivastava on 08-10-23
         # Reason : Save the confirm status and paid status data
-        todays_paid_orders=Order.objects.filter(date__gte=today,payment_status='Paid').order_by("-id")
+        # Modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
+        # todays_paid_orders=Order.objects.filter(date__gte=today,payment_status='Paid').order_by("-id")
+        todays_paid_orders=Order.objects.filter(~Q(order_status='Cancelled'),Q(payment_status='Paid') ,date__gte=today).order_by("-id")
+        #End of modification and addition by Om Shrivastava on 13-10-23
+        # Reason: set the paid order data when order is not cancelled
         todays_paid_orders_serializer=OrderSerializer(todays_paid_orders, many=True)
         # End of addition by Om Shrivastava on 08-10-23
         # Reason : Save the confirm status and paid status data
@@ -2433,6 +2473,11 @@ class UpdateAllOrderStatus(APIView):
         return Response({"success":"Updated status","order_items":todays_order_item_serializer.data 
                             ,"todays_newly_placed_orders":todays_newly_placed_orders_serializer.data
                             ,"todays_pending_orders":todays_pending_orders_serializer.data 
+                            # Addition by Om Shrivastava on 12-10-23
+                            # Reason : Save the cancelled order status
+                            ,"todays_cancelled_orders":todays_cancelled_orders_serializer.data
+                            # End of addition by Om Shrivastava on 12-10-23
+                            # Reason : Save the cancelled order status
                             # Addition by Om Shrivastava on 08-10-23
                             # Reason : Save the served and paid status
                             ,"todays_served_orders":todays_served_orders_serializer.data

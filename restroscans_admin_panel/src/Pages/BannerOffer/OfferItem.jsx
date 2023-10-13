@@ -230,6 +230,8 @@ console.log(discount,'dissss')
   // End of addition by Om shrivastava on 08-10-23
   // Reason : Need to remove the item from the added item list
 
+  // Addition by Om shrivastava on 09-10-23
+  // Reason : Need to show the full price of the selected offer
   function totalFullPrice(data) {
     if (itemSelected) {
       var discounted_amount = 0;
@@ -243,6 +245,11 @@ console.log(discount,'dissss')
       return final_price
     }
   }
+  // End of addition by Om shrivastava on 09-10-23
+  // Reason : Need to show the full price of the selected offer 
+
+  // Addition by Om shrivastava on 09-10-23
+  // Reason : Need to show the half price of the selected offer 
   function totalHalfPrice(data) {
     if (itemSelected) {
       var discounted_half_amount = 0;
@@ -256,7 +263,8 @@ console.log(discount,'dissss')
       return final_half_price
     }
   }
-
+ // End of addition by Om shrivastava on 09-10-23
+  // Reason : Need to show the half price of the selected offer 
   return (
     <div className={style.Container}>
       <div className={style.titleContainer}>
@@ -471,24 +479,30 @@ console.log(discount,'dissss')
                             style={{ wordBreak: "break-word" }}
                           >
                             <h4> <strike>₹{itemDetail.price_full}</strike></h4>
+                            {/* // Addition by Om shrivastava on 09-10-23
+                            // Reason : Need to show the full price of the selected offer */}
                             {/* <h4> 380.00</h4> */}
                             {/* ₹{itemDetail.price_full} */}
 
                             {totalFullPrice(itemDetail) > 0 ? 
                         <>₹{totalFullPrice(itemDetail)}</>
                          : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
-                            
+                            {/* // End of addition by Om shrivastava on 09-10-23
+                            // Reason : Need to show the full price of the selected offer */}
                           </div>
                           <div
                             className={`${style.subtotalColumn} ${style.commonColumnData} `}
                           >
                             <h4> <strike>₹{itemDetail.price_half}</strike></h4>
+                            {/* // Addition by Om shrivastava on 09-10-23
+                            // Reason : Need to show the half price of the selected offer */}
                             {/* <h4> 230.00</h4> */}
                             {/* {itemDetail.price_half} */}
                             {totalHalfPrice(itemDetail) > 0 ? 
                         <>₹{totalHalfPrice(itemDetail)}</>
                          : <>&nbsp;&nbsp;&nbsp;&nbsp;---</>}
-                            
+                            {/* // End of addition by Om shrivastava on 09-10-23
+                            // Reason : Need to show the half price of the selected offer */}
                           </div>
                           {/* Addition by Om Shrivastava on 07-10-23
                     Reason : Add the remove button for remove the some item */}

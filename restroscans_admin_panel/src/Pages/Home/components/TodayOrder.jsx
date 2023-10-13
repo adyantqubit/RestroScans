@@ -117,6 +117,8 @@ const TodayOrder = (props) => {
     const [todaysServedOrder, setServedOrder] = useState(null)
     const [todaysPaidOrder, setPaidOrder] = useState(null)
 
+    const [todaysCancelledOrder, setCancelledOrder] = useState(null)
+
 
     // Uses - this state save to show where more button popup is opened or not
     // const [popupOpen, setPopupOpen] = useState(false)
@@ -253,7 +255,9 @@ const TodayOrder = (props) => {
 
     console.log(newlyPlaced,'newly placedddddd')
     console.log(todaysPendingOrder,'pending orderrrr(confirm, served) (Pending)')
+    console.log(todaysServedOrder,'served order(served) (Pending)')
     console.log(todaysCompletedOrder,'completedd order(served) (Pending)')
+
 
 
     useEffect(() => {
@@ -291,6 +295,12 @@ const TodayOrder = (props) => {
             // End of addition by Om Shrivastava on 09-10-23
             // Reason : Set the confirm, served and paid status
 
+            // Addition by Om Shrivastava on 12-10-23
+            // Reason : Set the ancelled order status
+            setCancelledOrder(response.todays_cancelled_orders);
+            // End of addition by Om Shrivastava on 12-10-23
+            // Reason : Set the ancelled order status
+
             // setGstFsaai(response.setting);
             setSettings(response.setting);
             setRestroDetail(response.tenant);
@@ -320,7 +330,14 @@ const TodayOrder = (props) => {
                 // Modified by ROhan kansari - 26/6/23- desable update all functionality in complete
                 uncheckAll({ fade: true })
             }
-
+            // Addition by Om Shrivastava on 12-10-23
+            // Reason : Set the cancelled order status
+            else if (localStorage.getItem("selectedTab") == "Cancelled") {
+                setSelectedOrder(response.todays_cancelled_orders)
+                uncheckAll({ fade: true })
+            }
+            // Addition by Om Shrivastava on 12-10-23
+            // Reason : Set the cancelled order status
             // End of code - Rohan kansari - 23/6/23
         }
     }
@@ -891,6 +908,12 @@ const TodayOrder = (props) => {
                     setPaidOrder(r.todays_paid_orders);
                     // End of addition by Om Shrivastava on 09-10-23
                     // Reason : Set the confirm, served and paid status
+
+                    // Addition by Om Shrivastava on 12-10-23
+                    // Reason : Set the cancelled order status
+                    setCancelledOrder(r.todays_cancelled_orders);
+                    // End of addition by Om Shrivastava on 12-10-23
+                    // Reason : Set the cancelled order status
                     setCompletedOrders(r.todays_completed_orders);
                     checkedItems = []
                     setCheckedItem(checkedItems)
@@ -939,7 +962,13 @@ const TodayOrder = (props) => {
                     else if (document.getElementById("completed").checked) {
                         setSelectedOrder(r.todays_completed_orders)
                     }
-
+                    // Addition by Om Shrivastava on 12-10-23
+                    // Reason : Set the cancelled order status
+                    else if (document.getElementById("cancelled").checked) {
+                        setSelectedOrder(r.todays_cancelled_orders)
+                    }
+                    // End of addition by Om Shrivastava on 12-10-23
+                    // Reason : Set the cancelled order status
                     // End of code - Rohan Kansari - 23/6/23- To enhance the code
                 }
                 else {
@@ -1958,9 +1987,9 @@ const TodayOrder = (props) => {
 
             <div className={style.radioGroup}>
                 <input className={style.radioButton} type='radio' id="newly_placed" name="group" defaultChecked={localStorage.getItem("selectedTab") == "Newly_placed"} />
-                <label className={style.tabLabel} htmlFor='newly_placed' onClick={e => { setSelectedOrder(newlyPlaced); localStorage.setItem("selectedTab", "Newly_placed"); uncheckAll({ fade: false }) }}>Newly Placed</label>
+                <label className={style.tabLabel} htmlFor='newly_placed' onClick={e => { setSelectedOrder(newlyPlaced); localStorage.setItem("selectedTab", "Newly_placed"); uncheckAll({ fade: false }) }}>Placed</label>
                 <input className={style.radioButton} id='pending_order' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Pending"} />
-                <label className={style.tabLabel} htmlFor='pending_order' onClick={e => { setSelectedOrder(todaysPendingOrder); localStorage.setItem("selectedTab", "Pending"); uncheckAll({ fade: false }) }}>Pending</label>
+                <label className={style.tabLabel} htmlFor='pending_order' onClick={e => { setSelectedOrder(todaysPendingOrder); localStorage.setItem("selectedTab", "Pending"); uncheckAll({ fade: false }) }}>Confirm</label>
                {/* Addition by Om Shrivastava on 09-10-23
                Reason : add the served and paid status in dashboard site */}
                 <input className={style.radioButton} id='served_order' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Served"} />
@@ -1972,7 +2001,12 @@ const TodayOrder = (props) => {
                Reason : add the served and paid status in dashboard site  */}
                 <input className={style.radioButton} id='completed' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Completed"} />
                 <label className={style.tabLabel} htmlFor='completed' onClick={e => { setSelectedOrder(todaysCompletedOrder); localStorage.setItem("selectedTab", "Completed"); uncheckAll({ fade: true }) }}>Completed</label>
-            
+            {/* Addition by Om Shrivastava on 12-10-23
+               Reason : add the cancelled order status in dashboard site */}
+                <input className={style.radioButton} id='cancelled' type='radio' name="group" defaultChecked={localStorage.getItem("selectedTab") == "Cancelled"} />
+                <label className={style.tabLabel} htmlFor='cancelled' onClick={e => { setSelectedOrder(todaysCancelledOrder); localStorage.setItem("selectedTab", "Cancelled"); uncheckAll({ fade: true }) }}>Cancelled</label>
+            {/* End of addition by Om Shrivastava on 12-10-23
+               Reason : add the cancelled order status in dashboard site */}
             
             </div>
             {/* End of code - ROhan kansari - 23/6/23 */}
@@ -2272,9 +2306,15 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
-                                    disabled={checkedItems.length > 0 ? false : true}
-                                // End of addition by yuvraj Sahu on 03-08-2023
+                                    // Modification and addition by Om Shrivastava on 13-10-23
+                                    // Reason : Add the condition for pending button when order is served
+                                    // style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    // disabled={checkedItems.length > 0 ? false : true}
+                                    style={{ opacity: checkedItems.length > 0 && todaysServedOrder[0]?.order_status=="Served"? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 && todaysServedOrder[0]?.order_status=="Served"? false : true}
+                                    // End of modification and addition by Om Shrivastava on 13-10-23
+                                    // Reason : Add the condition for pending button when order is served
+                                    // End of addition by yuvraj Sahu on 03-08-2023
                                 ><a href="#"
                                 >Pending</a></button></p>
                                 <p className={style.statusBtnDesign}><button className={`payment-btn-right`}
@@ -2286,8 +2326,14 @@ const TodayOrder = (props) => {
                                     }}
                                     // Added by Yuvraj Sahu on 03-08-2023
                                     // Reason - to disable the button
-                                    style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
-                                    disabled={checkedItems.length > 0 ? false : true}
+                                    // Modification and addition by Om Shrivastava on 13-10-23
+                                    // Reason : Add the condition for pending button when order is served
+                                    // style={{ opacity: checkedItems.length > 0 ? 1 : 0.4 }}
+                                    // disabled={checkedItems.length > 0 ? false : true}
+                                    style={{ opacity: checkedItems.length > 0 && todaysServedOrder[0]?.order_status=="Served"? 1 : 0.4 }}
+                                    disabled={checkedItems.length > 0 && todaysServedOrder[0]?.order_status=="Served"? false : true}
+                                    // End of modification and addition by Om Shrivastava on 13-10-23
+                                    // Reason : Add the condition for pending button when order is served
                                 // End of addition by yuvraj Sahu on 03-08-2023
                                 ><a href="#">Completed</a></button></p>
                                 {/* End of modification by Yuvraj Sahu on 09-08-2023 */}

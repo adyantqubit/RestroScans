@@ -51,5 +51,12 @@
   .Container {
     height: 73vh;
   }
+  /* Addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button  */
+  .orderCreateBtn{
+  background-color: #07d4ca;
+  }
+  /* End of addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button   */
 }
 /* end of code by - suman sahu on 17/06/2023 */
