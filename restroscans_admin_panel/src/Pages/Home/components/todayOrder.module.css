@@ -1123,6 +1123,14 @@ Reason - to design radio button container */
 } */
     .updateflexContainer {
         width: 100%;
+        /* Addition by Om Shrivastava on 13-10-23
+        Reason : Need to change the design of the order status update button  */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 10px;
+        /*End ofa ddition by Om Shrivastava on 13-10-23
+        Reason : Need to change the design of the order status update button  */
     }
 
     /* End of addition by Yuvraj sahu on 01-07-2023 */
@@ -2283,25 +2291,33 @@ Reason - to design button */
 .tabLabel {
   background-color: #c2fbd7;
   border-radius: 100px;
-  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
   color: rgb(0, 124, 128);
   cursor: pointer;
   display: inline-block;
   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
   padding: 10px 12px;
   text-align: center;
-  text-decoration: none;
-  transition: all 250ms;
+  /* text-decoration: none;
+  transition: all 250ms; */
   border: 0;
   font-size: 12px;
-  user-select: none;
+
+  /* user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
+  touch-action: manipulation; */
+
+  /* box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px; */
+  /* transform: scale(1.05) rotate(-1deg); */
 }
 
 .tabLabel:hover {
+  /* box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px; */
+  /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
+ 
+  /* transform: scale(1.05) rotate(-1deg); */
   box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-  transform: scale(1.05) rotate(-1deg);
+
 }
 
 input[type="radio"]:checked+.tabLabel {
