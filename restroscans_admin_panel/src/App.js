@@ -169,8 +169,12 @@ function App() {
         {/* Added by Rohan kansari - 8/9/23 - To make revenue page default */}
         <Route path='/Registration' element={tokenExist ? <Navigate to="/Revenue" /> : <Registration />} />
         {/* Added by Rohan kansari - 6/10/23 - To redirect in waiter dashboard if admin has waiter credential */}
-        {/* <Route path="/Login" element={tokenExist ? <Navigate to="/Revenue" /> : <Login />} /> */}
-        <Route path="/Login" element={tokenExist ? typeof localStorage.getItem("waiterData")!="undefined"?<Navigate to="/WaiterDashboard"/>:<Navigate to="/Revenue" /> : <Login />} />
+
+{/* Uncommented by pratap sahu on 15-10-2023 to remove Uncaught error when refresh */}
+        <Route path="/Login" element={tokenExist ? <Navigate to="/Revenue" /> : <Login />} />
+        {/* <Route path="/Login" element={tokenExist ? typeof localStorage.getItem("waiterData")!="undefined"?<Navigate to="/WaiterDashboard"/>:<Navigate to="/Revenue" /> : <Login />} /> */}
+{/* end of code by pratap sahu on 15-10-2023 to remove Uncaught error when refresh */}
+
         {/* End of code by Rohan kansari - 6/10/23 - To redirect in waiter dashboard if admin has waiter credential */}
 
         <Route path="/Forget" element={tokenExist ? <Navigate to="/Revenue" /> : <Forget />} />

@@ -804,9 +804,12 @@ input[type="checkbox"]:checked + .sortingLabel {
   padding: 4px 0;
 }
 .cancellationCountHeading {
-  /* min-width: 130px; */
-  min-width: 120px;
-  max-width: 120px;
+  /* modified by pratap on 16-10-2023 To increase gap bw column */
+  min-width: 130px;
+  /* min-width: 120px; */
+  /* max-width: 120px; */
+  max-width: 130px;
+  /* End of ccode by pratap on 16-10-2023 */
     /* End of Modification by - Pratap on 28-09-2023 for better alignment and spacing bw the columns */
   width: 70px;
   text-align: center;
