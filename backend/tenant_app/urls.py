@@ -502,6 +502,11 @@ urlpatterns = [
     # End of code by pratap sahu on 06-10-2023
 # End of Commenetd by pratap sahu on 13-10-2023 no longer needed
 
+    # Added by :- Pratap sahu on 15-10-2023
+    # Reason :- check table number whether its exist or not
+    path('<str:tenant>/check-table-number/<table_number>',checkTableNumberApi.as_view()),
+    # End of added code 15-10-2023
+
 ]   
 
 

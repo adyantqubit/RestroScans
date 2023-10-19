@@ -790,8 +790,10 @@ class Order(models.Model):
     # date = models.DateTimeField(auto_now_add=True)
     date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
     # End of modified and commented by Om Shrivastava on 11-05-23
+    #Added By:-Pratap sahu on 13-10-2023 To set default "Cash" 
+    # payment_mode = models.CharField(max_length=100,null=True,blank=True)
     payment_mode = models.CharField(default="Cash",max_length=100,null=True,blank=True)
-
+    # End of code by Pratap sahu on 13-10-2023
     # Commented by :- Parineeta Gedam on 07-06-2023
     # Added By :- Parineeta Gedam Date :- 06-05-2023
     # Reason - to add discount type manual discount and final amount

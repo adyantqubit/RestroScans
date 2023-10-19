@@ -274,3 +274,13 @@ export const getPaymentModeApi = async(tenantName,id) => {
   return response ? response.data: {}
 }
 // End of code by pratap sahu on 06-10-2023
+
+//  Added by :- Pratap sahu on 15-10-2023
+//  Reason :- check table number whether its exist or not
+export const checkTableNumberApi = async(table_number,tenantId) => {
+  const response = await API.get(`/${tenantId}/check-table-number/${table_number}`,
+  {headers : {'Content-Type':'application/json'}}).catch(
+      err => console.log(err))
+  return response ? response.data: {}
+}
+// End of added code by pratap sahu on 15-10-2023

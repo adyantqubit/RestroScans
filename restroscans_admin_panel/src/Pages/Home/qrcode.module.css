@@ -9,7 +9,10 @@
   /* commented and modified by suman sahu on 17/06/2023 
      reason - adjust page according to sidebar, header and footer in the full screen*/
   /* height: 90vh; */
-  height: 86.5vh;
+  /* Modified by pratap sahu on 19-10-2023 Reason: print QRCode Button was not displaying properly */
+  /* height: 86.5vh; */
+  height: 80.5vh;
+  /* End of code by pratap sahu on 19-10-2023 */
   /* end of code by - suman sahu on 17/06/2023 */
   margin: auto;
   overflow: scroll;
@@ -19,6 +22,9 @@
   font-weight: bold;
   text-transform: uppercase;
   padding: 0.5rem 0;
+  /*Modified by pratap sahu on 19-10-2023 Reason: Restaurant name was not displaying properly  */
+  margin-top: 1rem;
+  /* End of code by pratap sahu on 19-10-2023 */
 }
 .qr_scanner_section {
   margin: auto;

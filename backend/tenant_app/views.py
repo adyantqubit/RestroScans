@@ -2956,10 +2956,17 @@ class OrderFilterAPIView(APIView):
         # print("--------------------- after today",request.data)
         
         if quickSelect['week'] == True :
-            one_week_ago = datetime.today() - timedelta(days=7)
-            orderList = Order.objects.filter(date__gte=one_week_ago)
+        # Commented and added by pratap sahu on 19-10-2023 to filter data from Monday to Sunday in a week
+            # one_week_ago = datetime.today() - timedelta(days=7)
+            # orderList = Order.objects.filter(date__gte=one_week_ago)
             # print("===============================", datetime.date.today().week)
             # orderList = Order.objects.filter(date__range=[request.data['startDate'], request.data['endDate']])
+            today=datetime.today().date()
+            weekDay=today.weekday()
+            startOfTheWeek=today - timedelta(days=weekDay)
+            orderList = Order.objects.filter(date__gte=startOfTheWeek)
+        # End of code by pratap sahu on 19-10-2023 to filter data from Monday to Sunday in a week
+
         if quickSelect['month'] == True :
             # print("===============================", datetime.date.today().month)
             orderList = Order.objects.filter(date__month=datetime.now().month) 
@@ -5180,3 +5187,16 @@ class PaymentModeAPIView(APIView):
         return Response({"msg":"success","paymentMode":mode})
 #  End of code by pratap sahu on 06-10-2023 
 #  Reason: To set default payment mode option on UI Invoice detail page    
+
+# Added by :- Pratap sahu on 15-10-2023
+# Reason :- check table number whether its exist or not
+class checkTableNumberApi(APIView):
+   
+    def get(self,request,tenant,table_number):   
+        filteredTableNumber=None
+        filteredTableNumber=Order.objects.filter(payment_status="Pending",table_number=table_number)
+        if filteredTableNumber :
+             return Response({"error":"not available"})
+        else:
+            return Response({"message":"table number is available"})
+# End of code by Pratap on 15-10-2023

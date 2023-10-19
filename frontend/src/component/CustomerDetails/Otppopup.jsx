@@ -22,7 +22,7 @@ import { notification } from 'antd'
 
 const Otppopup = () => {
   const state = useLocation()
-  console.log(state.state.contact_number)
+  // console.log(state.state.contact_number)
   
   const [api, contextHolder] =notification.useNotification()
   const navigate = useNavigate()
@@ -296,8 +296,12 @@ const Otppopup = () => {
             Reason -changing message */}
         <div className={style.reasonText}>Enter OTP received on {state.state.contact_number}</div>
 
+      {/*Modified by Pratap sahu on 19-10-2023 To make OTP page Responsive  */}
+        {/* <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} /> */}
+         <div className={style.newDiv}>
         <OTPInput value={OTP} onChange={setOTP} autoFocus OTPLength={6} otpType="number" disabled={false} secure className={style.inputBox} />
-
+        </div>
+        {/*End of code by Pratap sahu on 19-10-2023 To make OTP page Responsive   */}
         <ResendOTP 
         // Added by Om Shrivastava on 18-05-23
         // Need to change the styling of the button 

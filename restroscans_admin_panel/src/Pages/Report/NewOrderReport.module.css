@@ -756,7 +756,10 @@ input[type="checkbox"]:checked+.sortingLabel {
 .data1 {
   word-break: normal;
   overflow-y: auto; /*to enable vertical scrolling */
-  height: 60px;
+  /* Modified by pratap sahu on 19-10-2023 as per demand */
+  /* height: 60px; */
+  height: 40px;
+  /* End of code by pratap sahu on 19-10-2023 as per demand */
   padding-right: 1%;
   /* End of code by pratap sahu on 11-10-2023 Reason To add Scroller */
 }

@@ -105,9 +105,13 @@ const NewOrderReport = () => {
     // ===========================================
     var [quickSelect, setQuickSelect] = useState({
         today: false,
-        week: false,
+        // Modified by pratap sahu on 18-10-2023 to set week bydefault
+        // week: false,
+        week: true,
         month: false,
-        year: true,
+        // year: true,
+        year: false,
+        // End of Modification by pratap sahu on 18-10-2023 to set week bydefault
     });
 
     // Modofication by ROhan kansari - 19/8/23
@@ -215,7 +219,10 @@ const NewOrderReport = () => {
     // Reason - To set global Page index Whenever its index updated
 
     useEffect(() => {
-        getCountofOrder();
+        // Commented by pratap sahu on 19-10-2023
+        // Reason:No Longer Needed because overriding the backendOrderCount number
+        // getCountofOrder();
+        // End of comment by pratap sahu on 19-10-2023
         postOrderQuery();
     }, []);
 
@@ -223,6 +230,7 @@ const NewOrderReport = () => {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await getOrderCount(tenant);
         setOrderCount(response.orderCount);
+        console.log("bbbbbbbbbb",backendOrderCount)
     };
 
 
@@ -284,15 +292,16 @@ const NewOrderReport = () => {
             // reason :- arrange the data in key value pair. 
 
         }
-        console.log(queryData)
+        // console.log(queryData)
         await OrderFilterQueryAPI(tenant, queryData).then(r => {
             setOrder(r)
-            console.log(r)
+            // console.log(r)
 
             setOrder(r.orderList)
             setOrderCount(r.orderListCount)
             // Added by Rohan kansari - 1/9/23 - To set all order report 
             setAllReportData(r.allReportList)
+            console.log("rrrrrrrrrrr",r.orderListCount)
         })
     }
 
