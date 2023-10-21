@@ -11,7 +11,9 @@
   /* height: 90vh; */
   /* Modified by pratap sahu on 19-10-2023 Reason: print QRCode Button was not displaying properly */
   /* height: 86.5vh; */
-  height: 80.5vh;
+  /* again modified by pratap sahu on 19-10-2023 */
+  height: 86.5vh;
+  /* again modified by pratap sahu on 19-10-2023 */
   /* End of code by pratap sahu on 19-10-2023 */
   /* end of code by - suman sahu on 17/06/2023 */
   margin: auto;
@@ -22,7 +24,7 @@
   font-weight: bold;
   text-transform: uppercase;
   padding: 0.5rem 0;
-  /*Modified by pratap sahu on 19-10-2023 Reason: Restaurant name was not displaying properly  */
+  /*added by pratap sahu on 19-10-2023 Reason: Restaurant name was not displaying properly  */
   margin-top: 1rem;
   /* End of code by pratap sahu on 19-10-2023 */
 }
@@ -38,6 +40,9 @@
   border: 1px solid none;
   padding: 0.5rem 2rem;
   margin-top: 1rem;
+  /* added by pratap on 20-10-2023 */
+  margin-bottom: 2rem;
+  /* Enf of code by pratap on 20-10-2023*/
   border-radius: 3rem;
   background-color: var(--highlight-color);
   color: var(--primary-bg-color);
