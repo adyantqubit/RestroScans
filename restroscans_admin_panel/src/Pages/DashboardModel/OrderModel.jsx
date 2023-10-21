@@ -447,7 +447,10 @@ const OrderModel = ({
             var discount_percentage = 0.0;
             // setDiscountRupee("")
             orderObject["discount_percentage"] = 0.0;
-            orderObject["discount_rupees"] = "";
+        // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
+            // orderObject["discount_rupees"] = "";
+            orderObject["discount_rupees"] = 0;
+        // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given  
             var total_price = orderObj.total;
             var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
             var SGST = ((orderObj.sgst / (orderObj.total / 100)) * total_price) / 100;
@@ -504,7 +507,10 @@ const OrderModel = ({
         } else if (e.target.value.length == 0) {
             // console.log("length 0");
             var discount_percentage = 0.0;
-            orderObject["discount_percentage"] = "";
+        // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
+            // orderObject["discount_percentage"] = "";
+            orderObject["discount_percentage"] = 0.0;
+        // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
             orderObject["discount_rupees"] = 0.0;
             // setDiscountRupee(0)
             // setDiscountprice(0.00)
@@ -547,16 +553,17 @@ const OrderModel = ({
         var customer_earn =
             JSON.parse(unUpdatedOrderObj).customer_loyality_point -
             JSON.parse(unUpdatedOrderObj).apply_loyality_point;
-        if (
-            e.target.value > -1 &&
-            (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) &&
-            e.target.value.length > 0 &&
-            e.target.value < customer_earn + 1 &&
-            loyality_price < orderObj.sub_total + 1
-        ) {
-            orderObject["apply_loyality_point"] = e.target.value;
-            var loyalityPrice = setting.per_loyality_point_value * e.target.value;
-            orderObject["loyality_point_price"] = loyalityPrice;
+
+            if (
+                e.target.value > -1 &&
+                (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) &&
+                e.target.value.length > 0 &&
+                e.target.value < customer_earn + 1 &&
+                loyality_price < orderObj.sub_total + 1
+                ) {
+                    orderObject["apply_loyality_point"] = e.target.value;
+                    var loyalityPrice = setting.per_loyality_point_value * e.target.value;
+                    orderObject["loyality_point_price"] = loyalityPrice;
             var total_price =
                 orderObject.sub_total - loyalityPrice - orderObject.discount_rupees;
             var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
@@ -568,7 +575,10 @@ const OrderModel = ({
             errorText["loyality_point"] = "";
             setErrorText({ ...errorText });
         } else if (e.target.value.length == 0) {
-            orderObject["apply_loyality_point"] = "";
+        // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
+            // orderObject["apply_loyality_point"] = "";
+            orderObject["apply_loyality_point"] = 0;
+        // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
             orderObject["loyality_point_price"] = 0;
             // setLoyalityPointPrice(loyalityPrice)
             var total_price = orderObj.total;
