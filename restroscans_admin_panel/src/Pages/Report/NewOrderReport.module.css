@@ -755,14 +755,20 @@ input[type="checkbox"]:checked+.sortingLabel {
 }
 .data1 {
   word-break: normal;
-  overflow-y: auto; /*to enable vertical scrolling */
+/* agian modified by pratap sahu to show scroller only when heigth >45px */
+  /* overflow-y: auto; to enable vertical scrolling */
   /* Modified by pratap sahu on 19-10-2023 as per demand */
   /* height: 60px; */
-  height: 40px;
+  /* height: 40px; */
   /* End of code by pratap sahu on 19-10-2023 as per demand */
+  height: 45px;
+  overflow-y: auto;
+/* End of code by pratap sahu to show scroller only when heigth >45px */
+
   padding-right: 1%;
   /* End of code by pratap sahu on 11-10-2023 Reason To add Scroller */
 }
+
 .eyeIcon {
   cursor: pointer;
 }

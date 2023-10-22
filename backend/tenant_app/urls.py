@@ -495,10 +495,11 @@ urlpatterns = [
     #     // End of addition by Om Shrivastava on 05-10-23
     # // Reason : Get the menu, category, item and offer details
 
+# Uncommented this url by Pratap sahu on 21-10-2023
 # Commenetd by pratap sahu on 13-10-2023 no longer needed
     # Added by pratap sahu on 06-10-2023
     # To set default payment mode option on UI Invoice detail page
-    # path('<str:tenant>/get-payment-mode/<int:id>',PaymentModeAPIView.as_view()),
+    path('<str:tenant>/get-payment-mode/<int:id>',PaymentModeAPIView.as_view()),
     # End of code by pratap sahu on 06-10-2023
 # End of Commenetd by pratap sahu on 13-10-2023 no longer needed
 

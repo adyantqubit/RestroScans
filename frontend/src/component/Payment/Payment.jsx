@@ -16,15 +16,17 @@ export default function Payment() {
 // Added by pratap sahu on 06-10-2023 
 // Reason: To set default payment mode option on UI Invoice detail page
   useEffect(()=>{
+    //  Uncommented this function & commented by Pratap sahu on 21-10-2023
     // commented &modified by pratap on 13-10-2023 to get data from local storage
-    // getPaymentMode();
-    var order = secureLocalStorage.getItem("order");
-    if(order.payment_mode=="Cash"){
-      document.getElementById("Cash").checked=true
-    }else{
-      document.getElementById("Scanner").checked=true
-    }
+    getPaymentMode();
+  //   var order = secureLocalStorage.getItem("order");
+  //   if(order.payment_mode=="Cash"){
+  //     document.getElementById("Cash").checked=true
+  //   }else{
+  //     document.getElementById("Scanner").checked=true
+  //   }
   },[]);
+  // End of code by pratap sahu on 21-10-2023
   // End of code by pratap sahu on 06-10-2023
   //  End of code by pratap on 13-10-2023 to get data from local storage
 
@@ -94,12 +96,12 @@ export default function Payment() {
  
   //   Commented by pratap sahu on 13-10-2023
   // Added by pratap sahu on 06-10-2023
-  // const getPaymentMode=async()=>{
-  //   var tenantName = localStorage.getItem("tenantName")
-  //   const response = await getPaymentModeApi(tenantName,orders.id);
-  //   console.log('response-----',orders.id)
-  //   setValue(response.paymentMode)
-  // }
+  const getPaymentMode=async()=>{
+    var tenantName = localStorage.getItem("tenantName")
+    const response = await getPaymentModeApi(tenantName,orders.id);
+    // console.log('response-----',orders.id)
+    setValue(response.paymentMode)
+  }
   // End of Code by Pratap sahu on 06-10-2023
   // End of Comment by pratap sahu on 13-10-2023
 
@@ -129,8 +131,8 @@ export default function Payment() {
     }
     var tenantName = localStorage.getItem("tenantName");
     const response = await updatePaymentModeApi(tenantName, order);
+    console.log("ressss", payment_mode)
     if (response.msg) {
-      console.log("res", response)
       //   // Commented by :- Parineeta Gedam
       //   // Date :- 14-04-2023
       //   // Reason :- dont'show success msg
