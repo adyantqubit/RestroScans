@@ -220,7 +220,10 @@ const Item = () => {
      * Added by - Yuvraj Sahu on 15-07-2023
      * Reason - To navigate to item form
      */
-    navigate("/addItemForm", { state: { id: id } });
+    // Modified by Pratap sahu on 26-10-2023 Reason :To add Item Functionality
+    // navigate("/addItemForm", { state: { id: id } });
+    navigate("/editItemForm", { state: { id: id } });
+    // End of code by Pratap sahu on 26-10-2023 Reason :To add Item Functionality
     /**
      * End of code addition by - Yuvraj Sahu on 15-07-2023
      * Reason - To navigate to item form

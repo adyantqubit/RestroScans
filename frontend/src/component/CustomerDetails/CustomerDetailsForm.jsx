@@ -5,7 +5,7 @@
 import { React, useContext } from 'react';
 import { GlobalContext } from "../../context/Context";
 import { Button, Form, Input, Card, message, } from "antd";
-import { postCustomerDetails } from '../../api/Services';
+import { postCustomerDetails,checkTableNumberApi } from '../../api/Services';
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import style from "./customer.module.css";
@@ -32,20 +32,36 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
 */}
 
   const SubmitCustomerDetails = async (formdata) => {
-
-    const customerDetail = {
-      name: formdata.name ? formdata.name : "",
-      email: formdata.email ? formdata.email : "",
-      contact_number: formdata.contact_number,
-      table_number: formdata.table_number,
-      cart: cart,
-      //added by rohan- 18/4/23 - to set tenant validation
-      tenant:restaurant_name,
-      // Added by Rohan kansari - 4/9/23 - To set admin is valid or not
-      order_created_by: "User"
-    };
-
-    
+// Added by :Pratap sahu on 15-10-2023 To validate Table number before OTP Verification
+      var tenantName = localStorage.getItem("tenantName")
+      const response = await checkTableNumberApi(formdata.table_number?formdata.table_number:"",tenantName);
+      if (response.error) {
+        message.error({
+          content: "This Table is not vacant, Please try others",
+          key: 1,
+          icon: <CheckCircleOutlined />,
+          style: {
+            marginTop: "5vh",
+            fontSize: "16px",
+            letterSpacing: "1.3px",
+            fontFamily: "Times News Roman",
+            color: colors.headingColor,
+          },
+        })
+      }
+      if (response.message) {
+  // End of code by :Pratap sahu on 15-10-2023 To validate Table number before OTP Verification
+          const customerDetail = {
+            name: formdata.name ? formdata.name : "",
+            email: formdata.email ? formdata.email : "",
+            contact_number: formdata.contact_number,
+            table_number: formdata.table_number,
+            cart: cart,
+            //added by rohan- 18/4/23 - to set tenant validation
+            tenant:restaurant_name,
+            // Added by Rohan kansari - 4/9/23 - To set admin is valid or not
+            order_created_by: "User"
+          };
 
     // Added by Rohan kansari - 26/4/23
     // Reason- To navigate otp form first then proceed further
@@ -107,7 +123,7 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
     // }
   // End of commenting 0 rjan kansari - 27/4/23
   }
-  
+}
   //   End of added code 06-04-2023
 
 

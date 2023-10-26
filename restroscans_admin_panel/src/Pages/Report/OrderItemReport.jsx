@@ -18,7 +18,7 @@ import {
   TbSortAscendingNumbers,
   TbSortDescendingNumbers,
 } from "react-icons/tb";
-import { BsSortNumericDown, BsSortNumericDownAlt } from "react-icons/bs";
+import { BsSortNumericDown, BsSortNumericDownAlt,  BsSortAlphaDownAlt,BsSortAlphaDown } from "react-icons/bs";
 import "./checkbox.scss";
 import { OrderItemFilterQueryAPI } from "../../Api/services";
 import { Message, enableHeader } from "../../App";
@@ -26,6 +26,7 @@ import { Input, Pagination } from "antd";
 import { MdArrowDropUp } from "react-icons/md";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import { useLocation } from 'react-router-dom';
 
 const OrderItemReport = () => {
   const [value, onChange] = useState("");
@@ -131,6 +132,10 @@ const OrderItemReport = () => {
   //Reason - For downloading report in excel sheet
   //Last updated by - Ashlekh on 20-09-2023
 
+  // Added by Pratap sahu on 26-10-2023 To set the state coming from the Revenue p
+  const state = useLocation()
+  // End of code by Pratap sahu on 26-10-2023
+
   useEffect(() => {
     // Added By Rohan Kansari - 25/6/23
     // Reason - To enable headerSiderbar
@@ -141,6 +146,12 @@ const OrderItemReport = () => {
       setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")));
     }
     postQuery();
+    // Added by Pratap sahu on 26-10-2023 To set the state coming from the Revenue page
+    if (state.state) {
+      quickSelect = state.state
+      setQuickSelect({ ...state.state })
+    }
+    // End of code by Pratap sahu on 26-10-2023
   }, []);
 
   useEffect(() => {

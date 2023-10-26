@@ -77,6 +77,10 @@
 .inputBox {
     margin-bottom: 5px;
     align-items: center;
+/* Modified by pratap sahu on 26-10-2023 */    
+    margin-top: 10%;
+    width: 100%;
+    /* End of code by pratap sahu on 26-10-2023 */ 
   }
   .newDiv{
     display: flex !important;

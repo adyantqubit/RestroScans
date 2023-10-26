@@ -148,11 +148,25 @@ const Revenue = () => {
                 View Order Report
               </button>
             </div>
-            <div className={style.btn_div}>
+              {/* Commented & added by Pratap sahu on 26-10-2023- To send selected filter to order item report page*/}
+            {/* <div className={style.btn_div}>
               <button className={style.item_report_btn}>
                 View Item Report
               </button>
+            </div> */}
+              <div className={style.btn_div}>
+              <button className={style.item_report_btn} onClick={e => navigate("/OrderItemReport", {
+                state: {
+                  today: true,
+                  week: false,
+                  month: false,
+                  year: false,
+                }
+              })}>
+                View Item Report
+              </button>
             </div>
+                {/* End of modification by Pratap sahu on 26-10-2023 To send Selected filter to order item report page */}
           </div>
 
           <div className={style.revenue_container}>
@@ -187,11 +201,25 @@ const Revenue = () => {
                 View Order Report
               </button>
             </div>
-            <div className={style.btn_div}>
+            {/* Commented & added by Pratap sahu on 26-10-2023- To send selected filter to order item report page*/}
+            {/* <div className={style.btn_div}>
               <button className={style.item_report_btn}>
                 View Item Report
               </button>
+            </div> */}
+            <div className={style.btn_div}>
+              <button className={style.item_report_btn} onClick={e => navigate("/OrderItemReport", {
+                state: {
+                  today: false,
+                  week: true,
+                  month: false,
+                  year: false,
+                }
+              })}>
+                View Item Report
+              </button>
             </div>
+                {/* End of modification by Pratap sahu on 26-10-2023 To send Selected filter to order item report page */}
           </div>
         </div>
 
@@ -228,11 +256,25 @@ const Revenue = () => {
                 View Order Report
               </button>
             </div>
-            <div className={style.btn_div}>
+            {/* Commented & added by Pratap sahu on 26-10-2023- To send selected filter to order item report page*/}
+            {/* <div className={style.btn_div}>
               <button className={style.item_report_btn}>
                 View Item Report
               </button>
+            </div> */}
+            <div className={style.btn_div}>
+              <button className={style.item_report_btn} onClick={e => navigate("/OrderItemReport", {
+                state: {
+                  today: false,
+                  week: false,
+                  month: true,
+                  year: false,
+                }
+              })}>
+                View Item Report
+              </button>
             </div>
+                {/* End of modification by Pratap sahu on 26-10-2023 To send Selected filter to order item report page */}
           </div>
 
           <div className={style.revenue_container}>
@@ -267,11 +309,25 @@ const Revenue = () => {
                 View Order Report
               </button>
             </div>
-            <div className={style.btn_div}>
+            {/* Commented & added by Pratap sahu on 26-10-2023- To send selected filter to order item report page*/}
+            {/* <div className={style.btn_div}>
               <button className={style.item_report_btn}>
                 View Item Report
               </button>
+            </div> */}
+            <div className={style.btn_div}>
+              <button className={style.item_report_btn} onClick={e => navigate("/OrderItemReport", {
+                state: {
+                  today: false,
+                  week: false,
+                  month: false,
+                  year: true,
+                }
+              })}>
+                View Item Report
+              </button>
             </div>
+                {/* End of modification by Pratap sahu on 26-10-2023 To send Selected filter to order item report page */}
           </div>
         </div>
       </div>

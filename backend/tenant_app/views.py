@@ -21,6 +21,7 @@ from backend.config import *
 from django.db.models import Q
 import logging
 from django.core.paginator import Paginator
+import pytz  # for handling time zones
 
 
 # Added by Rohan kansari - 22/9/23 - To encrypt and decrypt text
@@ -29,6 +30,7 @@ import base64
 import logging
 import traceback
 from django.conf import settings
+import datetime
 
 def encrypt(pas):
     try:        
@@ -5194,9 +5196,9 @@ class checkTableNumberApi(APIView):
    
     def get(self,request,tenant,table_number):   
         filteredTableNumber=None
-        filteredTableNumber=Order.objects.filter(payment_status="Pending",table_number=table_number)
+        filteredTableNumber=Order.objects.filter( (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) & Q(table_number=table_number))
         if filteredTableNumber :
              return Response({"error":"not available"})
         else:
             return Response({"message":"table number is available"})
-# End of code by Pratap on 15-10-2023
+        # End of code by Pratap on 15-10-2023
