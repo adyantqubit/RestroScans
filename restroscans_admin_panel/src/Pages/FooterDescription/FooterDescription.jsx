@@ -87,7 +87,10 @@ const FooterDescription = () => {
    */
   const clearFooterDescription = () => {
     setInputText(
-      footerDescriptionDetails.content != ""
+      // Modified by pratap sahu on 27-10-2023 Reason: ot clearing the data for new Tenant
+      // footerDescriptionDetails.content != ""
+      footerDescriptionDetails.content != null
+      // Modified by pratap sahu on 27-10-2023 Reason: ot clearing the data for new Tenant
         ? footerDescriptionDetails.content
         : ""
     );

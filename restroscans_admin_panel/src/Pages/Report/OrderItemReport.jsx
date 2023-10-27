@@ -71,8 +71,14 @@ const OrderItemReport = () => {
 
   // Added by - Ashlekh on 16-09-2023 Reason - For sorting
   const [showSortingIcon, setShowSortingIcon] = useState(false);
-  const [columnToSort, setColumnToSort] = useState("item");
-  const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
+
+// Modified by Pratap sahu on 27-10-2023
+  // const [columnToSort, setColumnToSort] = useState("item");
+  const [columnToSort, setColumnToSort] = useState("itemName");
+  
+  // const [columnSortingOrder, setColumnSortingOrder] = useState("descending");
+  const [columnSortingOrder, setColumnSortingOrder] = useState("ascending");
+// End of code by Pratap sahu on 27-10-2023
   // End of code addition by - Ashlekh on 16-09-2023
   // Reason - For sorting
 
@@ -172,14 +178,18 @@ const OrderItemReport = () => {
     //Reason - For pagination
     const filteringCriteria = {
       search: value,
-      itemSort: itemNameIsSort,
-      orderSort: orderCountIsSort,
-      ratingSort: ratingIsSort,
-      cancellationSort: cancellationIsSort,
-      //Added by - Pratap sahu on 07-10-2023
-      completionSort: completionIsSort,
-      //End of code by - Pratap sahu on 07-10-2023
-      totalAmountSort: totalAmountIsSort,
+
+  // Commented by pratap sahu on 27-10-2023
+  // Reason:No Longer Needed because of performing sorting through a function
+      // itemSort: itemNameIsSort,
+      // orderSort: orderCountIsSort,
+      // ratingSort: ratingIsSort,
+      // cancellationSort: cancellationIsSort,
+      // //Added by - Pratap sahu on 07-10-2023
+      // completionSort: completionIsSort,
+      // //End of code by - Pratap sahu on 07-10-2023
+      // totalAmountSort: totalAmountIsSort,
+ // Commented by pratap sahu on 27-10-2023
 
       //Added by - Ashlekh on 16-09-2023
       pageIndex: pageIndex,
@@ -209,180 +219,198 @@ const OrderItemReport = () => {
     //End of code modification by - Ashlekh on 21-09-2023
     //Reason - For date validation
   }
-  //Code modification by - Ashlekh on 18-09-2023
-  function cancellationSelect(value) {
-    if (value) {
-      itemNameIsSort = "";
-      orderCountIsSort = "";
-      ratingIsSort = "";
-      totalAmountIsSort = "";
-      cancellationIsSort = true;
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort("");
-      setOrderCountSort("");
-      setRatingSort("");
-      setTotalAmountSort("");
-      setCancellationSort(true);
-    } else {
-      itemNameIsSort = "";
-      orderCountIsSort = "";
-      ratingIsSort = "";
-      totalAmountIsSort = "";
-      cancellationIsSort = false;
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort("");
-      setOrderCountSort("");
-      setRatingSort("");
-      setTotalAmountSort = "";
-      setCancellationSort(false);
-    }
-    postQuery();
-  }
 
-  function ratingSelect(value) {
-    if (value) {
-      itemNameIsSort = "";
-      orderCountIsSort = "";
-      ratingIsSort = true;
-      cancellationIsSort = "";
-      totalAmountIsSort = "";
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort("");
-      setOrderCountSort("");
-      setRatingSort(true);
-      setCancellationSort("");
-      setTotalAmountSort("");
-    } else {
-      itemNameIsSort = "";
-      orderCountIsSort = "";
-      ratingIsSort = false;
-      cancellationIsSort = "";
-      totalAmountIsSort = "";
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort("");
-      setOrderCountSort("");
-      setRatingSort(false);
-      setCancellationSort("");
-      setTotalAmountSort = "";
+  // Added by - Pratap sahu on 27-10-2023  Reason -to perform sorting criteria for columns
+  const sortOrderItemReportList = (columnName) => {
+    if (columnToSort == columnName) {
+      if (columnSortingOrder == "ascending") {
+        setColumnSortingOrder("descending");
+      } else {
+        setColumnSortingOrder("ascending");
+      }
     }
-    postQuery();
-  }
+    setColumnToSort(columnName);
+  };
+  //  End of code addition by -Pratap sahu on 27-10-2023 Reason - to perform sorting criteria for columns
 
-  function orderCountSelect(value) {
-    if (value) {
-      itemNameIsSort = "";
-      orderCountIsSort = true;
-      ratingIsSort = "";
-      cancellationIsSort = "";
-      totalAmountIsSort = "";
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort("");
-      setOrderCountSort(true);
-      setRatingSort("");
-      setCancellationSort("");
-      setTotalAmountSort("");
-    } else {
-      itemNameIsSort = "";
-      orderCountIsSort = false;
-      ratingIsSort = "";
-      cancellationIsSort = "";
-      totalAmountIsSort = "";
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort("");
-      setOrderCountSort(false);
-      setRatingSort("");
-      setCancellationSort("");
-      setTotalAmountSort("");
-    }
-    postQuery();
-  }
+// Commented all functions for sorting columns by Pratap sahu on 27-10-2023 
+// Reason:No Longer needed because of implemented a single function passing all column names as parameter
+  // //Code modification by - Ashlekh on 18-09-2023
+  // function cancellationSelect(value) {
+  //   if (value) {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = "";
+  //     ratingIsSort = "";
+  //     totalAmountIsSort = "";
+  //     cancellationIsSort = true;
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort("");
+  //     setOrderCountSort("");
+  //     setRatingSort("");
+  //     setTotalAmountSort("");
+  //     setCancellationSort(true);
+  //   } else {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = "";
+  //     ratingIsSort = "";
+  //     totalAmountIsSort = "";
+  //     cancellationIsSort = false;
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort("");
+  //     setOrderCountSort("");
+  //     setRatingSort("");
+  //     setTotalAmountSort = "";
+  //     setCancellationSort(false);
+  //   }
+  //   postQuery();
+  // }
 
-  function itemSelect(value) {
-    if (value) {
-      itemNameIsSort = true;
-      orderCountIsSort = "";
-      ratingIsSort = "";
-      cancellationIsSort = "";
-      totalAmountIsSort = "";
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort(true);
-      setOrderCountSort("");
-      setRatingSort("");
-      setCancellationSort("");
-      setTotalAmountSort("");
-    } else {
-      itemNameIsSort = false;
-      orderCountIsSort = "";
-      ratingIsSort = "";
-      cancellationIsSort = "";
-      totalAmountIsSort = "";
-      // Added by pratap sahu on 07-10-2023
-      completionIsSort="";
-      setCompletionIsSort=""
-      // End of code by pratap sahu on 07-10-2023
-      setItemNameSort(false);
-      setOrderCountSort("");
-      setRatingSort("");
-      setCancellationSort("");
-      setTotalAmountSort("");
-    }
-    postQuery();
-  }
-  //End of code modification by - Ashlekh on 18-09-2023
+  // function ratingSelect(value) {
+  //   if (value) {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = "";
+  //     ratingIsSort = true;
+  //     cancellationIsSort = "";
+  //     totalAmountIsSort = "";
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort("");
+  //     setOrderCountSort("");
+  //     setRatingSort(true);
+  //     setCancellationSort("");
+  //     setTotalAmountSort("");
+  //   } else {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = "";
+  //     ratingIsSort = false;
+  //     cancellationIsSort = "";
+  //     totalAmountIsSort = "";
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort("");
+  //     setOrderCountSort("");
+  //     setRatingSort(false);
+  //     setCancellationSort("");
+  //     setTotalAmountSort = "";
+  //   }
+  //   postQuery();
+  // }
 
-    //Added by - Pratap sahu on 07-10-2023 for sorting
-  function completionSelect(value) {
-    if (value) {
-      itemNameIsSort = "";
-      orderCountIsSort = "";
-      ratingIsSort = "";
-      totalAmountIsSort = "";
-      cancellationIsSort = "";
-      completionIsSort = true;
-      setItemNameSort("");
-      setOrderCountSort("");
-      setRatingSort("");
-      setTotalAmountSort("");
-      setCancellationSort("");
-      setCompletionIsSort(true);
-    } else {
-      itemNameIsSort = "";
-      orderCountIsSort = "";
-      ratingIsSort = "";
-      totalAmountIsSort = "";
-      cancellationIsSort = "";
-      completionIsSort = false;
-      setItemNameSort("");
-      setOrderCountSort("");
-      setRatingSort("");
-      setTotalAmountSort = "";
-      setCancellationSort("");
-      setCompletionIsSort(false);
-    }
-    postQuery();
-  }
-    //End of code by - Pratap sahu on 07-10-2023
+  // function orderCountSelect(value) {
+  //   if (value) {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = true;
+  //     ratingIsSort = "";
+  //     cancellationIsSort = "";
+  //     totalAmountIsSort = "";
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort("");
+  //     setOrderCountSort(true);
+  //     setRatingSort("");
+  //     setCancellationSort("");
+  //     setTotalAmountSort("");
+  //   } else {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = false;
+  //     ratingIsSort = "";
+  //     cancellationIsSort = "";
+  //     totalAmountIsSort = "";
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort("");
+  //     setOrderCountSort(false);
+  //     setRatingSort("");
+  //     setCancellationSort("");
+  //     setTotalAmountSort("");
+  //   }
+  //   postQuery();
+  // }
+
+  // function itemSelect(value) {
+  //   if (value) {
+  //     itemNameIsSort = true;
+  //     orderCountIsSort = "";
+  //     ratingIsSort = "";
+  //     cancellationIsSort = "";
+  //     totalAmountIsSort = "";
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort(true);
+  //     setOrderCountSort("");
+  //     setRatingSort("");
+  //     setCancellationSort("");
+  //     setTotalAmountSort("");
+  //   } else {
+  //     itemNameIsSort = false;
+  //     orderCountIsSort = "";
+  //     ratingIsSort = "";
+  //     cancellationIsSort = "";
+  //     totalAmountIsSort = "";
+  //     // Added by pratap sahu on 07-10-2023
+  //     completionIsSort="";
+  //     setCompletionIsSort=""
+  //     // End of code by pratap sahu on 07-10-2023
+  //     setItemNameSort(false);
+  //     setOrderCountSort("");
+  //     setRatingSort("");
+  //     setCancellationSort("");
+  //     setTotalAmountSort("");
+  //   }
+  //   postQuery();
+  // }
+  // //End of code modification by - Ashlekh on 18-09-2023
+
+  //   //Added by - Pratap sahu on 07-10-2023 for sorting
+  // function completionSelect(value) {
+  //   if (value) {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = "";
+  //     ratingIsSort = "";
+  //     totalAmountIsSort = "";
+  //     cancellationIsSort = "";
+  //     completionIsSort = true;
+  //     setItemNameSort("");
+  //     setOrderCountSort("");
+  //     setRatingSort("");
+  //     setTotalAmountSort("");
+  //     setCancellationSort("");
+  //     setCompletionIsSort(true);
+  //   } else {
+  //     itemNameIsSort = "";
+  //     orderCountIsSort = "";
+  //     ratingIsSort = "";
+  //     totalAmountIsSort = "";
+  //     cancellationIsSort = "";
+  //     completionIsSort = false;
+  //     setItemNameSort("");
+  //     setOrderCountSort("");
+  //     setRatingSort("");
+  //     setTotalAmountSort = "";
+  //     setCancellationSort("");
+  //     setCompletionIsSort(false);
+  //   }
+  //   postQuery();
+  // }
+  //   //End of code by - Pratap sahu on 07-10-2023
+// End of Comment for sorting columns by Pratap sahu on 27-10-2023 
+// Reason:No Longer needed because of implemented a single function passing all column names as parameter
 
   //Added by - Ashlekh on 18-09-2023
   //Reason - To add sorting in total amount
@@ -824,15 +852,17 @@ const OrderItemReport = () => {
                 //className={style.column1}
                 className={style.sNoColumn}
               >
-                Sno
+              {/* Commented and added by pratap sahu on 27-10-2023
+              Reason:To sort coulumns by passing column names in a function and show sorting icon*/}
+                {/* Sno */}
+                S.No
               </div>
               {/* Code modification by - Ashlekh on 20-09-2023
                   Reason - Sorting Icon */}
-              <div
+              {/* <div
                 className={style.orderItemNameHeading}
                 // className={style.orderItemName}
-              >
-                <input
+              ><input
                   type="checkbox"
                   id="itemName"
                   style={{ display: "none" }}
@@ -848,12 +878,42 @@ const OrderItemReport = () => {
                     <TbSortDescendingLetters className={style.SortIcon} />
                   )}
                 </label>
-              </div>
-              <div
+              </div> */}
+                <div className={style.orderItemNameHeading}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderItemReportList("itemName");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "itemName") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "itemName") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                Item Name{" "}
+                {columnToSort == "itemName" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortAlphaDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "itemName" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortAlphaDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "itemName" && showSortingIcon && (
+                    <BsSortAlphaDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </div>
+              {/* <div
                 //className={style.column3}
                 className={style.orderCountHeading}
-              >
-                <input
+              ><input
                   type="checkbox"
                   id="orderCount"
                   style={{ display: "none" }}
@@ -869,23 +929,55 @@ const OrderItemReport = () => {
                     <BsSortNumericDownAlt className={style.SortIcon} />
                   )}
                 </label>
-              </div>
+              </div> */}
+                <div className={style.orderCountHeading}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderItemReportList("orderCount");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "orderCount") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "orderCount") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                Total Order{" "}
+                {columnToSort == "orderCount" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "orderCount" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "orderCount" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </div>
               {/* commented and modified by - suman sahu on 28/08/2023 
                                         reason - for change lable name */}
               {/* Code commented and added by - Ashlekh on 18-09-2023
                                         Reason - To add sorting in total amount */}
               {/* <div className={style.column5}>Price</div> */}
               {/* <div className={style.column5}>Total Amount</div> */}
-              <div className={style.totalAmountHeading}>
-                <input
+              {/* <div className={style.totalAmountHeading}> */}
+            {/* Commented & Modified by pratap sahu on 27-10-2023 */}
+                {/* <input
                   type="checkbox"
                   id="totalAmount"
                   style={{ display: "none" }}
                   name="totalAmount"
                   checked={totalAmountIsSort}
-                  onChange={(e) => totalAmountSelect(e.target.checked)}
-                />{" "}
-                <label className={style.sortingLabel} htmlFor="totalAmount">
+                  // onChange={(e) => totalAmountSelect(e.target.checked)}
+                  />Total Amount{" "}
+                  <label className={style.sortingLabel} htmlFor="totalAmount">
                   Total Amount{" "}
                   {totalAmountIsSort ? (
                     <BsSortNumericDown className={style.SortIcon} />
@@ -893,13 +985,45 @@ const OrderItemReport = () => {
                     <BsSortNumericDownAlt className={style.SortIcon} />
                   )}
                 </label>
+              </div> */}
+                  <div className={style.totalAmountHeading}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderItemReportList("totalAmount");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "totalAmount") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "totalAmount") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                Total Amount{" "}
+                {columnToSort == "totalAmount" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "totalAmount" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "totalAmount" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+             {/* End of Comment & Modificatiion by pratap sahu on 27-10-2023 */}
               </div>
               {/* End of comment and code addition by - Ashlekh on 18-09-2023
                                     Reason - To add sorting in total amount */}
               {/* end of code by suman sahu on 28/08/2023 */}
               {/* <div className={style.column5}>Discount</div> */}
-              <div className={style.cancellationCountHeading}>
-                <input
+              {/* <div className={style.cancellationCountHeading}>
+               <input
                   type="checkbox"
                   id="cancellation"
                   style={{ display: "none" }}
@@ -915,11 +1039,41 @@ const OrderItemReport = () => {
                     <BsSortNumericDownAlt className={style.SortIcon} />
                   )}
                 </label>
-              </div>
-
+              </div>*/}
+                <div className={style.cancellationCountHeading}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderItemReportList("cancellation");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "cancellation") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "cancellation") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                Cancelled Order{" "}
+                {columnToSort == "cancellation" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "cancellation" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "cancellation" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </div>
               {/* Added by Pratap sahu on 07-10-2023 To show Completed Order details */}
-              <div className={style.cancellationCountHeading}>
-                <input
+              {/* <div className={style.cancellationCountHeading}>
+              <input
                   type="checkbox"
                   id="completion"
                   style={{ display: "none" }}
@@ -935,17 +1089,48 @@ const OrderItemReport = () => {
                     <BsSortNumericDownAlt className={style.SortIcon} />
                   )}
                 </label>
-              </div>
+              </div> */}
+                <div className={style.cancellationCountHeading}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderItemReportList("completion");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "completion") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "completion") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                Completed Order{" "}
+                {columnToSort == "completion" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "completion" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "completion" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </div>
             {/* End of Addition by Pratap sahu on 07-10-2023 To show Completed Order details */}
 
               {/* <div className={style.column7}>Last Review</div> */}
               {/* End of code modification by - Ashlekh on 20-09-2023
               Reason - For sorting icon */}
-              <div
+              {/* <div
                 //    className={style.column4}
                 className={style.ratingColumnHeading}
               >
-                <input
+              <input
                   type="checkbox"
                   id="rating"
                   style={{ display: "none" }}
@@ -961,7 +1146,39 @@ const OrderItemReport = () => {
                     <BsSortNumericDownAlt className={style.SortIcon} />
                   )}
                 </label>
-              </div>
+              </div> */}
+                <div className={style.ratingColumnHeading}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortOrderItemReportList("rating");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "rating") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "rating") {
+                      setShowSortingIcon(false);
+                    }
+                  }}>
+                Rating{" "}
+                {columnToSort == "rating" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "rating" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "rating" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+                  </div>
+              {/* End of Comment & modification By Pratap sahu on 27-10-2023 */}
             </div>
 
             {/* commented and modified by - suman sahu on 28/08/2023 

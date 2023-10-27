@@ -3113,7 +3113,6 @@ class OrderFilterAPIView(APIView):
     #  End of Added code by :- Parineeta Gedam on 04-08-2023 reason :- chnages in logic
 # End of added code by :- Rohan Kansari on 28-05-2023
 
-
 # Added by :- Rohan Kansari
 # Date :- 28-05-2023
 # Reason : API for post for filter query in order report
@@ -3131,6 +3130,11 @@ class OrderItemFilterAPIView(APIView):
         currentPage=paginationDetails['currentPage']
         listPerPage=paginationDetails['listPerPage']
         quickSelect = request.data['quickSelect']
+
+    # Added by pratap sahu on 27-10-2023 To sort coloumns by passing column names through a function
+        columnSortingOrder=request.data['columnSortingOrder']
+        columnToSort=request.data['columnToSort']
+    # End of code by pratap sahu on 27-10-2023
 
         # Added by - Ashlekh on 21-09-2023
         # Reason - For Handling UnboundLocalError: local variable 'duplicate_orderHalf' referenced before assignment
@@ -3150,7 +3154,13 @@ class OrderItemFilterAPIView(APIView):
             duplicate_orderHalf = OrderItem.objects.filter(date__gte=todayDate)
             duplicate_orderFull = OrderItem.objects.filter(date__gte=todayDate)
         elif quickSelect['week'] == True :
-            one_week_ago = datetime.today() - timedelta(days=7)
+        # Modified by pratap sahu on 27-10-2023
+            # one_week_ago = datetime.today() - timedelta(days=7)
+            today=datetime.today().date()
+            weekDay=today.weekday()
+            one_week_ago=today - timedelta(days=weekDay)
+        # End of code by pratap sahu on 27-10-2023 to filter data from Monday to Sunday in a week
+
             duplicate_orderHalf = OrderItem.objects.filter(date__gte=one_week_ago)
             duplicate_orderFull = OrderItem.objects.filter(date__gte=one_week_ago)
         elif quickSelect['month'] == True :
@@ -3200,32 +3210,46 @@ class OrderItemFilterAPIView(APIView):
         # Code modification by - Ashlekh on 16-09-2023
         # Reason - For sortings in all columns
       
-        if request.data['itemSort']==True:
+    # Modified by pratap sahu on 27-10-2023 To sort coloumns by passing column names through a function
+        # if request.data['itemSort']==True:
+        if columnToSort == "itemName" and columnSortingOrder=="ascending":
             duplicate_orders = duplicate_orders.order_by("item")
-        elif request.data['itemSort']==False:
+        # elif request.data['itemSort']==False:
+        elif columnToSort == "itemName" and columnSortingOrder=="descending":
              duplicate_orders = duplicate_orders.order_by("-item")   
-        elif request.data['orderSort']==True:
+        # elif request.data['orderSort']==True:
+        elif columnToSort == "orderCount" and columnSortingOrder=="ascending":
             duplicate_orders = duplicate_orders.order_by("item_count")
-        elif request.data['orderSort']==False:
+        # elif request.data['orderSort']==False:
+        elif columnToSort == "orderCount" and columnSortingOrder=="descending":
             duplicate_orders = duplicate_orders.order_by("-item_count")
-        elif request.data['ratingSort']==True:
+        # elif request.data['ratingSort']==True:
+        elif columnToSort == "rating" and columnSortingOrder=="ascending":
             duplicate_orders = duplicate_orders.order_by("average_rating")
-        elif request.data['ratingSort']==False:
+        # elif request.data['ratingSort']==False:
+        elif columnToSort == "rating" and columnSortingOrder=="descending":
             duplicate_orders = duplicate_orders.order_by("-average_rating")
-        elif request.data['cancellationSort']==True:
+        # elif request.data['cancellationSort']==True:
+        elif columnToSort == "cancellation" and columnSortingOrder=="ascending":
             duplicate_orders = duplicate_orders.order_by("cancellation_count")
-        elif request.data['cancellationSort']==False:
+        # elif request.data['cancellationSort']==False:
+        elif columnToSort == "cancellation" and columnSortingOrder=="descending":
             duplicate_orders = duplicate_orders.order_by("-cancellation_count")
-        elif request.data['totalAmountSort']==True:
+        # elif request.data['totalAmountSort']==True:
+        elif columnToSort == "totalAmount" and columnSortingOrder=="ascending":
             duplicate_orders = duplicate_orders.order_by("sum_price")
-        elif request.data['totalAmountSort']==False:
+        # elif request.data['totalAmountSort']==False:
+        elif columnToSort == "totalAmount" and columnSortingOrder=="descending":
             duplicate_orders = duplicate_orders.order_by("-sum_price")
             # code Added by Pratap sahu on 07-10-2023 Reason:To sort Completed order details
-        elif request.data['completionSort']==True:
+        # elif request.data['completionSort']==True:
+        elif columnToSort == "completion" and columnSortingOrder=="ascending":
             duplicate_orders = duplicate_orders.order_by("completion_count")
-        elif request.data['completionSort']==False:
+        # elif request.data['completionSort']==False:
+        elif columnToSort == "completion" and columnSortingOrder=="descending":
             duplicate_orders = duplicate_orders.order_by("-completion_count")
         # End of code by Pratap sahu on 07-10-2023 Reason:To sort Completed order details
+    # End of Modification by pratap sahu on 27-10-2023 To sort coloumns by passing column names through a function
 
         # End of code modification by - Ashlekh on 18-09-2023
         # Reason - For sorting in all
@@ -3242,13 +3266,13 @@ class OrderItemFilterAPIView(APIView):
         # if(len(request.data['search'])>0):
         #    duplicate_orders=duplicate_orders.annotate(similarity=TrigramSimilarity("item", request.data['search']),).filter(similarity__gt=0.3).order_by("-similarity")
         #    print(duplicate_orders)
-        
-        
+                
         # Added by - Ashlekh on 16-09-2023
         # Reason - For pagination
         orderItemCount = duplicate_orders.count()
         paginator = Paginator(duplicate_orders, listPerPage)
         orderItemList = paginator.page(currentPage)
+        # print("********************",listPerPage)
         # print(list(orderItemList),type(duplicate_orders))
         # Code modification by - Ashlekh on 20-09-2023
         return Response({

@@ -498,7 +498,10 @@ class Description(models.Model):
     # Commented And Addition By Pratap Sahu on 14-08-2023
     # Reason:Need to Save Empty Data
     # content =models.TextField()
-    content =models.TextField(null=True,blank=True)
+#  Modified by pratap sahu on 27-10-2023 Reason: ot clearing the data for new Tenant
+    # content =models.TextField(null=True,blank=True)
+    content =models.TextField(null=True,blank=True,default="")
+# End of code by pratap sahu on 27-10-2023 Reason: ot clearing the data for new Tenant
     # End of Modification by pratap sahu on 14-08-2023
     # Reason:Need to Save Empty Data
 
@@ -1192,7 +1195,14 @@ class Order(models.Model):
                     self.apply_loyality_point=self.old_apply_loyality_point
                     # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
 
-                    get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
+                    # Modification by pratap on 27-10-2023 TO avoid ZeroDivisionError
+                    # get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
+                    try:
+                        get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
+                    except ZeroDivisionError:
+                        get_loyality = 0
+                    # End of modification by pratap on 27-10-2023 TO avoid ZeroDivisionError
+
                     user_no= self.customer_id.contact_number
                     CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
 
