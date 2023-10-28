@@ -1103,7 +1103,10 @@ function MenuItem() {
             <div style={{ height: '15vh' }}>
             {/* <h3 color="red">yupp</h3> */}
             {/* modified by :- Parineeta Gedam on 19-04-2023 */}
-            <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
+            {/* Modified by Pratap sahu on 28-10-2023 To manage the gap b/w WelcomeImage & Menu item */}
+            {/* <img style={{ width: '100%', height: '15vh', border: '1px solid black' }} */}
+            <img style={{ width: '100%', height: '18.5vh', border: '1px solid black' }}
+            // End of code by Pratap sahu on 28-10-2023
               // src={nodataOffer}
               // src={offer_comming_soon_img}
              
@@ -1123,7 +1126,10 @@ function MenuItem() {
           <div style={{ height: '15vh' }}>
             {/* <h3 color="red">yupp</h3> */}
             {/* modified by :- Parineeta Gedam on 19-04-2023 */}
-            <img style={{ width: '100%', height: '15vh', border: '1px solid black' }}
+            {/* Modified by Pratap sahu on 28-10-2023 To manage the gap b/w WelcomeImage & Menu item */}
+            {/* <img style={{ width: '100%', height: '15vh', border: '1px solid black' }} */}
+            <img style={{ width: '100%', height: '14.5vh', border: '1px solid black' }}
+            // End of code by Pratap sahu on 28-10-2023
               // src={nodataOffer}
               // src={offer_comming_soon_img}
               src={welcome_banner}

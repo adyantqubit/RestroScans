@@ -429,7 +429,11 @@
     }
     .CalculationBoxContainer {
       width: 100%;
-      min-height: 100px;
+  // Modification by Pratap sahu on 28-10-2023 
+  // Reason : To Decrease the gap between Grand Total and Payable Amount when taxes,loyalty points or discount has not applied 
+      // min-height: 100px;
+  // End of code by Pratap sahu on 28-10-20
+      min-height: 30px;
       display: flex;
       justify-content: flex-end;
     }

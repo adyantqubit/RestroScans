@@ -1165,11 +1165,11 @@ const OrderItemReport = () => {
                 Rating{" "}
                 {columnToSort == "rating" &&
                     columnSortingOrder == "ascending" && (
-                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                      <BsSortNumericDown className={style.sortingIcon} />
                     )}
                   {columnToSort == "rating" &&
                     columnSortingOrder == "descending" && (
-                      <BsSortNumericDown className={style.sortingIcon} />
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
                     )}
                   {columnToSort != "rating" && showSortingIcon && (
                     <BsSortNumericDown
