@@ -164,7 +164,20 @@
   justify-content: space-between;
   margin-right: 20px;
 }
-
+.parentSelectContainer1 {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  row-gap: -2px;
+  position: relative;
+  top: -8px;
+  justify-content: space-between;
+  margin-right: 20px;
+}
+.new{
+  display: flex;
+  flex-direction: row;
+}
 /* Added by  :- Parineeta Gedam on 02-08-2023
     reason :- css for designing
 */
@@ -225,9 +238,17 @@
 .quickSelectConatiner {
   margin: 0 auto;
 }
-
+.quickSelectConatiner1{
+  display: block;
+}
 .quickOptions {
   display: flex;
+}
+.quickOptions1 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 0px;
 }
 
 .quickHeading {
@@ -618,14 +639,94 @@ input[type="checkbox"]:checked+.sortingLabel {
 }
 
 @media screen and (max-width:400px) {
+	/* Added by pratap sahu on 28-10-2023 To handle x-axis scrolling*/
+  .filterContainer {
+    width: 93%;
+    margin: 10px 10px;
+    min-height: 80px;
+    padding: 0 20px;
+    border-radius: 10px;
+    background-color: #1677ff14;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    justify-content: flex-start;
+  }
   .parentSelectContainer {
-    width: 30%;
+    /* modified by pratap sahu on 28-10-2023 to align max 3 quick select in a row*/
+    /* width: 30%; */
+    width: 70%;
     margin: 0 auto;
+    /*added by pratap sahu on 28-10-2023 */
+    display: flex; 
+    flex-direction: row;
   }
-
+  .parentSelectContainer1 {
+    width: 70%;
+    margin: 0 auto;
+    display: flex; 
+    flex-direction: row;
+  }
   .quickSelectConatiner {
-    width: 80%;
+    /* width: 80%; */
+    width: 100%;
+    justify-content: center;
   }
+  /* Added by pratap sahu on 29-10-2023 to align quick select */
+  .quickSelectConatiner1 {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0px;
+  }
+  .new{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dateContainer {
+    min-width: 320px;
+    width: max-content;
+    height: 80%;
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: auto 0px;
+  }
+.fromDate {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.datepicker1 {
+  width: 150px;
+}
+/* End of code by pratap sahu on 29-10-2023  */
+  /* Added by pratap sahu on 28-10-2023  */
+.quickOptions {
+  display: block;
+  width: 100%;
+  margin-left: -40px;
+}
+.quickOptions1 {
+  display: flex;
+  width: 53%;
+  margin-left: -20px;
+}
+.selectContainer {
+  display: flex;
+  width: 10px;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.label {
+  min-width: 70px;
+  font-family: var(--font-faimly);
+  font-size: 14px;
+  font-weight: 500;
+}
+/* End of code by pratap sahu on 28-10-2023 */
+
 
   /* Added by  :- Parineeta Gedam on 02-08-2023
     reason :- css for designing
@@ -655,6 +756,7 @@ input[type="checkbox"]:checked+.sortingLabel {
   margin: auto 10px;
   margin-top: 10px;
 }
+
 
 .pageTitle {
   font-size: 20px;
