@@ -151,7 +151,10 @@ const OrderItemReport = () => {
       currentPage = parseInt(localStorage.getItem("globalPageIndex"));
       setCurrentPage(parseInt(localStorage.getItem("globalPageIndex")));
     }
-    postQuery();
+  // Commeneted by Pratap sahu on 02-11-2023 
+  // Reason:Because of this function sometimes QuickSelectfilter was not working properly when redirecting from the Revenue page
+    // postQuery();
+  // End of code by pratap sahu on 02-11-2023 
     // Added by Pratap sahu on 26-10-2023 To set the state coming from the Revenue page
     if (state.state) {
       quickSelect = state.state

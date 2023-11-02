@@ -503,6 +503,11 @@ export default function AddOrderItemForm(orderId) {
             // End of code - ROhan kansari - 6/8/23 
         }
     }
+    const CustomNoOptionsMessage = ({ inputValue }) => (
+        <div style={{ padding: 10 }}>
+          No results found for "{inputValue}"
+        </div>
+      );
 
     return (
         // <Header>
@@ -562,6 +567,9 @@ export default function AddOrderItemForm(orderId) {
                                     name="name"
                                     id="itemDropDown"
                                     value={itemIdSelected}
+                                    // Added by Pratap sahu on 02-11-2023 Reason to display no results on search
+                                    notFoundContent={<div style={{height:'3vh',textAlign:'center'}}>No Records Found</div>}
+                                    // End of code by Pratap sahu on 02-11-2023
                                     // Added by Om Shrivastava on 10-07-23
                                     // Reason : Apply the search functionality
                                     showSearch

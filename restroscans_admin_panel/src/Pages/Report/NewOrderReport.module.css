@@ -638,7 +638,10 @@ input[type="checkbox"]:checked+.sortingLabel {
 */
 }
 
-@media screen and (max-width:400px) {
+/* Modified by pratap sahu on 02-11-2023 Reason :To make this page responsive upto 414px */
+/* @media screen and (max-width:400px) { */
+  @media screen and (max-width:414px) {
+/* End of modification by pratap sahu on 02-11-2023 */
 	/* Added by pratap sahu on 28-10-2023 To handle x-axis scrolling*/
   .filterContainer {
     width: 93%;
