@@ -157,6 +157,7 @@ const OrderModel = ({
     async function updatedOrderDetailAPI(order, sectionName) {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, order);
+        console.log("=====response=====",response)
             if(response.msg){
                 Message(`${sectionName} saved successfully`, "success");
                 setOrderobject(response.orderData);
@@ -593,23 +594,39 @@ const OrderModel = ({
             setErrorText({ ...errorText });
         } else if (e.target.value > customer_earn) {
             errorText["loyality_point"] =
-                "Loyalty point should not be greater than earn point";
+            "Loyalty point should not be greater than earn point";
             setErrorText({ ...errorText });
         } else if (loyality_price >= orderObj.sub_total + 1) {
             errorText["loyality_point"] =
-                "Loyality point should not be greater then sub-total";
+            "Loyality point should not be greater then sub-total";
             setErrorText({ ...errorText });
         }
         setOrderobject({ ...orderObject });
     }
-
+    
     return (
         <Modal
 
             open={isOpen}
             footer={null}
             className={style.modalContainer}
-            closeIcon={<AiOutlineClose onClick={(e) => setModelVisiblity(false)} />}
+            // Modified by Pratap Sahu on 03-11-2023 Reason:To remove validation when close the popup and deactivate cancel button
+            // closeIcon={<AiOutlineClose onClick={(e) => setModelVisiblity(false)} />}
+            closeIcon={<AiOutlineClose onClick={(e) =>{ document.getElementById("discount_percentage").style.border =
+                                                "1px solid #9c9c9c";
+                                            document.getElementById("discount_rupees").style.border =
+                                                "1px solid #9c9c9c";
+                                            document.getElementById("cancelInput").style.border =
+                                                "1px solid #9c9c9c";
+                                            errorText["cancelReason"] = "";
+                                            errorText["discount_price"] = "";
+                                            errorText["discount_percentage"]="";
+                                            errorText["loyality_point"] = "";
+                                            setErrorText({ ...errorText })
+                                            setCancelClicked(false)
+                                            setModelVisiblity(false)}}
+                                            />}
+            // End of code by pratap sahu on 03-11-2023
             onCancel={e => setModelVisiblity(false)}>
             <Modal
                 animationType="slide"
@@ -1468,6 +1485,7 @@ const OrderModel = ({
                                         : style.disbaleBtn
                                     }`}>
                                 <div className={style.inputContainerFlex}>
+                                {/* <div className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.inputContainerFlex2:style.inputContainerFlex}> */}
                                     {!localStorage.getItem("waiterData") ? (
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Discount </label>
@@ -1486,8 +1504,14 @@ const OrderModel = ({
                                                                 //     : style.disbaleBtn
                                                                 //     }`}
                                                               // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
-                                                                className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`: `${style.disbaleBtn} ${style.inputBox}`}
-                                                                // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
+                                                    // Modified by Pratap sahu on 03-11-2023
+                                                    // className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`: `${style.disbaleBtn} ${style.inputBox}`}
+                                                    //   className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?`${style.disabledBox} ${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: `${style.disabledBox} ${style.inputBox}`}`:style.inputBox }
+                                                      className={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
+                                                                    `${style.disabledBox} ${style.inputBox}`:
+                                                                        `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`}
+                                                    // End of code by Pratap sahu on 03-11-2023
+                                                              // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
                                                                 value={orderObject.discount_rupees}
                                                                 onChange={(e) => {
                                                                     inputIvalidationDiscountRupees(e);
@@ -1505,7 +1529,13 @@ const OrderModel = ({
                                                                 //     : style.disbaleBtn
                                                                 //     }`}
                                                      // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In %
-                                                                className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`: `${style.inputBox} ${style.disbaleBtn}`}
+                                                        // Modified by Pratap sahu on 03-11-2023
+                                                        // className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`: `${style.inputBox} ${style.disbaleBtn}`}
+                                                        // className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disabledBox}`: `${style.inputBox} ${style.disbaleBtn}`}
+                                                        className={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
+                                                                    `${style.disabledBox} ${style.inputBox}`:
+                                                                     `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`}
+                                                                // end of Modification by Pratap sahu on 03-11-2023
                                                      // End of Code by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In %
                                                                 value={orderObject.discount_percentage}
                                                                 onChange={(e) => {
@@ -1526,7 +1556,10 @@ const OrderModel = ({
                                                             Apply Loyalty Point{" "}
                                                         </label>
                                                         <input
-                                                            className={style.inputBox}
+                                                    // modified by pratap sahu on 20-10-2023
+                                                            // className={style.inputBox}
+                                                            className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :style.inputBox}
+                                                            // End of code by pratap sahu on 20-10-2023
                                                             value={orderObject?.apply_loyality_point}
                                                             onChange={(e) => {
                                                                 validateLoyalityPoint(e);
@@ -1583,7 +1616,13 @@ const OrderModel = ({
                                                     <input
                                                         id="cancelled_by"
                                                         type="text"
-                                                        className={`${style.inputBox} ${style.disbaleBtn}`}
+                                                    // modified by pratap sahu on 21-10-2023
+                                                        // className={`${style.inputBox} ${style.disbaleBtn}`}
+                                                        className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :`${style.inputBox}`}
+                                                        onChange={(e) => {
+                                                            orderObject.cancelled_by = e.target.value;
+                                                            setOrderobject({ ...orderObject });}}    
+                                                    // End of code by pratap sahu on 21-10-2023
                                                     />
                                                 </div>
                                             </div>
@@ -1594,7 +1633,10 @@ const OrderModel = ({
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Cancel Reason </label>
                                             <textarea
-                                                className={style.TextInputBox}
+                                            /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+                                                // className={style.TextInputBox}
+                                                className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.TextInputBoxDis:style.TextInputBox}
+                                            /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
                                                 id="cancelInput"
                                                 value={orderObject.cancel_reason}
                                                 onChange={(e) => {
@@ -1612,7 +1654,10 @@ const OrderModel = ({
                                                     Discount Reason{" "}
                                                 </label>
                                                 <textarea
-                                                    className={style.TextInputBox}
+                                                /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+                                                    // className={style.TextInputBox}
+                                                    className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.TextInputBoxDis:style.TextInputBox}
+                                                /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
                                                     value={orderObject.discount_reason}
                                                     onChange={(e) => {
                                                         orderObject.discount_reason = e.target.value;
@@ -1644,12 +1689,22 @@ const OrderModel = ({
                             </div>
 
                             <div className={style.pricingContent}>
-                                <div className={style.priceInformation}>
+                            {/* Commented & Modified by Pratap sahu on 03-11-2023 To Display redeem loyalty points only when loyalty allow*/}
+                                {/* <div className={style.priceInformation}>
                                     <label className={style.InputLabel}>Loyalty Price :- </label>
                                     <label className={style.InputLabel}>
                                         ₹ {orderObject.loyality_point_price}
                                     </label>
-                                </div>
+                                    </div> */}
+                                {setting?.allow_loyality_points ? (
+                                                    <div className={style.priceInformation}>
+                                                        <label className={style.InputLabel}>Loyalty Price :- </label>
+                                                        <label className={style.InputLabel}>
+                                                            ₹ {orderObject.loyality_point_price}
+                                                        </label>
+                                                    </div>
+                                                ) : null}
+                            {/* End of code by Pratap sahu on 03-11-2023 To Display redeem loyalty points only when loyalty allow*/}
                                 <div className={style.priceInformation}>
                                     <label className={style.InputLabel}>Discount Price :- </label>
                                     <label className={style.InputLabel}>
@@ -1705,7 +1760,24 @@ const OrderModel = ({
                     <div className={style.PrintNBack}>
                         <button
                             className={style.BackBtn}
-                            onClick={(e) => setModelVisiblity(false)}>
+                            // Modified by Pratap Sahu on 03-11-2023 Reason:To remove validation when close the popup and deactivate cancel button
+                            // onClick={(e) => setModelVisiblity(false)}
+                            onClick={(e) => {
+                                            document.getElementById("discount_percentage").style.border =
+                                                "1px solid #9c9c9c";
+                                            document.getElementById("discount_rupees").style.border =
+                                                "1px solid #9c9c9c";
+                                            document.getElementById("cancelInput").style.border =
+                                                "1px solid #9c9c9c";
+                                            errorText["cancelReason"] = "";
+                                            errorText["discount_price"] = "";
+                                            errorText["discount_percentage"]="";
+                                            errorText["loyality_point"] = "";
+                                            setErrorText({ ...errorText })
+                                            setCancelClicked(false)
+                                            setModelVisiblity(false)}
+                                // End of code by Pratap Sahu on 03-11-2023 
+                            }>
                             Close
                         </button>
                     </div>

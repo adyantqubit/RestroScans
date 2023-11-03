@@ -151,11 +151,11 @@
     display: flex;
 }
 
-.disbaleBtn {
+/* .disbaleBtn {
     pointer-events: none;
     color: #9c9c9c;
     background-color: rgba(0, 0, 0, 0.1);
-}
+} */
 
 .InputLabel {
     color: black;
@@ -588,6 +588,15 @@
     width: 100%;
 
 }
+.inputContainerFlex2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: white;
+
+}
 
 .inputBoxContainer {
     width: 100%;
@@ -639,7 +648,10 @@
     min-width: 70px;
     height: 30px;
     margin: 3px 0;
-    background-color: #f8f7f7;
+/* modified by Pratap sahu on 20-10-2023 */
+    /* background-color: #f8f7f7; */
+    background-color: white;
+/* modified by Pratap sahu on 20-10-2023 */
     outline: none;
 /* Commented & modified by Pratap sahu on 09-10-2023 To display fields like input box */
     /* border: none; */
@@ -649,7 +661,19 @@
     border-radius: 5px;
     padding: 0 5px;
 }
-
+/* added by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+.disabledBox {
+    width: 95%;
+    min-width: 70px;
+    height: 30px;
+    margin: 3px 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    outline: none;
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+/* End of code by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
 .errorText {
     color: red;
     font-size: 12px;
@@ -707,7 +731,10 @@
     min-width: 90px;
     height: 53px;
     margin: 3px 0;
-    background-color: #f8f7f7;
+/* modified by Pratap sahu on 20-10-2023 To  */
+    /* background-color: #f8f7f7; */
+    background-color: white;
+/* End of code by Pratap sahu on 20-10-2023 */
     outline: none;
 /* Commented & modified by Pratap sahu on 09-10-2023 To display fields like input box */
     /* border: none; */
@@ -719,6 +746,21 @@
     border-radius: 5px;
     padding: 0 6px;
 }
+/* added by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+.TextInputBoxDis {
+    width: 98%;
+    min-width: 90px;
+    height: 53px;
+    margin: 3px 0;
+    outline: none;
+    border: 1px solid #9c9c9c;
+    background-color: rgba(0, 0, 0, 0.1);
+    min-height: 53px;
+    max-height: 53px;
+    border-radius: 5px;
+    padding: 0 6px;
+}
+/* added by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
 
 .UpdateDIscountBtn {
     width: 100%;

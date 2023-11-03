@@ -3887,7 +3887,7 @@ class OrderDetailAPIView(APIView) :
         # Reason - To send setting value also in a response
         settingSerialize=SettingSerializer(Setting.objects.last())
 
-
+        print("pp#########",settingSerialize)
         # order_status = dict(Order.fields['order_status'].choices)[order_status]
 
         return Response({
@@ -5217,10 +5217,20 @@ class PaymentModeAPIView(APIView):
 # Added by :- Pratap sahu on 15-10-2023
 # Reason :- check table number whether its exist or not
 class checkTableNumberApi(APIView):
-   
     def get(self,request,tenant,table_number):   
+
+        # Added by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
+        from datetime import date
+        from datetime import timedelta
+        today = date.today()
+        yesterday = today - timedelta(days = 1)
+        # End of code by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
+
         filteredTableNumber=None
-        filteredTableNumber=Order.objects.filter( (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) & Q(table_number=table_number))
+        # modified by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
+        # filteredTableNumber=Order.objects.filter( (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) & Q(table_number=table_number))
+        filteredTableNumber=Order.objects.filter(Q(date__gt=yesterday) & Q(table_number=table_number) & (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) )
+        # End of code by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
         if filteredTableNumber :
              return Response({"error":"not available"})
         else:
