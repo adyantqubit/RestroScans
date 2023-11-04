@@ -1550,6 +1550,65 @@ const OrderModel = ({
                                                             : null}
                                                     </div>
                                                 </div>
+                                                {/* Shifted here from lower div by Pratap sahu on 04-11-2023 */}
+                                                <div className={style.loyalityColumn}>
+                                                    <label className={style.subInputLabel}>
+                                                        Cancelled By{" "}
+                                                    </label>
+                                                    <input
+                                                        id="cancelled_by"
+                                                        type="text"
+                                                    // modified by pratap sahu on 21-10-2023
+                                                        // className={`${style.inputBox} ${style.disbaleBtn}`}
+                                                        className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :`${style.inputBox}`}
+                                                        onChange={(e) => {
+                                                            orderObject.cancelled_by = e.target.value;
+                                                            setOrderobject({ ...orderObject });}}    
+                                                    // End of code by pratap sahu on 21-10-2023
+                                                    />
+                                                </div>
+                                                {/* End of code shift by Pratap sahu on 04-11-2023   */}
+                                            </div>
+                                        </div>
+                                    ) : null}
+
+                                    {!localStorage.getItem("waiterData") ? (
+                                        <div className={style.inputBoxContainer}>
+                                            <div
+                                                className={style.discountRow}
+                                                style={{ justifyContent: "space-between" }}>
+                                                {/* Added this condition by Pratap sahu on 04-11-2023 Reason:hide reward points when loyalty is not active */}
+                                                {setting?.allow_loyality_points ? (
+                                                    <div className={style.rewardbox}>
+                                                        Earn Point &nbsp;
+                                                        <div className={style.coinBox}>
+                                                            <div className={style.cointPoints}>
+                                                                {orderObject.customer_loyality_point}
+                                                            </div>
+                                                            <div class="spinningasset coin is-sm">
+                                                                <div>
+                                                                    <div></div>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <i></i>
+                                                                    <em></em>
+                                                                    <em></em>
+                                                                    <div></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    ) : null}
+                                                    {/* End of condition by Pratap sahu on 04-11-2023 */}
+                                                {/* Shifted here from upper div by Pratap sahu on 04-11-2023 */}
                                                 {setting?.allow_loyality_points ? (
                                                     <div className={style.loyalityColumn}>
                                                         <label className={style.subInputLabel}>
@@ -1572,63 +1631,10 @@ const OrderModel = ({
                                                         </div>
                                                     </div>
                                                 ) : null}
+                                                {/* End of code shift by pratap sahu on 20-10-2023 */}
                                             </div>
                                         </div>
                                     ) : null}
-
-                                    {!localStorage.getItem("waiterData") ? (
-                                        <div className={style.inputBoxContainer}>
-                                            <div
-                                                className={style.discountRow}
-                                                style={{ justifyContent: "space-between" }}>
-                                                <div className={style.rewardbox}>
-                                                    Earn Point &nbsp;
-                                                    <div className={style.coinBox}>
-                                                        <div className={style.cointPoints}>
-                                                            {orderObject.customer_loyality_point}
-                                                        </div>
-                                                        <div class="spinningasset coin is-sm">
-                                                            <div>
-                                                                <div></div>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <i></i>
-                                                                <em></em>
-                                                                <em></em>
-                                                                <div></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className={style.loyalityColumn}>
-                                                    <label className={style.subInputLabel}>
-                                                        Cancelled By{" "}
-                                                    </label>
-                                                    <input
-                                                        id="cancelled_by"
-                                                        type="text"
-                                                    // modified by pratap sahu on 21-10-2023
-                                                        // className={`${style.inputBox} ${style.disbaleBtn}`}
-                                                        className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :`${style.inputBox}`}
-                                                        onChange={(e) => {
-                                                            orderObject.cancelled_by = e.target.value;
-                                                            setOrderobject({ ...orderObject });}}    
-                                                    // End of code by pratap sahu on 21-10-2023
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ) : null}
-
                                     <div className={style.inputContainerFlex}>
                                         <div className={style.inputBoxContainer}>
                                             <label className={style.InputLabel}>Cancel Reason </label>
@@ -1680,6 +1686,20 @@ const OrderModel = ({
                                             /* End of code by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
                                                 onClick={(e) => {
                                                     updateOrderDetail("Order details");
+                                                    // Added by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
+                                                    document.getElementById("discount_percentage").style.border =
+                                                        "1px solid #9c9c9c";
+                                                    document.getElementById("discount_rupees").style.border =
+                                                        "1px solid #9c9c9c";
+                                                    document.getElementById("cancelInput").style.border =
+                                                        "1px solid #9c9c9c";
+                                                    errorText["cancelReason"] = "";
+                                                    errorText["discount_price"] = "";
+                                                    errorText["discount_percentage"]="";
+                                                    errorText["loyality_point"] = "";
+                                                    setErrorText({ ...errorText })
+                                                    // setCancelClicked(false)
+                                                    // End of code by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
                                                 }}>
                                                 Apply
                                             </button>

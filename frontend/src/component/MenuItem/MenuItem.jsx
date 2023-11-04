@@ -1256,7 +1256,10 @@ function MenuItem() {
         {whatsApp && whatsApp.whatsapp_number && whatsApp.whatsapp_number !=undefined && whatsApp.whatsapp_number !=null && whatsApp.whatsapp_number.length > 0 ?
       //  Added by Rohan kansari - 30/6/23
       // Reason - To set whatsapp icon in the end
-       <div style={{display:"flex",marginLeft:"auto"}}>
+      //modified by pratap sahu on 04-11-2023 Reason:whatsapp icon overlaping on RateUs & Reservation Popup
+      //<div style={{display:"flex",marginLeft:"auto"}}>
+      <div style={{display:"flex",marginLeft:"auto",zIndex:'99'}}>
+      {/* End of code by pratap sahu on 04-11-2023*/}
           <FloatingWhatsApp
           // commented and modified by - Suman sahu on 16/06/2023
           // reason - fix padding issue (Because of addition of reservation button, whatsapp icon is pushed to right corner and haft image is cut.)

@@ -1335,6 +1335,9 @@ a.ant-notification-notice-close {
 .styles-module_whatsappButton__tVits:after{
     width: 25px !important;
     height: 25px !important;
+    /* added by Pratap sahu on 04-11-2023 reason: overlaping icon on reservation and rateus page*/
+    position: absolute; 
+    /*End of code by Pratap sahu on 04-11-2023*/
 }
 /* End of addition 05/05/2023 */
 
