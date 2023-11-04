@@ -48,6 +48,10 @@ const OrderModel = ({
 
     const [isCancelClicked, setCancelClicked] = useState(false);
 
+    // Added by pratap sahu on 04-11-2023 
+    const [cancelReason,setCancelReason]=useState("")
+    // End of code by pratap sahu on 04-11-2023 
+
     useEffect(() => {
         //  console.log(selectedOrder,"--------------------")
         setOrderobject({ ...selectedOrder });
