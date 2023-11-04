@@ -88,10 +88,30 @@ const OrderModel = ({
     }
 
     async function updateOrderDetail(field) {
-        if (isCancelClicked) {
-            document.getElementById("cancelInput").style.borderBottom =
+            // Added by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
+            if(isCancelClicked && cancelReason==""){
+                if (isCancelClicked && (cancelReason!="")) {
+                    document.getElementById("cancelInput").style.borderBottom =
+                    "1px solid red";
+                errorText["cancelReason"] = "Please enter reason and apply";
+                setErrorText({ ...errorText });
+                }
+            }
+        // if (isCancelClicked) {
+            else if (isCancelClicked && (cancelReason!="")) {
+                document.getElementById("cancelInput").style.borderBottom =
                 "1px solid #9c9c9c";
             errorText["cancelReason"] = "";
+            // Added by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
+            document.getElementById("discount_percentage").style.border =
+                "1px solid #9c9c9c";
+            document.getElementById("discount_rupees").style.border =
+                "1px solid #9c9c9c";
+            errorText["discount_price"] = "";
+            errorText["discount_percentage"]="";
+            errorText["loyality_point"] = "";
+            setCancelClicked(true)
+            // End of code by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
             setErrorText({ ...errorText });
     //Modified by pratap sahu on 13-10-2023 To dsiplay no changes Apply Button
         //     const updatedOrderData = JSON.parse(unUpdatedOrderObj);
@@ -1507,7 +1527,9 @@ const OrderModel = ({
                                                     // Modified by Pratap sahu on 03-11-2023
                                                     // className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`: `${style.disbaleBtn} ${style.inputBox}`}
                                                     //   className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?`${style.disabledBox} ${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: `${style.disabledBox} ${style.inputBox}`}`:style.inputBox }
-                                                      className={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
+                                                        // Modified by Pratap sahu on 04-11-2023 to disable all fields on paid 
+                                                    // className={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
+                                                    className={orderObject.payment_status == "Paid" || orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
                                                                     `${style.disabledBox} ${style.inputBox}`:
                                                                         `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`}
                                                     // End of code by Pratap sahu on 03-11-2023
@@ -1532,7 +1554,9 @@ const OrderModel = ({
                                                         // Modified by Pratap sahu on 03-11-2023
                                                         // className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`: `${style.inputBox} ${style.disbaleBtn}`}
                                                         // className={orderObject.payment_status == "Pending"? `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disabledBox}`: `${style.inputBox} ${style.disbaleBtn}`}
-                                                        className={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
+                                                        // Modified by Pratap sahu on 04-11-2023 to disable all fields on paid 
+                                                        // className={orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
+                                                        className={orderObject.payment_status == "Paid"|| orderObject.payment_status == "Completed"|| orderObject.order_status=="Cancelled"?
                                                                     `${style.disabledBox} ${style.inputBox}`:
                                                                      `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`}
                                                                 // end of Modification by Pratap sahu on 03-11-2023
@@ -1560,7 +1584,8 @@ const OrderModel = ({
                                                         type="text"
                                                     // modified by pratap sahu on 21-10-2023
                                                         // className={`${style.inputBox} ${style.disbaleBtn}`}
-                                                        className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :`${style.inputBox}`}
+                                                        // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :`${style.inputBox}`}
+                                                        className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" || orderObject.payment_status == "Paid"? style.disabledBox :`${style.inputBox}`}
                                                         onChange={(e) => {
                                                             orderObject.cancelled_by = e.target.value;
                                                             setOrderobject({ ...orderObject });}}    
@@ -1617,7 +1642,8 @@ const OrderModel = ({
                                                         <input
                                                     // modified by pratap sahu on 20-10-2023
                                                             // className={style.inputBox}
-                                                            className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :style.inputBox}
+                                                            // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :style.inputBox}
+                                                            className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"|| orderObject.payment_status == "Paid"? style.disabledBox :style.inputBox}
                                                             // End of code by pratap sahu on 20-10-2023
                                                             value={orderObject?.apply_loyality_point}
                                                             onChange={(e) => {
@@ -1641,13 +1667,20 @@ const OrderModel = ({
                                             <textarea
                                             /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
                                                 // className={style.TextInputBox}
-                                                className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.TextInputBoxDis:style.TextInputBox}
+                                                // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.TextInputBoxDis:style.TextInputBox}
+                                                className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"|| orderObject.payment_status == "Paid"?style.TextInputBoxDis:style.TextInputBox}
                                             /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
                                                 id="cancelInput"
                                                 value={orderObject.cancel_reason}
                                                 onChange={(e) => {
                                                     orderObject.cancel_reason = e.target.value;
                                                     setOrderobject({ ...orderObject });
+                                                    // added by Pratap sahu on 04-11-2023 to clear validation colour and text
+                                                    setCancelReason(e.target.value);
+                                                    document.getElementById("cancelInput").style.border ="1px solid #9c9c9c";
+                                                    errorText["cancelReason"] = "";
+                                                    setErrorText({ ...errorText })
+                                                    // End of code by Pratap sahu on 04-11-2023 
                                                 }}
                                             />
                                             <div className={style.errorText}>
@@ -1662,7 +1695,8 @@ const OrderModel = ({
                                                 <textarea
                                                 /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
                                                     // className={style.TextInputBox}
-                                                    className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.TextInputBoxDis:style.TextInputBox}
+                                                    // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.TextInputBoxDis:style.TextInputBox}
+                                                    className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"|| orderObject.payment_status == "Paid"?style.TextInputBoxDis:style.TextInputBox}
                                                 /* modified by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
                                                     value={orderObject.discount_reason}
                                                     onChange={(e) => {
@@ -1682,24 +1716,11 @@ const OrderModel = ({
                                             <button
                                             /* Added by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
                                                 // className={`${style.ApplyBtn}`}
-                                                className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.ApplyBtnDisabled:style.ApplyBtn}
+                                                // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"?style.ApplyBtnDisabled:style.ApplyBtn}
+                                                className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" || orderObject.payment_status=="Paid"?style.ApplyBtnDisabled:style.ApplyBtn}
                                             /* End of code by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
                                                 onClick={(e) => {
                                                     updateOrderDetail("Order details");
-                                                    // Added by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
-                                                    document.getElementById("discount_percentage").style.border =
-                                                        "1px solid #9c9c9c";
-                                                    document.getElementById("discount_rupees").style.border =
-                                                        "1px solid #9c9c9c";
-                                                    document.getElementById("cancelInput").style.border =
-                                                        "1px solid #9c9c9c";
-                                                    errorText["cancelReason"] = "";
-                                                    errorText["discount_price"] = "";
-                                                    errorText["discount_percentage"]="";
-                                                    errorText["loyality_point"] = "";
-                                                    setErrorText({ ...errorText })
-                                                    // setCancelClicked(false)
-                                                    // End of code by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
                                                 }}>
                                                 Apply
                                             </button>
