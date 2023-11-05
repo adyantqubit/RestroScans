@@ -1607,7 +1607,9 @@ const OrderModel = ({
                                                 className={style.discountRow}
                                                 style={{ justifyContent: "space-between" }}>
                                                 {/* Added this condition by Pratap sahu on 04-11-2023 Reason:hide reward points when loyalty is not active */}
-                                                {setting?.allow_loyality_points ? (
+                                                {/*condition Modified by Pratap sahu on 05-11-2023 */}
+                                                {/* {setting?.allow_loyality_points? ( */}
+                                                {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? (
                                                     <div className={style.rewardbox}>
                                                         Earn Point &nbsp;
                                                         <div className={style.coinBox}>
@@ -1638,7 +1640,9 @@ const OrderModel = ({
                                                     ) : null}
                                                     {/* End of condition by Pratap sahu on 04-11-2023 */}
                                                 {/* Shifted here from upper div by Pratap sahu on 04-11-2023 */}
-                                                {setting?.allow_loyality_points ? (
+                                                {/*condition Modified by Pratap sahu on 05-11-2023 */}
+                                                {/* {setting?.allow_loyality_points? ( */}
+                                                {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? (
                                                     <div className={style.loyalityColumn}>
                                                         <label className={style.subInputLabel}>
                                                             Apply Loyalty Point{" "}
@@ -1741,7 +1745,9 @@ const OrderModel = ({
                                         ₹ {orderObject.loyality_point_price}
                                     </label>
                                     </div> */}
-                                {setting?.allow_loyality_points ? (
+                                {/*condition Modified by Pratap sahu on 05-11-2023 */}
+                                {/* {setting?.allow_loyality_points? ( */}
+                                {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" ? (
                                                     <div className={style.priceInformation}>
                                                         <label className={style.InputLabel}>Loyalty Price :- </label>
                                                         <label className={style.InputLabel}>

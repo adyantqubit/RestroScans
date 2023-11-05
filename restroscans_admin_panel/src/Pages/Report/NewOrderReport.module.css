@@ -658,14 +658,22 @@ input[type="checkbox"]:checked+.sortingLabel {
   .parentSelectContainer {
     /* modified by pratap sahu on 28-10-2023 to align max 3 quick select in a row*/
     /* width: 30%; */
-    width: 70%;
+/* modified by pratap sahu on 05-11-2023*/
+    /* width: 70%; */
+    width: 72%;
+    min-width: 75%;
+    /* End of code by pratap sahu on 05-11-2023*/
     margin: 0 auto;
     /*added by pratap sahu on 28-10-2023 */
     display: flex; 
     flex-direction: row;
   }
   .parentSelectContainer1 {
-    width: 70%;
+  	/* modified by pratap sahu on 05-11-2023*/
+  	/* width: 70%;*/
+    width: 72%;
+    min-width: 75%;
+    /*  End of code by pratap sahu on 05-11-2023*/
     margin: 0 auto;
     display: flex; 
     flex-direction: row;
@@ -709,12 +717,19 @@ input[type="checkbox"]:checked+.sortingLabel {
 .quickOptions {
   display: block;
   width: 100%;
-  margin-left: -40px;
+  /* Modified by Pratap sahu on 05-11-2023 to manage alignment bw today&year */
+  /* margin-left: -40px; */
+  margin-left: -13%;
+  /* End of code by Pratap sahu on 05-11-2023 */
 }
 .quickOptions1 {
   display: flex;
-  width: 53%;
-  margin-left: -20px;
+  /* Modified by Pratap sahu on 05-11-2023 to manage alignment bw today&year  */
+  /* width: 53%; */
+  width: 52.5%;
+  /* margin-left: -20px; */
+  margin-left: -7%;
+  /* End of code by Pratap sahu on 05-11-2023 */
 }
 .selectContainer {
   display: flex;
