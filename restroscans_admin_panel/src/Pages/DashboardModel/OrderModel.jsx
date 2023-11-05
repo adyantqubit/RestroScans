@@ -514,11 +514,11 @@ const OrderModel = ({
             orderObject["sgst"] = SGST;
             orderObject["total"] = total_price;
             orderObject["final_amount"] = total_price + SGST + CGST;
-
-            errorText["discount_price"] = "Please enter discount";
             setErrorText({ ...errorText });
-
-            document.getElementById("discount_rupees").style.border = "1px solid red";
+            // Commented by pratap sahu on 05-11-2023 Reason : to remove validations
+            // errorText["discount_price"] = "Please enter discount";
+            // document.getElementById("discount_rupees").style.border = "1px solid red";
+            // End of by pratap sahu on 05-11-2023 Reason : to remove validations
         } else if (!/^\d+$/.test(e.target.value)) {
             errorText["discount_price"] = "Discount price should be in digit";
             setErrorText({ ...errorText });
@@ -578,9 +578,11 @@ const OrderModel = ({
             orderObject["sgst"] = SGST;
             orderObject["total"] = total_price;
             orderObject["final_amount"] = total_price + CGST + SGST;
-            document.getElementById("discount_percentage").style.border =
-                "1px solid red";
-            errorText["discount_price"] = "Please enter discount";
+            // Commented by pratap sahu on 05-11-2023 Reason : to remove validations
+            // document.getElementById("discount_percentage").style.border =
+            //     "1px solid red";
+            // errorText["discount_price"] = "Please enter discount";
+            // End of comment by pratap sahu on 05-11-2023 Reason : to remove validations
             setErrorText({ ...errorText });
         } else if (!/^\d+$/.test(e.target.value)) {
             errorText["discount_price"] = "Discount price should be in digit";
@@ -635,8 +637,9 @@ const OrderModel = ({
             // orderObject["apply_loyality_point"] = "";
             orderObject["apply_loyality_point"] = 0;
         // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
-            orderObject["loyality_point_price"] = 0;
-            // setLoyalityPointPrice(loyalityPrice)
+        // orderObject["loyality_point_price"] = "";
+        orderObject["loyality_point_price"] = 0;
+        // setLoyalityPointPrice(loyalityPrice)
             var total_price = orderObj.total;
             var CGST = ((orderObj.cgst / (orderObj.total / 100)) * total_price) / 100;
             var SGST = ((orderObj.sgst / (orderObj.total / 100)) * total_price) / 100;
@@ -1595,7 +1598,9 @@ const OrderModel = ({
                                                                         `${style.inputBox} ${setting?.discount_in == "Discount in (₹)"? null: style.disbaleBtn}`}
                                                     // End of code by Pratap sahu on 03-11-2023
                                                               // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
-                                                                value={orderObject.discount_rupees}
+                                                              // commented by pratap sahu on 05-11-2023 Reason :To hide 0 from Discount section
+                                                                // value={orderObject.discount_rupees}
+                                                                // End of comment by pratap sahu on 05-11-2023 Reason :To hide 0 
                                                                 onChange={(e) => {
                                                                     inputIvalidationDiscountRupees(e);
                                                                 }}
@@ -1622,7 +1627,9 @@ const OrderModel = ({
                                                                      `${style.inputBox} ${setting?.discount_in == "Discount in (%)"? null: style.disbaleBtn}`}
                                                                 // end of Modification by Pratap sahu on 03-11-2023
                                                      // End of Code by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In %
-                                                                value={orderObject.discount_percentage}
+                                                     // commented by pratap sahu on 05-11-2023 Reason :To hide 0 
+                                                                // value={orderObject.discount_percentage}
+                                                    // End of comment by pratap sahu on 05-11-2023 Reason :To hide 0 
                                                                 onChange={(e) => {
                                                                     inputValidationDiscountPercentage(e);
                                                                 }}
@@ -1710,7 +1717,9 @@ const OrderModel = ({
                                                             // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :style.inputBox}
                                                             className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"|| orderObject.payment_status == "Paid"? style.disabledBox :style.inputBox}
                                                             // End of code by pratap sahu on 20-10-2023
-                                                            value={orderObject?.apply_loyality_point}
+                                                            // Commented by pratap sahu on 05-11-2023 Reason :To hide 0 
+                                                            // value={orderObject?.apply_loyality_point}
+                                                            // End of comment by pratap sahu on 05-11-2023 Reason :To hide 0 
                                                             onChange={(e) => {
                                                                 validateLoyalityPoint(e);
                                                             }}
