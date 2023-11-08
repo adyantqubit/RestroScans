@@ -19,6 +19,7 @@ import { Message, enableHeader } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import config from "../../Api/config";
 import { Select } from "antd";
+import { Icon } from "@chakra-ui/react";
 const { Option } = Select;
 
 function EditItemForm() {
@@ -239,7 +240,8 @@ function EditItemForm() {
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          menu: "Please select category name",
+          // menu: "Please select category name",
+          category: "Please select category name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -307,12 +309,18 @@ function EditItemForm() {
           const error = {
             icon: "",
           };
+          // Added by Pratap sahu on 08-11-2023 Reason : to set as icon when file is validated for updation
+          setIcon(value)
+          // End of code by pratap sahu  08-11-2023
           setValidationErrors({ ...validationErrors, ...error });
         }
       } else {
         const error = {
           icon: "",
         };
+        // Added by Pratap sahu on 08-11-2023 Reason : to set as icon when file is validated for updation
+        setIcon(value)
+        // End of code by pratap sahu  08-11-2023
         setValidationErrors({ ...validationErrors, ...error });
       }
     }
@@ -332,12 +340,17 @@ function EditItemForm() {
     // Commeted and modified by yuvraj sahu on 23-06-2023
     // Reason - to show validation message after clicking the clear and save
     // if (name == null && menu == null) {
-    if (name == null || (name == "" && category == null)) {
-      // End showing validation message by Yuvraj Sahu on 23-06-2023
-      const error = {
-        name: "Please enter item name",
-        category: "Please enter category name",
-      };
+    //  // Commeted and modified condition by Pratap sahu on 08-11-2023
+      // if (name == null || (name == "" && category == null)) {
+    if ((name == null || name == "") && category ==null && icon==null) {
+           // End of code by Pratap sahu on 08-11-2023
+          // End showing validation message by Yuvraj Sahu on 23-06-2023
+          const error = {
+            name: "Please Enter Item Name",
+            // category: "Please enter category name",
+            category: "Please Select Category",
+            icon: "Please Upload Image"
+          };
       setValidationErrors({ ...validationErrors, ...error });
     } else {
       // Commeted and modified by yuvraj sahu on 23-06-2023
@@ -350,20 +363,36 @@ function EditItemForm() {
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
-
-      if (category == null) {
-        const error = {
-          menu: "Please enter category name",
+      // condition modified by Pratap sahu on 08-11-2023
+      // if (category == null) {
+        else if (category == null) {
+          const error = {
+        // Commeted and modified by Pratap sahu on 08-11-2023
+          // menu: "Please enter category name",
+          category: "Please Select Category",
+          // End of code by Pratap sahu on 08-11-2023
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
+      // Added by Pratap sahu on 08-11-2023 Reason:icon is mandatory to upload
+      else if(icon==null){
+        const error = {
+          icon: "Please Upload Image"
+        };
+        setValidationErrors({ ...validationErrors, ...error });
+      }
+      // End of code by pratap sahu on 08-11-2023
     }
 
     if (
       name == null ||
       name == undefined ||
       name.trim() == "" ||
-      category == null
+       // Commeted and modified by Pratap sahu on 08-11-2023
+      //  category == null 
+       category == null ||
+      icon==null
+      // End of code by Pratap sahu on 08-11-2023
     ) {
       allowDataPost = false;
     } else {
@@ -449,8 +478,13 @@ function EditItemForm() {
         : false
     );
     setDescription(itemData.description ? itemData.description : "");
-    setHalfPrice(itemData.price_half ? itemData.price_half : null);
-    setFullPrice(itemData.price_full ? itemData.price_full : null);
+    // Commented by Pratap Sahu on 08-11-2023 Reason To clear
+    // setHalfPrice(itemData.price_half ? itemData.price_half : null);
+    // setFullPrice(itemData.price_full ? itemData.price_full : null);    
+    setHalfPrice(itemData.price_half ? itemData.price_half : "");
+    setFullPrice(itemData.price_full ? itemData.price_full : "");
+    // End of code by Pratap Sahu on 08-11-2023 Reason To clear
+    console.log("---------",itemData.description)
     setSelectedImageName(null);
     setSelectedImage(null);
     /**
@@ -535,7 +569,10 @@ function EditItemForm() {
     // <Header>
     <div className={style.container}>
       <div className={style.titleContainer}>
-        <div className={style.pageTitle}>Edit Item</div>
+      {/* Modified by pratap sahu on 08-11-2023 */}
+      {/* <div className={style.pageTitle}>Edit Item</div> */}
+      <div className={style.pageTitle}>Add Item</div>
+      {/* End of code by pratap sahu on 08-11-2023 */}
       </div>
       <form className={style.categorySection}>
         <div className={style.formContainer}>
@@ -633,7 +670,8 @@ function EditItemForm() {
                   </select> */}
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {validationErrors.menu}
+              {/* {validationErrors.menu} */}
+              {validationErrors.category}
               </div>
             </div>
 
@@ -665,7 +703,9 @@ function EditItemForm() {
                 </Select>
               </div>
               <div className={`${style.inputErrorArea}`}>
-                {validationErrors.menu}
+              {/* Commented by pratap sahu on 08-11-2023 */}
+              {/* {validationErrors.menu} */}
+              {/* End of comment by pratap sahu on 08-11-2023  */}
               </div>
             </div>
             {/* End of addition by yuvraj Sahu on 16-07-2023 */}
@@ -832,7 +872,10 @@ function EditItemForm() {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
-                  <span className={style.optionalField}>* </span>Select new icon
+                {/* Modified by Pratap sahu on 08-11-2023 */}
+                  {/* <span className={style.optionalField}>* </span>Select new icon */}
+                  <span className={style.mendatoryField}>* </span>Select new icon
+                  {/* End of code by Pratap sahu on 08-11-2023 */}
                 </div>
 
                 <input
