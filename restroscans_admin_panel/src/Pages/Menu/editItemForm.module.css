@@ -14,7 +14,9 @@
   background-color: #e7f1f1;
   margin-bottom: 50px;
   /* Added by pratap sahu on 04-11-2023 Rreason To set height */
-  height: 86.5vh;
+  /* modified by pratap sahu on 09-11-202 */
+  /* height: 86.5vh; */
+  height: 80.5vh;
   overflow: scroll;
   /* End of code by pratap sahu on 04-11-2023  */
 }

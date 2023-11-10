@@ -226,7 +226,7 @@ function EditItemForm() {
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          name: "Please enter item name",
+          name: "Please Enter Item Name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -268,7 +268,7 @@ function EditItemForm() {
         setValidationErrors({ ...validationErrors, ...error });
       } else {
         const error = {
-          name: "Please enter item name",
+          name: "Please Enter Item Name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }
@@ -359,7 +359,7 @@ function EditItemForm() {
       if (name == null || name == "") {
         // End showing validation message by Yuvraj Sahu on 23-06-2023
         const error = {
-          name: "Please enter item name",
+          name: "Please Enter Item Name",
         };
         setValidationErrors({ ...validationErrors, ...error });
       }

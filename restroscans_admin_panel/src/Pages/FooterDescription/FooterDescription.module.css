@@ -89,8 +89,11 @@ Reason:to increase the area of input box */
   border-radius: 10px;
   padding: 2px;
   background-color: white;
-  /* resize: vertical; */
-  overflow: hidden;
+  /* Added by Pratap sahu on 08-11-2023*/
+  max-height: 170px;
+  resize: vertical;
+  overflow-y: auto;
+  /* End of code Pratap sahu on 08-11-2023 */
 /* End of Modification By Pratap sahu on 11-09-2023
 Reason:to increase the area of input box */
 }
@@ -129,10 +132,15 @@ Reason:to increase the area of input box */
   background-color: #797b7c;
   color: white;
   border-radius: 5px;
-  padding: 5px 20px;
+  /* Modified by pratap sahu on 08-11-2023 */
+  /* padding: 5px 20px; */
+  padding: 2px 0px;
   transition: all 0.3s;
   font-size: 18px;
-  width: 100px;
+  /* width: 100px; */
+  width: 15%;
+  height: 10%;
+  /* End of code by Pratap sahu on 08-11-2023 */
   margin-top: 10px;
   text-align: center;
 }
@@ -151,10 +159,15 @@ Reason:to increase the area of input box */
   background-color: #51c14b;
   color: white;
   border-radius: 5px;
-  padding: 5px 20px;
+    /* Modified by pratap sahu on 08-11-2023 */
+  /* padding: 5px 20px; */
+  padding: 2px 0px;
   transition: all 0.3s;
   font-size: 18px;
-  width: 100px;
+  /* width: 100px; */
+  width: 15%;
+  height: 10%;
+  /*End of code by pratap sahu on 08-11-2023 */
   margin-top: 10px;
   text-align: center;
 }
@@ -199,7 +212,9 @@ Reason:to increase the area of input box */
     padding: 20px 20px;
   }
   .inputLabel {
-    width: 250px;
+    /* width Modified by Pratap sahu on 09-11-2023 */
+    /* width: 250px; */
+    width: 150px;
   }
   .textInputBox {
     width: 200px;
@@ -208,6 +223,23 @@ Reason:to increase the area of input box */
     margin-left: 250px;
     width: 200px;
   }
+  .footerSection {
+    padding: 20px 20px;
+  }
+  /* Added by pratap sahu on 09-11-2023 */
+  .proceedButton,
+  .clearButton{
+    width: 25%;
+  }
+  .proceedButton:hover {
+    cursor: pointer;
+    background-color: #1f871b;
+  }
+  .backButton:hover {
+    cursor: pointer;
+    background-color: #62686c;
+  }
+  /* end of code by pratap sahu on 09-11-2023 */
 }
 
 @media screen and (max-width: 770px) {
@@ -223,7 +255,9 @@ Reason:to increase the area of input box */
     /* margin-bottom: 11vh; */
   }
   .inputLabel {
-    width: 300px;
+  /* width Modified by Pratap sahu on 09-11-2023 */
+    /* width: 300px; */
+    width: 150px;
   }
   .textInputBox {
     width: 200px;
@@ -240,6 +274,27 @@ Reason:to increase the area of input box */
   .container {
     height: 73vh;
   }
+   /* Added by pratap sahu on 09-11-2023 */
+   .proceedButton,
+   .clearButton{
+     width: 25%;
+   }
+   .proceedButton:hover {
+     cursor: pointer;
+     background-color: #1f871b;
+   }
+   .backButton:hover {
+     cursor: pointer;
+     background-color: #62686c;
+   }
+   .sectionInsideForm {
+     margin-top: 5%;
+     background-color: #e6f0f0;
+     padding: 10px;
+     border-radius: 5px;
+     box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+   }
+   /* end of code by pratap sahu on 09-11-2023 */
 }
 /* end of code by - suman sahu on 17/06/2023 */
 
@@ -254,7 +309,9 @@ Reason:to increase the area of input box */
     margin-bottom: 20px;
   }
   .inputLabel {
-    width: 250px;
+    /* width Modified by Pratap sahu on 09-11-2023 */
+      /* width: 250px; */
+      width: 150px;
   }
   .textInputBox {
     width: 200px;
@@ -263,6 +320,15 @@ Reason:to increase the area of input box */
     margin-left: 250px;
     width: 200px;
   }
+   /* Added by pratap sahu on 09-11-2023 */
+    .sectionInsideForm {
+     margin-top: 5%;
+     background-color: #e6f0f0;
+     padding: 10px;
+     border-radius: 5px;
+     box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+   }
+   /* end of code by pratap sahu on 09-11-2023 */
 }
 
 @media screen and (max-width: 610px) {
@@ -276,7 +342,9 @@ Reason:to increase the area of input box */
   }
   .inputLabel {
     align-self: flex-start;
-    width: 400px;
+    /*width Modified by pratap sahu on 09-11-2023  */
+    /* width: 400px; */
+    width: 150px;
   }
   .textInputBox {
     align-self: flex-start;
@@ -287,6 +355,27 @@ Reason:to increase the area of input box */
     width: 100%;
     margin-right: 0px;
   }
+   /* Added by pratap sahu on 09-11-2023 */
+   .proceedButton,
+   .clearButton{
+     width: 25%;
+   }
+   .proceedButton:hover {
+     cursor: pointer;
+     background-color: #1f871b;
+   }
+   .backButton:hover {
+     cursor: pointer;
+     background-color: #62686c;
+   }
+   .sectionInsideForm {
+     margin-top: 5%;
+     background-color: #e6f0f0;
+     padding: 10px;
+     border-radius: 5px;
+     box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+   }
+   /* end of code by pratap sahu on 09-11-2023 */
 }
 
 @media screen and (max-width: 500px) {
@@ -299,7 +388,9 @@ Reason:to increase the area of input box */
     flex-direction: column;
   }
   .inputLabel {
-    width: 300px;
+    /* width Modified by Pratap sahu on 09-11-2023 */
+    /* width: 300px; */
+    width: 150px;
     align-self: flex-start;
   }
   .textInputBox {
@@ -307,24 +398,48 @@ Reason:to increase the area of input box */
     width: 100%;
   }
   .proceedButton,
-  .cancelButton,
+  .clearButton,
   .backButton {
     width: 90px;
     font-size: 17px;
     padding: 3px 3px;
   }
+   /* Added by pratap sahu on 09-11-2023 */
+   .proceedButton,
+   .clearButton{
+     width: 25%;
+   }
+   .proceedButton:hover {
+     cursor: pointer;
+     background-color: #1f871b;
+   }
+   .backButton:hover {
+     cursor: pointer;
+     background-color: #62686c;
+   }
+   .sectionInsideForm {
+     margin-top: 5%;
+     background-color: #e6f0f0;
+     padding: 10px;
+     border-radius: 5px;
+     box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+   }
+   /* end of code by pratap sahu on 09-11-2023 */
 }
 @media screen and (max-width: 400px) {
   .container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
+    width: 100%;
   }
   .inputArea {
     flex-direction: column;
   }
   .inputLabel {
-    width: 250px;
+    /* width Modified by Pratap sahu on 09-11-2023 */
+    /* width: 250px; */
+    width: 150px;
     align-self: flex-start;
   }
   .textInputBox {
@@ -336,4 +451,25 @@ Reason:to increase the area of input box */
     width: 90%;
     margin-right: 0px;
   }
+  /* Added by pratap sahu on 09-11-2023 */
+  .proceedButton,
+  .clearButton{
+    width: 25%;
+  }
+  .proceedButton:hover {
+    cursor: pointer;
+    background-color: #1f871b;
+  }
+  .backButton:hover {
+    cursor: pointer;
+    background-color: #62686c;
+  }
+  .sectionInsideForm {
+    margin-top: 5%;
+    background-color: #e6f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+  }
+  /* end of code by pratap sahu on 09-11-2023 */
 }
