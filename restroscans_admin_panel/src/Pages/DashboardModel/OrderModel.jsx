@@ -1673,8 +1673,11 @@ const OrderModel = ({
                                                 {/* Added this condition by Pratap sahu on 04-11-2023 Reason:hide reward points when loyalty is not active */}
                                                 {/*condition Modified by Pratap sahu on 05-11-2023 */}
                                                 {/* {setting?.allow_loyality_points? ( */}
-                                                {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? (
-                                                    <div className={style.rewardbox}>
+                                                {/* Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected  */}
+                                                {/* {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? ( */}
+                                                    {setting.allow_loyality_points && setting.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
+                                                //end of code by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected 
+                                                <div className={style.rewardbox}>
                                                         Earn Point &nbsp;
                                                         <div className={style.coinBox}>
                                                             <div className={style.cointPoints}>
@@ -1706,7 +1709,10 @@ const OrderModel = ({
                                                 {/* Shifted here from upper div by Pratap sahu on 04-11-2023 */}
                                                 {/*condition Modified by Pratap sahu on 05-11-2023 */}
                                                 {/* {setting?.allow_loyality_points? ( */}
-                                                {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? (
+                                                {/* Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected  */}
+                                                {/* {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? ( */}
+                                                    {setting.allow_loyality_points && setting.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
+                                                     //   Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected 
                                                     <div className={style.loyalityColumn}>
                                                         <label className={style.subInputLabel}>
                                                             Apply Loyalty Point{" "}
@@ -1814,7 +1820,10 @@ const OrderModel = ({
                                     </div> */}
                                 {/*condition Modified by Pratap sahu on 05-11-2023 */}
                                 {/* {setting?.allow_loyality_points? ( */}
-                                {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" ? (
+                                {/* Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected */}
+                                {/* {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" ? ( */}
+                                    {setting.allow_loyality_points && setting.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
+                                        // End of code by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected 
                                                     <div className={style.priceInformation}>
                                                         <label className={style.InputLabel}>Loyalty Price :- </label>
                                                         <label className={style.InputLabel}>

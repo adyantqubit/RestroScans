@@ -989,7 +989,10 @@ const OrderForm = () => {
                 // commented and modified by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
                   // className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
-                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed" ? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
+                // Again condition modified by pratap on 11-11-2023 to enable the area only when cancel selected
+                  // className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed" ? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
+                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed"  || orderStatus=="placed" || orderStatus=="Confirm"|| orderStatus=="Served"? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
+                  // End of code by Pratap sahu on 11-11-2023 to enable the area only when cancel selected
                 // End of comment and modification by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
 
