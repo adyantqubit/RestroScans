@@ -39,6 +39,8 @@ const OrderForm = () => {
   // End of Modification and addition by Om Shrivastava on 02-09-23
   // Reason : Set the data in onchange
 
+  const [paymentStatusTemp, setPaymentStatusTemp] = useState("Cancelled");
+
   // Modification and addition by Om Shrivastava on 02-09-23
   // Reason : Set the data in onchange
   // const [paymentStatus, setPaymemntStatus] = useState(null);
@@ -531,6 +533,7 @@ const OrderForm = () => {
    
   };
 
+  console.log(paymentStatus,'paymnent')
   //Commented and Added by Pratap sahu on 19-09-2023
   // Reason - To pass validation message on changing of order status
 
@@ -596,6 +599,21 @@ const OrderForm = () => {
 
         return false;
     }
+    // Added by pratap sahu on 09-11-2023 To restrict both actions at a time
+    else if(orderStatus == "Cancelled" && payment_status == "Completed"){
+      console.log("=======",orderDetailsObj.order_status)
+        if (msgEnable)
+            Message(`You can't complete payment if order is ${orderStatus}`, "error")
+        return false;
+    }
+      // condition when paymentStatus selected first and then orderStatus selected
+    else if( paymentStatus == "Completed"){
+      console.log("payment status",paymentStatus)
+        if (msgEnable)
+            Message(`You can't perform both actions at a time`, "error")
+        return false;
+    }
+    // end of code by pratap sahu on 09-11-2023
     else
         return true;
   }
@@ -1026,7 +1044,9 @@ const OrderForm = () => {
               // Addition by Pratap sahu on 19-09-2023
               // Reason - To pass validation message on changing of order status & implement disable feature
                   // onChange={handleChangePaymentStatus}
-                  onChange={e=>{if(handleChangeStatus(orderDetailsObj.order_status,e,true))setPaymemntStatus(e);}}
+                  //Modified by pratap sahu on 10-11-2023
+                  // onChange={e=>{if(handleChangeStatus(orderDetailsObj.order_status,e,true))setPaymemntStatus(e);}}
+                  onChange={e=>{if(handleChangeStatus(orderDetailsObj.order_status,e,true,paymentStatusTemp))setPaymemntStatus(e);}}
                   disabled={orderDetailsObj.payment_status == "Completed" || orderDetailsObj.order_status=="Cancelled"? true : false}
               // End of Addition by Pratap sahu on 19-09-2023
               // Reason - To pass validation message on changing of order status

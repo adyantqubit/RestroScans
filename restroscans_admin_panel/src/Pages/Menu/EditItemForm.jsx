@@ -767,7 +767,9 @@ function EditItemForm() {
             <div className={`${style.inputContainer}`}>
               <div className={`${style.inputArea}`}>
                 <div className={`${style.inputLabel}`}>
-                  <span className={style.optionalField}>* </span>Is Available
+                {/* Label modified by pratap sahu on 10-11-2023 */}
+                {/* <span className={style.optionalField}>* </span>Is Available */}
+                <span className={style.optionalField}>* </span>Available
                 </div>
                 <input
                   className={`${style.textInputBox} ${style.inputCheck}`}

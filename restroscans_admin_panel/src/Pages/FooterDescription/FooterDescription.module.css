@@ -86,13 +86,14 @@ Reason:to increase the area of input box */
   height: 170px;
   border: 1px solid black;
   margin-top: 5px;
-  border-radius: 10px;
+  /* Commmneted border radius by Pratap sahu on 10-11-2023 Reason: because of scroller,rigth edge was cutting */
+  /* border-radius: 10px; */
   padding: 2px;
   background-color: white;
   /* Added by Pratap sahu on 08-11-2023*/
   max-height: 170px;
   resize: vertical;
-  overflow-y: auto;
+  overflow-y: inherit;
   /* End of code Pratap sahu on 08-11-2023 */
 /* End of Modification By Pratap sahu on 11-09-2023
 Reason:to increase the area of input box */

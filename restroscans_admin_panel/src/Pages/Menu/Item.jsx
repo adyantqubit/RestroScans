@@ -523,7 +523,9 @@ const Item = () => {
                   }}
                   // End of addition by Yuvraj Sahu on 24-06-2023
                 >
-                  Is Available{" "}
+                {/* Label Modified by pratap sahu on 10-11-2023 */}
+                  {/* Is Available{" "} */}
+                  Available{" "}
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "ascending" && (
                       <MdCancel className={style.sortingIcon} />

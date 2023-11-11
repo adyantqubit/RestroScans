@@ -948,7 +948,10 @@ def validateTable(tabelNumber):
     today=datetime.today().date()
     # Modified by Rohan kansari - 17/8/23
     # Reason - To dont get data of cancelled orders
-    totalOrders = Order.objects.filter(~Q(order_status="Cancelled"),date__gte=today,payment_status="Pending").values("table_number")
+    # Modified by pratap sahu on 10-11-2023 Reason:To restrict table number which is in paid condition
+    # totalOrders = Order.objects.filter(~Q(order_status="Cancelled"),date__gte=today,payment_status="Pending").values("table_number")
+    totalOrders = Order.objects.filter((~Q(order_status="Cancelled") & (Q(payment_status="Pending") | Q(payment_status="Paid") )),date__gte=today).values("table_number")
+    # End of code by Pratap sahu on 10-11-2023
     # ENd of code - Rohan kansari - 17/8/23
     for obj in totalOrders:
         if(tabelNumber==obj["table_number"]):
