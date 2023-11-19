@@ -53,7 +53,7 @@ const OrderModel = ({
     // End of code by pratap sahu on 04-11-2023 
 
     useEffect(() => {
-        //  console.log(selectedOrder,"--------------------")
+         console.log("==========",orderObject)
         setOrderobject({ ...selectedOrder });
         setOrderItem([...selectedOrderItems]);
         setUnupdatedOrderObj(JSON.stringify(selectedOrder));
@@ -128,6 +128,17 @@ const OrderModel = ({
                 setErrorText({ ...errorText })
                 setCancelClicked(false)
                 setModelVisiblity(false)
+
+                // Added by pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
+                const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+                // if (localStorage.getItem("waiterData"))
+                    updatedOrderData["cancelled_by"] = "Waiter";
+                // else updatedOrderData["cancelled_by"] = "Admin";
+                updatedOrderData["order_status"] = "Cancelled";
+                updatedOrderDetailAPI(updatedOrderData, field);
+                console.log("updatedddddiffffwaiterrrr==",updatedOrderData["cancelled_by"])
+                // End of code by pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
+
             }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
                 document.getElementById("discount_percentage").style.border =
                     "1px solid #9c9c9c";
@@ -142,6 +153,13 @@ const OrderModel = ({
                 setErrorText({ ...errorText })
                 setCancelClicked(false)
                 setModelVisiblity(false)
+                // Added by Pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
+                const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+                updatedOrderData["cancelled_by"] = "Admin";
+                updatedOrderData["order_status"] = "Cancelled";
+                updatedOrderDetailAPI(updatedOrderData, field);
+                console.log("updatedddddiffffAdminnn",updatedOrderData["cancelled_by"])
+                // End of code by Pratap sahu on 10-11-2023 Reasonn to update "cancelled by"
             }   
             // End of code by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
                 // End of code by pratap sahu on 04-11-2023 Reason to handle error from waiter side
@@ -204,6 +222,8 @@ const OrderModel = ({
                 else updatedOrderData["cancelled_by"] = "Admin";
                 updatedOrderData["order_status"] = "Cancelled";
                 updatedOrderDetailAPI(updatedOrderData, field);
+                console.log("zzzzzzz",updatedOrderData["cancelled_by"])
+                
             }
         }
     }
@@ -685,14 +705,32 @@ const OrderModel = ({
                                             // setErrorText({ ...errorText })
                                             // setCancelClicked(false)
                                             // setModelVisiblity(false)
-                                            if(document.getElementById("cancelInput")){
-                                                document.getElementById("cancelInput").style.border =
-                                                "1px solid #9c9c9c";
-                                                errorText["cancelReason"] = "";
-                                                setErrorText({ ...errorText })
-                                                setCancelClicked(false)
-                                                setModelVisiblity(false)
-                                            }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
+
+                                           // Commented and modified by Pratap sahu on 19-11-2023 Reason:to solve type error from waiter Panel
+                                            // if(document.getElementById("cancelInput")){
+                                            //     document.getElementById("cancelInput").style.border =
+                                            //     "1px solid #9c9c9c";
+                                            //     errorText["cancelReason"] = "";
+                                            //     setErrorText({ ...errorText })
+                                            //     setCancelClicked(false)
+                                            //     setModelVisiblity(false)
+                                            // }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
+                                            //     document.getElementById("discount_percentage").style.border =
+                                            //         "1px solid #9c9c9c";
+                                            //     document.getElementById("discount_rupees").style.border =
+                                            //         "1px solid #9c9c9c";
+                                            //     document.getElementById("cancelInput").style.border =
+                                            //         "1px solid #9c9c9c";
+                                            //     errorText["cancelReason"] = "";
+                                            //     errorText["discount_price"] = "";
+                                            //     errorText["discount_percentage"]="";
+                                            //     errorText["loyality_point"] = "";
+                                            //     setErrorText({ ...errorText })
+                                            //     setCancelClicked(false)
+                                            //     setModelVisiblity(false)
+                                            // }
+                                           // End of code by pratap sahu on 04-11-2023
+                                            if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
                                                 document.getElementById("discount_percentage").style.border =
                                                     "1px solid #9c9c9c";
                                                 document.getElementById("discount_rupees").style.border =
@@ -707,7 +745,15 @@ const OrderModel = ({
                                                 setCancelClicked(false)
                                                 setModelVisiblity(false)
                                             }
-                                            // End of code by pratap sahu on 04-11-2023
+                                            else if(document.getElementById("cancelInput")){
+                                                document.getElementById("cancelInput").style.border =
+                                                "1px solid #9c9c9c";
+                                                errorText["cancelReason"] = "";
+                                                setErrorText({ ...errorText })
+                                                setCancelClicked(false)
+                                                setModelVisiblity(false)
+                                            }
+                                            // End of comment & Modification by pratap sahu 19-11-2023
                                             }}
                                             />}
             // End of code by pratap sahu on 03-11-2023
@@ -1037,9 +1083,15 @@ const OrderModel = ({
                     </div> :
                         <div className={style.informationContainer}>
                             <div className={style.information}>
-                                <div className={style.WhiteLabel}>Order created by :</div>
+                                <div className={style.WhiteLabel}>Order Created By :</div>
                                 <div className={style.data}>{orderObject.order_created_by}</div>
                             </div>
+                                {/* moved by Pratap sahu on 10-11-2023 Reason : to make readOnly field*/}
+                            <div className={style.information}>
+                                <div className={style.WhiteLabel}>Cancelled By :</div>
+                                <div className={style.data}>{orderObject.cancelled_by}</div>
+                            </div>
+                                {/* End of code by Pratap sahu on 10-11-2023 */}
                         </div>}
                     {/* End of code - Rohan kansari -To show waiter detail - 21/9/23 */}
 
@@ -1599,7 +1651,8 @@ const OrderModel = ({
                                                     // End of code by Pratap sahu on 03-11-2023
                                                               // Modified by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In Rs
                                                               // commented by pratap sahu on 05-11-2023 Reason :To hide 0 from Discount section
-                                                                // value={orderObject.discount_rupees}
+                                                              //  uncommented by Pratap sahu on 18-11-2023
+                                                                value={orderObject.discount_rupees}
                                                                 // End of comment by pratap sahu on 05-11-2023 Reason :To hide 0 
                                                                 onChange={(e) => {
                                                                     inputIvalidationDiscountRupees(e);
@@ -1628,7 +1681,8 @@ const OrderModel = ({
                                                                 // end of Modification by Pratap sahu on 03-11-2023
                                                      // End of Code by Pratap sahu on 26-09-2023 Reason:To change styling on Discount In %
                                                      // commented by pratap sahu on 05-11-2023 Reason :To hide 0 
-                                                                // value={orderObject.discount_percentage}
+                                                    //  uncommented by Pratap sahu on 18-11-2023
+                                                                value={orderObject.discount_percentage}
                                                     // End of comment by pratap sahu on 05-11-2023 Reason :To hide 0 
                                                                 onChange={(e) => {
                                                                     inputValidationDiscountPercentage(e);
@@ -1643,7 +1697,9 @@ const OrderModel = ({
                                                     </div>
                                                 </div>
                                                 {/* Shifted here from lower div by Pratap sahu on 04-11-2023 */}
-                                                <div className={style.loyalityColumn}>
+                                                {/* Commented and moved to the information section by Pratap sahu on 10-11-2023 
+                                                    Reason: to make this field as read only */}
+                                                {/* <div className={style.loyalityColumn}>
                                                     <label className={style.subInputLabel}>
                                                         Cancelled By{" "}
                                                     </label>
@@ -1656,10 +1712,11 @@ const OrderModel = ({
                                                         className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" || orderObject.payment_status == "Paid"? style.disabledBox :`${style.inputBox}`}
                                                         onChange={(e) => {
                                                             orderObject.cancelled_by = e.target.value;
-                                                            setOrderobject({ ...orderObject });}}    
+                                                            setOrderobject({ ...orderObject });}}   
                                                     // End of code by pratap sahu on 21-10-2023
                                                     />
-                                                </div>
+                                                </div> */}
+                                                {/* Commented and moved to the information section by Pratap sahu on 10-11-2023 */}
                                                 {/* End of code shift by Pratap sahu on 04-11-2023   */}
                                             </div>
                                         </div>
@@ -1675,7 +1732,7 @@ const OrderModel = ({
                                                 {/* {setting?.allow_loyality_points? ( */}
                                                 {/* Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected  */}
                                                 {/* {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? ( */}
-                                                    {setting.allow_loyality_points && setting.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
+                                                    {setting?.allow_loyality_points && setting?.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
                                                 //end of code by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected 
                                                 <div className={style.rewardbox}>
                                                         Earn Point &nbsp;
@@ -1711,7 +1768,7 @@ const OrderModel = ({
                                                 {/* {setting?.allow_loyality_points? ( */}
                                                 {/* Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected  */}
                                                 {/* {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? ( */}
-                                                    {setting.allow_loyality_points && setting.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
+                                                    {setting?.allow_loyality_points && setting?.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
                                                      //   Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected 
                                                     <div className={style.loyalityColumn}>
                                                         <label className={style.subInputLabel}>
@@ -1724,7 +1781,8 @@ const OrderModel = ({
                                                             className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"|| orderObject.payment_status == "Paid"? style.disabledBox :style.inputBox}
                                                             // End of code by pratap sahu on 20-10-2023
                                                             // Commented by pratap sahu on 05-11-2023 Reason :To hide 0 
-                                                            // value={orderObject?.apply_loyality_point}
+                                                            // Uncommented by pratap on 18-11-2023
+                                                            value={orderObject?.apply_loyality_point}
                                                             // End of comment by pratap sahu on 05-11-2023 Reason :To hide 0 
                                                             onChange={(e) => {
                                                                 validateLoyalityPoint(e);
@@ -1822,7 +1880,7 @@ const OrderModel = ({
                                 {/* {setting?.allow_loyality_points? ( */}
                                 {/* Modified by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected */}
                                 {/* {setting?.allow_loyality_points || orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled" ? ( */}
-                                    {setting.allow_loyality_points && setting.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
+                                    {setting?.allow_loyality_points && setting?.allow_loyality_points == true || orderObject.loyality_point_calculated==true? (
                                         // End of code by Pratap sahu on 11-11-2023 reason :To display loyalty fields only when selected 
                                                     <div className={style.priceInformation}>
                                                         <label className={style.InputLabel}>Loyalty Price :- </label>
@@ -1890,7 +1948,8 @@ const OrderModel = ({
                             // Modified by Pratap Sahu on 03-11-2023 Reason:To remove validation when close the popup and deactivate cancel button
                             // onClick={(e) => setModelVisiblity(false)}
                             onClick={(e) => {
-                                            // ifdocument.getElementById("discount_percentage").style.border =
+                                           // Modified by Pratap Sahu on 04-11-2023 Reason:To remove validation from WaiterJS
+                                            // document.getElementById("discount_percentage").style.border =
                                             //     "1px solid #9c9c9c";
                                             // document.getElementById("discount_rupees").style.border =
                                             //     "1px solid #9c9c9c";
@@ -1903,15 +1962,32 @@ const OrderModel = ({
                                             // setErrorText({ ...errorText })
                                             // setCancelClicked(false)
                                             // setModelVisiblity(false)
-                                            // Modified by Pratap Sahu on 04-11-2023 Reason:To remove validation from WaiterJS
-                                            if(document.getElementById("cancelInput")){
-                                                document.getElementById("cancelInput").style.border =
-                                                "1px solid #9c9c9c";
-                                                errorText["cancelReason"] = "";
-                                                setErrorText({ ...errorText })
-                                                setCancelClicked(false)
-                                                setModelVisiblity(false)
-                                            }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
+
+                                           // Commented and modified by Pratap sahu on 19-11-2023 Reason:to solve type error from waiter Panel
+                                            // if(document.getElementById("cancelInput")){
+                                            //     document.getElementById("cancelInput").style.border =
+                                            //     "1px solid #9c9c9c";
+                                            //     errorText["cancelReason"] = "";
+                                            //     setErrorText({ ...errorText })
+                                            //     setCancelClicked(false)
+                                            //     setModelVisiblity(false)
+                                            // }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
+                                            //     document.getElementById("discount_percentage").style.border =
+                                            //         "1px solid #9c9c9c";
+                                            //     document.getElementById("discount_rupees").style.border =
+                                            //         "1px solid #9c9c9c";
+                                            //     document.getElementById("cancelInput").style.border =
+                                            //         "1px solid #9c9c9c";
+                                            //     errorText["cancelReason"] = "";
+                                            //     errorText["discount_price"] = "";
+                                            //     errorText["discount_percentage"]="";
+                                            //     errorText["loyality_point"] = "";
+                                            //     setErrorText({ ...errorText })
+                                            //     setCancelClicked(false)
+                                            //     setModelVisiblity(false)
+                                            // }
+                                            // End of code by Pratap Sahu on 04-11-2023 
+                                            if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
                                                 document.getElementById("discount_percentage").style.border =
                                                     "1px solid #9c9c9c";
                                                 document.getElementById("discount_rupees").style.border =
@@ -1926,7 +2002,15 @@ const OrderModel = ({
                                                 setCancelClicked(false)
                                                 setModelVisiblity(false)
                                             }
-                                            // End of code by Pratap Sahu on 04-11-2023 
+                                            else if(document.getElementById("cancelInput")){
+                                                document.getElementById("cancelInput").style.border =
+                                                "1px solid #9c9c9c";
+                                                errorText["cancelReason"] = "";
+                                                setErrorText({ ...errorText })
+                                                setCancelClicked(false)
+                                                setModelVisiblity(false)
+                                            }
+                                            // End of comment & Modification by pratap sahu 19-11-2023
                                             }
                                 // End of code by Pratap Sahu on 03-11-2023 
                             }>

@@ -533,7 +533,6 @@ const OrderForm = () => {
    
   };
 
-  console.log(paymentStatus,'paymnent')
   //Commented and Added by Pratap sahu on 19-09-2023
   // Reason - To pass validation message on changing of order status
 
@@ -544,6 +543,7 @@ const OrderForm = () => {
   //   setPaymemntStatus(value);
  // };
   function handleChangeStatus(order_status, payment_status, msgEnable) {
+    console.log("----------",order_status, payment_status, msgEnable)
     if (orderDetailsObj?.order_status == "Placed" && (order_status == "Cooked" || order_status == "Served")) {
         if (msgEnable)
             Message("Please first change order status to confirm ", "error")
@@ -596,7 +596,6 @@ const OrderForm = () => {
     else if (orderDetailsObj?.order_status == "Cancelled") {
         if (msgEnable)
             Message("You Can't change status if order is cancelled", "error")
-
         return false;
     }
     // Added by pratap sahu on 09-11-2023 To restrict both actions at a time
@@ -614,6 +613,15 @@ const OrderForm = () => {
         return false;
     }
     // end of code by pratap sahu on 09-11-2023
+// added by pratap sahu on 18-11-2023 to remove text when cancel is not selected
+    else if( orderStatus == "Placed" && orderDetailsObj?.payment_status == "Pending" || orderDetailsObj?.order_status == "Placed" || orderDetailsObj?.order_status == "Confirm"){
+        if (msgEnable)
+            console.log("*****helloooooo")
+           setCancelReason('')
+        console.log("13")
+        return true;
+    }
+// End of code by pratap sahu on 18-11-2023
     else
         return true;
   }
@@ -991,7 +999,9 @@ const OrderForm = () => {
                   // className={orderDetailsObj.order_status == "Cancelled"? `${style.textInputBox}` : `${style.disabledReasonInputBox}`}
                 // Again condition modified by pratap on 11-11-2023 to enable the area only when cancel selected
                   // className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed" ? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
-                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed"  || orderStatus=="placed" || orderStatus=="Confirm"|| orderStatus=="Served"? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
+                  // className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed"  || orderStatus=="placed" || orderStatus=="Confirm"|| orderStatus=="Served"? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
+                  className={orderDetailsObj.order_status == "Cancelled"|| orderDetailsObj.payment_status == "Completed"  || orderStatus=="Placed" || orderStatus=="Confirm"|| orderStatus=="Served"? `${style.disabledReasonInputBox}` : `${style.textInputBox2}`}
+                  
                   // End of code by Pratap sahu on 11-11-2023 to enable the area only when cancel selected
                 // End of comment and modification by pratap sahu on 20-09-2023
                 // Reason: for cancel reason input box syling when disabled
@@ -1005,7 +1015,10 @@ const OrderForm = () => {
                     // Commented and modified by pratap sahu on 20-09-2023
                     // Reason:To Disable the field when payment paymentStatus is completed & vise versa for orderStatus is canceled
                   // disabled={orderDetailsObj.payment_status == "Completed" && orderDetailsObj.order_status == "Cancelled" ? true : false}
-                  disabled={orderDetailsObj.payment_status == "Completed"|| orderDetailsObj.order_status == "Cancelled"? true : false}
+                  // modified by pratap sahu on 18-11-2023 Reason: to disable the field
+                  // disabled={orderDetailsObj.payment_status == "Completed"|| orderDetailsObj.order_status == "Cancelled"? true : false}
+                  disabled={orderDetailsObj.payment_status == "Completed"|| orderDetailsObj.order_status == "Cancelled" || orderDetailsObj.payment_status == "Completed"  || orderStatus=="Placed" || orderStatus=="Confirm"|| orderStatus=="Served"? true : false}
+                  // End of code by pratap sahu on 18-11-2023
                   // onFocus={(e)=>{
                   //   if(whatsappNumber.length==13)
                   //     setWhatsappNumber(whatsappNumber.substring(3,13))

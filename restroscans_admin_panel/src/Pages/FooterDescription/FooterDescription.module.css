@@ -69,6 +69,20 @@ Reason: correction on Input Box Styling */
   width: 150px;
   font-weight: bold;
 }
+/* Addded Pratap sahu on 11-11-2023*/
+.outer {
+   width: 430px;
+  margin-top: 5px;
+  background-color: white;
+  min-height: 170px;
+  max-height: 170px;
+   resize: vertical;
+  /* border-radius: 10px; */
+  overflow: hidden; 
+
+  /* border: 1px solid rgb(105, 104, 104); */
+
+}
 
 /* Modified By Pratap sahu on 11-09-2023
 Reason:to increase the area of input box */
@@ -84,16 +98,18 @@ Reason:to increase the area of input box */
 
   width: 430px;
   height: 170px;
-  border: 1px solid black;
-  margin-top: 5px;
+  /* border: 1px solid white; */
+  /* margin-top: 5px; */
   /* Commmneted border radius by Pratap sahu on 10-11-2023 Reason: because of scroller,rigth edge was cutting */
-  /* border-radius: 10px; */
+  /* border-radius: 8px; */
   padding: 2px;
   background-color: white;
   /* Added by Pratap sahu on 08-11-2023*/
   max-height: 170px;
   resize: vertical;
-  overflow-y: inherit;
+  overflow-y: auto;
+  border: 1px solid black;
+  border-radius: 2px;
   /* End of code Pratap sahu on 08-11-2023 */
 /* End of Modification By Pratap sahu on 11-09-2023
 Reason:to increase the area of input box */

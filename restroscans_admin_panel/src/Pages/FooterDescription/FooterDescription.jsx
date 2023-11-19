@@ -145,19 +145,22 @@ const FooterDescription = () => {
                 <div className={`${style.inputLabel}`}>
                   <span className={style.mendatoryField}> </span>Content
                 </div>
-
+                <div className={`${style.outer}`}>
                 <textarea
                   type="text"
                   name="content"
                   value={inputText}
                   onChange={onChange}
                   className={`${style.textInputBox}`}
-                  style={{ resize: "none" }}
+                  style={{ resize: "none",outline:'none' }}
                 />
+
+                </div>
               </div>
             </div>
           </div>
         </div>
+
 
         <div className={style.actionContainer}>
           <div

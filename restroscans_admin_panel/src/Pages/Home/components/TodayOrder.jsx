@@ -859,6 +859,10 @@ const TodayOrder = (props) => {
         }
         if ("order_status" in status) {
             data["order_status"] = status.order_status
+            // added by Pratap sahu on 10-11-2023 Reason :to update cancelled by fieldd
+            data["cancelled_by"] = "Admin";
+            console.log("ordr====================")
+            // End of code by Pratap sahu on 10-11-2023 Reason:to update cancelled by fieldd
         }
         if ("payment_status" in status) {
             data["payment_status"] = status.payment_status
