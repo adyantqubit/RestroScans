@@ -121,48 +121,85 @@ const OrderModel = ({
             // errorText["loyality_point"] = "";
             // setCancelClicked(true)
             // setErrorText({ ...errorText });
-            if(document.getElementById("cancelInput")){
-                document.getElementById("cancelInput").style.border =
-                "1px solid #9c9c9c";
-                errorText["cancelReason"] = "";
-                setErrorText({ ...errorText })
-                setCancelClicked(false)
-                setModelVisiblity(false)
+          //Commented & Modified by pratap sahu on 19-11-2023 Reason :To Update "cancelled By"section in AdminJS as well as Waiter Panel
+            // if(document.getElementById("cancelInput")){
+            //     document.getElementById("cancelInput").style.border =
+            //     "1px solid #9c9c9c";
+            //     errorText["cancelReason"] = "";
+            //     setErrorText({ ...errorText })
+            //     setCancelClicked(false)
+            //     setModelVisiblity(false)
 
-                // Added by pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
-                const updatedOrderData = JSON.parse(unUpdatedOrderObj);
-                // if (localStorage.getItem("waiterData"))
-                    updatedOrderData["cancelled_by"] = "Waiter";
-                // else updatedOrderData["cancelled_by"] = "Admin";
-                updatedOrderData["order_status"] = "Cancelled";
-                updatedOrderDetailAPI(updatedOrderData, field);
-                console.log("updatedddddiffffwaiterrrr==",updatedOrderData["cancelled_by"])
-                // End of code by pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
-
-            }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
-                document.getElementById("discount_percentage").style.border =
-                    "1px solid #9c9c9c";
-                document.getElementById("discount_rupees").style.border =
-                    "1px solid #9c9c9c";
-                document.getElementById("cancelInput").style.border =
-                    "1px solid #9c9c9c";
-                errorText["cancelReason"] = "";
-                errorText["discount_price"] = "";
-                errorText["discount_percentage"]="";
-                errorText["loyality_point"] = "";
-                setErrorText({ ...errorText })
-                setCancelClicked(false)
-                setModelVisiblity(false)
-                // Added by Pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
-                const updatedOrderData = JSON.parse(unUpdatedOrderObj);
-                updatedOrderData["cancelled_by"] = "Admin";
-                updatedOrderData["order_status"] = "Cancelled";
-                updatedOrderDetailAPI(updatedOrderData, field);
-                console.log("updatedddddiffffAdminnn",updatedOrderData["cancelled_by"])
-                // End of code by Pratap sahu on 10-11-2023 Reasonn to update "cancelled by"
-            }   
+            //     // Added by pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
+            //     const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+            //     updatedOrderData["cancelled_by"] = "Waiter";
+            //     updatedOrderData["order_status"] = "Cancelled";
+            //     updatedOrderDetailAPI(updatedOrderData, field);
+            //     console.log("updatedddddiffffwaiterrrr==",updatedOrderData["cancelled_by"])
+            //     // End of code by pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
+            // }else if(document.getElementById("discount_percentage") || document.getElementById("discount_rupees") || document.getElementById("cancelInput")){
+            //     document.getElementById("discount_percentage").style.border =
+            //         "1px solid #9c9c9c";
+            //     document.getElementById("discount_rupees").style.border =
+            //         "1px solid #9c9c9c";
+            //     document.getElementById("cancelInput").style.border =
+            //         "1px solid #9c9c9c";
+            //     errorText["cancelReason"] = "";
+            //     errorText["discount_price"] = "";
+            //     errorText["discount_percentage"]="";
+            //     errorText["loyality_point"] = "";
+            //     setErrorText({ ...errorText })
+            //     setCancelClicked(false)
+            //     setModelVisiblity(false)
+            //     // Added by Pratap sahu on 10-11-2023 Reasonn to update "cancelled by" 
+            //     const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+            //     updatedOrderData["cancelled_by"] = "Admin";
+            //     updatedOrderData["order_status"] = "Cancelled";
+            //     // Added by pratap sahu on 19-11-2023 Reason to update the given reason when text entered first &then cancel order clicked
+            //     updatedOrderData["cancel_reason"] =cancelReason;
+            //     // End of code by pratap sahu on 19-11-2023
+            //     updatedOrderDetailAPI(updatedOrderData, field);
+            //     console.log("updatedddddiffffAdminnn",updatedOrderData["cancelled_by"])
+            //     // End of code by Pratap sahu on 10-11-2023 Reasonn to update "cancelled by"
+            // }   
             // End of code by pratap sahu on 04-11-2023 Reason :To remove validation of discount field
                 // End of code by pratap sahu on 04-11-2023 Reason to handle error from waiter side
+                if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                    document.getElementById("discount_percentage").style.border =
+                        "1px solid #9c9c9c";
+                    document.getElementById("discount_rupees").style.border =
+                        "1px solid #9c9c9c";
+                    document.getElementById("cancelInput").style.border =
+                        "1px solid #9c9c9c";
+                    errorText["cancelReason"] = "";
+                    errorText["discount_price"] = "";
+                    errorText["discount_percentage"]="";
+                    errorText["loyality_point"] = "";
+                    setErrorText({ ...errorText })
+                    setCancelClicked(false)
+                    setModelVisiblity(false)
+                    const updatedOrderData = JSON.parse(unUpdatedOrderObj);
+                    updatedOrderData["cancelled_by"] = "Admin";
+                    updatedOrderData["order_status"] = "Cancelled";
+                    updatedOrderData["cancel_reason"] =cancelReason;
+                    updatedOrderDetailAPI(updatedOrderData, field);
+                }
+                else{
+                    document.getElementById("cancelInput").style.border =
+                    "1px solid #9c9c9c";
+                    errorText["cancelReason"] = "";
+                    setErrorText({ ...errorText })
+                    setCancelClicked(false)
+                    setModelVisiblity(false)
+                    const updatedOrderData = JSON.parse(unUpdatedOrderObj); (localStorage.getItem("waiterData"))
+                    if(localStorage.getItem("waiterData"))
+                        updatedOrderData["cancelled_by"] = "Waiter";
+                    else updatedOrderData["cancelled_by"] = "Admin";
+                    updatedOrderData["order_status"] = "Cancelled";
+                    updatedOrderData["cancel_reason"] =cancelReason;
+                    updatedOrderDetailAPI(updatedOrderData, field);
+                }
+          //End of Comment & Modification by pratap sahu on 19-11-2023 Reason :To Update "cancelled By"section in AdminJS as well as Waiter Panel
             //Modified by pratap sahu on 13-10-2023 To dsiplay no changes Apply Button
             //     const updatedOrderData = JSON.parse(unUpdatedOrderObj);
             //     if (localStorage.getItem("waiterData"))
@@ -174,13 +211,12 @@ const OrderModel = ({
             // } else updatedOrderDetailAPI(orderObject, field);} 
 
             // if (localStorage.getItem("waiterData"))
-            else if(localStorage.getItem("waiterData"))
-                orderObject["cancelled_by"] = "Waiter";
-            else orderObject["cancelled_by"] = "Admin";
-            orderObject["cancel_reason"] = orderObject.cancel_reason;
-            orderObject["order_status"] = "Cancelled";
-            updatedOrderDetailAPI(orderObject, field);
-
+            // else if(localStorage.getItem("waiterData"))
+            //     orderObject["cancelled_by"] = "Waiter";
+            // else orderObject["cancelled_by"] = "Admin";
+            // orderObject["cancel_reason"] = orderObject.cancel_reason;
+            // orderObject["order_status"] = "Cancelled";
+            // updatedOrderDetailAPI(orderObject, field);
         } 
         else {
             if (unUpdatedOrderObj == JSON.stringify(orderObject) ) {
@@ -221,9 +257,10 @@ const OrderModel = ({
                     updatedOrderData["cancelled_by"] = "Waiter";
                 else updatedOrderData["cancelled_by"] = "Admin";
                 updatedOrderData["order_status"] = "Cancelled";
-                updatedOrderDetailAPI(updatedOrderData, field);
-                console.log("zzzzzzz",updatedOrderData["cancelled_by"])
-                
+               // Added by pratap sahu on 19-11-2023 Reason to update the given reason when text entered first &then cancel order clicked
+                updatedOrderData["cancel_reason"] =cancelReason;
+                // End of code by pratap sahu on 19-11-2023 
+                updatedOrderDetailAPI(updatedOrderData, field);                
             }
         }
     }
@@ -756,8 +793,36 @@ const OrderModel = ({
                                             // End of comment & Modification by pratap sahu 19-11-2023
                                             }}
                                             />}
-            // End of code by pratap sahu on 03-11-2023
-            onCancel={e => setModelVisiblity(false)}>
+                // End of code by pratap sahu on 03-11-2023
+                // Commented and modified by Pratap sahu on 19-11-2023 Reason:to remove all validations when click outside the popup
+                // onCancel={e => setModelVisiblity(false)}>
+                onCancel={e =>{
+                         if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                                document.getElementById("discount_percentage").style.border =
+                                    "1px solid #9c9c9c";
+                                document.getElementById("discount_rupees").style.border =
+                                    "1px solid #9c9c9c";
+                                document.getElementById("cancelInput").style.border =
+                                    "1px solid #9c9c9c";
+                                errorText["cancelReason"] = "";
+                                errorText["discount_price"] = "";
+                                errorText["discount_percentage"]="";
+                                errorText["loyality_point"] = "";
+                                setErrorText({ ...errorText })
+                                setCancelClicked(false)
+                                setModelVisiblity(false)
+                                console.log("ifffff")
+                            }
+                            else if(document.getElementById("cancelInput")){
+                                document.getElementById("cancelInput").style.border =
+                                "1px solid #9c9c9c";
+                                errorText["cancelReason"] = "";
+                                setErrorText({ ...errorText })
+                                setCancelClicked(false)
+                                setModelVisiblity(false)
+                                console.log("else")
+                            }}}>
+                        {/* End of Comment and modified by Pratap sahu on 19-11-2023 Reason:to remove all validations when click outside the popup  */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -1080,6 +1145,12 @@ const OrderModel = ({
                             <div className={style.WhiteLabel}>Waiter Name :</div>
                             <div className={style.data}>{orderObject.waiter_name}</div>
                         </div>
+                        {/* Added by Pratap sahu on 19-11-2023 to display "cancelled by" section*/}
+                        <div className={style.information}>
+                                <div className={style.WhiteLabel}>Cancelled By :</div>
+                                <div className={style.data}>{orderObject.cancelled_by}</div>
+                        </div>
+                        {/* End of addition by Pratap sahu on 19-11-2023 */}
                     </div> :
                         <div className={style.informationContainer}>
                             <div className={style.information}>
@@ -1815,7 +1886,6 @@ const OrderModel = ({
                                                     setOrderobject({ ...orderObject });
                                                     // added by Pratap sahu on 04-11-2023 to clear validation colour and text
                                                     setCancelReason(e.target.value);
-                                                    console.log("crinpt",cancelReason)
                                                     document.getElementById("cancelInput").style.border ="1px solid #9c9c9c";
                                                     errorText["cancelReason"] = "";
                                                     setErrorText({ ...errorText })
