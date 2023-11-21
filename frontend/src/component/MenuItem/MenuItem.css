@@ -708,13 +708,28 @@
     height: 19vh !important
 }
 
-.swiper-button-prev {
+/* Commented & modified by Pratap sahu on 20-11-2023 */
+/* .swiper-button-prev {
     color: #ededed !important;
 }
-
-.swiper-button-next {
-    color: #ededed !important;
+.swiper-button-next{ */
+.swiper-button-next,.swiper-button-prev{
+    /* color: #ededed !important; */
+    z-index: 8888;
+    padding: 5px;
+    background: rgb(252, 251, 251);
+    border-radius: 50%;
+    position: absolute;
+    /* top: var(--swiper-navigation-top-offset,50%); */
+    /* width: calc(var(--swiper-navigation-size)/ 14 * 14); */
+    height: 6px;
+    justify-content: center;
+    font-weight: 600;
 }
+.root{
+    --swiper-theme-color: #000;
+}
+/* End of code by pratap sahu on 20-11-2023 */
 
 span.swiper-pagination-bullet swiper-pagination-bullet-active {
     /* color: gold !important; */

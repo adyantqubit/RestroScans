@@ -962,9 +962,16 @@ function MenuItem() {
                 "--swiper-pagination-color": colors.subHeadingColor,
                 "--swiper-pagination-bullet-inactive-color": colors.subHeadingColor,
                 "--swiper-pagination-bullet-inactive-opacity": "0.6 ",
-                "--swiper-pagination-bullet-size": "8px",
+                // Modified by Pratap sahu on 10-11-2023 to increase size
+                // "--swiper-pagination-bullet-size": "8px",
+                "--swiper-pagination-bullet-size": "10px",
+                // End of code by Pratap sahu on 10-11-2023
                 "--swiper-pagination-bullet-horizontal-gap": "5px",
-                "--swiper-button-prev-color": "aqua !important"
+                "--swiper-button-prev-color": "aqua !important",
+                // added by Pratap sahu on 20-11-2023 to reduce the arrow size and change the colour
+                "--swiper-navigation-size":"17px",
+                "--swiper-theme-color":" #000",
+                // End of code by Pratap sahu on 20-11-2023 
               }}
               // cssMode={true}
               navigation={true}
