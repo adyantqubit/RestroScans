@@ -80,6 +80,9 @@ class PlannedFeatures(models.Model):
          
 # end of code - Rohan Kansari - 16/4/23 
 
+# Added by pratap on 21-11-2023 to add default datetime
+from datetime import datetime    
+# End of code  by pratap on 21-11-2023 
 
 """-------------------------------------------------------------------
 Added by - Yuvraj Sahu on 15-02-2023
@@ -132,9 +135,13 @@ class RestaurantRequest(models.Model):
     confirm_password = models.CharField(max_length=500, null=True)
     address =models.TextField()
     is_active = models.BooleanField(default=False)
-    created_at = models.DateField(auto_now=True)
-    updated_at = models.DateField(auto_now=True)
-
+    # Modified by Pratap sahu on 21-11-2023 Reason: To have dateTime column 
+    # created_at = models.DateField(auto_now=True)
+    # updated_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # End of code by Pratap sahu
+    
     # Added by:- Suman sahu On 20/04/2023
     # Reason:- Show patners details on the home page
     is_partner = models.BooleanField(default=False)
@@ -470,7 +477,9 @@ class GetRestroscansRequest(models.Model):
     email = models.EmailField()
     # mobile_number = models.CharField(max_length=15, default="", unique=True)
     mobile_number = models.CharField(max_length=15, default="")
-
+    # Added  by pratap sahu on 21-11-2023 Reason :to add date time column for restaurant request
+    created_at=models.DateTimeField(auto_now_add=True)
+    # End of code by Pratap sahu on 21-11-2023 Reason :to add date time column
 
     def __str__(self):
         return self.restaurant_name

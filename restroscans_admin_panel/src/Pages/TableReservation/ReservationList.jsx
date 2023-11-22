@@ -191,10 +191,15 @@ const ReservationList = () => {
           // End of addition by pratap Sahu on 07-09-2023
           style={{
             marginLeft: "10px",
-            minWidth: "100px",
+            // Modified & added by Pratap sahu 21-11-2023 on 
+            // minWidth: "100px",
+            minWidth:"137px",
+            marginRight:"9px",
+            // End of modification by pratap sahu on 21-11-2023
             textAlign: "center",
           }}>
-          Add Table Reservation
+          {/* Add Table Reservation */}
+          Add Reservation
         </div>
       </div>
       <div className={style.listSection}>

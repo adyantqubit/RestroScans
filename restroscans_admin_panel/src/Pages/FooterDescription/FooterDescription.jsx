@@ -152,15 +152,13 @@ const FooterDescription = () => {
                   value={inputText}
                   onChange={onChange}
                   className={`${style.textInputBox}`}
-                  style={{ resize: "none",outline:'none' }}
+                  style={{ resize: "none" }}
                 />
-
                 </div>
               </div>
             </div>
           </div>
         </div>
-
 
         <div className={style.actionContainer}>
           <div

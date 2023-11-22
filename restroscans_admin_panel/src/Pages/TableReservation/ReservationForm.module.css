@@ -42,12 +42,16 @@
   width: fit-content;
   margin: auto auto;
   margin-bottom: 20px;
-  padding: 20px 80px;
+  /* modified by pratap on 21-11-2023 to maintain the paddings and all*/
+  /* padding: 20px 80px; */
+  padding: 10px 25px;
+  /* End of code by pratap sahu on 21-11-2023 */
 }
 
 .sectionInsideForm{
-    margin-top: 30px;
-    background-color: #e6f0f0;
+  /* margin-top: 30px; */
+  margin-top: 20px;
+  background-color: #e6f0f0;
     padding: 10px;
     border-radius: 5px;
     box-shadow:
@@ -188,7 +192,7 @@
     --common-column-display: unset;
   }
   .categorySection {
-    padding: 20px 40px;
+    padding: 20px 40pzx;
   }
 }
 
@@ -333,4 +337,26 @@
     width: 90%;
     margin-right: 0px;
   }
+/* added by pratap on 21-11-2023 to maintain the paddings and all*/
+  .categorySection {
+    min-height: auto;
+    background-color: transparent;
+    margin: auto 10px;
+    border-radius: 10px;
+    border: 2px solid #9c9c9c;
+    background-color: white;
+    width: fit-content;
+    margin: auto auto;
+    margin-bottom: 20px;
+    padding: 10px 25px;
+  }
+  .sectionInsideForm{
+    margin-top: 12px;
+    background-color: #e6f0f0;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow:
+        var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+  }
+/* End of code by pratap sahu on 21-11-2023 */
 }

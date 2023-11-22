@@ -986,6 +986,11 @@
 
 @media screen and (max-width: 500px) {
 
+    /* Added by Pratap sahu on 20-11-2023 Reason :To display each details row by row */
+    .flex{
+        display: block;
+    }
+    /*End of code by Pratap sahu on 20-11-2023  */
     .modalContainer {
         width: 100vw !important;
     }

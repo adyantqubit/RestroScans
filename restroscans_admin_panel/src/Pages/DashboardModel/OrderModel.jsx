@@ -950,8 +950,9 @@ const OrderModel = ({
                                 )}
                             </div>
                         </div>
-
-                        <div className={style.information}>
+                        {/* Email section Commented & moved below the Contact section and and Name section shifted here
+                        by Pratap sahu on 21-11-2023 as per requirement because of suitable hierarchy in Responsive*/}
+                        {/* <div className={style.information}>
                             <div className={style.WhiteLabel}>Email :</div>
                             <div className={style.data}>
                                 {inputEnable == "emailEdit" ? (
@@ -1011,15 +1012,7 @@ const OrderModel = ({
                                     </>
                                 )}
                             </div>
-                        </div>
-                    </div>
-
-                    <div className={style.informationContainer}>
-                        <div className={style.information}>
-                            <div className={style.WhiteLabel}>Contact :</div>
-                            <div className={style.data}>{orderObject.customer_number}</div>
-                        </div>
-
+                        </div> */}
                         <div className={style.information}>
                             <div className={style.WhiteLabel}>Name :</div>
                             <div className={style.data}>
@@ -1087,6 +1080,145 @@ const OrderModel = ({
                                 )}
                             </div>
                         </div>
+                        {/* End of code by pratap sahu on 21-11-2023 */}
+                    </div>
+
+                    <div className={style.informationContainer}>
+                        <div className={style.information}>
+                            <div className={style.WhiteLabel}>Contact :</div>
+                            <div className={style.data}>{orderObject.customer_number}</div>
+                        </div>
+                        {/* Name section Commented & moved below the Table section and and Email section shifted here
+                        by Pratap sahu on 21-11-2023 as per requirement because of suitable hierarchy in Responsive*/}
+                        {/* <div className={style.information}>
+                            <div className={style.WhiteLabel}>Name :</div>
+                            <div className={style.data}>
+                                {inputEnable == "nameEdit" ? (
+                                    <>
+                                        <input
+                                            className={style.EditableInput}
+                                            onKeyUp={(e) => {
+                                                if (e.key == "Enter" || e.keyCode == 13) {
+                                                    if (!(orderObject.customer_name.length > 50)) {
+                                                        updateCustomerDetail("Name");
+                                                        setInputEnable("");
+                                                    } else {
+                                                        Message(
+                                                            "Name should not be greater than 50 characters",
+                                                            "error"
+                                                        );
+                                                    }
+                                                }
+                                            }}
+                                            onChange={(e) => {
+                                                orderObject.customer_name = capitalizeFLetter(
+                                                    e.target.value
+                                                );
+                                                setOrderobject({ ...orderObject });
+                                            }}
+                                            value={orderObject.customer_name}
+                                            onBlur={(e) => {
+                                                orderObject.customer_name =
+                                                    JSON.parse(unUpdatedOrderObj).customer_name;
+                                                setOrderobject({ ...orderObject });
+                                                setInputEnable("");
+                                            }}
+                                        />
+                                        <TiTick
+                                            className={style.inputChecked}
+                                            onClick={(e) => {
+                                                if (!(orderObject.customer_name.length > 50)) {
+                                                    updateCustomerDetail("Name");
+                                                    setInputEnable("");
+                                                } else {
+                                                    Message(
+                                                        "Name should not be greater than 50 characters",
+                                                        "error"
+                                                    );
+                                                }
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        {orderObject.customer_name}
+                                        <BsPencilSquare
+                                            // className={style.disbaleBtn}
+                                            className={`${getOrderStatus() ? null : style.disbaleBtn
+                                                }`}
+                                            onClick={(e) => {
+                                                if (inputEnable != "nameEdit") {
+                                                    setInputEnable("nameEdit");
+                                                } else setInputEnable("");
+                                            }}
+                                            style={{ margin: "5px 10px" }}
+                                        />
+                                    </>
+                                )}
+                            </div>
+                        </div> */}
+                        <div className={style.information}>
+                            <div className={style.WhiteLabel}>Email :</div>
+                            <div className={style.data}>
+                                {inputEnable == "emailEdit" ? (
+                                    <>
+                                        <input
+                                            className={style.EditableInput}
+                                            onKeyUp={(e) => {
+                                                if (e.key == "Enter" || e.keyCode == 13) {
+                                                    let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+                                                    if (regex.test(orderObject.customer_email)) {
+                                                        updateCustomerDetail("Email");
+                                                        setInputEnable("");
+                                                    } else {
+                                                        Message("Please enter valid email", "error");
+                                                    }
+                                                }
+                                            }}
+                                            onChange={(e) => {
+                                                orderObject.customer_email = e.target.value;
+                                                setOrderobject({ ...orderObject });
+                                            }}
+                                            value={orderObject.customer_email}
+                                            onBlur={(e) => {
+                                                orderObject.customer_email =
+                                                    JSON.parse(unUpdatedOrderObj).customer_email;
+                                                setOrderobject({ ...orderObject });
+                                                setInputEnable("");
+                                            }}
+                                        />
+                                        <TiTick
+                                            className={style.inputChecked}
+                                            onClick={(e) => {
+                                                let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+                                                if (regex.test(orderObject.customer_email)) {
+                                                    updateCustomerDetail("Email");
+                                                    setInputEnable("");
+                                                } else {
+                                                    Message("Please enter valid email", "error");
+                                                }
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        {orderObject.customer_email}
+                                        <BsPencilSquare
+                                            // className={style.disbaleBtn}
+                                            className={`${getOrderStatus() ? null : style.disbaleBtn
+                                                }`}
+                                            style={{ margin: "5px 10px" }}
+                                            onClick={(e) => {
+                                                if (inputEnable != "emailEdit") {
+                                                    setInputEnable("emailEdit");
+                                                } else setInputEnable("");
+                                            }}
+                                        />
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                         {/* End of code by pratap sahu on 21-11-2023 */}
                     </div>
 
                     <div className={`${style.informationContainer}`}>

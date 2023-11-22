@@ -308,6 +308,9 @@ class GetRestroscansRequestAdmin(admin.ModelAdmin):
         "email",
         "restaurant_name",
         "mobile_number",
+        # Added by Pratap sahu on 21-11-2023 to have created dateTime column
+         "created_at",
+        # End of code by Pratap sahu on 21-11-2023 to have created dateTime column
     )
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
@@ -315,7 +318,11 @@ class GetRestroscansRequestAdmin(admin.ModelAdmin):
         "owner_name",
         "email",
         "restaurant_name",
-        "mobile_number",)
+        "mobile_number",
+          # Added by Pratap sahu on 21-11-2023 to have created dateTime column
+        "created_at",
+        # End of code by Pratap sahu on 21-11-2023 to have created dateTime column
+        )
     # End of code addition 
     search_fields = ("restaurant_name", "id", "owner_name")
     list_per_page = 10
