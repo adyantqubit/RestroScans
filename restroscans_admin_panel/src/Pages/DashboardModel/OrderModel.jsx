@@ -530,7 +530,17 @@ const OrderModel = ({
         var orderObj = JSON.parse(unUpdatedOrderObj)
         // console.log(orderObj)
 
-        if (
+        // modified & Added by Pratap sahu on 22-11-2023 Reason: To restrict -ve subtotal after adding loyalty&discount
+        if ((e.target.value > orderObject.sub_total || (Number(e.target.value) + orderObject.loyality_point_price)> orderObject.sub_total)) {
+            console.log("err== Discount price",orderObject.loyality_point_price,Number(e.target.value) )
+            errorText["discount_price"] =
+                "Price should not be greater than SubTotal";
+            setErrorText({ ...errorText });
+            document.getElementById("discount_rupees").style.border = "1px solid red";
+        }
+        else if (
+        // if (
+            // End of modification by pratap sahu on 22-11-2023
             e.target.value.length > 0 && e.target.value < orderObject.sub_total &&
             (/^\d+$/.test(e.target.value) || e.target.value.includes("."))
         ) {
@@ -580,13 +590,15 @@ const OrderModel = ({
             errorText["discount_price"] = "Discount price should be in digit";
             setErrorText({ ...errorText });
             document.getElementById("discount_rupees").style.border = "1px solid red";
-        } else if (e.target.value > orderObject.sub_total) {
-            errorText["discount_price"] =
-                "Discount price should not be greater than Subtotal";
-            setErrorText({ ...errorText });
-            document.getElementById("discount_rupees").style.border = "1px solid red";
-        }
-
+       }
+        // Commented by pratap sahu on 22-11-2023 To restrict -ve subtotal after adding loyalty&discount
+        //  else if (e.target.value > orderObject.sub_total) {
+        //     errorText["discount_price"] =
+        //         "Discount price should not be greater than Subtotal";
+        //     setErrorText({ ...errorText });
+        //     document.getElementById("discount_rupees").style.border = "1px solid red";
+        // }
+        // end of code by Pratap sahu on 22-11-2023 Reason: To restrict -ve subtotal after adding loyalty&discount
         setOrderobject({ ...orderObject });
     }
 
@@ -1084,6 +1096,70 @@ const OrderModel = ({
                     </div>
 
                     <div className={style.informationContainer}>
+                        {/* MNoved here by pratap sahu on 22-11-2023 */}
+                    <div className={style.information}>
+                            <div className={style.WhiteLabel}>Email :</div>
+                            <div className={style.data}>
+                                {inputEnable == "emailEdit" ? (
+                                    <>
+                                        <input
+                                            className={style.EditableInput}
+                                            onKeyUp={(e) => {
+                                                if (e.key == "Enter" || e.keyCode == 13) {
+                                                    let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+                                                    if (regex.test(orderObject.customer_email)) {
+                                                        updateCustomerDetail("Email");
+                                                        setInputEnable("");
+                                                    } else {
+                                                        Message("Please enter valid email", "error");
+                                                    }
+                                                }
+                                            }}
+                                            onChange={(e) => {
+                                                orderObject.customer_email = e.target.value;
+                                                setOrderobject({ ...orderObject });
+                                            }}
+                                            value={orderObject.customer_email}
+                                            onBlur={(e) => {
+                                                orderObject.customer_email =
+                                                    JSON.parse(unUpdatedOrderObj).customer_email;
+                                                setOrderobject({ ...orderObject });
+                                                setInputEnable("");
+                                            }}
+                                        />
+                                        <TiTick
+                                            className={style.inputChecked}
+                                            onClick={(e) => {
+                                                let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+                                                if (regex.test(orderObject.customer_email)) {
+                                                    updateCustomerDetail("Email");
+                                                    setInputEnable("");
+                                                } else {
+                                                    Message("Please enter valid email", "error");
+                                                }
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        {orderObject.customer_email}
+                                        <BsPencilSquare
+                                            // className={style.disbaleBtn}
+                                            className={`${getOrderStatus() ? null : style.disbaleBtn
+                                                }`}
+                                            style={{ margin: "5px 10px" }}
+                                            onClick={(e) => {
+                                                if (inputEnable != "emailEdit") {
+                                                    setInputEnable("emailEdit");
+                                                } else setInputEnable("");
+                                            }}
+                                        />
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                        {/* End of code by pratap sahu on 22-11-2023*/}
+
                         <div className={style.information}>
                             <div className={style.WhiteLabel}>Contact :</div>
                             <div className={style.data}>{orderObject.customer_number}</div>
@@ -1157,7 +1233,8 @@ const OrderModel = ({
                                 )}
                             </div>
                         </div> */}
-                        <div className={style.information}>
+                        {/* Commented & moved above the contact section by Pratap sahu on 22-11-2023 */}
+                        {/* <div className={style.information}>
                             <div className={style.WhiteLabel}>Email :</div>
                             <div className={style.data}>
                                 {inputEnable == "emailEdit" ? (
@@ -1217,10 +1294,50 @@ const OrderModel = ({
                                     </>
                                 )}
                             </div>
-                        </div>
+                        </div> */}
+                        {/* End of comment by pratap sahu on 22-11-2023 */}
                          {/* End of code by pratap sahu on 21-11-2023 */}
-                    </div>
 
+                    </div>
+                    {/* Added by - Rohan kansari -To show waiter detail - 21/9/23 */}
+                    {orderObject?.waiter_name?.length > 0 ? <div className={style.informationContainer}>
+                        {/* Commented by pratap sahu on 22-11-2023 Reason:To display waiter details in one row */}
+                        {/* <div className={style.information}>
+                            <div className={style.WhiteLabel}>Waiter Number :</div>
+                            <div className={style.data}>{orderObject.waiter_contact_number}</div>
+                        </div>
+                        <div className={style.information}>
+                            <div className={style.WhiteLabel}>Waiter Name :</div>
+                            <div className={style.data}>{orderObject.waiter_name}</div>
+                        </div> */}
+                        <div className={style.information}>
+                            <div className={style.WhiteLabel}>Waiter Detail :</div>
+                            <div className={style.data}>{orderObject.waiter_name} , {orderObject.waiter_contact_number}</div>
+                        </div>
+                        {/* End of addition by Pratap sahu on 22-11-2023 Reason:To display waiter details in one row */}
+
+                        {/* Added by Pratap sahu on 19-11-2023 to display "cancelled by" section*/}
+                        <div className={style.information}>
+                                <div className={style.WhiteLabel}>Cancelled By :</div>
+                                <div className={style.data}>{orderObject.cancelled_by}</div>
+                        </div>
+                        {/* End of addition by Pratap sahu on 19-11-2023 */}
+                    </div> :
+                        <div className={style.informationContainer}>
+                            <div className={style.information}>
+                                <div className={style.WhiteLabel}>Order Created By :</div>
+                                <div className={style.data}>{orderObject.order_created_by}</div>
+                            </div>
+                                {/* moved by Pratap sahu on 10-11-2023 Reason : to make readOnly field*/}
+                            <div className={style.information}>
+                                <div className={style.WhiteLabel}>Cancelled By :</div>
+                                <div className={style.data}>{orderObject.cancelled_by}</div>
+                            </div>
+                                {/* End of code by Pratap sahu on 10-11-2023 */}
+                        </div>}
+                    {/* End of code - Rohan kansari -To show waiter detail - 21/9/23 */}
+
+                    {/* moved here by pratap sahu on 22-11-2023 Reason :to arrange the fields  */}
                     <div className={`${style.informationContainer}`}>
                         <div className={style.information}>
                             <div className={style.WhiteLabel}>Date & Time:</div>
@@ -1265,40 +1382,7 @@ const OrderModel = ({
                                 Reason: To Add Select DropDown Functionality in Payment Mode */}
                         </div>
                     </div>
-
-                    {/* Added by - Rohan kansari -To show waiter detail - 21/9/23 */}
-                    {orderObject?.waiter_name?.length > 0 ? <div className={style.informationContainer}>
-                        <div className={style.information}>
-                            <div className={style.WhiteLabel}>Waiter Number :</div>
-                            <div className={style.data}>{orderObject.waiter_contact_number}</div>
-                        </div>
-
-                        <div className={style.information}>
-                            <div className={style.WhiteLabel}>Waiter Name :</div>
-                            <div className={style.data}>{orderObject.waiter_name}</div>
-                        </div>
-                        {/* Added by Pratap sahu on 19-11-2023 to display "cancelled by" section*/}
-                        <div className={style.information}>
-                                <div className={style.WhiteLabel}>Cancelled By :</div>
-                                <div className={style.data}>{orderObject.cancelled_by}</div>
-                        </div>
-                        {/* End of addition by Pratap sahu on 19-11-2023 */}
-                    </div> :
-                        <div className={style.informationContainer}>
-                            <div className={style.information}>
-                                <div className={style.WhiteLabel}>Order Created By :</div>
-                                <div className={style.data}>{orderObject.order_created_by}</div>
-                            </div>
-                                {/* moved by Pratap sahu on 10-11-2023 Reason : to make readOnly field*/}
-                            <div className={style.information}>
-                                <div className={style.WhiteLabel}>Cancelled By :</div>
-                                <div className={style.data}>{orderObject.cancelled_by}</div>
-                            </div>
-                                {/* End of code by Pratap sahu on 10-11-2023 */}
-                        </div>}
-                    {/* End of code - Rohan kansari -To show waiter detail - 21/9/23 */}
-
-
+                    {/* End of code moved by pratap sahu on 22-11-2023 Reason :to arrange the fields */}
 
                 </div>
                 {/* Customer Informations and able to edit some fields */}

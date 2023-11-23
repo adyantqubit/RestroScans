@@ -551,6 +551,42 @@ const CustomerReport = () => {
               {/* End of Comment and Modification By pratap Sahu
               Reason: Blinking error when cursor is in b/w two column heading */}
 
+              {/* Added by Pratap sahu on 22-11-2023 To have "Pending orders" column */}
+              <div className={style.NoOfOrdersColumn}
+                  onClick={(e) => {
+                    setShowSortingIcon(false);
+                    sortCustomerReportList("pendingOrders");
+                  }}
+                  onMouseEnter={(e) => {
+                    if (columnToSort != "pendingOrders") {
+                      setShowSortingIcon(true);
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (columnToSort != "pendingOrders") {
+                      setShowSortingIcon(false);
+                    }
+                  }}
+                  // style={{ wordBreak: "break-word" }}
+                >
+                  Pending Orders{" "}
+                  {columnToSort == "pendingOrders" &&
+                    columnSortingOrder == "ascending" && (
+                      <BsSortNumericDown className={style.sortingIcon} />
+                    )}
+                  {columnToSort == "pendingOrders" &&
+                    columnSortingOrder == "descending" && (
+                      <BsSortNumericDownAlt className={style.sortingIcon} />
+                    )}
+                  {columnToSort != "pendingOrders" && showSortingIcon && (
+                    <BsSortNumericDown
+                      color="grey"
+                      className={style.sortingIcon}
+                    />
+                  )}
+              </div>
+                {/* End of code by pratap sahu on 22-11-2023 */}
+
               {/* Commented and Modified By pratap Sahu
               Reason: Blinking error when cursor is in b/w two column heading */}
               {/* <div className={style.pointCol}>
@@ -604,7 +640,8 @@ const CustomerReport = () => {
                   )}
                 </span>
               </div> */}
-              <div
+              {/* Commented and moved afer "Completed Order column" by Pratap sahu on 22-11-2023*/}
+              {/* <div
                 className={style.totalColumn}
                 onClick={(e) => {
                   setShowSortingIcon(false);
@@ -635,7 +672,8 @@ const CustomerReport = () => {
                     className={style.sortingIcon}
                   />
                 )}
-              </div>
+              </div> */}
+               {/* End of Comment by pratap Sahu on 22-11-2023
               {/* End of Comment and Modification By pratap Sahu
               Reason: Blinking error when cursor is in b/w two column heading */}
 
@@ -804,6 +842,40 @@ const CustomerReport = () => {
                   )}
                 </span>
               </div> */}
+              {/* moved here by Pratap sahu on 22-11-2023 */}
+              <div
+                className={style.totalColumn}
+                onClick={(e) => {
+                  setShowSortingIcon(false);
+                  sortCustomerReportList("totalAmount");
+                }}
+                onMouseEnter={(e) => {
+                  if (columnToSort != "totalAmount") {
+                    setShowSortingIcon(true);
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (columnToSort != "totalAmount") {
+                    setShowSortingIcon(false);
+                  }
+                }}>
+                Total Amount{" "}
+                {columnToSort == "totalAmount" &&
+                  columnSortingOrder == "ascending" && (
+                    <BsSortNumericDown className={style.sortingIcon} />
+                  )}
+                {columnToSort == "totalAmount" &&
+                  columnSortingOrder == "descending" && (
+                    <BsSortNumericDownAlt className={style.sortingIcon} />
+                  )}
+                {columnToSort != "totalAmount" && showSortingIcon && (
+                  <BsSortNumericDown
+                    color="grey"
+                    className={style.sortingIcon}
+                  />
+                )}
+              </div>
+                  {/* End of code moved by Pratap sahu on 22-11-2023  */}
               <div
                 className={style.pointCol}
                 onClick={(e) => {
@@ -895,14 +967,24 @@ const CustomerReport = () => {
                       >
                         {customerReportDetails.numberOfOrders}
                       </div>
+
+                      {/* Added by Pratap sahu on 22-11-2023 To display "Pending orders" data*/}
                       <div
+                        className={`${style.NoOfOrdersColumn} ${style.commonColumnData}`}
+                        // style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        {customerReportDetails.pendingOrders}
+                      </div>
+                      {/* End of code by Pratap sahu on 22-11-2023 To have "Pending orders" column */}
+
+                      {/* <div
                         className={`${style.totalColumn} ${style.commonColumnData}`}>
                       {/* Modified by pratap sahu on 27-09-2023 Reason to show amount upto 2decimal */}
                         {/* {customerReportDetails.totalAmount} */}
-                        {(customerReportDetails.totalAmount).toFixed(2)}
+                        {/* {(customerReportDetails.totalAmount).toFixed(2)} */}
                       {/*End of Code by pratap sahu on 27-09-2023 Reason to show amount upto 2decimal */}
+                      {/* </div>  */}
 
-                      </div>
                       <div
                         className={`${style.cancelCol} ${style.commonColumnData}`}>
                         {customerReportDetails.cancelledOrder}
@@ -911,6 +993,12 @@ const CustomerReport = () => {
                         className={`${style.compCol} ${style.commonColumnData}`}>
                         {customerReportDetails?.completedOrder}
                       </div>
+                      {/* moved here by Pratap sahu on 22-11-2023 */}
+                      <div
+                        className={`${style.totalColumn} ${style.commonColumnData}`}>
+                        {(customerReportDetails.totalAmount).toFixed(2)}
+                      </div>
+                      {/* End of code moved by Pratap sahu on 22-11-2023  */}
                       <div
                         className={`${style.pointCol} ${style.commonColumnData}`}>
                         {customerReportDetails.loyality_points}

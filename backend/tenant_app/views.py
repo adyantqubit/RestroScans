@@ -4795,6 +4795,9 @@ def getFilteredCustomerReport(customerList):
             cancelledOrder=Order.objects.filter(customer_id=customer.id,order_status="Cancelled").count()
             completedOrder=Order.objects.filter(customer_id=customer.id,payment_status="Completed").count()
             loyaltyPoints=customer.loyality_points
+             # Added by Pratap sahu on 22-11-2023 Reason:To count pending order which is neither completed nor cancelled
+            pendingOrders=Order.objects.filter((~Q(payment_status="Completed") & ~Q(order_status="Cancelled")),customer_id=customer.id).count()
+            # End of code Pratap sahu on 22-11-2023
             
         # Modified by pratap sahu on 16-09-2023 Reason: To display final Amount
             # total=Order.objects.filter(customer_id=customer.id).values('total')
@@ -4816,6 +4819,9 @@ def getFilteredCustomerReport(customerList):
             setdata['completedOrder']=completedOrder
             setdata['loyality_points']=loyaltyPoints
             setdata['totalAmount']=totalAmount
+            # Added by Pratap sahu on 22-11-2023 Reason:To count pending order 
+            setdata['pendingOrders']=pendingOrders
+            # End of code Pratap sahu on 22-11-2023
             
             arrayOfCustReport.append(setdata)
          return arrayOfCustReport
@@ -4873,6 +4879,13 @@ class CustomerReportAPI(APIView):
             customerList = sorted(arraylist,key=lambda x:x["numberOfOrders"])
         if columnToSort == "numberOfOrders" and columnSortingOrder=="descending":
             customerList = sorted(arraylist,key=lambda x:x["numberOfOrders"],reverse=True) 
+
+        # Added by Pratap sahu on 22-11-2023 Reason:To sort the Pending order Column
+        if columnToSort == "pendingOrders" and columnSortingOrder=="ascending":
+            customerList = sorted(arraylist,key=lambda x:x["pendingOrders"])
+        if columnToSort == "pendingOrders" and columnSortingOrder=="descending":
+            customerList = sorted(arraylist,key=lambda x:x["pendingOrders"],reverse=True)
+        # End of code by pratap sahu on 22-11-2023
            
         if columnToSort == "cancelledOrder" and columnSortingOrder=="ascending":
             customerList = sorted(arraylist,key=lambda x:x["cancelledOrder"])

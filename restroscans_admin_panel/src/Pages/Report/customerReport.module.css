@@ -383,8 +383,11 @@
 }
 
 .numberColumn{
-  min-width: 130px;
-  text-align: center;
+  /* Width modified by pratap sahu on 22-11-2023 
+  Reason: to maintain horizontal scrolling after addition of pending order column */
+  /* min-width: 130px; */
+  min-width: 110px;
+  /* End of code by pratap sahu on 22-11-2023 */  text-align: center;
   display: flex;
   justify-content: center;
   font-size: 14px;
@@ -421,7 +424,11 @@
 }
 
 .cancelCol{
-  min-width: 130px;
+  /* Width modified by pratap sahu on 22-11-2023 
+  Reason: to maintain horizontal scrolling after addition of pending order column */
+  /* min-width: 130px; */
+  min-width: 120px;
+  /* End of code by pratap sahu on 22-11-2023 */
   text-align: center;
   display: flex;
   justify-content: center;
@@ -430,8 +437,11 @@
 }
 
 .compCol{
-  min-width: 130px;
-  text-align: center;
+  /* Width modified by pratap sahu on 22-11-2023 
+  Reason: to maintain horizontal scrolling after addition of pending order column */
+  /* min-width: 130px; */
+  min-width: 120px;
+  /* End of code by pratap sahu on 22-11-2023 */  text-align: center;
   display: flex;
   justify-content: center;
   font-size: 14px;
