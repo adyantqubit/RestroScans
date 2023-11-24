@@ -2394,7 +2394,12 @@ class UpdateAllOrderStatus(APIView):
                 # Added by Yuvraj Sahu on 14-08-2023
                 # Reason - to update the order status
                 # data['order_status']=request.data["order_status"]
-                updateOrder = {"order_status" : request.data['order_status']}
+
+                # modified by pratap sahu on 23-11-2023 to update cancelled by
+                # updateOrder = {"order_status" : request.data['order_status']}
+                updateOrder = {"order_status" : request.data['order_status'],"cancelled_by":request.data['cancelled_by']}
+                #End of code by pratap sahu on 23-11-2023
+
                 serializedData = OrderSerializer(orderObj, data=updateOrder, partial=True)
                 if serializedData.is_valid() :
                     serializedData.save()

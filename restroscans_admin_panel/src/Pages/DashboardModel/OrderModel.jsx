@@ -53,7 +53,6 @@ const OrderModel = ({
     // End of code by pratap sahu on 04-11-2023 
 
     useEffect(() => {
-         console.log("==========",orderObject)
         setOrderobject({ ...selectedOrder });
         setOrderItem([...selectedOrderItems]);
         setUnupdatedOrderObj(JSON.stringify(selectedOrder));
@@ -269,7 +268,6 @@ const OrderModel = ({
     async function updatedOrderDetailAPI(order, sectionName) {
         const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
         const response = await saveOrderDetailsApi(tenant, order);
-        console.log("=====response=====",response)
             if(response.msg){
                 Message(`${sectionName} saved successfully`, "success");
                 setOrderobject(response.orderData);
@@ -532,9 +530,8 @@ const OrderModel = ({
 
         // modified & Added by Pratap sahu on 22-11-2023 Reason: To restrict -ve subtotal after adding loyalty&discount
         if ((e.target.value > orderObject.sub_total || (Number(e.target.value) + orderObject.loyality_point_price)> orderObject.sub_total)) {
-            console.log("err== Discount price",orderObject.loyality_point_price,Number(e.target.value) )
             errorText["discount_price"] =
-                "Price should not be greater than SubTotal";
+                "Total Price should not be greater than SubTotal";
             setErrorText({ ...errorText });
             document.getElementById("discount_rupees").style.border = "1px solid red";
         }
@@ -606,8 +603,16 @@ const OrderModel = ({
         var orderObj = JSON.parse(unUpdatedOrderObj);
 
         // var subtotal = JSON.parse(OldOrdervalue.current.value).order_detail.sub_total
-
-        if (
+        // Added by Pratap sahu on 23-11-2023 Reason:To restrict -ve subtotal
+        var discPerToRupee = e.target.value * (orderObject.sub_total / 100);
+        if ((discPerToRupee > orderObject.sub_total || (discPerToRupee + orderObject.loyality_point_price)> orderObject.sub_total)) {
+            errorText["discount_price"] ="Total Price should not be greater than SubTotal";
+            setErrorText({ ...errorText });
+            document.getElementById("discount_rupees").style.border = "1px solid red";
+        }
+        // if (
+        else if (
+        // End of code bby Pratap sahu on 23-11-2023 Reason:To restrict -ve subtotal
             e.target.value.length > 0 &&
             e.target.value < 101 &&
             (/^\d+$/.test(e.target.value) || e.target.value.includes("."))
@@ -624,9 +629,9 @@ const OrderModel = ({
             orderObject["discount_percentage"] = e.target.value;
             orderObject["discount_rupees"] = discount_percentage.toFixed(2);
             document.getElementById("discount_percentage").style.border =
-                "1px solid black";
+                "1px solid #9c9c9c";
             document.getElementById("discount_rupees").style.border =
-                "1px solid black";
+                "1px solid #9c9c9c";
             errorText["discount_price"] = "";
             setErrorText({ ...errorText });
         } else if (e.target.value.length == 0) {
@@ -671,17 +676,25 @@ const OrderModel = ({
 
     function validateLoyalityPoint(e) {
         // if(e.target.value.length<applyLoyalityPoint.length){
-        //     // console.log(applyLoyalityPoint[applyLoyalityPoint.length-1])
-        //     setcustomerLoyalitypoint(parseInt(customerLoyalitypoint)+parseInt(applyLoyalityPoint[applyLoyalityPoint.length-1]))
+            //     // console.log(applyLoyalityPoint[applyLoyalityPoint.length-1])
+            //     setcustomerLoyalitypoint(parseInt(customerLoyalitypoint)+parseInt(applyLoyalityPoint[applyLoyalityPoint.length-1]))
         // }
         var orderObj = JSON.parse(unUpdatedOrderObj);
-
         var loyality_price = setting.per_loyality_point_value * e.target.value;
         var customer_earn =
             JSON.parse(unUpdatedOrderObj).customer_loyality_point -
             JSON.parse(unUpdatedOrderObj).apply_loyality_point;
 
-            if (
+            // modified & Added by Pratap sahu on 23-11-2023 Reason: To restrict -ve subtotal after adding loyalty&discount
+            if ((loyality_price > orderObject.sub_total || (parseInt(loyality_price) + parseInt(orderObject.discount_rupees))> orderObject.sub_total)) {
+                errorText["loyality_point"] ="Total Price should not be greater than SubTotal";
+                setErrorText({ ...errorText });
+                document.getElementById("loyality_point").style.border = "1px solid red";
+            }
+            // if (
+            else if (
+            // End of modification by pratap sahu on 23-11-2023
+            
                 e.target.value > -1 &&
                 (/^\d+$/.test(e.target.value) || e.target.value.includes(".")) &&
                 e.target.value.length > 0 &&
@@ -701,6 +714,13 @@ const OrderModel = ({
             orderObject["final_amount"] = total_price + CGST + SGST;
             errorText["loyality_point"] = "";
             setErrorText({ ...errorText });
+            
+            // Modified by Pratap sahu on 23-11-2023 To remove validations
+            // document.getElementById("discount_rupees").style.border =
+            //     "1px solid black";
+            document.getElementById("loyality_point").style.border = "1px solid #9C9C9C";
+            // End of code by pratap sahu on 23-11-2023
+
         } else if (e.target.value.length == 0) {
         // Modified by pratap sahu on 21-10-2023 Reason:To set 0 when no input has given
             // orderObject["apply_loyality_point"] = "";
@@ -779,13 +799,21 @@ const OrderModel = ({
                                             //     setModelVisiblity(false)
                                             // }
                                            // End of code by pratap sahu on 04-11-2023
-                                            if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                                                //Modified by Pratap sahu on 23-11-2023    
+                                                // if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                                                if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput") || document.getElementById("loyality_point")){
+                                                // End of code by Pratap sahu on 23-11-2023    
                                                 document.getElementById("discount_percentage").style.border =
                                                     "1px solid #9c9c9c";
                                                 document.getElementById("discount_rupees").style.border =
                                                     "1px solid #9c9c9c";
                                                 document.getElementById("cancelInput").style.border =
                                                     "1px solid #9c9c9c";
+                                                    //Added by Pratap sahu on 23-11-2023   
+                                                    if(document.getElementById("loyality_point")!=undefined || document.getElementById("loyality_point")!=null) {
+                                                         document.getElementById("loyality_point").style.border =
+                                                        "1px solid #9c9c9c";               }                                 // End of code by Pratap sahu on 23-11-2023    
+                                                // End of code by Pratap sahu on 23-11-2023
                                                 errorText["cancelReason"] = "";
                                                 errorText["discount_price"] = "";
                                                 errorText["discount_percentage"]="";
@@ -809,13 +837,18 @@ const OrderModel = ({
                 // Commented and modified by Pratap sahu on 19-11-2023 Reason:to remove all validations when click outside the popup
                 // onCancel={e => setModelVisiblity(false)}>
                 onCancel={e =>{
-                         if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                         if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput") || document.getElementById("loyality_point")){
                                 document.getElementById("discount_percentage").style.border =
                                     "1px solid #9c9c9c";
                                 document.getElementById("discount_rupees").style.border =
                                     "1px solid #9c9c9c";
                                 document.getElementById("cancelInput").style.border =
                                     "1px solid #9c9c9c";
+                                // Added by Pratap sahu on 23-11-2023 To remove validations
+                                if(document.getElementById("loyality_point")!=undefined || document.getElementById("loyality_point")!=null) {
+                                    document.getElementById("loyality_point").style.border =
+                                    "1px solid #9c9c9c"; }
+                                // End of code by pratap sahu on 23-11-2023
                                 errorText["cancelReason"] = "";
                                 errorText["discount_price"] = "";
                                 errorText["discount_percentage"]="";
@@ -823,7 +856,6 @@ const OrderModel = ({
                                 setErrorText({ ...errorText })
                                 setCancelClicked(false)
                                 setModelVisiblity(false)
-                                console.log("ifffff")
                             }
                             else if(document.getElementById("cancelInput")){
                                 document.getElementById("cancelInput").style.border =
@@ -832,7 +864,6 @@ const OrderModel = ({
                                 setErrorText({ ...errorText })
                                 setCancelClicked(false)
                                 setModelVisiblity(false)
-                                console.log("else")
                             }}}>
                         {/* End of Comment and modified by Pratap sahu on 19-11-2023 Reason:to remove all validations when click outside the popup  */}
             <Modal
@@ -2062,7 +2093,10 @@ const OrderModel = ({
                                                             Apply Loyalty Point{" "}
                                                         </label>
                                                         <input
-                                                    // modified by pratap sahu on 20-10-2023
+                                                        // Added by Pratap sahu on 23-11-2023 Reason :to remove validations from the field
+                                                            id="loyality_point"
+                                                            // End of code by Pratap sahu on 23-11-2023
+                                                            // modified by pratap sahu on 20-10-2023
                                                             // className={style.inputBox}
                                                             // className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"? style.disabledBox :style.inputBox}
                                                             className={orderObject.payment_status=="Completed"|| orderObject.order_status=="Cancelled"|| orderObject.payment_status == "Paid"? style.disabledBox :style.inputBox}
@@ -2187,7 +2221,9 @@ const OrderModel = ({
                                     <label
                                         className={style.InputLabel}
                                         style={{ borderTop: "1px solid black" }}>
-                                        Total :- ₹{orderObject.total?.toFixed(2)}
+                                        {/* Modified "Total" label by pratap sahu on 23-11-2023 */}
+                                        {/* Total :- ₹{orderObject.total?.toFixed(2)} */}
+                                        Total Price :- ₹{orderObject.total?.toFixed(2)}
                                     </label>
                                 </div>
                                 <div className={style.priceInformation}>
@@ -2273,13 +2309,21 @@ const OrderModel = ({
                                             //     setModelVisiblity(false)
                                             // }
                                             // End of code by Pratap Sahu on 04-11-2023 
-                                            if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                                            // Modified by pratap sahu on 23-11-2023 Reason:To remove loyalty validations
+                                            // if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput")){
+                                            if(document.getElementById("discount_percentage") && document.getElementById("discount_rupees") && document.getElementById("cancelInput") && document.getElementById("loyality_point")){
+                                                // End of code by pratap sahu on 23-11-2023 
                                                 document.getElementById("discount_percentage").style.border =
                                                     "1px solid #9c9c9c";
                                                 document.getElementById("discount_rupees").style.border =
                                                     "1px solid #9c9c9c";
                                                 document.getElementById("cancelInput").style.border =
                                                     "1px solid #9c9c9c";
+                                                // Added by Pratap sahu on 23-11-2023 To remove validations
+                                                if(document.getElementById("loyality_point")!=undefined || document.getElementById("loyality_point")!=null) {
+                                                         document.getElementById("loyality_point").style.border =
+                                                        "1px solid #9c9c9c"; }
+                                                // End of code by pratap sahu on 23-11-2023
                                                 errorText["cancelReason"] = "";
                                                 errorText["discount_price"] = "";
                                                 errorText["discount_percentage"]="";
