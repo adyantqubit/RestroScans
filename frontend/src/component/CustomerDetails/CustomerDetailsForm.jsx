@@ -60,7 +60,10 @@ export default function CustomerDetailsForm({ isPopupOpen, setPopupVisiblity }) 
             //added by rohan- 18/4/23 - to set tenant validation
             tenant:restaurant_name,
             // Added by Rohan kansari - 4/9/23 - To set admin is valid or not
-            order_created_by: "User"
+            // Modified by Pratap Sahu On 24-11-2023
+            // order_created_by: "User"
+            order_created_by: "Customer"
+            // End of code by Pratap Sahu On 24-11-2023
           };
 
     // Added by Rohan kansari - 26/4/23

@@ -3112,6 +3112,7 @@ class OrderFilterAPIView(APIView):
         allOrderListSerializer= OrderSerializer(orderStatusList, many=True)
         # End of modification by Rohan kansari - 19/8/23
         # Reason To apply multiple filter functionality
+        print("backendOrderCount=====",orderListCount,"orders=====",filteredOrderList)
         return Response({
             "msg":"success",
             "orderList":orderListSerializer.data,
@@ -3895,7 +3896,7 @@ class OrderDetailAPIView(APIView) :
         # Reason - To send setting value also in a response
         settingSerialize=SettingSerializer(Setting.objects.last())
 
-        print("pp#########",settingSerialize)
+        print("pp#########",serialized)
         # order_status = dict(Order.fields['order_status'].choices)[order_status]
 
         return Response({
@@ -5246,11 +5247,14 @@ class checkTableNumberApi(APIView):
         today = date.today()
         yesterday = today - timedelta(days = 1)
         # End of code by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
-
+        print("----",date)
         filteredTableNumber=None
         # modified by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
         # filteredTableNumber=Order.objects.filter( (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) & Q(table_number=table_number))
-        filteredTableNumber=Order.objects.filter(Q(date__gt=yesterday) & Q(table_number=table_number) & (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) )
+        # Modified by Pratap sahu on 24-11-2023 Reason:To restrict those orders which ordered bofore today's date
+        # filteredTableNumber=Order.objects.filter(Q(date__gt=yesterday) & Q(table_number=table_number) & (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) )
+        filteredTableNumber=Order.objects.filter(Q(date=today) & Q(table_number=table_number) & (~Q(order_status="Cancelled") & ~Q(payment_status="Completed")) )
+        # ENd of code by Pratap sahu on 24-11-2023
         # End of code by pratap sahu on 03-11-2023 To validate tableNumber which ordered today
         if filteredTableNumber :
              return Response({"error":"not available"})
