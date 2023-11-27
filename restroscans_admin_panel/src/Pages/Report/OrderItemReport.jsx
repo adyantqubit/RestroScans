@@ -53,6 +53,9 @@ const OrderItemReport = () => {
   // end of addition by suman sahu on 28/08/2023
   // reason - for set custom button
 
+  // Added By pratap sahu on 27-11-2023 reason:To handle page contains no data error
+  var [isSelected,setIsSelected]=useState(false);
+  // End of code By pratap sahu on 27-11-2023
   
   /**
    * Added by - Ashlekh on 15-09-2023
@@ -174,7 +177,10 @@ const OrderItemReport = () => {
     //Added by - Ashlekh on 16-09-2023
     //Reason - For pagination
     const paginationDetails = {
-      currentPage: currentPage,
+      // Modified By pratap sahu on 27-11-2023 reason:To handle page contains no data error
+      // currentPage: currentPage,
+      currentPage: isSelected?1:currentPage,
+      // End of code by Pratap sahu on 27-11-2023 r
       listPerPage: listPerPage,
     };
     //End of code addition by - Ashlekh on 16-09-2023
@@ -218,6 +224,12 @@ const OrderItemReport = () => {
       const response = await OrderItemFilterQueryAPI(tenant, filteringCriteria);
       setReportOrderItem(response.item);
       setBackendOrderItemCount(response.orderItemCount);
+      // Added By pratap sahu on 27-11-2023 reason:To handle page contains no data error
+      if(isSelected==true) {
+        setCurrentPage(1)
+      }
+      setIsSelected(false);
+      // End of code by prtap sahu on 27-11-2023
     }
     //End of code modification by - Ashlekh on 21-09-2023
     //Reason - For date validation
@@ -484,6 +496,9 @@ const OrderItemReport = () => {
   });
 
   const handleQuickSelect = (e) => {
+      // Added By pratap sahu on 27-11-2023 reason:To handle page contains no data error
+      setIsSelected(true);
+      // End of code By pratap sahu on 27-11-2023
     //Code added by - Ashlekh on 21-09-2023
     //Reason - To Reset dateValidation when switching away from "custom" quick select
     if (e == "today" || e == "week" || e == "month" || e == "year") {

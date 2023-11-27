@@ -169,7 +169,10 @@ const NewOrderReport = () => {
   //ENd of Modification by ROhan kansari - 19/8/23
   // Reason - To set date by Default null
 
-  // ============================================
+  // ============================================  
+    // Added By pratap sahu on 26-11-2023 reason:To handle page contains no data error
+  var [isSelected,setIsSelected]=useState(false);
+  // End of code By pratap sahu on 26-11-2023
 
   var [isAmountSort, setAmountSort] = useState(false);
   const [pageIndex, setPageIndex] = useState(1);
@@ -267,13 +270,13 @@ const NewOrderReport = () => {
   // Added By Parineeta Gedam on 05-08-2023
   // Reason - To set global Page index Whenever its index updated
 
-  useEffect(() => {
-    // Commented by pratap sahu on 19-10-2023
-    // Reason:No Longer Needed because overriding the backendOrderCount number
+  // useEffect(() => {
+  //   // Commented by pratap sahu on 19-10-2023
+  //   // Reason:No Longer Needed because overriding the backendOrderCount number
     // getCountofOrder();
-    // End of comment by pratap sahu on 19-10-2023
-    postOrderQuery();
-  }, []);
+  //   // End of comment by pratap sahu on 19-10-2023
+  //   postOrderQuery();
+  // }, []);
 
   const getCountofOrder = async () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
@@ -304,11 +307,15 @@ const NewOrderReport = () => {
     const tenant = JSON.parse(localStorage.getItem("tenantInfo")).tenant_name;
     // Added by :-Parineeta Gedam on 05-08-2023
     // reason :- making a data for sorting and paginations
+    //Modified by Pratap sahu on 25-11-2023 Reason:To solve "page contains no results" Error
     const paginationDetails = {
-      currentPage: currentPage,
+      // Modified By pratap sahu on 26-11-2023 reason:To handle page contains no data error
+        // currentPage: currentPage,
+      currentPage: isSelected?1:currentPage,
+      // End of code by Pratap sahu
       listPerPage: listPerPage,
-    };
-
+    }
+    // End of code by pratap sahu
     // End of Added code by :-Parineeta Gedam on 05-08-2023
     // reason :- making a data for sorting and paginations
     const queryData = {
@@ -316,7 +323,7 @@ const NewOrderReport = () => {
       // dateFrom: fromDate,
       amountSort: isAmountSort,
       pageIndex: pageIndex,
-
+      
       // Added by :- Parineeta Gedam on 03-08-2023
       // reason :- arrange the data in key value pair.
       quickSelect: quickSelect,
@@ -324,35 +331,36 @@ const NewOrderReport = () => {
       /**
        * Code commented and added by - Ashlekh on 11-09-2023
        * Reason - Custom report generation increasing end date by 1
-       */
-      // endDate: endDate,
-      endDate: endDate ? new Date(endDate.getTime() + 3600 * 1000 * 24) : null,
-      /**
-       * End of comment and code addition by - Ashlekh on 11-09-2023
-       * Reason - Custom report generation increasing end date by 1
-       */
-      paginationDetails: paginationDetails,
-      columnToSort: columnToSort,
-      columnSortingOrder: columnSortingOrder,
-      paymentStatus: paymentStatus,
-      orderStatus: orderStatus,
-      // End of Added by :- Parineeta Gedam on 03-08-2023
-      // reason :- arrange the data in key value pair.
-    };
-    // console.log(queryData)
-    await OrderFilterQueryAPI(tenant, queryData).then((r) => {
-      setOrder(r);
-      // console.log(r)
+      */
+     // endDate: endDate,
+     endDate: endDate ? new Date(endDate.getTime() + 3600 * 1000 * 24) : null,
+     /**
+      * End of comment and code addition by - Ashlekh on 11-09-2023
+      * Reason - Custom report generation increasing end date by 1
+     */
+    paginationDetails: paginationDetails,
+    columnToSort: columnToSort,
+    columnSortingOrder: columnSortingOrder,
+    paymentStatus: paymentStatus,
+    orderStatus: orderStatus,
+    // End of Added by :- Parineeta Gedam on 03-08-2023
+    // reason :- arrange the data in key value pair.
+  };
+  // console.log(queryData)
+  await OrderFilterQueryAPI(tenant, queryData).then((r) => {
+    setOrder(r);
+    setOrder(r.orderList);
+    setOrderCount(r.orderListCount);
+    // Added by Rohan kansari - 1/9/23 - To set all order report
+    setAllReportData(r.allReportList);
+    // Added By pratap sahu on 26-11-2023 reason:To handle page contains no data error
+    if(isSelected==true) {setCurrentPage(1)}
+    setIsSelected(false);
+    // End of code by prtap sahu on 26-11-2023
+  });
+}
 
-      setOrder(r.orderList);
-      setOrderCount(r.orderListCount);
-      // Added by Rohan kansari - 1/9/23 - To set all order report
-      setAllReportData(r.allReportList);
-      console.log("rrrrrrrrrrr", r.orderListCount);
-    });
-  }
-
-  // function setThisMonthDate(value) {
+// function setThisMonthDate(value) {
   //     if (value) {
   //         document.getElementById("today").checked = false
   //         document.getElementById("week").checked = false
@@ -450,12 +458,15 @@ const NewOrderReport = () => {
   }
 
   const handleQuickSelect = (e) => {
+    // Added By pratap sahu on 26-11-2023 reason:To handle page contains no data error
+    setIsSelected(true);
+    // End of code By pratap sahu on 26-11-2023
     if (e == "today") {
       setcustomDisable(false);
       setStartDate("");
       setEndDate("");
       if (document.getElementById("today").checked == true) {
-        setQuickSelect((select) => {
+          setQuickSelect((select) => {
           select.today = true;
           select.week = false;
           select.month = false;
@@ -530,7 +541,10 @@ const NewOrderReport = () => {
   // Added by :- Parineeta Gedam on 05-08-2023
   // reason :- if change the order status then call this handleChnageOrderStatus method for set the order status.
   function handleOrderStatus(e) {
-    console.log("e", e);
+    // console.log("e", e);
+    // Added By pratap sahu on 26-11-2023 reason:To handle page contains no data error
+    setIsSelected(true);  
+    // End of code By pratap sahu on 26-11-2023 
     if (e == "Placed") {
       if (document.getElementById("placed").checked == true) {
         setOrderStatus((orderStatus) => {
@@ -606,7 +620,10 @@ const NewOrderReport = () => {
   // Added by :- Parineeta Gedam on 05-08-2023
   // reason :- if change the payment status then call this handleChnagePaymentStatus method for set the payment status.
   function handlePaymentStatus(e) {
-    console.log("e", e);
+    // console.log("e", e);
+    // Added By pratap sahu on 26-11-2023 reason:To handle page contains no data error
+    setIsSelected(true);  
+    // End of code By pratap sahu on 26-11-2023 
     if (e == "Pending") {
       if (document.getElementById("pending").checked == true) {
         setPaymentStatus((paymentStatus) => {
@@ -787,12 +804,15 @@ const NewOrderReport = () => {
                   {/* <div><input type="checkbox" id="today" onChange={e => setTodayDate(e.target.checked)} /></div> */}
                   <div>
                     <input
+
                       type="radio"
                       id="today"
                       name="quick_select"
                       value="today"
                       checked={quickSelect.today}
-                      onChange={(e) => handleQuickSelect(e.target.value)}
+                      // onChange={(e) => handleQuickSelect(e.target.value)}
+                      onChange={(e) => {
+                                        handleQuickSelect(e.target.value)}}
                     />
                   </div>
                   {/* Commented and modified by :- Parineeta Gedam on 03-08-2023 reason :- remove the default checked */}
@@ -1115,7 +1135,6 @@ const NewOrderReport = () => {
                   sortOrderId("date");
                 }}
                 onMouseEnter={(e) => {
-                  console.log(columnToSort);
                   if (columnToSort != "date") {
                     setShowSortingIcon("date");
                   }

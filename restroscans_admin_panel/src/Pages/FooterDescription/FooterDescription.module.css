@@ -75,8 +75,8 @@ Reason: correction on Input Box Styling */
    width: 430px;
   margin-top: 5px;
   background-color: white;
-  min-height: 225px;
-  max-height: 225px;
+  min-height: 298px;
+  max-height: 298px;
    resize: vertical;
    /* Modified by Pratap sahu on 25-11-2023 To remove scroller */
   /* border-radius: 10px; */
@@ -100,7 +100,7 @@ Reason:to increase the area of input box */
   resize: vertical; */
 
   width: 430px;
-  height: 225px;
+  height: 298px;
   /* border: 1px solid white; */
   /* margin-top: 5px; */
   /* Commmneted border radius by Pratap sahu on 10-11-2023 Reason: because of scroller,rigth edge was cutting */
@@ -108,7 +108,7 @@ Reason:to increase the area of input box */
   padding: 2px;
   background-color: white;
   /* Added by Pratap sahu on 08-11-2023*/
-  max-height: 225px;
+  max-height: 298px;
   resize: vertical;
   overflow-y: hidden;
   border: 1px solid black;
@@ -502,7 +502,7 @@ Reason:to increase the area of input box */
   }
   .footerSection {
     padding: 10px 10px;
-    width: 80%;
+    width: 90%;
   }
   .inputLabel {
     /* width Modified by Pratap sahu on 09-11-2023 */
