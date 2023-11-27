@@ -151,6 +151,9 @@ const FooterDescription = () => {
                   name="content"
                   value={inputText}
                   onChange={onChange}
+                  // Added by Pratap sahu on 27-11-2023 To restrict more than 500characters
+                  maxLength={500}
+                  // End of code by Pratap sahu on 27-11-2023 
                   className={`${style.textInputBox}`}
                   style={{ resize: "none" }}
                 />
