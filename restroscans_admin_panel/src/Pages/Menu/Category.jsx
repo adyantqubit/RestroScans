@@ -385,17 +385,22 @@ const Category = () => {
                   }
                 }}
               >
-                Is Available{" "}
+              {/* Label & Sorting Icon Modified by Pratap sahu on 25-11-2023 */}
+                {/* Is Available{" "} */}
+                Available{" "}
                 {columnToSort == "is_active" &&
                   columnSortingOrder == "ascending" && (
-                    <MdCancel className={style.sortingIcon} />
+                    // <MdCancel className={style.sortingIcon} />
+                    <MdCancel className={style.sortingIconNA} />
                   )}
                 {columnToSort == "is_active" &&
                   columnSortingOrder == "descending" && (
-                    <MdCheckCircle className={style.sortingIcon} />
+                    //<MdCheckCircle className={style.sortingIcon} />
+                    <MdCheckCircle className={style.sortingIconA} />
+                    // ENd of code by Pratap sahu on 23-11-2023
                   )}
                 {columnToSort != "is_active" && showSortingIcon && (
-                  <MdCancel color="grey" className={style.sortingIcon} />
+                  <MdCancel color="grey" className={style.sortingIconA} />
                 )}
               </div>
               <div className={style.commonColumnTitle}> Action </div>

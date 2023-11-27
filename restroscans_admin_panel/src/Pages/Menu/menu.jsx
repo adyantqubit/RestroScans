@@ -452,7 +452,9 @@ const Menu = () => {
                     if (columnToSort != "is_active") {
                       setShowSortingIcon(false);
                     }
-                  }} style={{wordBreak:"break-word"}}>Is Available{" "}</span>
+                    // Label Modified by Pratap sahu on 25-11-2023
+                  // }} style={{wordBreak:"break-word"}}>Is Available{" "}</span>
+                  }} style={{wordBreak:"break-word"}}>Available{" "}</span>
                   <span onClick={(e) => {
                     setShowSortingIcon(false);
                     sortMenuList("is_active");
@@ -469,11 +471,13 @@ const Menu = () => {
                   }}>
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "ascending" && (
-                      <MdCancel className={style.sortingIcon} />
+                      //<MdCancel className={style.sortingIcon} />
+                      <MdCancel className={style.sortingIconNA} />
                     )}
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "descending" && (
-                      <MdCheckCircle className={style.sortingIcon} />
+                      //<MdCheckCircle className={style.sortingIcon} />
+                      <MdCheckCircle className={style.sortingIconA} />
                     )}
                   {columnToSort != "is_active" && showSortingIcon && (
                     <MdCancel color="grey" className={style.sortingIcon} />

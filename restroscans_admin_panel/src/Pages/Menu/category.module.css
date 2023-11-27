@@ -171,13 +171,23 @@
   width: 20px;
   height: 20px;
 }
-
-.sortingIcon {
+/* Modified by Pratap sahu on 25-11-2023
+.sortingIcon */
+.sortingIconA {
   font-size: 20px;
   width: 20px;
   height: 20px;
+  /* Added by pratap sahu on 25-11-2023 */
+  color: green;
 }
 
+.sortingIconNA {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: red;
+}
+/* End of code by Pratap sahu on 25-11-2023 */
 /* Added by ROhan kansari - 22/6/23
    Reason - To design dropdown container  */
 

@@ -528,11 +528,15 @@ const Item = () => {
                   Available{" "}
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "ascending" && (
-                      <MdCancel className={style.sortingIcon} />
+                      //modified by Pratap sahu on 25-11-2023
+                      //<MdCancel className={style.sortingIcon} />
+                      <MdCancel className={style.sortingIconNA} />
                     )}
                   {columnToSort == "is_active" &&
                     columnSortingOrder == "descending" && (
-                      <MdCheckCircle className={style.sortingIcon} />
+                      //<MdCheckCircle className={style.sortingIcon} />
+                      <MdCheckCircle className={style.sortingIconA} />
+                      //End of code  by Pratap sahu on 25-11-2023
                     )}
                   {columnToSort != "is_active" && showSortingIcon && (
                     <MdCancel color="grey" className={style.sortingIcon} />
@@ -561,11 +565,15 @@ const Item = () => {
                   Reason - to sort data with best seller */}
                   {columnToSort == "best_seller" &&
                     columnSortingOrder == "ascending" && (
-                      <MdCancel className={style.sortingIcon} />
+                      //modified by Pratap sahu on 25-11-2023
+                      //<MdCancel className={style.sortingIcon} />
+                      <MdCancel className={style.sortingIconNA} />
                     )}
                   {columnToSort == "best_seller" &&
                     columnSortingOrder == "descending" && (
-                      <MdCheckCircle className={style.sortingIcon} />
+                      //<MdCheckCircle className={style.sortingIcon} />
+                      <MdCheckCircle className={style.sortingIconA} />
+                      //End of code by Pratap sahu on 25-11-2023
                     )}
                   {columnToSort != "best_seller" && showSortingIcon && (
                     <MdCancel color="grey" className={style.sortingIcon} />

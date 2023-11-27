@@ -32,7 +32,6 @@
   min-height: auto;
   background-color: transparent;
   margin: auto 10px;
-  padding: 10px;
   border-radius: 10px;
   border: 2px solid #9c9c9c;
   /* background-color: #e7f1f1; */
@@ -40,11 +39,11 @@
   width: fit-content;
   margin: auto auto;
   margin-bottom: 20px;
-  padding: 20px 80px;
+  padding: 20px 40px;
 }
 
 .sectionInsideForm {
-  margin-top: 30px;
+  margin-top: 10px;
   background-color: #e6f0f0;
   padding: 10px;
   border-radius: 5px;
@@ -76,12 +75,14 @@ Reason: correction on Input Box Styling */
    width: 430px;
   margin-top: 5px;
   background-color: white;
-  min-height: 170px;
-  max-height: 170px;
+  min-height: 225px;
+  max-height: 225px;
    resize: vertical;
+   /* Modified by Pratap sahu on 25-11-2023 To remove scroller */
   /* border-radius: 10px; */
+  /* overflow: scroll;  */
   overflow: hidden; 
-
+/* End of code by Pratap sahu on 25-11-2023 */
   /* border: 1px solid rgb(105, 104, 104); */
 
 }
@@ -99,7 +100,7 @@ Reason:to increase the area of input box */
   resize: vertical; */
 
   width: 430px;
-  height: 170px;
+  height: 225px;
   /* border: 1px solid white; */
   /* margin-top: 5px; */
   /* Commmneted border radius by Pratap sahu on 10-11-2023 Reason: because of scroller,rigth edge was cutting */
@@ -107,12 +108,12 @@ Reason:to increase the area of input box */
   padding: 2px;
   background-color: white;
   /* Added by Pratap sahu on 08-11-2023*/
-  max-height: 170px;
+  max-height: 225px;
   resize: vertical;
-  overflow-y: auto;
+  overflow-y: hidden;
   border: 1px solid black;
   border-radius: 2px;
-  padding-left: 4px;
+  padding: 4px 4px;
   /* End of code Pratap sahu on 08-11-2023 */
 /* End of Modification By Pratap sahu on 11-09-2023
 Reason:to increase the area of input box */
@@ -127,7 +128,7 @@ Reason:to increase the area of input box */
 .actionContainer {
   display: flex;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 5px;
   justify-content: center;
 }
 
@@ -212,7 +213,7 @@ Reason:to increase the area of input box */
 }
 
 @media screen and (max-width: 1120px) {
-  .container {
+  /* .container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
@@ -220,10 +221,37 @@ Reason:to increase the area of input box */
   .footerSection {
     padding: 20px 40px;
     width: fit-content;
-  }
-}
+  } */
 
-@media screen and (max-width: 900px) {
+  /* Added by Pratap sahu on 25-11-2023 */
+  .footerSection {
+    padding: 10px 10px;
+    width: 80%;
+  }
+  .inputLabel {
+    /* width Modified by Pratap sahu on 09-11-2023 */
+    /* width: 300px; */
+    /* modified & added by Pratap sahu on 21-11-2023  */
+    width: 65px;
+    align-self: center;
+  }
+  .textInputBox{
+    width: 100%;
+    padding-left: 4px;
+  }
+  .outer{
+    width: 100%;
+  }
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: -4px;
+    margin-bottom: 3px;
+  }
+  /* End of code by pratap sahu on 25-11-2023 */
+}
+/* Commented by Pratap sahu 25-11-2023 */
+/* @media screen and (max-width: 900px) {
   .container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
@@ -235,14 +263,14 @@ Reason:to increase the area of input box */
   .inputLabel {
     /* width Modified by Pratap sahu on 09-11-2023 */
     /* width: 250px; */
-    width: 65px;
+    /* width: 65px;
     align-self: center;
   }
   .textInputBox {
     width: 200px;
-  }
+  } */
   /*  */
-  .outer{
+  /* .outer{
     width: 200px;
   }
   .inputErrorArea {
@@ -251,9 +279,9 @@ Reason:to increase the area of input box */
   }
   .footerSection {
     padding: 20px 20px;
-  }
+  } */
   /* Added by pratap sahu on 09-11-2023 */
-  .proceedButton,
+  /* .proceedButton,
   .clearButton{
     width: 25%;
   }
@@ -264,27 +292,27 @@ Reason:to increase the area of input box */
   .backButton:hover {
     cursor: pointer;
     background-color: #62686c;
-  }
+  } */
   /* end of code by pratap sahu on 09-11-2023 */
-}
+/* } */
 
-@media screen and (max-width: 770px) {
+/* @media screen and (max-width: 770px) {
   .container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
     --common-column-display: unset;
     /* min-height: 82vh; */
-    margin-bottom: 11vh;
+    /* margin-bottom: 11vh;
   }
   .footerSection {
-    padding: 20px 20px;
+    padding: 20px 20px; */
     /* margin-bottom: 11vh; */
-  }
+  /* }
   .inputLabel {
   /* width Modified by Pratap sahu on 09-11-2023 */
     /* width: 300px; */
     /* width: 150px; */
-    width: 65px;
+    /* width: 65px;
     align-self: center;
   }
   .textInputBox {
@@ -293,9 +321,9 @@ Reason:to increase the area of input box */
   .inputErrorArea {
     margin-left: 300px;
     width: 200px;
-  }
-}
-
+  /* } */
+/* }  */
+/* End of code by Pratap sahu on 25-11-2023 */
 /* added by suman sahu on 17/06/2023 
    reason - adjust page according to sidebar, header and footer in the responsive*/
 @media screen and (max-width: 768px) {
@@ -322,11 +350,17 @@ Reason:to increase the area of input box */
      border-radius: 5px;
      box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
    }
+   .inputLabel {
+    /* width Modified by Pratap sahu on 09-11-2023 */
+    width: 250px;
+    width: 65px;
+    align-self: center;
+  }
    /* end of code by pratap sahu on 09-11-2023 */
 }
 /* end of code by - suman sahu on 17/06/2023 */
 
-@media screen and (max-width: 720px) {
+/* @media screen and (max-width: 720px) {
   .container {
     --common-column-width: 15%;
     --common-column-min-width: 15%;
@@ -336,11 +370,11 @@ Reason:to increase the area of input box */
   .footerSection {
     margin-bottom: 20px;
   }
-  .inputLabel {
+  .inputLabel { */
     /* width Modified by Pratap sahu on 09-11-2023 */
       /* width: 250px; */
       /* width: 150px; */
-      width: 65px;
+      /* width: 65px;
       align-self: center;
   }
   .textInputBox {
@@ -351,15 +385,15 @@ Reason:to increase the area of input box */
     width: 200px;
   }
    /* Added by pratap sahu on 09-11-2023 */
-    .sectionInsideForm {
+    /* .sectionInsideForm {
      margin-top: 5%;
      background-color: #e6f0f0;
      padding: 10px;
      border-radius: 5px;
      box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
-   }
+   } */
    /* end of code by pratap sahu on 09-11-2023 */
-}
+/* } */
 
 @media screen and (max-width: 610px) {
   .container {

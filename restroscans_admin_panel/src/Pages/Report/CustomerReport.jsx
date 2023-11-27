@@ -74,19 +74,24 @@ const CustomerReport = () => {
         delete Object.assign(e, { "Total Orders": e["numberOfOrders"] })[
           "numberOfOrders"
         ];
+        // Added by Pratap sahu on 23-11-2023
+        delete Object.assign(e, { "Pending Orders": e["pendingOrders"] })[
+          "pendingOrders"
+        ];
+        // End of code by Pratap sahu on 23-11-2023        
+        delete Object.assign(e, { "Cancelled Order": e["cancelledOrder"] })[
+          "cancelledOrder"
+        ];
+        delete Object.assign(e, { "Completed Order": e["completedOrder"] })[
+          "completedOrder"
+        ];
         delete Object.assign(e, { "Total Amount": e["totalAmount"] })[
           "totalAmount"
         ];
         delete Object.assign(e, { "Loyalty Points ": e["loyality_points"] })[
           "loyality_points"
         ];
-        delete Object.assign(e, { "Completed Order": e["completedOrder"] })[
-          "completedOrder"
-        ];
-        delete Object.assign(e, { "Cancelled Order": e["cancelledOrder"] })[
-          "cancelledOrder"
-        ];
-
+        
         return e;
       });
       if (filteredData.length) {
