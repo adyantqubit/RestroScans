@@ -1,0 +1,324 @@
+ 
+/**
+* Added by - Ashish Dewangan on 01-06-2023
+* Reason - Create to have styling details of setting page
+*/
+@import "../../../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+  width: 100%;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* height: 90vh; 
+     overflow: auto;*/
+  height: 86.5vh;
+  overflow: scroll;
+  /* end of code by - suman sahu on 17/06/2023 */
+  background-color: var(--primary-soft);
+}
+
+.pageTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto 10px;
+  margin-top:10px;
+}
+
+.pageTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.settingSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top:10px;
+}
+
+.tableContainer {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.tableHeadingContainer {
+  background-color: var(--surface-color);
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--surface-color);
+  font-family: var(--font-family);
+  padding: 5px 10px;
+}
+
+.tableDataContainer {
+  min-height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--surface-color);
+  padding: 5px 10px;
+}
+.tableData {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.commonColumnTitle {
+  width: var(--common-column-width);
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--label-font-size);
+  text-align: center;
+  /* color: var(--label-color); */
+
+}
+
+.commonColumnData {
+  width: var(--common-column-width);
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--label-font-size);
+  text-align: center;
+}
+
+.primaryButton {
+  background-color: var(--success-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+  width:fit-content;
+
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--success-color);
+}
+
+.secondaryButton {
+  background-color: red;
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  background-color: rgb(202, 19, 19);
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yesIcon {
+  color: green;
+  width: 20px;
+  height: 20px;
+}
+
+.noIcon {
+  color: red;
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (max-width: 4000px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+}
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .container {
+    height: 80vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
+
+@media screen and (max-width: 720px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+}
+
+/* erp-skin */
+.pageTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-color);
+}
+.pageTitleContainer, .titleContainer {
+  justify-content: flex-start;
+  margin: 16px 20px 8px;
+}
+.textInputBox, .textInputBox2 {
+  height: 36px;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+.textInputBox:focus, .textInputBox2:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 175, 190, 0.16);
+}
+.proceedButton, .primaryButton {
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 96px;
+  box-shadow: none;
+}
+.backButton, .cancelButton {
+  background: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 88px;
+}
+.secondaryButton {
+  background: #fff;
+  color: var(--error-color);
+  border: 1px solid #f0c2c2;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+.sectionInsideForm {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+.tableData {
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+.commonColumnTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+.inputErrorArea {
+  color: var(--error-color);
+  font-size: 12px;
+}
+
+.menuListSection, .categoryListSection, .orderListSection, .ratingListSection {
+  width: auto;
+  max-width: none;
+  margin: 0 20px 24px;
+}
+.menuSection, .categorySection, .settingSection, .footerSection {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  padding: 24px 28px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-sizing: border-box;
+}
+.container {
+  background: var(--surface-color);
+}

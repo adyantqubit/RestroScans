@@ -694,26 +694,26 @@
                                         {% for newly_placed_orders in todaysOrders.todays_newly_placed_orders %}
                                             <tr>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">View Order</a>  
+                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{newly_placed_orders.id}}/change/">View Order</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/orderitem/?order_id__id__exact={{newly_placed_orders.id}}">View Order Items</a>  
+                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/orderitem/?order_id__id__exact={{newly_placed_orders.id}}">View Order Items</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{newly_placed_orders.order_id }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{newly_placed_orders.order_id }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{newly_placed_orders.table_number }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{newly_placed_orders.table_number }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.order_status }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.order_status }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.payment_status }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.payment_status }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
                                                     {% load tz %}
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.date }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{newly_placed_orders.id}}/change/">{{ newly_placed_orders.date }}</a> 
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -795,25 +795,25 @@
                                         {% for pending_orders in todaysOrders.todays_pending_orders %}
                                             <tr>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">View Order</a>  
+                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{pending_orders.id}}/change/">View Order</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/orderitem/?order_id__id__exact={{pending_orders.id}}">View Order Items</a>  
+                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/orderitem/?order_id__id__exact={{pending_orders.id}}">View Order Items</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{pending_orders.order_id }}</a>  
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{pending_orders.id}}/change/">{{pending_orders.order_id }}</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{pending_orders.table_number }}</a>  
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{pending_orders.id}}/change/">{{pending_orders.table_number }}</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.order_status }}</a>  
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.order_status }}</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.payment_status }}</a>  
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.payment_status }}</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.date  }}</a>  
+                                                    <a href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{pending_orders.id}}/change/">{{ pending_orders.date  }}</a>  
                                                 </td>
                                                 <!-- Added by Om on 04-05-23
                                                 Reason : Show the KOT bill  -->
@@ -906,25 +906,25 @@
                                         {% for completed_orders in todaysOrders.todays_completed_orders %}
                                             <tr>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/">View Order</a>  
+                                                    <a style="color:white;" class="linkButtonGreen" href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{completed_orders.id}}/change/">View Order</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/orderitem/?order_id__id__exact={{completed_orders.id}}">View Order Items</a>  
+                                                    <a style="color:white;" class="linkButtonBlue" href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/orderitem/?order_id__id__exact={{completed_orders.id}}">View Order Items</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{completed_orders.order_id }}</a>  
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{completed_orders.id}}/change/"> {{completed_orders.order_id }}</a>  
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{completed_orders.table_number }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{completed_orders.id}}/change/"> {{completed_orders.table_number }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/">  {{ completed_orders.order_status }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{completed_orders.id}}/change/">  {{ completed_orders.order_status }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.payment_status }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.payment_status }}</a> 
                                                 </td>
                                                 <td class="fw-bolder text-gray-500">
-                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.date }}</a> 
+                                                    <a  href="{{todaysOrders.http_method}}{{request.get_host}}/django-admin/tenant_app/order/{{completed_orders.id}}/change/"> {{ completed_orders.date }}</a> 
                                                 </td>
                                                 <!-- Added by Om on 04-05-23
                                                 Reason : Generate the bill for the user and KOT -->

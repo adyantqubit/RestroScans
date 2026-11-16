@@ -1,0 +1,433 @@
+
+
+.popupContainer{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    /* top: 100%; */
+    bottom: 20px;
+    z-index: 999;
+    /* transform: translateY(90%); */
+    transition: all 1s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+}
+
+
+
+.fade{
+     top: 0%;
+    /* display: block;
+    transition: all .5s linear;
+    -webkit-animation: fade .3s;
+    animation: fade .3s; */
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+        transform: scale(0)
+   }
+
+   100% {
+        opacity: 1;
+        transform: scale(1)
+   }
+}
+
+.closeContainer{
+    width: 80%;
+    height: 10%;
+    margin:0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.InformationBox{
+    width: 100%;
+    height: 60%;
+    margin: 0 auto;
+}
+
+.heading{
+    width:100%;
+    height: auto;
+    /* background-color: black; */
+    padding: 15px 0;
+    font-size: var(--font-size-md);
+    text-align: center;
+    font-family: var(--font-family);
+    letter-spacing: 1.2px;
+}
+
+.detailContainer{
+    /* height: 70%; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: auto;
+    margin-top: 30px;
+}
+
+.fullSelectionBtn{
+    width: 80px;
+    min-height: 30px;
+    font-size: var(--font-size-md);
+    padding: 5px 0;
+    letter-spacing: 1.5px;
+    font-family: var(--font-family);
+    border-radius: var(--radius-sm);
+    border: none;
+
+    box-shadow: 0 0 5px var(--text-color);
+}
+
+.halfSelectionBtn{
+    width: 48%;
+    font-size: var(--font-size-sm);
+    padding: 5px 0;
+    letter-spacing: 1.3px;
+    font-family: var(--font-family);
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+}
+
+.productImg{
+    min-width: 100%;
+    width: 95%;
+    height: 80%;
+    border-radius: var(--radius-md);
+    margin: 0 5px;
+    box-shadow: 0 0 2px var(--text-color);
+}
+
+.title{
+    width: 78%;
+    font-size: var(--font-size-md);
+    /* letter-spacing: 1px; */
+    padding: 10px 8px;
+    font-weight: 100 !important;
+    font-family: var(--font-family);
+}
+
+.titleContainer{
+    width: 98%;
+    display: flex;
+}
+
+.quantityContainer{
+    margin: 5px 0;
+    background-color: var(--surface-color);
+    overflow: hidden;
+}
+
+.sign{
+    /* Added by - Rohan kansari - 30/4/23
+       Reason - To align minus plus sign properly */
+    align-self: center;
+    min-width: 10px;
+    /* min-height: 15px; */
+    height: 2px;
+    background-color: var(--text-color);
+    margin: 0 10px;
+    border-radius: var(--radius-sm);
+    /* text-align: center; */
+    padding: 0px 0px;
+    /* font-size: 20px; */
+    font-weight: 600;
+}
+
+
+/* cart page css */
+
+.cartContainer{
+    /* background-color: aqua; */
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* row-gap: 15px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+}
+
+.card{
+    position: relative;
+    width:auto;
+    height: auto;
+    overflow: auto;
+    display: flex;
+    gap:10px;
+    margin: 5px 10px;
+    padding: 5px 5px;
+    box-shadow: 0px 0px 5px var(--text-color);
+    border-radius: var(--radius-md);
+    /* background-color: black; */
+}
+
+.cartTitle{
+    font-size: var(--font-size-lg);
+    font-family: var(--font-family);
+    letter-spacing: 1.7px;
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    padding: 5px 0;
+}
+
+.imgContainer{
+    width: 22%;
+    height: fit-content;
+    padding-top:1%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.img{
+    width: 70px;
+    height:70px;
+    height: fit-content;
+    /* Added by Rohan kansari - 6/7/23 
+       Reason - to change position little bit to right  */
+    position: relative;
+    right: -5px;
+    /* End of code - Rohan kansari - 6/7/23 - to change position little bit to right */
+
+}
+
+
+.type_img{
+    width: 15px;
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    /* border-radius: 10px; */
+}
+.infomation{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+
+.title{
+    width: 90%;
+    font-size: var(--font-size-sm);
+    /* margin-top: 5px; */
+    /* letter-spacing: 1px; */
+    font-family: var(--font-family);
+    padding: 0px 5px;
+    font-weight: 100 !important;    display: flex;
+    justify-content: space-between;
+}
+
+.delete{
+    width: 30px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    color: red;
+}
+
+.label{
+    font-size: var(--font-size-xs);
+    letter-spacing: 1.5px;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+}
+
+.price{
+    /* margin-top: 5px; */
+    padding: 0px 5px;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: var(--font-size-sm);
+    /* letter-spacing: 1.5px; */
+    font-family: var(--font-family);
+    font-weight: 100 !important;}
+
+.quantityContainer{
+    background-color: var(--surface-color);
+    overflow: hidden;
+    display: flex;
+}
+
+.sign{
+
+    /* Added by - Rohan kansari - 30/4/23
+       Reason - To align minus plus sign properly */
+    align-self: center;
+    min-width: 10px;
+    /* min-height: 15px; */
+    height: 1px;
+    background-color: var(--text-color);
+    margin: 0 10px;
+    border-radius: var(--radius-sm);
+    /* text-align: center; */
+    padding: 0px 0px;
+    /* font-size: 20px; */
+    font-weight: 600;
+}
+
+.signPlus{
+    min-width: 20px;
+    /* min-height: 15px; */
+    background-color: transparent;
+    margin: 0 3px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    padding: 0px 0px;
+    font-size: var(--font-size-lg);
+    font-weight:bolder;
+}
+
+.quantityText{
+    padding: 5px 0;
+    font-weight: 300;
+}
+
+
+
+
+.row1{
+    /* margin-top: 5px; */
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1.5px;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+
+}
+
+.row2{
+    /* margin-top: 5px; */
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1.5px;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+
+}
+
+.serve_size{
+    padding: 0px 5px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-sm);
+    /* letter-spacing: 1.5px; */
+    font-family: var(--font-family);
+    font-weight: 100;
+}
+
+
+.removeContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--surface-color);
+    opacity: 0.9;
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 10;
+    top:0;
+    left:0;
+}
+
+.warningText{
+    font-size: var(--font-size-md);
+    letter-spacing: 1.4px;
+    text-align: center;
+    color: var(--text-color);
+    opacity: 1;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1.5px;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    /* margin: auto; */
+}
+
+.deleteBtnContainer{
+    margin-top: 10px;
+    width: 95%;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    opacity: 1;
+}
+
+.btn{
+    opacity: 1;
+    width: 65px;
+    padding: 0 4px;
+    height: 30px;
+    font-size: var(--font-size-sm);
+    color: var(--on-color);
+    letter-spacing: 1.5px;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--text-color);
+    margin-right:3px;
+    border: none;
+    border-radius: var(--radius-sm);
+}
+
+.halfWarning{
+    font-size: var(--font-size-md);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    letter-spacing: 1.7px;
+    margin-top: 10px;
+}
+
+/* Added by Rohan kansari -  6/7/23
+   Reason - To design ribbon for best seller  */
+.ribbon {
+    width: 15px;
+    height: 70px;
+    background-color: greenyellow;
+    font-size: 11px;
+    color: var(--text-color);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: var(--text-color);
+    padding-left: 0px;
+    position: absolute;
+    /* Added by Rohan Kansari - 7/7/23
+       Reason - To give top margin in absolute ribbon  */
+    top:9px;
+    /*  End of code - Rohan kansari - 7/7/23 */
+    left: -2px;
+    z-index: 2;
+    letter-spacing: .8px;
+    margin-right: 2px;
+    text-align: center;
+    writing-mode: vertical-rl;
+    text-orientation:sideways;
+    font-weight:500;
+    transform: rotateY(0deg) rotate(180deg);
+}
+
+/* End of code - Rohan kansari - 6/7/23 - To design ribbon for best seller */

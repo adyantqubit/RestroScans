@@ -1,0 +1,765 @@
+/**
+* Added by -Pratap sahu on 26-08-23
+* Reason - styling for Customer Reort details page
+*/
+@import "../../../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.dataText {
+  font-weight: var(--font-weight-regular) !important;
+}
+.commonColumnData{
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-xs) !important;
+  text-align: center;
+
+}
+
+/**
+* Added by -Pratap sahu on 23-09-23
+* Reason - styling for Customer Reort container page
+*/
+.reportContainer{
+  overflow: auto;
+  max-height: 80.5vh;
+}/**
+* End of Added by -Pratap sahu on 23-09-23
+* Reason - styling for Customer Reort container page
+*/
+
+.buttonSearchContainer {
+  /*Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+  /* margin-top: 2%; */
+  margin-top: 1%;
+  /* width: 95%; */
+  width: 75%;  
+/*End Of Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.BtnContainer {
+  padding: 5px;
+}
+.BtnContainer:hover {
+  cursor: pointer;
+  /* background-color: var(--success-color); */
+}
+
+.searchBox{
+  /*Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+  /* width:80%; */
+  width:50%;
+  /*End of Modification by- Pratap Sahu on 13/09/23 - To Change the search and button width */
+
+}
+.PrintBtn {
+  min-width: 70px;
+  height: 30px;
+  padding: 4px 8px;
+  margin: 0 20px;
+  background-color: rgb(88, 146, 88);
+  border-radius: var(--radius-sm);
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: var(--font-size-sm);
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin: auto 0;
+}
+
+.tableHeading {
+  background-color: var(--surface-color);
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  /* gap: 2%; */
+  border-bottom: 1px solid var(--surface-color);
+  font-family: var(--font-family);
+}
+.printBtn {
+  border-radius: var(--radius-md);
+  min-width: 40px;
+  min-height: 20px;
+  padding: 2px 10px;
+  color: var(--primary-bg-color);
+  background-color: var(--surface-color);
+  font-family: var(--font-faimly);
+  color: black;
+  letter-spacing: 1.5px;
+  text-decoration: underline;
+}
+
+
+.SortIcon {
+  font-size: var(--font-size-lg);
+  margin-right: 10px;
+}
+
+@media screen and (max-width:720px) {
+
+  .tableHeading {
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .row {
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width:610px) {
+
+  .tableHeading {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .row {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .popupItemContainer {
+    width: 200px;
+  }
+
+  .buttonSelectConatiner {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width:400px) {
+  .parentSelectContainer {
+    width: 30%;
+    margin: 0 auto;
+  }
+
+  .quickSelectConatiner {
+    width: 80%;
+  }
+
+  .buttonSelectConatiner {
+    justify-content: center;
+  }
+}
+.container {
+  width: 100%;
+  overflow: scroll;
+  height: 86.5vh;
+  background-color: var(--background-color);
+}
+
+.pageTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto 10px;
+  margin-top: 10px;
+}
+
+.pageTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orderListSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  /* width: fit-content; */
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+}
+/* 0000000000000000000000000000000000000000000000000000000000000 */
+.tableContainer {
+/*Modification by- Pratap Sahu on 13/09/23 - To Change container Area */
+/* min-width: 100%; */
+  min-width: 50%;
+/*End of Modification by- Pratap Sahu on 13/09/23 - To Change container Area */
+  width: max-content;
+  padding: 4px;
+  background-color: var(--surface-color);
+  /* Added */
+  margin: auto;
+}
+
+.tableHeadingContainer {
+  background-color: var(--background-color);
+  height: auto;
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-family);
+  padding: 3px;
+}
+
+.tableDataContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--surface-color);
+  padding: 3px;
+}
+
+.tableData {
+  /* background-color: white; */
+  display: flex;
+  width: 100%;
+  align-items: center;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+}
+.smallColumnWidth {
+  /* width: var(--common-column-small-width) ; */
+  min-width: var(--common-column-small-min-width);
+}
+
+.mediumColoumnWidth {
+  width: var(--common-column-medium-width);
+  min-width: var(--common-column-medium-min-width);
+}
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.primaryButton {
+  background-color: var(--success-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+  width: fit-content;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--success-color);
+}
+
+.secondaryButton {
+  background-color: red;
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  background-color: rgb(202, 19, 19);
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yesIcon {
+  color: green;
+  width: 20px;
+  height: 20px;
+}
+
+.noIcon {
+  color: red;
+  width: 20px;
+  height: 20px;
+}
+
+.sortingIcon {
+  font-size: var(--font-size-lg);
+  width: 20px;
+  height: 20px;
+}
+
+/* Added by Pratap Sahu on 28/08/23
+   Reason - To design dropdown container  */
+
+/*Adding pagination content into flex for responsive manage  */
+.paginationContent {
+  display: flex;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+  background-color: var(--background-color);
+  color: black;
+  padding: 0 10px;
+  display: flex;
+  border-radius: var(--radius-sm);
+  border: 1px solid grey;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown_content {
+  display: none;
+  position: absolute;
+  bottom: 25px;
+  font-size: var(--font-size-sm);
+  background-color: var(--surface-color);
+  min-width: max-content;
+  width: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* Links inside the dropdown */
+.dropdown_content span {
+  color: black;
+  padding: 4px 6px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown_content span:hover {
+  background-color: var(--surface-color)
+}
+.open {
+  display: block;
+}
+.dropdown:hover .dropbtn {
+  background-color: var(--surface-color);
+}
+
+/* ===================================================== */
+
+/* Added by Prtap sahu on 28/08/23
+   Reason - To set column width*/
+
+.sNoColumn {
+  min-width: 40px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  justify-content: center;
+
+}
+
+.nameCol {
+  min-width: 130px;
+  max-width: 130px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  word-break: break-all;
+}
+
+.numberColumn{
+  /* Width modified by pratap sahu on 22-11-2023 
+  Reason: to maintain horizontal scrolling after addition of pending order column */
+  /* min-width: 130px; */
+  min-width: 110px;
+  /* End of code by pratap sahu on 22-11-2023 */  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+.emailColumn{
+  min-width: 150px;
+  max-width: 150px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  word-break: break-all;
+}
+
+.NoOfOrdersColumn{
+  min-width: 110px;
+  max-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+.totalColumn{
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+.cancelCol{
+  /* Width modified by pratap sahu on 22-11-2023 
+  Reason: to maintain horizontal scrolling after addition of pending order column */
+  /* min-width: 130px; */
+  min-width: 120px;
+  /* End of code by pratap sahu on 22-11-2023 */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+.compCol{
+  /* Width modified by pratap sahu on 22-11-2023 
+  Reason: to maintain horizontal scrolling after addition of pending order column */
+  /* min-width: 130px; */
+  min-width: 120px;
+  /* End of code by pratap sahu on 22-11-2023 */  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+.pointCol{
+  /* min-width: 60px; */
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+/* End of addition by Pratap sahu 26/8/23
+   Reason - To set column width*/
+
+@media screen and (max-width: 4000px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+
+    --common-column-medium-width: 20%;
+    --common-column-medium-min-width: 80px;
+
+    --common-column-large-width: 12%;
+    --common-column-large-min-width: 120px;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 30px;
+    --common-column-small-color: "red";
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .orderListSection {
+    /* Modified by Rohan kansari - 21/8/23*/
+    height: auto;
+  }
+
+  .paginationContent {
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    /* Commented by pratap sahu on 23-09-2023 For Responsive */
+    /* gap: 10px; */
+    /*End of Commented by pratap sahu on 23-09-2023 For Responsive */
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+
+  .calculationsContainer {
+    flex-wrap: wrap;
+  }
+
+  .WhiteLabel1 {
+    min-width: 110px;
+    font-weight: 500;
+    display: flex;
+  }
+
+  .closeIcon {
+    right: 3px;
+    top: -8px;
+  }
+
+  .orderItemHeader {
+    justify-content: flex-start;
+  }
+
+  .QtyNPriceHeadings {
+    min-width: 70px;
+  }
+
+  .quantityHeadingRes {
+    display: block;
+  }
+
+  .quantityHeading {
+    display: none;
+  }
+
+  .SnoHeading {
+    display: none;
+  }
+
+  .dataText {
+    font-size: var(--font-size-sm);
+    /* font-weight: 400 !important; */
+
+  }
+
+}
+
+@media screen and (max-width: 430px) {
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+
+  .commonColumnTitle {
+    flex-direction: column;
+  }
+}
+
+/* erp-skin */
+.pageTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-color);
+}
+.pageTitleContainer, .titleContainer {
+  justify-content: flex-start;
+  margin: 16px 20px 8px;
+}
+.textInputBox, .textInputBox2 {
+  height: 36px;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+.textInputBox:focus, .textInputBox2:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 175, 190, 0.16);
+}
+.proceedButton, .primaryButton {
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 96px;
+  box-shadow: none;
+}
+.backButton, .cancelButton {
+  background: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 88px;
+}
+.secondaryButton {
+  background: #fff;
+  color: var(--error-color);
+  border: 1px solid #f0c2c2;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+.sectionInsideForm {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+.tableData {
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+.commonColumnTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+.inputErrorArea {
+  color: var(--error-color);
+  font-size: 12px;
+}
+
+.menuListSection, .categoryListSection, .orderListSection, .ratingListSection {
+  width: auto;
+  max-width: none;
+  margin: 0 20px 24px;
+}
+.menuSection, .categorySection, .settingSection, .footerSection {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  padding: 24px 28px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-sizing: border-box;
+}
+.container {
+  background: var(--surface-color);
+}

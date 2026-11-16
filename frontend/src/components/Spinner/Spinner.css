@@ -1,0 +1,25 @@
+/* Added by Parineeta
+date : 20-05-2223
+Reason : for show loading css */
+
+.load-wrapp {
+    float: center;
+    padding: 20px 20px 20px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    margin-top: 30%;
+  }
+  .loading p {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    color: #003366;
+  }
+  .load-wrapp:last-child {
+    margin-right: 0;
+  }
+  .header_adyant_logo{
+    width: 50%;
+    height: 100%;
+  }
+  /* End of added code */
+  

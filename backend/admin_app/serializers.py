@@ -24,30 +24,45 @@ class TenantListSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 
+class PublicTenantSerializer(TenantListSerializer):
+    """The all-restaurants directory is public, so it leaves out internals (schema, plan, owner id)."""
+
+    class Meta:
+        model = Tenant
+        fields = (
+            'id', 'tenant_name', 'domain_url', 'restaurant_phone_number',
+            'restaurant', 'restaurant_logo', 'restaurant_background_image', 'restaurant_address',
+        )
+
+
 """
 Added by - Yuvraj Sahu on 15-2-2023
 Reason - To serialize User Registartion model's data
 """
 class RestaurantRequestSerializer(serializers.ModelSerializer):
+    """Self-registration: approval and partner flags are set by the platform admin only."""
+
+    password = serializers.CharField(write_only=True, min_length=8)
+    confirm_password = serializers.CharField(write_only=True, required=False, allow_null=True, allow_blank=True)
+
     class Meta:
         model=RestaurantRequest
         fields='__all__'
+        read_only_fields = ('is_active', 'is_partner', 'created_at', 'updated_at')
+
+    def validate_email(self, value):
+        return value.strip().lower()
+
+    def validate(self, attrs):
+        confirm = attrs.get('confirm_password') or self.initial_data.get('Confirm')
+        if confirm and confirm != attrs.get('password'):
+            raise serializers.ValidationError({'confirm_password': 'Password and Confirm Password should be same'})
+        attrs['confirm_password'] = attrs.get('password')
+        return attrs
 """
 End of code addition
 """ 
 
-
-"""
-Added by - Yuvraj Sahu on 18-2-2023
-Reason - To serialize Otp model's data
-"""
-class OtpSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Otp
-        fields=["email"]
-"""
-End of code addition
-"""
 
 """
 Added by - Suman Sahu on 08/04/2023
@@ -123,7 +138,7 @@ Reason - To serialize OurTopPatnersDetails models data
 class RestaurentPatnersSerializer(serializers.ModelSerializer):
     class Meta:
         model = RestaurantRequest
-        fields = "__all__"
+        exclude = ('password', 'confirm_password')
 
 
 """

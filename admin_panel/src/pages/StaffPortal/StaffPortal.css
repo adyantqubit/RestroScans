@@ -1,0 +1,600 @@
+.spRoot {
+    min-height: 100vh;
+    background: #f1f5f9;
+    color: #14253b;
+    padding: 32px 20px;
+    box-sizing: border-box;
+    font-family: inherit
+}
+
+.spContainer {
+    max-width: 1160px;
+    margin: 0 auto
+}
+
+.spHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px
+}
+
+.spEyebrow {
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: #078b91
+}
+
+.spHeader h1,
+.spLoginCard h1 {
+    font-size: 32px;
+    margin: 10px 0
+}
+
+.spHeader p,
+.spPanel p,
+.spLoginCard p {
+    color: #64748b
+}
+
+.spPanel {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px #102d4910
+}
+
+.spPanel h2 {
+    font-size: 21px;
+    margin: 0 0 16px
+}
+
+.spPanel h2:not(:first-child) {
+    margin-top: 28px
+}
+
+.spTabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 22px
+}
+
+.spTabs button {
+    background: #e2e8f0;
+    color: #183148
+}
+
+.spTabs button.selected {
+    background: #075b79;
+    color: #fff
+}
+
+.spRoot button:not(.spAdminReuse button) {
+    border: 0;
+    border-radius: 9px;
+    padding: 12px 18px;
+    background: #07868e;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.spRoot button:not(.spAdminReuse button):disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+.spRoot .spOutline {
+    background: white;
+    color: #19384b;
+    border: 1px solid #cbd5e1
+}
+
+.spRoot .spDanger {
+    background: #b42334
+}
+
+.spGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px
+}
+
+.spRoot label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700
+}
+
+.spRoot input:not(.spAdminReuse input),
+.spRoot select:not(.spAdminReuse select) {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: #fff;
+    box-sizing: border-box;
+    color: #19384b
+}
+
+.spActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.spStats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0
+}
+
+.spStats>div {
+    background: #f1f8f9;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px
+}
+
+.spStats small {
+    color: #64748b
+}
+
+.spStats strong {
+    font-size: 20px
+}
+
+.spScroll {
+    overflow-x: auto
+}
+
+.spScroll table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 620px
+}
+
+.spScroll th,
+.spScroll td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 13px
+}
+
+.spScroll th {
+    background: #edf4f8;
+    color: #234158
+}
+
+.spScroll .spActions button {
+    padding: 8px 12px
+}
+
+.spError,
+.spSuccess {
+    padding: 13px 16px;
+    border-radius: 10px;
+    margin-bottom: 15px
+}
+
+.spError {
+    background: #fff0f0;
+    color: #a1172d
+}
+
+.spSuccess {
+    background: #e7f7ee;
+    color: #166534
+}
+
+.spHint {
+    font-size: 13px;
+    margin-top: 15px
+}
+
+.spLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.spLoginCard {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    gap: 17px
+}
+
+.spLoginCard a {
+    text-align: center;
+    color: #075b79
+}
+
+.spLoginCard p {
+    margin: 0
+}
+
+@media(max-width:600px) {
+    .spRoot {
+        padding: 15px
+    }
+
+    .spPanel {
+        padding: 18px
+    }
+
+    .spHeader h1 {
+        font-size: 25px
+    }
+
+    .spStats {
+        grid-template-columns: 1fr
+    }
+}
+
+/* Admin-style staff sidebar: same dimensions, palette and active-link treatment. */
+.spRoot.spWorkspace {
+    display: flex;
+    min-height: 100vh;
+    padding: 0;
+    background: #f3f6fb;
+    align-items: stretch
+}
+
+.spWorkspace .spSidebar {
+    position: sticky;
+    top: 0;
+    flex: 0 0 270px;
+    width: 270px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #0b1220;
+    color: #f8fafc;
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 110
+}
+
+.spWorkspace .spBrand {
+    min-height: 56px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #273246;
+    box-sizing: border-box
+}
+
+.spWorkspace .spBrandLogo {
+    width: 39px;
+    height: 39px;
+    border-radius: 8px;
+    background: #fff;
+    color: #087f89;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+    flex-shrink: 0
+}
+
+.spWorkspace .spBrandText {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0
+}
+
+.spWorkspace .spBrandText strong {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.spWorkspace .spBrandText small {
+    font-size: 12px;
+    color: #93c5fd
+}
+
+.spWorkspace .spSidebarUser {
+    padding: 15px 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-bottom: 1px solid #1d2a3b
+}
+
+.spWorkspace .spSidebarUser strong {
+    font-size: 14px
+}
+
+.spWorkspace .spSidebarUser span {
+    font-size: 12px;
+    color: #a5b4c9
+}
+
+.spWorkspace .spSidebarLinks {
+    padding: 12px 12px 16px;
+    display: block;
+    flex: 1;
+    background: transparent
+}
+
+.spWorkspace .spNavGroup {
+    margin: 0 0 13px
+}
+
+.spWorkspace .spNavHeading {
+    padding: 9px 10px 7px;
+    color: #91a9cf;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px
+}
+
+.spRoot.spWorkspace .spNavLink {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #f1f5ff;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 42px
+}
+
+.spRoot.spWorkspace .spNavLink:hover {
+    background: #1c2e48
+}
+
+.spRoot.spWorkspace .spNavLinkActive {
+    background: #172f50;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: inset 3px 0 #2868d6
+}
+
+.spWorkspace .spNavIcon {
+    font-size: 17px;
+    flex-shrink: 0
+}
+
+.spRoot.spWorkspace .spSidebarLogout {
+    margin: 10px 12px 20px;
+    background: transparent;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left
+}
+
+.spRoot.spWorkspace .spSidebarLogout:hover {
+    background: #1c2e48
+}
+
+.spWorkspace .spWorkspaceContent {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    padding: 34px 46px;
+    box-sizing: border-box
+}
+
+.spWorkspace .spMobileBackdrop {
+    display: none
+}
+
+.spRoot.spWorkspace .spMobileMenu {
+    display: none
+}
+
+@media(max-width:800px) {
+    .spWorkspace .spSidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        transition: transform .2s ease
+    }
+
+    .spWorkspace .spSidebarOpen {
+        transform: translateX(0)
+    }
+
+    .spWorkspace .spWorkspaceContent {
+        padding: 22px 15px
+    }
+
+    .spRoot.spWorkspace .spMobileMenu {
+        display: inline-flex;
+        margin-bottom: 12px
+    }
+
+    .spWorkspace:has(.spSidebarOpen) .spMobileBackdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: #0008;
+        z-index: 105
+    }
+}
+
+/* Original admin components retain their own scoped styles. */
+.spAdminReuse {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto
+}
+
+.spAdminReuse .spPanel {
+    margin: 0
+}
+
+/* Operational pages: match the original restaurant admin shell, not staff cards. */
+.spRoot.spWorkspace {
+    background: #f3f6fb
+}
+
+.spWorkspace .spWorkspaceContent.spOperationalContent {
+    padding: 0 16px 32px;
+    max-width: none;
+    margin: 0
+}
+
+.spWorkspace .spOperationalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    padding: 8px 18px;
+    margin: 0 -16px 16px;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    box-sizing: border-box
+}
+
+.spOperationalHeader strong {
+    display: block;
+    font-size: 15px;
+    color: #0b1930;
+    font-weight: 700
+}
+
+.spOperationalHeader small {
+    display: block;
+    color: #65758c;
+    font-size: 13px;
+    margin-top: 3px
+}
+
+.spRoot.spWorkspace .spOperationalHeader .spOutline {
+    background: #fff;
+    border: 1px solid #f3c7c7;
+    color: #c72119;
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600
+}
+
+.spWorkspace .spAdminReuse {
+    overflow: visible;
+    width: 100%;
+    min-width: 0
+}
+
+.spWorkspace .spAdminReuse table {
+    width: 100%
+}
+
+.spWorkspace .spAdminReuse button {
+    white-space: nowrap
+}
+
+.spWorkspace .spAdminReuse select,
+.spWorkspace .spAdminReuse input {
+    max-width: 100%
+}
+
+.spWorkspace .spAdminReuse .table-responsive {
+    overflow-x: auto
+}
+
+@media(max-width:800px) {
+    .spWorkspace .spWorkspaceContent.spOperationalContent {
+        padding: 0 10px 24px
+    }
+
+    .spWorkspace .spOperationalHeader {
+        margin: 0 -10px 12px;
+        padding: 10px
+    }
+
+    .spWorkspace .spAdminReuse {
+        overflow-x: auto
+    }
+}
+
+
+/* Match staff operational table headers with admin panel */
+.staff-portal .table-responsive table thead,
+.staff-portal .table-responsive table thead tr,
+.staff-portal .table-responsive table thead th {
+    background-color: #101827 !important;
+    color: #ffffff !important;
+}
+
+.staff-portal .table-responsive table thead th {
+    padding: 18px 12px !important;
+    border-color: #101827 !important;
+    font-size: 12px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.staff-portal .table-responsive table thead th *,
+.staff-portal .table-responsive table thead th svg {
+    color: #ffffff !important;
+}
+
+
+/* Admin-style dark table headers in Staff Portal */
+body:has(.staff-portal) table thead,
+body:has(.staff-portal) table thead tr,
+body:has(.staff-portal) table thead th,
+body:has(.staff-portal) table thead td {
+    background: #101827 !important;
+    background-color: #101827 !important;
+    color: #ffffff !important;
+    border-color: #101827 !important;
+}
+
+body:has(.staff-portal) table thead th,
+body:has(.staff-portal) table thead td {
+    padding: 16px 12px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    vertical-align: middle !important;
+}
+
+body:has(.staff-portal) table thead *,
+body:has(.staff-portal) table thead svg {
+    color: #ffffff !important;
+}
+@media(max-width:640px){.spRoot{padding:12px 8px 24px;min-width:0}.spContainer{width:100%;min-width:0}.spPanel{padding:14px 12px;border-radius:12px;margin-bottom:12px}.spPanel h2{font-size:18px}.spGrid{grid-template-columns:minmax(0,1fr);gap:12px}.spActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.spActions button{min-height:48px;padding:10px!important;white-space:normal}.spStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.spScroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.spScroll table{min-width:540px}.spRoot input,.spRoot select{font-size:16px!important;min-height:44px}.spSharedContent{min-width:0;max-width:100%;overflow-x:hidden}.spAdminReuse{min-width:0;max-width:100%;overflow-x:auto}}
+
+/* Staff mobile Orders: remove desktop filter-panel min heights. */
+@media(max-width:767px) {
+  .spAdminReuse { overflow-x:hidden!important; }
+  .spAdminReuse :is(input[type="search"], input[type="text"], select) { max-width:100%; box-sizing:border-box; }
+  .spAdminReuse .custom-list-controls-toolbar { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:10px!important; align-items:start!important; align-content:start!important; min-height:0!important; height:auto!important; margin:0 0 12px!important; padding:0!important; }
+  .spAdminReuse .custom-list-controls-field { display:flex!important; flex-direction:column!important; gap:5px!important; width:100%!important; min-width:0!important; min-height:0!important; height:auto!important; margin:0!important; padding:0!important; }
+  .spAdminReuse .custom-list-controls-field input,.spAdminReuse .custom-list-controls-field select { width:100%!important; min-height:42px!important; height:42px!important; margin:0!important; }
+  .spAdminReuse :is(.searchFilterContainer,.searchFilterWrapper,.filterContainer) { min-height:0!important; height:auto!important; align-content:start!important; }
+}
+
+.spKitchenAlert{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#fff7ed;border:1px solid #fdba74;color:#9a3412;padding:12px 14px;border-radius:12px;margin-bottom:12px}
+.spKitchenAlert span{flex:1;min-width:160px;font-size:13px}.spKitchenAlert button{background:#9a3412;color:white;border:0;border-radius:8px;padding:9px 12px;cursor:pointer}
+@media(max-width:600px){.spKitchenAlert{align-items:flex-start}.spKitchenAlert button{min-height:42px}}

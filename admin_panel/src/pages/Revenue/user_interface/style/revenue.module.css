@@ -1,0 +1,209 @@
+.Container {
+
+  /* commented and modified by suman on 09/06/2023 */
+  /* width: 95%;*/
+  width: 100%;
+  /* end of modification on 09/06/2023 */
+
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* height: 90vh; */
+  height: 86.5vh;
+  /* end of code by - suman sahu on 17/06/2023 */
+  text-align: center;
+  overflow: scroll;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+.heading {
+  text-align: center;
+  margin-bottom: 1%;
+  font-size: 29px;
+  vertical-align: baseline;
+  line-height: 30px;
+  letter-spacing: normal;
+  word-spacing: 0px;
+  font-weight: 550;
+  margin-top: 1.5rem;
+}
+.Restaurant_dashboard_section {
+  display: flex;
+  width: 55%;
+  margin: auto;
+}
+.dashboard_container {
+  margin: auto;
+  padding: 2rem;
+}
+.dashboard_upper_div1,
+.dashboard_upper_div2,
+.dashboard_upper_div3 {
+  width: 150px;
+  height: 75px;
+  border-radius: 75px 75px 0 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  align-items: center;
+  color: var(--on-color);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold) !important;
+}
+.dashboard_upper_div1,
+.dashboard_upper_div3 {
+  background-color: var(--primary-box-bg-color);
+}
+.dashboard_upper_div2 {
+  background-color: var(--secondary-box-bg-color);
+}
+.dashboard_lower_div {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+.custom_container {
+  display: flex;
+  width: fit-content;
+  margin: auto;
+}
+.revenue_main_section {
+  display: flex;
+  width: 100%;
+}
+.revenue_first_div,
+.revenue_second_div {
+  display: flex;
+  width: 100%;
+}
+.primary_heading {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+.order_count {
+  font-size: 34px;
+  font-weight: var(--font-weight-bold);
+}
+.total_revenue {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  display: flex;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-box-bg-color);
+}
+.custom_label {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  padding-right: 2rem;
+}
+/* .start_date{
+  
+} */
+.revenue_container {
+  /* Modified by ROhan kansari - 28/6/23
+     Reason - To fix heights */
+  margin-bottom: 3rem;
+  min-width: 200px;
+  width: 100%;
+  background-color: var(--primary-bg-color);
+  min-height: 40vh;
+  margin: 1rem;
+  box-shadow: 1px 1px 4px 1px grey;
+  padding: 1.25rem 1.25rem;
+}
+.btn_div {
+  min-height: 30px;
+  /* padding: 8px; */
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: var(--font-size-sm);
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin: 14px 0;
+}
+.order_report_btn {
+  font-size: 1.2rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary-box-bg-color);
+  color: var(--on-color);
+  font-weight: 500;
+}
+.item_report_btn {
+  font-size: 1.2rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--secondary-box-bg-color);
+  color: var(--on-color);
+  font-weight: 500;
+}
+
+@media (max-width: 1400px) {
+  .Restaurant_dashboard_section {
+    width: 75%;
+  }
+}
+@media (max-width: 1200px) {
+  .Restaurant_dashboard_section {
+    width: 90%;
+  }
+  .revenue_main_section {
+    display: block;
+    padding-bottom: 2rem;
+  }
+  .revenue_first_div,
+  .revenue_second_div {
+    width: 90%;
+    margin: auto;
+  }
+  .revenue_container {
+    height: auto;
+  }
+}
+@media (max-width: 900px) {
+  .Restaurant_dashboard_section {
+    display: block;
+  }
+  .dashboard_container {
+    padding: 1rem;
+  }
+}
+@media (max-width: 780px) {
+  .revenue_first_div,
+  .revenue_second_div {
+    width: 100%;
+  }
+  .revenue_main_section {
+    padding-bottom: 5rem;
+  }
+}
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 73vh;
+  }
+}
+/* end of code by - suman sahu on 17/06/2023 */
+
+@media (max-width: 600px) {
+  .revenue_first_div,
+  .revenue_second_div {
+    display: block;
+  }
+  .revenue_container {
+    width: auto;
+  }
+  .custom_container {
+    display: block;
+  }
+}
+@media (max-width: 400px) {
+  .start_date, .end_date{
+    font-size: 1rem;
+  }
+}

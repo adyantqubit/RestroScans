@@ -7,12 +7,6 @@ from django.apps import apps
 from tenant_schemas.utils import get_public_schema_name
 from django.urls import reverse
 from django.utils.html import format_html
-from django.template.loader import get_template
-from django.urls import reverse
-from weasyprint import HTML,CSS
-from io import BytesIO
-import subprocess
-import os
 from tenant_app.forms import *
 
 
@@ -65,7 +59,7 @@ class MenuAdmin(admin.ModelAdmin):
     def categories_list(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/category/?menu_id__id__exact="+str(obj.id)+"'>View Categories</>")
+        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/django-admin/tenant_app/category/?menu_id__id__exact="+str(obj.id)+"'>View Categories</>")
     categories_list.allow_tags = True
     # End of code addition by Ashish Dewangan on 24-04-2023
 
@@ -127,7 +121,7 @@ class CategoryAdmin(admin.ModelAdmin):
     def item_list(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/item/?category_id__id__exact="+str(obj.id)+"'>View Items</>")
+        return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/django-admin/tenant_app/item/?category_id__id__exact="+str(obj.id)+"'>View Items</>")
     item_list.allow_tags = True
     # End of code addition by Ashish Dewangan on 24-04-2023
 
@@ -618,8 +612,8 @@ class OrderAdmin(admin.ModelAdmin):
         from django.conf import settings
         # Commented and modified by - Ashish Dewangan on 03-05-2023
         # Reason - To style link tag as button
-        # return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
-        return format_html("<a style='background-color: #004376;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+        # return format_html("<a href='"+settings.HTTP_METHOD+self.request.get_host()+"/django-admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
+        return format_html("<a style='background-color: #004376;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/django-admin/tenant_app/orderitem/?order_id__id__exact="+str(obj.id)+"'>View Order Items</>")
         # End of code modification
     order_items.allow_tags = True
     # End of code addition by Ashish Dewangan on 24-04-2023
@@ -629,7 +623,7 @@ class OrderAdmin(admin.ModelAdmin):
     def view_order(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a style='background-color: #92d050;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/order/"+str(obj.id)+"/change/'>View Details</>")
+        return format_html("<a style='background-color: #92d050;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/django-admin/tenant_app/order/"+str(obj.id)+"/change/'>View Details</>")
     view_order.allow_tags = True
     # End of code addition by - Ashish Dewangan on 03-05-2023
 
@@ -831,7 +825,7 @@ class OrderItemAdmin(admin.ModelAdmin):
     def view_order_item(self,obj):
         from django.utils.html import format_html
         from django.conf import settings
-        return format_html("<a style='background-color: #92d050;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/admin/tenant_app/orderitem/"+str(obj.id)+"/change/'>View Details</>")
+        return format_html("<a style='background-color: #92d050;color:#fff;padding:3px;border-radius: 4px;' href='"+settings.HTTP_METHOD+self.request.get_host()+"/django-admin/tenant_app/orderitem/"+str(obj.id)+"/change/'>View Details</>")
     view_order_item.allow_tags = True
     # End of code addition by - Ashish Dewangan on 03-05-2023
 
@@ -961,6 +955,12 @@ Reason- Register reservation table.
 """
 class ReservationAdmin(admin.ModelAdmin):
     list_display = ['id','name','email','contact_number','number_of_person','table_number','reservation_status',]
+
+    def save_model(self, request, obj, form, change):
+        from tenant_app.services.reservation_service import notify_if_confirmed
+        previous_status = form.initial.get('reservation_status') if change else None
+        super().save_model(request, obj, form, change)
+        notify_if_confirmed(obj, previous_status)
 
     def has_module_permission(self, request,view=None):
         if request.tenant.schema_name == get_public_schema_name():

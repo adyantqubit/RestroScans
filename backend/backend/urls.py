@@ -1,75 +1,35 @@
-from django.contrib import admin
-from django.urls import path, include, re_path
-
-from django.conf.urls.static import static
 from django.conf import settings
-from admin_app.views import PricingImageAPI
-from admin_app.views import GalleryDetailsAPI
-from admin_app.views import GetRestroscansRequestAPI
-from admin_app.views import ContactUsAPI
-from admin_app.views import RestaurentPatnersDetailsAPI
-from admin_app.views import PricingPlansAPI, CustomerFeedbackAPI
-"""---------------------------------------------------------------
-Commented and modified by - Ashish Dewangan on 08-02-2023
-Reason - To specify urls
-"""
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-# ]
+from django.contrib import admin
+from django.urls import include, path, re_path
+from django.views.static import serve
+
+from admin_app.views import (
+    ContactUsAPI,
+    CustomerFeedbackAPI,
+    GalleryDetailsAPI,
+    GetRestroscansRequestAPI,
+    PricingImageAPI,
+    PricingPlansAPI,
+    RestaurentPatnersDetailsAPI,
+)
+
 urlpatterns = [
-    #  Added by:- Suman sahu  On 08/04/2023
-    #  Reason:- Created Url for get Pricing plans details
-    path(
-        "site/get-pricing-plans/",
-        PricingImageAPI.as_view(),
-    ),
-    # End of added code 08/04/2023
-    #  Added by:- Suman sahu  On 09/04/2023
-    #  Reason:- Created Url for get Gallery details
-    path(
-        "site/get-gallery-details/",
-        GalleryDetailsAPI.as_view(),
-    ),
-    # End of added code 09/04/2023
-    #  Added by:- Suman sahu  On 13/04/2023
-    #  Reason:- Created Url for for post GetRestroscans Requests
-    path(
-        "site/registration-request/",
-        GetRestroscansRequestAPI.as_view(),
-    ),
-    # End of added code 13/04/2023
-    #  Added by:- Suman sahu  On 14/04/2023
-    #  Reason:- Created Url for for post ContactUs Requests
-    path(
-        "site/contact-us-request/",
-        ContactUsAPI.as_view(),
-    ),
-    # End of added code 14/04/2023
-    #  Added by:- Suman sahu  On 19/04/2023
-    #  Reason:- Created Url for for Get top restaurent patners details
-    path(
-        "site/restaurent-patners-details/",
-        RestaurentPatnersDetailsAPI.as_view(),
-    ),
-    # End of added code 19/04/2023
-    #  Added by:- Suman sahu  On 17/05/2023
-    #  Reason:- Created Url for get pricing plans details
-    path(
-        "site/get-pricing-plans-details/",
-        PricingPlansAPI.as_view(),
-    ),
-    # End of added code 17/05/2023
-    #  Added by:- Suman sahu  On 18/05/2023
-    #  Reason:- Created Url for get Customer Feedback details
-    path(
-        "site/get-cutomer-feedback/",
-        CustomerFeedbackAPI.as_view(),
-    ),
-    # End of added code 18/05/2023
-    path("admin/", admin.site.urls),
-    path("admin_app/", include("admin_app.urls")),
-    path("api/v1/", include("tenant_app.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-"""
-End of code modification
-"""
+    # Public marketing site (restroscans.com)
+    path('site/get-pricing-plans/', PricingImageAPI.as_view()),
+    path('site/get-gallery-details/', GalleryDetailsAPI.as_view()),
+    path('site/registration-request/', GetRestroscansRequestAPI.as_view()),
+    path('site/contact-us-request/', ContactUsAPI.as_view()),
+    path('site/restaurent-patners-details/', RestaurentPatnersDetailsAPI.as_view()),
+    path('site/get-pricing-plans-details/', PricingPlansAPI.as_view()),
+    path('site/get-cutomer-feedback/', CustomerFeedbackAPI.as_view()),
+
+    path('django-admin/', admin.site.urls),
+    path('admin_app/', include('admin_app.urls')),
+    path('api/v1/', include('tenant_app.urls')),
+]
+
+if settings.SERVE_MEDIA_FILES:
+    media_prefix = settings.MEDIA_URL.strip('/')
+    urlpatterns += [
+        re_path(rf'^{media_prefix}/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]

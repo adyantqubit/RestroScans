@@ -1,0 +1,414 @@
+/**
+* Added by - Ashish Dewangan on 16-06-2023
+* Reason - Created to have styling details of settings form page
+*/
+@import "../../../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+  width: 100%;
+  background-color: var(--primary-soft);
+  margin-bottom: 50px;
+}
+
+.titleContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.pageTitle {
+  font-size: var(--font-size-lg);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+.categorySection {
+  min-height: auto;
+  background-color: transparent;
+  margin: auto 10px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-color);
+  /* background-color: var(--primary-soft); */
+  background-color: var(--background-color);
+  width: fit-content;
+  margin: auto auto;
+  margin-bottom: 20px;
+  padding: 20px 80px;
+}
+
+.sectionInsideForm{
+    margin-top: 30px;
+    background-color: var(--primary-soft);
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    box-shadow:
+      var(--ds-shadow-raised,0 1px 2px 0 rgba(9,30,66,.25));
+}
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.inputArea {
+  display: flex;
+  /* align-items: center; */
+}
+
+.inputLabel {
+  width: 250px;
+  font-weight: var(--font-weight-bold);
+}
+
+.textInputBox {
+  width: 200px;
+  border: 1px solid var(--border-color);
+  margin-top: 5px;
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  background-color: var(--background-color);
+}
+
+.categoryImageContainer{
+  width: 200px;
+}
+.categoryImage{
+  border-radius:var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.inputErrorArea {
+  margin-left: 250px;
+  width: 200px;
+  color: red;
+}
+
+.actionContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.backButton {
+  background-color: var(--text-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: var(--font-size-lg);
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.backButton:hover {
+  cursor: pointer;
+  background-color:var(--muted-text-color);
+}
+
+.cancelButton {
+  /* background-color: #585a5b; */
+  background-color: var(--muted-text-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: var(--font-size-lg);
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.cancelButton:hover {
+  cursor: pointer;
+  background-color:var(--muted-text-color);
+}
+
+.proceedButton {
+  background-color: var(--success-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: var(--font-size-lg);
+  width:100px;
+  margin-top: 10px;
+  text-align: center;
+}
+.proceedButton:hover {
+  cursor: pointer;
+  background-color: var(--success-color);
+}
+
+.mendatoryField{
+  color:red;
+}
+.optionalField{
+  visibility: hidden;
+}
+
+@media screen and (max-width: 4000px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .categorySection {
+    padding: 20px 40px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .categorySection {
+    padding: 20px 20px;
+  }
+  .inputLabel {
+    width: 250px;
+  }
+  .textInputBox {
+    width: 200px;
+  }
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    /* min-height: 82vh; */
+    margin-bottom: 11vh;
+  }
+  .categorySection {
+    padding: 20px 20px;
+    /* margin-bottom: 11vh; */
+  }
+  .inputLabel {
+    width: 300px;
+  }
+  .textInputBox {
+    width: 200px;
+  }
+  .inputErrorArea {
+    margin-left: 300px;
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    margin-bottom: 11vh;
+  }
+  .categorySection {
+    margin-bottom: 20px;
+  }
+  .inputLabel {
+    width: 250px;
+  }
+  .textInputBox {
+    width: 200px;
+  }
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputLabel {
+    align-self: flex-start;
+    width: 400px;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 100%;
+    margin-right: 0px;
+  }
+  .categoryImageContainer{
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+}
+
+@media screen and (max-width: 500px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputLabel {
+    width: 300px;
+    align-self: flex-start;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .proceedButton,.cancelButton,.backButton{
+    width:90px;
+    font-size: 17px;
+    padding:3px 3px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+  .inputArea {
+    flex-direction: column;
+  }
+  .inputLabel {
+    width: 250px;
+    align-self: flex-start;
+  }
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 90%;
+    margin-right: 0px;
+  }
+}
+
+/* erp-skin */
+.pageTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-color);
+}
+.pageTitleContainer, .titleContainer {
+  justify-content: flex-start;
+  margin: 16px 20px 8px;
+}
+.textInputBox, .textInputBox2 {
+  height: 36px;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+.textInputBox:focus, .textInputBox2:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 175, 190, 0.16);
+}
+.proceedButton, .primaryButton {
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 96px;
+  box-shadow: none;
+}
+.backButton, .cancelButton {
+  background: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 88px;
+}
+.secondaryButton {
+  background: #fff;
+  color: var(--error-color);
+  border: 1px solid #f0c2c2;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+.sectionInsideForm {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+.tableData {
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+.commonColumnTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+.inputErrorArea {
+  color: var(--error-color);
+  font-size: 12px;
+}
+
+.menuListSection, .categoryListSection, .orderListSection, .ratingListSection {
+  width: auto;
+  max-width: none;
+  margin: 0 20px 24px;
+}
+.menuSection, .categorySection, .settingSection, .footerSection {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  padding: 24px 28px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-sizing: border-box;
+}
+.container {
+  background: var(--surface-color);
+}

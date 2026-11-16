@@ -1,0 +1,696 @@
+/* Staff table dashboard — scoped to staff portal and existing global theme. */
+.stdRoot {
+    padding: 20px 8px 32px;
+    color: var(--text-color, #0f172a);
+    font-family: var(--font-family, inherit)
+}
+
+.stdHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px
+}
+
+.stdHeading>div>span {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--primary-color, #1e3a8a);
+    font-weight: 800
+}
+
+.stdHeading h1 {
+    font-size: 27px;
+    line-height: 1.2;
+    margin: 5px 0 7px;
+    font-weight: 750;
+    color: var(--text-color, #0f172a)
+}
+
+.stdHeading p {
+    font-size: 14px;
+    color: var(--muted-text-color, #6b7280);
+    margin: 0
+}
+
+.stdHeading button,
+.stdActions button,
+.stdBack {
+    background: var(--primary-color, #1e3a8a);
+    color: var(--on-color, #fff);
+    border: 1px solid transparent;
+    border-radius: 9px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s, transform .15s
+}
+
+.stdHeading button:hover,
+.stdActions button:hover,
+.stdBack:hover {
+    background: var(--button-hover, #2b6cb0)
+}
+
+.stdStats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px
+}
+
+.stdStats>div {
+    background: var(--surface-color, #fff);
+    border: 1px solid var(--card-border-color, #d9e1ed);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    box-shadow: 0 3px 12px var(--shadow-color-soft, rgba(15, 23, 42, .05))
+}
+
+.stdStats strong {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-color, #0f172a)
+}
+
+.stdStats span {
+    font-size: 13px;
+    color: var(--muted-text-color, #6b7280)
+}
+
+.stdStatLabel {
+    display: flex;
+    align-items: center;
+    gap: 7px
+}
+
+.stdDot {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    flex: none
+}
+
+.stdDotGreen {
+    background: #16a34a
+}
+
+.stdDotYellow {
+    background: #eab308
+}
+
+.stdDotRed {
+    background: #dc2626
+}
+
+.stdFloors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 20px
+}
+
+.stdFloors button {
+    border: 1px solid var(--card-border-color, #cbd5e1);
+    background: var(--surface-color, #fff);
+    color: var(--text-color, #0f172a);
+    border-radius: 9px;
+    padding: 10px 15px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s, border-color .15s
+}
+
+.stdFloors button:hover {
+    border-color: var(--primary-color, #1e3a8a);
+    background: var(--primary-soft, #eff6ff)
+}
+
+.stdFloors button.active {
+    background: var(--primary-color, #1e3a8a);
+    border-color: var(--primary-color, #1e3a8a);
+    color: #fff
+}
+
+.stdGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+    gap: 14px
+}
+
+.stdTable {
+    min-height: 156px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 10px;
+    border: 1.5px solid;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 3px 9px rgba(15, 23, 42, .04);
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    color: #0f172a
+}
+
+.stdTable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .10)
+}
+
+.stdTable.available {
+    background: #dcfce7 !important;
+    border-color: #86efac !important;
+    color: #14532d !important
+}
+
+.stdTable.occupied {
+    background: #fef3c7 !important;
+    border-color: #fbbf24 !important;
+    color: #713f12 !important
+}
+
+.stdTable.unavailable {
+    background: #fee2e2 !important;
+    border-color: #fca5a5 !important;
+    color: #7f1d1d !important
+}
+
+.stdTable.selected {
+    outline: 3px solid var(--primary-color, #1e3a8a);
+    outline-offset: 2px
+}
+
+.stdTableIcon {
+    font-size: 28px;
+    line-height: 1
+}
+
+.stdTable strong {
+    font-size: 17px;
+    font-weight: 800
+}
+
+.stdTable small {
+    font-size: 12px;
+    line-height: 1.3;
+    opacity: .85
+}
+
+.stdTableStatus {
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 5px 11px;
+    background: rgba(255, 255, 255, .72);
+    line-height: 1.2
+}
+
+.stdTableOrder {
+    font-weight: 650;
+    overflow-wrap: anywhere
+}
+
+.stdActions {
+    background: var(--surface-color, #fff);
+    border: 1px solid var(--card-border-color, #d9e1ed);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 3px 12px var(--shadow-color-soft, rgba(15, 23, 42, .05))
+}
+
+.stdActions h2 {
+    font-size: 17px;
+    font-weight: 750;
+    margin: 0 0 7px
+}
+
+.stdActions p {
+    margin: 0;
+    color: var(--muted-text-color, #6b7280);
+    font-size: 13px
+}
+
+.stdActionButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px
+}
+
+.stdActions button {
+    font-size: 13px;
+    white-space: nowrap
+}
+
+.stdActions button:disabled {
+    opacity: .55;
+    cursor: not-allowed
+}
+
+.stdActions .stdLight {
+    background: var(--surface-color, #fff);
+    color: var(--primary-color, #1e3a8a);
+    border: 1px solid var(--card-border-color, #cbd5e1)
+}
+
+.stdActions .stdLight:hover {
+    background: var(--primary-soft, #eff6ff)
+}
+
+.stdError {
+    color: var(--error-color, #dc2626);
+    font-weight: 600
+}
+
+.stdOrder {
+    padding: 14px
+}
+
+.stdBack {
+    margin-bottom: 15px
+}
+
+@media(max-width:900px) {
+    .stdStats {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .stdActions {
+        align-items: stretch;
+        flex-direction: column
+    }
+}
+
+@media(max-width:600px) {
+    .stdRoot {
+        padding: 14px 2px 24px
+    }
+
+    .stdHeading {
+        align-items: flex-start;
+        flex-direction: column
+    }
+
+    .stdHeading h1 {
+        font-size: 23px
+    }
+
+    .stdStats>div {
+        padding: 14px
+    }
+
+    .stdGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px
+    }
+
+    .stdTable {
+        min-height: 142px
+    }
+
+    .stdActionButtons button {
+        flex: 1
+    }
+
+    .stdFloors button {
+        padding: 9px 12px
+    }
+}
+
+/* Mobile waiter workflow: compact dashboard and always-reachable table actions. */
+@media (max-width: 800px) {
+    .stdRoot {
+        padding: 10px 0 110px;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .stdHeading {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .stdHeading>div>span,
+    .stdHeading p {
+        display: none;
+    }
+
+    .stdHeading h1 {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .stdHeading button {
+        min-height: 40px;
+        padding: 8px 12px;
+    }
+
+    .stdStats {
+        gap: 7px;
+        margin-bottom: 13px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stdStats>div {
+        padding: 10px 5px;
+        border-radius: 10px;
+        text-align: center;
+        gap: 4px;
+    }
+
+    .stdStats strong {
+        font-size: 21px;
+    }
+
+    .stdStats span {
+        font-size: 10px;
+    }
+
+    .stdStatLabel {
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .stdDot {
+        width: 7px;
+        height: 7px;
+    }
+
+    .stdFloors {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 7px;
+        margin-bottom: 12px;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+
+    .stdFloors::-webkit-scrollbar {
+        display: none;
+    }
+
+    .stdFloors button {
+        white-space: nowrap;
+        flex: none;
+        min-height: 40px;
+        padding: 8px 12px;
+    }
+
+    .stdGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .stdTable {
+        min-width: 0;
+        min-height: 106px;
+        padding: 9px 4px;
+        gap: 4px;
+        border-radius: 11px;
+    }
+
+    .stdTableIcon {
+        font-size: 17px;
+    }
+
+    .stdTable strong {
+        font-size: 15px;
+    }
+
+    .stdTable small {
+        font-size: 10px;
+        overflow-wrap: anywhere;
+    }
+
+    .stdTableStatus {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .stdTableOrder {
+        display: none;
+    }
+
+    .stdActions {
+        position: fixed;
+        left: 8px;
+        right: 8px;
+        bottom: max(8px, env(safe-area-inset-bottom));
+        z-index: 70;
+        margin: 0;
+        padding: 12px;
+        border-radius: 13px;
+        gap: 10px;
+        box-shadow: 0 8px 28px rgba(15, 23, 42, .22);
+    }
+
+    .stdActions h2 {
+        font-size: 14px;
+        margin: 0 0 3px;
+    }
+
+    .stdActions p {
+        font-size: 11px;
+    }
+
+    .stdActionButtons {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .stdActionButtons button {
+        white-space: normal;
+        min-height: 42px;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .stdOrder {
+        padding: 8px 0 0;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .stdBack {
+        min-height: 40px;
+        margin-bottom: 10px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 390px) {
+    .stdGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Floor-wise rows. Sections are derived from actual backend table records. */
+.stdFloorGroups {
+    display: flex;
+    flex-direction: column;
+    gap: 22px
+}
+
+.stdFloorSection {
+    min-width: 0
+}
+
+.stdFloorHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 0 2px 10px;
+    border-bottom: 1px solid var(--card-border-color, #d9e1ed)
+}
+
+.stdFloorHeading h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text-color, #0f172a)
+}
+
+.stdFloorHeading>span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted-text-color, #64748b);
+    background: var(--surface-color, #fff);
+    border: 1px solid var(--card-border-color, #d9e1ed);
+    padding: 5px 10px;
+    border-radius: 999px;
+    white-space: nowrap
+}
+
+.stdFloorSection .stdGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))
+}
+
+@media(max-width:800px) {
+    .stdFloorGroups {
+        gap: 17px
+    }
+
+    .stdFloorHeading {
+        margin-bottom: 9px;
+        padding-bottom: 8px
+    }
+
+    .stdFloorHeading h2 {
+        font-size: 16px
+    }
+
+    .stdFloorSection .stdGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px
+    }
+}
+
+@media(max-width:390px) {
+    .stdFloorSection .stdGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+}
+
+.stdQueue {
+    margin: 0 0 20px
+}
+
+.stdQueue h2 {
+    font-size: 19px;
+    margin: 0 0 12px
+}
+
+.stdQueueList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px
+}
+
+.stdQueueList button {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #07868e;
+    border-radius: 11px;
+    padding: 13px;
+    color: #14253b;
+    cursor: pointer;
+    text-align: left
+}
+
+.stdQueueList span {
+    color: #64748b;
+    font-size: 12px
+}
+
+.stdQueueList small {
+    font-size: 12px
+}
+
+.stdAvailabilityAlert {
+    padding: 12px;
+    border: 1px solid #fecaca;
+    background: #fff1f2;
+    color: #991b1b;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-weight: 650
+}
+
+@media(max-width:600px) {
+    .stdQueueList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px
+    }
+
+    .stdQueueList button {
+        padding: 10px
+    }
+
+    .stdQueue h2 {
+        font-size: 17px
+    }
+}
+
+/* Show order timestamp inside the occupied table, not in a separate priority row. */
+.stdTableDate {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.35;
+    color: inherit;
+    opacity: .9;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+@media(max-width:800px) {
+    .stdTableDate {
+        display: block;
+        font-size: 10px;
+        line-height: 1.3;
+    }
+
+    .stdTableOrder {
+        display: block;
+        font-size: 10px;
+        overflow-wrap: anywhere;
+    }
+
+    .stdTable {
+        min-height: 125px;
+        height: auto;
+    }
+}
+
+/* Improve contrast of table cards on the light staff dashboard. */
+.stdRoot .stdTable {
+    border-width: 2px !important;
+    border-style: solid !important;
+    box-shadow: 0 3px 9px rgba(15, 23, 42, .09);
+}
+
+.stdRoot .stdTable.available {
+    border-color: #236a49 !important;
+}
+
+.stdRoot .stdTable.occupied {
+    border-color: #98630d !important;
+}
+
+.stdRoot .stdTable.unavailable {
+    border-color: #a52e39 !important;
+}
+
+.stdRoot .stdTable:hover {
+    box-shadow: 0 7px 17px rgba(15, 23, 42, .16);
+}
+
+.stdRoot .stdTable:focus-visible {
+    outline: 3px solid #0a7886;
+    outline-offset: 3px;
+}

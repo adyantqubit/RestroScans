@@ -1,0 +1,80 @@
+.container{
+    width:100%;
+    min-height: 35vh;
+    margin-top: 20px;
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputContainer{
+    width: 100%;
+    display: flex;
+
+}
+
+.label{
+    min-width: 170px;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+}
+
+.inputContains{
+    display: flex;
+    flex-direction: column;
+}
+
+.inputField{
+    min-width: 180px;
+    max-width: 180px;
+    border: 1px solid var(--border-color);
+    outline: none;
+    font-size: var(--font-size-md);
+    padding: 3px 4px;
+    border-radius: var(--radius-sm);
+}
+
+.errorText{
+    color: red;
+}
+
+.EncryptPassword{
+    padding: 2px 0;
+    font-weight: 500;
+}
+
+.checkboxField{
+    min-width: 20px;
+    max-width: 20px;
+    border: 1px solid var(--border-color);
+    outline: none;
+    font-size: var(--font-size-md);
+    margin-top: 7px;
+    padding: 3px 4px;
+    border-radius: var(--radius-sm);
+}
+
+.astrik{
+    color: red;
+}
+
+@media screen and (max-width:500px){
+
+    .label{
+        font-size: var(--font-size-sm);
+        min-width: 130px;
+    }
+    .inputField{
+        min-width: unset;
+        max-width: 140px;
+    }
+
+    .container{
+        margin-top: 30px;
+        min-height: 30vh;
+    }
+
+    .errorText{
+        font-size: var(--font-size-sm);
+    }
+}

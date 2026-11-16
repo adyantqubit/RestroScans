@@ -1,0 +1,188 @@
+/* Compact waiter metadata within the existing Orders table layout. */
+.rsOrderTableLocation {
+    display: block;
+    max-width: 100%;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-align: center
+}
+
+.rsWaiterOrderTag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 4px;
+    padding: 3px 7px;
+    border: 1px solid var(--border-color, #dbe3ed);
+    border-radius: 6px;
+    background: var(--primary-soft, #eef4ff);
+    color: var(--primary-color, #1e3a8a);
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.25;
+    max-width: 100%;
+    min-width: 0;
+    vertical-align: middle
+}
+
+.rsWaiterOrderName {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 105px
+}
+
+.rsWaiterOrderDot {
+    width: 6px;
+    height: 6px;
+    flex: none;
+    border-radius: 50%;
+    background: currentColor
+}
+
+/* Keep the heading and every order row on exactly the same 14-column grid.
+   A fixed table width permits horizontal scrolling instead of column drift. */
+.rsAlignedOrdersTable {
+    width: max-content;
+    min-width: 100%;
+    --rs-orders-columns: 46px 56px 108px 190px 136px 112px 96px 72px 72px 108px 104px 92px 92px 92px
+}
+
+.rsAlignedOrdersTable [class*="tableHeadingContainer"],
+.rsAlignedOrdersTable [class*="tableData"]:not([class*="tableDataContainer"]) {
+    display: grid !important;
+    grid-template-columns: var(--rs-orders-columns) !important;
+    justify-content: initial !important;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    box-sizing: border-box
+}
+
+.rsAlignedOrdersTable [class*="tableHeadingContainer"]>div,
+.rsAlignedOrdersTable [class*="tableData"]:not([class*="tableDataContainer"])>div {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box;
+    padding: 7px 5px !important;
+    justify-self: stretch;
+    align-self: center;
+    text-align: center;
+    overflow-wrap: normal;
+    word-break: normal
+}
+
+.rsAlignedOrdersTable [class*="tableNoColumn"]:has(.rsOrderTableLocation) {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px
+}
+
+.rsAlignedOrdersTable .rsOrderTableLocation {
+    white-space: normal;
+    line-height: 1.4
+}
+
+.rsAlignedOrdersTable .rsWaiterOrderTag {
+    max-width: calc(100% - 10px)
+}
+
+.rsAlignedOrdersTable [class*="orderStatusColumn"] {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px
+}
+
+/* Final: full-size waiter text in the Table No. column; no narrow badge. */
+.rsAlignedOrdersTable {
+    --rs-orders-columns: 46px 56px 108px 230px 136px 112px 96px 72px 72px 108px 104px 92px 92px 92px !important;
+    min-width: 1510px !important
+}
+
+.rsAlignedOrdersTable [class*="tableHeadingContainer"],
+.rsAlignedOrdersTable [class*="tableData"]:not([class*="tableDataContainer"]) {
+    grid-template-columns: var(--rs-orders-columns) !important;
+    min-width: 1510px !important
+}
+
+.rsAlignedOrdersTable [class*="tableNoColumn"]:has(.rsOrderTableLocation) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+    min-width: 0 !important
+}
+
+.rsAlignedOrdersTable .rsOrderTableLocation {
+    display: block !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    word-break: normal !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
+    line-height: 1.45 !important;
+    text-align: center !important
+}
+
+.rsAlignedOrdersTable .rsWaiterOrderTag {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: max-content !important;
+    margin: 0 !important;
+    padding: 4px 10px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    border-radius: 7px !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important
+}
+
+.rsAlignedOrdersTable .rsWaiterOrderName {
+    display: inline !important;
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    font-size: 12px !important
+}
+
+.rsAlignedOrdersTable [class*="tableDataContainer"] {
+    min-width: 1510px !important
+}
+
+/* Compact admin-only creator metadata; shared table structure stays unchanged. */
+.rsAdminOrdersTable [class*="tableNoColumn"]:has(.rsOrderTableLocation) {
+    gap: 2px !important;
+    padding: 5px 8px !important;
+}
+
+.rsAdminOrdersTable .rsOrderTableLocation {
+    line-height: 1.25 !important;
+}
+
+.rsAdminOrdersTable .rsWaiterOrderTag {
+    padding: 2px 7px !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+}
+
+.rsAdminOrdersTable .rsWaiterOrderName {
+    font-size: 11px !important;
+}

@@ -1,0 +1,349 @@
+/* Reports module: shared RestroScans global color variables */
+.ra-page {
+    display: grid;
+    gap: 18px;
+    color: var(--text-color, #0f172a)
+}
+
+.ra-page button {
+    cursor: pointer;
+    font: inherit
+}
+
+.ra-switch {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap
+}
+
+.ra-switch button,
+.ra-quick button,
+.ra-clear,
+.ra-pages button {
+    border: 1px solid var(--border-color, #dbe2ed);
+    background: var(--surface-color, #fff);
+    border-radius: 9px;
+    padding: 10px 16px;
+    color: var(--text-color, #0f172a)
+}
+
+.ra-switch .ra-active,
+.ra-primary {
+    background: var(--button-primary, #1e3a8a) !important;
+    color: #fff !important;
+    border: 1px solid var(--button-primary, #1e3a8a) !important;
+    border-radius: 9px;
+    padding: 10px 16px;
+    font-weight: 600
+}
+
+.ra-modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px
+}
+
+.ra-module {
+    display: grid;
+    text-align: left;
+    gap: 7px;
+    padding: 17px;
+    border: 1px solid var(--card-border-color, #dbe2ed);
+    background: var(--surface-color, #fff);
+    border-radius: 12px;
+    color: var(--text-color, #0f172a)
+}
+
+.ra-module small {
+    font-size: 12px;
+    color: var(--muted-text-color, #64748b);
+    line-height: 1.5
+}
+
+.ra-module.ra-selected {
+    border-color: var(--primary-color, #1e3a8a);
+    box-shadow: 0 0 0 2px var(--primary-soft, rgba(30, 58, 138, .08))
+}
+
+.ra-card {
+    background: var(--card-background-color, #fff);
+    border: 1px solid var(--card-border-color, #dbe2ed);
+    border-radius: 14px;
+    padding: 20px;
+    min-width: 0
+}
+
+.ra-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap
+}
+
+.ra-heading h2 {
+    margin: 0 0 5px;
+    font-size: 22px
+}
+
+.ra-heading p,
+.ra-note {
+    margin: 0;
+    color: var(--muted-text-color, #64748b);
+    font-size: 13px;
+    line-height: 1.6
+}
+
+.ra-quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0
+}
+
+.ra-filters {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px
+}
+
+.ra-filters label {
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600
+}
+
+.ra-filters input {
+    width: 100%;
+    min-width: 145px;
+    min-height: 39px;
+    border: 1px solid var(--input-border, #dbe2ed);
+    border-radius: 7px;
+    padding: 8px 10px;
+    background: var(--input-bg, #fff);
+    color: var(--input-text-color, #0f172a)
+}
+
+.ra-search {
+    flex: 1;
+    min-width: 210px
+}
+
+.ra-visual {
+    display: grid;
+    grid-template-columns: minmax(210px, 320px) minmax(0, 1fr);
+    align-items: center;
+    gap: 28px;
+    border: 1px solid var(--border-color, #dbe2ed);
+    border-radius: 13px;
+    padding: 20px
+}
+
+.ra-donut-wrap {
+    max-width: 290px;
+    width: 100%;
+    margin: auto
+}
+
+.ra-donut {
+    width: 100%;
+    display: block
+}
+
+.ra-legend h3 {
+    margin: 0 0 15px;
+    font-size: 18px
+}
+
+.ra-legend-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    font-size: 13px
+}
+
+.ra-color {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    border-radius: 3px
+}
+
+.ra-legend-name {
+    flex: 1;
+    min-width: 110px
+}
+
+.ra-count {
+    color: var(--muted-text-color, #64748b)
+}
+
+.ra-note {
+    margin-top: 12px
+}
+
+.ra-table-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 12px
+}
+
+.ra-table-title h3 {
+    margin: 0;
+    font-size: 18px
+}
+
+.ra-table-scroll {
+    overflow: auto
+}
+
+.ra-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+    font-size: 13px
+}
+
+.ra-table thead {
+    background: var(--table-header-bg, #0b1220);
+    color: var(--table-header-fg, #fff)
+}
+
+.ra-table th,
+.ra-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color, #e2e8f0)
+}
+
+.ra-table td small {
+    display: block;
+    color: var(--muted-text-color, #64748b);
+    margin-top: 4px
+}
+
+.ra-table tbody tr:nth-child(even) {
+    background: var(--table-row-alt-bg, #f8fafc)
+}
+
+.ra-detail {
+    background: var(--button-primary, #1e3a8a);
+    border: 0;
+    border-radius: 7px;
+    padding: 8px 12px;
+    color: #fff
+}
+
+.ra-expanded {
+    background: var(--primary-soft, #eef2ff)
+}
+
+.ra-pages {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px
+}
+
+.ra-page button:disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+.ra-error {
+    padding: 12px;
+    background: #fef2f2;
+    color: #991b1b;
+    border-radius: 8px
+}
+
+@media(max-width:760px) {
+    .ra-visual {
+        grid-template-columns: 1fr
+    }
+
+    .ra-card {
+        padding: 13px
+    }
+
+    .ra-heading h2 {
+        font-size: 19px
+    }
+
+    .ra-modules {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .ra-module {
+        padding: 12px
+    }
+
+    .ra-filters label {
+        flex: 1
+    }
+}
+
+/* Unified report filters and compact five-row pagination */
+.ra-filters select {
+    width: 100%;
+    min-width: 165px;
+    min-height: 39px;
+    border: 1px solid var(--input-border, #dbe2ed);
+    border-radius: 7px;
+    padding: 8px 10px;
+    background: var(--input-bg, #fff);
+    color: var(--input-text-color, #0f172a)
+}
+
+.ra-pages {
+    flex-wrap: wrap;
+    gap: 7px
+}
+
+.ra-pages button {
+    min-width: 38px;
+    padding: 8px 11px
+}
+
+.ra-pages .ra-page-current {
+    background: var(--button-primary, #1e3a8a);
+    border-color: var(--button-primary, #1e3a8a);
+    color: #fff;
+    font-weight: 700
+}
+
+.ra-page-caption {
+    margin-right: auto;
+    color: var(--muted-text-color, #64748b);
+    font-size: 12px
+}
+
+.ra-page-ellipsis {
+    padding: 0 3px;
+    color: var(--muted-text-color, #64748b)
+}
+
+@media(max-width:760px) {
+    .ra-filters .ra-source {
+        min-width: 100%
+    }
+
+    .ra-pages {
+        justify-content: center
+    }
+
+    .ra-page-caption {
+        flex-basis: 100%;
+        text-align: center;
+        margin-right: 0
+    }
+}

@@ -1,0 +1,318 @@
+.billingContainer {
+    font-family:monospace;
+    letter-spacing: 0.6px;
+    width: 300px;   
+    height:auto;
+    margin:20px auto;
+    border-radius: var(--radius-sm);
+    padding: 2px 0;
+    overflow-x: hidden;
+    padding-bottom: 70px;
+    /* margin-bottom: 50p; */
+}
+
+.inLineContainer {
+    /* Modified by ROhankansari - 10/5/23 */
+    width: 95%;
+    min-height: 10px;
+    margin: 4px auto;
+    display: flex;
+    justify-content: flex-start;
+    gap:2px;
+}
+
+
+.Hotellabel{
+    min-width: 100%;
+    /* margin-bottom: 8px; */
+    /* height: 50%; */
+    font-size: 17px;
+    font-weight: var(--font-weight-bold);
+    padding: 0 3%;
+    text-align: center;
+}
+
+.centerLabel{
+    min-width: 100%;
+    /* width: inherit; */
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    /* padding: 0 3%; */
+    text-align: center;
+}
+
+
+.column1{
+    min-width:50%;
+    display: flex;
+}
+
+.label {
+    min-width: 45%;
+    /* max-width: 45%; */
+    /* width: inherit; */
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    text-align: start;
+    white-space: nowrap;
+    display: flex;
+
+    /* text-align: ; */
+}
+
+/* Added by ROhanKAnsari - 11/5/23 */
+.label1{
+    /* modified by Rohankansari - 14/5/23 */
+    /* Reason - To Give less space between label and text */
+   /* Modification and addition by Om Shrivastava on 27-07-23
+   Reason : Set the min width */
+    /* min-width: 32%; */
+    min-width: 45%;
+/* End of modification and addition by Om Shrivastava on 27-07-23
+   Reason : Set the min width */
+    /* max-width: 45%; */
+    /* width: inherit; */
+    /* height: 50%; */
+    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    text-align: start;
+    white-space: nowrap;
+    display: flex;
+}
+
+.text {
+    min-width: 50%;
+    /* height: 50%; */
+
+    word-break: break-all;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+    /* padding: 1.5% 3%; */
+}
+
+.tableHeader {
+    height: 30px;
+    width: 95%;
+    margin: auto;
+    border-top: 1px solid var(--text-color);
+    margin-top: 20px;
+    border-bottom: 1px solid var(--text-color);
+    display: flex;
+    gap: 8px;
+}
+
+/* Modified by ROhankansari - 4/5/23
+   Reason- Alignment issue */
+
+.titleHeading {
+    font-size: var(--font-size-xs);
+    width: 40%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    /* padding-right: 8%; */
+    font-weight: 600;
+    text-align: start;
+}
+
+.rateHeading {
+    font-size: var(--font-size-xs);
+    width: 25%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    font-weight: var(--font-weight-medium);
+    text-align: end;
+}
+
+.quantityHeading {
+    font-size: var(--font-size-xs);
+    width: 10%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    font-weight: var(--font-weight-medium);
+    text-align: end;
+}
+
+.totalHeading {
+    font-size: var(--font-size-xs);
+    width: 25%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    font-weight: var(--font-weight-medium);
+    text-align: end;
+}
+
+.tableContents {
+    min-height: 30px;
+    width: 95%;
+    /* margin: auto; */
+    margin: 1px auto;
+    display: flex;
+    gap: 8px;
+}
+
+.titleText {
+    font-size: var(--font-size-xs);
+    width: 40%;
+    /* background-color: black; */
+    padding: 0.5% 0%;
+    font-weight: var(--font-weight-medium);
+    /* Modified by :- Parineeta Gedam on 22-04-2023 */
+    /* word-break: break-all; */
+    /* End of added code on 22-04-2023 */
+}
+
+.quantityText {
+    font-size: var(--font-size-xs);
+    width: 10%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    font-weight: var(--font-weight-medium);
+    text-align: end;
+}
+
+.rateText {
+    font-size: var(--font-size-xs);
+    width: 25%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    font-weight: var(--font-weight-medium);
+    text-align: end;
+    white-space: nowrap;
+}
+
+.totalText {
+    font-size: var(--font-size-xs);
+    width: 25%;
+    /* background-color: black; */
+    padding: 2% 0%;
+    font-weight: var(--font-weight-medium);
+    text-align: end;
+    white-space: nowrap;
+}
+
+.breakLine {
+    width: 95%;
+    margin: 10px auto;
+    background-color: var(--text-color);
+    height: 1px;
+
+}
+
+.CalculationBoxContainer {
+    width: 100%;
+    /* modified by :- Parineeta Gedam on 10-05-2023 */
+    /* min-height: 100px; */
+    min-height: auto;
+
+    display: flex;
+    justify-content: flex-end;
+    /* padding-right: 4%; */
+}
+
+.calculationBox {
+	  /* modified by :- Parineeta Gedam on 10-05-2023 */
+    width: 70%;
+    margin-right: 2%;   
+    margin-bottom: 2%;
+    /* commented by :- Parineeta Gedam on 10-05-2023 */
+    /* height: 100px; */
+}
+
+.TotalBox{
+    width: 70%;
+    margin-right: 4%;
+    margin-bottom: 2%;
+    height: auto;  
+}
+
+.calculationLabel {
+    font-size: var(--font-size-xs);
+    width: 20%;
+    /* background-color: black; */
+    padding: 2% 2%;
+    font-weight: var(--font-weight-medium);
+    width: 60%;
+    white-space: nowrap;
+    display: flex;
+}
+
+/* End of code - 4/5/23 -Rohan Kansari */
+
+.calculationText {
+    width: 40%;
+    text-align: end;
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+    /* background-color: black; */
+    padding: 2% 0 0 4%;
+    font-weight: var(--font-weight-medium);
+}
+
+.TotalBoxContainer{
+    width: 100%;
+    height: auto;
+    /* Commented by Om shrivastava on 28-06-23
+    Reason : Fix the bill attributes */
+    /* padding: 0 15%; */
+    /* End of commented code by Om Shrivastava on 28-06-23
+    Reason : Fix the bill attributes  */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.calculationLine {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.TotalLabel{
+    font-size: var(--font-size-md);
+    width: 20%;
+    padding: 2% 4%;
+    font-weight: var(--font-weight-bold);
+    width: 100%;
+    white-space: nowrap;
+    letter-spacing: 2px;
+}
+
+.TotalText{
+    font-size: 17px;
+    width: 80%;
+    text-align: end;
+    padding: 2% 4%;
+    font-weight: var(--font-weight-bold);
+    width: 100%;
+    white-space: nowrap;
+    letter-spacing: 2px;
+}
+
+
+/* Added by :- Parineeta Gedam */
+
+.rate_us_container{
+    margin-top: 5px;
+}
+.rate_us_heading{
+    font-size: var(--font-size-sm);
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family);
+}
+.rate_us_btn_container{
+    margin-top: 15px;
+    text-align: center;
+}
+.rate_us_button{
+    width: 30%;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-family);
+    padding: 5px 0px 5px 0px;
+    border: none;
+    border-radius: var(--radius-sm);
+}
+/* End of added code */

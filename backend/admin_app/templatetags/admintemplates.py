@@ -54,9 +54,9 @@ def getProfileLink(context):
     data = dict()
     host=request.headers['Host'].split(":")
     if settings.DOMAIN_NAME != host[0].split(".")[0] :
-        path= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/setting/'
+        path= settings.HTTP_METHOD+request.headers['Host']+'/django-admin/tenant_app/setting/'
     else :
-        path= settings.HTTP_METHOD+request.headers['Host']+'/admin/admin_app/appsetting/'
+        path= settings.HTTP_METHOD+request.headers['Host']+'/django-admin/admin_app/appsetting/'
     data["setting"] = path
     return data
 # End of addition
@@ -70,9 +70,9 @@ def getInActiveCategories(context):
     request=context['request']
     host=request.headers['Host'].split(":")
     if settings.DOMAIN_NAME != host[0].split(".")[0] :
-        categoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/menu/'
-        subCategoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/category/'
-        itemUrl= settings.HTTP_METHOD+request.headers['Host']+'/admin/tenant_app/item/'
+        categoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/django-admin/tenant_app/menu/'
+        subCategoryUrl= settings.HTTP_METHOD+request.headers['Host']+'/django-admin/tenant_app/category/'
+        itemUrl= settings.HTTP_METHOD+request.headers['Host']+'/django-admin/tenant_app/item/'
     else :
         categoryUrl= "#"
         subCategoryUrl="#"

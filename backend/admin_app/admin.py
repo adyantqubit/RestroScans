@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from .models import *
 from django.apps import apps
@@ -58,9 +59,56 @@ class AppSettingAdmin(admin.ModelAdmin):
             return False
         
         
+class TenantAdminForm(forms.ModelForm):
+    """The plan and any extra features are saved for this restaurant only."""
+
+    extra_features = forms.MultipleChoiceField(
+        choices=[],
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label='Extra features',
+    )
+
+    class Meta:
+        model = Tenant
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from admin_app.plan_catalog import FEATURE_CHOICES, codes_for_plan, extra_codes
+
+        if getattr(self.instance, 'schema_name', None) == 'public':
+            self.fields.pop('extra_features', None)
+            return
+        self.fields['extra_features'].choices = FEATURE_CHOICES
+        current = extra_codes(self.instance.pk) if self.instance.pk else []
+        self.fields['extra_features'].initial = current
+        self.initial['extra_features'] = current
+        included = codes_for_plan(getattr(self.instance, 'Subscribe_plan', ''))
+        self.fields['extra_features'].help_text = (
+            'On top of this plan, for this restaurant only. The plan already includes: %s.'
+            % (', '.join(included) or 'nothing')
+        )
+
+    def clean(self):
+        from admin_app.plan_catalog import codes_for_plan, combine_features, missing_requirements
+
+        cleaned = super().clean()
+        if 'extra_features' not in self.fields:
+            return cleaned
+        gaps = missing_requirements(combine_features(
+            codes_for_plan(cleaned.get('Subscribe_plan')),
+            cleaned.get('extra_features'),
+        ))
+        if gaps:
+            self.add_error('extra_features', '; '.join(gaps))
+        return cleaned
+
+
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
-    list_display=("id","restaurant_name","tenant_name","created_at")
+    form = TenantAdminForm
+    list_display=("id","restaurant_name","tenant_name","Subscribe_plan","created_at")
     # Added by - Ashish Dewangan on 24-04-2023
     # Reason - To make columns clickable. So that the user can navigate to details of this row
     list_display_links = ("id","restaurant_name","tenant_name","created_at")
@@ -91,8 +139,16 @@ class TenantAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(TenantAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['restaurant_name'].widget.attrs['style'] = 'width: 20em;'
-        form.base_fields['Subscribe_plan'].label_from_instance= lambda inst: "{}".format(inst.plan_name) 
         return form
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if obj.schema_name == 'public' or 'extra_features' not in form.cleaned_data:
+            return
+        from admin_app.plan_catalog import codes_for_plan, extras_to_store, replace_extra_features
+
+        extras = extras_to_store(codes_for_plan(obj.Subscribe_plan), form.cleaned_data.get('extra_features'))
+        replace_extra_features(obj, extras)
     # End of addition
    
 
@@ -204,75 +260,67 @@ class AppThemeAdmin(admin.ModelAdmin):
         else:
             return False
         
-#added by rohan - 18/4/23
-#reason - to add plans and subscription functioin nality
-@admin.register(Plans)
-class PlanAdmin(admin.ModelAdmin):
-    list_display=("plan_name",)
-    # Added by - Ashish Dewangan on 24-04-2023
-    # Reason - To make columns clickable. So that the user can navigate to details of this row
-    list_display_links = ("plan_name",)
-    # End of code addition
+@admin.register(PlanFeature)
+class PlanFeatureAdmin(admin.ModelAdmin):
+    """Edit the default features of each plan. This does not assign a plan to a restaurant."""
 
-    def has_change_permission(self, request, obj=None) :
-        return False    
-    def has_delete_permission(self, request, obj=None) :
-        return False  
-    def has_module_permission(self, request,view=None):
-        if request.tenant.schema_name == get_public_schema_name():
-            return True
-        else:
-            return False
-    
-@admin.register(Features)
-class Feature(admin.ModelAdmin):
-      list_display=("feature_name",)
-      # Added by - Ashish Dewangan on 24-04-2023
-      # Reason - To make columns clickable. So that the user can navigate to details of this row
-      list_display_links = ("feature_name",)
-      # End of code addition  
-      def has_change_permission(self, request, obj=None) :
-            return True    
-      def has_delete_permission(self, request, obj=None) :
-        return True  
-      def has_module_permission(self, request,view=None):
-        if request.tenant.schema_name == get_public_schema_name():
-            return True
-        else:
-            return False   
-      
-@admin.register(PlannedFeatures)
-class PlannedFeatureAdmin(admin.ModelAdmin):
-    list_display=("Plan_selected","Feature_selected",)        
-    # Added by - Ashish Dewangan on 24-04-2023
-    # Reason - To make columns clickable. So that the user can navigate to details of this row
-    list_display_links = ("Plan_selected","Feature_selected",)
-    # End of code addition 
-    def Plan_selected(self,obj):
-        return obj.plan_selected.plan_name
-        
-    def Feature_selected(self, obj):
-        return obj.feature_selected.feature_name
-    
-    def has_change_permission(self, request, obj=None) :
-        return True    
-    def has_delete_permission(self, request, obj=None) :
-        return True  
-    def has_module_permission(self, request,view=None):
-        if request.tenant.schema_name == get_public_schema_name():
-            return True
-        else:
-            return False
-    
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(PlannedFeatureAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['plan_selected'].label_from_instance = lambda inst: "{}".format(inst.plan_name)  
-        form.base_fields['feature_selected'].label_from_instance = lambda inst: "{}".format(inst.feature_name)  
-        
-        return form  
-        
-        
-         ##end of code - Rohan kansari-18/4/23
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_module_permission(self, request):
+        tenant = getattr(request, 'tenant', None)
+        return tenant is not None and tenant.schema_name == get_public_schema_name()
+
+    def changelist_view(self, request, extra_context=None):
+        from django.contrib import messages
+        from django.core.exceptions import PermissionDenied
+        from django.shortcuts import redirect, render
+
+        from admin_app.plan_catalog import (
+            FEATURES, KNOWN_CODES, PLAN_CHOICES, codes_for_plan, missing_requirements, replace_plan_features,
+        )
+
+        if not self.has_view_permission(request):
+            raise PermissionDenied
+        if request.method == 'POST':
+            if not self.has_change_permission(request):
+                raise PermissionDenied
+            chosen = {}
+            problems = []
+            for name, label in PLAN_CHOICES:
+                picked = [code for code in request.POST.getlist(name) if code in KNOWN_CODES]
+                gaps = missing_requirements(picked)
+                if gaps:
+                    problems.append('%s: %s.' % (label, '; '.join(gaps)))
+                chosen[name] = picked
+            if problems:
+                messages.error(request, ' '.join(problems))
+            else:
+                replace_plan_features(chosen)
+                messages.success(request, 'Plan defaults saved. Restaurants keep the plan they were given.')
+                return redirect(request.path)
+
+        plans = []
+        for name, label in PLAN_CHOICES:
+            ticked = set(codes_for_plan(name))
+            plans.append({
+                'name': name,
+                'label': label,
+                'features': [{'code': code, 'label': text, 'on': code in ticked} for code, text in FEATURES],
+            })
+        context = dict(
+            self.admin_site.each_context(request),
+            plans=plans,
+            title='Plan features',
+            opts=self.model._meta,
+        )
+        return render(request, 'admin/plan_features.html', context)
+
+
+##end of code - Rohan kansari-18/4/23
 
 # Added by - Suman Sahu on 09/04/2023
 # Reason - Create table for Show GallerySettings Details on home page

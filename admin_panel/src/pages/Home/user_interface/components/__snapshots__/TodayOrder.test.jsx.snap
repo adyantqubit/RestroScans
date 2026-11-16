@@ -1,0 +1,1768 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bulk updates Placed is never available 1`] = `
+Array [
+  true,
+  "0.4",
+]
+`;
+
+exports[`bulk updates cancel orders 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "flex",
+    "pointerEvents": "unset",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+    Object {
+      "saveAllOrderStatus": Object {
+        "data": Object {
+          "cancelled_by": "Admin",
+          "order_status": "Cancelled",
+          "orders": Array [
+            Object {
+              "date": "2026-01-02T12:30:00",
+              "final_amount": 102,
+              "id": 2,
+              "order_id": "ORD-002",
+              "order_status": "Placed",
+              "payment_status": "Pending",
+              "table_number": "2",
+            },
+          ],
+        },
+        "tenant": "demo",
+      },
+    },
+  ],
+  "label": "cancelled",
+  "markup": "f1e9ab305d85",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".",
+}
+`;
+
+exports[`bulk updates complete and set pending payment for served orders 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+      Object {
+        "saveAllOrderStatus": Object {
+          "data": Object {
+            "orders": Array [
+              Object {
+                "date": "2026-01-02T15:30:00",
+                "final_amount": 105,
+                "id": 5,
+                "order_id": "ORD-005",
+                "order_status": "Served",
+                "payment_status": "Pending",
+                "table_number": "5",
+              },
+            ],
+            "payment_status": "Completed",
+          },
+          "tenant": "demo",
+        },
+      },
+    ],
+    "label": "completed",
+    "markup": "b4a7b768847d",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-005",
+      "ORD-006",
+    ],
+    "tab": "Served",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=true",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [
+      Object {
+        "saveAllOrderStatus": Object {
+          "data": Object {
+            "orders": Array [
+              Object {
+                "date": "2026-01-02T15:30:00",
+                "final_amount": 105,
+                "id": 5,
+                "order_id": "ORD-005",
+                "order_status": "Served",
+                "payment_status": "Pending",
+                "table_number": "5",
+              },
+            ],
+            "payment_status": "Pending",
+          },
+          "tenant": "demo",
+        },
+      },
+    ],
+    "label": "pending",
+    "markup": "b4a7b768847d",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-005",
+      "ORD-006",
+    ],
+    "tab": "Served",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=true",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+]
+`;
+
+exports[`bulk updates confirm the placed orders 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "flex",
+    "pointerEvents": "unset",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+    Object {
+      "saveAllOrderStatus": Object {
+        "data": Object {
+          "cancelled_by": "Admin",
+          "order_status": "Confirm",
+          "orders": Array [
+            Object {
+              "date": "2026-01-02T11:30:00",
+              "final_amount": 101,
+              "id": 1,
+              "order_id": "ORD-001",
+              "order_status": "Placed",
+              "payment_status": "Pending",
+              "table_number": "1",
+            },
+            Object {
+              "date": "2026-01-02T12:30:00",
+              "final_amount": 102,
+              "id": 2,
+              "order_id": "ORD-002",
+              "order_status": "Placed",
+              "payment_status": "Pending",
+              "table_number": "2",
+            },
+          ],
+        },
+        "tenant": "demo",
+      },
+    },
+  ],
+  "label": "confirmed",
+  "markup": "f1e9ab305d85",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".",
+}
+`;
+
+exports[`bulk updates serve the confirmed orders and show the result on the served tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "flex",
+    "pointerEvents": "unset",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+    Object {
+      "saveAllOrderStatus": Object {
+        "data": Object {
+          "cancelled_by": "Admin",
+          "order_status": "Served",
+          "orders": Array [
+            Object {
+              "date": "2026-01-02T15:30:00",
+              "final_amount": 105,
+              "id": 5,
+              "order_id": "ORD-005",
+              "order_status": "Served",
+              "payment_status": "Pending",
+              "table_number": "5",
+            },
+            Object {
+              "date": "2026-01-02T16:30:00",
+              "final_amount": 106,
+              "id": 6,
+              "order_id": "ORD-006",
+              "order_status": "Served",
+              "payment_status": "Pending",
+              "table_number": "6",
+            },
+          ],
+        },
+        "tenant": "demo",
+      },
+    },
+  ],
+  "label": "served",
+  "markup": "b4a7b768847d",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-005",
+    "ORD-006",
+  ],
+  "tab": "Served",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=false",
+    "served_order=true",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": "...",
+}
+`;
+
+exports[`bulk updates the server says no 1`] = `
+Object {
+  "alert": "Those orders were not updated.",
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:on:1",
+      "Served:on:1",
+      "Pending:on:1",
+      "Completed:on:1",
+      "Order cancel:on:1",
+    ],
+    "display": "flex",
+    "pointerEvents": "unset",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+    Object {
+      "saveAllOrderStatus": Object {
+        "data": Object {
+          "cancelled_by": "Admin",
+          "order_status": "Cancelled",
+          "orders": Array [
+            Object {
+              "date": "2026-01-02T12:30:00",
+              "final_amount": 102,
+              "id": 2,
+              "order_id": "ORD-002",
+              "order_status": "Placed",
+              "payment_status": "Pending",
+              "table_number": "2",
+            },
+          ],
+        },
+        "tenant": "demo",
+      },
+    },
+    Object {
+      "saveAllOrderStatus": Object {
+        "data": Object {
+          "cancelled_by": "Admin",
+          "order_status": "Cancelled",
+          "orders": Array [
+            Object {
+              "date": "2026-01-02T11:30:00",
+              "final_amount": 101,
+              "id": 1,
+              "order_id": "ORD-001",
+              "order_status": "Placed",
+              "payment_status": "Pending",
+              "table_number": "1",
+            },
+          ],
+        },
+        "tenant": "demo",
+      },
+    },
+  ],
+  "label": "refused",
+  "markup": "388e91a511ec",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-001",
+    "ORD-002",
+  ],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".x.",
+}
+`;
+
+exports[`bulk updates which buttons are on for each tab with something ticked 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "ticked all on newly_placed",
+    "markup": "cb5d29cb114d",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "xxx",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "ticked all on pending_order",
+    "markup": "4e1a6aed40a7",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-003",
+      "ORD-004",
+    ],
+    "tab": "Pending",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=true",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "xxx",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "ticked all on served_order",
+    "markup": "dc6fd8744f13",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-005",
+      "ORD-006",
+    ],
+    "tab": "Served",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=true",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "xxx",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "ticked all on paid_order",
+    "markup": "8d914ec3f8db",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-007",
+    ],
+    "tab": "Paid",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=true",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "xx",
+  },
+]
+`;
+
+exports[`first render first visit starts on the placed tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "first visit",
+  "markup": "e05e80d34f5c",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-001",
+    "ORD-002",
+  ],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": "...",
+}
+`;
+
+exports[`first render no orders 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "empty",
+  "markup": "2aaed6722978",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".",
+}
+`;
+
+exports[`first render not signed in to a restaurant does not load anything 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [],
+  "label": "no tenant",
+  "markup": "7a441458d468",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "setting": "{}",
+  },
+  "rows": Array [],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".",
+}
+`;
+
+exports[`first render on the Cancelled tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "none",
+    "pointerEvents": "none",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "Cancelled",
+  "markup": "1e81e2f25e61",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-009",
+  ],
+  "tab": "Cancelled",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=true",
+  ],
+  "ticked": ".-",
+}
+`;
+
+exports[`first render on the Completed tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "none",
+    "pointerEvents": "none",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "Completed",
+  "markup": "08346ca07f7b",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-008",
+  ],
+  "tab": "Completed",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=true",
+    "cancelled=false",
+  ],
+  "ticked": "..",
+}
+`;
+
+exports[`first render on the Newly_placed tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "Newly_placed",
+  "markup": "e05e80d34f5c",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-001",
+    "ORD-002",
+  ],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": "...",
+}
+`;
+
+exports[`first render on the Paid tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "Paid",
+  "markup": "2ddc441c83a7",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-007",
+  ],
+  "tab": "Paid",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=true",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": "..",
+}
+`;
+
+exports[`first render on the Pending tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "Pending",
+  "markup": "f4f77b48c7c2",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-003",
+    "ORD-004",
+  ],
+  "tab": "Pending",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=true",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": "...",
+}
+`;
+
+exports[`first render on the Served tab 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "Served",
+  "markup": "e3030c8e6427",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-005",
+    "ORD-006",
+  ],
+  "tab": "Served",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=false",
+    "served_order=true",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": "...",
+}
+`;
+
+exports[`first render while loading 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "",
+    "pointerEvents": "",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "loading",
+  "markup": "7a441458d468",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "setting": "{}",
+  },
+  "rows": Array [],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".",
+}
+`;
+
+exports[`opening an order More opens the order with its items 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "first order",
+    "markup": "4a4dba04dc3e",
+    "model": Object {
+      "items": "11,12",
+      "open": "true",
+      "order": "ORD-001",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "an order from another tab",
+    "markup": "09b1a01b7d1b",
+    "model": Object {
+      "items": "13",
+      "open": "true",
+      "order": "ORD-003",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-003",
+      "ORD-004",
+    ],
+    "tab": "Pending",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=true",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+]
+`;
+
+exports[`tabs reloading keeps the tab the user was on 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "after recall",
+    "markup": "21dcdcae1a25",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-0021",
+    ],
+    "tab": "Served",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=true",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "..",
+  },
+]
+`;
+
+exports[`tabs switching tabs clears ticked orders 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "ticked one",
+    "markup": "23278de7ff21",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": ".x.",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "after switching",
+    "markup": "6685ef13a492",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-003",
+      "ORD-004",
+    ],
+    "tab": "Pending",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=true",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+]
+`;
+
+exports[`tabs switching through every tab 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "tab pending_order",
+    "markup": "6685ef13a492",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-003",
+      "ORD-004",
+    ],
+    "tab": "Pending",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=true",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "tab served_order",
+    "markup": "b4a7b768847d",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-005",
+      "ORD-006",
+    ],
+    "tab": "Served",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=true",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "tab paid_order",
+    "markup": "8aa00c998c30",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-007",
+    ],
+    "tab": "Paid",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=true",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "..",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "none",
+      "pointerEvents": "none",
+    },
+    "calls": Array [],
+    "label": "tab completed",
+    "markup": "d3c1a2f67d9d",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-008",
+    ],
+    "tab": "Completed",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=true",
+      "cancelled=false",
+    ],
+    "ticked": "..",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "none",
+      "pointerEvents": "none",
+    },
+    "calls": Array [],
+    "label": "tab cancelled",
+    "markup": "161a36a29c34",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-009",
+    ],
+    "tab": "Cancelled",
+    "tabs": Array [
+      "newly_placed=false",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=true",
+    ],
+    "ticked": ".-",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "flex",
+      "pointerEvents": "unset",
+    },
+    "calls": Array [],
+    "label": "tab newly_placed",
+    "markup": "8e3f82eab10f",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+]
+`;
+
+exports[`ticking orders cancelled orders cannot be ticked 1`] = `
+Object {
+  "alert": null,
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "none",
+    "pointerEvents": "none",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "cancelled tab",
+  "markup": "1e81e2f25e61",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [
+    "ORD-009",
+  ],
+  "tab": "Cancelled",
+  "tabs": Array [
+    "newly_placed=false",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=true",
+  ],
+  "ticked": ".-",
+}
+`;
+
+exports[`ticking orders the parent box on an empty tab warns 1`] = `
+Object {
+  "alert": "No item present",
+  "bulk": Object {
+    "buttons": Array [
+      "Placed:off:0.4",
+      "Confirm:off:0.4",
+      "Served:off:0.4",
+      "Pending:off:0.4",
+      "Completed:off:0.4",
+      "Order cancel:off:0.3",
+    ],
+    "display": "flex",
+    "pointerEvents": "unset",
+  },
+  "calls": Array [
+    Object {
+      "loadDashboard": "demo",
+    },
+  ],
+  "label": "nothing to tick",
+  "markup": "00a1b53f7cec",
+  "model": Object {
+    "items": "",
+    "open": "false",
+    "restro": "Test Restro",
+    "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+  },
+  "rows": Array [],
+  "tab": "Newly_placed",
+  "tabs": Array [
+    "newly_placed=true",
+    "pending_order=false",
+    "served_order=false",
+    "paid_order=false",
+    "completed=false",
+    "cancelled=false",
+  ],
+  "ticked": ".",
+}
+`;
+
+exports[`ticking orders the parent box ticks and unticks everything 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "all",
+    "markup": "23278de7ff21",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "xxx",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:off:0.4",
+        "Served:off:0.4",
+        "Pending:off:0.4",
+        "Completed:off:0.4",
+        "Order cancel:off:0.3",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [],
+    "label": "none",
+    "markup": "e05e80d34f5c",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "...",
+  },
+]
+`;
+
+exports[`ticking orders ticking one, two, then untick 1`] = `
+Array [
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [
+      Object {
+        "loadDashboard": "demo",
+      },
+    ],
+    "label": "first",
+    "markup": "23278de7ff21",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": ".x.",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [],
+    "label": "both",
+    "markup": "23278de7ff21",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": ".xx",
+  },
+  Object {
+    "alert": null,
+    "bulk": Object {
+      "buttons": Array [
+        "Placed:off:0.4",
+        "Confirm:on:1",
+        "Served:on:1",
+        "Pending:on:1",
+        "Completed:on:1",
+        "Order cancel:on:1",
+      ],
+      "display": "",
+      "pointerEvents": "",
+    },
+    "calls": Array [],
+    "label": "first off",
+    "markup": "23278de7ff21",
+    "model": Object {
+      "items": "",
+      "open": "false",
+      "restro": "Test Restro",
+      "setting": "{\\"discount_in\\":\\"Discount in (%)\\"}",
+    },
+    "rows": Array [
+      "ORD-001",
+      "ORD-002",
+    ],
+    "tab": "Newly_placed",
+    "tabs": Array [
+      "newly_placed=true",
+      "pending_order=false",
+      "served_order=false",
+      "paid_order=false",
+      "completed=false",
+      "cancelled=false",
+    ],
+    "ticked": "..x",
+  },
+]
+`;

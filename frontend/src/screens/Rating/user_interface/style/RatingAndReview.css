@@ -1,0 +1,152 @@
+/* Added by :- Parineeta Gedam */
+/* Date :- 24-04-2023 */
+/* Reason :- css of rating and review page */
+
+.rating_review_parent_container{
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.first_parent_container{
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rating_review_heading{
+    font-size: var(--font-size-lg);
+    font-family: var(--font-family);
+    letter-spacing: 1.7px;
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+}
+
+.rating_review_data_container{
+    background-color: rgb(245, 241, 235);
+    margin-top: 25px;
+    height: 30%;
+    padding: 5px 5px 5px 5px;
+    box-shadow: 0 0 5px var(--text-color);
+    border-radius: var(--radius-sm);
+
+}
+.rating_data_container{
+    display: flex;
+    align-items: center;
+}
+.orderitem_name{
+    font-size: var(--font-size-md);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 1.7;
+    width: 60%;
+    word-break: break-word;
+}
+.rating_container{
+    width: 40%;
+    height: 5%;
+    padding: 0px 0px 0px 2px;
+    /* commented by rohankansari 4/5/23 */
+    /* box-shadow: 0 0 5px #000; */
+}
+.review_container{
+    display: flex;
+    margin-top: 10px;
+}
+.review_label{
+    width: 20%;
+    font-size: var(--font-size-md);
+    font-family: var(--font-family);
+    letter-spacing: 1.7;
+    font-weight: var(--font-weight-medium);
+}
+.review_input_box{
+    width: 75%;
+    height: 20%;
+    padding: 2px 2px 2px 2px;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    margin-left: 5px;
+}
+
+/* button css */
+.rating_review_btn_container{
+    display: flex;
+    justify-content: space-around;
+    /* Modified by Yuvraj Sahu on 26-05-2023
+    Reason - to give extra space for footer */
+    /* margin-bottom: 50px; */
+    margin-bottom: 80px;
+    /* End of modification by Yuvraj Sahu on 26-05-2023 */
+    margin-top: 20px;
+}
+.rating_review_skip_btn {
+    width: 30%;
+    font-size: var(--font-size-lg);
+    letter-spacing: 1px;
+    font-family: var(--font-family);
+    padding: 5px 0;
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+}
+
+.rating_review_done_heading{
+    width: 30%;
+    font-size: var(--font-size-lg);
+    letter-spacing: 1px;
+    font-family: var(--font-family);
+    padding: 5px 0;
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+}
+
+/* Added by ROhankansari - 4/5/23
+   Reason - To style new overall comment field */
+
+.Overall_container{
+    width: 95%;
+    margin:20px auto 10px auto;
+    /* margin-top: 20px; */
+    display: flex;
+    flex-direction: column;
+    gap:2px;
+    height: max-content;
+
+}
+
+.text_area{
+    width: 98%;
+    height: 60px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+/* end of adition - rohankansari 4/5/23 */
+
+/* Commented & code added by pratap sahu on 11-10-2023*/
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 80px;
+    margin-top: 20px;
+}
+
+.skip-button,
+.done-button {
+    width: 30%;
+    font-size: var(--font-size-lg);
+    letter-spacing: 1px;
+    font-family: var(--font-family);
+    padding: 5px 0;
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+}
+
+.skip-button:hover,
+.done-button:hover {
+    cursor: pointer;
+    background-color:var(--muted-text-color);
+}
+/* End of Comment & code added by pratap sahu on 11-10-2023*/

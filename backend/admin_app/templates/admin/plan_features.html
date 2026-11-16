@@ -1,0 +1,25 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<p>
+  These are the default features of each plan. Adding or removing one here changes every restaurant on that plan.
+  It does not change which plan a restaurant is on. Extra features are ticked on the restaurant itself.
+</p>
+<form method="post">
+  {% csrf_token %}
+  {% for plan in plans %}
+  <fieldset class="module" style="margin-bottom: 16px; padding: 12px;">
+    <h2>{{ plan.label }}</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px;">
+      {% for feature in plan.features %}
+      <label>
+        <input type="checkbox" name="{{ plan.name }}" value="{{ feature.code }}" {% if feature.on %}checked{% endif %}>
+        {{ feature.label }}
+      </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+  <div class="submit-row"><input type="submit" value="Save" class="default"></div>
+</form>
+{% endblock %}

@@ -1,0 +1,732 @@
+/**
+* Added by - Ashish Dewangan on 02-06-2023
+* Reason - Created to have styling details of settings form page
+*/
+@import "../../../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+  width: 100%;
+  /* background-color: var(--primary-soft); */
+  background-color: #f5f6f8;
+
+  /* commented by - Suman sahu on 17/06/2023 */
+  /* margin-bottom: 50px; */
+  /* end of commentation by - suman sahu on 17/06/2023 */
+  height: 86.5vh;
+  overflow: scroll;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.pageTitle {
+  font-size: var(--font-size-lg);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+.settingSection {
+  min-height: auto;
+  background-color: transparent;
+  margin: auto 10px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-color);
+  /* background-color: var(--primary-soft); */
+  background-color: var(--background-color);
+  width: fit-content;
+  margin: auto auto;
+  margin-bottom: 20px;
+  /* padding: 20px 80px; */
+}
+
+.sectionInsideForm {
+
+  /* margin-top: 30px; */
+  /* margin-top: 25px; */
+  /* background-color: var(--primary-soft); */
+  background-color: var(--background-color);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  /* added by Rohan kansari - 30/6/23
+       Reason - To show proper gapping between columns */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  box-shadow:
+    var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, .25));
+}
+
+.sectionInsideForm2 {
+  margin-top: 30px;
+  /* background-color: var(--primary-soft); */
+  background-color: var(--background-color);
+
+  padding: 10px;
+  width: 300px !important;
+  border-radius: var(--radius-sm);
+  box-shadow:
+    var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, .25));
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.inputArea {
+  display: flex;
+  align-items: center;
+}
+
+.inputLabel {
+  /* width: 250px; */
+  /* Added by Rohan kansari - 28/6/23
+     Reason - To add minimum price*/
+  min-width: 180px;
+  max-width: 180px;
+  font-weight: var(--font-weight-bold);
+}
+
+.textAreaDefaultHeight {
+  height: 32px;
+}
+
+/* Added by Om Shrivastava on 22-06-23
+Reason : Need to apply this css when some field is disable */
+.inputLabel2 {
+  width: 150px;
+  font-weight: var(--font-weight-bold);
+}
+
+/* End of addition by Om Shrivastava on 22-06-23 */
+.textInputBox {
+  width: 200px;
+  border: 1px solid var(--border-color);
+  margin-top: 5px;
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  background-color: var(--background-color);
+}
+
+/*Added by pratap sahu on 28-09-2023 */
+.textInputBox2 {
+  width: 200px;
+  border: 1px solid var(--border-color);
+  margin-top: 5px;
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  background-color: var(--background-color);
+  height: 100px;
+  min-height: 100px;
+  max-height: 100px;
+}
+
+/* End of code by pratap sahu on 28-09-2023 */
+/* Added by Om Shrivastava on 22-06-23
+Reason : Need to apply this css when some field is disable */
+.disabledInputBox {
+  border: none;
+  background-color: unset;
+  width: 120px;
+}
+
+/* End of addition by Om Shrivastava on 22-06-23 */
+
+/* Added by Pratap sahu on 20-09-23
+Reason :  To blur the cancel reason input box field when disabled*/
+.disabledReasonInputBox {
+  border: 1px solid var(--border-color);
+  background-color: #f5f5f5;
+  width: 200px;
+  border-radius: var(--radius-sm);
+  /* Added by Pratap sahu on 28-09-2023 */
+  height: 100px;
+  resize: 'none';
+  min-height: 100px;
+  max-height: 100px;
+  /* added by pratap sahu on 30-09-2023 */
+  color: var(--muted-text-color);
+  /* End of code by pratap sahu on 30-09-2023 */
+  /* End of Code by Pratap Sahu on 28-09-2023 */
+}
+
+/* End of Addition by Pratap sahu on 20-09-23
+Reason : To blur the cancel reason input box field when disabled */
+
+.inputErrorArea {
+  /* Modification and addition by Om Shrivastava on 12-07-23
+  Reason : Fix the margin of error contents */
+  /* margin-left: 200px; */
+  margin-left: 180px;
+  /* End of addition and modfication by Om Shrivastava on 12-07-23 */
+  font-size: var(--font-size-sm);
+  width: 250px;
+  color: red;
+}
+
+.actionContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.backButton {
+  background-color: var(--text-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: var(--font-size-lg);
+  width: 100px;
+  margin-right: 10px;
+  /* width:200px; */
+
+  margin-top: 10px;
+  text-align: center;
+  /* Added by Om Shrivastava on 08-07-23
+  Reason : Need to change designing */
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  border-radius: 7px;
+  padding: 12px 24px;
+  border: 0;
+  color: var(--on-color);
+  line-height: 1.15;
+  font-size: var(--font-size-md);
+  /* End of added code by Om shrivastava on 08-07-23 */
+}
+
+.backButton:hover {
+  cursor: pointer;
+  background-color: var(--muted-text-color);
+}
+
+.addMoreItemButton {
+  /* background-color: #585a5b; */
+  background-color: var(--muted-text-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: var(--font-size-lg);
+  /* width:100px; */
+  margin-top: 10px;
+  text-align: center;
+  margin-left: 12px;
+  /* Added by Om on 30-06-23 */
+  /* margin-top: auto; */
+  margin-bottom: auto;
+  /* End of added code by Om on 30-06-23 */
+  /* border: 2px solid red; */
+  /* Added by Om shrivastava on 02-07-23 */
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  border-radius: 3px;
+  padding: 12px 24px;
+  border: 0;
+  color: var(--on-color);
+  /* background: #000a47; */
+  background: var(--primary-color);
+  line-height: 1.15;
+  font-size: var(--font-size-md);
+  margin-right: 10px;
+}
+
+.addMoreItemButton:hover {
+  /* cursor: pointer;
+  background-color:var(--muted-text-color); */
+  transition: all .1s ease;
+  box-shadow: 0 0 0 0 var(--on-color), 0 0 0 3px #1de9b6;
+  /* End of addition by Om Shrivastava on 02-07-23 */
+}
+
+/* Added by Om Shrivastava on 23-06-23
+Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
+.addMoreItemButtonDisabled {
+  display: none;
+  margin-right: 10px;
+
+  /* border: 2px solid black; */
+}
+
+/* End of addition by Om Shrivastava on 23-06-23 Reason : When payment status is completed or orderstatus is cancelled so this button is disabled */
+
+.proceedButton {
+  background-color: var(--success-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 20px;
+  transition: all 0.3s;
+  font-size: var(--font-size-lg);
+  width: 100px;
+  margin-top: 10px;
+  text-align: center;
+  /* Added by Om Shrivastava on 08-07-23
+  Reason : Need to change designing */
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  border-radius: 3px;
+  padding: 12px 24px;
+  border: 0;
+  color: var(--on-color);
+  line-height: 1.15;
+  font-size: var(--font-size-md);
+  /* margin-top: 10px; */
+
+  /* End of added code by Om Shrivastava on 08-07-23  */
+}
+
+.proceedButton:hover {
+  cursor: pointer;
+  background-color: var(--success-color);
+}
+
+@media screen and (max-width: 4000px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .formContainer {
+    justify-content: center;
+  }
+
+}
+
+@media screen and (max-width: 1120px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .settingSection {
+    padding: 20px 40px;
+  }
+
+  .sectionInsideForm2 {
+    width: 470px !important;
+  }
+
+  .inputLabel2 {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .settingSection {
+    padding: 20px 20px;
+  }
+
+  /* Commented by Om Shrivastava on 22-06-23 */
+  /* .inputLabel {
+    width: 250px;
+  }
+  .textInputBox {
+    width: 200px;
+  } */
+  /* End of commented code on 22-06-23 */
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+
+  .inputLabel2 {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    margin-bottom: 11vh;
+  }
+
+  .settingSection {
+    padding: 20px 20px;
+  }
+
+  .inputErrorArea {
+    margin-left: 300px;
+    width: 200px;
+  }
+}
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .container {
+    height: 73vh;
+  }
+}
+
+/* end of code by - suman sahu on 17/06/2023 */
+
+@media screen and (max-width: 720px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+    margin-bottom: 11vh;
+  }
+
+  .settingSection {
+    margin-bottom: 20px;
+  }
+
+  .inputLabel {
+    width: 250px;
+  }
+
+  .textInputBox {
+    width: 200px;
+  }
+
+  .disabledInputBox {
+    width: 120px;
+  }
+
+  .inputLabel2 {
+    width: 250px;
+  }
+
+  .inputErrorArea {
+    margin-left: 250px;
+    width: 200px;
+  }
+
+}
+
+@media screen and (max-width: 610px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .inputLabel {
+    align-self: flex-start;
+    width: 400px;
+  }
+
+  .inputLabel2 {
+    margin-top: 3%;
+  }
+
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 100%;
+    margin-right: 0px;
+  }
+
+  .inputArea {
+    flex-direction: column;
+  }
+
+  .inputAreaForResponsive {
+    flex-direction: row;
+  }
+
+  .sectionInsideForm {
+    width: 320px;
+  }
+
+  .sectionInsideForm2 {
+    width: 320px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .inputArea {
+    flex-direction: column;
+  }
+
+  .inputAreaForResponsive {
+    flex-direction: row;
+  }
+
+  .inputLabel {
+    width: 300px;
+    align-self: flex-start;
+  }
+
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  /* Modification and addition by Om Shrivastava on 08-07-23 Reason : Need to set designing in responsive */
+  .addMoreItemButton {
+    /* width:90px; */
+    font-size: 17px;
+    /* Addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view  */
+    /* padding:3px 3px; */
+    padding: 11px 3px;
+    /* End of addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view */
+
+  }
+
+  .proceedButton,
+  .backButton {
+    font-size: 17px;
+    padding: 11px 3px;
+    /* Addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view  */
+    width: 20%;
+    /* End of addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view */
+  }
+
+  /* End of addition and modification by Om Shrivastava on 08-07-23 */
+
+  /* Addition by Om Shrivastava on 15-07-23
+    Reason : Set the width of button in mobile view  */
+  .savedButton {
+    font-size: 17px;
+    padding: 11px 10px;
+    width: unset;
+  }
+
+  .reverseButton {
+    font-size: 17px;
+    padding: 11px 10px;
+    width: unset;
+  }
+
+  /* End of addition and modification by Om Shrivastava on 08-07-23 */
+
+  .inputLabel2 {
+    margin-top: 1.5%;
+  }
+}
+
+/* Added by Om Shrivastava on 12-07-23 For set the button alignment in mobileview */
+@media screen and (max-width : 430px) {
+  .actionContainer {
+    width: 100%;
+    /* border: 1px solid green; */
+    justify-content: space-around;
+  }
+
+  .backButton {
+    margin: 0px !important;
+  }
+
+  .addMoreItemButtonDisabled {
+    margin: 0px !important;
+  }
+
+  .addMoreItemButton {
+    margin: 0px !important;
+  }
+
+  .proceedButton {
+    margin-top: 0px;
+  }
+}
+
+/* End of addition by Om Shrivastava on 12-07-23 */
+@media screen and (max-width: 400px) {
+  .container {
+    --common-column-width: 15%;
+    --common-column-min-width: 15%;
+    --common-column-display: unset;
+  }
+
+  .inputArea {
+    flex-direction: column;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .inputAreaForResponsive {
+    flex-direction: row;
+  }
+
+  .inputLabel2 {
+    margin-top: 1.5%;
+  }
+
+  .inputLabel {
+    width: 250px;
+    align-self: flex-start;
+  }
+
+  .textInputBox {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  .inputErrorArea {
+    margin-left: 0px;
+    width: 90%;
+    margin-right: 0px;
+  }
+
+  .sectionInsideForm2 {
+    width: 320px !important;
+  }
+}
+
+/* erp-skin */
+.pageTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-color);
+}
+
+.pageTitleContainer,
+.titleContainer {
+  justify-content: flex-start;
+  margin: 16px 20px 8px;
+}
+
+.textInputBox,
+.textInputBox2 {
+  height: 36px;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+
+.textInputBox:focus,
+.textInputBox2:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 175, 190, 0.16);
+}
+
+.proceedButton,
+.primaryButton {
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 96px;
+  box-shadow: none;
+}
+
+.backButton,
+.cancelButton {
+  background: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 88px;
+}
+
+.secondaryButton {
+  background: #fff;
+  color: var(--error-color);
+  border: 1px solid #f0c2c2;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.sectionInsideForm {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.tableData {
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.commonColumnTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+
+.inputErrorArea {
+  color: var(--error-color);
+  font-size: 12px;
+}
+
+.menuListSection,
+.categoryListSection,
+.orderListSection,
+.ratingListSection {
+  width: auto;
+  max-width: none;
+  margin: 0 20px 24px;
+}
+
+.menuSection,
+.categorySection,
+.settingSection,
+.footerSection {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  padding: 24px 28px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.container {
+  background: var(--surface-color);
+}

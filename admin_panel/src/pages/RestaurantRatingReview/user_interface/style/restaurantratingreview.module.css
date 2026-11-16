@@ -1,0 +1,582 @@
+/**
+* Added by - Om Shrivastava on 26-07-23
+* Reason - Create to have styling details of rating details page
+*/
+@import "../../../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+  width: 100%;
+  /* commented and modified by Om Shrivastava on 26-07-23 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  height: 86.5vh;
+  /* overflow: auto; */
+  overflow: scroll;
+  background-color: var(--background-color);
+  /* margin-bottom: 9vh; */
+  /* end of code by - Om Shrivastava on 26-07-23 */
+
+}
+
+.pageTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto 10px;
+  margin-top: 10px;
+}
+
+.pageTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ratingListSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.tableContainer {
+  width: 100%;
+  padding: 4px;
+  background-color: var(--surface-color);
+}
+
+.tableHeadingContainer {
+  background-color: var(--background-color);
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-family);
+  padding: 3px;
+}
+
+  /* Added by - Om Shrivastava on 15-06-2023
+  Reason - To have styling for search box */
+.searchBox{
+  width:60%;
+}
+  /* End of code addition by - Om Shrivastava on 15-06-2023
+  Reason - To have styling for search box */
+
+.tableDataContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--surface-color);
+  padding: 3px;
+}
+.tableData {
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+}
+
+.commonColumnTitle {
+  width: 35vw;
+  /* min-width: 40vw; */
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-size: var(--font-size-lg);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap: break-word;
+}
+.commonColumnTitle2{
+    width: 10%;
+    min-width: 15%;
+}
+.commonColumnTitle3{
+  /* width: 55%; */
+  min-width: 3%;
+  justify-content: left;
+}
+.commonColumnData {
+  width: 35vw;
+  /* min-width: 40vw; */
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+  text-align: center;
+
+  /* display: flex; */
+
+  justify-content: center;
+  align-items: center;
+}
+.commonColumnData2{
+    width: 10%;
+    min-width: 15%;
+}
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+.primaryButton {
+  background-color: var(--success-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+  width: fit-content;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--success-color);
+}
+
+.secondaryButton {
+  background-color: red;
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  background-color: rgb(202, 19, 19);
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yesIcon {
+  color: green;
+  width: 20px;
+  height: 20px;
+}
+
+.noIcon {
+  color: red;
+  width: 20px;
+  height: 20px;
+}
+
+.sortingIcon {
+  font-size: var(--font-size-lg);
+  width: 20px;
+  height: 20px;
+}
+
+/* Added by Om Shrivastava - 26-07-23
+   Reason - To design dropdown container for page selector Added on Pagination */
+
+/*Adding pagination content into flex for responsive manage  */
+.paginationContent{
+  display: flex;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+  background-color: var(--background-color);
+  color: black;
+  padding: 0 10px;
+  display: flex;
+  border-radius: var(--radius-sm);
+  border: 1px solid grey;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown_content {
+  display: none;
+  position: absolute;
+  bottom: 25px;
+  font-size: var(--font-size-sm);
+  background-color: var(--surface-color);
+  min-width: max-content;
+  width: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* Links inside the dropdown */
+.dropdown_content span {
+  color: black;
+  padding: 4px 6px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown_content span:hover {background-color: var(--surface-color)}
+
+/* Show the dropdown menu on hover */
+/* .dropdown:hover .dropdown_content {
+  display: block;
+} */
+
+.open{
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: var(--surface-color);
+}
+
+/* End of code - 26-07-23 - Om Shrivastava */
+
+@media screen and (max-width: 4000px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 300px;
+    --common-column-min-width: 300px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 270px;
+    --common-column-min-width: 270px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+  /* Added by - Om Shrivastava on 15-06-2023
+  Reason - To have styling for search box */
+  .searchBox{
+    width:100%;
+  }
+  /* End of code addition by - Om Shrivastava on 15-06-2023
+  Reason - To have styling for search box */
+}
+
+@media screen and (max-width: 1050px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 220px;
+    --common-column-min-width: 220px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 200px;
+    --common-column-min-width: 200px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 190px;
+    --common-column-min-width: 190px; */
+    --common-column-width: 18vw;
+    --common-column-min-width: 18vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 180px;
+    --common-column-min-width: 180px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+}
+
+/* added by Om Shrivastava on 26-07-23 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+   @media screen and (max-width: 768px) {
+    .container {
+      height:73vh;
+    }
+
+    /* Modified by Om Shrivastava - 1/7/23
+     Reason - To align page list in mobile view also */
+  .paginationContent{
+    flex-direction: row;
+      justify-content: space-around;
+      gap: 10px;
+    }
+  }
+/* end of code by - Om Shrivastava on 26-07-23 */
+
+@media screen and (max-width: 720px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 170px;
+    --common-column-min-width: 170px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+
+ 
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 120px;
+    --common-column-min-width: 120px; */
+    --common-column-width: 25vw;
+    --common-column-min-width: 25vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .ratingListSection{
+    width: 90%;
+  }
+  /* .container{
+    width: 100%;
+  } */
+}
+@media screen and (max-width: 500px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 80px;
+    --common-column-min-width: 80px; */
+    --common-column-width: 30vw;
+    --common-column-min-width: 30vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+}
+@media screen and (max-width: 430px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+  	/* --common-column-width: 100px;
+    --common-column-min-width: 100px; */
+    --common-column-width: 30vw;
+    --common-column-min-width: 30vw;
+    /* End of code modification by - Om Shrivastava on 26-07-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+  .commonColumnTitle {
+    /* flex-direction: column; */
+    /* width: 55%; */
+    min-width: 20%;
+  }
+  .commonColumnTitle3{
+min-width: 45%;
+justify-content: left;
+  }
+  .reviewContainer{
+    margin-left: 15px ;
+
+  }
+}
+
+/* erp-skin */
+.pageTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-color);
+}
+.pageTitleContainer, .titleContainer {
+  justify-content: flex-start;
+  margin: 16px 20px 8px;
+}
+.textInputBox, .textInputBox2 {
+  height: 36px;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+.textInputBox:focus, .textInputBox2:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 175, 190, 0.16);
+}
+.proceedButton, .primaryButton {
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 96px;
+  box-shadow: none;
+}
+.backButton, .cancelButton {
+  background: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 88px;
+}
+.secondaryButton {
+  background: #fff;
+  color: var(--error-color);
+  border: 1px solid #f0c2c2;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+.sectionInsideForm {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+.tableData {
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+.commonColumnTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+.inputErrorArea {
+  color: var(--error-color);
+  font-size: 12px;
+}
+
+.menuListSection, .categoryListSection, .orderListSection, .ratingListSection {
+  width: auto;
+  max-width: none;
+  margin: 0 20px 24px;
+}
+.menuSection, .categorySection, .settingSection, .footerSection {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  padding: 24px 28px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-sizing: border-box;
+}
+.container {
+  background: var(--surface-color);
+}

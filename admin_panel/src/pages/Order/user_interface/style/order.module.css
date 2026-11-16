@@ -1,0 +1,1152 @@
+/**
+* Added by - Om Shrivastava on 15-06-23
+* Reason - Create to have styling details of menu details page
+*/
+@import "../../../../App.css";
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+  width: 100%;
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* overflow: auto; */
+  overflow: scroll;
+  height: 86.5vh;
+  /* margin-bottom: 9vh; */
+  /* end of code by - suman sahu on 17/06/2023 */
+  background-color: var(--background-color);
+}
+
+.pageTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 16px 0;
+  gap: 12px;
+}
+
+.pageTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  text-align: left;
+  margin: 0;
+  color: var(--sidebar-background);
+}
+
+.pageHint {
+  margin-top: 2px;
+  color: var(--muted-text-color);
+  font-size: var(--font-size-sm);
+}
+
+.newOrderBtn {
+  height: 38px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 16px;
+  background: var(--primary-color);
+  color: var(--on-color);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* CSS changes by Om Shrivastava on 28-08-23 
+Reason : Need to decrease the size of table list */
+
+.orderListSection {
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+  min-height: auto;
+  margin: auto 10px;
+  margin-top: 10px;
+  /* width: fit-content; */
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+}
+
+.tableContainer {
+  /* min-width: 100%; */
+  min-width: 80%;
+  width: max-content;
+  padding: 4px;
+  background-color: var(--surface-color);
+  /* Added */
+  margin: auto;
+}
+
+.tableHeadingContainer {
+  background-color: var(--background-color);
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-family);
+  padding: 3px;
+}
+
+.tableDataContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--surface-color);
+  padding: 3px;
+}
+
+.tableData {
+  /* background-color: white; */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  box-shadow: var(--ds-shadow-raised, 0 1px 2px 0 rgba(9, 30, 66, 0.25));
+}
+
+.commonColumnTitle {
+  width: var(--common-column-width);
+  /* width: 8%; */
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commonColumnData {
+  /* width: var(--common-column-width);
+  min-width: var(--common-column-min-width);
+  padding: 5px 0px;
+  height: 100%;
+  display: var(--common-column-display); */
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-xs) !important;
+  text-align: center;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+.data {
+  max-width: 130px;
+  word-break: break-all;
+}
+
+.eyeIcon {
+  cursor: pointer;
+}
+
+.smallColumnWidth {
+  /* width: var(--common-column-small-width) ; */
+  min-width: var(--common-column-small-min-width);
+}
+
+.mediumColoumnWidth {
+  width: var(--common-column-medium-width);
+  min-width: var(--common-column-medium-min-width);
+  /* width: 32%;
+  min-width: 90px; */
+}
+
+.paymentStatusColumn {
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+.sNoColumn {
+  min-width: 40px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+}
+
+/* End of  */
+/* Added by Yuvraj Sahu on 07-08-2023
+Reason - to design date filter */
+.dateFilterContainer {
+  display: flex;
+  width: 70%;
+  margin: auto;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.dateContainer {
+  display: flex;
+}
+
+.filterButtonSpace {
+  /* padding: 0px 5px 0px 5px; */
+  min-width: 70px;
+  height: 30px;
+  padding: 4px 8px;
+  margin: 0 10px;
+  background-color: rgb(88, 146, 88);
+  border-radius: var(--radius-sm);
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: var(--font-size-sm);
+  letter-spacing: 1px;
+  cursor: pointer;
+  /* margin: auto 0; */
+}
+
+.datepicker1 {
+  padding: 0px 5px 0px 5px;
+}
+
+.filterButtonContainer {
+  /* min-width: 70px;
+  height: 30px;
+  padding: 4px 8px;
+  margin: 0 20px;
+  background-color: rgb(88, 146, 88);
+  border-radius: var(--radius-sm);
+  color: var(--primary-bg-color);
+  outline: none;
+  font-size: var(--font-size-sm);
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin: auto 0; */
+}
+
+.dateValidation {
+  color: red;
+  padding: 0px 10px;
+}
+
+/* End of addition by Yuvraj Sahu on 07-08-2023 */
+
+.menuImage {
+  width: 45px;
+  height: 45px;
+  border-radius: var(--radius-sm);
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.primaryButton {
+  background-color: var(--success-color);
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+  width: fit-content;
+}
+
+.primaryButton:hover {
+  cursor: pointer;
+  background-color: var(--success-color);
+}
+
+.secondaryButton {
+  background-color: red;
+  color: var(--on-color);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+
+.secondaryButton:hover {
+  cursor: pointer;
+  background-color: rgb(202, 19, 19);
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yesIcon {
+  color: green;
+  width: 20px;
+  height: 20px;
+}
+
+.noIcon {
+  color: red;
+  width: 20px;
+  height: 20px;
+}
+
+.sortingIcon {
+  font-size: var(--font-size-lg);
+  width: 20px;
+  height: 20px;
+}
+
+/* Added by ROhan kansari - 22/6/23
+   Reason - To design dropdown container  */
+
+/*Adding pagination content into flex for responsive manage  */
+.paginationContent {
+  display: flex;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+  background-color: var(--background-color);
+  color: black;
+  padding: 0 10px;
+  display: flex;
+  border-radius: var(--radius-sm);
+  border: 1px solid grey;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown_content {
+  display: none;
+  position: absolute;
+  bottom: 25px;
+  font-size: var(--font-size-sm);
+  background-color: var(--surface-color);
+  min-width: max-content;
+  width: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* Links inside the dropdown */
+.dropdown_content span {
+  color: black;
+  padding: 4px 6px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown_content span:hover {
+  background-color: var(--surface-color)
+}
+
+/* Show the dropdown menu on hover */
+/* .dropdown:hover .dropdown_content {
+  display: block;
+} */
+
+.open {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: var(--surface-color);
+}
+
+/* End of code - 22/6/23 - ROhan kansari */
+/* Added by Om Shrivastava on 10-09-23
+Reason : Set the width and height for the order list */
+.sNoColumn {
+  min-width: 40px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+}
+
+.actionColumn {
+  min-width: 35px;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.OrderIdColumn {
+  min-width: 80px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.tableNoColumn {
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.dateColumn {
+  min-width: 75px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.orderStatusColumn {
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.paymentStatusColumn {
+  min-width: 110px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.subtotalColumn {
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.discountColumn {
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.loayltyColumn {
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.totalColumn {
+  min-width: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.cgstColumn {
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.sgstColumn {
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+.finalRupees {
+  min-width: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  padding: 4px 0;
+  font-weight: var(--font-weight-regular);
+
+}
+
+/* End of addition by Om Shrivastava on 10-09-23
+Reason : Set the width and height for the order list */
+
+@media screen and (max-width: 4000px) {
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+
+    --common-column-medium-width: 20%;
+    --common-column-medium-min-width: 80px;
+
+    --common-column-large-width: 12%;
+    --common-column-large-min-width: 120px;
+  }
+
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 300px;
+    --common-column-min-width: 300px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 100px;
+
+    --common-column-medium-width: 25%;
+    --common-column-medium-min-width: 180px;
+
+    --common-column-large-width: 12%;
+    --common-column-large-min-width: 120px;
+
+
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .container {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 270px;
+    --common-column-min-width: 270px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 220px;
+    --common-column-min-width: 220px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 950px) {
+
+  /* Added by Yuvraj Sahu on 07-08-2023
+  Reason - to design a date filter container in responsive */
+  .dateFilterContainer {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .filterButtonContainer {
+    margin: auto;
+    margin-top: 5px;
+  }
+
+  .dateValidationContainer {
+    margin: auto;
+  }
+
+  /* End of addition by Yuvraj Sahu on 07-08-2023 */
+
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 200px;
+    --common-column-min-width: 200px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 190px;
+    --common-column-min-width: 190px; */
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .orderListSection {
+    --common-column-width: 15vw;
+    --common-column-min-width: 15vw;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 180px;
+    --common-column-min-width: 180px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 30px;
+    --common-column-small-color: "red";
+  }
+}
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .container {
+    height: 73vh;
+  }
+
+  .paginationContent {
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .orderListSection {
+    /* Modified by Rohan kansari - 21/8/23*/
+    height: auto;
+  }
+}
+
+/* end of code by - suman sahu on 17/06/2023 */
+
+@media screen and (max-width: 720px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 170px;
+    --common-column-min-width: 170px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+    --common-column-display: unset;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 120px;
+    --common-column-min-width: 120px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 80px;
+    --common-column-min-width: 80px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+    --common-column-small-width: 13%;
+    --common-column-small-min-width: 50px;
+  }
+
+}
+
+@media screen and (max-width: 430px) {
+  .container {
+    /* commented and modified by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    /* --common-column-width: 100px;
+    --common-column-min-width: 100px; */
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    /* End of code modification by - Om Shrivastava on 15-06-23
+       Reason - To make width responsive */
+    --common-column-display: unset;
+  }
+
+  .tableHeadingContainer {
+    justify-content: space-around;
+  }
+
+  .tableDataContainer {
+    justify-content: space-around;
+  }
+
+  .commonColumnTitle {
+    flex-direction: column;
+  }
+
+  .orderListSection {
+    --common-column-width: 20vw;
+    --common-column-min-width: 20vw;
+    --common-column-display: unset;
+  }
+}
+
+/* erp-skin */
+.pageTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-color);
+}
+
+.pageTitleContainer,
+.titleContainer {
+  justify-content: flex-start;
+  margin: 16px 20px 8px;
+}
+
+.textInputBox,
+.textInputBox2 {
+  height: 36px;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--text-color);
+}
+
+.textInputBox:focus,
+.textInputBox2:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 175, 190, 0.16);
+}
+
+.proceedButton,
+.primaryButton {
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 96px;
+  box-shadow: none;
+}
+
+.backButton,
+.cancelButton {
+  background: #fff;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  font-weight: 600;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 88px;
+}
+
+.secondaryButton {
+  background: #fff;
+  color: var(--error-color);
+  border: 1px solid #f0c2c2;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.sectionInsideForm {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.tableData {
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.commonColumnTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+
+.inputErrorArea {
+  color: var(--error-color);
+  font-size: 12px;
+}
+
+.menuListSection,
+.categoryListSection,
+.orderListSection,
+.ratingListSection {
+  width: auto;
+  max-width: none;
+  margin: 0 20px 24px;
+}
+
+.menuSection,
+.categorySection,
+.settingSection,
+.footerSection {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto 24px;
+  padding: 24px 28px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.container {
+  background: var(--surface-color);
+}
+
+/* Orders date filter: single-field DD/MM/YYYY display with native calendar popup. */
+.dateFilterContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: 10px 0 8px;
+  flex-wrap: wrap;
+}
+
+.dateContainer,
+.filterButtonContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  width: auto;
+  margin: 0;
+}
+
+.compactDateField {
+  display: flex;
+  align-items: center;
+  width: 170px;
+  min-width: 170px;
+  height: 34px;
+  padding: 0 8px;
+  background: #fff;
+  border: 1px solid #d4dce7;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.compactDateField:focus-within {
+  border-color: #3875bc;
+}
+
+.compactDateInvalid {
+  border-color: #dc2626;
+}
+
+.compactDateText {
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #16233a;
+  font: inherit;
+  font-size: 13px;
+}
+
+.compactDateText::placeholder {
+  color: #78879c;
+}
+
+.compactDateText:disabled {
+  color: #a3adbc;
+}
+
+.compactDateCalendar {
+  position: relative;
+  display: flex;
+  flex: 0 0 21px;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  color: #1c2b42;
+}
+
+.compactNativeDate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+.compactNativeDate::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.filterButtonSpace {
+  margin: 0 !important;
+  height: 34px;
+  min-width: 76px;
+}
+
+.dateValidation {
+  padding: 0;
+  color: #dc2626;
+  font-size: 12px;
+}
+
+@media (max-width: 620px) {
+  .dateFilterContainer {
+    gap: 10px;
+  }
+
+  .dateContainer {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile Orders filters: no oversized vertical gap between search and status. */
+@media(max-width:767px) {
+  .dateFilterContainer {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 8px 0 10px !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  .dateFilterContainer .dateContainer {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100% !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  .dateFilterContainer .datepicker1 {
+    min-width: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .dateFilterContainer .calendar {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 40px !important;
+    font-size: 13px !important;
+  }
+
+  .dateFilterContainer .filterButtonContainer {
+    display: flex !important;
+    width: 100% !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  .dateFilterContainer .filterButtonSpace {
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 8px 14px !important;
+  }
+}

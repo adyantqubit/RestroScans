@@ -1,0 +1,174 @@
+
+.container{
+    height: 86.5vh;
+    max-height: 86.5vh;
+    overflow: auto;
+    width: 100%;
+    padding: 20px 10px;
+}
+
+.contains{
+    width: 100%;
+    height: 100%;
+}
+
+.containsHeading{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.dashboardHeading{
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    
+}
+
+.createBtn{
+    background-color: #C1FF3E;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+}
+
+.orderContainer{
+   width: 100%;
+   min-height: 20vh;
+   background-color: var(--primary-soft);
+   margin-top: 10px;
+   border-radius: var(--radius-sm);
+   padding-bottom: 10px;
+}
+
+.orderContainer2{
+   width: 100%;
+   min-height: 20vh;
+   background-color: var(--primary-soft);
+   margin-top: 10px;
+   border-radius: var(--radius-sm);
+   padding-bottom: 10px;
+}
+
+.orderContainer3{
+    width: 100%;
+    min-height: 20vh;
+    background-color: var(--primary-soft);
+    margin-top: 10px;
+    border-radius: var(--radius-sm);
+    padding-bottom: 10px;
+ }
+
+.orderContainerHeading{
+    width: 98%;
+    margin: 0px 8px;
+    padding: 8px 0;
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    border-bottom: 1px solid black;
+}
+
+.tableContainer{
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 8px;
+
+}
+
+.card{
+    min-width: 148px;
+    min-height: 80px;
+    padding: 4px 4px;
+    background-color: #BB9E37;
+    border-radius: var(--radius-sm);
+}
+
+.card2{
+    min-width: 148px;
+    min-height: 60px;
+    padding: 8px 4px;
+    background-color: #377BBB;
+    border-radius: var(--radius-sm);
+}
+
+.card3{
+    min-width: 148px;
+    min-height: 60px;
+    padding: 8px 4px;
+    background-color: #37bb54;
+    border-radius: var(--radius-sm);
+}
+
+.tableLabel{
+    width: 95%;
+    font-size: var(--font-size-xs);
+    border-bottom: 1px solid var(--on-color);
+    color: var(--surface-color);
+}
+
+.tabelNum{
+    font-size: var(--font-size-lg);
+    color: var(--surface-color);
+}
+
+.ItemLabel{
+    max-height: 18px;
+    width: 95%;
+    font-size: var(--font-size-xs);
+    color: var(--surface-color);
+    white-space: nowrap;
+}
+
+.Item{
+    font-size: var(--font-size-md);
+    color: var(--surface-color);
+}
+
+.printBillBtn{
+    width: 98%;
+    font-size: var(--font-size-md);
+    color: var(--on-color);
+    background: #5fcf32;
+    border-radius: var(--radius-sm);
+    padding: 0 8px;
+    margin-top: 8px;
+    border: 1px solid var(--on-color);
+}
+
+@media screen and (max-width:500px){
+    .orderContainerHeading{
+        font-size: var(--font-size-md);
+    }
+
+    .card{
+        min-width: 100px;
+        max-height: 90px;
+        padding: 4px 4px;
+        background-color: #BB9E37;
+        border-radius: var(--radius-sm);
+    }
+    
+    .card2{
+        min-width: 148px;
+        min-height: 60px;
+        padding: 8px 4px;
+        background-color: #377BBB;
+        border-radius: var(--radius-sm);
+    }
+    
+    .card3{
+        min-width: 110px;
+        min-height: 60px;
+        padding: 8px 4px;
+        background-color: #37bb54;
+        border-radius: var(--radius-sm);
+    }
+
+    .tabelNum{
+        font-size: var(--font-size-md);
+    }
+    .tableLabel{
+        font-size:var(--font-size-xs);
+    }
+}

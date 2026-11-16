@@ -1,13 +1,18 @@
 from django.db import models
+from django.utils import timezone
 from django.dispatch import receiver
 from tenant_schemas.models import TenantMixin
+from tenant_schemas.utils import get_public_schema_name
 from django.core.exceptions import ValidationError
 from ckeditor.fields import RichTextField
 from tenant_schemas.signals import post_schema_sync
 from django.db import connection
 # Added by pratap sahu on 18-09-2023
 # Reason:To create a default theme option for new Tenant
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
+from django.core.cache import cache
+from common.tenant_resolution import tenant_cache_key
+from admin_app.plan_catalog import PLAN_CHOICES, FEATURE_CHOICES
 # End of Addition by pratap sahu on 18-09-2023
 # Reason:To create a default theme option for new Tenant
 
@@ -17,67 +22,50 @@ from django.db.models.signals import post_save
 # Added by Rohan Kansari - 11/5/23
 # Reason - To set global image validate function
 def validate_image(fieldfile_obj):
-    # #    try: 
+    """Reject images larger than 200 KB."""
+    import os
+
+    limit_kb = 2200
     try:
         filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-    except:
-      try:  
-       import os # new
-       from pathlib import Path
-       filesize=os.path.getsize(fieldfile_obj.file.name)
-       print(filesize)
-       megabyte_limit = 200
-       if filesize > megabyte_limit*1024:
-        # Changes by Rohan Kansari- 11/5/23 - Change validation message    
-        raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
-      except:
-        return     
-    if filesize > megabyte_limit*1024:
-            # Changes by Rohan Kansari- 11/5/23 - Change validation message
-            raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
-    # ENd of code - 11/5/23 - Rohan Kansari
+    except Exception:
+        try:
+            filesize = os.path.getsize(fieldfile_obj.file.name)
+        except Exception:
+            return
+    if filesize > limit_kb * 1024:
+        raise ValidationError("Please upload image below %skb" % str(limit_kb))
 
 
 # In this model, we 
-class Plans(models.Model):
-    plan_name=models.CharField(max_length=50,default="")
-    
-    class Meta:
-        verbose_name_plural = "Plans"
+class PlanFeature(models.Model):
+    """A default feature of a plan. Every restaurant on that plan includes it."""
+    plan=models.CharField(max_length=50, choices=PLAN_CHOICES)
+    feature=models.CharField(max_length=50, choices=FEATURE_CHOICES)
 
-    # Added by - Ashish Dewangan on 24-04-2023
-    # Reason - To show title when we open row details   
-    def __str__(self):
-        return self.plan_name
-    # End of code addition    
-    
-class Features(models.Model):
-    feature_name=models.CharField(max_length=50,default="")   
-    
     class Meta:
-        verbose_name_plural = "Features"
+        verbose_name = "Plan feature"
+        verbose_name_plural = "Plan features"
+        unique_together = (("plan", "feature"),)
 
-    # Added by - Ashish Dewangan on 24-04-2023
-    # Reason - To show title when we open row details   
     def __str__(self):
-        return self.feature_name
-    # End of code addition      
-    
-class PlannedFeatures(models.Model):
-      plan_selected=models.ForeignKey(Plans,on_delete=models.CASCADE,blank=True,null=True)
-      feature_selected=models.ForeignKey(Features,on_delete=models.CASCADE,blank=True,null=True)
-      
-      class Meta:
-            verbose_name_plural = "Planned Features"
-      
-      # Added by - Ashish Dewangan on 24-04-2023
-      # Reason - To show title when we open row details   
-      def __str__(self):
-          return "Edit feature of this plan"
-      # End of code addition  
-     
-         
+        return "%s: %s" % (self.get_plan_display(), self.get_feature_display())
+
+
+class TenantExtraFeature(models.Model):
+    """A feature added for one restaurant, on top of its plan."""
+    tenant=models.ForeignKey('Tenant', on_delete=models.CASCADE, related_name='extra_features')
+    feature=models.CharField(max_length=50, choices=FEATURE_CHOICES)
+
+    class Meta:
+        verbose_name = "Extra feature"
+        verbose_name_plural = "Extra features"
+        unique_together = (("tenant", "feature"),)
+
+    def __str__(self):
+        return "%s: %s" % (self.tenant_id, self.get_feature_display())
+
+
 # end of code - Rohan Kansari - 16/4/23 
 
 # Added by pratap on 21-11-2023 to add default datetime
@@ -150,24 +138,23 @@ class RestaurantRequest(models.Model):
     def __str__(self):
             return self.restaurant_name
     
-    # Added by Yuvraj Sahu on 29-3-2023
-    # reason - to save password hash formate
-    def save(self, *args, **kwargs ):
-        try:
-            rr=RestaurantRequest.objects.get(password=self.password)
-            if(self.password!=rr.password):
-                from django.contrib.auth.hashers import make_password, check_password
-                self.password = make_password(self.password)
-                self.confirm_password = make_password(self.confirm_password)
-                super().save( *args, **kwargs)
-            else:
-                super().save( *args, **kwargs)     
-        except Exception as e:
-            from django.contrib.auth.hashers import make_password, check_password
-            self.password = make_password(self.password)
-            self.confirm_password = make_password(self.confirm_password)
-            super().save( *args, **kwargs)
-    # End of code addition
+    def save(self, *args, **kwargs):
+        # Passwords may be assigned in plain text (registration, reset, Django admin); never store them that way.
+        self.password = _hashed(self.password)
+        self.confirm_password = _hashed(self.confirm_password)
+        super().save(*args, **kwargs)
+
+
+def _hashed(value):
+    from django.contrib.auth.hashers import identify_hasher, make_password
+
+    if not value:
+        return value
+    try:
+        identify_hasher(value)
+        return value
+    except ValueError:
+        return make_password(value)
 """
 End of code addition
 """
@@ -195,62 +182,79 @@ class Tenant(TenantMixin):
     restaurant_phone_number=models.CharField(max_length=15,null=True,blank=True)
     # Added by rohankansari - 17/4/23
     # Reason - to Add function of Subscription
-    Subscribe_plan=models.ForeignKey(Plans,on_delete=models.SET_NULL,blank=True,null=True)
+    # A plan name from the catalog. Blank means the Starter feature set.
+    Subscribe_plan=models.CharField(max_length=50, choices=PLAN_CHOICES, blank=True, default="", help_text="This restaurant only. Saving a plan here does not change any other restaurant.")
     def __str__(self):
             return self.tenant_name
     # Added by Yuvraj Sahu on 28-3-2023
     # reason - to save tenant barcode svg
-    def save(self, *args, **kwargs ):
+    def save(self, *args, **kwargs):
+        """Provision a restaurant: visit counter, phone copy, approval and QR code."""
         if self.schema_name == 'public':
-            super().save( *args, **kwargs)
+            super().save(*args, **kwargs)
             return
-        
+
+        VisitCount.objects.get_or_create(tenant_name=self.tenant_name, defaults={'count': 0})
+        if self.restaurant_name_id:
+            self.restaurant_phone_number = self.restaurant_name.mobile_number
+            RestaurantRequest.objects.filter(id=self.restaurant_name_id).update(is_active=True, updated_at=timezone.now())
+        else:
+            self.restaurant_phone_number = ''
+        self._write_qr_code()
+        super().save(*args, **kwargs)
+
+    def _write_qr_code(self):
         import os
         import pyqrcode
         from django.conf import settings
 
-        # Added by Om on 03-04-23
-        # Reason: Add visit count functionality
-        try:
-            visitCount=VisitCount.objects.get(tenant_name=self.tenant_name)
-        except Exception as e:
-             visitCount=VisitCount(count=0,tenant_name=self.tenant_name)
-             visitCount.save()
-
-        # End of addition 
-
-        if self.restaurant_name:
-            self.restaurant_phone_number=self.restaurant_name.mobile_number
-        else:
-            self.restaurant_phone_number=""    
-        # Added by Yuvraj Sahu on 29-3-2023
-        # Reason - to make active when tenant create
-        if self.restaurant_name:
-            restroObj = RestaurantRequest.objects.get(id=self.restaurant_name.id)
-            restroObj.is_active = True
-            restroObj.save()
-        # End of addition
-        url = pyqrcode.create(settings.HTTP_METHOD+self.domain_url+'/'+self.tenant_name+'/home')
-        isExist = os.path.exists(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
-        if not isExist:
-             os.makedirs(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode')
-        url.svg(os.path.join(settings.BASE_DIR, 'media/'+self.domain_url)+'/images/qrcode/qr.svg', scale=10 )
-        super().save( *args, **kwargs)
-        # End of code addition
+        folder = os.path.join(settings.MEDIA_ROOT, self.domain_url, 'images', 'qrcode')
+        os.makedirs(folder, exist_ok=True)
+        site_url = settings.TENANT_SITE_URL_TEMPLATE.format(tenant=self.tenant_name)
+        pyqrcode.create(site_url).svg(os.path.join(folder, 'qr.svg'), scale=10)
 """
 End of code addition
 """
+
+
+@receiver([post_save, post_delete], sender=PlanFeature)
+def forget_cached_plan(sender, instance, **kwargs):
+    from admin_app.plan_catalog import forget_plan_features
+    forget_plan_features()
+
+
+@receiver([post_save, post_delete], sender=TenantExtraFeature)
+def forget_cached_extra(sender, instance, **kwargs):
+    from admin_app.plan_catalog import forget_tenant_extras
+    forget_tenant_extras(instance.tenant_id)
+
+
+@receiver([post_save, post_delete], sender=Tenant)
+def forget_cached_tenant(sender, instance, **kwargs):
+    """Tenant lookups are cached per request path (see MutitenantMiddleware)."""
+    cache.delete_many([tenant_cache_key(instance.schema_name), tenant_cache_key(instance.tenant_name)])
+
+
 # Added by pratap sahu on 22-09-2023
 # Reason to set default theme option when new tenant created
 def set_default_theme(sender, tenant, **kwargs):
+    if tenant.schema_name == get_public_schema_name():
+        return  # tenant_app tables only exist inside restaurant schemas
     app_theme=AppTheme.objects.first()
     if(app_theme):
         with connection.cursor() as cursor:
             # Modified by pratap sahu on 27-09-2023 to set default values on fields
             # cursor.execute("INSERT into "+tenant.tenant_name+
             #                ".tenant_app_setting(app_theme_id,allow_half_price,allow_loyality_points,discount_in) values("+str(app_theme.id)+",true,true,'Discount in (%)')")
-            cursor.execute("INSERT into "+tenant.tenant_name+
-                ".tenant_app_setting(app_theme_id,allow_half_price,allow_loyality_points,discount_in,per_loyality_point_value,amount_for_single_loyality_point,cgst,sgst,gstin,fssaino,whatsapp_number) values("+str(app_theme.id)+",true,true,'Discount in (%)',0,0,0.0,0.0,'','','')")
+            schema = tenant.schema_name
+            if schema and schema.replace('_', '').isalnum():
+                cursor.execute(
+                    'INSERT INTO "%s".tenant_app_setting '
+                    '(app_theme_id,allow_half_price,allow_loyality_points,discount_in,'
+                    'per_loyality_point_value,amount_for_single_loyality_point,cgst,sgst,gstin,fssaino,whatsapp_number) '
+                    'VALUES (%%s, true, true, %%s, 0, 0, 0.0, 0.0, \'\', \'\', \'\')' % schema,
+                    [app_theme.id, 'Discount in (%)'],
+                )
             #End of Code by pratap sahu on 27-09-2023 to set default values on fields
 post_schema_sync.connect(set_default_theme, sender=TenantMixin)
 # End of Addition by pratap sahu on 22-09-2023

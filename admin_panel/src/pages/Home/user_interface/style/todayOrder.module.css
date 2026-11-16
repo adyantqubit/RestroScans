@@ -1,0 +1,2334 @@
+@import "../../../../App.css";
+
+
+@font-face {
+    font-family: "MyFont";
+    src: url("../../../../assets/font/Carlito-Bold.ttf") format("opentype");
+}
+
+.container {
+    width: 96%;
+    min-height: auto;
+    background-color: transparent;
+
+    /* border-radius: 10px; */
+    margin: 0 10px;
+    padding: 20px 0% 0 0%;
+    /* background-color: #f8fafd; */
+
+}
+
+.heading {
+    font-size: var(--heading-font-size);
+    font-weight: 500;
+    letter-spacing: 1.9px;
+    margin-bottom: 10px;
+}
+
+.TabelContainer {
+    width: 100%;
+    /* min-height: 60vh; */
+    border-radius: var(--radius-md);
+    /* Added by Rohan kansari - 29/6/23 */
+    border: 1px solid var(--sidebar-color);
+
+    /* overflow-y: hidden; */
+}
+
+/* Modified by Rohan kansari - 29/5/23
+   Reason - because root is effecting global css so i declare variable in specific classname*/
+.table {
+    --column1-width: 5%;
+    --column2-width: 12%;
+    --column3-width: 10%;
+    --column4-width: 10%;
+    --column5-width: 10%;
+    --column6-width: 10%;
+    --column7-width: 10%;
+    --column8-width: 10%;
+
+    --column1-min-width: 80px;
+    --column2-min-width: 100px;
+    --column3-min-width: 80px;
+    --column4-min-width: 80px;
+    --column5-min-width: 60px;
+    --column6-min-width: 120px;
+    --column7-min-width: 80px;
+    --column8-min-width: 80px;
+
+
+    --column1-display: unset;
+    --column2-display: unset;
+    --column3-display: unset;
+    --column4-display: unset;
+    --column5-display: unset;
+    --column6-display: unset;
+    --column8-display: unset;
+    --column7-display: unset;
+
+
+}
+
+/* End of code - ROhan Kansari - 29/5/23 */
+
+.tableHeading {
+    background-color: var(--surface-color);
+    height: 30px;
+    width: 100%;
+    /* Added by Rohan kansari - 29/6/23 */
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: flex-start;
+    gap: 2%;
+    border-bottom: 1px solid var(--surface-color);
+    font-family: var(--font-family);
+
+}
+
+.row {
+    min-height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 2%;
+    border-bottom: 1px solid var(--surface-color);
+}
+
+.column1 {
+    width: var(--column1-width);
+    min-width: var(--column1-min-width);
+    /* max-width: 5%; */
+    padding: 5px 0;
+    font-size: var(--label-font-size);
+    height: 100%;
+    /* font-family: var(--font-family); */
+    font-weight: var(--font-weight-medium);
+    display: var(--column1-display);
+    text-align: center;
+    color: var(--label-color);
+    letter-spacing: 1.3px;
+    position: relative;
+    left: 10px;
+    /* font-family: var(--font-faimly); */
+}
+
+.column2 {
+    width: var(--column2-width);
+    min-width: var(--column2-min-width);
+    padding: 5px 0;
+    height: 100%;
+    display: var(--column2-display);
+    font-weight: var(--font-weight-medium);
+
+    font-size: var(--label-font-size);
+    text-align: center;
+    /* font-family: var(--font-faimly); */
+    /* font-weight: 200; */
+    color: var(--label-color);
+}
+
+.column3 {
+    width: var(--column3-width);
+    min-width: var(--column3-min-width);
+    padding: 5px 0;
+    font-size: var(--label-font-size);
+    height: 100%;
+    display: var(--column3-display);
+
+    /* font-family: var(--font-faimly); */
+    font-weight: var(--font-weight-medium);
+    color: var(--label-color);
+}
+
+.column4 {
+    width: var(--column4-width);
+    min-width: var(--column4-min-width);
+    padding: 5px 0;
+    display: var(--column4-display);
+
+    font-size: var(--label-font-size);
+    height: 100%;
+    /* font-family: var(--font-faimly); */
+    font-weight: var(--font-weight-medium);
+    color: var(--label-color);
+}
+
+.column5 {
+    width: var(--column5-width);
+    min-width: var(--column5-min-width);
+    padding: 5px 0;
+    font-size: var(--label-font-size);
+    height: 100%;
+    display: var(--column5-display);
+
+    /* font-family: var(--font-faimly); */
+    font-weight: var(--font-weight-medium);
+    color: var(--label-color);
+}
+
+.column6 {
+    width: var(--column6-width);
+    min-width: var(--column6-min-width);
+    padding: 5px 0;
+    display: var(--column6-display);
+
+    font-size: var(--label-font-size);
+    height: 100%;
+    /* font-family: var(--font-faimly); */
+    font-weight: var(--font-weight-medium);
+    color: var(--label-color);
+}
+
+.column7 {
+    width: var(--column7-width);
+    min-width: var(--column7-min-width);
+    padding: 5px 0;
+    display: var(--column7-display);
+
+    font-size: var(--label-font-size);
+    height: 100%;
+    /* font-family: var(--font-faimly); */
+    font-weight: var(--font-weight-medium);
+    color: var(--label-color);
+    text-align: center;
+}
+
+
+.column8 {
+    width: var(--column8-width);
+    min-width: var(--column8-min-width);
+    padding: 5px 0;
+    display: var(--column8-display);
+
+    font-size: var(--label-font-size);
+    height: 100%;
+    /* font-family: var(--font-faimly); */
+    font-weight: var(--font-weight-medium);
+    color: var(--label-color);
+}
+
+.columnData1 {
+    width: var(--column1-width);
+    min-width: var(--column1-min-width);
+    padding: 8px 0px;
+    height: 100%;
+    font-size: var(--label-font-size);
+    font-weight: var(--font-weight-regular);
+    display: var(--column1-display);
+
+    text-align: center;
+    color: var(--label-color);
+    letter-spacing: 1.3px;
+    /* font-family: var(--font-faimly); */
+}
+
+.columnData2 {
+    width: var(--column2-width);
+    min-width: var(--column2-min-width);
+    padding: 8px 0px;
+    height: 100%;
+    font-size: var(--label-font-size);
+    text-align: center;
+    display: var(--column2-display);
+    /* text-decoration: underline; */
+    font-family: var(--font-family);
+    /* display: flex;
+    justify-content: center; */
+    cursor: pointer;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    /* color:var(--label-color); */
+}
+
+.columnData3 {
+    width: var(--column3-width);
+    min-width: var(--column3-min-width);
+    padding: 8px 0px;
+    font-size: var(--label-font-size);
+    height: 100%;
+    display: var(--column3-display);
+
+    font-family: var(--font-faimly);
+    font-weight: 200;
+    color: var(--label-color);
+}
+
+.columnData4 {
+    width: var(--column4-width);
+    min-width: var(--column4-min-width);
+    padding: 8px 0px;
+    font-size: var(--label-font-size);
+    height: 100%;
+    display: var(--column4-display);
+    font-family: var(--font-faimly);
+    font-weight: 200;
+    color: var(--label-color);
+}
+
+.columnData5 {
+    width: var(--column5-width);
+    min-width: var(--column5-min-width);
+    padding: 8px 0px;
+    font-size: var(--label-font-size);
+    display: var(--column5-display);
+
+    height: 100%;
+    letter-spacing: 1.4px;
+    font-family: var(--font-faimly);
+}
+
+
+.columnData6 {
+    width: var(--column6-width);
+    min-width: var(--column6-min-width);
+    padding: 8px 0px;
+    font-size: var(--label-font-size);
+    display: var(--column6-display);
+
+    height: 100%;
+    letter-spacing: 1.4px;
+    font-family: var(--font-faimly);
+}
+
+.columnData7 {
+    width: var(--column7-width);
+    min-width: var(--column7-min-width);
+    padding: 8px 0px;
+    font-size: var(--label-font-size);
+    display: var(--column7-display);
+    height: 100%;
+    text-align: center;
+    letter-spacing: 1.4px;
+    font-family: var(--font-faimly);
+    position: relative;
+}
+
+
+.columnData8 {
+    width: var(--column8-width);
+    min-width: var(--column8-min-width);
+    padding: 8px 0px;
+    font-size: var(--label-font-size);
+    display: var(--column8-display);
+    height: 100%;
+    letter-spacing: 1.4px;
+    font-family: var(--font-faimly);
+    position: relative;
+}
+
+.printBtn {
+    border-radius: var(--radius-md);
+    min-width: 40px;
+    min-height: 20px;
+    padding: 2px 10px;
+    color: var(--primary-bg-color);
+    background-color: var(--surface-color);
+    font-family: var(--font-faimly);
+    color: blue;
+    letter-spacing: 1.5px;
+
+    /* Modified by Rohan kansari - 29/5/23
+   Reason - to disable selection of text*/
+    text-decoration: underline;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+.statusBtn {
+    background-color: rgba(225, 252, 126, 0.6);
+    /* Modified by ROhan kansari - 29/6/23 */
+    padding: 4px 10px;
+    font-family: var(--font-faimly);
+    font-weight: 500;
+    border-radius: 8px;
+    min-width: 60px;
+    white-space: nowrap;
+    display: flex;
+    /* Modified by Rohan kansari - 29/5/23
+   Reason - to disable selection of text*/
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+/* Added by ROhan kansari - 22/6/23
+   Reason - To design dropdown container  */
+
+/*Adding pagination content into flex for responsive manage  */
+.paginationContent {
+    display: flex;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+    color: black;
+    padding: 0 10px;
+    width: max-content;
+    display: flex;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: flex;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown_content {
+    display: none;
+    position: absolute;
+    top: 25px;
+    font-size: var(--font-size-sm);
+    background-color: var(--surface-color);
+    min-width: max-content;
+    width: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+}
+
+/* Links inside the dropdown */
+.dropdown_content span {
+    color: black;
+    padding: 4px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown_content span:hover {
+    background-color: var(--surface-color)
+}
+
+/* Show the dropdown menu on hover */
+/* .dropdown:hover .dropdown_content {
+    display: block;
+  } */
+
+.open {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: var(--surface-color);
+}
+
+/* End of code - 22/6/23 - ROhan kansari */
+
+.popupContainer {
+    /* position: absolute; */
+    /* top:10%; */
+    z-index: 2;
+    /* right: 105%; */
+
+    /* commented and modified by - Suman sahu On 11-06-2023 */
+    /* width: 280px; */
+    width: 100%;
+    /* end of code - 11-06-2023 */
+    min-height: 30vh;
+    height: auto;
+    border-radius: var(--radius-md);
+    background-color: var(--background-color);
+}
+
+
+.popupItemContainer {
+    /* position: absolute; */
+    /* top:10%; */
+    z-index: 2;
+    /* right: 105%; */
+
+    /* commented and modified by - Suman sahu On 11-06-2023 */
+    /* width: 280px; */
+    width: 100%;
+    /* end of code - 11-06-2023 */
+
+    /* height: auto; */
+
+    border-radius: var(--radius-md);
+    background-color: var(--surface-color);
+    position: relative;
+    /* left: -33px; */
+}
+
+/* Modified by Rohan kansari - 29/5/23
+   Reason - styling itemlist and seting max length to solve overflow issue*/
+
+.itemlist {
+    max-height: 300px;
+    overflow: auto;
+    /* added by - suman sahu on - 14/06/2023*/
+    padding-top: 1.5rem;
+}
+
+.itemlist::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+}
+
+.itemlist::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+.itemlist::-webkit-scrollbar-thumb {
+    background-color: #000000;
+    border: 1px solid #555555;
+}
+
+/* End of code - ROhan KAnsari - 29/5/23 */
+
+.customername {
+    display: flex;
+    width: 96%;
+    padding: 0 2%;
+    padding-top: 4px;
+    font-size: var(--label-font-size);
+    margin: 0 auto;
+
+}
+
+.OrderTime {
+    display: flex;
+    width: 96%;
+    padding: 0 2%;
+    padding-top: 6px;
+    font-size: var(--label-font-size);
+    margin: 0 auto;
+}
+
+.lable {
+    font-size: var(--label-font-size);
+
+    /* commented by - Suman sahu on - 17/06/2023 */
+    /* color: var(--label-color); */
+    /* end of commentation by - Suman sahu on - 17/06/2023 */
+
+    /* added by - Suman sahu on 14/06/2023*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* added by - Suman sahu on 17/06/2023 */
+    font-weight: var(--font-weight-medium);
+    /* end of addition by - suman sahu on 17/06/2023 */
+}
+
+.closeContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.closeBtn {
+    width: 30px;
+    height: 30px;
+    border-bottom-left-radius: 20px;
+    padding-left: 10px;
+    background-color: #ddd1d1;
+    /* Modified by Rohan kansari - 29/5/23
+   Reason - to disable selection of text*/
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+.btnContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 4%;
+}
+
+.selectionContainer {
+    width: 48%;
+}
+
+/* added by - Suman sahu On 12/06/2023 
+   reason - designing quantity data in the modal */
+.quantityContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* end of addition - 12/06/2023 */
+
+.selctedContentBox {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    /* justify-content: space-between; */
+    /* Modified by ROhan kansari - 29/6/23 */
+    /* Modified by yuvraj Sahu on 03-08-2023
+    Reason - to remove border */
+    /* border: 1px solid var(--text-color); */
+    /* End of addition by Yuvraj Sahu on 03-08-2023 */
+    border-radius: var(--radius-sm);
+    padding: 0 10px;
+}
+
+/* Added by Yuvraj Sahu on cancel the button */
+.checkOrderCancelBtn {
+    border: 2px solid var(--error-color);
+    border-radius: var(--radius-sm);
+    padding: 5px 10px;
+    background-color:var(--error-color) ;
+    color: var(--on-color);
+    display: flex;
+    justify-content: center;
+    /* text-align: center; */
+    align-items: center;
+    /* Modified by yuvraj Sahu on 09-08-2023
+    Reason - to change the width of calcel button */
+    /* width: 90px; */
+    min-width: 90px;
+    /* End of modification by Yuvraj Sahu on 09-08-2023 */
+    transition: all .3s;
+    height: 30px;
+}
+
+.checkOrderCancelBtn:hover{
+    background-color: transparent;
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+
+}
+
+.order-btn-design{
+    margin-bottom: 10px !important;
+}
+/* End of addition by Yuvraj Sahu on 03-08-2023 */
+
+.selctedContentBox select {
+    background-color: var(--surface-color);
+    color: var(--label-color);
+    /* padding: 3px; */
+    width: 100%;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    /* Remove default arrow */
+    border-radius: var(--radius-sm);
+    font-size: var(--label-font-size);
+    outline: none;
+}
+
+.selctedContentBox:hover::before {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.selctedContentBox select option {
+    padding: 30px;
+    font-size: var(--label-font-size);
+}
+
+.selctedContentBox select option:hover {
+    background-color: rgba(144, 238, 144, 0.6);
+}
+
+.options {
+    background-color: var(--surface-color);
+}
+
+.options:hover {
+    background-color: var(--muted-text-color);
+    color: var(--on-color);
+
+}
+
+.icon {
+    align-self: flex-end;
+}
+
+.btnUpdate {
+    width: 100%;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    margin-top: 5px;
+    background-color: black;
+    color: var(--surface-color);
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+.visitLink {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 auto;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.billPrint {
+    width: 100%;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    margin-top: 5px;
+    background-color: rgba(144, 238, 144, 0.6);
+    /* color: #f; */
+    font-family: var(--font-faimly);
+    font-weight: 500;
+    letter-spacing: 1.6px;
+}
+
+.kotPrint {
+    width: 100%;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    margin-top: 5px;
+    background-color: rgba(75, 107, 75, 0.6);
+    /* color: #f; */
+    font-family: var(--font-faimly);
+    font-weight: 500;
+    color: var(--surface-color);
+    letter-spacing: 1.6px;
+}
+
+/* added by - Suman sahu on - 14/06/2023 */
+.itemListContainer {
+    display: flex;
+    width: 100%;
+    background-color: var(--surface-color);
+}
+
+/* end of addition on - 14/06/2023 */
+.title {
+    /* added by - Suman sahu on - 14/06/2023 */
+    display: flex;
+    width: 50vw;
+    /* end of addition on - 14/06/2023 */
+    font-size: var(--label-font-size);
+    /* Modified by ROhan kansari - 29/6/23 */
+    /* padding: 10px 0px 0pc 10px; */
+    font-size: 600;
+    letter-spacing: 1.7px;
+    /* added by - Suman sahu on - 16/06/2023 */
+    font-weight: var(--font-weight-medium);
+    /* end of addition on - 16/06/2023 */
+}
+
+.EmptyText {
+    width: 100%;
+    text-align: center;
+    font-size: var(--label-font-size);
+    font-weight: var(--font-weight-medium);
+    padding: 6px 0;
+    letter-spacing: 1.7px;
+    /* color: var(--primary-color); */
+}
+
+.Highlightlable {
+    border-bottom: 1px solid grey;
+    border-top: 1px solid grey;
+    width: 100%;
+    font-size: var(--font-size-lg);
+    margin: 3px auto;
+    padding: 8px 0;
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+}
+
+.itemStatusContainer {
+    /* commented and modified by - Suman sahu on - 14/06/2023 */
+    /* display:flex; */
+    display: block;
+    width: 35vw;
+    float: right;
+    /* end of modification - 14/06/2023 */
+
+    justify-content: space-between;
+
+    /* commented and modified by - Suman sahu on - 16/06/2023 */
+    /* padding: 0 10px 10px 29px; */
+    /* Modified by ROhan kansari - 29/6/23 */
+    padding: 10px 0px 10px 0px;
+    /* end of modification - 16/06/2023 */
+
+}
+
+
+.radioGroup {
+    width: 100%;
+    padding: 10px 10px 0 10px;
+    height: auto;
+    /* background-color: var(--primary-soft); */
+    display: flex;
+}
+
+.table {
+    --primary-color: var(--primary-color);
+    --secondary-color: var(--primary-soft);
+}
+
+
+.radioButton {
+    display: none;
+}
+
+.tabLabel {
+    /* display: flex;   */
+    text-align: center;
+    width: 33%;
+    padding: 10px 4px;
+    /* Modified by ROhan kansari - 29/6/23 */
+    border-bottom: 1px solid var(--secondary-color);
+    letter-spacing: 1.2px;
+    font-weight: var(--font-weight-medium);
+
+}
+
+input[type="radio"]:checked+.tabLabel {
+    /* Modified by ROhan kansari - 29/6/23 */
+    color: var(--secondary-color);
+    background-color: #f8fafd;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-weight: var(--font-weight-bold);
+    /* Modified by ROhan kansari - 29/6/23 */
+    border: 1px solid var(--secondary-color);
+    border-bottom: none;
+}
+
+/* Added by Rohan KAnsari - 25/5/23 
+ */
+
+.MultiupdateContainer {
+    width: 96%;
+    min-height: 50px;
+    margin: 8px 10px;
+    padding: 10px 10px;
+    border-radius: var(--radius-sm);
+    /* Modified by ROhan kansari - 29/6/23 */
+    border: 1px solid var(--text-color);
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    /* Commented by Om Shrivastava on 03-06-23
+    Reason : When sidebar is open than its overlap the order update module */
+    /* position: relative; */
+    /* End of addition by Om Shrivastava on 03-06-23 */
+}
+
+.updateflexContainer {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.checkbox {
+    margin-right: 10px;
+    align-self: flex-start;
+}
+
+.updateBtn {
+    min-width: 70px;
+    height: 30px;
+    padding: 4px 8px;
+    margin: 0 20px;
+    background-color: rgb(88, 146, 88);
+    border-radius: var(--radius-sm);
+    color: var(--primary-bg-color);
+    outline: none;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+/* end of code Rohan KAnsari - 25/5/23 
+ */
+
+/* added by - suman sahu on 15/06/2023 */
+.modalContainer {
+    /* margin-left: 39%; */
+    width: 70vw !important;
+    top: 0;
+    bottom: 0;
+     margin: 10px auto;
+}
+
+@media screen and (max-width:1400px) {
+    .modalContainer {
+        /* margin-left: 36%; */
+    }
+}
+
+/* end of addition - 15/06/2023 */
+
+@media screen and (max-width:1120px) {
+    .table {
+        --column1-width: 5%;
+        --column2-width: 12%;
+        --column3-width: 10%;
+        --column4-width: 10%;
+        --column5-width: 20%;
+        --column6-width: 10%;
+        --column7-width: 10%;
+
+        --column1-min-width: 80px;
+        --column2-min-width: 100px;
+        --column3-min-width: 80px;
+        --column4-min-width: 80px;
+        --column5-min-width: 100px;
+        --column6-min-width: 120px;
+        --column7-min-width: 80px;
+
+        --column1-display: unset;
+        --column2-display: unset;
+        --column3-display: unset;
+        --column4-display: unset;
+        --column5-display: none;
+        --column6-display: unset;
+        --column7-display: unset;
+
+
+    }
+
+    /* added by - suman sahu on 15/06/2023 */
+    /* .modalContainer {
+        margin-left: 34%;
+    } */
+
+    /* end of addition - 15/06/2023 */
+}
+
+
+@media screen and (max-width:900px) {
+    .table {
+        --column1-width: 5%;
+        --column2-width: 12%;
+        --column3-width: 10%;
+        --column4-width: 10%;
+        --column5-width: 20%;
+        --column6-width: 10%;
+        --column7-width: 10%;
+
+        --column1-min-width: 80px;
+        --column2-min-width: 100px;
+        --column3-min-width: 100px;
+        --column4-min-width: 100px;
+        --column5-min-width: 100px;
+        --column6-min-width: 120px;
+        --column7-min-width: 80px;
+
+        --column1-display: unset;
+        --column2-display: unset;
+        --column3-display: unset;
+        --column4-display: unset;
+        --column5-display: none;
+        --column6-display: none;
+        --column7-display: unset;
+
+
+    }
+
+    /* added by - suman sahu on 15/06/2023 */
+    /* .modalContainer {
+        margin-left: 32%;
+    } */
+
+    /* end of addition - 15/06/2023 */
+}
+
+/* added by - suman sahu on 15/06/2023 */
+@media screen and (max-width:850px) {
+    .modalContainer {
+      width: 80vw !important;
+    }
+}
+
+
+/* end of addition - 15/06/2023 */
+
+@media screen and (max-width:770px) {
+    .table {
+        --column1-width: 5%;
+        --column2-width: 12%;
+        --column3-width: 10%;
+        --column4-width: 10%;
+        --column5-width: 20%;
+        --column6-width: 10%;
+        --column7-width: 10%;
+
+        --column1-min-width: 60px;
+        --column2-min-width: 100px;
+        --column3-min-width: 100px;
+        --column4-min-width: 70px;
+        --column5-min-width: 100px;
+        --column6-min-width: 120px;
+        --column7-min-width: 80px;
+
+        --column1-display: unset;
+        --column2-display: unset;
+        --column3-display: unset;
+        --column4-display: unset;
+        --column5-display: none;
+        --column6-display: none;
+        --column7-display: unset;
+
+
+    }
+
+
+}
+
+
+@media screen and (max-width:720px) {
+
+    .table {
+        --column1-width: 5%;
+        --column2-width: 12%;
+        --column3-width: 10%;
+        --column4-width: 10%;
+        --column5-width: 20%;
+        --column6-width: 10%;
+        --column7-width: 10%;
+
+        --column1-min-width: 80px;
+        --column2-min-width: 100px;
+        --column3-min-width: 100px;
+        --column4-min-width: 70px;
+        --column5-min-width: 100px;
+        --column6-min-width: 120px;
+        --column7-min-width: 80px;
+
+        --column1-display: unset;
+        --column2-display: unset;
+        --column3-display: unset;
+        --column4-display: none;
+        --column5-display: none;
+        --column6-display: none;
+        --column7-display: unset;
+        /* --column8-display:none; */
+
+
+    }
+
+
+
+    .tableHeading {
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .row {
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width:610px) {
+
+    .table {
+        --column1-width: 5%;
+        --column2-width: 12%;
+        --column3-width: 10%;
+        --column4-width: 10%;
+        --column5-width: 20%;
+        --column6-width: 10%;
+        --column7-width: 20%;
+
+        --column1-min-width: 60px;
+        --column2-min-width: 100px;
+        --column3-min-width: 80px;
+        --column4-min-width: 70px;
+        --column5-min-width: 100px;
+        --column6-min-width: 120px;
+        --column7-min-width: 90px;
+
+        --column1-display: unset;
+        --column2-display: unset;
+        --column3-display: unset;
+        --column4-display: none;
+        --column5-display: none;
+        --column6-display: none;
+        --column7-display: unset;
+        --column8-display: none;
+
+
+    }
+
+    .tableHeading {
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .row {
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .popupItemContainer {
+        /* commented and modified by - Suman sahu On 11-06-2023 */
+        /* width: 200px; */
+        width: 100%;
+        /* end of code - 11-06-2023 */
+    }
+}
+
+/* added by - Suman sahu On 15-06-2023 */
+@media screen and (max-width:500px) {
+
+    /* Added by Yuvraj Sahu on 09-08-2023
+    Reason - to design a order button */
+    .statusBtnDesign{
+        margin-bottom: 6px;
+    }
+    /* End of addition by Yuvraj Sahu on 09-08-2023 */
+
+    .title {
+        width: auto;
+    }
+
+    .itemListContainer {
+        display: block;
+    }
+
+    .itemStatusContainer {
+        display: flex;
+        width: auto;
+        float: revert;
+    }
+
+    /* Added by Yuvraj Sahu on 01-07-2023
+Reason - to design radio button container */
+    .selctedContentBox {
+        width: fit-content;
+    }
+
+    /* .lable{
+    width: 20vw;
+} */
+    .updateflexContainer {
+        width: 100%;
+        /* Addition by Om Shrivastava on 13-10-23
+        Reason : Need to change the design of the order status update button  */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 10px;
+        /*End ofa ddition by Om Shrivastava on 13-10-23
+        Reason : Need to change the design of the order status update button  */
+    }
+
+    /* End of addition by Yuvraj sahu on 01-07-2023 */
+}
+
+/* end of code - 15-06-2023 */
+
+
+
+/* Added by ROhan kansari - 12/7/23 
+   Reason- new ui designing  */
+
+.CustomerInformationBox {
+    width: 100%;
+    min-height: 100px;
+    background-color: var(--background-color);
+    border-radius: 8px 8px 0 0;
+    padding-bottom: 10px;
+}
+
+.WhiteLabel {
+    color: var(--text-color);
+    font-size: var(--label-font-size);
+    width: fit-content;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+}
+
+.topHeading {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+
+.ActionBtn {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.KotBtn {
+    min-width: 60px;
+    height: 30px;
+    border: 1px solid rgb(39, 166, 75);
+    background-color: rgb(39, 166, 75);
+    color:var(--on-color);
+    transition: all .3s;
+    border-radius: var(--radius-sm);
+    margin: 0 10px;
+    padding: 0 8px;
+}
+
+.KotBtn:hover {
+    background-color: transparent;
+    border: 1px solid rgb(39, 166, 75);
+    color: rgb(39, 166, 75);
+}
+
+.getbill {
+    min-width: 60px;
+    height: 30px;
+    border: 1px solid rgb(39, 166, 75);
+    background-color: rgb(39, 166, 75);
+    color:var(--on-color);
+    transition: all .3s;
+    border-radius: var(--radius-sm);
+    /* margin: 0 10px; */
+    padding: 0 8px;
+    /* margin-right: 20px; */
+}
+
+.getbill:hover {
+    background-color: transparent;
+    border: 1px solid rgb(39, 166, 75);
+    color: rgb(39, 166, 75);
+}
+
+.Order_idText {
+    color: var(--text-color);
+    text-align: center;
+    font-size: var(--font-size-md);
+    padding: 5px 10px;
+    border-bottom: 1px solid white;
+    margin-bottom: 10px;
+    background-color: var(--surface-color);
+    border-radius: var(--radius-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.informationContainer {
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    row-gap: 0px;
+    flex-wrap: wrap;
+    /* width: 100%; */
+}
+
+.information {
+    min-width: 30%;
+    /* width: 48%; */
+    display: flex;
+    gap: 6px;
+}
+
+.data {
+    color: var(--text-color);
+    white-space: nowrap;
+    display: flex;
+}
+
+.scrollContainer {
+    max-height: 60vh;
+    overflow: auto;
+}
+
+
+.scrollContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+    width: 0;
+    display: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+    /* Added by ROhan kansari - 28/6/23 */
+    background-color: rgb(39, 166, 75);
+    display: none;
+    /* border: 1px solid white; */
+}
+
+.orderItemContainer {
+    width: 100%;
+    min-height: 40vh;
+    /* max-height: 30vh; */
+    overflow: auto;
+    position: relative;
+    background-color: var(--surface-color);
+
+}
+
+.itemsContent::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+}
+
+.itemsContent::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+.itemsContent::-webkit-scrollbar-thumb {
+    /* Added by ROhan kansari - 28/6/23 */
+    background-color: #43475c;
+    /* border: 1px solid white; */
+}
+
+.orderItemHeader {
+    height: 30px;
+    min-width: max-content;
+    width: 100%;
+    top: 0;
+    /* background-color: var(--surface-color); */
+    display: flex;
+    justify-content: space-between;
+}
+
+.item_heading{
+    width:35%;
+    min-width: 140px;
+    height:100%;
+    margin-left:20px;
+    margin-right: 62px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.QtyNPriceHeadings {
+    width: 35%;
+    min-width: 150px;
+    height: 100%;
+    margin: 0 0px;
+    display: flex;
+}
+
+.priceHeading {
+    padding: 4px 10px;
+    font-size: var(--font-size-md);
+    margin: 0 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.quantityHeading {
+    padding: 4px 8px;
+    font-size: var(--font-size-md);
+    margin-right: 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.status_list {
+    min-width: 150px;
+    height: 100%;
+    margin: 0 15px;
+    display: flex;
+    /* border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--muted-text-color); */
+    /* color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center; */
+}
+
+.status {
+    padding: 4px 8px;
+    font-size: var(--font-size-md);
+    margin: 0 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.itemsContent {
+
+    min-height: 180px;
+    max-height: 29vh;
+    margin: 8px 0;
+    overflow: auto;
+    width: 100%;
+
+}
+
+.itemList {
+
+    width: 100%;
+    min-height: 27vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.itemrow {
+    width: 100%;
+    /* padding: 5px 0; */
+    margin: .5px 0;
+    min-height: 25px;
+    /* margin: 5px 0; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Red */
+    /* background-color: rgba(255,91,71,0.2);
+    cursor:no-drop; */
+    /* Green */
+    /* background-color: rgba(144, 238, 144,0.2);
+    cursor:no-drop; */
+}
+
+.cancelledRow {
+    background-color: rgba(255, 91, 71, 0.2);
+    cursor: no-drop;
+}
+
+.confirmRow {
+    background-color: rgba(144, 238, 144, 0.2);
+    cursor: no-drop;
+}
+
+.pointer_event {
+    pointer-events: none;
+}
+
+.discountColumn {
+    width: 50%
+}
+
+.discountRow {
+    display: flex;
+}
+
+.ItemInformation {
+    width: 63%;
+    min-height: 25px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    width: 90%;
+    position: relative;
+    /* top: -10px; */
+    font-size: var(--font-size-sm);
+    min-width: 140px;
+}
+
+.checkboxNTitleFlex {
+    width: 65%;
+    min-width: 140px;
+    display: flex;
+    gap: 10px;
+}
+
+.quantityNPriceFlex {
+    width: 38%;
+    max-width: 175px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.price {
+    margin: 0 10px;
+    width: 50%;
+    /* min-width: 80px; */
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.quantity {
+    max-width: 70px;
+    min-width: 70px;
+    width: 50%;
+    height: 25px;
+    /* min-width: 80px; */
+    background-color: #eceaea;
+    border-radius: var(--radius-sm);
+    box-shadow: 0px 1px 5px #c4c0c0;
+    display: flex;
+    cursor: pointer;
+}
+
+.decrease {
+    width: 33.337%;
+    height: 100%;
+    border-right: 1px solid var(--border-color);
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+    padding: 5px;
+    font-size: var(--font-size-md);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.quantityValue {
+    width: 33.337%;
+    height: 100%;
+    text-align: center;
+    font-weight: bolder;
+    font-size: var(--font-size-sm);
+}
+
+.increase {
+    width: 33.337%;
+    height: 100%;
+    border-left: 1px solid var(--border-color);
+    text-align: center;
+    font-weight: bolder;
+    padding: 5px;
+    font-size: var(--font-size-md);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.UpdateItemContainer {
+    width: 98%;
+    height: 40px;
+    background: var(--background-color);
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    margin-top: 10px;
+}
+
+.UpdateItemBTN {
+    width: 40%;
+    max-width: 200px;
+    height: 100%;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.4px;
+    color: var(--on-color);
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
+    /* background: var(--primary-box-bg-color); */
+    font-weight: var(--font-weight-bold);
+    padding: 5px 5px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all .3s;
+}
+
+.UpdateItemBTN:hover {
+    border: 1px solid rgb(39, 166, 75);
+    background-color: transparent;
+    color: rgb(39, 166, 75);
+}
+
+.TotalContainer {
+    min-height: 30vh;
+    width: 100%;
+}
+
+.inputChecked {
+    position: relative;
+    right: 10px;
+    color: greenyellow;
+}
+
+.EditableInput {
+    background-color: var(--background-color);
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+    caret-color: black;
+    letter-spacing: 1.2px;
+    height: 18px;
+    max-width: 130px;
+
+    padding-right: 10px;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.AllStatusContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.StatusBtnContainer {
+    width: 50%;
+    max-width: 300px;
+    height: 30px;
+    /* background-color: var(--text-color); */
+    margin: 0 10px;
+    display: flex;
+    gap: 4px;
+}
+
+.AllUpdateButton {
+    width: 20%;
+    margin: 0 10px;
+    min-width: 150px;
+    max-width: 250px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+    color: var(--on-color);
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
+    transition: all .3s;
+}
+
+.AllUpdateButton:hover {
+    border: 1px solid rgb(39, 166, 75);
+    background-color: transparent;
+    color: rgb(39, 166, 75);
+}
+
+.checkboxContainer {
+    max-width: 250px;
+    min-width: 150px;
+    width: 50%;
+    min-height: 20px;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.statusRow {
+    display: flex;
+    width: 100%;
+    min-height: 35px;
+}
+
+.checkboxContain {
+    width: 33%;
+    height: 40px;
+    min-width: 33px;
+    position: relative;
+}
+
+.DiscountNCancelSection {
+    width: 60%;
+    min-height: 30vh;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    margin: 8px 8px;
+    padding: 10px 8px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.inputContainerFlex {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+
+}
+
+.index {
+    font-size: var(--font-size-lg);
+    padding: 0 15px;
+    margin-right: 20px;
+    font-weight: var(--font-weight-bold);
+}
+
+.inputBoxContainer {
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.InputLabel {
+    color: black;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.2px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.subInputLabel {
+    color: black;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.inputBox {
+    width: 95%;
+    min-width: 70px;
+    height: 30px;
+    margin: 3px 0;
+    background-color: var(--surface-color);
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0 5px;
+}
+
+.flexDoubleInput {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.discountInputBox {
+    width: 46%;
+    min-width: 70px;
+}
+
+.Column {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.TextInputBox {
+    width: 98%;
+    min-width: 90px;
+    height: 53px;
+    margin: 3px 0;
+    background-color: var(--surface-color);
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0 6px;
+}
+
+.UpdateDIscountBtn {
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 10px;
+
+}
+
+
+.rewardbox {
+    width: 45%;
+    min-height: 30px;
+    min-width: 130px;
+    border-radius: var(--radius-md);
+    box-shadow: 0px .5px 5px hsl(197, 100%, 50%);
+    border: 1px solid hsl(197, 100%, 50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    margin-top: 20px;
+    margin-right: 10px;
+    font-family: var(--font-family);
+    font-weight: 500;
+    color: hsl(197, 100%, 50%);
+    letter-spacing: 1.2px;
+
+}
+
+.ApplyBtn {
+    min-width: 100px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+    padding: 0 8px;
+    color:var(--on-color) ;
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
+    transition: all .3s;
+}
+
+.ApplyBtn:hover {
+    background-color: transparent;
+    color: rgb(39, 166, 75);
+}
+
+.StatusArrowBtnContainer {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: fit-content;
+    /* padding: 0 10px; */
+}
+
+/* Added by yuvraj Sahu on 03-08-2023
+Reason - to design button */
+.orderStatusArrowBtnContainerDashboard {
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+}
+/* End of addition by yuvraj sahu on 03-08-2023 */
+
+.OrderstatusBtnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 10px;
+    width: fit-content;
+    /* margin-bottom: 20px; */
+    /* justify-content: center;
+    align-items: center; */
+}
+
+.orderCancelBtn {
+    border: 2px solid var(--error-color);
+    background-color: var(--error-color);
+    border-radius: var(--radius-sm);
+    padding: 5px 2px;
+    color: var(--on-color);
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width: 90px;
+    transition: all .3s;
+    height: 30px;
+
+}
+
+.orderCancelBtn:hover {
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+    background-color: transparent;
+}
+
+.PricingContainer {
+    /* Modified by Rohan kansari - 24/7/23
+       Reason - this section moved to form so designing is changed */
+    width: 100%;
+    /* min-height: 30vh; */
+    margin: 8px 0px;
+    padding: 10px 0px;
+    /* End of code - Rohan kansari - 24/7/23 - this section moved to form so designing is changed */
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    row-gap: 8px;
+}
+
+.pricingContent {
+    width: 50%;
+    max-width: 260px;
+    min-width: 180px;
+    margin: 10px 0px;
+    padding: 0 8px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+
+}
+
+.priceInformation {
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 0;
+}
+
+.loyalityColumn {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.coinBox {
+    display: flex;
+}
+
+.PrintNBack {
+    /* width: 60%; */
+    min-width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 15px;
+    padding: 0 10px;
+
+}
+
+.BackBtn {
+    min-width: 100px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+
+    color: var(--on-color);
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0);
+    transition: all .3s;
+}
+
+.BackBtn:hover {
+    background-color: transparent;
+    color: rgb(0, 0, 0);
+}
+
+.disbaleBtn {
+    pointer-events: none;
+    color: var(--muted-text-color);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.itemsContent {
+    min-width: 670px;
+}
+
+.errorText {
+    color: red;
+    font-size: var(--font-size-xs);
+}
+
+
+.cointPoints {
+    color: blue;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 1200px){
+    .ItemInformation{
+      width: 56%;
+    }
+    
+    .checkboxContainer{
+        width: 49%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 1000px) {
+    /* .ItemInformation{
+        width: 45%;
+        flex-direction: column;
+    } */
+
+    .title {
+        width: 90%;
+    }
+
+    .rewardbox {
+        font-size: var(--font-size-xs);
+        min-width: 155px;
+    }
+
+    .ItemInformation{
+        width: 53%;
+    }
+
+    /* .quantityNPriceFlex{
+        width: 100%;
+        justify-content: space-between;
+    } */
+
+    /* .checkboxNTitleFlex{
+        width: 100%;
+        justify-content: space-between;
+    } */
+
+    .Column {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .loyalityColumn {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* .QtyNPriceHeadings{
+        display:none;
+    } */
+
+    .itemsContent {
+        min-width: 660px;
+    }
+
+    .checkboxNTitleFlex {
+
+        width: 100%;
+        min-width: 140px;
+    }
+
+    .checkboxContainer {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .itemrow {
+        gap: 15px;
+    }
+
+
+    .statusRow {
+        gap: 18px;
+    }
+
+
+    .itemList {
+        width: 100%;
+    }
+
+    .discountColumn {
+        width: 100%;
+    }
+
+    .quantityNPriceFlex{
+        max-width: unset;
+        min-width: 140px;
+    }
+
+    .item_heading{
+        margin-right: 40px;
+    }
+
+
+}
+
+/* @media screen and (max-width: 767px){
+    .DiscountNCancelSection{
+        width: 95%;
+    }
+    .PricingContainer{
+        flex-direction: column;
+    }
+} */
+
+
+
+@media screen and (max-width: 500px) {
+
+    .modalContainer{
+        width: 100vw !important;
+    }
+
+    .Order_idText {
+        width: 98%;
+        font-size: var(--font-size-md);
+        padding: 0 5px;
+        height: unset;
+    }
+
+    .topHeading{
+        flex-direction: column;
+        margin-bottom: 8px;
+    }
+
+    .itemList {
+
+        width: max-content;
+    }
+
+    .itemsContent {
+        width: max-content;
+
+    }
+
+    .item_heading {
+        width: 35%;
+        min-width: 150px;
+        margin: 0 4px 0px 10px;
+        font-size: var(--font-size-sm);
+    }
+
+    .status_list {
+        margin: 0 2px;
+    }
+
+    .status {
+        font-size: var(--font-size-xs);
+        margin: 0 2px;
+    }
+
+    .title {
+        width: 80%;
+        font-size: var(--font-size-sm);
+        letter-spacing: 0.9px;
+        min-width: 90px;
+    }
+
+    .ItemInformation {
+        width: 100%;
+        max-width: 309px;
+        gap: 15px;
+    }
+
+    .quantityNPriceFlex {
+        width: 40%;
+        min-width: 130px;
+        /* margin-left: 8px; 
+        width: 100%;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-end;
+        gap: 0;
+        min-width: 100px;*/
+    }
+
+    .quantity {
+        min-width: 45px;
+        height: 18px;
+        font-size: var(--font-size-xs);
+
+    }
+
+    .increase {
+        padding: 3px;
+        font-size: 9px;
+    }
+
+    .decrease {
+        padding: 3px;
+        font-size: 9px;
+    }
+
+    .price {
+        min-width: 40px;
+        font-size: var(--font-size-sm);
+    }
+
+    .AllStatusContainer {
+        flex-direction: column;
+        gap: 8px;
+        /* Modified by Rohan kansari - 21/8/23*/
+        /* Reason - To change div position  */
+        margin-top: 8px;
+    }
+
+    .StatusBtnContainer {
+        width: 100%;
+        margin: 0 auto;
+        /* Modified by Rohan kansari - 21/8/23*/
+        /* Reason - To change div position  */
+        justify-content: center;
+    }
+
+    .AllUpdateButton {
+        margin: 0 auto;
+    }
+
+    .UpdateItemBTN {
+        font-size: var(--font-size-sm);
+        letter-spacing: .9px;
+    }
+
+    .DiscountNCancelSection {
+        width: 95%;
+    }
+
+    .PricingContainer {
+        padding: unset;
+        flex-direction: column;
+    }
+
+    .pricingContent {
+        width: 95%;
+        max-width: unset;
+        margin: 0 10px;
+    }
+
+    .inputBoxContainer {
+        width: 100%;
+    }
+
+    /* .StatusArrowBtnContainer {
+         width: 100%; 
+        justify-content: center;
+    } */
+
+    .OrderstatusBtnContainer {
+        justify-content: center;
+        row-gap: 14px;
+    }
+
+    .quantityHeading {
+        min-width: 40px;
+        margin-right: 0px;
+        font-size: var(--font-size-sm);
+    }
+
+    .priceHeading {
+        min-width: 40px;
+        font-size: var(--font-size-sm);
+    }
+
+    .checkboxNTitleFlex {
+
+        width: 100%;
+        min-width: 140px;
+    }
+
+    .checkboxContainer {
+        width: 100%;
+        max-width: 180px;
+    }
+
+    .itemrow {
+        gap: 15px
+    }
+
+
+    .statusRow {
+        gap: 18px
+    }
+
+    .itemsContent {
+        min-width: 530px;
+    }
+
+    .itemList {
+        width: 100%;
+    }
+
+    .UpdateItemContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        height: unset;
+    }
+
+    .UpdateItemBTN {
+        width: 95%;
+    }
+
+    /* .WhiteLabel{
+    text-align: center;
+    width: unset;
+    min-width: 40%;
+   } */
+
+   .KotBtn{
+    margin: 0;
+   }
+
+   /* .getbill{
+    margin:0 5px;
+    margin-right: 20px;
+   } */
+   /* Addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button  */
+   .radioGroup{
+    width: 100%;
+    font-size: var(--font-size-xs);
+    height: auto;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    gap: 12px;
+    height: 10%;
+   }
+   /* End of addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button */
+/* Addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button  */
+.tabLabel {
+  background-color: #c2fbd7;
+  border-radius: 100px;
+  /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
+  color: rgb(0, 124, 128);
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 10px 12px;
+  text-align: center;
+  /* text-decoration: none;
+  transition: all 250ms; */
+  border: 0;
+  font-size: var(--font-size-xs);
+
+  /* user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation; */
+
+  /* box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px; */
+  /* transform: scale(1.05) rotate(-1deg); */
+}
+
+.tabLabel:hover {
+  /* box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px; */
+  /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
+ 
+  /* transform: scale(1.05) rotate(-1deg); */
+  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+
+}
+
+input[type="radio"]:checked+.tabLabel {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-weight: var(--font-weight-bold);
+    border:none;
+    border-bottom: none;
+}
+/* End of addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button  */
+}
+
+/* ENd of code - Rohan kansari - 12/7/23 - New ui Chnages */

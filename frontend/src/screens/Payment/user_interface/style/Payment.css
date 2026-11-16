@@ -1,0 +1,218 @@
+/* Added by :- Parineeta Gedam
+    Date :- 13-04-2023
+    Reason :- payment css
+*/
+
+.payment_heading_container {
+    width: 100%;
+}
+
+/* Commented by :-  Parineeta Gedam on 21-05-2023  
+reason :- changes in ui  */
+/* .payment_heading { */
+    /* text-align: center;
+    font-size: var(--font-size-lg); */
+    /* font-weight: 600; */
+    /* font-family: var(--font-family); */
+    /* added by:- Parineeta */
+
+    /* Modified by Rohan kansari - 27/4/23
+       Reason - To align all thing in center not only option div*/
+    /* margin-top: 17%; */
+    /* end of code - Rohan kansari - 27/4/23 */
+/* } */
+ /* End of commented code by :- Parineeta gedam on 21-05-2023 */
+
+
+ .payment_heading { 
+    text-align: center;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family);
+    margin-top: 5%;
+}
+
+
+/* ------------ Radio Group css */
+/* Commented by :- Parineeta Gedam on 15-04-2023 */
+/* .radio_container {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 35%;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px var(--text-color);
+    border-radius: var(--radius-md);
+} */
+
+/* .payment_mode_container {
+    width: 100%;
+    margin-left: 25px;
+    display: flex;
+    margin-top: 15px;
+} */
+
+/* .payment_mode_img_container {
+    width: 20%;
+    height: 50%;
+} */
+
+/* .payment_mode_heading {
+    margin-left: 15px;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family);
+} */
+
+/* antd radio color css */
+.ant-radio-checked .ant-radio-inner{
+    border-color: #9B6043 !important ;
+    background-color: #9B6043 !important;
+  }
+  
+  .ant-radio-checked .ant-radio-inner:after{
+    background-color: var(--background-color);
+  }
+  
+  .ant-radio:hover .ant-radio-inner {
+    border-color: #9B6043 ;
+  }
+  .ant-radio-wrapper .ant-radio-inner{
+    border-color: #9B6043 !important;
+  }
+
+/* ---------- Button css --------------- */
+/* Modified by :- Parineeta on 15-04-2023 */
+/* Commented by :- Parineeta Gedam on 21-05-2023 */
+/* .payment_btn_container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    font-size: 25px;
+    font-family: var(--font-family);
+    text-align: center;
+    padding: 5px 0;
+    modified by :- Parineeta Gedam on 21-05-2023
+    width: 25%;
+    width: 50%;
+    margin-top: 5%;
+}
+
+.payment_btn_heading {
+    text-align: center;
+    letter-spacing: 1.7px;
+    margin-bottom: 0px;
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    modified by :- Parineeta Gedam on 21-05-2023
+    margin-bottom: 35px;
+} */
+/* Commented by Parineeta gedam on 21-05-2023  */
+
+/* ---------- Button css --------------- */
+.payment_btn_container {
+   display: flex;
+   justify-content: space-around;
+   margin-bottom: 50px;
+   margin-top: 25px;
+}
+
+.payment_btn_pay {
+   font-size: var(--font-size-md);
+   letter-spacing: 1.7px;
+   font-family: var(--font-family);
+   border-radius: var(--radius-sm);
+   border: none;
+   box-shadow: 0 0 5px var(--text-color);
+   text-align: center;
+   width: 46%;
+}
+
+.payment_btn_get_bill{
+   width: 46%;
+   font-size: var(--font-size-md);
+   letter-spacing: 1px;
+   font-family: var(--font-family);
+   padding: 5px 0;
+   border-radius: var(--radius-sm);
+   border: none;
+   box-shadow: 0 0 5px var(--text-color);
+}
+/* End of added button css --------------------- */
+
+
+/* Modified css by :- Parineeta Gedam
+    Date :- 15-04-2023
+    Reason :-  re-desiging payment page css
+*/
+
+.payment_parent_container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    border : 2px solid grey;
+    box-shadow: 0px 0px 2px var(--text-color);
+    border-radius: 15px;
+    background-color: floralwhite;
+    padding: 22px 0px 0px 0px;
+    /* Modified by Rohan kansari - 27/4/23
+       Reason - To align all thing in center not only option div*/
+    /* margin-top: 35%; */
+       margin-top:5%;
+    /* End of code - Rohan kansari - 27/4/23 */
+}
+
+.payment_child_container {
+    /* Modify by- Suman sahu On 03/05/2023 */
+    margin-left: auto;
+    /* End of modification 03/05/2023 */
+    margin-right: auto;
+    width: 70%;
+    height: 5%;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 0 2px var(--text-color);
+    border-radius: var(--radius-md);
+    display: flex;
+    margin-bottom: 10%;
+    background-color: rgb(242, 249, 249);
+}
+.payment_mode_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.payment_mode_img_container {
+    width: 23%;
+    height: 50%;
+}
+
+.payment_mode_heading {
+    margin-left: 15px;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family);
+    /* Added by :- PArineeta Gedam */
+    width: 35%;
+
+}
+
+/* End of  added code 15-04-2023*/
+
+/* Added by- Suman sahu  On 03/05/2023
+Reason- for center payment methon section */
+
+.css-dev-only-do-not-override-j0nf2s .ant-space-vertical {
+    width: 100%;
+}
+:where(.css-dev-only-do-not-override-j0nf2s).ant-radio-group {
+    width: 100%;
+}
+/* End of addition 03/05/2023 */

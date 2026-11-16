@@ -1,0 +1,768 @@
+.desk {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  height: 100%;
+  background: var(--surface-color);
+}
+
+.menuPane,
+.ticket {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuPane {
+  padding: 16px 16px 20px 20px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  color: var(--sidebar-background);
+}
+
+.hint {
+  margin: 2px 0 0;
+  color: var(--muted-text-color);
+  font-size: var(--font-size-sm);
+}
+
+.back,
+.place,
+.stepper button {
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+}
+
+.back {
+  height: 36px;
+  padding: 0 12px;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--sidebar-background);
+}
+
+.search {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 12px;
+  margin-bottom: 10px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.chip,
+.chipOn {
+  border: 1px solid var(--border-color);
+  background: var(--background-color);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+}
+
+.chipOn {
+  background: var(--sidebar-background);
+  color: var(--on-color);
+  border-color: var(--sidebar-background);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.card {
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  min-height: 92px;
+}
+
+.card:hover {
+  border-color: var(--primary-color);
+}
+
+.itemName {
+  font-weight: 650;
+  color: var(--sidebar-background);
+  margin-bottom: 4px;
+}
+
+.meta {
+  color: var(--muted-text-color);
+  font-size: var(--font-size-xs);
+  margin-bottom: 8px;
+}
+
+.price {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.sizes {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.sizes button {
+  flex: 1;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+}
+
+.ticket {
+  background: var(--background-color);
+  border-left: 1px solid var(--border-color);
+  padding: 16px;
+}
+
+.lines {
+  flex: 1;
+  overflow: auto;
+  margin: 8px 0 12px;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef1f5;
+}
+
+.lineName {
+  font-weight: var(--font-weight-medium);
+  color: var(--sidebar-background);
+}
+
+.lineMeta {
+  color: var(--muted-text-color);
+  font-size: var(--font-size-xs);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepper button {
+  width: 28px;
+  height: 28px;
+  background: var(--surface-color);
+  color: var(--sidebar-background);
+}
+
+.remove {
+  border: 0;
+  background: transparent;
+  color: var(--error-color);
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  padding: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.field label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--sidebar-background);
+}
+
+.field input,
+.field select {
+  height: 38px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 10px;
+}
+
+.totals {
+  display: flex;
+  justify-content: space-between;
+  font-weight: var(--font-weight-bold);
+  margin: 8px 0 12px;
+}
+
+.place {
+  height: 42px;
+  background: var(--primary-color);
+  color: var(--on-color);
+}
+
+.place:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  color: var(--error-color);
+  font-size: var(--font-size-sm);
+  margin-bottom: 8px;
+}
+
+.empty {
+  color: var(--muted-text-color);
+  font-size: var(--font-size-sm);
+  padding: 12px 0;
+}
+
+@media (max-width: 980px) {
+  .desk {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .ticket {
+    border-left: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .grid,
+  .lines {
+    max-height: 420px;
+  }
+}
+
+/* Staff waiter mode: same NewOrderDesk ordering component and logic, responsive presentation. */
+.waiterDesk {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  min-height: 620px;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 340px);
+  gap: 0;
+  border: 1px solid var(--border-color, #dce4ed);
+  border-radius: 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: var(--background-color, #fff)
+}
+
+.waiterDesk * {
+  box-sizing: border-box
+}
+
+.waiterDesk .menuPane {
+  min-width: 0;
+  padding: 20px;
+  overflow: hidden
+}
+
+.waiterDesk .toolbar {
+  align-items: flex-start
+}
+
+.waiterDesk .heading {
+  font-size: 20px;
+  line-height: 1.35
+}
+
+.waiterDesk .search {
+  flex-shrink: 0;
+  min-height: 44px;
+  font-size: 14px
+}
+
+.waiterDesk .chips {
+  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
+  scrollbar-width: thin;
+  overscroll-behavior-x: contain
+}
+
+.waiterDesk .chip,
+.waiterDesk .chipOn {
+  min-height: 38px;
+  padding: 8px 13px
+}
+
+.waiterDesk .grid {
+  min-width: 0;
+  overflow: visible;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  align-content: start;
+  gap: 12px;
+  padding: 2px 2px 12px
+}
+
+.waiterDesk .card {
+  min-width: 0;
+  min-height: 146px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  cursor: default
+}
+
+.waiterDesk .itemName {
+  font-size: 14px;
+  line-height: 1.35;
+  overflow-wrap: anywhere
+}
+
+.waiterDesk .meta {
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere
+}
+
+.waiterDesk .price {
+  margin-top: auto;
+  padding-top: 5px;
+  font-size: 15px
+}
+
+.waiterDesk .sizes {
+  margin-top: 10px;
+  flex-wrap: wrap
+}
+
+.waiterDesk .sizes button {
+  min-width: 0;
+  min-height: 38px;
+  height: auto;
+  padding: 7px 5px;
+  background: var(--primary-color, #078891);
+  color: var(--on-color, #fff);
+  border: 0;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 12px;
+  white-space: normal
+}
+
+.waiterDesk .sizes button:hover {
+  filter: brightness(.94)
+}
+
+.waiterDesk .ticket {
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface-color, #f8fafc);
+  padding: 20px;
+  border-left: 1px solid var(--border-color, #dce4ed)
+}
+
+.waiterDesk .ticketHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px
+}
+
+.waiterDesk .lines {
+  flex: initial;
+  min-height: 100px;
+  max-height: 300px;
+  overflow: auto
+}
+
+.waiterDesk .line {
+  grid-template-columns: minmax(0, 1fr) auto
+}
+
+.waiterDesk .lineName {
+  overflow-wrap: anywhere
+}
+
+.waiterDesk .field input,
+.waiterDesk .field select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  background: var(--background-color, #fff);
+  font-size: 14px
+}
+
+.waiterDesk .place {
+  width: 100%;
+  min-height: 46px;
+  height: auto;
+  font-size: 14px
+}
+
+.waiterDesk .mobileCartButton,
+.waiterDesk .mobileCartClose {
+  display: none
+}
+
+@media(max-width:1100px) {
+  .waiterDesk {
+    grid-template-columns: minmax(0, 1fr) minmax(265px, 310px)
+  }
+
+  .waiterDesk .grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr))
+  }
+
+  .waiterDesk .menuPane,
+  .waiterDesk .ticket {
+    padding: 15px
+  }
+}
+
+@media(max-width:800px) {
+  .waiterDesk {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding-bottom: 82px
+  }
+
+  .waiterDesk .menuPane {
+    display: flex;
+    padding: 12px 0;
+    min-height: 0;
+    overflow: visible
+  }
+
+  .waiterDesk .toolbar {
+    margin-bottom: 14px
+  }
+
+  .waiterDesk .heading {
+    font-size: 18px
+  }
+
+  .waiterDesk .hint {
+    font-size: 12px
+  }
+
+  .waiterDesk .search {
+    height: 46px
+  }
+
+  .waiterDesk .chips {
+    padding-bottom: 12px
+  }
+
+  .waiterDesk .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    max-height: none;
+    overflow: visible;
+    padding: 0 0 12px
+  }
+
+  .waiterDesk .card {
+    min-height: 145px;
+    padding: 12px;
+    background: var(--background-color, #fff)
+  }
+
+  .waiterDesk .sizes button {
+    min-height: 42px
+  }
+
+  .waiterDesk .mobileCartButton {
+    display: flex;
+    position: fixed;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px;
+    right: 12px;
+    width: calc(100% - 24px);
+    z-index: 120;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    min-height: 54px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--primary-color, #078891);
+    color: #fff;
+    font-weight: 750;
+    box-shadow: 0 7px 26px rgba(0, 0, 0, .22);
+    cursor: pointer
+  }
+
+  .waiterDesk .mobileCartButton strong {
+    color: #fff
+  }
+
+  .waiterDesk .ticket {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--background-color, #fff);
+    padding: 18px 16px max(24px, env(safe-area-inset-bottom));
+    border: 0;
+    max-height: none
+  }
+
+  .waiterDesk.mobileCartOpen .ticket {
+    display: flex
+  }
+
+  .waiterDesk.mobileCartOpen .mobileCartButton {
+    display: none
+  }
+
+  .waiterDesk .mobileCartClose {
+    display: inline-flex;
+    border: 1px solid var(--border-color, #dce4ed);
+    border-radius: 8px;
+    background: var(--surface-color, #f8fafc);
+    color: var(--text-color, #111827);
+    padding: 10px 12px;
+    font-weight: 650;
+    cursor: pointer
+  }
+
+  .waiterDesk .lines {
+    flex: initial;
+    max-height: none;
+    min-height: 60px;
+    overflow: visible
+  }
+
+  .waiterDesk .place {
+    position: sticky;
+    bottom: 0;
+    min-height: 50px;
+    box-shadow: 0 -4px 14px rgba(0, 0, 0, .06)
+  }
+}
+
+@media(max-width:390px) {
+  .waiterDesk .grid {
+    gap: 8px
+  }
+
+  .waiterDesk .card {
+    padding: 10px
+  }
+
+  .waiterDesk .sizes {
+    gap: 5px
+  }
+
+  .waiterDesk .sizes button {
+    font-size: 11px
+  }
+
+  .waiterDesk .meta {
+    font-size: 11px
+  }
+}
+
+/* Staff-only mobile-first waiter ordering. Admin New Order stays unchanged. */
+.waiterDesk .customerDetails {
+  margin: 10px 0;
+  border: 1px solid var(--border-color, #dce4ed);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.waiterDesk .customerDetails summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 750;
+  color: var(--text-color, #14253b);
+}
+
+.waiterDesk .customerDetails summary span {
+  font-weight: 400;
+  color: var(--muted-text-color, #64748b);
+}
+
+.waiterDesk .customerDetails[open] summary {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 800px) {
+  .waiterDesk {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding-bottom: 78px;
+  }
+
+  .waiterDesk .menuPane {
+    padding: 0 0 12px;
+  }
+
+  .waiterDesk .toolbar {
+    margin: 0 0 10px;
+  }
+
+  .waiterDesk .heading {
+    font-size: 17px;
+  }
+
+  .waiterDesk .hint {
+    display: none;
+  }
+
+  .waiterDesk .search {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 0 10px;
+    border-radius: 11px;
+    background: #fff;
+  }
+
+  .waiterDesk .chips {
+    gap: 7px;
+    padding: 0 0 10px;
+    margin-bottom: 3px;
+    scrollbar-width: none;
+  }
+
+  .waiterDesk .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .waiterDesk .chip,
+  .waiterDesk .chipOn {
+    min-height: 40px;
+    padding: 8px 13px;
+    font-size: 12px;
+  }
+
+  .waiterDesk .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .waiterDesk .card {
+    min-height: 122px;
+    padding: 11px;
+    border-radius: 12px;
+  }
+
+  .waiterDesk .itemName {
+    font-size: 13px;
+    line-height: 1.3;
+    min-height: 32px;
+  }
+
+  .waiterDesk .meta {
+    font-size: 11px;
+    line-height: 1.3;
+    margin-bottom: 5px;
+  }
+
+  .waiterDesk .price {
+    font-size: 14px;
+  }
+
+  .waiterDesk .sizes {
+    margin-top: 8px;
+    gap: 5px;
+  }
+
+  .waiterDesk .sizes button {
+    min-height: 42px;
+    padding: 6px 3px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  .waiterDesk .mobileCartButton {
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 8px;
+    right: 8px;
+    width: calc(100% - 16px);
+    min-height: 58px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .waiterDesk .ticket {
+    padding: 14px 14px max(22px, env(safe-area-inset-bottom));
+  }
+
+  .waiterDesk .ticketHeader {
+    position: sticky;
+    top: -14px;
+    z-index: 2;
+    background: #fff;
+    padding: 12px 0;
+  }
+
+  .waiterDesk .field input,
+  .waiterDesk .field select {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .waiterDesk .line {
+    padding: 12px 0;
+  }
+
+  .waiterDesk .stepper button {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .waiterDesk .place {
+    min-height: 54px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .waiterDesk .grid {
+    gap: 7px;
+  }
+
+  .waiterDesk .card {
+    padding: 9px;
+  }
+
+  .waiterDesk .sizes button {
+    font-size: 11px;
+  }
+}

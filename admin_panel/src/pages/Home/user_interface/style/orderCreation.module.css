@@ -1,0 +1,608 @@
+/* Modified by Rohan kansari - 27/8/23 
+   Reason - To rearrange all styling */
+
+.container{
+    height: 70vh;
+    max-height: 550px;
+    --row-font-size: 14px;
+    --data-font-size: 14px;
+    padding-bottom: 50px;
+}
+
+.modelContainer{
+    width: 55vw !important;
+    top: 10vh !important;
+}
+
+.header{
+    width: 100%;
+    height: 23px;
+    /* background-color: aqua; */
+}
+
+.customerDetailForm{
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.formHeading{
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+}
+
+.inputBoxContains{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.inputBox{
+    min-width: 100px;
+    /* min-height: 70px;
+    margin: 5px 0px; */
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.inputLabel{
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-color);
+    margin: 5px 0;
+}
+
+.inputfield{
+    min-width: 80px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.tableInputfield{
+    max-width: 60px;
+    height: 30px;
+    margin: 0 20px;
+    border-radius: var(--radius-sm);
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.contactInputfield{
+    max-width: 130px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.nameInputfield{
+    max-width: 140px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.emailInputfield {
+    max-width: 180px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    outline: none;
+    padding: 0 5px;
+    border: 1px solid black;
+}
+
+.tableErrorText{
+    max-width: 110px;
+    font-size: var(--font-size-xs);
+    color:red ;
+    margin: 2px 0;
+}
+
+.contactErrorText{
+    max-width: 130px;
+    font-size: var(--font-size-xs);
+    color:red ;
+    margin: 2px 0;
+}
+
+.emailErrorText{
+    max-width: 190px;
+    font-size: var(--font-size-xs);
+    color:red ;
+    margin: 2px 0;
+    /* word-break: break-all; */
+}
+
+.errorText{
+    font-size: var(--font-size-sm);
+    color:red ;
+    margin: 2px 0;
+}
+
+.itemListContainer{
+    width: 70%;
+    height: 50%;
+    /* background-color: #212121; */
+    margin-top: 20px;
+}
+
+.listHeader{
+    display: flex;
+    justify-content: space-between;
+}
+
+.listHeading{
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+}
+
+.addItemBtn{
+    min-width: 80px;
+    height: 30px;
+    padding: 2px 10px;
+    border: 1px solid black;
+    border-radius: var(--radius-sm);
+    color:var(--text-color);
+    background-color: var(--success-color);
+    transition: all .3s ease;
+}
+
+.listRowHeading{
+    width: 100%;
+    min-height:22px;
+    background-color: #F1EDED;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    margin: 5px 0px;
+    gap: 5px;
+}
+
+.sNo{
+    width: 12%;
+    max-width: 50px;
+    height: 100%;
+    min-width: 30px;
+    font-size: var(--row-font-size);
+    font-weight: var(--font-weight-medium);
+}
+
+.itemName{
+    width: 40%;
+    height: 100%;
+    min-width: 70px;
+    font-size: var(--row-font-size);
+    font-weight: var(--font-weight-medium);
+}
+
+.quantity{
+    width: 15%;
+    height: 100%;
+    min-width: 40px;
+    font-size: var(--row-font-size);
+    font-weight: var(--font-weight-medium);
+}
+
+.price{
+    width: 15%;
+    height: 100%;
+    min-width: 40px;
+    font-size: var(--row-font-size);
+    font-weight: var(--font-weight-medium);
+}
+
+.action{
+    min-width: 50px;
+    width: 8%;
+    margin: auto 0;
+}
+
+.listRow{
+    width: 100%;
+    max-height: 30vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+
+
+.listRow::-webkit-scrollbar-track
+{
+    width: 10px;
+    background-color: antiquewhite;
+}
+
+.listRow::-webkit-scrollbar
+{
+    width: 5px;
+
+}
+
+.listRow::-webkit-scrollbar-thumb
+{
+    width: 5px;
+    background-color: var(--text-color);
+    
+}
+
+.mandatory{
+    color:red;
+}
+
+
+
+.row{
+    display: flex;
+    height: fit-content;
+    justify-content: space-between;
+    width: 100%;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    margin-top: 2px;
+    background-color: #f1f1f1c2;
+
+}
+
+.sNoColumn{
+    width: 12%;
+    max-width: 50px;
+    height: 100%;
+    min-width: 30px;
+    font-size: var(--data-font-size);
+}
+
+.itemNameColumn{
+    width: 40%;
+    height: 100%;
+    min-width: 70px;
+    /* padding-left: 13px; */
+    color: var(--text-color);
+    font-size: var(--data-font-size);
+}
+
+.quantityColumn{
+    width: 15%;
+    height: fit-content;
+    min-width: 40px;
+    margin: auto 0;
+    display: flex;
+    color: var(--text-color);
+    font-size: var(--data-font-size);
+}
+
+.priceColumn{
+    width: 15%;
+    height: 100%;
+    min-width: 50px;
+    color: var(--text-color);
+    font-size: var(--data-font-size);
+    margin : auto 0;
+}
+
+.resposivePrice{
+    display: none;
+}
+
+.removeBtn{
+    min-width: 30px;
+    height: 23px;
+    padding: 0px 5px;
+    text-decoration: underline;
+    /* border: 1px solid tomato; */
+    border-radius: var(--radius-sm);
+    /* color:var(--text-color); */
+    margin: auto 0;
+    color: tomato;
+    transition: all .3s ease;
+}
+
+.removeBtn:hover{
+    background-color: tomato;
+    color: wheat;
+}
+
+.responsiveBTNText{
+display: block;
+margin: auto 0;
+}
+
+.mobileBtnText{
+    display: none;
+}
+
+.plus{
+    width: 15px;
+    height: 15px;
+    border-radius: var(--radius-sm);
+    background-color: rgb(250, 250, 250);
+
+    /* background-color: var(--text-color); */
+}
+
+.minus{
+    width: 15px;
+    height: 15px;
+    border-radius: var(--radius-sm);
+    background-color: rgb(252, 251, 251);
+
+    /* background-color: var(--text-color); */
+}
+
+.quantityAdded{
+    width: 25px;
+    height: 15px; 
+    font-size: var(--font-size-sm);
+    /* padding-left: 4px; */
+     position: relative;
+     text-align: center;
+    top: -4px;
+    /* background-color: cornsilk;  */
+}
+
+/* .quantityAdded:before{
+    width: 100%;
+    height: 100%;
+    background-color: cornsilk;
+    /* position: absolute;
+    top: 0;
+    left: -50%; */
+/* }
+
+.quantityAdded:after{
+    width: 100%;
+    height: 100%;
+    background-color: cornsilk;
+    position: absolute;
+    top: 0;
+    left: -50%;
+}  */
+
+.listNPricingFlexBox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceContainer{
+    width: 25%;
+}
+
+.blankSpace{
+    min-height: 80px;
+    width: 100%;
+}
+
+.priceContains{
+     min-height: 30vh;
+     width: 100%;
+     margin-top: 5px;
+     background-color: #F1EDED;
+}
+   
+.priceRow{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.priceData{
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    margin: 5px 0;
+}
+
+.emptyRow{
+    width: 100%;
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    align-self: center;
+}
+
+@media screen and (max-width:1300px){
+    .modelContainer{
+        width: 70vw !important;
+    }
+}
+
+@media screen and (max-width: 900px){
+
+    .modelContainer{
+        width: 90vw !important;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .container{
+        overflow: auto;
+        padding-right: 10px ;
+        --row-font-size:12px;
+        --data-font-size:12px;
+    }
+
+    .itemListContainer{
+        width: 100%;
+    }
+
+    .listRowHeading{
+        justify-content: space-between;
+    }
+
+    .listRow{
+        justify-content: space-between;
+    }
+
+    .row{
+        justify-content: space-between;
+    }
+
+    .blankSpace{
+        display: none;
+    }
+
+    .listNPricingFlexBox{
+        flex-direction: column;
+    }
+
+    .priceContainer{
+        max-width: 250px;
+        width: 100%;
+        align-self: flex-end;
+    }
+
+    .priceContains{
+        min-height: 160px;
+        max-height: 160px;
+        
+    }
+
+    .modelContainer{
+        width: 80vw !important;
+    }
+
+    .inputBoxContains{
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tableInputfield{
+        margin:unset;
+    
+    }
+
+    .inputBox{
+        flex-direction: row;
+        /* gap: 10px; */
+    }
+
+    .inputLabel{
+        min-width: 120px;
+    }
+
+    .tableErrorText{
+        max-width: 300px;
+    }
+    
+    .contactErrorText{
+        max-width: 300px;
+    }
+    
+    .emailErrorText{
+        max-width: 300px;
+        /* word-break: break-all; */
+    }
+
+}
+
+
+
+@media screen and (max-width: 500px){
+    /* .price{
+        display: none;
+    }
+    .priceColumn{
+        display: none;
+    } */
+
+    .itemNameColumn{
+        padding-left: 3px;
+    }
+
+    .inputLabel{
+        font-size: var(--font-size-sm);
+    }
+    .inputfield{
+        height: 22px;
+    }
+
+    .sNo{
+        min-width: 10px;
+        width: 5%;
+    }
+
+    .sNoColumn{
+        min-width: 10px;
+        width: 5%;
+    }
+
+    .resposivePrice{
+        display: block;
+    }
+
+    .removeBtn{
+        min-width: 15px;
+        padding: 0;
+        position: relative;
+        top: -3px;
+    }
+
+    /* .quantity{
+        min-width: 30px;
+    }*/
+
+    .quantityColumn{
+        width: fit-content;
+    } 
+
+    .action{
+        min-width: 15px;
+    }
+
+    .responsiveBTNText{
+        display: none;
+    }
+
+    .mobileBtnText{
+        display: block;
+        text-align: center;
+    }
+
+    .priceContains{
+        min-height: 120px;
+        max-height: 160px;
+        
+    }
+
+    .priceData{
+        font-size: var(--font-size-sm);
+    }
+
+    .modelContainer{
+        width: 95vw !important;
+    }
+     
+    .row {
+        gap: 5px;
+        justify-content: space-between;
+    }
+
+    .quantityAdded{
+        width: 16px;
+    }
+
+}
+
+/* 
+@media  screen and (max-width:350px) {
+    .removeBtn{
+        min-width: 15px;
+        padding: 0;
+        position: relative;
+        top: -2px;
+        left: -10px;
+    }
+} */

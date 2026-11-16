@@ -1,0 +1,35 @@
+:root {
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 10px;
+  --border-radius-xl: 16px;
+  --border-radius-2xl: 18px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-22: 22px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --padding-xs: 6px;
+  --padding-sm: 8px;
+  --padding-md: 10px;
+  --control-height: 28px;
+  --btn-height: 32px;
+  --btn-width: auto;
+  --input-width: 100%;
+  --input-height: 34px;
+  --sidebar-width: 248px;
+  --header-height: 56px;
+  --transition-speed: 0.2s;
+}

@@ -1,0 +1,1163 @@
+/* // Created by Rohan kansari - 15/9/23 - To split dashboard model */
+
+.popupContainer {
+    z-index: 2;
+    width: 100%;
+    min-height: 30vh;
+    height: auto;
+    border-radius: var(--radius-md);
+    background-color: var(--background-color);
+}
+
+.CustomerInformationBox {
+    width: 100%;
+    background-color: var(--background-color);
+    border-radius: 8px 8px 0 0;
+    padding-bottom: 10px;
+}
+
+.modalContainer {
+    /* margin-left: 39%; */
+    width: 70vw !important;
+    top: 0;
+    bottom: 0;
+    margin: 10px auto;
+}
+
+.topHeading {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+
+.Order_idText {
+    color: var(--text-color);
+    text-align: center;
+    font-size: var(--font-size-md);
+    padding: 5px 10px;
+    border-bottom: 1px solid white;
+    margin-bottom: 10px;
+    background-color: var(--surface-color);
+    border-radius: var(--radius-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.actionBtn {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.orderCancelBtn {
+    border: 2px solid var(--error-color);
+    background-color: var(--error-color);
+    border-radius: var(--radius-sm);
+    padding: 5px 2px;
+    color: var(--on-color);
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width: 90px;
+    transition: all .3s;
+    height: 30px;
+
+}
+
+.orderCancelBtn:hover {
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+    background-color: transparent;
+}
+
+.KotBtn {
+    min-width: 60px;
+    height: 30px;
+    border: 1px solid rgb(39, 166, 75);
+    background-color: rgb(39, 166, 75);
+    color: var(--on-color);
+    transition: all .3s;
+    border-radius: var(--radius-sm);
+    margin: 0 10px;
+    padding: 0 8px;
+}
+
+.KotBtn:hover {
+    background-color: transparent;
+    border: 1px solid rgb(39, 166, 75);
+    color: rgb(39, 166, 75);
+}
+
+.getbill {
+    min-width: 60px;
+    height: 30px;
+    border: 1px solid rgb(39, 166, 75);
+    background-color: rgb(39, 166, 75);
+    color: var(--on-color);
+    transition: all .3s;
+    border-radius: var(--radius-sm);
+    /* margin: 0 10px; */
+    padding: 0 8px;
+    /* margin-right: 20px; */
+}
+
+.getbill:hover {
+    background-color: transparent;
+    border: 1px solid rgb(39, 166, 75);
+    color: rgb(39, 166, 75);
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.informationContainer {
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Modified by Pratap sahu on 22-09-2023
+    Reason: To adjust payment mode dropdown */
+    /* uncommented by pratap sahu on 28-09-2023 */
+    row-gap: 0px;
+    /* row-gap: 5px; */
+    /* End of code by pratap sahu on 28-09-2023 */
+    /*End of Modification by Pratap sahu on 22-09-2023
+    Reason: To adjust payment mode dropdown */
+    flex-wrap: wrap;
+    /* width: 100%; */
+}
+
+.information {
+    min-width: 30%;
+    /* width: 48%; */
+    display: flex;
+    gap: 6px;
+}
+
+.WhiteLabel {
+    color: var(--text-color);
+    font-size: var(--label-font-size);
+    width: fit-content;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+}
+
+.data {
+    color: var(--text-color);
+    white-space: nowrap;
+    display: flex;
+}
+
+/* .disbaleBtn {
+    pointer-events: none;
+    color: #9c9c9c;
+    background-color: rgba(0, 0, 0, 0.1);
+} */
+
+.InputLabel {
+    color: black;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.2px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.OrderstatusBtnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 10px;
+    width: fit-content;
+}
+
+.StatusArrowBtnContainer {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: fit-content;
+    /* padding: 0 10px; */
+}
+
+.scrollContainer {
+    max-height: 60vh;
+    overflow: auto;
+}
+
+
+.scrollContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+    width: 0;
+    display: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+    /* Added by ROhan kansari - 28/6/23 */
+    background-color: rgb(39, 166, 75);
+    display: none;
+    /* border: 1px solid white; */
+}
+
+.orderItemHeader {
+    height: 30px;
+    min-width: max-content;
+    width: 100%;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ItemInformation {
+    width: 63%;
+    min-height: 25px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item_heading {
+    width: 35%;
+    min-width: 140px;
+    height: 100%;
+    margin-left: 20px;
+    margin-right: 62px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.QtyNPriceHeadings {
+    width: 35%;
+    max-width: 190px;
+    min-width: 150px;
+    height: 100%;
+    margin: 0 0px;
+    display: flex;
+}
+
+.quantityHeading {
+    padding: 4px 8px;
+    font-size: var(--font-size-md);
+    margin-right: 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.priceHeading {
+    padding: 4px 10px;
+    font-size: var(--font-size-md);
+    margin: 0 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.status_list {
+    min-width: 150px;
+    height: 100%;
+    margin: 0 15px;
+    display: flex;
+}
+
+.status {
+    padding: 4px 8px;
+    font-size: var(--font-size-md);
+    margin: 0 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--surface-color);
+    color: black;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    text-align: center;
+}
+
+.itemsContent {
+
+    min-height: 180px;
+    max-height: 29vh;
+    margin: 8px 0;
+    overflow: auto;
+    width: 100%;
+    min-width: 670px;
+
+
+}
+
+.itemsContent::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+}
+
+.itemsContent::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+.itemsContent::-webkit-scrollbar-thumb {
+    /* Added by ROhan kansari - 28/6/23 */
+    background-color: #43475c;
+    /* border: 1px solid white; */
+}
+
+.itemlist {
+    max-height: 300px;
+    overflow: auto;
+    padding-top: 1.5rem;
+    width: 100%;
+    min-height: 27vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.itemlist::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+}
+
+.itemlist::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+.itemlist::-webkit-scrollbar-thumb {
+    background-color: #000000;
+    border: 1px solid #555555;
+}
+
+.itemrow {
+    width: 100%;
+    margin: .5px 0;
+    min-height: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.cancelledRow {
+    background-color: rgba(255, 91, 71, 0.2);
+    cursor: no-drop;
+    pointer-events: none;
+}
+
+.confirmRow {
+    background-color: rgba(144, 238, 144, 0.2);
+    cursor: no-drop;
+    pointer-events: none;
+}
+
+.checkboxNTitleFlex {
+    width: 70%;
+    margin-right: 4%;
+    min-width: 140px;
+    display: flex;
+    gap: 10px;
+}
+
+.title {
+    display: flex;
+    width: 50vw;
+    font-size: var(--label-font-size);
+    font-size: 600;
+    letter-spacing: 1.7px;
+    font-weight: var(--font-weight-medium);
+    width: 90%;
+    position: relative;
+    font-size: var(--font-size-sm);
+    min-width: 140px;
+}
+
+.quantityNPriceFlex {
+    width: 38%;
+    max-width: 190px;
+    min-width: 150px;
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.quantity {
+    max-width: 70px;
+    min-width: 70px;
+    width: 50%;
+    height: 25px;
+    /* min-width: 80px; */
+    background-color: #eceaea;
+    border-radius: var(--radius-sm);
+    box-shadow: 0px 1px 5px #c4c0c0;
+    display: flex;
+    cursor: pointer;
+}
+
+.decrease {
+    width: 33.337%;
+    height: 100%;
+    border-right: 1px solid var(--border-color);
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+    padding: 5px;
+    font-size: var(--font-size-md);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.quantityValue {
+    width: 33.337%;
+    height: 100%;
+    text-align: center;
+    font-weight: bolder;
+    font-size: var(--font-size-sm);
+}
+
+.increase {
+    width: 33.337%;
+    height: 100%;
+    border-left: 1px solid var(--border-color);
+    text-align: center;
+    font-weight: bolder;
+    padding: 5px;
+    font-size: var(--font-size-md);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.price {
+    margin-left: 25px;
+    width: 50%;
+    max-width: min-content;
+    /* min-width: 80px; */
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.checkboxContainer {
+    max-width: 250px;
+    min-width: 150px;
+    width: 50%;
+    min-height: 20px;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.statusRow {
+    display: flex;
+    width: 100%;
+    min-height: 35px;
+}
+
+.checkboxContain {
+    width: 33%;
+    height: 40px;
+    min-width: 33px;
+    position: relative;
+}
+
+.AllStatusContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.AllUpdateButton {
+    width: 20%;
+    margin: 0 10px;
+    min-width: 150px;
+    max-width: 250px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+    color: var(--on-color);
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
+    transition: all .3s;
+}
+
+.AllUpdateButton:hover {
+    border: 1px solid rgb(39, 166, 75);
+    background-color: transparent;
+    color: rgb(39, 166, 75);
+}
+
+.StatusBtnContainer {
+    width: 50%;
+    max-width: 300px;
+    height: 30px;
+    /* background-color: var(--text-color); */
+    margin: 0 10px;
+    display: flex;
+    gap: 4px;
+}
+
+.UpdateItemContainer {
+    width: 98%;
+    height: 40px;
+    background: var(--background-color);
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    margin-top: 10px;
+}
+
+.UpdateItemBTN {
+    width: 40%;
+    max-width: 200px;
+    height: 100%;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.4px;
+    color: var(--on-color);
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
+    /* background: var(--primary-box-bg-color); */
+    font-weight: var(--font-weight-bold);
+    padding: 5px 5px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all .3s;
+}
+
+.UpdateItemBTN:hover {
+    border: 1px solid rgb(39, 166, 75);
+    background-color: transparent;
+    color: rgb(39, 166, 75);
+}
+
+.TotalContainer {
+    min-height: 30vh;
+    width: 100%;
+}
+
+.PricingContainer {
+    width: 100%;
+    margin: 8px 0px;
+    padding: 10px 0px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    row-gap: 8px;
+}
+
+.DiscountNCancelSection {
+    width: 90%;
+    min-height: 30vh;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    margin: 8px 8px;
+    padding: 10px 8px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.inputContainerFlex {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+
+}
+.inputContainerFlex2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: var(--background-color);
+
+}
+
+.inputBoxContainer {
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.InputLabel {
+    color: black;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.2px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.flexDoubleInput {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.discountColumn {
+    width: 50%
+}
+
+.discountRow {
+    display: flex;
+}
+
+.Column {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.subInputLabel {
+    color: black;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.inputBox {
+    width: 95%;
+    min-width: 70px;
+    height: 30px;
+    margin: 3px 0;
+/* modified by Pratap sahu on 20-10-2023 */
+    /* background-color: var(--surface-color); */
+    background-color: var(--background-color);
+/* modified by Pratap sahu on 20-10-2023 */
+    outline: none;
+/* Commented & modified by Pratap sahu on 09-10-2023 To display fields like input box */
+    /* border: none; */
+    border: 1px solid var(--border-color);
+    /* border-bottom: 1px solid var(--border-color); */
+/* End of code by Pratap sahu on 09-10-2023 To display fields like input box */
+    border-radius: var(--radius-sm);
+    padding: 0 5px;
+}
+/* added by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+.disabledBox {
+    width: 95%;
+    min-width: 70px;
+    height: 30px;
+    margin: 3px 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    outline: none;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0 5px;
+}
+/* End of code by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+.errorText {
+    color: red;
+    font-size: var(--font-size-xs);
+}
+
+.loyalityColumn {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.discountRow {
+    display: flex;
+}
+
+.rewardbox {
+    width: 45%;
+    min-height: 30px;
+    min-width: 130px;
+    border-radius: var(--radius-md);
+    box-shadow: 0px .5px 5px hsl(197, 100%, 50%);
+    border: 1px solid hsl(197, 100%, 50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    margin-top: 20px;
+    margin-right: 10px;
+    font-family: var(--font-family);
+    font-weight: 500;
+    color: hsl(197, 100%, 50%);
+    letter-spacing: 1.2px;
+
+}
+
+.coinBox {
+    display: flex;
+}
+
+.cointPoints {
+    color: blue;
+    display: flex;
+    align-items: center;
+}
+
+.disbaleBtn {
+    pointer-events: none;
+    color: var(--muted-text-color);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.TextInputBox {
+    width: 98%;
+    min-width: 90px;
+    height: 53px;
+    margin: 3px 0;
+/* modified by Pratap sahu on 20-10-2023 To  */
+    /* background-color: var(--surface-color); */
+    background-color: var(--background-color);
+/* End of code by Pratap sahu on 20-10-2023 */
+    outline: none;
+/* Commented & modified by Pratap sahu on 09-10-2023 To display fields like input box */
+    /* border: none; */
+    border: 1px solid var(--border-color);
+    /* border-bottom: 1px solid var(--border-color); */
+    min-height: 53px;
+    max-height: 53px;
+/* End of code by Pratap sahu on 09-10-2023 To display fields like input box */
+    border-radius: var(--radius-sm);
+    padding: 0 6px;
+}
+/* added by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+.TextInputBoxDis {
+    width: 98%;
+    min-width: 90px;
+    height: 53px;
+    margin: 3px 0;
+    outline: none;
+    border: 1px solid var(--border-color);
+    background-color: rgba(0, 0, 0, 0.1);
+    min-height: 53px;
+    max-height: 53px;
+    border-radius: var(--radius-sm);
+    padding: 0 6px;
+}
+/* added by Pratap sahu on 20-10-2023 to change colour of all input boxes*/
+
+.UpdateDIscountBtn {
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 10px;
+
+}
+
+.ApplyBtn {
+    min-width: 100px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+    padding: 0 8px;
+    color:var(--on-color) ;
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(39, 166, 75);
+    border: 1px solid rgb(39, 166, 75);
+    transition: all .3s;
+}
+
+.ApplyBtn:hover {
+    background-color: transparent;
+    color: rgb(39, 166, 75);
+}
+/* Added by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
+.ApplyBtnDisabled {
+    min-width: 100px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+    padding: 0 8px;
+    color:var(--on-color) ;
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    pointer-events: none;
+    color: var(--muted-text-color);
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all .3s;
+}
+/* End of code by Pratap sahu on 08-10-2023 Reason:To display Apply Button as Disabled*/
+
+.pricingContent {
+    width: 50%;
+    /* Modified by pratap sahu on 27-09-2023
+    Reason:decimal values are coming out of the Area */
+    max-width: 260px;
+    /* max-width: 290px; */
+    min-width: 180px;
+    /* min-width: 230px; */
+    /*End of code by pratap sahu on 27-09-2023
+    Reason:decimal values are coming out of the Area */
+    margin: 10px 0px;
+    padding: 0 8px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+
+}
+
+.priceInformation {
+    width: 100%;
+    min-width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 0;
+}
+
+.PrintNBack {
+    /* width: 60%; */
+    min-width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 15px;
+    padding: 0 10px;
+
+}
+
+.BackBtn {
+    min-width: 100px;
+    font-size: var(--font-size-md);
+    letter-spacing: 1.3px;
+    border-radius: var(--radius-sm);
+    height: 30px;
+
+    color: var(--on-color);
+    background-color: transparent;
+    font-weight: var(--font-weight-medium);
+    background-color: rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 0);
+    transition: all .3s;
+}
+
+.BackBtn:hover {
+    background-color: transparent;
+    color: rgb(0, 0, 0);
+}
+
+.EditableInput {
+    background-color: var(--background-color);
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+    caret-color: black;
+    letter-spacing: 1.2px;
+    height: 18px;
+    max-width: 130px;
+
+    padding-right: 10px;
+}
+
+
+@media (max-width: 1200px) {
+    .ItemInformation {
+        width: 56%;
+    }
+
+    .checkboxContainer{
+        width: 49%;
+        max-width: 250px;
+    }
+
+    .quantityNPriceFlex{
+        padding-left: 5px;
+    }
+    
+
+}
+
+@media (max-width: 1000px) {
+    .ItemInformation {
+        width: 53%;
+    }
+
+    .item_heading {
+        margin-right: 40px;
+    }
+
+    .itemsContent {
+        min-width: 660px;
+    }
+
+    .itemList {
+        width: 100%;
+    }
+
+    .itemrow {
+        gap: 15px;
+    }
+
+    .checkboxNTitleFlex {
+
+        width: 100%;
+        min-width: 140px;
+    }
+
+    .title {
+        width: 90%;
+    }
+
+    .quantityNPriceFlex {
+        max-width: unset;
+        min-width: 140px;
+        padding-left: 0px;
+    }
+
+    .checkboxContainer {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    
+    .statusRow {
+        gap: 18px;
+    }
+
+    .discountColumn {
+        width: 100%;
+    }
+
+    .Column {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .loyalityColumn {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .rewardbox {
+        font-size: var(--font-size-xs);
+        min-width: 155px;
+    }
+
+    .price{
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width:850px) {
+    .modalContainer {
+        width: 80vw !important;
+    }
+
+    .quantityNPriceFlex{
+        padding-left: 0px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+    /* Added by Pratap sahu on 20-11-2023 Reason :To display each details row by row */
+    .flex{
+        display: block;
+    }
+    /*End of code by Pratap sahu on 20-11-2023  */
+    .modalContainer {
+        width: 100vw !important;
+    }
+
+    .topHeading {
+        flex-direction: column;
+        margin-bottom: 8px;
+    }
+
+    .Order_idText {
+        width: 98%;
+        font-size: var(--font-size-md);
+        padding: 0 5px;
+        height: unset;
+    }
+
+    .OrderstatusBtnContainer {
+        justify-content: center;
+        row-gap: 14px;
+    }
+
+    .price{
+        margin-left: 15px;
+    }
+
+    .ItemInformation {
+        width: 100%;
+        max-width: 309px;
+        gap: 15px;
+    }
+
+    .item_heading {
+        width: 35%;
+        min-width: 150px;
+        margin: 0 4px 0px 10px;
+        font-size: var(--font-size-sm);
+    }
+
+    .quantityHeading {
+        min-width: 40px;
+        margin-right: 0px;
+        font-size: var(--font-size-sm);
+    }
+
+    .priceHeading {
+        min-width: 40px;
+        font-size: var(--font-size-sm);
+    }
+
+    .status_list {
+        margin: 0 2px;
+    }
+
+    .status {
+        font-size: var(--font-size-xs);
+        margin: 0 2px;
+    }
+
+    .itemsContent {
+        width: max-content;
+        min-width: 530px;
+    }
+
+    .itemList {
+        width: max-content;
+    }
+
+    .checkboxNTitleFlex {
+
+        width: 100%;
+        min-width: 160px;
+    }
+
+    .title {
+        width: 80%;
+        font-size: var(--font-size-sm);
+        letter-spacing: 0.9px;
+        min-width: 90px;
+    }
+
+    .quantityNPriceFlex {
+        width: 40%;
+        min-width: 130px;
+    }
+
+    .quantity {
+        min-width: 45px;
+        height: 18px;
+        font-size: var(--font-size-xs);
+        max-width: 56px;
+    }
+
+    .decrease {
+        padding: 3px;
+        font-size: 9px;
+    }
+
+    .increase {
+        padding: 3px;
+        font-size: 9px;
+    }
+
+    .price {
+        min-width: 40px;
+        font-size: var(--font-size-sm);
+    }
+
+    
+    .checkboxContainer {
+        width: 100%;
+        min-width: 160px;
+        max-width: 180px;
+    }
+
+    .statusRow {
+        gap: 18px
+    }
+
+    .AllStatusContainer {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .AllUpdateButton {
+        margin: 0 auto;
+    }
+
+    .StatusBtnContainer {
+        width: 100%;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .UpdateItemContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        height: unset;
+    }
+
+    .UpdateItemBTN {
+        font-size: var(--font-size-sm);
+        letter-spacing: .9px;
+        width: 95%;
+    }
+
+    .PricingContainer {
+        padding: unset;
+        flex-direction: column;
+    }
+    .DiscountNCancelSection {
+        /* Modified By pratap sahu on 27-09-2023
+        Reason: Cancelled by Coming outside the Are in Responsive */
+        /* width: 95%; */
+        width: 100%;
+    /* End of Modification By pratap sahu on 27-09-2023
+    Reason: Cancelled by Coming outside the Are in Responsive */
+    }
+
+    .inputBoxContainer {
+        width: 100%;
+    }
+
+    .pricingContent {
+        width: 100%;
+        max-width: unset;
+        margin: 0 10px;
+    }
+}

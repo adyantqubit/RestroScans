@@ -1,0 +1,15 @@
+.history/
+old project for reference/
+node_modules/
+.next/
+build/
+__pycache__/
+*.pyc
+venv/
+.venv/
+backend/.env
+backend/backend/credentials.json
+backend/logs/*.log
+backend/media/
+*.env.local
+.env.*.local

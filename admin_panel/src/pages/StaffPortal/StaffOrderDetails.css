@@ -1,0 +1,403 @@
+.sodRoot {
+    max-width: 1000px;
+    margin: auto;
+    padding: 16px 8px 80px;
+    color: #14253b
+}
+
+.sodRoot button {
+    cursor: pointer;
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 14px;
+    background: #07868e;
+    color: white;
+    font-weight: 700
+}
+
+.sodBack {
+    margin-bottom: 14px
+}
+
+.sodHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: white;
+    border: 1px solid #dce4ed;
+    border-radius: 14px;
+    padding: 18px
+}
+
+.sodHead h2 {
+    margin: 0 0 7px
+}
+
+.sodHead p {
+    margin: 0;
+    color: #64748b
+}
+
+.sodHead>span {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 6px 10px;
+    border-radius: 18px
+}
+
+.sodLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 15px 3px
+}
+
+.sodLine strong,
+.sodLine small {
+    display: block
+}
+
+.sodLine small {
+    color: #64748b;
+    margin-top: 5px
+}
+
+.sodControls {
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.sodControls button {
+    min-width: 42px;
+    min-height: 42px
+}
+
+.sodControls .sodRemove {
+    background: #fee2e2;
+    color: #991b1b
+}
+
+.sodCancelled {
+    opacity: .5
+}
+
+.sodTotal {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    font-size: 18px
+}
+
+.sodRoot .sodPrimary {
+    width: 100%;
+    min-height: 48px
+}
+
+.sodCatalog {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 14px
+}
+
+.sodCatalog>input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 16px
+}
+
+.sodCatalogGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 12px
+}
+
+.sodCatalogCard {
+    border: 1px solid #dce4ed;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.sodCatalogCard small {
+    color: #64748b
+}
+
+.sodCatalogActions {
+    display: flex;
+    gap: 6px
+}
+
+.sodCatalogActions button {
+    flex: 1
+}
+
+.sodCatalogCard .sodKitchen {
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 11px
+}
+
+.sodUnavailable {
+    color: #b91c1c;
+    font-weight: 700
+}
+
+.sodError {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 12px;
+    border-radius: 9px;
+    margin: 10px 0
+}
+
+@media(max-width:600px) {
+    .sodRoot {
+        padding: 8px 0 90px
+    }
+
+    .sodHead {
+        padding: 12px
+    }
+
+    .sodHead h2 {
+        font-size: 18px
+    }
+
+    .sodLine {
+        align-items: flex-start;
+        flex-direction: column
+    }
+
+    .sodControls {
+        width: 100%;
+        justify-content: flex-end
+    }
+
+    .sodCatalogGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .sodCatalogCard {
+        padding: 9px
+    }
+
+    .sodCatalogActions button {
+        padding: 10px 5px
+    }
+}
+
+.sodPayment {
+    margin-top: 22px;
+    padding: 18px;
+    background: #fff;
+    border: 1px solid #dce4ed;
+    border-radius: 14px
+}
+
+.sodPayment h3 {
+    margin: 0 0 15px
+}
+
+.sodPaymentTotal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 17px;
+    margin-bottom: 16px
+}
+
+.sodPaymentMethods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px
+}
+
+.sodRoot .sodPaymentMethods button {
+    background: #f1f5f9;
+    color: #0f172a;
+    border: 2px solid #dce4ed;
+    min-height: 50px
+}
+
+.sodRoot .sodPaymentMethods button.selected {
+    border-color: #07868e;
+    background: #e0f7f5;
+    color: #065f63
+}
+
+.sodRoot .sodPaymentMethods button:disabled {
+    opacity: .45
+}
+
+.sodQr {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    margin: 14px 0
+}
+
+.sodQr img {
+    width: min(100%, 260px);
+    height: auto
+}
+
+.sodPaid,
+.sodPending {
+    padding: 14px;
+    border-radius: 10px;
+    margin: 12px 0
+}
+
+.sodPaid {
+    background: #dcfce7;
+    color: #166534
+}
+
+.sodPending {
+    background: #fef3c7;
+    color: #92400e
+}
+
+.sodRoot .sodRefreshPayment {
+    background: transparent;
+    color: #07868e;
+    border: 1px solid #07868e;
+    margin-top: 12px;
+    width: 100%
+}
+
+@media(max-width:600px) {
+    .sodPayment {
+        padding: 13px
+    }
+
+    .sodPaymentMethods button {
+        min-height: 48px
+    }
+}
+
+.sodInvoice {
+    border: 1px solid #dce4ed;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 18px;
+    background: #fff;
+    color: #14253b
+}
+
+.sodInvoice h3 {
+    text-align: center;
+    font-size: 19px;
+    margin: 0 0 14px;
+    font-weight: 700
+}
+
+.sodInvoiceMeta {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 10px;
+    padding: 4px 0;
+    font-size: 13px
+}
+
+.sodInvoiceMeta strong {
+    overflow-wrap: anywhere;
+    font-weight: 600
+}
+
+.sodInvoiceTableWrap {
+    overflow-x: auto;
+    margin: 14px 0 8px
+}
+
+.sodInvoiceTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px
+}
+
+.sodInvoiceTable th,
+.sodInvoiceTable td {
+    padding: 9px 6px;
+    border-bottom: 1px solid #e2e8f0
+}
+
+.sodInvoiceTable th:nth-child(2),
+.sodInvoiceTable td:nth-child(2) {
+    text-align: center
+}
+
+.sodInvoiceTable th:last-child,
+.sodInvoiceTable td:last-child {
+    text-align: right;
+    white-space: nowrap
+}
+
+.sodInvoiceTable thead {
+    background: #f1f5f9
+}
+
+.sodInvoiceBreakdown {
+    margin-top: 12px
+}
+
+.sodInvoiceBreakdown>div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 0;
+    font-size: 14px
+}
+
+.sodInvoiceBreakdown>div>span:last-child {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums
+}
+
+.sodInvoiceBreakdown .sodInvoiceGrand {
+    border-top: 2px solid #14253b;
+    margin-top: 8px;
+    padding-top: 14px;
+    font-size: 17px
+}
+
+@media(max-width:600px) {
+    .sodInvoice {
+        padding: 11px
+    }
+
+    .sodInvoiceMeta {
+        grid-template-columns: 90px minmax(0, 1fr)
+    }
+
+    .sodInvoiceBreakdown .sodInvoiceGrand {
+        font-size: 16px
+    }
+}
+/* Kitchen stock controls reuse the existing order details and catalog API. */
+.sodKitchenHint{background:#fff7ed;color:#9a3412;border-radius:10px;padding:12px;font-size:13px}
+.sodRoot .sodStockToggle,.sodRoot .sodStockRow button{background:#b91c1c;color:#fff;min-height:42px;font-size:12px}
+.sodRoot .sodStockToggle.isUnavailable,.sodRoot .sodStockRow button.isUnavailable{background:#15803d}
+.sodStockPanel{margin:18px 0;padding:15px;border:1px solid #dce4ed;border-radius:12px;background:#fff}
+.sodStockPanel h3{margin:0 0 6px}.sodStockPanel p{font-size:13px;color:#64748b}
+.sodStockPanel input{box-sizing:border-box;width:100%;min-height:46px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font-size:16px}
+.sodStockList{max-height:320px;overflow:auto;margin-top:10px}
+.sodStockRow{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding:10px 0}
+.sodStockRow span{min-width:0;overflow-wrap:anywhere}.sodStockRow small{display:block;color:#64748b}
+@media(max-width:600px){.sodStockPanel{padding:12px}.sodStockRow button{min-width:135px}.sodStockToggle{margin:5px 0}}

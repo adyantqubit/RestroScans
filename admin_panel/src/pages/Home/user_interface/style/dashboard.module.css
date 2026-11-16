@@ -1,0 +1,62 @@
+.Container {
+  width: 100%;
+
+  /* commented and modified by suman sahu on 17/06/2023 
+     reason - adjust page according to sidebar, header and footer in the full screen*/
+  /* height: 90vh; */
+  height: 86.5vh;
+  /* Added by ROhan kansari - 17/8/23 */
+  padding-bottom: 20px;
+  overflow: scroll;
+  /* end of code by - suman sahu on 17/06/2023 */
+}
+
+
+
+/* Added by Rohan kansari - 9/8/23
+   Reason - To design order create button */
+
+.ordCreateContainer{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  /* align-items: flex-end; */
+  padding: 0 20px;
+  margin: 10px 0;
+}
+
+.orderCreateBtn{
+  min-width: 80px;
+  height: 30px;
+  padding: 2px 10px;
+  border: 1px solid black;
+  border-radius: var(--radius-sm);
+  color:var(--on-color);
+  background-color: var(--success-color);
+  transition: all .3s ease;
+}
+
+.orderCreateBtn:hover{
+  color:var(--success-color);
+  background-color: transparent;
+  border: 1px solid var(--success-color);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ENd of code - ROhan kansari - 9/8/23 */
+
+/* added by suman sahu on 17/06/2023 
+   reason - adjust page according to sidebar, header and footer in the responsive*/
+@media screen and (max-width: 768px) {
+  .Container {
+    height: 73vh;
+  }
+  /* Addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button  */
+  .orderCreateBtn{
+  background-color: #07d4ca;
+  }
+  /* End of addition by Om Shrivastasva on 13-10-23
+  Reason : Set the color of the button   */
+}
+/* end of code by - suman sahu on 17/06/2023 */

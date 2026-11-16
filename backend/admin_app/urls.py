@@ -13,9 +13,7 @@ urlpatterns = [
     path('tenant-details/<str:tenantId>',TenantAPIView.as_view()),
     # Added by Yuvraj Sahu on 15-2-2023
     # Reason - to save user data
-    # path('moreshop/registration-request/',RestaurantRegistartionView.as_view()),
-    path(f'{settings.DOMAIN_NAME}/registration-request/',RestaurantRegistartionView.as_view()),
-    # End of user data save
+    # Restaurants are added in Django admin on the public host, not by this API.
 
     # Added by Yuvraj Sahu on 17-2-2023
     # Reason - to restaurant login

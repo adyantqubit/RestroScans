@@ -1,11 +1,5 @@
-/* Created by Om 
-Reason: Apply Global CSS
-Date : 05-03-23 */
-
-:root{
-    --primary-backeground-color:#e4e0f8;
-    --heading-and-subheading : gold;
-    --allitems-name:white;
+:root {
+  --primary-backeground-color: var(--menu-canvas);
+  --heading-and-subheading: var(--menu-heading);
+  --allitems-name: var(--on-color);
 }
-
-/* End of the code */

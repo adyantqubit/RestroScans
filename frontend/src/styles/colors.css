@@ -1,0 +1,18 @@
+:root {
+  --primary-color: #1cafbe;
+  --secondary-color: #272c47;
+  --background-color: #ffffff;
+  --surface-color: #f7f8fa;
+  --text-color: #1a1a1a;
+  --muted-text-color: #5c6570;
+  --border-color: #d9dee7;
+  --success-color: #1f9d55;
+  --warning-color: #d97706;
+  --error-color: #d14343;
+  --header-background: #ffffff;
+  --sidebar-background: #172033;
+  --on-color: #ffffff;
+  --primary-soft: #e6f4f6;
+  --menu-canvas: #e4e0f8;
+  --menu-heading: gold;
+}

@@ -1,0 +1,724 @@
+.rs-expenses {
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 24px 18px 60px;
+    color: var(--text-color);
+    font-family: inherit
+}
+
+.rs-expenses-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 22px
+}
+
+.rs-expenses-head span {
+    color: var(--primary-color);
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 800
+}
+
+.rs-expenses h1 {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 8px 0
+}
+
+.rs-expenses p {
+    color: var(--muted-text-color);
+    margin: 6px 0
+}
+
+.rs-expenses-stat {
+    background: linear-gradient(130deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 18px 25px;
+    border-radius: 16px;
+    min-width: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.rs-expenses-stat small,
+.rs-expenses-stat span {
+    color: var(--on-color);
+    letter-spacing: 0
+}
+
+.rs-expenses-stat strong {
+    font-size: 25px
+}
+
+.rs-expenses-card {
+    background: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px var(--shadow-color-soft)
+}
+
+.rs-expenses-card h2 {
+    font-size: 21px;
+    margin: 0 0 20px;
+    font-weight: 750
+}
+
+.rs-expenses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 28px
+}
+
+.rs-expenses label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--label-text-color)
+}
+
+.rs-expenses input,
+.rs-expenses select,
+.rs-expenses textarea {
+    width: 100%;
+    border: 1px solid var(--input-border);
+    border-radius: 9px;
+    background: var(--input-bg);
+    padding: 11px 12px;
+    font: inherit;
+    color: var(--text-color);
+    min-height: 43px;
+    box-sizing: border-box
+}
+
+.rs-expenses input:focus,
+.rs-expenses select:focus,
+.rs-expenses textarea:focus {
+    outline: 2px solid var(--input-border-focus);
+    border-color: var(--primary-color)
+}
+
+.rs-expenses-wide {
+    grid-column: 1/-1
+}
+
+.rs-expenses button {
+    border: 0;
+    border-radius: 9px;
+    background: var(--button-primary);
+    color: var(--card-background-color);
+    padding: 11px 16px;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.rs-expenses button:disabled {
+    opacity: .5;
+    cursor: not-allowed
+}
+
+.rs-expenses-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 22px
+}
+
+.rs-expenses .rs-expenses-secondary {
+    background: var(--primary-soft);
+    color: var(--primary-color)
+}
+
+.rs-expenses-add-type {
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+    max-width: 480px
+}
+
+.rs-expenses-table-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px
+}
+
+.rs-expenses-table-head h2 {
+    margin-bottom: 4px
+}
+
+.rs-expenses-filters {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(130px, 1fr)) auto;
+    gap: 10px;
+    align-items: end;
+    margin: 22px 0
+}
+
+.rs-expenses-scroll {
+    overflow-x: auto
+}
+
+.rs-expenses table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 870px
+}
+
+.rs-expenses th {
+    text-align: left;
+    background: var(--table-row-alt-bg);
+    color: var(--table-header-fg);
+    padding: 13px;
+    font-size: 12px
+}
+
+.rs-expenses td {
+    border-bottom: 1px solid var(--border-color);
+    padding: 13px;
+    font-size: 13px;
+    vertical-align: top
+}
+
+.rs-expenses td small {
+    display: block;
+    color: var(--muted-text-color);
+    margin-top: 5px;
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.rs-expenses-amount {
+    font-weight: 800;
+    color: var(--primary-color);
+    white-space: nowrap
+}
+
+.rs-expenses td .rs-expenses-edit {
+    background: var(--primary-soft);
+    color: var(--primary-color);
+    padding: 7px 10px;
+    margin-right: 6px
+}
+
+.rs-expenses td .rs-expenses-delete {
+    background: color-mix(in srgb, var(--error-color) 9%, white);
+    color: var(--error-color);
+    padding: 7px 10px
+}
+
+.rs-expenses-empty {
+    text-align: center;
+    padding: 35px !important;
+    color: var(--muted-text-color)
+}
+
+.rs-expenses-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    color: var(--muted-text-color);
+    font-size: 13px
+}
+
+.rs-expenses-pagination>div {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.rs-expenses-pagination button {
+    padding: 8px 12px
+}
+
+.rs-expenses-error,
+.rs-expenses-success {
+    padding: 12px 16px;
+    border-radius: 9px;
+    margin: 10px 0 18px
+}
+
+.rs-expenses-error {
+    background: color-mix(in srgb, var(--error-color) 9%, white);
+    color: var(--error-color)
+}
+
+.rs-expenses-success {
+    background: color-mix(in srgb, var(--success-color) 9%, white);
+    color: var(--success-color)
+}
+
+@media(max-width:1050px) {
+    .rs-expenses-filters {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+}
+
+@media(max-width:650px) {
+    .rs-expenses {
+        padding: 15px 10px
+    }
+
+    .rs-expenses-head {
+        align-items: stretch;
+        flex-direction: column
+    }
+
+    .rs-expenses-grid {
+        grid-template-columns: 1fr
+    }
+
+    .rs-expenses-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .rs-expenses-card {
+        padding: 15px
+    }
+
+    .rs-expenses-table-head {
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .rs-expenses-pagination {
+        flex-direction: column
+    }
+
+    .rs-expenses-add-type {
+        flex-direction: column
+    }
+}
+
+/* Expenses dates: consistent DD/MM/YYYY display with native calendar picker */
+.rs-expenses-date-field {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.rs-expenses-date-field>input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 38px;
+}
+
+.rs-expenses-calendar-control {
+    position: absolute;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    color: var(--text-color);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.rs-expenses-calendar-control>input[type="date"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+.rs-expenses-calendar-control>input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Side-by-side category and subtype creation */
+.rs-expenses-type-management {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 22px;
+}
+
+.rs-expenses-type-management .rs-expenses-add-type {
+    max-width: none;
+    min-width: 0;
+    margin-top: 0;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.rs-expenses-type-management .rs-expenses-add-type input {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+}
+
+.rs-expenses-type-management .rs-expenses-add-type button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .rs-expenses-type-management {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 520px) {
+    .rs-expenses-type-management .rs-expenses-add-type {
+        flex-direction: column;
+    }
+
+    .rs-expenses-type-management .rs-expenses-add-type button {
+        width: 100%;
+    }
+}
+
+/* Direct/indirect expense classification */
+.rs-expenses-nature {
+    min-width: 0;
+    margin: 0;
+    padding: 8px 12px 10px;
+    border: 1px solid var(--card-border-color);
+    border-radius: 7px;
+}
+
+.rs-expenses-nature legend {
+    padding: 0 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--label-text-color);
+}
+
+.rs-expenses-nature-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    min-height: 25px;
+}
+
+.rs-expenses-nature-options label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.rs-expenses-nature-options input[type="radio"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--primary-color);
+    margin: 0;
+}
+
+
+/* Global-theme alignment: presentation only; no expense behavior changes. */
+.rs-expenses {
+    color: var(--text-color);
+}
+
+.rs-expenses-head span {
+    color: var(--primary-color);
+}
+
+.rs-expenses h1,
+.rs-expenses-card h2 {
+    color: var(--text-color);
+}
+
+.rs-expenses p,
+.rs-expenses-pagination {
+    color: var(--muted-text-color);
+}
+
+.rs-expenses-stat {
+    background: var(--primary-color);
+    color: var(--on-color);
+}
+
+.rs-expenses-stat small,
+.rs-expenses-stat span {
+    color: var(--on-color);
+}
+
+.rs-expenses-card {
+    background: var(--card-background-color);
+    border-color: var(--card-border-color);
+    box-shadow: 0 8px 24px var(--shadow-color-soft);
+}
+
+.rs-expenses label {
+    color: var(--label-text-color);
+}
+
+.rs-expenses input,
+.rs-expenses select,
+.rs-expenses textarea {
+    background: var(--input-bg);
+    color: var(--input-text-color);
+    border-color: var(--input-border);
+}
+
+.rs-expenses input:focus,
+.rs-expenses select:focus,
+.rs-expenses textarea:focus {
+    outline: 2px solid var(--input-border-focus);
+    border-color: var(--input-border-focus);
+}
+
+.rs-expenses input[type="radio"],
+.rs-expenses input[type="checkbox"] {
+    accent-color: var(--primary-color);
+}
+
+.rs-expenses button {
+    background: var(--button-primary);
+    color: var(--btn-text-color);
+}
+
+.rs-expenses button:not(:disabled):hover {
+    background: var(--button-hover);
+}
+
+.rs-expenses .rs-expenses-secondary {
+    background: var(--primary-soft);
+    color: var(--primary-color);
+}
+
+.rs-expenses-add-type {
+    border-top-color: var(--border-color);
+}
+
+.rs-expenses th {
+    background: var(--table-header-bg);
+    color: var(--table-header-fg);
+}
+
+.rs-expenses td {
+    border-bottom-color: var(--border-color);
+}
+
+.rs-expenses tbody tr:nth-child(even) {
+    background: var(--table-row-alt-bg);
+}
+
+.rs-expenses tbody tr:hover {
+    background: var(--table-row-hover-bg);
+}
+
+.rs-expenses td small,
+.rs-expenses-empty {
+    color: var(--muted-text-color);
+}
+
+.rs-expenses-amount {
+    color: var(--primary-color);
+}
+
+.rs-expenses td .rs-expenses-edit {
+    background: var(--primary-soft);
+    color: var(--primary-color);
+}
+
+.rs-expenses td .rs-expenses-delete {
+    background: color-mix(in srgb, var(--error-color) 9%, white);
+    color: var(--error-color);
+}
+
+.rs-expenses-error {
+    background: color-mix(in srgb, var(--error-color) 9%, white);
+    color: var(--error-color);
+}
+
+.rs-expenses-success {
+    background: color-mix(in srgb, var(--success-color) 9%, white);
+    color: var(--success-color);
+}
+
+.rs-expenses-calendar-control {
+    color: var(--text-color);
+}
+
+/* Expense classification: inline radio and label, same layout as Attendance. */
+.rs-expenses .rs-expenses-nature-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+}
+
+.rs-expenses .rs-expenses-nature-options>label {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.rs-expenses .rs-expenses-nature-options>label>input[type="radio"] {
+    display: inline-block;
+    flex: 0 0 17px;
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: var(--primary-color);
+}
+
+/* Shared global theme: Orders, Workforce and Expenses use the same tokens. */
+.rs-expenses .rs-expenses-stat {
+    background: var(--primary-color);
+    color: var(--on-color);
+}
+
+.rs-expenses .rs-expenses-stat small,
+.rs-expenses .rs-expenses-stat span {
+    color: var(--on-color);
+}
+
+.rs-expenses .rs-expenses-scroll table thead th {
+    background: var(--table-header-bg);
+    color: var(--table-header-fg);
+}
+
+.rs-expenses .rs-expenses-nature {
+    border-color: var(--card-border-color);
+}
+
+.rs-expenses .rs-expenses-nature legend {
+    color: var(--label-text-color);
+}
+
+.rs-expenses .rs-expenses-nature-options label {
+    color: var(--label-text-color);
+}
+
+.rs-expenses .rs-expenses-nature-options input[type="radio"] {
+    accent-color: var(--primary-color);
+}
+
+.rs-expenses input::placeholder,
+.rs-expenses textarea::placeholder {
+    color: var(--input-placeholder);
+}
+
+.rs-expenses .rs-expenses-secondary {
+    background: var(--primary-soft);
+    color: var(--primary-color);
+}
+
+.rs-expenses button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* Payroll sync add-on: shared global admin palette */
+.rs-expenses-payroll-sync .rs-expenses-payroll-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    margin: 12px 0;
+    background: var(--page-background-color, #f3f6fb);
+    border: 1px solid var(--card-border-color, #dce3ed);
+    border-radius: 10px;
+    flex-wrap: wrap
+}
+
+.rs-expenses-payroll-sync .rs-expenses-payroll-summary strong {
+    font-size: 22px;
+    color: var(--primary-color, #243b8a)
+}
+
+.rs-expenses-payroll-sync .rs-expenses-payroll-form {
+    padding: 16px;
+    margin: 14px 0;
+    border: 1px solid var(--card-border-color, #dce3ed);
+    border-radius: 12px
+}
+
+.rs-expenses-payroll-sync .rs-expenses-payroll-note {
+    font-size: 13px;
+    color: var(--muted-text-color, #64748b);
+    margin: 12px 0
+}
+
+.rs-expenses-payroll-sync .rs-expenses-payroll-detail {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 12px;
+    background: var(--page-background-color, #f3f6fb);
+    border-radius: 8px
+}
+
+.rs-expenses-payroll-sync .rs-expenses-payroll-detail span {
+    font-size: 13px
+}
+
+/* Unified expense and payroll form/register */
+.rs-expenses-entry-kind,
+.rs-expenses-register-tabs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 16px 0 22px
+}
+
+.rs-expenses-entry-kind label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    cursor: pointer
+}
+
+.rs-expenses-entry-kind input {
+    accent-color: var(--primary-color)
+}
+
+.rs-expenses-register-tabs button {
+    background: var(--button-primary);
+    color: var(--btn-text-color);
+    opacity: .76
+}
+
+.rs-expenses-register-tabs button.active {
+    background: var(--sidebar-background);
+    color: var(--on-color);
+    opacity: 1
+}
+
+.rs-expenses-register-tabs button:hover {
+    background: var(--button-hover);
+    opacity: 1
+}

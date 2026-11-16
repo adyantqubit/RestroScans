@@ -1,0 +1,351 @@
+/* Staff-only overrides. The Admin Items module remains unchanged. */
+.spAdminReuse .staffItemsTableRegion {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.spAdminReuse .staffItemsTableScroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+.spAdminReuse .staffItemsWideTable {
+  min-width: 1050px;
+  width: 1050px;
+}
+
+.spAdminReuse .staffItemsWideTable [class*="tableHeadingContainer"],
+.spAdminReuse .staffItemsWideTable [class*="tableData"] {
+  min-width: 1050px;
+  box-sizing: border-box;
+}
+
+.spAdminReuse .staffItemsWideTable [class*="commonColumnTitle"],
+.spAdminReuse .staffItemsWideTable [class*="commonColumnData"] {
+  min-width: 105px;
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: normal;
+}
+
+.spAdminReuse .staffItemsWideTable [class*="commonColumnTitle"]:nth-child(3),
+.spAdminReuse .staffItemsWideTable [class*="commonColumnData"]:nth-child(3) {
+  min-width: 170px;
+  width: 170px;
+  overflow-wrap: break-word;
+}
+
+.spAdminReuse .staffItemsEditForm {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.spAdminReuse .staffItemsFormActions {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  z-index: 3;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 14px 0 6px;
+  margin-top: 16px;
+}
+
+.spAdminReuse .staffItemsFormActions>* {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin: 0 !important;
+  min-width: 80px;
+}
+
+@media (max-width: 768px) {
+  .spAdminReuse {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .spAdminReuse .staffItemsEditForm {
+    width: 100% !important;
+    padding: 12px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .spAdminReuse .staffItemsEditForm [class*="inputLabel"] {
+    max-width: 100%;
+  }
+
+  .spAdminReuse .staffItemsEditForm input,
+  .spAdminReuse .staffItemsEditForm textarea,
+  .spAdminReuse .staffItemsEditForm select {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .spAdminReuse .staffItemsFormActions {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    border-top: 1px solid #dce3eb;
+    padding: 12px 4px;
+    margin-top: 16px;
+    justify-content: stretch;
+  }
+
+  .spAdminReuse .staffItemsFormActions>* {
+    flex: 1 1 80px;
+    min-width: 0;
+    min-height: 40px;
+    font-size: 14px;
+  }
+
+  .spAdminReuse .staffItemsWideTable {
+    min-width: 1050px;
+  }
+}
+
+/* Keep one real horizontal scrolling viewport; do not clip the wide table. */
+.spAdminReuse .staffItemsTableRegion {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible !important;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.spAdminReuse .staffItemsTableScroll {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: scroll !important;
+  overflow-y: hidden !important;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  margin: 0 !important;
+  padding: 0 !important;
+  scrollbar-width: auto;
+}
+
+.spAdminReuse .staffItemsWideTable {
+  display: block;
+  width: 1260px !important;
+  min-width: 1260px !important;
+  max-width: none !important;
+}
+
+.spAdminReuse .staffItemsWideTable [class*="tableHeadingContainer"],
+.spAdminReuse .staffItemsWideTable [class*="tableDataContainer"],
+.spAdminReuse .staffItemsWideTable [class*="tableData"] {
+  width: 1260px !important;
+  min-width: 1260px !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+.spAdminReuse .staffItemsWideTable [class*="commonColumnTitle"],
+.spAdminReuse .staffItemsWideTable [class*="commonColumnData"] {
+  flex: 0 0 125px !important;
+  width: 125px !important;
+  min-width: 125px !important;
+  max-width: 125px !important;
+  box-sizing: border-box;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.spAdminReuse .staffItemsWideTable [class*="commonColumnTitle"]:nth-child(3),
+.spAdminReuse .staffItemsWideTable [class*="commonColumnData"]:nth-child(3) {
+  flex-basis: 175px !important;
+  width: 175px !important;
+  min-width: 175px !important;
+  max-width: 175px !important;
+}
+
+.spAdminReuse .staffItemsScrollControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 2px 10px;
+  font-size: 12px;
+  color: #536278;
+}
+
+.spAdminReuse .staffItemsScrollControls>div {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.spAdminReuse .staffItemsScrollControls button {
+  background: #20418f;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  min-width: 40px;
+  min-height: 36px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media (min-width: 1300px) {
+  .spAdminReuse .staffItemsScrollControls {
+    display: none;
+  }
+}
+
+/* Mobile form footer: in document flow, never overlay the search/list card. */
+@media (max-width: 768px) {
+  .spAdminReuse .staffItemsEditForm {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 14px !important;
+    overflow: visible !important;
+  }
+
+  .spAdminReuse .staffItemsFormActions {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 52px !important;
+    margin: 14px 0 0 !important;
+    padding: 12px 0 0 !important;
+    gap: 8px !important;
+    border-top: 1px solid #e0e6ef;
+    background: #fff;
+    box-sizing: border-box;
+    z-index: auto;
+  }
+
+  .spAdminReuse .staffItemsFormActions>* {
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+    padding: 0 5px !important;
+    flex: none !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    border-radius: 6px;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+}
+
+/* FIX: the reused admin Item form's own CSS gives its outer container
+   height:80.5vh, overflow:scroll and mobile margin-bottom:-20%.
+   Those rules clip the action buttons and let the next card overlap them. */
+.spAdminReuse div[class*="container"]:has(> .staffItemsEditForm) {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .spAdminReuse div[class*="container"]:has(> .staffItemsEditForm) {
+    display: flow-root !important;
+    margin-bottom: 14px !important;
+  }
+
+  .spAdminReuse .staffItemsEditForm {
+    display: flow-root !important;
+    clear: both !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    padding-bottom: 14px !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .spAdminReuse .staffItemsFormActions {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    clear: both !important;
+    float: none !important;
+    margin: 14px 0 0 !important;
+    padding: 14px 0 0 !important;
+    min-height: 56px !important;
+    height: auto !important;
+    border-top: 1px solid #e1e6ef !important;
+    overflow: visible !important;
+    transform: none !important;
+    z-index: 0 !important;
+  }
+
+  .spAdminReuse .staffItemsFormActions>* {
+    position: static !important;
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 8px 4px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Desktop: share the Admin Items table layout without fixed-width Staff columns.
+   Small screens retain the existing horizontal swipe controls. */
+@media (min-width: 1100px) {
+
+  .spAdminReuse .staffItemsTableRegion,
+  .spAdminReuse .staffItemsTableScroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: visible;
+  }
+
+  .spAdminReuse .staffItemsWideTable,
+  .spAdminReuse .staffItemsWideTable [class*="tableHeadingContainer"],
+  .spAdminReuse .staffItemsWideTable [class*="tableDataContainer"],
+  .spAdminReuse .staffItemsWideTable [class*="tableData"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .spAdminReuse .staffItemsWideTable [class*="commonColumnTitle"],
+  .spAdminReuse .staffItemsWideTable [class*="commonColumnData"],
+  .spAdminReuse .staffItemsWideTable [class*="commonColumnTitle"]:nth-child(3),
+  .spAdminReuse .staffItemsWideTable [class*="commonColumnData"]:nth-child(3) {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .spAdminReuse .staffItemsScrollControls {
+    display: none;
+  }
+}

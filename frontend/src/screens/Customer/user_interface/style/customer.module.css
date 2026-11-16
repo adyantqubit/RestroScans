@@ -1,0 +1,80 @@
+/* Added by :- Parineeta Gedam
+Date :- 07-04-2023   
+Reason :- Customer Form css */
+
+.customerPopupContainer {
+  width: 100%;
+
+  /* modified by :- Parineeta gedam Date :- 06-05-2023
+        Reason :- when we scroll the customer details form then cancel and proceed button will be hide     
+    */
+  height: 100vh;
+  /* End of added code Date :- 06-05-2023 */
+
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.customerInformationBox{
+  height: 75%;
+  width: 100%;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 5px var(--text-color);
+  border-radius: var(--radius-sm);
+
+}
+
+.customerFormHeading{
+  letter-spacing: 1.7px;
+  font-family: var(--font-family);
+  word-spacing: -1px;
+}
+
+.customerCloseContainer{
+  width: 80%;
+  height: 5%;
+  margin:0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.checkInvoiceBtn{
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  margin-top: 20px;
+}
+
+.checkInvoiceBtnHeading{
+  font-size: var(--font-size-md);
+  letter-spacing: 1.7px;
+  font-family: var(--font-family);
+  border-radius: var(--radius-sm);
+  border: none;
+  /* Added by Rohan - 1/5/23 */
+  padding: 5px 10px;
+  box-shadow: 0 0 5px var(--text-color);
+  text-align: center;
+}
+
+/* End of added code  07-04-2023 */
+
+
+.labelContainer{
+  font-size: var(--font-size-md);
+  font-family: var(--font-family);
+   display: flex;
+}
+
+.main_label{
+
+}
+
+.about_label{
+  color: grey;
+}
+

@@ -1,109 +1,65 @@
-// Created by - Ashish Dewangan
-// Reason - To have push notification functionality
+import { getApps, initializeApp } from 'firebase/app';
+import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
+import firebaseConfig, { firebaseVapidKey, isFirebaseConfigured } from './config/firebaseConfig';
+import { postFCMToken } from './screens/Notification/services/notificationService';
 
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { postFCMToken } from './api/Services';
+export function firebaseApp() {
+  if (!isFirebaseConfigured) return null;
+  const existing = getApps();
+  if (existing.length) return existing[0];
+  return initializeApp(firebaseConfig);
+}
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAIcy2oKuVW11_0gmv-6mYnCsQCwiop6Qg",
-  authDomain: "firstfcmmessagingproject.firebaseapp.com",
-  projectId: "firstfcmmessagingproject",
-  storageBucket: "firstfcmmessagingproject.appspot.com",
-  messagingSenderId: "553700732551",
-  appId: "1:553700732551:web:9474e08234630043a9d222",
-  measurementId: "G-S8QY4EZYBE"
-};
+let messagingPromise = null;
 
-/**
- * Rohan
- */
-firebase.initializeApp(firebaseConfig);
-var auth = firebase.auth();
-export {firebase,auth}
-/**
- * Rohan
- */
+function messaging() {
+  if (!messagingPromise) {
+    messagingPromise = (isFirebaseConfigured ? isSupported() : Promise.resolve(false))
+      .then((supported) => {
+        const app = firebaseApp();
+        return supported && app ? getMessaging(app) : null;
+      })
+      .catch(() => null);
+  }
+  return messagingPromise;
+}
 
+const TOKEN_SENT_KEY = 'sentToServer';
 
-/**
- * Added by - Om Shrivastava on 30-04-2023
- * Reason - To connect FCM for push notificaiton.
- */
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging();
-export const getFCMToken = () => {
-  getToken(messaging, {
-    vapidKey:
-      "BFBMZXfht5P5mlZ_MtL4OER7W1iZojCTNYgVAUe83trFjy4yIjLVAuxJ_IIGVlNkks9SNveg78G_GKiQBTOtnmk",
-  })
-    .then(function (currentToken) {
-      // console.log("Got current token-----", currentToken);
-      if (currentToken) {
-        localStorage.setItem('fcmToken',currentToken)
-        sendTokenToServer(currentToken);
-      } else {
-        console.log(
-          "No Instance ID token available. Request permission to generate one."
-        );
-        setTokenSentToServer(false);
-      }
-    })
-    .catch(function (err) {
-      // console.log("An error occurred while retrieving token. ", err);
-      setTokenSentToServer(false);
-    });
-  console.log("End get token");
-};
+async function sendTokenToServer(currentToken) {
+  if (window.localStorage.getItem(TOKEN_SENT_KEY) === '1') {
+    return;
+  }
+  await postFCMToken({ registration_id: currentToken, type: 'web' }, localStorage.getItem('tenantName'));
+  window.localStorage.setItem(TOKEN_SENT_KEY, '1');
+}
 
-onMessage(function (payload) {
-  console.log("Message received. ", payload);
-});
-
-const sendTokenToServer=async (currentToken)=> {
-  if (!isTokenSentToServer()) {
-    console.log("Sending token to server...");
-    var tenant=localStorage.getItem("tenantName")
-    var data={
-      registration_id:currentToken,
-      type:"web",
+export const getFCMToken = async () => {
+  const instance = await messaging();
+  if (!instance) {
+    return;
+  }
+  try {
+    const currentToken = await getToken(instance, { vapidKey: firebaseVapidKey || undefined });
+    if (currentToken) {
+      localStorage.setItem('fcmToken', currentToken);
+      await sendTokenToServer(currentToken);
+    } else {
+      window.localStorage.setItem(TOKEN_SENT_KEY, '0');
     }
-    const response = await postFCMToken(data,tenant)
-    setTokenSentToServer(true);
-  } else {
-    console.log(
-      "Token already sent to server so won't send it again " +
-        "unless it changes"
-    );
+  } catch (err) {
+    window.localStorage.setItem(TOKEN_SENT_KEY, '0');
   }
-}
-
-function isTokenSentToServer() {
-  if (window.localStorage.getItem("sentToServer") == 1) {
-    return true;
-  }
-  return false;
-}
-
-function setTokenSentToServer(sent) {
-  if (sent) {
-    window.localStorage.setItem("sentToServer", 1);
-  } else {
-    window.localStorage.setItem("sentToServer", 0);
-  }
-}
+};
 
 export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      window.postMessage(payload,'*')
-      resolve(payload);
-    });
-});
-
-/**
- * End of code addition by Om Shrivastava for FCM push notification on 30-04-2023
- */
+  messaging().then(
+    (instance) =>
+      new Promise((resolve) => {
+        if (!instance) return;
+        onMessage(instance, (payload) => {
+          window.postMessage(payload, window.location.origin);
+          resolve(payload);
+        });
+      })
+  );

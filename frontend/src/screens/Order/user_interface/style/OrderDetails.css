@@ -1,0 +1,567 @@
+/* Added by :- Parineeta Gedam
+Date :- 07-04-2023   
+Reason :- Invoice css */
+
+/* Modifications by :- Parineeta Gedam
+Date :- 17-05-2023   
+Reason :- Invoice css */
+
+/* Heading css */
+.invoice_heading_container {
+    width: 100%;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-family);
+    letter-spacing: 1.7px;
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    padding: 5px 0;
+}
+
+.invoice_heading {
+    text-align: center;
+    margin-bottom: 0px;
+    font-family: var(--font-family);
+}
+
+/* invoice parent container cc */
+.invoice_parent_container {
+    padding: 0px 10px 0px 10px;
+}
+
+
+/* ----------- For Details ------------------- */
+.invoice_Details_container {
+    width: 100%;
+    transition: 0.3s;
+    border-radius: var(--radius-sm);
+}
+
+.invoice_details_1 {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.invoice_details_heading {
+    width: 40%;
+    word-wrap: break-word;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    /* font-weight: 600; */
+}
+
+.invoice_details_colon {
+    width: 2%;
+    font-size: var(--font-size-sm);
+    /* font-weight: 600; */
+    font-family: var(--font-family);
+}
+
+.invoice_details_value {
+    margin-left: 7px;
+    width: 53%;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    /* font-weight: 600; */
+    word-wrap: break-word;
+}
+
+/* End of edded code */
+
+/* ----------- Horizoantal line css ---------------- */
+.invoice_horizontal_line {
+    width: 100%;
+    border-top: 1.5px solid var(--text-color);
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+/* End of edded code */
+
+
+/* ----------- table heading css ---------------- */
+.invoice_table_heading_container {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.invoice_table_sub_heading {
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+}
+
+.invoice_serial_no_container {
+    width: 12%;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.invoice_serial_no_sub_heading {
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+}
+
+.invoice_serial_no_second_sub_heading {
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+}
+
+.invoice_total_price_container {
+    float: right;
+}
+
+.invoice_total_price_container .invoice_table_price_sub_heading {
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+    float: right;
+}
+
+/* Added by :- Parineeta Gedam on 14-05-2023
+    reason :- css for edit and delete */
+
+.invoice_action_container {
+    float: right;
+    width: 20%;
+    word-wrap: break-word;
+    margin-top: 5px;
+}
+
+.invoice_action_container .invoice_action_sub_heading {
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+    float: right;
+}
+
+.invoice_action_container .invoice_delete_action {
+    /* color: red; */
+    font-size: 16px;
+    float: right;
+    margin-right: 15px;
+}
+
+/* End of edded code by :- Parineeta Gedam on 14-05-2023 */
+
+/* ------------ Table container css ------------------- */
+.invoice_cart_container {
+    width: 100%;
+    margin-bottom: 2px;
+    /* padding: 5px; */
+}
+
+.invoice_data_container {
+    display: flex;
+    /* padding: 2px; */
+    width: 100%;
+    /* margin-top: 5px; */
+}
+
+.invoice_item_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    /* width: 50%; */
+    width: 45%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.invoice_qty_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    /* width: 10%; */
+    width: 20%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.invoice_total_price_container {
+    /* modified by :- Parineeta Gedam on 14-05-2023 */
+    /* width: 30%; */
+    width: 25%;
+    float: left;
+    word-wrap: break-word;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.invoice_child_container {
+    margin-top: 1px;
+}
+
+/*  total container css  */
+
+.invoice__second_sub_heading {
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+
+}
+
+.invoice_qunatity_sub_heading {
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+}
+
+/* Added by :- Parineeta Gedam on 14-05-2023 
+    reason :- css for increment and decrement 
+*/
+.invoice_qty_data_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    /* width: 10%; */
+    width: 20%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+    display: flex;
+    margin-top: 2px;
+}
+
+.invoice_decrement_btn {
+    border: 1px solid var(--border-color);
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+    /* font-size: 20px; */
+    /* background-color: rgb(191, 245, 191); */
+}
+
+.invoice_qunatity_sub_heading {
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    /* border: 1px solid #9c9c9c; */
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    border-radius: var(--radius-sm);
+
+}
+
+.invoice_increment_btn {
+    border: 1px solid var(--border-color);
+    width: 20px;
+    height: 20px;
+    font-size: var(--font-size-md);
+    border-radius: var(--radius-sm);
+    /* background-color: rgb(191, 245, 191); */
+
+}
+
+/* End of added code by :- Parineeta Gedam on 14-05-2023 */
+
+
+.invoice_total_rating_sub_heading {
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+}
+
+/* Modified by :- Parineeta */
+.invoice_sub_heading {
+    width: 65%;
+    font-size: var(--font-size-sm);
+    /* font-weight: 600; */
+    font-family: var(--font-family);
+    text-align: right;
+}
+
+.invoice_second_sub_heading {
+    width: 35%;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    margin-right: 5px;
+    text-align: right;
+}
+
+/* End of Modified code */
+
+.invoice_second_container {
+    /* modified by :- Parineeta Gedam on 14-05-2023 */
+    /* width: 100%; */
+    width: 85%;
+    margin-top: 5px;
+    /* padding: 5px; */
+}
+
+.invoice_second_data_container {
+    width: 100%;
+    padding: 2px 0px 2px 0px;
+    display: flex;
+}
+
+/* End of added css */
+
+/* ------ Review Container ------------ */
+
+/* Commented by :- Parineeta Gedam
+    Date :- 14-04-2023
+    reason :- In invoice not show the rating and review 
+*/
+/* .invoice_review_container{
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+.invoice_review_label{
+    width: 20%;
+    font-family: var(--font-family);
+    font-weight: 550;
+}
+.invoice_review_input{
+    width: 50%;
+    height: 10%;
+} */
+/*  */
+/* End of added code */
+
+
+/* ---------- Button css --------------- */
+.invoice_btn_container {
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+
+    /* margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 25px; */
+
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 70px;
+    margin-top: 25px;
+
+    /* End of modifications code by :- Parineeta Gedam on 14-05-2023 */
+}
+
+.invoice_btn_heading {
+    font-size: var(--font-size-md);
+    letter-spacing: 1.7px;
+    font-family: var(--font-family);
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+    text-align: center;
+    /* Modified by :- Parineeta Gedam on 14-05-2023  */
+    width: 46%;
+}
+
+/* Added by :- Parineeta Gedam on 14-05-2023  */
+.invoice_btn_update_order {
+    width: 46%;
+    font-size: var(--font-size-md);
+    letter-spacing: 1px;
+    font-family: var(--font-family);
+    padding: 5px 0;
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+}
+
+/* End of Added code by :- Parineeta Gedam on 14-05-2023 */
+
+/* End of added button css --------------------- */
+
+.invoice_total_price_container .invoice_total_rating_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+    /* margin-top: 5px; */
+}
+
+.invoice_second_data_container .invoice_second_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    /* margin-right: 5px; */
+}
+
+
+/* End of added code 13-04-2023 */
+
+.order_details_container {
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.order_spin {
+    margin: 0% 50%;
+}
+
+/* End of modifications by :- Parineeta Gedam on 17-05-2023 */
+
+/* added by :- Parineeta Gedam on 09-06-2023
+    reason :- show the discount
+*/
+.order-calculation-box-ontainer {
+    width: 85%;
+    min-height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.order-calculation-box {
+    width: 70%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.order-calculation-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-calculation-label {
+    font-size: var(--font-size-sm);
+    width: 20%;
+    padding: 2% 2%;
+    width: 60%;
+    white-space: nowrap;
+    display: flex;
+    font-family: var(--font-family);
+}
+
+.order-calculation-text {
+    width: 40%;
+    text-align: end;
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    padding: 2% 0 0 4%;
+    font-family: var(--font-family);
+}
+
+.order-break-line {
+    width: 95%;
+    margin: 10px auto;
+    background-color: var(--text-color);
+    height: 1px;
+}
+
+/* End of added code by :- PArineeta Gedam  */
+
+/* Added by :- Parineeta Gedam on 07-05-2023 reason :- add more items button desiging */
+.order_add_item_btn_container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+}
+
+/* End of Added by :- Parineeta Gedam on 07-05-2023 reason :- add more items button desiging */
+
+
+/* Customer order tracking: scoped to Order Details only. */
+.rs-live-tracking {
+    margin: 14px auto 20px;
+    padding: 18px;
+    max-width: 920px;
+    border: 1px solid #e0e7ef;
+    border-radius: 16px;
+    background: #fff;
+    color: #17243a;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, .05)
+}
+
+.rs-live-tracking-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap
+}
+
+.rs-live-tracking-head strong {
+    display: block;
+    font-size: 18px
+}
+
+.rs-live-tracking-head small {
+    display: block;
+    color: #64748b;
+    margin-top: 4px
+}
+
+.rs-live-status {
+    background: #e8f6f1;
+    color: #086747;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700
+}
+
+.rs-live-steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 22px
+}
+
+.rs-live-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 600
+}
+
+.rs-live-dot {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 13px
+}
+
+.rs-live-step.is-done {
+    color: #087c5a
+}
+
+.rs-live-step.is-done .rs-live-dot {
+    background: #0b9369;
+    color: white
+}
+
+.rs-live-message {
+    margin: 15px 0 0;
+    color: #475569;
+    font-size: 13px
+}
+
+.rs-live-warning {
+    margin: 12px 0 0;
+    color: #a16207;
+    font-size: 12px
+}
+
+.rs-live-cancelled {
+    padding: 12px;
+    margin: 14px 0 0;
+    border-radius: 9px;
+    background: #fef2f2;
+    color: #b91c1c
+}
+
+@media(max-width:600px) {
+    .rs-live-tracking {
+        margin: 12px;
+        padding: 14px
+    }
+
+    .rs-live-steps {
+        gap: 3px
+    }
+
+    .rs-live-step {
+        font-size: 10px
+    }
+
+    .rs-live-dot {
+        width: 28px;
+        height: 28px
+    }
+}

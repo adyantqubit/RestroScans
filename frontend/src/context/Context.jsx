@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { React, createContext, useContext } from 'react'
-// import { getAdminDetailApi, getRecentViwedApi, userProfileView } from '../api/Services'
+// Older profile calls lived in the shared services module and are not part of this app.
 import { message } from 'antd'
 import { useEffect } from 'react'
 import secureLocalStorage from "react-secure-storage";
-import { gettenantList, postCheckPaymentStatus } from '../api/Services';
+import { gettenantList } from '../screens/Cover/services/coverService';
+import { postCheckPaymentStatus } from '../screens/Payment/services/paymentService';
+import { useContextState } from "./usestate/contextState";
+import { resolveTenantSlug } from '../utils/tenant';
 
 export const GlobalContext = createContext()
 export const color1 = "#b3ff66";
@@ -12,53 +15,10 @@ export const color2 = "#b3ff66";
 export const color3 = "#b3ff66";
 
 export default function Context(props) {
+    var { tenantName, setTenantName, restaurant_name, setRestaurant_name, rupee_sign, setRupee_sign, orderItems, setOrderItem, orders, setOrders, subscribePlan, setSubscribePlan, tenantDetails, setTenantDetails, colors, setColors, searchedValue, setSearchedValue, cart, setCart } = useContextState();
 
-    var [tenantName, setTenantName] = useState([])
-    var [restaurant_name, setRestaurant_name] = useState("")
-
-    // Added by Om Shrivastava on 08-05-23
-    // Reason : Create the rupee sign globally.
-    var [rupee_sign,setRupee_sign]=useState('₹')
-    // End of addition by Om on 08-05-23
-
-    // modified by :- Parineeta gedam on 15-04-2023
-  var [orderItems, setOrderItem] = useState([])
-  var [orders, setOrders] = useState([])
-
-    
-    // added by rohan kansari - 17/4/23
-    // reason - save subscribe plan permissions
     if(secureLocalStorage.getItem('order'))
     var orders = secureLocalStorage.getItem('order');
-    var [subscribePlan,setSubscribePlan]=useState(null)
-    const [tenantDetails, setTenantDetails] = useState(null); // Our data set in this variable which comes from backend
-
-    var [colors, setColors] = useState({
-        // Modified by -Rohan kansari - 24/4/23
-        // Reason to - Set default background color
-        headingColor: 'black',
-        backgroundTheme: 'white',
-        subHeadingColor: 'black',
-        bannerColor: '#9b6043',
-        headingBackgroundColor: 'white',
-        subheadingBackgroundColor: '#fcf4e7',
-        // added by rohan- 6/4/23 - To add half price shown functionality
-        allow_half_price: true,
-        // End of code -  24/4/23 -Rohan
-        // Added by Rohan kansari- 28/4/23
-        // Reason - To set card color 
-        card_color:"#f7f7f7"
-    })
-
-    // Added by yuvraj on 22-1-2023
-    // Reason - to set searched value
-    var [searchedValue, setSearchedValue] = useState("")
-    // End of searched value
-
-    // Added by rohan - on 6/4/2023
-    // Reason - This cart variable save list of item
-    var [cart, setCart] = useState([])
-
 
     useEffect(() => {
         if (JSON.parse(localStorage.getItem("cart"))) {
@@ -69,38 +29,18 @@ export default function Context(props) {
             setCart([])
         }
 
-        // Modified by Rohan -18/4/23
-        // reason- to get new tenant detail
-        getMenu(localStorage.getItem("tenantName"));
+        getMenu(resolveTenantSlug());
         if(secureLocalStorage.getItem('order'))
         checkPaymentStatus()
-        // end of code 18/4/23 -rohan kansari
-
     }, [])
 
-    // useEffect(()=>{
-    //     if(subscribePlan)
-    //    secureLocalStorage.setItem("plan",subscribePlan)
-    // },[subscribePlan])
-
-
-    // end of cart variable
-
-    //Added by rohan - on 9/4/23
-    //reason - to save restroname globally
     useEffect(() => {
         if (localStorage.getItem("restroName")) {
             restaurant_name = localStorage.getItem("restroName")
             setRestaurant_name(localStorage.getItem("restroName"))
         }
-
-        
     }, [localStorage.getItem("restroName")])
-    // end of code - 9/4/23
 
-
-    // added by -rohan 18/4/23
-    // to get all new detail of tenant in each reload
     const getMenu = async (tenant) => {
         const response = await gettenantList(tenant);
         if (response) {
@@ -124,9 +64,7 @@ export default function Context(props) {
                 secureLocalStorage.setItem('invoice_detail',response)
                 }
         }
-       
     }
-// end of code - rohan kansari -18/4/23
 
     return (
         <>

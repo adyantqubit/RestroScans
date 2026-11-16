@@ -1,0 +1,288 @@
+/* Added by :- Parineeta Gedam
+Date :- 07-04-2023   
+Reason :- Invoice css */
+
+/* Heading css */
+.inv_heading_container {
+    width: 100%;
+    font-size: var(--font-size-lg);
+    font-family: var(--font-family);
+    letter-spacing: 1.7px;
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    padding: 5px 0;
+}
+
+.inv_heading {
+    text-align: center;
+    margin-bottom: 0px;
+    font-family: var(--font-family);
+}
+
+.inv_parent_container {
+    padding: 0px 10px 0px 10px;
+}
+
+
+/* ----------- For Details ------------------- */
+.inv_Details_container {
+    width: 100%;
+    transition: 0.3s;
+    border-radius: var(--radius-sm);
+}
+
+.inv_details_1 {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.inv_details_heading {
+    width: 40%;
+    word-wrap: break-word;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    /* font-weight: 600; */
+}
+
+.inv_details_colon {
+    width: 2%;
+    font-size: var(--font-size-sm);
+    /* font-weight: 600; */
+    font-family: var(--font-family);
+}
+
+.inv_details_value {
+    margin-left: 7px;
+    width: 53%;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    /* font-weight: 600; */
+    word-wrap: break-word;
+}
+/* End of edded code */
+
+/* ----------- Horizoantal line css ---------------- */
+.inv_horizontal_line{
+    width: 100%;
+    border-top: 1.5px solid var(--text-color);
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+/* End of edded code */
+
+
+/* ----------- table heading css ---------------- */
+.inv_table_heading_container {
+    width: 100%;
+    margin-top: 5px;
+}
+.inv_table_sub_heading{
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+}
+.inv_serial_no_container{
+    width: 12%;
+    word-wrap: break-word;
+    text-align: center;
+}
+.inv_serial_no_sub_heading{
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+}
+.inv_serial_no_second_sub_heading{
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+}
+.inv_total_price_container{
+    float: right;
+}
+.inv_total_price_container .inv_table_price_sub_heading{
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-weight: 550;
+    float: right;
+}
+/* End of edded code */
+
+/* ------------ Table container css ------------------- */
+.inv_cart_container {
+    width: 100%;
+    margin-bottom: 2px;
+    /* padding: 5px; */
+}
+
+.inv_data_container {
+    display: flex;
+    /* padding: 2px; */
+    width: 100%;
+    /* margin-top: 5px; */
+}
+
+.inv_item_container {
+    width: 50%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.inv_qty_container {
+    width: 10%;
+    word-wrap: break-word;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.inv_total_price_container {
+    width: 30%;
+    float: right;
+    word-wrap: break-word;
+    margin-top: 5px;
+    margin-right: 5px
+}
+
+.inv_child_container{
+    margin-top: 1px;
+}
+/*  total container css  */
+
+.inv__second_sub_heading{
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+
+}
+.inv_qunatity_sub_heading{
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+}
+
+.inv_total_rating_sub_heading{
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+    float: right;
+}
+
+/* Modified by :- Parineeta */
+.inv_sub_heading {
+    width: 65%;
+    font-size: var(--font-size-sm);
+    /* font-weight: 600; */
+    font-family: var(--font-family);
+    text-align: right;
+}
+
+.inv_second_sub_heading {
+    width: 35%;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    margin-right: 5px;
+    text-align: right;
+}
+
+/* End of Modified code */
+
+.inv_second_container {
+    width: 100%;
+    margin-top: 5px;
+    /* padding: 5px; */
+}
+
+.inv_second_data_container {
+    width: 100%;
+    padding: 2px 0px 2px 0px;
+    display: flex;
+}
+
+/* End of added css */
+
+/* ---------- Button css --------------- */
+.inv_btn_container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 25px;
+}
+
+.inv_btn_heading {
+    font-size: var(--font-size-md);
+    letter-spacing: 1.7px;
+    font-family: var(--font-family);
+    border-radius: var(--radius-sm);
+    border: none;
+    box-shadow: 0 0 5px var(--text-color);
+    text-align: center;
+}
+
+/* End of added button css --------------------- */
+
+.inv_total_price_container .invoice_total_rating_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    font-size: var(--font-size-xs);
+    font-family: var(--font-family);
+    /* margin-top: 5px; */
+}
+
+.inv_second_data_container .invoice_second_sub_heading {
+    float: right;
+    word-wrap: break-all;
+    /* margin-right: 5px; */
+}
+
+
+/* End of added code 13-04-2023 */
+
+.inv_details_container {
+    max-height: 100vh;
+    overflow: auto;
+}
+
+/* added by :- Parineeta Gedam on 09-06-2023
+    reason :- show the discount
+*/
+.CalculationBoxContainer {
+    width: 100%;
+    min-height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.calculationBox {
+    /* Modified by :- Parineeta Gedam on 16-06-2023 reason :- Customer UI - Invoice detail page>> Need to arrange the alignment of subtotal, cgst, sgst, total.  */
+  /* width: 70%; */
+  /* End of modified code by :- Parineeta Gedam on 16-06-2023 */
+  width: 55%;
+  margin-right: 2%;   
+  margin-bottom: 2%;
+}
+.calculationLine {
+    display: flex;
+    justify-content: space-between;
+}
+.calculationLabel {
+    font-size: var(--font-size-sm);
+    width: 20%;
+    padding: 2% 2%;
+    width: 60%;
+    white-space: nowrap;
+    display: flex;
+    font-family: var(--font-family);
+}
+.calculationText {
+    width: 40%;
+    text-align: end;
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    padding: 2% 0 0 4%;
+    font-family: var(--font-family);
+}
+.breakLine {
+    width: 95%;
+    margin: 10px auto;
+    background-color: var(--text-color);
+    height: 1px;
+}
+
+/* End of added code by :- PArineeta Gedam  */

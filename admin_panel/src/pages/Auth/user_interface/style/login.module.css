@@ -1,0 +1,295 @@
+.registrationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 32px 20px;
+    background: #f0f4f9;
+    box-sizing: border-box;
+}
+
+.BackgroundImageContainer {
+    display: none;
+}
+
+.RegisterImg {
+    display: none;
+}
+
+.formContent {
+    width: 100%;
+    max-width: 495px;
+    height: auto;
+    overflow: visible;
+    background: transparent;
+}
+
+.FormContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 32px 28px;
+    background: #ffffff;
+    border: 1px solid #e1e8f0;
+    border-radius: 18px;
+    box-shadow: 0 14px 32px rgba(25, 45, 75, 0.07);
+    box-sizing: border-box;
+}
+
+.FormContainer::before {
+    content: "RESTROSCANS · ADMIN ACCESS";
+    display: block;
+    margin-bottom: 34px;
+    color: #008b96;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.heading {
+    margin: 0;
+    color: #0c2544;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.6px;
+}
+
+.headingLabel {
+    margin-top: 27px;
+    margin-bottom: 4px;
+    color: #69809f;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.inputContainer {
+    display: flex;
+    width: 100%;
+    margin: 16px 0 7px;
+}
+
+.fullInputContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 9px;
+}
+
+.label {
+    color: #0c2544;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+.subLabel {
+    color: #69809f;
+}
+
+.inputBox {
+    width: 100%;
+    height: 47px;
+    padding: 0 13px;
+    border: 1px solid #cedbea;
+    border-radius: 9px;
+    outline: none;
+    background: #ffffff;
+    color: #0c2544;
+    caret-color: #078c96;
+    font-size: 14px;
+    letter-spacing: 0;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputBox:focus {
+    border-color: #078c96;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(7, 140, 150, 0.1);
+}
+
+.inputBox::placeholder {
+    color: #9aabc0;
+}
+
+.submitBtn {
+    width: 100%;
+    height: 49px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 9px;
+    background: #078c96;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.submitBtn:hover {
+    background: #067680;
+}
+
+.submitBtn:active {
+    transform: translateY(1px);
+}
+
+.submitBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.forgetText {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    min-height: 20px;
+    gap: 10px;
+    margin: 0;
+    color: #087c94;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.forgetText span {
+    color: #087c94;
+}
+
+.errorText {
+    color: #dc3545 !important;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.waiterloginText {
+    margin-top: 20px;
+    color: #0c2544;
+    font-size: 13px;
+    text-align: center;
+}
+
+.highlightCreate {
+    color: #087c94;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.highlightCreate:hover,
+.forgetText span:hover {
+    text-decoration: underline;
+}
+
+.registrationText {
+    margin-top: 16px;
+    color: #69809f;
+    font-size: 13px;
+    text-align: center;
+}
+
+.eyeContainer {
+    position: absolute;
+    top: 36px;
+    right: 13px;
+    display: flex;
+    align-items: center;
+    color: #69809f;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.alert {
+    position: fixed !important;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    border-radius: 10px;
+}
+
+@media (max-width: 720px) {
+    .registrationContainer {
+        min-height: 100vh;
+        padding: 20px 14px;
+    }
+
+    .formContent {
+        width: 100%;
+        max-width: 495px;
+        margin: auto;
+        background: transparent;
+    }
+
+    .FormContainer {
+        width: 100%;
+        margin: 0;
+        padding: 28px 22px;
+        border-radius: 16px;
+    }
+
+    .FormContainer::before {
+        margin-bottom: 27px;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+    }
+
+    .heading {
+        font-size: 30px;
+    }
+
+    .headingLabel {
+        margin-top: 22px;
+        font-size: 14px;
+    }
+
+    .inputContainer {
+        flex-direction: column;
+        margin: 15px 0 7px;
+    }
+
+    .inputBox {
+        height: 46px;
+    }
+
+    .submitBtn {
+        height: 48px;
+    }
+}
+
+@media (max-width: 380px) {
+    .FormContainer {
+        padding: 25px 17px;
+    }
+
+    .heading {
+        font-size: 28px;
+    }
+}
+
+/* The background is controlled by the restaurant owner from Settings.
+   No hard-coded image path; public login pages load it from the backend. */
+.registrationContainer {
+  background-color: #183742;
+  background-image: linear-gradient(110deg, rgba(5,24,34,.75), rgba(9,55,60,.38)), var(--restaurant-login-image, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.registrationContainer .FormContainer {
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 20px 55px rgba(0,0,0,.25);
+}
+
+/* Inline background-image is set by the shared login hook when a tenant image is available. */
+.registrationContainer { background-color: #17333b; }
+
+/* Tenant login image: the component supplies an inline URL after the public API responds. */
+.registrationContainer { background-color: #183742; background-size: cover; background-position: center; background-repeat: no-repeat; }

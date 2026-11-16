@@ -1,1921 +1,891 @@
 from fcm_django.models import AbstractFCMDevice
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator ,MinLengthValidator ,MaxLengthValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, MaxLengthValidator
 from django.utils.translation import ugettext_lazy as _
 from admin_app.models import *
-from django.db.models import Avg
 from django.core.exceptions import ValidationError
-from django.conf import settings
 from django.core.validators import validate_image_file_extension
 from django import forms
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-import math  
+from .validators import validate_image, validate_discount_rupees, validate_discount_precentage, validate_qunatity, validate_mobile_number, validate_customer_mobile_number, validate_payment_mobile_number
+from .services import catalog_availability, order_rules
 
-# Create your models here.
 
-"""-------------------------------------------------------
-Added by - Ashish Dewangan on 08-02-2023
-Reason - To store details of menu
-"""
+class TrackedFieldsMixin:
+    """Remember the values a row was loaded (or created) with, to detect changes on save."""
 
- # added by rohan kansari - 20/4/23
-# reason- To add validation on image , admin not able to add image more than 200kb
-# Modiefied by rohan - 21/4/23 - to Handel image resave error
-def validate_image(fieldfile_obj): 
-# #    try:      
-    try:
-        filesize = fieldfile_obj.file.size
-        megabyte_limit = 200
-    except:
-      try:  
-       import os # new
-       from pathlib import Path
-       filesize=os.path.getsize(fieldfile_obj.file.name)
-       print(filesize)
-       megabyte_limit = 200
-       if filesize > megabyte_limit*1024:
-        # Changes by Rohan Kansari- 11/5/23 - Change validation message    
-        raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
-      except:
-        return     
-    if filesize > megabyte_limit*1024:
-            # Changes by Rohan Kansari- 11/5/23 - Change validation message
-            raise ValidationError("Please upload image below %skb" % str(megabyte_limit))
-   
-    
-#    except: 
-#        import os # new
-#        from pathlib import Path
-#        filesize=os.path.getsize(fieldfile_obj.file.name)
-#        print(filesize)
-#        megabyte_limit = 200
-#        if filesize > megabyte_limit*1024:
-#         raise ValidationError("Max file size is %skb" % str(megabyte_limit)) 
-# end of code - rohan - 20/4/23
-    
-    
-class Menu(models.Model):
-    # Commented and modified by - Ashish Dewangan on 03-05-2023
-    # Reason - To change label of table
-    # name=models.CharField(max_length=30,default='')
-    name=models.CharField(max_length=30,default='',verbose_name='Menu name')
-    # End of code modification
-    
-    # modifi by- Suman sahu  On 07/05/2023
-    # reason- change django default image field character validation message
-    icon=models.ImageField( verbose_name="image", upload_to='images/menu/', null=True, validators=[validate_image, validate_image_file_extension])
-    # End of addition 07/05/2023
+    tracked_fields = ()
 
-    # Added by Yuvraj Sahu on 27-3-2-23
-    # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
-    # End of code addition
-    def __str__(self):
-        return self.name 
-    # Added by Yuvraj Sahu on 29-3-2023
-    # Reason - to arrange the table
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Read from __dict__ so deferred fields are not fetched one query at a time.
+        self._initial_values = {name: self.__dict__.get(name) for name in self.tracked_fields if name in self.__dict__}
+
+    def initial(self, name):
+        return self._initial_values.get(name, getattr(self, name))
+
+    def has_changed(self, name):
+        return name in self._initial_values and self._initial_values[name] != getattr(self, name)
+
+
+'-------------------------------------------------------\nAdded by - Ashish Dewangan on 08-02-2023\nReason - To store details of menu\n'
+
+class Menu(TrackedFieldsMixin, models.Model):
+    name = models.CharField(max_length=30, default='', verbose_name='Menu name')
+    icon = models.ImageField(verbose_name='image', upload_to='images/menu/', null=True, validators=[validate_image, validate_image_file_extension])
+    is_active = models.BooleanField(default=False)
+
+    tracked_fields = ('is_active',)
+
     class Meta:
         verbose_name_plural = 'c) Menu'
-    # End of addition
 
-    # Added by yuvraj Sahu on 22-07-2023
-    # Reason - to add old is active value
-    def __init__(self,*args,**kwargs):
-        super(Menu,self).__init__(*args,**kwargs)
-        self.old_is_active = self.is_active
-    # End of addition by yuvraj Sahu on 22-07-2023
+    def save(self, *args, **kwargs):
+        catalog_availability.before_menu_save(self, self.initial('is_active'))
+        super().save(*args, **kwargs)
+'\nEnd of code addition\n'
+'-------------------------------------------------------\nAdded by - Ashish Dewangan on 08-02-2023\nReason - To store details of category\n'
 
-    # Added by Yuvraj Sahu on 20-07-2023
-    # Reason - to make inactive categories and item when we edit menu inactive
-    def save(self, *args, **kwargs ):
-        if self.old_is_active != self.is_active :
-            if self.is_active == False :
-                Category.objects.filter(menu=self.id).update(is_active = False)
-                Item.objects.filter(category__menu = self.id).update(is_active = False)
-            else : 
-                Category.objects.filter(menu=self.id).update(is_active = True)
-                Item.objects.filter(category__menu = self.id).update(is_active = True) 
-        super().save( *args, **kwargs)
-    # End of addition by Yuvraj Sahu on 20-07-2023
+class Category(TrackedFieldsMixin, models.Model):
+    menu = models.ForeignKey(Menu, related_name='menu', on_delete=models.CASCADE, default='', verbose_name='Menu name')
+    name = models.CharField(max_length=30, default='', verbose_name='Category name')
+    icon = models.ImageField(verbose_name='image', upload_to='images/category/', null=True, blank=True, validators=[validate_image, validate_image_file_extension])
+    is_active = models.BooleanField(default=False)
 
-            
-    # def clean_icon(self):
-    #     icon = self.cleaned_data.get("icon")
-    #     print(icon.path)
-    #     if icon.size>200*1024:
-    #         raise ValidationError("max size 200kb")
-    #     return icon
-"""
-End of code addition
-"""
+    tracked_fields = ('is_active',)
 
-"""-------------------------------------------------------
-Added by - Ashish Dewangan on 08-02-2023
-Reason - To store details of category
-"""
-class Category(models.Model):
-    # added by rohan kansari - 20/4/23
-    # reason- To add validation on image , admin not able to add image more than 200kb
-    # Modiefied by rohan - 21/4/23 - to Handel image resave error
-    # Commented by Rohan kansari- 11/5/23 - define it globally
-    # def validate_image(fieldfile_obj):
-    #   try:
-    #     filesize = fieldfile_obj.file.size
-    #     megabyte_limit = 200
-    #   except:
-    #     try:  
-    #         import os # new
-    #         from pathlib import Path
-    #         filesize=os.path.getsize(fieldfile_obj.file.name)
-    #         print(filesize)
-    #         megabyte_limit = 200
-    #         if filesize > megabyte_limit*1024:
-    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    #     except:
-    #             return     
-    #   if filesize > megabyte_limit*1024:
-    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    # End of commentation - Rohan kansari - 11/5/23
-   
-    # end of code - rohan - 20/4/23
-    
-    menu=models.ForeignKey(Menu,related_name="menu",on_delete=models.CASCADE,default='',verbose_name='Menu name')
-    name=models.CharField(max_length=30,default='',verbose_name='Category name')
-
-    # Modified by- Suman sahu  On 07/05/2023
-    # reason - change field name & change image default validation message
-    icon=models.ImageField( verbose_name="image",upload_to='images/category/',null=True,blank=True,validators=[validate_image, validate_image_file_extension])
-    # end of modification 07/05/2023
-
-    # Added by Yuvraj Sahu on 27-3-2-23
-    # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
-    # End of code addition
-    def __str__(self):
-        return self.name
-    # Added by Yuvraj Sahu on 29-3-2023
-    # Reason - to arrange the table
     class Meta:
         verbose_name_plural = 'd) Category'
-    # End of addition
 
-    # Added by yuvraj Sahu on 22-07-2023
-    # Reason - to add old is active value
-    def __init__(self,*args,**kwargs):
-        super(Category,self).__init__(*args,**kwargs)
-        self.old_is_active = self.is_active
-    # End of addition by yuvraj Sahu on 22-07-2023
+    def save(self, *args, **kwargs):
+        catalog_availability.before_category_save(self, self.initial('is_active'))
+        super().save(*args, **kwargs)
+        catalog_availability.after_category_save(self)
+'\nEnd of code addition\n'
+'-------------------------------------------------------\nAdded by - Ashish Dewangan on 08-02-2023\nReason - To store details of category Items\n'
+IMAGE_CHOICE = (('Veg', 'Veg'), ('Nonveg', 'Nonveg'), ('Other', 'Other'))
 
-    # Added by Yuvraj Sahu on 20-07-2023
-    # Reason - to make inactive items when we edit category inactive
-    def save(self, *args, **kwargs ):
-        if self.old_is_active != self.is_active :
-            if self.is_active == False :
-                Item.objects.filter(category = self.id).update(is_active = False)
-            else : 
-                Menu.objects.filter(id=self.menu.id).update(is_active = True)
-                # Added by Yuvraj Sahu on 04-08-2023
-                # Reason - to active all items inside this category
-                Item.objects.filter(category = self.id).update(is_active = True)
-                # end of addition by Yuvraj Sahu on 04-08-2023
-        super().save( *args, **kwargs)
-# Added by yuvraj Sahu on 22-07-2023
-# Reason - when make the categories inactive then linked menu will be inactive
-@receiver(post_save, sender=Category)
-def create_category(sender, instance, created, **kwargs):
-    menuObj = Menu.objects.get(id = instance.menu.id)
-    categoryCount = Category.objects.filter(menu = menuObj.id, is_active = True).count()
-    if categoryCount == 0 :
-        Menu.objects.filter(id=instance.menu.id).update(is_active = False)
-# End of addition by yuvraj Sahu on 22-07-2023
+class Item(TrackedFieldsMixin, models.Model):
+    category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE, default='', verbose_name='Category name')
+    name = models.CharField(max_length=30, default='', verbose_name='Item name')
+    item_type = models.CharField(choices=IMAGE_CHOICE, max_length=50, default='Other')
+    price_full = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2)
+    price_half = models.DecimalField(null=True, blank=True, max_digits=6, decimal_places=2)
+    description = models.CharField(max_length=500, null=True, blank=True)
+    icon = models.ImageField(verbose_name='image', upload_to='images/item/', null=True, validators=[validate_image, validate_image_file_extension])
+    is_active = models.BooleanField(default=False)
+    kitchen_available = models.BooleanField(default=True)
+    best_seller = models.BooleanField(default=False)
 
-"""
-End of code addition
-"""
+    tracked_fields = ('is_active',)
 
-"""-------------------------------------------------------
-Added by - Ashish Dewangan on 08-02-2023
-Reason - To store details of category Items
-"""
-# Added by Om on 28-03-2023
-# Reason - add item type veg or nonveg
-IMAGE_CHOICE = (
-    ("Veg", "Veg"),
-    ("Nonveg", "Nonveg"),
-    ("Other", "Other"),
-)
-# End of addition
-class Item(models.Model):
-    
-    # added by rohan kansari - 20/4/23
-    # reason- To add validation on image , admin not able to add image more than 200kb
-    # Modiefied - 21/4/23 - to Handel image resave error
-    # Commented by Rohan kansari- 11/5/23 - define it globally
-    # def validate_image(fieldfile_obj):
-    #   try:
-    #     filesize = fieldfile_obj.file.size
-    #     megabyte_limit = 200
-    #   except:
-    #     try:  
-    #         import os # new
-    #         from pathlib import Path
-    #         filesize=os.path.getsize(fieldfile_obj.file.name)
-    #         print(filesize)
-    #         megabyte_limit = 200
-    #         if filesize > megabyte_limit*1024:
-    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    #     except:
-    #             return     
-    #   if filesize > megabyte_limit*1024:
-    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    # End of commentation - Rohan kansari - 11/5/23
-    # end of code - rohan - 20/4/23
-        
-    category=models.ForeignKey(Category,related_name='category',on_delete=models.CASCADE,default='',verbose_name="Category name")
-    name=models.CharField(max_length=30,default='',verbose_name="Item name")
-     # Added by Om on 28-03-2023
-    # Reason - add item type veg or nonveg
-    item_type=models.CharField(choices=IMAGE_CHOICE, max_length=50,default='Other')
-    # End of addition
-    # Added by Om on 23-03-23
-    # Reason : To show items image
-    # icon=models.ImageField(upload_to='images/item/',default='')
-    # End of addition
-    price_full=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
-    price_half=models.DecimalField(null=True,blank=True,max_digits=6,decimal_places=2)
-    #commented and Modified by Rohan kansari-16/4/23
-    #reason- to increase description max length limitation
-    # description=models.CharField(max_length=80,null=True,blank=True,)
-    description=models.CharField(max_length=500,null=True,blank=True,)
-	# end of code modification- by Rohan kansari - on 16/4/23
-	 # Added by Yuvraj Sahu on 24-3-2023
-    # Reason - add icon field
-
-    # modified by- Suman sahu  On 07/05/2023
-    # reason - change field name & change django image default validation message
-    icon=models.ImageField( verbose_name="image", upload_to='images/item/', null=True,validators=[validate_image, validate_image_file_extension])
-    # End of modification 07/05/2023
-
-    # End of addition
-    # Added by Yuvraj Sahu on 27-3-2-23
-    # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
-    # End of code addition
-    
-    # addede by rohan -13/4/23
-    # reason- for calculating average rating from oorder item tabel
-    #removed average rating because no more need of this field 
-    best_seller=models.BooleanField(default=False)
-    
-    
-    
-    # end of code
-    
-    # Added by rohan kansari -20/4/23
-    # reason - to add image validation ,admin not able to enter more then 200kb
-    
-    # def clean_icon(self):
-    #     image = self.cleaned_data.get('image', False)
-    #     if image:
-    #         if image._size > 200*1024:
-    #             raise ValidationError("Image file too large ( > 200kb )")
-    #         return image
-    #     else:
-    #         raise ValidationError("Couldn't read uploaded image")
-    
-    def __str__(self):
-        return self.name 
-    # Added by Yuvraj Sahu on 29-3-2023
-    # Reason - to arrange the table
     class Meta:
         verbose_name_plural = 'e) Item'
-    # End of addition
 
-    # Added by yuvraj Sahu on 22-07-2023
-    # Reason - to add old is active value
-    def __init__(self,*args,**kwargs):
-        super(Item,self).__init__(*args,**kwargs)
-        self.old_is_active = self.is_active
-    # End of addition by yuvraj Sahu on 22-07-2023
+    def save(self, *args, **kwargs):
+        catalog_availability.before_item_save(self, self.initial('is_active'))
+        super().save(*args, **kwargs)
+        catalog_availability.after_item_save(self)
+'\nEnd of code addition\n'
+'-------------------------------------------------------\nAdded by - Om Shrivastava on 01-03-2023\nReason - To store offer for every Items\n'
 
-    # Added by Yuvraj Sahu on 20-07-2023
-    # Reason - to make inactive items when we edit category inactive
-    def save(self, *args, **kwargs ):
-        if self.old_is_active != self.is_active :
-            if self.is_active == True :
-                Category.objects.filter(id = self.category.id).update(is_active = True)
-                Menu.objects.filter(id = self.category.menu.id).update(is_active = True)
-        super().save( *args, **kwargs)
-    # End of addition by Yuvraj Sahu on 20-07-2023
-
-    # AAdded by Om Shrivastava on 19-05-23
-    # Reason : When best seller number is greater than zero than through a error
-
-    # Commeted by Yuvraj Sahu on 14-06-2023
-    # Reason - admin can add more 10 best seller item
-    # def clean(self):
-    #     obj = Item.objects.filter(best_seller = True)
-    #     if (obj.count() >= 10):
-    #        if self.best_seller is True:
-    #             raise ValidationError({
-    #         'best_seller': ValidationError("You have already selected 10 best seller"),
-    #         })
-    # End of commet by Yuvraj Sahu on 14-06-2023
-
-    # End of addition by Om Shrivastava on 19-05-23
-
-# Added by yuvraj Sahu on 22-07-2023
-# Reason - when make the categories inactive then linked menu will be inactive
-@receiver(post_save, sender=Item)
-def create_item(sender, instance, created, **kwargs):
-
-    categoryObj = Category.objects.get(id = instance.category.id)
-    itemCount = Item.objects.filter(category = categoryObj.id, is_active = True).count()
-    if itemCount == 0 :
-        Category.objects.filter(id=instance.category.id).update(is_active = False)
-
-    menuObj = Menu.objects.get(id = instance.category.menu.id)
-    categoryCount = Category.objects.filter(menu = menuObj.id, is_active = True).count()
-    if categoryCount == 0 :
-        Menu.objects.filter(id=instance.category.menu.id).update(is_active = False)
-    
-# End of addition by yuvraj Sahu on 22-07-2023
-
-"""
-End of code addition
-"""
-
-"""-------------------------------------------------------
-Added by - Om Shrivastava on 01-03-2023
-Reason - To store offer for every Items
-"""
 class Offer(models.Model):
-     # added by rohan kansari - 20/4/23
-    # reason- To add validation on image , admin not able to add image more than 200kb
-    # Modiefied - 21/4/23 - to Handel image resave error
-    # Commented by Rohan kansari- 11/5/23 - define it globally
-    # def validate_image(fieldfile_obj):
-    #   try:
-    #     filesize = fieldfile_obj.file.size
-    #     megabyte_limit = 200
-    #   except:
-    #     try:  
-    #         import os # new
-    #         from pathlib import Path
-    #         filesize=os.path.getsize(fieldfile_obj.file.name)
-    #         print(filesize)
-    #         megabyte_limit = 200
-    #         if filesize > megabyte_limit*1024:
-    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    #     except:
-    #             return     
-    #   if filesize > megabyte_limit*1024:
-    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    # End of commentation - Rohan kansari - 11/5/23
-    # end of code - rohan - 20/4/23
-    
     id = models.AutoField(primary_key=True)
-    # Max Length changes by Om on 22-04-23
-    # Offer name is not mandatory according to testing team, changes by Om on 22-04-23
-    offer_name=models.CharField(max_length=40, verbose_name="Banner/Offer name") 
-    # Commented and modified by Yuvraj Sahu on 30-4-2023
-    # Reason - to save decimal value in discount
+    offer_name = models.CharField(max_length=40, verbose_name='Banner/Offer name')
+    discount = models.CharField(null=True, blank=True, max_length=20, verbose_name='Discount(%)')
+    offer_image = models.ImageField(upload_to='images/offer/', verbose_name='Banner/Offer image', null=True, blank=True, validators=[validate_image, validate_image_file_extension])
+    description = models.TextField(null=True, blank=True)
+    video_link = models.CharField(max_length=500, blank=True, null=True)
+    show_video_Hide_Image = models.BooleanField(verbose_name='Show Video', default=False)
+    is_active = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Date & Time', null=True, blank=True)
 
-    # Commented and modified by Suman Sahu on 10-05-2023
-    # Reason - to remove decimal value in discount
-
-    # Modification and addition by Om Shrivastava on 24-05-23
-    # Reason : Fix the discount value
-    # discount = models.IntegerField(validators=[MinValueValidator(0),
-    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
-    # Modified by Om on - 26-08-23
-    # Reason : Change the integer field to charfield
-    # discount = models.IntegerField(validators=[MinValueValidator(1),
-    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True)
-    discount = models.CharField(null=True,blank=True,max_length=20, verbose_name="Discount(%)")
-    # Modified by Om on - 26-08-23
-    # Reason : Change the integer field to charfield
-    # End of addition by Om Shrivastava on 24-05-23
-
-    # discount = models.DecimalField(validators=[MinValueValidator(0),
-    #                                    MaxValueValidator(99)],verbose_name='Discount(%)',null=True,blank=True, max_digits=4, decimal_places=1)
-    # End of modification by Suman sahu 10/05/2023
-    
-    # End of modification
-    # Added (null = True) by Om on 13-04-23
-    # Reason : For update the offer banner image
-    
-    # modifi by- Suman sahu  On 07/05/2023
-    # reason- change django default image field character validation message
-    # Modified Rohan Kansari - 13/5/23 - TO allow blank true
-    offer_image = models.ImageField(upload_to='images/offer/', verbose_name="Banner/Offer image",null=True,blank=True,validators=[validate_image, validate_image_file_extension])
-    # End of modification 07/05/2023
-    
-    # End of addition
-    description=models.TextField(null=True,blank=True)
-    
-    # Added by Rohan Kansari- 23/4/23
-    # Reason - Adding video column for Banner and allow to give permission
-    video_link=models.CharField(max_length=500,blank=True,null=True)
-
-    # modified by - Suman sahu On 07/05/2023
-    show_video_Hide_Image=models.BooleanField( verbose_name="Show Video",default=False)
-     #End of modification - 07/05/2023
-
-    #End of code - RohanKansari - 23/4/23
-
-    # Added by Om Shrivastava on 07-09-23
-    # Reason - to give active and inactive
-    is_active=models.BooleanField(default=False)
-    # End of addition by Om Shrivastava on 07-09-23
-    # Reason - to give active and inactive
-
-    # Added by Om Shrivastava on 28-09-23
-    # Reason - to add the date field for the offer section
-    date=models.DateTimeField(auto_now_add=True,verbose_name='Date & Time',null=True,blank=True)
-    # End of addition by Om Shrivastava on 28-09-23
-    # Reason - to add the date field for the offer section
-    
-    def __str__(self):
-        return self.offer_name
-    
     class Meta:
-        verbose_name = "Banner/Offer"
+        verbose_name = 'Banner/Offer'
         verbose_name_plural = 'a) Banner/Offer'
 
-    # Added by ROhan kansari - 11/5/23
-    #  Reason - To validate video showing if video link field is blank then dont allow to check show video 
     def clean(self):
-        if self.video_link is None:
-           if self.show_video_Hide_Image is True:
-                raise ValidationError({
-            'show_video_Hide_Image': ValidationError("Please enter video link"),
-            }) 
-        # Modified Rohan Kansari - 13/5/23 - To allow img blank true and if video and image both null then raise error message  
-        if self.video_link is None and bool(self.offer_image) is False:   
-           raise ValidationError({
-            'offer_image': ValidationError("This field is required if you are not entered video link"),
-            }) 
-    #End of code - Rohan kansari - 11/5/23    
-          
+        if self.video_link is None and self.show_video_Hide_Image is True:
+            raise ValidationError({'show_video_Hide_Image': 'Please enter video link'})
+        if self.video_link is None and not self.offer_image:
+            raise ValidationError({'offer_image': 'This field is required if you are not entered video link'})
 
 class OfferItem(models.Model):
     id = models.AutoField(primary_key=True)
-    offer_name=models.ForeignKey(Offer,verbose_name="Banner/Offer Name",related_name='offer_id',on_delete=models.CASCADE)
-    item_name=models.ForeignKey(Item,related_name='item_id',on_delete=models.CASCADE,unique=True ,
-                                # Added by Rohan Kansari - 11/5/23 - To correct validation message
-                                error_messages ={"unique":"This item is already exists."})
-    
-    def __str__(self):
-        return "Offer for Items"
+    offer_name = models.ForeignKey(Offer, verbose_name='Banner/Offer Name', related_name='offer_id', on_delete=models.CASCADE)
+    item_name = models.ForeignKey(Item, related_name='item_id', on_delete=models.CASCADE, unique=True, error_messages={'unique': 'This dish is already on another offer.'})
+
     class Meta:
-        verbose_name = "Banner/Offer Items"
-        verbose_name_plural = 'b) Banner/Offer Items' 
- 
-"""
-End of code addition
-"""
-
-"""-------------------------------------------------------
-Added by - Om Shrivastava on 11-03-2023
-Reason - To create footer and description table to show data in footer section
-"""
-
-# Commented by Om on 27-01-23
-# Date : 27-03-23
-# Reason : Not comes from backend
-# class Footer(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     content =models.CharField(max_length=40)
-    
-#     def __str__(self):
-#         return self.content 
-# End of commented code
+        verbose_name = 'Banner/Offer Items'
+        verbose_name_plural = 'b) Banner/Offer Items'
+'\nEnd of code addition\n'
+'-------------------------------------------------------\nAdded by - Om Shrivastava on 11-03-2023\nReason - To create footer and description table to show data in footer section\n'
 
 class Description(models.Model):
     id = models.AutoField(primary_key=True)
-    # Commented And Addition By Pratap Sahu on 14-08-2023
-    # Reason:Need to Save Empty Data
-    # content =models.TextField()
-#  Modified by pratap sahu on 27-10-2023 Reason: ot clearing the data for new Tenant
-    # content =models.TextField(null=True,blank=True)
-    content =models.TextField(null=True,blank=True,default="")
-# End of code by pratap sahu on 27-10-2023 Reason: ot clearing the data for new Tenant
-    # End of Modification by pratap sahu on 14-08-2023
-    # Reason:Need to Save Empty Data
+    content = models.TextField(null=True, blank=True, default='')
 
-    # def __str__(self):
-        # Commented and modified by Ashish Dewangan on 03-05-2023
-        # Reason - To hide footer content as a label when we open footer model
-        # return self.content 
-        
-        # Commented by pratap sahu on 14-08-2023
-        # Reason: No need To Pass the value in Text Form
-        # return '' 
-        # End of Commented by pratap sahu on 14-08-2023
-        # Reason: No need To Pass the value in Text Form
-        
-        # End of code modification by Ashish Dewangan on 03-05-2023
     class Meta:
         verbose_name_plural = 'g) Footer Description'
-"""
-End of code addition
-"""
+'\nEnd of code addition\n'
+'-------------------------------------------------------\nAdded by - Om Shrivastava on 15-03-2023\nReason - To create Theme \n'
 
-"""-------------------------------------------------------
-Added by - Om Shrivastava on 15-03-2023
-Reason - To create Theme 
-"""
 class Setting(models.Model):
     id = models.AutoField(primary_key=True)
-    # Commented by Om on 10-04-23
-    # Reason : Not need to use these fields
-    # background_color =models.CharField(max_length=20,null=True,blank=True)
-    # heading_color =models.CharField(max_length=20,null=True,blank=True)
-    # subheading_color =models.CharField(max_length=20,null=True,blank=True)
-    # banner_heading_color =models.CharField(max_length=20,null=True,blank=True)
-    # heading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
-    # subheading_bgcolor =models.CharField(max_length=20,null=True,blank=True)
-    # End of commented code
+    login_background = models.ImageField(
+        upload_to="restaurant_login_backgrounds/",
+        null=True,
+        blank=True
+    )
+    login_background_data = models.BinaryField(null=True, blank=True, editable=False)
+    app_theme = models.ForeignKey(AppTheme, related_name='app_theme', on_delete=models.CASCADE, null=True, blank=True)
+    allow_half_price = models.BooleanField(default=True)
+    show_item_ratings_to_customers = models.BooleanField(default=False)
+    cgst = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(99)], default=0.0, verbose_name='CGST(%)', null=True, blank=True)
+    sgst = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(99)], default=0.0, verbose_name='SGST(%)', null=True, blank=True)
+    gstin = models.CharField(max_length=50, default='', null=True, blank=True, verbose_name='GSTIN')
+    fssaino = models.CharField(max_length=50, default='', null=True, blank=True, verbose_name='FSSAI NO')
+    whatsapp_number = models.CharField(max_length=15, null=True, blank=True)
+    allow_loyality_points = models.BooleanField(default=False)
+    per_loyality_point_value = models.IntegerField(default=0, null=True, blank=True, verbose_name='Value of single loyality point(Rs.)')
+    amount_for_single_loyality_point = models.IntegerField(default=0, null=True, blank=True, verbose_name='Loyality point calculation amount(Rs.)')
+    DISCOUNT_CHOICES = [('Discount in (₹)', 'Discount in (₹)'), ('Discount in (%)', 'Discount in (%)')]
+    discount_in = models.CharField(max_length=255, choices=DISCOUNT_CHOICES, default='Discount in (₹)')
 
-    # Added by Om on 10-04-23
-    # Reason : Need to implement admin color, whatever the admin add.
-    app_theme = models.ForeignKey(AppTheme,related_name='app_theme',on_delete=models.CASCADE,null=True,blank=True)
-    # End of addition
-    # added by rohan- 6/4/23 Reason- to allow show half price 
-    # removing null true blank true field beacuse of it is showing unknown in admin panel -14/4/23
-    # cancel_btn=models.CharField(max_length=20,null=True,blank=True)
-    allow_half_price=models.BooleanField(default=True)
-    # Added by :- Parineeta Gedam
-    # Date :- 08-04-2023
-    # Reason :- for tax
-
-    # Added by rohan -14/4/23
-    # reason- To add cgst and scgt no. and remove tax
-    # tax = models.FloatField(validators=[MinValueValidator(0),
-    #                                    MaxValueValidator(99)],default=1.0,verbose_name='Tax(%)', null=True, blank=True)
-    cgst=models.FloatField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],default=0.0,verbose_name='CGST(%)', null=True, blank=True)
-    sgst=models.FloatField(validators=[MinValueValidator(0),
-                                       MaxValueValidator(99)],default=0.0,verbose_name='SGST(%)', null=True, blank=True)
-    #commented and modified by rohankansari - on 16/4/23
-    #reason - not wsetting gst and fssai no mandatory
-    #gstin=models.CharField(max_length=50,default="",verbose_name="GstIn")
-    #fssaino=models.CharField(max_length=50,default="",verbose_name="FSSAI NO")
-    # Modified and added by Om Shrivastava on 15-05-23
-    # Reason : Captiliase the verbose name of GstIn
-    # gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GstIn")
-    gstin=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="GSTIN")
-    # End of modification and addition by Om Shrivastava on 15-05-23
-    fssaino=models.CharField(max_length=50,default="",null=True,blank=True,verbose_name="FSSAI NO")
-    #end of code modification by rohan kansari -on 16/4/23
-    # End of added code 08-04-2023
-    # end of addition 14/4/23 
-
-    # Added by - Suman sahu  On 05/05/2023
-    # Reason - for add whatsapp chatbot
-    whatsapp_number = models.CharField(max_length=15,null= True, blank=True)
-    # End of addition 05/05/2023
-    
-    # Added by - Om shrivastava On 26/05/2023
-    # Reason - Check the loyality point is apply or not
-    allow_loyality_points=models.BooleanField(default=False)
-    # Add default field by Om Shrivastava on 10-06-23 
-    per_loyality_point_value=models.IntegerField(default=0,null=True,blank=True ,verbose_name='Value of single loyality point(Rs.)')
-    amount_for_single_loyality_point=models.IntegerField(default=0,null=True,blank=True, verbose_name='Loyality point calculation amount(Rs.)')
-    # End of addition 26-05-23
-
-    # Added by :- Parineeta Gedam on 26-07-2023
-    # Reason :- check, which type of discout is apply.
-    DISCOUNT_CHOICES = [('Discount in (₹)', 'Discount in (₹)'),
-               ('Discount in (%)', 'Discount in (%)')]
-    discount_in = models.CharField(max_length=255, choices=DISCOUNT_CHOICES, default="Discount in (₹)")
-    # End of added code by :- Parineeta Gedam on 26-07-2023
-
-    def __str__(self):
-        return "Setting"
-    # Added by Yuvraj Sahu on 29-3-2023
-    # Reason - to arrange the table
     class Meta:
         verbose_name_plural = 'f) Setting'
-    # End of addition
-
-
-"""
-End of code addition
-"""
-
-"""
-Added by - Parineeta Gedam on 06-04-2023
-Reason - To store customer detail
-"""
-
-# def validate_contact_number(value):
-#     if value:
-#         if(contact_number<10):
-#             raise ValidationError("Expiry date can't be current or previous date") 
-#         else:
-#             return value
+'\nEnd of code addition\n'
+'\nAdded by - Parineeta Gedam on 06-04-2023\nReason - To store customer detail\n'
 
 class CustomerDetail(models.Model):
+    validate_mobile_number = staticmethod(validate_customer_mobile_number)
     id = models.AutoField(primary_key=True)
-
-    # Commented by :- Parineeta Gedam
-    # Date :- 14-04-2023
-    # Reason :- remove the name required validations
-
-    # name = models.CharField(max_length=255)
-    
-    # End of Commented code 14-04-2023
-
-    # Added by :- Parineeta Gedam
-    # Date :- 14-04-2023
-    # Reason :- remove the name required validations
-
     name = models.CharField(max_length=255, null=True, blank=True)
-    
-    # End of Commented code 14-04-2023
-
-    email = models.EmailField(_('email address'), null=True, blank=True) 
-
-    # Added by Om Shrivastava on 26-05-23
-    # Reason : Need to show the Loyality points
-    loyality_points = models.IntegerField(default=0, null=True,blank=True) 
-    # End of addition by Om Shrivastava on 26-05-23
-
-    # Commented by :- Parineeta Gedam
-    # Date :- 14-04-2023
-    # Reason :- remove the cantact_number validations unique = True 
-
-    # contact_number = models.BigIntegerField(unique=True, 
-    #             validators=[validate_contact_number]
-    #                                         )
-    # End of Commented code 14-04-2023
-
-    # Added by :- Parineeta Gedam
-    # Date :- 14-04-2023
-    # Reason :- remove the cantact_number validations unique = True 
-
-    # check contact number length validations
-    def validate_mobile_number(contact_number):
-        if len(contact_number) > 10:
-            raise ValidationError("Contact number cannot be more than 10 digits")
-
-    contact_number = models.CharField(max_length=10,validators=[validate_mobile_number])
-
-    # End of Commented code 14-04-2023
-
-    # Added by :- Parineeta Gedam
-    # Date :- 17-04-2023
-    # Reason :- latest name show 
-
+    email = models.EmailField(_('email address'), null=True, blank=True)
+    loyality_points = models.IntegerField(default=0, null=True, blank=True)
+    contact_number = models.CharField(max_length=10, validators=[validate_customer_mobile_number])
     last_customer_name = models.CharField(max_length=255, null=True, blank=True)
-    # Added by Yuvraj Sahu on 05-05-2023
-    # Reason - to save latest email id of customer
-    # Modified and added by Om Shrivastava on 15-05-23
-    # Reason : Change the verbose name of email to last email
-    # last_email = models.EmailField(_('email address'), null=True, blank=True)
     last_email = models.EmailField(_('Last email address'), null=True, blank=True)
-    # End of modification and addition by Om Shrivastava on 15-05-23
-    # End of addition by Yuvraj Sahu on 05-05-2023
-    
-    # End of Commented code 17-04-2023
-
-    def __str__(self):
-        return f"{self.last_customer_name}"
 
     class Meta:
-        verbose_name = "Customer Detail"
+        verbose_name = 'Customer Detail'
         verbose_name_plural = 'h) Customer Detail'
+        indexes = [models.Index(fields=['contact_number'], name='customer_contact_idx')]
+'\nEnd of added code 06-04-2023\n'
+'\nAdded by - Parineeta Gedam on 06-04-2023\nReason - To store Order\n'
+ORDER_STATUS = (('Placed', 'Placed'), ('Confirm', 'Confirm'), ('Cooked', 'Cooked'), ('Served', 'Served'), ('Cancelled', 'Cancelled'))
+PAYMENT_STATUS = (('Pending', 'Pending'), ('Completed', 'Completed'), ('Paid', 'Paid'))
+CANCELLED_BY = (('Admin', 'Admin'), ('Customer', 'Customer'))
+LOYALITY_STATUS = (('is used', 'is used'), ('not used', 'not used'))
 
-"""
-End of added code 06-04-2023
-"""
-
-"""
-Added by - Parineeta Gedam on 06-04-2023
-Reason - To store Order
-"""
-# Modified by :- Parineeta Gedam on 17-04-2023
-ORDER_STATUS = (
-    ("Placed", "Placed"),
-    ("Confirm", "Confirm"),
-    ("Cooked", "Cooked"),
-    ("Served", "Served"),
-    # Added by :- Parineeta Gedam on 13-05-2023
-    ("Cancelled", "Cancelled"),
-    # End of Added code by :- Parineeta Gedam on 13-05-2023
-)
-
-PAYMENT_STATUS = (
-    ("Pending", "Pending"),
-    ("Completed", "Completed"),
-    # Commented by :- PArineeta Gedam on 12-06-2023 reason :- not show the paid option for admin.
-    # Added by :- Parineeta Gedam on 21-05-2023
-    # Uncommeted by yuvraj sahu on 28-06-2023
-    # Reason - to save the paid status when we not select Payment status in react native side
-    ("Paid", "Paid"),
-    # End of modification by Yuvraj Sahu on 28-06-2023
-    # End of Added code by :- Parineeta Gedam on 21-05-2023
-    # End of Commented by :- Parineeta Gedam on 12-06-2023
-
-)
-# End of modified code on 17-04-2023
-
-# Added by :- Parineeta Gedam on 13-05-2023
-CANCELLED_BY = (
-    # Position changes by Om Shrivatava on 23-06-23
-    # ("Customer", "Customer"),
-    ("Admin", "Admin"),
-    ("Customer", "Customer"),
-
-)
-# End of added code by :- Parineeta Gedam on 13-05-2023
-
-# Added by :- Parineeta Gedam on 13-05-2023
-LOYALITY_STATUS = (
-    ("is used", "is used"),
-    ("not used", "not used"),
-)
-# End of added code by :- Parineeta Gedam on 13-05-2023
-
-# Added by :- Parineeta Gedam on 11-06-2023
-# Reason :- discount Rupees validations
-def validate_discount_rupees(value):
-    if value is not None:
-        if (value < 0):
-            raise ValidationError("Discount can't be less the zero")
-        else:
-            return value
-# End of added code by :- Parineeta Gedam on 11-06-2023
-
-# Added by :- Parineeta Gedam on 11-06-2023
-# Reason :- discount Percentages validations
-def validate_discount_precentage(value):
-    if value is not None:
-        if (value < 0):
-            raise ValidationError("Discount can't be less the zero")
-        else:
-            return value
-# End of added code by :- Parineeta Gedam on 11-06-2023
-
-class Order(models.Model):
+class Order(TrackedFieldsMixin, models.Model):
     id = models.AutoField(primary_key=True)
     order_id = models.CharField(max_length=255)
-
-    # Commented and modified by - Ashish Dewangan on 03-05-2023
-    # Reason - To add verbose name
-    # customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE)
-    customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE,verbose_name='Customer')
-    # End of code modification by Ashish Dewangan on 03-05-2023
-
+    last_acknowledged_item_id = models.PositiveIntegerField(default=0)
+    customer_id = models.ForeignKey(CustomerDetail, on_delete=models.CASCADE, verbose_name='Customer')
     table_number = models.CharField(max_length=255)
+    
+    dining_table = models.ForeignKey(
+        'DiningTable',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='orders'
+    )
+
     sub_total = models.FloatField(default=0.0)
     total = models.FloatField(default=0.0)
-    # Added by rohan -14/4/23
-    # reason- removing tax field and adding other cgst,scgt and other option also
-    # tax = models.FloatField(default=0)
-    cgst=models.FloatField(default=0.0)
-    sgst=models.FloatField(default=0.0)
-    # Commented by ROhan Kansari - 29/4/23
-    # Reason - Not needed yet 
-    # pax=models.IntegerField(default=0)
-    # sess=models.IntegerField(default=1)
-    # dshr=models.CharField(max_length=100,null=True,blank=True)
-    # capt=models.CharField(max_length=100,null=True,blank=True)
-    # end of commeting - 29/4/23
-    # end of code 14/4/23
-    order_status = models.CharField(max_length=100,choices=ORDER_STATUS,default="Placed")
-    payment_status = models.CharField(max_length=100,choices=PAYMENT_STATUS,default="Pending")
-    # Modified and commented by Om Shrivastava on 11-05-23
-    # Reason : Change the name of date field in this modal
-    # date = models.DateTimeField(auto_now_add=True)
-    date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
-    # End of modified and commented by Om Shrivastava on 11-05-23
-    #Added By:-Pratap sahu on 13-10-2023 To set default "Cash" 
-    # payment_mode = models.CharField(max_length=100,null=True,blank=True)
-    payment_mode = models.CharField(default="Cash",max_length=100,null=True,blank=True)
-    # End of code by Pratap sahu on 13-10-2023
-    # Commented by :- Parineeta Gedam on 07-06-2023
-    # Added By :- Parineeta Gedam Date :- 06-05-2023
-    # Reason - to add discount type manual discount and final amount
-    # CHOICES = [('Discount in (?)', 'Discount in (?)'),
-    #            ('Discount in (%)', 'Discount in (%)')]
-    # discount_type = models.CharField(max_length=255, choices=CHOICES, default="Discount in (?)")
-    # manual_discount = models.FloatField(default=0.0, null=True, blank=True, verbose_name='Discount')
-    # End of commented code by PArineeta Gedam on 03-06-2023
-    # End of commented code by PArineeta Gedam on 07-06-2023
-
-    # Modified by :- Parineeta Gedam on 11-06-2023 reason :- validation for discount 
-    # Added By :- Parineeta Gedam Date :- 06-05-2023
-    # Reason - to add discount in (₹) and discount in (%)
-
-    # Modified by :- Parineeta Gedam on 16-06-2023 reason :- remove the null = true conditions
-    # discount_rupees = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (₹)", validators=[validate_discount_rupees])
-    # discount_percentage = models.FloatField(default=0.0,null=True, blank=True, verbose_name="Discount in (%)", validators=[validate_discount_precentage])
-    discount_rupees = models.FloatField(default=0.0,blank=True, verbose_name="Discount in (₹)", validators=[validate_discount_rupees])
-    discount_percentage = models.FloatField(default=0.0,blank=True, verbose_name="Discount in (%)", validators=[validate_discount_precentage])
-    # End of modified code by :- Parineeta Gedam on 16-06-2023 reason :- remove the null = true conditions
-    
-    # End of commented code by Parineeta Gedam on 03-06-2023
-    # End of Modified code by Parineeta Gedam on 11-06-2023
-
-    # Added by Yuvraj Sahu on 14-06-2023
-    # Reason - to add discount reason
-    discount_reason = models.TextField(default="", blank=True)
-    # End of addition by Yuvraj Sahu on 14-06-2023
-
-
+    cgst = models.FloatField(default=0.0)
+    sgst = models.FloatField(default=0.0)
+    order_status = models.CharField(max_length=100, choices=ORDER_STATUS, default='Placed')
+    payment_status = models.CharField(max_length=100, choices=PAYMENT_STATUS, default='Pending')
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Date & Time')
+    payment_mode = models.CharField(default='Cash', max_length=100, null=True, blank=True)
+    discount_rupees = models.FloatField(default=0.0, blank=True, verbose_name='Discount in (₹)', validators=[validate_discount_rupees])
+    discount_percentage = models.FloatField(default=0.0, blank=True, verbose_name='Discount in (%)', validators=[validate_discount_precentage])
+    discount_reason = models.TextField(default='', blank=True)
     final_amount = models.FloatField(default=0.0, null=True, blank=True)
-    # End of added code date :- 06-05-2023
-
-    # Added By Rohan Kansari - 4/5/23
-    # Reason - To save overall review
-    review=models.TextField(null=True,blank=True)
-
-    # Added by Yuvraj Sahu on 15-06-2023
-    # Reason - to add overall rating
-    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
-    # End of addition by Yuvraj Sahu on 15-06-2023
-
-    # Added by Rohan kansari - 10/5/23
-    # Reason - To save payment confirmation date and time 
-    payment_confirmation_date_time=models.CharField(max_length=50,null=True,blank=True)
-
-    # Added by :- Parineeta Gedam on 13-05-2023 
-    # Reason :- for order cancel
-    # Modification and addition by Om Shrivastava on 23-06-23
-    # Reason : Remove the null= true property
-    # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin",null=True,blank=True)
-    # Modified by Rohan kansari - 13/8/23
-    # Reason - To make it Char field and able to set any string
-    # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,default="Admin")
-    cancelled_by = models.CharField(max_length=100,default="---")
-    # ENd of code - Rohan kansari - 13/8/23
-    # cancelled_by = models.CharField(max_length=100,choices=CANCELLED_BY,null=True,blank=True)
-    # End of addition by Om Shrivastava on 23-06-23 Reason : Remove the null= true property
-    
-    # Modification and addition by Om Shrivastava on 23-06-23
-    # Reason : Remove the null= true property
-    # cancel_reason = models.TextField(null=True,blank=True)
-    cancel_reason = models.TextField(default="",blank=True)
-    # End of addition by Om Shrivastava on 23-06-23 Reason : Remove the null= true property
-
-    # End of added code by :- Parineeta Gedam on 13-05-2023
-
-    # Added by :- Om shrivastava on 26-05-23 
-    # Reason :- for apply the loyality points
-    # Modification and addition by Om Shrivastava on 17-06-23
-    # Reason : Need to remove the null condition 
-    # apply_loyality_point = models.IntegerField(default=0,null=True,blank=True,validators=[MinValueValidator(0)],)
-    apply_loyality_point = models.IntegerField(default=0,blank=True,validators=[MinValueValidator(0)],)
-    # End of addition and modification by Om Shrivastava on 17-06-23
-    # loyality_point_price = models.IntegerField(null=True,blank=True)
-    loyality_point_price = models.FloatField(default=0.0,null=True,blank=True)
-
-    # End of added code by :- Om shrivastava on 26-05-23
-
-    # Added by :- Om shrivastava on 29-05-23 
-    # Reason :- for check the loyality points status
-    loyality_point_status = models.CharField(max_length=100,choices=LOYALITY_STATUS,default="not used",null=True,blank=True)
-    # End of added code by :- Om shrivastava on 26-05-23
-
-    # Added by Yuvraj Sahu on 12-06-2023
-    # reason - to add new field for check loyality point calculated or not
+    review = models.TextField(null=True, blank=True)
+    rating = models.DecimalField(null=True, blank=True, max_digits=2, validators=[MinValueValidator(1), MaxValueValidator(5.0)], decimal_places=1)
+    payment_confirmation_date_time = models.CharField(max_length=50, null=True, blank=True)
+    cancelled_by = models.CharField(max_length=100, default='---')
+    cancel_reason = models.TextField(default='', blank=True)
+    apply_loyality_point = models.IntegerField(default=0, blank=True, validators=[MinValueValidator(0)])
+    loyality_point_price = models.FloatField(default=0.0, null=True, blank=True)
+    loyality_point_status = models.CharField(max_length=100, choices=LOYALITY_STATUS, default='not used', null=True, blank=True)
     loyality_point_calculated = models.BooleanField(default=False)
-    # End of addition by yuvraj Sahu on 12-06-2023
-
-    # Added by Parineeta Gedam on 22-06-2023
-    # reason - to add new field for check notifications on order update
     send_notifications_on_order_update = models.BooleanField(default=False)
-    # End of addition by Parineeta Gedam on 22-06-2023
-
-    # Added by Parineeta Gedam on 22-06-2023
-    # reason - to add new field for check notifications on payment update
     send_notifications_on_payment_update = models.BooleanField(default=False)
-    # End of addition by Parineeta Gedam on 22-06-2023
-
-    # Added by Parineeta Gedam on 22-06-2023
-    # reason - to add new field for check notifications on payment update
     send_notifications_on_amount_update = models.BooleanField(default=False)
-    # End of addition by Parineeta Gedam on 22-06-2023
+    send_notification_on_tableNum_update = models.BooleanField(default=True)
+    customer_name = models.CharField(max_length=50, null=True, blank=True)
+    customer_email = models.CharField(max_length=50, null=True, blank=True)
+    order_created_by = models.CharField(max_length=50, null=True, blank=True)
+    waiter_contact_number = models.CharField(max_length=15, blank=True, null=True, default='')
+    waiter_name = models.CharField(max_length=100, blank=True, null=True, default='')
 
-    # Added by Rohan Kansari - 28/8/23 
-    # Reason - To add push notification on table number update
-    send_notification_on_tableNum_update=models.BooleanField(default=True)
-    # End of code - Rohan kansari - 28/9/23
-
-    # Added by Rohan kansari - 16/8/23 
-    # Reason - To save entered name and email
-    customer_name=models.CharField(max_length=50,null=True,blank=True)
-    customer_email=models.CharField(max_length=50,null=True,blank=True)
-    # End of code - Rohan kansari - 16/8/23
-
-    # Added by Rohan kansari - 4/9/23 - To set order created by 
-    order_created_by=models.CharField(max_length=50,null=True,blank=True)
-    # End of code - Rohan kansari - 4/9/23 - To set order created by 
-
-    # Added by Rohan kansari - 21/9/23 - To set Waiter detail if they order
-    waiter_contact_number=models.CharField(max_length=15,blank=True,null=True,default="")
-    waiter_name=models.CharField(max_length=100,blank=True,null=True,default="")
-    # End of code by Rohan kansari - 21/9/23 - To set Waiter detail if they order
-
-    # Added by :- Parineeta Gedam on 10-05-2023
-    # Reason :- to check if discount type in (%) is should not be more then 100
-    def clean(self):
-
-        # Commented code by Parineeta Gedam on 07-06-2023
-        # if self.discount_type == "Discount in (%)" and self.manual_discount > 100:
-        #     raise ValidationError(
-        #         {"manual_discount": "Discount should not be more than 100"})
-        # End of commented code by PArineeta Gedam on 03-06-2023
-
-        # Added by :- Parineeta Gedam on 29-05-2023
-        # reason :- admin can cancel order before payment is completed.
-        if self.payment_status == "Completed" and self.order_status == "Cancelled":
-            raise ValidationError(
-                {"payment_status": "Order is cancelled"})
-        # End of added code by Parineeta Gedam on 29-05-2023
-
-        # Added by :- Parineeta Gedam on 10-06-2023
-        # reason :- admin can cancel order before payment is completed.
-        if self.payment_status == "Paid" and self.order_status == "Cancelled":
-            raise ValidationError(
-                {"payment_status": "Order is cancelled"})
-        # End of added code by Parineeta Gedam on 10-06-2023
-
-        # Modified by :- Parineeta Gedam on 10-06-2023
-        # Added by :- Parineeta Gedam on 13-05-2023
-        # reason :- if order status = cancelled then show the validations msg in cancel reason.
-        if self.order_status == "Cancelled" and (self.cancel_reason is None or len(self.cancel_reason)==0):
-            raise ValidationError(
-                {"cancel_reason": "Please give the cancel reason"})
-        # End of added code on 13-05-2023
-
-        # Added by :- Parineeta Gedam on 10-06-2023
-        # reason :- admin can add discount only, when payment status is not completed or paid.
-         
-        if self.payment_status == "Completed" and self.discount_rupees is None and self.discount_percentage is None or self.payment_status == "Paid" and self.discount_rupees is None and self.discount_percentage is None :
-            if self.discount_rupees :
-                raise ValidationError(
-                    {"discount_rupees": "Payment is completed you can not add the discount"})
-            
-        if self.payment_status == "Completed" and self.discount_percentage is None and self.discount_rupees is None or self.payment_status == "Paid" and self.discount_rupees is None and self.discount_percentage is None :
-            if self.discount_percentage : 
-                raise ValidationError(
-                    {"discount_percentage": "Payment is completed you can not add the discount"})
-            
-        if self.payment_status == "Paid" and self.discount_rupees > 0 :
-            if self.discount_rupees : 
-                raise ValidationError(
-                    {"discount_rupees": "Payment is completed you can not add the discount"})
-            
-        if self.payment_status == "Paid" and self.discount_percentage == 0 :
-            if self.discount_percentage : 
-                raise ValidationError(
-                    {"discount_percentage": "Payment is completed you can not add the discount"})
-        
-        if self.payment_status == "Completed" and self.discount_rupees == 0 :
-            if self.discount_rupees : 
-                raise ValidationError(
-                    {"discount_rupees": "Payment is completed you can not add the discount"})
-            
-        if self.payment_status == "Completed" and self.discount_percentage == 0 :
-            if self.discount_percentage : 
-                raise ValidationError(
-                    {"discount_percentage": "Payment is completed you can not add the discount"})
-            
-        if self.order_status == "Cancelled" and self.discount_rupees == 0 :
-            if self.discount_rupees : 
-                raise ValidationError(
-                    {"discount_rupees": "Order cancelled you can not add the discount"})
-            
-        if self.order_status == "Cancelled" and self.discount_percentage == 0 :
-            if self.discount_percentage : 
-                raise ValidationError(
-                    {"discount_percentage": "Order cancelled you can not add the discount"})
-        
-        # Added by Om Shrivastava on 14-06-23
-        # Reason : When payment status is complete or order status is cancelled than user cannot apply the loyality point
-        if self.payment_status == "Completed" :
-            if self.apply_loyality_point : 
-                raise ValidationError(
-                    {"apply_loyality_point": "Payment status is completed you can not add the loyality point"})
-        
-        if self.order_status == "Cancelled" :
-            if self.apply_loyality_point : 
-                raise ValidationError(
-                    {"apply_loyality_point": "Order status is cancelled you can not add the loyality point"})
-            
-        if int(self.customer_id.loyality_points) < int(self.apply_loyality_point):
-            if self.apply_loyality_point : 
-                raise ValidationError(
-                    {'apply_loyality_point': "Please enter below the customer loyality point."})
-            
-        # if self.sub_total < self.loyality_point_price:
-        #     if self.apply_loyality_point : 
-        #         raise ValidationError(
-        #             # {'apply_loyality_point': "Please choose less loyality point because your discounted loyality amount is greater than total"})
-        #             {'apply_loyality_point': "Loyality point should not greater than sub total, please reduce the loyality point"})
-
-        # End of addition by Om Shrivastava on 14-06-23
-            
-        # End of added code by Parineeta Gedam on 10-06-2023
-
-        # Added by :- Parineeta Gedam on 10-06-2023
-        # reason :- admin can add discount only, when payment status is not completed or paid.
-        # if self.payment_status == "Completed" or self.payment_status == "Paid" :
-        #     if self.discount_percentage : 
-        #         raise ValidationError(
-        #         {"discount_percentage": "Payment is completed you can not add the discount"})
-        # End of added code by Parineeta Gedam on 10-06-2023
-
-
-        # # Added by Om Shrivastava on 28-05-23
-        # # Reason : Need to apply some condition for calculation the loyality point
-        # Commented by Om shrivastava on 08-06-23
-        # Reason : It not show in this section
-        # if self.customer_id.loyality_points < self.apply_loyality_point:
-        #     raise ValidationError(
-        #         {'apply_loyality_point': "Please enter below the customer loyality point."})
-        # End of commented code on 08-06-23
-        # End of addition by Om shrivastava on 28-05-23
-        
-    # End of added code on 10-05-2023
-
-    def __str__(self):
-        return f"{self.order_id}"
+    tracked_fields = ('order_status', 'payment_status', 'apply_loyality_point', 'final_amount', 'table_number')
 
     class Meta:
-        verbose_name = "Order"
+        verbose_name = 'Order'
         verbose_name_plural = 'i) Order'
+        indexes = [
+            models.Index(fields=['order_id'], name='order_number_idx'),
+            models.Index(fields=['date'], name='order_date_idx'),
+            models.Index(fields=['payment_status', 'order_status'], name='order_status_idx'),
+        ]
 
-    # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refereance.
-    def __init__(self,*args,**kwargs):
-        super(Order,self).__init__(*args,**kwargs)
-        self.old_order_status = self.order_status
-        self.old_payment_status = self.payment_status
-        self.old_apply_loyality_point = self.apply_loyality_point
-        self.old_final_amount = self.final_amount
-        # Added by Rohan kansari - 28/8/23 - To set old table number
-        self.old_tableNum=self.table_number
-    # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refereance.
+    def __str__(self):
+        return self.order_id
 
-    # Added by Yuvraj Sahu on 24-4-2023
-    # Reason - to update order item status based on order status
-    def save(self, *args, **kwargs ):
+    def clean(self):
+        order_rules.validate_order(self)
 
-        # Modified by :- Parineeta Gedam on 29-06-2023
-        if self.discount_reason is None or self.discount_reason=="":
-            self.discount_reason=""
-        if self.cancel_reason is None or self.cancel_reason=="":
-            self.cancel_reason=""
-        # End of  Modified by :- Parineeta Gedam on 29-06-2023
-    
-        # Added by :- Parineeta Gedam on 22-06-2023
-        # reason :- check conditions for notifications
-
-        self.send_notifications_on_order_update = False
-        self.send_notifications_on_payment_update = False
-
-        # Added by Rohan kansari - 28/8/23 - To send notification allow in order table
-        self.send_notification_on_tableNum_update=False
-
-        if self.old_tableNum!=self.table_number:
-           self.send_notification_on_tableNum_update=True
-        # ENd of code - ROhan kansari -28/8/23 - To send notification allow in order table  
-        # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
-        # try:
-        #     order = Order.objects.get(order_id = self.order_id)
-        if self.old_order_status != self.order_status:
-            self.send_notifications_on_order_update = True
-        # except Exception as e:
-        #     print(" order = Order.objects.get(order_id = self.order_id)",e)
-        #     pass
-        # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
-
-        # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
-        # try:
-        #     order = Order.objects.get(order_id = self.order_id)
-        if self.old_payment_status != self.payment_status:
-            self.send_notifications_on_payment_update = True
-        # except Exception as e:
-        #     print("  order = Order.objects.get(order_id = self.order_id)",e)
-        #     pass
-        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
-        # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence
-
-
-        if self.order_status == "Confirm" :
-        #  Modified by Rohan kansari - 3/8/23 - To setting their kot true also because otherwise it is sending false in 
-        # kot status and it cause repeat same item in kot   
-        # OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm")
-          OrderItem.objects.filter(order_id__order_id=self.order_id, item_status="Pending").update(item_status="Confirm",kot_print_status=True)
-
-        # Added by Rohan kansari- 10/5/23
-        if self.payment_status=="Completed" and self.payment_confirmation_date_time is None:
-            from datetime import datetime
-            # Modified by Yuvraj Sahu on 09-06-2023
-            # Reason - to change date time format
-            # self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M')
-            self.payment_confirmation_date_time=datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
-            # End of addition by Yuvraj Sahu on 09-06-2023
-        #super().save( *args, **kwargs)
-
-        # Added by :- Parineeta Gedam on 10-06-2023
-        # Reaspon :- if order status is cancelled then all item status is also cancel
-        if self.order_status == "Cancelled" :
-           OrderItem.objects.filter(order_id__order_id=self.order_id).update(item_status="Cancelled")
-        # End of Added code by :- Parineeta Gedam on 10-06-2023
-
-        # # Added by Om Shrivastava on 28-05-23
-        # # Reason : Need to apply some condition for calculation the loyality point
-
-        setting_data=Setting.objects.first()
-        # Modification and addition by Om Shrivastava on 10-06-23
-        # Reason : When setting data is none than no need to show this calculations
-        # if setting_data.allow_loyality_points is True :
-        if setting_data is not None:   
-            if setting_data.allow_loyality_points is True :
-                if self.payment_status == 'Pending':
-                    if self.apply_loyality_point == 0:
-                        # Modification and addition by Om Shrivastava on 20-07-23
-                        # Reason : When payment status is pending than user edit the loyality point
-                        # pass
-                        self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
-                        user_contact = self.customer_id.contact_number
-                        CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point+self.old_apply_loyality_point)
-                        # End of addition and modification and addition by Om Shrivastava on 20-07-23
-                        # Reason : When payment status is pending than user edit the loyality point
-                    else:
-                        if self.loyality_point_status=='is used':
-                            # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence 
-                            # oldLoyality=Order.objects.get(order_id=self.order_id)
-                            # uuuuu
-
-                            # Modification and addition by Om Shrivastava on 17-07-23
-                            # Reason : When payment status is pending than user edit the loyality point
-                            # self.apply_loyality_point=self.old_apply_loyality_point
-                            # pass
-                            self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
-                            user_contact = self.customer_id.contact_number
-                            CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point+self.old_apply_loyality_point)
-                            # End of addition and modification and addition by Om Shrivastava on 17-07-23
-                            # Reason : When payment status is pending than user edit the loyality point
-                            # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
-                        
-                        else:
-                            # Added by Om Shrivastava on 08-06-23
-                            # Reason : Save the loyality point in float value 
-
-                            # self.loyality_point_price = setting_data.per_loyality_point_value * self.apply_loyality_point
-                            self.loyality_point_price = float(setting_data.per_loyality_point_value * self.apply_loyality_point)
-                            # End of addition by Om Shrivastava on 08-06-23
-
-                            user_contact = self.customer_id.contact_number
-                            CustomerDetail.objects.filter(contact_number=user_contact).update(loyality_points=self.customer_id.loyality_points-self.apply_loyality_point)
-                            self.loyality_point_status='is used'
-                
-                if self.payment_status=='Paid':
-                    # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence 
-                    # oldLoyalityPoint=Order.objects.get(order_id=self.order_id)
-                    self.apply_loyality_point=self.old_apply_loyality_point 
-                    # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
-
-                # Commented and Added by Yuvraj Sahu on 15-06-2023
-                # Reason - to not calculate when loyality point calculated
-                # if self.payment_status == 'Completed':
-                if self.payment_status == 'Completed' and self.loyality_point_calculated == False:
-                    self.loyality_point_calculated = True
-                    # End of Comment and modification by Yuvraj Sahu on 15-06-2023
-
-                    # Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence 
-                    # oldPoint=Order.objects.get(order_id=self.order_id)
-                    self.apply_loyality_point=self.old_apply_loyality_point
-                    # End of Modified by :- Parineeta Gedam on 30-06-2023 reason :- remove order object refrence
-
-                    # Modification by pratap on 27-10-2023 TO avoid ZeroDivisionError
-                    # get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
-                    try:
-                        get_loyality= math.floor(self.final_amount/setting_data.amount_for_single_loyality_point)
-                    except ZeroDivisionError:
-                        get_loyality = 0
-                    # End of modification by pratap on 27-10-2023 TO avoid ZeroDivisionError
-
-                    user_no= self.customer_id.contact_number
-                    CustomerDetail.objects.filter(contact_number=user_no).update(loyality_points= self.customer_id.loyality_points + get_loyality)
-
-        else:   
-            pass
-        # End of addition by Om shrivastava on 10-06-23
-        
-        #  End of addition by Om Shrivastava on 28-05-23 
-        
-        # Added by :- Parineeta Gedam on 06-05-2023
-        # Reason :- to update payment status, manual discont and final amount
-        # try :
-        #     orderUpdate = Order.objects.get(order_id=self.order_id)
-        #     orderUpdate.sub_total = self.sub_total
-        #     orderUpdate.cgst=self.cgst
-        #     orderUpdate.sgst = self.sgst
-        #     orderUpdate.total = self.sub_total + self.cgst + self.sgst
-
-             # if self.discount_amount_rupees :
-            #     total = self.sub_total - self.discount_amount_rupees
-            #     self.discount_amount_percentage = total
-            # else :
-            #     total = self.sub_total - (self.sub_total * self.discount_amount_percentage / 100)
-            # orderUpdate.total = float("{:.2f}".format(total))
-
-            # Commented by :- Parineeta Gedam on 07-06-2023
-            # Reason :- change the flow of discount 
-
-            # if self.manual_discount:
-            #     total = 0
-            #     if self.discount_type == "Discount in (?)":
-            #         # Modification and addition by Om Shrivastava on 30-05-23
-            #         # Reason : Show the loyality point calculation
-            #         # total =  self.sub_total - self.manual_discount
-            #         total =  self.sub_total - self.manual_discount - self.loyality_point_price
-            #         # End of addition and modification by Om Shrivastava on 30-05-23
-
-            #     else :
-            #         total = self.sub_total - (self.sub_total * self.manual_discount / 100)
-            #     orderUpdate.total = float("{:.2f}".format(total))
-
-            #     tax = Setting.objects.first()
-            #     if tax is not None:
-            #         if tax.sgst is None:
-            #             tax.sgst = 0
-            #         if tax.cgst is None:
-            #             tax.cgst = 0
-            #         cgst = (orderUpdate.total*(tax.cgst)/100)
-            #         self.cgst = round(float("{:.2f}".format(cgst)), 2)
-            #         sgst = (orderUpdate.total*(tax.sgst)/100)
-            #         self.sgst = round(float("{:.2f}".format(sgst)), 2)
-            #         self.total = round(
-            #             float("{:.2f}".format(orderUpdate.total)), 2)
-            #         self.final_amount = round(
-            #             float("{:.2f}".format(orderUpdate.total + cgst + sgst)), 2)
-            # else:
-            #     tax = Setting.objects.first()
-            #     if tax is not None:
-            #         if tax.sgst is None:
-            #             tax.sgst = 0
-            #         if tax.cgst is None:
-            #             tax.cgst = 0
-                    
-            #         cgst = ( orderUpdate.sub_total*(tax.cgst)/100)
-            #         self.cgst = round(float("{:.2f}".format(cgst)),2)
-            #         sgst = ( orderUpdate.sub_total*(tax.sgst)/100)
-            #         self.sgst = round(float("{:.2f}".format(sgst)),2)
-            #         self.total= round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
-            #         self.final_amount = round(float("{:.2f}".format( orderUpdate.sub_total + cgst + sgst)),2)
-            #         print("save method -------- cgst", self.cgst)
-            #         print("sgst", self.sgst)
-            #         print("total", self.total)
-
-            #         # # Added by Om Shrivastava on 28-05-23
-            #         # # Reason : Need to apply some condition for calculation the loyality point
-            #         if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
-            #             # print(self.sub_total,'22222222')
-            #             self.total = self.sub_total - self.loyality_point_price
-            #             # print(round(float("{:.2f}".format(self.total)),2))
-            #             cgst = ( self.total*(tax.cgst)/100)
-            #             self.cgst = round(float("{:.2f}".format(cgst)),2)
-            #             sgst = ( self.total*(tax.sgst)/100)
-            #             self.sgst = round(float("{:.2f}".format(sgst)),2)
-            #             self.final_amount = round(float("{:.2f}".format( self.total + cgst + sgst)),2)
-            #         #  End of addition by Om Shrivastava on 28-05-23 
-            # End of commented code by :- PArineeta Gedam on 07-06-2023
-
-            # Added by :- Parineeta Gedam on 07-06-2023
-            # Reason :- change the flow of calculations because admin can add discount. 
-
-        # Modified code by :- Parineeta Gedam on  30-06-2023 
-        # reason :- remove the order refrence
-        try :
-            # orderUpdate = Order.objects.get(order_id=self.order_id)
-            sub_total = self.sub_total
-            cgst=self.cgst
-            sgst = self.sgst
-            total = self.sub_total + self.cgst + self.sgst
-
-            # Modified by :- Parineeta Gedam on 26-07-2023 
-            # reason :- whatever discount type will be checked by admin, calculations perform by that.
-
-            if self.discount_rupees > 0:
-                # Modified by :- Parineeta Gedam on 26-07-2023 
-                # reason :- whatever discount type will be checked by admin, calculations perform by that.
-                if setting_data.discount_in == "Discount in (₹)" :
-                    total = 0  
-                    percentage = (self.discount_rupees / self.sub_total) * 100
-                    self.discount_percentage = round(float("{:.2f}".format(percentage)), 2)
-                    total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                    total = float("{:.2f}".format(total))
-                    tax = Setting.objects.first()
-                    if tax is not None:
-                        if tax.sgst is None:
-                            tax.sgst = 0
-                        if tax.cgst is None:
-                            tax.cgst = 0
-                        cgst = (total*(tax.cgst)/100)
-                        self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                        sgst = (total*(tax.sgst)/100)
-                        self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                        self.total = round(float("{:.2f}".format(total)), 2)
-                        self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
-                # Modified by :- Parineeta Gedam on 26-07-2023 
-                # reason :- whatever discount type will be checked by admin, calculations perform by that.
-                else :
-                    total = 0  
-                    rupees = (self.sub_total / 100) * self.discount_percentage
-                    self.discount_rupees = round(float("{:.2f}".format(rupees)), 2)
-                    self.discount_percentage = self.discount_percentage
-                    total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                    total = float("{:.2f}".format(total))
-                    tax = Setting.objects.first()
-                    if tax is not None:
-                        if tax.sgst is None:
-                            tax.sgst = 0
-                        if tax.cgst is None:
-                            tax.cgst = 0
-                        cgst = (total*(tax.cgst)/100)
-                        self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                        sgst = (total*(tax.sgst)/100)
-                        self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                        self.total = round(float("{:.2f}".format(total)), 2)
-                        self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
-
-            elif self.discount_percentage > 0 :
-                # Modified by :- Parineeta Gedam on 26-07-2023 
-                # reason :- whatever discount type will be checked by admin, calculations perform by that.
-                if setting_data.discount_in == "Discount in (%)" :
-                    total = 0  
-                    self.discount_rupees = (self.sub_total / 100) * self.discount_percentage
-                    total =  self.sub_total - self.discount_rupees - self.loyality_point_price
-                    total = float("{:.2f}".format(total))
-                    tax = Setting.objects.first()
-                    if tax is not None:
-                        if tax.sgst is None:
-                            tax.sgst = 0
-                        if tax.cgst is None:
-                            tax.cgst = 0
-                        cgst = (total*(tax.cgst)/100)
-                        self.cgst = round(float("{:.2f}".format(cgst)), 2)
-                        sgst = (total*(tax.sgst)/100)
-                        self.sgst = round(float("{:.2f}".format(sgst)), 2)
-                        self.total = round(float("{:.2f}".format(total)), 2)
-                        self.final_amount = round(float("{:.2f}".format(total + cgst + sgst)), 2)
-            # End of Modified by :- Parineeta Gedam on 26-07-2023 
-            # reason :- whatever discount type will be checked by admin, calculations perform by that.
-            else : 
-                tax = Setting.objects.first()
-                if tax is not None:
-                    if tax.sgst is None:
-                        tax.sgst = 0
-                    if tax.cgst is None:
-                        tax.cgst = 0
-                    
-                    cgst = (sub_total*(tax.cgst)/100)
-                    self.cgst = round(float("{:.2f}".format(cgst)),2)
-                    sgst = ( sub_total*(tax.sgst)/100)
-                    self.sgst = round(float("{:.2f}".format(sgst)),2)
-
-                    # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                    # self.total= round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
-                    # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                    
-                    # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                    self.total= round(float("{:.2f}".format(sub_total)),2)
-                    # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                    
-                    self.final_amount = round(float("{:.2f}".format(sub_total + cgst + sgst)),2)
-                  
-                    # # Added by Om Shrivastava on 28-05-23
-                    # # Reason : Need to apply some condition for calculation the loyality point
-
-                    # Modification and addition by Om Shrivastava on 14-06-23
-                    # Reason : Show all calculation in pending case
-                    # if self.payment_status == 'Completed' and self.loyality_point_status=='is used':
-                    # Modification and addition by Om Shrivastava on 14-07-23 
-                    # Reason : Set the loyality point calculation
-                    # if self.payment_status == 'Pending' and self.loyality_point_status=='is used':
-                    if self.loyality_point_status=='is used':
-                    # End of Modification and addition by Om Shrivastava on 14-07-23 
-                    # Reason : Set the loyality point calculation
-                    # End of addition by Om Shrivastava on 14-06-23    
-                        # print(self.sub_total,'22222222')
-                        self.total = self.sub_total - self.loyality_point_price
-                        # print(round(float("{:.2f}".format(self.total)),2))
-                        cgst = ( self.total*(tax.cgst)/100)
-                        self.cgst = round(float("{:.2f}".format(cgst)),2)
-                        sgst = ( self.total*(tax.sgst)/100)
-                        self.sgst = round(float("{:.2f}".format(sgst)),2)
-                        self.final_amount = round(float("{:.2f}".format( self.total + cgst + sgst)),2)
-                    #  End of addition by Om Shrivastava on 28-05-23 
-            # End of Added code by :- Parineeta Gedam on 07-06-2023
-
-            # Added by :- Parineeta Gedam on 22-06-2023
-            # reason :- check conditions for notifications
-
-            self.send_notifications_on_amount_update = False
-            # Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence 
-            # try:
-                # order = Order.objects.get(order_id = self.order_id)
-            if self.old_final_amount != self.final_amount:
-                self.send_notifications_on_amount_update = True
-            # except Exception as e:
-            #     # print("1218")
-            #     pass
-            # End of Modified code by :- Parineeta Gedam on 30-06-2023 reason :- remove the order refrence 
-
-            # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
-           
-            super(Order, self).save(force_update=True, *args, **kwargs)
-
-        except Exception as e:
-           
-            # added by :- Parineeta Gedam on 26-06-2023
-            # reason :-  for calculations 
-            tax = Setting.objects.first()
-            if tax is not None:
-                if tax.sgst is None:
-                    tax.sgst = 0
-                if tax.cgst is None:
-                    tax.cgst = 0
-                cgst = ( self.sub_total*(tax.cgst)/100)
-                self.cgst = round(float("{:.2f}".format(cgst)),2)
-                sgst = ( self.sub_total*(tax.sgst)/100)
-                self.sgst = round(float("{:.2f}".format(sgst)),2)
-
-
-                # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                # self.total= round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
-                # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-
-                # Commented by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                self.total= round(float("{:.2f}".format( self.sub_total)),2)
-                # End of commented code by :- Parineeta Gedam on 09-07-2023 reason :- In "Total" component, grand total calculation display in this component
-                
-                self.final_amount = round(float("{:.2f}".format( self.sub_total + cgst + sgst)),2)
-                super(Order, self).save(*args, **kwargs)
-
-            # self.send_notifications_on_amount_update = False
-            # try:
-            #     order = Order.objects.get(order_id = self.order_id)
-            #     if order.final_amount != self.final_amount:
-            #         self.send_notifications_on_amount_update = True
-            # except Exception as e:
-            #     print("1218")
-            #     pass
-            
-        # End of added code on 06-05-2023
-        # End of modified code by :- PArineeta Gedam on 30-06-2023 reason :- remove the order refrences
-
-    # End of addition
-
-    # Removed BY rohan kansari - 11/5/23 
-    # Reason - directly assigning string date in organize way
-    # def __unicode__(self):
-    #     return "%s" % (self.payment_confirmation_date_time.strftime('%m/%d/%Y %H:%M %p'))
-
-# Commented by :- PArineeta GEdam on 10-06-2023
-# reason :- in this model we already create a clean method, so again we can not create the same method and that condition call in top.
-# Added by :- Parineeta Gedam on 29-05-2023
-# reason :- admin can cancel order before payment is completed.
-    # def clean(self):
-    #     if self.payment_status == "Completed" and self.order_status == "Cancelled":
-    #         raise ValidationError(
-    #             {"payment_status": "Payment is completed you can not cancel the order"})
-# End of added code by Parineeta Gedam on 29-05-2023
-
-
-    # Added by :- Om shrivastava on 08-06-23
-    # reason :- if user can enter the max loyality point in admin panel than through the validation error
-    # def clean(self) : 
-    #     if int(self.customer_id.loyality_points) < int(self.apply_loyality_point):
-    #         raise ValidationError(
-    #             {'apply_loyality_point': "Please enter below the customer loyality point."})
-# End of commented code by :- Parineeta Gedam on 10-06-2023 
-
-
-    # def clean(self) : 
-    #     if self.apply_loyality_point is None:
-    #         raise ValidationError(
-    #             {'apply_loyality_point': "Please enter lotality point"})
-    # End of added code on 18-05-2023
-
-"""
-End of added code 06-04-2023
-"""
-
-"""
-Added by - Parineeta Gedam on 06-04-2023
-Reason - To store Order Item
-"""
-
-# Modified by :- Parineeta Gedam on 17-04-2023
-ITEM_STATUS = (
-    ("Pending", "Pending"),
-    # Commented and modified by - Ashish Dewangan on 19-04-2023
-    # Reason - To have confirm status instead of completed for order item
-    # ("Completed", "Completed"),
-    ("Confirm", "Confirm"),
-    # End of code modification by Ashish Dewangan on 19-04-2023 
-
-    # Added by :- Parineeta Gedam on 13-05-2023
-    ("Cancelled", "Cancelled"),
-    # End of added code by :- Parineeta Gedam 
-)
-
-# Added by :- Parineeta Gedam on 19-05-2023
-SERVING_SIZE = (
-    ("Half", "Half"),
-    ("Full", "Full"),
-)
-
-# Added by :- Parineeta Gedam on 28-05-2023
-# Reason :- check quantity validations
-def validate_qunatity(value):
-    if value is not None:
-        if (value <= 0):
-            raise ValidationError("Qunatity can't be less the one")
-        else:
-            return value
-# End of added code by :- Parineeta gedam on 28-05-2023
-
+    def save(self, *args, **kwargs):
+        order_rules.before_order_save(self)
+        super().save(*args, **kwargs)
+'\nEnd of added code 06-04-2023\n'
+'\nAdded by - Parineeta Gedam on 06-04-2023\nReason - To store Order Item\n'
+ITEM_STATUS = (('Pending', 'Pending'), ('Confirm', 'Confirm'), ('Cancelled', 'Cancelled'))
+SERVING_SIZE = (('Half', 'Half'), ('Full', 'Full'))
 
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
-    order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
-    item_id= models.ForeignKey(Item,blank=True,null=True,on_delete=models.CASCADE)
-
-    # Commented and modified by - Ashish Dewangan on 03-05-2023
-    # Reason - To add verbose name
-    # item = models.CharField(max_length=255)
-    item = models.CharField(max_length=255,verbose_name='Item name')
-    # End of code modification by Ashish Dewangan on 03-05-2023
-
-    # Modified by :- Parineeta Gedam on 19-05-2023 
-    # Reason :- add choice field 
-    # serving_size = models.CharField(max_length=255,)
-    serving_size = models.CharField(max_length=255,choices=SERVING_SIZE)
-    # End of modified code on 19-05-2023
-
-    # Modified by :- PArineeta Gedam on 29-05-2023
-    # quantity = models.IntegerField(default=0)
-    quantity = models.IntegerField(default=0, validators=[validate_qunatity,])
-
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    item_id = models.ForeignKey(Item, blank=True, null=True, on_delete=models.CASCADE)
+    item = models.CharField(max_length=255, verbose_name='Item name')
+    serving_size = models.CharField(max_length=255, choices=SERVING_SIZE)
+    quantity = models.IntegerField(default=0, validators=[validate_qunatity])
     price = models.FloatField(default=0)
-    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
+    rating = models.DecimalField(null=True, blank=True, max_digits=2, validators=[MinValueValidator(1), MaxValueValidator(5.0)], decimal_places=1)
     review = models.TextField(null=True, blank=True)
-    # Modified and commented by Om Shrivastava on 11-05-23
-    # Reason : Change the name of date field in this modal
-    # date = models.DateTimeField(auto_now_add=True)
-    date = models.DateTimeField(auto_now_add=True,verbose_name='Date & Time')
-    # End of modification and addition by Om Shrivastava on 11-05-23
-
-    # Modified by :- Parineeta Gedam 17-04-2023
-    item_status = models.CharField(max_length=100,choices=ITEM_STATUS,default="Pending")
-    # End of modified code 17-04-2023
-
-    # Added by Yuvraj Sahu on 21-06-2023
-    # Reason - to give kot print status
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Date & Time')
+    item_status = models.CharField(max_length=100, choices=ITEM_STATUS, default='Pending')
     kot_print_status = models.BooleanField(default=False)
-    # End of giving kot print status 
-
-    # Added by :- Parineeta Gedam on 18-05-2023 
-    # Reason :- for order cancel
-    cancel_reason = models.TextField(null=True,blank=True)
-    # End of added code by :- Parineeta Gedam on 18-05-2023
-
-    # Added by Parineeta Gedam on 22-06-2023
-    # reason - to add new field for check notifications on order update
+    cancel_reason = models.TextField(null=True, blank=True)
     send_notifications_on_item_update = models.BooleanField(default=False)
-    # End of addition by Parineeta Gedam on 22-06-2023
-
-    # Commented and modified by - Ashish Dewangan on 24-04-2023
-    # Reason - To show details of each order item properly 
-    # def __str__(self):
-    #     return f"{self.order_id, self.item, self.serving_size, self.quantity, self.price}"
-    def __str__(self):
-        # Commented and modified by Om shrivastava on 06-05-23
-        # Reason : To change the return statement inside the orderitem table
-        # return f"  order ID: {self.order_id} | Item Name : {self.item} | Size : {self.serving_size} | Quantity : {self.quantity} | Price : {self.price} "
-        return 'Order item' 
-        #End of code modification by Om shrivastava on 06-05-23
-    #End of code modification by Ashish Dewangan on 24-04-2023
 
     class Meta:
-        verbose_name = "Order Item"
+        verbose_name = 'Order Item'
         verbose_name_plural = 'j) Order Item'
+        indexes = [models.Index(fields=['date'], name='orderitem_date_idx')]
 
-    # Added by Suman Sahu on 07-05-2023
-    # Reason - to update order status based on item status
-    def save(self, *args, **kwargs ):
+    def clean(self):
+        order_rules.validate_order_item(self)
 
-        # Added by :- Parineeta Gedam on 22-06-2023
-        # reason :- check conditions for notifications
+    def save(self, *args, **kwargs):
+        order_rules.before_order_item_save(self)
+        super().save(*args, **kwargs)
+'\nEnd of added code 06-04-2023\n'
+'\nAdded by - Parineeta Gedam on 11-04-2023\nReason - To store scanner\n'
 
-        self.send_notifications_on_item_update = False
-        try:
-            orderItem = OrderItem.objects.get(id = self.id)
-            if orderItem.item_status != self.item_status:
-                self.send_notifications_on_item_update = True
-        except Exception as e:
-            pass
-        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
-        
-
-        # Added by Yuvraj Sahu on 21-06-2023
-        # Reason - to update print kot button
-        # if self.item_status == "Confirm":
-        #if self.item_status == "Confirm" and self.kot_print_status == False:
-            #self.kot_print_status=True
-        #Added by Rohan kansari - 3/4/23
-        #Reason - To set order confirm when completing one by one confirm    
-        if self.item_status == "Confirm" and self.kot_print_status == False:
-            self.kot_print_status=True
-            #End of code - Rohan Kansari - 3/4/23       
-            # End of addition by Yuvraj Sahu on 21-06-2023
-            orderItemObj = OrderItem.objects.filter(order_id = self.order_id)
-            obj = orderItemObj.filter(item_status = "Pending").count()
-            if obj == 1:
-                orderObj = Order.objects.get(order_id = self.order_id)
-                orderObj.order_status="Confirm"
-                orderObj.save()
-
-        # Added by :- Parineeta Gedam on 18-05-2023
-        # Reason :- If admin increase or decrese the qunatity of any item then again re-calculations for price and in order table for sub_total, cgst, sgst, total, final amount. 
-
-        allOffer = OfferItem.objects.all()
-        discounted = 0
-        if allOffer.filter(item_name=self.item_id).count() > 0:
-            if allOffer.get(item_name=self.item_id).offer_name.discount is not None:
-               discounted = allOffer.get(item_name=self.item_id).offer_name.discount
-        if (self.serving_size == "Half"):
-            price = float(self.item_id.price_half)*float(self.quantity) - float(
-                float(self.item_id.price_half) * float(self.quantity) /100)* float(discounted)
-        else:
-            price = float(self.item_id.price_full)*float(self.quantity)-float(
-                float(self.item_id.price_full) * float(self.quantity) /100)*float(discounted)
-            
-        self.price = price
-
-        # Added by :- Parineeta Gedam on 22-06-2023
-        # reason :- check conditions for notifications
-
-        # self.send_notifications_on_item_update = False
-        try:
-            orderItem = OrderItem.objects.get(id = self.id)
-            if orderItem.price != self.price:
-                self.send_notifications_on_item_update = True
-        except Exception as e:
-            pass
-        # End of Added by :- Parineeta Gedam on 22-06-2023 reason :- check conditions for notifications
-
-        # super().save( *args, **kwargs)
-
-        # End of added code by :- Parineeta Gedam on 18-05-2023
-        super().save( *args, **kwargs)
-    # End of addition 07/05/2023
-
-    # Added by :- Parineeta Gedam on 18-05-2023
-    # reason :- if item status = cancelled then show the validations msg in cancel reason.
-    def clean(self) : 
-        if self.item_status == "Cancelled" and self.cancel_reason is None :
-            raise ValidationError({"cancel_reason" : "Please give the cancel reason"})
-    # End of added code on 18-05-2023
-
-# Commented by :- Parineeta Gedam on :- 26-05-2023
-# Added by:- Parineeta Gedam on :- 21-05-2023
-# reason :- If admin increase or decrese the qunatity of any item then again re-calculations for price and in order table for sub_total, cgst, sgst, total, final amount.
-
-# @receiver(post_save, sender=OrderItem)
-# def my_handler(sender,instance, **kwargs, ):
-#     orderItemObject = OrderItem.objects.filter(order_id = instance.order_id)
-#     itemsPrice = []
-#     for cart in orderItemObject:
-#         if(cart.item_status != "Cancelled") :
-#             price = cart.price
-#             itemsPrice.append(price)
-#     order = Order.objects.get(order_id = instance.order_id)
-#     subTotal = round(float("{:.2f}".format(sum(itemsPrice))),2)
-#     order.sub_total=subTotal
-#     order.save()
-# End of added code by :- Parineeta Gedam on 21-05-2023
-# End of Commented code by :- Parineeta Gedam on 26-05-2023
-
-
-"""
-End of added code 06-04-2023
-"""
-"""
-Added by - Parineeta Gedam on 11-04-2023
-Reason - To store scanner
-"""
 class PaymentMethod(models.Model):
-     # added by rohan kansari - 20/4/23
-    # reason- To add validation on image , admin not able to add image more than 200kb
-    # Commented by Rohan kansari- 11/5/23 - define it globally
-    # def validate_image(fieldfile_obj):
-    #   try:
-    #     filesize = fieldfile_obj.file.size
-    #     megabyte_limit = 200
-    #   except:
-    #     try:  
-    #         import os # new
-    #         from pathlib import Path
-    #         filesize=os.path.getsize(fieldfile_obj.file.name)
-    #         print(filesize)
-    #         megabyte_limit = 200
-    #         if filesize > megabyte_limit*1024:
-    #             raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    #     except:
-    #             return     
-    #   if filesize > megabyte_limit*1024:
-    #         raise ValidationError("Max file size is %skb" % str(megabyte_limit))
-    # End of commentation - Rohan kansari - 11/5/23
-    # end of code - rohan - 20/4/23
-    
-    # modifi by- Suman sahu  On 07/05/2023
-    # reason- change django default image field character validation message
-    scanner = models.ImageField(upload_to='scanner/', null=True,
-              validators=[validate_image_file_extension])
-    # End of modification 07/05/2023
-
-    # Added by :- Parineeta Gedam
-    # Date :- 15-04-2023
-    # Reason :- show the name and contact number
-
+    validate_mobile_number = staticmethod(validate_payment_mobile_number)
+    scanner = models.ImageField(upload_to='scanner/', null=True, validators=[validate_image_file_extension])
     id = models.AutoField(primary_key=True)
-
     name = models.CharField(max_length=255, null=True, blank=True)
-
-    # check contact number length validations
-    def validate_mobile_number(contact_number):
-        if len(contact_number) > 10:
-            raise ValidationError("Contact number cannot be more than 10 digits")
-
-    contact_number = models.CharField(max_length=10,validators=[validate_mobile_number],null=True,blank=True)
-
-    # End of added code 15-04-2023
-
+    contact_number = models.CharField(max_length=10, validators=[validate_payment_mobile_number], null=True, blank=True)
 
     class Meta:
-        verbose_name = "Payment Method"
-        # Modified and added by Om Shrivastava on 10-05-23
-        # Reason : Correct the arrangement in payment method 
-        # verbose_name_plural = 'j) Payment Method'
+        verbose_name = 'Payment Method'
         verbose_name_plural = 'k) Payment Method'
-        # End of addition by Om Shrivastava on 10-05-23
-
-    def __str__(self):
-        # Modified and added by Om on 06-06-23
-        # Reason : Show the appropriate return in payment method modal
-        # return f"{self.scanner}"
-        return 'Payment details' 
-        # End of addition by Om on 06-05-23
-
-"""
-End of added code 11-04-2023
-"""
-
-# Added by - Ashish Dewangan on 28-04-2023
-# Reason - To have notification model
+'\nEnd of added code 11-04-2023\n'
 from fcm_django.models import AbstractFCMDevice
+
 class FcmNotification(AbstractFCMDevice):
-    name=models.CharField(max_length=20,default='')
-    phone_number=models.CharField(max_length=10,default='')
-# End of code addition by Ashish Dewangan on 28-04-2023
+    name = models.CharField(max_length=20, default='')
+    phone_number = models.CharField(max_length=10, default='')
+'\nAdded by Yuvraj Sahu on 25-05-2023\nReason - to save social links\n'
 
-
-"""
-Added by Yuvraj Sahu on 25-05-2023
-Reason - to save social links
-"""
 class SocialLinks(models.Model):
     social_media_name = models.CharField(max_length=255, blank=True, null=True)
-    # Modified by Yuvraj Sahu on 04-06-2023
-    # Reason - to make mandatory
-    social_media_link = models.TextField(default="")
-    social_media_icon = models.ImageField(upload_to='social/', default="",
-    # End of addition by Yuvraj Sahu on 04-06-2023
-              validators=[validate_image_file_extension])
+    social_media_link = models.TextField(default='')
+    social_media_icon = models.ImageField(upload_to='social/', default='', validators=[validate_image_file_extension])
+
     class Meta:
-        verbose_name = "Social Link"
+        verbose_name = 'Social Link'
         verbose_name_plural = 'M) Social Links'
-    def __str__(self):
-        return 'Social Link'
-"""
-End of addition by yuvraj Sahu on 25-05-2023
-"""
-
-
-"""
-Added by - Parineeta Gedam on 01-06-2023
-Reason - To store reservations request 
-"""
-RESERVATION_STATUS = (
-    ("Pending", "Pending"),
-    ("Confirm", "Confirm"),
-)
-
-def validate_mobile_number(contact_number):
-    if len(contact_number) > 10:
-        raise ValidationError("Contact number cannot be more than 10 digits")
+'\nEnd of addition by yuvraj Sahu on 25-05-2023\n'
+'\nAdded by - Parineeta Gedam on 01-06-2023\nReason - To store reservations request \n'
+RESERVATION_STATUS = (('Pending', 'Pending'), ('Confirm', 'Confirm'))
 
 class Reservation(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(_('email address'), null=True, blank=True) 
+    email = models.EmailField(_('email address'), null=True, blank=True)
     contact_number = models.CharField(max_length=10, validators=[validate_mobile_number])
     number_of_person = models.CharField(max_length=255, null=True, blank=True)
     special_instructions = models.TextField(null=True, blank=True)
     date = models.DateField(auto_now_add=False, blank=True, null=True, verbose_name='Date')
-    time = models.TimeField(auto_now_add=False, blank=True,null=True)
+    time = models.TimeField(auto_now_add=False, blank=True, null=True)
     table_number = models.CharField(max_length=255, null=True, blank=True)
-    reservation_status = models.CharField(max_length=100, choices=RESERVATION_STATUS, default="Pending")
+    reservation_status = models.CharField(max_length=100, choices=RESERVATION_STATUS, default='Pending')
 
     class Meta:
-        verbose_name = "Reservation"
+        verbose_name = 'Reservation'
         verbose_name_plural = 'L) Reservation'
+'\nEnd of added code by - Parineeta Gedam on 01-06-2023\n'
 
-    def __str__(self):
-        return f"{self.name}"
-
-    # Added by Parineeta Gedam on 01-06-2023
-    # Reason - to send email
-    def save(self, *args, **kwargs ):
-        if self.reservation_status == "Confirm" :
-            if self.email is not None :
-                from django.db import connection
-                from admin_app.models import Tenant
-                table_number = 0
-                if self.table_number is not None :
-                    table_number = self.table_number
-                else :
-                    table_number = "- - -"
-
-                tenant = Tenant.objects.get(tenant_name=connection.schema_name)
-                # subject = 'Reservation confirmation detail '
-                # message = f'Hello {self.name},\n\nWe are please to inform that your booking has been Confirmed.\n\n Your booking details : \n Guest Name : {self.name}\n Number of Guest : {self.number_of_person}\n Table Number : {table_number}\n Date : {self.date.strftime("%d-%m-%y")} \n Time : {self.time} \n\n Regarding : \n {tenant.restaurant_name.restaurant_name}\n {tenant.restaurant_name.mobile_number}\n {tenant.restaurant_name.address}\n\nWe are delighted to serve you,\nHope you will enjoy your visit !!\n\n Thanking you..!!'
-                # email_from = settings.EMAIL_HOST
-                # send_mail(subject,message,email_from, [self.email])
-
-
-                from django.core.mail import send_mail
-                from django.conf import settings
-                import smtplib
-                from email.mime.multipart import MIMEMultipart
-                from email.mime.text import MIMEText
-
-                msg = MIMEMultipart()
-                msg.set_unixfrom('author')
-                msg['From'] = 'sales@adyant.co.in'
-                msg['To'] = self.email
-                msg['Subject'] = 'Reservation confirmation detail '
-                message = f'Hello {self.name},\n\nWe are pleased to inform that your booking has been Confirmed.\n\n Your booking details : \n Guest Name : {self.name}\n Number of Guest : {self.number_of_person}\n Table Number : {table_number}\n Date : {self.date.strftime("%d-%m-%y")} \n Time : {self.time} \n\n Regarding : \n {tenant.restaurant_name.restaurant_name}\n {tenant.restaurant_name.mobile_number}\n {tenant.restaurant_name.address}\n\nWe are delighted to serve you,\nHope you will enjoy your visit !!\n\n Thanking you..!!'
-
-                msg.attach(MIMEText(message))
-
-                mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-                mailserver.ehlo()
-                mailserver.login('sales@adyant.co.in', 'Adyant@0122')
-                response = mailserver.sendmail('sales@adyant.co.in',self.email,msg.as_string())
-                mailserver.quit()
-        super().save( *args, **kwargs)
-"""
-End of added code by - Parineeta Gedam on 01-06-2023
-"""
-# Added by Om Shrivastava on 14-06-23
-# Reason: When user apply rating than show rating and review
 class RatingReview(models.Model):
-    # Modification and addiition by Om Shrivastava on 24-07-23
-    # Reason : Set the min value 0
-    # rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(1),MaxValueValidator(5.0)],decimal_places=1)
-    rating = models.DecimalField(null=True, blank=True, max_digits=2,validators=[MinValueValidator(0),MaxValueValidator(5.0)],decimal_places=1)
-    # End of addition and modification by Om Shrivastava on 24-07-23
-    # Reason : Set the min value 0
+    rating = models.DecimalField(null=True, blank=True, max_digits=2, validators=[MinValueValidator(0), MaxValueValidator(5.0)], decimal_places=1)
     review = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Rating and Review"
+        verbose_name = 'Rating and Review'
         verbose_name_plural = 'n) Rating and Review'
 
-    def __str__(self):
-        return 'Rating & Review' 
-
-# End of addition by Om Shrivastava on 14-06-23
-
-
-# Added by Rohan kansari - 9/9/23
-# Reason - Creating waiter fields
 class Waiter(models.Model):
     name = models.CharField(max_length=50)
-    contact_number = models.CharField(max_length=15,unique=True)   
-    is_active=models.BooleanField(default=True)
+    contact_number = models.CharField(max_length=15, unique=True)
+    is_active = models.BooleanField(default=True)
     password = models.CharField(max_length=255)
-# End of code - Rohan kansari - 9/9/23
+
+
+class PhoneOtp(models.Model):
+    phone = models.CharField(max_length=15)
+    code_hash = models.CharField(max_length=64)
+    attempts = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    consumed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['phone', 'created_at'], name='tenant_app_phone_phone_idx'),
+        ]
+
+
+
+class RestaurantFloor(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Restaurant Floor'
+        verbose_name_plural = 'Restaurant Floors'
+
+    def __str__(self):
+        return self.name
+
+
+
+class DiningTable(models.Model):
+    name = models.CharField(max_length=50)
+    floor = models.ForeignKey(
+        RestaurantFloor,
+        on_delete=models.PROTECT,
+        related_name='tables',
+        null=True,
+        blank=True
+    )
+    seats = models.PositiveIntegerField(default=4)
+    is_active = models.BooleanField(default=True)
+    staff_status = models.CharField(
+        max_length=12,
+        choices=[
+            ('available', 'Available'),
+            ('occupied', 'Occupied'),
+            ('unavailable', 'Unavailable'),
+        ],
+        default='available',
+    )
+
+    class Meta:
+        ordering = ['floor__name', 'name']
+        verbose_name = 'Table'
+        verbose_name_plural = 'Tables'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['floor', 'name'],
+                name='unique_floor_table_name'
+            ),
+            models.UniqueConstraint(
+                fields=['name'],
+                condition=models.Q(floor__isnull=True),
+                name='unique_direct_table_name'
+            )
+        ]
+
+    def __str__(self):
+        if self.floor_id:
+            return f'{self.floor.name} - {self.name}'
+        return f'Direct - {self.name}'
+
+
+
+class OrderEvent(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='events')
+    event_type = models.CharField(max_length=50)
+    order_status = models.CharField(max_length=100, blank=True, default='')
+    payment_status = models.CharField(max_length=100, blank=True, default='')
+    actor = models.CharField(max_length=80, blank=True, default='')
+    summary = models.CharField(max_length=255, blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['id']
+
+
+
+from django.db import models as workforce_models
+from django.core.validators import MinValueValidator as workforce_min
+
+
+class StaffEmployee(workforce_models.Model):
+    GENDERS = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+        ("Other", "Other"),
+    ]
+
+    employment_type = workforce_models.CharField(
+        max_length=12,
+        choices=[
+            ("Permanent", "Permanent"),
+            ("Temporary", "Temporary"),
+        ],
+        default="Permanent",
+    )
+
+    name = workforce_models.CharField(max_length=150)
+    phone = workforce_models.CharField(max_length=30, blank=True)
+    gender = workforce_models.CharField(max_length=10, choices=GENDERS, default="Other")
+    role = workforce_models.CharField(max_length=100, blank=True)
+    can_approve = models.BooleanField(default=False)
+    access_permissions = models.JSONField(default=list, blank=True)
+    monthly_salary = workforce_models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        validators=[workforce_min(0)],
+    )
+    joining_date = workforce_models.DateField()
+    is_active = workforce_models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
+class StaffAttendance(workforce_models.Model):
+    employee = workforce_models.ForeignKey(
+        StaffEmployee,
+        on_delete=workforce_models.CASCADE,
+        related_name="attendance",
+    )
+    date = workforce_models.DateField()
+    check_in = workforce_models.TimeField(null=True, blank=True)
+    check_out = workforce_models.TimeField(null=True, blank=True)
+    day_fraction = workforce_models.CharField(
+        max_length=4,
+        choices=[
+            ("Full", "Full Day"),
+            ("Half", "Half Day"),
+        ],
+        default="Full",
+    )
+    
+    check_in_latitude = workforce_models.FloatField(
+        null=True,
+        blank=True
+    )
+    check_in_longitude = workforce_models.FloatField(
+        null=True,
+        blank=True
+    )
+    check_out_latitude = workforce_models.FloatField(
+        null=True,
+        blank=True
+    )
+    check_out_longitude = workforce_models.FloatField(
+        null=True,
+        blank=True
+    )
+
+
+    class Meta:
+        constraints = [
+            workforce_models.UniqueConstraint(
+                fields=["employee", "date"],
+                name="unique_staff_attendance_date",
+            )
+        ]
+
+
+class StaffLeave(workforce_models.Model):
+    employee = workforce_models.ForeignKey(
+        StaffEmployee,
+        on_delete=workforce_models.CASCADE,
+        related_name="leaves",
+    )
+    leave_type = workforce_models.CharField(
+        max_length=20,
+        choices=[
+            ('Paid', 'Paid'),
+            ('Casual', 'Casual Leave'),
+            ('Sick', 'Sick Leave'),
+            ('Medical', 'Medical Leave'),
+            ('Unpaid', 'Unpaid'),
+        ],
+        default="Paid",
+    )
+    start_date = workforce_models.DateField()
+    end_date = workforce_models.DateField()
+    reason = workforce_models.TextField(blank=True)
+    status = workforce_models.CharField(
+        max_length=20,
+        choices=[
+            ("Pending", "Pending"),
+            ("Approved", "Approved"),
+            ("Rejected", "Rejected"),
+        ],
+        default="Pending",
+    )
+
+
+class StaffPayrollSettings(workforce_models.Model):
+    male_hours = workforce_models.DecimalField(
+        max_digits=4,
+        decimal_places=1,
+        default=10,
+    )
+    female_hours = workforce_models.DecimalField(
+        max_digits=4,
+        decimal_places=1,
+        default=8,
+    )
+    other_hours = workforce_models.DecimalField(
+        max_digits=4,
+        decimal_places=1,
+        default=8,
+    )
+    salary_mode = workforce_models.CharField(
+        max_length=10,
+        choices=[
+            ("day", "Day Based"),
+            ("hour", "Hour Based"),
+        ],
+        default="day",
+    )
+    paid_leaves_per_year = workforce_models.PositiveSmallIntegerField(default=12)
+    casual_leaves_per_year = workforce_models.PositiveSmallIntegerField(default=0)
+    sick_leaves_per_year = workforce_models.PositiveSmallIntegerField(default=0)
+    medical_leaves_per_year = workforce_models.PositiveSmallIntegerField(default=0)
+
+    
+    WEEK_OFF_MODES = [
+        ("flexible", "Flexible Monthly Off"),
+        ("fixed", "Fixed Weekly Off"),
+    ]
+
+    week_off_mode = workforce_models.CharField(
+        max_length=10,
+        choices=WEEK_OFF_MODES,
+        default="flexible",
+    )
+    monthly_off_quota = workforce_models.PositiveSmallIntegerField(default=4)
+    week_off_days = workforce_models.JSONField(default=list, blank=True)
+
+
+
+class StaffPayroll(workforce_models.Model):
+    employee = workforce_models.ForeignKey(
+        StaffEmployee,
+        on_delete=workforce_models.CASCADE,
+        related_name="payroll",
+    )
+    month = workforce_models.PositiveSmallIntegerField()
+    year = workforce_models.PositiveSmallIntegerField()
+    present_days = workforce_models.PositiveSmallIntegerField(default=0)
+    worked_hours = workforce_models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+    )
+    paid_leave_days = workforce_models.PositiveSmallIntegerField(default=0)
+    calculated_salary = workforce_models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+    
+    half_days = workforce_models.DecimalField(
+        max_digits=5,
+        decimal_places=1,
+        default=0,
+    )
+
+    gross_salary = workforce_models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    advance_deduction = workforce_models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+
+    class Meta:
+        constraints = [
+            workforce_models.UniqueConstraint(
+                fields=["employee", "month", "year"],
+                name="unique_staff_payroll_month",
+            )
+        ]
+
+
+class StaffSalaryPayment(workforce_models.Model):
+    payroll = workforce_models.ForeignKey(
+        StaffPayroll,
+        on_delete=workforce_models.PROTECT,
+        related_name="salary_payments",
+    )
+    amount = workforce_models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+    )
+    payment_date = workforce_models.DateField()
+    payment_mode = workforce_models.CharField(
+        max_length=20,
+        default="Cash",
+    )
+    reference = workforce_models.CharField(
+        max_length=120,
+        blank=True,
+    )
+    remark = workforce_models.CharField(
+        max_length=500,
+        blank=True,
+    )
+    created_at = workforce_models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["-payment_date", "-id"]
+
+class StaffSalaryAdvance(workforce_models.Model):
+    employee = workforce_models.ForeignKey(
+        StaffEmployee,
+        on_delete=workforce_models.CASCADE,
+        related_name="salary_advances",
+    )
+    amount = workforce_models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+    )
+    date = workforce_models.DateField()
+    remark = workforce_models.CharField(
+        max_length=500,
+        blank=True,
+    )
+    created_at = workforce_models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["-date", "-id"]
+
+class StaffFlexibleOff(workforce_models.Model):
+    employee = workforce_models.ForeignKey(
+        StaffEmployee,
+        on_delete=workforce_models.CASCADE,
+        related_name="flexible_offs",
+    )
+    date = workforce_models.DateField()
+    created_at = workforce_models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            workforce_models.UniqueConstraint(
+                fields=["employee", "date"],
+                name="unique_staff_flexible_off_date",
+            ),
+        ]
+        ordering = ["-date", "-id"]
+
+    def __str__(self):
+        return f"{self.employee.name} - {self.date}"
+
+
+class StaffAttendanceRequest(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    employee = models.ForeignKey(
+        'StaffEmployee',
+        on_delete=models.CASCADE,
+        related_name='attendance_requests'
+    )
+    date = models.DateField()
+    check_in = models.TimeField(null=True, blank=True)
+    check_out = models.TimeField(null=True, blank=True)
+    reason = models.TextField()
+    status = models.CharField(
+        max_length=12,
+        choices=STATUS_CHOICES,
+        default='Pending'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.employee.name} - {self.date} - {self.status}"
+
+
+
+
+class ExpenseCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class ExpenseSubType(models.Model):
+    category = models.ForeignKey(
+        ExpenseCategory,
+        on_delete=models.PROTECT,
+        related_name='subtypes'
+    )
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['name']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['category', 'name'],
+                name='unique_expense_subtype_category'
+            )
+        ]
+
+    def __str__(self):
+        return f'{self.category.name} / {self.name}'
+
+
+class RestaurantExpense(models.Model):
+    
+    sub_type = models.ForeignKey(
+        ExpenseSubType,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='expenses'
+    )
+    party_name = models.CharField(
+        max_length=180,
+        blank=True,
+        default=''
+    )
+    invoice_number = models.CharField(
+        max_length=100,
+        blank=True,
+        default=''
+    )
+    invoice_date = models.DateField(
+        null=True,
+        blank=True
+    )
+    invoice_file = models.FileField(
+        upload_to='expense_invoices/%Y/%m/',
+        null=True,
+        blank=True
+    )
+
+    expense_nature = models.CharField(
+        max_length=10,
+        choices=[
+            ('Direct', 'Direct Expense'),
+            ('Indirect', 'Indirect Expense')
+        ],
+        default='Direct'
+    )
+
+    category = models.ForeignKey(
+        ExpenseCategory,
+        on_delete=models.PROTECT,
+        related_name='expenses'
+    )
+    name = models.CharField(max_length=180)
+    expense_date = models.DateField()
+    expense_time = models.TimeField()
+    quantity = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    created_by = models.CharField(max_length=120, default='Admin')
+    paid_by = models.CharField(max_length=120)
+    payment_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('Cash', 'Cash'),
+            ('UPI', 'UPI'),
+            ('Bank', 'Bank Transfer'),
+            ('Card', 'Card'),
+            ('Other', 'Other')
+        ]
+    )
+    remark = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-expense_date', '-expense_time', '-id']
+        indexes = [
+            models.Index(
+                fields=['expense_date'],
+                name='expense_date_idx'
+            )
+        ]
+
+    def __str__(self):
+        return self.name
+
+
+
+
+
+# PHASE 1: Manual payment verification / UPI settings.
+# Paste at the END of backend/tenant_app/models.py.
+class RestaurantUPISettings(models.Model):
+    upi_id = models.CharField(max_length=255, blank=True, default='')
+    payee_name = models.CharField(max_length=255, blank=True, default='')
+    is_enabled = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Restaurant UPI Settings'
+
+class OrderPaymentVerification(models.Model):
+    METHOD_CHOICES = (('Cash', 'Cash'), ('UPI', 'UPI'))
+    STATE_CHOICES = (
+        ('not_started', 'Not started'),
+        ('awaiting_verification', 'Awaiting verification'),
+        ('verified', 'Verified'),
+        ('rejected', 'Rejected'),
+    )
+    order = models.OneToOneField('Order', on_delete=models.CASCADE, related_name='manual_payment')
+    method = models.CharField(max_length=10, choices=METHOD_CHOICES)
+    state = models.CharField(max_length=30, choices=STATE_CHOICES, default='not_started')
+    amount_snapshot = models.DecimalField(max_digits=12, decimal_places=2)
+    claimed_at = models.DateTimeField(null=True, blank=True)
+    verified_at = models.DateTimeField(null=True, blank=True)
+    verified_by = models.CharField(max_length=100, blank=True, default='')
+    note = models.CharField(max_length=500, blank=True, default='')
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Order Payment Verification'

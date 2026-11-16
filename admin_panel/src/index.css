@@ -1,0 +1,27 @@
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: var(--page-background-color);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c5ced8 transparent;
+}
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker {
+  border-radius: 8px !important;
+}
+
+.ant-btn-primary {
+  background: var(--primary-color);
+}
+
+.ant-input-search .ant-input-search-button {
+  border-radius: 0 8px 8px 0 !important;
+}

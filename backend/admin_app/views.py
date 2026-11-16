@@ -1,370 +1,191 @@
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
-from rest_framework.views import APIView
+from django.conf import settings
+from django.contrib.auth.hashers import check_password
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.exceptions import APIException, AuthenticationFailed
-from .authentication import *
-from .models import *
-from .serializers import *
-from django.contrib.auth.hashers import make_password, check_password
-from .send_mail import *
+from rest_framework.views import APIView
 
-"""
-Added by - Ashish Dewangan on 08-02-2023
-Reason - To get list of tenants
-"""
+from . import password_reset
+from .authentication import ROLE_OWNER, decode_refresh_token, issue_tokens
+from .models import (
+    AppSetting,
+    CustomerFeedback,
+    GallerySettings,
+    PricingPlans,
+    RestaurantRequest,
+    Tenant,
+    WebsiteSetting,
+)
+from .serializers import (
+    CustomerFeedbackSerializer,
+    GallerySerializer,
+    GetRestroscansRequestSerializer,
+    PostContactUsSerializer,
+    PricingPlansSerializer,
+    PricingSerializer,
+    PublicTenantSerializer,
+    RestaurantRequestSerializer,
+    RestaurentPatnersSerializer,
+)
+
+SENSITIVE_RESTAURANT_FIELDS = ('password', 'confirm_password')
+
+
+def _first_error(errors):
+    for value in errors.values():
+        if isinstance(value, (list, tuple)) and value:
+            return str(value[0])
+        if value:
+            return str(value)
+    return 'Please check the details and try again.'
+
+
+def tenant_media_url(domain_url, relative_path):
+    base = settings.TENANT_API_URL_TEMPLATE.format(domain=domain_url).rstrip('/')
+    return f"{base}/{settings.MEDIA_URL.strip('/')}/{domain_url}/{relative_path}"
 
 
 class TenantAPIView(APIView):
-    def get(self,request,tenantId=None):
-        if tenantId:
-            tenant=Tenant.objects.get(tenant_name=tenantId)
-            tenantSerializer=TenantListSerializer(tenant)
-            return Response({"msg":"success","tenantDetails":tenantSerializer.data})
-        else:
-            tenantList=Tenant.objects.all()
-            tenantListSerializer=TenantListSerializer(tenantList,many=True)
-            return Response({"msg":"success","tenantList":tenantListSerializer.data})
-"""
-End of code addition
-"""
+    """Public directory of restaurants. A single restaurant's details are served by the tenant's own API."""
 
-
-"""
-Added by - Yuvraj Sahu on 15-2-2023
-Reason - To save tenant request
-"""
+    def get(self, request):
+        queryset = Tenant.objects.select_related('restaurant_name').exclude(schema_name='public').order_by('id')
+        return Response({'msg': 'success', 'tenantList': PublicTenantSerializer(queryset, many=True).data})
 
 
 class RestaurantRegistartionView(APIView):
-    # @csrf_exempt
     def post(self, request, format=None):
-        # Commented by Yuvraj Sahu on 29-3-2023
-        # Reason - to remove hash password because it is hashed in models
-        # encryptedPassword = make_password(request.data.get('password'))
-        # request.data['password'] = encryptedPassword
-        # End of comment
         serializer = RestaurantRequestSerializer(data=request.data)
-        try:
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                # if request.data["mobile_number"] == RestaurantRequest.objects.filter(mobile_number = request.data["mobile_number"]) :
-                #     return Response({"duplicate": "Mobile number has been already saved"})
-                # if request.data["email"] == RestaurantRequest.objects.filter(email = request.data["email"]) :
-                #     return Response({"duplicate": "Email has been already saved"})
-                return Response({'msg':'Registered Successfully'})
-            else :
-                return Response({'err':'Something went wrong'})
-        except Exception as e:
-            print(e)    
-            return Response({'duplicate':'Mobile number or email has been already exist'})
-"""
-End of code addition
-"""
+        if not serializer.is_valid():
+            return Response({'duplicate': _first_error(serializer.errors)}, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response({'msg': 'Registered Successfully'}, status=status.HTTP_201_CREATED)
 
 
-"""
-Added by - Yuvraj Sahu on 17-2-2023
-Reason - To authenticate restaurant for login using jwt
-"""
 class RestaurantLoginView(APIView):
     def post(self, request):
-        restaurant = RestaurantRequest.objects.filter(email = request.data.get('email')).first()
-        # Modified by Yuvraj Sahu on 2-3-2023
-        # Reason - to send email and password validation msg
-        response = Response()
-        if not restaurant:
-            # raise APIException('Invalid Credentials')
-            # Modified by Rohan kansari- 29/5/23
-            # Reason - TO correct validation message 
-            response.data = {
-                # Modification and addition by Om Shrivastava on 12-06-23
-                # Reason : Need to correct validation message
-                # 'invalid': 'Invailid email or password'
-                'invalid': 'Invalid Email or Password'
-                # End of addition and modification by Om Shrivatava on 12-06-23
-            }
-            return response
-        # if not restaurant.check_password(request.data['password']):
-        print(check_password(request.data.get('password'), restaurant.password))
-        if not check_password(request.data.get('password'), restaurant.password):
-            # raise APIException('Invalid Credentials')
-            # Modified by Rohan kansari- 29/5/23
-            # Reason - TO correct validation message 
-            response.data = {
-                # Modification and addition by Om Shrivastava on 12-06-23
-                # Reason : Need to correct validation message
-                # 'invalid': 'Invailid email or password'
-                'invalid': 'Invalid Email or Password'
-                # End of addition and modification by Om Shrivatava on 12-06-23
-            }
-            return response
-    
-        if restaurant.is_active==False:
-            # response = Response()
-            response.data = {
-                'notAproved': 'Please wait for approval'
-            }
-            return response
-        # End of Modification
-        access_token = create_access_token(restaurant.id)
-        refresh_token = create_refresh_token(restaurant.id)
+        email = (request.data.get('email') or '').strip().lower()
+        restaurant = RestaurantRequest.objects.filter(email__iexact=email).first()
+        if not restaurant or not check_password(request.data.get('password') or '', restaurant.password):
+            return Response({'invalid': 'Invalid Email or Password'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        response = Response()
-        response.set_cookie(key='refreshToken', value=refresh_token)
+        tenant = Tenant.objects.filter(restaurant_name=restaurant.id).values().first()
+        if not restaurant.is_active or tenant is None:
+            return Response({'notAproved': 'Please wait for approval'}, status=status.HTTP_403_FORBIDDEN)
 
-        # Added by Om on 16-04-23
-        # Reason : To get QR code in native site
-        domainURL=Tenant.objects.filter(restaurant_name = restaurant.id).values().first()
-        url=domainURL["domain_url"]
-        path= settings.HTTP_METHOD+url+':8000/media/'+url +'/images/qrcode/qr.svg'
-        # End of addition
-       
-        response.data = {
+        access_token, refresh_token = issue_tokens(restaurant.id, ROLE_OWNER, tenant['schema_name'])
+        user_data = RestaurantRequest.objects.filter(id=restaurant.id).values().first()
+        for field in SENSITIVE_RESTAURANT_FIELDS:
+            user_data.pop(field, None)
+
+        from admin_app.plan_catalog import codes_for_tenant
+        tenant_obj = Tenant.objects.filter(pk=tenant['id']).first()
+
+        return Response({
             'token': access_token,
-            # Added by ROhanKansari - 22/5/23
-            # Reason - To also get access token
             'refreshToken': refresh_token,
-            # End of code - 22/5/23
-            'userData': [RestaurantRequest.objects.filter(email=request.data.get('email')).values()[0]],
-            # Added by Yuvraj Sahu on 25-3-2023
-            # Reason - to get tenant data
-            'tenantInfo': Tenant.objects.filter(restaurant_name = restaurant.id).values().first(),
-            # End of Addition
-
-            # Added by Om on 16-04-2023
-            # Reason - to get QR code
-            'qrCodeTenant':path
-            # End of Addition
-
-        }
-        return response
+            'userData': [user_data],
+            'tenantInfo': tenant,
+            'features': codes_for_tenant(tenant_obj),
+            'qrCodeTenant': tenant_media_url(tenant['domain_url'], 'images/qrcode/qr.svg'),
+        })
 
 
-"""
-Added by - Yuvraj Sahu on 18-2-2023
-Reason - To send otp in mail for forget password
-"""
 class OtpAPI(APIView):
-    def post(self ,request):
-        email= request.data.get('email')
-        restaurant=RestaurantRequest.objects.filter(email=email).count()
-        if restaurant>0:
-            restaurantObj = RestaurantRequest.objects.get(email=email)
-            serializer=OtpSerializer(restaurantObj,data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                send_otp_via_email(email)
-                data=dict()
-                data["msg"]="OTP is sent successfully. Please check your email"
-                data["mail"]=email
-                response=Response(data, status=200)
-                return response
-        else:
-            data=dict()
-            data["error"]="Entered email is not registered"
-            response=Response(data, status=200)
-            return response
-"""
-End of code addition
-"""
+    def post(self, request):
+        email = (request.data.get('email') or '').strip().lower()
+        if not RestaurantRequest.objects.filter(email__iexact=email).exists():
+            return Response({'error': 'Entered email is not registered'}, status=status.HTTP_404_NOT_FOUND)
+        error = password_reset.send_code(email)
+        if error:
+            return Response({'error': error}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+        return Response({'msg': 'OTP is sent successfully. Please check your email', 'mail': email})
 
 
-"""
-Added by - Yuvraj Sahu on 18-2-2023
-Reason - To upldate password
-"""
 class UpdatePassword(APIView):
-   def put(self, request):
-        email=request.data.get('email')
-        otp = request.data.get('otp')
-        otp_obj = Otp.objects.filter(email=email, otp=otp)
-        if(otp_obj):
-            #check otp timeout
-            createdTs=otp_obj[0].otptime
-            from datetime import datetime,timedelta
-            from django.utils import timezone
-            currentTs=timezone.now()
-            expTime=(createdTs+timedelta(minutes=5))
-            if(currentTs>expTime):
-                data=dict()
-                data["error"]="OTP Expired"
-                response=Response(data, status=200)
-                return response
-            else:
-                restaurantObj = RestaurantRequest.objects.get(email=email)
-                # Modified by Yuvraj sahu on 1-4-2023
-                # Reason - to remove password hashing because
-                #         it will be hashed from models
-                # restaurantObj.password = make_password(request.data['password'])
-                # restaurantObj.confirm_password = make_password(request.data['password'])
-                restaurantObj.password = request.data["password"]
-                restaurantObj.confirm_password = request.data["password"]
-                # End of modification
-                restaurantObj.save()
-                data=dict()
-                data["msg"]="Password successfully changed"
-                response=Response(data, status=200)
-                return response
-        else:
-            data=dict()
-            data["error"]="Entered OTP is wrong"
-            response=Response(data, status=200)
-            return response
-"""
-End of code addition
-"""
+    def post(self, request):
+        email = (request.data.get('email') or '').strip().lower()
+        new_password = request.data.get('password') or ''
+        if len(new_password) < 8:
+            return Response({'error': 'Password must be at least 8 characters.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        error = password_reset.verify_code(email, request.data.get('otp'))
+        if error:
+            return Response({'error': error}, status=status.HTTP_400_BAD_REQUEST)
+
+        restaurant = RestaurantRequest.objects.filter(email__iexact=email).first()
+        if restaurant is None:
+            return Response({'error': 'Entered email is not registered'}, status=status.HTTP_404_NOT_FOUND)
+        restaurant.password = new_password
+        restaurant.confirm_password = new_password
+        restaurant.save()
+        return Response({'msg': 'Password successfully changed'})
+
+    put = post
+
 
 class AppSettingAPI(APIView):
-    def get(self,request):
-        settings = AppSetting.objects.all().values().first()
-        print(settings)
-        return Response({
-            "app_logo":settings["app_logo"],
-            "adyant_logo":settings["adyant_logo"],
-            "title":settings["title"],
-            "bottom_text":settings["bottom_text"],
-            "adyant_webite_link":settings["adyant_webite_link"],
-            # Added by Rohan kansari - 7/9/23 - To send support link also
-            "adyant_support_link":settings["adyant_support_link"],
-            },200)
+    FIELDS = ('app_logo', 'adyant_logo', 'title', 'bottom_text', 'adyant_webite_link', 'adyant_support_link')
 
+    def get(self, request):
+        app_settings = AppSetting.objects.values(*self.FIELDS).first() or {field: '' for field in self.FIELDS}
+        return Response(app_settings)
 
-"""
-Added by:- Suman sahu  on 08/04/2023
-Reason:- Created API for get Pricing images
-"""
 
 class PricingImageAPI(APIView):
     def get(self, request):
-        # pricingData = WebsiteSetting.objects.all().last()
-        pricingData = WebsiteSetting.objects.all()
-        pricingSerializer = PricingSerializer(pricingData, many=True)
-        return Response({"pricingData": pricingSerializer.data})
+        return Response({'pricingData': PricingSerializer(WebsiteSetting.objects.all(), many=True).data})
 
-"""
-End of code addition by- Suman sahu on 08/04/2023
-"""
-
-"""
-Added by:- Suman sahu  on 09/04/2023
-Reason:- Created API for Gallery Details
-"""
 
 class GalleryDetailsAPI(APIView):
     def get(self, request):
-        galleryData = GallerySettings.objects.all()
-        gallerySerializer = GallerySerializer(galleryData, many=True)
-        return Response({"galleryData": gallerySerializer.data})
+        return Response({'galleryData': GallerySerializer(GallerySettings.objects.all(), many=True).data})
 
-"""
-End of code addition by- Suman sahu on 09/04/2023
-"""
 
-"""
-Added by:- Suman sahu  on 13/04/2023
-Reason:- Created API for post Restroscans requests 
-"""
+class _PublicFormAPI(APIView):
+    serializer_class = None
 
-class GetRestroscansRequestAPI(APIView):
     def post(self, request, format=None):
-        serializer = GetRestroscansRequestSerializer(data=request.data)
-        try:
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response({"success": "Successfully Submitted"})
-            else:
-                return Response({"err": "Data not save"})
-        except Exception as e:
-            return Response({"msg": "Error"})
+        serializer = self.serializer_class(data=request.data)
+        if not serializer.is_valid():
+            return Response({'err': _first_error(serializer.errors)}, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response({'success': 'Successfully Submitted'})
 
-"""
-End of code addition by- Suman sahu on 13/04/2023
-"""
 
-"""
-Added by:- Suman sahu  on 14/04/2023
-Reason:- Created API for post "Contact Us" form
-"""
+class GetRestroscansRequestAPI(_PublicFormAPI):
+    serializer_class = GetRestroscansRequestSerializer
 
-class ContactUsAPI(APIView):
-    def post(self, request, format=None):
-        serializer = PostContactUsSerializer(data=request.data)
-        try:
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response({"success": "Successfully Submitted"})
-            else:
-                return Response({"err": "Data not save"})
-        except Exception as e:
-            return Response({"msg": "Error"})
 
-"""
-End of code addition by- Suman sahu on 14/04/2023
-"""
+class ContactUsAPI(_PublicFormAPI):
+    serializer_class = PostContactUsSerializer
 
-"""
-Added by:- Suman sahu  on 19/04/2023
-Reason:- Created API for get our top Retaurents details
-"""
 
 class RestaurentPatnersDetailsAPI(APIView):
     def get(self, request):
-        RestaurentDetails = RestaurantRequest.objects.filter(is_partner=True)
-        restaurentsSerializer = RestaurentPatnersSerializer(
-            RestaurentDetails, many=True
-        )
-        return Response({"restaurentsData": restaurentsSerializer.data})
+        partners = RestaurantRequest.objects.filter(is_partner=True)
+        return Response({'restaurentsData': RestaurentPatnersSerializer(partners, many=True).data})
 
-"""
-End of code addition by- Suman sahu on 19/04/2023
-"""
-
-"""
-Added by:- Suman sahu  on 17/05/2023
-Reason:- Created API for Pricing Plans Details
-"""
 
 class PricingPlansAPI(APIView):
     def get(self, request):
-        pricingData = PricingPlans.objects.all()
-        pricingPlansSerializer = PricingPlansSerializer(pricingData, many=True)
-        return Response({"pricingPlansData": pricingPlansSerializer.data})
+        return Response({'pricingPlansData': PricingPlansSerializer(PricingPlans.objects.all(), many=True).data})
 
-"""
-End of code addition by- Suman sahu on 17/05/2023
-"""
-
-"""
-Added by:- Suman sahu  on 18/05/2023
-Reason:- Created API for Customer Feedback Details
-"""
 
 class CustomerFeedbackAPI(APIView):
     def get(self, request):
-        customerFeedbackData = CustomerFeedback.objects.all()
-        customerFeedbackSerializer = CustomerFeedbackSerializer(customerFeedbackData, many=True)
-        return Response({"customerFeedback": customerFeedbackSerializer.data})
+        return Response({'customerFeedback': CustomerFeedbackSerializer(CustomerFeedback.objects.all(), many=True).data})
 
-"""
-End of code addition by- Suman sahu on 18/05/2023
-"""
 
 class ValidateToken(APIView):
-    def post(self,request):
+    """Exchange a refresh token for a new access/refresh pair."""
+
+    def post(self, request):
         try:
-         user=decode_refresh_token(request.data['refresh'])
-         access=create_access_token(user)
-         refresh=create_refresh_token(user)
-         tokens={
-             "access_token":access,
-             "refresh_token":refresh
-         }
-         return Response(tokens)
-        except:
-            return Response(False)
-
-
-       
+            identity = decode_refresh_token(request.data.get('refresh') or '')
+        except Exception:
+            return Response(
+                {'success': False, 'message': 'Your session has expired. Please sign in again.'},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        access, refresh = issue_tokens(identity.user_id, identity.role, identity.tenant)
+        return Response({'access_token': access, 'refresh_token': refresh})
