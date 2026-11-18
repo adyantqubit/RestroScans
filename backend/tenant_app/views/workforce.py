@@ -1780,6 +1780,14 @@ def normalized_phone(value):
     return digits[-10:] if len(digits) >= 10 else ''
 
 
+def staff_login_key(value):
+    """Last 10 phone digits, or the full address when staff sign in with email."""
+    text = str(value or '').strip().lower()
+    if '@' in text:
+        return text
+    return normalized_phone(text)
+
+
 def logged_employee(request):
     """Resolve a tenant-scoped, active waiter JWT to one active StaffEmployee."""
     identity = staff_identity_for_tenant(bearer_token(request), request.tenant.schema_name)
@@ -1788,11 +1796,11 @@ def logged_employee(request):
     waiter = Waiter.objects.filter(pk=identity.user_id, is_active=True).first()
     if not waiter:
         return None
-    phone = normalized_phone(waiter.contact_number)
-    if not phone:
+    key = staff_login_key(waiter.contact_number)
+    if not key:
         return None
     matches = [employee for employee in StaffEmployee.objects.filter(is_active=True)
-               if normalized_phone(employee.phone) == phone]
+               if staff_login_key(employee.phone) == key]
     return matches[0] if len(matches) == 1 else None
 
 def approver(request):
@@ -1832,7 +1840,7 @@ def validated_permissions(value):
 
 def employee_data(e):
 
-    return {'id': e.id, 'name': e.name, 'phone': e.phone, 'gender': e.gender, 'role': e.role, 'monthly_salary': str(e.monthly_salary), 'employment_type': e.employment_type, 'joining_date': str(e.joining_date), 'is_active': e.is_active, 'can_approve': e.can_approve, 'access_permissions': e.access_permissions, 'staff_login_enabled': any(normalized_phone(w.contact_number) == normalized_phone(e.phone) for w in Waiter.objects.filter(is_active=True)) if normalized_phone(e.phone) else False}
+    return {'id': e.id, 'name': e.name, 'phone': e.phone, 'gender': e.gender, 'role': e.role, 'monthly_salary': str(e.monthly_salary), 'employment_type': e.employment_type, 'joining_date': str(e.joining_date), 'is_active': e.is_active, 'can_approve': e.can_approve, 'access_permissions': e.access_permissions, 'staff_login_enabled': any(staff_login_key(w.contact_number) == staff_login_key(e.phone) for w in Waiter.objects.filter(is_active=True)) if staff_login_key(e.phone) else False}
 
 WEEKDAYS = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
@@ -1922,8 +1930,8 @@ def sync_staff_login(employee, data, previous_phone=None):
             raise ValueError('Mobile number required for Staff Login')
         if password and len(password) < 8:
             raise ValueError('Login password must contain at least 8 characters')
-        old = next((w for w in Waiter.objects.all() if normalized_phone(w.contact_number) == normalized_phone(previous_phone)), None) if previous_phone else None
-        existing = next((w for w in Waiter.objects.all() if normalized_phone(w.contact_number) == normalized_phone(phone)), None)
+        old = next((w for w in Waiter.objects.all() if staff_login_key(w.contact_number) == staff_login_key(previous_phone)), None) if previous_phone else None
+        existing = next((w for w in Waiter.objects.all() if staff_login_key(w.contact_number) == staff_login_key(phone)), None)
         if old and old.contact_number != phone and existing and existing.pk != old.pk:
             raise ValueError('New mobile number is already used by another login account')
         if old and old.contact_number != phone and not existing:
@@ -1940,7 +1948,7 @@ def sync_staff_login(employee, data, previous_phone=None):
         existing.is_active = employee.is_active
         existing.save()
     elif enabled is False:
-        existing = next((w for w in Waiter.objects.all() if normalized_phone(w.contact_number) == normalized_phone(previous_phone or phone)), None)
+        existing = next((w for w in Waiter.objects.all() if staff_login_key(w.contact_number) == staff_login_key(previous_phone or phone)), None)
         if existing:
             existing.is_active = False
             existing.save(update_fields=['is_active'])

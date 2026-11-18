@@ -33,3 +33,10 @@ if settings.SERVE_MEDIA_FILES:
     urlpatterns += [
         re_path(rf'^{media_prefix}/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     ]
+
+# Daphne does not serve STATIC_ROOT the way `runserver` does. Serve it in DEBUG so Django admin CSS loads locally.
+if settings.DEBUG:
+    static_prefix = settings.STATIC_URL.strip('/')
+    urlpatterns += [
+        re_path(rf'^{static_prefix}/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    ]

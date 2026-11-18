@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils import timezone
 from tenant_app.models import DiningTable, RestaurantFloor, Order, OrderItem, Item, Waiter
-from tenant_app.views.workforce import logged_employee, staff_plan_features, normalized_phone
+from tenant_app.views.workforce import logged_employee, staff_plan_features, normalized_phone, staff_login_key
 from tenant_app.views.orders import PostCustomerDetailsAPIView
 from admin_app.authentication import ROLE_OWNER, ROLE_WAITER, staff_identity_for_tenant
 from admin_app.middlewares import bearer_token
@@ -69,7 +69,7 @@ class StaffTableDashboardAPI(APIView):
         identity = staff_identity_for_tenant(bearer_token(request), request.tenant.schema_name)
         is_owner = bool(identity and identity.role == ROLE_OWNER and employee['owner'])
         waiter = Waiter.objects.filter(pk=identity.user_id, is_active=True).first() if identity and identity.role == ROLE_WAITER else None
-        if not is_owner and (not waiter or normalized_phone(waiter.contact_number) != normalized_phone(logged_employee(request).phone)):
+        if not is_owner and (not waiter or staff_login_key(waiter.contact_number) != staff_login_key(logged_employee(request).phone)):
             return Response({'error': 'Waiter identity could not be verified.'}, status=403)
         phone = str(request.data.get('contact_number') or '').strip() or (normalized_phone(waiter.contact_number) if waiter else '')
         if len(phone) != 10 or not phone.isdigit():

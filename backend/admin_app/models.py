@@ -240,6 +240,8 @@ def forget_cached_tenant(sender, instance, **kwargs):
 def set_default_theme(sender, tenant, **kwargs):
     if tenant.schema_name == get_public_schema_name():
         return  # tenant_app tables only exist inside restaurant schemas
+    from admin_app.theme_catalog import ensure_default_themes
+    ensure_default_themes(AppTheme)
     app_theme=AppTheme.objects.first()
     if(app_theme):
         with connection.cursor() as cursor:
@@ -251,8 +253,9 @@ def set_default_theme(sender, tenant, **kwargs):
                 cursor.execute(
                     'INSERT INTO "%s".tenant_app_setting '
                     '(app_theme_id,allow_half_price,allow_loyality_points,discount_in,'
-                    'per_loyality_point_value,amount_for_single_loyality_point,cgst,sgst,gstin,fssaino,whatsapp_number) '
-                    'VALUES (%%s, true, true, %%s, 0, 0, 0.0, 0.0, \'\', \'\', \'\')' % schema,
+                    'per_loyality_point_value,amount_for_single_loyality_point,cgst,sgst,gstin,fssaino,whatsapp_number,'
+                    'show_item_ratings_to_customers) '
+                    'VALUES (%%s, true, true, %%s, 0, 0, 0.0, 0.0, \'\', \'\', \'\', false)' % schema,
                     [app_theme.id, 'Discount in (%)'],
                 )
             #End of Code by pratap sahu on 27-09-2023 to set default values on fields

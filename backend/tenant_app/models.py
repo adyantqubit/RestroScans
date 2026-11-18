@@ -335,7 +335,7 @@ class RatingReview(models.Model):
 
 class Waiter(models.Model):
     name = models.CharField(max_length=50)
-    contact_number = models.CharField(max_length=15, unique=True)
+    contact_number = models.CharField(max_length=254, unique=True)
     is_active = models.BooleanField(default=True)
     password = models.CharField(max_length=255)
 
@@ -449,7 +449,7 @@ class StaffEmployee(workforce_models.Model):
     )
 
     name = workforce_models.CharField(max_length=150)
-    phone = workforce_models.CharField(max_length=30, blank=True)
+    phone = workforce_models.CharField(max_length=254, blank=True)
     gender = workforce_models.CharField(max_length=10, choices=GENDERS, default="Other")
     role = workforce_models.CharField(max_length=100, blank=True)
     can_approve = models.BooleanField(default=False)

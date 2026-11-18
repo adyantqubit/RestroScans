@@ -58,7 +58,8 @@ class WaiterAPI(APIView):
 
 class WaiterAuthenticateAPI(APIView):
     def post(self, request, tenant):
-        waiter = Waiter.objects.filter(contact_number=request.data.get('contact_number')).first()
+        login_id = (request.data.get('contact_number') or '').strip()
+        waiter = Waiter.objects.filter(contact_number__iexact=login_id).first()
         if waiter is None:
             return Response({'error': 'Please enter valid contact number'})
 

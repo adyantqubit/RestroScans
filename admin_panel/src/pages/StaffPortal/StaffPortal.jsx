@@ -19,14 +19,27 @@ const readSession = () => {
   try { return JSON.parse(sessionStorage.getItem('restroStaffSession') || 'null'); }
   catch { return null; }
 };
-const getError = e => e?.response?.data?.error || e?.response?.data?.detail || e?.message || 'Request failed';
+const getError = e => {
+  if (e?.response?.data?.error) return e.response.data.error;
+  if (e?.response?.data?.detail) return e.response.data.detail;
+  if (e?.code === 'ERR_NETWORK' || e?.message === 'Network Error') {
+    return 'Cannot reach the API. Confirm Django is running on port 8000 and open this panel as demo.restroscans.com:3001/admin.';
+  }
+  return e?.message || 'Request failed';
+};
 const isoDate = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const emptyLeave = () => ({ leave_type: 'Paid', start_date: isoDate(), end_date: isoDate(), reason: '' });
+const tenantFromHost = () => {
+  const hostname = window.location.hostname.toLowerCase();
+  if (hostname.endsWith('.restroscans.com')) return hostname.split('.')[0];
+  return hostname.split('.')[0] || '';
+};
 
 export default function StaffPortal() {
   const [session, setSession] = useState(readSession);
-  const [login, setLogin] = useState({ tenant: window.location.hostname.split('.')[0] || 'starter', contact_number: '', password: '' });
-  const loginBackgroundUrl = useRestaurantLoginBackground(login.tenant);
+  const [login, setLogin] = useState({ contact_number: '', password: '' });
+  const tenant = tenantFromHost();
+  const loginBackgroundUrl = useRestaurantLoginBackground(tenant);
   const [profile, setProfile] = useState(null);
   const [leaves, setLeaves] = useState([]);
   const [leave, setLeave] = useState(emptyLeave);
@@ -93,7 +106,7 @@ export default function StaffPortal() {
   const submitLogin = async e => {
     e.preventDefault(); setBusy(true); setError('');
     try {
-      const tenant = login.tenant.trim().toLowerCase();
+      if (!tenant) throw new Error('Open staff login from your restaurant link, for example demo.restroscans.com.');
       const response = await client.post('/api/v1/waiter-login/', { tenant, contact_number: login.contact_number.trim(), password: login.password }, { headers: { 'X-Tenant': tenant } });
       if (!response.data?.token) throw new Error(response.data?.error || 'Invalid mobile number or password');
       const next = { token: response.data.token, tenant };
@@ -105,10 +118,9 @@ export default function StaffPortal() {
   };
   const logout = () => { sessionStorage.removeItem('restroStaffSession'); setSession(null); setProfile(null); setError(''); window.history.replaceState(null, '', '/admin/StaffLogin'); };
   if (!session) return <main className="spRoot spLogin" style={loginBackgroundUrl ? { backgroundImage: `linear-gradient(105deg, rgba(7,23,35,.65), rgba(9,48,54,.35)), url(${JSON.stringify(loginBackgroundUrl)})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" } : undefined}><form className="spPanel spLoginCard" onSubmit={submitLogin}>
-    <span className="spEyebrow">RESTROSCANS · STAFF ACCESS</span><h1>Staff Login</h1><p>Employee, Supervisor & Assistant Manager</p>
+    <span className="spEyebrow">RESTROSCANS · STAFF ACCESS</span><h1>Staff Login</h1><p>Employee, Supervisor & Assistant Manager{tenant ? ` · ${tenant}` : ''}</p>
     {error && <div className="spError">{error}</div>}
-    <label>Restaurant Tenant<input required value={login.tenant} onChange={e => setLogin({ ...login, tenant: e.target.value })} /></label>
-    <label>Mobile Number<input required inputMode="numeric" value={login.contact_number} onChange={e => setLogin({ ...login, contact_number: e.target.value })} /></label>
+    <label>Mobile or email<input required value={login.contact_number} onChange={e => setLogin({ ...login, contact_number: e.target.value })} /></label>
     <label>Password<input required type="password" value={login.password} onChange={e => setLogin({ ...login, password: e.target.value })} /></label>
     <button disabled={busy}>{busy ? 'Signing in...' : 'Login to Staff Dashboard'}</button>
     <a href="/admin/Login">Restaurant Admin Login</a>
@@ -116,12 +128,19 @@ export default function StaffPortal() {
   const employee = profile?.employee;
   const allowed = employee?.permissions || [];
   // Extra operational permissions remain effective in Orders, but never create sidebar entries.
-  const menu = [['Dashboard', 'Dashboard'], ['Attendance', 'Attendance'], ['My Leaves', 'My Leaves'], ['orders', 'Orders'], ...(allowed.includes('items') ? [['items', 'Items']] : [])];
+  const menu = [
+    ['Dashboard', 'Dashboard'],
+    ['Attendance', 'Attendance'],
+    ['My Leaves', 'My Leaves'],
+    ...(allowed.includes('orders') || allowed.includes('kitchen') ? [['orders', 'Orders']] : []),
+    ...(allowed.includes('kitchen') ? [['kitchen', 'Kitchen']] : []),
+    ...(allowed.includes('items') ? [['items', 'Items']] : []),
+  ];
   const canApprove = Boolean(employee?.can_approve);
   const attendance = profile?.attendance || {};
   const navGroups = [
     { title: 'MY WORK', items: menu.filter(([key]) => ['Dashboard', 'Attendance', 'My Leaves'].includes(key)) },
-    { title: 'OPERATIONS', items: menu.filter(([key]) => ['orders', 'items'].includes(key)) },
+    { title: 'OPERATIONS', items: menu.filter(([key]) => ['orders', 'kitchen', 'items'].includes(key)) },
     { title: 'STAFF', items: menu.filter(([key]) => key === 'Approvals') }
   ].filter(group => group.items.length);
   const staffItems = menu.map(([key, label]) => ({ key, label }));

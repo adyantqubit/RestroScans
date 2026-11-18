@@ -622,14 +622,11 @@ function MenuItem() {
                                 !item.show_video_Hide_Image ?
                                   <>
                                     <img
-                                      src={item.offer_image ? siteConfig.siteURL + item.offer_image : welcome_banner2}
+                                      src={item.offer_image ? siteConfig.siteURL + item.offer_image : (welcome_banner2.src || welcome_banner2)}
 
                                       className='offer_banner'
                                     />
-                                    <h2
-                                      className='offer_content'
-                                      style={{ color: colors.bannerColor }}
-                                    >
+                                    <h2 className='offer_content'>
                                       {item.offer_name}
                                     </h2>
                                   </> :
@@ -649,22 +646,24 @@ function MenuItem() {
 
                     :
                     <SwiperSlide>
-                      <div style={{ height: '15vh' }}>
-                        <img style={{ width: '100%', height: '18.5vh', border: '1px solid black' }}
-
-                          src={welcome_banner}
-
-                          alt="bydefault_img" />
+                      <div className="welcome_banner_wrap">
+                        <img
+                          className="welcome_banner_img"
+                          src={welcome_banner.src || welcome_banner}
+                          alt="Welcome"
+                        />
                       </div>
                     </SwiperSlide>
                   }
                 </Swiper>
               </div>
               :
-              <div style={{ height: '15vh' }}>
-                <img style={{ width: '100%', height: '14.5vh', border: '1px solid black' }}
-                  src={welcome_banner}
-                  alt="bydefault_img" />
+              <div className="welcome_banner_wrap">
+                <img
+                  className="welcome_banner_img"
+                  src={welcome_banner.src || welcome_banner}
+                  alt="Welcome"
+                />
               </div>
             }
 

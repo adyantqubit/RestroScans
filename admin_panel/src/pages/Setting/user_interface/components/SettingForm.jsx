@@ -320,6 +320,7 @@ export default function SettingForm() {
             <div className="page-header__title-wrap">
               <h2 className="page-header__title">Settings</h2>
               <p className="page-header__subtitle">
+                Choose a customer-menu theme created by the platform admin.
                 Tax is added on every order. Half portions show on the menu
                 and the order desk.
               </p>
@@ -328,24 +329,65 @@ export default function SettingForm() {
 
           <section className="custom-screen-section custom-screen-section--form">
             <form className={style.form} onSubmit={save}>
-              <div className={style.field}>
-                <label className="opt" htmlFor="theme">
-                  Menu colours
-                </label>
-                <select
-                  id="theme"
-                  value={form.app_theme || ''}
-                  onChange={(event) =>
-                    setField('app_theme', event.target.value)
-                  }
-                >
-                  <option value="">Default</option>
-                  {themes.map((theme) => (
-                    <option key={theme.id} value={theme.id}>
-                      {theme.background_color_label} / {theme.heading_color_label}
-                    </option>
-                  ))}
-                </select>
+              <div className={`${style.themeBlock} ${style.wide}`}>
+                <div className={style.themeHeader}>
+                  <label className="opt" htmlFor="theme">
+                    Customer menu theme
+                  </label>
+                  <p className={style.help}>
+                    Themes are managed in Django admin. Pick one for this restaurant&apos;s QR menu.
+                  </p>
+                </div>
+                {themes.length ? (
+                  <div className={style.themeGrid} role="listbox" aria-label="Customer menu themes">
+                    {themes.map((theme) => {
+                      const selected = String(form.app_theme) === String(theme.id);
+                      return (
+                        <button
+                          key={theme.id}
+                          type="button"
+                          role="option"
+                          aria-selected={selected}
+                          className={`${style.themeCard} ${selected ? style.themeCardSelected : ''}`}
+                          onClick={() => setField('app_theme', String(theme.id))}
+                          style={{
+                            '--theme-bg': theme.background_color || '#fff',
+                            '--theme-heading': theme.heading_color || '#111',
+                            '--theme-sub': theme.subheading_color || '#444',
+                            '--theme-banner': theme.banner_heading_color || '#888',
+                            '--theme-card': theme.card_color || '#fff',
+                            '--theme-head-bg': theme.heading_bgcolor || '#111',
+                            '--theme-sub-bg': theme.subheading_bgcolor || '#eee',
+                          }}
+                        >
+                          <div className={style.themePreview}>
+                            <div className={style.themePreviewBar}>{theme.background_color_label || 'Theme'}</div>
+                            <div className={style.themePreviewBody}>
+                              <span className={style.themePreviewTitle}>Menu heading</span>
+                              <span className={style.themePreviewSub}>Category label</span>
+                              <span className={style.themePreviewCard}>Item card</span>
+                            </div>
+                          </div>
+                          <div className={style.themeMeta}>
+                            <strong>{theme.background_color_label || `Theme ${theme.id}`}</strong>
+                            <span>{theme.heading_color_label || 'Accent'}</span>
+                          </div>
+                          <div className={style.themeSwatches} aria-hidden="true">
+                            <i style={{ background: theme.background_color }} />
+                            <i style={{ background: theme.heading_color }} />
+                            <i style={{ background: theme.banner_heading_color }} />
+                            <i style={{ background: theme.card_color }} />
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className={style.help}>
+                    No themes yet. Ask the platform admin to create themes in Django admin.
+                  </p>
+                )}
+                <input id="theme" type="hidden" value={form.app_theme || ''} readOnly />
               </div>
 
               {showWhatsapp ? (
